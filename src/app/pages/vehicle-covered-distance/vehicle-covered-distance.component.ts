@@ -6,6 +6,7 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { parse } from 'path';
 import { DatePipe } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { VehicleDistanceCoveredCompactFormComponent } from '../../modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
 
 @Component({
   selector: 'vehicle-covered-distance',
@@ -15,6 +16,7 @@ import { UserService } from '../../services/user.service';
 export class VehicleCoveredDistanceComponent implements OnInit {
   showTable = false;
   distanceData = [];
+  data = [];
   headings = [];
   valobj = {};
   table = {
@@ -60,6 +62,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         let re = JSON.stringify(res['data']);
         console.log("re---", re);
         let rep = JSON.parse(re);
+        this.data = JSON.parse(re);
         console.log("response data ", rep);
         let details = [];
         Object.keys(rep).map(key => {
@@ -176,6 +179,10 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     this.common.params = { location, title: 'Vehicle Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
 
+  }
+  openCompactForm(){
+    this.common.params = { data: this.data };
+    const activeModal = this.modalService.open(VehicleDistanceCoveredCompactFormComponent, { size: 'lg', container: 'nb-layout' , backdrop: 'static' });
   }
 
 

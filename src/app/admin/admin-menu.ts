@@ -297,5 +297,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/pod-dashboard',
         home: true,
     },
+    {
+        title: 'Nearby Pods',
+        icon: 'fa fa-bar-chart',
+        link: '/admin/nearby-pods',
+        home: true,
+    },
 
 ];

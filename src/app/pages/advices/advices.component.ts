@@ -155,6 +155,7 @@ export class AdvicesComponent implements OnInit {
     });
   }
   clearAdvices(row) {
+    console.log("row:", row);
     this.common.params = { advice: row };
     const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

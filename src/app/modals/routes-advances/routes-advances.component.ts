@@ -66,7 +66,7 @@ export class RoutesAdvancesComponent implements OnInit {
 
   getExpensesType() {
     this.common.loading++;
-    this.api.get('Suggestion/getTypeMaster?typeId=52')
+    this.api.get('Suggestion/getTypeMaster?typeId=58')
       .subscribe(res => {
         this.common.loading--;
         this.expensesType = res['data'];
@@ -172,9 +172,6 @@ export class RoutesAdvancesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        // let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
-        // this.table.data.headings['action'] = action;
-
 
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -208,12 +205,12 @@ export class RoutesAdvancesComponent implements OnInit {
         }
         docobj.routeId = doc['_route_id'];
         valobj[this.headings[i]] = {
-          value: val,
-          isHTML: true,
-          class: (this.headings[i] != "Model") ?
-            'blue' :
-            'black',
-          action: this.headings[i] != "Model" ? this.deleteRow.bind(this, doc, rowId) : ''
+          value: '',
+          isHTML: false,
+          icons: [
+            { class: '', action: null, txt: val },
+            { class: this.headings[i] == "Model" || val && 'fa fa-trash ml-2 text-danger', action: this.headings[i] == "Model"|| val && this.deleteRow.bind(this, doc, rowId), }
+          ],
         };
       }
       // icons: val > 0 ? this.delete(doc[this.headings[i]]) : ''
@@ -227,17 +224,7 @@ export class RoutesAdvancesComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  delete(row) {
-    let icons = [];
-    icons.push(
-      {
-        class: "fas fa-trash-alt",
-        action: this.deleteRow.bind(this, row),
-        value: row,
-      }
-    )
-    return icons;
-  }
+
   deleteRow(row, id) {
     console.log("row:", row, id);
 

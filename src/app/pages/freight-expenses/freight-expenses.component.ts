@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightExpensesComponent } from '../../modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 
 @Component({
   selector: 'freight-expenses',
@@ -11,6 +12,31 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./freight-expenses.component.scss']
 })
 export class FreightExpensesComponent implements OnInit {
+  status = [{
+    name: 'accept',
+    id: '1'
+  },
+  {
+    name: 'pending',
+    id: '0'
+  },
+  {
+    name: 'Reject',
+    id: '-1'
+  }]
+  type = [{
+    name: 'LR',
+    id: '11'
+  }, {
+    name: 'Manifest',
+    id: '12'
+  },
+  {
+    name: 'Any',
+    id: '-1'
+  }]
+  statusid = 1;
+  Typeid = -1;
   startDate = '';
   endDate = '';
   data = [];
@@ -36,11 +62,19 @@ export class FreightExpensesComponent implements OnInit {
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
     console.log('dates ', this.endDate, this.startDate)
     this.getExpenses();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
+  getSelection() {
 
+  }
+  refresh() {
+    this.getExpenses();
+
+  }
   getDate(type) {
 
     this.common.params = { ref_page: 'LrView' }
@@ -69,12 +103,14 @@ export class FreightExpensesComponent implements OnInit {
   getExpenses() {
     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     let params = {
-      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      startTime: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      endTime: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      status: this.statusid,
+      type: this.Typeid
     };
 
     ++this.common.loading;
-    this.api.post('FrieghtRate/getFrieghtExpenses', params)
+    this.api.post('FrieghtRate/getAllFreightExpenseAndRevenue', params)
       .subscribe(res => {
         --this.common.loading;
         this.data = res['data'];
@@ -119,8 +155,27 @@ export class FreightExpensesComponent implements OnInit {
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: `<span><i class="fa fa-edit"></i></span>`, isHTML: true, action: this.openExpenseModal.bind(this, doc) };
+        if (this.headings[i] == "Expense") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openExpenseModal.bind(this, doc) },
+              { action: null, txt: doc._exp_count }
+            ]
+          };
+        }
+        else if (this.headings[i] == "Revenue") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openRevenueModal.bind(this, doc) },
+              { action: null, txt: doc._rev_count }
+            ]
+          };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -140,5 +195,13 @@ export class FreightExpensesComponent implements OnInit {
       this.getExpenses();
 
     });
+  }
+  openRevenueModal(revenue) {
+    this.common.params = { revenueData: revenue };
+    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.getExpenses();
+    })
+
   }
 }

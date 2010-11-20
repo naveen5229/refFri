@@ -360,8 +360,11 @@ export class CommonService {
   handleModalSize(type, name, size, sizeType = "px", position = 0) {
     setTimeout(() => {
       if (type == "class") {
-        document.getElementsByClassName(name)[position]["style"].maxWidth =
-          size + sizeType;
+        if (document.getElementsByClassName(name)) {
+          console.log("Test");
+          document.getElementsByClassName(name)[position]["style"].maxWidth =
+            size + sizeType;
+        }
       }
     }, 10);
   }
@@ -560,7 +563,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
@@ -693,7 +696,13 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold", "text-center");
-        doc.text(center_heading, x - hdglen - 40, y);
+        doc.text(center_heading, x - hdglen - 50, y);
+      }
+      if (lower_left_heading != "undefined" && lower_left_heading != null && lower_left_heading != '') {
+        let xpos = 35;
+        y = 65;
+        doc.setFont("times", "bold", "text-center");
+        doc.text(lower_left_heading, xpos, y);
       }
       doc.text(time, 30, 60);
       y = 15;
@@ -738,8 +747,8 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
-  getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?,reportname?) {
-     console.log("Action Data:", reportname); 
+  getPDFFromTableIdnew(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, reportname?) {
+    console.log("Action Data:", reportname);
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -884,7 +893,7 @@ export class CommonService {
       }
       doc.text(time, 30, 60);
       y = 15;
-     // doc.addImage(eltimg, 'JPEG', (pageWidth - 400), 15, 50, 50, 'logo', 'NONE', 0);
+      // doc.addImage(eltimg, 'JPEG', (pageWidth - 400), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -892,7 +901,7 @@ export class CommonService {
       // FOOTER
       let printDate = this.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
       var powerdata = 'Powered By Elogist Solution';
-      var str = powerdata +  '                                                 Print On : '+ printDate +'                                                                      '+"Page " +data.pageCount;
+      var str = powerdata + '                                                 Print On : ' + printDate + '                                                                      ' + "Page " + data.pageCount;
 
       doc.setFontSize(10);
       doc.text(
@@ -945,7 +954,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?, lower_left_heading?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -956,6 +965,7 @@ export class CommonService {
 
     let leftData = { left_heading };
     let centerData = { center_heading };
+    let lowerLeft = { lower_left_heading };
     let doctime = { time };
 
     let info = [];
@@ -964,6 +974,7 @@ export class CommonService {
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
+    info.push(lowerLeft);
     info.push(centerData, doctime);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {

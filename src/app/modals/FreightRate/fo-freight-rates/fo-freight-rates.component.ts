@@ -6,6 +6,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'fo-freight-rates',
   templateUrl: './fo-freight-rates.component.html',
@@ -20,7 +21,7 @@ export class FoFreightRatesComponent implements OnInit {
     materialId: null,
     siteName: null,
     siteId: null,
-    effectiveDate: ''
+    expiryDate: ''
   }
   Form: FormGroup;
   isFormSubmit = false;
@@ -55,7 +56,7 @@ export class FoFreightRatesComponent implements OnInit {
       wef: ['',],
       Site: ['',],
       Material: ['',],
-      effectiveDate: ['',]
+      expiryDate: ['',]
     });
   }
   get fo() {
@@ -100,8 +101,8 @@ export class FoFreightRatesComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
 
-        this.frieghtRate.effectiveDate = '';
-        return this.frieghtRate.effectiveDate = this.common.dateFormatter1(data.date).split(' ')[0];
+        this.frieghtRate.expiryDate = '';
+        return this.frieghtRate.expiryDate = this.common.dateFormatter1(data.date).split(' ')[0];
       }
 
     });
@@ -117,21 +118,26 @@ export class FoFreightRatesComponent implements OnInit {
     this.activeModal.close({ data: false });
   }
   saveFrightRates() {
+    ++this.common.loading;
     let params = {
       companyId: this.frieghtRate.companyId,
       siteId: this.frieghtRate.siteId,
       materialId: this.frieghtRate.materialId,
       date: this.frieghtRate.wefDate,
-      date1: this.frieghtRate.effectiveDate
+      expiryDate: this.frieghtRate.expiryDate
 
       // filterParams: JSON.stringify(this.filters)
     }
     console.log("params", params);
-    if (params.companyId == null || params.date == null) {
-      this.common.showError("Company name and date is required");
+    if (params.companyId == null ) {
+      this.common.showError("Company name is required");
       return;
     }
-
+    else if(params.date == ''){
+      this.common.showError("W.E.F date  is required");
+      return;
+    }
+    ++this.common.loading;
     this.api.post('FrieghtRate/saveFrieghtRate', params)
       .subscribe(res => {
         --this.common.loading;
@@ -146,9 +152,10 @@ export class FoFreightRatesComponent implements OnInit {
           this.activeModal.close({ data: true });
         }
       }, err => {
-        --this.common.loading;
         this.common.showError(err);
         console.log('Error: ', err);
       });
   }
+
+
 }

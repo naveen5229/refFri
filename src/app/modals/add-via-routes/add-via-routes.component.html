@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Add via-Route</h5>
+  <h5 class="modal-title" id="modal-basic-title">Add Route</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -58,7 +58,8 @@
             <label>Lat,Long</label>
           </div>
           <div class="col-6">
-            <input type="text" class="form-control" placeholder="lat,long" [(ngModel)]="this.routeData.latlong">
+            <input type="text" class="form-control" placeholder="lat,long" readonly disabled
+              [(ngModel)]="this.routeData.latlong">
           </div>
         </div>
       </ng-template>
@@ -104,23 +105,15 @@
             <label>Lat,Long</label>
           </div>
           <div class="col-6">
-            <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.latlong2">
+            <input type="text" class="form-control" placeholder="long" readonly disabled
+              [(ngModel)]="this.routeData.latlong2">
           </div>
         </div>
 
       </ng-template>
 
 
-      <div class="row">
-        <div class="col-6">
-          <label>Time(Hr)</label>
 
-        </div>
-        <div class="col-6">
-          <input type="number" name="duration" class="form-control" id="duration" placeholder="Duration"
-            [(ngModel)]="routeData.duration">
-        </div>
-      </div>
       <div class="row">
         <div class="col-6">
           <label>KMS</label>
