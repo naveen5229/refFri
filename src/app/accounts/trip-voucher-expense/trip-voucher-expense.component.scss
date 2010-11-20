@@ -90,3 +90,14 @@ table{
 .btn-primary{
     background-color: #263238 !important;
 }
+:host ::ng-deep .vehicle_no_input auto-suggestion .tagsinput{
+    border: 0px;
+}
+:host ::ng-deep .vehicle_no_input auto-suggestion .tagsinput input{
+    width: 100%;
+}
+.left-box{
+    padding: 10px;
+    background-color: #efefef;
+    border-radius: 3px;
+}
