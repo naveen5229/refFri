@@ -16,6 +16,7 @@ import { DateService } from '../../services/date.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   alltotal = 0;
+  targetId='';
   narration = '';
   tripVoucher;
   trips;
