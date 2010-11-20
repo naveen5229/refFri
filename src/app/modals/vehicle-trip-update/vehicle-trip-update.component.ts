@@ -19,6 +19,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   vehicleStatus = null;
   keepGoing = true;
   searchString = '';
+  isNotified = false;
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -55,9 +56,11 @@ export class VehicleTripUpdateComponent implements OnInit {
     console.log("ref_page", this.ref_page);
     if (this.ref_page == 'placements') {
       this.vehicleTrip.placementType = '11';
-    } else {
+    }
+    else {
       this.vehicleTrip.placementType = '0';
     }
+
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
     this.getVehicleCurrentStatus();
@@ -155,7 +158,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         targetTime: this.vehicleTrip.targetTime,
         allowedHaltHours: this.vehicleTrip.allowedHaltHours,
         siteId: this.placementSite ? this.placementSite : 'null',
-
+        isNotified: this.isNotified
       }
 
       console.log("params", params);
