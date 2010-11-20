@@ -129,7 +129,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleMouseHover(column, heading) {
-    if (column[heading].colActions && column[heading].colActions.mouseover) {
+    if (column[heading] && column[heading].colActions && column[heading].colActions.mouseover) {
       column[heading].colActions.mouseover()
     }
   }
@@ -140,7 +140,7 @@ export class SmartTableComponent implements OnInit {
    * @param heading Column key
    */
   handleMouseOut(column, heading) {
-    if (column[heading].colActions && column[heading].colActions.mouseout) {
+    if (column[heading] && column[heading].colActions && column[heading].colActions.mouseout) {
       column[heading].colActions.mouseout()
     }
   }

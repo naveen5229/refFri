@@ -94,7 +94,7 @@ export class RouteMapperComponent implements OnInit {
       startDate: this.commonService.dateFormatter(this.startDate),
       endDate: this.commonService.dateFormatter(this.endDate),
     }
-    console.log("paramssssss--->",params);
+    console.log("paramssssss--->", params);
     this.apiService.post('HaltOperations/getvehicleEvents', params)
       .subscribe(res => {
         this.commonService.loading--;
@@ -135,7 +135,7 @@ export class RouteMapperComponent implements OnInit {
                   if (i != 0) {
                     let disS = this.commonService.distanceFromAToB
                       (element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
-                    let dis = parseFloat(disS);
+                    let dis = disS;
                     total += dis;
                     this.polypath.push({
                       lat: element.lat, lng: element.long,
@@ -180,15 +180,14 @@ export class RouteMapperComponent implements OnInit {
                     vehicleEvents[index].color = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
                     vehicleEvents[index].rc = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
                   }
-                  if (vehicleEvents[index].tolls)
-                  {
+                  if (vehicleEvents[index].tolls) {
                     vehicleEvents[index].subType = 'marker';
                     vehicleEvents[index].color = '0000ff';
                     vehicleEvents[index].rc = '0000ff';
-  
+
 
                   }
-                   else {
+                  else {
                     vehicleEvents[index].color = "00ffff";
                   }
                   vehicleEvents[index].position = (this.commonService.dateDiffInHours(

@@ -39,30 +39,29 @@ export class DateService {
       return (month + seperator + date);
     }
   }
-  timeFormatter(timeToFormat , format = 'HH:MM' , seperator = ':')
-  {
+  timeFormatter(timeToFormat, format = 'HH:MM', seperator = ':') {
     timeToFormat = new Date(timeToFormat);
     let hours = timeToFormat.getHours();
     let minutes = timeToFormat.getMinutes();
-    console.log("hours= " , hours);
-    console.log("minutes=" , minutes);
+    console.log("hours= ", hours);
+    console.log("minutes=", minutes);
     if (format == 'HH:MM') {
-      if (hours > 12){
+      if (hours > 12) {
         hours = (hours) - 12;
         if (hours < 9) {
           hours = '0' + (hours);
         }
         return (hours + seperator + minutes + ' PM');
-      } 
-     if(hours < 12 ){
-        if (hours < 9) {
-        hours = '0' + (hours);
       }
-      return (hours + seperator + minutes + ' AM');
-     } 
+      if (hours < 12) {
+        if (hours < 9) {
+          hours = '0' + (hours);
+        }
+        return (hours + seperator + minutes + ' AM');
+      }
     }
     if (format == 'HHMM') {
-      if (hours < 12){
+      if (hours < 12) {
         hours = (hours) + 12;
       }
 

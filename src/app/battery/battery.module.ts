@@ -7,6 +7,7 @@ import { BatteryInventoryComponent } from './battery-inventory/battery-inventory
 import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { BatteryModalsComponent } from './battery-modals/battery-modals.component';
+import { VehicleBatteryComponent } from './vehicle-battery/vehicle-battery.component';
 
 const PAGES_COMPONENTS = [
     BatteryComponent,
@@ -24,7 +25,8 @@ const PAGES_COMPONENTS = [
     declarations: [
         ...PAGES_COMPONENTS,
         BatteryInventoryComponent,
-        BatteryModalsComponent
+        BatteryModalsComponent,
+        VehicleBatteryComponent
 
     ],
 })

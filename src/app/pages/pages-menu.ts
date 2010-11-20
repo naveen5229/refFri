@@ -109,6 +109,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/user-activity-status',
         home: true,
       },
+      {
+        title: 'Vehicle Distance With Odometer',
+        icon: 'fas fa-chart-pie',
+        link: '/pages/vehicle-distance-with-odometer',
+        home: true,
+      },
     ]
   },
   {
@@ -222,6 +228,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Consolidate Fuel Average',
         icon: 'fa fa-signal',
         link: '/pages/consolidate-fuel-average',
+        home: true,
+      },
+      {
+        title: 'Fuel Station Entry',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fse-entry',
         home: true,
       },
     ]

@@ -652,3 +652,6 @@ ngb-modal-window {
 .print-lr-manifest .modal-lg .table-bordered>thead>tr>th{
     border: 2px solid #000;
 }
+/* .month-date nb-calendar-day-picker{
+    display: none;
+} */
