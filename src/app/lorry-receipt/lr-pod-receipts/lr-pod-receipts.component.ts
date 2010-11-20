@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { LrPodDetailsComponent } from '../../modals/lr-pod-details/lr-pod-details.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'lr-pod-receipts',
@@ -13,6 +15,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./lr-pod-receipts.component.scss']
 })
 export class LrPodReceiptsComponent implements OnInit {
+
+
+  dropDown = [
+    { name: 'Pending', id: 0 },
+    { name: 'Complete', id: 1 },
+  ];
+
+  vehicleStatus=0;
   data = [];
   table = {
     data: {
@@ -44,9 +54,10 @@ export class LrPodReceiptsComponent implements OnInit {
   }
 
   getLorryPodReceipts() {
+    console.log("status",this.vehicleStatus);
     var enddate = new Date(this.common.dateFormatter(this.endDate).split(' ')[0]);
     let params = "startDate=" + this.common.dateFormatter(this.startDate).split(' ')[0] +
-      "&endDate=" + this.common.dateFormatter(enddate.setDate(enddate.getDate() + 1)).split(' ')[0];
+      "&endDate=" + this.common.dateFormatter(enddate.setDate(enddate.getDate() + 1)).split(' ')[0]+"&status="+this.vehicleStatus;
 
     ++this.common.loading;
     this.api.get('LorryReceiptsOperation/getLRPodReceipts?' + params)
@@ -94,8 +105,7 @@ export class LrPodReceiptsComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.getImage.bind(this, doc, 'site') };
-
+          this.valobj[this.headings[i]] = { value: "",action:null ,icons: [{ class: 'fa fa-edit', action: this.getImage.bind(this, doc, 'site') },{ class: 'fa fa-trash', action:this.deleteLr.bind(this,doc) }]  };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -106,8 +116,18 @@ export class LrPodReceiptsComponent implements OnInit {
     return columns;
   }
 
+  deleteLr(doc) {
+    console.log("values", doc);
+    const params = {
+      rowid: doc._id,
+    }
+  
+  }
+
+  
+
   getImage(receipt) {
-    console.log(receipt);
+    console.log("val",receipt);
     let images = [{
       name: "POD-1",
       image: receipt._img1
@@ -119,6 +139,8 @@ export class LrPodReceiptsComponent implements OnInit {
     ];
     console.log("images:", images);
     this.common.params = { images, title: 'LR Details' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', windowClass:'imageviewcomp' });
+    this.common.params=receipt._id;
+    const activeModel= this.modalService.open(LrPodDetailsComponent,{ size: 'lg', container: 'nb-layout', windowClass: 'lrpoddetail' });
   }
 }
