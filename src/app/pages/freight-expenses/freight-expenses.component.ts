@@ -62,6 +62,8 @@ export class FreightExpensesComponent implements OnInit {
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
     console.log('dates ', this.endDate, this.startDate)
     this.getExpenses();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
@@ -69,7 +71,8 @@ export class FreightExpensesComponent implements OnInit {
   getSelection() {
 
   }
-  getType() {
+  refresh() {
+    this.getExpenses();
 
   }
   getDate(type) {
@@ -152,11 +155,27 @@ export class FreightExpensesComponent implements OnInit {
     this.data.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == "Action (Expense)") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openExpenseModal.bind(this, doc) }] };
+        if (this.headings[i] == "Expense") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openExpenseModal.bind(this, doc) },
+              { action: null, txt: doc._exp_count }
+            ]
+          };
         }
-        else if (this.headings[i] == "Action (Revenue)") {
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-edit', action: this.openRevenueModal.bind(this, doc) }] };
+        else if (this.headings[i] == "Revenue") {
+          this.valobj[this.headings[i]] = {
+            value: "",
+            action: null,
+            isHTML: false,
+            icons: [
+              { class: 'fa fa-edit', action: this.openRevenueModal.bind(this, doc) },
+              { action: null, txt: doc._rev_count }
+            ]
+          };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
