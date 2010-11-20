@@ -3,7 +3,7 @@
     <h5>Frieght Expenses</h5>
   </nb-card-header>
   <nb-card-body>
-    <div class="row" style="margin-top:10px; margin-bottom:10px;">
+    <div class="row submit-exp">
       <div class="col-sm-2">
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
@@ -15,7 +15,7 @@
       <div class="col-sm-2">
         <button class="btn btn-primary m-0" (click)="getExpenses()">submit</button>
       </div>
-      <div class="col-sm-4" style="text-align: right">
+      <div class="col-sm-6 text-right">
         <button (click)="openExpenseModal(false)" class="btn btn-primary">Add Expense</button>
       </div>
     </div>

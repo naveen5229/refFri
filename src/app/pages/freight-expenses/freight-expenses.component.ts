@@ -120,7 +120,7 @@ export class FreightExpensesComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: `<span>edit</span>`, isHTML: true, action: this.openExpenseModal.bind(this, doc) };
+          this.valobj[this.headings[i]] = { value: `<span><i class="fa fa-edit"></i></span>`, isHTML: true, action: this.openExpenseModal.bind(this, doc) };
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };

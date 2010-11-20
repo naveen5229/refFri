@@ -663,9 +663,9 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('return vouher id: ', res['data']);
-        if (res['success']) {
-          if (res['data']) {
-            this.activeModal.close({ status: status });
+        if (res['data']) {
+          if (!res['data'][0]['update_tripexpvoucher']) {
+            this.activeModal.close({ status: true });
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);

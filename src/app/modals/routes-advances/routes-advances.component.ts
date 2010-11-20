@@ -196,7 +196,6 @@ export class RoutesAdvancesComponent implements OnInit {
         console.log('Res:', res['data']);
 
         // alert("Route and Model is Mandtory");
-        console.log("detail", res['data'][0].result);
         console.log("msg1", res['data'][0]);
 
         if (res['data'][0].y_id > 0) {
@@ -209,7 +208,6 @@ export class RoutesAdvancesComponent implements OnInit {
             modelId: null,
           }];
           this.routeAdd();
-          // this.vehicleModalTypes();
           this.addMore()
         }
         else {
@@ -232,9 +230,10 @@ export class RoutesAdvancesComponent implements OnInit {
   validationCheck() {
     let isValidate = true;
     this.route.forEach(element => {
-      if ((element.fuelAmt && (element.fuelAmt <= 0 || element.fuelAmt > 600000)) ||
-        (element.cash && (element.cash <= 0 || element.cash > 600000))) {
-        this.common.showError("Amount  range Value 0 to 600000");
+      if ((element.fuelAmt && (element.fuelAmt <= 0)) ||
+        (element.cash && (element.cash <= 0))) {
+        this.common.showError("Amount Value is not Valid");
+
         isValidate = false;
         return isValidate;
       }

@@ -229,9 +229,9 @@ export class RoutesTrafficKpisComponent implements OnInit {
   validationCheck() {
     let isValidate = true;
     this.route.forEach(element => {
-      if ((element.targetTime && (element.targetTime <= 0 || element.targetTime > 8000)) ||
-        (element.allowedTime && (element.allowedTime <= 0 || element.allowedTime > 8000))) {
-        this.common.showError("Time(Hr) range Value 0 to 8000 ");
+      if ((element.targetTime && (element.targetTime <= 0)) ||
+        (element.allowedTime && (element.allowedTime <= 0))) {
+        this.common.showError("Time(Hr) range is not Valid");
         isValidate = false;
         return isValidate;
       }

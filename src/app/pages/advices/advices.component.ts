@@ -5,6 +5,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
+import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
+import { AdviceViewComponent } from '../../modals/advice-view/advice-view.component';
 import { UserService } from '../../services/user.service';
 @Component({
   selector: 'advices',
@@ -12,7 +14,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./advices.component.scss', '../pages.component.css']
 })
 export class AdvicesComponent implements OnInit {
-  stateType = null;
+  stateType = 0;
   startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
   endTime = new Date();
   data = [];
@@ -31,11 +33,23 @@ export class AdvicesComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     private activeModal: NgbActiveModal,
-    public user: UserService) { }
+    public user: UserService) {
+    this.common.refresh = this.refresh.bind(this);
+    this.searchData();
+
+  }
+
+  refresh() {
+
+    this.searchData();
+  }
 
   ngOnInit() {
   }
-
+  selectType(type) {
+    console.log("type:", type.target.value);
+    this.stateType = type.target.value;
+  }
 
 
   searchData() {
@@ -51,19 +65,20 @@ export class AdvicesComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    // let params={
-    //   startTime:
-    // }
+    let params = {
+      status: this.stateType,
+      startTime: this.common.dateFormatter(this.startTime),
+      endTime: this.common.dateFormatter(this.endTime)
+    }
 
-    const params = "status =" + this.stateType +
-      "&startTime=" + this.common.dateFormatter(this.startTime) +
-      "&endTime=" + this.common.dateFormatter(this.endTime);
-    console.log("param:", params);
+    // const params = "status =" +  +
+    //   "&startTime=" + this.common.dateFormatter(this.startTime) +
+    //   "&endTime=" + this.common.dateFormatter(this.endTime);
+    // console.log("param:", params);
     this.common.loading++;
-    this.api.get('Drivers/getAdvicesInPeriod?' + params)
+    this.api.post('Drivers/getAdvicesInPeriod', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res['data']);
         this.data = [];
 
         if (!res['data']) return;
@@ -92,12 +107,10 @@ export class AdvicesComponent implements OnInit {
   getTableColumns() {
 
     let columns = [];
-    console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
 
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
@@ -112,25 +125,19 @@ export class AdvicesComponent implements OnInit {
 
 
   actionIcons(details) {
-    console.log("detatis Page:", details);
     let icons = [];
 
-    // if (details._id) {
-    //   icons.push(
-    //     {
-    //       class: "fa fa-window-close",
-    //       action: this.remove.bind(this, details),
-    //     }
-    //   )
-    // }
-    // else {
-    //   icons.push(
-    //     {
-    //       class: "fa fa-tachometer-alt",
-    //       action: this.openOdoMeter.bind(this, details),
-    //     }
-    //   )
-    // }
+    icons.push(
+      {
+        class: "far fa-eye",
+        action: this.adviceView.bind(this, details),
+      },
+
+      {
+        class: "fas fa-user-check",
+        action: this.clearAdvices.bind(this, details),
+      }
+    )
 
     return icons;
   }
@@ -140,11 +147,16 @@ export class AdvicesComponent implements OnInit {
   }
 
 
-
-
-
-
   saveAdvices() {
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
+  clearAdvices(row) {
+    this.common.params = { advice: row };
+    const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  }
+  adviceView(row) {
+    this.common.params = { advice: row };
+    const activeModal = this.modalService.open(AdviceViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+
 }
