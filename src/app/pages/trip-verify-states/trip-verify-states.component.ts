@@ -237,7 +237,7 @@ export class TripVerifyStatesComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Verify Trip States";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);

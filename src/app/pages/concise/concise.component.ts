@@ -224,8 +224,10 @@ export class ConciseComponent implements OnInit {
 
   getTableColumns(kpis?) {
     let columns = [];
+
     let kpisList = kpis || this.kpis;
     kpisList.map((kpi, i) => {
+
       columns.push({
         vechile: {
           value: kpi.x_showveh,
@@ -253,9 +255,11 @@ export class ConciseComponent implements OnInit {
           // colActions: { click: this.showDetails.bind(this, kpi) }
         },
         Idle_Time: {
-          value: parseFloat((kpi.x_idle_time / 60).toFixed(1)),
+          value: this.common.changeTimeformat(kpi.x_idle_time),
           action: "",
           // colActions: { dblclick: this.showDetails.bind(this, kpi) }
+
+          // parseFloat((kpi.x_idle_time / 60).toFixed(1)),
         },
         trip: {
           value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
@@ -944,7 +948,6 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-  }
       <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>

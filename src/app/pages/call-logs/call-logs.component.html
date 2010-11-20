@@ -40,7 +40,8 @@
   </nb-card-header>
   <nb-card-body>
     <div>
-      <smart-table *ngIf="callLogs.length" [data]="table.data" [settings]="table.settings" id="call-logs"></smart-table>
+      <smart-table *ngIf="callLogs && callLogs.length" [data]="table.data" [settings]="table.settings" id="call-logs">
+      </smart-table>
     </div>
   </nb-card-body>
 </nb-card>

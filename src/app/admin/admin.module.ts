@@ -43,6 +43,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { BeehiveComponent } from './beehive/beehive.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
@@ -59,6 +60,8 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
 
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
+import { ViaRoutesComponent } from './via-routes/via-routes.component';
+import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 
 
 
@@ -125,6 +128,7 @@ const PAGES_COMPONENTS = [
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
+    BeehiveComponent,
     AddCustomerComponent,
     FuelRulesComponent,
     PumpStationAreaComponent,
@@ -137,14 +141,17 @@ const PAGES_COMPONENTS = [
     //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
+    // VehiclesComponent,
     LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
-    VscDiagnosisComponent
+    VscDiagnosisComponent,
+    ViaRoutesComponent,
+    BufferPolylineComponent
   ],
   exports: [
+    // VehiclesComponent,
+
   ],
 })
 export class AdminModule { }

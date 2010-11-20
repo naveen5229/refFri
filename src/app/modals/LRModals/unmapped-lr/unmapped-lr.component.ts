@@ -83,24 +83,19 @@ export class UnmappedLrComponent implements OnInit {
         action: {
           value: '', isHTML: false, action: null, icons: [
             { class: 'unmaped_table_icon fa fa-tasks', action: this.view.bind(this, req.lr_date, req.vehicle_id, req.lr_image) },
-
-            // { class: 'unmaped_table_icon fa fa-picture-o', action: this.getIcon.bind(this, req.lr_image) },
-
           ]
         },
         rowActions: {
           click: 'selectRow'
         }
 
-
-
-
-
       };
       columns.push(column);
     });
+
     return columns;
   }
+
   view(date, id, url) {
     let start = '';
     let end = '';

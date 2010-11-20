@@ -50,7 +50,7 @@ export class TollSetteledRequestComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Toll Setteled Request";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -119,7 +119,7 @@ export class TollSetteledRequestComponent implements OnInit {
   }
   gettollSetteledReq() {
     let params = "startDate=" + this.dates.start + "&endDate=" + this.dates.end;
-    console.log("api hit");
+    //  console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('TollSummary/getTollSettledRequests.json?' + params)
       .subscribe(res => {

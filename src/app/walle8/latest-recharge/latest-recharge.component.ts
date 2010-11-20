@@ -12,7 +12,7 @@ import { getUrlScheme } from '@angular/compiler';
 })
 export class LatestRechargeComponent implements OnInit {
   data = [];
-  mobileno = this.user._details.mobileno;
+  mobileno = this.user._details.fo_mobileno;
   userId = this.user._details.id;
   dates = {
     start: null,
@@ -55,7 +55,7 @@ export class LatestRechargeComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Latest Recharge";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -82,7 +82,7 @@ export class LatestRechargeComponent implements OnInit {
   getLatestRecharge() {
 
 
-    let params = "mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
 
     this.common.loading++;
     let response;

@@ -71,6 +71,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-line-chart',
         link: '/pages/trends'
       },
+      {
+        title: 'Vehicle OdoMeter',
+        icon: 'fa fa-tachometer-alt',
+        link: '/pages/vehicle-odoMeter'
+      },
 
     ]
   },
@@ -104,6 +109,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/user-activity-status',
         home: true,
       },
+      {
+        title: 'Vehicle Distance With Odometer',
+        icon: 'fas fa-chart-pie',
+        link: '/pages/vehicle-distance-with-odometer',
+        home: true,
+      },
     ]
   },
   {
@@ -135,6 +146,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'View LR Manifest',
         icon: 'fa fa-eye',
         link: '/pages/view-manifesto',
+      },
+      {
+        title: 'LR Pod Receipts',
+        icon: 'fa fa-eye',
+        link: '/pages/lr-pod-receipts',
       },
       {
         title: 'Expenses',
@@ -177,6 +193,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-performance',
         home: true,
       },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles',
+        home: true,
+      },
     ]
   },
 
@@ -206,6 +228,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Consolidate Fuel Average',
         icon: 'fa fa-signal',
         link: '/pages/consolidate-fuel-average',
+        home: true,
+      },
+      {
+        title: 'Fuel Station Entry',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fse-entry',
         home: true,
       },
     ]
@@ -292,6 +320,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
+  },
+  {
+    title: 'Battery',
+    icon: 'fa fa-cog',
+    link: '/battery/battery-inventory'
   },
 
 

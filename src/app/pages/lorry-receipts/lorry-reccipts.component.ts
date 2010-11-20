@@ -147,7 +147,14 @@ export class LorryRecciptsComponent implements OnInit {
         Destination: { value: R.lr_destination },
         AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
         Image: R.lr_image ? { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) } : '',
-        Action: { value: `<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R) }
+        Action: {
+          value: '', isHTML: true, action: null, icons: [{
+            class: 'fa fa-print icon green', action: this.printLr.bind(this, R)
+          },
+          { class: 'fa fa-trash icon red', action: this.deleteLr.bind(this, R) },
+          ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
+          // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
+        }
       };
       columns.push(column);
 
@@ -178,5 +185,24 @@ export class LorryRecciptsComponent implements OnInit {
     });
 
 
+  }
+  deleteLr(lr) {
+    console.log("Lr dddd", lr);
+    if (!confirm("Are You Sure you want to delete LR?")) {
+      return;
+    }
+    this.common.loading++;
+    this.api.post('LorryReceiptsOperation/deleteGeneratedLr', { lrId: lr.lr_id, vehicleId: lr.vid })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("response:", res);
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Sucessfully Deleted", 10000);
+          this.getLorryReceipts();
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 }

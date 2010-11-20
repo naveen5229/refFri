@@ -1,8 +1,22 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-8">
+      <div class="col-2">
         <h5 class="mt-1">VSC Diagnosis</h5>
+      </div>
+      <div class="col-2">
+
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary " (click)="ShowData()">M1 M2</button>
+
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary " (click)="autoReview()">Auto Review Scheduled </button>
+
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" (click)="removeSandwitchHalts()">Remove Sandwitch Halts</button>
       </div>
     </div>
   </nb-card-header>
@@ -19,10 +33,16 @@
       <div class="col-sm-3">
         <button class="btn btn-primary primay_btn" (click)="getSiteRule()">getSiteRule</button>
       </div>
+
+
+
+      <!-- <i class="fas fa-sync-alt" style="cursor:pointer" (click)="ShowData()"></i> -->
+
+
     </div>
     <div style="margin-top:10px">
       <div>
-        <smart-table *ngIf="siteRule.length" [data]="table.data" [settings]="table.settings"></smart-table>
+        <smart-table *ngIf="siteRule && siteRule.length" [data]="table.data" [settings]="table.settings"></smart-table>
       </div>
       <div class="no-data alert alert-danger" role="alert" *ngIf="siteRule==null">
         No Data available !

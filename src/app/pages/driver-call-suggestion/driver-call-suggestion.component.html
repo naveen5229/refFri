@@ -89,12 +89,14 @@
     </div>
 
     <div *ngIf="dis_all == '11'">
-      <smart-table *ngIf="longLoading.length" [data]="table5.data" [settings]="table5.settings" id="tblsuggestions5">
+      <smart-table *ngIf="longUnLoading && longLoading.length" [data]="table5.data" [settings]="table5.settings"
+        id="tblsuggestions5">
       </smart-table>
     </div>
 
     <div *ngIf="dis_all == '21'">
-      <smart-table *ngIf="longUnLoading.length" [data]="table6.data" [settings]="table6.settings" id="tblsuggestions6">
+      <smart-table *ngIf="longUnLoading && longUnLoading.length" [data]="table6.data" [settings]="table6.settings"
+        id="tblsuggestions6">
       </smart-table>
     </div>
   </nb-card-body>

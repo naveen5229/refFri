@@ -7,30 +7,45 @@
     </thead>
     <thead>
       <tr style="background:#f2f2f2;">
+        <!-- # -->
         <th style="padding:5px" style="width: 40px">
           <div *ngIf="settings.count">
             <i [class]="settings.count.icon" (click)="settings.count.action && settings.count.action()"></i>
           </div>
           <span *ngIf="!settings.count">#</span>
         </th>
+        <!-- # END -->
+        <!-- Headings -->
         <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);" [ngClass]="headings[heading].class">
-          <div class="filter-container" *ngIf="!headings[heading].isHTML">
-            <div *ngIf="!headings[heading].hideSearch">
+          <div *ngIf="!headings[heading].isHTML">
+            <!-- Searchable -->
+            <div *ngIf="!headings[heading].hideSearch" class="filter-container">
+              <!-- Search INPUT -->
               <div class="filter-input-container">
                 <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
                   (input)="filterData(heading)" [placeholder]="headings[heading].placeholder"
                   [title]="headings[heading].placeholder">
               </div>
+              <!-- Search INPUT END -->
+              <!-- Column Sorting -->
               <div class="sort-container">
                 <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
               </div>
+              <!-- Column Sorting END-->
             </div>
+            <!-- Searchable END-->
+            <!-- Not Seachable -->
             <div *ngIf="headings[heading].hideSearch" class="no-search">
-              <span>{{headings[heading].title}}</span>
+              <span>{{headings[heading].title || headings[heading].placeholder}}</span>
             </div>
+            <!-- Not Seachable END -->
           </div>
+          <!-- heading as HTML -->
           <div *ngIf="headings[heading].isHTML" [innerHTML]="headings[heading].html"></div>
+          <!-- heading as HTML END -->
         </th>
+        <!-- Headings END -->
+        <th class="action-box" *ngIf="edit.row !== -1">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -39,48 +54,75 @@
         (click)="column.rowActions && column.rowActions.click && handleRowClick(column, i)"
         (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()"
         [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
+
+        <!-- Records Count -->
         <td style="width: 40px">
-          {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
+          {{(i + 1) + ((pages.active - 1) * pages.limit)}}
+        </td>
+        <!-- Records Count End -->
+
+        <!-- Smart Table Value -->
         <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading] ? column[heading].class : ''"
-          (click)="column[heading].action && column[heading].action()"
-          (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
-          (mouseout)="handleMouseOut(column, heading)"
+          (click)="handleColumnClick(column, heading, i)" (dblclick)="handleColDoubleClick(column, heading)"
+          (mouseover)="handleMouseHover(column, heading)" (mouseout)="handleMouseOut(column, heading)"
           [ngStyle]="{cursor: (column[heading] && column[heading].action) ? 'pointer' : ''}">
+
+          <!-- Show HTML -->
           <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && column[heading].isHTML"
-            [innerHTML]="column[heading].value"></div>
+            [innerHTML]="column[heading].value">
+          </div>
+          <!-- Show HTML END -->
+
+          <!-- Show Text -->
           <div [ngClass]="column[heading].action ? 'zoom' : ''"
             *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons">
-            {{column[heading].value}}
+            <!--  -->
+            <span *ngIf="edit.row !== i || !headings[heading].editable">{{column[heading].value}}</span>
+            <input class="form-control" *ngIf="edit.row === i && headings[heading].editable" type="text"
+              [name]="column[heading] + i" [(ngModel)]="column[heading].value">
           </div>
+          <!-- Show Text END -->
+
+          <!-- Show Action Icons -->
           <div *ngIf="column[heading] && column[heading].icons">
             <div *ngFor="let icon of column[heading].icons" [class]="icon.parentClass"
               style="display:inline; position: relative;">
               <i [class]="icon.class" (click)="icon.action()"><span></span></i>
             </div>
           </div>
-          <!-- <div [ngClass]="column[heading].value?"></div> -->
+          <!-- Show Action Icons END -->
+        </td>
+        <!-- Smart Table Value End -->
+        <td class="action-box" *ngIf="edit.row !== -1 && edit.row ===  i">
+          <i class="fa fa-check" (click)="saveEdit(column)"></i>
+          <i class="fa fa-times" (click)="resetColumn()"></i>
         </td>
       </tr>
     </tbody>
   </table>
 
-
-
+  <!-- No Record Found -->
   <div *ngIf="headings && !columns.length">
     <div class="no-record-found">No Record Found</div>
   </div>
+  <!-- No Record Found END -->
 </div>
+
+<!-- Pagination -->
 <div class="pagination" *ngIf="pages.count > 1">
+  <!-- Page Count -->
   <div class="pagination_links">
-    <span *ngIf="pages.active==1" disabled="disabled">Pre</span>
-    <span *ngIf="pages.active >1" (click)="handlePagination(pages.active - 1)">Pre</span>
-    <span *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
-      [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</span>
-    <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>
+    <button (click)="handlePagination(pages.active - 1)" [disabled]="pages.active == 1">Pre</button>
+    <button *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
+      [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</button>
+    <button (click)="handlePagination(pages.active + 1)" [disabled]="pages.active == pages.count">Next</button>
   </div>
+  <!-- Page Count END -->
+  <!-- Records Per Page -->
   <div class="numer_list ml-3">
     <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage()"
       [(ngModel)]="pages.limit">
   </div>
-
+  <!-- Records Per Page END -->
 </div>
+<!-- Pagination END -->

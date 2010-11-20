@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VehicleTyreSummaryComponent } from '../../modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
 
 @Component({
   selector: 'tyre-summary',
@@ -15,11 +16,6 @@ export class TyreSummaryComponent implements OnInit {
 
   data = [];
 
-  modelId = null;
-  models = [];
-  brands = [];
-  brandId;
-  mapping = 0;
   table = {
     data: {
       headings: {},
@@ -44,32 +40,6 @@ export class TyreSummaryComponent implements OnInit {
   ngOnInit() {
   }
 
-  vehicleBrandTypes() {
-    this.common.loading++;
-    this.api.get('Vehicles/getVehicleBrandsMaster')
-      .subscribe(res => {
-        this.common.loading--;
-        this.brands = res['data'];
-        console.log("Brand Type", this.brands);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-  vehicleModelTypes() {
-    if (!this.brandId)
-      return;
-    this.common.loading++;
-    this.api.get('Vehicles/getVehicleModelsMaster?brandId=' + this.brandId)
-      .subscribe(res => {
-        this.common.loading--;
-        this.models = res['data'];
-        console.log("models Type", this.models);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
 
   refresh() {
     this.data = [];
@@ -87,10 +57,7 @@ export class TyreSummaryComponent implements OnInit {
     this.getTyreSummary();
   }
 
-  resetData(event) {
-    this.modelId = null;
-    document.getElementsByName('suggestion')[1]['value'] = '';
-  }
+
 
   getTyreSummary() {
     this.common.loading++;
@@ -138,11 +105,31 @@ export class TyreSummaryComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        if (this.headings[i] == "Action") {
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openVehicleTyreSummary.bind(this, doc, 'site') };
+        }
+        else {
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+        }
       }
       columns.push(this.valobj);
     });
     return columns;
+  }
+
+  openVehicleTyreSummary(vehicleDetail) {
+    console.log("tyre summary Modal", vehicleDetail);
+    let vehicle = {
+      id: vehicleDetail._vid,
+      regno: vehicleDetail.Vehicle,
+      refMode: vehicleDetail._refmode
+    };
+    this.common.params = { vehicle: vehicle, ref_page: 'tyre-summary' };
+    console.log("vehicle", vehicle);
+    const activeModal = this.modalService.open(VehicleTyreSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+
+    });
   }
 
 }

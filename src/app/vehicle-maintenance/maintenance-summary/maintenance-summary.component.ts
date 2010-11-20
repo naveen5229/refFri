@@ -93,20 +93,20 @@ export class MaintenanceSummaryComponent implements OnInit {
         docobj.maintenance_type_id = doc['_type_id'];
         valobj[this.headings[i]] = { value: val };//, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
       }
-      valobj['details'] = { value: 'Details', class: 'blue', action: this.viewSummaryDetails.bind(this, doc['_jobid'], doc['_vid']) };
+      valobj['details'] = { value: 'Details', class: 'blue', action: this.viewSummaryDetails.bind(this, doc['_jobid'], doc['_vid'], doc['Vehicle']) };
       columns.push(valobj);
       // columns.push(total);     
     });
     return columns;
   }
 
-  viewSummaryDetails(jobId, vId) {
+  viewSummaryDetails(jobId, vId, Vehicle) {
     console.log("JobId", jobId, "Vid", vId);
     if (!jobId || !vId) {
       this.common.showError("Failed");
       return;
     }
-    this.common.params = { jobId: jobId, vId: vId };
+    this.common.params = { jobId: jobId, vId: vId, vehicleRegNo: Vehicle };
     const activeModal = this.modalService.open(ViewSummaryDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -146,7 +146,7 @@ export class MaintenanceSummaryComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Document Summary";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

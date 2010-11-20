@@ -36,7 +36,8 @@
     </div>
 
     <div>
-      <smart-table *ngIf="vehiclePerformance.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="vehiclePerformance && vehiclePerformance.length" [data]="table.data"
+        [settings]="table.settings"></smart-table>
     </div>
 
   </nb-card-body>

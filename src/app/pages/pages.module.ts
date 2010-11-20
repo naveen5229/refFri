@@ -58,6 +58,10 @@ import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-stat
 import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
 import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/daywise-vehicle-distance.component';
 import { DriverModule } from '../driver/driver.module';
+import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
+import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
+import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-odometer/vehicle-distance-with-odometer.component';
+import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 
 
 const PAGES_COMPONENTS = [
@@ -80,7 +84,7 @@ const PAGES_COMPONENTS = [
     ResizableModule,
     LorryReceiptModule,
     SharedModule,
-    DriverModule
+    DriverModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -117,6 +121,10 @@ const PAGES_COMPONENTS = [
     TripVerifyStatesComponent,
     VehiclePerformanceComponent,
     DaywiseVehicleDistanceComponent,
+    DateServiceTesterComponent,
+    VehicleOdometerComponent,
+    VehicleDistanceWithOdometerComponent,
+    FSEEntryComponent,
     // CustomDatePipe
   ],
   exports: [

@@ -34,7 +34,7 @@ export class OtherUsageComponent implements OnInit {
   getOtherUsageDetail() {
     // this.userId=this.user
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
     //console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewOtherUsages.json?' + params)
@@ -75,7 +75,7 @@ export class OtherUsageComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Other Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
