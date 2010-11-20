@@ -59,7 +59,40 @@ nb-card-header{
 .balance-shit{
     background-color:#dadfe6;
 }
-
+.heading{
+    background-color: #263238;
+    color: #fff;
+    padding: 10px 0px !important;
+    border: 1px solid #c7c7c7
+}
+.th-mini{
+    background: #184154;
+    color: #fff;
+    border-bottom: 1px solid #c7c7c7;
+    border-left: 1px solid #c7c7c7;
+    border-right: 1px solid #c7c7c7;
+}
+.th-mini .col-8,
+.th-mini .col-4{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.th-mini .col-8{
+    border-right: 1px solid #c7c7c7;
+}
+.tb-mini{
+    border-bottom: 1px solid #c7c7c7;
+    border-left: 1px solid #c7c7c7;
+    border-right: 1px solid #c7c7c7;
+}
+.tb-mini .col-8,
+.tb-mini .col-4{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.td-mini .col-8{
+    border-right: 1px solid #c7c7c7;
+}
 .date-modal{
     position: absolute;
     width: 100%;
