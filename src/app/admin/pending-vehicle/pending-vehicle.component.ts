@@ -565,7 +565,7 @@ export class PendingVehicleComponent implements OnInit {
     this.workList = [];
     this.columns2 = [];
     this.common.loading++;
-    this.api.post('Vehicles/getUserWorkSummary', {})
+    this.api.get('Vehicles/getVehiclesUserWorkSummary')
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
