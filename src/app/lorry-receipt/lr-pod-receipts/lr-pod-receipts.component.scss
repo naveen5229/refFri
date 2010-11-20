@@ -2,3 +2,24 @@
     color: blue;
     font-weight: 700;
 }
+
+:host ::ng-deep .tableFixHead {
+    table {
+        tr {
+            td:last-child {
+                div {
+                    i {
+                        font-size: 16px;
+                        margin-right: 8px;
+                        &.fa-edit {
+                            color: blue;
+                        }
+                        &.fa-trash {
+                            color: red;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

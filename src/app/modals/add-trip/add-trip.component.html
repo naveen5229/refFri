@@ -81,9 +81,7 @@
     <div class="col-md-8">
       <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
         placeholder="Select Date" [value]="targetTime | date: 'dd MMM yyyy'" name="date" readonly>
-      <!-- <input [(ngModel)]="targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="End Time"
-        class="form-control" autocomplete="off" name="targetTime">
-      <owl-date-time #date></owl-date-time> -->
+
 
     </div>
   </div>
@@ -100,6 +98,19 @@
         <option value="12">UnLoading - Others</option>
       </select>
 
+    </div>
+  </div>
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4 pr-0">
+      <label>Route</label>
+    </div>
+    <div class="col-md-8">
+      <input class="form-control" type="text" list="routeList" name="routeList-type" [(ngModel)]="routeName"
+        (change)="getRouteDetail(routeName)">
+      <datalist id="routeList">
+        <option *ngFor="let route of routes;" [value]="route.name">
+        </option>
+      </datalist>
     </div>
   </div>
 </div>

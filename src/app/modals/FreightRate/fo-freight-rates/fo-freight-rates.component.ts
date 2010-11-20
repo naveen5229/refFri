@@ -6,6 +6,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'fo-freight-rates',
   templateUrl: './fo-freight-rates.component.html',
@@ -55,7 +56,7 @@ export class FoFreightRatesComponent implements OnInit {
       wef: ['',],
       Site: ['',],
       Material: ['',],
-      effectiveDate: ['',]
+      expiryDate: ['',]
     });
   }
   get fo() {
@@ -117,6 +118,7 @@ export class FoFreightRatesComponent implements OnInit {
     this.activeModal.close({ data: false });
   }
   saveFrightRates() {
+    ++this.common.loading;
     let params = {
       companyId: this.frieghtRate.companyId,
       siteId: this.frieghtRate.siteId,
@@ -154,4 +156,6 @@ export class FoFreightRatesComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+
+
 }
