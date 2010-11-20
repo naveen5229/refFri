@@ -172,6 +172,9 @@ import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-e
 import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
 import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
 import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
+import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
+import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
+
 
 
 
@@ -319,12 +322,16 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     FuelEditComponent,
     AddViaRoutesComponent,
     VehicleTyreSummaryComponent,
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
 
 
 
 
   ],
   entryComponents: [
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
     VehicleTyreSummaryComponent,
     BulkVehicleNextServiceDetailComponent,
     AddAdvancedMaintenanceComponent,
@@ -460,6 +467,7 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+
 
   ],
   imports: [

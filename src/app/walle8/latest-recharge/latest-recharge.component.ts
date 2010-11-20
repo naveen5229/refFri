@@ -12,7 +12,7 @@ import { getUrlScheme } from '@angular/compiler';
 })
 export class LatestRechargeComponent implements OnInit {
   data = [];
-  mobileno = this.user._details.mobileno;
+  mobileno = this.user._details.fo_mobileno;
   userId = this.user._details.id;
   dates = {
     start: null,
@@ -82,7 +82,7 @@ export class LatestRechargeComponent implements OnInit {
   getLatestRecharge() {
 
 
-    let params = "mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
 
     this.common.loading++;
     let response;

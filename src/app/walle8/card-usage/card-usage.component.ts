@@ -60,7 +60,7 @@ export class CardUsageComponent implements OnInit {
   getcardUsage() {
 
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
 
     this.common.loading++;
     let response;
