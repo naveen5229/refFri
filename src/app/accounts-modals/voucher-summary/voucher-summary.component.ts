@@ -7,6 +7,7 @@ import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'voucher-summary',
@@ -15,6 +16,7 @@ import { AccountService } from '../../services/account.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   alltotal = 0;
+  targetId='';
   narration = '';
   tripVoucher;
   trips;
@@ -45,7 +47,19 @@ export class VoucherSummaryComponent implements OnInit {
   activeId = 'creditLedger';
   tripexpvoucherid = 0;
   voucherDetails = null;
+  driverTotal=0;
+  netTotal=0;
+  diverledgers=[];
+  accDetails = [{
+    detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
+    detailamount: 0,
+    detailramarks: '',
+    detailLedger: {
+      name: '',
+      id: 0
+    }
 
+  }];
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
@@ -78,6 +92,24 @@ export class VoucherSummaryComponent implements OnInit {
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
+      if(this.common.params.tripExpDriver.length>0){
+        console.log('fill Array',this.common.params.tripExpDriver);
+        this.accDetails = [];
+        this.common.params.tripExpDriver.forEach(tripExpDriver => {
+          this.accDetails.push({
+            detaildate: this.common.dateFormatternew(tripExpDriver.date).split(' ')[0],
+            detailamount: parseFloat(tripExpDriver.amount),
+            detailramarks: tripExpDriver.remarks,
+            detailLedger: {
+              name: tripExpDriver.ledger_name,
+              id: tripExpDriver.ledger_id
+            }
+          })
+        });
+      }else{
+        console.log('Not fill Array',this.common.params.tripExpDriver);
+      }
+
       this.trips.map(trip => {
         this.tripsEditData.map(tripedit => {
           (trip.id == tripedit.id) ? trip.isChecked = true : '';
@@ -96,6 +128,8 @@ export class VoucherSummaryComponent implements OnInit {
 
     this.common.handleModalSize('class', 'modal-lg', '1150');
     this.getcreditLedgers('credit');
+    this.getDriveLedgers('credit');
+
   }
 
   ngOnInit() {
@@ -103,7 +137,7 @@ export class VoucherSummaryComponent implements OnInit {
 
   getcreditLedgers(transactionType) {
     let voucherId = -7;
-    let url = 'Suggestion/GetTripLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
+    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
@@ -114,7 +148,19 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
-
+  getDriveLedgers(transactionType) {
+    let voucherId = -7;
+    let url = 'Suggestion/GetTripLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
+    console.log('URL: ', url);
+    this.api.get(url)
+      .subscribe(res => {
+        console.log(res);
+        this.diverledgers = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
   getdebitLedgers(transactionType) {
     let voucherId = -7;
     let url = 'Suggestion/GetTripLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
@@ -166,10 +212,20 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('Accounts User: ', this.creditLedger);
   }
 
+  
   onDebitSelected(selectedData, type, display) {
     console.log('selected data1', selectedData);
     this.debitLedger.name = selectedData.y_ledger_name;
     this.debitLedger.id = selectedData.y_ledger_id;
+    console.log('Accounts11 User: ', this.debitLedger);
+  }
+
+  onDebitSelectednew(selectedData, type, display, targetId) {
+    console.log('selected data1', selectedData, targetId);
+    let index = targetId.split('-')[1];
+
+    this.accDetails[index].detailLedger.name = selectedData.y_ledger_name;
+    this.accDetails[index].detailLedger.id = selectedData.y_ledger_id;
     console.log('Accounts11 User: ', this.debitLedger);
   }
 
@@ -484,7 +540,9 @@ export class VoucherSummaryComponent implements OnInit {
       voucher_details: this.tripHeads,
       storeid: this.storeids,
       tripExpVoucherId: tripexpvoucherid,
-      fuelFilings: this.fuelFilings
+      fuelFilings: this.fuelFilings,
+      accDetail: this.accDetails
+
     };
 
     this.common.loading++;
@@ -541,10 +599,28 @@ export class VoucherSummaryComponent implements OnInit {
     });
   }
 
+  driverSum(){
+    this.driverTotal = 0;
+    this.accDetails.map(detail => {
+      this.driverTotal += detail.detailamount;
+    });
+    this.netTotal=(this.driverTotal-this.alltotal);
+  }
   dismiss(status) {
     this.activeModal.close({ status: status });
   }
 
+  addDetails() {
+    this.accDetails.push({
+      detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
+      detailamount: 0,
+      detailramarks: '',
+      detailLedger: {
+        name: '',
+        id: 0
+      }
+    });
+  }
   callSaveVoucher() {
     if (this.accountService.selected.branch.id != 0) {
       this.addVoucher();
