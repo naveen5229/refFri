@@ -34,6 +34,8 @@
     </div>
 
     <p *ngIf="otpCount && listenOTP">Resend OTP in {{otpCount}} seconds..</p>
+    <p text-right *ngIf="!otpCount && listenOTP" (click)="sendOTP()">Resend OTP</p>
+
 
     <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block">
       Login
