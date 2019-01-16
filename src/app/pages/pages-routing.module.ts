@@ -15,7 +15,7 @@ const routes: Routes = [{
     },
     {
       path:'vehicle-kpis',
-      component: VehicleKpisComponent
+      component: VehicleKpisComponent,
     },
     {
       path: '',
