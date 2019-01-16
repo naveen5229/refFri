@@ -72,8 +72,8 @@ export class LoginComponent implements OnInit {
         console.log(res);
         this.common.showToast(res['msg']);
         if (res['success']) {
-          localStorage.setItem('CUSTOMER_TOKEN', JSON.stringify(res['data'][0]));
-          localStorage.setItem('CUSTOMER_DETAILS', res['data'][0]['authkey']);
+          localStorage.setItem('CUSTOMER_TOKEN',  res['data'][0]['authkey']);
+          localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(res['data'][0]));
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
           this.router.navigate(['/pages']);

@@ -6,6 +6,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { LoginComponent } from './login/login.component';
+import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -21,6 +22,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     LoginComponent,
+    VehicleKpisComponent,
   ],
 })
 export class PagesModule {
