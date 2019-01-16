@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 
+
+
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
@@ -45,9 +47,10 @@ export class LoginComponent implements OnInit {
         this.otpCount = 30;
         this.otpResendActive();
         this.formSubmit = false;
-
+        this.common.showToast(res['msg']);
       }, err => {
         --this.common.loading;
+        this.common.showError();
         console.log(err);
       });
   }
@@ -67,6 +70,7 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
+        this.common.showToast(res['msg']);
         if (res['success']) {
           localStorage.setItem('CUSTOMER_TOKEN', JSON.stringify(res['data'][0]));
           localStorage.setItem('CUSTOMER_DETAILS', res['data'][0]['authkey']);
@@ -76,6 +80,7 @@ export class LoginComponent implements OnInit {
         }
       }, err => {
         --this.common.loading;
+        this.common.showError();
         console.log(err);
       });
   }
