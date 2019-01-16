@@ -7,12 +7,14 @@ import { ThemeModule } from '../@theme/theme.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { LoginComponent } from './login/login.component';
 import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
+import { KpisDetailsComponent } from '../modals/kpis-details/kpis-details.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
 
 @NgModule({
+ 
   imports: [
     PagesRoutingModule,
     ThemeModule,

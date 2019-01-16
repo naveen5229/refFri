@@ -16,9 +16,13 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
+import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, KpisDetailsComponent],
+  entryComponents:[
+    KpisDetailsComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

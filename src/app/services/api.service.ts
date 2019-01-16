@@ -42,15 +42,12 @@ export class ApiService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': '3'
+      'entrymode': '3',
+      'authkey': this.user._token || ''
     });
 
-    if (this.user._token) {
-      headers.append('authkey', this.user._token);
-    }
-
     console.log('Header: ', headers);
-
+    
     return headers;
 
   }

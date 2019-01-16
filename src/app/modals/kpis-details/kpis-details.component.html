@@ -1,0 +1,136 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table table-bordered table-hover">
+
+    <tbody>
+      <tr>
+        <th>Vehicle</th>
+        <td>{{kpi.x_showveh}}</td>
+      </tr>
+      <tr>
+        <th>Driver</th>
+        <td>{{kpi.x_empname}}</td>
+      </tr>
+      <tr>
+        <th>Mobile</th>
+        <td>{{kpi.x_mobileno}}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td> {{kpi.showprim_status}}, {{kpi.showsec_status}} </td>
+      </tr>
+      <tr>
+        <th>Hrs Since</th>
+        <td>{{kpi.x_hrssince}}</td>
+      </tr>
+      <tr>
+        <th>Addtional Info</th>
+        <td>{{kpi.addinfo1 ? kpi.addinfo1 + (kpi.addinfo2 || kpi.addinfo3 ? ',' : '' ) : '' }}
+            {{kpi.addinfo2 ? kpi.addinfo2 + (kpi.addinfo3 ? ',' : '' ) : '' }}
+            {{kpi.addinfo3 ? kpi.addinfo3 : '' }}</td>
+      </tr>
+      <tr>
+        <th>Trip</th>
+        <td>
+           <!-- Heading -->
+           <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 0">
+              <i name="exit" class="fa fa-sign-out-alt"></i>
+              <span class="circle">{{kpi.x_showtripstart}}</span>
+              <i class="route-arrow" name="ios-arrow-round-forward"></i>
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Loading -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 1">
+              <span class="circle">{{kpi.x_showtripstart}}</span>
+              <i class="route-arrow" name="ios-arrow-round-forward"></i>
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Onward -->
+            <div col-4 (click)="showDetails(kpi)" style="font-size: 10px;" *ngIf="kpi.trip_status_type == 2">
+              <span>{{kpi.x_showtripstart}}</span>
+              <i class="route-arrow" name="ios-arrow-round-forward"></i>
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Unloading -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 3">
+              <span>{{kpi.x_showtripstart}}</span>
+              <i class="route-arrow" name="ios-arrow-round-forward"></i>
+              <span class="circle">{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Complete -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 4">
+              <span>{{kpi.x_showtripstart}}</span>
+              <i class="route-arrow" name="ios-arrow-round-forward"></i>
+              <span>{{kpi.x_showtripend}}</span>
+              <i class="complete" name="checkmark-circle-outline"></i>
+            </div>
+
+            <!-- Ambigous -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 5">
+              <span>{{kpi.x_showtripstart}}</span>
+              <span class="route-arrow">-</span>
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <th>Trip Start Time</th>
+        <td>{{kpi.x_showstarttime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+      </tr>
+      <tr>
+        <th>Trip End Time</th>
+        <td>{{kpi.x_showendtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+      </tr>
+      <tr>
+        <th>Issue</th>
+        <td>{{kpi.entries_issue}}</td>
+      </tr>
+      <tr>
+        <th>Kpi Dist </th>
+        <td>{{kpi.x_kpidist }}</td>
+      </tr>
+      <tr>
+        <th>kpi Time</th>
+        <td>{{kpi.x_kpitime }}</td>
+      </tr>
+      <tr>
+        <th>Kmph</th>
+        <td>{{kpi.x_kmph }}</td>
+      </tr>
+      <tr>
+        <th>Dist Left</th>
+        <td>{{kpi.x_disleft }}</td>
+      </tr>
+      <tr>
+        <th>Suggestion</th>
+        <td>{{kpi.suggestion }}</td>
+      </tr>
+      <tr>
+        <th>Gps</th>
+        <td>{{kpi.x_gps ? 'working': 'not working' }}</td>
+      </tr>
+      <tr>
+        <th>Last Location Time</th>
+        <td>{{kpi.x_ttime | date : 'dd MMM HH:mm' }}</td>
+      </tr>
+      <tr>
+        <th>Location</th>
+        <td>{{kpi.city}}</td>
+      </tr>
+      
+    </tbody>
+
+  </table>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+</div>
