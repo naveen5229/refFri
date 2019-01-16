@@ -36,15 +36,18 @@ export class LoginComponent implements OnInit {
       type: "login",
       mobileno: this.userDetails.mobile
     };
-
+    ++this.common.loading;
     this.api.post('Login/login', params)
       .subscribe(res => {
+        --this.common.loading;
         console.log(res);
         this.listenOTP = true;
         this.otpCount = 30;
         this.otpResendActive();
         this.formSubmit = false;
+
       }, err => {
+        --this.common.loading;
         console.log(err);
       });
   }
@@ -57,11 +60,13 @@ export class LoginComponent implements OnInit {
       device_token: null
     };
 
+    ++this.common.loading;
+
     console.log('Login Params:', params)
     this.api.post('Login/verifyotp', params)
       .subscribe(res => {
+        --this.common.loading;
         console.log(res);
-
         if (res['success']) {
           localStorage.setItem('CUSTOMER_TOKEN', JSON.stringify(res['data'][0]));
           localStorage.setItem('CUSTOMER_DETAILS', res['data'][0]['authkey']);
@@ -70,6 +75,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/pages']);
         }
       }, err => {
+        --this.common.loading;
         console.log(err);
       });
   }
