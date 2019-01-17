@@ -8,6 +8,8 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { LoginComponent } from './login/login.component';
 import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
 import { KpisDetailsComponent } from '../modals/kpis-details/kpis-details.component';
+import { TicketsComponent } from './tickets/tickets.component';
+import { TicketsAllComponent } from './tickets-all/tickets-all.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -25,6 +27,8 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     LoginComponent,
     VehicleKpisComponent,
+    TicketsComponent,
+    TicketsAllComponent,
   ],
 })
 export class PagesModule {
