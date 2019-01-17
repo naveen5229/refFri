@@ -3,6 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import * as _ from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
 
 @Component({
   selector: 'tickets-all',
@@ -26,7 +28,8 @@ export class TicketsAllComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public user: UserService
+    public user: UserService,
+    private modalService:NgbModal,
   ) {
   }
 
@@ -96,9 +99,10 @@ export class TicketsAllComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         --this.common.loading;
-        // this.showTrailList(res['data'], 'trailList');
-        // let modal = this.modalCtrl.create('TrailListPage', { data: res['data'], type: 'trailList' });
-        // modal.present();
+        let trailList = res['data'];
+        this.common.params = {trailList};
+        const activeModal= this.modalService.open(TicketTrailsComponent,{ size:'lg',container:'nb-layout'});
+        activeModal.componentInstance.modalHeader='Trails';
       }, err => {
         --this.common.loading;        
         console.log(err);

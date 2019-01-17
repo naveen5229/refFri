@@ -10,6 +10,8 @@ import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
 import { KpisDetailsComponent } from '../modals/kpis-details/kpis-details.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { TicketsAllComponent } from './tickets-all/tickets-all.component';
+import { LorryRecciptsComponent } from './lorry-receipts/lorry-reccipts.component';
+import { ExpensesComponent } from './expenses/expenses.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -29,6 +31,8 @@ const PAGES_COMPONENTS = [
     VehicleKpisComponent,
     TicketsComponent,
     TicketsAllComponent,
+    LorryRecciptsComponent,
+    ExpensesComponent,
   ],
 })
 export class PagesModule {
