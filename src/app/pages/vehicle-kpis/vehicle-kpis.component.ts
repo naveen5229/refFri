@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.component';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'vehicle-kpis',
@@ -50,6 +52,10 @@ export class VehicleKpisComponent implements OnInit {
       this.common.showToast('Vehicle location not available!');
       return;
     }
+    this.common.params = {kpi};
+    const activeModal= this.modalService.open(LocationMarkerComponent,{ size:'lg',container:'nb-layout'});
+    activeModal.componentInstance.modalHeader='location-marker';
+    
     // let modal = this.modalCtrl.create('KpiLocationPage', {
     //   location: {
     //     lat: kpi.x_tlat || 26.9124336,

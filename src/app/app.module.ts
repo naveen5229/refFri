@@ -17,11 +17,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
+import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, KpisDetailsComponent],
+  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent],
   entryComponents:[
-    KpisDetailsComponent
+    KpisDetailsComponent,
+    LocationMarkerComponent
   ],
   imports: [
     BrowserModule,

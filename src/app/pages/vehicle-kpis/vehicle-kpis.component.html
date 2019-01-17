@@ -13,6 +13,7 @@
           <th>Hrs </th>
           <th>Trip </th>
           <th>Kmp </th>
+          <th>Location</th>
         </tr>
 
       </thead>
@@ -73,6 +74,8 @@
 
           </td>
           <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
+
+          <td (click)="showLocation(kpi)">{{kpi.city}}<span>See On Map</span></td>
         </tr>
       </tbody>
 
