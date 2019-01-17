@@ -1,0 +1,108 @@
+<nb-card>
+  <nb-card-header>
+    All Tickets
+  </nb-card-header>
+
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab tabTitle="All open Tickets">
+        <div class="msg-container" *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
+          <div class="msg">No open ticket found!
+          </div>
+        </div>
+        <div *ngIf="status == 0">
+            <div *ngFor="let driver of allOpenDrivers;">
+                <nb-card>
+                    <nb-card-header style="padding: 5px 10px; background: #f2f2f2;margin-bottom: 0px;">
+                        <span>{{driver}}
+                            <b>{{allOpenTicketGroups[driver].length > 1 ? '(' + allOpenTicketGroups[driver].length +
+                                ')':
+                                ''}}
+                            </b>
+                        </span>
+                    </nb-card-header>
+                    <nb-card-body style="padding:0px;" *ngFor="let ticket of allOpenTicketGroups[driver]; let i = index">
+                        <div>
+                            <div class="col-sm-6" style="padding: 5px 16px;">
+                                <p *ngIf="ticket.regno">
+                                   <!-- <ion-icon name="car" style="vertical-align:middle"></ion-icon>  -->
+                                   <span style="vertical-align:middle; margin-left: 5px;">{{ticket.regno}}</span>
+                                </p>
+                                <p>
+                                    <b>
+                                      <!-- <ion-icon name="ios-information-circle-outline" style="vertical-align:middle; font-weight: bold;"></ion-icon> -->
+                                      <span style="vertical-align:middle; margin-left: 5px;">{{ticket.msg}}</span>
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <!-- <ion-icon name="alarm" [ngStyle]="{'color': ticket.cc == 'white' ? 'black' : ticket.cc}"></ion-icon> -->
+                                    <span style="vertical-align:middle; margin-left: 5px;">{{common.findRemainingTime(ticket.remaining_time)}}</span>
+                                  </p>
+                            </div>
+                            <div class="col-sm-6"  text-right>
+                                <span class="trail-btn" (click)="showTrailList(ticket)">Trail</span>
+                              </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+            </div>  
+        </div>
+      </nb-tab>
+
+      <nb-tab tabTitle="Parked Tickets">
+          <div class="msg-container" *ngIf="status == 1 && !allClaimDrivers.length && showMsg ">
+              <div class="msg">No claim ticket found!
+              </div>
+            </div>
+            <div *ngIf="status == 1">
+                <div *ngFor="let driver of allClaimDrivers;">
+                    <nb-card>
+                        <nb-card-header style="padding: 5px 10px; background: #f2f2f2;margin-bottom: 0px;">
+                            <span>{{driver}} 
+                              <b>{{allClaimTicketGroups[driver].length > 1 ? '(' + allClaimTicketGroups[driver].length +
+                                ')':
+                                ''}}
+                              </b>
+                            </span>
+                            <span class="claim-it" (click)="forwardClaimTickets(driver)">Forward
+                                Ticket{{allClaimTicketGroups[driver].length > 1 ?
+                                's': ''}}
+                            </span>
+                            <nb-card-body style="padding:0px;" *ngFor="let ticket of allClaimTicketGroups[driver]; let i = index">
+                                <div>
+                                    <div class = "col-sm-6" style="padding: 5px 16px;">
+                                        <p *ngIf="ticket.regno">
+                                            <!-- <ion-icon name="car" style="vertical-align:middle"></ion-icon> -->
+                                            <span style="vertical-align:middle; margin-left: 5px;">{{ticket.regno}}</span>
+                                        </p> 
+                            
+                                        <p>
+                                          <b>
+                                              <!-- <ion-icon name="ios-information-circle-outline" style="vertical-align:middle; font-weight: bold;"></ion-icon>  -->
+                                            <span style="vertical-align:middle; margin-left: 5px;">{{ticket.msg}}</span>
+                                          </b>
+                                        </p>
+                                        <p>
+                                            <!-- <ion-icon name="alarm" [ngStyle]="{'color': ticket.cc == 'white' ? 'black' : ticket.cc}"></ion-icon>  -->
+                                          <span style="vertical-align:middle; margin-left: 5px;">{{ticket.addtime | date : 'dd MMM HH:mm'}}</span>
+                                        </p>
+                            
+                                    </div>
+                                    <div class = "col-sm-6" text-right>
+                                        <span class="trail-btn" (click)="showTrailList(ticket)">Trail</span>
+                                    </div>
+                                </div>
+                            </nb-card-body>
+                    
+                        </nb-card-header>
+                    </nb-card>
+                </div>
+            </div>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>
+
+
+
+

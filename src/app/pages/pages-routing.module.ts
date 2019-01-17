@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
+import { TicketsComponent } from './tickets/tickets.component';
+import { TicketsAllComponent } from './tickets-all/tickets-all.component';
+
 
 const routes: Routes = [{
   path: '',
@@ -21,6 +24,14 @@ const routes: Routes = [{
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
+    },
+    {
+      path:'tickets',
+      component: TicketsComponent,
+    },
+    {
+      path:'tickets-all',
+      component: TicketsAllComponent,
     },
   ],
 }];
