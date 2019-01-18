@@ -8,6 +8,7 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { TicketsAllComponent } from './tickets-all/tickets-all.component';
 import { LorryRecciptsComponent } from './lorry-receipts/lorry-reccipts.component';
 import { ExpensesComponent } from './expenses/expenses.component';
+import { ConciseComponent } from './concise/concise.component';
 
 const routes: Routes = [{
   path: '',
@@ -41,6 +42,10 @@ const routes: Routes = [{
     {
       path:'expenses',
       component: ExpensesComponent,
+    },
+    {
+      path:'concise',
+      component: ConciseComponent,
     },
   ],
 }];

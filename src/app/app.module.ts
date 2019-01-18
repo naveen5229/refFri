@@ -24,7 +24,9 @@ import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.comp
   declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent],
   entryComponents:[
     KpisDetailsComponent,
-    LocationMarkerComponent
+    LocationMarkerComponent,
+    TicketTrailsComponent,
+
   ],
   imports: [
     BrowserModule,
