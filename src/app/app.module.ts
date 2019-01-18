@@ -19,12 +19,14 @@ import { HttpModule } from '@angular/http';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
 import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
+import { ImageViewComponent } from './modals/image-view/image-view.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent],
+  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent, ImageViewComponent],
   entryComponents:[
     KpisDetailsComponent,
-    LocationMarkerComponent
+    LocationMarkerComponent,
+    ImageViewComponent
   ],
   imports: [
     BrowserModule,

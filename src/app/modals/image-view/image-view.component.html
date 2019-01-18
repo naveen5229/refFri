@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria- label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div *ngIf="activeImage" style="height:360px; margin-bottom: 15px;">
+      <img [src]="activeImage.image" class="active-image">
+    </div>
+    <div class="row text-center">
+      <div class="col-4" *ngFor="let image of images;">
+        <div class="card" (click)="activeImage = image">
+          <img [src]="image.image" class="image">
+          <span class="image-name">
+            {{image.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,7 @@
           <th>Trip </th>
           <th>Kmp </th>
           <th>Location</th>
+          <th>View LR</th>
         </tr>
 
       </thead>
@@ -76,6 +77,9 @@
           <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
 
           <td (click)="showLocation(kpi)">{{kpi.city}}<span>See On Map</span></td>
+          <td>
+            <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
+          </td>
         </tr>
       </tbody>
 
