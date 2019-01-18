@@ -28,6 +28,10 @@ export class ConciseComponent implements OnInit {
   data: any;
   options: any;
   themeSubscription: any;
+
+  statusGroup = null;
+  groupList = [];
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -55,31 +59,34 @@ export class ConciseComponent implements OnInit {
       });
   }
 
-  getViewType(){
+  getViewType() {
     this.grouping(this.viewType);
   }
 
   grouping(viewType) {
-    let groups = _.groupBy(this.kpis, viewType);
-    let groupList = Object.keys(groups);
+    console.log('All ', this.allKpis);
+    this.kpis =  this.allKpis;
+    this.statusGroup = _.groupBy(this.allKpis, viewType);
+    this.groupList = Object.keys(this.statusGroup);
     let label = [];
     let data = [];
     let color = [];
-    let clr;    
-    for (var k in groups){
-      if (typeof groups[k] !== 'function') {
-         let k1= k+" : "+groups[k].length
-        label.push (k1);
-        data.push (groups[k].length );
+    let clr;
+    console.log(this.statusGroup);
+    for (var k in this.statusGroup) {
+      if (typeof this.statusGroup[k] !== 'function') {
+        let k1 = k + " : " + this.statusGroup[k].length
+        label.push(k1);
+        data.push(this.statusGroup[k].length);
         clr = `rgba(
                     ${Math.floor((Math.random() * 255) + 1)},
                     ${Math.floor((Math.random() * 255) + 1)},
                     ${Math.floor((Math.random() * 255) + 1)},1)`
         color.push(clr);
       }
-  }
+    }
 
-    this.pieChart(label,data,color);
+    this.pieChart(label, data, color);
   }
 
 
@@ -122,7 +129,7 @@ export class ConciseComponent implements OnInit {
 
   }
 
-  
+
   showDetails(kpi) {
     this.common.params = { kpi };
     const activeModal = this.modalService.open(KpisDetailsComponent, { size: 'lg', container: 'nb-layout' });
@@ -130,7 +137,7 @@ export class ConciseComponent implements OnInit {
 
   }
 
-  pieChart(label,data,color) {  
+  pieChart(label, data, color) {
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
@@ -168,6 +175,14 @@ export class ConciseComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
+  }
+
+  filterData(filterKey) {
+    console.log(filterKey, this.viewType);
+    this.kpis = this.allKpis.filter(kpi => {
+      if (kpi[this.viewType] == filterKey) return true;
+      return false;
+    });
   }
 }
 
