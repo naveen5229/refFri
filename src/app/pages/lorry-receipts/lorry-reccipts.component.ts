@@ -20,8 +20,8 @@ export class LorryRecciptsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-      
-     }
+
+  }
 
   ngOnInit() {
     this.getLorryReceipts();
@@ -60,7 +60,5 @@ export class LorryRecciptsComponent implements OnInit {
     console.log("images:", images);
     this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
-
-
   }
 }

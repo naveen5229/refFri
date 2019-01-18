@@ -53,18 +53,16 @@ export class VehicleKpisComponent implements OnInit {
       this.common.showToast('Vehicle location not available!');
       return;
     }
-    this.common.params = { kpi };
+    const location = {
+      lat: kpi.x_tlat,
+      lng: kpi.x_tlong,
+      name: '',
+      time: ''
+    };
+    console.log('Location: ', location);
+    this.common.params = { location ,title: 'Vehicle Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.componentInstance.modalHeader = 'location-marker';
-
-    // let modal = this.modalCtrl.create('KpiLocationPage', {
-    //   location: {
-    //     lat: kpi.x_tlat || 26.9124336,
-    //     lng: kpi.x_tlong || 75.78727090000007,
-    //     time: kpi.x_ttime || new Date()
-    //   }
-    // });
-    // modal.present();
+    // activeModal.componentInstance.modalHeader = 'Vehicle Location';
   }
 
   findVehicle() {
@@ -84,15 +82,14 @@ export class VehicleKpisComponent implements OnInit {
         this.filters.push(kpi.showprim_status);
       }
     });
-
-
   }
+
   showDetails(kpi) {
     this.common.params = { kpi };
     const activeModal = this.modalService.open(KpisDetailsComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'kpisDetails';
-
   }
+
   getLR(kpi) {
     this.common.loading++;
     this.api.post('FoDetails/getLorryDetails', { x_lr_id: kpi.x_lr_id })

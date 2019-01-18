@@ -1,9 +1,21 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Location Marker</h4>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <h1>hii</h1>
+  <div class="map-container">
+    <div class="input-container" *ngIf="location.time">
+      <p text-center><b>Location Time:</b> {{location.time | date : 'dd-MMM-yyyy hh:mm a'}}</p>
+    </div>
+    <div #map id="map"> </div>
+    <div class="zoom-container">
+      <span class="zoom-btn" (click)="setZoom(6)">1</span>
+      <span class="zoom-btn" (click)="setZoom(9)">2</span>
+      <span class="zoom-btn" (click)="setZoom(12)">3</span>
+      <span class="zoom-btn" (click)="setZoom(15)">4</span>
+      <span class="zoom-btn" (click)="setZoom(18)">5</span>
+    </div>
+  </div>
 </div>
