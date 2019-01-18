@@ -12,5 +12,24 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-home',
     link: '/pages/vehicle-kpis',
   },
-   
+  {
+    title: 'Tickets',
+    icon: 'nb-home',
+    link: '/pages/tickets',
+  },
+  {
+    title: 'Tickets All',
+    icon: 'nb-home',
+    link: '/pages/tickets-all',
+  },
+  {
+    title: 'Lorry Receipts',
+    icon: 'nb-home',
+    link: '/pages/lorry-receipts',
+  },
+  {
+    title: 'Expenses',
+    icon: 'nb-home',
+    link: '/pages/expenses',
+  },
 ];

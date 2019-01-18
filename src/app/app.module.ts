@@ -16,9 +16,16 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
+import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
+import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
+import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent],
+  entryComponents:[
+    KpisDetailsComponent,
+    LocationMarkerComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

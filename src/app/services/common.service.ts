@@ -10,9 +10,8 @@ import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, Nb
 })
 export class CommonService {
 
+  params = null;
   loading = 0;
-
-
 
   constructor(
     private toastrService: NbToastrService
