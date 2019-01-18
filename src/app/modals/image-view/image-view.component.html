@@ -12,7 +12,7 @@
     <div class="row text-center">
       <div class="col-4" *ngFor="let image of images;">
         <div class="card" (click)="activeImage = image">
-          <img [src]="image.image" class="image">
+          <img [src]="image.image || 'assets/images/default-image.jpg'" class="image">
           <span class="image-name">
             {{image.name}}</span>
         </div>

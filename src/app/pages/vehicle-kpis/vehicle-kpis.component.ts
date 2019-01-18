@@ -124,7 +124,7 @@ export class VehicleKpisComponent implements OnInit {
       }
     ];
     console.log("image", images)
-    this.common.params = { images, title: 'LR Deatils' };
+    this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
 
 
