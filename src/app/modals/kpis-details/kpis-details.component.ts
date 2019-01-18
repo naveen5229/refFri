@@ -8,18 +8,16 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./kpis-details.component.scss']
 })
 export class KpisDetailsComponent implements OnInit {
-
   kpi = null;
 
   constructor(public common: CommonService,
-    private activeModal: NgbActiveModal) { 
+    private activeModal: NgbActiveModal) {
     this.kpi = this.common.params.kpi;
   }
 
   ngOnInit() {
   }
-  closeModal(){
+  closeModal() {
     this.activeModal.close();
   }
-
 }

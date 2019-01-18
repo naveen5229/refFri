@@ -26,7 +26,6 @@ export class LocationMarkerComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private zone: NgZone) {
     this.title = this.common.params.title;
-   
   }
 
   ngOnInit() {
@@ -48,7 +47,6 @@ export class LocationMarkerComponent implements OnInit {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
     this.createMarker(lat, lng);
   }
 
@@ -71,5 +69,8 @@ export class LocationMarkerComponent implements OnInit {
     }
   }
 
+  closeModal() {
+    this.activeModal.close();
+  }
 }
 

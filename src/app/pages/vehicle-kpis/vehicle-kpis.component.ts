@@ -14,8 +14,6 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
   styleUrls: ['./vehicle-kpis.component.scss']
 })
 export class VehicleKpisComponent implements OnInit {
-
-
   kpis = [];
   allKpis = [];
   searchTxt = '';
@@ -47,7 +45,6 @@ export class VehicleKpisComponent implements OnInit {
       });
   }
 
-
   showLocation(kpi) {
     if (!kpi.x_tlat) {
       this.common.showToast('Vehicle location not available!');
@@ -60,9 +57,8 @@ export class VehicleKpisComponent implements OnInit {
       time: ''
     };
     console.log('Location: ', location);
-    this.common.params = { location ,title: 'Vehicle Location' };
+    this.common.params = { location, title: 'Vehicle Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
-    // activeModal.componentInstance.modalHeader = 'Vehicle Location';
   }
 
   findVehicle() {
@@ -95,9 +91,8 @@ export class VehicleKpisComponent implements OnInit {
     this.api.post('FoDetails/getLorryDetails', { x_lr_id: kpi.x_lr_id })
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
         this.showLR(res['data'][0]);
-        // this.showLR = res['data'];
+        console.log("data", res);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -123,10 +118,6 @@ export class VehicleKpisComponent implements OnInit {
     console.log("image", images)
     this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
-
-
   }
-
-
 }
 

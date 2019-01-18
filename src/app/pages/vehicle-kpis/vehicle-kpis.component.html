@@ -19,14 +19,14 @@
 
       </thead>
       <tbody>
-        <tr *ngFor="let kpi of kpis; let i = index;" >
+        <tr *ngFor="let kpi of kpis; let i = index;">
           <th scope="row">{{i + 1}}</th>
           <td (click)="showDetails(kpi)">{{kpi.x_showveh}}</td>
           <td (click)="showDetails(kpi)">{{kpi.showprim_status }} {{ kpi.showsec_status ? ',' +
             kpi.showsec_status : ''}}</td>
           <td (click)="showDetails(kpi)" [ngClass]="(kpi.x_hrssince >= 24) ? 'red' : ''">{{kpi.x_hrssince}}</td>
           <td (click)="showDetails(kpi)">
-              <i name="exit" class="fas fa-sign-out-alt"></i>
+            <i name="exit" class="fas fa-sign-out-alt"></i>
 
             <!-- Heading -->
             <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 0">
@@ -71,18 +71,17 @@
               <span class="route-arrow">-</span>
               <span>{{kpi.x_showtripend}}</span>
             </div>
-
-
           </td>
-          <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
 
-          <td (click)="showLocation(kpi)">{{kpi.city}}<span>See On Map</span></td>
+          <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
+          <td (click)="showLocation(kpi)">{{kpi.city}}
+            <span style="color:blue; font-size:18px; text-decoration: underline;"> See On Map</span>
+          </td>
           <td>
             <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
           </td>
         </tr>
       </tbody>
-
     </table>
   </nb-card-body>
 </nb-card>

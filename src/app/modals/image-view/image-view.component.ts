@@ -8,23 +8,19 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ImageViewComponent implements OnInit {
   title = '';
-  images=[];
+  images = [];
   activeImage = '';
 
   constructor(public common: CommonService,
-    private activeModal: NgbActiveModal) { 
+    private activeModal: NgbActiveModal) {
     this.images = this.common.params.images;
-    this.title= this.common.params.title;
-    this.activeImage= this.images[0];
+    this.title = this.common.params.title;
+    this.activeImage = this.images[0];
   }
   ngOnInit() {
   }
 
-  closeModal(){
+  closeModal() {
     this.activeModal.close();
   }
-
-
-
-
 }
