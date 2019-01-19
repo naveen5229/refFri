@@ -29,13 +29,13 @@ export class TicketsAllComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService:NgbModal,
-  ) {
+    private modalService: NgbModal) {
+    this.getAllOpenTickets();
+    this.getAllClaimTickets();
   }
 
   ngOnInit() {
-    this.getAllOpenTickets();
-    this.getAllClaimTickets();
+
   }
 
   refresh() {
@@ -43,7 +43,7 @@ export class TicketsAllComponent implements OnInit {
     this.getAllClaimTickets();
   }
 
- 
+
   getAllClaimTickets() {
     ++this.common.loading;
     let aduserid = this.user._details.id;
@@ -96,12 +96,12 @@ export class TicketsAllComponent implements OnInit {
         console.log(res);
         --this.common.loading;
         let trailList = res['data'];
-        let headers = ["#","Employee Name","Spent Time","Status"];
-        this.common.params = {trailList};
-        const activeModal= this.modalService.open(TicketTrailsComponent,{ size:'lg',container:'nb-layout'});
-        activeModal.componentInstance.modalHeader='Trails';
+        let headers = ["#", "Employee Name", "Spent Time", "Status"];
+        this.common.params = { trailList };
+        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = 'Trails';
       }, err => {
-        --this.common.loading;        
+        --this.common.loading;
         console.log(err);
         this.common.showError();
       });

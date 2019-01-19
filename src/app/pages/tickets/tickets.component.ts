@@ -26,22 +26,24 @@ export class TicketsComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     public user: UserService) {
-      this.status = localStorage.getItem('STATUS') ? parseInt(localStorage.getItem('STATUS')) : 0;
+    this.status = localStorage.getItem('STATUS') ? parseInt(localStorage.getItem('STATUS')) : 0;
     console.log('Status:', this.status);
     localStorage.removeItem('STATUS');
-     }
 
-  ngOnInit() {
     this.getNotifications();
     this.getClaimTickets();
 
     this.countDownFlag = true;
     setTimeout(this.countDown.bind(this), 30000);
   }
+
+  ngOnInit() {
+
+  }
+
   refresh() {
     this.getNotifications();
     this.getClaimTickets();
-
   }
 
   getNotifications() {
@@ -50,7 +52,7 @@ export class TicketsComponent implements OnInit {
     let aduserid = this.user._details.id;;
     this.api.get('FoTickets/getPendingTicketList?aduserid=' + aduserid, {})
       .subscribe(res => {
-    --this.common.loading;
+        --this.common.loading;
         console.log(res);
         this.notifications = res['data'];
         this.showMsg = true;
@@ -62,18 +64,18 @@ export class TicketsComponent implements OnInit {
           }
         });
       }, err => {
-    --this.common.loading;        
+        --this.common.loading;
         console.error(err);
       });
   }
 
   getClaimTickets() {
-    ++this.common.loading;    
+    ++this.common.loading;
     // loader.present();
     let aduserid = this.user._details.id;
     this.api.get('FoTickets/getClaimTickets?aduserid=' + aduserid, {})
       .subscribe(res => {
-    --this.common.loading;        
+        --this.common.loading;
         console.log(res);
         if (res['success']) {
           this.tickets = res['data'];
@@ -84,7 +86,7 @@ export class TicketsComponent implements OnInit {
           // console.log('keys', this.claimDrivers);
         }
       }, err => {
-        --this.common.loading; 
+        --this.common.loading;
         console.error(err);
       });
   }
@@ -114,11 +116,11 @@ export class TicketsComponent implements OnInit {
       aduserid: this.user._details.id
     };
     console.log('Params', params);
-    --this.common.loading; 
+    --this.common.loading;
     let aduserid = this.user._details.id;
     this.api.post('FoTickets/setClaimInfo', params)
       .subscribe(res => {
-        --this.common.loading; 
+        --this.common.loading;
         console.log(res);
 
         // if (moveToDetails) {
@@ -128,9 +130,9 @@ export class TicketsComponent implements OnInit {
         //   this.getClaimTickets();
         // }
         this.getNotifications();
-        this.getClaimTickets(); 
+        this.getClaimTickets();
       }, err => {
-        --this.common.loading; 
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });
@@ -146,21 +148,21 @@ export class TicketsComponent implements OnInit {
       msg: msg
     };
 
-    ++this.common.loading;     
+    ++this.common.loading;
     console.log('Params:', params);
     this.api.post('FoTickets/updateTicketStatus', params)
       .subscribe(res => {
         console.log(res);
-        --this.common.loading; 
+        --this.common.loading;
         this.getNotifications();
       }, err => {
         console.log(err);
-        --this.common.loading; 
+        --this.common.loading;
       });
 
   }
 
-  
+
 
   countDown() {
     if (!this.countDownFlag) return;
@@ -198,12 +200,12 @@ export class TicketsComponent implements OnInit {
         console.log(res);
         --this.common.loading;
         let trailList = res['data'];
-        let headers = ["#","Employee Name","Spent Time","Status"];
-        this.common.params = {trailList};
-        const activeModal= this.modalService.open(TicketTrailsComponent,{ size:'lg',container:'nb-layout'});
-        activeModal.componentInstance.modalHeader='Trails';
+        let headers = ["#", "Employee Name", "Spent Time", "Status"];
+        this.common.params = { trailList };
+        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = 'Trails';
       }, err => {
-        --this.common.loading;        
+        --this.common.loading;
         console.log(err);
         this.common.showError();
       });
