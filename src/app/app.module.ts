@@ -20,14 +20,19 @@ import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.compone
 import { LocationMarkerComponent } from './modals/location-marker/location-marker.component';
 import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
 import { ImageViewComponent } from './modals/image-view/image-view.component';
+import { TicketForwardComponent } from './modals/ticket-forward/ticket-forward.component';
+import { RemarkModalComponent } from './modals/remark-modal/remark-modal.component';
+
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent, ImageViewComponent],
+  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent, ImageViewComponent, TicketForwardComponent, RemarkModalComponent],
   entryComponents:[
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
-    TicketTrailsComponent
+    TicketTrailsComponent,
+    TicketForwardComponent,
+    RemarkModalComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { TicketForwardComponent } from '../../modals/ticket-forward/ticket-forward.component';
+import { RemarkModalComponent} from '../../modals/remark-modal/remark-modal.component';
+import { from } from 'rxjs';
 
 
 @Component({
@@ -118,6 +121,16 @@ export class VehicleKpisComponent implements OnInit {
     console.log("image", images)
     this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  forwardticket(){
+    this.common.params = { title: 'Forward Ticket' };
+    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'lg', container: 'nb-layout' });
+  }
+  remark()
+  {
+    this.common.params = { title: 'Remarks ' };
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout' });
   }
 }
 
