@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { UserService } from '../../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 @Component({
   selector: 'expenses',
@@ -15,9 +18,10 @@ export class ExpensesComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-  ) {
-    
-   }
+    public user: UserService,
+    private modalService: NgbModal) {
+
+  }
 
   ngOnInit() {
     this.getExpenditure();
@@ -27,27 +31,32 @@ export class ExpensesComponent implements OnInit {
     ++this.common.loading;
     this.api.post('FoDetails/getExpenditureSheet', { type: this.viewType })
       .subscribe(res => {
-      --this.common.loading;
+        --this.common.loading;
         console.log('Res:', res);
         this.expenses = res['data'];
       }, err => {
-      --this.common.loading;
+        --this.common.loading;
 
         console.log('Err:', err);
       });
   }
-  getImage(expense){
+  getImage(expense) {
     console.log(expense);
-  let images =[{
-    name: "Sheet-1",
-    image : expense.exp_sheet1
-  },
-  {
-    name: "Sheet-2",
-    image : expense.exp_sheet2
+    let images = [{
+      name: "Sheet-1",
+      image: expense.exp_sheet1
+    },
+    {
+      name: "Sheet-2",
+      image: expense.exp_sheet2
+    }
+    ];
+    console.log("images:", images);
+    this.common.params = { images, title: 'LR Details' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+
+
   }
- ];
-  console.log("images:",images);
+
 }
-  }
 
