@@ -8,6 +8,9 @@ import { TicketsAllComponent } from './tickets-all/tickets-all.component';
 import { LorryRecciptsComponent } from './lorry-receipts/lorry-reccipts.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
+import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
+import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
+import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 
 const routes: Routes = [{
   path: '',
@@ -46,6 +49,14 @@ const routes: Routes = [{
       path:'concise',
       component: ConciseComponent,
     },
+    {
+      path: 'ticket-site-details',
+      component: TicketSiteDetailsComponent
+    },
+    {
+      path: 'ticket-details',
+      component: TicketDetailsComponent
+    }
   ],
 }];
 
