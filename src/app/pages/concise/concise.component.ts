@@ -31,6 +31,8 @@ export class ConciseComponent implements OnInit {
 
   statusGroup = null;
   groupList = [];
+  color = [];
+  textColor = [];
 
   constructor(
     public api: ApiService,
@@ -65,28 +67,32 @@ export class ConciseComponent implements OnInit {
 
   grouping(viewType) {
     console.log('All ', this.allKpis);
-    this.kpis =  this.allKpis;
+    this.kpis = this.allKpis;
     this.statusGroup = _.groupBy(this.allKpis, viewType);
     this.groupList = Object.keys(this.statusGroup);
     let label = [];
     let data = [];
-    let color = [];
     let clr;
+    let tclr;
+
     console.log(this.statusGroup);
     for (var k in this.statusGroup) {
       if (typeof this.statusGroup[k] !== 'function') {
         let k1 = k + " : " + this.statusGroup[k].length
         label.push(k1);
         data.push(this.statusGroup[k].length);
-        clr = `rgba(
-                    ${Math.floor((Math.random() * 255) + 1)},
-                    ${Math.floor((Math.random() * 255) + 1)},
-                    ${Math.floor((Math.random() * 255) + 1)},1)`
-        color.push(clr);
+        let hue = Math.floor((Math.random() * 359) + 1);
+        let saturation = '100%';
+        let textLightness = '25%';
+        let lightness = '75%';
+        clr = `hsl(${hue}, ${saturation}, ${lightness})`
+        this.color.push(clr);
+        tclr = `hsl(${hue}, ${saturation}, ${textLightness})`
+        this.textColor.push(tclr);
       }
     }
 
-    this.pieChart(label, data, color);
+    this.pieChart(label, data, this.color);
   }
 
 
@@ -142,7 +148,7 @@ export class ConciseComponent implements OnInit {
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
       this.data = {
-        labels: label,
+        //labels: label,
         datasets: [{
           data: data,
           backgroundColor: color
@@ -171,6 +177,17 @@ export class ConciseComponent implements OnInit {
         },
       };
     });
+
+    setTimeout(() => {
+    console.log(document.getElementsByTagName('canvas')[0]);
+
+      document.getElementsByTagName('canvas')[0].style.width = "200px";
+      document.getElementsByTagName('canvas')[0].style.height = "500px";
+//document.getElementsByTagName('canvas')[0].style = "40px";
+
+    }, 500);
+   
+
   }
 
   ngOnDestroy(): void {

@@ -5,8 +5,8 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-4">
-        <div class="form-group" class="col-sm-6">
+      <div class="col-sm-3">
+        <div class="form-group" class="col-sm-9">
           <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
             <option value="showprim_status">Primary Status</option>
             <option value="showsec_status">Secondary Status</option>
@@ -14,11 +14,12 @@
             <option value="x_showtripend">Trip End</option>
           </select>
         </div>
-        <chart type="pie" [data]="data" [options]="options"></chart>
-
+        <div>
+          <chart type="pie" [data]="data" [options]="options" id="chart"></chart>
+        </div>
         <nb-card *ngFor="let group of groupList; let i = index;">
-          <nb-card-body (click)="filterData(group)">
-            <div class="row">
+          <nb-card-body (click)="filterData(group)" [ngStyle]="{'background-color':color[i]}">
+            <div class="row" [ngStyle]="{'color':textColor[i]}">
               <div class="col-sm-9">
                 {{group | titlecase}}
               </div>
@@ -31,7 +32,7 @@
         </nb-card>
 
       </div>
-      <div class="col-sm-8">
+      <div class="col-sm-9">
         <table class="table table-bordered table-hover">
           <thead class="thead-dark">
             <tr>
