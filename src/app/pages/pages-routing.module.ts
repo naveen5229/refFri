@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
@@ -18,7 +17,7 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
-      path:'vehicle-kpis',
+      path: 'vehicle-kpis',
       component: VehicleKpisComponent,
     },
     {
@@ -27,19 +26,19 @@ const routes: Routes = [{
       pathMatch: 'full',
     },
     {
-      path:'tickets',
+      path: 'tickets',
       component: TicketsComponent,
     },
     {
-      path:'tickets-all',
+      path: 'tickets-all',
       component: TicketsAllComponent,
     },
     {
-      path:'lorry-receipts',
+      path: 'lorry-receipts',
       component: LorryRecciptsComponent,
     },
     {
-      path:'expenses',
+      path: 'expenses',
       component: ExpensesComponent,
     },
   ],
