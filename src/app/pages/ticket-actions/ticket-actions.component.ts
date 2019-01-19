@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BuyTimeComponent } from '../../modals/buy-time/buy-time.component';
+import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
 
 @Component({
   selector: 'ticket-actions',
@@ -54,23 +55,26 @@ export class TicketActionsComponent implements OnInit {
   }
 
   getTrailList() {
-    // let loader = this.common.createLoader();
-    // loader.present();
-    // this.api.get('FoTickets/getTrailLists?ticket_id=' + this.notification.ticket_id)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //     loader.dismiss();
-    //     this.showTrailList(res['data'], 'trailList');
-    //   }, err => {
-    //     loader.dismiss();
-    //     console.log(err);
-    //     this.common.showError();
-    //   });
+    this.common.loading++;
+    this.api.get('FoTickets/getTrailLists?ticket_id=' + this.notification.ticket_id)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        let data = [];
+        res['data'].map((trail, index) => {
+          data.push([index, trail.employeename, trail.spent_time, trail.status]);
+        });
+        this.showList('Trail List', ["#", "Employee Name", "Spent Time", "Status"], data);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+        this.common.showError();
+      });
   }
 
-  showTrailList(data, type) {
-    // let modal = this.modalCtrl.create('TrailListPage', { data: data, type: type });
-    // modal.present();
+  showList(title, headings, data) {
+    this.common.params = { title, headings, data };
+    this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
   }
 
   getComments() {
