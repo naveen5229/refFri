@@ -13,7 +13,8 @@ export class TicketTrailsComponent implements OnInit {
 
   constructor(public common: CommonService,
     private activeModal: NgbActiveModal) { 
-    this.trails = this.common.params.trails;
+    this.trails = this.common.params.trailList;
+    console.log("trails:",this.common.params.trailList);
   }
 
   ngOnInit() {
