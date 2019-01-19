@@ -19,8 +19,8 @@
             <th>Vehicle No</th>
             <th>Status Name</th>
             <th *ngIf="viewType == 'allLR'">Name</th>
-            <th>view</th>
             <th>Add Time</th>
+            <th>view</th>
 
           </tr>
         </thead>
@@ -29,9 +29,12 @@
             <th scope="row">{{i + 1}}</th>
             <td>{{receipt.regno}}</td>
             <td>{{receipt.statusName}}</td>
-            <td *ngIf="viewType == 'allLR'">{{receipt.name}}</td>
-            <td><span style="text-decoration:underline; color: blue;cursor: pointer;" (click)="getImage(receipt)">view</span></td>
+            <td *ngIf="viewType == 'allLR'">{{receipt.name}}</td>           
             <td>{{receipt.addtime | date : 'dd MMM HH:mm'}}</td>
+            <td>
+                <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:18px;" (click)="getImage(receipt)">
+                  view</span>
+            </td>
           </tr>
       </table>
 
