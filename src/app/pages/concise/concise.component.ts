@@ -7,6 +7,7 @@ import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.com
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { from } from 'rxjs';
 import { NbThemeService } from '@nebular/theme';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -25,6 +26,7 @@ export class ConciseComponent implements OnInit {
   searchTxt = '';
   filters = [];
   viewType = 'showprim_status';
+  viewName = "Primary Status";
   data: any;
   options: any;
   themeSubscription: any;
@@ -33,6 +35,25 @@ export class ConciseComponent implements OnInit {
   groupList = [];
   color = [];
   textColor = [];
+  viewIndex = 0;
+  viewOtions = [
+    {
+      name : "Primary Status" ,
+      key : "showprim_status"
+    },
+    {
+      name : "Secondry Status" ,
+      key : "showsec_status"
+    },
+    {
+      name : "Trip Start" ,
+      key : "x_showtripstart"
+    },
+    {
+      name : "Trip End" ,
+      key : "x_showtripend"
+    },
+  ]
 
   constructor(
     public api: ApiService,
@@ -101,18 +122,15 @@ export class ConciseComponent implements OnInit {
       this.common.showToast('Vehicle location not available!');
       return;
     }
-    this.common.params = { kpi };
+    const location = {
+      lat: kpi.x_tlat,
+      lng: kpi.x_tlong,
+      name: '',
+      time: ''
+    };
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Vehicle Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.componentInstance.modalHeader = 'location-marker';
-
-    // let modal = this.modalCtrl.create('KpiLocationPage', {
-    //   location: {
-    //     lat: kpi.x_tlat || 26.9124336,
-    //     lng: kpi.x_tlong || 75.78727090000007,
-    //     time: kpi.x_ttime || new Date()
-    //   }
-    // });
-    // modal.present();
   }
 
   findVehicle() {
@@ -148,7 +166,7 @@ export class ConciseComponent implements OnInit {
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
       this.data = {
-        //labels: label,
+       // labels: label,
         datasets: [{
           data: data,
           backgroundColor: color
@@ -181,13 +199,11 @@ export class ConciseComponent implements OnInit {
     setTimeout(() => {
     console.log(document.getElementsByTagName('canvas')[0]);
 
-      document.getElementsByTagName('canvas')[0].style.width = "200px";
-      document.getElementsByTagName('canvas')[0].style.height = "500px";
+      document.getElementsByTagName('canvas')[0].style.width = "100px";
+      document.getElementsByTagName('canvas')[0].style.height = "220px";
 //document.getElementsByTagName('canvas')[0].style = "40px";
 
-    }, 500);
-   
-
+    }, 10);
   }
 
   ngOnDestroy(): void {
@@ -201,6 +217,60 @@ export class ConciseComponent implements OnInit {
       return false;
     });
   }
+
+  getLR(kpi) {
+    this.common.loading++;
+    this.api.post('FoDetails/getLorryDetails', { x_lr_id: kpi.x_lr_id })
+      .subscribe(res => {
+        this.common.loading--;
+        this.showLR(res['data'][0]);
+        console.log("data", res);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  showLR(data) {
+    let images = [
+      {
+        name: 'Lr',
+        image: data.lr_image
+      },
+      {
+        name: 'Invoice',
+        image: data.invoice_image
+      },
+      {
+        name: 'Other_Image',
+        image: data.other_image
+      }
+    ];
+    console.log("image", images)
+    this.common.params = { images, title: 'LR Details' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  changeOptions(type){
+    console.log("type",type);
+    console.log("viewindex",this.viewIndex);
+    if(type==="forward"){
+      ++this.viewIndex;
+      if(this.viewIndex>this.viewOtions.length-1){
+        this.viewIndex = 0;
+      }
+    }else{
+      --this.viewIndex;
+      if(this.viewIndex<0){
+        this.viewIndex = this.viewOtions.length-1;
+      }
+    }
+    this.viewType = this.viewOtions[this.viewIndex].key;
+    this.viewName = this.viewOtions[this.viewIndex].name;
+    this.grouping(this.viewType);
+  }
+  
 }
 
 

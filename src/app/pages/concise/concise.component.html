@@ -1,20 +1,32 @@
 <nb-card>
   <nb-card-header>
     <h2>Concise View</h2>
+    <hr>
   </nb-card-header>
 
   <nb-card-body>
-    <div class="row">
+    <div class="row" style="margin-top:-15px">
       <div class="col-sm-3">
-        <div class="form-group" class="col-sm-9">
-          <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
+        <!-- <div class="form-group" class="col-sm-9">
+         <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
             <option value="showprim_status">Primary Status</option>
             <option value="showsec_status">Secondary Status</option>
             <option value="x_showtripstart">Trip Start</option>
             <option value="x_showtripend">Trip End</option>
           </select>
+        </div> -->
+        <div style="font-size:25px;text-align: center " class="row">
+          <div class="col-sm-2">
+            <span (click)="changeOptions('reverse')"> <i class="icon ion-ios-rewind"></i></span>
+          </div>
+          <div class="col-sm-8">
+            <span>{{viewName}}</span>
+          </div>
+          <div class="col-sm-2">
+          <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
         </div>
-        <div>
+        </div>
+        <div style="height: 230px;margin-top:0px">
           <chart type="pie" [data]="data" [options]="options" id="chart"></chart>
         </div>
         <nb-card *ngFor="let group of groupList; let i = index;">
@@ -43,6 +55,7 @@
               <th>Trip </th>
               <th>Kmp </th>
               <th>Location</th>
+              <th>View LR</th>
             </tr>
 
           </thead>
@@ -90,7 +103,7 @@
                   <span>{{kpi.x_showtripstart}}</span>
                   <i class="route-arrow" name="ios-arrow-round-forward"></i>
                   <span>{{kpi.x_showtripend}}</span>
-                  <i class="complete" name="checkmark-circle-outline"></i>
+                  <!-- <i class="complete" name="checkmark-circle-outline"></i> -->
                 </div>
 
                 <!-- Ambigous -->
@@ -103,8 +116,12 @@
 
               </td>
               <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
-
-              <td (click)="showLocation(kpi)">{{kpi.city}}<span>See On Map</span></td>
+              <td (click)="showLocation(kpi)">{{kpi.city}}
+                <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i>
+              </td>
+              <td>
+                <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
+              </td>
             </tr>
           </tbody>
 
