@@ -27,6 +27,7 @@ import { ImageViewComponent } from './modals/image-view/image-view.component';
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent
+    TicketTrailsComponent
   ],
   imports: [
     BrowserModule,

@@ -38,16 +38,12 @@ export class TicketsAllComponent implements OnInit {
     this.getAllClaimTickets();
   }
 
-
- 
   refresh() {
     this.getAllOpenTickets();
     this.getAllClaimTickets();
   }
 
  
-
-
   getAllClaimTickets() {
     ++this.common.loading;
     let aduserid = this.user._details.id;
@@ -57,7 +53,7 @@ export class TicketsAllComponent implements OnInit {
         console.log(res);
         this.allClaimTickets = res['data'];
         this.allClaimTicketGroups = _.groupBy(res['data'], 'regno');
-        console.log('Groups', this.allClaimTicketGroups);
+        console.log('allClaimTicketGroups', this.allClaimTicketGroups);
         this.allClaimDrivers = Object.keys(this.allClaimTicketGroups);
         console.log('keys', this.allClaimDrivers);
 
@@ -76,7 +72,7 @@ export class TicketsAllComponent implements OnInit {
         console.log(res);
         this.allOpenTickets = res['data'];
         this.allOpenTicketGroups = _.groupBy(res['data'], 'regno');
-        console.log('Groups', this.allOpenTicketGroups);
+        console.log('allOpenTicketGroups', this.allOpenTicketGroups);
         this.allOpenDrivers = Object.keys(this.allOpenTicketGroups);
         console.log('keys', this.allOpenDrivers);
         this.showMsg = true;
@@ -100,6 +96,7 @@ export class TicketsAllComponent implements OnInit {
         console.log(res);
         --this.common.loading;
         let trailList = res['data'];
+        let headers = ["#","Employee Name","Spent Time","Status"];
         this.common.params = {trailList};
         const activeModal= this.modalService.open(TicketTrailsComponent,{ size:'lg',container:'nb-layout'});
         activeModal.componentInstance.modalHeader='Trails';

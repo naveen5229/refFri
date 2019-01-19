@@ -37,4 +37,28 @@ export class CommonService {
       title || 'Alert',
       config);
   }
+  
+  findRemainingTime(time) {
+    if (time > 59) {
+      let minutes = Math.floor((time / 60));
+      return minutes + ' mins'
+    } else if (time > 44) {
+      return '45 secs'
+    } else if (time > 29) {
+      return '30 secs'
+    } else if (time > 14) {
+      return '15 secs'
+    } else {
+      return '0 sec'
+    }
+ 
+    // if (time < 60) {
+    //   return time + ' seconds';
+    // } else {
+    //   let minutes = Math.floor((time / 60));
+    //   let seconds = time % 60;
+    //   return minutes + ' minutes ' + seconds + ' seconds';
+    // }
+  }
+ 
 }
