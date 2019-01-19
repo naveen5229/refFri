@@ -94,4 +94,34 @@ export class CommonService {
     this.router.navigate([page.page]);
   }
 
+  dateFormatter(date, type = 'YYYYMMDD') {
+    let d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() < 9 ? '0' + d.getDate() : d.getDate();
+
+    console.log(dat + '/' + month + '/' + year);
+    if (type == 'ddMMYYYY') {
+      return (dat + '/' + month + '/' + year) + ' ' + this.timeFormatter(date);
+    } else {
+      return (year + '/' + month + '/' + dat) + ' ' + this.timeFormatter(date);
+    }
+  }
+
+  timeFormatter(date) {
+    let d = new Date(date);
+    let hours = d.getHours() < 9 ? '0' + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() < 9 ? '0' + d.getMinutes() : d.getMinutes();
+    return (hours + ':' + minutes + ':00');
+  }
+
+  getDate(days = 0, formatt?) {
+    let currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + days);
+    if (formatt) {
+      return this.dateFormatter(currentDate, formatt);
+    }
+    return currentDate;
+  }
+
 }

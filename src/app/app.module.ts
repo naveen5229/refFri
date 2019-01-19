@@ -21,15 +21,17 @@ import { LocationMarkerComponent } from './modals/location-marker/location-marke
 import { TicketTrailsComponent } from './modals/ticket-trails/ticket-trails.component';
 import { ImageViewComponent } from './modals/image-view/image-view.component';
 import { BuyTimeComponent } from './modals/buy-time/buy-time.component';
+import { ReminderComponent } from './modals/reminder/reminder.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent, ImageViewComponent, BuyTimeComponent],
+  declarations: [AppComponent, LoginComponent, KpisDetailsComponent, LocationMarkerComponent, TicketTrailsComponent, ImageViewComponent, BuyTimeComponent, ReminderComponent],
   entryComponents:[
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
     TicketTrailsComponent,
-    BuyTimeComponent
+    BuyTimeComponent,
+    ReminderComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BuyTimeComponent } from '../../modals/buy-time/buy-time.component';
 import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
+import { ReminderComponent } from '../../modals/reminder/reminder.component';
 
 @Component({
   selector: 'ticket-actions',
@@ -78,18 +79,26 @@ export class TicketActionsComponent implements OnInit {
   }
 
   getComments() {
-    // let loader = this.common.createLoader();
-    // loader.present();
-    // this.api.get('FoTickets/getTicketComments?ticket_id=' + this.notification.ticket_id)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //     loader.dismiss();
-    //     this.showTrailList(res['data'], 'comments');
-    //   }, err => {
-    //     loader.dismiss();
-    //     console.log(err);
-    //     this.common.showError();
-    //   });
+    this.common.loading++;
+    this.api.get('FoTickets/getTicketComments?ticket_id=' + this.notification.ticket_id)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+
+        if (!res['data'].length) {
+          this.common.showToast("No Comment Found!");
+          return;
+        }
+        let data = [];
+        res['data'].map((comment, index) => {
+          data.push([index, comment.employeename, comment.status, comment.comment, comment.addtime]);
+        });
+        this.showList('Trail List', ["#", "Name", "Status", "Comment", "Time"], data);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+        this.common.showError();
+      });
   }
 
   getRemark(status) {
@@ -202,13 +211,8 @@ export class TicketActionsComponent implements OnInit {
   }
 
   setReminder() {
-    // let modal = this.modalCtrl.create('ReminderPage', { fo_ticket_allocation_id: this.notification.fo_ticket_allocation_id });
-    // modal.onDidDismiss(data => {
-    //   if (data.response) {
-    //     this.navCtrl.pop();
-    //   }
-    // });
-    // modal.present();
+    this.common.params = { fo_ticket_allocation_id: this.notification.fo_ticket_allocation_id };
+    this.modalService.open(ReminderComponent, { size: 'lg', container: 'nb-layout' });
   }
 
 
