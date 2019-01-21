@@ -66,23 +66,23 @@ export class TicketForwardComponent implements OnInit {
     }
 
     this.common.loading++;
-    console.log("type",this.common.params.type);
+    console.log("type", this.common.params.type);
     if (this.common.params.type === 'multiple') {
       this.handleMultipleForward();
       return;
     }
-    console.log("hello");
-   this.sendForwardRequest(this.common.params.ticketId, this.common.params.fo_ticket_allocation_id, this.common.params.msg, true);
+    // console.log("hello");
+    this.sendForwardRequest(this.common.params.ticketId, this.common.params.fo_ticket_allocation_id, this.common.params.msg, true);
     this.common.loading--;
   }
 
   handleMultipleForward() {
     console.log("hiiiii");
-    console.log("user : ",this.forward.user.id);
-    // let tickets = this.common.params.tickets;
-    // tickets.map((ticket, index) => {
-    //   this.sendForwardRequest(ticket.ticketId, ticket.fo_ticket_allocation_id, ticket.msg, index == tickets.length - 1 ? true : false);
-    // });
+    console.log("user : ", this.forward.user.id);
+    let tickets = this.common.params.tickets;
+    tickets.map((ticket, index) => {
+      this.sendForwardRequest(ticket.ticketId, ticket.fo_ticket_allocation_id, ticket.msg, index == tickets.length - 1 ? true : false);
+    });
   }
 
 

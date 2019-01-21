@@ -7,7 +7,7 @@ import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.com
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { TicketForwardComponent } from '../../modals/ticket-forward/ticket-forward.component';
-import { RemarkModalComponent} from '../../modals/remark-modal/remark-modal.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 
 
@@ -123,14 +123,20 @@ export class VehicleKpisComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  forwardticket(){
+  forwardticket() {
     this.common.params = { title: 'Forward Ticket' };
     const activeModal = this.modalService.open(TicketForwardComponent, { size: 'lg', container: 'nb-layout' });
   }
-  remark()
-  {
+
+  remark() {
+    console.log('Test');
     this.common.params = { title: 'Remarks ' };
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    console.log('Test');
+    activeModal.result.then(data => {
+      console.log('Data: ', data);
+    });
+
   }
 }
 

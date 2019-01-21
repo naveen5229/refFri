@@ -1,3 +1,26 @@
-<p>
-  remark-modal works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <label>{{label}}</label>
+    </div>
+    <div class="row">
+      <textarea name="remark" class="form-control" [(ngModel)]="remark" [placeholder]="placeholder" style="margin-left:12px;height:90px;"></textarea>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-default" (click)="closeModal(false)">{{btn2}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" (click)="closeModal(true)">{{btn1}}</button>
+    </div>
+  </div>
+</div>

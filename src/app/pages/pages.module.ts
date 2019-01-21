@@ -14,6 +14,8 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { ChartModule } from 'angular2-chartjs';
+import{ RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
+  import { from } from 'rxjs';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -37,8 +39,7 @@ const PAGES_COMPONENTS = [
     TicketsAllComponent,
     LorryRecciptsComponent,
     ExpensesComponent,
-    ConciseComponent,
-
+    ConciseComponent
   ],
 })
 export class PagesModule {
