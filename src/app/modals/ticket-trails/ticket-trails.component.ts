@@ -9,17 +9,20 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./ticket-trails.component.scss']
 })
 export class TicketTrailsComponent implements OnInit {
-  trails = null;
+  title = '';
+  headings = [];
+  datas = [];
 
   constructor(public common: CommonService,
-    private activeModal: NgbActiveModal) { 
-    this.trails = this.common.params.trailList;
-    console.log("trails:",this.common.params.trailList);
+    private activeModal: NgbActiveModal) {
+    this.title = this.common.params.title;
+    this.headings = this.common.params.headings;
+    this.datas = this.common.params.data;
   }
 
   ngOnInit() {
   }
-  closeModal(){
+  closeModal() {
     this.activeModal.close();
   }
 }
