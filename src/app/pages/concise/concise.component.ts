@@ -189,7 +189,7 @@ export class ConciseComponent implements OnInit {
           ],
         },
         legend: false,
-      };
+       };
     });
 
     setTimeout(() => {
