@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BuyTimeComponent } from '../../modals/buy-time/buy-time.component';
 import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.component';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 
 @Component({
   selector: 'ticket-actions',
@@ -159,34 +160,18 @@ export class TicketActionsComponent implements OnInit {
 
 
   commentPrompt() {
-    // const prompt = this.alertCtrl.create({
-    //   title: 'Comment',
-    //   inputs: [
-    //     {
-    //       name: 'comment',
-    //       placeholder: 'Enter comment'
-    //     },
-    //   ],
-    //   buttons: [
-    //     {
-    //       text: 'Cancel',
-    //       handler: data => {
-    //         console.log('Cancel clicked');
-    //       }
-    //     },
-    //     {
-    //       text: 'Save',
-    //       handler: data => {
-    //         if (!data.comment) {
-    //           this.common.showToast('Comment is mandatory');
-    //           return;
-    //         }
-    //         this.addComment(data.comment);
-    //       }
-    //     }
-    //   ]
-    // });
-    // prompt.present();
+
+    console.log('Test');
+    this.common.params = { title: 'Remarks ' };
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    console.log('Test');
+    activeModal.result.then(data => {
+      console.log('Data: ', data);
+      if (data.response) {
+        this.addComment(data.remark)
+      }
+    });
+
   }
 
   addComment(comment) {
