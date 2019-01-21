@@ -9,6 +9,7 @@ import { LorryRecciptsComponent } from './lorry-receipts/lorry-reccipts.componen
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
