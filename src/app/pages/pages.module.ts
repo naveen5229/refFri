@@ -14,15 +14,18 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ConciseComponent } from './concise/concise.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { ChartModule } from 'angular2-chartjs';
-import{ RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
-  import { from } from 'rxjs';
+import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
+import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
+import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
+import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
+import { from } from 'rxjs';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
 
 @NgModule({
- 
+
   imports: [
     PagesRoutingModule,
     ThemeModule,
@@ -39,6 +42,10 @@ const PAGES_COMPONENTS = [
     TicketsAllComponent,
     LorryRecciptsComponent,
     ExpensesComponent,
+    ConciseComponent,
+    TicketDetailsComponent,
+    TicketSiteDetailsComponent,
+    TicketActionsComponent,
     ConciseComponent
   ],
 })
