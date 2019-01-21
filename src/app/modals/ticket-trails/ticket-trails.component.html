@@ -1,29 +1,19 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Ticket Trail Details</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <table class="table table-bordered table-hover">
-  
-      <tbody>
-        <tr>
-          <th>#</th>
-          <th>Employye Name</th>
-          <th>Spent Time</th>
-          <th>Status</th>
-        </tr>
-        <tr *ngFor="let trail of trails; let i = index;">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{trail.employeename}}</td>
-            <td>{{trail.spent_time}}</td>
-            <td>{{trail.status}}</td>
-        </tr>
-      </tbody>
-  
-    </table>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-  </div>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table table-bordered table-hover">
+    <tbody>
+      <tr>
+        <th *ngFor="let heading of headings">{{heading}}</th>
+      </tr>
+      <tr *ngFor="let data of datas;">
+        <td *ngFor="let info of data">{{info}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

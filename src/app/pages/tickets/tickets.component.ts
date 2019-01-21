@@ -92,43 +92,26 @@ export class TicketsComponent implements OnInit {
   }
 
 
-  claimTicket(driver) {
-    let tickets = this.claimTicketGroups[driver];
+  claimTicket(ticket) {
     let msg = 'Are you sure to claim this ticket?';
-    if (tickets.length > 1) {
-      msg = 'Are you sure to claim these tickets?';
-    }
+
     if (confirm(msg)) {
-      if (tickets.length == 1) {
-        this.sendClaimRequest(tickets[0], true);
-        return;
-      }
-      tickets.map((ticket, index) => {
-        this.sendClaimRequest(ticket, false, index == tickets.length - 1 ? true : false);
-      });
+      this.sendClaimRequest(ticket);
     }
   }
 
-  sendClaimRequest(ticket, moveToDetails?, getLatestData?) {
+  sendClaimRequest(ticket) {
     let params = {
       ticket_id: ticket.ticket_id,
       msg: ticket.msg,
       aduserid: this.user._details.id
     };
     console.log('Params', params);
-    --this.common.loading;
-    let aduserid = this.user._details.id;
+    this.common.loading++;
     this.api.post('FoTickets/setClaimInfo', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-
-        // if (moveToDetails) {
-        //   this.showDetails(ticket);
-        // } else if (getLatestData) {
-        //   this.getNotifications();
-        //   this.getClaimTickets();
-        // }
         this.getNotifications();
         this.getClaimTickets();
       }, err => {
@@ -153,10 +136,12 @@ export class TicketsComponent implements OnInit {
     this.api.post('FoTickets/updateTicketStatus', params)
       .subscribe(res => {
         console.log(res);
+        this.common.showToast(res['msg']);
         --this.common.loading;
         this.getNotifications();
       }, err => {
         console.log(err);
+        this.common.showError();
         --this.common.loading;
       });
 
@@ -201,7 +186,7 @@ export class TicketsComponent implements OnInit {
         --this.common.loading;
         let trailList = res['data'];
         let headers = ["#", "Employee Name", "Spent Time", "Status"];
-        this.common.params = { trailList };
+        this.common.params = { trailList, headers };
         const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
         activeModal.componentInstance.modalHeader = 'Trails';
       }, err => {
@@ -209,6 +194,10 @@ export class TicketsComponent implements OnInit {
         console.log(err);
         this.common.showError();
       });
+  }
+
+  showDetails(notification) {
+    this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
   }
 
 
