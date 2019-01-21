@@ -95,11 +95,15 @@ export class TicketsAllComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         --this.common.loading;
-        let trailList = res['data'];
-        let headers = ["#", "Employee Name", "Spent Time", "Status"];
-        this.common.params = { trailList };
-        const activeModal = this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
-        activeModal.componentInstance.modalHeader = 'Trails';
+        
+        let data = [];
+        res['data'].map((trail, index) => {
+          data.push([index, trail.employeename, trail.spent_time, trail.status]);
+        });
+
+        this.common.params = { title: 'Trail List', headings: ["#", "Employee Name", "Spent Time", "Status"], data };
+        this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+
       }, err => {
         --this.common.loading;
         console.log(err);

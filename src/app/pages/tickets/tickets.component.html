@@ -1,104 +1,88 @@
 <nb-card>
-  <nb-card-header>
-     <h2>Tickets</h2> 
-  </nb-card-header>
+    <nb-card-header>
+        <h2>Tickets</h2>
+    </nb-card-header>
 
-  <nb-card-body>
-      <nb-tabset>
-          <nb-tab tabTitle="New">
-                <div class="msg-container" *ngIf="status == 0 && !newTickets.length && showMsg ">
-                        <div class="msg">No new ticket found!<br>
-                          <span>Its Looking Good :)</span>
-                        </div>
-                </div>
-              <div *ngIf="status == 0">
-                  <table class="table table-bordered table-hover">
-                      <thead class="thead-dark">
-                          <tr>
-                              <th>#</th>
-                              <th>Vehicle No</th>
-                              <th>Ticket Id</th>
-                              <th>Message</th>
-                              <th>Remaining Time</th>
-                              <th>Trails</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      <tr *ngFor="let ticket of allOpenDrivers; let i = index">
-                          <th scope="row">{{i + 1}}</th>
-                          <td>{{ticket.ticket_id}}</td>
-                          <td>{{ticket.regno}}</td>
-                          <td>{{ticket.msg}}</td>
-                          <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
-                          <td (click)="showTrailList(ticket)">show</td>
-                      </tr>
-                  </table>
+    <nb-card-body>
+        <nb-tabset>
+            <nb-tab tabTitle="New">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle No</th>
+                            <th>Driver</th>
+                            <th>Message</th>
+                            <th>Remaining Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of newTickets; let i = index">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{ticket.regno}}</td>
+                            <td>{{ticket.empname}}</td>
+                            <td>{{ticket.msg}}</td>
+                            <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                            <td>
+                                <span class="text-primary accept" (click)="updateNotificationStatus(ticket.ticket_id, 2, ticket.msg, ticket.fo_ticket_allocation_id)">Accept</span>
+            
+                                <span class="text-danger deny" (click)="updateNotificationStatus(ticket.ticket_id, -2, ticket.msg, ticket.fo_ticket_allocation_id)">Deny</span>
+                            </td>
+                        </tr>
+                </table>
 
-              </div>
-          </nb-tab>
+            </nb-tab>
 
-          <nb-tab tabTitle="Open">
-                <div class="msg-container" *ngIf="status == 2 && !openTickets.length && showMsg ">
-                        <div class="msg">No open ticket found!<br>
-                          <span>Good Job :)</span>
-                        </div>
-                </div>
-              <div *ngIf="status == 0">
-                      <table class="table table-bordered table-hover">
-                              <thead class="thead-dark">
-                                  <tr>
-                                      <th>#</th>
-                                      <th>Vehicle No</th>
-                                      <th>Ticket Id</th>
-                                      <th>Message</th>
-                                      <th>Add Time</th>
-                                      <th>Trails</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                              <tr *ngFor="let ticket of allClaimDrivers; let i = index;">
-                                  <th scope="row">{{i + 1}}</th>
-                                  <td>{{ticket.ticket_id}}</td>
-                                  <td>{{ticket.regno}}</td>
-                                  <td>{{ticket.msg}}</td>
-                                  <td>{{ticket.addtime}}</td>
-                                  <td (click)="showTrailList(ticket)">show</td>
-                              </tr>
-                          </table>
-              </div>
-          </nb-tab>
+            <nb-tab tabTitle="Open">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle No</th>
+                            <th>Driver</th>
+                            <th>Message</th>
+                            <th>Remaining Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of openTickets; let i = index;" (click)="showDetails(ticket)">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{ticket.regno}}</td>
+                            <td>{{ticket.empname}}</td>
+                            <td>{{ticket.msg}}</td>
+                            <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                        </tr>
+                </table>
+            </nb-tab>
 
-          
-          <nb-tab tabTitle="Claim">
-                <div class="msg-container" *ngIf="status == 9 && !claimDrivers.length && showMsg ">
-                        <div class="msg">No claim ticket found!<br>
-                          <span>You & your team doing good job :)</span>
-                        </div>
-                </div>
-            <div *ngIf="status == 0">
-                    <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Vehicle No</th>
-                                    <th>Ticket Id</th>
-                                    <th>Message</th>
-                                    <th>Add Time</th>
-                                    <th>Trails</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr *ngFor="let ticket of allClaimDrivers; let i = index;">
-                                <th scope="row">{{i + 1}}</th>
-                                <td>{{ticket.ticket_id}}</td>
-                                <td>{{ticket.regno}}</td>
-                                <td>{{ticket.msg}}</td>
-                                <td>{{ticket.addtime}}</td>
-                                <td (click)="showTrailList(ticket)">show</td>
-                            </tr>
-                        </table>
-            </div>
-        </nb-tab>
-      </nb-tabset>
-  </nb-card-body>
+            <nb-tab tabTitle="Claim">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle No</th>
+                            <th>Driver</th>
+                            <th>Message</th>
+                            <th>Add Time</th>
+                            <th>Trails</th>
+                            <th>Claim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of tickets; let i = index;">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{ticket.regno}}</td>
+                            <td>{{ticket.empname}}</td>
+                            <td>{{ticket.msg}}</td>
+                            <td>{{ticket.addtime | date : 'dd MMM HH:mm'}}</td>
+                            <td (click)="showTrailList(ticket)" style="cursor:pointer">show</td>
+                            <td>
+                                <span (click)="claimTicket(ticket)">Claim</span>
+                            </td>
+                        </tr>
+                </table>
+            </nb-tab>
+        </nb-tabset>
+    </nb-card-body>
 </nb-card>
