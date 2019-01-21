@@ -5,7 +5,8 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
-import { from } from 'rxjs';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+
 
 @Component({
   selector: 'vehicle-kpis',
@@ -13,8 +14,6 @@ import { from } from 'rxjs';
   styleUrls: ['./vehicle-kpis.component.scss']
 })
 export class VehicleKpisComponent implements OnInit {
-
-
   kpis = [];
   allKpis = [];
   searchTxt = '';
@@ -24,7 +23,7 @@ export class VehicleKpisComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService:NgbModal) {
+    private modalService: NgbModal) {
     this.getKPIS();
   }
 
@@ -46,24 +45,20 @@ export class VehicleKpisComponent implements OnInit {
       });
   }
 
-
   showLocation(kpi) {
     if (!kpi.x_tlat) {
       this.common.showToast('Vehicle location not available!');
       return;
     }
-    this.common.params = {kpi};
-    const activeModal= this.modalService.open(LocationMarkerComponent,{ size:'lg',container:'nb-layout'});
-    activeModal.componentInstance.modalHeader='location-marker';
-    
-    // let modal = this.modalCtrl.create('KpiLocationPage', {
-    //   location: {
-    //     lat: kpi.x_tlat || 26.9124336,
-    //     lng: kpi.x_tlong || 75.78727090000007,
-    //     time: kpi.x_ttime || new Date()
-    //   }
-    // });
-    // modal.present();
+    const location = {
+      lat: kpi.x_tlat,
+      lng: kpi.x_tlong,
+      name: '',
+      time: ''
+    };
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Vehicle Location' };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 
   findVehicle() {
@@ -77,22 +72,52 @@ export class VehicleKpisComponent implements OnInit {
   }
 
   findFilters() {
-    this.filters= ['all'];
+    this.filters = ['all'];
     this.allKpis.map(kpi => {
       if (this.filters.indexOf(kpi.showprim_status) == -1) {
         this.filters.push(kpi.showprim_status);
       }
     });
-
-
-  }
-  showDetails(kpi){
-    this.common.params = {kpi};
-    const activeModal= this.modalService.open(KpisDetailsComponent,{ size:'lg',container:'nb-layout'});
-    activeModal.componentInstance.modalHeader='kpisDetails';
-    
   }
 
+  showDetails(kpi) {
+    this.common.params = { kpi };
+    const activeModal = this.modalService.open(KpisDetailsComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.componentInstance.modalHeader = 'kpisDetails';
+  }
 
+  getLR(kpi) {
+    this.common.loading++;
+    this.api.post('FoDetails/getLorryDetails', { x_lr_id: kpi.x_lr_id })
+      .subscribe(res => {
+        this.common.loading--;
+        this.showLR(res['data'][0]);
+        console.log("data", res);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  showLR(data) {
+    let images = [
+      {
+        name: 'Lr',
+        image: data.lr_image
+      },
+      {
+        name: 'Invoice',
+        image: data.invoice_image
+      },
+      {
+        name: 'Other_Image',
+        image: data.other_image
+      }
+    ];
+    console.log("image", images)
+    this.common.params = { images, title: 'LR Details' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+  }
 }
 

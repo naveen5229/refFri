@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
@@ -8,6 +7,7 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { TicketsAllComponent } from './tickets-all/tickets-all.component';
 import { LorryRecciptsComponent } from './lorry-receipts/lorry-reccipts.component';
 import { ExpensesComponent } from './expenses/expenses.component';
+import { ConciseComponent } from './concise/concise.component';
 
 const routes: Routes = [{
   path: '',
@@ -18,7 +18,7 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
-      path:'vehicle-kpis',
+      path: 'vehicle-kpis',
       component: VehicleKpisComponent,
     },
     {
@@ -27,20 +27,24 @@ const routes: Routes = [{
       pathMatch: 'full',
     },
     {
-      path:'tickets',
+      path: 'tickets',
       component: TicketsComponent,
     },
     {
-      path:'tickets-all',
+      path: 'tickets-all',
       component: TicketsAllComponent,
     },
     {
-      path:'lorry-receipts',
+      path: 'lorry-receipts',
       component: LorryRecciptsComponent,
     },
     {
-      path:'expenses',
+      path: 'expenses',
       component: ExpensesComponent,
+    },
+    {
+      path:'concise',
+      component: ConciseComponent,
     },
   ],
 }];
