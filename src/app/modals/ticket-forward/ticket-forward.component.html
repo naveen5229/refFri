@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="custom-modal">
+      <div class="custom-modal-content">
+        <label>User</label>
+        <div class="input-group">
+          <input type="text" name="user" class="form-control" [(ngModel)]="forward.user.name" (input)="searchUser()"
+            style="width:0%; margin-left:12px;" required>
+
+          <div class="suggestions" *ngIf="showSuggestions && suggestions.length && forward.user.name">
+            <ul>
+              <li *ngFor="let user of suggestions" class="suggestion" (click)="selectUser(user)">
+                {{user.employeename}}
+              </li>
+            </ul>
+            <!-- <p *ngFor="let user of suggestions" class="suggestion" (click)="selectUser(user)">{{user.employeename}}</p> -->
+          </div>
+        </div>
+        <label>Remark</label>
+        <div class="input-group">
+          <textarea name="remark" class="form-control" [(ngModel)]="forward.remark" style="margin-left:12px;height:90px;"></textarea>
+        </div>
+      </div>
+
+      <div class="custom-modal-footer">
+        <div class="row">
+          <div class="col" text-center>
+            <button class="btn btn-default" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer; width:125px; color: black;">Cancel</button>
+          </div>
+          <div class="col" text-right>
+            <button class="btn btn-primary" type="button" outline (click)="forwardTicket()" id="forward" style="cursor: pointer;">Forward</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
