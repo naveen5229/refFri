@@ -4,6 +4,7 @@ import { IntelligenceComponent } from './intelligence.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IntelligenceRoutingModule } from './intelligence-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
+import { ProfitCalculatorComponent } from './profit-calculator/profit-calculator.component';
 
 const PAGES_COMPONENTS = [
   IntelligenceComponent,
@@ -18,6 +19,7 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    ProfitCalculatorComponent,
   ],
 })
 export class IntelligenceModule {

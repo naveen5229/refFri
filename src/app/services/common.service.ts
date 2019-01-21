@@ -12,12 +12,14 @@ export class CommonService {
 
   params = null;
   loading = 0;
+  searchId = null;
+
 
   constructor(
     private toastrService: NbToastrService
   ) { }
 
-  showError(msg?){
+  showError(msg?) {
     this.showToast(msg || 'Something went wrong! try again.', 'danger');
   }
 
@@ -36,5 +38,12 @@ export class CommonService {
       body,
       title || 'Alert',
       config);
+  }
+
+  handleApiResponce(res) {
+    if ([52, 53, 54].indexOf(res.code) !== -1) {
+      return false;
+    }
+    return true;
   }
 }
