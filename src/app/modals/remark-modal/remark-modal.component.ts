@@ -34,7 +34,7 @@ export class RemarkModalComponent implements OnInit {
   }
 
   closeModal(response) {
-    if (this.isMandatory) {
+    if (this.isMandatory && !this.remark) {
       this.common.showError(this.label + ' is mandatory!');
       return;
     }
