@@ -17,13 +17,15 @@ import { ChartModule } from 'angular2-chartjs';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
+import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
+import { from } from 'rxjs';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
 
 @NgModule({
- 
+
   imports: [
     PagesRoutingModule,
     ThemeModule,
@@ -44,7 +46,7 @@ const PAGES_COMPONENTS = [
     TicketDetailsComponent,
     TicketSiteDetailsComponent,
     TicketActionsComponent,
-
+    ConciseComponent
   ],
 })
 export class PagesModule {

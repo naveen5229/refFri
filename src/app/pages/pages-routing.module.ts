@@ -12,6 +12,7 @@ import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-de
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,

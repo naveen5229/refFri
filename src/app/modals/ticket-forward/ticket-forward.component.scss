@@ -1,0 +1,77 @@
+.container{
+
+ width: 100%;
+}
+
+.modal-body{
+    height:auto;
+    }
+
+label{
+    font-style: italic;
+    display: inline-block;
+    margin-bottom: .5rem;
+    font-size: large;
+    margin-left: 20px;
+    color: #181818;
+    font-family: Exo;
+    font-weight: 500;
+}
+.input-group
+{
+    width: 80%;
+}
+
+.custom-modal-footer{
+    padding-top: 25px;
+
+}
+.col{
+    margin-left: 30px;
+}
+
+// .green {
+//     color: green;
+// }
+// .red {
+//     color: red;
+// }
+.suggestions {
+    position: relative;
+    height: auto;
+    z-index: 999;
+    background: #fff;
+    width: 90%;
+    margin: 3px 12px;
+    padding: 0px 8px;
+    font-size: 12px;
+    letter-spacing: .5px;
+    box-shadow: 1px 1px 3px grey;
+}
+.suggestion {
+    padding: 8px 0px 1px 0px;
+    margin:1px 0px 3px 1px;
+    font-size:14px; 
+    list-style: none;
+}
+.input-group {
+    padding: 5px 10px;
+}
+.input-group label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    padding: 3px;
+}
+.input-group textarea {
+    display: block;
+    // width: 100%;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    font-size: 12px;
+    padding: 5px 5px;
+    min-height: 27px;
+}
+
+// background-color: #f90909; width: 120px;cursor: pointer;border-color: #040404; color: WHITE;
+// cursor: pointer; background-color: #040c07; border-color: #7ff173;
