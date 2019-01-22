@@ -21,3 +21,29 @@ tr{
     font-size: 18px;
     background-color: #677078;
   }
+  .arrow{
+    font-size: 18px;
+    margin: 8px;
+}
+::-webkit-scrollbar {
+    width: 4em;
+    height: 2em
+}
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
+}
+nb-card-body ::-webkit-scrollbar {
+    width: 14px;
+    height: 5px;
+}
+.nb-theme-corporate nb-card ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+[_ngcontent-c15]::-webkit-scrollbar-button {
+    background: #ccc;
+    /* background: #ccc; */
+}
