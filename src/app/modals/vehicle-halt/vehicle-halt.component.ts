@@ -6,6 +6,8 @@ import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { from } from 'rxjs';
+import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
+import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'vehicle-halt',
@@ -22,7 +24,7 @@ export class VehicleHaltComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
-    private activeModal: NgbActiveModal,){
+    private activeModal: NgbActiveModal, ) {
     this.details = this.common.params;
     this.title = this.common.params.title;
     this.description = this.common.params.description;
@@ -30,9 +32,32 @@ export class VehicleHaltComponent implements OnInit {
 
   ngOnInit() {
   }
-  openModal(option) {
-    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout' });
 
+  confirmOption(option) {
+    this.common.params = {
+      description: `<p>You have selected <strong>${option.name}</strong> option. Confirm it.`
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.dismiss(true, option);
+      }
+    });
+  }
+
+  getReason(option) {
+    this.common.params = {
+      title: 'Halt Info ',
+      Placeholder: 'Write Halt Name Here ............',
+      label: 'Halt Name',
+    };
+    console.log(this.common.params);
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.dismiss(true, { name: data.remark, id: option.id });
+      }
+    });
   }
 
   // ngViewDidLoad() {
@@ -49,8 +74,8 @@ export class VehicleHaltComponent implements OnInit {
   //   modal.present();
   // }
 
-  dismiss(response, option) {
-    this.activeModal.dismiss({
+  dismiss(response, option?) {
+    this.activeModal.close({
       response: response,
       option: option
     });

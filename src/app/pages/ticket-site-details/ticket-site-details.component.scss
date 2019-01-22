@@ -1,3 +1,20 @@
+.table{
+    background: floralwhite;
+    width: 80%;
+    cursor: pointer;
+}
+
+tbody tr{
+    font-size: 1rem;
+    line-height: 1.25;
+    font-weight: 400;
+}
+tbody tr th{
+    color: black;
+}
+tbody tr td{
+    color: #0d0e00;
+}
 .gray-col {
     background: #e2e2e2;
     font-weight: 500;
