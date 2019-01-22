@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'remark-modal',
@@ -20,6 +21,7 @@ export class RemarkModalComponent implements OnInit {
 
   constructor(public common: CommonService,
     public api: ApiService,
+    private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     public user: UserService) {
     this.title = this.common.params.title || 'Remark';
@@ -29,6 +31,7 @@ export class RemarkModalComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.isMandatory = this.common.params.isMandatory == false ? false : true;
     console.log('is Mandatory: ', this.common.params.isMandatory);
+
   }
 
   ngOnInit() {
@@ -39,6 +42,7 @@ export class RemarkModalComponent implements OnInit {
       this.common.showError(this.label + ' is mandatory!');
       return;
     }
+    console.log("Halt Reason", this.remark);
     this.activeModal.close({ remark: this.remark, response: response });
   }
 

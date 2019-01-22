@@ -1,16 +1,34 @@
+
 .section {
     background: #f2f2f2;
     padding: 5px 8px;
     font-weight: 500;
     letter-spacing: .5px;
+    font-family: Exo;
+    color: #181818;
+    font-size: 24px;
 }
 .action-text {
     padding: 0px 0px 3px 0px;
-    border-bottom: 1px solid #f2f2f2;
+   // border-bottom: 1px solid #f2f2f2;
     margin-left: 8px;
     margin-right: 8px;
     font-weight: 500;
     color: #000;
+    width: 88%;
+    cursor: pointer;
+}
+.row{
+    border-top:1px solid #f2f2f2;
+    width: 80%;
+}
+
+.btn.btn-sm {
+    float: right;
+    margin-right: -5%;
+    margin-top: 3%;
+
+
 }
 .action-icon {
     float: right;
