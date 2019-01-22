@@ -8,7 +8,7 @@ import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.
 @Component({
   selector: 'tickets',
   templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss']
+  styleUrls: ['./tickets.component.scss','../pages.component.css']
 })
 export class TicketsComponent implements OnInit {
   notifications = [];
