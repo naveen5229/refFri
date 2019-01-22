@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { VehicleHaltComponent } from '../../modals/vehicle-halt/vehicle-halt.component';
 
 @Component({
   selector: 'ticket-site-details',
@@ -108,8 +109,12 @@ export class TicketSiteDetailsComponent implements OnInit {
       description: description,
       options: options
     };
+    
+    this.common.params = data;
+     const activeModal = this.modalService.open(VehicleHaltComponent, { size: 'lg', container: 'nb-layout' });
+    
 
-    // let modal = this.modalCtrl.create('VehicleHaltPage', { data });
+    //let modal = this.modalCtrl.create('VehicleHaltPage', { data });
 
     // modal.onDidDismiss(data => {
     //   if (data.response) {
@@ -236,5 +241,6 @@ export class TicketSiteDetailsComponent implements OnInit {
 
     // modal.present();
   }
+
 
 }
