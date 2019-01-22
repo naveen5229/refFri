@@ -27,11 +27,11 @@
         </div>
         </div>
         <div style="height: 230px;margin-top:0px">
-          <chart type="pie" [data]="data" [options]="options" id="chart"></chart>
+          <chart type="pie" [data]="common.chartData" [options]="common.chartOptions" id="chart"></chart>
         </div>
         <div style="height:350px;overflow:auto"> 
         <nb-card *ngFor="let group of groupList; let i = index;">
-          <nb-card-body (click)="filterData(group)" [ngStyle]="{'background-color':color[i]}">
+          <nb-card-body (click)="filterData(group)" [ngStyle]="{'background-color':chartsColors[i]}">
             <div class="row" [ngStyle]="{'color':textColor[i]}" >
               <div class="col-sm-9">
                 {{group | titlecase}}
@@ -123,7 +123,7 @@
 
               </td>
               <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
-              <td (click)="showLocation(kpi)">{{kpi.city}}
+              <td (click)="showLocation(kpi)">{{kpi.Address}}
                 <!-- <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i> -->
               </td>
               <td>

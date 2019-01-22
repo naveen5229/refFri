@@ -4,7 +4,6 @@
   </nb-card-header>
 
   <nb-card-body>
-    <button (click)="remark()">remark</button>
     <table class="table table-bordered table-hover">
       <thead class="thead">
         <tr>
@@ -80,8 +79,8 @@
           </td>
 
           <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
-          <td (click)="showLocation(kpi)">{{kpi.city}}
-            <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i>
+          <td (click)="showLocation(kpi)">{{kpi.Address}}
+            <!-- <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i> -->
           </td>
           <td>
             <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
@@ -89,6 +88,5 @@
         </tr>
       </tbody>
     </table>
-    <button (click)="forwardticket()">forwardticket</button>
   </nb-card-body>
 </nb-card>
