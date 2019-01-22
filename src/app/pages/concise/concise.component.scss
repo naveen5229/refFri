@@ -11,9 +11,23 @@ tr:nth-child(even) {
 td{
     font-size: 14px;
     font-weight: 500;
-    padding:4px;
+    padding:8px;
     
 }
 tr{
     max-height: 5px;
+}
+.arrow{
+    font-size: 18px;
+    margin: 8px;
+}
+::-webkit-scrollbar {
+    width: 4em;
+    height: 2em
+}
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
 }

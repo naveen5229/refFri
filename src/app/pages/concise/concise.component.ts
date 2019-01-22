@@ -97,6 +97,7 @@ export class ConciseComponent implements OnInit {
     let tclr;
 
     console.log(this.statusGroup);
+    
     for (var k in this.statusGroup) {
       if (typeof this.statusGroup[k] !== 'function') {
         let k1 = k + " : " + this.statusGroup[k].length
