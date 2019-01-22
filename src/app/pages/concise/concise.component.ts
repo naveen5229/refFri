@@ -166,7 +166,7 @@ export class ConciseComponent implements OnInit {
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
       this.data = {
-       // labels: label,
+        labels: label,
         datasets: [{
           data: data,
           backgroundColor: color
@@ -188,12 +188,8 @@ export class ConciseComponent implements OnInit {
             },
           ],
         },
-        legend: {
-          labels: {
-            fontColor: chartjs.textColor,
-          },
-        },
-      };
+        legend: false,
+       };
     });
 
     setTimeout(() => {
