@@ -27,7 +27,8 @@ export class RemarkModalComponent implements OnInit {
     this.label = this.common.params.label || 'Remark';
     this.btn1 = this.common.params.btn1 || 'Submit';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-    this.isMandatory = this.common.params.isMandatory || true;
+    this.isMandatory = this.common.params.isMandatory == false ? false : true;
+    console.log('is Mandatory: ', this.common.params.isMandatory);
   }
 
   ngOnInit() {
