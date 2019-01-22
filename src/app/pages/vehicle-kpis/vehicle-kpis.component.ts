@@ -14,7 +14,7 @@ import { from } from 'rxjs';
 @Component({
   selector: 'vehicle-kpis',
   templateUrl: './vehicle-kpis.component.html',
-  styleUrls: ['./vehicle-kpis.component.scss']
+  styleUrls: ['./vehicle-kpis.component.scss','../pages.component.css']
 })
 export class VehicleKpisComponent implements OnInit {
   kpis = [];

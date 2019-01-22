@@ -1,0 +1,23 @@
+tr:nth-child(even) {
+    background-color:  #d7dee4;
+}
+
+.thead{
+    color: white;
+    font-size: 18px;
+    background-color: #677078;
+  }
+td{
+    font-size: 14px;
+    font-weight: 500;
+    padding:8px;
+    
+}
+tr{
+    max-height: 5px;
+}
+.thead-dark{
+    color: white;
+    font-size: 18px;
+    background-color: #677078;
+  }
