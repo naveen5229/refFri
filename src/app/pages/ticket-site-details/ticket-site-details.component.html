@@ -51,23 +51,19 @@
             <th>Reason</th>
             <td>{{haltInfo?.halt_type}}</td>
           </tr>
-
       </table>
-
     </div>
-
   </nb-card-body>
 </nb-card>
 <ticket-actions [ticketInfo]="ticketInfo" [notification]="notification"></ticket-actions>
 
-
 <div class="card" *ngIf="secType1 || secType2" style="margin-top: 10px; padding: 10px;">
-  <div class="row" text-center>
+  <div class="row" style="margin-left: 33%;">
     <div class="col" *ngIf="secType1">
-      <span class="btn ftr-btn" (click)="handleAction(secType1)">{{common.secondaryType[secType1].btnTxt}}</span>
+      <span class="btn ftr-btn" (click)="handleAction(secType1)" style="cursor:pointer">{{common.secondaryType[secType1].btnTxt}}</span>
     </div>
     <div class="col" *ngIf="secType2">
-      <span class="btn ftr-btn" (click)="handleAction(secType2)">{{common.secondaryType[secType2].btnTxt}}</span>
+      <span class="btn ftr-btn" (click)="handleAction(secType2)" style="cursor:pointer">{{common.secondaryType[secType2].btnTxt}}</span>
     </div>
   </div>
 </div>

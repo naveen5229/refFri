@@ -10,17 +10,17 @@
       <label>{{label}}</label>
     </div>
     <div class="row">
-      <textarea name="remark" class="form-control" [(ngModel)]="remark" [placeholder]="placeholder" style="margin-left:12px;height:90px;"></textarea>
+      <textarea name="remark" class="form-control" [(ngModel)]="remark" [placeholder]="placeholder"></textarea>
     </div>
   </div>
 </div>
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-default" (click)="closeModal(false)">{{btn2}}</button>
+      <button class="btn modal-footer-btn" type="button" outline (click)="closeModal(false)" id="cancel" style="background: #f2f2f2;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" (click)="closeModal(true)">{{btn1}}</button>
+      <button class="btn btn-primary modal-footer-btn forward-btn" type="button" outline (click)="closeModal(true)" style="color: #fff;">{{btn1}}</button>
     </div>
   </div>
 </div>

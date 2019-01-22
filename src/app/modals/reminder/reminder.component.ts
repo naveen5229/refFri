@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'reminder',
   templateUrl: './reminder.component.html',
-  styleUrls: ['./reminder.component.scss']
+  styleUrls: ['./reminder.component.scss','../../pages/pages.component.css']
 })
 export class ReminderComponent implements OnInit {
 

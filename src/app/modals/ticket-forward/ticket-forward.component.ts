@@ -6,7 +6,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'ticket-forward',
   templateUrl: './ticket-forward.component.html',
-  styleUrls: ['./ticket-forward.component.scss']
+  styleUrls: ['./ticket-forward.component.scss','../../pages/pages.component.css']
 })
 export class TicketForwardComponent implements OnInit {
   title = '';

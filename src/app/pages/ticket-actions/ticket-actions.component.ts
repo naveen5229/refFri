@@ -19,9 +19,6 @@ export class TicketActionsComponent implements OnInit {
   @Input() ticketInfo: any;
   @Input() notification: any;
 
-
-
-
   constructor(
     public common: CommonService,
     public user: UserService,
@@ -32,7 +29,6 @@ export class TicketActionsComponent implements OnInit {
 
   ngOnInit() {
   }
-
 
   getExtraTime() {
     // let modal = this.modalCtrl.create('BuyTimePage', { ticketId: this.notification.fo_ticket_allocation_id });
@@ -172,8 +168,6 @@ export class TicketActionsComponent implements OnInit {
 
   setReminder() {
     this.common.params = { fo_ticket_allocation_id: this.notification.fo_ticket_allocation_id };
-    this.modalService.open(ReminderComponent, { size: 'lg', container: 'nb-layout' });
+    this.modalService.open(ReminderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-
-
 }
