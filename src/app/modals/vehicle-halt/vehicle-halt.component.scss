@@ -1,3 +1,4 @@
+
 .content {
     background: transparent;
 }
@@ -13,75 +14,18 @@
     opacity: .3;
     background-color: #000;
 }
-.custom-modal {
-    position: absolute;
-    top: calc(50% - (50%/1.5));
-    left: 0;
-    right: 0;
-    width: 75%;
-    height: auto;
-    padding: 10px;
-    z-index: 100;
-    margin: 0 auto;
-    padding: 0px;
-    color: #333;
-    background: transparent;
-    border-radius: 0px;
-    box-shadow: none;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    overflow: hidden; // max-height: 400px;
-    // overflow: scroll;
-    // border-radius: 5px;
-}
 
 .item-cover {
     display: none;
 }
 
-
 h5{
-    font-family: 'Times New Roman';
-}
-
-.custom-modal-content {
-    background: #fff;
-    padding: 5px 10px 15px 10px;
-    border-radius: 0px 0px 10px 10px;
-    background: #f9f9f9;
-    color: #000;
-    font-family:  serif;
-    font-size: 16px;
-}
-
-.item-md {
-    padding-right: 16px !important;
-    width: 99% !important;
-}
-
-.custom-modal-footer {
-    margin-top: -25px;
-    padding: 0;
-}
-
-.modal-footer-btn {
-    border-radius: 17px;
-    font-size: 12px;
-    height: 35px;
-    border-radius: 17px;
-    background: #fff;
-    color: #000;
-    border: 1px solid #f2f2f2;
-    -webkit-box-shadow: 3px 3px 10px black;
-    box-shadow: none;
-    width: 100px;
-    max-width: 80%;
+    font-family: 'Arial, Helvetica, sans-serif';
 }
 /*----------------New CSS-----------------*/
 .option-container {
     max-height: 280px;
-    overflow: auto;
+    overflow-y:auto;
     cursor: pointer;
     border: grey 1px solid;
     margin-top: 12px;
@@ -93,12 +37,12 @@ h5{
     border-radius: 5px;
     margin-bottom: 7px;
     background: #fff;
-    color: black;
+    color: black;   
 } 
 
 .selected-option {
     font-weight: bold;
-    background: #95d66d;
+    background:#beff97;
     color: #0e0e0e;
     font-size: 16px;
 }
@@ -106,3 +50,4 @@ h5{
 .close{
     font-size: 24px;
 }
+

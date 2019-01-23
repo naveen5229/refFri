@@ -137,7 +137,7 @@ export class TicketActionsComponent implements OnInit {
 
   commentPrompt() {
     this.common.params = { title: 'Remarks ' };
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.addComment(data.remark)

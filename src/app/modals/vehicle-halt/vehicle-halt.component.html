@@ -7,12 +7,13 @@
 <div class="modal-body">
   <div class="container">
     <h5>{{description}}</h5>
-    <div class="option-container">
-      <div *ngFor="let option of details.options">
-        <div class="option" *ngIf="option.id != 701" (click)="confirmOption(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div>
-      </div>
-      <!-- <div class="option" *ngFor="let option of details.options" (click)="openModal(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div> -->
-      <div class="option" (click)="getReason({name: 'Other Reason', id: 701})">Other Reason</div>
+  </div>
+  <div class="option-container">
+    <div *ngFor="let option of details.options">
+      <div class="option" *ngIf="option.id != 701" (click)="confirmOption(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div>
     </div>
+    <!-- <div class="option" *ngFor="let option of details.options" (click)="openModal(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div> -->
+    <div class="option" (click)="getReason({name: 'Other Reason', id: 701})">Other Reason</div>
   </div>
 </div>
+

@@ -103,7 +103,7 @@ export class TicketSiteDetailsComponent implements OnInit {
       options: options
     };
     this.common.params = data;
-    const activeModal = this.modalService.open(VehicleHaltComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(VehicleHaltComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data: ', data);
       if (data.response) {
