@@ -40,21 +40,9 @@
     display: none;
 }
 
-.custom-modal-header {
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px 10px 0px 0px;
-    box-shadow: none;
-    z-index: 999;
-    background: -webkit-gradient(linear, right top, left top, from(#f7b733), to(#fc4a1a));
-    background: linear-gradient(to left, #f1efea, #171616);
-    font-size: 22px;
-    color: #f9f9f9;
-    vertical-align: middle;
-    letter-spacing: .5px;
-    line-height: 20px;
-    font-family: Exo;
-    font-weight: bold;
+
+h5{
+    font-family: 'Times New Roman';
 }
 
 .custom-modal-content {
@@ -63,7 +51,7 @@
     border-radius: 0px 0px 10px 10px;
     background: #f9f9f9;
     color: #000;
-    font-family: cursive,'ZCOOL XiaoWei', serif;
+    font-family:  serif;
     font-size: 16px;
 }
 
@@ -95,22 +83,23 @@
     max-height: 280px;
     overflow: auto;
     cursor: pointer;
+    border: grey 1px solid;
+    margin-top: 12px;
 }
 
 .option {
-    border: 1px solid #e2e2e2;
+    border: 0.7px solid #e2e2e2;
     padding: 5px 10px;
     border-radius: 5px;
     margin-bottom: 7px;
-    box-shadow: 0px 2px 1px #000;
     background: #fff;
-    color: #01015f;
+    color: black;
 } 
 
 .selected-option {
     font-weight: bold;
-    background: black;
-    color: white;
+    background: #95d66d;
+    color: #0e0e0e;
     font-size: 16px;
 }
 

@@ -5,7 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'kpis-details',
   templateUrl: './kpis-details.component.html',
-  styleUrls: ['./kpis-details.component.scss']
+  styleUrls: ['./kpis-details.component.scss','../../pages/pages.component.css']
 })
 export class KpisDetailsComponent implements OnInit {
   kpi = null;

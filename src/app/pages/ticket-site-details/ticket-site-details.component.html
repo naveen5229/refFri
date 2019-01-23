@@ -1,62 +1,69 @@
-<nb-card>
-  <nb-card-header>
-    <div class="row">
-      <div class="col-sm-10">
-        <h2>{{title || 'Vehicle Halt'}}</h2>
-      </div>
-    </div>
-  </nb-card-header>
-  <nb-card-body>
-    <div>
-      <table class="table table-bordered table-hover">
-        <tbody>
-          <tr>
-            <th>Vehicle</th>
-            <td>{{haltInfo?.regno}}</td>
-          </tr>
-          <tr>
-            <th>Driver</th>
-            <td>
-              <div *ngIf="haltInfo?.empname">{{haltInfo.empname}}
-                <a [href]="'tel:' + haltInfo.mobileno">
-                </a>
+<div class="row">
+  <div class="col-md-6">
+      <nb-card>
+          <nb-card-header>
+            <div class="row">
+              <div class="col-sm-10">
+                <h2>{{title || 'Vehicle Halt'}}</h2>
               </div>
-              <div *ngIf="!haltInfo?.empname">
-                Unknown
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Time Since</th>
-            <td>
-              <div *ngIf="haltInfo?.entry_time">{{haltInfo.entry_time | date : 'dd MMM HH:mm'}}</div>
-              <div *ngIf="haltInfo?.start_time">{{haltInfo.start_time | date : 'dd MMM HH:mm'}}</div>
-            </td>
-          </tr>
-          <tr>
-            <th>Duration</th>
-            <td *ngIf="haltInfo?.duration">{{findRemainingTime(haltInfo.duration)}}</td>
-          </tr>
-          <tr>
-            <th>Location</th>
-            <td>{{haltInfo?.loc_name || 'Unknown'}}</td>
-          </tr>
-          <tr>
-            <th>Map View</th>
-            <td>
-              <span (click)="showLocation()" style="color: blue; cursor: pointer;">click here..</span>
-            </td>
-          </tr>
-          <tr *ngIf="notification?.pri_type == 200">
-            <th>Reason</th>
-            <td>{{haltInfo?.halt_type}}</td>
-          </tr>
-      </table>
-    </div>
-  </nb-card-body>
-</nb-card>
-<ticket-actions [ticketInfo]="ticketInfo" [notification]="notification"></ticket-actions>
+            </div>
+          </nb-card-header>
+          <nb-card-body>
+            <div>
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <th>Vehicle</th>
+                    <td>{{haltInfo?.regno}}</td>
+                  </tr>
+                  <tr>
+                    <th>Driver</th>
+                    <td>
+                      <div *ngIf="haltInfo?.empname">{{haltInfo.empname}}
+                        <a [href]="'tel:' + haltInfo.mobileno">
+                        </a>
+                      </div>
+                      <div *ngIf="!haltInfo?.empname">
+                        Unknown
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Time Since</th>
+                    <td>
+                      <div *ngIf="haltInfo?.entry_time">{{haltInfo.entry_time | date : 'dd MMM HH:mm'}}</div>
+                      <div *ngIf="haltInfo?.start_time">{{haltInfo.start_time | date : 'dd MMM HH:mm'}}</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Duration</th>
+                    <td *ngIf="haltInfo?.duration">{{findRemainingTime(haltInfo.duration)}}</td>
+                  </tr>
+                  <tr>
+                    <th>Location</th>
+                    <td>{{haltInfo?.loc_name || 'Unknown'}}</td>
+                  </tr>
+                  <tr>
+                    <th>Map View</th>
+                    <td>
+                      <span (click)="showLocation()" style="color: blue; cursor: pointer;">click here..</span>
+                    </td>
+                  </tr>
+                  <tr *ngIf="notification?.pri_type == 200">
+                    <th>Reason</th>
+                    <td>{{haltInfo?.halt_type}}</td>
+                  </tr>
+              </table>
+            </div>
+          </nb-card-body>
+        </nb-card>
 
+  </div>
+
+<div class="col-md-6">
+<ticket-actions [ticketInfo]="ticketInfo" [notification]="notification"></ticket-actions>
+</div>
+</div>
 <div class="card" *ngIf="secType1 || secType2" style="margin-top: 10px; padding: 10px;">
   <div class="row" style="margin-left: 33%;">
     <div class="col" *ngIf="secType1">

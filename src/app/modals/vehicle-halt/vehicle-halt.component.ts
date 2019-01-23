@@ -38,7 +38,7 @@ export class VehicleHaltComponent implements OnInit {
       title: this.title,
       description: `<p>You have selected <strong>${option.name}</strong> option. Confirm it.`
     }
-    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout' });
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout',backdrop: 'static'});
     activeModal.result.then(data => {
       if (data.response) {
         this.dismiss(true, option);

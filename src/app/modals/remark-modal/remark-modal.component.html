@@ -15,12 +15,12 @@
   </div>
 </div>
 <div class="modal-footer">
-  <div class="row">
+  <div class="row" >
     <div class="col">
-      <button class="btn modal-footer-btn" type="button" outline (click)="closeModal(false)" id="cancel" style="background: #f2f2f2;">{{btn2}}</button>
+      <button class="btn btn-default" (click)="closeModal(false)" style="cursor:pointer;">{{btn2}}</button>
     </div>
-    <div class="col text-right">
-      <button class="btn btn-primary modal-footer-btn forward-btn" type="button" outline (click)="closeModal(true)" style="color: #fff;">{{btn1}}</button>
+    <div class="col" >
+      <button class="btn btn-primary" (click)="closeModal(true)" style="cursor:pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

@@ -11,12 +11,12 @@
   </div>
 </div>
 <div class="modal-footer">
-  <div class="row" style="cursor:pointer;">
+  <div class="row">
     <div class="col">
-      <button class="btn btn-default" (click)="closeModal(false)">{{btn2}}</button>
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
-    <div class="col">
-      <button class="btn btn-primary" (click)="closeModal(true)">{{btn1}}</button>
+    <div class="col text-right">
+      <button class="btn btn-primary" type="button" outline (click)="closeModal(true)" id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

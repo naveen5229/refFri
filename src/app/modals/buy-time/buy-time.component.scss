@@ -3,7 +3,7 @@
 }
 
 .input-group label {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     letter-spacing: .5px;
     padding: 3px;
@@ -27,23 +27,6 @@
     text-align: center;
 }
 
-.btn  {
-    background: #f2f2f2;
-    font-weight: bold;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
-    display: inline-block;
-    width: 80px;
-    font-size: 12px;
-    text-align: center;
-    height: 30px;
-    line-height: 5px;
-    border-radius: 4px;
-    font-family: monospace;
-    color: #000;
-    cursor: pointer;
-}
 
 .active-btn {
     background: orange;
