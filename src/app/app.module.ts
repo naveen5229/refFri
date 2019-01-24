@@ -53,7 +53,9 @@ import { DatePickerComponent } from './modals/date-picker/date-picker.component'
     TicketForwardComponent,
     RemarkModalComponent,
     VehicleHaltComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    DatePickerComponent
+
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,9 @@
-<p>
-  date-picker works!
-</p>
+
+    <div class="nebular-calendar"> 
+      <h5>
+        Selected date: {{ date | date }}
+      </h5>
+      <nb-calendar [(date)]="date" [boundingMonth]="true"></nb-calendar> 
+      <button  (click) = "closeModal()" class="btn btn-primary" style="margin-left:45%">OK</button>
+    </div>
+    

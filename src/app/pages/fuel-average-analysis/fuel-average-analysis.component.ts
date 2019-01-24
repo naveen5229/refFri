@@ -29,6 +29,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   getfuelAverageDetails()
   {
+    console.log("api hit");
     this.common.loading++;
     let params = {
       startTime: this.startTime,
@@ -46,8 +47,18 @@ export class FuelAverageAnalysisComponent implements OnInit {
     });
   }
   getTime(time){
-    console.log(time);
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'lg', container: 'nb-layout' });
+    console.log("time",time);
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if(time=='startTime')
+        this.startTime = data.date;
+        else if(time=='endTime')
+        this.endTime = data.date;
+        console.log(time,data.date)
+      }
+        this.getfuelAverageDetails();
 
+    });
   }
 }

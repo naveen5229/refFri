@@ -1,36 +1,44 @@
 <nb-card>
     <nb-card-header>
       <div class="row">
-        <div class="col-sm-10"><h2>Fuel Average Analysis</h2>
-          <input type="text" (ngModelChange)="getTime(startTime)" [(ngModel)] = "startTime" name="startTime" >
-          <input type="text" (ngModelChange)="getTime(endTime)"  [(ngModel)] = "endTime" name="endTime" ></div>
-      
-
+        <div class="col-sm-8"><h2>Fuel Average Analysis</h2>
+        </div>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" (click)="getTime('startTime')" placeholder="Select Start Time"  [(ngModel)] = "startTime" name="startTime" >
+        </div>
+        <div class="col-sm-2"> 
+          <input type="text" class="form-control" (click)="getTime('endTime')" placeholder="Select end Time" [(ngModel)] = "endTime" name="endTime" >
+        </div>
       </div>
     </nb-card-header>
     <nb-card-body>
       <div>
+          <span *ngIf = "fuelAvgDetails.length==0" class="no-data ">
+              No Record Found 
+            </span>
         <table class="table table-bordered table-hover">
           <thead class="thead">
             <tr>
               <th>#</th>
               <th>Vehicle No</th>
-              <th>Fuel Station</th>
-              <th>Rate</th>
-              <th>Litres</th>
-              <th>Amount</th>
-  
+              <th>Filling Time</th>
+              <th>Last Filling Time</th>
+              <th>Average</th>
+              <th>Total Fuel</th>
+              <th>Total Distance</th>
             </tr>
           </thead>
-          <span *ngIf = "fuelAvgDetails.length==0"></span>
-          <tbody>
+          
+          <tbody *ngIf = "fuelAvgDetails.length!=0">
             <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index">
               <th scope="row">{{i + 1}}</th>
               <td>{{fuelAvgDetail.regno}}</td>
-              <td>{{fuelAvgDetail.name}}</td>
-              <td>{{fuelAvgDetail.rate}}</td>  
-              <td>{{fuelAvgDetail.liters}}</td>           
-              <td>{{fuelAvgDetail.amount}}</td>           
+              <td>{{fuelAvgDetail.filling_time}}</td>
+              <td>{{fuelAvgDetail.last_filling_time}}</td>  
+              <td>{{fuelAvgDetail.average}}</td>           
+              <td>{{fuelAvgDetail.total_fuel}}</td> 
+              <td>{{fuelAvgDetail.total_distance}}</td>           
+
             </tr>
             </tbody>
         </table>
