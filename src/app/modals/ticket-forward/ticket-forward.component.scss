@@ -5,18 +5,19 @@
 
 .modal-body{
     height:auto;
-    }
-
-label{
-    font-style: italic;
-    display: inline-block;
-    margin-bottom: .5rem;
-    font-size: large;
-    margin-left: 20px;
-    color: #181818;
-    font-family: Exo;
-    font-weight: 500;
 }
+
+span{
+    font-size: 36px;
+    font-stretch: normal;
+}
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    margin-left: 22px;
+    font-weight: 600;
+    font-size: 18px;
+ }
 .input-group
 {
     width: 80%;
@@ -63,5 +64,7 @@ label{
     border-radius: 3px;
     font-size: 12px;
     padding: 5px 5px;
-    min-height: 27px;
+    min-height: 35px;
+    margin-left:12px;
+    height: 65px;
 }

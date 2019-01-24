@@ -3,43 +3,43 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Dashboard',
-    icon: 'nb-home',
+    icon: 'fa fa-plus',
     link: '/pages/dashboard',
     home: true,
   },
   {
     title: 'Vehicle KPIs',
-    icon: 'nb-home',
+    icon: 'nb-tables',
     link: '/pages/vehicle-kpis',
   },
   {
     title: 'Tickets',
-    icon: 'nb-home',
+    icon: 'nb-notifications',
     link: '/pages/tickets',
   },
   {
     title: 'Tickets All',
-    icon: 'nb-home',
+    icon: 'nb-title',
     link: '/pages/tickets-all',
   },
   {
     title: 'Lorry Receipts',
-    icon: 'nb-home',
+    icon: 'nb-list',
     link: '/pages/lorry-receipts',
   },
   {
     title: 'Expenses',
-    icon: 'nb-home',
+    icon: 'fa fa-rupee-sign',
     link: '/pages/expenses',
   },
   {
     title: 'Concise View',
-    icon: 'nb-home',
+    icon: 'nb-bar-chart',
     link: '/pages/concise',
   },
   {
     title: 'Fuel Average Analysis',
-    icon: 'nb-home',
+    icon: 'nb-paper-plane',
     link: '/pages/fuel-average-analysis',
   },  
 ];

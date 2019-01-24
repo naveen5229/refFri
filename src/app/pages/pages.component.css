@@ -42,17 +42,24 @@ tr{
         color: #000;
         cursor: pointer;
  }
-/* submit button css */
-btn.btn-danger{
-    background: #fb5454;
+/*  Cancel button css */
+.btn.btn-danger{
+    background: #fd1313;
     color: white;
 }
-    /* Cancel Button Css */
+    /* submit Button Css */
 .btn.btn-primary{
      color: #fff;
-      background: #5e5ef7;
+      background: #05276b;
 }
- 
+ /* Default Button css */
+.btn.btn-default.btn-sm{
+    float: right;
+    margin-right: 50%;
+    background: #dcd9d9;
+    color: black;
+    font-size: 12px;
+}
  .nb-theme-corporate .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
