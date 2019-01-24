@@ -11,6 +11,7 @@ import { ConciseComponent } from './concise/concise.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
+import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 
 
 const routes: Routes = [{
@@ -57,6 +58,10 @@ const routes: Routes = [{
     {
       path: 'ticket-details',
       component: TicketDetailsComponent
+    },
+    {
+      path: 'fuel-average-analysis',
+      component: FuelAverageAnalysisComponent
     }
   ],
 }];

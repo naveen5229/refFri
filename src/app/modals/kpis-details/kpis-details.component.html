@@ -39,6 +39,14 @@
         <td>
           <!-- Heading -->
           <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 0">
+            <i class="icon ion-md-exit"></i>
+            <span class="circle">{{kpi.x_showtripstart}}</span>
+            <i class="icon ion-md-arrow-round-forward"></i>
+            <span>{{kpi.x_showtripend}}</span>
+          </div>
+
+          <!-- Heading -->
+          <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 0">
             <i name="exit" class="fa fa-sign-out-alt"></i>
             <span class="circle">{{kpi.x_showtripstart}}</span>
             <i class="route-arrow" name="ios-arrow-round-forward"></i>
@@ -131,5 +139,5 @@
   </table>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  <button type="button" class="btn btn-outline-dark" (click)="closeModal()" style="cursor:pointer">Close</button>
 </div>

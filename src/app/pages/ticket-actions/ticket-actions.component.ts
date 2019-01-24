@@ -19,9 +19,6 @@ export class TicketActionsComponent implements OnInit {
   @Input() ticketInfo: any;
   @Input() notification: any;
 
-
-
-
   constructor(
     public common: CommonService,
     public user: UserService,
@@ -33,7 +30,6 @@ export class TicketActionsComponent implements OnInit {
   ngOnInit() {
   }
 
-
   getExtraTime() {
     // let modal = this.modalCtrl.create('BuyTimePage', { ticketId: this.notification.fo_ticket_allocation_id });
     // modal.onDidDismiss(data => {
@@ -44,13 +40,13 @@ export class TicketActionsComponent implements OnInit {
     // });
     // modal.present();
     this.common.params = { ticketId: this.notification.fo_ticket_allocation_id };
-    this.modalService.open(BuyTimeComponent, { size: 'lg', container: 'nb-layout' });
+    this.modalService.open(BuyTimeComponent, { size: 'lg', container: 'nb-layout',backdrop:'static' });
 
   }
 
   forwardTicket() {
     this.common.params = { title: 'Forward Ticket', ticketId: this.notification.ticket_id, fo_ticket_allocation_id: this.notification.fo_ticket_allocation_id, msg: this.ticketInfo.msg };
-    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'md', container: 'nb-layout', backdrop:'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.router.navigate(['/pages/tickets']);
@@ -78,7 +74,7 @@ export class TicketActionsComponent implements OnInit {
 
   showList(title, headings, data) {
     this.common.params = { title, headings, data };
-    this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout' });
+    this.modalService.open(TicketTrailsComponent, { size: 'lg', container: 'nb-layout',backdrop:'static' });
   }
 
   getComments() {
@@ -106,7 +102,7 @@ export class TicketActionsComponent implements OnInit {
 
   getRemark(status) {
     this.common.params = { title: 'Remarks ', isMandatory: status == 5 ? false : true };
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.updateNotificationStatus(status, data.remark);
@@ -141,7 +137,7 @@ export class TicketActionsComponent implements OnInit {
 
   commentPrompt() {
     this.common.params = { title: 'Remarks ' };
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.addComment(data.remark)
@@ -172,8 +168,6 @@ export class TicketActionsComponent implements OnInit {
 
   setReminder() {
     this.common.params = { fo_ticket_allocation_id: this.notification.fo_ticket_allocation_id };
-    this.modalService.open(ReminderComponent, { size: 'lg', container: 'nb-layout' });
+    this.modalService.open(ReminderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-
-
 }

@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'buy-time',
   templateUrl: './buy-time.component.html',
-  styleUrls: ['./buy-time.component.scss']
+  styleUrls: ['./buy-time.component.scss','../../pages/pages.component.css']
 })
 export class BuyTimeComponent implements OnInit {
 

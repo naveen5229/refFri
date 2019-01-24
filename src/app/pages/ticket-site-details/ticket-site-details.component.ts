@@ -9,10 +9,10 @@ import { VehicleHaltComponent } from '../../modals/vehicle-halt/vehicle-halt.com
 @Component({
   selector: 'ticket-site-details',
   templateUrl: './ticket-site-details.component.html',
-  styleUrls: ['./ticket-site-details.component.scss']
+  styleUrls: ['./ticket-site-details.component.scss', '../pages.component.css']
 })
 export class TicketSiteDetailsComponent implements OnInit {
-  
+
   haltInfo = null;
   ticketInfo = null;
   notification = null;
@@ -47,7 +47,6 @@ export class TicketSiteDetailsComponent implements OnInit {
     this.common.loading++;
     let params = 'ticket_id=' + this.notification.ticket_id +
       "&pri_type=" + this.notification.pri_type;
-
 
     this.api.get('FoTickets/getSingleTicketInfo?' + params, {})
       .subscribe(res => {
@@ -103,10 +102,8 @@ export class TicketSiteDetailsComponent implements OnInit {
       description: description,
       options: options
     };
-
     this.common.params = data;
-    const activeModal = this.modalService.open(VehicleHaltComponent, { size: 'lg', container: 'nb-layout' });
-
+    const activeModal = this.modalService.open(VehicleHaltComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Data: ', data);
       if (data.response) {
@@ -126,7 +123,6 @@ export class TicketSiteDetailsComponent implements OnInit {
     console.log(params);
 
     this.common.loading++;
-
     this.api.post('FoTickets/updateHaltTypes', params)
       .subscribe(res => {
         this.common.loading--;
@@ -168,6 +164,4 @@ export class TicketSiteDetailsComponent implements OnInit {
 
     // modal.present();
   }
-
-
 }
