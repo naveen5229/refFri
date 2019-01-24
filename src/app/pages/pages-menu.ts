@@ -37,4 +37,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-home',
     link: '/pages/concise',
   },
+  {
+    title: 'Fuel Average Analysis',
+    icon: 'nb-home',
+    link: '/pages/fuel-average-analysis',
+  },  
 ];
