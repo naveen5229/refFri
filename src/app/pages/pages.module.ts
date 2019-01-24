@@ -19,6 +19,7 @@ import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-de
 import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
 import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
+import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -46,7 +47,8 @@ const PAGES_COMPONENTS = [
     TicketDetailsComponent,
     TicketSiteDetailsComponent,
     TicketActionsComponent,
-    ConciseComponent
+    ConciseComponent,
+    FuelAverageAnalysisComponent
   ],
 })
 export class PagesModule {
