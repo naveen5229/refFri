@@ -7,7 +7,7 @@ declare var google: any;
 @Component({
   selector: 'location-marker',
   templateUrl: './location-marker.component.html',
-  styleUrls: ['./location-marker.component.scss']
+  styleUrls: ['./location-marker.component.scss','../../pages/pages.component.css']
 })
 export class LocationMarkerComponent implements OnInit {
   title = '';

@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'confirm',
   templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+  styleUrls: ['./confirm.component.scss','../../pages/pages.component.css']
 })
 export class ConfirmComponent implements OnInit {
   title = '';

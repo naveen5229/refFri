@@ -1,4 +1,4 @@
-<div *ngIf="ticketInfo" style="background: #fff;">
+<div *ngIf="ticketInfo" class="main">
   <p class="section">Ticket Actions</p>
   <div class="actions action-text">
     <p class="info action-text">
@@ -31,7 +31,7 @@
     </p>
   </div>
 
-  <div style="margin-top:10px;">
+  <div style="margin-top:27px;">
     <div class="row">
       <div class="col">
         <a href="javascript:void(0)" style="margin-left: 10px; line-height: 45px;" (click)="getRemark(-5)">Can't do</a>
@@ -39,7 +39,7 @@
       <div class="col">
         <button class="btn btn-primary btn-sm " (click)="getRemark(5)">
           <i name="checkmark-circle-outline" class="icon ion-checkmark-circle-outline"></i>
-          <span style="margin-left: 10px; text-transform: none;">Mark as done</span>
+          <span style="margin-left: 10px; text-transform: none; cursor: pointer; ">Mark as done</span>
         </button>
       </div>
     </div>

@@ -12,7 +12,7 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
   selector: 'vehicle-halt',
   templateUrl: './vehicle-halt.component.html',
-  styleUrls: ['./vehicle-halt.component.scss']
+  styleUrls: ['./vehicle-halt.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleHaltComponent implements OnInit {
 
@@ -35,9 +35,10 @@ export class VehicleHaltComponent implements OnInit {
 
   confirmOption(option) {
     this.common.params = {
+      title: this.title,
       description: `<p>You have selected <strong>${option.name}</strong> option. Confirm it.`
     }
-    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout' });
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout',backdrop: 'static'});
     activeModal.result.then(data => {
       if (data.response) {
         this.dismiss(true, option);
@@ -52,7 +53,7 @@ export class VehicleHaltComponent implements OnInit {
       label: 'Halt Name',
     };
     console.log(this.common.params);
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.dismiss(true, { name: data.remark, id: option.id });
@@ -60,27 +61,11 @@ export class VehicleHaltComponent implements OnInit {
     });
   }
 
-  // ngViewDidLoad() {
-  //   console.log('ionViewDidLoad VehicleHaltPage');
-  // }
-
-  // openModal(option) {
-  //   let modal = this.common.params.create('VehicleHaltConfirmPage', { option });
-  //   modal.onDidDismiss(data => {
-  //     if (data.response) {
-  //       this.dismiss(true, { name: data.haltName, id: option.id });
-  //     }
-  //   });
-  //   modal.present();
-  // }
-
   dismiss(response, option?) {
     this.activeModal.close({
       response: response,
       option: option
     });
   }
-
-
 
 }

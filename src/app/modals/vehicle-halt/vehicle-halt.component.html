@@ -1,29 +1,19 @@
-<div class="main-view">
-  <!-- <div class="overlay" (click)="dismiss(false)" id="close_modal_btn"></div> -->
-  <div class="custom-modal">
-    <div class="custom-modal-header" id="modal_title">{{title}}
-      <button type="button" class="close" aria-label="Close" (click)="dismiss(false)">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <h5>{{description}}</h5>
+  </div>
+  <div class="option-container">
+    <div *ngFor="let option of details.options">
+      <div class="option" *ngIf="option.id != 701" (click)="confirmOption(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div>
     </div>
-    <div class="custom-modal-content">
-      <p class="msg-txt">{{description}}</p>
-      <p class="select-txt">Select An Option</p>
-      <div class="option-container">
-        <div *ngFor="let option of details.options">
-          <div class="option" *ngIf="option.id != 701" (click)="confirmOption(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div>
-        </div>
-        <!-- <div class="option" *ngFor="let option of details.options" (click)="openModal(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div> -->
-        <div class="option" (click)="getReason({name: 'Other Reason', id: 701})">Other Reason</div>
-      </div>
-    </div>
-
-    <!-- <div class="custom-modal-footer">
-        <div class="row">
-            <div class="col text-right">
-            <button ion-button class="modal-footer-btn" type="button" outline (click)="dismiss(false)" id="cancel">Ok</button>
-            </div>
-        </div>
-      </div> -->
+    <!-- <div class="option" *ngFor="let option of details.options" (click)="openModal(option)" [ngClass]="option.is_current ? 'selected-option' : ''">{{option.name}}</div> -->
+    <div class="option" (click)="getReason({name: 'Other Reason', id: 701})">Other Reason</div>
   </div>
 </div>
+
