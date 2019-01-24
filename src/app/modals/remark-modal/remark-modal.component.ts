@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'remark-modal',
   templateUrl: './remark-modal.component.html',
-  styleUrls: ['./remark-modal.component.scss']
+  styleUrls: ['./remark-modal.component.scss','../../pages/pages.component.css']
 })
 export class RemarkModalComponent implements OnInit {
   title = '';
