@@ -1,8 +1,11 @@
 <nb-card>
     <nb-card-header>
       <div class="row">
-        <div class="col-sm-10"><h2>Fuel Average Analysis</h2></div>
-       
+        <div class="col-sm-10"><h2>Fuel Average Analysis</h2>
+          <input type="text" (ngModelChange)="getTime(startTime)" [(ngModel)] = "startTime" name="startTime" >
+          <input type="text" (ngModelChange)="getTime(endTime)"  [(ngModel)] = "endTime" name="endTime" ></div>
+      
+
       </div>
     </nb-card-header>
     <nb-card-body>

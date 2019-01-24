@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 @Component({
   selector: 'fuel-average-analysis',
@@ -43,5 +44,10 @@ export class FuelAverageAnalysisComponent implements OnInit {
       this.common.loading--;
       console.log(err);
     });
+  }
+  getTime(time){
+    console.log(time);
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }

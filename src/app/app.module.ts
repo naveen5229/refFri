@@ -26,6 +26,7 @@ import { TicketForwardComponent } from './modals/ticket-forward/ticket-forward.c
 import { RemarkModalComponent } from './modals/remark-modal/remark-modal.component';
 import { VehicleHaltComponent } from './modals/vehicle-halt/vehicle-halt.component';
 import { ConfirmComponent } from './modals/confirm/confirm.component';
+import { DatePickerComponent } from './modals/date-picker/date-picker.component';
 
 
 
@@ -40,7 +41,7 @@ import { ConfirmComponent } from './modals/confirm/confirm.component';
     BuyTimeComponent, 
     ReminderComponent, 
     RemarkModalComponent, 
-    VehicleHaltComponent, ConfirmComponent],
+    VehicleHaltComponent, ConfirmComponent, DatePickerComponent],
     
   entryComponents:[
     KpisDetailsComponent,
