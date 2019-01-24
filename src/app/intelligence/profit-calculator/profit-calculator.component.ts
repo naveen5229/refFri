@@ -4,6 +4,12 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { DataService } from '../../services/data.service';
+import { routes } from '@nebular/auth';
+// import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { LocationSelectionComponent } from '../../modals/location-selection/location-selection.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Route } from '@angular/compiler/src/core';
+import { Router } from '@angular/router';
 //import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 
 
@@ -96,11 +102,16 @@ export class ProfitCalculatorComponent {
     public api: ApiService,
     public common: CommonService,
     public data: DataService,
+    public router: Router,
+    private modalService: NgbModal
+
   ) {
     this.getLoadingUnloading('tonnage', '', '', '', '');
+
   }
 
-  ionViewDidLoad() {
+  // ionViewDidLoad() {
+  ngAfterViewInit(): void {
     setTimeout(this.autoSuggestion.bind(this, 'cost', 'cost_origin_0', 0, 'origin'), 3000);
     setTimeout(this.autoSuggestion.bind(this, 'cost', 'cost_destination_0', 0, 'destination'), 3000);
     setTimeout(this.autoSuggestion.bind(this, 'profit', 'profit_origin_0', 0, 'origin'), 3000);
@@ -110,6 +121,7 @@ export class ProfitCalculatorComponent {
   }
 
   autoSuggestion(routeType, elementId, index, locationType) {
+    // console.log('testtt');
     var options = {
       types: ['(cities)'],
       componentRestrictions: { country: "in" }
@@ -143,7 +155,7 @@ export class ProfitCalculatorComponent {
   }
 
   addCostRoute() {
-
+    console.log('afterAddClick');
     if (this.editCost.route) {
 
       this.routes.cost[this.editCost.index].status = true;
@@ -169,6 +181,8 @@ export class ProfitCalculatorComponent {
       },
       status: false,
     });
+
+
 
     let originId = 'cost_origin_' + (this.routes.cost.length - 1);
     let destinationId = 'cost_destination_' + (this.routes.cost.length - 1);
@@ -374,7 +388,7 @@ export class ProfitCalculatorComponent {
         console.log(this.routes.profit[index]);
         this.routes.profit[index][loadType + 'Rates'] = res['data'].values;
       }, err => {
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -387,6 +401,8 @@ export class ProfitCalculatorComponent {
     }
     this.addProfitRoute();
   }
+
+
 
   logout() {
     const params = {
@@ -409,6 +425,7 @@ export class ProfitCalculatorComponent {
   }
 
   isShowLoopOption(route) {
+    //  console.log('innerIsshowloop');
     if (this.routes[route].length < 2) {
       this.selected.loop[route] = false;
       return false;
@@ -419,6 +436,61 @@ export class ProfitCalculatorComponent {
     return true;
   }
 
+  showLocation(route, cal) {
+
+    console.log('text==', this.common.params);
+    // if (!kpi.x_tlat) {
+    //   this.common.showToast('Vehicle location not available!');
+    //   return;
+    // }
+    // const location = {
+    //   //lat: kpi.x_tlat,
+    //   lat: 29.699222,
+    //   lng: 77.869164,
+    //   // lng: kpi.x_tlong,
+    //   name: '',
+    //   time: ''
+    // };
+
+    this.common.params = { location, title: 'Vehicle Pickup Point' };
+    const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      console.log('Location name: ', data.location.name);
+
+
+      if (cal == 'costPick') {
+        route.origin.name = data.location.name;
+        // console.log('costPick inthis');
+
+      }
+
+      if (cal == 'costDrop') {
+        route.destination.name = data.location.name;
+        // console.log('costDrop inthis');
+
+      }
+
+      if (cal == 'profitPickup') {
+        route.origin.name = data.location.name;
+        console.log('profitPick inthis');
+
+      }
+
+      if (cal == 'profitDrop') {
+
+        route.destination.name = data.location.name;
+        console.log('profitDrop inthis');
+
+      }
+
+
+
+      // if(data.response){
+      // }
+    });
+  }
+
+
   getBrokerage(value, index) {
     // console.log(index);
     // console.log(value);
@@ -428,7 +500,7 @@ export class ProfitCalculatorComponent {
   }
 
   addRate(rate, amount, id) {
-    document.getElementById(id).className = "profit-input animated shake";
+    //document.getElementById(id).className = "profit-input animated shake";
     setTimeout(this.removeEffetc.bind(this, id), 500);
 
     console.log(rate);
@@ -443,12 +515,15 @@ export class ProfitCalculatorComponent {
   }
 
   removeEffetc(id) {
-    document.getElementById(id).className = "profit-input";
+    //  document.getElementById(id).className = "profit-input";
   }
 
-  goToPage(page) {
+  goToPage() {
     //this.navCtrl.push(page);
+    this.router.navigate(['/intelligence/path-viewer']);
   }
+
+
 
 
 }

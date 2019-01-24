@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { IntelligenceComponent } from './intelligence.component';
 import { ProfitCalculatorComponent } from './profit-calculator/profit-calculator.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PathViewerComponent } from './path-viewer/path-viewer.component';
 
 const routes: Routes = [{
     path: '',
@@ -14,8 +15,12 @@ const routes: Routes = [{
             component: DashboardComponent,
         },
         {
-          path:'profit-calculator',
-          component: ProfitCalculatorComponent,
+            path: 'profit-calculator',
+            component: ProfitCalculatorComponent,
+        },
+        {
+            path: 'path-viewer',
+            component: PathViewerComponent,
         },
     ],
 }];

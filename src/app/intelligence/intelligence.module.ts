@@ -5,6 +5,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { IntelligenceRoutingModule } from './intelligence-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { ProfitCalculatorComponent } from './profit-calculator/profit-calculator.component';
+import { PathViewerComponent } from './path-viewer/path-viewer.component';
 
 const PAGES_COMPONENTS = [
   IntelligenceComponent,
@@ -20,6 +21,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     ProfitCalculatorComponent,
+    PathViewerComponent,
   ],
 })
 export class IntelligenceModule {

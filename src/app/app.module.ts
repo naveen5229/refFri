@@ -24,21 +24,23 @@ import { BuyTimeComponent } from './modals/buy-time/buy-time.component';
 import { ReminderComponent } from './modals/reminder/reminder.component';
 import { TicketForwardComponent } from './modals/ticket-forward/ticket-forward.component';
 import { RemarkModalComponent } from './modals/remark-modal/remark-modal.component';
+import { LocationSelectionComponent } from './modals/location-selection/location-selection.component';
+
 
 
 
 @NgModule({
-  declarations: [AppComponent, 
-    LoginComponent, 
-    KpisDetailsComponent, 
-    LocationMarkerComponent, 
-    TicketTrailsComponent, 
-    ImageViewComponent, 
-    TicketForwardComponent, 
-    BuyTimeComponent, 
-    ReminderComponent, 
-    RemarkModalComponent],
-  entryComponents:[
+  declarations: [AppComponent,
+    LoginComponent,
+    KpisDetailsComponent,
+    LocationMarkerComponent,
+    TicketTrailsComponent,
+    ImageViewComponent,
+    TicketForwardComponent,
+    BuyTimeComponent,
+    ReminderComponent,
+    RemarkModalComponent, LocationSelectionComponent],
+  entryComponents: [
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
@@ -46,7 +48,8 @@ import { RemarkModalComponent } from './modals/remark-modal/remark-modal.compone
     BuyTimeComponent,
     ReminderComponent,
     TicketForwardComponent,
-    RemarkModalComponent
+    RemarkModalComponent,
+    LocationSelectionComponent,
   ],
   imports: [
     BrowserModule,
