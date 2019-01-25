@@ -27,18 +27,20 @@ i{
     cursor: pointer;
 
 }
+.footer{
+    margin-top: 10px;
+    border-top: 1px #b1b0b0 solid;
+    padding-top: 3%;
+}
 .row{
-    border-top:1px solid #f2f2f2;
     width: 95%;
 }
 
-.btn.btn-sm {
+.btn.btn-primary.btn-sm {
     float: right;
     margin-right: -5%;
-    margin-top: 2%;
     background: #05276b;
-
-
+    margin-bottom: 3%;
 }
 .action-icon {
     float: right;
