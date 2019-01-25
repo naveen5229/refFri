@@ -1,3 +1,92 @@
-<p>
-  vehicle-kpis works!
-</p>
+<nb-card>
+  <nb-card-header>
+    <h2>Vehicle KPIs</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <table class="table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th># </th>
+          <th>Vehicle </th>
+          <th>Status </th>
+          <th>Hrs </th>
+          <th>Trip </th>
+          <th>Kmp </th>
+          <th>Location</th>
+          <th>View LR</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let kpi of kpis; let i = index;">
+          <th scope="row">{{i + 1}}</th>
+          <td (click)="showDetails(kpi)">{{kpi.x_showveh}}</td>
+          <td (click)="showDetails(kpi)">{{kpi.showprim_status }} {{ kpi.showsec_status ? ',' +
+            kpi.showsec_status : ''}}</td>
+          <td (click)="showDetails(kpi)" [ngClass]="(kpi.x_hrssince >= 24) ? 'red' : ''">{{kpi.x_hrssince}}</td>
+          <td (click)="showDetails(kpi)">
+            <i name="exit" class="fas fa-sign-out-alt"></i>
+
+            <!-- Heading -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 0">
+              <i class="icon ion-md-exit"></i>
+              <span class="circle">{{kpi.x_showtripstart}}</span>
+              <i class="icon ion-md-arrow-round-forward"></i>
+
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Loading -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 1">
+              <span class="circle">{{kpi.x_showtripstart}}</span>
+              <i class="icon ion-md-arrow-round-forward"></i>
+
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Onward -->
+            <div col-4 (click)="showDetails(kpi)" style="font-size: 14px;" *ngIf="kpi.trip_status_type == 2">
+              <span>{{kpi.x_showtripstart}}</span>
+              <i class="icon ion-md-arrow-round-forward"></i>
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+
+            <!-- Unloading -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 3">
+              <span>{{kpi.x_showtripstart}}</span>
+              <i class="icon ion-md-arrow-round-forward"></i>
+
+              <span class="icon ion-md-circle">{{kpi.x_showtripend}}</span>
+
+            </div>
+
+            <!-- Complete -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 4">
+              <span>{{kpi.x_showtripstart}}</span>
+              <i class="icon ion-md-arrow-round-forward"></i>
+
+              <span>{{kpi.x_showtripend}}</span>
+
+            </div>
+
+            <!-- Ambigous -->
+            <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 5">
+              <span>{{kpi.x_showtripstart}}</span>
+              <span class="icon ion-md-route-arrow">-</span>
+              <span>{{kpi.x_showtripend}}</span>
+            </div>
+          </td>
+
+          <td (click)="showDetails(kpi)" [ngClass]="kpi.x_kmph < 20 ? 'pink' : ''">{{kpi.x_kmph}}</td>
+          <td (click)="showLocation(kpi)">{{kpi.Address}}
+            <!-- <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i> -->
+          </td>
+          <td>
+            <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

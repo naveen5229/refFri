@@ -9,9 +9,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ApiService {
 
   // URL: string = 'http://13.233.32.59/booster_webservices/'; // prod Server
-  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  //  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
-  // URL: string = 'http://192.168.0.113/booster_webservices/'; // Umang
+  URL: string = 'http://192.168.0.108/booster_webservices/'; // Umang
 
   constructor(private http: HttpClient,
     public user: UserService) { }
@@ -42,15 +42,12 @@ export class ApiService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': '3'
+      'entrymode': '3',
+      'authkey': this.user._token || ''
     });
 
-    if (this.user._token) {
-      headers.append('authkey', this.user._token);
-    }
-
     console.log('Header: ', headers);
-
+    
     return headers;
 
   }

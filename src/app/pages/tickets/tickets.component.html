@@ -1,0 +1,88 @@
+<nb-card>
+    <nb-card-header>
+        <h2>Tickets</h2>
+    </nb-card-header>
+
+    <nb-card-body>
+        <nb-tabset>
+            <nb-tab tabTitle="New">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle No</th>
+                            <th>Driver</th>
+                            <th>Message</th>
+                            <th>Remaining Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of newTickets; let i = index">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{ticket.regno}}</td>
+                            <td>{{ticket.empname}}</td>
+                            <td>{{ticket.msg}}</td>
+                            <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                            <td>
+                                <span class="text-primary accept" (click)="updateNotificationStatus(ticket.ticket_id, 2, ticket.msg, ticket.fo_ticket_allocation_id)">Accept</span>
+
+                                <span class="text-danger deny" (click)="updateNotificationStatus(ticket.ticket_id, -2, ticket.msg, ticket.fo_ticket_allocation_id)">Deny</span>
+                            </td>
+                        </tr>
+                </table>
+
+            </nb-tab>
+
+            <nb-tab tabTitle="Open">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle No</th>
+                            <th>Driver</th>
+                            <th>Message</th>
+                            <th>Remaining Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of openTickets; let i = index;" (click)="showDetails(ticket)">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{ticket.regno}}</td>
+                            <td>{{ticket.empname}}</td>
+                            <td>{{ticket.msg}}</td>
+                            <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
+                        </tr>
+                </table>
+            </nb-tab>
+
+            <nb-tab tabTitle="Claim">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle No</th>
+                            <th>Driver</th>
+                            <th>Message</th>
+                            <th>Add Time</th>
+                            <th>Trails</th>
+                            <th>Claim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ticket of tickets; let i = index;">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>{{ticket.regno}}</td>
+                            <td>{{ticket.empname}}</td>
+                            <td>{{ticket.msg}}</td>
+                            <td>{{ticket.addtime | date : 'dd MMM HH:mm'}}</td>
+                            <td (click)="showTrailList(ticket)" style="cursor:pointer">show</td>
+                            <td>
+                                <span (click)="claimTicket(ticket)">Claim</span>
+                            </td>
+                        </tr>
+                </table>
+            </nb-tab>
+        </nb-tabset>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <label>{{label}}</label>
+    </div>
+    <div class="row">
+      <textarea name="remark" class="form-control" [(ngModel)]="remark" [placeholder]="placeholder"></textarea>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" (click)="closeModal(false)" style="cursor:pointer;">{{btn2}}</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" (click)="closeModal(true)" style="cursor:pointer;">{{btn1}}</button>
+    </div>
+  </div>
+</div>

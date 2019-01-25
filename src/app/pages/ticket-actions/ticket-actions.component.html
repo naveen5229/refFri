@@ -1,0 +1,50 @@
+<div *ngIf="ticketInfo" class="main">
+  <p class="section">Ticket Actions</p>
+  <div class="actions action-text">
+    <p class="info action-text">
+      <span>Time Remaining</span>
+      <i class="action-icon fa fa-plus" (click)="getExtraTime()"></i>
+      <span class="remain-time">{{ticketInfo && common.findRemainingTime(ticketInfo.exp_tkt_time)}}</span>
+    </p>
+
+    <p class="forward action-text">
+      <span>Reminder</span>
+      <i class="action-icon fa fa-bell" (click)="setReminder()"></i>
+    </p>
+
+    <p class="forward action-text">
+      <span>Forward</span>
+      <i class="action-icon fa fa-share" (click)="forwardTicket()"></i>
+    </p>
+
+    <p class="mark-done action-text">
+      <span>Trail List</span>
+      <i class="action-icon fa fa-info-circle" (click)="getTrailList()"></i>
+    </p>
+
+    <p class="mark-done action-text">
+      <span>Comments</span>
+
+      <i class="action-icon fa fa-plus" (click)="commentPrompt()"></i>
+      <i class="action-icon fa fa-info-circle" (click)="getComments()"></i>
+
+    </p>
+  </div>
+
+  <div class="footer">
+    <div class="row">
+      <div class="col" style="padding-left: 5%;">
+        <button class="btn btn-default btn-sm" (click)="getRemark(-5)">
+            <span style="margin-left: 10px; text-transform: none; cursor: pointer; ">Can't Do</span>
+          <!-- <a href="javascript:void(0)" style="margin-left: 10px;">Can't do</a> -->
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary btn-sm" (click)="getRemark(5)">
+          <!-- <i name="checkmark-circle-outline" class="icon ion-checkmark-circle-outline"></i> -->
+          <span style="margin-left: 10px; text-transform: none; cursor: pointer; ">Mark as done</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

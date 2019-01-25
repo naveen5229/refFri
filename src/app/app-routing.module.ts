@@ -13,9 +13,26 @@ import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
   {
-    path: 'pages', 
+    path: 'pages',
     loadChildren: 'app/pages/pages.module#PagesModule',
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'intelligence',
+    loadChildren: 'app/intelligence/intelligence.module#IntelligenceModule',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'accounts',
+    loadChildren: 'app/accounts/accounts.module#AccountsModule'
+  },
+  {
+    path: 'partner',
+    loadChildren: 'app/partner/partner.module#PartnerModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: 'app/admin/admin.module#AdminModule'
   },
   {
     path: 'auth',
