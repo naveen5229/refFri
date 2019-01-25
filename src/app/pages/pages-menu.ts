@@ -42,4 +42,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-paper-plane',
     link: '/pages/fuel-average-analysis',
   },  
+  {
+    title: 'Vehicle Trip',
+    icon: 'fa fa-oil-can',
+    link: '/pages/vehicle-trip',
+  }, 
 ];
