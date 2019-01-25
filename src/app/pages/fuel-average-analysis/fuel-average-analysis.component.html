@@ -35,14 +35,14 @@
 
         <tbody *ngIf="fuelAvgDetails.length!=0">
           <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index">
-            <th scope="row">{{i + 1}}</th>
+            <th scope="row" click= "getDetails(fuelAvgDetail)">{{i + 1}}</th>
             <td>{{fuelAvgDetail.regno}}</td>
-            <td>{{fuelAvgDetail.filling_time}}</td>
-            <td>{{fuelAvgDetail.last_filling_time}}</td>
+            <td>{{fuelAvgDetail.current_filling_entry_time}}</td>
+            <td>{{fuelAvgDetail.last_filling_entry_time}}</td>
             <td>{{fuelAvgDetail.location_trail}}</td>
-            <td>{{fuelAvgDetail.average}}</td>
+            <td>{{fuelAvgDetail.avg_consumption}}</td>
             <td>{{fuelAvgDetail.total_fuel}}</td>
-            <td>{{fuelAvgDetail.total_distance}}</td>
+            <td>{{fuelAvgDetail.distance}}</td>
 
           </tr>
         </tbody>
