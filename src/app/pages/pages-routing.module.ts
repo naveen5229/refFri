@@ -18,56 +18,59 @@ import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  children: [
-    {
-      path: 'dashboard',
-      component: DashboardComponent,
-    },
-    {
-      path: 'vehicle-kpis',
-      component: VehicleKpisComponent,
-    },
-    {
-      path: '',
-      redirectTo: 'dashboard',
-      pathMatch: 'full',
-    },
-    {
-      path: 'tickets',
-      component: TicketsComponent,
-    },
-    {
-      path: 'tickets-all',
-      component: TicketsAllComponent,
-    },
-    {
-      path: 'lorry-receipts',
-      component: LorryRecciptsComponent,
-    },
-    {
-      path: 'expenses',
-      component: ExpensesComponent,
-    },
-    {
-      path:'concise',
-      component: ConciseComponent,
-    },
-    {
-      path: 'ticket-site-details',
-      component: TicketSiteDetailsComponent
-    },
-    {
-      path: 'ticket-details',
-      component: TicketDetailsComponent
-    },
-    {
-      path: 'fuel-average-analysis',
-      component: FuelAverageAnalysisComponent
-    },
-    {
-      path: 'vehicle-trip',
-      component: VehicleTripComponent
-    }
+  children: [{
+    path: '',
+    component: ConciseComponent
+  },
+  {
+    path: 'dashboard',
+    component: ConciseComponent,
+  },
+  {
+    path: 'vehicle-kpis',
+    component: VehicleKpisComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'tickets',
+    component: TicketsComponent,
+  },
+  {
+    path: 'tickets-all',
+    component: TicketsAllComponent,
+  },
+  {
+    path: 'lorry-receipts',
+    component: LorryRecciptsComponent,
+  },
+  {
+    path: 'expenses',
+    component: ExpensesComponent,
+  },
+  {
+    path: 'concise',
+    component: ConciseComponent,
+  },
+  {
+    path: 'ticket-site-details',
+    component: TicketSiteDetailsComponent
+  },
+  {
+    path: 'ticket-details',
+    component: TicketDetailsComponent
+  },
+  {
+    path: 'fuel-average-analysis',
+    component: FuelAverageAnalysisComponent
+  },
+  {
+    path: 'vehicle-trip',
+    component: VehicleTripComponent
+  }
   ],
 }];
 

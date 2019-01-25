@@ -18,7 +18,6 @@ export class CommonService {
   themeSubscription: any;
   searchId = null;
 
-
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
     2: { page: 'HomePage', title: 'Home' },
