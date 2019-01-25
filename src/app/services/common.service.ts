@@ -13,9 +13,14 @@ export class CommonService {
 
   params = null;
   loading = 0;
+<<<<<<< HEAD
   chartData: any;
   chartOptions: any;
   themeSubscription: any;
+=======
+  searchId = null;
+
+>>>>>>> vishal
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -76,6 +81,14 @@ export class CommonService {
       config);
   }
 
+  handleApiResponce(res) {
+    if ([52, 53, 54].indexOf(res.code) !== -1) {
+      return false;
+    }
+    return true;
+  }
+
+
   findRemainingTime(time) {
     if (time > 59) {
       let minutes = Math.floor((time / 60));
@@ -90,7 +103,9 @@ export class CommonService {
       return '0 sec'
     }
 
+
   }
+
 
   renderPage(priType, secType1, secType2, data?) {
     console.log('Data: ', data);
