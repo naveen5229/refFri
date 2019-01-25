@@ -7,4 +7,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/dashboard',
         home: true,
     },
+    {
+        title: 'Orders',
+        icon: 'nb-home',
+        link: '/accounts/orders'
+    },
+    {
+        title: 'Stock Types',
+        icon: 'nb-home',
+        link: '/accounts/stock-types'
+    }
 ];
