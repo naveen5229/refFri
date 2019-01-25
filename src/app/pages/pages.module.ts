@@ -22,6 +22,7 @@ import { DatePickerComponent } from '../modals/date-picker/date-picker.component
 
 import { from } from 'rxjs';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
+import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -50,6 +51,7 @@ const PAGES_COMPONENTS = [
     TicketActionsComponent,
     ConciseComponent,
     FuelAverageAnalysisComponent,
+    VehicleTripComponent,
   ],
 })
 export class PagesModule {

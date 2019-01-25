@@ -62,4 +62,24 @@ export class FuelAverageAnalysisComponent implements OnInit {
     });
   }
 
+  // getDetails(fuelAvgDetail){
+  //   let params ={
+  //     vehicle_id : fuelAvgDetail.veh_id,
+  //     last_filling_entry_time : fuelAvgDetail.last_filling_entry_time,
+  //     current_filling_entry_time : fuelAvgDetail.current_filling_entry_time
+  //   } 
+  //   this.common.loading++;
+  //   this.api.get('VehicleKpis',)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log(res);
+  //       let data = res['data'];
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
+
+  
+
 }
