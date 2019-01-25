@@ -1,0 +1,285 @@
+<!-- start-calculator-tab -->
+
+<nb-card style="border:none">
+  <nb-card-header>
+    <h2 style="font-size:20px;">Calculator</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab tabTitle="Cost Calculator" (click)="selected.calculator = 'cost'" [ngClass]=" selected.calculator == 'cost' ? 'active': 'in-active'">
+
+        <div class="row-cal" style="margin:20px 0">
+          <!-- COST CALCULATOR -->
+          <div class="col-md-12 routes" id="cost-calculator">
+
+            <!-- <div *ngFor="let route of routes.cost; let i = index" [hidden]="!route.status" class="route-row" (click)="editCostRoute(route, i)">
+              <div class="route-source">
+                <span>{{route.origin.name}}</span>
+              </div>
+              <div col-1>
+                <span class="route-to">TO</span>
+              </div>
+              <div class="route-destination">
+                <span>{{route.destination.name}}</span>
+                <div name="close" (click)="deleteRoute('cost', i)" style="top: -9px; right: -3px; border-radius: 50% 0% 50% 50%;"
+                  class="delete-route"></div>
+              </div>
+            </div> -->
+            <!-- <div class="input-position" *ngFor="let route of routes.cost; let i = index" [hidden]="route.status"> -->
+            <div class="input-position" *ngFor="let route of routes.cost; let i = index">
+              <div name="close" (click)="deleteRoute('cost', i)" class="delete-route" style="top:0px; background: #607D8B; color: #fff; border-radius: 50% 0% 50% 50%;"
+                *ngIf="i != 0 || editCost.route"></div>
+
+              <div class="row">
+                <div class="col-md-5" style="padding-left:4px; margin-top: 15px;">
+                  <input type="text" [name]="'cost_origin_' + i" [id]="'cost_origin_' + i" [(ngModel)]="route.origin.name"
+                    placeholder="Enter pickup point" style="padding:10px;font-size:12px;" class="location-input form-control">
+                  <i (click)="showLocation(route,cal='costPick')" style="bottom: 32px;right: 10px;font-size: 20px; float:right; position:relative"
+                    class="fa fa-map-marker" aria-hidden="true"></i>
+                </div>
+
+                <div col-1 style="padding: 30px 10px 0 0px;">
+                  <span class="route-to">TO</span>
+                </div>
+
+                <div class="col-md-5" style="padding-left:4px; margin-top: 15px;">
+                  <input type="text" [name]="'cost_destination_' + i" [id]="'cost_destination_' + i" [(ngModel)]="route.destination.name"
+                    placeholder="Enter drop point" style="padding:10px;font-size:12px;" class="location-input form-control">
+                  <i (click)="showLocation(route,cal='costDrop')" style="bottom: 32px;right: 10px;font-size: 20px; float:right; position:relative"
+                    class="fa fa-map-marker" aria-hidden="true"></i>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="route-options" style="margin:20px 0;">
+
+
+              <button style="margin-right:15px; font-size: 12px; padding:7px;" class="btn btn-success" (click)="addCostRoute()"
+                block>
+                <div name="add-circle"></div> &nbsp;Add Route
+              </button>
+
+
+
+              <button style="margin-right:15px; font-size: 12px; padding:7px;" class="btn btn-success" (click)="mapViewer('cost')"
+                block>
+                Calculate Cost
+              </button>
+
+            </div>
+            <!-- <div *ngIf="isShowLoopOption('cost')"> -->
+            <div *ngIf="isShowLoopOption('cost')">
+              <div>Complete Loop</div>
+              <div checked="false" name="loop" [(ngModel)]="selected.loop.cost"></div>
+            </div>
+          </div>
+          <!-- END OF COST CALCULATOR -->
+
+        </div>
+      </nb-tab>
+
+      <nb-tab tabTitle="Profit Calculator" (click)="selected.calculator = 'profit'" [ngClass]=" selected.calculator == 'profit' ? 'active': 'in-active'">
+
+        <div>
+          <!-- PROFIT CALCULATOR -->
+          <div class="routes" id="profit-calculator">
+            <!-- <div *ngFor="let route of routes.profit; let i = index" [hidden]="!route.status" class="route-row" (click)="editRoute(route, i)"> -->
+            <!-- <div *ngFor="let route of routes.profit; let i = index" [hidden]="!route.status" class="route-row" (click)="editRoute(route, i)">
+              <div class="route-source">
+                <span>{{route.origin.name}}</span>
+              </div>
+              <div col-1>
+                <span class="route-to">TO</span>
+              </div>
+              <div class="route-destination">
+                <span>{{route.destination.name}}</span>
+                <div name="close" (click)="deleteRoute('profit', i)" class="delete-route" style="top: -9px; right: -3px; border-radius: 50% 0% 50% 50%;"></div>
+              </div>
+            </div> -->
+            <div class="input-position" *ngFor="let route of routes.profit; let i = index" style="position:relative">
+              <div name="close" (click)="deleteRoute('profit', i)" class="delete-route" style="top:0px; background: #607D8B; color: #fff; border-radius: 50% 0% 50% 50%;"
+                *ngIf="i != 0 || edit.route"></div>
+              <div class="row" style="margin:20px 0">
+                <div class="col-md-5" style="padding-left:4px; margin-top:15px;">
+                  <input type="text" [name]="'profit_origin_' + i" [id]="'profit_origin_' + i" [(ngModel)]="route.origin.name"
+                    placeholder="Enter pickup point" style="padding:10px;font-size:12px;" class="form-control">
+                  <i (click)="showLocation(route,cal='profitPickup')" style="bottom: 32px;right: 10px;font-size: 20px; float:right; position:relative"
+                    class="fa fa-map-marker" aria-hidden="true"></i>
+                </div>
+
+                <div col-1 style="padding: 30px 10px 0 0px;">
+                  <span class="route-to">TO</span>
+                </div>
+
+                <div class="col-md-5" style="padding-left:4px;  margin-top:15px;">
+                  <input type="text" [name]="'profit_destination_' + i" [id]="'profit_destination_' + i" [(ngModel)]="route.destination.name"
+                    placeholder="Enter drop point" class="form-control">
+                  <i (click)="showLocation(route,cal='profitDrop')" style="padding:10px;font-size:12px;" style="bottom: 32px;right: 10px;font-size: 20px; float:right; position:relative"
+                    class="fa fa-map-marker" aria-hidden="true"></i>
+                </div>
+
+              </div>
+
+              <p class="section" style=" margin-top:15px;">Loading Details</p>
+
+              <div class="row" style="margin:20px 0">
+
+                <div class="col-md-4" style="padding-left:4px;  margin-top:15px;">
+                  <input type="number" [name]="'profit_rate_' + i" [id]="'profit_rate_' + i" (input)="getBrokerage($event.target.value, i)"
+                    [(ngModel)]="route.rate" placeholder="Rate/Tonne" style="padding:7px;font-size:10px;" class="form-control">
+                </div>
+
+
+                <div class="col-md-8" style="padding-top:16px;">
+                  <button id="bnt-1000" style="margin-right:15px;" (click)="route.rate = addRate(route.rate, 1000, 'profit_rate_' + i)"
+                    class="btn btn-success btn-xs" [ngClass]="route.tonnage == 1000 ? 'active': ''">+1000</button>
+
+
+                  <button id="bnt-500" style="margin-right:15px;" (click)="route.rate = addRate(route.rate, 500, 'profit_rate_' + i)"
+                    class="btn btn-success btn-xs" [ngClass]="route.tonnage == 500 ? 'active': ''">+500</button>
+
+
+                  <button id="bnt-100" style="margin-right:15px;" (click)="route.rate = addRate(route.rate, 100, 'profit_rate_' + i)"
+                    class="btn btn-success btn-xs" [ngClass]="route.tonnage == 100 ? 'active': ''">+100</button>
+
+
+                  <button id="bnt-10" style="margin-right:15px;" (click)="route.rate = addRate(route.rate, 10, 'profit_rate_' + i)"
+                    class="btn btn-success btn-xs" [ngClass]="route.tonnage == 10 ? 'active': ''">+10</button>
+                </div>
+
+              </div>
+
+              <div class="row" style="margin:20px 0">
+                <div class="col-md-4" style="padding-left:4px;  margin-top:15px;">
+                  <input type="number" [name]="'profit_tonnage_' + i" [id]="'profit_tonnage_' + i" [(ngModel)]="route.tonnage"
+                    placeholder="Tonnage" style="padding:7px;font-size:10px;" class="form-control">
+                </div>
+                <!-- <div col-2 *ngFor="let tonnage of tonnageRates;">
+                  <button (click)="route.tonnage = tonnage" class="pro-btn" [ngClass]="route.tonnage == tonnage ? 'active': ''">{{tonnage}}</button>
+                </div> -->
+
+                <div class="col-md-8" style="padding-top:16px;">
+                  <button style="margin-right:15px;" class="btn btn-success btn-xs">26</button>
+                  <button style="margin-right:15px;" class="btn btn-success btn-xs">27</button>
+                  <button style="margin-right:15px;" class="btn btn-success btn-xs">28</button>
+                  <button style="margin-right:15px;" class="btn btn-success btn-xs">29</button>
+
+
+                </div>
+              </div>
+              <div class="row" style="margin:20px 0">
+
+                <div class="col-md-4" style="padding-left:4px;  margin-top:15px;">
+                  <input type="number" [name]="'profit_brokerage_' + i" [id]="'profit_brokerage_' + i" [(ngModel)]="route.brokerage"
+                    placeholder="Brokerage" style="padding:7px;font-size:10px;" class="form-control">
+                </div>
+
+
+                <div class="col-md-8" style="padding-top:16px;">
+
+                  <button *ngFor="let brokerage of route.brokrageRates" (click)="route.brokerage = brokerage" style="margin-right:15px;"
+                    class="btn btn-success btn-xs" [ngClass]="route.brokerage == brokerage ? 'active': ''">{{brokerage}}</button>
+
+                </div>
+              </div>
+              <div class="row" style="margin:20px 0">
+                <div class="col-md-4" style="padding-left:4px;  margin-top:15px;">
+                  <input type="number" [name]="'profit_loading_' + i" [id]="'profit_loading_' + i" [(ngModel)]="route.loading"
+                    placeholder="Loading/Tonne" style="padding:7px;font-size:10px;" class="form-control">
+                </div>
+
+                <div class="col-md-8" style="padding-top:16px;">
+                  <button *ngFor="let loadingRate of route.loadingRates" (click)="route.loading = loadingRate" class="btn btn-success btn-xs"
+                    style="margin-right:15px;" [ngClass]="route.loading == loadingRate ? 'active': ''">{{loadingRate}}</button>
+                </div>
+              </div>
+
+
+              <div class="row" style="margin:20px 0">
+                <div class="col-md-4" style="padding-left:4px;  margin-top:15px;">
+                  <input type="number" [name]="'profit_unloading_' + i" [id]="'profit_unloading_' + i" [(ngModel)]="route.unloading"
+                    placeholder="Unloading/Tonne" style="padding:7px;font-size:10px;" class="form-control">
+                </div>
+
+                <div class="col-md-8" style="padding-top:16px;">
+                  <button *ngFor="let unloadingRate of route.unloadingRates" (click)="route.unloading = unloadingRate"
+                    style="margin-right:15px;" class="btn btn-success btn-xs" [ngClass]="route.unloading == unloadingRate ? 'active': ''">{{unloadingRate}}</button>
+                </div>
+              </div>
+
+              <!-- <div style="background:#f2f2f2;">
+                    <div>
+                      <button block (click)="resetData(i)" style="background:#f2f2f2; color: #000;">CANCEL</button>
+                    </div>
+                    <div>
+                      <button block [disabled]="checkRouteStatus('profit', i)" (click)="route.status = true; clearData()">SAVE</button>
+                    </div>
+                  </div> -->
+            </div>
+
+
+
+            <div class="cal-btn">
+              <button style="margin-right:15px; font-size: 12px; padding:7px;" class="btn btn-success" (click)="checkAddProfitRoute()"
+                block>
+                <div name="add-circle"></div> &nbsp;Add Route
+              </button>
+
+
+
+              <!-- <button class="btn btn-success" (click)="mapViewer('profit')" block> -->
+              <button class="btn btn-success" (click)="goToPage()" style="margin-right:15px; font-size: 12px; padding:7px;">
+                Calculate Profit
+              </button>
+            </div>
+
+            <div *ngIf="isShowLoopOption('profit')">
+              <div>Complete Loop</div>
+              <div checked="false" name="loop" [(ngModel)]="selected.loop.profit"></div>
+            </div>
+          </div>
+          <!-- END OF PROFIT CALCULATOR -->
+        </div>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>
+
+
+
+<!-- end-calculator-tab -->
+
+
+
+
+<div class="row-btn">
+
+
+  <button class="btn btn-success btn-xs" style="margin-right:15px;" mini (click)="logout()">
+    Logout
+  </button>
+
+
+
+  <button class="btn btn-success btn-xs" style="margin-right:15px;" mini (click)="goToPage('BoosterPage')">
+    Booster Page
+  </button>
+
+
+
+  <button class="btn btn-success btn-xs" style="margin-right:15px;" mini (click)="goToPage('VehiclesPage')">
+    Vehicle Page
+  </button>
+
+
+
+  <button class="btn btn-success btn-xs" style="margin-right:15px;" mini (click)="goToPage('BoostedPage')">
+    Boosted Page
+  </button>
+
+
+</div>

@@ -18,6 +18,8 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
 import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
+import { DatePickerComponent } from '../modals/date-picker/date-picker.component';
+
 import { from } from 'rxjs';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 
@@ -33,7 +35,6 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     MiscellaneousModule,
     ChartModule
-
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -48,7 +49,7 @@ const PAGES_COMPONENTS = [
     TicketSiteDetailsComponent,
     TicketActionsComponent,
     ConciseComponent,
-    FuelAverageAnalysisComponent
+    FuelAverageAnalysisComponent,
   ],
 })
 export class PagesModule {
