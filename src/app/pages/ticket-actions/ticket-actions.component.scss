@@ -1,16 +1,46 @@
+.main{
+    height: auto;
+    background: white;
+    border: 1px solid #dee2e6;
+}
+
 .section {
-    background: #f2f2f2;
-    padding: 5px 8px;
+    // background: #f2f2f2;
+    padding: 15px 8px;
     font-weight: 500;
     letter-spacing: .5px;
+    font-family: Exo;
+    color: #181818;
+    font-size: 28px
 }
 .action-text {
-    padding: 0px 0px 3px 0px;
-    border-bottom: 1px solid #f2f2f2;
+    padding: 8px 0px 5px 5px;
     margin-left: 8px;
     margin-right: 8px;
     font-weight: 500;
     color: #000;
+    width: 95%;
+    font-family: Roboto;
+}
+
+i{
+    cursor: pointer;
+
+}
+.footer{
+    margin-top: 10px;
+    border-top: 1px #b1b0b0 solid;
+    padding-top: 3%;
+}
+.row{
+    width: 95%;
+}
+
+.btn.btn-primary.btn-sm {
+    float: right;
+    margin-right: -5%;
+    background: #05276b;
+    margin-bottom: 3%;
 }
 .action-icon {
     float: right;

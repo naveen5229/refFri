@@ -24,6 +24,11 @@ import { BuyTimeComponent } from './modals/buy-time/buy-time.component';
 import { ReminderComponent } from './modals/reminder/reminder.component';
 import { TicketForwardComponent } from './modals/ticket-forward/ticket-forward.component';
 import { RemarkModalComponent } from './modals/remark-modal/remark-modal.component';
+import { VehicleHaltComponent } from './modals/vehicle-halt/vehicle-halt.component';
+import { ConfirmComponent } from './modals/confirm/confirm.component';
+import { DatePickerComponent } from './modals/date-picker/date-picker.component';
+import { LocationSelectionComponent } from './modals/location-selection/location-selection.component';
+
 
 
 
@@ -37,8 +42,13 @@ import { RemarkModalComponent } from './modals/remark-modal/remark-modal.compone
     TicketForwardComponent, 
     BuyTimeComponent, 
     ReminderComponent, 
-    RemarkModalComponent],
-  entryComponents:[
+    RemarkModalComponent, 
+    VehicleHaltComponent, 
+    ConfirmComponent, 
+    DatePickerComponent,
+    LocationSelectionComponent],
+    
+  entryComponents: [
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
@@ -46,7 +56,11 @@ import { RemarkModalComponent } from './modals/remark-modal/remark-modal.compone
     BuyTimeComponent,
     ReminderComponent,
     TicketForwardComponent,
-    RemarkModalComponent
+    RemarkModalComponent,
+    VehicleHaltComponent,
+    ConfirmComponent,
+    DatePickerComponent,
+    LocationSelectionComponent,
   ],
   imports: [
     BrowserModule,

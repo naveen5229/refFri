@@ -8,7 +8,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 @Component({
   selector: 'lorry-reccipts',
   templateUrl: './lorry-reccipts.component.html',
-  styleUrls: ['./lorry-reccipts.component.scss']
+  styleUrls: ['./lorry-reccipts.component.scss','../pages.component.css']
 })
 export class LorryRecciptsComponent implements OnInit {
   receipts = [];

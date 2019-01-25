@@ -9,7 +9,7 @@ import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.
 @Component({
   selector: 'tickets-all',
   templateUrl: './tickets-all.component.html',
-  styleUrls: ['./tickets-all.component.scss']
+  styleUrls: ['./tickets-all.component.scss', '../pages.component.css']
 })
 export class TicketsAllComponent implements OnInit {
 

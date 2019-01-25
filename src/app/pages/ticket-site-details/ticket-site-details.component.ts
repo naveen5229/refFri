@@ -4,16 +4,14 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { VehicleHaltComponent } from '../../modals/vehicle-halt/vehicle-halt.component';
 
 @Component({
   selector: 'ticket-site-details',
   templateUrl: './ticket-site-details.component.html',
-  styleUrls: ['./ticket-site-details.component.scss']
+  styleUrls: ['./ticket-site-details.component.scss', '../pages.component.css']
 })
 export class TicketSiteDetailsComponent implements OnInit {
-
-
-
 
   haltInfo = null;
   ticketInfo = null;
@@ -42,8 +40,6 @@ export class TicketSiteDetailsComponent implements OnInit {
     this.getNotificationDetails();
   }
 
-
-
   ngOnInit() {
   }
 
@@ -51,7 +47,6 @@ export class TicketSiteDetailsComponent implements OnInit {
     this.common.loading++;
     let params = 'ticket_id=' + this.notification.ticket_id +
       "&pri_type=" + this.notification.pri_type;
-
 
     this.api.get('FoTickets/getSingleTicketInfo?' + params, {})
       .subscribe(res => {
@@ -102,28 +97,19 @@ export class TicketSiteDetailsComponent implements OnInit {
   }
 
   changeHalt(title, description, options) {
-
     let data = {
       title: title,
       description: description,
       options: options
     };
-
-    // let modal = this.modalCtrl.create('VehicleHaltPage', { data });
-
-    // modal.onDidDismiss(data => {
-    //   if (data.response) {
-    //     console.log(data);
-    //     if (data.option.id == -1) {
-    //       this.common.showToast('You have selected other option and its value is ' + data.option.name, 5000);
-    //     } else {
-    //       this.common.showToast('You have selected ' + data.option.name, 5000);
-    //     }
-    //     this.updateHalt(data.option);
-    //   }
-    // });
-
-    // modal.present();
+    this.common.params = data;
+    const activeModal = this.modalService.open(VehicleHaltComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data: ', data);
+      if (data.response) {
+        this.updateHalt(data.option);
+      }
+    });
   }
 
   updateHalt(option) {
@@ -137,75 +123,18 @@ export class TicketSiteDetailsComponent implements OnInit {
     console.log(params);
 
     this.common.loading++;
-
     this.api.post('FoTickets/updateHaltTypes', params)
       .subscribe(res => {
-        this.common.loading++;
+        this.common.loading--;
         this.common.showToast(res['msg']);
         console.log(res);
+        this.getNotificationDetails();
       }, err => {
         this.common.loading--;
         console.error(err);
         this.common.showError();
       });
   }
-
-  getExtraTime() {
-    // let modal = this.modalCtrl.create('BuyTimePage', { ticketId: this.notification.ticket_id });
-    // modal.onDidDismiss(data => {
-    //   if (data.response) {
-    //     this.getNotificationDetails();
-    //     this.navCtrl.pop();
-    //   }
-    // });
-    // modal.present();
-  }
-
-  forwardTicket() {
-    // console.log('Get Data');
-    // let modal = this.modalCtrl.create('ForwardTicketPage', { ticketId: this.notification.ticket_id, msg: this.ticketInfo.msg });
-    // modal.onDidDismiss(data => {
-    //   if (data.response) {
-    //     this.navCtrl.pop();
-    //   }
-    // })
-    // modal.present();
-  }
-
-  getTrailList() {
-    this.common.loading++;
-    this.api.get('FoTickets/getTrailLists?ticket_id=' + this.notification.ticket_id)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.showTrailList(res['data'], 'trailList');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-        this.common.showError();
-      });
-  }
-
-  showTrailList(data, type) {
-    // let modal = this.modalCtrl.create('TrailListPage', { data: data, type: type });
-    // modal.present();
-  }
-
-  getComments() {
-    this.common.loading++;
-    this.api.get('FoTickets/getTicketComments?ticket_id=' + this.notification.ticket_id)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.showTrailList(res['data'], 'comments');
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-        this.common.showError();
-      });
-  }
-
-
 
   findRemainingTime(time) {
     let minutes = time % 60;
@@ -214,7 +143,6 @@ export class TicketSiteDetailsComponent implements OnInit {
       return hours + ' hours ' + minutes + ' minutes';
     }
     return minutes + ' minutes ';
-
   }
 
   handleAction(secType) {
@@ -236,5 +164,4 @@ export class TicketSiteDetailsComponent implements OnInit {
 
     // modal.present();
   }
-
 }
