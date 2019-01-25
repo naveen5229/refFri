@@ -6,7 +6,7 @@
     <nb-card-body>
         <nb-tabset>
             <nb-tab tabTitle="All open Tickets">
-                <div class="msg-container" *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
+                <div class="msg-container no-data" *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
                     <div class="msg">No open ticket found!
                     </div>
                 </div>
@@ -23,6 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr *ngFor="let ticket of allOpenTickets; let i = index">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{ticket.regno}}</td>
@@ -37,7 +38,7 @@
             </nb-tab>
 
             <nb-tab tabTitle="Parked Tickets">
-                <div class="msg-container" *ngIf="status == 0 && !allClaimDrivers.length && showMsg ">
+                <div class="msg-container no-data" *ngIf="status == 0 && !allClaimDrivers.length && showMsg ">
                     <div class="msg">No claim ticket found!
                     </div>
                 </div>
@@ -54,6 +55,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr *ngFor="let ticket of allClaimTickets; let i = index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{ticket.regno}}</td>

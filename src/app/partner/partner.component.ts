@@ -1,20 +1,17 @@
 import { Component } from '@angular/core';
 
-import { MENU_ITEMS } from './pages-menu';
+import { MENU_ITEMS } from './partner-menu';
 
 @Component({
   selector: 'ngx-pages',
-  styleUrls: ['./pages.component.css'],
   template: `
     <ngx-sample-layout>
-    
-       <nb-menu [items]="menu"></nb-menu>
-     
+      <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,
 })
-export class PagesComponent {
+export class PartnerComponent {
 
   menu = MENU_ITEMS;
 }
