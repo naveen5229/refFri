@@ -8,57 +8,58 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 @Component({
   selector: 'fuel-average-analysis',
   templateUrl: './fuel-average-analysis.component.html',
-  styleUrls: ['./fuel-average-analysis.component.scss','../pages.component.css']
+  styleUrls: ['./fuel-average-analysis.component.scss', '../pages.component.css']
 })
 export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
-  startTime = '';
-  endTime = '';
+  dates = {
+    start: this.common.dateFormatter(new Date()),
+    end: this.common.dateFormatter(new Date())
+  };
+
   constructor(
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-      this.getfuelAverageDetails();
+    this.getfuelAverageDetails();
 
   }
 
   ngOnInit() {
   }
 
-  getfuelAverageDetails()
-  {
+  getfuelAverageDetails() {
     console.log("api hit");
     this.common.loading++;
     let params = {
-      startTime: this.startTime,
-      endTime: this.endTime,
-      foId: null,
+      startTime: this.dates.start,
+      endTime: this.dates.end,
+      foId: 1,
     };
-    this.api.post('FuelDetails/getFillingsByDateAndFoid',params)
-    .subscribe(res => {
-      this.common.loading--;
-      console.log(res);
-      this.fuelAvgDetails = res['data'];
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-    });
+    this.api.post('FuelDetails/getFillingsByDateAndFoid', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.fuelAvgDetails = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
-  getTime(time){
-    console.log("time",time);
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout' });
+
+  getDate(date) {
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        if(time=='startTime')
-        this.startTime = data.date;
-        else if(time=='endTime')
-        this.endTime = data.date;
-        console.log(time,data.date)
+        this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        console.log('Date:', this.dates[date]);
+        if (this.dates.start && this.dates.end)
+          this.getfuelAverageDetails();
       }
-        this.getfuelAverageDetails();
 
     });
   }
+
 }

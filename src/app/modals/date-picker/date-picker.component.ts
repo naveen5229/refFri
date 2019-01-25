@@ -5,20 +5,43 @@ import { CommonService } from '../../services/common.service';
 @Component({
   selector: 'date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./date-picker.component.scss', '../../pages/pages.component.css']
 })
 export class DatePickerComponent implements OnInit {
-  date = "";
+  date = new Date();
   constructor(private activeModal: NgbActiveModal,
-   public  common : CommonService) { 
-    
-  }
-  closeModal() {
-    this.date = this.common.dateFormatter1(this.date);
-    this.activeModal.close({ date: this.date });
+    protected dateService: NbDateService<Date>,
+    public common: CommonService) {
+
   }
 
+  closeModal() {
+    setTimeout(() =>{
+      console.log('Date: ', this.date);
+      this.activeModal.close({ date: this.date });
+    }, 100);
+  }
+
+
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.removeDummy();
+  }
+
+  removeDummy() {
+    let allTags = document.getElementsByTagName('nb-card-header');
+    allTags[1]['style'].display = 'none';
+    console.log('All Tags: ', allTags);
+  }
+
+  get monthStart(): Date {
+    return this.dateService.getMonthStart(new Date());
+  }
+ 
+  get monthEnd(): Date {
+    return this.dateService.getMonthEnd(new Date());
   }
 
 }
