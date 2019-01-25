@@ -13,14 +13,11 @@ export class CommonService {
 
   params = null;
   loading = 0;
-<<<<<<< HEAD
   chartData: any;
   chartOptions: any;
   themeSubscription: any;
-=======
   searchId = null;
 
->>>>>>> vishal
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
