@@ -27,6 +27,8 @@ import { RemarkModalComponent } from './modals/remark-modal/remark-modal.compone
 import { VehicleHaltComponent } from './modals/vehicle-halt/vehicle-halt.component';
 import { ConfirmComponent } from './modals/confirm/confirm.component';
 import { DatePickerComponent } from './modals/date-picker/date-picker.component';
+import { LocationSelectionComponent } from './modals/location-selection/location-selection.component';
+
 
 
 
@@ -41,9 +43,12 @@ import { DatePickerComponent } from './modals/date-picker/date-picker.component'
     BuyTimeComponent, 
     ReminderComponent, 
     RemarkModalComponent, 
-    VehicleHaltComponent, ConfirmComponent, DatePickerComponent],
+    VehicleHaltComponent, 
+    ConfirmComponent, 
+    DatePickerComponent,
+    LocationSelectionComponent],
     
-  entryComponents:[
+  entryComponents: [
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
@@ -54,8 +59,8 @@ import { DatePickerComponent } from './modals/date-picker/date-picker.component'
     RemarkModalComponent,
     VehicleHaltComponent,
     ConfirmComponent,
-    DatePickerComponent
-
+    DatePickerComponent,
+    LocationSelectionComponent,
   ],
   imports: [
     BrowserModule,

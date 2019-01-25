@@ -23,6 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr *ngFor="let ticket of allOpenTickets; let i = index">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{ticket.regno}}</td>
@@ -54,6 +55,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr *ngFor="let ticket of allClaimTickets; let i = index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{ticket.regno}}</td>

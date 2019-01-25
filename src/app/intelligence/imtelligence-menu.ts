@@ -7,4 +7,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/dashboard',
         home: true,
     },
+    {
+    title: 'Calculator',
+    icon: 'nb-home',
+    link: '/intelligence/profit-calculator',
+  }
 ];

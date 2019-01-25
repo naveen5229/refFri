@@ -10,8 +10,8 @@
       <div class="custom-modal-content">
         <label>User</label>
         <div class="input-group">
-          <input type="text" autocomplete="off" name="user" class="form-control" [(ngModel)]="forward.user.name" (input)="searchUser()"
-            style="width:0%; margin-left:12px;" required>
+          <input type="text" autocomplete="off" name="user" class="form-control" [(ngModel)]="forward.user.name"
+            (input)="searchUser()" style="width:0%; margin-left:12px; height: 40px;" required>
 
           <div class="suggestions" *ngIf="showSuggestions && suggestions.length && forward.user.name">
             <ul>
@@ -24,32 +24,19 @@
         </div>
         <label>Remark</label>
         <div class="input-group">
-          <textarea name="remark" autocomplete="off" class="form-control" [(ngModel)]="forward.remark" style="margin-left:12px;height:90px;"></textarea>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer; width:125px;">Cancel</button>
-          </div>
-          <div class="col text-right">
-            <button class="btn btn-primary" type="button" outline (click)="forwardTicket()" id="forward" style="cursor: pointer;">Forward</button>
-          </div>
+          <textarea name="remark" autocomplete="off" class="form-control" [(ngModel)]="forward.remark"></textarea>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- <div class="modal-footer">
-    <div class="row">
-      <div class="col">
-        <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer; width:125px;">Cancel</button>
-      </div>
-      <div class="col text-right">
-        <button class="btn btn-primary" type="button" outline (click)="forwardTicket()" id="forward" style="cursor: pointer;">Forward</button>
-      </div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer;">Cancel</button>
     </div>
-  </div> -->
+    <div class="col text-right">
+      <button class="btn btn-primary" type="button" outline (click)="forwardTicket()" id="forward" style="cursor: pointer;">Forward</button>
+    </div>
+  </div>
+</div>
