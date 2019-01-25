@@ -6,7 +6,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'ticket-forward',
   templateUrl: './ticket-forward.component.html',
-  styleUrls: ['./ticket-forward.component.scss']
+  styleUrls: ['./ticket-forward.component.scss','../../pages/pages.component.css']
 })
 export class TicketForwardComponent implements OnInit {
   title = '';
@@ -24,13 +24,14 @@ export class TicketForwardComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal,
-    public user: UserService
-  ) {
+    public user: UserService) {
     this.title = this.common.params.title;
   }
+
   ngViewDidLoad() {
     console.log('ionViewDidLoad ForwardTicketPage');
   }
+
   ngOnInit() {
   }
 
@@ -54,8 +55,9 @@ export class TicketForwardComponent implements OnInit {
     this.forward.user.id = user.id;
     this.showSuggestions = false;
   }
+
   dismiss(response) {
-    this.activeModal.close();
+    this.activeModal.close({ response });
   }
 
   forwardTicket() {
@@ -66,19 +68,14 @@ export class TicketForwardComponent implements OnInit {
     }
 
     this.common.loading++;
-    console.log("type", this.common.params.type);
     if (this.common.params.type === 'multiple') {
       this.handleMultipleForward();
       return;
     }
-    // console.log("hello");
     this.sendForwardRequest(this.common.params.ticketId, this.common.params.fo_ticket_allocation_id, this.common.params.msg, true);
-    this.common.loading--;
   }
 
   handleMultipleForward() {
-    console.log("hiiiii");
-    console.log("user : ", this.forward.user.id);
     let tickets = this.common.params.tickets;
     tickets.map((ticket, index) => {
       this.sendForwardRequest(ticket.ticketId, ticket.fo_ticket_allocation_id, ticket.msg, index == tickets.length - 1 ? true : false);
@@ -93,7 +90,7 @@ export class TicketForwardComponent implements OnInit {
       forward_user_id: this.forward.user.id,
       msg: msg,
       remark: this.forward.remark,
-      aduserid: this.user._details.user.id
+      aduserid: this.user._details.id
     };
     console.log('Params:', params);
 
@@ -101,13 +98,13 @@ export class TicketForwardComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         if (isLast) {
-          this.loader.dismiss();
+          this.common.loading--;
           this.dismiss(true);
         }
       }, err => {
         console.error(err);
         this.common.showError();
-        this.loader.dismiss();
+        this.common.loading--;
       });
   }
 

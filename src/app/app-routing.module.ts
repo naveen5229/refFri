@@ -23,6 +23,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'accounts',
+    loadChildren: 'app/accounts/accounts.module#AccountsModule'
+  },
+  {
+    path: 'partner',
+    loadChildren: 'app/partner/partner.module#PartnerModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: 'app/admin/admin.module#AdminModule'
+  },
+  {
     path: 'auth',
     component: NbAuthComponent,
     children: [

@@ -5,18 +5,19 @@
 
 .modal-body{
     height:auto;
-    }
-
-label{
-    font-style: italic;
-    display: inline-block;
-    margin-bottom: .5rem;
-    font-size: large;
-    margin-left: 20px;
-    color: #181818;
-    font-family: Exo;
-    font-weight: 500;
 }
+
+span{
+    font-size: 36px;
+    font-stretch: normal;
+}
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    margin-left: 22px;
+    font-weight: 600;
+    font-size: 18px;
+ }
 .input-group
 {
     width: 80%;
@@ -30,12 +31,6 @@ label{
     margin-left: 30px;
 }
 
-// .green {
-//     color: green;
-// }
-// .red {
-//     color: red;
-// }
 .suggestions {
     position: relative;
     height: auto;
@@ -65,13 +60,11 @@ label{
 }
 .input-group textarea {
     display: block;
-    // width: 100%;
     border: 1px solid #c2c2c2;
     border-radius: 3px;
     font-size: 12px;
     padding: 5px 5px;
-    min-height: 27px;
+    min-height: 35px;
+    margin-left:12px;
+    height: 65px;
 }
-
-// background-color: #f90909; width: 120px;cursor: pointer;border-color: #040404; color: WHITE;
-// cursor: pointer; background-color: #040c07; border-color: #7ff173;
