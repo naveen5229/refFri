@@ -29,7 +29,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Expenses',
-    icon: 'fa fa-rupee-sign',
+    icon: 'fa fa-oil-can',
     link: '/pages/expenses',
   },
   {
