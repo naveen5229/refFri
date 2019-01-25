@@ -13,6 +13,10 @@
         <td>{{kpi.x_showveh}}</td>
       </tr>
       <tr>
+          <th>View Lr</th>
+          <td><span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">{{kpi.x_lr_id}}</span></td>
+      </tr>
+      <tr>
         <th>Driver</th>
         <td>{{kpi.x_empname}}</td>
       </tr>
