@@ -2,7 +2,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -18,20 +18,21 @@ export class VehicleTripComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.getVehicleTrips();
+
 
   }
 
   ngOnInit() {
-   // this.getVehicleTrips();
   }
 
 
   getVehicleTrips() {
     ++this.common.loading;
-    this.api.post('FoDetails/getLorryStatus', {  })
+    this.api.post('TripsData/VehicleTrips', {  })
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res);
+        console.log('Res:', res['data']);
         this.vehicleTrips = res['data'];
       }, err => {
         --this.common.loading;
@@ -40,5 +41,11 @@ export class VehicleTripComponent implements OnInit {
       });
   }
 
+  getUpadte(vehicleTrip){
+    this.common.params= vehicleTrip;
+    console.log("vehicleTrip",vehicleTrip);
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+
+  }
 
 }

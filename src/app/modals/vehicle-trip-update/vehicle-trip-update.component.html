@@ -1,40 +1,49 @@
-<div class="col-md-12" class="vehicleTrip" id="vehicleTrip" style="display: none">
-    <form method="get" id="vehicleTripForm">
-    <input type="hidden" id="vehicleTripId" name="vehicleStatusChangeId" />
-    <input type="hidden" id="vehTripId" name="vehTripId" />
-  
-    <div class="col-md-12" style="margin-top:5px">
-    vehicle Regno
-      <input id="vehicleTripRegNo" name="vehRegNo"  type="text"  placeholder="Vehicle Reg No" autocomplete="off" class="form-control" readonly>
-      <input id="vehicleTripVehId" name="vehicleId" type="hidden" class="form-control"
-             style="text-align: left" placeholder="vehicleId" style="display:none">
-    </div>
-  
-   <div class="col-md-12" style="margin-top:5px" >
-   Start Time
-     <input type="text" id="vehicleTripstarttime" class="form-control" name="startTime" placeholder = "Entry Time" autocomplete="off" readonly >
-   </div>
-   <div class="col-md-12" style="margin-top:5px">
-          <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name">
-          <input id="vehicleTrip_start_lat" name="startLat"  class="form-control"
-                style="text-align: left" placeholder="Start lat" type="hidden" readonly>
-          <input id="vehicleTrip_start_long" name="startLong" class="form-control"
-                style="text-align: left" placeholder="Start lng" type="hidden" readonly>
-   </div>
-   <div class="col-md-12" style="margin-top:5px">
-   End Time
-     <input type="text" id="vehicleTripendtime" class="form-control" name="endTime" placeholder = "Exit Time" autocomplete="off" readonly >
-   </div>
-   <div class="col-md-12" style="margin-top:5px"> 
-          <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name">
-          <input id="vehicleTrip_end_lat" name="endLat"  class="form-control"
-                style="text-align: left" placeholder="End lat" type="hidden" readonly>
-          <input id="vehicleTrip_end_long" name="endLong" class="form-control"
-                style="text-align: left" placeholder="End lng" type="hidden" readonly>
-   </div>
-      <div class="col-sm-12" style="margin-top:5px">
-        <input type = "submit" class="btn btn-info waves-effect waves-light" name = "submit" id = "Okay" value = "Update" style="margin-left:0px;width:47%;text-align:center">
-    </div>
-    </form>
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Vehicle Trip</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
+  <div class="modal-body">
+    <div class="container">
+            <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)] = "vehicleTrip.id" />
+            <div class="col-md-12" style="margin-top:5px">
+            vehicle Regno
+              <input id="vehicleTripRegNo" name="vehRegNo" type="text"  placeholder="Vehicle Reg No" autocomplete="off" class="form-control" [(ngModel)] = "vehicleTrip.regno" readonly>
+            </div>
+           <div class="col-md-12" style="margin-top:5px" >
+           Start Time
+             <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)] = "vehicleTrip.startTime"  name="startTime" placeholder = "Entry Time" autocomplete="off" readonly >
+           </div>
+           <div class="col-md-12" style="margin-top:5px">
+                  <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name" [(ngModel)] = "vehicleTrip.startName" >
+                  <input id="vehicleTrip_start_lat" name="startLat"  class="form-control"
+                        style="text-align: left" placeholder="Start lat" type="hidden" readonly [(ngModel)] = "vehicleTrip.startLat" >
+                  <input id="vehicleTrip_start_long" name="startLong" class="form-control"
+                        style="text-align: left" placeholder="Start lng" type="hidden" readonly [(ngModel)] = "vehicleTrip.startLng" >
+           </div>
+           <div class="col-md-12" style="margin-top:5px">
+           End Time
+             <input type="text" id="vehicleTripendtime" class="form-control" name="endTime" [(ngModel)] = "vehicleTrip.endTime"  placeholder = "Exit Time" autocomplete="off" readonly >
+           </div>
+           <div class="col-md-12" style="margin-top:5px"> 
+                  <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name" [(ngModel)] = "vehicleTrip.endName" >
+                  <input id="vehicleTrip_end_lat" name="endLat"  class="form-control"
+                        style="text-align: left" placeholder="End lat" type="hidden" readonly [(ngModel)] = "vehicleTrip.endLat" >
+                  <input id="vehicleTrip_end_long" name="endLong" class="form-control"
+                        style="text-align: left" placeholder="End lng" type="hidden" readonly [(ngModel)] = "vehicleTrip.endLng" >
+           </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="updateTrip();" style="cursor:pointer;">Update</button>
+      </div>
+    </div>
+  </div>
+  
   

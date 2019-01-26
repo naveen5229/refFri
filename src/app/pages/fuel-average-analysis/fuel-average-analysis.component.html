@@ -34,8 +34,8 @@
         </thead>
 
         <tbody *ngIf="fuelAvgDetails.length!=0">
-          <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index">
-            <th scope="row" click= "getDetails(fuelAvgDetail)">{{i + 1}}</th>
+          <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index" >
+            <th scope="row" (click)= "getDetails(fuelAvgDetail)">{{i + 1}}</th>
             <td>{{fuelAvgDetail.regno}}</td>
             <td>{{fuelAvgDetail.current_filling_entry_time}}</td>
             <td>{{fuelAvgDetail.last_filling_entry_time}}</td>
