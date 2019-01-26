@@ -34,7 +34,9 @@
               <td>{{expense.addtime | date : 'dd MMM HH:mm'}}</td>
             </tr>
         </table>
-  
+        <div class="no-data" *ngIf="expenses.length==0">
+          No Data available !
+      </div>
       </div>
   
     </nb-card-body>

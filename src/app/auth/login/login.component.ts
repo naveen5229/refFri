@@ -32,7 +32,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+  ngAfterViewInit() {
+    this.removeDummy();
+  }
 
+  removeDummy() {
+    let allTags = document.getElementsByTagName('nb-card-header');
+    allTags[1]['style'].display = 'none';
+    console.log('All Tags: ', allTags);
+  }
   sendOTP() {
     const params = {
       type: "login",

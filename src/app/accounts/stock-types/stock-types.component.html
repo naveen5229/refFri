@@ -1,0 +1,16 @@
+<table class="table table-bordered">
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Code</th>
+    <th>Foid</th>
+    <th>Date</th>
+  </tr>
+  <tr *ngFor="let stockType of stockTypes; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{stockType.name}}</td>
+    <td>{{stockType.code}}</td>
+    <td>{{stockType.foid}}</td>
+    <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
+  </tr>
+</table>
