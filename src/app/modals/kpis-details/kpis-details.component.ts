@@ -19,6 +19,7 @@ export class KpisDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.kpi = this.common.params.kpi;
+    
   }
 
   ngOnInit() {
