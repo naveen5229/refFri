@@ -18,13 +18,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let vehicleTrip of vehicleTrips; let i = index">
-              <th scope="row">{{i + 1}}</th>
-              <td>{{vehicleTrips.regno}}</td>
-              <td>{{vehicleTrips.start_time}}</td>
-              <td>{{vehicleTrips.start_name}}</td>           
-              <td>{{vehicleTrips.end_time}}</td>
-              <td>{{vehicleTrips.end_name}}</td>
+            <tr *ngFor="let vehicleTrip of vehicleTrips; let i = index" (click)="getUpadte(vehicleTrip)">
+              <th scope="row" >{{i + 1}}</th>
+              <td>{{vehicleTrip.regno}}</td>
+              <td>{{vehicleTrip.startTime | date : 'dd MMM hh:mm a'}}</td>
+              <td>{{vehicleTrip.startName}}</td>           
+              <td>{{vehicleTrip.endTime | date : 'dd MMM hh:mm a'}}</td>
+              <td>{{vehicleTrip.endName}}</td>
             </tr>
         </table>
   

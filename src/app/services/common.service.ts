@@ -120,7 +120,7 @@ export class CommonService {
     if (type == 'ddMMYYYY') {
       return (dat + '/' + month + '/' + year) + ' ' + this.timeFormatter(date);
     } else {
-      return (year + '/' + month + '/' + dat) + ' ' + this.timeFormatter(date);
+      return (year + '-' + month + '-' + dat) + ' ' + this.timeFormatter(date);
     }
   }
 
