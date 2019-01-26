@@ -28,6 +28,8 @@ import { VehicleHaltComponent } from './modals/vehicle-halt/vehicle-halt.compone
 import { ConfirmComponent } from './modals/confirm/confirm.component';
 import { DatePickerComponent } from './modals/date-picker/date-picker.component';
 import { LocationSelectionComponent } from './modals/location-selection/location-selection.component';
+import { ViewListComponent } from './modals/view-list/view-list.component';
+import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle-trip-update.component';
 
 
 
@@ -46,7 +48,9 @@ import { LocationSelectionComponent } from './modals/location-selection/location
     VehicleHaltComponent, 
     ConfirmComponent, 
     DatePickerComponent,
-    LocationSelectionComponent],
+    LocationSelectionComponent,
+    ViewListComponent,
+    VehicleTripUpdateComponent],
     
   entryComponents: [
     KpisDetailsComponent,
@@ -61,6 +65,8 @@ import { LocationSelectionComponent } from './modals/location-selection/location
     ConfirmComponent,
     DatePickerComponent,
     LocationSelectionComponent,
+    VehicleTripUpdateComponent,
+    ViewListComponent
   ],
   imports: [
     BrowserModule,
