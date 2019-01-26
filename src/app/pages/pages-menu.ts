@@ -29,14 +29,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Expenses',
-    icon: 'fa fa-truck',
+    icon: 'fa fa-book',
     link: '/pages/expenses',
   },
-  {
-    title: 'Concise View',
-    icon: 'nb-bar-chart',
-    link: '/pages/concise',
-  },
+  // {
+  //   title: 'Concise View',
+  //   icon: 'nb-bar-chart',
+  //   link: '/pages/concise',
+  // },
   {
     title: 'Fuel Average Analysis',
     icon: 'fa fa-truck-moving',
@@ -44,7 +44,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },  
   {
     title: 'Vehicle Trip',
-    icon: 'fa fa-oil-can',
+    icon: 'fa fa-truck',
     link: '/pages/vehicle-trip',
   }, 
 ];
