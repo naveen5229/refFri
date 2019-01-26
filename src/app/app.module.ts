@@ -65,6 +65,8 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     ConfirmComponent,
     DatePickerComponent,
     LocationSelectionComponent,
+    VehicleTripUpdateComponent,
+    ViewListComponent
   ],
   imports: [
     BrowserModule,

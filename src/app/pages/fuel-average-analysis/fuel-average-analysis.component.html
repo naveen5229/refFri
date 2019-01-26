@@ -16,9 +16,6 @@
   </nb-card-header>
   <nb-card-body>
     <div>
-      <span *ngIf="fuelAvgDetails.length==0" class="no-data ">
-        No Record Found
-      </span>
       <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
@@ -34,8 +31,8 @@
         </thead>
 
         <tbody *ngIf="fuelAvgDetails.length!=0">
-          <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index">
-            <th scope="row" click= "getDetails(fuelAvgDetail)">{{i + 1}}</th>
+          <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index" >
+            <th scope="row" (click)= "getDetails(fuelAvgDetail)">{{i + 1}}</th>
             <td>{{fuelAvgDetail.regno}}</td>
             <td>{{fuelAvgDetail.current_filling_entry_time}}</td>
             <td>{{fuelAvgDetail.last_filling_entry_time}}</td>
@@ -47,7 +44,9 @@
           </tr>
         </tbody>
       </table>
-
+      <div class="no-data" *ngIf="fuelAvgDetails.length==0">
+        No Data available !
+    </div>
     </div>
 
   </nb-card-body>
