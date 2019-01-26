@@ -16,9 +16,6 @@
   </nb-card-header>
   <nb-card-body>
     <div>
-      <span *ngIf="fuelAvgDetails.length==0" class="no-data ">
-        No Record Found
-      </span>
       <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
@@ -47,7 +44,9 @@
           </tr>
         </tbody>
       </table>
-
+      <div class="no-data" *ngIf="fuelAvgDetails.length==0">
+        No Data available !
+    </div>
     </div>
 
   </nb-card-body>

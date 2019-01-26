@@ -1,3 +1,16 @@
+.main{
+ 
+    width: 100%;
+    position: absolute;
+    background: url("assets/images/app-login-bg.jpg");
+    background-size: cover;
+    height: 100%;
+}
+nb-card{
+    background: url(assets/images/app-login-bg.jpg);
+    background-size: cover;
+}
+
 .error {
     font-size: 12px;
     color: red;
