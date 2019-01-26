@@ -1,13 +1,17 @@
 <div class="main">
-  <!-- <img src="assets/images/app-login-bg.jpg"> -->
+  <i *ngIf="listenOTP" (click)="listenOTP = false;" class="icon ion-md-arrow-round-back back-icon"></i>
+  <div class="logo">
+    <img src="../../../assets/images/logo.png">
+  </div>
   <h1 id="title" class="title">FBP Login</h1>
-  <p class="sub-title">Hello! Log in with your mobile number.</p>
-
+  <!-- <p class="sub-title">Discover...<span class="title">Smart</span> Logistics</p> -->
+  <p class="sub-title">eLogist is building an integrated AI-driven utilisation based digital platform for the
+    Transportation industry</p>
   <div *ngIf="!listenOTP">
     <form #mobileForm="ngForm" (submit)="mobileForm.valid && sendOTP()">
       <div class="form-group">
-        <input type="tel" minlength="10" maxlength="10" [(ngModel)]="userDetails.mobile" #mobile="ngModel" name="mobile"
-          id="input-mobile" placeholder="Mobile number" class="form-control" pattern="[0-9]+" required>
+        <input type="tel" autocomplete="off" minlength="10" maxlength="10" [(ngModel)]="userDetails.mobile" #mobile="ngModel"
+          name="mobile" id="input-mobile" placeholder="Mobile Number" class="form-control" pattern="[0-9]+" required>
         <div *ngIf="mobile.errors && formSubmit">
           <div class="error" [hidden]="!mobile.errors.required">Mobile number is required</div>
           <div class="error" [hidden]="!mobile.errors.minlength">Mobile number must be 10 digit long</div>
@@ -35,11 +39,11 @@
         </div>
       </div>
 
-      <p *ngIf="otpCount && listenOTP">Resend OTP in {{otpCount}} seconds..</p>
-      <p text-right *ngIf="!otpCount && listenOTP" (click)="sendOTP()">Resend OTP</p>
+      <p class="resendOtp" *ngIf="otpCount && listenOTP">Resend OTP in {{otpCount}} seconds..</p>
+      <p class="resendOtp" style="cursor:pointer;" *ngIf="!otpCount && listenOTP" (click)="sendOTP()">Resend OTP</p>
 
 
-      <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block">
+      <button type="submit" (click)="formSubmit = true" class="btn btn-primary btn-block custom-btn">
         Login
       </button>
     </form>

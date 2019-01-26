@@ -4,11 +4,11 @@ tr:nth-child(even) {
 
 .thead{
     color: white;
-    font-size: 18px;
+    font-size: 14px;
     background-color: #677078;
   }
 td{
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     padding:8px;
     

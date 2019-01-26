@@ -60,11 +60,15 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-        this.listenOTP = true;
-        this.otpCount = 30;
-        this.otpResendActive();
-        this.formSubmit = false;
-        this.common.showToast(res['msg']);
+        if (res['success']) {
+          this.listenOTP = true;
+          this.otpCount = 30;
+          this.otpResendActive();
+          this.formSubmit = false;
+          this.common.showToast(res['msg']);
+        }else{
+          this.common.showError(res['msg']);
+        }
       }, err => {
         --this.common.loading;
         this.common.showError();
