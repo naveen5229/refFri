@@ -152,3 +152,10 @@ tr{
     padding-left: 38%;
 }
 
+/* .nb-theme-corporate nb-menu{
+    font-size: 10px;
+} */
+.menu-items{
+    width: 170px;
+    font-size: 12px !important;
+}
