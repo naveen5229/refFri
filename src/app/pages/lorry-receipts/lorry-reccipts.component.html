@@ -37,7 +37,9 @@
             </td>
           </tr>
       </table>
-
+      <div class="no-data" *ngIf="receipts.length==0">
+        No Data available !
+    </div>
     </div>
 
   </nb-card-body>

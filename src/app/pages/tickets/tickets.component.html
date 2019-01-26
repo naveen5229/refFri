@@ -31,7 +31,9 @@
                             </td>
                         </tr>
                 </table>
-
+                <div class="no-data" *ngIf="status == 0 && !newTickets.length && showMsg">
+                    No Data available !
+                </div>
             </nb-tab>
 
             <nb-tab tabTitle="Open">
@@ -54,6 +56,9 @@
                             <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
                         </tr>
                 </table>
+                <div class="no-data" *ngIf="status == 0 && !openTickets.length && showMsg">
+                    No Data available !
+                </div>
             </nb-tab>
 
             <nb-tab tabTitle="Claim">
@@ -82,6 +87,9 @@
                             </td>
                         </tr>
                 </table>
+                <div class="no-data" *ngIf="status == 0 && !tickets.length && showMsg">
+                    No Data available !
+                </div>
             </nb-tab>
         </nb-tabset>
     </nb-card-body>

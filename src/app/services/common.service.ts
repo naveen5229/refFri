@@ -18,8 +18,6 @@ export class CommonService {
   themeSubscription: any;
   searchId = null;
 
-
-
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
     2: { page: 'HomePage', title: 'Home' },
@@ -122,7 +120,7 @@ export class CommonService {
     if (type == 'ddMMYYYY') {
       return (dat + '/' + month + '/' + year) + ' ' + this.timeFormatter(date);
     } else {
-      return (year + '/' + month + '/' + dat) + ' ' + this.timeFormatter(date);
+      return (year + '-' + month + '-' + dat) + ' ' + this.timeFormatter(date);
     }
   }
 

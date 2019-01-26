@@ -15,6 +15,7 @@ export class LorryRecciptsComponent implements OnInit {
   viewImages = null;
   activeImage = 'lr_image';
   viewType = 'allLR';
+  // showMsg = false;
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -30,12 +31,14 @@ export class LorryRecciptsComponent implements OnInit {
 
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
+    
     ++this.common.loading;
     this.api.post('FoDetails/getLorryStatus', { type: this.viewType })
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res);
         this.receipts = res['data'];
+        // console.log("Receipt",this.receipts);
       }, err => {
         --this.common.loading;
 
