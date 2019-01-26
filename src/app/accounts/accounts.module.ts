@@ -5,6 +5,8 @@ import { AccountsRoutingModule } from './accounts-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AccountsComponent } from './accounts.component';
+import { OrdersComponent } from './orders/orders.component';
+import { StockTypesComponent } from './stock-types/stock-types.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -19,6 +21,8 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    OrdersComponent,
+    StockTypesComponent,
   ],
 })
 export class AccountsModule { }
