@@ -5,11 +5,16 @@
   </div>
   <!-- <ngx-theme-switcher></ngx-theme-switcher> -->
 </div>
-
-
-<div class="form-group" *ngIf="entryMode != 3">
-    <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="foname" [(ngModel)]="foname">
-  </div>
+<!-- 
+<div class="form-group" *ngIf="(this.common.loginType != null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') " >
+  <label>{{this.common.foAdminName}}</label>
+    <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString">
+    <ul>
+        <li ng-repeat="suggestion in suggestions | filter : searchText" (click) = "selectUser(suggestion)" >
+          {{ suggestion.name}}
+        </li>
+      </ul>
+  </div>       -->
 
 <div class="header-container">
   <nb-actions size="medium" [class.right]="position === 'normal'" [class.left]="position === 'inverse'">

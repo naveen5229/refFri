@@ -4,7 +4,7 @@ import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { Router } from '@angular/router';
-import { ApiService } from '../../../services/api2.service';
+import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 
 @Component({
@@ -20,8 +20,7 @@ export class HeaderComponent implements OnInit {
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
   showSuggestions = false;
   suggestions = [];
-  foAdminName="";
-  foAdminUserId = null;
+  searchString = "";
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               public router: Router,
@@ -29,6 +28,7 @@ export class HeaderComponent implements OnInit {
               private analyticsService: AnalyticsService,
               public api : ApiService,
               public common : CommonService) {
+                console.log("Login type",this.common.loginType);
   }
 
   ngOnInit() {
@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit {
 
   searchUser() {
     this.showSuggestions = true;
-    let params = 'search=' + this.foAdminName;
+    let params = 'search=' + this.searchString;
     this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -78,8 +78,8 @@ export class HeaderComponent implements OnInit {
   }
  
   selectUser(user) {
-    this.foAdminName = user.name;
-    this.foAdminUserId = user.id;
+    this.common.foAdminName = user.name;
+    this.common.foAdminUserId = user.id;
     this.showSuggestions = false;
   }
 }

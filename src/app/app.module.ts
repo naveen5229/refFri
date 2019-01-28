@@ -30,6 +30,7 @@ import { DatePickerComponent } from './modals/date-picker/date-picker.component'
 import { LocationSelectionComponent } from './modals/location-selection/location-selection.component';
 import { ViewListComponent } from './modals/view-list/view-list.component';
 import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle-trip-update.component';
+import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.component';
 
 
 
@@ -50,7 +51,8 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     DatePickerComponent,
     LocationSelectionComponent,
     ViewListComponent,
-    VehicleTripUpdateComponent],
+    VehicleTripUpdateComponent,
+    FuelEntriesComponent],
     
   entryComponents: [
     KpisDetailsComponent,
@@ -66,7 +68,8 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     DatePickerComponent,
     LocationSelectionComponent,
     VehicleTripUpdateComponent,
-    ViewListComponent
+    ViewListComponent,
+    FuelEntriesComponent
   ],
   imports: [
     BrowserModule,
