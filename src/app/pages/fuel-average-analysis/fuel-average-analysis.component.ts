@@ -77,7 +77,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
         console.log(res);
         let data = [];
         res['data'].map((fueldetail, index) => {
-          data.push([index, fueldetail.name, fueldetail.location, fueldetail.liters,fueldetail.entry_time]);
+          data.push([index, fueldetail.name, fueldetail.location, fueldetail.liters,this.common.changeDateformat(fueldetail.entry_time)]);
         });
         console.log(data);
         this.common.params = { title: 'Filling Entries', headings: ["#", "Station Name", "Location", "Litres","Entry Time"], data };

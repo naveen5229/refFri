@@ -19,8 +19,6 @@ export class VehicleTripComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getVehicleTrips();
-
-
   }
 
   ngOnInit() {
@@ -42,9 +40,15 @@ export class VehicleTripComponent implements OnInit {
   }
 
   getUpadte(vehicleTrip){
-    this.common.params= vehicleTrip;
-    console.log("vehicleTrip",vehicleTrip);
-    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    if(vehicleTrip.endTime){
+      this.common.showToast("This trip cannot be updated ");
+    }else{
+      this.common.params= vehicleTrip;
+      console.log("vehicleTrip",vehicleTrip);
+      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    }
+    this.getVehicleTrips();
+    
 
   }
 

@@ -59,6 +59,8 @@ export class ConciseComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getKPIS();
+    this.common.showToast('Testing', 'success', 60000);
+
   }
 
   ngOnInit() {
