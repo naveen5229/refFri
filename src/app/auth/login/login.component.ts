@@ -38,8 +38,17 @@ export class LoginComponent implements OnInit {
 
   removeDummy() {
     let allTags = document.getElementsByTagName('nb-card-header');
-    allTags[1]['style'].display = 'none';
+    document.getElementsByTagName('nb-layout-column')[0]['style']['padding'] = '0px';
+    allTags[0]['style'].display = 'none';
     console.log('All Tags: ', allTags);
+    let nbCard = document.getElementsByTagName('nb-card')[0];
+    nbCard['style']['backgroundImage'] = "url('../../../assets/images/app-login-bg.jpg')";
+    nbCard['style']['backgroundSize'] = 'cover';
+    nbCard['style']['backgroundRepeat'] = 'no-repeat';
+    nbCard['style']['backgroundPosition'] = 'bottom';
+    nbCard['style']['height'] = '100%';
+
+
   }
   sendOTP() {
     const params = {
@@ -51,11 +60,15 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-        this.listenOTP = true;
-        this.otpCount = 30;
-        this.otpResendActive();
-        this.formSubmit = false;
-        this.common.showToast(res['msg']);
+        if (res['success']) {
+          this.listenOTP = true;
+          this.otpCount = 30;
+          this.otpResendActive();
+          this.formSubmit = false;
+          this.common.showToast(res['msg']);
+        }else{
+          this.common.showError(res['msg']);
+        }
       }, err => {
         --this.common.loading;
         this.common.showError();
@@ -80,7 +93,7 @@ export class LoginComponent implements OnInit {
         console.log(res);
         this.common.showToast(res['msg']);
         if (res['success']) {
-          localStorage.setItem('CUSTOMER_TOKEN',  res['data'][0]['authkey']);
+          localStorage.setItem('CUSTOMER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(res['data'][0]));
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];

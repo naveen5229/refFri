@@ -4,11 +4,11 @@ tr:nth-child(even) {
 
 .thead{
     color: white;
-    font-size: 18px;
+    font-size: 14px;
     background-color: #677078;
   }
 td{
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     padding:8px;
     
@@ -152,3 +152,10 @@ tr{
     padding-left: 38%;
 }
 
+/* .nb-theme-corporate nb-menu{
+    font-size: 10px;
+} */
+.menu-items{
+    width: 170px;
+    font-size: 12px !important;
+}
