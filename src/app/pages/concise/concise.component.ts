@@ -8,7 +8,7 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { from } from 'rxjs';
 import { NbThemeService } from '@nebular/theme';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-
+import { slideToRight } from '../../services/animation';
 import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
@@ -17,7 +17,8 @@ import { log } from 'util';
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
-  styleUrls: ['./concise.component.scss','../pages.component.css']
+  styleUrls: ['./concise.component.scss','../pages.component.css'],
+  animations: [slideToRight()],
 })
 export class ConciseComponent implements OnInit {
 
@@ -221,6 +222,4 @@ export class ConciseComponent implements OnInit {
   }
   
 }
-
-
 

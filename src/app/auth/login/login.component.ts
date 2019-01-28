@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     allTags[0]['style'].display = 'none';
     console.log('All Tags: ', allTags);
     let nbCard = document.getElementsByTagName('nb-card')[0];
-    nbCard['style']['backgroundImage'] = "url('app-login-bg.jpg')";
+    nbCard['style']['backgroundImage'] = "url('../../../assets/images/app-login-bg.jpg')";
     nbCard['style']['backgroundSize'] = 'cover';
     nbCard['style']['backgroundRepeat'] = 'no-repeat';
     nbCard['style']['backgroundPosition'] = 'bottom';
@@ -60,11 +60,15 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-        this.listenOTP = true;
-        this.otpCount = 30;
-        this.otpResendActive();
-        this.formSubmit = false;
-        this.common.showToast(res['msg']);
+        if (res['success']) {
+          this.listenOTP = true;
+          this.otpCount = 30;
+          this.otpResendActive();
+          this.formSubmit = false;
+          this.common.showToast(res['msg']);
+        }else{
+          this.common.showError(res['msg']);
+        }
       }, err => {
         --this.common.loading;
         this.common.showError();

@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 declare var google: any;
 
@@ -28,24 +29,25 @@ export class VehicleTripUpdateComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public activeModal: NgbActiveModal,
+    private datePipe: DatePipe
   ) {
     this.vehicleTrip.endLat = this.common.params.endLat;
     this.vehicleTrip.endLng = this.common.params.endLng;
     this.vehicleTrip.endName = this.common.params.endName;
-    this.vehicleTrip.endTime = this.common.params.endTime;
+    this.vehicleTrip.endTime = this.common.changeDateformat(this.common.params.endTime);
     this.vehicleTrip.id = this.common.params.id;
     this.vehicleTrip.regno = this.common.params.regno;
     this.vehicleTrip.startLat = this.common.params.startLat;
     this.vehicleTrip.startLng = this.common.params.startLng;
     this.vehicleTrip.startName = this.common.params.startName;
-    this.vehicleTrip.startTime = this.common.params.startTime;
+    this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.startTime);
   }
 
   ngOnInit() {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);
+    //setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);
     setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
 
   }
@@ -61,13 +63,16 @@ export class VehicleTripUpdateComponent implements OnInit {
 
   updateLocation(elementId,autocomplete) {
     console.log('tets');
-    let place = autocomplete.getPlace().formatted_address;
+    let place = autocomplete.getPlace();
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
+    place = autocomplete.getPlace().formatted_address;
+   
     this.setLocations(elementId,place,lat,lng);
   }
 
   setLocations(elementId,place,lat,lng){
+    console.log("elementId",elementId,"place",place,"lat",lat,"lng",lng);
     if(elementId=='vehicleTrip_starttrip'){
     this.vehicleTrip.startName = place;
     this.vehicleTrip.startLat = lat;
@@ -78,8 +83,6 @@ export class VehicleTripUpdateComponent implements OnInit {
       this.vehicleTrip.endName = place;
     }
   }
-
-
 
   closeModal(response) {
     this.activeModal.close();
@@ -100,7 +103,9 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.api.post('TripsOperation/updateTripDetails', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res);
+        console.log(res['msg']);
+        this.common.showToast(res['msg']);
+        this.activeModal.close();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
