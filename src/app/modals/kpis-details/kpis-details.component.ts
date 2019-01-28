@@ -5,6 +5,8 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
+
 @Component({
   selector: 'kpis-details',
   templateUrl: './kpis-details.component.html',
@@ -19,6 +21,7 @@ export class KpisDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.kpi = this.common.params.kpi;
+    
   }
 
   ngOnInit() {
@@ -55,6 +58,27 @@ export class KpisDetailsComponent implements OnInit {
     console.log("image", images)
     this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  getUpadte(kpi){
+    let tripDetails ={
+      id : kpi.x_trip_id,
+      endName : kpi.x_showtripend,
+      startName : kpi.x_showtripstart,
+      startTime : kpi.x_showstarttime,
+      endTime : kpi.x_showendtime,
+      regno : kpi.x_showveh
+
+    }
+    if(tripDetails.endTime){
+      this.common.showToast("This trip cannot be updated ");
+    }else{
+      this.common.params= tripDetails;
+      console.log("vehicleTrip",tripDetails);
+      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    }
+    
+
   }
 
   closeModal() {

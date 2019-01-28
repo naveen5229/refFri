@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbThemeService } from '@nebular/theme';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -53,6 +54,8 @@ export class CommonService {
     public router: Router,
     private toastrService: NbToastrService,
     private theme: NbThemeService,
+    private datePipe: DatePipe
+
 
   ) { }
 
@@ -136,6 +139,10 @@ export class CommonService {
     
   }
 
+  changeDateformat(date){
+    let d = new Date(date);
+    return this.datePipe.transform(date,'dd-MMM-yyyy hh:mm a' )
+  }
 
 
   timeFormatter(date) {

@@ -110,8 +110,44 @@
   </div>
 
   <style>
+    .main-content {
+      padding: 0px !important;
+      margin-left: -40px;
+    }
+
     .pac-container {
       z-index: 9999 !important;
+    }
+
+    .main-container {
+      width: auto !important;
+    }
+
+    .menu-items {
+
+      font-size: 10px !important;
+    }
+
+    .menu-icon {
+      font-size: 30px !important;
+    }
+
+    .main-content[min-width~="400px"] {
+      background-color: lightgreen;
+      padding: 0 px !important;
+      margin-right: 80px !important;
+    }
+
+    .nb-theme-corporate .cdk-overlay-container {
+      z-index: 1055;
+    }
+
+    .cdk-global-overlay-wrapper {
+      z-index: 1056;
+    }
+
+    .cdk-overlay-pane {
+      z-index: 1057;
     }
   </style>
 </body>
