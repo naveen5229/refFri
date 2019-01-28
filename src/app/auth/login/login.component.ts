@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  // id:5
   userDetails = {
     mobile: '',
     otp: ''
@@ -22,16 +22,27 @@ export class LoginComponent implements OnInit {
   otpCount = 0;
   formSubmit = false;
 
+  loginType = '';
+
 
 
   constructor(public router: Router,
+    private route: ActivatedRoute,
     public common: CommonService,
     public user: UserService,
     public api: ApiService) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      console.log('Params: ', params);
+      if(params.type && ['admin', 'partner'].includes(params.type.toLowerCase())){
+        this.loginType = params.type.toLowerCase();
+      }
+      console.log('Login Type: ', this.loginType);
+    });
   }
+
   ngAfterViewInit() {
     this.removeDummy();
   }
@@ -56,7 +67,12 @@ export class LoginComponent implements OnInit {
       mobileno: this.userDetails.mobile
     };
     ++this.common.loading;
-    this.api.post('Login/login', params)
+    let options = {};
+    if (this.loginType == 'admin') {
+      options = { entrymode: '1' };
+    }
+
+    this.api.post('Login/login', params, this.loginType && options)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
@@ -66,7 +82,7 @@ export class LoginComponent implements OnInit {
           this.otpResendActive();
           this.formSubmit = false;
           this.common.showToast(res['msg']);
-        }else{
+        } else {
           this.common.showError(res['msg']);
         }
       }, err => {
@@ -85,18 +101,25 @@ export class LoginComponent implements OnInit {
     };
 
     ++this.common.loading;
-
+    let options = {};
+    if (this.loginType == 'admin') {
+      options = { entrymode: '1' };
+    }
     console.log('Login Params:', params)
-    this.api.post('Login/verifyotp', params)
+    this.api.post('Login/verifyotp', params, this.loginType && options)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
         this.common.showToast(res['msg']);
         if (res['success']) {
-          localStorage.setItem('CUSTOMER_TOKEN', res['data'][0]['authkey']);
-          localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(res['data'][0]));
+          localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
+          localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
+          if(this.loginType == 'admin'){
+            this.router.navigate(['/admin']);
+            return;
+          }
           this.router.navigate(['/pages']);
         }
       }, err => {

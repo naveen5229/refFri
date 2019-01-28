@@ -10,6 +10,7 @@ import {
 } from '@nebular/auth';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
+import { VehicleKpisComponent } from './pages/vehicle-kpis/vehicle-kpis.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
       },
       {
         path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'login/:type',
         component: LoginComponent,
       },
       {
