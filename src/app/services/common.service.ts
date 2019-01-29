@@ -18,6 +18,9 @@ export class CommonService {
   chartOptions: any;
   themeSubscription: any;
   searchId = null;
+  foAdminUserId = null;
+  foAdminName = null;
+  loginType = '';
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -55,9 +58,9 @@ export class CommonService {
     private toastrService: NbToastrService,
     private theme: NbThemeService,
     private datePipe: DatePipe
-
-
-  ) { }
+  ) {
+    this.loginType = localStorage.getItem('LOGIN_TYPE') || '';
+  }
 
   showError(msg?) {
     this.showToast(msg || 'Something went wrong! try again.', 'danger');
@@ -130,18 +133,18 @@ export class CommonService {
   dateFormatter1(date) {
     let d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth() <=9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+    let month = d.getMonth() <= 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? '0' + d.getDate() : d.getDate();
 
     console.log(dat + '-' + month + '-' + year);
-   
-      return (year + '-' + month + '-' + dat) ;
-    
+
+    return (year + '-' + month + '-' + dat);
+
   }
 
-  changeDateformat(date){
+  changeDateformat(date) {
     let d = new Date(date);
-    return this.datePipe.transform(date,'dd-MMM-yyyy hh:mm a' )
+    return this.datePipe.transform(date, 'dd-MMM-yyyy hh:mm a')
   }
 
 
@@ -167,7 +170,7 @@ export class CommonService {
       console.log('Config: ', config);
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
-      
+
       this.chartData = {
         labels: chartLabels,
         datasets: [{
@@ -192,11 +195,11 @@ export class CommonService {
           ],
         },
         legend: false,
-       };
+      };
     });
 
     setTimeout(() => {
-    console.log(document.getElementsByTagName('canvas')[0]);
+      console.log(document.getElementsByTagName('canvas')[0]);
 
       document.getElementsByTagName('canvas')[0].style.width = "100px";
       document.getElementsByTagName('canvas')[0].style.height = "220px";

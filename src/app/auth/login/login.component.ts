@@ -22,10 +22,6 @@ export class LoginComponent implements OnInit {
   otpCount = 0;
   formSubmit = false;
 
-  loginType = '';
-
-
-
   constructor(public router: Router,
     private route: ActivatedRoute,
     public common: CommonService,
@@ -36,10 +32,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       console.log('Params: ', params);
-      if(params.type && ['admin', 'partner'].includes(params.type.toLowerCase())){
-        this.loginType = params.type.toLowerCase();
+      if (params.type && ['admin', 'partner'].includes(params.type.toLowerCase())) {
+        this.common.loginType = params.type.toLowerCase();
+      }else{
+        this.common.loginType = '';
       }
-      console.log('Login Type: ', this.loginType);
+      console.log('Login Type: ', this.common.loginType);
     });
   }
 
@@ -68,11 +66,11 @@ export class LoginComponent implements OnInit {
     };
     ++this.common.loading;
     let options = {};
-    if (this.loginType == 'admin') {
+    if (this.common.loginType == 'admin') {
       options = { entrymode: '1' };
     }
 
-    this.api.post('Login/login', params, this.loginType && options)
+    this.api.post('Login/login', params, this.common.loginType && options)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
@@ -102,11 +100,14 @@ export class LoginComponent implements OnInit {
 
     ++this.common.loading;
     let options = {};
-    if (this.loginType == 'admin') {
+    if (this.common.loginType == 'admin') {
       options = { entrymode: '1' };
     }
+    else if (this.common.loginType == 'partner') {
+      options = { entrymode: '2' };
+    }
     console.log('Login Params:', params)
-    this.api.post('Login/verifyotp', params, this.loginType && options)
+    this.api.post('Login/verifyotp', params, this.common.loginType && options)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
@@ -114,13 +115,23 @@ export class LoginComponent implements OnInit {
         if (res['success']) {
           localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
           localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
+
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
-          if(this.loginType == 'admin'){
+          if (this.common.loginType == 'admin') {
+            localStorage.setItem('LOGIN_TYPE', this.common.loginType);
             this.router.navigate(['/admin']);
             return;
+          } else if (this.common.loginType == 'partner') {
+            this.router.navigate(['/partner']);
+            localStorage.setItem('LOGIN_TYPE', this.common.loginType);
+            return;
+          } else {
+            this.common.foAdminUserId = res['data'][0]['id']
+            this.common.foAdminName = res['data'][0]['name']
+            this.router.navigate(['/pages']);
+
           }
-          this.router.navigate(['/pages']);
         }
       }, err => {
         --this.common.loading;

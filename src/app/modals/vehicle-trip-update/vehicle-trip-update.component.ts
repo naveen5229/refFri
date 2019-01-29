@@ -10,7 +10,7 @@ declare var google: any;
 @Component({
   selector: 'vehicle-trip-update',
   templateUrl: './vehicle-trip-update.component.html',
-  styleUrls: ['./vehicle-trip-update.component.scss']
+  styleUrls: ['./vehicle-trip-update.component.scss','../../pages/pages.component.css']
 })
 export class VehicleTripUpdateComponent implements OnInit {
   vehicleTrip = {
