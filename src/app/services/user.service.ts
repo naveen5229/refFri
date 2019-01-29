@@ -9,10 +9,10 @@ export class UserService {
   _details = null;
 
   constructor() {
-    console.log('Details: ', localStorage.getItem('CUSTOMER_DETAILS'));
+    console.log('Details: ', localStorage.getItem('USER_DETAILS'));
     
-    this._token = localStorage.getItem('CUSTOMER_TOKEN') || '';
-    this._details = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || null;
+    this._token = localStorage.getItem('USER_TOKEN') || '';
+    this._details = JSON.parse(localStorage.getItem('USER_DETAILS')) || null;
   }
 
 }

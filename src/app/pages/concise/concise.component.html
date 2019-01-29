@@ -61,7 +61,6 @@
             </tr>
 
           </thead>
-          <tbody>
             <tr *ngFor="let kpi of kpis; let i = index;">
               <td scope="row">{{i + 1}}</td>
               <td (click)="showDetails(kpi)">{{kpi.x_showveh}}</td>
