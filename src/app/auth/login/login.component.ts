@@ -34,8 +34,13 @@ export class LoginComponent implements OnInit {
       console.log('Params: ', params);
       if (params.type && ['admin', 'partner'].includes(params.type.toLowerCase())) {
         this.common.loginType = params.type.toLowerCase();
-      }else{
+        if (this.common.loginType == 'admin')
+          localStorage.setItem('ENTRY_MODE', '1');
+        else
+          localStorage.setItem('ENTRY_MODE', '2');
+      } else {
         this.common.loginType = '';
+        localStorage.setItem('ENTRY_MODE', '3');
       }
       console.log('Login Type: ', this.common.loginType);
     });

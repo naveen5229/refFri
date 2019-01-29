@@ -49,7 +49,7 @@
                       <span (click)="showLocation()" style="color: blue; cursor: pointer;">click here..</span>
                     </td>
                   </tr>
-                  <tr *ngIf="notification?.pri_type == 200">
+                  <tr *ngIf="notification?.pri_type ==300 ">
                     <th>Reason</th>
                     <td>{{haltInfo?.halt_type}}</td>
                   </tr>
@@ -73,4 +73,10 @@
       <span class="btn ftr-btn" (click)="handleAction(secType2)" style="cursor:pointer">{{common.secondaryType[secType2].btnTxt}}</span>
     </div>
   </div>
+</div>
+
+<div class="row">
+  <div class="col text-center">
+  <button type="button" class="btn btn-pirmary" (click)="getHaltOptions()">Change Halt</button>
+</div>
 </div>

@@ -28,7 +28,7 @@ export class CommonService {
     100: { page: '/ticket-details', title: 'Ticket Details' },
     200: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
     201: { page: 'VehicleHaltPage', title: 'Change Vehicle Halt' },
-    300: { page: '/ticket-site-details', title: 'Vehicle Halt' },
+    300: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
     301: { page: 'VehicleHaltPage', title: 'Change Site Halt' },
   };
 

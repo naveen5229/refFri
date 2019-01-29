@@ -61,10 +61,12 @@ export class ApiService {
   }
 
   setHeaders(options?) {
+    const entryMode = localStorage.getItem('ENTRY_MODE');
+
     let data = {
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': options ? options.entrymode : '3',
+      'entrymode': entryMode,
       'authkey': this.user._token || ''
     };
     console.log('Data: ', data);
@@ -72,7 +74,7 @@ export class ApiService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': options ? options.entrymode : '3',
+     'entrymode':entryMode,
       'authkey': this.user._token || ''
     });
 
