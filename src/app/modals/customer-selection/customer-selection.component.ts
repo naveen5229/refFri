@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'customer-selection',
@@ -16,6 +17,8 @@ export class CustomerSelectionComponent implements OnInit {
     public api : ApiService,
     public common : CommonService,
     public activeModal : NgbActiveModal,
+    public router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -38,13 +41,15 @@ export class CustomerSelectionComponent implements OnInit {
   }
  
   selectUser(user) {
-    this.common.foAdminName = user.name;
-    this.common.foAdminUserId = user.id;
-    this.searchString = this.common.foAdminName;
+    this.searchString = user.name;
     this.showSuggestions = false;
-    console.log("foAdminName",this.common.foAdminName);
-    console.log("foAdminUserId",this.common.foAdminUserId);
-    
+    this.common.foAdminName =  user.name;
+    this.common.foAdminUserId = user.id;
+    localStorage.setItem('FO_ADMIN_NAME', user.name);
+    localStorage.setItem('FO_ADMIN_USER_ID',  user.id);
+
+    this.router.navigate(['/pages/dashboard']);
+    this.activeModal.close();
 
   }
   dismiss() {
