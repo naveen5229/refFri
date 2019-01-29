@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { TyresComponent } from './tyres.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 const routes: Routes = [{
     path: '',
@@ -11,6 +12,10 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: DashboardComponent,
+        },
+        {
+            path: 'inventory',
+            component: InventoryComponent,
         },
     ],
 }];
