@@ -28,6 +28,16 @@
     display: block;
   }
 
+  ol, ul, dl {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    position: absolute;
+    color: black;
+    background: #ffff;
+    list-style: none;
+    line-height: 1.6em;
+  }
+
   .header-container {
     display: flex;
     align-items: center;
@@ -202,6 +212,8 @@
     nb-action:not(.toggle-layout) {
       padding: 0;
     }
+
+    
   }
 
   @include media-breakpoint-down(xs) {
