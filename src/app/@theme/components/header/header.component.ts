@@ -6,6 +6,8 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CustomerSelectionComponent } from '../../../modals/customer-selection/customer-selection.component';
 
 @Component({
   selector: 'ngx-header',
@@ -27,6 +29,7 @@ export class HeaderComponent implements OnInit {
               private userService: UserService,
               private analyticsService: AnalyticsService,
               public api : ApiService,
+              public modalService : NgbModal,
               public common : CommonService) {
                 console.log("Login type",this.common.loginType);
                 console.log("foAdminId",this.common.foAdminUserId);
@@ -64,6 +67,11 @@ export class HeaderComponent implements OnInit {
       localStorage.clear();
       this.router.navigate(['/auth/login']);
     }
+  }
+  openChangeModal(){
+    console.log("open change modal");
+    this.modalService.open(CustomerSelectionComponent, { size: 'sm', container: 'nb-layout' });
+
   }
 
   searchUser() {

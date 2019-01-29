@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MENU_ITEMS } from './admin-menu';
+import { MENU_ITEMS } from './tyres-menu';
 
 @Component({
   selector: 'ngx-pages',
@@ -11,6 +11,7 @@ import { MENU_ITEMS } from './admin-menu';
     </ngx-sample-layout>
   `,
 })
-export class AdminComponent {
+export class TyresComponent {
+
   menu = MENU_ITEMS;
 }
