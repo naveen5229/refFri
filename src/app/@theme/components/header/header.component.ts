@@ -29,6 +29,9 @@ export class HeaderComponent implements OnInit {
               public api : ApiService,
               public common : CommonService) {
                 console.log("Login type",this.common.loginType);
+                console.log("foAdminId",this.common.foAdminUserId);
+                console.log("foAdminname",this.common.foAdminName);
+
   }
 
   ngOnInit() {
@@ -69,8 +72,9 @@ export class HeaderComponent implements OnInit {
     this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
-        console.log(res);
         this.suggestions = res['data'];
+        console.log("suggestions",this.suggestions);
+
       }, err => {
         console.error(err);
         this.common.showError();
@@ -80,6 +84,8 @@ export class HeaderComponent implements OnInit {
   selectUser(user) {
     this.common.foAdminName = user.name;
     this.common.foAdminUserId = user.id;
+    this.searchString = this.common.foAdminName;
     this.showSuggestions = false;
+
   }
 }
