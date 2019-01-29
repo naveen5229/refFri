@@ -18,7 +18,7 @@ export class CommonService {
   chartOptions: any;
   themeSubscription: any;
   searchId = null;
-  foAdminUserId = 1;
+  foAdminUserId = null;
   foAdminName = null;
   loginType = '';
 

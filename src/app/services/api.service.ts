@@ -22,7 +22,6 @@ export class ApiService {
     public user: UserService,
     public common: CommonService) {
 
-
   }
 
 
