@@ -30,6 +30,9 @@ import { DatePickerComponent } from './modals/date-picker/date-picker.component'
 import { LocationSelectionComponent } from './modals/location-selection/location-selection.component';
 import { ViewListComponent } from './modals/view-list/view-list.component';
 import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle-trip-update.component';
+ import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
+// //import { StockSubtypesComponent } from './acounts-modals/stock-subtypes/stock-subtypes.component';
+ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 
 
 
@@ -50,7 +53,10 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     DatePickerComponent,
     LocationSelectionComponent,
     ViewListComponent,
-    VehicleTripUpdateComponent],
+    VehicleTripUpdateComponent,
+     StockTypeComponent,
+     StockSubtypeComponent
+  ],
     
   entryComponents: [
     KpisDetailsComponent,
@@ -66,7 +72,10 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     DatePickerComponent,
     LocationSelectionComponent,
     VehicleTripUpdateComponent,
-    ViewListComponent
+    ViewListComponent,
+     StockTypeComponent,
+     StockSubtypeComponent
+    
   ],
   imports: [
     BrowserModule,
