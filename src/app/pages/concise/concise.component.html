@@ -1,12 +1,12 @@
-<nb-card [@routerTransition]>
+<nb-card >
   <nb-card-header>
     <h2>Concise View</h2>
     <hr>
   </nb-card-header>
 
   <nb-card-body>
-    <div class="row" style="margin-top:-15px">
-      <div class="col-sm-3">
+    <div class="row" style="margin-top:-15px" >
+      <div class="col-sm-3" [@slideToUp]>
         <!-- <div class="form-group" class="col-sm-9">
          <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
             <option value="showprim_status">Primary Status</option>
@@ -47,7 +47,7 @@
       </div>
       <div class="col-sm-9" >
         <div  style ="height: 610px; overflow: auto; width: 100%;">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" [@routerTransition]>
           <thead class="thead">
             <tr>
               <th># </th>
