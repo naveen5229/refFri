@@ -31,6 +31,7 @@ import { LocationSelectionComponent } from './modals/location-selection/location
 import { ViewListComponent } from './modals/view-list/view-list.component';
 import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle-trip-update.component';
 import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.component';
+import { CustomerSelectionComponent } from './modals/customer-selection/customer-selection.component';
 
 
 
@@ -52,7 +53,8 @@ import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.compone
     LocationSelectionComponent,
     ViewListComponent,
     VehicleTripUpdateComponent,
-    FuelEntriesComponent],
+    FuelEntriesComponent,
+    CustomerSelectionComponent],
     
   entryComponents: [
     KpisDetailsComponent,
@@ -69,7 +71,8 @@ import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.compone
     LocationSelectionComponent,
     VehicleTripUpdateComponent,
     ViewListComponent,
-    FuelEntriesComponent
+    FuelEntriesComponent,
+    CustomerSelectionComponent
   ],
   imports: [
     BrowserModule,
