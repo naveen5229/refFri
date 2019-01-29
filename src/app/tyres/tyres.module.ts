@@ -1,25 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AdminRoutingModule } from './admin-routing.module';
+import { TyresRoutingModule } from './tyres-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { AdminComponent } from './admin.component';
+import { TyresComponent } from './tyres.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 const PAGES_COMPONENTS = [
-  AdminComponent,
+  TyresComponent,
 ];
 
 
 @NgModule({
   imports: [
-    AdminRoutingModule,
+    TyresRoutingModule,
     ThemeModule,
     DashboardModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
-
+    InventoryComponent,
   ],
 })
-export class AdminModule { }
+export class TyresModule { }
