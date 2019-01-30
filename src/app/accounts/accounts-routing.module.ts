@@ -5,7 +5,7 @@ import { AccountsComponent } from './accounts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { StockTypesComponent } from './stock-types/stock-types.component';
-
+import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -16,13 +16,17 @@ const routes: Routes = [{
         },
         {
             path: 'orders',
-            component: OrdersComponent
+            component: OrdersComponent,
         },
         {
             path: 'stock-types',
-            component: StockTypesComponent
+            component: StockTypesComponent,
+        },
+        {
+            path: 'stock-subtypes',
+            component: StockSubtypesComponent
         }
-    ],
+    ]
 }];
 
 @NgModule({

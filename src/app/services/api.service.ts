@@ -11,12 +11,10 @@ import { Body } from '@angular/http/src/body';
 export class ApiService {
 
   // URL: string = 'http://13.233.32.59/booster_webservices/'; // prod Server
- // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //URL: string = 'http://192.168.0.108/booster_webservices/'; // Umang
-   URL: string = 'http://localhost/transtruck/booster_webservices/';
-
-  //body : any;
+  //  URL: string = 'http://localhost/transtruck/booster_webservices/';
 
   constructor(private http: HttpClient,
     public user: UserService,
@@ -61,10 +59,12 @@ export class ApiService {
   }
 
   setHeaders(options?) {
+    const entryMode = localStorage.getItem('ENTRY_MODE');
+
     let data = {
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': options ? options.entrymode : '3',
+      'entrymode': entryMode,
       'authkey': this.user._token || ''
     };
     console.log('Data: ', data);
@@ -72,7 +72,7 @@ export class ApiService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': options ? options.entrymode : '3',
+      'entrymode': entryMode,
       'authkey': this.user._token || ''
     });
 
