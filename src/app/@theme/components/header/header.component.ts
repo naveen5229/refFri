@@ -31,9 +31,7 @@ export class HeaderComponent implements OnInit {
               public api : ApiService,
               public modalService : NgbModal,
               public common : CommonService) {
-                console.log("Login type",this.common.loginType);
-                console.log("foAdminId",this.common.foAdminUserId);
-                console.log("foAdminname",this.common.foAdminName);
+             
 
   }
 
