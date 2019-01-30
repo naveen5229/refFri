@@ -8,3 +8,30 @@ ol, ul, dl {
     line-height: 1.6em;
     position: relative;
   }
+  .row-width{
+    margin-top: 20px;
+  }
+  label{
+    margin-top: 13px;
+  }
+  .label1{
+    margin-left: 60px;
+  }
+  .suggestions {
+    position: relative;
+    height: auto;
+    z-index: 999;
+    background: #fff;
+    width: 90%;
+    margin: 3px 12px;
+    padding: 0px 8px;
+    font-size: 12px;
+    letter-spacing: .5px;
+    box-shadow: 1px 1px 3px grey;
+}
+.suggestion {
+    padding: 8px 0px 1px 0px;
+    margin:1px 0px 3px 1px;
+    font-size:14px; 
+    list-style: none;
+}

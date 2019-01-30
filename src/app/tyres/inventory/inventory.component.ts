@@ -17,6 +17,7 @@ export class InventoryComponent implements OnInit {
   modelSuggestion = false;
   foUsers = [];
   models = [];
+  searchedTyreDetails = [];
   modelName = "";
   modelId = null;
   modelBrand = null;
@@ -74,9 +75,10 @@ export class InventoryComponent implements OnInit {
 
   selectModel(model) {
     this.modelName = model.name;
-    this.searchModelString = this.modelName;
     this.modelId = model.item_id;
     this.modelBrand = model.brand;
+    this.searchModelString = this.modelName+" : "+this.modelBrand+" : "+this.modelId;
+
     this.modelSuggestion = false;
   }
   getDate(date) {
@@ -102,13 +104,39 @@ export class InventoryComponent implements OnInit {
     this.api.post('Tyres/saveTyreMaster', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res['data']);
-         // this.common.showToast(res['msg']);
+        console.log("return id " ,res['data'][0].rtn_id);
+        if(res['data'][0].rtn_id>0){
+          this.common.showToast("sucess");
+        }else{
+          this.common.showToast(res['data'][0].rtn_msg);
+        }
       }, err => {
         this.common.loading--;
         console.error(err);
         this.common.showError();
       });
+  }
+
+  searchData(){
+    if(this.foId){
+     
+      let params = 'foId=' + this.foId+
+      '&modelId='+this.modelId+
+      '&tyreNo='+this.tyreNo;
+      console.log("params ",params)
+      this.api.get('Tyres/getTyreDetailsAccordingFO?' + params)
+        .subscribe(res => {
+          this.searchedTyreDetails = res['data'];
+          console.log("searchedTyreDetails",this.searchedTyreDetails);
+  
+        }, err => {
+          console.error(err);
+          this.common.showError();
+        });
+    }
+    else{
+      this.common.showToast("Fo Selection is mandotry");
+    }
   }
   }
 
