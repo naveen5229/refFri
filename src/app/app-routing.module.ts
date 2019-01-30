@@ -40,6 +40,10 @@ const routes: Routes = [
     loadChildren: 'app/tyres/tyres.module#TyresModule'
   },
   {
+    path:'documents',
+    loadChildren: 'app/documents/documents.module#DocumentsModule'
+  },
+  {
     path: 'auth',
     component: NbAuthComponent,
     children: [
