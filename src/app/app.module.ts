@@ -32,30 +32,34 @@ import { ViewListComponent } from './modals/view-list/view-list.component';
 import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle-trip-update.component';
 import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.component';
 import { CustomerSelectionComponent } from './modals/customer-selection/customer-selection.component';
+import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
+import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 
 
 
 
 @NgModule({
-  declarations: [AppComponent, 
-    LoginComponent, 
-    KpisDetailsComponent, 
-    LocationMarkerComponent, 
-    TicketTrailsComponent, 
-    ImageViewComponent, 
-    TicketForwardComponent, 
-    BuyTimeComponent, 
-    ReminderComponent, 
-    RemarkModalComponent, 
-    VehicleHaltComponent, 
-    ConfirmComponent, 
+  declarations: [AppComponent,
+    LoginComponent,
+    KpisDetailsComponent,
+    LocationMarkerComponent,
+    TicketTrailsComponent,
+    ImageViewComponent,
+    TicketForwardComponent,
+    BuyTimeComponent,
+    ReminderComponent,
+    RemarkModalComponent,
+    VehicleHaltComponent,
+    ConfirmComponent,
     DatePickerComponent,
     LocationSelectionComponent,
     ViewListComponent,
     VehicleTripUpdateComponent,
     FuelEntriesComponent,
-    CustomerSelectionComponent],
-    
+    CustomerSelectionComponent,
+    StockTypeComponent,
+    StockSubtypeComponent
+  ],
   entryComponents: [
     KpisDetailsComponent,
     LocationMarkerComponent,
@@ -72,7 +76,9 @@ import { CustomerSelectionComponent } from './modals/customer-selection/customer
     VehicleTripUpdateComponent,
     ViewListComponent,
     FuelEntriesComponent,
-    CustomerSelectionComponent
+    CustomerSelectionComponent,
+    StockTypeComponent,
+    StockSubtypeComponent
   ],
   imports: [
     BrowserModule,

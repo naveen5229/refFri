@@ -16,8 +16,6 @@ export class ApiService {
   //URL: string = 'http://192.168.0.108/booster_webservices/'; // Umang
   //  URL: string = 'http://localhost/booster_webservices/';
 
-  //body : any;
-
   constructor(private http: HttpClient,
     public user: UserService,
     public common: CommonService) {
