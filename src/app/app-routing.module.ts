@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'accounts',
-    loadChildren: 'app/accounts/accounts.module#AccountsModule'
+    loadChildren: 'app/accounts/accounts.module#AccountsModule',
   },
   {
     path: 'partner',
@@ -38,6 +38,10 @@ const routes: Routes = [
   {
     path: 'tyres',
     loadChildren: 'app/tyres/tyres.module#TyresModule'
+  },
+  {
+    path:'documents',
+    loadChildren: 'app/documents/documents.module#DocumentsModule'
   },
   {
     path: 'auth',

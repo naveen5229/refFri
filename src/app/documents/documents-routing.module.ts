@@ -1,21 +1,16 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-import { TyresComponent } from './tyres.component';
+import { DocumentsComponent } from './documents.components';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { InventoryComponent } from './inventory/inventory.component';
 
 const routes: Routes = [{
     path: '',
-    component: TyresComponent,
+    component: DocumentsComponent,
     children: [
         {
             path: 'dashboard',
             component: DashboardComponent,
-        },
-        {
-            path: 'inventory',
-            component: InventoryComponent,
         },
     ],
 }];
@@ -24,5 +19,5 @@ const routes: Routes = [{
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class TyresRoutingModule {
+export class DocumentsRoutingModule {
 }
