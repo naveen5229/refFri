@@ -1,0 +1,12 @@
+<input type="text" autocomplete="off" name="suggestion-input" class="form-control" [(ngModel)]="searchText" (input)="getSuggestions()"
+  [ngClass]="className || 'custom-input-1'" [placeholder]="placeholder || 'Enter search text'"  required>
+<div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
+    <p *ngFor="let suggestion of suggestions" class="suggestion" (click)="selectSuggestion(suggestion)">
+        {{suggestion[display]}}
+    </p>
+</div>
+
+<!-- How To Use -->
+
+<!-- <auto-suggestion (onSelected)="selectedUser = $event" url=" Suggestion/getFoAdminList" display="employeename"
+placeholder="Enter User Name"></auto-suggestion> -->
