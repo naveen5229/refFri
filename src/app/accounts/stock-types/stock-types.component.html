@@ -1,3 +1,4 @@
+<button class="btn" (click)="openStockTypeModal()">Add Stock Type</button>
 <table class="table table-bordered">
   <tr>
     <th>#</th>
@@ -5,6 +6,7 @@
     <th>Code</th>
     <th>Foid</th>
     <th>Date</th>
+    <th>Action</th>
   </tr>
   <tr *ngFor="let stockType of stockTypes; let i = index;">
     <td>{{i + 1}}</td>
@@ -12,5 +14,6 @@
     <td>{{stockType.code}}</td>
     <td>{{stockType.foid}}</td>
     <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
+    <td><button class="btn" (click)="openStockTypeModal(stockType)">Edit</button></td>
   </tr>
 </table>

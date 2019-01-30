@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'accounts',
-    loadChildren: 'app/accounts/accounts.module#AccountsModule'
+    loadChildren: 'app/accounts/accounts.module#AccountsModule',
   },
   {
     path: 'partner',

@@ -13,6 +13,7 @@ export class CustomerSelectionComponent implements OnInit {
   showSuggestions = false;
   suggestions = [];
   searchString = "";
+  date =  this.common.dateFormatter(new Date());
   constructor(
     public api : ApiService,
     public common : CommonService,

@@ -7,4 +7,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/dashboard',
         home: true,
     },
+    {
+        title: 'Inventory',
+        icon: 'nb-home',
+        link: '/tyres/inventory',
+        home: true,
+    },
 ];

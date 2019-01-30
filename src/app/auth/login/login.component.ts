@@ -135,7 +135,7 @@ export class LoginComponent implements OnInit {
             this.common.foAdminUserId = res['data'][0]['id']
             this.common.foAdminName = res['data'][0]['name']
             this.router.navigate(['/pages']);
-
+            console.log(this.common.foAdminName);
           }
         }
       }, err => {
