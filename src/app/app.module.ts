@@ -35,9 +35,6 @@ import { CustomerSelectionComponent } from './modals/customer-selection/customer
 import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 
-
-
-
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -58,7 +55,7 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
     FuelEntriesComponent,
     CustomerSelectionComponent,
     StockTypeComponent,
-    StockSubtypeComponent
+    StockSubtypeComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -78,7 +75,7 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
     FuelEntriesComponent,
     CustomerSelectionComponent,
     StockTypeComponent,
-    StockSubtypeComponent
+    StockSubtypeComponent,
   ],
   imports: [
     BrowserModule,
