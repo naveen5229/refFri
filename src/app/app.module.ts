@@ -33,6 +33,7 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
  import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 // //import { StockSubtypesComponent } from './acounts-modals/stock-subtypes/stock-subtypes.component';
  import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
+import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 
 
 
@@ -55,7 +56,8 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     ViewListComponent,
     VehicleTripUpdateComponent,
      StockTypeComponent,
-     StockSubtypeComponent
+     StockSubtypeComponent,
+     StockitemComponent
   ],
     
   entryComponents: [
@@ -74,7 +76,8 @@ import { VehicleTripUpdateComponent } from './modals/vehicle-trip-update/vehicle
     VehicleTripUpdateComponent,
     ViewListComponent,
      StockTypeComponent,
-     StockSubtypeComponent
+     StockSubtypeComponent,
+     StockitemComponent
     
   ],
   imports: [

@@ -22,4 +22,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/accounts/stock-subtypes'
     }
+    ,
+    {
+        title: 'Stock Item',
+        icon: 'nb-home',
+        link: '/accounts/stockitem'
+    }
 ];

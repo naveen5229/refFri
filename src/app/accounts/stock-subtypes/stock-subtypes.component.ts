@@ -41,12 +41,19 @@ export class StockSubtypesComponent implements OnInit {
 
   
   openStockSubTypeModal(stocksubType?) {
-    if (stocksubType) this.common.params = StockSubtypeComponent;
+    if (stocksubType) this.common.params = stocksubType;
     const activeModal = this.modalService.open(StockSubtypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
+      if (data.response) {
+       
+        if (stocksubType) {
+         
+          this.updateStockSubType(stocksubType.id, data.stockSubType);
+          return;
+        }
        this.addStockSubType(data.stockSubType)
-      
+      }
     });
   }
 
@@ -59,7 +66,7 @@ export class StockSubtypesComponent implements OnInit {
         code: stockSubType.code,
         stockid: stockSubType.stockType.id
      };
-console.log(params);
+//console.log(params);
     this.common.loading++;
 
     this.api.post('Stock/InsertStocksubType', params)
@@ -73,5 +80,29 @@ console.log(params);
         this.common.showError();
       });
 
+  }
+  updateStockSubType(id, stockSubType) {
+           console.log('test');
+          console.log(stockSubType);
+    const params = {
+      foid: stockSubType.user.id,
+      name: stockSubType.name,
+      code: stockSubType.code,
+      stockid: stockSubType.stockType.id,
+      id: id
+    };
+
+    this.common.loading++;
+
+    this.api.post('Stock/updateStocksubType', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        this.getStockSubTypes();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 }
