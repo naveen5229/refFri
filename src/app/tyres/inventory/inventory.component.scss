@@ -35,3 +35,8 @@ ol, ul, dl {
     font-size:14px; 
     list-style: none;
 }
+ul{
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+  border-bottom: 1px solid gray;
+}

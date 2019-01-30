@@ -7,7 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 @Component({
   selector: 'inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss']
+  styleUrls: ['./inventory.component.scss','../../pages/pages.component.css']
 })
 export class InventoryComponent implements OnInit {
 
