@@ -34,8 +34,13 @@ export class LoginComponent implements OnInit {
       console.log('Params: ', params);
       if (params.type && ['admin', 'partner'].includes(params.type.toLowerCase())) {
         this.common.loginType = params.type.toLowerCase();
-      }else{
+        if (this.common.loginType == 'admin')
+          localStorage.setItem('ENTRY_MODE', '1');
+        else
+          localStorage.setItem('ENTRY_MODE', '2');
+      } else {
         this.common.loginType = '';
+        localStorage.setItem('ENTRY_MODE', '3');
       }
       console.log('Login Type: ', this.common.loginType);
     });
@@ -51,7 +56,7 @@ export class LoginComponent implements OnInit {
     allTags[0]['style'].display = 'none';
     console.log('All Tags: ', allTags);
     let nbCard = document.getElementsByTagName('nb-card')[0];
-    nbCard['style']['backgroundImage'] = "url('../../../assets/images/app-login-bg.jpg')";
+    nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/app-login-bg.jpg')";
     nbCard['style']['backgroundSize'] = 'cover';
     nbCard['style']['backgroundRepeat'] = 'no-repeat';
     nbCard['style']['backgroundPosition'] = 'bottom';
@@ -130,7 +135,7 @@ export class LoginComponent implements OnInit {
             this.common.foAdminUserId = res['data'][0]['id']
             this.common.foAdminName = res['data'][0]['name']
             this.router.navigate(['/pages']);
-
+            console.log(this.common.foAdminName);
           }
         }
       }, err => {

@@ -16,5 +16,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Stock Types',
         icon: 'nb-home',
         link: '/accounts/stock-types'
+    },
+    {
+        title: 'Stock Sub Types',
+        icon: 'nb-home',
+        link: '/accounts/stock-subtypes'
     }
 ];

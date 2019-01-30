@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'accounts',
-    loadChildren: 'app/accounts/accounts.module#AccountsModule'
+    loadChildren: 'app/accounts/accounts.module#AccountsModule',
   },
   {
     path: 'partner',
@@ -35,7 +35,10 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: 'app/admin/admin.module#AdminModule'
   },
- 
+  {
+    path: 'tyres',
+    loadChildren: 'app/tyres/tyres.module#TyresModule'
+  },
   {
     path: 'auth',
     component: NbAuthComponent,

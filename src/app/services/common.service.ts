@@ -28,7 +28,7 @@ export class CommonService {
     100: { page: '/ticket-details', title: 'Ticket Details' },
     200: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
     201: { page: 'VehicleHaltPage', title: 'Change Vehicle Halt' },
-    300: { page: '/ticket-site-details', title: 'Vehicle Halt' },
+    300: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
     301: { page: 'VehicleHaltPage', title: 'Change Site Halt' },
   };
 
@@ -60,6 +60,9 @@ export class CommonService {
     private datePipe: DatePipe
   ) {
     this.loginType = localStorage.getItem('LOGIN_TYPE') || '';
+    this.foAdminName = localStorage.getItem('FO_ADMIN_NAME') || null;
+    this.foAdminUserId = localStorage.getItem('FO_ADMIN_USER_ID') || null;
+
   }
 
   showError(msg?) {
