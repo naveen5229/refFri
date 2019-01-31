@@ -9,7 +9,7 @@
 <button class="form-control" (click)="backTOHome()">Back To Home</button>
 </div>
 <div class="form-group" *ngIf="(this.common.loginType == null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') ">
-    <h4 *ngIf = (this.common.foAdminName) style="color:white;margin-top: 10px"> Current Fo Admin : {{this.common.foAdminName}}</h4>
+    <h4 *ngIf = (this.common.foAdminName) style="color:white;margin-top: 10px"> Current User : {{this.common.foAdminName}}</h4>
   </div>
   <div class="form-group" *ngIf="(this.common.loginType == '') ">
       <h4 *ngIf = (this.common.foAdminName) style="color:white;margin-top: 10px"> {{this.common.foAdminName}}</h4>
