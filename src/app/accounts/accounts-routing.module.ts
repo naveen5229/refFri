@@ -6,6 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { StockTypesComponent } from './stock-types/stock-types.component';
 import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.component';
+import { StockTypeComponent } from '../acounts-modals/stock-type/stock-type.component';
+import { StockitemsComponent } from './stockitems/stockitems.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -25,6 +27,10 @@ const routes: Routes = [{
         {
             path: 'stock-subtypes',
             component: StockSubtypesComponent
+        },
+        {
+            path: 'stockitem',
+            component: StockitemsComponent
         }
     ]
 }];
