@@ -17,7 +17,6 @@ export class StockTypeComponent implements OnInit {
     name: '',
     code: ''
   };
-
   showSuggestions = false;
   suggestions = [];
 

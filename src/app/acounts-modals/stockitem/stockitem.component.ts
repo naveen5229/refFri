@@ -4,25 +4,29 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
-  selector: 'stock-subtype',
-  templateUrl: './stock-subtype.component.html',
-  styleUrls: ['./stock-subtype.component.scss']
+  selector: 'stockitem',
+  templateUrl: './stockitem.component.html',
+  styleUrls: ['./stockitem.component.scss']
 })
-export class StockSubtypeComponent implements OnInit {
-  stockSubType = {
+export class StockitemComponent implements OnInit {
+
+  stockItem = {
     user: {
       name: '',
       id: -1
     },
     stockType: {
       name: '',
-      id: -1
+      id:-1
     },
     name: '',
     code: ''
   };
 
 
+  
+  
+  
   showSuggestions = {
     user: false,
     stockType: false
@@ -36,31 +40,33 @@ export class StockSubtypeComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-
-    if (this.common.params && this.common.params.code) {
-      this.stockSubType = {
-        user: {
-          name: this.common.params.username,
-          id: this.common.params.foid
-        },
-        stockType: {
-          name: this.common.params.stocktypename,
-          id: this.common.params.stocktype_id
-        },
-        name: this.common.params.name,
-        code: this.common.params.code
-      };
-      this.common.params = null;
-    }
-  }
+      if(this.common.params && this.common.params.code){
+        this.stockItem = {
+          user: {
+            name: this.common.params.username,
+            id: this.common.params.foid
+          },
+          stockType: {
+            name: this.common.params.stocktypename,
+            id: this.common.params.stocktype_id
+          },
+          name: this.common.params.name,
+          code: this.common.params.code
+        };
+        this.common.params = null;
+      }
+     }
 
   ngOnInit() {
   }
 
+
   searchUser() {
-    this.stockSubType.user.id = -1;
+    this.stockItem.user.id = -1;
     this.showSuggestions.user = true;
-    let params = 'search=' + this.stockSubType.user.name;
+
+
+    let params = 'search=' + this.stockItem.user.name;
     this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -72,10 +78,16 @@ export class StockSubtypeComponent implements OnInit {
       });
   }
 
+  selectUser(user) {
+    this.stockItem.user.name = user.name;
+    this.stockItem.user.id = user.id;
+    this.showSuggestions.user = false;
+  } 
+
   searchStock() {
-    this.stockSubType.stockType.id = -1;
+    this.stockItem.stockType.id = -1;
     this.showSuggestions.stockType = true;
-    let params = 'search=' + this.stockSubType.stockType.name;
+    let params = 'search=' + this.stockItem.stockType.name;
     this.api.get('Suggestion/getStocktype?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getStocktype?' + params) // Admin API
       .subscribe(res => {
@@ -87,20 +99,15 @@ export class StockSubtypeComponent implements OnInit {
       });
   }
 
-  selectUser(user) {
-    this.stockSubType.user.name = user.name;
-    this.stockSubType.user.id = user.id;
-    this.showSuggestions.user = false;
-  }
-
+  
   selectStockType(stockType) {
-    this.stockSubType.stockType.name = stockType.name;
-    this.stockSubType.stockType.id = stockType.id;
+    this.stockItem.stockType.name = stockType.name;
+    this.stockItem.stockType.id = stockType.id;
     this.showSuggestions.stockType = false;
   }
 
   dismiss(response) {
-    console.log('Stock Type:', this.stockSubType);
-    this.activeModal.close({ response: response, stockSubType: this.stockSubType });
+    console.log('Stock Type:', this.stockItem);
+    this.activeModal.close({ response: response, stockSubType: this.stockItem });
   }
 }

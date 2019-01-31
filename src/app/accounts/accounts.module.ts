@@ -8,6 +8,7 @@ import { AccountsComponent } from './accounts.component';
 import { OrdersComponent } from './orders/orders.component';
 import { StockTypesComponent } from './stock-types/stock-types.component';
 import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.component';
+import { StockitemsComponent } from './stockitems/stockitems.component';
 //import { StockSubtypeComponent } from '../acounts-modals/stock-subtype/stock-subtype.component';
 
 const PAGES_COMPONENTS = [
@@ -25,7 +26,8 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     OrdersComponent,
     StockTypesComponent,
-    StockSubtypesComponent
+    StockSubtypesComponent,
+    StockitemsComponent
     //StockSubtypeComponent
   ],
 })

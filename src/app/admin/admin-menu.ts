@@ -7,10 +7,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/dashboard',
         home: true,
     },
-    {
-        title: 'Customer Home',
-        icon: 'nb-home',
-        link: '/modals/customer-selection',
-        home: true,
-    },
+   
 ];

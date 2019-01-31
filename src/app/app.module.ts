@@ -34,11 +34,8 @@ import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.compone
 import { CustomerSelectionComponent } from './modals/customer-selection/customer-selection.component';
 import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
-import { AutoSuggestionComponent } from './directives/auto-suggestion/auto-suggestion.component';
+import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
-
-
-
 
 @NgModule({
   declarations: [AppComponent,
@@ -61,6 +58,9 @@ import { DirectiveModule } from './directives/directives.module';
     CustomerSelectionComponent,
     StockTypeComponent,
     StockSubtypeComponent,
+    StockTypeComponent,
+    StockSubtypeComponent,
+    StockitemComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -81,7 +81,7 @@ import { DirectiveModule } from './directives/directives.module';
     CustomerSelectionComponent,
     StockTypeComponent,
     StockSubtypeComponent,
-    
+    StockitemComponent
   ],
   imports: [
     BrowserModule,
