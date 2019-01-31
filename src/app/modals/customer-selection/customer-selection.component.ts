@@ -47,9 +47,9 @@ export class CustomerSelectionComponent implements OnInit {
     this.common.foAdminName =  this.searchString;
     this.common.foAdminUserId = user.id;
     localStorage.setItem('FO_ADMIN_NAME', this.searchString);
-    localStorage.setItem('FO_ADMIN_USER_ID',  user.id);
-
-    this.router.navigate(['/pages/dashboard']);
+    localStorage.setItem('FO_ADMIN_USER_ID',  user.foaid);
+    window.location.reload();
+    //this.router.navigate(['/pages/dashboard']);
     this.activeModal.close();
 
   }
