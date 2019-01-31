@@ -24,21 +24,24 @@
     <div class="col">
       <div class="form-group">
         <label>Stock Sub Type</label>
-        <input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name">
-        <!-- <input type="text" class="form-control" name="stocktype"> -->
+        <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
+        <auto-suggestion (onSelected)="selectedStockType = $event" url="Suggestion/GetSearchStockType" display="name"
+        placeholder="Enter Stock Sub Type"></auto-suggestion>
       </div>
-      <div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
+      <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
           <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
             {{stocktype.name}}
           </li>
         </ul>
-      </div>
+      </div-->
     </div>
     <div class="col">
       <div class="form-grpou">
         <label>Stock Unit</label>
-        <input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit">
+        <auto-suggestion (onSelected)="selectedUnit = $event" url="Suggestion/getUnit" display="name"
+        placeholder="Enter Unit Name"></auto-suggestion>
+        <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
       </div>
     </div>
   </div>
