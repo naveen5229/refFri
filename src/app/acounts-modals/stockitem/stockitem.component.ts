@@ -17,16 +17,17 @@ export class StockitemComponent implements OnInit {
     },
     stockType: {
       name: '',
-      id:-1
+      id: -1
     },
     name: '',
-    code: ''
+    code: '',
+    unitId: ''
   };
 
 
-  
-  
-  
+
+
+  selectedUnit = null;
   showSuggestions = {
     user: false,
     stockType: false
@@ -40,22 +41,23 @@ export class StockitemComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-      if(this.common.params && this.common.params.code){
-        this.stockItem = {
-          user: {
-            name: this.common.params.username,
-            id: this.common.params.foid
-          },
-          stockType: {
-            name: this.common.params.stocktypename,
-            id: this.common.params.stocktype_id
-          },
-          name: this.common.params.name,
-          code: this.common.params.code
-        };
-        this.common.params = null;
-      }
-     }
+    if (this.common.params && this.common.params.code) {
+      this.stockItem = {
+        user: {
+          name: this.common.params.username,
+          id: this.common.params.foid
+        },
+        stockType: {
+          name: this.common.params.stocktypename,
+          id: this.common.params.stocktype_id
+        },
+        name: this.common.params.name,
+        code: this.common.params.code,
+        unitId: this.common.params.unitId
+      };
+      this.common.params = null;
+    }
+  }
 
   ngOnInit() {
   }
@@ -82,7 +84,7 @@ export class StockitemComponent implements OnInit {
     this.stockItem.user.name = user.name;
     this.stockItem.user.id = user.id;
     this.showSuggestions.user = false;
-  } 
+  }
 
   searchStock() {
     this.stockItem.stockType.id = -1;
@@ -99,7 +101,7 @@ export class StockitemComponent implements OnInit {
       });
   }
 
-  
+
   selectStockType(stockType) {
     this.stockItem.stockType.name = stockType.name;
     this.stockItem.stockType.id = stockType.id;
@@ -107,7 +109,8 @@ export class StockitemComponent implements OnInit {
   }
 
   dismiss(response) {
+    this.stockItem.unitId = this.selectedUnit.id;
     console.log('Stock Type:', this.stockItem);
-    this.activeModal.close({ response: response, stockSubType: this.stockItem });
+    this.activeModal.close({ response: response, stockItem: this.stockItem });
   }
 }
