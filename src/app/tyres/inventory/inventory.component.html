@@ -5,55 +5,98 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-4">
+      <div class="col-sm-1">  </div>
+      <div class="col-sm-2"><label class = "label1"><b>Customer Name </b> </label> </div>
+      <div class="col-sm-3">
          <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString">
-        <ul *ngIf = " (showSuggestions)&&(foUsers.length >  0)" >
-            <li *ngFor="let foUser of foUsers;" (click) = "selectUser(foUser)" >
+         <div >       
+         <ul *ngIf = " (showSuggestions)&&(foUsers.length >  0)" >
+            <li *ngFor="let foUser of foUsers;" (click) = "selectUser(foUser)"  >
               {{ foUser.name}}
             </li>
           </ul>
+          </div>
         </div>
-      <div class="col-sm-4">
+      <div class="col-sm-1">  </div>
+      <div class="col-sm-1"><label><b>Tyre Name</b></label></div>
+      <div class="col-sm-3 " >
         <input id="modelNo" name="modelNo" type="text" placeholder=" Enter Model No" (input)="searchModels()" autocomplete="off" class="form-control" [(ngModel)]="searchModelString">
+        <div>
         <ul *ngIf = " (modelSuggestion)&&(models.length >  0)" >
             <li *ngFor="let model of models;" (click) = "selectModel(model)" >
               {{ model.name}} : {{model.brand}} : {{model.item_id}}
             </li>
           </ul>
+        </div>
       </div>
-      <div class="col-sm-2"></div>
     </div>
-    <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-4"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off"
+    <div class="row row-width" >
+        <div class="col-sm-1">  </div>
+      <div class="col-sm-2"> <label class="label1"><b>Tyre Number </b></label></div>
+      <div class="col-sm-3"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off"
           class="form-control"  [(ngModel)]="tyreNo"></div>
-      <div class="col-sm-4">
+      <div class="col-sm-1">  </div>
+      <div class="col-sm-1"><label> <b>Date</b></label> </div>
+      <div class="col-sm-3">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
           [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
         <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
       </div>
-      <div class="col-sm-2"></div>
     </div>
-    <div class="row">
-      <div class="col-sm-2"></div>
+    <div class="row row-width">
+        <div class="col-sm-1">  </div>
+      <div class="col-sm-2"><label class="label1"><b>Details</b></label></div>
 
-      <div class="col-sm-4">
+      <div class="col-sm-3">
         <input id="otherDetails" name="otherDetails" type="text" placeholder="Other Details" autocomplete="off" class="form-control"  [(ngModel)]="otherDetails">
       </div>
       <div class="col-sm-6"></div>
     </div>
-    <div class="row">
-        <div class="col-sm-5"></div>
-        <div class="col-sm-2">
-
-        <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="reminder" style="cursor: pointer;">Set
-          Reminder</button>
+    <div class="row row-width">
+        <div class="col-sm-1">  </div>
+        <div class="col-sm-2">  </div>
+      
+        <div class="col-sm-3" >
+        <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button>
+        <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
         </div>
       <div class="col-sm-5"></div>
 
       </div>
-
-
   </nb-card-body>
 </nb-card>
+
+<!-- table to display search data -->
+<nb-card>
+    <nb-card-body>
+      <table class="table table-bordered table-hover" *ngIf = "searchedTyreDetails">
+        <thead class="thead">
+          <tr>
+            <th># </th>
+            <th>Model </th>
+            <th>Tyre No </th>
+            <th>Entry Date </th>
+            <th>Enter By </th>
+            <th>Date </th>
+            <th>Details</th>
+            
+          </tr>
+  
+        </thead>
+        <tbody>
+          <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
+              <td >{{i+1}}</td>
+              <td>{{tyreDetail.brand}} - {{tyreDetail.model}} </td>
+              <td >{{tyreDetail.tyreno}}</td>
+              <td>{{tyreDetail.entrydate}}</td>
+              <td>{{tyreDetail.entryby}}</td>
+              <td>{{tyreDetail.date}}</td>
+              <td>{{tyreDetail.details}}</td>            
+          </tr>
+        </tbody>
+      </table>
+      <div class="no-data" *ngIf="!searchedTyreDetails.length">
+          No Data available !
+      </div>
+    </nb-card-body>
+  </nb-card>

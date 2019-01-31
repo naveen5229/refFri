@@ -94,4 +94,10 @@ export class HeaderComponent implements OnInit {
     this.showSuggestions = false;
 
   }
+
+  backTOHome(){
+    this.router.navigate(['/admin']);
+    this.common.foAdminName = null;
+    this.common.foAdminUserId = null;
+  }
 }
