@@ -5,6 +5,7 @@ import { DocumentsRoutingModule } from './documents-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DocumentsComponent } from './documents.components';
+import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,
@@ -19,6 +20,7 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    DocumentationDetailsComponent,
 
   ],
 })

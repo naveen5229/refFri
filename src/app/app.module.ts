@@ -36,9 +36,6 @@ import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.compo
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 
-
-
-
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
