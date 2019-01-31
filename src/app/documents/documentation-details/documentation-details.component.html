@@ -120,30 +120,30 @@
                       <input type="text" class="form-control">
                     </div>
           
-              <div class="col-md-4">
-                <label>Remark</label>
-                <textarea class="form-control"></textarea>
+              <div class="col-md-4 upload-btn-wrapper">
+                <button class="btn">Upload a file</button>
+                <input type="file" name="myfile" />
               </div>
-              
              
             </div>
             <div class="row justify-content-start">
+                <div class="col-md-4">
+                    <label>Remark</label>
+                    <textarea class="form-control"></textarea>
+                  </div>        
+                  
                 <div class="col-md-4 offset-md-1">
-                    <label style="margin-left:-16%;">Agent</label>
+                    <label>Agent</label>
                     <select class="form-control">
                       <option value="1">1</option>
                     </select>
+                    <div class="col-md-4 offset-md-4  upload-btn-wrapper">
+                        <button class="btn">Agent</button>
+                        </div>
                   </div>
-                    <div class="col-md-4">
-                    <button class="btn">Agent</button>
-                    </div>
-                  
-                <div class="col-md-4 offset-md-6 upload-btn-wrapper">
-                    <button class="btn">Upload a file</button>
-                    <input type="file" name="myfile" />
-                  </div>
+                
 <!-- 
-                <div class="col-md-6 offset-md-2">
+             <div class="col-md-6 offset-md-2">
                     <label>Document Upload</label>
                     <input type="file" id="file" name="file"/>
                     <button ng-click="add()">Upload</button> 
