@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> Search FO Admin</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group" *ngIf="(this.common.loginType == null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') " >
+          <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString">
+          <ul *ngIf = " (showSuggestions)&&(suggestions.length >  0)" >
+              <li *ngFor="let suggestion of suggestions;" (click) = "selectUser(suggestion)" >
+                {{ suggestion.name}}
+              </li>
+            </ul>
+        </div>
+  
+  </div>

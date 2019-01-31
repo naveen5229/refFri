@@ -197,6 +197,7 @@ export class TicketsComponent implements OnInit {
   }
 
   showDetails(notification) {
+    console.log(notification)
     this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
   }
 

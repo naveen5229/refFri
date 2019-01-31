@@ -28,6 +28,8 @@
     display: block;
   }
 
+ 
+
   .header-container {
     display: flex;
     align-items: center;
@@ -202,6 +204,8 @@
     nb-action:not(.toggle-layout) {
       padding: 0;
     }
+
+    
   }
 
   @include media-breakpoint-down(xs) {

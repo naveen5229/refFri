@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'image-view',
   templateUrl: './image-view.component.html',

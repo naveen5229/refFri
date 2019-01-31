@@ -21,11 +21,12 @@ export class LorryRecciptsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.getLorryReceipts();
+
 
   }
 
   ngOnInit() {
-    this.getLorryReceipts();
   }
 
 

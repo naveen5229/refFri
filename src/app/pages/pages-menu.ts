@@ -39,7 +39,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   // },
   {
     title: 'Fuel Average Analysis',
-    icon: 'fa fa-truck-moving',
+    icon: 'fa fa-signal',
     link: '/pages/fuel-average-analysis',
   },  
   {
