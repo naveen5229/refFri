@@ -23,6 +23,8 @@ import { DatePickerComponent } from '../modals/date-picker/date-picker.component
 import { from } from 'rxjs';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
+import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
+import { DirectiveModule } from '../directives/directives.module';
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -35,7 +37,8 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     MiscellaneousModule,
-    ChartModule
+    ChartModule,
+    DirectiveModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -52,6 +55,7 @@ const PAGES_COMPONENTS = [
     ConciseComponent,
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
+    // AutoSuggestionComponent
   ],
 })
 export class PagesModule {

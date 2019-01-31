@@ -34,6 +34,8 @@ import { FuelEntriesComponent } from './modals/fuel-entries/fuel-entries.compone
 import { CustomerSelectionComponent } from './modals/customer-selection/customer-selection.component';
 import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
+import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
+import { DirectiveModule } from './directives/directives.module';
 
 @NgModule({
   declarations: [AppComponent,
@@ -56,6 +58,9 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
     CustomerSelectionComponent,
     StockTypeComponent,
     StockSubtypeComponent,
+    StockTypeComponent,
+    StockSubtypeComponent,
+    StockitemComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -76,6 +81,7 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
     CustomerSelectionComponent,
     StockTypeComponent,
     StockSubtypeComponent,
+    StockitemComponent
   ],
   imports: [
     BrowserModule,
@@ -86,6 +92,7 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+    DirectiveModule
   ],
   bootstrap: [AppComponent],
   providers: [

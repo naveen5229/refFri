@@ -1,0 +1,19 @@
+<button class="btn" (click)="openStockItemModal()">Add Stock Item</button>
+<table class="table table-bordered">
+  <tr>
+    <th>#</th>
+    <th>Stock Type</th>
+    <th>Name</th>
+    <th>Code</th>
+    <th>Date</th>
+    <!-->th>Action</th-->
+  </tr>
+  <tr *ngFor="let StockItem of StockItems; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{StockItem.stocksubtype_id}}</td>
+    <td>{{StockItem.name}}</td>
+    <td>{{StockItem.code}}</td>
+    <td>{{StockItem.entry_dt | date : 'dd MMM HH:mm'}}</td>
+    <!-->td><button class="btn" (click)="openStockItemModal(stockType)">Edit</button></td-->
+  </tr>
+</table>
