@@ -35,6 +35,7 @@ import { CustomerSelectionComponent } from './modals/customer-selection/customer
 import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.component';
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
+import { DirectiveModule } from './directives/directives.module';
 
 @NgModule({
   declarations: [AppComponent,
@@ -91,6 +92,7 @@ import { StockitemComponent } from './acounts-modals/stockitem/stockitem.compone
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+    DirectiveModule
   ],
   bootstrap: [AppComponent],
   providers: [
