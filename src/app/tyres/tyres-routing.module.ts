@@ -5,6 +5,7 @@ import { TyresComponent } from './tyres.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { InputsComponent } from './inputs/inputs.component';
+import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 
 
 const routes: Routes = [{
@@ -22,6 +23,10 @@ const routes: Routes = [{
         {
             path: 'inputs',
             component: InputsComponent,
+        },
+        {
+            path: 'tyre-health-check-up',
+            component: TyreHealthCheckUpComponent,
         },
     ],
 }];

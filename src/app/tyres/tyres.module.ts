@@ -7,6 +7,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { TyresComponent } from './tyres.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { InputsComponent } from './inputs/inputs.component';
+import { DirectiveModule } from '../directives/directives.module';
+import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 
 const PAGES_COMPONENTS = [
   TyresComponent,
@@ -18,11 +20,13 @@ const PAGES_COMPONENTS = [
     TyresRoutingModule,
     ThemeModule,
     DashboardModule,
+    DirectiveModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
     InventoryComponent,
     InputsComponent,
+    TyreHealthCheckUpComponent,
   ],
 })
 export class TyresModule { }

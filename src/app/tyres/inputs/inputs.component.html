@@ -8,11 +8,11 @@
       <div class="col-sm-1">  </div>
       <div class="col-sm-2"><label class = "label1"><b>Customer Name </b> </label> </div>
       <div class="col-sm-3">
-         <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString">
+         <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString" autocomplete="off">
          <div >       
          <ul *ngIf = " (showSuggestions)&&(foUsers.length >  0)" >
             <li *ngFor="let foUser of foUsers;" (click) = "selectUser(foUser)"  >
-              {{ foUser.name}}
+              {{ foUser.name}} - {{foUser.mobileno}}
             </li>
           </ul>
           </div>
@@ -101,6 +101,13 @@
     </div>
     <div class="row row-width">
         <div class="col-sm-1">  </div>
+        <div class="col-sm-2"><label class = "label1"><b>Details </b> </label> </div>
+        <div class="col-sm-3">
+           <input type="text" class="form-control" placeholder="Detils" name="details" [(ngModel)]="details">
+            </div>
+          </div>
+    <div class="row row-width">
+        <div class="col-sm-1">  </div>
         <div class="col-sm-2">  </div>
       
         <div class="col-sm-3" >
@@ -108,8 +115,8 @@
         <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
         </div>
       <div class="col-sm-5"></div>
-
       </div>
+      
   </nb-card-body>
 </nb-card>
 
