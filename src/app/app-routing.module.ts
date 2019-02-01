@@ -26,22 +26,27 @@ const routes: Routes = [
   {
     path: 'accounts',
     loadChildren: 'app/accounts/accounts.module#AccountsModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'partner',
-    loadChildren: 'app/partner/partner.module#PartnerModule'
+    loadChildren: 'app/partner/partner.module#PartnerModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'admin',
-    loadChildren: 'app/admin/admin.module#AdminModule'
+    loadChildren: 'app/admin/admin.module#AdminModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'tyres',
-    loadChildren: 'app/tyres/tyres.module#TyresModule'
+    loadChildren: 'app/tyres/tyres.module#TyresModule',
+    canActivate: [AuthGuard],
   },
   {
     path:'documents',
-    loadChildren: 'app/documents/documents.module#DocumentsModule'
+    loadChildren: 'app/documents/documents.module#DocumentsModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',

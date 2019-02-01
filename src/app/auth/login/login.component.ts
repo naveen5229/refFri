@@ -31,18 +31,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log('Params: ', params);
-      if (params.type && ['admin', 'partner'].includes(params.type.toLowerCase())) {
-        this.common.loginType = params.type.toLowerCase();
-        if (this.common.loginType == 'admin')
-          localStorage.setItem('ENTRY_MODE', '1');
-        else
-          localStorage.setItem('ENTRY_MODE', '2');
+      if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
+        this.user._loggedInBy = params.type.toLowerCase();
+      } else if (params.type) {
+        this.router.navigate(['/auth/login']);
+        return;
       } else {
-        this.common.loginType = '';
-        localStorage.setItem('ENTRY_MODE', '3');
+        this.user._loggedInBy = 'customer';
       }
-      console.log('Login Type: ', this.common.loginType);
+
     });
   }
 
@@ -61,21 +58,17 @@ export class LoginComponent implements OnInit {
     nbCard['style']['backgroundRepeat'] = 'no-repeat';
     nbCard['style']['backgroundPosition'] = 'bottom';
     nbCard['style']['height'] = '100%';
-
-
   }
+
+
   sendOTP() {
     const params = {
       type: "login",
       mobileno: this.userDetails.mobile
     };
     ++this.common.loading;
-    let options = {};
-    if (this.common.loginType == 'admin') {
-      options = { entrymode: '1' };
-    }
 
-    this.api.post('Login/login', params, this.common.loginType && options)
+    this.api.post('Login/login', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
@@ -104,15 +97,9 @@ export class LoginComponent implements OnInit {
     };
 
     ++this.common.loading;
-    let options = {};
-    if (this.common.loginType == 'admin') {
-      options = { entrymode: '1' };
-    }
-    else if (this.common.loginType == 'partner') {
-      options = { entrymode: '2' };
-    }
+
     console.log('Login Params:', params)
-    this.api.post('Login/verifyotp', params, this.common.loginType && options)
+    this.api.post('Login/verifyotp', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
@@ -123,19 +110,16 @@ export class LoginComponent implements OnInit {
 
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
-          if (this.common.loginType == 'admin') {
-            localStorage.setItem('LOGIN_TYPE', this.common.loginType);
+
+          console.log('Login Type: ', this.user._loggedInBy);
+          localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
+
+          if (this.user._loggedInBy == 'admin') {
             this.router.navigate(['/admin']);
-            return;
-          } else if (this.common.loginType == 'partner') {
+          } else if (this.user._loggedInBy == 'partner') {
             this.router.navigate(['/partner']);
-            localStorage.setItem('LOGIN_TYPE', this.common.loginType);
-            return;
           } else {
-            this.common.foAdminUserId = res['data'][0]['id']
-            this.common.foAdminName = res['data'][0]['name']
             this.router.navigate(['/pages']);
-            console.log(this.common.foAdminName);
           }
         }
       }, err => {
