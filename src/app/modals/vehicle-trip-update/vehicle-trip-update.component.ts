@@ -84,7 +84,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     }
   }
 
-  closeModal(response) {
+  closeModal() {
     this.activeModal.close();
   }
 

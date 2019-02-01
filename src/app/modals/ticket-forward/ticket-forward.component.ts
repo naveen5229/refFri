@@ -109,8 +109,4 @@ export class TicketForwardComponent implements OnInit {
   }
 
 
-  closeModal() {
-    this.activeModal.close();
-  }
-
 }
