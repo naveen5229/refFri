@@ -6,14 +6,14 @@
     <th>Name</th>
     <th>Code</th>
     <th>Date</th>
-    <!-->th>Action</th-->
+    <th>Action</th>
   </tr>
-  <tr *ngFor="let StockItem of StockItems; let i = index;">
+  <tr *ngFor="let stockItem of StockItems; let i = index;">
     <td>{{i + 1}}</td>
-    <td>{{StockItem.stocksubtype_id}}</td>
-    <td>{{StockItem.name}}</td>
-    <td>{{StockItem.code}}</td>
-    <td>{{StockItem.entry_dt | date : 'dd MMM HH:mm'}}</td>
-    <!-->td><button class="btn" (click)="openStockItemModal(stockType)">Edit</button></td-->
+    <td>{{stockItem.stocksubtype_id}}</td>
+    <td>{{stockItem.name}}</td>
+    <td>{{stockItem.code}}</td>
+    <td>{{stockItem.entry_dt | date : 'dd MMM HH:mm'}}</td>
+    <td><button class="btn" (click)="openStockItemModal(stockItem)">Edit</button></td>
   </tr>
 </table>
