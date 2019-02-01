@@ -6,14 +6,14 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" />
+    <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Vehicle Regno </label>
       </div>
       <div class="col-md-8">
         <input id="vehicleTripRegNo" name="vehRegNo" type="text" placeholder="Vehicle Reg No" autocomplete="off" class="form-control"
-          [(ngModel)]="vehicleTrip.regno" readonly>
+          [(ngModel)]="vehicle.id" readonly>
       </div>
     </div>
     <div class="row" style="margin-top:5px">

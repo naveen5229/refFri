@@ -36,7 +36,8 @@ import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.compo
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
- import { AgentHistoryComponent } from './documents/documentation-modals/agent-history/agent-history.component';
+import { AgentHistoryComponent } from './documents/documentation-modals/agent-history/agent-history.component';
+import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
   import { from } from 'rxjs';
 
 
@@ -64,7 +65,8 @@ import { DirectiveModule } from './directives/directives.module';
     StockTypeComponent,
     StockSubtypeComponent,
     StockitemComponent,
-     AgentHistoryComponent
+    AgentHistoryComponent,
+    AddDocumentComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -86,7 +88,8 @@ import { DirectiveModule } from './directives/directives.module';
     StockTypeComponent,
     StockSubtypeComponent,
     StockitemComponent,
-     AgentHistoryComponent
+    AgentHistoryComponent,
+    AddDocumentComponent
   ],
   imports: [
     BrowserModule,
