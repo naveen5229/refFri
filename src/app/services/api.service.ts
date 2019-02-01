@@ -10,10 +10,10 @@ import { Body } from '@angular/http/src/body';
 export class ApiService {
 
   // URL: string = 'http://13.233.32.59/booster_webservices/'; // prod Server
-  // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //URL: string = 'http://192.168.0.108/booster_webservices/'; // Umang
-   URL: string = 'http://localhost/booster_webservices/';
+  //  URL: string = 'http://localhost/booster_webservices/';
 
   constructor(private http: HttpClient,
     public user: UserService,
@@ -23,24 +23,21 @@ export class ApiService {
 
 
   post(subURL: string, body: any, options?) {
-    if (this.common.foAdminUserId) {
-      body['foAdminId'] = this.common.foAdminUserId;
+    if (this.user._customer.id) {
+      body['foAdminId'] = this.user._customer.id;
     }
 
-    console.log('Options: ', options);
-    console.log('Body :', body);
-    return this.http.post(this.URL + subURL, body, { headers: this.setHeaders(options) })
+    return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }
 
   get(subURL: string, params?: any) {
-    if (this.common.foAdminUserId) {
+    if (this.user._customer.id) {
       if (subURL.includes('?')) {
-        subURL += '&foAdminId=' + this.common.foAdminUserId;
+        subURL += '&foAdminId=' + this.user._customer.id;
       } else {
-        subURL += '?foAdminId=' + this.common.foAdminUserId;
+        subURL += '?foAdminId=' + this.user._customer.id;
       }
     }
-    console.log('subURL :', subURL);
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
@@ -57,27 +54,15 @@ export class ApiService {
     return this.http.patch(this.URL + subURL, body, { headers: this.setHeaders() })
   }
 
-  setHeaders(options?) {
-    const entryMode = localStorage.getItem('ENTRY_MODE');
-
-    let data = {
-      'Content-Type': 'application/json',
-      'version': '1.0',
-      'entrymode': entryMode || '1',
-      'authkey': this.user._token || ''
-    };
-    console.log('Data: ', data);
-
+  setHeaders() {
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': entryMode || '1',
+      'entrymode': entryMode,
       'authkey': this.user._token || ''
     });
 
-    console.log('Header: ', headers);
-
     return headers;
-
   }
 }

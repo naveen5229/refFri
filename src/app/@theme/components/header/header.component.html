@@ -5,18 +5,18 @@
   </div>
   <!-- <ngx-theme-switcher></ngx-theme-switcher> -->
 </div>
-<div class="form-group" *ngIf="(this.common.loginType == null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') " style="margin-left:-130px">
-<button class="form-control" (click)="backTOHome()">Back To Home</button>
+<div class="form-group" *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name" style="margin-left:-130px">
+  <button class="form-control" (click)="backTOHome()">Back To Home</button>
 </div>
-<div class="form-group" *ngIf="(this.common.loginType == null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') ">
-    <h4 *ngIf = (this.common.foAdminName) style="color:white;margin-top: 10px"> Current User : {{this.common.foAdminName}}</h4>
-  </div>
-  <div class="form-group" *ngIf="(this.common.loginType == '') ">
-      <h4 *ngIf = (this.common.foAdminName) style="color:white;margin-top: 10px"> {{this.common.foAdminName}}</h4>
-    </div>
-  <div class="form-group" *ngIf="(this.common.loginType == null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') ">
-    <button class="form-control" (click)="openChangeModal()">Choose Customer</button>
-  </div>
+<div class="form-group" *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name">
+  <h4 style="color:white;margin-top: 10px"> Current User : {{this.user._customer.name}}</h4>
+</div>
+<div class="form-group" *ngIf="this.user._loggedInBy == 'customer'">
+  <h4 style="color:white;margin-top: 10px">{{this.user._details.name}}</h4>
+</div>
+<div class="form-group" *ngIf="this.user._loggedInBy !== 'customer'">
+  <button class="form-control" (click)="openChangeModal()">Choose Customer</button>
+</div>
 
 
 
