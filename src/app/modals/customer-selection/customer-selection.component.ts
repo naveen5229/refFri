@@ -29,7 +29,7 @@ export class CustomerSelectionComponent implements OnInit {
     console.log("test");
     this.showSuggestions = true;
     let params = 'search=' + this.searchString;
-    this.api.get('Suggestion/getAllFoAdminList?' + params) // Customer API
+    this.api.get('Suggestion/getAllFoAdminListwithCustomer?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
         this.suggestions = res['data'];
@@ -42,14 +42,14 @@ export class CustomerSelectionComponent implements OnInit {
   }
  
   selectUser(user) {
-    this.searchString = user.name;
+    this.searchString = user.foaname+" - "+user.foname;
     this.showSuggestions = false;
-    this.common.foAdminName =  user.name;
+    this.common.foAdminName =  this.searchString;
     this.common.foAdminUserId = user.id;
-    localStorage.setItem('FO_ADMIN_NAME', user.name);
-    localStorage.setItem('FO_ADMIN_USER_ID',  user.id);
-
-    this.router.navigate(['/pages/dashboard']);
+    localStorage.setItem('FO_ADMIN_NAME', this.searchString);
+    localStorage.setItem('FO_ADMIN_USER_ID',  user.foaid);
+    window.location.reload();
+    //this.router.navigate(['/pages/dashboard']);
     this.activeModal.close();
 
   }

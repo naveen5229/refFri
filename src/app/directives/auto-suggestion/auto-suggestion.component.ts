@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
@@ -13,6 +13,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() display: string;
   @Input() className: string;
   @Input() placeholder: string;
+  @Input() preSelected: any;
 
   counter = 0;
   searchText = '';
@@ -20,7 +21,10 @@ export class AutoSuggestionComponent implements OnInit {
   suggestions = [];
   selectedSuggestion = null;
 
-  constructor(public api: ApiService, public common: CommonService) {
+  constructor(public api: ApiService,
+    private cdr: ChangeDetectorRef,
+    public common: CommonService) {
+
   }
 
   ngOnInit() {
@@ -29,7 +33,11 @@ export class AutoSuggestionComponent implements OnInit {
   ngAfterViewInit() {
     console.log('URL:', this.url);
     console.log('URL:', this.display);
-
+    if (this.preSelected) {
+      this.selectSuggestion = this.preSelected;
+      this.searchText = this.preSelected[this.display];
+    }
+    this.cdr.detectChanges();
   }
 
 

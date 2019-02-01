@@ -6,6 +6,7 @@ import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { TyresComponent } from './tyres.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { InputsComponent } from './inputs/inputs.component';
 
 const PAGES_COMPONENTS = [
   TyresComponent,
@@ -21,6 +22,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     InventoryComponent,
+    InputsComponent,
   ],
 })
 export class TyresModule { }
