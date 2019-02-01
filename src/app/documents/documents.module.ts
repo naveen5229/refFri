@@ -6,6 +6,8 @@ import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DocumentsComponent } from './documents.components';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
+import { DirectiveModule } from '../directives/directives.module';
+  import { from } from 'rxjs';
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,
@@ -17,10 +19,12 @@ const PAGES_COMPONENTS = [
     DocumentsRoutingModule,
     ThemeModule,
     DashboardModule,
+    DirectiveModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
     DocumentationDetailsComponent,
+
 
   ],
 })
