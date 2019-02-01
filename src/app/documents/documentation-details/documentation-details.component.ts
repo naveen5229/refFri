@@ -11,8 +11,10 @@ import { from } from 'rxjs';
   styleUrls: ['./documentation-details.component.scss', '../../pages/pages.component.css']
 })
 export class DocumentationDetailsComponent implements OnInit {
-data = [];
-  title :'';
+
+  data = [];
+
+  title: '';
   vehicle = {
     id: '',
     number: '',
@@ -45,7 +47,7 @@ data = [];
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal ) { }
+    private modalService: NgbModal) { }
 
   ngOnInit() {
   }
@@ -72,14 +74,14 @@ data = [];
 
   extractData(data) {
     this.vehicle = {
-      id : data.vehicle_id,
-      number:data.regno,
-      engineNumber:data.engine_no,
-      gvw:data.gvw,
-      manufactureDate:data.manufacture_date,
-      chassis:data.chassis_no,
-      maker:data.vehicle_maker,
-      modal:data.vehicle_model
+      id: data.vehicle_id,
+      number: data.regno,
+      engineNumber: data.engine_no,
+      gvw: data.gvw,
+      manufactureDate: data.manufacture_date,
+      chassis: data.chassis_no,
+      maker: data.vehicle_maker,
+      modal: data.vehicle_model
     };
 
     this.document = {
@@ -90,30 +92,31 @@ data = [];
         start: data.from_date,
         expired: data.expiry_date
       },
-      image:data.img_url,
+      image: data.img_url,
       remark: data.remarks,
       agent: {
         name: '',
-        id:data.document_agent_id,
+        id: data.document_agent_id,
       },
     };
 
   }
 
-  agentHistory(data){
+  agentHistory() {
     this.common.loading++;
-    this.api.post('Vehicles/getAgentHistoryByVehicleId',{x_agent_id :this.document.agent.id,  x_vehicle_id:this.vehicle.id})
+    this.api.post('Vehicles/getAgentHistoryByVehicleId', { x_agent_id: this.document.agent.id, x_vehicle_id: this.vehicle.id })
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-      
+        this.data = res['data'];
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-  
-    
-    this.common.params = {  title: 'Agent_Details' };
+
+
+    this.common.params = { title: 'Agent_Details' };
     const activeModal = this.modalService.open(AgentHistoryComponent, { size: 'lg', container: 'nb-layout' });
   }
 
