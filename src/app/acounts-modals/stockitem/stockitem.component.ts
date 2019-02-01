@@ -11,23 +11,30 @@ import { CommonService } from '../../services/common.service';
 export class StockitemComponent implements OnInit {
 
   stockItem = {
-    user: {
-      name: '',
-      id: -1
-    },
-    stockType: {
-      name: '',
-      id: -1
-    },
     name: '',
     code: '',
-    unitId: ''
+    maxlimit :'',
+    minlimit :'',
+    isactive :'',
+    sales :'',
+    purchase:'',
+    inventary:'',
+    unit: {
+      name: '',
+      id: ''
+    },
+    stockSubType: {
+      name: '',
+      id: ''
+    },
+    user: {
+      name: '',
+      id: ''
+    }
+
   };
 
 
-
-
-  selectedUnit = null;
   showSuggestions = {
     user: false,
     stockType: false
@@ -41,75 +48,48 @@ export class StockitemComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-    if (this.common.params && this.common.params.code) {
+      console.log(this.common.params);
+    if (this.common.params) {
       this.stockItem = {
-        user: {
-          name: this.common.params.username,
-          id: this.common.params.foid
-        },
-        stockType: {
-          name: this.common.params.stocktypename,
-          id: this.common.params.stocktype_id
-        },
         name: this.common.params.name,
         code: this.common.params.code,
-        unitId: this.common.params.unitId
-      };
-      this.common.params = null;
+        unit: {
+          name: this.common.params.stockunitname,
+          id: this.common.params.stockunit_id
+        },
+        stockSubType: {
+          name: this.common.params.stoctsubtypename,
+          id: this.common.params.stocktypeid
+        },
+        user: {
+          name: '',
+          id: ''
+        },
+        maxlimit: common.params.min_limit,
+        minlimit : common.params.min_limit,
+        isactive : common.params.is_active,
+        sales : common.params.for_sales,
+        purchase   : common.params.for_purchase,
+        inventary : common.params.for_inventory
+      }
+
+      console.log('Stock: ', this.stockItem);
     }
   }
+
 
   ngOnInit() {
   }
 
-
-  searchUser() {
-    this.stockItem.user.id = -1;
-    this.showSuggestions.user = true;
-
-
-    let params = 'search=' + this.stockItem.user.name;
-    this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
-      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
-      .subscribe(res => {
-        console.log(res);
-        this.suggestions.users = res['data'];
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-  }
-
-  selectUser(user) {
-    this.stockItem.user.name = user.name;
-    this.stockItem.user.id = user.id;
-    this.showSuggestions.user = false;
-  }
-
-  searchStock() {
-    this.stockItem.stockType.id = -1;
-    this.showSuggestions.stockType = true;
-    let params = 'search=' + this.stockItem.stockType.name;
-    this.api.get('Suggestion/getStocktype?' + params) // Customer API
-      // this.api.get3('booster_webservices/Suggestion/getStocktype?' + params) // Admin API
-      .subscribe(res => {
-        console.log(res);
-        this.suggestions.stockTypes = res['data'];
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
+  onSelected(selectedData, type, display) {
+    this.stockItem[type].name = selectedData[display];
+    this.stockItem[type].id = selectedData.id;
+    //console.log('Stock Unit: ', this.stockItem);
   }
 
 
-  selectStockType(stockType) {
-    this.stockItem.stockType.name = stockType.name;
-    this.stockItem.stockType.id = stockType.id;
-    this.showSuggestions.stockType = false;
-  }
 
   dismiss(response) {
-    this.stockItem.unitId = this.selectedUnit.id;
     console.log('Stock Type:', this.stockItem);
     this.activeModal.close({ response: response, stockItem: this.stockItem });
   }
