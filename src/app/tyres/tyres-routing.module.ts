@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { TyresComponent } from './tyres.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { InputsComponent } from './inputs/inputs.component';
+
 
 const routes: Routes = [{
     path: '',
@@ -16,6 +18,10 @@ const routes: Routes = [{
         {
             path: 'inventory',
             component: InventoryComponent,
+        },
+        {
+            path: 'inputs',
+            component: InputsComponent,
         },
     ],
 }];

@@ -6,8 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.component';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-import { TicketForwardComponent } from '../../modals/ticket-forward/ticket-forward.component';
-import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
+
 import { from } from 'rxjs';
 
 
