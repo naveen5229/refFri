@@ -10,35 +10,40 @@
      <div class="col">
       <div class="form-group">
         <label>User</label>
-        <input type="text" class="form-control" (input)="searchUser()" name="user-name" [(ngModel)]="stockItem.user.name">
+        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name" [(ngModel)]="stockItem.user.name"-->
+        <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
+        placeholder="Enter User" [preSelected]="null"></auto-suggestion>
       </div>
 
-      <div class="suggestions" *ngIf="showSuggestions.user && suggestions.users.length && stockItem.user.name">
+      <!--div class="suggestions" *ngIf="showSuggestions.user && suggestions.users.length && stockItem.user.name">
         <ul>
           <li *ngFor="let user of suggestions.users" class="suggestion" (click)="selectUser(user)">
             {{user.name}}
           </li>
         </ul>
-      </div>
+      </div-->
     </div>
     <div class="col">
       <div class="form-group">
         <label>Stock Sub Type</label>
-        <input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name">
-        <!-- <input type="text" class="form-control" name="stocktype"> -->
+        <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
+        <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" url="Suggestion/GetSearchStockType" display="name"
+        placeholder="Enter Stock Sub Type" [preSelected]="stockItem.stockSubType"></auto-suggestion>
       </div>
-      <div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
+      <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
           <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
             {{stocktype.name}}
           </li>
         </ul>
-      </div>
+      </div-->
     </div>
     <div class="col">
       <div class="form-grpou">
         <label>Stock Unit</label>
-        <input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit">
+        <auto-suggestion (onSelected)="onSelected($event, 'unit', 'name')" url="Suggestion/getUnit" display="name"
+        placeholder="Enter Unit Name" [preSelected]="stockItem.unit"></auto-suggestion>
+        <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
       </div>
     </div>
   </div>
@@ -73,49 +78,49 @@
     <div class="col">
       <div class="form-group">
         <label>Is Active Yes</label>
-        <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" value="true">
+        <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" [value]="true">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>No</label>
-        <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" value="false">
+        <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" [value]="false">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Sales Yes</label>
-        <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" value="true">
+        <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" [value]="true">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>No</label>
-        <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" value="false">
+        <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" [value]="false">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Purchase Yes</label>
-        <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" value="true">
+        <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" [value]="true">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>No</label>
-        <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" value="false">
+        <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" [value]="false">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Inventary Yes</label>
-        <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" value="true">
+        <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" [value]="true">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>No</label>
-        <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" value="false">
+        <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" [value]="false">
       </div>
     </div>
   </div>

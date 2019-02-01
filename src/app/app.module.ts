@@ -36,6 +36,9 @@ import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.compo
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
+ import { AgentHistoryComponent } from './documents/documentation-modals/agent-history/agent-history.component';
+  import { from } from 'rxjs';
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -60,7 +63,8 @@ import { DirectiveModule } from './directives/directives.module';
     StockSubtypeComponent,
     StockTypeComponent,
     StockSubtypeComponent,
-    StockitemComponent
+    StockitemComponent,
+     AgentHistoryComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -81,7 +85,8 @@ import { DirectiveModule } from './directives/directives.module';
     CustomerSelectionComponent,
     StockTypeComponent,
     StockSubtypeComponent,
-    StockitemComponent
+    StockitemComponent,
+     AgentHistoryComponent
   ],
   imports: [
     BrowserModule,

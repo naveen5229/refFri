@@ -5,16 +5,15 @@ import { CommonService } from '../services/common.service';
 import { Body } from '@angular/http/src/body';
 
 
-@Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
   // URL: string = 'http://13.233.32.59/booster_webservices/'; // prod Server
-  //URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //URL: string = 'http://192.168.0.108/booster_webservices/'; // Umang
-   URL: string = 'http://localhost/transtruck/booster_webservices/';
+   URL: string = 'http://localhost/booster_webservices/';
 
   constructor(private http: HttpClient,
     public user: UserService,
@@ -64,7 +63,7 @@ export class ApiService {
     let data = {
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': entryMode,
+      'entrymode': entryMode || '1',
       'authkey': this.user._token || ''
     };
     console.log('Data: ', data);
@@ -72,7 +71,7 @@ export class ApiService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-      'entrymode': entryMode,
+      'entrymode': entryMode || '1',
       'authkey': this.user._token || ''
     });
 
