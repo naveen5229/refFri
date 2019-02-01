@@ -100,7 +100,7 @@ data = [];
 
   }
 
-  agentHistory(data){
+  agentHistory(){
     this.common.loading++;
     this.api.post('Vehicles/getAgentHistoryByVehicleId',{x_agent_id :this.document.agent.id,  x_vehicle_id:this.vehicle.id})
       .subscribe(res => {
