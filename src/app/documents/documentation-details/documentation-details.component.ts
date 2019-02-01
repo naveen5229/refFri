@@ -11,7 +11,7 @@ import { from } from 'rxjs';
   styleUrls: ['./documentation-details.component.scss', '../../pages/pages.component.css']
 })
 export class DocumentationDetailsComponent implements OnInit {
-
+data = [];
   title :'';
   vehicle = {
     id: '',
@@ -61,7 +61,7 @@ export class DocumentationDetailsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.extractData(res['data'][0]);
-        this.agentHistory(res['data'][0]);
+        //this.agentHistory();
         // this.document.remark = res['data'][0].remarks;
       }, err => {
         this.common.loading--;
