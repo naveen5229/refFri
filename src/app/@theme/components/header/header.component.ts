@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     public router: Router,
-    private user: UserService,
+    public user: UserService,
     private analyticsService: AnalyticsService,
     public api: ApiService,
     public modalService: NgbModal,
