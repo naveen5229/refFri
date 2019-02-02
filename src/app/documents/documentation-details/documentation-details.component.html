@@ -8,131 +8,52 @@
 
     <div class="container">
       <form>
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Vehicle_Details</legend>
-          <div class="row">
-            <div class="col-md-4">
-              <label>Vehicle No:</label>
-              <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-                placeholder="Enter Vehicle No."></auto-suggestion>
-            </div>
-            <div class="col-md-4">
-              <label>Engine No:</label>
-              <!-- *ngIf="selectedVehicle?.engine_no == null" -->
-              <input type="text" class="form-control" name="engine-number" [(ngModel)]="vehicle.engineNumber" required>
-            </div>
-            <div class="col-md-4">
-              <label>GVW:</label>
-              <input type="text" class="form-control" name="gvw" [(ngModel)]="vehicle.gvw" required>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-              <label>Manufacture Date:</label>
-              <input type="text" class="form-control" name="manufacture-Date" [(ngModel)]="vehicle.manufactureDate"
-                required>
-            </div>
-            <div class="col-md-4">
-              <label>Chassis No:</label>
-              <input type="text" class="form-control" name="chassis-No" [(ngModel)]="vehicle.chassis" required>
-            </div>
-
-            <div class="col-md-4">
-              <label>Vehicle Maker :</label>
-              <input type="text" class="form-control" name="vehicle-Maker" [(ngModel)]="vehicle.maker" required>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-              <label>Vehicle Modal:</label>
-              <input type="text" class="form-control" name="vehicle-Modal" [(ngModel)]="vehicle.modal" required>
-            </div>
-            <div class="col-md-4">
-              <button type="submit" class="btn btn-primary" (click)="agentHistory()">Agent history</button>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Documentation-Added</legend>
-          <div class="row justify-content-start">
-            <div class="col-md-4 ">
-              <label>Document No:</label>
-              <input type="text" class="form-control" name="document-No" [(ngModel)]="document.number">
-            </div>
-            <div class="col-md-4 ">
-              <label>Doument_Type:</label>
-              <input type="text" class="form-control" name="document-Type" [(ngModel)]="document.type">
-            </div>
-            <div class="col-md-4">
-              <label>Permit State id</label>
-              <select>
-                <option name="document-permit_state_id" [value]="document.permitId">{{document.permitId}}</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row justify-content-start">
-            <div class="col-md-4">
-              <label>Start Date</label>
-              <input type="text" class="form-control" name="document-startDate" [(ngModel)]="document.dates.start">
-            </div>
-            <div class="col-md-4">
-              <label>Expired Date</label>
-              <input type="text" class="form-control" name="document-expiredDate" [(ngModel)]="document.dates.expired">
-            </div>
-
-            <div class="col-md-4 upload-btn-wrapper">
-              <button class="btn">Upload a file</button>
-              <input type="file" name="myfile" />
-            </div>
-
-          </div>
-          <div class="row justify-content-start">
-            <div class="col-md-4">
-              <label>Remark</label>
-              <textarea class="form-control" name="document-remark" [(ngModel)]="document.remark"></textarea>
-            </div>
-
-            <div class="col-md-4">
-              <label>Agent</label>
-              <select>
-
-                <option name="document-document_agent_id" [value]="document.agent.id">{{document.agent.id}}</option>
-              </select>
-              <div class="col-md-4 offset-md-8 upload-btn-wrapper">
-                <button class="btn">Agent</button>
+        <div class="row">
+          <div class="col-md-6 offset-md-1">
+            <label>Vehicle No:</label>
+            <div class="col-md-6">
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
+              placeholder="Enter Vehicle No." style="width:20%;"></auto-suggestion>
               </div>
-            </div>
-
           </div>
-        </fieldset>
+          <div class="col-md-6 offset-md-2">
+            <button type="submit" class="btn btn-primary" (click)="getDocumentsData()">Add Document</button>
+          </div>
+        </div>
       </form>
     </div>
     <div class="table">
       <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
-            <!-- <th>Sr No</th> -->
-            <th>Document Type</th>
-            <th>Start Date</th>
-            <th>Expired Date </th>
-            <th>Image </th>
+            <th>Sr No</th>
+            <th>Vehicle No</th>
+            <th>Doucument_Type</th>
+            <th>Agent_Name </th>
+            <th>Issue_Date </th>
+            <th>Wef_Date </th>
+            <th>Expiry_Date </th>
+            <th>Doument_Number </th>
             <th>Remark </th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <!-- <th></th> -->
-            <td>{{document.type}}</td>
-            <td>{{document.dates.start}}</td>
-            <td>{{document.dates.expired}}</td>
-            <td>{{document.image}}</td>
-            <td>{{document.remark}}</td>
+           <tr *ngFor="let doc of data; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{doc.regno}}</td>
+            <td>{{doc.document_type}}</td>
+            <td>{{doc.agent}}</td>
+           <td>{{doc.issue_date}}</td>
+            <td>{{doc.wef_date}}</td> 
+            <td>{{doc.expiry_date}}</td>
+            <td>{{doc.document_number}}</td> 
+            <td>{{doc.remarks}}</td>
           </tr>
 
         </tbody>
       </table>
     </div>
-
   </nb-card-body>
+
+
 </nb-card>
