@@ -18,9 +18,7 @@ export class CommonService {
   chartOptions: any;
   themeSubscription: any;
   searchId = null;
-  foAdminUserId = null;
-  foAdminName = null;
-  loginType = '';
+ 
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -59,9 +57,7 @@ export class CommonService {
     private theme: NbThemeService,
     private datePipe: DatePipe
   ) {
-    this.loginType = localStorage.getItem('LOGIN_TYPE') || '';
-    this.foAdminName = localStorage.getItem('FO_ADMIN_NAME') || null;
-    this.foAdminUserId = localStorage.getItem('FO_ADMIN_USER_ID') || null;
+    
 
   }
 

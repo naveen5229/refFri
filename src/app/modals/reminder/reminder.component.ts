@@ -46,7 +46,7 @@ export class ReminderComponent implements OnInit {
     console.log('ionViewDidLoad BuyTimePage');
   }
 
-  dismiss(response) {
+  dismiss() {
     this.activeModal.close();
   }
 
@@ -71,7 +71,7 @@ export class ReminderComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.common.showToast(res['msg']);
-        this.dismiss(true);
+        this.dismiss();
       }, err => {
         console.error(err);
         this.common.showError();

@@ -19,4 +19,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/inputs',
         home: true,
     },
+    {
+        title: 'Health Checkup',
+        icon: 'nb-home',
+        link: '/tyres/tyre-health-check-up',
+        home: true,
+    },
 ];
