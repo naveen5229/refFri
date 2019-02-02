@@ -75,9 +75,8 @@ export class DocumentationDetailsComponent implements OnInit {
   //     },
   //   }];
 
-  // }
+
   getDocumentsData() {
-    console.log("Data value", this.data);
     this.common.loading++;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.selectedVehicle.id })
       .subscribe(res => {

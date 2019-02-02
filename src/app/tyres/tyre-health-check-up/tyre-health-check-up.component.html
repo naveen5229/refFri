@@ -1,0 +1,113 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Tyre Healthup Check</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Customer Name </b> </label> </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString"
+          [(ngModel)]="searchString" autocomplete="off">
+        <div>
+          <ul *ngIf=" (showSuggestions)&&(foUsers.length >  0)">
+            <li *ngFor="let foUser of foUsers;" (click)="selectUser(foUser)">
+              {{ foUser.name}} - {{foUser.mobileno}}
+            </li>
+          </ul>
+        </div>
+        <div>
+        </div>
+      </div>
+
+      <div class="col-sm-1"><label><b>Vehicle No.</b></label></div>
+      <div class="col-sm-3 ">
+        <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+        <div>
+          <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+            <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+              {{ vehicle.regno}} - {{vehicle.id}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-1">
+        <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button>
+      </div>
+    </div>
+    <div style="margin-top:100px">
+      <table class="table table-bordered table-hover" *ngIf="tyreHealths">
+        <thead class="thead">
+          <tr>
+            <th># </th>
+            <th>Position</th>
+            <th>Tyre No </th>
+            <th>NSD-1 </th>
+            <th>NSD-2 </th>
+            <th>NSD-3 </th>
+            <th>PSI</th>
+
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngFor="let tyreHealth of tyreHealths; let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{tyreHealth.position}}</td>
+            <td>{{tyreHealth.tyreno}}</td>
+            <td>{{tyreHealth.nsd1}}</td>
+            <td>{{tyreHealth.nsd2}}</td>
+            <td>{{tyreHealth.nsd3}}</td>
+            <td>{{tyreHealth.psi}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="no-data" *ngIf="!tyreHealths.length">
+        No Data available !
+      </div>
+    </div>
+
+    <div style="margin-top: 50px; border:1px solid gray ">
+      <div class="row row-width">
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-2"><label class="label1"><b>Remark </b> </label> </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" placeholder="Remark" name="remark" [(ngModel)]="remark" autocomplete="off">
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-1"><label><b>Status</b></label></div>
+        <div class="col-sm-3 ">
+          <input id="status" name="status" type="text" placeholder=" Status" autocomplete="off" class="form-control"
+            [(ngModel)]="status">
+        </div>
+      </div>
+      <div class="row row-width">
+          <div class="col-sm-1"> </div>
+          <div class="col-sm-2"><label class="label1"><b>Checked By </b> </label> </div>
+          <div class="col-sm-3">
+              <select [(ngModel)] = "checkedBy" class="form-control" required>
+                  <option *ngFor="let admin of admins" value="admin.id">{{admin.employeename}}</option>
+                  </select>
+          </div>
+          <div class="col-sm-1"></div>
+          <div class="col-sm-1"><label><b>Date</b></label></div>
+          <div class="col-sm-3">
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+              [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
+            <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
+          </div>
+        </div>
+        <div class="row row-width"  style="margin-bottom:50px">
+            <div class="col-sm-1">  </div>
+            <div class="col-sm-2">  </div>
+            <div class="col-sm-3" >
+            <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
+            </div>
+          <div class="col-sm-5"></div>
+          </div>
+    </div>
+  </nb-card-body>
+</nb-card>
