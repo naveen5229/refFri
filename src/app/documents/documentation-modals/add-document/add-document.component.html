@@ -21,9 +21,11 @@
         <label> Doc Type</label>
       </div>
       <div class="col-md-8">
-        <select>
-          <option *ngFor="let docType of docTypes;" [value]="docType.id" class="form-control">{{docType.document_type}}
+        <select [(ngModel)]="docid">
+          <option *ngFor="let docType of docTypes;" [value]="docType.id" name="docid" class="form-control">{{docType.document_type}}
           </option>
+          <input type="hidden" id="docType" name="docType" [(ngModel)]="docType"  name="docType" [value]="docType.document_type"/>
+          
         </select>
       </div>
     </div>
@@ -33,7 +35,7 @@
       </div>
       <div class="col-md-8">
         <input id="issueDate" name="issueDate" type="text" placeholder="issue Date" autocomplete="off" class="form-control"
-          [(ngModel)]="vehicle.issue_date">
+          [(ngModel)]="issue_date">
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -51,7 +53,7 @@
       </div>
       <div class="col-md-8">
         <input id="expiryDate" name="expiryDate" type="text" placeholder="Expiry Date" autocomplete="off" class="form-control"
-          [(ngModel)]="expiry_date" readonly>
+          [(ngModel)]="expiry_date">
       </div>
     </div>
     <div class="row" style="margin-top:25px">
@@ -59,13 +61,13 @@
         <label>Agent</label>
       </div>
       <div class="col-md-5 offset-md-2">
-        <select>
+        <select [(ngModel)]="agentId">
           <option *ngFor="let agent of agents;" [value]="agent.id" class="form-control">{{agent.name}}
           </option>
         </select>
       </div>
-      <div class="col-md-5 offset-md-8" style="margin-top: -10px;">
-        <button class="btn btn-default" type="button">Agent</button>
+      <div class="col-md-5 offset-md-8" style="margin-top: -30px;">
+        <button class="btn btn-default" type="button" (click)="addAgent()">Agent</button>
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -74,7 +76,7 @@
       </div>
       <div class="col-md-8">
         <input id="documentId" name="documentId" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
-          [(ngModel)]="document_numer" readonly>
+          [(ngModel)]="documentNumber">
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -82,7 +84,15 @@
         <label>Document Upload </label>
       </div>
       <div class="col-md-8 upload-btn-wrapper">
-        <input type="file" name="myfile" />
+        <input type="file" name="myfile" [(ngModel)]="docImg"  id="filePicker" (change)="handleFileSelect($event)" />
+      </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+      <div class="col-md-4">
+        <label>Rto </label>
+      </div>
+      <div class="col-md-8">
+        <textarea name="rto" class="form-control" [(ngModel)]="rto" placeholder="Rto" ></textarea>
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -90,11 +100,9 @@
         <label>Remark </label>
       </div>
       <div class="col-md-8">
-        <textarea name="remark" class="form-control"></textarea>
+        <textarea name="remark" class="form-control" [(ngModel)]="remark" placeholder="remark" ></textarea>
       </div>
     </div>
-
-
   </div>
 </div>
 
@@ -104,7 +112,7 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="button" outline (click)="closeModal(true)" id="submit" style="cursor: pointer;">{{btn1}}</button>
+      <button class="btn btn-primary" type="button" outline (click)="addDocument()" id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

@@ -91,8 +91,10 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   openModal(details) {
+   
     this.common.params = { details, title: 'Add Document' };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    
   }
 
   // getDocument(data) {
@@ -118,6 +120,5 @@ export class DocumentationDetailsComponent implements OnInit {
 
   // }
 
-
-
+ 
 }

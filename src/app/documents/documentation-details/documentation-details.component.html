@@ -17,7 +17,7 @@
               </div>
           </div>
           <div class="col-md-6 offset-md-2">
-            <button type="submit" class="btn btn-primary" (click)="getDocumentsData()">Add Document</button>
+            <button type="submit" class="btn btn-primary" (click)="getDocumentsData()" *ngIf="this.selectedVehicle">Add Document</button>
           </div>
         </div>
       </form>
