@@ -12,7 +12,7 @@
         <label> Vehicle Number </label>
       </div>
       <div class="col-md-8">
-        <input id="vehicleId" name="vehicleId" type="text" placeholder="vehicle Reg No" autocomplete="off" class="form-control"
+        <input id="vehicleNo" name="vehicleNo" type="text" placeholder="vehicle Reg No" autocomplete="off" class="form-control"
           [(ngModel)]="vehicle.regno" readonly>
       </div>
     </div>
@@ -32,8 +32,8 @@
         <label>Issue Date</label>
       </div>
       <div class="col-md-8">
-        <input id="vehicleId" name="vehicleId" type="text" placeholder="issue Date" autocomplete="off" class="form-control"
-          [(ngModel)]="vehicle.issue_date" readonly>
+        <input id="issueDate" name="issueDate" type="text" placeholder="issue Date" autocomplete="off" class="form-control"
+          [(ngModel)]="vehicle.issue_date">
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -41,8 +41,8 @@
         <label>Wef Date</label>
       </div>
       <div class="col-md-8">
-        <input id="wef_Date" name="vehicleId" type="text" placeholder="Wef Date" autocomplete="off" class="form-control"
-          [(ngModel)]="wef_date" readonly>
+        <input id="wefDate" name="wefDate" type="text" placeholder="Wef Date" autocomplete="off" class="form-control"
+          [(ngModel)]="wef_date">
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -50,28 +50,31 @@
         <label>Expiry Date</label>
       </div>
       <div class="col-md-8">
-        <input id="wef_Date" name="vehicleId" type="text" placeholder="Wef Date" autocomplete="off" class="form-control"
+        <input id="expiryDate" name="expiryDate" type="text" placeholder="Expiry Date" autocomplete="off" class="form-control"
           [(ngModel)]="expiry_date" readonly>
       </div>
     </div>
     <div class="row" style="margin-top:5px">
-      <div class="col-md-6">
+      <div class="col-md-2">
+        <label>Agent</label>
+      </div>
+      <div class="col-md-5 offset-md-2">
         <select>
           <option *ngFor="let agent of agents;" [value]="agent.id" class="form-control">{{agent.name}}
           </option>
         </select>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5 offset-md-8">
         <button class="btn btn-default" type="button">Agent</button>
       </div>
     </div>
     <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
+      <div class="col-md-4 " >
         <label>Document No.</label>
       </div>
       <div class="col-md-8">
         <input id="documentId" name="documentId" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
-          [(ngModel)]="vehicle.issue_date" readonly>
+          [(ngModel)]="document_numer" readonly>
       </div>
     </div>
     <div class="row" style="margin-top:5px">
