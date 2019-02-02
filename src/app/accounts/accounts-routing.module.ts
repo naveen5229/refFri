@@ -8,6 +8,8 @@ import { StockTypesComponent } from './stock-types/stock-types.component';
 import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.component';
 import { StockTypeComponent } from '../acounts-modals/stock-type/stock-type.component';
 import { StockitemsComponent } from './stockitems/stockitems.component';
+import { AccountComponent } from './account/account.component';
+import{ LedgersComponent } from './ledgers/ledgers.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -31,6 +33,14 @@ const routes: Routes = [{
         {
             path: 'stockitem',
             component: StockitemsComponent
+        },
+        {
+            path: 'account',
+            component: AccountComponent
+        },
+        {
+            path: 'ledgers',
+            component: LedgersComponent
         }
     ]
 }];

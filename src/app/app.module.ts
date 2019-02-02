@@ -38,7 +38,9 @@ import { StockitemComponent } from './acounts-modals/stockitem/stockitem.compone
 import { DirectiveModule } from './directives/directives.module';
 import { AgentHistoryComponent } from './documents/documentation-modals/agent-history/agent-history.component';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
-  import { from } from 'rxjs';
+import { from } from 'rxjs';
+import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
+import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 
 
 @NgModule({
@@ -66,7 +68,10 @@ import { AddDocumentComponent } from './documents/documentation-modals/add-docum
     StockSubtypeComponent,
     StockitemComponent,
     AgentHistoryComponent,
-    AddDocumentComponent
+    AddDocumentComponent,
+    AgentHistoryComponent,
+    AccountsComponent,
+    LedgerComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -89,7 +94,10 @@ import { AddDocumentComponent } from './documents/documentation-modals/add-docum
     StockSubtypeComponent,
     StockitemComponent,
     AgentHistoryComponent,
-    AddDocumentComponent
+    AddDocumentComponent,
+    AgentHistoryComponent,
+    AccountsComponent,
+    LedgerComponent
   ],
   imports: [
     BrowserModule,
