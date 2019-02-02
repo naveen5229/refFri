@@ -5,48 +5,54 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 @Component({
-  selector: 'inputs',
-  templateUrl: './inputs.component.html',
-  styleUrls: ['./inputs.component.scss', '../../pages/pages.component.css', '../tyres.component.css']
+  selector: 'tyre-health-check-up',
+  templateUrl: './tyre-health-check-up.component.html',
+  styleUrls: ['./tyre-health-check-up.component.scss', '../../pages/pages.component.css', '../tyres.component.css']
 })
-export class InputsComponent implements OnInit {
-
+export class TyreHealthCheckUpComponent implements OnInit {
   foName = "";
   foId = null;
   vehicleNo = "";
   vehicleId = null;
-  tyreId = null;
-  tyreNo = "";
-
+  
   searchString = "";
   searchVehicleString = "";
-  searchTyreString = "";
 
   showSuggestions = false;
   vehicleSuggestion = false;
-  tyreSuggestion = false;
 
   foUsers = [];
   vehicles = [];
-  tyres = [];
+  tyreHealths = [];
 
-  searchedTyreDetails = [];
-
-  position={
-    frontRear : null,
-    axel : null,
-    leftRight : null,
-    pos:null
-  };
-  details :null;
-
+  remark = "";
+  status = "";
+  checkedBy = "";
+  admins =[];
   date = this.common.dateFormatter(new Date());
+ 
+
   constructor(private modalService: NgbModal,
     public common: CommonService,
-    public api: ApiService,
-  ) { }
+    public api: ApiService
+  ) { 
+    this.getAdmin();
+  }
 
   ngOnInit() {
+  }
+
+  getAdmin() {
+    this.api.get('Suggestion/getAllElogistAdminList?') // Customer API
+      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
+      .subscribe(res => {
+        this.admins = res['data'];
+        console.log("admins", this.admins);
+
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
   }
 
   searchUser() {
@@ -72,12 +78,8 @@ export class InputsComponent implements OnInit {
     this.showSuggestions = false;
     this.vehicleNo = "";
     this.vehicleId = null;
-    this.tyreId = null;
-    this.tyreNo = "";
     this.searchVehicleString = "";
-    this.searchTyreString = "";
   }
-
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
@@ -95,39 +97,12 @@ export class InputsComponent implements OnInit {
   }
 
   selectVehicle(vehicle) {
-    console.log("vehicle",vehicle );
+    console.log("vehicle", vehicle);
     this.vehicleId = vehicle.id;
     this.vehicleNo = vehicle.regno;
-    this.searchVehicleString = this.vehicleNo+" - "+this.vehicleId;
+    this.searchVehicleString = this.vehicleNo + " - " + this.vehicleId;
     this.vehicleSuggestion = false;
   }
-
-  searchTyres() {
-    this.tyreSuggestion = true;
-    let params = 'search=' + this.searchTyreString +
-      '&foId=' + this.foId;
-    this.api.get('Tyres/getTyreNumbersAccordingFO?' + params) // Customer API
-      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
-      .subscribe(res => {
-        this.tyres = res['data'];
-        console.log("tyres", this.tyres);
-
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-  }
-  selectTyres(tyre) {
-    console.log("tyre",tyre);
-    this.tyreId = tyre.id;
-    this.tyreNo = tyre.tyrenum;
-    this.searchTyreString = this.tyreNo+" - "+this.tyreId;
-    console.log("searchTyreString",this.searchTyreString);
-    this.tyreSuggestion = false;
-
-  }
-
-
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -136,34 +111,13 @@ export class InputsComponent implements OnInit {
     });
   }
 
-  searchData() {
-    if (this.foId) {
-      let params = 'foId=' + this.foId
-      console.log("params ", params);
-      this.api.get('Tyres/getTyreInputsAccordingFO?' + params)
-        .subscribe(res => {
-          this.searchedTyreDetails = res['data'];
-          console.log("searchedTyreDetails", this.searchedTyreDetails);
-
-        }, err => {
-          console.error(err);
-          this.common.showError();
-        });
-    }
-    else {
-      this.common.showToast("Fo Selection is mandotry");
-    }
-  }
-
   saveDetails() {
     this.common.loading++;
     let params = {
       foId : this.foId,
       vehicleId : this.vehicleId,
       date : this.date,
-      tyreId : this.tyreId,
-      tyrePos : this.position.frontRear+ "|"+this.position.axel+"|"+this.position.leftRight+"|"+this.position.pos,
-      details : this.details
+     
     };
     console.log('Params:', params);
 
@@ -184,7 +138,23 @@ export class InputsComponent implements OnInit {
         this.common.showError();
       });
   }
-  
+  searchData() {
+    if (this.foId) {
+      let params = 'foId=' + this.foId+
+      '&vehicleId=' +this.vehicleId;
+      console.log("params ", params);
+      this.api.get('Tyres/getTyreInputsAccordingFO?' + params)
+        .subscribe(res => {
+          this.tyreHealths = res['data'];
+          console.log("searchedTyreDetails", this.tyreHealths);
+
+        }, err => {
+          console.error(err);
+          this.common.showError();
+        });
+    }
+    else {
+      this.common.showToast("Fo Selection is mandotry");
+    }
+  }
 }
-
-
