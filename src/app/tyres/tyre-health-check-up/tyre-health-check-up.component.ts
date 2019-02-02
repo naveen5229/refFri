@@ -12,6 +12,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class TyreHealthCheckUpComponent implements OnInit {
   foName = "";
   foId = null;
+  vehicleType = "truck";
   vehicleNo = "";
   vehicleId = null;
   
@@ -25,6 +26,12 @@ export class TyreHealthCheckUpComponent implements OnInit {
   vehicles = [];
   tyreHealths = [];
 
+  tyre = {
+    nsd1 : null,
+    nsd2 : null,
+    nsd3 : null, 
+    psi : null,
+  };
   remark = "";
   status = "";
   checkedBy = "";
@@ -76,14 +83,22 @@ export class TyreHealthCheckUpComponent implements OnInit {
     this.searchString = this.foName;
     this.foId = user.id;
     this.showSuggestions = false;
-    this.vehicleNo = "";
-    this.vehicleId = null;
-    this.searchVehicleString = "";
+   this.resetVehDetails();
+
   }
+
+  resetVehDetails()
+  { 
+    this.vehicleNo = "";
+   this.vehicleId = null;
+   this.searchVehicleString = "";
+   this.tyreHealths = []; 
+ }
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId;
+      '&foId=' + this.foId+
+      '&vehicleType=' +this.vehicleType;
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -143,7 +158,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
       let params = 'foId=' + this.foId+
       '&vehicleId=' +this.vehicleId;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreInputsAccordingFO?' + params)
+      this.api.get('Tyres/getTyreHealths?' + params)
         .subscribe(res => {
           this.tyreHealths = res['data'];
           console.log("searchedTyreDetails", this.tyreHealths);

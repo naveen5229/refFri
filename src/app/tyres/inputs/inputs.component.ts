@@ -13,6 +13,7 @@ export class InputsComponent implements OnInit {
 
   foName = "";
   foId = null;
+  vehicleType = "truck";
   vehicleNo = "";
   vehicleId = null;
   tyreId = null;
@@ -70,18 +71,24 @@ export class InputsComponent implements OnInit {
     this.searchString = this.foName;
     this.foId = user.id;
     this.showSuggestions = false;
-    this.vehicleNo = "";
-    this.vehicleId = null;
-    this.tyreId = null;
-    this.tyreNo = "";
-    this.searchVehicleString = "";
-    this.searchTyreString = "";
+  this.resetVehDetails();
   }
-
+ 
+  resetVehDetails()
+ { 
+   this.vehicleNo = "";
+  this.vehicleId = null;
+  this.tyreId = null;
+  this.tyreNo = "";
+  this.searchVehicleString = "";
+  this.searchTyreString = "";
+}
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId;
+      '&foId=' + this.foId+
+      '&vehicleType=' +this.vehicleType;
+      console
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
