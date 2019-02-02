@@ -32,8 +32,9 @@ legend.scheduler-border {
     height:auto;
 }
 label{
-    font-size: 16px;
-    margin-left: -2%;
+    font-size: 20px;
+    margin-left: 2%;
+    font-weight: 700;
 }
 textarea{
     min-width: 82% !important;
@@ -69,8 +70,8 @@ select{
     opacity: 0;
   }
 .btn.btn-primary{
-    margin-left: 50%;
-    padding-left: 5%
+    margin-left: 45%;
+    margin-top: -10%;
 }
 .table{
     width: 95%;
