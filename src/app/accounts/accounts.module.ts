@@ -10,6 +10,8 @@ import { StockTypesComponent } from './stock-types/stock-types.component';
 import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.component';
 import { StockitemsComponent } from './stockitems/stockitems.component';
 import { DirectiveModule } from '../directives/directives.module';
+import { AccountComponent } from './account/account.component';
+import { LedgersComponent } from './ledgers/ledgers.component';
 //import { StockSubtypeComponent } from '../acounts-modals/stock-subtype/stock-subtype.component';
 
 const PAGES_COMPONENTS = [
@@ -29,7 +31,10 @@ const PAGES_COMPONENTS = [
     OrdersComponent,
     StockTypesComponent,
     StockSubtypesComponent,
-    StockitemsComponent
+    StockitemsComponent,
+    //AccountsComponent,
+    AccountComponent,
+    LedgersComponent
     //StockSubtypeComponent
   ],
 })

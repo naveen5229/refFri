@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body" style="height:220px">
-  <div class="form-group" *ngIf="(this.common.loginType == null) || (this.common.loginType == 'partner') || (this.common.loginType == 'admin') ">
+  <div class="form-group">
     <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString"
       [(ngModel)]="searchString" autocomplete="off">
     <ul *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
