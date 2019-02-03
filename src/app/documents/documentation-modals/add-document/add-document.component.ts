@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
+import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 @Component({
   selector: 'add-document',
   templateUrl: './add-document.component.html',
@@ -19,10 +20,13 @@ export class AddDocumentComponent implements OnInit {
 
   docImg: '';
   docid = '';
-  docType = '';
-  issue_date = '';
-  wef_date: '';
-  expiry_date: '';
+  documentType = '';
+  dates = {
+    issueDate: '',
+    wefDate: '',
+    expiryDate: '',
+  };
+
   documentNumber: '';
   remark: '';
   agentId: '';
@@ -81,49 +85,59 @@ export class AddDocumentComponent implements OnInit {
 
   }
   addDocument() {
-    this.documentData = [{
-      regno: this.vehicle.regno,
-      x_vehicle_id: this.vehicle.id,
-      x_document_type_id: this.docid,
-      x_document_type: this.docType,
-      x_issue_date: this.issue_date,
-      x_wef_date: this.wef_date,
-      x_expiry_date: this.expiry_date,
-      x_document_agent_id: this.agentId,
-      x_document_number: this.documentNumber,
-      x_base64img: this.base64textString,
-      x_rto: this.rto,
-      x_remarks: this.remark
-    }];
+    //  for checking  recieveing data 
+    // this.documentData = [{
+    //   regno: this.vehicle.regno,
+    //   x_vehicle_id: this.vehicle.id,
+    //   x_document_type_id: this.docid,
+    //   x_document_type: this.docType,
+    //   x_issue_date: this.dates.issue_date,
+    //   x_wef_date: this.dates.wef_date,
+    //   x_expiry_date: this.dates.expiry_date,
+    //   x_document_agent_id: this.agentId,
+    //   x_document_number: this.documentNumber,
+    //   x_base64img: this.base64textString,
+    //   x_rto: this.rto,
+    //   x_remarks: this.remark
+    // }];
     console.log("Vehicle Id", this.documentData);
     this.common.loading++;
-    this.api.post('Vehicles/addVehicleDocument', { 
+    this.api.post('Vehicles/addVehicleDocument', {
 
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.docid,
-      x_document_type: this.docType,
-      x_issue_date: this.issue_date,
-      x_wef_date: this.wef_date,
-      x_expiry_date: this.expiry_date,
+      x_document_type: this.documentType,
+      x_issue_date: this.dates.issueDate,
+      x_wef_date: this.dates.wefDate,
+      x_expiry_date: this.dates.expiryDate,
       x_document_agent_id: this.agentId,
       x_document_number: this.documentNumber,
       x_base64img: this.base64textString,
       x_rto: this.rto,
       x_remarks: this.remark
 
-     })
+    })
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
-        console.log("Result", this.documentData);
+        console.log("document type:", this.documentType);
+        console.log("document id:", this.docid);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-      
-        this.activeModal.close;
-    
-    
+  }
+
+  getDate(date) {
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        console.log('Date:', this.dates[date]);
+
+      }
+
+    });
   }
 
 

@@ -6,8 +6,9 @@
 </div>
 <div class="modal-body">
   <div class="container">
+    
     <input type="hidden" id="vehicleId" name="vehicleId" [(ngModel)]="vehicle.id" />
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label> Vehicle Number </label>
       </div>
@@ -16,51 +17,52 @@
           [(ngModel)]="vehicle.regno" readonly>
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    
+    <div class="row" >
       <div class="col-md-4">
         <label> Doc Type</label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8 dropdown">
         <select [(ngModel)]="docid">
-          <option *ngFor="let docType of docTypes;" [value]="docType.id" name="docid" class="form-control">{{docType.document_type}}
-          </option>
-          <input type="hidden" id="docType" name="docType" [(ngModel)]="docType"  name="docType" [value]="docType.document_type"/>
+          <option *ngFor="let docType of docTypes;" [value]="docType.id ,docType.document_type" name="docid" class="form-control">{{docType.document_type}}
           
+          <!-- <input type="hidden" id="documentType"  name="documentType" [value]="docType.document_type"/> -->
+          </option>
         </select>
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label>Issue Date</label>
       </div>
       <div class="col-md-8">
-        <input id="issueDate" name="issueDate" type="text" placeholder="issue Date" autocomplete="off" class="form-control"
-          [(ngModel)]="issue_date">
+        <input id="issueDate" name="issueDate" type="" placeholder="issue Date" autocomplete="off" class="form-control"
+          [value]="dates.issueDate | date: 'dd MMM yyyy'" (click)="getDate('issueDate')" display="dates.issueDate">
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label>Wef Date</label>
       </div>
       <div class="col-md-8">
-        <input id="wefDate" name="wefDate" type="text" placeholder="Wef Date" autocomplete="off" class="form-control"
-          [(ngModel)]="wef_date">
+        <input id="wefDate" name="wefDate" type="datetime" placeholder="Wef Date" autocomplete="off" required class="form-control"
+         [value]="dates.wefDate | date: 'dd MMM yyyy'" (click)="getDate('wefDate')">
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label>Expiry Date</label>
       </div>
       <div class="col-md-8">
-        <input id="expiryDate" name="expiryDate" type="text" placeholder="Expiry Date" autocomplete="off" class="form-control"
-          [(ngModel)]="expiry_date">
+        <input id="expiryDate" name="expiryDate" type="text" placeholder="Expiry Date" autocomplete="off" required class="form-control"
+         [value]="dates.expiryDate | date: 'dd MMM yyyy'" (click)="getDate('expiryDate')">
       </div>
     </div>
     <div class="row" style="margin-top:25px">
       <div class="col-md-2">
         <label>Agent</label>
       </div>
-      <div class="col-md-5 offset-md-2">
+      <div class="col-md-5 offset-md-2 dropdown">
         <select [(ngModel)]="agentId">
           <option *ngFor="let agent of agents;" [value]="agent.id" class="form-control">{{agent.name}}
           </option>
@@ -70,7 +72,7 @@
         <button class="btn btn-default" type="button" (click)="addAgent()">Agent</button>
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4 " >
         <label>Document No.</label>
       </div>
@@ -79,7 +81,7 @@
           [(ngModel)]="documentNumber">
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label>Document Upload </label>
       </div>
@@ -87,15 +89,15 @@
         <input type="file" name="myfile" [(ngModel)]="docImg"  id="filePicker" (change)="handleFileSelect($event)" />
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label>Rto </label>
       </div>
       <div class="col-md-8">
-        <textarea name="rto" class="form-control" [(ngModel)]="rto" placeholder="Rto" ></textarea>
+        <input type="text" name="rto" class="form-control" [(ngModel)]="rto" placeholder="Rto">
       </div>
     </div>
-    <div class="row" style="margin-top:5px">
+    <div class="row" >
       <div class="col-md-4">
         <label>Remark </label>
       </div>

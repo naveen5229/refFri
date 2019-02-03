@@ -13,7 +13,7 @@
             <label>Vehicle No:</label>
             <div class="col-md-6">
             <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-              placeholder="Enter Vehicle No." style="width:20%;"></auto-suggestion>
+              placeholder="Enter Vehicle Number" style="width:20%;"></auto-suggestion>
               </div>
           </div>
           <div class="col-md-6 offset-md-2">
@@ -22,7 +22,7 @@
         </div>
       </form>
     </div>
-    <div class="table">
+    <div class="table" *ngIf="this.selectedVehicle">
       <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
