@@ -42,7 +42,7 @@ export class LedgersComponent implements OnInit {
   }
 
   openModal (ledger?) {
-    // console.log('Accounts',Accounts);
+     console.log('ledger123',ledger);
        if (ledger) this.common.params = ledger;
        const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
        activeModal.result.then(data => {
@@ -54,14 +54,17 @@ export class LedgersComponent implements OnInit {
      }
      addLedger(ledger) {
       console.log('ledgerdata',ledger);
-      const params ='';
-      // const params = {
-      //     name: Accounts.name,
-      //     foid: Accounts.user.id,
-      //     parentid: Accounts.account.id,
-      //     primarygroupid: Accounts.account.primarygroup_id,
-      //     x_id:0
-      //  };
+     // const params ='';
+      const params = {
+          name: ledger.name,
+          alias_name: ledger.aliasname,
+          code: ledger.code,
+          foid: ledger.user.id,
+          per_rate: ledger.perrate,
+          primarygroupid: ledger.account.primarygroup_id,
+          account_id: ledger.account.id,
+          x_id:0
+       };
   
        console.log('params11: ',params);
       this.common.loading++;
