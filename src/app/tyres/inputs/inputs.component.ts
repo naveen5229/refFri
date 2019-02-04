@@ -14,6 +14,7 @@ export class InputsComponent implements OnInit {
   foName = "";
   foId = null;
   vehicleType = "truck";
+  refMode = 701;
   vehicleNo = "";
   vehicleId = null;
   tyreId = null;
@@ -163,6 +164,11 @@ export class InputsComponent implements OnInit {
   }
 
   saveDetails() {
+    if(this.vehicleType == "trolly"){
+      this.refMode = 702;
+    }else{
+      this.refMode = 701;
+    }
     this.common.loading++;
     let params = {
       foId : this.foId,
@@ -170,7 +176,8 @@ export class InputsComponent implements OnInit {
       date : this.date,
       tyreId : this.tyreId,
       tyrePos : this.position.frontRear+ "|"+this.position.axel+"|"+this.position.leftRight+"|"+this.position.pos,
-      details : this.details
+      details : this.details,
+      refMode : this.refMode
     };
     console.log('Params:', params);
 

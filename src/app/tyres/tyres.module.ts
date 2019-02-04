@@ -10,6 +10,7 @@ import { InputsComponent } from './inputs/inputs.component';
 import { DirectiveModule } from '../directives/directives.module';
 import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 import { AddTrollyComponent } from './add-trolly/add-trolly.component';
+import { VehicleTrollyMappingComponent } from './vehicle-trolly-mapping/vehicle-trolly-mapping.component';
 
 const PAGES_COMPONENTS = [
   TyresComponent,
@@ -29,6 +30,7 @@ const PAGES_COMPONENTS = [
     InputsComponent,
     TyreHealthCheckUpComponent,
     AddTrollyComponent,
+    VehicleTrollyMappingComponent,
   ],
 })
 export class TyresModule { }

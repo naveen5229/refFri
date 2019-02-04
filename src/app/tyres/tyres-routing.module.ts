@@ -7,7 +7,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { InputsComponent } from './inputs/inputs.component';
 import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 import { AddTrollyComponent } from './add-trolly/add-trolly.component';
-
+import { VehicleTrollyMappingComponent } from './vehicle-trolly-mapping/vehicle-trolly-mapping.component';
 
 const routes: Routes = [{
     path: '',
@@ -32,6 +32,10 @@ const routes: Routes = [{
         {
             path: 'add-trolly',
             component: AddTrollyComponent,
+        },
+        {
+            path: 'vehicle-trolly-mapping',
+            component: VehicleTrollyMappingComponent,
         },
     ],
 }];

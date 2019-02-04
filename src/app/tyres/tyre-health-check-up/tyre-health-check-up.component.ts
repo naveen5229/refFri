@@ -13,6 +13,8 @@ export class TyreHealthCheckUpComponent implements OnInit {
   foName = "";
   foId = null;
   vehicleType = "truck";
+  refMode = 701;
+
   vehicleNo = "";
   vehicleId = null;
   
@@ -120,19 +122,24 @@ export class TyreHealthCheckUpComponent implements OnInit {
   }
 
   saveDetails() {
+    if(this.vehicleType == "trolly"){
+      this.refMode = 702;
+    }else{
+      this.refMode = 701;
+    }
     this.common.loading++;
     let params = {
       foId : this.foId,
       vehicleId : this.vehicleId,
       date : this.date,
-      tyres : this.tyres,
+      tyres : JSON.stringify(this.tyres),
       remark : this.remark,
       status : this.status,
-      checkedBy :this.checkedBy
+      checkedBy :this.checkedBy,
+      refMode : this.refMode
 
     };
     console.log('Params:', params);
-
     this.api.post('Tyres/saveTyreHealthDetails', params)
       .subscribe(res => {
         this.common.loading--;
