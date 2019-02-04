@@ -4,15 +4,13 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
-  selector: 'ledger',
-  templateUrl: './ledger.component.html',
-  styleUrls: ['./ledger.component.scss']
+  selector: 'branch',
+  templateUrl: './branch.component.html',
+  styleUrls: ['./branch.component.scss']
 })
-export class LedgerComponent implements OnInit {
-  Accounts={
+export class BranchComponent implements OnInit {
+  Branches={
     name:'',
-    aliasname:'',
-    perrate:'',
     user: {
       name: '',
       id: ''
@@ -26,13 +24,12 @@ export class LedgerComponent implements OnInit {
   };
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
-    public api: ApiService) {
+    public api: ApiService) { 
 
+      
       if (this.common.params) {
-        this.Accounts = {
+        this.Branches = {
           name: this.common.params.name,
-          aliasname: this.common.params.aliasname,
-          perrate:this.common.params.perrate,
           user: {
             name: this.common.params.name,
             id: this.common.params.id
@@ -44,27 +41,21 @@ export class LedgerComponent implements OnInit {
           }
         }
   
-        console.log('Accounts: ', this.Accounts);
+      //  console.log('Accounts: ', this.Accounts);
       }
-     }
-
+    }
 
   ngOnInit() {
   }
   dismiss(response) {
-    console.log('Accounts:', this.Accounts);
-    this.activeModal.close({ response: response, ledger: this.Accounts });
+    console.log('Accounts:', this.Branches);
+    this.activeModal.close({ response: response, ledger: this.Branches });
   }
 
   onSelected(selectedData, type, display) {
-    this.Accounts[type].name = selectedData[display];
-    this.Accounts[type].id = selectedData.id;
-    console.log('Accounts User: ', this.Accounts);
+    this.Branches[type].name = selectedData[display];
+    this.Branches[type].id = selectedData.id;
+    console.log('Accounts User: ', this.Branches);
   }
-  onParent(selectedData, type, display) {
-    this.Accounts[type].name = selectedData[display];
-    this.Accounts[type].id = selectedData.id;
-    this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
-    console.log('Accounts Parent: ', this.Accounts);
-  }
+ 
 }
