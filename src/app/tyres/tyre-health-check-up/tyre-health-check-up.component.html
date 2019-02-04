@@ -43,7 +43,7 @@
       </div>
     </div>
     <div style="margin-top:20px">
-      <table class="table table-bordered table-hover" *ngIf="tyreHealths">
+      <table class="table table-bordered table-hover" *ngIf="tyres">
         <thead class="thead">
           <tr>
             <th># </th>
@@ -58,19 +58,19 @@
 
         </thead>
         <tbody>
-          <tr *ngFor="let tyreHealth of tyreHealths; let i = index;">
+          <tr *ngFor="let tyre of tyres; let i = index;">
             <td>{{i+1}}</td>
-            <td>{{tyreHealth.tyrenum}}</td>
-            <td>{{tyreHealth.dttime}}</td>
-            <td>{{tyreHealth.tyrepos}}</td>
-            <td><input type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" [id] = "'nsd1['+tyreHealth.tyrenum+']'"></td>
-            <td><input type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" [id] = "'nsd2['+tyreHealth.tyrenum+']'"></td>
-            <td><input type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" [id] = "'nsd3['+tyreHealth.tyrenum+']'" ></td>
-            <td><input type="text" [(ngModel)] = "tyre.psi" maxlength="5" [id] = "'psi['+tyreHealth.tyrenum+']'"></td>
+            <td>{{tyre.tyrenum}}            </td>
+            <td>{{tyre.tyrepos}}</td>
+            <td>{{tyre.dttime}}</td>
+            <td><input type="text" [(ngModel)] = "tyre.ns1" maxlength="5" ></td>
+            <td><input type="text" [(ngModel)] = "tyre.ns2" maxlength="5" ></td>
+            <td><input type="text" [(ngModel)] = "tyre.ns3" maxlength="5"  ></td>
+            <td><input type="text" [(ngModel)] = "tyre.psi" maxlength="5" ></td>
           </tr>
         </tbody>
       </table>
-      <div style="margin-top: 30px; border:1px solid gray "  *ngIf="tyreHealths.length">
+      <div style="margin-top: 30px; border:1px solid gray "  *ngIf="tyres.length">
         <div class="row row-width">
           <div class="col-sm-1"> </div>
           <div class="col-sm-2"><label class="label1"><b>Remark </b> </label> </div>
@@ -89,7 +89,7 @@
             <div class="col-sm-2"><label class="label1"><b>Checked By </b> </label> </div>
             <div class="col-sm-3">
                 <select [(ngModel)] = "checkedBy" class="form-control" required>
-                    <option *ngFor="let admin of admins" value="admin.id">{{admin.employeename}}</option>
+                    <option *ngFor="let admin of admins" [value]="admin.id">{{admin.employeename}}</option>
                     </select>
             </div>
             <div class="col-sm-1"></div>
@@ -111,7 +111,7 @@
       </div>
   
     </div>
-    <div class="no-data" *ngIf="!tyreHealths.length">
+    <div class="no-data" *ngIf="!tyres.length">
         No Data available !
       </div> 
   </nb-card-body>

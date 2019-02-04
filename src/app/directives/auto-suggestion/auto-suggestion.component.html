@@ -3,7 +3,7 @@
         [ngClass]="className || 'custom-input-1'" [placeholder]="placeholder || 'Enter search text'" required>
     <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
         <p *ngFor="let suggestion of suggestions" class="suggestion" (click)="selectSuggestion(suggestion)">
-            {{suggestion[display]}}
+            {{generateString(suggestion)}}
         </p>
     </div>
 </div>

@@ -24,17 +24,10 @@ export class TyreHealthCheckUpComponent implements OnInit {
 
   foUsers = [];
   vehicles = [];
-  tyreHealths = [];
-
-  tyre = {
-    nsd1 : null,
-    nsd2 : null,
-    nsd3 : null, 
-    psi : null,
-  };
+  tyres = [];
   remark = "";
   status = "";
-  checkedBy = "";
+  checkedBy = null;
   admins =[];
   date = this.common.dateFormatter(new Date());
  
@@ -92,7 +85,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
     this.vehicleNo = "";
    this.vehicleId = null;
    this.searchVehicleString = "";
-   this.tyreHealths = []; 
+   this.tyres = []; 
  }
   searchVehicles() {
     this.vehicleSuggestion = true;
@@ -132,11 +125,15 @@ export class TyreHealthCheckUpComponent implements OnInit {
       foId : this.foId,
       vehicleId : this.vehicleId,
       date : this.date,
-     
+      tyres : this.tyres,
+      remark : this.remark,
+      status : this.status,
+      checkedBy :this.checkedBy
+
     };
     console.log('Params:', params);
 
-    this.api.post('Tyres/saveTyreInputs', params)
+    this.api.post('Tyres/saveTyreHealthDetails', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("return id ", res['data'][0].rtn_id);
@@ -160,8 +157,8 @@ export class TyreHealthCheckUpComponent implements OnInit {
       console.log("params ", params);
       this.api.get('Tyres/getTyreHealths?' + params)
         .subscribe(res => {
-          this.tyreHealths = res['data'];
-          console.log("searchedTyreDetails", this.tyreHealths);
+          this.tyres = res['data'];
+          console.log("searchedTyreDetails", this.tyres);
 
         }, err => {
           console.error(err);
