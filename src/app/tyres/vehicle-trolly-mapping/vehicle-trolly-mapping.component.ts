@@ -26,6 +26,9 @@ export class VehicleTrollyMappingComponent implements OnInit {
   foUsers = [];
   vehicles = [];
   trolleys = [];
+
+  date = this.common.dateFormatter(new Date());
+  details = "";
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService) { }
@@ -74,6 +77,23 @@ export class VehicleTrollyMappingComponent implements OnInit {
     this.vehicleNo = vehicle.regno;
     this.searchVehicleString = this.vehicleNo + " - " + this.vehicleId;
     this.vehicleSuggestion = false;
+    this.getCurrentTrolleyDetails();
+  }
+
+  getCurrentTrolleyDetails(){
+    console.log("vehicleId", this.vehicleId);
+    let params = 'vehicleId=' + this.vehicleId +
+      '&refMode=701';
+    this.api.get('Tyres/getCurrentTrolleyDetails?' + params) // Customer API
+      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
+      .subscribe(res => {
+        let currentTrolley = res['data'];
+        console.log("Trolley details", currentTrolley);
+
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
   }
  
   searchTrolleys() {
@@ -101,4 +121,32 @@ export class VehicleTrollyMappingComponent implements OnInit {
     this.trolleySuggestion = false;
   }
 
+
+  saveMappingDetails() {
+    this.common.loading++;
+    let params = {
+      vehicleId : this.vehicleId,
+      refMode : 701,
+      date : this.date,
+      details : this.details,
+      trollyId :this.trolleyId
+    };
+    console.log('Params:', params);
+    this.api.post('Tyres/saveVehicleTrollyMapping', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("return id ", res['data'][0].rtn_id);
+        if (res['data'][0].rtn_id > 0) {
+          console.log("sucess");
+          this.common.showToast("sucess");
+        } else {
+          console.log("fail");
+          this.common.showToast(res['data'][0].rtn_msg);
+        }
+      }, err => {
+        this.common.loading--;
+        console.error(err);
+        this.common.showError();
+      });
+  }
 }
