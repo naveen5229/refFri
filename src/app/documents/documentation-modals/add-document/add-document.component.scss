@@ -1,5 +1,5 @@
 .row{
-    margin-top: 5px;
+    margin-top: 4px;
 }
 label{
     font-size: 14px;
@@ -9,4 +9,11 @@ label{
 .dropdown{
     position: relative;
 
+}
+select{
+    padding-top:1%;
+
+}
+.agent{
+    width: 90%;
 }

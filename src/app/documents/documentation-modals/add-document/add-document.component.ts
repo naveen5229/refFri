@@ -16,53 +16,31 @@ export class AddDocumentComponent implements OnInit {
   btn1 = '';
   btn2 = '';
 
-  documentData = [{}];
-
-  docImg: '';
-  docid = '';
-  documentType = '';
-  dates = {
-    issueDate: '',
-    wefDate: '',
-    expiryDate: '',
-  };
-
-  documentNumber: '';
-  remark: '';
-  agentId: '';
-  rto: '';
+  document = {
+    image: '',
+    base64Image: '',
+    type: {
+      id: '',
+      name: ''
+    },
+    dates: {
+      issue: '',
+      wef: '',
+      expiry: ''
+    },
+    number: '',
+    remark: '',
+    rto: '',
+    agent: {
+      id: '',
+      name: '',
+    }
+  }
 
   agents = [];
   docTypes = [];
   vehicle = null;
-
-  // for convert a image in base64 text string 
-  img = 'data:image/png;base64,';
-  base64textString = '';
-  handleFileSelect(evt) {
-    var files = evt.target.files;
-    var file = files[0];
-
-    if (files && file) {
-      var reader = new FileReader();
-
-      reader.onload = this._handleReaderLoaded.bind(this);
-
-      reader.readAsBinaryString(file);
-    }
-  }
-
-  _handleReaderLoaded(readerEvt) {
-    this.common.loading++;
-    var binaryString = readerEvt.target.result;
-    this.base64textString = btoa(binaryString);
-    console.log("image", this.img);
-    this.base64textString = this.img.concat(this.base64textString);
-    this.common.loading--;
-    // console.log("base 64",(this.base64textString));
-  }
-
-
+  isFormSubmit = false;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -80,48 +58,50 @@ export class AddDocumentComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  handleFileSelect(evt) {
+    var files = evt.target.files;
+    var file = files[0];
+
+    if (files && file) {
+      let reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    this.common.loading++;
+    var binaryString = readerEvt.target.result;
+    this.document.base64Image = btoa(binaryString);
+    this.common.loading--;
+  }
+
   closeModal(response) {
     this.activeModal.close({ response: response });
-
   }
+
   addDocument() {
-    //  for checking  recieveing data 
-    // this.documentData = [{
-    //   regno: this.vehicle.regno,
-    //   x_vehicle_id: this.vehicle.id,
-    //   x_document_type_id: this.docid,
-    //   x_document_type: this.docType,
-    //   x_issue_date: this.dates.issue_date,
-    //   x_wef_date: this.dates.wef_date,
-    //   x_expiry_date: this.dates.expiry_date,
-    //   x_document_agent_id: this.agentId,
-    //   x_document_number: this.documentNumber,
-    //   x_base64img: this.base64textString,
-    //   x_rto: this.rto,
-    //   x_remarks: this.remark
-    // }];
-    console.log("Vehicle Id", this.documentData);
-    this.common.loading++;
-    this.api.post('Vehicles/addVehicleDocument', {
-
+    const params = {
       x_vehicle_id: this.vehicle.id,
-      x_document_type_id: this.docid,
-      x_document_type: this.documentType,
-      x_issue_date: this.dates.issueDate,
-      x_wef_date: this.dates.wefDate,
-      x_expiry_date: this.dates.expiryDate,
-      x_document_agent_id: this.agentId,
-      x_document_number: this.documentNumber,
-      x_base64img: this.base64textString,
-      x_rto: this.rto,
-      x_remarks: this.remark
-
-    })
+      x_document_type_id: this.document.type.id,
+      x_document_type: this.findDocumentType(this.document.type.id),
+      x_issue_date: this.document.dates.issue,
+      x_wef_date: this.document.dates.wef,
+      x_expiry_date: this.document.dates.expiry,
+      x_document_agent_id: this.document.agent.id,
+      x_document_number: this.document.number,
+      x_base64img: 'data:image/png;base64,' + this.document.base64Image,
+      x_rto: this.document.rto,
+      x_remarks: this.document.remark
+    };
+    console.log('Params: ', params);
+    this.common.loading++;
+    this.api.post('Vehicles/addVehicleDocument', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
-        console.log("document type:", this.documentType);
-        console.log("document id:", this.docid);
+        this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -132,19 +112,25 @@ export class AddDocumentComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log('Date:', this.dates[date]);
-
+        this.document.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        console.log('Date:', this.document.dates[date]);
       }
 
     });
   }
-
+  findDocumentType(id) {
+    let documentType = '';;
+    this.docTypes.map(docType => {
+      if (docType.id == id) {
+        documentType = docType.document_type
+      }
+    });
+    return documentType;
+  }
 
   addAgent() {
     this.common.params = { title: 'Add Agent' };
     const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    this.activeModal.close({});
   }
 
 }

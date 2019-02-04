@@ -23,7 +23,8 @@ export class DocumentationDetailsComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal) {
+  }
 
   ngOnInit() {
   }
@@ -36,6 +37,7 @@ export class DocumentationDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
+
         this.data = res['data'];
       }, err => {
         this.common.loading--;
@@ -91,10 +93,14 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   openModal(details) {
-   
     this.common.params = { details, title: 'Add Document' };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getvehicleData(this.selectedVehicle);
+      }
+    });
+
   }
 
   // getDocument(data) {
@@ -120,5 +126,4 @@ export class DocumentationDetailsComponent implements OnInit {
 
   // }
 
- 
 }

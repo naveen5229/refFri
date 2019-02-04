@@ -5,107 +5,111 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="container">
-    
-    <input type="hidden" id="vehicleId" name="vehicleId" [(ngModel)]="vehicle.id" />
-    <div class="row" >
+  <form #documentForm="ngForm" id="document-form" name="document-form" (submit)="documentForm.valid && addDocument()">
+
+    <div class="row">
       <div class="col-md-4">
         <label> Vehicle Number </label>
       </div>
       <div class="col-md-8">
-        <input id="vehicleNo" name="vehicleNo" type="text" placeholder="vehicle Reg No" autocomplete="off" class="form-control"
-          [(ngModel)]="vehicle.regno" readonly>
+        <input id="vehicle-regno" name="vehicle-regno" type="text" class="form-control" [(ngModel)]="vehicle.regno"
+          readonly>
       </div>
     </div>
-    
-    <div class="row" >
+
+    <div class="row">
       <div class="col-md-4">
-        <label> Doc Type</label>
+        <label>Document Type <span class="mandatory">*</span></label>
       </div>
-      <div class="col-md-8 dropdown">
-        <select [(ngModel)]="docid">
-          <option *ngFor="let docType of docTypes;" [value]="docType.id ,docType.document_type" name="docid" class="form-control">{{docType.document_type}}
-          
-          <!-- <input type="hidden" id="documentType"  name="documentType" [value]="docType.document_type"/> -->
+      <div class="col-md-8">
+        <select name="document-type" [(ngModel)]="document.type.id" class="form-control" #documentType="ngModel"
+          required>
+          <option *ngFor="let docType of docTypes;" [value]="docType.id " name="docid" class="form-control">{{docType.document_type}}
           </option>
         </select>
+        <div *ngIf="isFormSubmit && documentType.errors" class="error">
+          <span [hidden]="!documentType.errors.required">Document type is mandatory</span>
+        </div>
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4">
         <label>Issue Date</label>
       </div>
       <div class="col-md-8">
-        <input id="issueDate" name="issueDate" type="" placeholder="issue Date" autocomplete="off" class="form-control"
-          [value]="dates.issueDate | date: 'dd MMM yyyy'" (click)="getDate('issueDate')" display="dates.issueDate">
+        <input id="issue-date" name="issue-date" type="datetime" placeholder="Enter the issue Date" autocomplete="off"
+          class="form-control" [value]="document.dates.issue | date: 'dd MMM yyyy'" (click)="getDate('issue')">
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4">
-        <label>Wef Date</label>
+        <label>Wef Date<span class="mandatory">*</span></label>
       </div>
       <div class="col-md-8">
-        <input id="wefDate" name="wefDate" type="datetime" placeholder="Wef Date" autocomplete="off" required class="form-control"
-         [value]="dates.wefDate | date: 'dd MMM yyyy'" (click)="getDate('wefDate')">
+        <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off" [(ngModel)]="document.dates.wef" #wefDate="ngModel"
+          required class="form-control" [value]="document.dates.wef | date: 'dd MMM yyyy'"  (click)="getDate('wef')">
+          <div *ngIf="isFormSubmit && wefDate.errors" class="error">
+              <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
+            </div>
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4">
         <label>Expiry Date</label>
       </div>
       <div class="col-md-8">
-        <input id="expiryDate" name="expiryDate" type="text" placeholder="Expiry Date" autocomplete="off" required class="form-control"
-         [value]="dates.expiryDate | date: 'dd MMM yyyy'" (click)="getDate('expiryDate')">
+        <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off"
+          required class="form-control" [value]="document.dates.expiry | date: 'dd MMM yyyy'" (click)="getDate('expiry')">
       </div>
     </div>
-    <div class="row" style="margin-top:25px">
+    <div class="row" style="margin-top:4px">
       <div class="col-md-2">
         <label>Agent</label>
       </div>
-      <div class="col-md-5 offset-md-2 dropdown">
-        <select [(ngModel)]="agentId">
+      <div class="col-md-5 offset-md-2">
+        <select [(ngModel)]="document.agent.id" name="agent" class="form-control agent">
           <option *ngFor="let agent of agents;" [value]="agent.id" class="form-control">{{agent.name}}
           </option>
         </select>
       </div>
-      <div class="col-md-5 offset-md-8" style="margin-top: -30px;">
-        <button class="btn btn-default" type="button" (click)="addAgent()">Agent</button>
+      <div class="col-md-5 offset-md-8" style="margin-top: -10%;">
+        <button class="btn btn-default" type="button" (click)="addAgent()">Add Agent</button>
       </div>
     </div>
-    <div class="row" >
-      <div class="col-md-4 " >
-        <label>Document No.</label>
+    <div class="row">
+      <div class="col-md-4 ">
+        <label>Document Number</label>
       </div>
       <div class="col-md-8">
-        <input id="documentId" name="documentId" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
-          [(ngModel)]="documentNumber">
+        <input id="document-id" name="document-id" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
+          [(ngModel)]="document.number" maxlength="25">
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4">
         <label>Document Upload </label>
       </div>
-      <div class="col-md-8 upload-btn-wrapper">
-        <input type="file" name="myfile" [(ngModel)]="docImg"  id="filePicker" (change)="handleFileSelect($event)" />
+      <div class="col-md-8 ">
+        <input type="file" name="myfile" [(ngModel)]="document.image" id="filePicker" (change)="handleFileSelect($event)"  />
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4">
         <label>Rto </label>
       </div>
       <div class="col-md-8">
-        <input type="text" name="rto" class="form-control" [(ngModel)]="rto" placeholder="Rto">
+        <input type="text" name="rto" class="form-control" [(ngModel)]="document.rto" placeholder="Enter Rto">
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4">
         <label>Remark </label>
       </div>
       <div class="col-md-8">
-        <textarea name="remark" class="form-control" [(ngModel)]="remark" placeholder="remark" ></textarea>
+        <textarea name="remark" class="form-control" [(ngModel)]="document.remark" placeholder="remark"></textarea>
       </div>
     </div>
-  </div>
+  </form>
 </div>
 
 <div class="modal-footer">
@@ -114,7 +118,8 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="button" outline (click)="addDocument()" id="submit" style="cursor: pointer;">{{btn1}}</button>
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true" id="submit"
+        style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>
