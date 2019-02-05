@@ -18,7 +18,7 @@ export class CommonService {
   chartOptions: any;
   themeSubscription: any;
   searchId = null;
- 
+
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -57,7 +57,7 @@ export class CommonService {
     private theme: NbThemeService,
     private datePipe: DatePipe
   ) {
-    
+
 
   }
 
@@ -164,46 +164,82 @@ export class CommonService {
   }
 
 
-  pieChart(chartLabels, chartdatas, charColors) {
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-      console.log('Config: ', config);
-      const colors: any = config.variables;
-      const chartjs: any = config.variables.chartjs;
+  // pieChart(chartLabels, chartdatas, charColors) {
+  //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+  //     console.log('Config: ', config);
+  //     const colors: any = config.variables;
+  //     const chartjs: any = config.variables.chartjs;
 
-      this.chartData = {
-        labels: chartLabels,
-        datasets: [{
-          data: chartdatas,
-          backgroundColor: charColors
-        }],
-      };
+  //     this.chartData = {
+  //       labels: chartLabels,
+  //       datasets: [{
+  //         data: chartdatas,
+  //         backgroundColor: charColors
+  //       }],
+  //     };
 
-      this.chartOptions = {
-        maintainAspectRatio: false,
-        responsive: true,
-        scales: {
-          xAxes: [
-            {
-              display: false,
-            },
-          ],
-          yAxes: [
-            {
-              display: false,
-            },
-          ],
-        },
-        legend: false,
-      };
-    });
+  //     this.chartOptions = {
+  //       maintainAspectRatio: false,
+  //       responsive: true,
+  //       scales: {
+  //         xAxes: [
+  //           {
+  //             display: false,
+  //           },
+  //         ],
+  //         yAxes: [
+  //           {
+  //             display: false,
+  //           },
+  //         ],
+  //       },
+  //       legend: false,
+  //     };
+  //   });
+
+  //   setTimeout(() => {
+  //     console.log(document.getElementsByTagName('canvas')[0]);
+
+  //     document.getElementsByTagName('canvas')[0].style.width = "100px";
+  //     document.getElementsByTagName('canvas')[0].style.height = "220px";
+
+  //   }, 10);
+  // }
+
+  pieChart(labels, data, colors) {
+    let chartData = {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors
+      }],
+    };
+
+    let chartOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      scales: {
+        xAxes: [
+          {
+            display: false,
+          },
+        ],
+        yAxes: [
+          {
+            display: false,
+          },
+        ],
+      },
+      legend: false,
+    };
 
     setTimeout(() => {
       console.log(document.getElementsByTagName('canvas')[0]);
-
       document.getElementsByTagName('canvas')[0].style.width = "100px";
       document.getElementsByTagName('canvas')[0].style.height = "220px";
-
     }, 10);
+
+    return { chartData, chartOptions };
   }
 
   ngOnDestroy(): void {
