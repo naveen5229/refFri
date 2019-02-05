@@ -63,8 +63,10 @@
           <div class="col-sm-1">  </div>
           <div class="col-sm-1"><label> <b>Date</b></label> </div>
           <div class="col-sm-3">
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-              [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
+              <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+              <owl-date-time #date ></owl-date-time>
+              <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+              [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
             <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
           </div>
         </div>

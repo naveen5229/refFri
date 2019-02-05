@@ -25,8 +25,8 @@ export class InventoryComponent implements OnInit {
   searchModelString = "";
   tyreNo = null;
   otherDetails = null;
+  date1 = this.common.dateFormatter(new Date());
 
-  date= this.common.dateFormatter(new Date());
   constructor( private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
@@ -81,20 +81,20 @@ export class InventoryComponent implements OnInit {
 
     this.modelSuggestion = false;
   }
-  getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-        this.date= this.common.dateFormatter(data.date).split(' ')[0];
-        console.log('Date:', this.date); 
-    });
-  }
+  // getDate(date) {
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //       this.date= this.common.dateFormatter(data.date).split(' ')[0];
+  //       console.log('Date:', this.date); 
+  //   });
+  // }
 
   saveDetails(){
     this.common.loading++;
-
+    let date= this.common.dateFormatter(new Date(this.date1));
     let params = {
       foId : this.foId,
-      date : this.date,
+      date : date,
       tyreNo : this.tyreNo,
       otherDetails: this.otherDetails,
       modelId: this.modelId,

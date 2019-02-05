@@ -2,11 +2,6 @@
 <owl-date-time #dt1></owl-date-time> -->
 
 <nb-card>
-  <nb-card-header>
-    <h2>Concise View</h2>
-    <hr>
-  </nb-card-header>
-
   <nb-card-body>
     <div class="row" style="margin-top:-15px">
       <div class="col-sm-3" [@slideToUp]>
@@ -29,11 +24,11 @@
             <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
           </div>
         </div>
-        <div style="height: 230px;margin-top:0px">
+        <div style="height: 200px;margin-top:0px">
           <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
 
-        <div style="height:350px;overflow:auto">
+        <div style="height:300px;overflow:auto">
           <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
             <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">
               <div class="row" [ngStyle]="{'color': group.textColor}">
@@ -51,7 +46,7 @@
       </div>
 
       <div class="col-sm-9">
-        <div style="height: 610px; overflow: auto; width: 100%;">
+        <div style="height: 560px; overflow: auto; width: 100%;">
           <table class="table table-bordered table-hover" [@routerTransition]>
             <thead class="thead">
               <tr>
