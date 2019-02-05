@@ -4,6 +4,7 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Agent } from 'https';
 @Component({
   selector: 'add-agent',
   templateUrl: './add-agent.component.html',
@@ -40,23 +41,35 @@ export class AddAgentComponent implements OnInit {
   addNewAgent(){
     const params = {
       x_name: this.agent.name,
-      x_mobileno: this.agent.mobileNumber
+      x_mobileno: this.agent.mobileNumber,
+      x_location: this.agent.location,
+      x_email: this.agent.email,
+
     }
     console.log("data",params);
     this.common.loading++;
-    this.api.post('Vehicles/addAgent',{ 
-      x_name: this.agent.name,
-      x_mobileno: this.agent.mobileNumber
-    
-    })
+    this.api.post('Vehicles/addAgent',params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
+
+        // this.common.loading++;
+        // this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.common.details.data.vId })
+        //   .subscribe(res => {
+        //     this.common.loading--;
+        //     console.log("data", res);
+           
+        //   }, err => {
+        //     this.common.loading--;
+        //     console.log(err);
+        //   });
+
+
         this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-
+ 
 }

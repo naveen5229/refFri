@@ -6,6 +6,7 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
+import { DocumentationDetailsComponent } from "../../documentation-details/documentation-details.component";
 @Component({
   selector: 'add-document',
   templateUrl: './add-document.component.html',
@@ -15,6 +16,7 @@ export class AddDocumentComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
+  vehicleId = '';
 
   document = {
     image: '',
@@ -51,12 +53,29 @@ export class AddDocumentComponent implements OnInit {
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
 
-    this.vehicle = this.common.params.details.vehicle_info[0];
-    this.agents = this.common.params.details.document_agents_info;
-    this.docTypes = this.common.params.details.document_types_info;
+    this.vehicleId = this.common.params.vehicleId;
+    // console.log("vehcile Data",this.vehicle);
+    this.getDocumentsData();
   }
 
   ngOnInit() {
+  }
+
+  getDocumentsData() {
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.vehicle = res['data'].vehicle_info[0];
+        this.agents = res['data'].document_agents_info;
+        this.docTypes = res['data'].document_types_info;
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
   }
 
   handleFileSelect(evt) {
@@ -119,7 +138,7 @@ export class AddDocumentComponent implements OnInit {
     });
   }
   findDocumentType(id) {
-    let documentType = '';;
+    let documentType = '';
     this.docTypes.map(docType => {
       if (docType.id == id) {
         documentType = docType.document_type
@@ -131,6 +150,13 @@ export class AddDocumentComponent implements OnInit {
   addAgent() {
     this.common.params = { title: 'Add Agent' };
     const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getDocumentsData();
+      }
+    });
+
   }
 
 }

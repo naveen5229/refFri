@@ -7,7 +7,7 @@
 <div class="modal-body">
   <form #documentForm="ngForm" id="document-form" name="document-form" (submit)="documentForm.valid && addDocument()">
 
-    <div class="row">
+    <div class="row" *ngIf="vehicle">
       <div class="col-md-4">
         <label> Vehicle Number </label>
       </div>

@@ -12,12 +12,13 @@
           <div class="col-md-6 offset-md-1">
             <label>Vehicle No:</label>
             <div class="col-md-6">
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-              placeholder="Enter Vehicle Number" style="width:20%;"></auto-suggestion>
-              </div>
+              <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
+                placeholder="Enter Vehicle Number" style="width:20%;"></auto-suggestion>
+            </div>
           </div>
           <div class="col-md-6 offset-md-2">
-            <button type="submit" class="btn btn-primary" (click)="getDocumentsData()" *ngIf="this.selectedVehicle">Add Document</button>
+            <button type="submit" class="btn btn-primary" (click)="openModal()" *ngIf="this.selectedVehicle">Add
+              Document</button>
           </div>
         </div>
       </form>
@@ -35,20 +36,24 @@
             <th>Expiry_Date </th>
             <th>Doument_Number </th>
             <th>Remark </th>
-            
+            <th>Image</th>
           </tr>
         </thead>
         <tbody>
-           <tr *ngFor="let doc of data; let i = index">
+          <tr *ngFor="let doc of data; let i = index">
             <th scope="row">{{i + 1}}</th>
             <td>{{doc.regno}}</td>
             <td>{{doc.document_type}}</td>
             <td>{{doc.agent}}</td>
-           <td>{{doc.issue_date}}</td>
-            <td>{{doc.wef_date}}</td> 
+            <td>{{doc.issue_date}}</td>
+            <td>{{doc.wef_date}}</td>
             <td>{{doc.expiry_date}}</td>
-            <td>{{doc.document_number}}</td> 
+            <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
+            <td><span style="text-decoration:underline; color: blue;cursor: pointer; font-size:18px;" (click)="imageView(doc)">
+                view</span>
+            </td>
+
           </tr>
 
         </tbody>
