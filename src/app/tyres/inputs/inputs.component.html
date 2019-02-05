@@ -18,39 +18,56 @@
           </div>
         </div>
       <div class="col-sm-1">  </div>
-      <div class="col-sm-1"><label><b>Vehicle No.</b></label></div>
+      <div class="col-sm-1"><label><b>Vehicle Type</b></label></div>
       <div class="col-sm-3 " >
-        <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()" autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
-        <div>
-        <ul *ngIf = " (vehicleSuggestion)&&(vehicles.length >  0)" >
-            <li *ngFor="let vehicle of vehicles;" (click) = "selectVehicle(vehicle)" >
-              {{ vehicle.regno}} - {{vehicle.id}} 
-            </li>
-          </ul>
-        </div>
+        <select [(ngModel)] = "vehicleType" class="form-control" required (change)="resetVehDetails()">
+          <option value="truck">Truck</option>
+          <option value="trolly">Trolly</option>
+        </select>
       </div>
     </div>
     <div class="row row-width" >
         <div class="col-sm-1">  </div>
-      <div class="col-sm-2"> <label class="label1"><b>Tyre Number </b></label></div>
+      <div class="col-sm-2"> <label class="label1"><b>Vehicle No. </b></label></div>
       <div class="col-sm-3 " >
-        <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()" autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
-        <div>
-        <ul *ngIf = " (tyreSuggestion)&&(tyres.length >  0)" >
-            <li *ngFor="let tyre of tyres;" (click) = "selectTyres(tyre)" >
-              {{ tyre.tyrenum}} - {{tyre.id}} 
-            </li>
-          </ul>
+          <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()" autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+          <div>
+          <ul *ngIf = " (vehicleSuggestion)&&(vehicles.length >  0)" >
+              <li *ngFor="let vehicle of vehicles;" (click) = "selectVehicle(vehicle)" >
+                {{ vehicle.regno}} - {{vehicle.id}} 
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+
+      
       <div class="col-sm-1">  </div>
-      <div class="col-sm-1"><label> <b>Date</b></label> </div>
-      <div class="col-sm-3">
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-          [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
-        <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
-      </div>
+      <div class="col-sm-1"><label><b>Tyre No.</b></label></div>
+      <div class="col-sm-3 " >
+          <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()" autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
+          <div>
+          <ul *ngIf = " (tyreSuggestion)&&(tyres.length >  0)" >
+              <li *ngFor="let tyre of tyres;" (click) = "selectTyres(tyre)" >
+                {{ tyre.tyrenum}} - {{tyre.id}} 
+              </li>
+            </ul>
+          </div>
+        </div>
     </div>
+    <div class="row row-width">
+      <div class="col-sm-1">  </div>
+      <div class="col-sm-2"><label class = "label1"><b>Details </b> </label> </div>
+      <div class="col-sm-3">
+         <input type="text" class="form-control" placeholder="Detils" name="details" [(ngModel)]="details">
+          </div>
+          <div class="col-sm-1">  </div>
+          <div class="col-sm-1"><label> <b>Date</b></label> </div>
+          <div class="col-sm-3">
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+              [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
+            <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
+          </div>
+        </div>
     <div class="row row-width">
         <div class="col-sm-1">  </div>
       <div class="col-sm-2"><label class="label1" style="margin-top:30px"><b>Tyre Position</b></label></div>
@@ -99,13 +116,7 @@
             </select>
             </div>
     </div>
-    <div class="row row-width">
-        <div class="col-sm-1">  </div>
-        <div class="col-sm-2"><label class = "label1"><b>Details </b> </label> </div>
-        <div class="col-sm-3">
-           <input type="text" class="form-control" placeholder="Detils" name="details" [(ngModel)]="details">
-            </div>
-          </div>
+   
     <div class="row row-width">
         <div class="col-sm-1">  </div>
         <div class="col-sm-2">  </div>
@@ -114,7 +125,7 @@
         <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button>
         <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
         </div>
-      <div class="col-sm-5"></div>
+      
       </div>
       
   </nb-card-body>

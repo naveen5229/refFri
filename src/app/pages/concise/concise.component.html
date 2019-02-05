@@ -8,7 +8,6 @@
   </nb-card-header>
 
   <nb-card-body>
-
     <div class="row" style="margin-top:-15px">
       <div class="col-sm-3" [@slideToUp]>
         <!-- <div class="form-group" class="col-sm-9">
@@ -33,6 +32,7 @@
         <div style="height: 230px;margin-top:0px">
           <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
+
         <div style="height:350px;overflow:auto">
           <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
             <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">
@@ -49,6 +49,7 @@
           </nb-card>
         </div>
       </div>
+
       <div class="col-sm-9">
         <div style="height: 610px; overflow: auto; width: 100%;">
           <table class="table table-bordered table-hover" [@routerTransition]>

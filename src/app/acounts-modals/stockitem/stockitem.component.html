@@ -28,7 +28,7 @@
         <label>Stock Sub Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" url="Suggestion/GetSearchStockType" display="name"
-        placeholder="Enter Stock Sub Type" [preSelected]="stockItem.stockSubType"></auto-suggestion>
+        placeholder="Enter Stock Sub Type" [preSelected]="null"></auto-suggestion>
       </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
@@ -42,7 +42,7 @@
       <div class="form-grpou">
         <label>Stock Unit</label>
         <auto-suggestion (onSelected)="onSelected($event, 'unit', 'name')" url="Suggestion/getUnit" display="name"
-        placeholder="Enter Unit Name" [preSelected]="stockItem.unit"></auto-suggestion>
+        placeholder="Enter Unit Name" [preSelected]="null"></auto-suggestion>
         <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
       </div>
     </div>
