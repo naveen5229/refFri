@@ -36,6 +36,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endName = this.common.params.endName;
     this.vehicleTrip.endTime = this.common.changeDateformat(this.common.params.endTime);
     this.vehicleTrip.id = this.common.params.id;
+    console.log("Vehicle id",this.vehicleTrip.id);
     this.vehicleTrip.regno = this.common.params.regno;
     this.vehicleTrip.startLat = this.common.params.startLat;
     this.vehicleTrip.startLng = this.common.params.startLng;

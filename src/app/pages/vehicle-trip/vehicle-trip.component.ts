@@ -45,6 +45,7 @@ export class VehicleTripComponent implements OnInit {
     }else{
       this.common.params= vehicleTrip;
       console.log("vehicleTrip",vehicleTrip);
+      
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     }
     this.getVehicleTrips();
