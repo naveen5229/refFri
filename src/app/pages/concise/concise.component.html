@@ -1,11 +1,11 @@
 <nb-card >
-  <nb-card-header>
+  <!-- <nb-card-header>
     <h2>Concise View</h2>
     <hr>
-  </nb-card-header>
+  </nb-card-header> -->
 
   <nb-card-body>
-    <div class="row" style="margin-top:-15px" >
+    <div class="row" style="margin-top:0px" >
       <div class="col-sm-3" [@slideToUp]>
         <!-- <div class="form-group" class="col-sm-9">
          <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
@@ -29,7 +29,7 @@
         <div style="height: 230px;margin-top:0px">
           <chart type="pie" [data]="common.chartData" [options]="common.chartOptions" id="chart"></chart>
         </div>
-        <div style="height:350px;overflow:auto"> 
+        <div style="height:310px;overflow:auto"> 
         <nb-card *ngFor="let group of groupList; let i = index;">
           <nb-card-body (click)="filterData(group)" [ngStyle]="{'background-color':chartsColors[i]}">
             <div class="row" [ngStyle]="{'color':textColor[i]}" >
@@ -46,7 +46,7 @@
       </div>
       </div>
       <div class="col-sm-9" >
-        <div  style ="height: 610px; overflow: auto; width: 100%;">
+        <div  style ="height: 550px; overflow: auto; width: 100%;">
         <table class="table table-bordered table-hover" [@routerTransition]>
           <thead class="thead">
             <tr>
