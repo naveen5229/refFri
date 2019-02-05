@@ -1,11 +1,14 @@
-<nb-card >
-  <!-- <nb-card-header>
+<!-- <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+<owl-date-time #dt1></owl-date-time> -->
+
+<nb-card>
+  <nb-card-header>
     <h2>Concise View</h2>
     <hr>
-  </nb-card-header> -->
+  </nb-card-header>
 
   <nb-card-body>
-    <div class="row" style="margin-top:0px" >
+    <div class="row" style="margin-top:-15px">
       <div class="col-sm-3" [@slideToUp]>
         <!-- <div class="form-group" class="col-sm-9">
          <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
@@ -23,44 +26,46 @@
             <span>{{viewName}}</span>
           </div>
           <div class="col-sm-2">
-          <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
-        </div>
+            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
+          </div>
         </div>
         <div style="height: 230px;margin-top:0px">
-          <chart type="pie" [data]="common.chartData" [options]="common.chartOptions" id="chart"></chart>
+          <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
-        <div style="height:310px;overflow:auto"> 
-        <nb-card *ngFor="let group of groupList; let i = index;">
-          <nb-card-body (click)="filterData(group)" [ngStyle]="{'background-color':chartsColors[i]}">
-            <div class="row" [ngStyle]="{'color':textColor[i]}" >
-              <div class="col-sm-9">
-                {{group | titlecase}}
-              </div>
-              <div class="col-sm-3">
-                {{statusGroup[group].length}}
-              </div>
-            </div>
 
-          </nb-card-body>
-        </nb-card>
-      </div>
-      </div>
-      <div class="col-sm-9" >
-        <div  style ="height: 550px; overflow: auto; width: 100%;">
-        <table class="table table-bordered table-hover" [@routerTransition]>
-          <thead class="thead">
-            <tr>
-              <th># </th>
-              <th>Vehicle </th>
-              <th>Status </th>
-              <th>Hrs </th>
-              <th>Trip </th>
-              <th>Kmp </th>
-              <th>Location</th>
-              <!-- <th>View LR</th> -->
-            </tr>
+        <div style="height:350px;overflow:auto">
+          <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
+            <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">
+              <div class="row" [ngStyle]="{'color': group.textColor}">
+                <div class="col-sm-9">
+                  {{group.name | titlecase}}
+                </div>
+                <div class="col-sm-3">
+                  {{kpiGroups[group.name].length}}
+                </div>
+              </div>
 
-          </thead>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+
+      <div class="col-sm-9">
+        <div style="height: 610px; overflow: auto; width: 100%;">
+          <table class="table table-bordered table-hover" [@routerTransition]>
+            <thead class="thead">
+              <tr>
+                <th># </th>
+                <th>Vehicle </th>
+                <th>Status </th>
+                <th>Hrs </th>
+                <th>Trip </th>
+                <th>Kmp </th>
+                <th>Location</th>
+                <!-- <th>View LR</th> -->
+              </tr>
+
+            </thead>
             <tr *ngFor="let kpi of kpis; let i = index;">
               <td scope="row">{{i + 1}}</td>
               <td (click)="showDetails(kpi)">{{kpi.x_showveh}}</td>
@@ -88,7 +93,7 @@
                 </div>
 
                 <!-- Onward -->
-                <div col-4 (click)="showDetails(kpi)"  *ngIf="kpi.trip_status_type == 2">
+                <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 2">
                   <span>{{kpi.x_showtripstart}}</span>
                   <span class="arrow" *ngIf="kpi.x_showtripend">-></span>
                   <i class="route-arrow" name="ios-arrow-round-forward"></i>
@@ -106,7 +111,7 @@
                 <!-- Complete -->
                 <div col-4 (click)="showDetails(kpi)" *ngIf="kpi.trip_status_type == 4">
                   <span>{{kpi.x_showtripstart}}</span>
-                  <span class="arrow" *ngIf="kpi.x_showtripend" >-></span>
+                  <span class="arrow" *ngIf="kpi.x_showtripend">-></span>
                   <i class="route-arrow" name="ios-arrow-round-forward"></i>
                   <span>{{kpi.x_showtripend}}</span>
                   <!-- <i class="complete" name="checkmark-circle-outline"></i> -->
@@ -129,9 +134,9 @@
                 <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
               </td> -->
             </tr>
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
         </div>
       </div>
     </div>

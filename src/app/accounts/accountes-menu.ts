@@ -37,5 +37,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Ledger',
         icon: 'nb-home',
         link: '/accounts/ledgers'
+    },
+    {
+        title: 'Company-Branches',
+        icon: 'nb-home',
+        link: '/accounts/company-branches'
+    },
+    {
+        title: 'vouchers',
+        icon: 'nb-home',
+        link: '/accounts/vouchers'
     }
+    
 ];

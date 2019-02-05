@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,11 +37,13 @@ import { StockTypeComponent } from './acounts-modals/stock-type/stock-type.compo
 import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subtype.component';
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
-import { AgentHistoryComponent } from './documents/documentation-modals/agent-history/agent-history.component';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
+import { AddAgentComponent } from '../app/documents/documentation-modals/add-agent/add-agent.component';
 import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
+import { BranchComponent } from './acounts-modals/branch/branch.component';
+import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 
 
 @NgModule({
@@ -67,11 +70,12 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
     StockTypeComponent,
     StockSubtypeComponent,
     StockitemComponent,
-    AgentHistoryComponent,
     AddDocumentComponent,
-    AgentHistoryComponent,
+    AddAgentComponent,
     AccountsComponent,
-    LedgerComponent
+    LedgerComponent,
+    BranchComponent,
+    VoucherComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -93,11 +97,13 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
     StockTypeComponent,
     StockSubtypeComponent,
     StockitemComponent,
-    AgentHistoryComponent,
     AddDocumentComponent,
-    AgentHistoryComponent,
+    AddAgentComponent,
     AccountsComponent,
-    LedgerComponent
+    LedgerComponent,
+    BranchComponent,
+    VoucherComponent
+
   ],
   imports: [
     BrowserModule,
@@ -108,7 +114,9 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   bootstrap: [AppComponent],
   providers: [

@@ -1,0 +1,17 @@
+<button class="btn" (click)="openVoucherModal()">Add Voucher</button>
+<table class="table table-bordered">
+  <tr>
+    <th>#</th>
+    <th>Month</th>
+    <th>Year</th>
+    <th>Amount</th>
+    <!--th>Action</th-->
+  </tr>
+  <tr *ngFor="let data of Vouchers; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{data.mon}}</td>
+    <td>{{data.yr}}</td>
+    <td>{{data.amount}}</td>
+    <!--td><button class="btn" (click)="openStockItemModal(stockItem)">Show</button></td-->
+  </tr>
+</table>
