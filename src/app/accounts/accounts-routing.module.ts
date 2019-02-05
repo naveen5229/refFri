@@ -10,6 +10,9 @@ import { StockTypeComponent } from '../acounts-modals/stock-type/stock-type.comp
 import { StockitemsComponent } from './stockitems/stockitems.component';
 import { AccountComponent } from './account/account.component';
 import{ LedgersComponent } from './ledgers/ledgers.component';
+import  { CompanyBranchesComponent } from './company-branches/company-branches.component';
+import { VouchersComponent } from './vouchers/vouchers.component';
+
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -41,6 +44,14 @@ const routes: Routes = [{
         {
             path: 'ledgers',
             component: LedgersComponent
+        },
+        {
+            path: 'company-branches',
+            component: CompanyBranchesComponent
+        },
+        {
+            path: 'vouchers',
+            component: VouchersComponent
         }
     ]
 }];

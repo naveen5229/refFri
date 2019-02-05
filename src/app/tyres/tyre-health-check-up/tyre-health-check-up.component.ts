@@ -12,6 +12,9 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class TyreHealthCheckUpComponent implements OnInit {
   foName = "";
   foId = null;
+  vehicleType = "truck";
+  refMode = 701;
+
   vehicleNo = "";
   vehicleId = null;
   
@@ -23,11 +26,10 @@ export class TyreHealthCheckUpComponent implements OnInit {
 
   foUsers = [];
   vehicles = [];
-  tyreHealths = [];
-
+  tyres = [];
   remark = "";
   status = "";
-  checkedBy = "";
+  checkedBy = null;
   admins =[];
   date = this.common.dateFormatter(new Date());
  
@@ -76,14 +78,22 @@ export class TyreHealthCheckUpComponent implements OnInit {
     this.searchString = this.foName;
     this.foId = user.id;
     this.showSuggestions = false;
-    this.vehicleNo = "";
-    this.vehicleId = null;
-    this.searchVehicleString = "";
+   this.resetVehDetails();
+
   }
+
+  resetVehDetails()
+  { 
+    this.vehicleNo = "";
+   this.vehicleId = null;
+   this.searchVehicleString = "";
+   this.tyres = []; 
+ }
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId;
+      '&foId=' + this.foId+
+      '&vehicleType=' +this.vehicleType;
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -112,16 +122,25 @@ export class TyreHealthCheckUpComponent implements OnInit {
   }
 
   saveDetails() {
+    if(this.vehicleType == "trolly"){
+      this.refMode = 702;
+    }else{
+      this.refMode = 701;
+    }
     this.common.loading++;
     let params = {
       foId : this.foId,
       vehicleId : this.vehicleId,
       date : this.date,
-     
+      tyres : JSON.stringify(this.tyres),
+      remark : this.remark,
+      status : this.status,
+      checkedBy :this.checkedBy,
+      refMode : this.refMode
+
     };
     console.log('Params:', params);
-
-    this.api.post('Tyres/saveTyreInputs', params)
+    this.api.post('Tyres/saveTyreHealthDetails', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("return id ", res['data'][0].rtn_id);
@@ -143,10 +162,10 @@ export class TyreHealthCheckUpComponent implements OnInit {
       let params = 'foId=' + this.foId+
       '&vehicleId=' +this.vehicleId;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreInputsAccordingFO?' + params)
+      this.api.get('Tyres/getTyreHealths?' + params)
         .subscribe(res => {
-          this.tyreHealths = res['data'];
-          console.log("searchedTyreDetails", this.tyreHealths);
+          this.tyres = res['data'];
+          console.log("searchedTyreDetails", this.tyres);
 
         }, err => {
           console.error(err);

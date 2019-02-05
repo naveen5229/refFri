@@ -25,6 +25,8 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
 import { DirectiveModule } from '../directives/directives.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -38,7 +40,9 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     MiscellaneousModule,
     ChartModule,
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

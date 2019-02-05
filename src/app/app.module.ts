@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -41,6 +42,8 @@ import { AddAgentComponent } from '../app/documents/documentation-modals/add-age
 import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
+import { BranchComponent } from './acounts-modals/branch/branch.component';
+import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 
 
 @NgModule({
@@ -70,7 +73,9 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
     AddDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
-    LedgerComponent
+    LedgerComponent,
+    BranchComponent,
+    VoucherComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -95,7 +100,10 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
     AddDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
-    LedgerComponent
+    LedgerComponent,
+    BranchComponent,
+    VoucherComponent
+
   ],
   imports: [
     BrowserModule,
@@ -106,7 +114,9 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   bootstrap: [AppComponent],
   providers: [
