@@ -10,16 +10,18 @@ import { CommonService } from '../../services/common.service';
 export class AutoSuggestionComponent implements OnInit {
   @Output() onSelected = new EventEmitter();
   @Input() url: string;
-  @Input() display: string;
+  @Input() display: any;
   @Input() className: string;
   @Input() placeholder: string;
   @Input() preSelected: any;
+  @Input() seperator: string;
 
   counter = 0;
   searchText = '';
   showSuggestions = false;
   suggestions = [];
   selectedSuggestion = null;
+  displayType = 'string';
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -36,6 +38,11 @@ export class AutoSuggestionComponent implements OnInit {
     if (this.preSelected) {
       this.selectSuggestion = this.preSelected;
       this.searchText = this.preSelected[this.display];
+    }
+
+    console.log('Is Array:', Array.isArray(this.display));
+    if (Array.isArray(this.display)) {
+      this.displayType = 'array';
     }
     this.cdr.detectChanges();
   }
@@ -56,10 +63,27 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   selectSuggestion(suggestion) {
-    this.searchText = suggestion[this.display];
+    // this.searchText = suggestion[this.display];
+    this.searchText = this.generateString(suggestion);
     this.selectedSuggestion = suggestion;
     this.showSuggestions = false;
     this.onSelected.emit(suggestion);
+  }
+
+  generateString(suggestion) {
+    let displayText = '';
+    if (this.displayType == 'array') {
+      this.display.map((display, index) => {
+        if (index != this.display.length - 1) {
+          displayText += suggestion[display] + ' ' + this.seperator + ' ';
+        } else {
+          displayText += suggestion[display];
+        }
+      });
+    } else {
+      displayText = suggestion[this.display];
+    }
+    return displayText;
   }
 
 

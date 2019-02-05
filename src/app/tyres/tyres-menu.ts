@@ -25,4 +25,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/tyre-health-check-up',
         home: true,
     },
+    {
+        title: 'Add Trolly',
+        icon: 'nb-home',
+        link: '/tyres/add-trolly',
+        home: true,
+    },
+    {
+        title: 'Vehicle Trolly Mapping',
+        icon: 'nb-home',
+        link: '/tyres/vehicle-trolly-mapping',
+        home: true,
+    },
 ];

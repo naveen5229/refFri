@@ -13,6 +13,8 @@ export class InputsComponent implements OnInit {
 
   foName = "";
   foId = null;
+  vehicleType = "truck";
+  refMode = 701;
   vehicleNo = "";
   vehicleId = null;
   tyreId = null;
@@ -70,18 +72,24 @@ export class InputsComponent implements OnInit {
     this.searchString = this.foName;
     this.foId = user.id;
     this.showSuggestions = false;
-    this.vehicleNo = "";
-    this.vehicleId = null;
-    this.tyreId = null;
-    this.tyreNo = "";
-    this.searchVehicleString = "";
-    this.searchTyreString = "";
+  this.resetVehDetails();
   }
-
+ 
+  resetVehDetails()
+ { 
+   this.vehicleNo = "";
+  this.vehicleId = null;
+  this.tyreId = null;
+  this.tyreNo = "";
+  this.searchVehicleString = "";
+  this.searchTyreString = "";
+}
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId;
+      '&foId=' + this.foId+
+      '&vehicleType=' +this.vehicleType;
+      console
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -156,6 +164,11 @@ export class InputsComponent implements OnInit {
   }
 
   saveDetails() {
+    if(this.vehicleType == "trolly"){
+      this.refMode = 702;
+    }else{
+      this.refMode = 701;
+    }
     this.common.loading++;
     let params = {
       foId : this.foId,
@@ -163,7 +176,8 @@ export class InputsComponent implements OnInit {
       date : this.date,
       tyreId : this.tyreId,
       tyrePos : this.position.frontRear+ "|"+this.position.axel+"|"+this.position.leftRight+"|"+this.position.pos,
-      details : this.details
+      details : this.details,
+      refMode : this.refMode
     };
     console.log('Params:', params);
 

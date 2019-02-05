@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgentHistoryComponent } from './agent-history.component';
+import { AddTrollyComponent } from './add-trolly.component';
 
-describe('AgentHistoryComponent', () => {
-  let component: AgentHistoryComponent;
-  let fixture: ComponentFixture<AgentHistoryComponent>;
+describe('AddTrollyComponent', () => {
+  let component: AddTrollyComponent;
+  let fixture: ComponentFixture<AddTrollyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgentHistoryComponent ]
+      declarations: [ AddTrollyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgentHistoryComponent);
+    fixture = TestBed.createComponent(AddTrollyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

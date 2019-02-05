@@ -97,7 +97,8 @@ export class InventoryComponent implements OnInit {
       date : this.date,
       tyreNo : this.tyreNo,
       otherDetails: this.otherDetails,
-      modelId: this.modelId
+      modelId: this.modelId,
+      refMode: 701
     };
     console.log('Params:', params);
 
