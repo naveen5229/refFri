@@ -42,6 +42,7 @@ import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
+import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { BranchComponent } from './acounts-modals/branch/branch.component';
     AgentHistoryComponent,
     AccountsComponent,
     LedgerComponent,
-    BranchComponent
+    BranchComponent,
+    VoucherComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -100,7 +102,8 @@ import { BranchComponent } from './acounts-modals/branch/branch.component';
     AgentHistoryComponent,
     AccountsComponent,
     LedgerComponent,
-    BranchComponent
+    BranchComponent,
+    VoucherComponent
 
   ],
   imports: [

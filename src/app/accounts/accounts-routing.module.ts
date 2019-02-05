@@ -11,6 +11,7 @@ import { StockitemsComponent } from './stockitems/stockitems.component';
 import { AccountComponent } from './account/account.component';
 import{ LedgersComponent } from './ledgers/ledgers.component';
 import  { CompanyBranchesComponent } from './company-branches/company-branches.component';
+import { VouchersComponent } from './vouchers/vouchers.component';
 
 const routes: Routes = [{
     path: '',
@@ -47,6 +48,10 @@ const routes: Routes = [{
         {
             path: 'company-branches',
             component: CompanyBranchesComponent
+        },
+        {
+            path: 'vouchers',
+            component: VouchersComponent
         }
     ]
 }];
