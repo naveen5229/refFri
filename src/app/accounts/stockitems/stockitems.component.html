@@ -10,7 +10,7 @@
   </tr>
   <tr *ngFor="let stockItem of StockItems; let i = index;">
     <td>{{i + 1}}</td>
-    <td>{{stockItem.stocksubtype_id}}</td>
+    <td>{{stockItem.stoctsubtypename}}</td>
     <td>{{stockItem.name}}</td>
     <td>{{stockItem.code}}</td>
     <td>{{stockItem.entry_dt | date : 'dd MMM HH:mm'}}</td>
