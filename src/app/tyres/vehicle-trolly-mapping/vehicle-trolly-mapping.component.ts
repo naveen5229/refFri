@@ -27,7 +27,7 @@ export class VehicleTrollyMappingComponent implements OnInit {
   vehicles = [];
   trolleys = [];
 
-  date = this.common.dateFormatter(new Date());
+  date1 = this.common.dateFormatter(new Date());
   details = "";
   constructor(private modalService: NgbModal,
     public common: CommonService,
@@ -123,11 +123,12 @@ export class VehicleTrollyMappingComponent implements OnInit {
 
 
   saveMappingDetails() {
+    let date= this.common.dateFormatter(new Date(this.date1));
     this.common.loading++;
     let params = {
       vehicleId : this.vehicleId,
       refMode : 701,
-      date : this.date,
+      date : date,
       details : this.details,
       trollyId :this.trolleyId
     };

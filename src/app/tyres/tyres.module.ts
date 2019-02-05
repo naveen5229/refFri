@@ -11,6 +11,7 @@ import { DirectiveModule } from '../directives/directives.module';
 import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 import { AddTrollyComponent } from './add-trolly/add-trolly.component';
 import { VehicleTrollyMappingComponent } from './vehicle-trolly-mapping/vehicle-trolly-mapping.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const PAGES_COMPONENTS = [
   TyresComponent,
@@ -22,7 +23,9 @@ const PAGES_COMPONENTS = [
     TyresRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

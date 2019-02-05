@@ -42,7 +42,8 @@ export class InputsComponent implements OnInit {
   };
   details :null;
 
-  date = this.common.dateFormatter(new Date());
+  date1 = this.common.dateFormatter(new Date());
+
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
@@ -136,13 +137,13 @@ export class InputsComponent implements OnInit {
   }
 
 
-  getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.date);
-    });
-  }
+  // getDate(date) {
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.date = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.date);
+  //   });
+  // }
 
   searchData() {
     if (this.foId) {
@@ -164,6 +165,7 @@ export class InputsComponent implements OnInit {
   }
 
   saveDetails() {
+    let date= this.common.dateFormatter(new Date(this.date1));
     if(this.vehicleType == "trolly"){
       this.refMode = 702;
     }else{
@@ -173,7 +175,7 @@ export class InputsComponent implements OnInit {
     let params = {
       foId : this.foId,
       vehicleId : this.vehicleId,
-      date : this.date,
+      date : date,
       tyreId : this.tyreId,
       tyrePos : this.position.frontRear+ "|"+this.position.axel+"|"+this.position.leftRight+"|"+this.position.pos,
       details : this.details,
