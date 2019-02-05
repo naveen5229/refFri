@@ -15,7 +15,7 @@
       </div>
       <div class="col-sm-1"> </div>
       <div class="col-sm-1"><label><b>Vehicle No.</b></label></div>
-      <div class="col-sm-2 ">
+      <div class="col-sm-3 ">
         <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
           autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
         <div>
@@ -30,22 +30,6 @@
 
     <div class="row row-width">
       <div class="col-sm-1"></div>
-      <div class="col-sm-1"><label><b>Date</b></label></div>
-      <div class="col-sm-3">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-        [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
-      <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
-    </div>
-    <div class="col-sm-1"></div>
-    <div class="col-sm-1"><label><b>Details</b></label></div>
-    <div class="col-sm-3 ">
-      <input id="details" name="details" type="text" placeholder=" details" autocomplete="off" class="form-control"
-        [(ngModel)]="status">
-    </div>
-    </div>
-
-    <div class="row row-width">
-      <div class="col-sm-1"> </div>
       <div class="col-sm-2"><label class="label1"><b>Trolly No.</b> </label> </div>
       <div class="col-sm-3">
         <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" (input)="searchTrolleys()"
@@ -58,10 +42,32 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-1">
-        <button class="btn btn-primary" type="button" outline (click)="saveMappingDetails()" id="reminder" style="cursor: pointer;">Map</button>
-      </div>
+
+     
+    <div class="col-sm-1"></div>
+    <div class="col-sm-1"><label><b>Date</b></label></div>
+      <div class="col-sm-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+        [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
+      <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
     </div>
+     
     
+    </div>
+
+    <div class="row row-width">
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Details</b></label></div>
+    <div class="col-sm-3 ">
+      <input id="details" name="details" type="text" placeholder=" details" autocomplete="off" class="form-control"
+        [(ngModel)]="details">
+    </div>
+    </div>
+    <div class="row row-width">
+      <div class="col-sm-3"> </div>
+    <div class="col-sm-1">
+      <button class="btn btn-primary" type="button" outline (click)="saveMappingDetails()" id="reminder" style="cursor: pointer;">Map</button>
+    </div>
+    </div>
   </nb-card-body>
 </nb-card>
