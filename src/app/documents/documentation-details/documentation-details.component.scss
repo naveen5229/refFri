@@ -1,21 +1,21 @@
-fieldset.scheduler-border {
-    border: 1px groove #ddd !important;
-    padding: 0 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-   box-shadow:  0px 0px 0px 0px #000;
-}
+// fieldset.scheduler-border {
+//     border: 1px groove #ddd !important;
+//     padding: 0 1.4em 1.4em 1.4em !important;
+//     margin: 0 0 1.5em 0 !important;
+//     -webkit-box-shadow:  0px 0px 0px 0px #000;
+//    box-shadow:  0px 0px 0px 0px #000;
+// }
 
-legend.scheduler-border {
-    font-size: 1.2em !important;
-    font-weight: bold !important;
-    text-align: left !important;
-}
-legend.scheduler-border {
-    width:inherit; /* Or auto */
-    padding:0 10px; /* To give a bit of padding on the left and right */
-    border-bottom:none;
-}
+// legend.scheduler-border {
+//     font-size: 1.2em !important;
+//     font-weight: bold !important;
+//     text-align: left !important;
+// }
+// legend.scheduler-border {
+//     width:inherit; /* Or auto */
+//     padding:0 10px; /* To give a bit of padding on the left and right */
+//     border-bottom:none;
+// }
 .row{
     padding-top: 1%;
     padding-bottom: 1%
@@ -26,15 +26,19 @@ legend.scheduler-border {
     margin-top: -9% !important;
     height:auto !important;
 }
+select {
+    width: 90% !important;
+    margin-left: 3% !important;
+    margin-top: auto !important;
+}
 .form-control{
-    width: 60%;
-    margin-left: 40%;
-    margin-top: -9%;
-    height:auto;
+    width: 100%;
+    margin-left: -20%;
+    margin-top: 18%;
 }
 label{
     font-size: 16px;
-    margin-left: 2%;
+    margin-left: 6%;
     font-weight: 700;
 }
 textarea{
@@ -42,11 +46,7 @@ textarea{
     height: auto !important;
     margin-left: 22% !important;
 }
-select{
-    width: 35% !important;
-    padding-left: 1% !important;
-    margin-left: 7% !important;
-}
+
 .upload-btn-wrapper {
     position: relative;
     overflow: hidden;
@@ -55,12 +55,7 @@ select{
   
   .btn {
     border: 2px solid gray;
-    color: gray;
-    background-color: white;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
+    padding: 0px 10px;
   }
   
   .upload-btn-wrapper input[type=file] {
@@ -71,8 +66,8 @@ select{
     opacity: 0;
   }
 .btn.btn-primary{
-    margin-left: 45%;
-    margin-top: -10%;
+    margin-left: -50%;
+    margin-top: -45%;
 }
 .table{
     width: 95%;

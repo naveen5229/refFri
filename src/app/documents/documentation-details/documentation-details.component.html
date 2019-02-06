@@ -7,14 +7,29 @@
     <div class="container">
       <form>
         <div class="row">
-          <div class="col-md-6 offset-md-1">
-            <label>Vehicle No:</label>
-            <div class="col-md-6">
+          <div class="col-md-3">
+            <label>Vehicle Number:</label>
+            <div class="col-md-12">
               <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-                placeholder="Enter Vehicle Number" style="width:20%;"></auto-suggestion>
+                placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
           </div>
-          <div class="col-md-6 offset-md-2">
+          <div class="col-md-3" style="margin-left:-3%;">
+            <label style="margin-left:3%;">Doucument_Type:</label>
+            <select name="document-type" [(ngModel)]="id" class="form-control" required>
+              <option *ngFor="let doc of data;" [value]="doc.id " name="docid" class="form-control">{{doc.document_type}}
+              </option>
+            </select>
+
+          </div>
+          <div class="col-md-2" *ngIf="this.selectedVehicle">
+            <input type="text" class="form-control" placeholder="Expiry From Date"(click)="getDate('issue')">
+          </div>
+          <div class="col-md-2" *ngIf="this.selectedVehicle">
+            <input type="text" class="form-control" placeholder="Expiry End Date" (click)="getDate('expiry')">
+          </div>
+
+          <div class="col-md-2 offset-md-10">
             <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
               Document</button>
           </div>
@@ -35,6 +50,7 @@
             <th>Doument_Number </th>
             <th>Remark </th>
             <th>Image</th>
+           
           </tr>
         </thead>
         <tbody>

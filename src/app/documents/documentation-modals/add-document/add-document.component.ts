@@ -20,7 +20,7 @@ export class AddDocumentComponent implements OnInit {
 
   document = {
     image: '',
-    base64Image: '',
+    base64Image: null,
     type: {
       id: '',
       name: ''
@@ -36,7 +36,8 @@ export class AddDocumentComponent implements OnInit {
     agent: {
       id: '',
       name: '',
-    }
+    },
+    amount: '',
   }
 
   agents = [];
@@ -54,7 +55,6 @@ export class AddDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
 
     this.vehicleId = this.common.params.vehicleId;
-    // console.log("vehcile Data",this.vehicle);
     this.getDocumentsData();
   }
 
@@ -78,23 +78,21 @@ export class AddDocumentComponent implements OnInit {
     return response;
   }
 
-  handleFileSelect(evt) {
-    var files = evt.target.files;
-    var file = files[0];
 
-    if (files && file) {
-      let reader = new FileReader();
-      reader.onload = this._handleReaderLoaded.bind(this);
-      reader.readAsBinaryString(file);
-    }
-  }
-
-  _handleReaderLoaded(readerEvt) {
+  handleFileSelection(event) {
     this.common.loading++;
-    var binaryString = readerEvt.target.result;
-    this.document.base64Image = btoa(binaryString);
-    this.common.loading--;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+         console.log('Base 64: ', res);
+        this.document.base64Image = res;
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
   }
+
+
 
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -110,9 +108,11 @@ export class AddDocumentComponent implements OnInit {
       x_expiry_date: this.document.dates.expiry,
       x_document_agent_id: this.document.agent.id,
       x_document_number: this.document.number,
-      x_base64img: 'data:image/png;base64,' + this.document.base64Image,
+      x_base64img: this.document.base64Image,
       x_rto: this.document.rto,
-      x_remarks: this.document.remark
+      x_remarks: this.document.remark,
+      x_amount: this.document.amount,
+
     };
     console.log('Params: ', params);
     this.common.loading++;
@@ -126,6 +126,7 @@ export class AddDocumentComponent implements OnInit {
         console.log(err);
       });
   }
+
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });

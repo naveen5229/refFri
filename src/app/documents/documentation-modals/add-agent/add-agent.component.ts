@@ -53,18 +53,6 @@ export class AddAgentComponent implements OnInit {
         this.common.loading--;
         console.log("api result", res);
 
-        // this.common.loading++;
-        // this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.common.details.data.vId })
-        //   .subscribe(res => {
-        //     this.common.loading--;
-        //     console.log("data", res);
-           
-        //   }, err => {
-        //     this.common.loading--;
-        //     console.log(err);
-        //   });
-
-
         this.closeModal(true);
       }, err => {
         this.common.loading--;
