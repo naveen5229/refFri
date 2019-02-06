@@ -12,14 +12,10 @@ import { from } from 'rxjs';
   styleUrls: ['./documentation-details.component.scss', '../../pages/pages.component.css']
 })
 export class DocumentationDetailsComponent implements OnInit {
-
-
-
   title: '';
   data = [];
-
-
   selectedVehicle = null;
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -46,9 +42,6 @@ export class DocumentationDetailsComponent implements OnInit {
 
   }
 
-
-
-
   imageView(doc) {
     console.log("image data", doc);
     let images = [{
@@ -60,7 +53,7 @@ export class DocumentationDetailsComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 
-  openModal() {
+  addDocument() {
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle.id };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -68,8 +61,6 @@ export class DocumentationDetailsComponent implements OnInit {
         this.getvehicleData(this.selectedVehicle);
       }
     });
-
   }
-
 
 }

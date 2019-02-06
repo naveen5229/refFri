@@ -3,9 +3,7 @@
     <h2>Vehicle Documentation-details</h2>
     <hr>
   </nb-card-header>
-
   <nb-card-body style="min-height: 360px;">
-
     <div class="container">
       <form>
         <div class="row">
@@ -17,7 +15,7 @@
             </div>
           </div>
           <div class="col-md-6 offset-md-2">
-            <button type="submit" class="btn btn-primary" (click)="openModal()" *ngIf="this.selectedVehicle">Add
+            <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
               Document</button>
           </div>
         </div>
@@ -45,17 +43,16 @@
             <td>{{doc.regno}}</td>
             <td>{{doc.document_type}}</td>
             <td>{{doc.agent}}</td>
-            <td>{{doc.issue_date}}</td>
-            <td>{{doc.wef_date}}</td>
-            <td>{{doc.expiry_date}}</td>
+            <td>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
+            <td style='min-width:80px;'>{{doc.wef_date | date:'dd-MM-yyyy' }}</td>
+            <td>{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>
             <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
-            <td><span style="text-decoration:underline; color: blue;cursor: pointer; font-size:18px;" (click)="imageView(doc)">
+            <td>
+              <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:16px;" (click)="imageView(doc)">
                 view</span>
             </td>
-
           </tr>
-
         </tbody>
       </table>
     </div>
