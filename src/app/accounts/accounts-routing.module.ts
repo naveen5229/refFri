@@ -9,9 +9,10 @@ import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.componen
 import { StockTypeComponent } from '../acounts-modals/stock-type/stock-type.component';
 import { StockitemsComponent } from './stockitems/stockitems.component';
 import { AccountComponent } from './account/account.component';
-import{ LedgersComponent } from './ledgers/ledgers.component';
-import  { CompanyBranchesComponent } from './company-branches/company-branches.component';
+import { LedgersComponent } from './ledgers/ledgers.component';
+import { CompanyBranchesComponent } from './company-branches/company-branches.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
+import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 
 const routes: Routes = [{
     path: '',
@@ -52,6 +53,10 @@ const routes: Routes = [{
         {
             path: 'vouchers',
             component: VouchersComponent
+        },
+        {
+            path: 'trip-voucher-expense',
+            component: TripVoucherExpenseComponent
         }
     ]
 }];
