@@ -158,8 +158,14 @@ export class TyreHealthCheckUpComponent implements OnInit {
   }
   searchData() {
     if (this.foId) {
+      if(this.vehicleType == "trolly"){
+        this.refMode = 702;
+      }else{
+        this.refMode = 701;
+      }
       let params = 'foId=' + this.foId+
-      '&vehicleId=' +this.vehicleId;
+      '&vehicleId=' +this.vehicleId+
+      '&refMode=' + this.refMode;
       console.log("params ", params);
       this.api.get('Tyres/getTyreHealths?' + params)
         .subscribe(res => {

@@ -9,14 +9,10 @@
       <div class="col-sm-1">  </div>
       <div class="col-sm-2"><label class = "label1"><b>Customer Name </b> </label> </div>
       <div class="col-sm-3">
-         <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString">
-         <div >       
-         <ul *ngIf = " (showSuggestions)&&(foUsers.length >  0)" >
-            <li *ngFor="let foUser of foUsers;" (click) = "selectUser(foUser)"  >
-              {{ foUser.name}}
-            </li>
-          </ul>
-          </div>
+        <auto-suggestion (onSelected)="selectUser($event)" url="Suggestion/getFoUsersList" [display]="['name', 'mobileno']"
+        seperator="-" placeholder="Enter customer" [preSelected]="null"></auto-suggestion>
+      <div>
+      </div>
         </div>
       <div class="col-sm-1">  </div>
       <div class="col-sm-1"><label><b>Tyre Name</b></label></div>
@@ -91,9 +87,9 @@
               <td >{{i+1}}</td>
               <td>{{tyreDetail.brand}} - {{tyreDetail.model}} </td>
               <td >{{tyreDetail.tyreno}}</td>
-              <td>{{tyreDetail.entrydate}}</td>
+              <td>{{tyreDetail.entrydate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
               <td>{{tyreDetail.entryby}}</td>
-              <td>{{tyreDetail.date}}</td>
+              <td>{{tyreDetail.date | date : 'dd-MMM-yyyy hh:mm a'}}</td>
               <td>{{tyreDetail.details}}</td>            
           </tr>
         </tbody>
