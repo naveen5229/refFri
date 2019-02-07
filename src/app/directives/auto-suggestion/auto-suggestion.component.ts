@@ -51,8 +51,13 @@ export class AutoSuggestionComponent implements OnInit {
 
   getSuggestions() {
     this.showSuggestions = true;
-    let params = 'search=' + this.searchText;
-    this.api.get(this.url + '?' + params)
+    let params = '?';
+    if (this.url.includes('?')) {
+      params = '&'
+    }
+    params += 'search=' + this.searchText;
+
+    this.api.get(this.url + params)
       .subscribe(res => {
         console.log(res);
         this.suggestions = res['data'];

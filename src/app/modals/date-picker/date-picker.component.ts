@@ -31,9 +31,9 @@ export class DatePickerComponent implements OnInit {
   }
 
   removeDummy() {
-    let allTags = document.getElementsByTagName('nb-card-header');
-    allTags[1]['style'].display = 'none';
-    console.log('All Tags: ', allTags);
+    // let allTags = document.getElementsByTagName('nb-card-header');
+    // allTags[1]['style'].display = 'none';
+    // console.log('All Tags: ', allTags);
   }
 
   get monthStart(): Date {
