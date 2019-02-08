@@ -239,8 +239,8 @@ export class CommonService {
 
     setTimeout(() => {
       console.log(document.getElementsByTagName('canvas')[0]);
-      document.getElementsByTagName('canvas')[0].style.width = "100px";
-      document.getElementsByTagName('canvas')[0].style.height = "220px";
+      document.getElementsByTagName('canvas')[0].style.width = "80px";
+      document.getElementsByTagName('canvas')[0].style.height = "180px";
     }, 10);
 
     return { chartData, chartOptions };
@@ -248,5 +248,14 @@ export class CommonService {
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
+  }
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 }
