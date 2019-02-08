@@ -6,23 +6,21 @@
 </div>
 <div class="modal-body">
 
-  <div class="row">
-    <div class="col">
+  <div class="row" style="margin-bottom: 30px;">
+    <!--div class="col">
       <div class="form-group">
         <label>User</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Enter User" [preSelected]="null"></auto-suggestion>
+          placeholder="Enter Fo User" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Voucher Type</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'voucher', 'name')" url="Suggestion/GetVouchertypeList"
           display="name" placeholder="Enter Voucher Type" [preSelected]="null"></auto-suggestion>
       </div>
-    </div>
+    </div -->
     <div class="col">
       <div class="form-group">
         <label>Code</label>
@@ -34,14 +32,14 @@
         <label>Date</label>
         <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
-          placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="date" readonly>
+          placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="voucher.date" readonly>
       </div>
     </div>
 
   </div>
-
+<div class="row"></div>
   <!-- Amount Details -->
-  <div class="row" *ngFor="let amountDetail of voucher.amountDetails; let i = index;">
+  <div class="row" *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
     <div class="col-3">
       <div class="form-group">
         <label>Transaction Type</label>
@@ -55,7 +53,7 @@
     <div class="col-3">
       <div class="form-group">
         <label>Ledger</label>
-        <auto-suggestion (onSelected)="amountDetail.ledger = $event.id" url="Suggestion/GetLedger" display="name"
+        <auto-suggestion (onSelected)="amountDetail.ledger = $event.id" [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"  display="y_name"
           placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
@@ -89,13 +87,13 @@
   <div class="col-2">
       <div class="form-group">
         <label>Total Debit</label>
-        <input type="text" class="form-control" name="account-name" readonly [value]="calculateTotal('debit')">
+        <input type="text" class="form-control" name="account-name" readonly [value]="calculateTotal('debit')" style="background: #e8f0f3">
       </div>
     </div>
     <div class="col-2">
         <div class="form-group">
           <label>Total Credit</label>
-          <input type="text" class="form-control" name="account-name" readonly [value]="calculateTotal('credit')">
+          <input type="text" class="form-control" name="account-name" readonly [value]="calculateTotal('credit')" style="background: #e8f0f3">
         </div>
       </div>
   </div>

@@ -31,9 +31,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
   status = "";
   checkedBy = null;
   admins =[];
-  date = this.common.dateFormatter(new Date());
- 
-
+  date1 = this.common.dateFormatter(new Date());
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService
@@ -113,15 +111,16 @@ export class TyreHealthCheckUpComponent implements OnInit {
     this.searchVehicleString = this.vehicleNo + " - " + this.vehicleId;
     this.vehicleSuggestion = false;
   }
-  getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.date);
-    });
-  }
+  // getDate(date) {
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.date = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.date);
+  //   });
+  // }
 
   saveDetails() {
+    let date= this.common.dateFormatter(new Date(this.date1));
     if(this.vehicleType == "trolly"){
       this.refMode = 702;
     }else{
@@ -131,7 +130,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
     let params = {
       foId : this.foId,
       vehicleId : this.vehicleId,
-      date : this.date,
+      date : date,
       tyres : JSON.stringify(this.tyres),
       remark : this.remark,
       status : this.status,
@@ -159,8 +158,14 @@ export class TyreHealthCheckUpComponent implements OnInit {
   }
   searchData() {
     if (this.foId) {
+      if(this.vehicleType == "trolly"){
+        this.refMode = 702;
+      }else{
+        this.refMode = 701;
+      }
       let params = 'foId=' + this.foId+
-      '&vehicleId=' +this.vehicleId;
+      '&vehicleId=' +this.vehicleId+
+      '&refMode=' + this.refMode;
       console.log("params ", params);
       this.api.get('Tyres/getTyreHealths?' + params)
         .subscribe(res => {

@@ -235,8 +235,8 @@ export class CommonService {
 
     setTimeout(() => {
       console.log(document.getElementsByTagName('canvas')[0]);
-      document.getElementsByTagName('canvas')[0].style.width = "100px";
-      document.getElementsByTagName('canvas')[0].style.height = "220px";
+      document.getElementsByTagName('canvas')[0].style.width = "80px";
+      document.getElementsByTagName('canvas')[0].style.height = "180px";
     }, 10);
 
     return { chartData, chartOptions };

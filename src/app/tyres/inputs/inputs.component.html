@@ -8,14 +8,10 @@
       <div class="col-sm-1">  </div>
       <div class="col-sm-2"><label class = "label1"><b>Customer Name </b> </label> </div>
       <div class="col-sm-3">
-         <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString" autocomplete="off">
-         <div >       
-         <ul *ngIf = " (showSuggestions)&&(foUsers.length >  0)" >
-            <li *ngFor="let foUser of foUsers;" (click) = "selectUser(foUser)"  >
-              {{ foUser.name}} - {{foUser.mobileno}}
-            </li>
-          </ul>
-          </div>
+        <auto-suggestion (onSelected)="selectUser($event)" url="Suggestion/getFoUsersList" [display]="['name', 'mobileno']"
+          seperator="-" placeholder="Enter customer" [preSelected]="null"></auto-suggestion>
+        <div>
+        </div>
         </div>
       <div class="col-sm-1">  </div>
       <div class="col-sm-1"><label><b>Vehicle Type</b></label></div>
@@ -63,8 +59,10 @@
           <div class="col-sm-1">  </div>
           <div class="col-sm-1"><label> <b>Date</b></label> </div>
           <div class="col-sm-3">
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-              [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
+              <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+              <owl-date-time #date ></owl-date-time>
+              <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+              [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
             <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
           </div>
         </div>
@@ -138,12 +136,9 @@
         <thead class="thead">
           <tr>
             <th># </th>
-            <th>Vehicle No </th>
             <th>Tyre No </th>
-            <th>Entry Date </th>
-            <th>Enter By </th>
+            <th>Tyre Position </th>
             <th>Date </th>
-            <th>Details</th>
             
           </tr>
   
@@ -151,12 +146,9 @@
         <tbody>
           <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
               <td >{{i+1}}</td>
-              <td>{{tyreDetail.brand}} - {{tyreDetail.model}} </td>
-              <td >{{tyreDetail.tyreno}}</td>
-              <td>{{tyreDetail.entrydate}}</td>
-              <td>{{tyreDetail.entryby}}</td>
-              <td>{{tyreDetail.date}}</td>
-              <td>{{tyreDetail.details}}</td>            
+              <td >{{tyreDetail.tyrenum}}</td>
+              <td>{{tyreDetail.tyrepos}}</td>
+              <td>{{tyreDetail.dttime | date : 'dd-MMM-yyyy hh:mm a' }}</td>
           </tr>
         </tbody>
       </table>
