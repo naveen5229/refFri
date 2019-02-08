@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Add Voucher ({{voucherName}})</h4>
+  <h4 class="modal-title" id="modal-basic-title">Add Voucher</h4>
   <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,39 +7,101 @@
 <div class="modal-body">
 
   <div class="row" style="margin-bottom: 30px;">
-    <!--div class="col">
+   
+    <div class="col">
       <div class="form-group">
-        <label>User</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Enter Fo User" [preSelected]="null"></auto-suggestion>
+        <label>Branch Type</label>
+        <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
+          display="name" placeholder="Enter Branch" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>Voucher Type</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'voucher', 'name')" url="Suggestion/GetVouchertypeList"
-          display="name" placeholder="Enter Voucher Type" [preSelected]="null"></auto-suggestion>
-      </div>
-    </div -->
-    <div class="col">
-      <div class="form-group">
-        <label>Ref</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="voucher.code">
+        <label>Code</label>
+        <input type="text" class="form-control" name="account-name" [(ngModel)]="order.code">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>Date</label>
+        <label>Order Type</label>
+        <auto-suggestion (onSelected)="onSelected($event, 'ordertype', 'name')" url="Suggestion/GetOrderTypeList"
+          display="name" placeholder="Enter Order Type" [preSelected]="null"></auto-suggestion>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>Order Date</label>
         <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
-          placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="voucher.date" readonly>
+          placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="order.date" readonly>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>Vender Ledger Id</label>
+        <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetVenderLedger" display="name"
+          placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 30px;">
+
+    
+    
+    <div class="col">
+      <div class="form-group">
+       
+        <textarea class="form-control" name="account-billingaddress" [(ngModel)]="order.billingaddress" placeholder="Vender Billing Address"></textarea>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>Vender Quotation Reference</label>
+        <textarea class="form-control" name="account-qutationrefrence" [(ngModel)]="order.qutationrefrence" placeholder="Quatation Reference"></textarea>
+      </div>
+    </div>
+    
+    <div class="col">
+      <div class="form-group">
+        <label>Shipment Location</label>
+        <textarea class="form-control" name="account-shipmentlocation" [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location"></textarea>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label>Delivery Terms</label>
+        <textarea class="form-control" name="account-deliveryterms" [(ngModel)]="order.deliveryterms" placeholder="Delivery Terms"></textarea>
+      </div>
+    </div>
+
+        <div class="col">
+      <div class="form-group">
+        <label>Payment Terms</label>
+        <textarea class="form-control" name="account-paymentterms" [(ngModel)]="order.paymentterms" placeholder="Payment Terms"></textarea>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label>Bilty Number</label>
+        <input type="text" class="form-control" name="account-biltynumber" [(ngModel)]="order.biltynumber">
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label>Bilty Stamp Date</label>
+        <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
+          placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="order.biltydate" readonly>
       </div>
     </div>
 
   </div>
 <div class="row"></div>
   <!-- Amount Details -->
-  <div class="row" *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
+  <div class="row" *ngFor="let amountDetail of order.amountDetails; let i = index;" style="background: #e8f0f3;">
     <div class="col-3">
       <div class="form-group">
         <label>Transaction Type</label>
@@ -81,7 +143,7 @@
       <div class="col-6">
           <div class="form-group">
               <label>Remarks</label>
-              <input type="textarea" class="form-control"  name="account-name" [(ngModel)]="voucher.remarks">
+              <input type="textarea" class="form-control"  name="account-name" [(ngModel)]="order.remarks">
             </div>
       </div>
   <div class="col-2">

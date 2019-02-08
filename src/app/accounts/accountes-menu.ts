@@ -8,7 +8,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Orders',
+        title: 'Invoice',
         icon: 'nb-home',
         link: '/accounts/orders'
     },
@@ -44,34 +44,34 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/company-branches'
     },
     {
-        title: 'General Voucher',
+        title: 'Journal Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers/-7'
+        link: '/accounts/vouchers/-7/Journal Voucher'
     },
     {
         title: 'Cash Receipt Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers/-4'
+        link: '/accounts/vouchers/-4/Cash Receipt Voucher'
     },
     {
         title: 'Bank Receipt Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers/-2'
+        link: '/accounts/vouchers/-2/Bank Receipt Voucher'
     },
     {
         title: 'Cash Payment Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers/-3'
+        link: '/accounts/vouchers/-3/Cash Payment Voucher'
     }, 
     {
         title: 'Bank Payment Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers/-1'
+        link: '/accounts/vouchers/-1/Bank Payment Voucher'
     },
     {
         title: 'Contra Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers/-8'
+        link: '/accounts/vouchers/-8/Contra Voucher'
     },
     
     

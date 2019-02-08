@@ -44,6 +44,7 @@ import { AccountsComponent } from './acounts-modals/accounts/accounts.component'
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
+import { OrderComponent } from './acounts-modals/order/order.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    OrderComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -102,7 +104,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    OrderComponent
 
   ],
   imports: [
