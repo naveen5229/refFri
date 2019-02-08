@@ -44,9 +44,36 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/company-branches'
     },
     {
-        title: 'vouchers',
+        title: 'General Voucher',
         icon: 'nb-home',
-        link: '/accounts/vouchers'
-    }
+        link: '/accounts/vouchers/-7'
+    },
+    {
+        title: 'Cash Receipt Voucher',
+        icon: 'nb-home',
+        link: '/accounts/vouchers/-4'
+    },
+    {
+        title: 'Bank Receipt Voucher',
+        icon: 'nb-home',
+        link: '/accounts/vouchers/-2'
+    },
+    {
+        title: 'Cash Payment Voucher',
+        icon: 'nb-home',
+        link: '/accounts/vouchers/-3'
+    }, 
+    {
+        title: 'Bank Payment Voucher',
+        icon: 'nb-home',
+        link: '/accounts/vouchers/-1'
+    },
+    {
+        title: 'Contra Voucher',
+        icon: 'nb-home',
+        link: '/accounts/vouchers/-8'
+    },
+    
+    
     
 ];

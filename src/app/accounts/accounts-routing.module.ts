@@ -52,6 +52,10 @@ const routes: Routes = [{
         {
             path: 'vouchers',
             component: VouchersComponent
+        },
+        {
+            path: 'vouchers/:id',
+            component: VouchersComponent
         }
     ]
 }];

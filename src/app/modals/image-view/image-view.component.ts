@@ -15,6 +15,7 @@ export class ImageViewComponent implements OnInit {
   constructor(public common: CommonService,
     private activeModal: NgbActiveModal) {
     this.images = this.common.params.images;
+    console.log("Images from database ",this.images);
     this.title = this.common.params.title;
     this.activeImage = this.images[0];
   }
