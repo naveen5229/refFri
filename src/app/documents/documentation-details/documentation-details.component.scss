@@ -33,18 +33,17 @@ select {
 }
 .form-control{
     width: 100%;
-    margin-left: -20%;
+    margin-left: -15%;
     margin-top: 18%;
+}
+.document_type{
+    margin-left: 0% !important;
+    margin-top: 0px !important;
 }
 label{
     font-size: 16px;
     margin-left: 6%;
     font-weight: 700;
-}
-textarea{
-    min-width: 82% !important;
-    height: auto !important;
-    margin-left: 22% !important;
 }
 
 .upload-btn-wrapper {
@@ -66,8 +65,9 @@ textarea{
     opacity: 0;
   }
 .btn.btn-primary{
-    margin-left: -50%;
-    margin-top: -45%;
+    margin-left: -20%;
+    margin-top: 18%;
+    position: relative;
 }
 .table{
     width: 95%;
@@ -75,4 +75,11 @@ textarea{
 }
 .suggestions{
     position: relative !important;
+}
+.red {
+    background: red;
+    color: #fff;
+}
+.pink {
+    background: pink;
 }

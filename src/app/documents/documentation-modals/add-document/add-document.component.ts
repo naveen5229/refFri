@@ -61,6 +61,14 @@ export class AddDocumentComponent implements OnInit {
   ngOnInit() {
   }
 
+  // getTypeId(target){
+  //   // console.log("typenew :",value);return;
+  //   this.document.type.id =target.id;
+  //   this.document.type.name = target.value;
+  //   console.log("type name :",this.document.type.name);
+
+  // }
+  
   getDocumentsData() {
     this.common.loading++;
     let response;
@@ -99,6 +107,7 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
+    // console.log("type :",this.document.type);
     const params = {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
@@ -140,13 +149,30 @@ export class AddDocumentComponent implements OnInit {
   }
   findDocumentType(id) {
     let documentType = '';
+    console.log("id:",id);
+    console.log("docTypes:",this.docTypes);
     this.docTypes.map(docType => {
+      // console.log("doc Type: ",docType);
       if (docType.id == id) {
         documentType = docType.document_type
+        console.log("document Type",documentType);
       }
     });
     return documentType;
   }
+  // findDocumentType(type) {
+  //   let id = '';
+  //   console.log("id:",type);
+  //   console.log("docTypes:",this.docTypes);
+  //   this.docTypes.map(docType => {
+  //     // console.log("doc Type: ",docType);
+  //     if (docType.document_type == type) {
+  //      id = docType.id
+  //       console.log("document id", id);
+  //     }
+  //   });
+  //   return  id;
+  // }
 
   addAgent() {
     this.common.params = { title: 'Add Agent' };
@@ -158,6 +184,10 @@ export class AddDocumentComponent implements OnInit {
       }
     });
 
+  }
+
+  testing(test){
+    console.log('test', test);
   }
 
 }

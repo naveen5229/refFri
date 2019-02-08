@@ -16,26 +16,27 @@
           </div>
           <div class="col-md-3" style="margin-left:-3%;">
             <label style="margin-left:3%;">Doucument_Type:</label>
-            <select name="document-type" [(ngModel)]="id" class="form-control" required>
-              <option *ngFor="let doc of data;" [value]="doc.id " name="docid" class="form-control">{{doc.document_type}}
-              </option>
-            </select>
-
+            <input type="text" class="form-control document_type" list="document_type" name="document-type" [(ngModel)]="docid">
+            <datalist id="document_type">
+              <option *ngFor="let doc of data;" [value]="doc.document_type " class="form-contol">{{doc.document_type}}</option>
+            </datalist>
           </div>
+
           <div class="col-md-2" *ngIf="this.selectedVehicle">
-            <input type="text" class="form-control" placeholder="Expiry From Date"(click)="getDate('issue')">
+            <input type="text" class="form-control" placeholder="Expiry From Date" (click)="getDate('issue')">
           </div>
           <div class="col-md-2" *ngIf="this.selectedVehicle">
             <input type="text" class="form-control" placeholder="Expiry End Date" (click)="getDate('expiry')">
           </div>
 
-          <div class="col-md-2 offset-md-10">
+          <div class="col-md-2 offset-md-08">
             <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
-              Document</button>
+              Document</button>`
           </div>
         </div>
       </form>
     </div>
+
     <div class="table" *ngIf="this.selectedVehicle">
       <table class="table table-bordered table-hover">
         <thead class="thead">
@@ -50,7 +51,7 @@
             <th>Doument_Number </th>
             <th>Remark </th>
             <th>Image</th>
-           
+
           </tr>
         </thead>
         <tbody>
@@ -60,7 +61,8 @@
             <td>{{doc.document_type}}</td>
             <td>{{doc.agent}}</td>
             <td>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
-            <td style='min-width:80px;'>{{doc.wef_date | date:'dd-MM-yyyy' }}</td>
+            <td style='min-width:80px;' [ngClass]="(doc.expiry_date > curr ) ? 'red' : 'pink'">{{doc.wef_date |
+              date:'dd-MM-yyyy' }}</td>
             <td>{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>
             <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
@@ -68,6 +70,7 @@
               <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:16px;" (click)="imageView(doc)">
                 view</span>
             </td>
+
           </tr>
         </tbody>
       </table>
