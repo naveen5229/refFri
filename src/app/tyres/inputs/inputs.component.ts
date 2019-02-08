@@ -147,9 +147,16 @@ export class InputsComponent implements OnInit {
 
   searchData() {
     if (this.foId) {
-      let params = 'foId=' + this.foId
+      if(this.vehicleType == "trolly"){
+        this.refMode = 702;
+      }else{
+        this.refMode = 701;
+      }
+      let params = 'foId=' + this.foId+
+      '&vehicleId=' +this.vehicleId+
+      '&refMode=' + this.refMode;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreInputsAccordingFO?' + params)
+      this.api.get('Tyres/getVehicleTyreDetails?' + params)
         .subscribe(res => {
           this.searchedTyreDetails = res['data'];
           console.log("searchedTyreDetails", this.searchedTyreDetails);
@@ -194,6 +201,8 @@ export class InputsComponent implements OnInit {
           console.log("fail");
           this.common.showToast(res['data'][0].rtn_msg);
         }
+        this.searchData() ;
+        
       }, err => {
         this.common.loading--;
         console.error(err);
