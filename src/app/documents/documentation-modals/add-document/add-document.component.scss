@@ -17,3 +17,15 @@ select{
 .agent{
     width: 90%;
 }
+.suggestions ng-star-inserted{
+    overflow: auto !important;
+    max-height: 150px !important;
+}
+auto-suggestion{
+    overflow: auto !important;
+    max-height: 150px !important;
+}
+.documentType{
+    overflow: auto !important;
+    max-height: 150px !important;
+}

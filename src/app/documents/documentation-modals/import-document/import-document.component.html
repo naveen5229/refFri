@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <form enctype="multipart/form-data" #myForm="ngForm" name="uploadcsvForm" id="document-form" name="document-form" 
+    (submit)="uploadCsv()" method="POST">
+      <div class="row">
+        <div class="col-md-2">
+          <label>Vehicle Document Csv</label>
+        </div>
+        <div class="col-md-10">
+          <input type="file" name="vehicleDocCsv" [(ngModel)]="upload.csv"  (change)="handleFileSelection($event)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label>Foid </label>
+        </div>
+        <div class="col-md-10">
+          <auto-suggestion (onSelected)="onSelected($event)" url="Suggestion/getFoUsersList" display="name" placeholder="Enter User"
+            [preSelected]="null"></auto-suggestion>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit" style="cursor: pointer;">{{btn1}}</button>
+    </div>
+  </div>
+</div>

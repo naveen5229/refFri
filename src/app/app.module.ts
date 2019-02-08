@@ -38,6 +38,7 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
+import { ImportDocumentComponent } from './documents/documentation-modals/import-document/import-document.component';
 import { AddAgentComponent } from '../app/documents/documentation-modals/add-agent/add-agent.component';
 import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
@@ -71,6 +72,7 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     StockSubtypeComponent,
     StockitemComponent,
     AddDocumentComponent,
+    ImportDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
     LedgerComponent,
@@ -98,6 +100,7 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     StockSubtypeComponent,
     StockitemComponent,
     AddDocumentComponent,
+    ImportDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
     LedgerComponent,

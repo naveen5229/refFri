@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
+import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { from } from 'rxjs';
 @Component({
   selector: 'documentation-details',
@@ -22,7 +23,7 @@ export class DocumentationDetailsComponent implements OnInit {
     expiry: ''
   };
   currentdate = new Date;
-  curr=null;
+  curr = null;
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -42,15 +43,14 @@ export class DocumentationDetailsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-        let exp_date=this.common.dateFormatter(this.data[0].expiry_date);
-        this.curr =this.common.dateFormatter(this.currentdate);
-        console.log("expiry Date:" ,exp_date);
-        console.log("current date",this.curr);
-        if(exp_date>this.curr)
-        {
+        let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
+        this.curr = this.common.dateFormatter(this.currentdate);
+        console.log("expiry Date:", exp_date);
+        console.log("current date", this.curr);
+        if (exp_date > this.curr) {
           console.log("true");
         }
-        else{
+        else {
           console.log("false");
         }
       }, err => {
@@ -77,7 +77,7 @@ export class DocumentationDetailsComponent implements OnInit {
       image: doc.img_url
     }];
     console.log("images:", images);
-    if(this.checkForPdf(images[0].image)){
+    if (this.checkForPdf(images[0].image)) {
       window.open(images[0].image);
       return;
     }
@@ -87,7 +87,7 @@ export class DocumentationDetailsComponent implements OnInit {
 
   checkForPdf(imgUrl) {
     var split = imgUrl.split(".");
-    return split[split.length-1]=='pdf'?true:false;
+    return split[split.length - 1] == 'pdf' ? true : false;
   }
 
   addDocument() {
@@ -99,5 +99,15 @@ export class DocumentationDetailsComponent implements OnInit {
       }
     });
   }
+  importVehicleDocument() {
+    this.common.params = { title: 'Import Document'};
+    const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    //   activeModal.result.then(data => {
+    //   //   if (data.response) {
+    //   //     this.getvehicleData(this.selectedVehicle);
+    //   //   }
+    //   // });
+    // };
 
+  }
 }
