@@ -55,6 +55,7 @@ export class AutoSuggestionComponent implements OnInit {
     this.showSuggestions = true;
     if (this.data) {
       this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
+      this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
     let params = '?';

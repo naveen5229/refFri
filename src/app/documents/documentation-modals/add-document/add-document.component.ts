@@ -61,14 +61,6 @@ export class AddDocumentComponent implements OnInit {
   ngOnInit() {
   }
 
-  // getTypeId(target){
-  //   // console.log("typenew :",value);return;
-  //   this.document.type.id =target.id;
-  //   this.document.type.name = target.value;
-  //   console.log("type name :",this.document.type.name);
-
-  // }
-
   getDocumentsData() {
     this.common.loading++;
     let response;
@@ -186,8 +178,9 @@ export class AddDocumentComponent implements OnInit {
   }
 
   selectDocType(docType) { 
-    console.log('Doc Type: ', docType);
+    this.document.type.id = docType.id
+    console.log('Doc id: ', docType.id);
+    console.log("doc var",this.document.type.id);
   }
-
 
 }

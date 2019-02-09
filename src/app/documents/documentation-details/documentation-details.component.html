@@ -10,23 +10,22 @@
           <div class="col-md-3">
             <label>Vehicle Number:</label>
             <div class="col-md-12">
-              <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
+              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
                 placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
           </div>
-          <div class="col-md-3" style="margin-left:-3%;">
-            <label style="margin-left:3%;">Doucument_Type:</label>
-            <input type="text" class="form-control document_type" list="document_type" name="document-type" [(ngModel)]="docid">
-            <datalist id="document_type">
-              <option *ngFor="let doc of data;" [value]="doc.document_type " class="form-contol">{{doc.document_type}}</option>
-            </datalist>
+          <div class="col-md-3" style="margin-left:-3%;" *ngIf="this.selectedVehicle">
+            <label style="margin-left:3%;">Document Type:</label>
+            <auto-suggestion *ngIf="data.length>=0" (onSelected)="doucumentFilter($event)" display="document_type" url="Vehicles/getVehicleDocumentsById"
+              placeholder="Enter doctype" [data]="data" class="documentType"></auto-suggestion>
           </div>
 
           <div class="col-md-2" *ngIf="this.selectedVehicle">
-            <input type="text" class="form-control" placeholder="Expiry From Date" (click)="getDate('issue')">
+            <input type="datetime" class="form-control" placeholder="Expiry From Date" 
+            [value]="dates.expiryForm | date: 'dd MMM yyyy'" (click)="getDate('expiryForm')">
           </div>
           <div class="col-md-2" *ngIf="this.selectedVehicle">
-            <input type="text" class="form-control" placeholder="Expiry End Date" (click)="getDate('expiry')">
+            <input type="datetime" class="form-control" placeholder="Expiry End Date" [value]="dates.expiryEnd | date: 'dd MMM yyyy'" (click)="getDate('expiryEnd')">
           </div>
 
           <div class="col-md-2 offset-md-08">
@@ -38,7 +37,7 @@
 
       <div class="row">
         <div class="col-md-6 offset-md-1">
-            <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
+          <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
         </div>
       </div>
 
@@ -50,14 +49,15 @@
           <tr>
             <th>Sr No</th>
             <th>Vehicle No</th>
-            <th>Doucument_Type</th>
-            <th>Agent_Name </th>
-            <th>Issue_Date </th>
-            <th>Wef_Date </th>
-            <th>Expiry_Date </th>
-            <th>Doument_Number </th>
+            <th>Document Type</th>
+            <th>Agent Name </th>
+            <th>Issue Date </th>
+            <th>Wef Date </th>
+            <th>Expiry Date </th>
+            <th>Document Number </th>
             <th>Remark </th>
             <th>Image</th>
+            <td>Edit</td>
 
           </tr>
         </thead>
@@ -74,8 +74,13 @@
             <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
             <td>
-              <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:16px;" (click)="imageView(doc)">
-                view</span>
+              <!-- <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:16px;" (click)="imageView(doc)">
+                view</span> -->
+                <i class="icon ion-md-image" (click)="imageView(doc)"></i>
+            </td>
+            <td (click)="editData()"><i class="icon ion-md-create"></i>
+              <!-- <ion-icon name="create"></ion-icon> -->
+              <!-- <i class="far fa-edit"></i> -->
             </td>
 
           </tr>

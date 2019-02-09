@@ -6,17 +6,31 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <form enctype="multipart/form-data" #myForm="ngForm" name="uploadcsvForm" id="document-form" name="document-form" 
-    (submit)="uploadCsv()" method="POST">
+    <form enctype="multipart/form-data" #myForm="ngForm" name="uploadcsvForm" id="document-form" name="document-form"
+      method="POST">
       <div class="row">
-        <div class="col-md-2">
-          <label>Vehicle Document Csv</label>
+        <div class="col-md-6">
+          <label>Type</label>
         </div>
-        <div class="col-md-10">
-          <input type="file" name="vehicleDocCsv" [(ngModel)]="upload.csv"  (change)="handleFileSelection($event)">
+        <div class="col-md-6">
+          <auto-suggestion (onSelected)="selectDocType($event)" url="Vehicles/getAllDocumentTypes" display="document_type"
+            placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType"></auto-suggestion>
+          <div class="suggestions ng-star-inserted">
+          </div>
         </div>
       </div>
       <div class="row">
+        <div class="col-md-6">
+          <label>Vehicle Document Csv</label>
+        </div>
+        <div class="col-md-6">
+          <div class="upload-btn-wrapper">
+            <button class="btn">Upload Csv</button>
+            <input type="file" name="vehicleDocCsv" [(ngModel)]="upload.csv" (change)="handleFileSelection($event)">
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
         <div class="col-md-2">
           <label>Foid </label>
         </div>
@@ -24,7 +38,7 @@
           <auto-suggestion (onSelected)="onSelected($event)" url="Suggestion/getFoUsersList" display="name" placeholder="Enter User"
             [preSelected]="null"></auto-suggestion>
         </div>
-      </div>
+      </div> -->
     </form>
   </div>
 </div>
@@ -34,7 +48,8 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit" style="cursor: pointer;">{{btn1}}</button>
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit"
+        style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

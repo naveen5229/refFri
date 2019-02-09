@@ -20,6 +20,10 @@ export class ImportDocumentComponent implements OnInit {
     foid:''
   };
   csv = null;
+  docType={
+    id:'',
+    type:''
+  };
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -37,19 +41,26 @@ export class ImportDocumentComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
-  onSelected(data) {
-    let id= '';
-     console.log("Data",data);
-      id = data.id;
-     console.log('upload data: ',id);
-     this.upload.foid = id;
-     console.log(' new upload data: ',this.upload.foid);
-     return this.upload.foid;
-   }
+
+  selectDocType(documentType){
+    this.docType = documentType;
+    console.log("Document type",this.docType.id);;
+
+  }
+
+  // onSelected(data) {
+  //   let id= '';
+  //    console.log("Data",data);
+  //     id = data.id;
+  //    console.log('upload data: ',id);
+  //    this.upload.foid = id;
+  //    console.log(' new upload data: ',this.upload.foid);
+  //    return this.upload.foid;
+  //  }
   uploadCsv(){
     const params = {
       vehicleDocCsv:this.csv,
-      foid:this.upload.foid
+      // foid:this.upload.foid
     };
     console.log("Data :",params);
     this.common.loading++;
@@ -57,7 +68,7 @@ export class ImportDocumentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
-        // this.closeModal(true);
+        this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);

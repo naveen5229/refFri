@@ -17,11 +17,11 @@ export class DocumentationDetailsComponent implements OnInit {
   title: '';
   data = [];
   selectedVehicle = null;
-  dates: {
-    issue: '',
-    wef: '',
-    expiry: ''
+  dates ={
+    expiryForm: '',
+    expiryEnd:'',
   };
+    
   currentdate = new Date;
   curr = null;
   constructor(
@@ -43,30 +43,37 @@ export class DocumentationDetailsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-        let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
-        this.curr = this.common.dateFormatter(this.currentdate);
-        console.log("expiry Date:", exp_date);
-        console.log("current date", this.curr);
-        if (exp_date > this.curr) {
-          console.log("true");
+
+        if (!this.selectedVehicle.id) {
+          let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
+          this.curr = this.common.dateFormatter(this.currentdate);
+          console.log("expiry Date:", exp_date);
+          console.log("current date", this.curr);
+          if (exp_date > this.curr) {
+            console.log("true");
+          }
+          else {
+            console.log("false");
+          }
         }
-        else {
-          console.log("false");
-        }
+        
       }, err => {
         this.common.loading--;
         console.log(err);
       });
 
   }
+  doucumentFilter() {
+    console.log("hiii");
+  }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
         this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log('Date:', this.dates[date]);
+        console.log("hii");
+        console.log('new Date:', this.dates[date]);
       }
-
     });
   }
 
@@ -100,14 +107,17 @@ export class DocumentationDetailsComponent implements OnInit {
     });
   }
   importVehicleDocument() {
-    this.common.params = { title: 'Import Document'};
+    this.common.params = { title: 'Bulk Import Document' };
     const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    //   activeModal.result.then(data => {
-    //   //   if (data.response) {
-    //   //     this.getvehicleData(this.selectedVehicle);
-    //   //   }
-    //   // });
-    // };
+  }
 
+  editData(){
+    this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle.id };
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getvehicleData(this.selectedVehicle);
+      }
+    });
   }
 }
