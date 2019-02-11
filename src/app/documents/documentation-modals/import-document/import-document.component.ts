@@ -24,7 +24,10 @@ export class ImportDocumentComponent implements OnInit {
     id: '',
     type: ''
   };
+  vehicleId = '';
   data = [];
+  docTypes = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -33,9 +36,9 @@ export class ImportDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-
-    this.data = this.common.params;
-    console.log("import data", this.data);
+    this.vehicleId =this.common.params.vehicleId;
+    this.getDocumentsData();
+    
   }
 
   ngOnInit() {
@@ -44,7 +47,21 @@ export class ImportDocumentComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
-
+  getDocumentsData() {
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.docTypes = res['data'].document_types_info;
+        console.log("new doc type",this.docTypes);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
+  }
   selectDocType(documentType) {
     this.docType = documentType;
     console.log("Document type", this.docType.id);;
@@ -84,9 +101,9 @@ export class ImportDocumentComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
-  // sampleCsv() {
-  //   window.location = '/#/link/' + res;
-  // }
+  sampleCsv() {
+    window.open("http://13.126.215.102/sample/csv/sample_document_upload.csv");
+  }
 
 
 }
