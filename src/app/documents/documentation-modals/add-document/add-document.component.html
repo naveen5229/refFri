@@ -55,11 +55,11 @@
       </div>
       <div class="col-md-8">
         <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off"
-          [(ngModel)]="document.dates.wef" #wefDate="ngModel" required class="form-control" [value]="document.dates.wef | date: 'MMM dd yyyy'"
+            required class="form-control" [value]="document.dates.wef | date: 'MMM dd yyyy'"
           (click)="getDate('wef')">
-        <div *ngIf="isFormSubmit && wefDate.errors" class="error">
+        <!--  [(ngModel)]="document.dates.wef" #wefDate="ngModel"<div *ngIf="isFormSubmit && wefDate.errors" class="error">
           <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="row">
@@ -69,6 +69,9 @@
       <div class="col-md-8">
         <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off"
           required class="form-control" [value]="document.dates.expiry | date: 'dd MMM yyyy'" (click)="getDate('expiry')">
+          <!-- <div *ngIf="isFormSubmit && expiry.errors" class="error">
+              <span [hidden]="!expiry.errors.required">wef Date type mandatory</span>
+            </div> -->
       </div>
     </div>
     <div class="row" style="margin-top:4px">

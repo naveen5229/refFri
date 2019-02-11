@@ -37,6 +37,7 @@ export class DocumentationDetailsComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle;
+    // this.data=vehicle;
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: vehicle.id })
       .subscribe(res => {
@@ -107,7 +108,7 @@ export class DocumentationDetailsComponent implements OnInit {
     });
   }
   importVehicleDocument() {
-    this.common.params = { title: 'Bulk Import Document' };
+    this.common.params = { title: 'Bulk Import Document',vehicleId: this.selectedVehicle.id };
     const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 

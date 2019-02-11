@@ -35,8 +35,8 @@
         </div>
       </form>
 
-      <div class="row">
-        <div class="col-md-6 offset-md-1">
+      <div class="row" *ngIf="this.selectedVehicle">
+        <div class="col-md-06 offset-md-08" style="margin-top: -4%;margin-left: 82%;">
           <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
         </div>
       </div>
