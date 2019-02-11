@@ -48,14 +48,14 @@
         <thead class="thead">
           <tr>
             <th>Sr No</th>
-            <th>Vehicle No</th>
-            <th>Document Type</th>
-            <th>Agent Name </th>
-            <th>Issue Date </th>
-            <th>Wef Date </th>
-            <th>Expiry Date </th>
-            <th>Document Number </th>
-            <th>Remark </th>
+            <th><input type="text" placeholder="Vehicle No" class="dataSearch" (change)="doucumentFilter()"></th>
+            <th><input type="text" placeholder="Document Type" class="dataSearch"></th>
+            <th><input type="text" placeholder="Agent Name" class="dataSearch"></th>
+            <th><input type="datetime" placeholder="issue Date" class="dataSearch"></th>
+            <th><input type="datetime" placeholder="Wef Date" class="dataSearch"> </th>
+            <th><input type="datetime" placeholder="Expiry Date" class="dataSearch "></th>
+            <th><input type="text" placeholder="Document No" class="dataSearch"> </th>
+            <th><input type="text" placeholder="Remark" class="dataSearch"> </th>
             <th>Image</th>
             <td>Edit</td>
 
@@ -64,23 +64,18 @@
         <tbody>
           <tr *ngFor="let doc of data; let i = index">
             <th scope="row">{{i + 1}}</th>
-            <td>{{doc.regno}}</td>
+            <td >{{doc.regno}}</td>
             <td>{{doc.document_type}}</td>
             <td>{{doc.agent}}</td>
-            <td>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
-            <td style='min-width:80px;' [ngClass]="(doc.expiry_date > curr ) ? 'red' : 'pink'">{{doc.wef_date |
-              date:'dd-MM-yyyy' }}</td>
-            <td>{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>
+            <td style='min-width:80px;'>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
+            <td style='min-width:80px;'>{{doc.wef_date |  date:'dd-MM-yyyy' }}</td>
+           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate ?  'pink':'green') ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
             <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
             <td>
-              <!-- <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:16px;" (click)="imageView(doc)">
-                view</span> -->
                 <i class="icon ion-md-image" (click)="imageView(doc)"></i>
             </td>
             <td (click)="editData()"><i class="icon ion-md-create"></i>
-              <!-- <ion-icon name="create"></ion-icon> -->
-              <!-- <i class="far fa-edit"></i> -->
             </td>
 
           </tr>

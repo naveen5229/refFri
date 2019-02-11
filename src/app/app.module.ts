@@ -45,6 +45,8 @@ import { AccountsComponent } from './acounts-modals/accounts/accounts.component'
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
 
 
 @NgModule({
@@ -77,7 +79,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    EditDocumentComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -105,7 +108,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    EditDocumentComponent
 
   ],
   imports: [
@@ -120,6 +124,7 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    Ng2SmartTableModule
   ],
   bootstrap: [AppComponent],
   providers: [

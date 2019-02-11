@@ -12,5 +12,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/documents/documentation-details',
         home: true,
+    },
+    {
+        title: 'Smart Table',
+        icon: 'nb-home',
+        link: '/documents/smart-table',
+        home: true,
     }
 ];

@@ -7,6 +7,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
+import {EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { from } from 'rxjs';
 @Component({
   selector: 'documentation-details',
@@ -23,6 +24,7 @@ export class DocumentationDetailsComponent implements OnInit {
   };
     
   currentdate = new Date;
+  nextMthDate = null;
   curr = null;
   constructor(
     public api: ApiService,
@@ -44,19 +46,13 @@ export class DocumentationDetailsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-
-        if (!this.selectedVehicle.id) {
+   
           let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
           this.curr = this.common.dateFormatter(this.currentdate);
+          this.nextMthDate = this.common.getDate(30,'yyyy-mm-dd');
           console.log("expiry Date:", exp_date);
           console.log("current date", this.curr);
-          if (exp_date > this.curr) {
-            console.log("true");
-          }
-          else {
-            console.log("false");
-          }
-        }
+          console.log("next Month Date",this.nextMthDate);       
         
       }, err => {
         this.common.loading--;
@@ -64,9 +60,24 @@ export class DocumentationDetailsComponent implements OnInit {
       });
 
   }
-  doucumentFilter() {
-    console.log("hiii");
+  doucumentFilter(id) {
+ 
+   id=this.data;
+   console.log("id",id);
+    this.common.loading++;
+    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id:id })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.data = res['data'];
+         
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
+
+
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -113,8 +124,8 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   editData(){
-    this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle.id };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    this.common.params = { title: 'Update Document', vehicleId: this.selectedVehicle.id };
+    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getvehicleData(this.selectedVehicle);
