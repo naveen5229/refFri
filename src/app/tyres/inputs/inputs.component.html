@@ -5,82 +5,81 @@
 
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-2"><label class = "label1"><b>Customer Name </b> </label> </div>
-      <div class="col-sm-3">
-        <auto-suggestion (onSelected)="selectUser($event)" url="Suggestion/getFoUsersList" [display]="['name', 'mobileno']"
-          seperator="-" placeholder="Enter customer" [preSelected]="null"></auto-suggestion>
-        <div>
-        </div>
-        </div>
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-1"><label><b>Vehicle Type</b></label></div>
-      <div class="col-sm-3 " >
-        <select [(ngModel)] = "vehicleType" class="form-control" required (change)="resetVehDetails()">
+     
+     
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Vehicle Type</b></label></div>
+      <div class="col-sm-3 ">
+        <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
           <option value="truck">Truck</option>
           <option value="trolly">Trolly</option>
+          <option value="warehouse">Warehouse</option>
+
         </select>
       </div>
     </div>
-    <div class="row row-width" >
-        <div class="col-sm-1">  </div>
+    <div class="row row-width">
+      <div class="col-sm-1"> </div>
       <div class="col-sm-2"> <label class="label1"><b>Vehicle No. </b></label></div>
-      <div class="col-sm-3 " >
-          <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()" autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
-          <div>
-          <ul *ngIf = " (vehicleSuggestion)&&(vehicles.length >  0)" >
-              <li *ngFor="let vehicle of vehicles;" (click) = "selectVehicle(vehicle)" >
-                {{ vehicle.regno}} - {{vehicle.id}} 
-              </li>
-            </ul>
-          </div>
+      <div class="col-sm-3 ">
+        <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+        <div>
+          <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+            <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+              {{ vehicle.regno}} 
+            </li>
+          </ul>
         </div>
+      </div>
 
-      
-      <div class="col-sm-1">  </div>
+
+      <div class="col-sm-1"> </div>
       <div class="col-sm-1"><label><b>Tyre No.</b></label></div>
-      <div class="col-sm-3 " >
-          <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()" autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
-          <div>
-          <ul *ngIf = " (tyreSuggestion)&&(tyres.length >  0)" >
-              <li *ngFor="let tyre of tyres;" (click) = "selectTyres(tyre)" >
-                {{ tyre.tyrenum}} - {{tyre.id}} 
-              </li>
-            </ul>
-          </div>
+      <div class="col-sm-3 ">
+        <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
+        <div>
+          <ul *ngIf=" (tyreSuggestion)&&(tyres.length >  0)">
+            <li *ngFor="let tyre of tyres;" (click)="selectTyres(tyre)">
+              {{ tyre.tyrenum}} 
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
     <div class="row row-width">
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-2"><label class = "label1"><b>Details </b> </label> </div>
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Details </b> </label> </div>
       <div class="col-sm-3">
-         <input type="text" class="form-control" placeholder="Detils" name="details" [(ngModel)]="details">
-          </div>
-          <div class="col-sm-1">  </div>
-          <div class="col-sm-1"><label> <b>Date</b></label> </div>
-          <div class="col-sm-3">
-              <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
-              <owl-date-time #date ></owl-date-time>
-              <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+        <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
+      </div>
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-1"><label> <b>Date</b></label> </div>
+      <div class="col-sm-3">
+        <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
+          autocomplete="off" name="date">
+        <owl-date-time #date></owl-date-time>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
               [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
-            <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
-          </div>
-        </div>
+        <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
+      </div>
+    </div>
     <div class="row row-width">
-        <div class="col-sm-1">  </div>
+      <div class="col-sm-1"> </div>
       <div class="col-sm-2"><label class="label1" style="margin-top:30px"><b>Tyre Position</b></label></div>
 
       <div class="col-sm-2">
-          Front / Rear
-        <select [(ngModel)] = "position.frontRear" class="form-control" required>
-        <option value="1">Front</option>
-        <option value="2">Rear</option>
-        <option value="3">Extra</option>
-      </select>
+        Front / Rear
+        <select [(ngModel)]="position.frontRear" class="form-control" required>
+          <option value="1">Front</option>
+          <option value="2">Rear</option>
+          <option value="3">Extra</option>
+        </select>
       </div>
       <div class="col-sm-2">
         Axel
-          <select [(ngModel)] = "position.axel" class="form-control" required>
+        <select [(ngModel)]="position.axel" class="form-control" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -91,69 +90,69 @@
           <option value="8">8</option>
           <option value="9">9</option>
         </select>
-        </div>
-        <div class="col-sm-2">
-          Left / Right
-            <select [(ngModel)] = "position.leftRight" class="form-control" required>
-            <option value="1">Left</option>
-            <option value="2">Right</option>
-          </select>
-          </div>
-          <div class="col-sm-2">
-              Position
-              <select [(ngModel)] = "position.pos" class="form-control" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-            </select>
-            </div>
+      </div>
+      <div class="col-sm-2">
+        Left / Right
+        <select [(ngModel)]="position.leftRight" class="form-control" required>
+          <option value="1">Left</option>
+          <option value="2">Right</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        Position
+        <select [(ngModel)]="position.pos" class="form-control" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
+      </div>
     </div>
-   
+
     <div class="row row-width">
-        <div class="col-sm-1">  </div>
-        <div class="col-sm-2">  </div>
-      
-        <div class="col-sm-3" >
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"> </div>
+
+      <div class="col-sm-3">
         <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button>
         <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
-        </div>
-      
       </div>
-      
+
+    </div>
+
   </nb-card-body>
 </nb-card>
 
 <!-- table to display search data -->
 <nb-card>
-    <nb-card-body>
-      <table class="table table-bordered table-hover" *ngIf = "searchedTyreDetails">
-        <thead class="thead">
-          <tr>
-            <th># </th>
-            <th>Tyre No </th>
-            <th>Tyre Position </th>
-            <th>Date </th>
-            
-          </tr>
-  
-        </thead>
-        <tbody>
-          <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
-              <td >{{i+1}}</td>
-              <td >{{tyreDetail.tyrenum}}</td>
-              <td>{{tyreDetail.tyrepos}}</td>
-              <td>{{tyreDetail.dttime | date : 'dd-MMM-yyyy hh:mm a' }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="no-data" *ngIf="!searchedTyreDetails.length">
-          No Data available !
-      </div>
-    </nb-card-body>
-  </nb-card>
+  <nb-card-body>
+    <table class="table table-bordered table-hover" *ngIf="searchedTyreDetails">
+      <thead class="thead">
+        <tr>
+          <th># </th>
+          <th>Tyre No </th>
+          <th>Tyre Position </th>
+          <th>Date </th>
+
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{tyreDetail.tyrenum}}</td>
+          <td>{{tyreDetail.tyrepos}}</td>
+          <td>{{tyreDetail.dttime | date : 'dd-MMM-yyyy hh:mm a' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="no-data" *ngIf="!searchedTyreDetails.length">
+      No Data available !
+    </div>
+  </nb-card-body>
+</nb-card>

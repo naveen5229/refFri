@@ -27,7 +27,7 @@
             <td>{{i+1}}</td>
             <td>
               <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No" (input)="searchModels(inventory.searchModelString, i)"
-                autocomplete="off" class="form-control" [(ngModel)]="inventory.searchModelString">
+                autocomplete="off" class="form-control" [(ngModel)]="inventory.searchModelString" style="width : 175px">
               <div *ngIf="activeRow == i">
                 <ul *ngIf="(modelSuggestion) && (models.length >  0)">
                   <li *ngFor="let model of models;" (click)="selectModel(model,i)">
@@ -37,10 +37,10 @@
               </div>
             </td>
             <td><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.tyreNo">
+                [(ngModel)]="inventory.tyreNo"  style="width : 175px">
             </td>
             <td><input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
-                class="form-control" autocomplete="off" name="date">
+                class="form-control" autocomplete="off" name="date" style="width : 175px" >
               <owl-date-time #date></owl-date-time>
             </td>
             <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
@@ -76,7 +76,7 @@
       <div class="col-sm-2"> </div>
 
       <div class="col-sm-3">
-        <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
+        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
       </div>
       <div class="col-sm-5"></div>
 
@@ -96,7 +96,7 @@
           <th>Entry Date </th>
           <th>Enter By </th>
           <th>Date </th>
-          <th>Details</th>
+          <!-- <th>Details</th> -->
 
         </tr>
 
@@ -109,7 +109,7 @@
           <td>{{tyreDetail.entrydate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           <td>{{tyreDetail.entryby}}</td>
           <td>{{tyreDetail.date | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-          <td>{{tyreDetail.details}}</td>
+          <!-- <td>{{tyreDetail.details}}</td> -->
         </tr>
       </tbody>
     </table>

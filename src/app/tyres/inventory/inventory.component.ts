@@ -23,6 +23,32 @@ export class InventoryComponent implements OnInit {
     nsd2 : null,
     nsd3 : null,
     psi : null
+  },
+  {
+    modelName:null,
+    modelId: null,
+    modelBrand : null,
+    tyreNo : null,
+    date1  : this.common.dateFormatter(new Date()),
+    searchModelString : null,
+    is_health : true,
+    nsd1 : null,
+    nsd2 : null,
+    nsd3 : null,
+    psi : null
+  },
+  {
+    modelName:null,
+    modelId: null,
+    modelBrand : null,
+    tyreNo : null,
+    date1  : this.common.dateFormatter(new Date()),
+    searchModelString : null,
+    is_health : true,
+    nsd1 : null,
+    nsd2 : null,
+    nsd3 : null,
+    psi : null
   }];
 
   activeRow = -1;  
@@ -32,7 +58,9 @@ export class InventoryComponent implements OnInit {
   constructor( private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-  ) { }
+  ) {
+    this.searchData();
+   }
 
   ngOnInit() {
   }
@@ -68,20 +96,28 @@ export class InventoryComponent implements OnInit {
   }
  
   testFilledData(){
+    let alerts = false;
     for(let i=0;i<this.inventories.length;i++){
-      if((this.inventories[i].is_health==true)&&((this.inventories[i].nsd1) )){
-
+      this.inventories[i].date1 = this.common.dateFormatter(new Date(this.inventories[i].date1));
+      if((this.inventories[i].is_health==true)&&((!this.inventories[i].nsd1) || (!this.inventories[i].nsd2) || (!this.inventories[i].nsd3) || (!this.inventories[i].psi))){
+      alerts = true;
+      break;
       }
     }
-  }
+    if(alerts == true ){
+      alert("NSD-1 , NSD-2 , NSD-3 , PSI fields are mandatory is  Is_Health is Checked" );
+    }
+    else{
+      this.saveDetails();
+    }
+
+    }
+  
 
   saveDetails(){
     this.common.loading++;
-    let params =  this.inventories//JSON.stringify(this.inventories) ;
+    let params = { inventories: JSON.stringify(this.inventories)};//JSON.stringify(this.inventories) ;
     console.log('Params:', params);
-    let param = JSON.stringify(this.inventories) ;
-    console.log('Param:', param);
-
     this.api.post('Tyres/saveTyreMaster', params)
       .subscribe(res => {
         this.common.loading--;
@@ -102,7 +138,7 @@ export class InventoryComponent implements OnInit {
   searchData(){
       let params = this.inventories;
       console.log("params ",params)
-      this.api.get('Tyres/getTyreDetailsAccordingFO?' + params)
+      this.api.get('Tyres/getTyreDetailsAccordingFO?')
         .subscribe(res => {
           this.searchedTyreDetails = res['data'];
           console.log("searchedTyreDetails",this.searchedTyreDetails);

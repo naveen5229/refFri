@@ -26,6 +26,7 @@ export class ApiService {
   post(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
+      console.log("foAdminId",body);
     }
 
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })

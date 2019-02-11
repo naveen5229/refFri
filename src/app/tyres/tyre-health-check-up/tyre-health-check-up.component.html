@@ -5,14 +5,9 @@
 
   <nb-card-body>
     <div class="row">
-      <!-- <div class="col-sm-1"> </div> -->
-      <div class="col-sm-2"><label class="label1"><b>Customer Name </b> </label> </div>
-      <div class="col-sm-3">
-        <auto-suggestion (onSelected)="selectUser($event)" url="Suggestion/getFoUsersList" [display]="['name', 'mobileno']"
-        seperator="-" placeholder="Enter customer" [preSelected]="null"></auto-suggestion>
-      <div>
-      </div>
-      </div>
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Vehicle Type </b> </label> </div>
+      
       <div class="col-sm-2">
         <select [(ngModel)] = "vehicleType" class="form-control" required (change)="resetVehDetails()">
         <option value="truck">Truck</option>
@@ -26,7 +21,7 @@
         <div>
           <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
             <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
-              {{ vehicle.regno}} - {{vehicle.id}}
+              {{ vehicle.regno}}
             </li>
           </ul>
         </div>

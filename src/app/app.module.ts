@@ -44,6 +44,7 @@ import { AccountsComponent } from './acounts-modals/accounts/accounts.component'
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
+import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    VehicleSearchComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -102,7 +104,9 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    VehicleSearchComponent
+
 
   ],
   imports: [
