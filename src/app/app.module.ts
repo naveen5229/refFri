@@ -47,6 +47,7 @@ import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
+import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import {EditDocumentComponent} from './documents/documentation-modals/edit-docum
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
-    EditDocumentComponent
+    EditDocumentComponent,
+    ErrorReportComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -109,8 +111,8 @@ import {EditDocumentComponent} from './documents/documentation-modals/edit-docum
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
-    EditDocumentComponent
-
+    EditDocumentComponent,
+    ErrorReportComponent
   ],
   imports: [
     BrowserModule,

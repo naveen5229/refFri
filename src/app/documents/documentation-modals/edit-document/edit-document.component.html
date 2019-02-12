@@ -23,7 +23,7 @@
       </div>
       <div class="col-md-8">
         <!-- <input type="text" *ngIf="document.documentId" class="form-control" name="document-type" [(ngModel)]="document.documentType" > -->
-        <auto-suggestion id="autoSug" *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
+        <auto-suggestion  *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
           placeholder="Enter doctype" [data]="docTypes" [preSelected]="doctype"  class="documentType">
         </auto-suggestion>
         <div class="suggestions ng-star-inserted">
@@ -37,8 +37,8 @@
       </div>
       <div class="col-md-8">
 
-        <input id="issue-date" name="issue-date" type="datetime" placeholder="Enter the issue Date" autocomplete="off"
-          class="form-control" [value]="document.issueDate | date: 'dd MMM yyyy'" (click)="getDate('issue')">
+        <input id="issue-date"  name="issue-date" type="datetime" placeholder="Enter the issue Date" autocomplete="off"
+          class="form-control" [value]="document.issueDate | date: 'dd MMM yyyy'" (click)="getDate('issueDate')">
       </div>
     </div>
 
@@ -48,10 +48,8 @@
       </div>
       <div class="col-md-8">
         <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off" class="form-control"
-          [value]="document.wefDate | date: ' dd MMM yyyy'" (click)="getDate('wef')">
-        <!-- [(ngModel)]="document.dates.wef" #wefDate="ngModel"<div *ngIf="isFormSubmit && wefDate.errors" class="error">
-              <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
-            </div> -->
+          [value]="document.wefDate | date: ' dd MMM yyyy'" (click)="getDate('wefDate')">
+        
       </div>
     </div>
 
@@ -61,7 +59,7 @@
       </div>
       <div class="col-md-8">
         <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off"
-          required class="form-control" [value]="document.expiryDate | date: 'dd MMM yyyy'" (click)="getDate('expiry')">
+          required class="form-control" [value]="document.expiryDate | date: 'dd MMM yyyy'" (click)="getDate('expiryDate')">
         <!-- <div *ngIf="isFormSubmit && expiry.errors" class="error">
                     <span [hidden]="!expiry.errors.required">wef Date type mandatory</span>
                   </div> -->
@@ -89,7 +87,7 @@
       </div>
       <div class="col-md-8">
         <input id="document-id" name="document-id" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
-          [(ngModel)]="document.documentNumber" maxlength="25">
+          [(ngModel)]="document.documentNumber" [value]="document.documentNumber" maxlength="25">
       </div>
     </div>
 
@@ -98,7 +96,10 @@
         <label>Document Upload </label>
       </div>
       <div class="col-md-8 ">
-        <input type="file" name="myfile" [(ngModel)]="document.docUpload" id="filePicker" (change)="handleFileSelection($event)" />
+        <div *ngIf="document.docUpload">
+         <p (click)="UploadData()">view</p>
+        </div>
+        <input type="file" name="myfile" [(ngModel)]="document.docUpload" id="filePicker" (change)="handleFileSelection($event)" /> 
       </div>
     </div>
     <div class="row">

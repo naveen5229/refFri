@@ -4,7 +4,7 @@ import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { ErrorReportComponent } from '../error-report/error-report.component';
 @Component({
   selector: 'import-document',
   templateUrl: './import-document.component.html',
@@ -14,6 +14,7 @@ export class ImportDocumentComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
+  btn3 = '';
 
   upload = {
     csv: null,
@@ -27,6 +28,7 @@ export class ImportDocumentComponent implements OnInit {
   vehicleId = '';
   data = [];
   docTypes = [];
+  // errorData = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -36,9 +38,10 @@ export class ImportDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-    this.vehicleId =this.common.params.vehicleId;
+    this.btn3 = this.common.params.btn3 || 'Validate';
+    this.vehicleId = this.common.params.vehicleId;
     this.getDocumentsData();
-    
+
   }
 
   ngOnInit() {
@@ -55,7 +58,7 @@ export class ImportDocumentComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.docTypes = res['data'].document_types_info;
-        console.log("new doc type",this.docTypes);
+        console.log("new doc type", this.docTypes);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -68,10 +71,10 @@ export class ImportDocumentComponent implements OnInit {
 
   }
 
-  uploadCsv() {
+  uploadCsv(validate = null) {
     const params = {
       vehicleDocCsv: this.csv,
-      // foid:this.upload.foid
+      validate: validate
     };
     console.log("Data :", params);
     this.common.loading++;
@@ -79,11 +82,16 @@ export class ImportDocumentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
+        let errorData = res['data'];
+        this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
+        const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
         this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+
   }
 
 
