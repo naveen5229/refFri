@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  // id:5
   userDetails = {
     mobile: '',
     otp: ''
@@ -22,16 +22,44 @@ export class LoginComponent implements OnInit {
   otpCount = 0;
   formSubmit = false;
 
-
-
   constructor(public router: Router,
+    private route: ActivatedRoute,
     public common: CommonService,
     public user: UserService,
     public api: ApiService) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params.type && (params.type.toLowerCase() == 'admin' || params.type.toLowerCase() == 'partner')) {
+        this.user._loggedInBy = params.type.toLowerCase();
+      } else if (params.type) {
+        this.router.navigate(['/auth/login']);
+        return;
+      } else {
+        this.user._loggedInBy = 'customer';
+      }
+
+    });
   }
+
+  ngAfterViewInit() {
+    this.removeDummy();
+  }
+
+  removeDummy() {
+    let allTags = document.getElementsByTagName('nb-card-header');
+    document.getElementsByTagName('nb-layout-column')[0]['style']['padding'] = '0px';
+    allTags[0]['style'].display = 'none';
+    console.log('All Tags: ', allTags);
+    let nbCard = document.getElementsByTagName('nb-card')[0];
+    nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/app-login-bg.jpg')";
+    nbCard['style']['backgroundSize'] = 'cover';
+    nbCard['style']['backgroundRepeat'] = 'no-repeat';
+    nbCard['style']['backgroundPosition'] = 'bottom';
+    nbCard['style']['height'] = '100%';
+  }
+
 
   sendOTP() {
     const params = {
@@ -39,15 +67,20 @@ export class LoginComponent implements OnInit {
       mobileno: this.userDetails.mobile
     };
     ++this.common.loading;
+
     this.api.post('Login/login', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res);
-        this.listenOTP = true;
-        this.otpCount = 30;
-        this.otpResendActive();
-        this.formSubmit = false;
-        this.common.showToast(res['msg']);
+        if (res['success']) {
+          this.listenOTP = true;
+          this.otpCount = 30;
+          this.otpResendActive();
+          this.formSubmit = false;
+          this.common.showToast(res['msg']);
+        } else {
+          this.common.showError(res['msg']);
+        }
       }, err => {
         --this.common.loading;
         this.common.showError();
@@ -72,11 +105,22 @@ export class LoginComponent implements OnInit {
         console.log(res);
         this.common.showToast(res['msg']);
         if (res['success']) {
-          localStorage.setItem('CUSTOMER_TOKEN',  res['data'][0]['authkey']);
-          localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(res['data'][0]));
+          localStorage.setItem('USER_TOKEN', res['data'][0]['authkey']);
+          localStorage.setItem('USER_DETAILS', JSON.stringify(res['data'][0]));
+
           this.user._details = res['data'][0];
           this.user._token = res['data'][0]['authkey'];
-          this.router.navigate(['/pages']);
+
+          console.log('Login Type: ', this.user._loggedInBy);
+          localStorage.setItem('LOGGED_IN_BY', this.user._loggedInBy);
+
+          if (this.user._loggedInBy == 'admin') {
+            this.router.navigate(['/admin']);
+          } else if (this.user._loggedInBy == 'partner') {
+            this.router.navigate(['/partner']);
+          } else {
+            this.router.navigate(['/pages']);
+          }
         }
       }, err => {
         --this.common.loading;

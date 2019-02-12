@@ -12,8 +12,8 @@
     </nb-card-header>
     <nb-card-body>
       <div>
-        <table class="table table-bordered table-hover">
-          <thead class="thead-dark">
+        <table class="table table-bordered table-hover" [@routerTransition]>
+          <thead class="thead">
             <tr>
               <th>#</th>
               <th>Vehicle No</th>
@@ -31,10 +31,12 @@
               <td>{{expense.statusName}}</td>
               <td *ngIf="viewType == 'allLR'">{{expense.name}}</td>
               <td><span style="text-decoration:underline; color: blue;cursor: pointer;" (click)="getImage(expense)">view</span></td>
-              <td>{{expense.addtime | date : 'dd MMM HH:mm'}}</td>
+              <td>{{expense.addtime | date : 'dd MMM HH:mm a'}}</td>
             </tr>
         </table>
-  
+        <div class="no-data" *ngIf="expenses.length==0">
+          No Data available !
+      </div>
       </div>
   
     </nb-card-body>

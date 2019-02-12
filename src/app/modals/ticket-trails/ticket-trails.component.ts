@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'ticket-trails',
   templateUrl: './ticket-trails.component.html',
-  styleUrls: ['./ticket-trails.component.scss']
+  styleUrls: ['./ticket-trails.component.scss','../../pages/pages.component.css']
 })
 export class TicketTrailsComponent implements OnInit {
   title = '';

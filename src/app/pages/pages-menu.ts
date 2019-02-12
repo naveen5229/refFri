@@ -9,32 +9,42 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Vehicle KPIs',
-    icon: 'nb-home',
+    icon: 'nb-tables',
     link: '/pages/vehicle-kpis',
   },
   {
     title: 'Tickets',
-    icon: 'nb-home',
+    icon: 'nb-notifications',
     link: '/pages/tickets',
   },
   {
     title: 'Tickets All',
-    icon: 'nb-home',
+    icon: 'nb-title',
     link: '/pages/tickets-all',
   },
   {
     title: 'Lorry Receipts',
-    icon: 'nb-home',
+    icon: 'nb-list',
     link: '/pages/lorry-receipts',
   },
   {
     title: 'Expenses',
-    icon: 'nb-home',
+    icon: 'fa fa-book',
     link: '/pages/expenses',
   },
+  // {
+  //   title: 'Concise View',
+  //   icon: 'nb-bar-chart',
+  //   link: '/pages/concise',
+  // },
   {
-    title: 'Concise View',
-    icon: 'nb-home',
-    link: '/pages/concise',
-  },
+    title: 'Fuel Average Analysis',
+    icon: 'fa fa-signal',
+    link: '/pages/fuel-average-analysis',
+  },  
+  {
+    title: 'Vehicle Trip',
+    icon: 'fa fa-truck',
+    link: '/pages/vehicle-trip',
+  }, 
 ];

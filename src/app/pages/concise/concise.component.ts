@@ -8,7 +8,7 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { from } from 'rxjs';
 import { NbThemeService } from '@nebular/theme';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-
+import { slideToLeft, slideToUp } from '../../services/animation';
 import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
@@ -17,7 +17,8 @@ import { log } from 'util';
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
-  styleUrls: ['./concise.component.scss']
+  styleUrls: ['./concise.component.scss', '../pages.component.css'],
+  animations: [slideToLeft(), slideToUp()],
 })
 export class ConciseComponent implements OnInit {
 
@@ -27,31 +28,33 @@ export class ConciseComponent implements OnInit {
   filters = [];
   viewType = 'showprim_status';
   viewName = "Primary Status";
-  data: any;
-  options: any;
-  themeSubscription: any;
 
-  statusGroup = null;
-  groupList = [];
-  color = [];
+  kpiGroups = null;
+  kpiGroupsKeys = [];
+  keyGroups = [];
+
+  chartData = null;
+  chartOptions = null;
+
+  chartColors = [];
   textColor = [];
   viewIndex = 0;
   viewOtions = [
     {
-      name : "Primary Status" ,
-      key : "showprim_status"
+      name: "Primary Status",
+      key: "showprim_status"
     },
     {
-      name : "Secondry Status" ,
-      key : "showsec_status"
+      name: "Secondry Status",
+      key: "showsec_status"
     },
     {
-      name : "Trip Start" ,
-      key : "x_showtripstart"
+      name: "Trip Start",
+      key: "x_showtripstart"
     },
     {
-      name : "Trip End" ,
-      key : "x_showtripend"
+      name: "Trip End",
+      key: "x_showtripend"
     },
   ]
 
@@ -59,9 +62,9 @@ export class ConciseComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private theme: NbThemeService,
     private modalService: NgbModal) {
     this.getKPIS();
+
   }
 
   ngOnInit() {
@@ -86,34 +89,55 @@ export class ConciseComponent implements OnInit {
     this.grouping(this.viewType);
   }
 
+  // grouping(viewType) {
+  //   console.log('All ', this.allKpis);
+  //   this.kpis = this.allKpis;
+  //   this.statusGroup = _.groupBy(this.allKpis, viewType);
+  //   this.groupList = Object.keys(this.statusGroup);
+  //   let chartLabels = [];
+  //   let chartDatas = [];
+  //   let clr;
+  //   let tclr;
+
+  //   console.log(this.statusGroup);
+
+  //   for (var k in this.statusGroup) {
+  //     if (typeof this.statusGroup[k] !== 'function') {
+  //       let k1 = k + " : " + this.statusGroup[k].length
+  //       chartLabels.push(k1);
+  //       chartDatas.push(this.statusGroup[k].length);
+  //       let hue = Math.floor((Math.random() * 359) + 1);
+  //       let saturation = '100%';
+  //       let textLightness = '25%';
+  //       let lightness = '75%';
+  //       clr = `hsl(${hue}, ${saturation}, ${lightness})`
+  //       this.chartsColors.push(clr);
+  //       tclr = `hsl(${hue}, ${saturation}, ${textLightness})`
+  //       this.textColor.push(tclr);
+  //     }
+  //   }
+
+  //   this.common.pieChart(chartLabels, chartDatas, this.chartsColors);
+  // }
+
   grouping(viewType) {
     console.log('All ', this.allKpis);
     this.kpis = this.allKpis;
-    this.statusGroup = _.groupBy(this.allKpis, viewType);
-    this.groupList = Object.keys(this.statusGroup);
-    let label = [];
-    let data = [];
-    let clr;
-    let tclr;
+    this.kpiGroups = _.groupBy(this.allKpis, viewType);
+    this.kpiGroupsKeys = Object.keys(this.kpiGroups);
 
-    console.log(this.statusGroup);
-    for (var k in this.statusGroup) {
-      if (typeof this.statusGroup[k] !== 'function') {
-        let k1 = k + " : " + this.statusGroup[k].length
-        label.push(k1);
-        data.push(this.statusGroup[k].length);
-        let hue = Math.floor((Math.random() * 359) + 1);
-        let saturation = '100%';
-        let textLightness = '25%';
-        let lightness = '75%';
-        clr = `hsl(${hue}, ${saturation}, ${lightness})`
-        this.color.push(clr);
-        tclr = `hsl(${hue}, ${saturation}, ${textLightness})`
-        this.textColor.push(tclr);
-      }
-    }
+    this.keyGroups = [];
 
-    this.pieChart(label, data, this.color);
+    this.kpiGroupsKeys.map(key => {
+      const hue = Math.floor((Math.random() * 359) + 1);
+      this.keyGroups.push({
+        name: key,
+        bgColor: `hsl(${hue}, 100%, 75%)`,
+        textColor: `hsl(${hue}, 100%, 25%)`
+      });
+    });
+
+    this.sortData();
   }
 
 
@@ -153,61 +177,11 @@ export class ConciseComponent implements OnInit {
 
   }
 
-
   showDetails(kpi) {
     this.common.params = { kpi };
     const activeModal = this.modalService.open(KpisDetailsComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'kpisDetails';
 
-  }
-
-  pieChart(label, data, color) {
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-      const colors: any = config.variables;
-      const chartjs: any = config.variables.chartjs;
-      this.data = {
-       // labels: label,
-        datasets: [{
-          data: data,
-          backgroundColor: color
-        }],
-      };
-
-      this.options = {
-        maintainAspectRatio: false,
-        responsive: true,
-        scales: {
-          xAxes: [
-            {
-              display: false,
-            },
-          ],
-          yAxes: [
-            {
-              display: false,
-            },
-          ],
-        },
-        legend: {
-          labels: {
-            fontColor: chartjs.textColor,
-          },
-        },
-      };
-    });
-
-    setTimeout(() => {
-    console.log(document.getElementsByTagName('canvas')[0]);
-
-      document.getElementsByTagName('canvas')[0].style.width = "100px";
-      document.getElementsByTagName('canvas')[0].style.height = "220px";
-//document.getElementsByTagName('canvas')[0].style = "40px";
-
-    }, 10);
-  }
-
-  ngOnDestroy(): void {
-    this.themeSubscription.unsubscribe();
   }
 
   filterData(filterKey) {
@@ -252,26 +226,55 @@ export class ConciseComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  changeOptions(type){
-    console.log("type",type);
-    console.log("viewindex",this.viewIndex);
-    if(type==="forward"){
+  changeOptions(type) {
+    console.log("type", type);
+    console.log("viewindex", this.viewIndex);
+    if (type === "forward") {
       ++this.viewIndex;
-      if(this.viewIndex>this.viewOtions.length-1){
+      if (this.viewIndex > this.viewOtions.length - 1) {
         this.viewIndex = 0;
       }
-    }else{
+    } else {
       --this.viewIndex;
-      if(this.viewIndex<0){
-        this.viewIndex = this.viewOtions.length-1;
+      if (this.viewIndex < 0) {
+        this.viewIndex = this.viewOtions.length - 1;
       }
     }
     this.viewType = this.viewOtions[this.viewIndex].key;
     this.viewName = this.viewOtions[this.viewIndex].name;
     this.grouping(this.viewType);
   }
-  
+
+  sortData() {
+    let data = [];
+    this.keyGroups.map(group => {
+      data.push({ group: group, length: this.kpiGroups[group.name].length });
+    });
+
+    console.log(_.sortBy(data, ['length']).reverse());
+    this.kpiGroupsKeys = [];
+    _.sortBy(data, ['length']).reverse().map(keyData => {
+      this.kpiGroupsKeys.push(keyData.group);
+    });
+
+    this.chartColors = [];
+
+    let chartLabels = [];
+    let chartData = [];
+
+    this.kpiGroupsKeys.map(keyGroup => {
+      this.chartColors.push(keyGroup.bgColor);
+      chartLabels.push(keyGroup.name + ' : ' + this.kpiGroups[keyGroup.name].length);
+      chartData.push(this.kpiGroups[keyGroup.name].length);
+    });
+
+    console.log(this.chartColors, this.kpiGroupsKeys);
+    let chartInfo = this.common.pieChart(chartLabels, chartData, this.chartColors);
+    this.chartData = chartInfo.chartData;
+    this.chartOptions = chartInfo.chartOptions;
+
+
+  }
+
 }
-
-
 

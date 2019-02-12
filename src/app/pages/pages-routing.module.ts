@@ -11,53 +11,66 @@ import { ConciseComponent } from './concise/concise.component';
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.component';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
+import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
+import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  children: [
-    {
-      path: 'dashboard',
-      component: DashboardComponent,
-    },
-    {
-      path: 'vehicle-kpis',
-      component: VehicleKpisComponent,
-    },
-    {
-      path: '',
-      redirectTo: 'dashboard',
-      pathMatch: 'full',
-    },
-    {
-      path: 'tickets',
-      component: TicketsComponent,
-    },
-    {
-      path: 'tickets-all',
-      component: TicketsAllComponent,
-    },
-    {
-      path: 'lorry-receipts',
-      component: LorryRecciptsComponent,
-    },
-    {
-      path: 'expenses',
-      component: ExpensesComponent,
-    },
-    {
-      path:'concise',
-      component: ConciseComponent,
-    },
-    {
-      path: 'ticket-site-details',
-      component: TicketSiteDetailsComponent
-    },
-    {
-      path: 'ticket-details',
-      component: TicketDetailsComponent
-    }
+  children: [{
+    path: '',
+    component: ConciseComponent
+  },
+  {
+    path: 'dashboard',
+    component: ConciseComponent,
+  },
+  {
+    path: 'vehicle-kpis',
+    component: VehicleKpisComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'tickets',
+    component: TicketsComponent,
+  },
+  {
+    path: 'tickets-all',
+    component: TicketsAllComponent,
+  },
+  {
+    path: 'lorry-receipts',
+    component: LorryRecciptsComponent,
+  },
+  {
+    path: 'expenses',
+    component: ExpensesComponent,
+  },
+  {
+    path: 'concise',
+    component: ConciseComponent,
+  },
+  {
+    path: 'ticket-site-details',
+    component: TicketSiteDetailsComponent
+  },
+  {
+    path: 'ticket-details',
+    component: TicketDetailsComponent
+  },
+  {
+    path: 'fuel-average-analysis',
+    component: FuelAverageAnalysisComponent
+  },
+  {
+    path: 'vehicle-trip',
+    component: VehicleTripComponent
+  }
   ],
 }];
 

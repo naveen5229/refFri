@@ -7,7 +7,7 @@
         <nb-tabset>
             <nb-tab tabTitle="New">
                 <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead">
                         <tr>
                             <th>#</th>
                             <th>Vehicle No</th>
@@ -26,17 +26,19 @@
                             <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
                             <td>
                                 <span class="text-primary accept" (click)="updateNotificationStatus(ticket.ticket_id, 2, ticket.msg, ticket.fo_ticket_allocation_id)">Accept</span>
-            
+
                                 <span class="text-danger deny" (click)="updateNotificationStatus(ticket.ticket_id, -2, ticket.msg, ticket.fo_ticket_allocation_id)">Deny</span>
                             </td>
                         </tr>
                 </table>
-
+                <div class="no-data" *ngIf="status == 0 && !newTickets.length && showMsg">
+                    No Data available !
+                </div>
             </nb-tab>
 
             <nb-tab tabTitle="Open">
                 <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead">
                         <tr>
                             <th>#</th>
                             <th>Vehicle No</th>
@@ -54,11 +56,14 @@
                             <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
                         </tr>
                 </table>
+                <div class="no-data" *ngIf="status == 0 && !openTickets.length && showMsg">
+                    No Data available !
+                </div>
             </nb-tab>
 
             <nb-tab tabTitle="Claim">
                 <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead">
                         <tr>
                             <th>#</th>
                             <th>Vehicle No</th>
@@ -82,6 +87,9 @@
                             </td>
                         </tr>
                 </table>
+                <div class="no-data" *ngIf="status == 0 && !tickets.length && showMsg">
+                    No Data available !
+                </div>
             </nb-tab>
         </nb-tabset>
     </nb-card-body>

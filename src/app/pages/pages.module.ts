@@ -18,7 +18,15 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
 import { TicketSiteDetailsComponent } from './ticket-site-details/ticket-site-details.component';
 import { TicketActionsComponent } from './ticket-actions/ticket-actions.component';
 import { RemarkModalComponent } from '../modals/remark-modal/remark-modal.component';
+import { DatePickerComponent } from '../modals/date-picker/date-picker.component';
+
 import { from } from 'rxjs';
+import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
+import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
+import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
+import { DirectiveModule } from '../directives/directives.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -31,8 +39,10 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     MiscellaneousModule,
-    ChartModule
-
+    ChartModule,
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -46,7 +56,10 @@ const PAGES_COMPONENTS = [
     TicketDetailsComponent,
     TicketSiteDetailsComponent,
     TicketActionsComponent,
-    ConciseComponent
+    ConciseComponent,
+    FuelAverageAnalysisComponent,
+    VehicleTripComponent,
+    // AutoSuggestionComponent
   ],
 })
 export class PagesModule {

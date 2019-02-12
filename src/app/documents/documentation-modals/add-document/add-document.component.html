@@ -1,0 +1,148 @@
+<!-- <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
+  </head>
+  
+   -->
+
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #documentForm="ngForm" id="document-form" name="document-form" (submit)="documentForm.valid && addDocument()">
+
+    <div class="row" *ngIf="vehicle">
+      <div class="col-md-4">
+        <label> Vehicle Number </label>
+      </div>
+      <div class="col-md-8">
+        <input id="vehicle-regno" name="vehicle-regno" type="text" class="form-control" [(ngModel)]="vehicle.regno"
+          readonly>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <label>Document Type <span class="mandatory">*</span></label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control document_type" [(ngModel)]="document.type.id" list="document_type_id"
+          name="docid" #documentType="ngModel">
+        <datalist id="document_type_id" >
+          <option *ngFor="let docType of docTypes;"   name="docid" [value]="docType.id" [hidden]="docType.id"
+            class="form-control" >{{docType.document_type}}
+          </option>
+        </datalist>
+        <div *ngIf="isFormSubmit && documentType.errors" class="error">
+          <span [hidden]="!documentType.errors.required">Document type is mandatory</span>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Issue Date</label>
+      </div>
+      <div class="col-md-8">
+        <input id="issue-date" name="issue-date" type="datetime" placeholder="Enter the issue Date" autocomplete="off"
+          class="form-control" [value]="document.dates.issue | date: 'dd MMM yyyy'" (click)="getDate('issue')">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Wef Date<span class="mandatory">*</span></label>
+      </div>
+      <div class="col-md-8">
+        <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off"
+          [(ngModel)]="document.dates.wef" #wefDate="ngModel" required class="form-control" [value]="document.dates.wef | date: 'MMM dd yyyy'"
+          (click)="getDate('wef')">
+        <div *ngIf="isFormSubmit && wefDate.errors" class="error">
+          <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Expiry Date</label>
+      </div>
+      <div class="col-md-8">
+        <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off"
+          required class="form-control" [value]="document.dates.expiry | date: 'dd MMM yyyy'" (click)="getDate('expiry')">
+      </div>
+    </div>
+    <div class="row" style="margin-top:4px">
+      <div class="col-md-2">
+        <label>Agent</label>
+      </div>
+      <div class="col-md-5 offset-md-2">
+        <select [(ngModel)]="document.agent.id" name="agent" class="form-control agent">
+          <option *ngFor="let agent of agents;" [value]="agent.id" class="form-control">{{agent.name}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-5 offset-md-8" style="margin-top: -10%;">
+        <button class="btn btn-default" type="button" (click)="addAgent()">Add Agent</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 ">
+        <label>Document Number</label>
+      </div>
+      <div class="col-md-8">
+        <input id="document-id" name="document-id" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
+          [(ngModel)]="document.number" maxlength="25">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Document Upload </label>
+      </div>
+      <div class="col-md-8 ">
+        <input type="file" name="myfile" [(ngModel)]="document.image" id="filePicker" (change)="handleFileSelection($event)" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Amount </label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" name="amount" class="form-control" [(ngModel)]="document.amount" placeholder="Enter Amount">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>RTO </label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" name="rto" class="form-control" [(ngModel)]="document.rto" placeholder="Enter Rto">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Remark </label>
+      </div>
+      <div class="col-md-8">
+        <textarea name="remark" class="form-control" [(ngModel)]="document.remark" placeholder="remark"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true" id="submit"
+        style="cursor: pointer;">{{btn1}}</button>
+    </div>
+  </div>
+</div>

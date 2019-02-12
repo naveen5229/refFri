@@ -8,34 +8,38 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 @Component({
   selector: 'lorry-reccipts',
   templateUrl: './lorry-reccipts.component.html',
-  styleUrls: ['./lorry-reccipts.component.scss']
+  styleUrls: ['./lorry-reccipts.component.scss','../pages.component.css']
 })
 export class LorryRecciptsComponent implements OnInit {
   receipts = [];
   viewImages = null;
   activeImage = 'lr_image';
   viewType = 'allLR';
+  // showMsg = false;
   constructor(
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.getLorryReceipts();
+
 
   }
 
   ngOnInit() {
-    this.getLorryReceipts();
   }
 
 
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
+    
     ++this.common.loading;
     this.api.post('FoDetails/getLorryStatus', { type: this.viewType })
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res);
         this.receipts = res['data'];
+        // console.log("Receipt",this.receipts);
       }, err => {
         --this.common.loading;
 

@@ -1,0 +1,75 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Vehicle Trolly Mapping</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Customer Name </b> </label> </div>
+      <div class="col-sm-3">
+        <auto-suggestion (onSelected)="selectUser($event)" url="Suggestion/getFoUsersList" [display]="['name', 'mobileno']"
+          seperator="-" placeholder="Enter customer" [preSelected]="null"></auto-suggestion>
+        <div>
+        </div>
+      </div>
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-1"><label><b>Vehicle No.</b></label></div>
+      <div class="col-sm-3 ">
+        <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+        <div>
+          <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+            <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+              {{ vehicle.regno}} - {{vehicle.id}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row row-width">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2"><label class="label1"><b>Trolly No.</b> </label> </div>
+      <div class="col-sm-3">
+        <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" (input)="searchTrolleys()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchTrolleyString">
+        <div>
+          <ul *ngIf=" (trolleySuggestion)&&(trolleys.length >  0)">
+            <li *ngFor="let trolley of trolleys;" (click)="selectTrolleys(trolley)">
+              {{ trolley.regno}} - {{trolley.id}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+     
+    <div class="col-sm-1"></div>
+    <div class="col-sm-1"><label><b>Date</b></label></div>
+      <div class="col-sm-3">
+          <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date ></owl-date-time>
+        <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+        [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
+      <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
+    </div>
+     
+    
+    </div>
+
+    <div class="row row-width">
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Details</b></label></div>
+    <div class="col-sm-3 ">
+      <input id="details" name="details" type="text" placeholder=" details" autocomplete="off" class="form-control"
+        [(ngModel)]="details">
+    </div>
+    </div>
+    <div class="row row-width">
+      <div class="col-sm-3"> </div>
+    <div class="col-sm-1">
+      <button class="btn btn-primary" type="button" outline (click)="saveMappingDetails()" id="reminder" style="cursor: pointer;">Map</button>
+    </div>
+    </div>
+  </nb-card-body>
+</nb-card>
