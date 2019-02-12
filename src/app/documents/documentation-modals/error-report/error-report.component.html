@@ -23,7 +23,9 @@
     <tbody>
       <tr *ngFor="let error of errors;">
             <th >{{error.Sno}}</th>
-            <th>{{error.Regno}}</th>
+  <!-- <td style='min-width:80px;' [ngClass]=" error.reason == reason ? 'red': 'green'">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>        -->
+
+            <th [ngClass]=" error.Reason == reason ? 'red': 'green' ">{{error.Regno}}</th>
             <th>{{error.Reason}}</th>
             <th>{{error.RajasthanPermit}}</th>
             <th>{{error.NP}}</th>
