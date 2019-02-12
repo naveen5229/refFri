@@ -48,7 +48,7 @@
         <thead class="thead">
           <tr>
             <th>Sr No</th>
-            <th><input type="text" placeholder="Vehicle No" class="dataSearch" (change)="doucumentFilter()"></th>
+            <th>Vehicle Number</th>
             <th><input type="text" placeholder="Document Type" class="dataSearch"></th>
             <th><input type="text" placeholder="Agent Name" class="dataSearch"></th>
             <th><input type="datetime" placeholder="issue Date" class="dataSearch"></th>
@@ -75,7 +75,7 @@
             <td>
                 <i class="icon ion-md-image" (click)="imageView(doc)"></i>
             </td>
-            <td (click)="editData()"><i class="icon ion-md-create"></i>
+            <td (click)="editData(doc)"><i class="icon ion-md-create"></i>
             </td>
 
           </tr>

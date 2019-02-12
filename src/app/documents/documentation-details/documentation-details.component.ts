@@ -123,8 +123,28 @@ export class DocumentationDetailsComponent implements OnInit {
     const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 
-  editData(){
-    this.common.params = { title: 'Update Document', vehicleId: this.selectedVehicle.id };
+  editData(doc){
+     console.log("Doc data",doc);
+    let documentData = [{
+      regNumber: doc.regno,
+      id : doc.id,
+      vehicleId : doc.vehicle_id,
+      documentType:doc.document_type,
+      documentId : doc.document_type_id,
+      issueDate :doc.issue_date,
+      wefDate : doc.wef_date,
+      expiryDate : doc.expiry_date,
+      agentId : doc.document_agent_id,
+      agentName : doc.agent,
+      documentNumber : doc.document_number,
+      docUpload : doc.img_url,
+      remark : doc.remarks,
+      rto : doc.rto,
+      amount : '',
+    }];
+  //  console.log("doc data", documentData);
+
+    this.common.params = {documentData, title: 'Update Document',vehicleId: this.selectedVehicle.id};
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
