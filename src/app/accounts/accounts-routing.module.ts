@@ -54,7 +54,7 @@ const routes: Routes = [{
             component: VouchersComponent
         },
         {
-            path: 'vouchers/:id',
+            path: 'vouchers/:id/:name',
             component: VouchersComponent
         }
     ]

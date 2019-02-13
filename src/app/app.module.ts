@@ -45,6 +45,8 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
+import { OrderComponent } from './acounts-modals/order/order.component';
+import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
 
 
 @NgModule({
@@ -78,6 +80,8 @@ import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.c
     BranchComponent,
     VoucherComponent,
     VehicleSearchComponent
+    OrderComponent,
+    TaxdetailComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -105,9 +109,9 @@ import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.c
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
-    VehicleSearchComponent
-
-
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent
   ],
   imports: [
     BrowserModule,

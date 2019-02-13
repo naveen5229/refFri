@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Add Voucher</h4>
+  <h4 class="modal-title" id="modal-basic-title">Add Voucher ({{voucherName}})</h4>
   <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -23,7 +23,7 @@
     </div -->
     <div class="col">
       <div class="form-group">
-        <label>Code</label>
+        <label>Ref</label>
         <input type="text" class="form-control" name="account-name" [(ngModel)]="voucher.code">
       </div>
     </div>
@@ -38,8 +38,44 @@
 
   </div>
 <div class="row"></div>
+<div class="row">
+<table style="width: 789px;">
+  <tr style="background: #e8f0f3;">
+    <th >Transaction </th>
+    <th>Ledger</th>
+    <th>Debit Amount</th>
+    <th>Credit Amount</th>&nbsp;
+    <th>&nbsp;</th>
+  </tr>
+  <tr *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
+<td>
+    <select class="form-control transaction" (change)="amountDetail.amount.debit = 0; amountDetail.amount.credit = 0;" [name]="'transaction-type-' + i" [(ngModel)]="amountDetail.transactionType">
+        <option value="debit">Debit</option>
+        <option value="credit">Credit</option>
+      </select>
+</td>
+<td>
+    <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id" [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"  display="y_ledger_name"
+    placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+</td>
+<td>
+    <input type="number" class="form-control" [name]="'debit-amount-' + i" [(ngModel)]="amountDetail.amount.debit" [readonly]="amountDetail.transactionType == 'credit'"  >
+</td>
+<td>
+    <input type="number" class="form-control" [name]="'credit-amount-' + i" [(ngModel)]="amountDetail.amount.credit" [readonly]="amountDetail.transactionType == 'debit'" >
+     
+</td>
+<td *ngIf="i == 0"  >
+    <i class="fa fa-plus text-primary" (click)="addAmountDetails()" style="font-size: 40px;"></i>
+</td>
+  <td *ngIf="i !== 0"> 
+    <i class="fa fa-trash text-primary" (click)="voucher.amountDetails.splice(i,1)"></i>
+  </td>
+</tr>
+</table>
+</div>
   <!-- Amount Details -->
-  <div class="row" *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
+  <!--div class="row" *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
     <div class="col-3">
       <div class="form-group">
         <label>Transaction Type</label>
@@ -53,7 +89,7 @@
     <div class="col-3">
       <div class="form-group">
         <label>Ledger</label>
-        <auto-suggestion (onSelected)="amountDetail.ledger = $event.id" [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"  display="y_name"
+        <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id" [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"  display="y_ledger_name"
           placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
@@ -75,7 +111,7 @@
     <div class="col-1" *ngIf="i !== 0">
       <i class="fa fa-trash text-primary" (click)="voucher.amountDetails.splice(i,1)"></i>
     </div>
-  </div>
+  </div-->
   <!-- End Amount Details -->
   <div class="row">
       <div class="col-6">
