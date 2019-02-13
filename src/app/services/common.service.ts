@@ -146,6 +146,10 @@ export class CommonService {
     return this.datePipe.transform(date, 'dd-MMM-yyyy hh:mm a')
   }
 
+  changeDateformat1(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, 'dd-MMM-yyyy')
+  }
 
   timeFormatter(date) {
     let d = new Date(date);
@@ -253,5 +257,14 @@ export class CommonService {
       reader.onload = () => resolve(reader.result);
       reader.onerror = error => reject(error);
     });
+  }
+
+  handleModalSize(type, name, size, position = 0) {
+    setTimeout(() => {
+      if (type == 'class') {
+        document.getElementsByClassName(name)[position]['style'].maxWidth = size + 'px';
+      }
+    }, 100);
+
   }
 }

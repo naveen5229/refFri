@@ -66,6 +66,10 @@ export class StockTypeComponent implements OnInit {
   }
 
 
- 
+  onSelected(selectedData, type, display) {
+    this.stockType[type].name = selectedData[display];
+    this.stockType  [type].id = selectedData.id;
+    //console.log('Stock Unit: ', this.stockItem);
+  }
 
 }

@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class VouchersComponent implements OnInit {
   Vouchers = [];
   voucherId = '';
+  voucherName = '';
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -24,6 +25,7 @@ export class VouchersComponent implements OnInit {
       console.log('Params1: ', params);
       if (params.id) {
         this.voucherId = params.id;
+        this.voucherName = params.name;
         this.getVouchers();
       }
     });
@@ -55,7 +57,7 @@ export class VouchersComponent implements OnInit {
 
   openVoucherModal(voucher?) {
     // console.log('voucher 0: ', voucher);
-    this.common.params = { voucher, voucherId: this.voucherId };
+    this.common.params = { voucher, voucherId: this.voucherId, voucherName: this.voucherName };
     const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

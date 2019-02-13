@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="table">
+  <table class="table table-bordered table-hover">
+    <thead class="thead">
+      <tr>
+        <th>Sr No</th>
+        <th>Vehicle Number</th>
+        <th>Reason</th>
+        
+        <th>Rajasthan Permit</th>
+        <th>N P</th>
+        <th>Tax</th>
+        <th>Insurance</th>
+        <th>Puc</th>
+        <th>Fitness</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let error of errors;">
+            <th >{{error.Sno}}</th>
+  <!-- <td style='min-width:80px;' [ngClass]=" error.reason == reason ? 'red': 'green'">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>        -->
+
+            <th [ngClass]=" error.Reason == reason ? 'red': 'green' ">{{error.Regno}}</th>
+            <th>{{error.Reason}}</th>
+            <th>{{error.RajasthanPermit}}</th>
+            <th>{{error.NP}}</th>
+            <th>{{error.Tax}}</th>
+            <th>{{error.Insurance}}</th>
+            <th>{{error.Puc}}</th>
+            <th>{{error.Fitness}}</th>
+
+          </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn}}</button>
+    </div>
+  </div>
+</div>
