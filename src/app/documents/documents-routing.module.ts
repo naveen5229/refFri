@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { DocumentsComponent } from './documents.components';
 import { DashboardComponent } from './dashboard/dashboard.component';
  import { DocumentationDetailsComponent} from './documentation-details/documentation-details.component';
+ import { SmartTableComponent } from './smart-table/smart-table.component';
 
 const routes: Routes = [{
     path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [{
         {
             path: 'documentation-details',
             component: DocumentationDetailsComponent,
+        },
+        {
+            path: 'smart-table',
+            component: SmartTableComponent,
         },
     ],
 }];

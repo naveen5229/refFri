@@ -4,11 +4,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentsRoutingModule } from './documents-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { Ng2SmartTableModule} from 'ng2-smart-table';
 import { DocumentsComponent } from './documents.components';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 import { DirectiveModule } from '../directives/directives.module';
+import { SmartTableComponent } from './smart-table/smart-table.component';
   import { from } from 'rxjs';
-// import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
+import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
+// /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
+
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,
@@ -21,13 +25,16 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
+    Ng2SmartTableModule,
+   
   ],
   declarations: [
     ...PAGES_COMPONENTS,
     DocumentationDetailsComponent,
-    // AddAgentComponent,
-
-
+    SmartTableComponent,
+    
+   
+    
   ],
 })
 export class DocumentsModule { }
