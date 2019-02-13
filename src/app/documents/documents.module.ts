@@ -36,17 +36,14 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     DocumentationDetailsComponent,
-<<<<<<< HEAD
     DocumentsSummaryComponent,
     // AddAgentComponent,
 
 
-=======
     SmartTableComponent,
     
    
     
->>>>>>> 0e37fb84aea3cb3f1b29834fb347c004a70e65f2
   ],
 })
 export class DocumentsModule { }
