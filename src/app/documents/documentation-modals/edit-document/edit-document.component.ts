@@ -24,7 +24,7 @@ export class EditDocumentComponent implements OnInit {
     docId: null,
     regno: null,
     regNumber: null,
-    documentType: null,
+    documentType: '',
     documentId: null,
     issueDate: null,
     wefDate: null,
@@ -42,7 +42,6 @@ export class EditDocumentComponent implements OnInit {
       wef: '',
       expiry: ''
     }
-
   }
 
   constructor(public api: ApiService,

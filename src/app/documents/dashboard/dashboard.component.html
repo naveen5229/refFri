@@ -1,3 +1,46 @@
-<p>
-  dashboard works!
-</p>
+<nb-card>
+  <nb-card-header>
+    <h2>Vehicle Documentation-details</h2>
+    <hr>
+  </nb-card-header>
+  <nb-card-body style="min-height: 360px;">
+    <div class="container">
+
+      <div class="table">
+        <table class="table table-bordered table-hover">
+          <thead class="thead">
+            <tr>
+              <th>Document Type</th>
+              <th>Normal</th>
+              <th>No Entry Till Date</th>
+              <th>Image Missing</th>
+              <th>Expiry In 30 days</th>
+              <th>Already Expired</th>
+              <th>Total</th>
+  
+            </tr>
+          </thead>
+        <tbody>
+          <tr>
+            <!-- <th scope="row">{{i + 1}}</th>
+            <td >{{doc.regno}}</td>
+            <td>{{doc.document_type}}</td>
+            <td>{{doc.agent}}</td>
+            <td style='min-width:80px;'>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
+            <td style='min-width:80px;'>{{doc.wef_date |  date:'dd-MM-yyyy' }}</td>
+           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate ?  'pink':'green') ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
+            <td>{{doc.document_number}}</td>
+            <td>{{doc.remarks}}</td>
+            <td>
+                <i class="icon ion-md-image" (click)="imageView(doc)"></i>
+            </td>
+            <td (click)="editData(doc)"><i class="icon ion-md-create"></i>
+            </td> -->
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </nb-card-body>
+</nb-card>

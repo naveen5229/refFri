@@ -14,7 +14,7 @@
                 placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
           </div>
-          <div class="col-md-3" style="margin-left:-3%;" *ngIf="this.selectedVehicle">
+          <!-- <div class="col-md-3" style="margin-left:-3%;" *ngIf="this.selectedVehicle">
             <label style="margin-left:3%;">Document Type:</label>
             <auto-suggestion *ngIf="data.length>=0" (onSelected)="doucumentFilter($event)" display="document_type" url="Vehicles/getVehicleDocumentsById"
               placeholder="Enter doctype" [data]="data" class="documentType"></auto-suggestion>
@@ -26,7 +26,7 @@
           </div>
           <div class="col-md-2" *ngIf="this.selectedVehicle">
             <input type="datetime" class="form-control" placeholder="Expiry End Date" [value]="dates.expiryEnd | date: 'dd MMM yyyy'" (click)="getDate('expiryEnd')">
-          </div>
+          </div> -->
 
           <div class="col-md-2 offset-md-08">
             <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
@@ -36,7 +36,7 @@
       </form>
 
       <div class="row" *ngIf="this.selectedVehicle">
-        <div class="col-md-06 offset-md-08" style="margin-top: -4%;margin-left: 82%;">
+        <div class="col-md-06 offset-md-08" style="margin-top: -8%;margin-left: 83%;">
           <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
         </div>
       </div>
@@ -57,7 +57,7 @@
             <th><input type="text" placeholder="Document No" class="dataSearch"> </th>
             <th><input type="text" placeholder="Remark" class="dataSearch"> </th>
             <th>Image</th>
-            <td>Edit</td>
+            <th>Edit</th>
 
           </tr>
         </thead>

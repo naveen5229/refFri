@@ -70,8 +70,30 @@ export class ImportDocumentComponent implements OnInit {
     console.log("Document type", this.docType.id);;
 
   }
-
   uploadCsv(validate = null) {
+    const params = {
+      vehicleDocCsv: this.csv,
+      validate: validate
+    };
+    console.log("Data :", params);
+    this.common.loading++;
+    this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("upload result", res);
+        let errorData = res['data'];
+        // this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
+        // const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+        this.closeModal(true);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  checkCsv(validate = null) {
     const params = {
       vehicleDocCsv: this.csv,
       validate: validate
@@ -86,7 +108,7 @@ export class ImportDocumentComponent implements OnInit {
         this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
         const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
-        this.closeModal(true);
+        // this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);

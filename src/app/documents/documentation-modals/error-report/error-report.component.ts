@@ -19,6 +19,7 @@ export class ErrorReportComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
+      this.common.handleModalSize('class', 'modal-lg', '1250');
       this.title =this.common.params.title;
       this.btn = this.common.params.btn || 'Close';
       this.errors = this.common.params.errorData;

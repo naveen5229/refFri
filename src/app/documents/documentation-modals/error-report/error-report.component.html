@@ -20,7 +20,7 @@
         <th>Fitness</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="errors">
       <tr *ngFor="let error of errors;">
             <th >{{error.Sno}}</th>
   <!-- <td style='min-width:80px;' [ngClass]=" error.reason == reason ? 'red': 'green'">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>        -->
