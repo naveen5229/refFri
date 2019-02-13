@@ -15,6 +15,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() placeholder: string;
   @Input() preSelected: any;
   @Input() seperator: string;
+  @Input() data: any;
 
   counter = 0;
   searchText = '';
@@ -44,6 +45,7 @@ export class AutoSuggestionComponent implements OnInit {
     if (Array.isArray(this.display)) {
       this.displayType = 'array';
     }
+    console.log('Data:', this.data);
     this.cdr.detectChanges();
   }
 
@@ -51,6 +53,11 @@ export class AutoSuggestionComponent implements OnInit {
 
   getSuggestions() {
     this.showSuggestions = true;
+    if (this.data) {
+      this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
+      this.suggestions.splice(10, this.suggestions.length - 1);
+      return;
+    }
     let params = '?';
     console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {

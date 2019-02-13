@@ -61,14 +61,6 @@ export class AddDocumentComponent implements OnInit {
   ngOnInit() {
   }
 
-  // getTypeId(target){
-  //   // console.log("typenew :",value);return;
-  //   this.document.type.id =target.id;
-  //   this.document.type.name = target.value;
-  //   console.log("type name :",this.document.type.name);
-
-  // }
-  
   getDocumentsData() {
     this.common.loading++;
     let response;
@@ -92,7 +84,7 @@ export class AddDocumentComponent implements OnInit {
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
-         console.log('Base 64: ', res);
+        console.log('Base 64: ', res);
         this.document.base64Image = res;
       }, err => {
         this.common.loading--;
@@ -107,7 +99,6 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
-    // console.log("type :",this.document.type);
     const params = {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
@@ -149,13 +140,13 @@ export class AddDocumentComponent implements OnInit {
   }
   findDocumentType(id) {
     let documentType = '';
-    console.log("id:",id);
-    console.log("docTypes:",this.docTypes);
+    console.log("id:", id);
+    console.log("docTypes:", this.docTypes);
     this.docTypes.map(docType => {
       // console.log("doc Type: ",docType);
       if (docType.id == id) {
         documentType = docType.document_type
-        console.log("document Type",documentType);
+        console.log("document Type", documentType);
       }
     });
     return documentType;
@@ -186,8 +177,10 @@ export class AddDocumentComponent implements OnInit {
 
   }
 
-  testing(test){
-    console.log('test', test);
+  selectDocType(docType) { 
+    this.document.type.id = docType.id
+    console.log('Doc id: ', docType.id);
+    console.log("doc var",this.document.type.id);
   }
 
 }

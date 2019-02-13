@@ -11,8 +11,6 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 })
 export class InputsComponent implements OnInit {
 
-  foName = "";
-  foId = null;
   vehicleType = "truck";
   refMode = 701;
   vehicleNo = "";
@@ -52,29 +50,7 @@ export class InputsComponent implements OnInit {
   ngOnInit() {
   }
 
-  searchUser() {
-    console.log("test");
-    this.showSuggestions = true;
-    let params = 'search=' + this.searchString;
-    this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
-      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
-      .subscribe(res => {
-        this.foUsers = res['data'];
-        console.log("suggestions", this.foUsers);
-
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-  }
-
-  selectUser(user) {
-    this.foName = user.name;
-    this.searchString = this.foName;
-    this.foId = user.id;
-    this.showSuggestions = false;
-  this.resetVehDetails();
-  }
+  
  
   resetVehDetails()
  { 
@@ -88,9 +64,7 @@ export class InputsComponent implements OnInit {
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId+
       '&vehicleType=' +this.vehicleType;
-      console
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -107,14 +81,13 @@ export class InputsComponent implements OnInit {
     console.log("vehicle",vehicle );
     this.vehicleId = vehicle.id;
     this.vehicleNo = vehicle.regno;
-    this.searchVehicleString = this.vehicleNo+" - "+this.vehicleId;
+    this.searchVehicleString = this.vehicleNo;
     this.vehicleSuggestion = false;
   }
 
   searchTyres() {
     this.tyreSuggestion = true;
-    let params = 'search=' + this.searchTyreString +
-      '&foId=' + this.foId;
+    let params = 'search=' + this.searchTyreString ;
     this.api.get('Tyres/getTyreNumbersAccordingFO?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -130,7 +103,7 @@ export class InputsComponent implements OnInit {
     console.log("tyre",tyre);
     this.tyreId = tyre.id;
     this.tyreNo = tyre.tyrenum;
-    this.searchTyreString = this.tyreNo+" - "+this.tyreId;
+    this.searchTyreString = this.tyreNo;
     console.log("searchTyreString",this.searchTyreString);
     this.tyreSuggestion = false;
 
@@ -146,14 +119,16 @@ export class InputsComponent implements OnInit {
   // }
 
   searchData() {
-    if (this.foId) {
       if(this.vehicleType == "trolly"){
         this.refMode = 702;
-      }else{
+      }else if(this.vehicleType == "truck"){
         this.refMode = 701;
+      }else if(this.vehicleType == "warehouse"){
+        this.refMode = 703;
+      }else{
+        
       }
-      let params = 'foId=' + this.foId+
-      '&vehicleId=' +this.vehicleId+
+      let params = 'vehicleId=' +this.vehicleId+
       '&refMode=' + this.refMode;
       console.log("params ", params);
       this.api.get('Tyres/getVehicleTyreDetails?' + params)
@@ -165,22 +140,20 @@ export class InputsComponent implements OnInit {
           console.error(err);
           this.common.showError();
         });
-    }
-    else {
-      this.common.showToast("Fo Selection is mandotry");
-    }
+    
   }
 
   saveDetails() {
     let date= this.common.dateFormatter(new Date(this.date1));
     if(this.vehicleType == "trolly"){
       this.refMode = 702;
-    }else{
+    }else if(this.vehicleType == "truck"){
       this.refMode = 701;
+    }else {
+      this.refMode = 703;
     }
     this.common.loading++;
     let params = {
-      foId : this.foId,
       vehicleId : this.vehicleId,
       date : date,
       tyreId : this.tyreId,
