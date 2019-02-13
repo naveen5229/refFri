@@ -8,6 +8,7 @@ import { DocumentsComponent } from './documents.components';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 import { DirectiveModule } from '../directives/directives.module';
   import { from } from 'rxjs';
+import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
 // import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
 
 const PAGES_COMPONENTS = [
@@ -25,6 +26,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     DocumentationDetailsComponent,
+    DocumentsSummaryComponent,
     // AddAgentComponent,
 
 
