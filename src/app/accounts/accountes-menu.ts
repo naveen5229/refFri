@@ -1,4 +1,5 @@
 import { NbMenuItem } from '@nebular/theme';
+import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
@@ -8,7 +9,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Orders',
+        title: 'Invoice',
         icon: 'nb-home',
         link: '/accounts/orders'
     },
@@ -44,36 +45,36 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/company-branches'
     },
     {
-        title: 'General Voucher',
-        icon: 'nb-home',
-        link: '/accounts/vouchers/-7'
-    },
-    {
-        title: 'Cash Receipt Voucher',
-        icon: 'nb-home',
-        link: '/accounts/vouchers/-4'
-    },
-    {
-        title: 'Bank Receipt Voucher',
-        icon: 'nb-home',
-        link: '/accounts/vouchers/-2'
-    },
-    {
-        title: 'Cash Payment Voucher',
-        icon: 'nb-home',
-        link: '/accounts/vouchers/-3'
-    }, 
-    {
-        title: 'Bank Payment Voucher',
-        icon: 'nb-home',
-        link: '/accounts/vouchers/-1'
-    },
-    {
-        title: 'Contra Voucher',
-        icon: 'nb-home',
-        link: '/accounts/vouchers/-8'
-    },
-    
-    
-    
+        title: 'Voucher',
+        icon: 'nb-star',
+        children: [
+            {
+                title: 'Journal Voucher',
+                link: '/accounts/vouchers/-7/Journal Voucher'
+            },
+            {
+                title: 'Cash Receipt Voucher',
+                link: '/accounts/vouchers/-4/Cash Receipt Voucher'
+            },
+            {
+                title: 'Bank Receipt Voucher',
+                link: '/accounts/vouchers/-2/Bank Receipt Voucher'
+            },
+            {
+                title: 'Cash Payment Voucher',
+                link: '/accounts/vouchers/-3/Cash Payment Voucher'
+            },
+            {
+                title: 'Bank Payment Voucher',
+                link: '/accounts/vouchers/-1/Bank Payment Voucher'
+            },
+            {
+                title: 'Contra Voucher',
+                link: '/accounts/vouchers/-8/Contra Voucher'
+            },
+        ],
+    }
+
+
+
 ];

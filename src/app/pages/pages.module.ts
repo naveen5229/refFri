@@ -26,6 +26,7 @@ import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
 import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
 
 
 const PAGES_COMPONENTS = [

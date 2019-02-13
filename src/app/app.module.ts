@@ -38,12 +38,19 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
+import { ImportDocumentComponent } from './documents/documentation-modals/import-document/import-document.component';
 import { AddAgentComponent } from '../app/documents/documentation-modals/add-agent/add-agent.component';
 import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
+import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
+import { OrderComponent } from './acounts-modals/order/order.component';
+import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
+import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 
 
 @NgModule({
@@ -71,11 +78,17 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     StockSubtypeComponent,
     StockitemComponent,
     AddDocumentComponent,
+    ImportDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent,
+    EditDocumentComponent,
+    ErrorReportComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -98,12 +111,17 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     StockSubtypeComponent,
     StockitemComponent,
     AddDocumentComponent,
+    ImportDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
-
+    VoucherComponent,
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent,
+    EditDocumentComponent,
+    ErrorReportComponent
   ],
   imports: [
     BrowserModule,
@@ -117,6 +135,7 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    Ng2SmartTableModule
   ],
   bootstrap: [AppComponent],
   providers: [

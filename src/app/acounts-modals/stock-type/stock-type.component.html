@@ -10,7 +10,9 @@
     <div class="col">
       <div class="form-group">
         <label>User</label>
-        <input type="text" class="form-control" (input)="searchUser()" name="user-name">
+        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
+        <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
+        placeholder="Enter User" [preSelected]="null"></auto-suggestion>
       </div>
 
       <div class="suggestions" *ngIf="showSuggestions && suggestions.length && stockType.user.name">
