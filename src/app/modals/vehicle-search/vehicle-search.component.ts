@@ -17,13 +17,15 @@ export class VehicleSearchComponent implements OnInit {
   vehicleType = "truck";
   refMode = 701
   vehicles = [];
+  date1  = this.common.dateFormatter(new Date());
   constructor(
     private activeModal: NgbActiveModal,
     private common : CommonService,
     public api : ApiService
   ) {
     this.vehicleId = this.common.params.vehicleId;
-    this.vehicleRegNo = this.common.params,this.vehicleRegNo;
+    this.vehicleRegNo = this.common.params.vehicleRegNo;
+    this.searchVehicleString = this.vehicleRegNo;
     console.log(this.vehicleId,this.vehicleRegNo)
    }
 
@@ -36,12 +38,14 @@ export class VehicleSearchComponent implements OnInit {
    
   }
   
-  closeModal() {
+  closeModal(flag) {
     
     let response ={
       vehicleId : this.vehicleId,
       vehicleRegNo : this.vehicleRegNo,
-      refMode : this.refMode
+      refMode : this.refMode,
+      flag : flag,
+      date : this.date1
     }
     this.activeModal.close(this.activeModal.close({ response: response }));
   }
@@ -84,8 +88,5 @@ export class VehicleSearchComponent implements OnInit {
    }
  
 
-dismissModal() {
-  this.activeModal.close();
 
-}
 }

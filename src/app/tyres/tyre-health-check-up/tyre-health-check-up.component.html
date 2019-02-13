@@ -66,11 +66,16 @@
             <input type="text" class="form-control" placeholder="Remark" name="remark" [(ngModel)]="remark" autocomplete="off">
           </div>
           <div class="col-sm-1"></div>
-          <div class="col-sm-1"><label><b>Status</b></label></div>
+          <div class="col-sm-1"><label><b>Date</b></label></div>
+            <div class="col-sm-3">
+                <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date ></owl-date-time>
+            </div>
+          <!-- <div class="col-sm-1"><label><b>Status</b></label></div>
           <div class="col-sm-3 ">
             <input id="status" name="status" type="text" placeholder=" Status" autocomplete="off" class="form-control"
               [(ngModel)]="status">
-          </div>
+          </div> -->
         </div>
         <div class="row row-width">
             <div class="col-sm-1"> </div>
@@ -81,10 +86,10 @@
                     </select>
             </div>
             <div class="col-sm-1"></div>
-            <div class="col-sm-1"><label><b>Date</b></label></div>
+            <!-- <div class="col-sm-1"><label><b>Date</b></label></div> -->
             <div class="col-sm-3">
-                <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
-          <owl-date-time #date ></owl-date-time>
+                <!-- <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date ></owl-date-time> -->
                 <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
                 [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
               <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->

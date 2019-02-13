@@ -112,8 +112,41 @@
           <option value="9">9</option>
         </select>
       </div>
+     
     </div>
-
+    <div style="margin-top:20px">
+        <table class="table table-bordered table-hover" >
+          <thead class="thead">
+            <tr>
+              <th>AxelNo </th>
+              <th ></th> 
+            </tr>
+  
+          </thead>
+          <tbody>
+              <tr>
+                  <td> L1 </td>
+                  <td> <input class="tyres" type="radio" name="l1" value="l/1" 
+                    [(ngModel)]="position"></td> 
+                </tr>
+                <tr>
+                    <td> L2 </td>
+                    <td> <input class="tyres" type="radio" name="l2" value="l/2" 
+                      [(ngModel)]="position"></td> 
+                  </tr>
+                  <tr>
+                      <td> R1 </td>
+                      <td><input class="tyres" type="radio" name="r1" value="r/1" 
+                        [(ngModel)]="position" style="background:orange;"></td> 
+                    </tr>
+                    <tr>
+                        <td> R2 </td>
+                        <td><input class="tyres" type="radio" name="r2" value="r/2" 
+                          [(ngModel)]="position"></td>  
+                      </tr>
+          </tbody>
+        </table>
+      </div>
     <div class="row row-width">
       <div class="col-sm-1"> </div>
       <div class="col-sm-2"> </div>

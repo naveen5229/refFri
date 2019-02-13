@@ -16,7 +16,7 @@ export class VehicleTrollyMappingComponent implements OnInit {
   vehicleRegNo = null;
   trolleyId = null;
   refMode = 701;
-  date1 = this.common.dateFormatter(new Date());
+  date = this.common.dateFormatter(new Date());
 
   constructor(private modalService: NgbModal,
     public common: CommonService,
@@ -41,12 +41,11 @@ export class VehicleTrollyMappingComponent implements OnInit {
   }
 
   saveMappingDetails() {
-    let date = this.common.dateFormatter(new Date(this.date1));
     this.common.loading++;
     let params = {
       vehicleId: this.vehicleId,
       refMode: this.refMode,
-      date: date,
+      date: this.date,
       trollyId: this.trolleyId
     };
     console.log('Params:', params);
@@ -71,16 +70,20 @@ export class VehicleTrollyMappingComponent implements OnInit {
 
   vehicleChange(trolleyId, vehicleId, vehicleRegNo) {
     this.trolleyId = trolleyId;
-    this.common.params = {"vehicleId": vehicleId ,"vehicleRegNo" : vehicleRegNo}
+    this.common.params = {"vehicleId": vehicleId ,"vehicleRegNo" : vehicleRegNo }
     const activeModal = this.modalService.open(VehicleSearchComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => {
       if (data.response) {
         this.vehicleId = data.response.vehicleId ;
         this.vehicleRegNo = data.response.vehicleRegNo ;
         this.refMode = data.response.refMode;
-        console.log("data.response.vehicleRegNo",this.vehicleId);
-        console.log("data.response.vehicleId",this.vehicleRegNo);
-        this.saveMappingDetails();        
+        let flag = data.response.flag;
+        this.date = this.common.dateFormatter(new Date(data.response.date));
+        console.log("data.response.vehicleRegNo",flag,this.date);
+        if(flag == 'true'){
+          this.saveMappingDetails();        
+        }
+
       }
     });
   }

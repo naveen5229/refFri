@@ -37,4 +37,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/vehicle-trolly-mapping',
         home: true,
     },
+    {
+        title: 'Vehicle Tyre Position Master',
+        icon: 'fa fa-map-signs',
+        link: '/tyres/vehicle-tyre-position-master',
+        home: true,
+    },
 ];

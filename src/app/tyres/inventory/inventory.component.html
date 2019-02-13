@@ -39,9 +39,12 @@
             <td><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.tyreNo"  style="width : 175px">
             </td>
-            <td><input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
+            <td>
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)" placeholder="Select Date"
+                [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly >
+              <!-- <input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
                 class="form-control" autocomplete="off" name="date" style="width : 175px" >
-              <owl-date-time #date></owl-date-time>
+              <owl-date-time #date></owl-date-time> -->
             </td>
             <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.is_health" style="height: 25px;margin-top: 10px;"  (change)="valueReset(i)">
