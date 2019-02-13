@@ -5,6 +5,16 @@ import { AccountsRoutingModule } from './accounts-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AccountsComponent } from './accounts.component';
+import { OrdersComponent } from './orders/orders.component';
+import { StockTypesComponent } from './stock-types/stock-types.component';
+import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.component';
+import { StockitemsComponent } from './stockitems/stockitems.component';
+import { DirectiveModule } from '../directives/directives.module';
+import { AccountComponent } from './account/account.component';
+import { LedgersComponent } from './ledgers/ledgers.component';
+import { CompanyBranchesComponent } from './company-branches/company-branches.component';
+import { VouchersComponent } from './vouchers/vouchers.component';
+//import { StockSubtypeComponent } from '../acounts-modals/stock-subtype/stock-subtype.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -16,9 +26,20 @@ const PAGES_COMPONENTS = [
     AccountsRoutingModule,
     ThemeModule,
     DashboardModule,
+    DirectiveModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    OrdersComponent,
+    StockTypesComponent,
+    StockSubtypesComponent,
+    StockitemsComponent,
+    //AccountsComponent,
+    AccountComponent,
+    LedgersComponent,
+    CompanyBranchesComponent,
+    VouchersComponent
+    //StockSubtypeComponent
   ],
 })
 export class AccountsModule { }

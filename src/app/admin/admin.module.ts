@@ -19,6 +19,7 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+
   ],
 })
 export class AdminModule { }

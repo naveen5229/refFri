@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { FuelEntriesComponent } from '../../modals/fuel-entries/fuel-entries.component';
 
 @Component({
   selector: 'fuel-average-analysis',
@@ -36,7 +37,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
     let params = {
       startTime: this.dates.start,
       endTime: this.dates.end,
-      foId: 1,
+      foId: null,
     };
     this.api.post('FuelDetails/getFillingsByDateAndFoid', params)
       .subscribe(res => {
@@ -62,4 +63,35 @@ export class FuelAverageAnalysisComponent implements OnInit {
     });
   }
 
+  // getDetails(fuelAvgDetail){
+  //   this.common.params =fuelAvgDetail;
+  //   let params ={
+  //     vehId : fuelAvgDetail.vehicle_id?fuelAvgDetail.vehicle_id:null,
+  //     lastFilling : fuelAvgDetail.last_filling_entry_time?fuelAvgDetail.last_filling_entry_time:null,
+  //     currentFilling : fuelAvgDetail.current_filling_entry_time?fuelAvgDetail.current_filling_entry_time:null
+  //   } 
+  //   this.common.loading++;
+  //   this.api.post('FuelDetails/getFillingsBwTime',params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log(res);
+  //       let data = [];
+  //       res['data'].map((fueldetail, index) => {
+  //         data.push([index, fueldetail.name, fueldetail.location, fueldetail.liters,this.common.changeDateformat(fueldetail.entry_time)]);
+  //       });
+  //       console.log(data);
+  //       this.common.params = { title: 'Filling Entries', headings: ["#", "Station Name", "Location", "Litres","Entry Time"], data };
+  //     this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+      
+
+  // }
+  getDetails(fuelAvgDetail){
+  this.common.params =fuelAvgDetail;
+  const activeModal = this.modalService.open(FuelEntriesComponent, { size: 'lg', container: 'nb-layout' });
+  
+  }
 }

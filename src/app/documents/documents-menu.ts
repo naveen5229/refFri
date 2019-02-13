@@ -1,0 +1,22 @@
+import { NbMenuItem } from '@nebular/theme';
+
+export const MENU_ITEMS: NbMenuItem[] = [
+    {
+        title: 'Dashboard',
+        icon: 'nb-home',
+        link: '/documents/dashboard',
+        home: true,
+    },
+    {
+        title: 'documentation',
+        icon: 'fa fa-book',
+        link: '/documents/documentation-details',
+        home: true,
+    },
+    {
+        title: 'Smart Table',
+        icon: ' fa fa-table',
+        link: '/documents/smart-table',
+        home: true,
+    }
+];

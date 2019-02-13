@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbThemeService } from '@nebular/theme';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -13,14 +14,11 @@ export class CommonService {
 
   params = null;
   loading = 0;
-<<<<<<< HEAD
   chartData: any;
   chartOptions: any;
   themeSubscription: any;
-=======
   searchId = null;
 
->>>>>>> vishal
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -28,7 +26,7 @@ export class CommonService {
     100: { page: '/ticket-details', title: 'Ticket Details' },
     200: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
     201: { page: 'VehicleHaltPage', title: 'Change Vehicle Halt' },
-    300: { page: '/ticket-site-details', title: 'Vehicle Halt' },
+    300: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
     301: { page: 'VehicleHaltPage', title: 'Change Site Halt' },
   };
 
@@ -57,8 +55,11 @@ export class CommonService {
     public router: Router,
     private toastrService: NbToastrService,
     private theme: NbThemeService,
+    private datePipe: DatePipe
+  ) {
 
-  ) { }
+
+  }
 
   showError(msg?) {
     this.showToast(msg || 'Something went wrong! try again.', 'danger');
@@ -124,23 +125,31 @@ export class CommonService {
     if (type == 'ddMMYYYY') {
       return (dat + '/' + month + '/' + year) + ' ' + this.timeFormatter(date);
     } else {
-      return (year + '/' + month + '/' + dat) + ' ' + this.timeFormatter(date);
+      return (year + '-' + month + '-' + dat) + ' ' + this.timeFormatter(date);
     }
   }
 
   dateFormatter1(date) {
     let d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth() <=9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+    let month = d.getMonth() <= 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? '0' + d.getDate() : d.getDate();
 
     console.log(dat + '-' + month + '-' + year);
-   
-      return (year + '-' + month + '-' + dat) ;
-    
+
+    return (year + '-' + month + '-' + dat);
+
   }
 
+  changeDateformat(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, 'dd-MMM-yyyy hh:mm a')
+  }
 
+  changeDateformat1(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, 'dd-MMM-yyyy')
+  }
 
   timeFormatter(date) {
     let d = new Date(date);
@@ -159,49 +168,103 @@ export class CommonService {
   }
 
 
-  pieChart(chartLabels, chartdatas, charColors) {
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-      console.log('Config: ', config);
-      const colors: any = config.variables;
-      const chartjs: any = config.variables.chartjs;
-      
-      this.chartData = {
-        labels: chartLabels,
-        datasets: [{
-          data: chartdatas,
-          backgroundColor: charColors
-        }],
-      };
+  // pieChart(chartLabels, chartdatas, charColors) {
+  //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+  //     console.log('Config: ', config);
+  //     const colors: any = config.variables;
+  //     const chartjs: any = config.variables.chartjs;
 
-      this.chartOptions = {
-        maintainAspectRatio: false,
-        responsive: true,
-        scales: {
-          xAxes: [
-            {
-              display: false,
-            },
-          ],
-          yAxes: [
-            {
-              display: false,
-            },
-          ],
-        },
-        legend: false,
-       };
-    });
+  //     this.chartData = {
+  //       labels: chartLabels,
+  //       datasets: [{
+  //         data: chartdatas,
+  //         backgroundColor: charColors
+  //       }],
+  //     };
+
+  //     this.chartOptions = {
+  //       maintainAspectRatio: false,
+  //       responsive: true,
+  //       scales: {
+  //         xAxes: [
+  //           {
+  //             display: false,
+  //           },
+  //         ],
+  //         yAxes: [
+  //           {
+  //             display: false,
+  //           },
+  //         ],
+  //       },
+  //       legend: false,
+  //     };
+  //   });
+
+  //   setTimeout(() => {
+  //     console.log(document.getElementsByTagName('canvas')[0]);
+
+  //     document.getElementsByTagName('canvas')[0].style.width = "100px";
+  //     document.getElementsByTagName('canvas')[0].style.height = "220px";
+
+  //   }, 10);
+  // }
+
+  pieChart(labels, data, colors) {
+    let chartData = {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors
+      }],
+    };
+
+    let chartOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      scales: {
+        xAxes: [
+          {
+            display: false,
+          },
+        ],
+        yAxes: [
+          {
+            display: false,
+          },
+        ],
+      },
+      legend: false,
+    };
 
     setTimeout(() => {
-    console.log(document.getElementsByTagName('canvas')[0]);
-
-      document.getElementsByTagName('canvas')[0].style.width = "100px";
-      document.getElementsByTagName('canvas')[0].style.height = "220px";
-
+      console.log(document.getElementsByTagName('canvas')[0]);
+      document.getElementsByTagName('canvas')[0].style.width = "80px";
+      document.getElementsByTagName('canvas')[0].style.height = "180px";
     }, 10);
+
+    return { chartData, chartOptions };
   }
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
+  }
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  handleModalSize(type, name, size, position = 0) {
+    setTimeout(() => {
+      if (type == 'class') {
+        document.getElementsByClassName(name)[position]['style'].maxWidth = size + 'px';
+      }
+    }, 100);
+
   }
 }

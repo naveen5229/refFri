@@ -3,7 +3,7 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Dashboard',
-    icon: 'fa fa-plus',
+    icon: 'nb-home',
     link: '/pages/dashboard',
     home: true,
   },
@@ -29,17 +29,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Expenses',
-    icon: 'fa fa-oil-can',
+    icon: 'fa fa-book',
     link: '/pages/expenses',
   },
-  {
-    title: 'Concise View',
-    icon: 'nb-bar-chart',
-    link: '/pages/concise',
-  },
+  // {
+  //   title: 'Concise View',
+  //   icon: 'nb-bar-chart',
+  //   link: '/pages/concise',
+  // },
   {
     title: 'Fuel Average Analysis',
-    icon: 'nb-paper-plane',
+    icon: 'fa fa-signal',
     link: '/pages/fuel-average-analysis',
   },  
+  {
+    title: 'Vehicle Trip',
+    icon: 'fa fa-truck',
+    link: '/pages/vehicle-trip',
+  }, 
 ];

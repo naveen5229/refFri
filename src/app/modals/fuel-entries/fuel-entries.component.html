@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> Filling Entries</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table class="table table-bordered table-hover">
+    <thead class="thead">
+      <tr>
+        <th>#</th>
+        <th>Station Name</th>
+        <th>Location</th>
+        <th>Litres</th>
+        <th>Entry Time</th>
+        <th>Is Full</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fueldetail of fuelDetails; let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{fueldetail.name}}</td>
+        <td>{{fueldetail.location}}</td>
+        <td>{{fueldetail.litres}}</td>
+        <td>{{fueldetail.entry_time}}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="fueldetail.is_full" name="isFull" (change) = "changeFullDetail(fueldetail)" >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
