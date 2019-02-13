@@ -258,4 +258,13 @@ export class CommonService {
       reader.onerror = error => reject(error);
     });
   }
+
+  handleModalSize(type, name, size, position = 0) {
+    setTimeout(() => {
+      if (type == 'class') {
+        document.getElementsByClassName(name)[position]['style'].maxWidth = size + 'px';
+      }
+    }, 100);
+
+  }
 }

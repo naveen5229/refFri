@@ -45,6 +45,7 @@ import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 import { OrderComponent } from './acounts-modals/order/order.component';
+import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import { OrderComponent } from './acounts-modals/order/order.component';
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
-    OrderComponent
+    OrderComponent,
+    TaxdetailComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -105,7 +107,8 @@ import { OrderComponent } from './acounts-modals/order/order.component';
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
-    OrderComponent
+    OrderComponent,
+    TaxdetailComponent
 
   ],
   imports: [

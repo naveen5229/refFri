@@ -22,7 +22,7 @@ export class OrdersComponent implements OnInit {
   openModal (order?) {
     console.log('ledger123',order);
       if (order) this.common.params = order;
-      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',windowClass : "myCustomModalClass" });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
