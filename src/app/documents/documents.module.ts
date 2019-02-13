@@ -10,14 +10,11 @@ import { DocumentationDetailsComponent } from './documentation-details/documenta
 import { DirectiveModule } from '../directives/directives.module';
 import { SmartTableComponent } from './smart-table/smart-table.component';
   import { from } from 'rxjs';
-<<<<<<< HEAD
 import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
 // import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
-=======
 import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
 // /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
 
->>>>>>> 0e37fb84aea3cb3f1b29834fb347c004a70e65f2
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,

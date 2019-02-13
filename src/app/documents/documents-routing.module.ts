@@ -20,15 +20,13 @@ const routes: Routes = [{
             component: DocumentationDetailsComponent,
         },
         {
-<<<<<<< HEAD
             path: 'documents-summary',
             component: DocumentsSummaryComponent,
-        }
-=======
+        },
+        {
             path: 'smart-table',
             component: SmartTableComponent,
         },
->>>>>>> 0e37fb84aea3cb3f1b29834fb347c004a70e65f2
     ],
 }];
 
