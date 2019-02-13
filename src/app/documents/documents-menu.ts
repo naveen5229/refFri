@@ -9,8 +9,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'documentation',
-        icon: 'nb-home',
+        icon: 'fa fa-book',
         link: '/documents/documentation-details',
+        home: true,
+    },
+    {
+        title: 'Smart Table',
+        icon: ' fa fa-table',
+        link: '/documents/smart-table',
         home: true,
     }
 ];

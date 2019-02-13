@@ -12,14 +12,13 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class VoucherComponent implements OnInit {
   voucher = {
     name: '',
+    date: '',
+    foid:'',
     user: {
       name: '',
       id: ''
     },
-    voucher: {
-      name: '',
-      id: ''
-    },
+    vouchertypeid:'',
     amountDetails: [{
       transactionType: 'debit',
       ledger: '',
@@ -29,28 +28,20 @@ export class VoucherComponent implements OnInit {
       }
     }]
   };
-
+ 
   date = this.common.dateFormatter(new Date());
+  voucherId = '';
+  voucherName = '';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
     public api: ApiService) {
     if (this.common.params) {
-      // this.Voucher = {
-      //   name: this.common.params.name,
-      //   user: {
-      //     name: this.common.params.name,
-      //     id: this.common.params.id
-      //   },
-      //   voucher: {
-      //     name: this.common.params.name,
-      //     id: this.common.params.id
-      //   },
-      //   amountDetails: this.common.params.amountDetails
-      // }
-
-      console.log('Voucher: ', this.voucher);
+     this.voucherId = this.common.params.voucherId;
+     this.voucherName = this.common.params.voucherName;
+     this.voucher.date = this.common.changeDateformat1(this.common.dateFormatter(new Date()));
     }
+    console.log('ID: ', this.voucherId);
   }
 
   ngOnInit() {
@@ -58,6 +49,10 @@ export class VoucherComponent implements OnInit {
 
   dismiss(response) {
     console.log('Voucher:', this.voucher);
+    if (response && (this.calculateTotal('credit') !== this.calculateTotal('debit'))) {
+      this.common.showToast('Some Messages');
+      return;
+    }
     this.activeModal.close({ response: response, Voucher: this.voucher });
   }
 
@@ -70,7 +65,7 @@ export class VoucherComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.date = this.common.dateFormatter(data.date).split(' ')[0];
+      this.voucher.date = this.common.dateFormatter(data.date).split(' ')[0];
       //  console.log('Date:', this.date);
     });
   }
@@ -89,7 +84,7 @@ export class VoucherComponent implements OnInit {
   calculateTotal(type) {
     let total = 0;
     this.voucher.amountDetails.map(amountDetail => {
-     // console.log('Amount: ',  amountDetail.amount[type]);
+      // console.log('Amount: ',  amountDetail.amount[type]);
       total += amountDetail.amount[type];
     });
     return total;

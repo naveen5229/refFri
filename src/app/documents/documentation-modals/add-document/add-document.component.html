@@ -7,7 +7,7 @@
 <div class="modal-body">
   <form #documentForm="ngForm" id="document-form" name="document-form" (submit)="documentForm.valid && addDocument()">
 
-    <div class="row">
+    <div class="row" *ngIf="vehicle">
       <div class="col-md-4">
         <label> Vehicle Number </label>
       </div>
@@ -22,15 +22,24 @@
         <label>Document Type <span class="mandatory">*</span></label>
       </div>
       <div class="col-md-8">
-        <select name="document-type" [(ngModel)]="document.type.id" class="form-control" #documentType="ngModel"
-          required>
-          <option *ngFor="let docType of docTypes;" [value]="docType.id " name="docid" class="form-control">{{docType.document_type}}
+        <!-- <input type="text" class="form-control document_type"
+        [(ngModel)]="document.type.id" list="document_type_id"
+          id="docid" name="docid" #documentType="ngModel">
+        <datalist id="document_type_id">       
+          <option *ngFor="let docType of docTypes;" id="id" name="id" [hidden]="docType.id" class="form-control" >{{docType.document_type}}
+            <input type="hidden" [value]="docType.id" id="id" name="id">
           </option>
-        </select>
+        </datalist>
         <div *ngIf="isFormSubmit && documentType.errors" class="error">
           <span [hidden]="!documentType.errors.required">Document type is mandatory</span>
-        </div>
-      </div>
+        </div> -->
+        <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
+          placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType"></auto-suggestion>
+         <div class="suggestions ng-star-inserted">
+            
+         </div>
+         
+        </div> 
     </div>
     <div class="row">
       <div class="col-md-4">
@@ -46,11 +55,12 @@
         <label>Wef Date<span class="mandatory">*</span></label>
       </div>
       <div class="col-md-8">
-        <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off" [(ngModel)]="document.dates.wef" #wefDate="ngModel"
-          required class="form-control" [value]="document.dates.wef | date: 'dd MMM yyyy'"  (click)="getDate('wef')">
-          <div *ngIf="isFormSubmit && wefDate.errors" class="error">
-              <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
-            </div>
+        <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off"
+            required class="form-control" [value]="document.dates.wef | date: ' dd MMM yyyy'"
+          (click)="getDate('wef')">
+         <!-- [(ngModel)]="document.dates.wef" #wefDate="ngModel"<div *ngIf="isFormSubmit && wefDate.errors" class="error">
+          <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
+        </div> -->
       </div>
     </div>
     <div class="row">
@@ -60,6 +70,9 @@
       <div class="col-md-8">
         <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off"
           required class="form-control" [value]="document.dates.expiry | date: 'dd MMM yyyy'" (click)="getDate('expiry')">
+          <!-- <div *ngIf="isFormSubmit && expiry.errors" class="error">
+              <span [hidden]="!expiry.errors.required">wef Date type mandatory</span>
+            </div> -->
       </div>
     </div>
     <div class="row" style="margin-top:4px">
@@ -90,12 +103,20 @@
         <label>Document Upload </label>
       </div>
       <div class="col-md-8 ">
-        <input type="file" name="myfile" [(ngModel)]="document.image" id="filePicker" (change)="handleFileSelect($event)"  />
+        <input type="file" name="myfile" [(ngModel)]="document.image" id="filePicker" (change)="handleFileSelection($event)" />
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <label>Rto </label>
+        <label>Amount </label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" name="amount" class="form-control" [(ngModel)]="document.amount" placeholder="Enter Amount">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label>RTO </label>
       </div>
       <div class="col-md-8">
         <input type="text" name="rto" class="form-control" [(ngModel)]="document.rto" placeholder="Enter Rto">

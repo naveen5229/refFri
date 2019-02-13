@@ -24,7 +24,7 @@
       </div>
       <div class="col-md-8">
         <input id="mobile-number" name="mobile-number" type="text" placeholder="Mobile Number" autocomplete="off" class="form-control"
-          required  #agentMobile="ngModel" [(ngModel)]="agent.mobileNumber" [value]="agent.mobileNumber">
+          required  #agentMobile="ngModel" [(ngModel)]="agent.mobileNumber" [value]="agent.mobileNumber" maxlength="10" minlength="10" >
           <div *ngIf="isFormSubmit && agentMobile.errors" class="error">
               <span [hidden]="!agentMobile.errors.required">Mobile Number  is mandatory</span>
             </div>
@@ -54,7 +54,7 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="submit" outline (click)=" addNewAgent()"   id="submit" style="cursor: pointer;">{{btn1}}</button>
+      <button class="btn btn-primary" type="submit" form="agent-form" outline (click)="isFormSubmit = true"    id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

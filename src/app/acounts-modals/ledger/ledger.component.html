@@ -7,47 +7,44 @@
 <div class="modal-body">
 
   <div class="row">
-    <div class="col">
       <div class="form-group">
         <label>User</label>
         <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-        placeholder="Enter User" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter User" [preSelected]="null" class="suggestion-containerbox"></auto-suggestion>
       </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label>Parent Account Name</label>
-        <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
-        placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" (input)="Accounts.aliasname=Accounts.name">
-      </div>
-    </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label>Alias Name</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.aliasname">
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label>Per Rate</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.perrate">
-      </div>
-    </div>
-    <div class="col">
+    <div class="row">
       <div class="form-group">
         <label>Code</label>
         <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.code">
       </div>
-    </div>
+  </div>
+    <div class="row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" (input)="Accounts.aliasname=Accounts.name">
+      </div>
+  </div>
+    <div class="row">
+      <div class="form-group">
+        <label>Alias Name</label>
+        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.aliasname">
+      </div>
+  </div>
+    <div class="row">
+      <div class="form-group">
+        <label>Under Group</label>
+        <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
+        placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+      </div>
+  </div>
+    <div class="row">
+      <div class="form-group">
+        <label>Per Rate</label>
+        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.perrate">
+      </div>
+    
   </div>
 
 </div>
