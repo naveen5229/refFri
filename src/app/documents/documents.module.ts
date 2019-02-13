@@ -10,8 +10,6 @@ import { DocumentationDetailsComponent } from './documentation-details/documenta
 import { DirectiveModule } from '../directives/directives.module';
 import { SmartTableComponent } from './smart-table/smart-table.component';
   import { from } from 'rxjs';
-import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
-// /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
 
 
 const PAGES_COMPONENTS = [

@@ -3,7 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
 import { Body } from '@angular/http/src/body';
+import { from } from 'rxjs';
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -40,6 +42,12 @@ this.common.loading++;
       });
 
 
+}
+openData(docReoprt,status){
+
+
+this.common.params = { docReoprt,status, title: 'Document Report' };
+const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 }
 
 }

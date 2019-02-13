@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+      <div class="table">
+          <table class="table table-bordered table-hover">
+            <thead class="thead">
+              <tr>
+                <th>Sr No</th>
+                <th>Vehicle Number</th>
+                <th >Document Type</th>
+                <th>Issue Date</th>
+                <th>Wef Date</th>
+                <th>Expiry Date</th>
+                <th>Document Number</th>
+                <th>Remark</th>
+                <th>RTO</th>
+                <th>Image</th>
+                <!-- <th>Edit</th>  -->
+    
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doc of reportResult ; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{doc.regno}}</td>
+                <td  *ngIf="doc.name">{{doc.name}}</td>
+                <td *ngIf="doc.issue_date">{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
+                <td *ngIf="doc.wef_date">{{doc.wef_date | date:'dd-MM-yyyy'}}</td>
+                <td *ngIf="doc.expiry_date">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>
+                <td *ngIf="doc.document_number">{{doc.document_number}}</td>
+                <td *ngIf="doc.remarks">{{doc.remarks}}</td>
+                <td *ngIf="doc.remarks">{{doc.rto}}</td>
+                <td *ngIf="doc.img_url">
+                    <i class="icon ion-md-image" (click)="imageView(doc)"></i>
+                </td>
+                <!-- <td (click)="editData(doc)"><i class="icon ion-md-create"></i>
+                </td> -->
+               
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+  </div>
