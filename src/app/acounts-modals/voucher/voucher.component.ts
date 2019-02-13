@@ -28,15 +28,18 @@ export class VoucherComponent implements OnInit {
       }
     }]
   };
-
+ 
   date = this.common.dateFormatter(new Date());
   voucherId = '';
+  voucherName = '';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
     public api: ApiService) {
     if (this.common.params) {
      this.voucherId = this.common.params.voucherId;
+     this.voucherName = this.common.params.voucherName;
+     this.voucher.date = this.common.changeDateformat1(this.common.dateFormatter(new Date()));
     }
     console.log('ID: ', this.voucherId);
   }

@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> Select Vehicle</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal('false')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <b>current Vehicle : {{this.common.params.vehicleRegNo}} </b>
+  <br>
+  <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
+      <option value="truck">Truck</option>
+      <option value="warehouse">Warehouse</option>
+
+    </select>
+
+    <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+        <div>
+          <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+            <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+              {{ vehicle.regno}} 
+            </li>
+          </ul>
+        </div>
+        <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date ></owl-date-time>
+  <!-- <auto-suggestion (onSelected)="selectedVehicle($event)" url=" Suggestion/getFoVehicleList" display="regno"
+placeholder="Enter Vehicle No " [preSelected]="null"></auto-suggestion> -->
+
+<button class="btn btn-primary" type="button" outline (click)="closeModal('true')" id="reminder" style="cursor: pointer;">
+  OK</button>
+</div>

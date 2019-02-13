@@ -59,6 +59,7 @@ export class AutoSuggestionComponent implements OnInit {
       return;
     }
     let params = '?';
+    console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
       params = '&'
     }

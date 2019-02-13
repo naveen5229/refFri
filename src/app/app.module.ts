@@ -45,6 +45,9 @@ import { AccountsComponent } from './acounts-modals/accounts/accounts.component'
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
+import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
+import { OrderComponent } from './acounts-modals/order/order.component';
+import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
@@ -81,6 +84,9 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent,
     EditDocumentComponent,
     ErrorReportComponent
   ],
@@ -111,6 +117,9 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     LedgerComponent,
     BranchComponent,
     VoucherComponent,
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent,
     EditDocumentComponent,
     ErrorReportComponent
   ],
