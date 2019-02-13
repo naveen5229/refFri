@@ -21,7 +21,7 @@ export class EditDocumentComponent implements OnInit {
   docType = null;
   vehicleId: null;
   document = {
-    docId:null,
+    docId: null,
     regno: null,
     regNumber: null,
     documentType: null,
@@ -33,7 +33,7 @@ export class EditDocumentComponent implements OnInit {
     agentName: null,
     documentNumber: null,
     docUpload: null,
-    newDocUpload : '',   
+    newDocUpload: '',
     remark: null,
     rto: null,
     amount: null,
@@ -56,7 +56,7 @@ export class EditDocumentComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
     console.log("edit data", this.document);
-      this.document.docId = this.document[0].id;
+    this.document.docId = this.document[0].id;
     this.document.regNumber = this.document[0].regNumber;
     this.document.documentId = this.document[0].documentId;
     this.document.documentType = this.document[0].documentType;
@@ -101,7 +101,7 @@ export class EditDocumentComponent implements OnInit {
   updateDocument() {
     const params = {
       x_vehicle_id: this.vehicleId,
-      x_document_id : this.document.docId,
+      x_document_id: this.document.docId,
       x_document_type_id: this.document.documentId,
       x_document_type: this.findDocumentType(this.document.documentId),
       x_issue_date: this.document.issueDate,
@@ -115,19 +115,19 @@ export class EditDocumentComponent implements OnInit {
       x_amount: this.document.amount,
 
     };
-   console.log("update data",params);
-   this.common.loading++;
-   let response;
-   this.api.post('Vehicles/addVehicleDocument', params)
-     .subscribe(res => {
-       this.common.loading--;
-       console.log("api result", res);
-       this.closeModal(true);
-     }, err => {
-       this.common.loading--;
-       console.log(err);
-     });
-     return response;
+    console.log("update data", params);
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/addVehicleDocument', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("api result", res);
+        this.closeModal(true);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -180,9 +180,7 @@ export class EditDocumentComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
-  UploadData(){
+  UploadData() {
     window.open(document[0].docUpload);
   }
-
-
 }
