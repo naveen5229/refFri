@@ -44,8 +44,8 @@ import { AccountsComponent } from './acounts-modals/accounts/accounts.component'
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
-
-
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -117,6 +117,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    ImageViewerModule,
+    MatIconModule,
   ],
   bootstrap: [AppComponent],
   providers: [
