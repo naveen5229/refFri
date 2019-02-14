@@ -49,8 +49,9 @@ import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.c
 import { OrderComponent } from './acounts-modals/order/order.component';
 import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
+import { EditDocumentComponent } from './documents/documentation-modals/edit-document/edit-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
+import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
-    ErrorReportComponent
+    ErrorReportComponent,
+    ReportIssueComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -121,7 +123,8 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
-    ErrorReportComponent
+    ErrorReportComponent,
+    ReportIssueComponent
   ],
   imports: [
     BrowserModule,

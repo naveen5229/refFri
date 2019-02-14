@@ -12,6 +12,7 @@ import { slideToLeft, slideToUp } from '../../services/animation';
 import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
+import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 
 
 @Component({
@@ -275,6 +276,14 @@ export class ConciseComponent implements OnInit {
 
 
   }
+
+  reportIssue(kpi) {
+    console.log('Kpi:', kpi);
+    const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, kpi.x_vehicle_id));
+  }
+
+  
 
 }
 
