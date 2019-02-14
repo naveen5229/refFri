@@ -57,7 +57,6 @@ export class DocumentReportComponent implements OnInit {
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
-        
         this.reportResult = res['data'];
         console.log("report data", this.reportResult);
 

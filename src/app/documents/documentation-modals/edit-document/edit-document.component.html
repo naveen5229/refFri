@@ -89,9 +89,9 @@
         <label>Document Upload </label>
       </div>
       <div class="col-md-8 ">
-        <div *ngIf="document.docUpload">
+        <!-- <div *ngIf="document.docUpload">
           <p (click)="UploadData()">view</p>
-        </div>
+        </div> -->
         <input type="file" name="myfile" id="filePicker" (change)="handleFileSelection($event)" />
       </div>
     </div>

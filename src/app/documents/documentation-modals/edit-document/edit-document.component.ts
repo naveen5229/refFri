@@ -64,8 +64,7 @@ export class EditDocumentComponent implements OnInit {
     this.document.wefDate = this.document[0].wefDate;
     this.document.expiryDate = this.document[0].expiryDate;
     this.document.agentId = this.document[0].agentId;
-    // console.log("agent id",this.document.agentId);
-    //  this.document.agentName = this.document[0].agentName;
+   
     this.document.documentNumber = this.document[0].documentNumber;
     // this.document.docUpload =this.document[0].docUpload;
     this.document.rto = this.document[0].rto;
