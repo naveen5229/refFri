@@ -9,7 +9,7 @@ import { normalize } from 'path';
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
-  styleUrls: ['./document-report.component.scss']
+  styleUrls: ['./document-report.component.scss','../../../pages/pages.component.css']
 })
 export class DocumentReportComponent implements OnInit {
 
