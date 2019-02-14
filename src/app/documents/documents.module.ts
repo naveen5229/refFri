@@ -10,6 +10,7 @@ import { DocumentationDetailsComponent } from './documentation-details/documenta
 import { DirectiveModule } from '../directives/directives.module';
 import { SmartTableComponent } from './smart-table/smart-table.component';
   import { from } from 'rxjs';
+import { CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
 
 
 const PAGES_COMPONENTS = [
@@ -30,6 +31,7 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     DocumentationDetailsComponent,
     SmartTableComponent,
+    CrmVehicleDocumentionsComponent,
     
    
     

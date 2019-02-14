@@ -84,7 +84,7 @@ export class ImportDocumentComponent implements OnInit {
         let errorData = res['data'];
         // this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
         // const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
+        alert(res["msg"]);
         this.closeModal(true);
       }, err => {
         this.common.loading--;
@@ -108,7 +108,7 @@ export class ImportDocumentComponent implements OnInit {
         let errorData = res['data'];
         this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
         const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
+        alert(res["msg"]);
         // this.closeModal(true);
       }, err => {
         this.common.loading--;
