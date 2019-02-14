@@ -7,19 +7,31 @@ import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.com
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
-import { from } from 'rxjs';
 
 
 @Component({
   selector: 'vehicle-kpis',
   templateUrl: './vehicle-kpis.component.html',
-  styleUrls: ['./vehicle-kpis.component.scss','../pages.component.css']
+  styleUrls: ['./vehicle-kpis.component.scss', '../pages.component.css']
 })
 export class VehicleKpisComponent implements OnInit {
   kpis = [];
   allKpis = [];
   searchTxt = '';
   filters = [];
+
+  tableData = {
+    headings: {
+      vehicle: { title: 'Vehicle' },
+      status: { title: 'Status' },
+      hrs: { title: 'Hrs' },
+      trip: { title: 'Trip' },
+      kmp: { title: 'Kmp' },
+      location: { title: 'location' }
+    },
+    columns: []
+  };
+
 
   constructor(
     public api: ApiService,
@@ -41,6 +53,7 @@ export class VehicleKpisComponent implements OnInit {
         console.log(res);
         this.allKpis = res['data'];
         this.kpis = res['data'];
+        this.tableData.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -122,6 +135,21 @@ export class VehicleKpisComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  
+  getTableColumns() {
+    let columns = [];
+    this.allKpis.map(kpi => {
+      columns.push({
+        vehicle: { value: kpi.x_showveh },
+        status: { value: kpi.showprim_status + (kpi.showsec_status ? ',' + kpi.showsec_status : '') },
+        hrs: { value: kpi.x_hrssince, class: (kpi.x_hrssince >= 24) ? 'red' : '' },
+        trip: { value: kpi.x_showtripstart },
+        kmp: { value: kpi.x_kmph, class: kpi.x_kmph < 20 ? 'pink' : '' },
+        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi = kpi) }
+      });
+    });
+    return columns;
+  }
+
+
 }
 

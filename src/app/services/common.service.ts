@@ -288,6 +288,7 @@ export class CommonService {
       .subscribe(res => {
         this.loading--;
         console.info('Res: ', res);
+        this.showToast(res['msg']);
       }, err => this.apiErrorHandler(err, true, true))
   }
 }

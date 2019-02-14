@@ -12,11 +12,11 @@
     padding: 3px;
     border-left: 1px solid #f2f2f2;
 }
-.red {
+:host ::ng-deep.red {
     background: red;
     color: #fff;
 }
-.pink {
+:host ::ng-deep .pink {
     background: pink;
 }
 .loc-icon {
