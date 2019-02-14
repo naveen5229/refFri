@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <h2>Vehicle Documentation-details</h2>
+    <h2>Vehicle Documents Input </h2>
     <hr>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
@@ -49,8 +49,9 @@
           <tr>
             <th>Sr No</th>
             <th>Vehicle Number</th>
-            <th><input type="text" placeholder="Document Type" class="dataSearch">
-              <i class="fa fa-arrow-down" aria-hidden="true"></i></th>
+            <th><input type="text" (keypress)="doucumentFilter($event)" placeholder="Document Type" class="dataSearch">
+              <!-- <i class="fa fa-arrow-down" aria-hidden="true"></i> -->
+            </th>
             <th><input type="text" placeholder="Agent Name" class="dataSearch"></th>
             <th><input type="datetime" placeholder="issue Date" class="dataSearch"></th>
             <th><input type="datetime" placeholder="Wef Date" class="dataSearch"> </th>
@@ -70,7 +71,7 @@
             <td>{{doc.agent}}</td>
             <td style='min-width:80px;'>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
             <td style='min-width:80px;'>{{doc.wef_date |  date:'dd-MM-yyyy' }}</td>
-           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate ?  'pink':'green') ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
+           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate  ?  'pink':(doc.expiry_date ? 'green':'')) ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
             <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
             <td>

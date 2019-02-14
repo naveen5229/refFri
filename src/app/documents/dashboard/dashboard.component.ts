@@ -26,16 +26,13 @@ export class DashboardComponent implements OnInit {
 
 getDocumentData(){
 console.log("hii");
-//let foAdminId= this.api.;
-// console.log("my foid ",foAdminId);
+
 this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', {})
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
-        this.documentData = res['data'];
-   
-        
+        this.documentData = res['data'];  
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -48,6 +45,12 @@ openData(docReoprt,status){
 
 this.common.params = { docReoprt,status, title: 'Document Report' };
 const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+activeModal.result.then(data => {
+  if (data.response) {
+    this.getDocumentData();
+  }
+});
+
 }
 
 }

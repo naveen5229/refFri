@@ -40,7 +40,7 @@ export class ImportDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.btn3 = this.common.params.btn3 || 'Validate';
     this.vehicleId = this.common.params.vehicleId;
-    this.getDocumentsData();
+     this.getDocumentsData();
 
   }
 
@@ -70,10 +70,10 @@ export class ImportDocumentComponent implements OnInit {
     console.log("Document type", this.docType.id);;
 
   }
-  uploadCsv(validate = null) {
+  uploadCsv() {
     const params = {
       vehicleDocCsv: this.csv,
-      validate: validate
+      docTypeId : this.docType.id
     };
     console.log("Data :", params);
     this.common.loading++;
@@ -96,7 +96,8 @@ export class ImportDocumentComponent implements OnInit {
   checkCsv(validate = null) {
     const params = {
       vehicleDocCsv: this.csv,
-      validate: validate
+      validate: validate,
+      docTypeId : this.docType.id
     };
     console.log("Data :", params);
     this.common.loading++;

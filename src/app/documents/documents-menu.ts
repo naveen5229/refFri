@@ -2,13 +2,13 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Document Dashboard',
+        title: 'Vehicle Documents Summary',
         icon: 'nb-home',
         link: '/documents/dashboard',
         home: true,
     },
     {
-        title: 'documentation',
+        title: 'Vehicle Documents Input ',
         icon: 'fa fa-book',
         link: '/documents/documentation-details',
         home: true,

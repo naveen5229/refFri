@@ -13,7 +13,7 @@ export class ErrorReportComponent implements OnInit {
   title = '';
   btn = '';
   errors = [];
-  reason = "Fo not Refered To this Vid";
+  reason = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -24,10 +24,11 @@ export class ErrorReportComponent implements OnInit {
       this.title =this.common.params.title || 'Error Report';
       this.btn = this.common.params.btn || 'Close';
       this.errors = this.common.params.errorData;
+      this.reason = this.common.params.Reason;
 
       // this.reason = this.errors.reason;
       console.log("error data",this.errors);
-      console.log("reason data:",this.reason);
+   
      }
 
   ngOnInit() {

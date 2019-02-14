@@ -5,7 +5,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../../modals/image-view/image-view.component';
+import { EditDocumentComponent } from '../../documentation-modals/edit-document/edit-document.component';
 import { normalize } from 'path';
+import { from } from 'rxjs';
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
@@ -55,9 +57,9 @@ export class DocumentReportComponent implements OnInit {
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
-        console.log("report data", res);
+        
         this.reportResult = res['data'];
-        console.log("This report data",this.reportData);
+        console.log("report data", this.reportResult);
 
       }, err => {
         this.common.loading--;
@@ -84,5 +86,35 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
+  editData(doc){
+    console.log("edit model open   data",doc);
+   let documentData = [{
+     regNumber: doc.regno,
+     id : doc.document_id,
+     vehicleId : doc.vehicle_id,
+     documentType:doc.document_type,
+     documentId : doc.document_type_id,
+     issueDate :doc.issue_date,
+     wefDate : doc.wef_date,
+     expiryDate : doc.expiry_date,
+     agentId : doc.document_agent_id,
+     agentName : doc.agent,
+     documentNumber : doc.document_number,
+     docUpload : doc.img_url,
+     remark : doc.remarks,
+     rto : doc.rto,
+     amount : '',
+   }];
+ console.log("Document Id ;", documentData[0].id);
+
+  this.common.params = {documentData, title: 'Update Document',vehicleId:documentData[0].vehicleId};
+   const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+   activeModal.result.then(data => {
+     if (data.response) {
+       this.getReport();
+     }
+   });
+ }
+
 
 }

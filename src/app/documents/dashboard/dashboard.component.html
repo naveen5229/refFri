@@ -1,14 +1,14 @@
 <nb-card>
   <nb-card-header>
-    <h2>Vehicle Documentation-details</h2>
+    <h2>Vehicle Documents Summary</h2>
     <hr>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
 
       <div class="table">
-        <table class="table table-bordered table-hover">
-          <thead class="thead">
+        <table class="table table-bordered table-hover table-scroll">
+          <thead class="table-scroll thead">
             <tr>
               <th>Sr No.</th>
               <th>Document Type</th>
@@ -21,7 +21,7 @@
   
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-scroll"> 
             <tr *ngFor="let doc of documentData;  let i = index">
                <th scope="row">{{i + 1}}</th>
               <td>{{doc.name}}</td>

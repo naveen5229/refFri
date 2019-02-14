@@ -114,7 +114,6 @@ export class EditDocumentComponent implements OnInit {
       x_amount: this.document.amount,
 
     };
-    console.log("update data", params);
     this.common.loading++;
     let response;
     this.api.post('Vehicles/addVehicleDocument', params)
