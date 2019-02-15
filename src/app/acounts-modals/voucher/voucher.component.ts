@@ -26,7 +26,9 @@ export class VoucherComponent implements OnInit {
         debit: 0,
         credit: 0
       }
-    }]
+    }],
+    code: '',
+    remarks: ''
   };
  
   date = this.common.dateFormatter(new Date());

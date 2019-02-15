@@ -39,7 +39,7 @@ export class DocumentationDetailsComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle;
-    // this.data=vehicle;
+  console.log("selected id:",this.selectedVehicle.id);
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: vehicle.id })
       .subscribe(res => {
@@ -60,9 +60,9 @@ export class DocumentationDetailsComponent implements OnInit {
       });
 
   }
-  doucumentFilter(id) {
+  doucumentFilter(data) {
  
-   id=this.data;
+   let id=this.data[0].vehicle_id;
    console.log("id",id);
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id:id })
@@ -142,7 +142,7 @@ export class DocumentationDetailsComponent implements OnInit {
       rto : doc.rto,
       amount : '',
     }];
-  //  console.log("doc data", documentData);
+  
 
     this.common.params = {documentData, title: 'Update Document',vehicleId: this.selectedVehicle.id};
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
