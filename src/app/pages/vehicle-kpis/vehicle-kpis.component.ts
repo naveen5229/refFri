@@ -161,64 +161,53 @@ export class VehicleKpisComponent implements OnInit {
   }
 
   getTripStatusHTML(kpi) {
-    let html = '<i name="exit" class="fas fa-sign-out-alt"></i>';
+    let html = '<div>';
     if (kpi.trip_status_type == 0) {
       html += `
       <!-- Heading -->
-      <div col-4>
-        <i class="icon ion-md-exit"></i>
+        <i class="fa fa-arrow-circle-right complete"></i>
         <span class="circle">${kpi.x_showtripstart}</span>
         <i class="icon ion-md-arrow-round-forward"></i>
         <span>${kpi.x_showtripend}</span>
-      </div>
       `;
     } else if (kpi.trip_status_type == 1) {
       html += `
       <!-- Loading -->
-      <div col-4>
         <span class="circle">${kpi.x_showtripstart}</span>
         <i class="icon ion-md-arrow-round-forward"></i>
         <span>${kpi.x_showtripend}</span>
-      </div>
       `;
     } else if (kpi.trip_status_type == 2) {
       html += `
       <!-- Onward -->
-      <div col-4>
         <span>${kpi.x_showtripstart}</span>
         <i class="icon ion-md-arrow-round-forward"></i>
         <span>${kpi.x_showtripend}</span>
-      </div>
       `;
     } else if (kpi.trip_status_type == 3) {
       html += `
         <!-- Unloading -->
-        <div col-4>
           <span>${kpi.x_showtripstart}</span>
           <i class="icon ion-md-arrow-round-forward"></i>
-          <span class="icon ion-md-circle">${kpi.x_showtripend}</span>
-        </div>
+          <span class="circle">${kpi.x_showtripend}</span>
         `;
     } else if (kpi.trip_status_type == 4) {
       html += `
       <!-- Complete -->
-      <div col-4>
         <span>${kpi.x_showtripstart}</span>
         <i class="icon ion-md-arrow-round-forward"></i>
         <span>${kpi.x_showtripend}</span>
-      </div>
+        <i class="fa fa-check-circle complete"></i>
       `;
     } else {
       html += `
       <!-- Ambigous -->
-      <div col-4>
         <span>${kpi.x_showtripstart}</span>
         <span class="icon ion-md-route-arrow">-</span>
         <span>${kpi.x_showtripend}</span>
-      </div>
       `;
     }
-    return html;
+    return html + '</div>';
   }
 
 

@@ -25,17 +25,17 @@
     color: orange;
 }
 
-.circle {
+:host ::ng-deep .circle {
     border: 1px solid gray;
     border-radius: 50%;
-    padding: 1px 5px;
+    padding: 3px 4px;
 }
 .route-arrow {
     font-size: 20px;
     vertical-align: middle;
     margin: 0px 5px;
 }
-.complete {
+:host ::ng-deep .complete {
     vertical-align: middle;
     color: green;
 }

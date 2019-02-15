@@ -10,6 +10,7 @@ table.fixed {
 .table>thead>tr>td,
 .table>thead>tr>th {
     padding: 4px 6px;
+    overflow-wrap: break-word;
 }
 
 .filter-input-container {
@@ -17,20 +18,22 @@ table.fixed {
     display: inline-block;
     vertical-align: middle;
     border: 1px solid #e2e2e2;
-    border-right: none; 
+    border-right: none;
     height: 30px;
-
 }
 
 .filter-input {
     border: none;
     padding: 4px 6px;
     outline: none;
-    width: 100%;
-    // border: 1px solid #e2e2e2;
+    width: 100%; // border: 1px solid #e2e2e2;
     margin: 0;
     font-size: 12px;
     height: 100%;
+    font-weight: 500;
+}
+.filter-input::placeholder{
+    color: #333333;
 }
 
 .sort-container {
@@ -40,7 +43,7 @@ table.fixed {
     vertical-align: middle;
     text-align: center;
     border: 1px solid #e2e2e2;
-    border-left: none; 
+    border-left: none;
     height: 30px;
 }
 
@@ -48,9 +51,14 @@ table.fixed {
 .down-icon-container {
     height: 13px;
 }
-.up-icon-container{margin-top: 3px;}
-.down-icon-container{margin-top: -6px;}
 
+.up-icon-container {
+    margin-top: 3px;
+}
+
+.down-icon-container {
+    margin-top: -6px;
+}
 
 .sort-icon-up {
     font-size: 16px;
@@ -61,4 +69,27 @@ table.fixed {
     font-size: 16px;
     margin-top: -10px;
     cursor: pointer;
+}
+
+.zoom {
+    // transition: transform .2s;
+    /* Animation */
+}
+
+.zoom:hover {
+    // transform: scale(1.1);
+    // background: #f2f2f2;
+    // text-align: center;
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.no-record-found {
+    width: 100%;
+    margin: 10px auto;
+    box-shadow: 1px 4px 6px #f2f2f2;
+    height: 40px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 40px;
+    color: orange;
 }

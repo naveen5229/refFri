@@ -27,7 +27,6 @@ export class SmartTableComponent implements OnInit {
   }
 
   filterData(key) {
-    console.log('Data');
     this.headings[key].value = this.headings[key].value.toUpperCase();
     this.columns = this.data.columns.filter(column => {
       if (column[key].value && column[key].value.toString().toLowerCase().includes(this.headings[key].value.toLowerCase())) {
@@ -38,9 +37,9 @@ export class SmartTableComponent implements OnInit {
   }
 
   sortColumn(type, key) {
-    console.log(type, key);
+    // console.log(type, key);
     this.columns.sort((a, b) => {
-      console.log(typeof a[key].value, a[key].value, typeof b[key].value, b[key].value);
+      // console.log(typeof a[key].value, a[key].value, typeof b[key].value, b[key].value);
       if (typeof(a[key].value) == 'string' || typeof(b[key].value) == 'string') {
         let firstValue = a[key].value ?  a[key].value.toLowerCase() : '';
         let secondValue = b[key].value ?  b[key].value.toLowerCase() : '';
@@ -53,7 +52,7 @@ export class SmartTableComponent implements OnInit {
         return a[key].value - b[key].value;
       }
     });
-    console.log('Columns: ', this.columns);
+    // console.log('Columns: ', this.columns);
     if (type == 'desc') this.columns.reverse();
   }
 
