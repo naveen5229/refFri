@@ -42,7 +42,8 @@ export class EditDocumentComponent implements OnInit {
       wef: '',
       expiry: ''
     }
-  }
+  };
+  isFormSubmit = false;
 
   constructor(public api: ApiService,
     public common: CommonService,

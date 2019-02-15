@@ -29,7 +29,7 @@
           <div class="form-group">
               <label>Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startdate')"
-              placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="DayBook.startdate"
+              placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
               readonly>
           </div>
         </div>
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label>End Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('enddate')"
-                placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-enddate" [(ngModel)]="DayBook.enddate"
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="DayBook.enddate"
                 readonly>
             </div>
           </div>
