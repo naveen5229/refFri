@@ -35,6 +35,7 @@ export class ImportDocumentComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
+      this.common.handleModalSize('class', 'modal-m', '500');
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
@@ -82,8 +83,6 @@ export class ImportDocumentComponent implements OnInit {
         this.common.loading--;
         console.log("upload result", res);
         let errorData = res['data'];
-        // this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
-        // const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         alert(res["msg"]);
         this.closeModal(true);
       }, err => {

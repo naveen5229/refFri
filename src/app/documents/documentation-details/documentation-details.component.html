@@ -50,7 +50,7 @@
             <th>Sr No</th>
             <th>Vehicle Number</th>
             <th>Document Type </th>
-            <th>>Agent Name</th>
+            <th>Agent Name</th>
             <th>issue Date</th>
             <th>Wef Date </th>
             <th>Expiry Date</th>
@@ -75,8 +75,8 @@
             <td>{{doc.document_number}}</td>
             <td>{{doc.amount}}</td>
             <td>{{doc.remarks}}</td>
-            <td>
-                <i class="icon ion-md-image" (click)="imageView(doc)"></i>
+            <td >
+                <i class="icon ion-md-image" (click)="imageView(doc)" *ngIf="doc.img_url"></i>
             </td>
             <td (click)="editData(doc)"><i class="icon ion-md-create"></i>
             </td>

@@ -101,7 +101,7 @@ export class DocumentationDetailsComponent implements OnInit {
       return;
     }
     this.common.params = { images, title: 'Image' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   checkForPdf(imgUrl) {
