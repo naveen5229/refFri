@@ -27,12 +27,16 @@ export class VehicleKpisComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getKPIS();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
     console.log('ionViewDidLoad DriverKpisPage');
   }
-
+  refresh() {
+    console.log('Refresh');
+    this.getKPIS();
+  }
   getKPIS() {
     this.common.loading++;
     this.api.get('VehicleKpis')

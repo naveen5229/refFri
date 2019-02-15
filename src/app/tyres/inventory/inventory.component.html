@@ -61,19 +61,24 @@
             <td><input id="psi" name="psi" type="text" placeholder="Enter psi" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.psi" [readOnly] = "!inventory.is_health">
             </td>
+            <td *ngIf="i == 0">
+                <i class="fa fa-plus  add" (click)="addMore()" ></i></td>
+        <td *ngIf="i !== 0">
+                <i class="fa fa-trash remove" (click)="inventories.splice(i,1)"></i>
+        </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="row row-width">
+    <!-- <div class="row row-width">
       <div class="col-sm-9"> </div>
 
       <div class="col-sm-3">
         <button class="btn " type="button" outline (click)="addMore()" id="addmore" style="cursor: pointer;">+</button>
         <button class="btn btn-danger" type="button" outline (click)="remove()" id="remove" style="cursor: pointer;">-</button>
       </div>
-    </div>
+    </div> -->
     <div class="row row-width">
       <div class="col-sm-1"> </div>
       <div class="col-sm-2"> </div>

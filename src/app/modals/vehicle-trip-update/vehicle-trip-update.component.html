@@ -40,11 +40,14 @@
     </div>
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
-        <label>End Time</label>
+        <label>Target Time</label>
       </div>
       <div class="col-md-8">
-        <input type="text" id="vehicleTripendtime" class="form-control" name="endTime" [(ngModel)]="vehicleTrip.endTime"
-          placeholder="Exit Time" autocomplete="off" readonly>
+          <!-- <input [(ngModel)]="vehicleTrip.targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
+          autocomplete="off" name="date">
+        <owl-date-time #date></owl-date-time> -->
+        <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime" [(ngModel)]="vehicleTrip.targetTime"
+          placeholder="Exit Time" autocomplete="off" (click)="openReminderModal()">
       </div>
     </div>
     <div class="row" style="margin-top:5px">
@@ -58,6 +61,19 @@
           type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
         <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left" placeholder="End lng"
           type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:5px">
+      <div class="col-md-4">
+        <label>Placement </label>
+      </div>
+      <div class="col-md-8" style="margin-top:5px">
+       <select  [(ngModel)]="vehicleTrip.placementType" class="form-control">
+        <option value="11" selected>Loading</option>
+        <option value="21">UnLoading</option>
+        <option value="0">Others</option>
+       </select>
       </div>
     </div>
   </div>

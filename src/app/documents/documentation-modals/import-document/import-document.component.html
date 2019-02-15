@@ -41,7 +41,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 offset-md-08">
-          <label style="text-decoration: underline;color: blue;">Sample Csv Download </label>
+          <label style="text-decoration: underline;color: blue; cursor: pointer;" (click)="sampleCsv()">Sample Csv Download </label>
 
           <i class="icon ion-md-cloud-download" (click)="sampleCsv()"></i>
         </div>
@@ -55,7 +55,7 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-        <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv('validate')" id="submit"
+        <button class="btn btn-primary" form="document-form" type="submit" outline (click)="checkCsv('validate')" id="submit"
           style="cursor: pointer;">{{btn3}}</button>
       </div>
     <div class="col text-right">
