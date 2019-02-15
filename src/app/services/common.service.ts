@@ -267,4 +267,12 @@ export class CommonService {
     }, 100);
 
   }
+
+  generateArray(length){
+    let generatedArray =[];
+    for(let i=0;i<length;i++){
+      generatedArray.push(i+1);
+    }
+    return generatedArray;
+  }
 }
