@@ -9,10 +9,10 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./ledger.component.scss']
 })
 export class LedgerComponent implements OnInit {
-  Accounts={
-    name:'',
-    aliasname:'',
-    perrate:'',
+  Accounts = {
+    name: '',
+    aliasname: '',
+    perrate: '',
     user: {
       name: '',
       id: ''
@@ -20,33 +20,34 @@ export class LedgerComponent implements OnInit {
     account: {
       name: '',
       id: '',
-      primarygroup_id:''
-    }
-  
+      primarygroup_id: ''
+    },
+    code: ''
   };
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
 
-      if (this.common.params) {
-        this.Accounts = {
+    if (this.common.params) {
+      this.Accounts = {
+        name: this.common.params.name,
+        aliasname: this.common.params.aliasname,
+        perrate: this.common.params.perrate,
+        user: {
           name: this.common.params.name,
-          aliasname: this.common.params.aliasname,
-          perrate:this.common.params.perrate,
-          user: {
-            name: this.common.params.name,
-            id: this.common.params.id
-          },
-          account: {
-            name: this.common.params.name,
-            id: this.common.params.id,
-            primarygroup_id :this.common.params.primarygroup_id
-          }
-        }
-  
-        console.log('Accounts: ', this.Accounts);
+          id: this.common.params.id
+        },
+        account: {
+          name: this.common.params.name,
+          id: this.common.params.id,
+          primarygroup_id: this.common.params.primarygroup_id
+        },
+        code: ''
       }
-     }
+
+      console.log('Accounts: ', this.Accounts);
+    }
+  }
 
 
   ngOnInit() {
