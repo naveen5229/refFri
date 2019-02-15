@@ -37,6 +37,19 @@ export class InputsComponent implements OnInit {
   position = null;
   details :null;
 
+  vehicleTyrePosition = [{
+    truck:{
+      axel:{
+      l1:'',
+      l2:'',
+      r1:'',
+      r2:'',
+      pos:''
+    },
+    
+  }
+  }]
+
   date1 = this.common.dateFormatter(new Date());
 
   constructor(private modalService: NgbModal,
@@ -131,7 +144,7 @@ export class InputsComponent implements OnInit {
       let params = 'vehicleId=' +this.vehicleId+
       '&refMode=' + this.refMode;
       console.log("params ", params);
-      this.api.get('Tyres/getVehicleTyreDetails?' + params)
+      this.api.get('Tyres/getVehicleTyrePosition?' + params)
         .subscribe(res => {
           this.searchedTyreDetails = res['data'];
           console.log("searchedTyreDetails", this.searchedTyreDetails);
