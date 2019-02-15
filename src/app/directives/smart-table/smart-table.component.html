@@ -1,0 +1,38 @@
+<table *ngIf="headings" class="table table-bordered fixed">
+  <thead *ngIf="!settings.hideHeader">
+    <th style="width: 40px">#</th>
+    <th *ngFor="let heading of objectKeys(headings);">{{headings[heading].title}}</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:0" style="width: 40px">#</td>
+      <td style="padding:0;" *ngFor="let heading of objectKeys(headings);">
+        <div class="filter-input-container">
+          <input type="text" class="filter-input" [(ngModel)]="headings[heading].value" (input)="filterData(heading)"
+            [placeholder]="headings[heading].placeholder">
+        </div>
+        <div class="sort-container">
+          <div class="up-icon-container"><i class="fa fa-sort-up sort-icon-up" (click)="sortColumn('asc', heading)"></i>
+          </div>
+          <div class="down-icon-container"><i class="fa fa-sort-down sort-icon-down"
+              (click)="sortColumn('desc', heading)"></i></div>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let column of columns; let i = index;">
+      <td style="width: 40px">{{i}}</td>
+      <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
+        (click)="column[heading].action && column[heading].action()"
+        [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
+        <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
+          [innerHTML]="column[heading].value"></div>
+        <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="!column[heading].isHTML">{{column[heading].value}}
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="headings && !columns.length">
+  <div class="no-record-found">No Record Found</div>
+</div>
