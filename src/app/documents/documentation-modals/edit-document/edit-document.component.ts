@@ -24,7 +24,7 @@ export class EditDocumentComponent implements OnInit {
     docId: null,
     regno: null,
     regNumber: null,
-    documentType: null,
+    documentType: '',
     documentId: null,
     issueDate: null,
     wefDate: null,
@@ -42,7 +42,6 @@ export class EditDocumentComponent implements OnInit {
       wef: '',
       expiry: ''
     }
-
   }
 
   constructor(public api: ApiService,
@@ -65,8 +64,7 @@ export class EditDocumentComponent implements OnInit {
     this.document.wefDate = this.document[0].wefDate;
     this.document.expiryDate = this.document[0].expiryDate;
     this.document.agentId = this.document[0].agentId;
-    // console.log("agent id",this.document.agentId);
-    //  this.document.agentName = this.document[0].agentName;
+   
     this.document.documentNumber = this.document[0].documentNumber;
     // this.document.docUpload =this.document[0].docUpload;
     this.document.rto = this.document[0].rto;
@@ -115,7 +113,6 @@ export class EditDocumentComponent implements OnInit {
       x_amount: this.document.amount,
 
     };
-    console.log("update data", params);
     this.common.loading++;
     let response;
     this.api.post('Vehicles/addVehicleDocument', params)
