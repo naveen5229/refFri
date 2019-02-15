@@ -12,6 +12,7 @@ import { AccountComponent } from './account/account.component';
 import{ LedgersComponent } from './ledgers/ledgers.component';
 import  { CompanyBranchesComponent } from './company-branches/company-branches.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
+import{ DaybooksComponent} from './daybooks/daybooks.component';
 
 const routes: Routes = [{
     path: '',
@@ -56,6 +57,10 @@ const routes: Routes = [{
         {
             path: 'vouchers/:id/:name',
             component: VouchersComponent
+        },
+        {
+            path: 'daybooks',
+            component: DaybooksComponent
         }
     ]
 }];
