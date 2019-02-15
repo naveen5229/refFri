@@ -14,6 +14,7 @@ import { DocumentsSummaryComponent } from './documents-summary/documents-summary
 // import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
 import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
 // /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
+import { CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
 
 
 const PAGES_COMPONENTS = [
@@ -38,6 +39,7 @@ const PAGES_COMPONENTS = [
 
 
     SmartTableComponent,
+    CrmVehicleDocumentionsComponent,
     
    
     

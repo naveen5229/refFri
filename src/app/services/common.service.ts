@@ -19,6 +19,7 @@ export class CommonService {
   chartOptions: any;
   themeSubscription: any;
   searchId = null;
+  refresh = null;
 
 
   primaryType = {
@@ -261,10 +262,10 @@ export class CommonService {
     });
   }
 
-  handleModalSize(type, name, size, position = 0) {
+  handleModalSize(type, name, size, sizeType = 'px', position = 0) {
     setTimeout(() => {
       if (type == 'class') {
-        document.getElementsByClassName(name)[position]['style'].maxWidth = size + 'px';
+        document.getElementsByClassName(name)[position]['style'].maxWidth = size + sizeType;
       }
     }, 100);
 
@@ -290,5 +291,13 @@ export class CommonService {
         console.info('Res: ', res);
         this.showToast(res['msg']);
       }, err => this.apiErrorHandler(err, true, true))
+  }
+  
+  generateArray(length) {
+    let generatedArray = [];
+    for (let i = 0; i < length; i++) {
+      generatedArray.push(i + 1);
+    }
+    return generatedArray;
   }
 }

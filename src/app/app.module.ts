@@ -53,6 +53,7 @@ import { EditDocumentComponent } from './documents/documentation-modals/edit-doc
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 
+import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -91,6 +92,7 @@ import { ReportIssueComponent } from './modals/report-issue/report-issue.compone
     EditDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent
+    DocumentReportComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -124,7 +126,8 @@ import { ReportIssueComponent } from './modals/report-issue/report-issue.compone
     TaxdetailComponent,
     EditDocumentComponent,
     ErrorReportComponent,
-    ReportIssueComponent
+    ReportIssueComponent,
+    DocumentReportComponent
   ],
   imports: [
     BrowserModule,

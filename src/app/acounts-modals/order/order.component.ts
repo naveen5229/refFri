@@ -15,6 +15,8 @@ export class OrderComponent implements OnInit {
     date: '',
     biltynumber: '',
     biltydate: '',
+    totalamount:0,
+    grnremarks:'',
     branch: {
       name: '',
       id: ''
@@ -36,12 +38,16 @@ export class OrderComponent implements OnInit {
       ledger: '',
       taxledger: '',
       stockitem: '',
-      stockunit: '',
+      stockunit: {
+      name:'',
+      id:''
+      },
       qty: '',
       discountledger: '',
       warehouse: '',
       taxDetails: '',
-      remarks:''
+      remarks:'',
+      lineamount:0
     }]
   };
   constructor(private activeModal: NgbActiveModal,
@@ -57,14 +63,7 @@ export class OrderComponent implements OnInit {
  
 
 
-  calculateTotal(type) {
-    let total = 0;
-    this.order.amountDetails.map(amountDetail => {
-      // console.log('Amount: ',  amountDetail.amount[type]);
-      //  total += amountDetail.amount[type];
-    });
-    return total;
-  }
+ 
 
   addAmountDetails() {
     this.order.amountDetails.push({
@@ -72,15 +71,20 @@ export class OrderComponent implements OnInit {
       ledger: '',
       taxledger: '',
       stockitem: '',
-      stockunit: '',
+      stockunit: {
+        name:'',
+        id:''
+        },
       qty: '',
       discountledger: '',
       warehouse: '',
       taxDetails: '',
-      remarks:''
+      remarks:'',
+      lineamount:0
 
     });
   }
+
   dismiss(response) {
     // console.log('Order:', this.order);
     if (response) {
@@ -137,6 +141,7 @@ export class OrderComponent implements OnInit {
       ledger: order.ledger.id,
       ordertype: order.ordertype.id,
       purchaseledgerid: order.purchaseledger.id,
+      grnremarks: order.grnremarks,
      // approved: order.Approved,
      // delreview: order.delreview,
       amountDetails: order.amountDetails
@@ -150,6 +155,8 @@ export class OrderComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
+        this.common.showToast('Invoice Are Saved');
+      return;
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -159,6 +166,13 @@ export class OrderComponent implements OnInit {
 
   }
 
-
+ calculateTotal() {
+    let total = 0;
+    this.order.amountDetails.map(amountDetail => {
+      // console.log('Amount: ',  amountDetail.amo  unt[type]);
+        total += amountDetail.lineamount;
+    });
+    return total;
+  }
 
 }

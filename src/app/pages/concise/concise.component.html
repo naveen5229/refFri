@@ -29,6 +29,16 @@
         </div>
 
         <div style="height:300px;overflow:auto">
+          <nb-card>
+              <nb-card-body (click)="allData()" style="background-color:grey;color: white">
+                  <div class="col-sm-9">
+                  All Data
+                  </div>
+                  <div class="col-sm-3">
+                      {{kpis.length}}
+                    </div>
+                </nb-card-body>
+          </nb-card>
           <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
             <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">
               <div class="row" [ngStyle]="{'color': group.textColor}">

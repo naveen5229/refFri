@@ -14,6 +14,7 @@ import { AccountComponent } from './account/account.component';
 import { LedgersComponent } from './ledgers/ledgers.component';
 import { CompanyBranchesComponent } from './company-branches/company-branches.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
+import { DaybooksComponent } from './daybooks/daybooks.component';
 //import { StockSubtypeComponent } from '../acounts-modals/stock-subtype/stock-subtype.component';
 
 const PAGES_COMPONENTS = [
@@ -38,7 +39,8 @@ const PAGES_COMPONENTS = [
     AccountComponent,
     LedgersComponent,
     CompanyBranchesComponent,
-    VouchersComponent
+    VouchersComponent,
+    DaybooksComponent
     //StockSubtypeComponent
   ],
 })

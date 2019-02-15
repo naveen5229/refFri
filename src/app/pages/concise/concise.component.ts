@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
+import { componentRefresh } from '@angular/core/src/render3/instructions';
 
 
 @Component({
@@ -57,7 +58,9 @@ export class ConciseComponent implements OnInit {
       name: "Trip End",
       key: "x_showtripend"
     },
-  ]
+  ];
+
+  selectedFilterKey = '';
 
   constructor(
     public api: ApiService,
@@ -65,11 +68,19 @@ export class ConciseComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getKPIS();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
   }
+
+  refresh() {
+    console.log('Refresh');
+    this.getKPIS();
+  }
+  // this.router.navigateByUrl('/RefrshComponent', {skipLocationChange: true}).then(()=>
+  // this.router.navigate(["Your actualComponent"])); 
 
   getKPIS() {
     this.common.loading++;
@@ -186,6 +197,7 @@ export class ConciseComponent implements OnInit {
   }
 
   filterData(filterKey) {
+    this.selectedFilterKey = filterKey;
     console.log(filterKey, this.viewType);
     this.kpis = this.allKpis.filter(kpi => {
       if (kpi[this.viewType] == filterKey) return true;
@@ -273,8 +285,14 @@ export class ConciseComponent implements OnInit {
     let chartInfo = this.common.pieChart(chartLabels, chartData, this.chartColors);
     this.chartData = chartInfo.chartData;
     this.chartOptions = chartInfo.chartOptions;
+    
+    this.selectedFilterKey && this.filterData(this.selectedFilterKey);
+    
 
-
+  }
+  allData(){
+    this.selectedFilterKey = '';
+    this.getKPIS();
   }
 
   reportIssue(kpi) {
