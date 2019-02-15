@@ -91,7 +91,7 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     TaxdetailComponent,
     EditDocumentComponent,
     ErrorReportComponent,
-    ReportIssueComponent
+    ReportIssueComponent,
     DocumentReportComponent
   ],
   entryComponents: [

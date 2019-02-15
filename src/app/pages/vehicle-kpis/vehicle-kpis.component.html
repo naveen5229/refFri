@@ -4,7 +4,7 @@
   </nb-card-header>
 
   <nb-card-body>
-   <smart-table *ngIf="allKpis.length" [data]="tableData"></smart-table>
+   <smart-table *ngIf="allKpis.length" [data]="table.data" [settings]="table.settings"></smart-table>
    <br>
    
     <table *ngIf="kpi" class="table table-bordered table-hover">

@@ -20,16 +20,21 @@ export class VehicleKpisComponent implements OnInit {
   searchTxt = '';
   filters = [];
 
-  tableData = {
-    headings: {
-      vehicle: { title: 'Vehicle' },
-      status: { title: 'Status' },
-      hrs: { title: 'Hrs' },
-      trip: { title: 'Trip' },
-      kmp: { title: 'Kmp' },
-      location: { title: 'location' }
+  table = {
+    data: {
+      headings: {
+        vehicle: { title: 'Vehicle', placeholder: 'Vehicle' },
+        status: { title: 'Status', placeholder: 'Status' },
+        hrs: { title: 'Hrs', placeholder: 'Hrs' },
+        trip: { title: 'Trip', placeholder: 'Trip' },
+        kmp: { title: 'Kmp', placeholder: 'Kmp' },
+        location: { title: 'location', placeholder: 'Location' }
+      },
+      columns: []
     },
-    columns: []
+    settings: {
+      hideHeader: true
+    }
   };
 
 
@@ -49,6 +54,7 @@ export class VehicleKpisComponent implements OnInit {
     console.log('Refresh');
     this.getKPIS();
   }
+
   getKPIS() {
     this.common.loading++;
     this.api.get('VehicleKpis')
@@ -57,7 +63,7 @@ export class VehicleKpisComponent implements OnInit {
         console.log(res);
         this.allKpis = res['data'];
         this.kpis = res['data'];
-        this.tableData.columns = this.getTableColumns();
+        this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -146,12 +152,73 @@ export class VehicleKpisComponent implements OnInit {
         vehicle: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
         status: { value: kpi.showprim_status + (kpi.showsec_status ? ',' + kpi.showsec_status : ''), action: this.showDetails.bind(this, kpi) },
         hrs: { value: kpi.x_hrssince, class: (kpi.x_hrssince >= 24) ? 'red' : '', action: this.showDetails.bind(this, kpi) },
-        trip: { value: kpi.x_showtripstart, action: this.showDetails.bind(this, kpi) },
+        trip: { value: this.getTripStatusHTML(kpi), action: this.showDetails.bind(this, kpi), isHTML: true },
         kmp: { value: kpi.x_kmph, class: kpi.x_kmph < 20 ? 'pink' : '', action: this.showDetails.bind(this, kpi) },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) }
       });
     });
     return columns;
+  }
+
+  getTripStatusHTML(kpi) {
+    let html = '<i name="exit" class="fas fa-sign-out-alt"></i>';
+    if (kpi.trip_status_type == 0) {
+      html += `
+      <!-- Heading -->
+      <div col-4>
+        <i class="icon ion-md-exit"></i>
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      </div>
+      `;
+    } else if (kpi.trip_status_type == 1) {
+      html += `
+      <!-- Loading -->
+      <div col-4>
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      </div>
+      `;
+    } else if (kpi.trip_status_type == 2) {
+      html += `
+      <!-- Onward -->
+      <div col-4>
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      </div>
+      `;
+    } else if (kpi.trip_status_type == 3) {
+      html += `
+        <!-- Unloading -->
+        <div col-4>
+          <span>${kpi.x_showtripstart}</span>
+          <i class="icon ion-md-arrow-round-forward"></i>
+          <span class="icon ion-md-circle">${kpi.x_showtripend}</span>
+        </div>
+        `;
+    } else if (kpi.trip_status_type == 4) {
+      html += `
+      <!-- Complete -->
+      <div col-4>
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      </div>
+      `;
+    } else {
+      html += `
+      <!-- Ambigous -->
+      <div col-4>
+        <span>${kpi.x_showtripstart}</span>
+        <span class="icon ion-md-route-arrow">-</span>
+        <span>${kpi.x_showtripend}</span>
+      </div>
+      `;
+    }
+    return html;
   }
 
 

@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
+// import * as _ from 'lodash';
 
 @Component({
   selector: 'smart-table',
@@ -7,6 +8,7 @@ import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } fro
 })
 export class SmartTableComponent implements OnInit {
   @Input() data: any;
+  @Input() settings: any;
   objectKeys = Object.keys;
   headings = null;
   columns = [];
@@ -33,6 +35,26 @@ export class SmartTableComponent implements OnInit {
       }
       return false;
     });
+  }
+
+  sortColumn(type, key) {
+    console.log(type, key);
+    this.columns.sort((a, b) => {
+      console.log(typeof a[key].value, a[key].value, typeof b[key].value, b[key].value);
+      if (typeof(a[key].value) == 'string' || typeof(b[key].value) == 'string') {
+        let firstValue = a[key].value ?  a[key].value.toLowerCase() : '';
+        let secondValue = b[key].value ?  b[key].value.toLowerCase() : '';
+        if (firstValue < secondValue) //sort string ascending
+          return -1
+        if (firstValue > secondValue)
+          return 1
+        return 0
+      } else {
+        return a[key].value - b[key].value;
+      }
+    });
+    console.log('Columns: ', this.columns);
+    if (type == 'desc') this.columns.reverse();
   }
 
 }
