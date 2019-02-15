@@ -70,6 +70,7 @@ export class EditDocumentComponent implements OnInit {
     // this.document.docUpload =this.document[0].docUpload;
     this.document.rto = this.document[0].rto;
     this.document.remark = this.document[0].remark;
+    this.document.amount = this.document[0].amount;
     this.getDocumentsData();
   }
   closeModal(response) {

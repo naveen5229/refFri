@@ -36,7 +36,7 @@ export class DocumentReportComponent implements OnInit {
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
 
-    this.getReport();
+    // this.getReport();
   }
 
   ngOnInit() {
@@ -58,7 +58,7 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-        console.log("report data", this.reportResult);
+        console.log("Api result", this.reportResult);
 
       }, err => {
         this.common.loading--;
@@ -102,7 +102,7 @@ export class DocumentReportComponent implements OnInit {
      docUpload : doc.img_url,
      remark : doc.remarks,
      rto : doc.rto,
-     amount : '',
+     amount : doc.amount,
    }];
  console.log("Document Id ;", documentData[0].id);
 
