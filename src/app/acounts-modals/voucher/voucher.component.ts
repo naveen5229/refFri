@@ -50,7 +50,7 @@ export class VoucherComponent implements OnInit {
   dismiss(response) {
     console.log('Voucher:', this.voucher);
     if (response && (this.calculateTotal('credit') !== this.calculateTotal('debit'))) {
-      this.common.showToast('Some Messages');
+      this.common.showToast('Credit And Debit Amount Should be Same');
       return;
     }
     this.activeModal.close({ response: response, Voucher: this.voucher });
