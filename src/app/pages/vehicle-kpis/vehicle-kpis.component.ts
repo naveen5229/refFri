@@ -139,12 +139,12 @@ export class VehicleKpisComponent implements OnInit {
     let columns = [];
     this.allKpis.map(kpi => {
       columns.push({
-        vehicle: { value: kpi.x_showveh },
-        status: { value: kpi.showprim_status + (kpi.showsec_status ? ',' + kpi.showsec_status : '') },
-        hrs: { value: kpi.x_hrssince, class: (kpi.x_hrssince >= 24) ? 'red' : '' },
-        trip: { value: kpi.x_showtripstart },
-        kmp: { value: kpi.x_kmph, class: kpi.x_kmph < 20 ? 'pink' : '' },
-        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi = kpi) }
+        vehicle: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
+        status: { value: kpi.showprim_status + (kpi.showsec_status ? ',' + kpi.showsec_status : ''), action: this.showDetails.bind(this, kpi) },
+        hrs: { value: kpi.x_hrssince, class: (kpi.x_hrssince >= 24) ? 'red' : '', action: this.showDetails.bind(this, kpi) },
+        trip: { value: kpi.x_showtripstart, action: this.showDetails.bind(this, kpi) },
+        kmp: { value: kpi.x_kmph, class: kpi.x_kmph < 20 ? 'pink' : '', action: this.showDetails.bind(this, kpi) },
+        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) }
       });
     });
     return columns;

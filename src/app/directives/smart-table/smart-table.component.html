@@ -14,7 +14,7 @@
     <tr *ngFor="let column of columns; let i = index;">
       <td style="width: 40px">{{i}}</td>
       <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
-        (click)="column[heading].action()">{{column[heading].value}}</td>
+        (click)="column[heading].action && column[heading].action()">{{column[heading].value}}</td>
     </tr>
   </tbody>
 </table>
