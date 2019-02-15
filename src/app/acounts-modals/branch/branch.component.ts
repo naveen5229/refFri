@@ -9,8 +9,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./branch.component.scss']
 })
 export class BranchComponent implements OnInit {
-  Branches={
-    name:'',
+  Branches = {
+    name: '',
     user: {
       name: '',
       id: ''
@@ -18,32 +18,63 @@ export class BranchComponent implements OnInit {
     account: {
       name: '',
       id: '',
-      primarygroup_id:''
-    }
-  
+      primarygroup_id: ''
+    },
+    code: '',
+    phonenumber: '',
+    mobilenumber: '',
+    faxnumber: '',
+    tollfreenumber: '',
+    email: '',
+    exciseno: '',
+    tinno: '',
+    panno: '',
+    importexportno: '',
+    tanno: '',
+    gstno: '',
+    taxexemptionno: '',
+    isactive: '',
+    addressline: '',
+    remarks: ''
   };
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
-    public api: ApiService) { 
+    public api: ApiService) {
 
-      
-      if (this.common.params) {
-        this.Branches = {
+
+    if (this.common.params) {
+      this.Branches = {
+        name: this.common.params.name,
+        user: {
           name: this.common.params.name,
-          user: {
-            name: this.common.params.name,
-            id: this.common.params.id
-          },
-          account: {
-            name: this.common.params.name,
-            id: this.common.params.id,
-            primarygroup_id :this.common.params.primarygroup_id
-          }
-        }
-  
-      //  console.log('Accounts: ', this.Accounts);
+          id: this.common.params.id
+        },
+        account: {
+          name: this.common.params.name,
+          id: this.common.params.id,
+          primarygroup_id: this.common.params.primarygroup_id
+        },
+        code: '',
+        phonenumber: '',
+        mobilenumber: '',
+        faxnumber: '',
+        tollfreenumber: '',
+        email: '',
+        exciseno: '',
+        tinno: '',
+        panno: '',
+        importexportno: '',
+        tanno: '',
+        gstno: '',
+        taxexemptionno: '',
+        isactive: '',
+        addressline: '',
+        remarks: ''
       }
+
+      //  console.log('Accounts: ', this.Accounts);
     }
+  }
 
   ngOnInit() {
   }
@@ -57,5 +88,5 @@ export class BranchComponent implements OnInit {
     this.Branches[type].id = selectedData.id;
     console.log('Accounts User: ', this.Branches);
   }
- 
+
 }

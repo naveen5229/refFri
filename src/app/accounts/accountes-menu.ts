@@ -14,6 +14,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/orders'
     },
     {
+        title: 'Day Book',
+        icon: 'nb-home',
+        link: '/accounts/daybooks'
+    },
+    {
         title: 'Stock Types',
         icon: 'nb-home',
         link: '/accounts/stock-types'

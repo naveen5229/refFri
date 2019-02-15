@@ -20,7 +20,7 @@ export class VehicleSearchComponent implements OnInit {
   date1  = this.common.dateFormatter(new Date());
   constructor(
     private activeModal: NgbActiveModal,
-    private common : CommonService,
+    public common : CommonService,
     public api : ApiService
   ) {
     this.vehicleId = this.common.params.vehicleId;
