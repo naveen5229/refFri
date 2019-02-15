@@ -2,7 +2,7 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Vehicle Documents Summary',
+        title: 'Vehicle DocumentSummary',
         icon: 'nb-home',
         link: '/documents/dashboard',
         home: true,
@@ -20,9 +20,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Documents Summary',
-        icon: 'nb-home',
+        title: 'Vehicle Documents Dashboard',
+        icon: 'fa fa-list-ul',
         link: '/documents/documents-summary',
         home: true,
+       
     }
 ];

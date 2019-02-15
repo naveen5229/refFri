@@ -140,7 +140,7 @@ export class DocumentationDetailsComponent implements OnInit {
       docUpload : doc.img_url,
       remark : doc.remarks,
       rto : doc.rto,
-      amount : '',
+      amount : doc.amount,
     }];
   
 
