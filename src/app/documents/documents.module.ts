@@ -8,7 +8,6 @@ import { Ng2SmartTableModule} from 'ng2-smart-table';
 import { DocumentsComponent } from './documents.components';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 import { DirectiveModule } from '../directives/directives.module';
-import { SmartTableComponent } from './smart-table/smart-table.component';
   import { from } from 'rxjs';
 import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
 // import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
@@ -35,14 +34,7 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     DocumentationDetailsComponent,
     DocumentsSummaryComponent,
-    // AddAgentComponent,
-
-
-    SmartTableComponent,
-    CrmVehicleDocumentionsComponent,
-    
-   
-    
+    CrmVehicleDocumentionsComponent,    
   ],
 })
 export class DocumentsModule { }

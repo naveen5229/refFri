@@ -49,7 +49,6 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
         console.log("expiry Date:", exp_date);
         console.log("current date", this.curr);
         console.log("next Month Date", this.nextMthDate);
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -57,7 +56,6 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
 
   }
   doucumentFilter(data) {
-
     let id = this.data[0].vehicle_id;
     console.log("id", id);
     this.common.loading++;
@@ -66,7 +64,6 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -104,5 +101,4 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
-
 }

@@ -11,7 +11,7 @@ import { from } from 'rxjs';
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
-  styleUrls: ['./document-report.component.scss','../../../pages/pages.component.css']
+  styleUrls: ['./document-report.component.scss', '../../../pages/pages.component.css']
 })
 export class DocumentReportComponent implements OnInit {
 
@@ -35,8 +35,7 @@ export class DocumentReportComponent implements OnInit {
     console.info("report data", this.reportData);
 
     this.getReport();
-    this.totalReport();
-    // this.reportResult;
+    // this.totalReport();
 
   }
 
@@ -60,22 +59,20 @@ export class DocumentReportComponent implements OnInit {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
-
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-
   }
-  
+
   totalReport() {
     let params = {
-     
+
       status: this.reportData.status
     };
-    
+
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status})
+    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
@@ -87,7 +84,6 @@ export class DocumentReportComponent implements OnInit {
       });
 
   }
-
 
   imageView(doc) {
     console.log("image data", doc);
@@ -108,38 +104,35 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
-  editData(doc){
-    console.log("edit model open  data",doc);
-   let documentData = [{
-     regNumber: doc.regno,
-     id : doc.document_id,
-     vehicleId : doc.vehicle_id,
-     documentType:doc.document_type,
-     documentId : doc.document_type_id,
-     issueDate :doc.issue_date,
-     wefDate : doc.wef_date,
-     expiryDate : doc.expiry_date,
-     agentId : doc.document_agent_id,
-     agentName : doc.agent,
-     documentNumber : doc.document_number,
-     docUpload : doc.img_url,
-     remark : doc.remarks,
-     rto : doc.rto,
-     amount : doc.amount,
-   }];
- console.log("Document Id ;", documentData[0].id);
+  editData(doc) {
+    console.log("edit model open  data", doc);
+    let documentData = [{
+      regNumber: doc.regno,
+      id: doc.document_id,
+      vehicleId: doc.vehicle_id,
+      documentType: doc.document_type,
+      documentId: doc.document_type_id,
+      issueDate: doc.issue_date,
+      wefDate: doc.wef_date,
+      expiryDate: doc.expiry_date,
+      agentId: doc.document_agent_id,
+      agentName: doc.agent,
+      documentNumber: doc.document_number,
+      docUpload: doc.img_url,
+      remark: doc.remarks,
+      rto: doc.rto,
+      amount: doc.amount,
+    }];
+    console.log("Document Id ;", documentData[0].id);
 
-  this.common.params = {documentData, title: 'Update Document',vehicleId:documentData[0].vehicleId};
-   const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-   activeModal.result.then(data => {
-     if (data.response) {
-      // this.closeModal(true);
-       this.getReport();
-       
-       
-     }
-   });
- }
-
+    this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
+    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        // this.closeModal(true);
+        this.getReport();
+      }
+    });
+  }
 
 }

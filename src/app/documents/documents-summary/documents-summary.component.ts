@@ -16,8 +16,7 @@ export class DocumentsSummaryComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public user: UserService
-    ) {
+    public user: UserService) {
       this.getDocumentMatrixData();
      }
 
@@ -30,9 +29,7 @@ export class DocumentsSummaryComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log("data", res);
-          this.data = res['data'];
-
-                
+          this.data = res['data'];                
         }, err => {
           this.common.loading--;
           console.log(err);
