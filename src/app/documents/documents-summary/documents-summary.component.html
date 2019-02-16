@@ -13,15 +13,18 @@
               </tr>
             </thead>
             <tbody class="" >
-              <ng-container *ngIf="data.vehicle_info.length">
+              <ng-container *ngIf="data.vehicle_info != 'undefined'">
                 <tr *ngFor="let row of data.vehicle_info">
                   <td *ngFor="let col of data.columns" class="text-center">
                     <span *ngIf="col == 'Vehicle No.'">
                         {{row[col]}}  
                     </span>
-                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
+                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.' && row[col].indexOf('http') > -1">
                         <a href="{{row[col]}}" target='blank'><img class="icon-img"  src="assets/images/doc-tick.jpeg" alt="View" /></a>
                     </ng-container>
+                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.' && row[col].indexOf('http') == -1">
+                      <a href="{{row[col]}}" target='blank' onclick="javascript: alert('No image uploaded but Expiry Date exists');"><img class="icon-img"  src="assets/images/doc-tick.jpeg" alt="View" /></a>
+                  </ng-container>
                     <ng-container *ngIf="row[col] == ''">
                         <img  class="icon-img"  src="assets/images/doc-cross.png" alt="No" />
                     </ng-container>

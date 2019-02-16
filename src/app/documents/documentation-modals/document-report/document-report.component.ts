@@ -35,9 +35,8 @@ export class DocumentReportComponent implements OnInit {
     console.info("report data", this.reportData);
 
     this.getReport();
-    this.totalReport();
-    // this.reportResult;
-
+    // this.totalReport();
+   
   }
 
   ngOnInit() {
@@ -60,14 +59,12 @@ export class DocumentReportComponent implements OnInit {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
-
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-
   }
-  
+ 
   totalReport() {
     let params = {
      
