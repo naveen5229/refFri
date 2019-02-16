@@ -1,0 +1,35 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Pending Vehicle Documents</h2>
+    <hr>
+  </nb-card-header>
+  <nb-card-body style="min-height: 360px;">
+    <div class="container">
+      <div class="row col-sm-12">
+          <table class="table table-bordered table-hover table-scroll">
+              <thead class="thead" >
+                <tr>
+                  <th class="col-sm-2">Vehicle No.</th>
+                  <th class="col-sm-2">Vehicle ID</th>
+                  <th class="col-sm-2">Document ID</th>
+                  <th class="col-sm-2">Document Type</th>
+                  <th class="col-sm-4">Action</th>
+                </tr>
+              </thead>
+              <tbody class="" >
+                  <ng-container *ngIf="data != 'undefined'">
+                    <tr *ngFor="let row of data">
+                      <td class="col-sm-2">{{row.regno}}</td>
+                      <td class="col-sm-2">{{row.vehicle_id}}</td>
+                      <td class="col-sm-2">{{row.id}}</td>
+                      <td class="col-sm-2">{{row.name}}</td>
+                      <td class="col-sm-4" (click)="showDetails(row)"><a href="javascript: void(0);"><i class="icon ion-md-create"></i></a></td>
+                    </tr>
+                  </ng-container>
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+

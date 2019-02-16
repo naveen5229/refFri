@@ -13,6 +13,7 @@ import { SmartTableComponent } from './smart-table/smart-table.component';
 import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
 // import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
 import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
+import { PendingDocumentsComponent } from './pending-documents/pending-documents.component';
 // /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
 
 
@@ -38,6 +39,7 @@ const PAGES_COMPONENTS = [
 
 
     SmartTableComponent,
+    PendingDocumentsComponent,
     
    
     

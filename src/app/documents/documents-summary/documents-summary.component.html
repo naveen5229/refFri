@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <h2>Vehicle Documents Summary</h2>
+    <h2>Vehicle Documents Dashboard</h2>
     <hr>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
@@ -19,9 +19,12 @@
                     <span *ngIf="col == 'Vehicle No.'">
                         {{row[col]}}  
                     </span>
-                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
+                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.' && row[col].indexOf('http') > -1">
                         <a href="{{row[col]}}" target='blank'><img class="icon-img"  src="assets/images/doc-tick.jpeg" alt="View" /></a>
                     </ng-container>
+                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.' && row[col].indexOf('http') == -1">
+                      <a href="{{row[col]}}" target='blank' onclick="javascript: alert('No image uploaded but Expiry Date exists');"><img class="icon-img"  src="assets/images/doc-tick.jpeg" alt="View" /></a>
+                  </ng-container>
                     <ng-container *ngIf="row[col] == ''">
                         <img  class="icon-img"  src="assets/images/doc-cross.png" alt="No" />
                     </ng-container>

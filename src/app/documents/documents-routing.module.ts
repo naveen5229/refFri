@@ -5,6 +5,7 @@ import { DocumentsComponent } from './documents.components';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentationDetailsComponent} from './documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent} from './documents-summary/documents-summary.component';
+import { PendingDocumentsComponent} from './pending-documents/pending-documents.component';
  import { SmartTableComponent } from './smart-table/smart-table.component';
 
 const routes: Routes = [{
@@ -22,6 +23,10 @@ const routes: Routes = [{
         {
             path: 'documents-summary',
             component: DocumentsSummaryComponent,
+        },
+        {
+            path: 'pending-documents',
+            component: PendingDocumentsComponent,
         },
         {
             path: 'smart-table',
