@@ -146,7 +146,7 @@ export class InputsComponent implements OnInit {
       console.log("params ", params);
       this.api.get('Tyres/getVehicleTyrePosition?' + params)
         .subscribe(res => {
-          this.searchedTyreDetails = res['data'];
+          this.searchedTyreDetails = res['data'][0].fn_getvehicletyredetails;
           console.log("searchedTyreDetails", this.searchedTyreDetails);
 
         }, err => {
