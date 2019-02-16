@@ -17,6 +17,8 @@ export class ReportIssueComponent implements OnInit {
     refId: ''
   };
   issues = [];
+  submitBtn = '';
+  cancelBtn = '';
 
   constructor(public common: CommonService, public api: ApiService,
     private activeModal: NgbActiveModal,
@@ -42,11 +44,11 @@ export class ReportIssueComponent implements OnInit {
   }
 
   dismiss(status?) {
-    if(status && !this.newIssue.type){
+    if (status && !this.newIssue.type) {
       this.common.showError('Please Select An Issue Type');
       return;
     }
-    this.activeModal.close({status: status, issue: this.newIssue});
+    this.activeModal.close({ status: status, issue: this.newIssue });
   }
 
 }
