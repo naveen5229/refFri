@@ -3,6 +3,7 @@ import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbThemeService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { ApiService } from './api.service';
 
 
 
@@ -56,6 +57,7 @@ export class CommonService {
     public router: Router,
     private toastrService: NbToastrService,
     private theme: NbThemeService,
+    public api: ApiService,
     private datePipe: DatePipe
   ) {
 
@@ -269,10 +271,32 @@ export class CommonService {
 
   }
 
-  generateArray(length){
-    let generatedArray =[];
-    for(let i=0;i<length;i++){
-      generatedArray.push(i+1);
+  apiErrorHandler(err, hideLoading, showError, msg?) {
+    console.error('Api Error: ', err);
+    hideLoading && this.loading--;
+    showError && this.showError(msg);
+  }
+
+  reportAnIssue(issue, refId) {
+    const params = {
+      issueTypeId: issue.type,
+      refId: refId,
+      remark: issue.remark
+    };
+    console.info('Params: ', params);
+    this.loading++;
+    this.api.post('InformationIssue/insertIssueRequest', params)
+      .subscribe(res => {
+        this.loading--;
+        console.info('Res: ', res);
+        this.showToast(res['msg']);
+      }, err => this.apiErrorHandler(err, true, true))
+  }
+  
+  generateArray(length) {
+    let generatedArray = [];
+    for (let i = 0; i < length; i++) {
+      generatedArray.push(i + 1);
     }
     return generatedArray;
   }
