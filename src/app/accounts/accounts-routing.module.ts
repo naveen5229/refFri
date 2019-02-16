@@ -13,6 +13,9 @@ import{ LedgersComponent } from './ledgers/ledgers.component';
 import  { CompanyBranchesComponent } from './company-branches/company-branches.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
 import{ DaybooksComponent} from './daybooks/daybooks.component';
+import{LedgerviewComponent } from './ledgerview/ledgerview.component';
+import{ LedgermappingComponent} from './ledgermapping/ledgermapping.component';
+import{InvoiceregisterComponent} from './invoiceregister/invoiceregister.component';
 
 const routes: Routes = [{
     path: '',
@@ -61,6 +64,18 @@ const routes: Routes = [{
         {
             path: 'daybooks',
             component: DaybooksComponent
+        },
+        {
+            path: 'ledgerview',
+            component: LedgerviewComponent
+        },
+        {
+            path: 'ledgermapping',
+            component: LedgermappingComponent
+        },
+        {
+            path: 'invoiceregister',
+            component: InvoiceregisterComponent
         }
     ]
 }];

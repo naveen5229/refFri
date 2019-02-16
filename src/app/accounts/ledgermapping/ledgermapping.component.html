@@ -1,0 +1,38 @@
+<h1>Ledger Mapping</h1>
+
+
+
+
+<div class="row" style="margin-left: 5px;">
+  
+    <div class="col-4">
+        <div class="form-group">
+          <label>Ledger</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger" display="name"
+            placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label>Ledger</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" url="Suggestion/GetAccount" display="name"
+            placeholder="Enter Secondary Group" [preSelected]="null"></auto-suggestion>
+        </div>
+      </div>
+  <div class="col-4">
+    <div class="form-group">
+      <button class="btn btn-primary" type="button" outline (click)="getLedgerView()" id="submit"
+        style="cursor: pointer;margin-top: 18px;">Submit</button>
+    </div>
+  </div>
+</div>
+<table class="table table-bordered">
+  <tr>
+    <th>#</th>
+    <th>Ledger</th>
+  </tr>
+  <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{dataItem.y_group_name}}</td>
+  </tr>
+</table>

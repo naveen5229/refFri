@@ -1,4 +1,4 @@
-<h1>Day Book</h1>
+<h1>Ledger View</h1>
 
 
 
@@ -14,7 +14,7 @@
   <div class="col">
       <div class="form-group">
         <label>Voucher Type</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'vouchertype', 'name')" url="Suggestion/GetVouchertypeList" display="name"
+        <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
           placeholder="Enter Voucher Type" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
@@ -28,22 +28,22 @@
       <div class="col">
           <div class="form-group">
               <label>Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startdate')"
-              placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startDate')"
+              placeholder="Select Date" name="account-startDate" [(ngModel)]="ledger.startDate"
               readonly>
           </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label>End Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('enddate')"
-                placeholder="Select Date" name="account-enddate" [(ngModel)]="DayBook.enddate"
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('endDate')"
+                placeholder="Select Date" name="account-endDate" [(ngModel)]="ledger.endDate"
                 readonly>
             </div>
           </div>
   <div class="col">
     <div class="form-group">
-      <button class="btn btn-primary" type="button" outline (click)="getDayBook()" id="submit"
+      <button class="btn btn-primary" type="button" outline (click)="getLedgerView()" id="submit"
         style="cursor: pointer;margin-top: 18px;">Submit</button>
     </div>
   </div>
@@ -53,16 +53,16 @@
     <th>#</th>
     <th>Code</th>
     <th>Customer Code</th>
-    <th>Particular</th>
+    <th>Ledger</th>
     <th>Amount(Debit)</th>
     <th>Amount(Credit)</th>
     <th>Date</th>
   </tr>
-  <tr *ngFor="let dataItem of DayData; let i = index;">
+  <tr *ngFor="let dataItem of ledgerData; let i = index;">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
-    <td>{{dataItem.y_particulars}}</td>
+    <td>{{dataItem.y_ledger}}</td>
     <td>{{dataItem.y_dramount}}</td>
     <td>{{dataItem.y_cramount}}</td>
     <td>{{dataItem.y_date | date : 'dd MMM HH:mm'}}</td>
