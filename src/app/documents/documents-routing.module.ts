@@ -4,7 +4,6 @@ import { DocumentsComponent } from './documents.components';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentationDetailsComponent} from './documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent} from './documents-summary/documents-summary.component';
- import { SmartTableComponent } from './smart-table/smart-table.component';
  import {CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
 
 const routes: Routes = [{
@@ -27,10 +26,7 @@ const routes: Routes = [{
             path: 'documents-summary',
             component: DocumentsSummaryComponent,
         },
-        {
-            path: 'smart-table',
-            component: SmartTableComponent,
-        },
+       
     ],
 }];
 

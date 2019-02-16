@@ -33,14 +33,12 @@ export class DashboardComponent implements OnInit {
         this.common.loading--;
         this.documentData = res['data'];
         console.info("dashbord Data", this.documentData);
-
-      
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-
   }
+
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -50,6 +48,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  
   // totalData(status){
   //   this.common.params = {status, title: 'Document Report' };
   //   const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -59,7 +58,7 @@ export class DashboardComponent implements OnInit {
   //     }
   //   });
   // }
-  
+
   getSum(key) {
     let total = 0;
     this.documentData.map(data => {

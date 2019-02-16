@@ -28,20 +28,19 @@ export class ImportDocumentComponent implements OnInit {
   vehicleId = '';
   data = [];
   docTypes = [];
-  // errorData = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-      this.common.handleModalSize('class', 'modal-m', '500');
+    this.common.handleModalSize('class', 'modal-m', '500');
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.btn3 = this.common.params.btn3 || 'Validate';
     this.vehicleId = this.common.params.vehicleId;
-     this.getDocumentsData();
+    this.getDocumentsData();
 
   }
 
@@ -51,6 +50,7 @@ export class ImportDocumentComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
+
   getDocumentsData() {
     this.common.loading++;
     let response;
@@ -66,15 +66,16 @@ export class ImportDocumentComponent implements OnInit {
       });
     return response;
   }
+
   selectDocType(documentType) {
     this.docType = documentType;
-    console.log("Document type", this.docType.id);;
-
+    console.log("Document type", this.docType.id);
   }
+
   uploadCsv() {
     const params = {
       vehicleDocCsv: this.csv,
-      docTypeId : this.docType.id
+      docTypeId: this.docType.id
     };
     console.log("Data :", params);
     this.common.loading++;
@@ -89,14 +90,13 @@ export class ImportDocumentComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-
   }
 
   checkCsv(validate = null) {
     const params = {
       vehicleDocCsv: this.csv,
       validate: validate,
-      docTypeId : this.docType.id
+      docTypeId: this.docType.id
     };
     console.log("Data :", params);
     this.common.loading++;
@@ -113,7 +113,6 @@ export class ImportDocumentComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-
   }
 
 
@@ -131,9 +130,8 @@ export class ImportDocumentComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
+
   sampleCsv() {
     window.open("http://13.126.215.102/sample/csv/sample_document_upload.csv");
   }
-
-
 }

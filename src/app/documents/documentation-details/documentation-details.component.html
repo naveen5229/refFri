@@ -10,24 +10,11 @@
           <div class="col-md-3">
             <label>Vehicle Number:</label>
             <div class="col-md-12">
-              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-                placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+                display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
           </div>
-          <!-- <div class="col-md-3" style="margin-left:-3%;" *ngIf="this.selectedVehicle">
-            <label style="margin-left:3%;">Document Type:</label>
-            <auto-suggestion *ngIf="data.length>=0" (onSelected)="doucumentFilter($event)" display="document_type" url="Vehicles/getVehicleDocumentsById"
-              placeholder="Enter doctype" [data]="data" class="documentType"></auto-suggestion>
-          </div>
-
-          <div class="col-md-2" *ngIf="this.selectedVehicle">
-            <input type="datetime" class="form-control" placeholder="Expiry From Date" 
-            [value]="dates.expiryForm | date: 'dd MMM yyyy'" (click)="getDate('expiryForm')">
-          </div>
-          <div class="col-md-2" *ngIf="this.selectedVehicle">
-            <input type="datetime" class="form-control" placeholder="Expiry End Date" [value]="dates.expiryEnd | date: 'dd MMM yyyy'" (click)="getDate('expiryEnd')">
-          </div> -->
-
+         
           <div class="col-md-2 offset-md-08">
             <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
               Document</button>`
@@ -40,7 +27,6 @@
           <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
         </div>
       </div>
-
     </div>
 
     <div class="table" *ngIf="this.selectedVehicle">
@@ -57,35 +43,30 @@
             <th>Document No </th>
             <th>Amount</th>
             <th>Remark </th>
-         
             <th>Image</th>
             <th>Edit</th>
-
           </tr>
         </thead>
+
         <tbody>
           <tr *ngFor="let doc of data; let i = index">
             <th scope="row">{{i + 1}}</th>
-            <td >{{doc.regno}}</td>
+            <td>{{doc.regno}}</td>
             <td>{{doc.document_type}}</td>
             <td>{{doc.agent}}</td>
             <td style='min-width:80px;'>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
             <td style='min-width:80px;'>{{doc.wef_date |  date:'dd-MM-yyyy' }}</td>
-           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate  ?  'pink':(doc.expiry_date ? 'green':'')) ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
+            <td style='min-width:80px;'
+              [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate  ?  'pink':(doc.expiry_date ? 'green':'')) ">
+              {{doc.expiry_date | date:'dd-MM-yyyy'}}</td>
             <td>{{doc.document_number}}</td>
             <td>{{doc.amount}}</td>
             <td>{{doc.remarks}}</td>
-            <td >
-                <i class="icon ion-md-image" (click)="imageView(doc)" *ngIf="doc.img_url"></i>
-            </td>
-            <td (click)="editData(doc)"><i class="icon ion-md-create"></i>
-            </td>
-
+            <td><i class="icon ion-md-image" (click)="imageView(doc)" *ngIf="doc.img_url"></i></td>
+            <td (click)="editData(doc)"><i class="icon ion-md-create"></i></td>
           </tr>
         </tbody>
       </table>
     </div>
   </nb-card-body>
-
-
 </nb-card>

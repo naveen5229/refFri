@@ -5,7 +5,6 @@
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
-
       <div class="table">
         <table class="table table-bordered table-hover ">
           <thead class="thead">
@@ -25,11 +24,16 @@
             <tr *ngFor="let doc of documentData;  let i = index;">
               <th scope="row">{{i + 1}}</th>
               <td>{{doc.name}}</td>
-              <td (click)="openData(doc,'normal')" style="cursor: pointer;" [ngClass]=" doc.normal > 0 ? 'blue': 'black'">{{doc.normal}}</td>
-              <td (click)="openData(doc,'noentrytilldate')" style="cursor: pointer;" [ngClass]=" doc.noentrytilldate > 0 ? 'blue': 'black'">{{doc.noentrytilldate}}</td>
-              <td (click)="openData(doc,'imagemissing')" style="cursor: pointer;" [ngClass]=" doc.imagemissing > 0 ? 'blue': 'black'">{{doc.imagemissing}}</td>
-              <td (click)="openData(doc,'expiringin30days')" style="cursor: pointer;" [ngClass]=" doc.expiringin30days > 0 ? 'blue': 'black'">{{doc.expiringin30days}}</td>
-              <td (click)="openData(doc,'alreadyexpired')" style="cursor: pointer;" [ngClass]=" doc.alreadyexpired > 0 ? 'blue': 'black'">{{doc.alreadyexpired}}</td>
+              <td (click)="openData(doc,'normal')" style="cursor: pointer;"
+                [ngClass]=" doc.normal > 0 ? 'blue': 'black'">{{doc.normal}}</td>
+              <td (click)="openData(doc,'noentrytilldate')" style="cursor: pointer;"
+                [ngClass]=" doc.noentrytilldate > 0 ? 'blue': 'black'">{{doc.noentrytilldate}}</td>
+              <td (click)="openData(doc,'imagemissing')" style="cursor: pointer;"
+                [ngClass]=" doc.imagemissing > 0 ? 'blue': 'black'">{{doc.imagemissing}}</td>
+              <td (click)="openData(doc,'expiringin30days')" style="cursor: pointer;"
+                [ngClass]=" doc.expiringin30days > 0 ? 'blue': 'black'">{{doc.expiringin30days}}</td>
+              <td (click)="openData(doc,'alreadyexpired')" style="cursor: pointer;"
+                [ngClass]=" doc.alreadyexpired > 0 ? 'blue': 'black'">{{doc.alreadyexpired}}</td>
               <!-- <td>{{doc.total}}</td> -->
             </tr>
             <tr>
