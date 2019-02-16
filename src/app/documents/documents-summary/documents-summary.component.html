@@ -4,34 +4,35 @@
     <hr>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
-      <div class="container">
-        <div class="row col-sm-12">
-          <table class="table table-bordered table-hover table-scroll">
-            <thead class="thead" >
-              <tr>
-                <th *ngFor="let col of data.columns; let i=index">{{col}}</th>
+    <div class="container">
+      <div class="row col-sm-12">
+        <table class="table table-bordered table-hover table-scroll">
+          <thead class="thead">
+            <tr>
+              <th *ngFor="let col of data.columns; let i=index">{{col}}</th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <ng-container *ngIf="data.vehicle_info.length">
+              <tr *ngFor="let row of data.vehicle_info">
+                <td *ngFor="let col of data.columns" class="text-center">
+                  <span *ngIf="col == 'Vehicle No.'">
+                    {{row[col]}}
+                  </span>
+                  <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
+                    <a href="{{row[col]}}" target='blank'><img class="icon-img" src="assets/images/doc-tick.jpeg"
+                        alt="View" /></a>
+                  </ng-container>
+                  <ng-container *ngIf="row[col] == ''">
+                    <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
+                  </ng-container>
+                </td>
               </tr>
-            </thead>
-            <tbody class="" >
-              <ng-container *ngIf="data.vehicle_info.length">
-                <tr *ngFor="let row of data.vehicle_info">
-                  <td *ngFor="let col of data.columns" class="text-center">
-                    <span *ngIf="col == 'Vehicle No.'">
-                        {{row[col]}}  
-                    </span>
-                    <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
-                        <a href="{{row[col]}}" target='blank'><img class="icon-img"  src="assets/images/doc-tick.jpeg" alt="View" /></a>
-                    </ng-container>
-                    <ng-container *ngIf="row[col] == ''">
-                        <img  class="icon-img"  src="assets/images/doc-cross.png" alt="No" />
-                    </ng-container>
-                  </td>
-                </tr>
-              </ng-container>
-              
-            </tbody>
-          </table>
-        </div>
+            </ng-container>
+
+          </tbody>
+        </table>
       </div>
+    </div>
   </nb-card-body>
 </nb-card>
