@@ -12,6 +12,7 @@ export class SmartTableComponent implements OnInit {
   objectKeys = Object.keys;
   headings = null;
   columns = [];
+  sortType = '';
 
   constructor(private cdr: ChangeDetectorRef, ) { }
 
@@ -27,22 +28,31 @@ export class SmartTableComponent implements OnInit {
   }
 
   filterData(key) {
-    this.headings[key].value = this.headings[key].value.toUpperCase();
+    let search = this.headings[key].value.toLowerCase().replace(/ /g, '');
     this.columns = this.data.columns.filter(column => {
-      if (column[key].value && column[key].value.toString().toLowerCase().includes(this.headings[key].value.toLowerCase())) {
-        return true;
-      }
+      if (!search.length) return true;
+      let value = column[key].value;
+      if (search.includes('>') || search.includes('<') || search.includes('!')) {
+        if (search.length == 1) return true;
+        if (search[0] == '>') return value && value > search.split('>')[1]
+        else if (search[0] == '<') return value && value < search.split('<')[1];
+        else if (search[0] == '!') return value && value != search.split('!')[1];
+      } else if (value && value.toString().toLowerCase().includes(search.toLowerCase())) return true;
       return false;
     });
+
+    if (search.includes('>') || search.includes('<') || search.includes('!')) {
+      if (search.includes('>')) this.sortColumn(key, 'asc')
+      else this.sortColumn(key, 'desc')
+    }
   }
 
-  sortColumn(type, key) {
-    // console.log(type, key);
+  sortColumn(key, sortType?) {
     this.columns.sort((a, b) => {
       // console.log(typeof a[key].value, a[key].value, typeof b[key].value, b[key].value);
-      if (typeof(a[key].value) == 'string' || typeof(b[key].value) == 'string') {
-        let firstValue = a[key].value ?  a[key].value.toLowerCase() : '';
-        let secondValue = b[key].value ?  b[key].value.toLowerCase() : '';
+      if (typeof (a[key].value) == 'string' || typeof (b[key].value) == 'string') {
+        let firstValue = a[key].value ? a[key].value.toLowerCase() : '';
+        let secondValue = b[key].value ? b[key].value.toLowerCase() : '';
         if (firstValue < secondValue) //sort string ascending
           return -1
         if (firstValue > secondValue)
@@ -52,8 +62,9 @@ export class SmartTableComponent implements OnInit {
         return a[key].value - b[key].value;
       }
     });
-    // console.log('Columns: ', this.columns);
-    if (type == 'desc') this.columns.reverse();
+
+    if (sortType == 'desc' || this.sortType == 'desc') this.columns.reverse();
+    this.sortType = this.sortType == 'desc' ? 'asc' : 'desc';
   }
 
 }

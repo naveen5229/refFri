@@ -4,18 +4,15 @@
     <th *ngFor="let heading of objectKeys(headings);">{{headings[heading].title}}</th>
   </thead>
   <tbody>
-    <tr>
-      <td style="padding:0" style="width: 40px">#</td>
-      <td style="padding:0;" *ngFor="let heading of objectKeys(headings);">
+    <tr style="background:#f2f2f2;">
+      <td style="padding:5px" style="width: 40px">#</td>
+      <td style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
         <div class="filter-input-container">
           <input type="text" class="filter-input" [(ngModel)]="headings[heading].value" (input)="filterData(heading)"
             [placeholder]="headings[heading].placeholder">
         </div>
         <div class="sort-container">
-          <div class="up-icon-container"><i class="fa fa-sort-up sort-icon-up" (click)="sortColumn('asc', heading)"></i>
-          </div>
-          <div class="down-icon-container"><i class="fa fa-sort-down sort-icon-down"
-              (click)="sortColumn('desc', heading)"></i></div>
+          <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
         </div>
       </td>
     </tr>
