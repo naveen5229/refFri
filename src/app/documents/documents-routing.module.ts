@@ -7,6 +7,7 @@ import { DocumentationDetailsComponent} from './documentation-details/documentat
 import { DocumentsSummaryComponent} from './documents-summary/documents-summary.component';
 import { PendingDocumentsComponent} from './pending-documents/pending-documents.component';
  import { SmartTableComponent } from './smart-table/smart-table.component';
+ import {CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
 
 const routes: Routes = [{
     path: '',
@@ -15,6 +16,10 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: DashboardComponent,
+        },
+        {
+            path: 'crm-vehicle-documentions',
+            component: CrmVehicleDocumentionsComponent,
         },
         {
             path: 'documentation-details',

@@ -18,8 +18,9 @@
   <button class="form-control" (click)="openChangeModal()">Choose Customer</button>
 </div>
 
-
-
+<div class="form-group">
+    <button class="form-control refresh" (click)="refresh()"><i class="icon ion-refresh"></i></button>
+  </div>
 <div class="header-container">
   <nb-actions size="medium" [class.right]="position === 'normal'" [class.left]="position === 'inverse'">
     <nb-action *nbIsGranted="['view', 'user']">

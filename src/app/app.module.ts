@@ -52,7 +52,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
 import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
-
+import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -90,7 +90,8 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     TaxdetailComponent,
     EditDocumentComponent,
     PendingDocumentComponent,
-    ErrorReportComponent
+    ErrorReportComponent,
+    DocumentReportComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -124,7 +125,8 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     TaxdetailComponent,
     EditDocumentComponent,
     PendingDocumentComponent,
-    ErrorReportComponent
+    ErrorReportComponent,
+    DocumentReportComponent
   ],
   imports: [
     BrowserModule,

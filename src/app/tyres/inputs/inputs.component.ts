@@ -30,14 +30,11 @@ export class InputsComponent implements OnInit {
   vehicles = [];
   tyres = [];
 
-  searchedTyreDetails = [];
+  tyrePosition = null
 
-  position={
-    frontRear : null,
-    axel : null,
-    leftRight : null,
-    pos:null
-  };
+  searchedTyreDetails = [];
+  axels = [];
+  position = null;
   details :null;
 
   date1 = this.common.dateFormatter(new Date());
@@ -45,7 +42,9 @@ export class InputsComponent implements OnInit {
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-  ) { }
+  ) { 
+    this.axels = this.common.generateArray(6)
+  }
 
   ngOnInit() {
   }
@@ -83,6 +82,7 @@ export class InputsComponent implements OnInit {
     this.vehicleNo = vehicle.regno;
     this.searchVehicleString = this.vehicleNo;
     this.vehicleSuggestion = false;
+    this.searchData();
   }
 
   searchTyres() {
@@ -143,6 +143,11 @@ export class InputsComponent implements OnInit {
     
   }
 
+getTyrePosition(tyrePosition){
+  this.position = tyrePosition;
+  console.log("tyre position = ",tyrePosition);
+}
+
   saveDetails() {
     let date= this.common.dateFormatter(new Date(this.date1));
     if(this.vehicleType == "trolly"){
@@ -157,7 +162,7 @@ export class InputsComponent implements OnInit {
       vehicleId : this.vehicleId,
       date : date,
       tyreId : this.tyreId,
-      tyrePos : this.position.frontRear+ "|"+this.position.axel+"|"+this.position.leftRight+"|"+this.position.pos,
+      tyrePos : this.position,
       details : this.details,
       refMode : this.refMode
     };

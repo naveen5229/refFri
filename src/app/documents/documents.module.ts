@@ -15,6 +15,7 @@ import { DocumentsSummaryComponent } from './documents-summary/documents-summary
 import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
 import { PendingDocumentsComponent } from './pending-documents/pending-documents.component';
 // /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
+import { CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
 
 
 const PAGES_COMPONENTS = [
@@ -40,6 +41,7 @@ const PAGES_COMPONENTS = [
 
     SmartTableComponent,
     PendingDocumentsComponent,
+    CrmVehicleDocumentionsComponent,
     
    
     

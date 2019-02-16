@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <h2>Vehicle Documentation-details</h2>
+    <h2>Vehicle Documents Input </h2>
     <hr>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
@@ -14,7 +14,7 @@
                 placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
           </div>
-          <div class="col-md-3" style="margin-left:-3%;" *ngIf="this.selectedVehicle">
+          <!-- <div class="col-md-3" style="margin-left:-3%;" *ngIf="this.selectedVehicle">
             <label style="margin-left:3%;">Document Type:</label>
             <auto-suggestion *ngIf="data.length>=0" (onSelected)="doucumentFilter($event)" display="document_type" url="Vehicles/getVehicleDocumentsById"
               placeholder="Enter doctype" [data]="data" class="documentType"></auto-suggestion>
@@ -26,7 +26,7 @@
           </div>
           <div class="col-md-2" *ngIf="this.selectedVehicle">
             <input type="datetime" class="form-control" placeholder="Expiry End Date" [value]="dates.expiryEnd | date: 'dd MMM yyyy'" (click)="getDate('expiryEnd')">
-          </div>
+          </div> -->
 
           <div class="col-md-2 offset-md-08">
             <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
@@ -36,7 +36,7 @@
       </form>
 
       <div class="row" *ngIf="this.selectedVehicle">
-        <div class="col-md-06 offset-md-08" style="margin-top: -4%;margin-left: 82%;">
+        <div class="col-md-06 offset-md-08" style="margin-top: -8%;margin-left: 83%;">
           <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
         </div>
       </div>
@@ -49,7 +49,9 @@
           <tr>
             <th>Sr No</th>
             <th>Vehicle Number</th>
-            <th><input type="text" placeholder="Document Type" class="dataSearch"></th>
+            <th><input type="text" (keypress)="doucumentFilter($event)" placeholder="Document Type" class="dataSearch">
+              <!-- <i class="fa fa-arrow-down" aria-hidden="true"></i> -->
+            </th>
             <th><input type="text" placeholder="Agent Name" class="dataSearch"></th>
             <th><input type="datetime" placeholder="issue Date" class="dataSearch"></th>
             <th><input type="datetime" placeholder="Wef Date" class="dataSearch"> </th>
@@ -57,7 +59,7 @@
             <th><input type="text" placeholder="Document No" class="dataSearch"> </th>
             <th><input type="text" placeholder="Remark" class="dataSearch"> </th>
             <th>Image</th>
-            <td>Edit</td>
+            <th>Edit</th>
 
           </tr>
         </thead>
@@ -69,7 +71,7 @@
             <td>{{doc.agent}}</td>
             <td style='min-width:80px;'>{{doc.issue_date | date:'dd-MM-yyyy'}}</td>
             <td style='min-width:80px;'>{{doc.wef_date |  date:'dd-MM-yyyy' }}</td>
-           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate ?  'pink':'green') ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
+           <td style='min-width:80px;' [ngClass]=" curr >= doc.expiry_date ? 'red': (doc.expiry_date<nextMthDate  ?  'pink':(doc.expiry_date ? 'green':'')) ">{{doc.expiry_date | date:'dd-MM-yyyy'}}</td>       
             <td>{{doc.document_number}}</td>
             <td>{{doc.remarks}}</td>
             <td>
