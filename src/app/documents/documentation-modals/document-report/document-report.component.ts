@@ -21,6 +21,9 @@ export class DocumentReportComponent implements OnInit {
     id: null,
     status: '',
   };
+  currentdate = new Date;
+  nextMthDate = null;
+  curr = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -30,11 +33,11 @@ export class DocumentReportComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '990');
     this.title = this.common.params.title;
 
-    this.reportData.id = this.common.params.docReoprt.id;
+    // this.reportData.id = this.common.params.docReoprt.id;
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
 
-    this.getReport();
+     this.getReport();
     // this.totalReport();
 
   }
@@ -49,7 +52,7 @@ export class DocumentReportComponent implements OnInit {
 
   getReport() {
     let params = {
-      id: this.reportData.id,
+      id: this.common.params.docReoprt.id,
       status: this.reportData.status
     };
     console.log("id", params.id);
@@ -59,6 +62,10 @@ export class DocumentReportComponent implements OnInit {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
+
+        let exp_date = this.common.dateFormatter(this.reportResult[0].expiry_date);
+        this.curr = this.common.dateFormatter(this.currentdate);
+        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -67,10 +74,8 @@ export class DocumentReportComponent implements OnInit {
 
   totalReport() {
     let params = {
-
       status: this.reportData.status
-    };
-
+    }
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
       .subscribe(res => {

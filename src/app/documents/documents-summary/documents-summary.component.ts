@@ -17,12 +17,19 @@ export class DocumentsSummaryComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService) {
+
+      this.common.refresh = this.refresh.bind(this);
       this.getDocumentMatrixData();
-     }
-
-  ngOnInit() {
-  }
-
+    }
+  
+    ngOnInit() {
+    }
+    
+    refresh() {
+      console.log('Refresh');
+      this.getDocumentMatrixData();
+    }
+ 
   getDocumentMatrixData() {
     this.common.loading++;
     this.api.post('Vehicles/getDocumentMatrixData', {})
