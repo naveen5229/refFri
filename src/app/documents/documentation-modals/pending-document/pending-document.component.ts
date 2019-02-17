@@ -103,10 +103,32 @@ export class PendingDocumentComponent implements OnInit {
 
 
   updateDocument() {
-    
+    const params = {
+      x_vehicle_id: this.document.vehicle_id,
+      x_document_type_id: this.document.document_type_id,
+      x_document_type: this.findDocumentType(this.document.document_type_id),
+      x_issue_date: this.document.issue_date,
+      x_wef_date: this.document.wef_date,
+      x_expiry_date: this.document.expiry_date,
+      x_document_agent_id: this.document.agent_id,
+      x_document_number: this.document.doc_no,
+      x_rto: this.document.rto,
+      x_remarks: this.document.remarks,
+      x_amount: this.document.amount,
+
+    };
+    console.log("params");
+    console.log(params);
   }
   getDate(date) {
-    
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.document[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        console.log('Date:', this.document[date]);
+      }
+
+    });
   }
 
   addAgent() {
@@ -114,10 +136,19 @@ export class PendingDocumentComponent implements OnInit {
   }
   
   findDocumentType(id) {
-    
+    let documentType = '';
+    this.docTypes.map(docType => {
+      if (docType.id == id) {
+        documentType = docType.document_type
+        console.log("document Type", documentType);
+      }
+    });
+    return documentType;
   }
   selectDocType(docType) {
-    
+    this.document.document_type_id = docType.id;
+    console.log('Doc id: ', docType.id);
+    console.log("doc var",this.document.document_type_id);
   }
 
   handleFileSelection(event) {

@@ -30,6 +30,9 @@ auto-suggestion{
     max-height: 150px !important;
 }
 .form-control.frm-fld { width: 60%; display: inline; margin-left: 6px; }
+.form-control { width: 60%;}
+.suggestion-container .form-control {width: 60% !important;}
+.custom-input-1 { width:60% !important;}
 .mgn-vert { margin-top: 3px; margin-bottom: 3px;}
 .doc-img { max-width: 300px; max-height: 700px;}
 .clear { clear:both;}
