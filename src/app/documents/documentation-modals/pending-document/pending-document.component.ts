@@ -19,7 +19,9 @@ export class PendingDocumentComponent implements OnInit {
   docTypes = [];
   vehicleId = 0;
   agentId = '';
-  
+  canUpdate = 1;
+  canreadonly = false;
+
   document = {
     agent: null,
     agent_id: null,
@@ -46,7 +48,15 @@ export class PendingDocumentComponent implements OnInit {
       this.title = this.common.params.title;
       this.btn1 = this.common.params.btn1 || 'Update';
       this.btn2 = this.common.params.btn2 || 'Cancel';
+      console.log("commonparams: ");
+      console.log(this.common.params);
+      if(!this.common.params.canUpdate) {
+        this.canUpdate = 0;
+        this.canreadonly = true;        
+      }
+
       this.document = this.common.params.rowData;
+
       console.log("doc params rcvd");
       console.log(this.document);
       this.vehicleId = this.document.vehicle_id;

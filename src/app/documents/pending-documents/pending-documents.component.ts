@@ -60,7 +60,7 @@ export class PendingDocumentsComponent implements OnInit {
         rto: row.rto,
         amount: row.amount
       };
-      this.common.params = {rowData, title: 'Update Document'};
+      this.common.params = {rowData, title: 'Update Document', canUpdate: 1};
       const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         console.log("response:");

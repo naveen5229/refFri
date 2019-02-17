@@ -29,6 +29,11 @@ auto-suggestion{
     overflow: auto !important;
     max-height: 150px !important;
 }
-.form-control.frm-fld { width: 45%; display: inline; }
-.mgn-vert { margin-top: 10px; margin-bottom: 10px;}
+.form-control.frm-fld { width: 60%; display: inline; margin-left: 6px; }
+.mgn-vert { margin-top: 3px; margin-bottom: 3px;}
 .doc-img { max-width: 300px; max-height: 700px;}
+.clear { clear:both;}
+.modal-lg { max-width: 1200px;}
+@media(min-width: 992px) {
+    .modal-lg { max-width: 1200px;}
+}

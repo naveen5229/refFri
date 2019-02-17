@@ -7,53 +7,58 @@
 <div class="modal-body">
   <form #documentForm="ngForm" id="document-form" name="document-form" (submit)="documentForm.valid && updateDocument()">
     <div class="row">
-      <div class="col-sm-6">
-        <div class="form-field">
-          <label for="document_id" class="col-sm-6 mgn-vert">Document ID</label>
-          <input id="document_id" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.id}}" readonly/>
+      <div class="col-sm-4">
+        <div class="form-field clear">
+          <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
+          <input id="document_id" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.id}}" readonly/>
         </div>
-        <div class="form-field">
-            <label for="veh_no" class="col-sm-6 mgn-vert">Vehicle No.</label>
-            <input id="veh_no" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.regno}}" readonly/>
+        <div class="form-field clear">
+            <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.</label>
+            <input id="veh_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.regno}}" readonly/>
         </div>
-        <div class="form-field">
-            <label for="doc_type" class="col-sm-6 mgn-vert">Document Type</label>
-            <input id="doc_type" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.document_type}}" />
+        <div class="form-field clear">
+            <label for="doc_type" class="col-sm-4 mgn-vert">Document Type</label>
+            <input id="doc_type" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.document_type}}"  />
         </div>
-        <div class="form-field">
-            <label for="doc_no" class="col-sm-6 mgn-vert">Document No.</label>
-            <input id="doc_no" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.doc_no}}" />
+        <div class="form-field clear">
+            <label for="doc_no" class="col-sm-4 mgn-vert">Document No.</label>
+            <input id="doc_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.doc_no}}"  />
         </div>        
-        <div class="form-field">
-            <label for="issue_date" class="col-sm-6 mgn-vert">Issue Date</label>
-            <input id="issue_date" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.issue_date}}" />
+        <div class="form-field clear">
+            <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date</label>
+            <input id="issue_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.issue_date}}"  />
         </div>
-        <div class="form-field">
-            <label for="wef_date" class="col-sm-6 mgn-vert">W.e.f Date</label>
-            <input id="wef_date" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.wef_date}}" />
+        <div class="form-field clear">
+            <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
+            <input id="wef_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.wef_date}}"  />
         </div>
-        <div class="form-field">
-            <label for="rto" class="col-sm-6 mgn-vert">RTO</label>
-            <input id="rto" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.rto}}" />
+        <div class="form-field clear">
+            <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
+            <input id="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.expiry_date}}"  />
         </div>
-        <div class="form-field">
-            <label for="agent" class="col-sm-6 mgn-vert">Agent</label>
-            <select id="doc_agent" [(ngModel)] = 'agentId' class="form-control frm-fld" >
+        <div class="form-field clear">
+            <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
+            <input id="rto" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.rto}}"  />
+        </div>
+        <div class="form-field clear">
+            <label for="agent" class="col-sm-4 mgn-vert">Agent</label>
+            <select id="doc_agent" class="col-sm-8 form-control frm-fld"  >
+                <option value="">--</option>
                 <option *ngFor="let agent of agents" value= {{agent.id}} >
                     {{agent.name}}
                 </option>
             </select>
         </div>
-        <div class="form-field">
-            <label for="amount" class="col-sm-6 mgn-vert">Amount</label>
-            <input id="amount" type="text" class="col-sm-6 form-control frm-fld mgn-vert" value="{{document.amount}}" />
+        <div class="form-field clear">
+            <label for="amount" class="col-sm-4 mgn-vert">Amount</label>
+            <input id="amount" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.amount}}"   />
         </div>        
-        <div class="form-field ">
-            <label for="remarks" class="col-sm-6 mgn-vert">Remarks</label>
-            <input id="remarks" type="text" class="col-sm-6 form-control frm-fld  mgn-vert" value="{{document.remarks}}" />
+        <div class="form-field clear">
+            <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
+            <textarea id="remarks" class="col-sm-8 form-control frm-fld  mgn-vert">{{document.remarks}}</textarea>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-8">
           <img src="{{document.img_url}}" alt="doc-img" class="doc-img" />
       </div>
     </div>
@@ -65,7 +70,7 @@
     <div class="col">
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
-    <div class="col text-right">
+    <div class="col text-right" *ngIf="canUpdate == 1">
       <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true" id="submit"
         style="cursor: pointer;">{{btn1}}</button>
     </div>
