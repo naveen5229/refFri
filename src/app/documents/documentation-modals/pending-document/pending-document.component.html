@@ -20,11 +20,11 @@
             <label for="doc_type" class="col-sm-4 mgn-vert">Document Type</label>
             <!-- <input id="doc_type" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.document_type}}"  /> -->
             <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
-           [data]="docTypes" [preSelected]="null" class="documentType " style='width: 60%;'></auto-suggestion>
+           [data]="docTypes" [preSelected]="{document_type: document.document_type}" class="documentType " style='width: 60%;'></auto-suggestion>
         </div>
         <div class="form-field clear">
             <label for="doc_no" class="col-sm-4 mgn-vert">Document No.</label>
-            <input id="doc_no" name="doc_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.doc_no"  />
+            <input id="doc_no" name="doc_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.doc_no"  />
         </div>        
         <div class="form-field clear">
             <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date</label>
@@ -40,11 +40,11 @@
         </div>
         <div class="form-field clear">
             <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
-            <input id="rto" name="rto" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.rto"  />
+            <input id="rto" name="rto" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.rto"  />
         </div>
         <div class="form-field clear">
             <label for="agent" class="col-sm-4 mgn-vert">Agent</label>
-            <select id="doc_agent" name="doc_agent" class="col-sm-8 form-control frm-fld"  >
+            <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent" class="col-sm-8 form-control frm-fld"  >
                 <option value="">--</option>
                 <option *ngFor="let agent of agents" [value]= agent.id >
                     {{agent.name}}
@@ -53,11 +53,11 @@
         </div>
         <div class="form-field clear">
             <label for="amount" class="col-sm-4 mgn-vert">Amount</label>
-            <input id="amount" name="amount" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.amount"  />
+            <input id="amount" name="amount" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.amount"  />
         </div>        
         <div class="form-field clear">
             <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
-            <textarea id="remarks" name="remarks" class="col-sm-8 form-control frm-fld  mgn-vert" [value]="document.remarks" ></textarea>
+            <textarea id="remarks" name="remarks" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks" ></textarea>
         </div>
       </div>
       <div class="col-sm-8">

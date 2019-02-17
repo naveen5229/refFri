@@ -59,9 +59,12 @@ export class PendingDocumentComponent implements OnInit {
 
       console.log("doc params rcvd");
       console.log(this.document);
+      console.log("typid:" + this.document.document_type_id);
       this.vehicleId = this.document.vehicle_id;
       this.agentId = this.document.agent_id; 
-      this.getDocumentsData();          
+      this.getDocumentsData();
+      this.document.document_type = this.findDocumentType(this.document.document_type_id);
+      console.log("doctype:" + this.document.document_type);
   }
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -78,6 +81,14 @@ export class PendingDocumentComponent implements OnInit {
         console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
+
+        console.log("in typid:" + this.document.document_type_id);
+        for(var i=0; i<this.docTypes.length; i++) {
+          if(this.docTypes[i].id == this.document.document_type_id) {
+            this.document.document_type = this.docTypes[i].document_type;
+            console.log("dt=" + this.document.document_type);
+          }
+        }
 
         console.log("agentid:" + this.agentId);
         this.markAgentSelected(this.agentId);
@@ -105,6 +116,7 @@ export class PendingDocumentComponent implements OnInit {
   updateDocument() {
     const params = {
       x_vehicle_id: this.document.vehicle_id,
+      x_document_id: this.document.id,
       x_document_type_id: this.document.document_type_id,
       x_document_type: this.findDocumentType(this.document.document_type_id),
       x_issue_date: this.document.issue_date,
@@ -119,6 +131,18 @@ export class PendingDocumentComponent implements OnInit {
     };
     console.log("params");
     console.log(params);
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/addVehicleDocument', params)
+    .subscribe(res => {
+      this.common.loading--;
+      console.log("api result", res);
+      this.closeModal(true);
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+    return response;
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -136,6 +160,15 @@ export class PendingDocumentComponent implements OnInit {
   }
   
   findDocumentType(id) {
+    console.log(this.docTypes);
+    console.log("idpassed:" + id);
+    for(var i=0; i< this.docTypes.length; i++) {
+      console.log("val:" + this.docTypes[i]);
+      if(this.docTypes[i].id == id) {
+        return this.docTypes[i].document_type;
+      }
+    }
+    
     let documentType = '';
     this.docTypes.map(docType => {
       if (docType.id == id) {
