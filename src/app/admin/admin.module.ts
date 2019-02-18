@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AdminComponent } from './admin.component';
+import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -19,6 +20,7 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    VehicleStatusChangeComponent,
 
   ],
 })

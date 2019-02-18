@@ -145,9 +145,9 @@ export class InputsComponent implements OnInit {
   }
 
   getTyrePosition(tyrePosition,vehicleTyreDetail) {
-    this.position = tyrePosition;
+    this.position = tyrePosition.split('-')[1];
     this.vehicleTyreDetail =vehicleTyreDetail;
-    console.log("tyre position = ", tyrePosition,vehicleTyreDetail);
+    console.log("tyre position = ", this.position,vehicleTyreDetail);
   }
 
   getTyreCurrentStatus(){
@@ -181,7 +181,7 @@ export class InputsComponent implements OnInit {
     let date = this.common.dateFormatter(new Date(this.date1));
     this.common.loading++;
     let params = {
-      vehicleId: this.vehicleId,
+      vehicleId: this.vehicleTyreDetail.vid,
       date: date,
       tyreId: this.tyreId,
       tyrePos: this.position,
