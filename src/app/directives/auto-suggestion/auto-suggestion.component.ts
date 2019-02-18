@@ -37,7 +37,7 @@ export class AutoSuggestionComponent implements OnInit {
     console.log('URL:', this.url);
     console.log('URL:', this.display);
     if (this.preSelected) {
-      this.selectSuggestion = this.preSelected;
+      this.selectedSuggestion = this.preSelected;
       this.searchText = this.preSelected[this.display];
     }
 

@@ -162,6 +162,7 @@ export class EditDocumentComponent implements OnInit {
   selectDocType(docType) {
     this.document.documentId = docType.id
     console.log("doc var", this.document.documentId);
+    return this.document.documentId;
   }
 
   handleFileSelection(event) {

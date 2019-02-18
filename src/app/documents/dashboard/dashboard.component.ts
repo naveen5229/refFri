@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
         imageMissing: { title: 'Image Missing', placeholder: 'Image Missing' },
         Expiry: { title: 'Expiry In 30 days', placeholder: 'Expiry In 30 days' },
         alreadyExpiry: { title: 'Already Expired', placeholder: 'Already Expired' },
-        total: { title: 'Total', placeholder: 'Total' },
+        // total: { title: 'Total', placeholder: 'Total' },
       },
       columns: []
     },
@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
         imageMissing: { value: doc.imagemissing, class: doc.imagemissing > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'imagemissing') },
         Expiry: { value: doc.expiringin30days, class: doc.expiringin30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiringin30days') },
         alreadyExpiry: { value: doc.alreadyexpired, class: doc.alreadyexpired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'alreadyexpired') },
-        total: { value: doc.total }
+        // total: { value: doc.total }
       });
     });
 
@@ -111,8 +111,8 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  totalData(docReport,status){
-    this.common.params = {docReport,status, title: 'Document Report' };
+  totalData(status){
+    this.common.params = {status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
