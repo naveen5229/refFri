@@ -6,6 +6,9 @@ import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AdminComponent } from './admin.component';
 
+import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
+import { DirectiveModule } from '../directives/directives.module';
+
 const PAGES_COMPONENTS = [
   AdminComponent,
 ];
@@ -16,9 +19,11 @@ const PAGES_COMPONENTS = [
     AdminRoutingModule,
     ThemeModule,
     DashboardModule,
+    DirectiveModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    EscalationMatrixComponent
 
   ],
 })

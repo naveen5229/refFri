@@ -51,6 +51,7 @@ import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.compone
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
+import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
-    ErrorReportComponent
+    ErrorReportComponent,
+    AddEscalationIssueComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -121,7 +123,8 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
-    ErrorReportComponent
+    ErrorReportComponent,
+    AddEscalationIssueComponent
   ],
   imports: [
     BrowserModule,
