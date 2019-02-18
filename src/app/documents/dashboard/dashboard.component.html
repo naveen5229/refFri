@@ -1,4 +1,4 @@
-<nb-card>
+<!-- <nb-card>
   <nb-card-header>
     <h2> Vehicle Documents Summary</h2>
     <hr>
@@ -16,7 +16,7 @@
               <th>Image Missing</th>
               <th>Expiry In 30 days</th>
               <th>Already Expired</th>
-              <!-- <th>Total</th> -->
+               <th>Total</th> 
             </tr>
           </thead>
 
@@ -34,7 +34,7 @@
                 [ngClass]=" doc.expiringin30days > 0 ? 'blue': 'black'">{{doc.expiringin30days}}</td>
               <td (click)="openData(doc,'alreadyexpired')" style="cursor: pointer;"
                 [ngClass]=" doc.alreadyexpired > 0 ? 'blue': 'black'">{{doc.alreadyexpired}}</td>
-              <!-- <td>{{doc.total}}</td> -->
+               <td>{{doc.total}}</td> 
             </tr>
             <tr>
               <td *ngIf="documentData"></td>
@@ -44,12 +44,24 @@
               <td>{{getSum('imagemissing')}}</td>
               <td>{{getSum('expiringin30days')}}</td>
               <td>{{getSum('alreadyexpired')}}</td>
-              <!-- <td>{{getSum('total')}}</td> -->
+              <td>{{getSum('total')}}</td> 
             </tr>
           </tbody>
 
         </table>
       </div>
     </div>
+  </nb-card-body>
+</nb-card> -->
+
+
+<nb-card>
+  <nb-card-header>
+    <h2>Vehicle Documents Summary</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+   <smart-table *ngIf="documentData.length" [data]="table.data" [settings]="table.settings"></smart-table>
+   <br>
   </nb-card-body>
 </nb-card>
