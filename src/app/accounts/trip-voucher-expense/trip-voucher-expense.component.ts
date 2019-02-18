@@ -13,6 +13,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   checkedTrips = [];
   fuelFilings = [];
   tripHeads = [];
+  tripVouchers=[];
   selectedVehicle;
   constructor(public api: ApiService, public common: CommonService) {
 
@@ -113,10 +114,11 @@ export class TripVoucherExpenseComponent implements OnInit {
           let trips = [];
           this.trips.map(trip => {
             if (trip.isChecked) {
-              trips.push({ id: trip.id, amount: 0});
+              trips.push({ id: trip.id, amount: 0, start_time: trip.start_time, end_time: trip.end_time, start_name: trip.start_name, end_name: trip.end_name });
             }
           });
           tripHead.trips = trips;
+          tripHead.total = 0;
         });
 
       }, err => {
@@ -126,6 +128,48 @@ export class TripVoucherExpenseComponent implements OnInit {
       });
   }
 
+  addVoucher() {
+    console.log('Trips: ', this.tripHeads);
+    const params = {
+      vehId: this.selectedVehicle.id,
+      voucher_details: this.tripHeads
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/InsertTripExpenseVoucher', params)
+      .subscribe(res => {
+        console.log('Res: ', res);
+        this.common.loading--;
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError;
+      })
+  }
+
+  calculateTripHeadTotal(index) {
+    console.log('Index: ', index)
+    this.tripHeads[index].total = 0;
+    this.tripHeads[index].trips.map(trip => {
+      this.tripHeads[index].total += trip.amount;
+    });
+    console.log('Total: ', this.tripHeads[index].total);
+  }
+  getTripSummary(){
+    const params = {
+      vehId: this.selectedVehicle.id
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getTripExpenseVouchers', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.tripVouchers = res['data'];
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
 
 
 }
