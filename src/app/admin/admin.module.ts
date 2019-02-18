@@ -7,6 +7,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AdminComponent } from './admin.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
 
+import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
+import { DirectiveModule } from '../directives/directives.module';
+
 const PAGES_COMPONENTS = [
   AdminComponent,
 ];
@@ -17,11 +20,12 @@ const PAGES_COMPONENTS = [
     AdminRoutingModule,
     ThemeModule,
     DashboardModule,
+    DirectiveModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
     VehicleStatusChangeComponent,
-
+    EscalationMatrixComponent
   ],
 })
 export class AdminModule { }
