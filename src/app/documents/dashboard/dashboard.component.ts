@@ -24,7 +24,6 @@ export class DashboardComponent implements OnInit {
         imageMissing: { title: 'Image Missing', placeholder: 'Image Missing' },
         Expiry: { title: 'Expiry In 30 days', placeholder: 'Expiry In 30 days' },
         alreadyExpiry: { title: 'Already Expired', placeholder: 'Already Expired' },
-        // total: { title: 'Total', placeholder: 'Total' },
       },
       columns: []
     },
@@ -39,7 +38,8 @@ export class DashboardComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getDocumentData();
-    // this.common.refresh = this.refresh.bind(this);
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
@@ -74,17 +74,16 @@ export class DashboardComponent implements OnInit {
         imageMissing: { value: doc.imagemissing, class: doc.imagemissing > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'imagemissing') },
         Expiry: { value: doc.expiringin30days, class: doc.expiringin30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiringin30days') },
         alreadyExpiry: { value: doc.alreadyexpired, class: doc.alreadyexpired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'alreadyexpired') },
-        // total: { value: doc.total }
       });
     });
 
     columns.push({
-      docType: { value: 'Total'},
-      normal: { value: this.getSum('normal'),class: 1 > 0 ? 'blue' : 'black',action: this.totalData.bind(this,'normal') },
-      noEntry: { value: this.getSum('noentrytilldate'),action: this.totalData.bind(this,'noentrytilldate')  },
-      imageMissing: { value: this.getSum('imagemissing'),action: this.totalData.bind(this,'imagemissing')  },
-      Expiry: { value: this.getSum('expiringin30days'),action: this.totalData.bind(this,'expiringin30days')  },
-      alreadyExpiry: { value: this.getSum('alreadyexpired'),action: this.totalData.bind(this,'alreadyexpired')  },
+      docType: { value: 'Total' },
+      normal: { value: this.getSum('normal'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'normal') },
+      noEntry: { value: this.getSum('noentrytilldate'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'noentrytilldate') },
+      imageMissing: { value: this.getSum('imagemissing'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'imagemissing') },
+      Expiry: { value: this.getSum('expiringin30days'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expiringin30days') },
+      alreadyExpiry: { value: this.getSum('alreadyexpired'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'alreadyexpired') },
       total: { value: '' }
     });
 
@@ -111,8 +110,8 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  totalData(status){
-    this.common.params = {status, title: 'Document Report' };
+  totalData(status) {
+    this.common.params = { status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

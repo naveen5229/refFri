@@ -24,7 +24,7 @@
       </td>
     </tr>
     <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && column.rowActions.click()">
-      <td style="width: 40px">{{i}}</td>
+      <td style="width: 40px">{{i+1}}</td>
       <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
         (click)="column[heading].action && column[heading].action()"
         [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">

@@ -19,7 +19,19 @@ export class SmartTableComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnChanges(changes) {
+    console.log('Changes: ', changes);
+    this.data = changes.data.currentValue;
+    this.settings = changes.settings.currentValue;
+    console.log('Data', this.data);
+    this.setData();
+  }
+
   ngAfterViewInit() {
+    this.setData();
+  }
+
+  setData() {
     this.headings = this.data.headings;
     this.columns = this.data.columns
     console.log(this.headings);
