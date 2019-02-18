@@ -80,11 +80,11 @@ export class DashboardComponent implements OnInit {
 
     columns.push({
       docType: { value: 'Total'},
-      normal: { value: this.getSum('normal'),action: this.totalData.bind(this,'normal') },
-      noEntry: { value: this.getSum('noentrytilldate') },
-      imageMissing: { value: this.getSum('imagemissing') },
-      Expiry: { value: this.getSum('expiringin30days') },
-      alreadyExpiry: { value: this.getSum('alreadyexpired') },
+      normal: { value: this.getSum('normal'),class: 1 > 0 ? 'blue' : 'black',action: this.totalData.bind(this,'normal') },
+      noEntry: { value: this.getSum('noentrytilldate'),action: this.totalData.bind(this,'noentrytilldate')  },
+      imageMissing: { value: this.getSum('imagemissing'),action: this.totalData.bind(this,'imagemissing')  },
+      Expiry: { value: this.getSum('expiringin30days'),action: this.totalData.bind(this,'expiringin30days')  },
+      alreadyExpiry: { value: this.getSum('alreadyexpired'),action: this.totalData.bind(this,'alreadyexpired')  },
       total: { value: '' }
     });
 

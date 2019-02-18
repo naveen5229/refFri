@@ -9,10 +9,13 @@ import { AddDocumentComponent } from '../../documents/documentation-modals/add-d
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { from } from 'rxjs';
+import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'documentation-details',
   templateUrl: './documentation-details.component.html',
-  styleUrls: ['./documentation-details.component.scss', '../../pages/pages.component.css']
+  styleUrls: ['./documentation-details.component.scss', '../../pages/pages.component.css'],
+  providers: [DatePipe]
 })
 export class DocumentationDetailsComponent implements OnInit {
   title: '';
@@ -23,36 +26,54 @@ export class DocumentationDetailsComponent implements OnInit {
     expiryEnd: '',
   };
 
-  currentdate = new Date;
-  nextMthDate = null;
-  curr = null;
+  table = {
+    data: {
+      headings: {
+        vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+        docType: { title: 'Document Type', placeholder: 'Document Type' },
+        agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
+        issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+        wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
+        expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
+        documentNumber: { title: 'Document Number', placeholder: 'Document No' },
+        amount: { title: 'Amount', placeholder: 'Amount' },
+        remark: { title: 'Remark', placeholder: 'Remak' },
+        image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+        edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+      },
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+
+  
   constructor(
+    private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+
   }
 
   ngOnInit() {
   }
+ 
 
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
-    this.selectedVehicle = vehicle;
-    console.log("selected id:", this.selectedVehicle.id);
+    this.selectedVehicle = vehicle.id;
+    // console.log("selected id:", this.selectedVehicle);
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: vehicle.id })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
-        this.data = res['data'];
+        this.doucumentFilter();
 
-        let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
-        this.curr = this.common.dateFormatter(this.currentdate);
-        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-        console.log("expiry Date:", exp_date);
-        console.log("current date", this.curr);
-        console.log("next Month Date", this.nextMthDate);
 
       }, err => {
         this.common.loading--;
@@ -60,16 +81,45 @@ export class DocumentationDetailsComponent implements OnInit {
       });
 
   }
-  doucumentFilter(data) {
 
-    let id = this.data[0].vehicle_id;
-    console.log("id", id);
+  getTableColumns() {
+    let columns = [];
+    this.data.map(doc => {
+      console.info("Table Data", this.data);
+      console.log("doc Data", doc.regno);
+      let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
+      let curr = this.common.dateFormatter(new Date()).split(' ')[0];
+      let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+      console.log("expiry Date:", exp_date);
+      console.log("current date", curr);
+      console.log("next Month Date", nextMthDate);
+      columns.push({
+        vehicleNumber: { value: doc.regno },
+        docType: { value: doc.document_type },
+        agentName: { value: doc.agent },
+        issueDate: { value:this.datePipe.transform(doc.issue_date, 'dd MMM yyyy hh:mm a')},
+        wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy hh:mm a') },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy hh:mm a'), class: curr >= doc.expiry_date ? 'red' : (doc.expiry_date < nextMthDate ? 'pink' : (doc.expiry_date ? 'green' : '')) },
+        documentNumber: { value: doc.document_number },
+        amount: { value: doc.amount },
+        remark: { value: doc.remark },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: this.imageView.bind(this, doc) },
+        edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc) }
+      });
+    });
+    return columns;
+  }
+
+  doucumentFilter() {
     this.common.loading++;
-    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: id })
+    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
+        this.table.data.columns = this.getTableColumns();
+
+
 
       }, err => {
         this.common.loading--;
@@ -110,7 +160,7 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   addDocument() {
-    this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle.id };
+    this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -119,7 +169,7 @@ export class DocumentationDetailsComponent implements OnInit {
     });
   }
   importVehicleDocument() {
-    this.common.params = { title: 'Bulk Import Document', vehicleId: this.selectedVehicle.id };
+    this.common.params = { title: 'Bulk Import Document', vehicleId: this.selectedVehicle };
     const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 
@@ -144,7 +194,7 @@ export class DocumentationDetailsComponent implements OnInit {
     }];
 
 
-    this.common.params = { documentData, title: 'Update Document', vehicleId: this.selectedVehicle.id };
+    this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id };
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

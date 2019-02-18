@@ -37,7 +37,7 @@ export class DocumentReportComponent implements OnInit {
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
 
-      // this.getReport();
+      //  this.getReport();
     this.totalReport();
 
   }
@@ -47,19 +47,6 @@ export class DocumentReportComponent implements OnInit {
 
   closeModal(response) {
     this.activeModal.close({ response: response });
-  }
-  getDocumentData() {
-    this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', {})
-      .subscribe(res => {
-        this.common.loading--;
-        this.reportResult = res['data'];
-        // console.info("dashbord Data", this.documentData);
-        // this.table.data.columns = this.getTableColumns();
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
   }
 
 
@@ -89,13 +76,14 @@ export class DocumentReportComponent implements OnInit {
     let params = {
       status: this.reportData.status
     }
-    // this.getReport();
+     
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
+        this.getReport();
 
       }, err => {
         this.common.loading--;

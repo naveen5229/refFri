@@ -8,12 +8,17 @@
       <td style="padding:5px" style="width: 40px">#</td>
       <td style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
         <div class="filter-container">
-          <div class="filter-input-container">
-            <input type="text" class="filter-input" [(ngModel)]="headings[heading].value" (input)="filterData(heading)"
-              [placeholder]="headings[heading].placeholder">
+          <div *ngIf="!headings[heading].hideSearch">
+            <div class="filter-input-container">
+              <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
+                (input)="filterData(heading)" [placeholder]="headings[heading].placeholder">
+            </div>
+            <div class="sort-container">
+              <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
+            </div>
           </div>
-          <div class="sort-container">
-            <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
+          <div *ngIf="headings[heading].hideSearch" class="no-search">
+            <span>{{headings[heading].title}}</span>
           </div>
         </div>
       </td>
@@ -27,6 +32,7 @@
           [innerHTML]="column[heading].value"></div>
         <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="!column[heading].isHTML">{{column[heading].value}}
         </div>
+        <!-- <div [ngClass]="column[heading].value?"></div> -->
       </td>
     </tr>
   </tbody>

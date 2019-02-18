@@ -179,7 +179,7 @@ export class AddDocumentComponent implements OnInit {
 
   selectDocType(docType) { 
     this.document.type.id = docType.id
-    console.log('Doc id: ', docType.id);
+    // console.log('Doc id: ', docType.id);
     console.log("doc var",this.document.type.id);
   }
 
