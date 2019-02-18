@@ -61,6 +61,7 @@ export class PendingDocumentsComponent implements OnInit {
         amount: row.amount
       };
       this.common.params = {rowData, title: 'Update Document', canUpdate: 1};
+      this.common.handleModalSize('class', 'modal-lg', '1200');
       const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         console.log("response:");

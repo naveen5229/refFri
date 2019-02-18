@@ -138,6 +138,7 @@ export class PendingDocumentComponent implements OnInit {
       this.common.loading--;
       console.log("api result", res);
       this.closeModal(true);
+      window.location.reload();
     }, err => {
       this.common.loading--;
       console.log(err);
@@ -156,7 +157,35 @@ export class PendingDocumentComponent implements OnInit {
   }
 
   addAgent() {
-    
+    this.common.params = { title: 'Add Agent' };
+    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(agtdata => {
+      if (agtdata.response) {
+        console.log("agtdata:");
+        console.log(agtdata.response);
+        this.common.loading++;
+        this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("data", res);
+            this.agents = res['data'].document_agents_info;
+            console.log("agents:");
+            console.log(this.agents);
+            if(this.agents.length) {
+              console.log("list");
+              console.log(this.agents);
+              this.document.agent_id = this.agents[this.agents.length-1].id;
+              this.document.agent = this.agents[this.agents.length-1].name;
+              console.log(this.document.agent_id + "->" + this.document.agent + " added");
+            }
+
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+          });
+      }
+    });
+
   }
   
   findDocumentType(id) {
@@ -168,7 +197,7 @@ export class PendingDocumentComponent implements OnInit {
         return this.docTypes[i].document_type;
       }
     }
-    
+    /*
     let documentType = '';
     this.docTypes.map(docType => {
       if (docType.id == id) {
@@ -176,7 +205,7 @@ export class PendingDocumentComponent implements OnInit {
         console.log("document Type", documentType);
       }
     });
-    return documentType;
+    return documentType;*/
   }
   selectDocType(docType) {
     this.document.document_type_id = docType.id;
@@ -184,10 +213,8 @@ export class PendingDocumentComponent implements OnInit {
     console.log("doc var",this.document.document_type_id);
   }
 
-  handleFileSelection(event) {
-    
-  }
-  UploadData() {
-    
+  getvehicleData(vehicle) {
+    console.log('Vehicle Data: ', vehicle);
+    this.document.vehicle_id = vehicle.id;
   }
 }
