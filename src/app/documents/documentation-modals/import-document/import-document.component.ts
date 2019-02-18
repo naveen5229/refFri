@@ -35,6 +35,7 @@ export class ImportDocumentComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.common.handleModalSize('class', 'modal-m', '500');
+
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';

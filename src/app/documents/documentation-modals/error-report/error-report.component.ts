@@ -38,7 +38,7 @@ export class ErrorReportComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
