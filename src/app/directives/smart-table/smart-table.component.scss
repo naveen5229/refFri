@@ -13,13 +13,20 @@ table.fixed {
     overflow-wrap: break-word;
 }
 
+.filter-container{
+    background: #fff;
+    // border: 1.5px solid gray;
+    border-radius: 4px; 
+}
+
 .filter-input-container {
     width: calc(100% - 20px);
     display: inline-block;
     vertical-align: middle;
-    border: 1px solid #e2e2e2;
+    // border: 2px solid #c2c2c2;
     border-right: none;
     height: 30px;
+    border-radius: 5px 0px 0px 5px;
 }
 
 .filter-input {
@@ -31,9 +38,14 @@ table.fixed {
     font-size: 12px;
     height: 100%;
     font-weight: 500;
+    background: transparent;
+    color: #000;
 }
-.filter-input::placeholder{
-    color: #333333;
+
+.filter-input::placeholder {
+    color: #b2b2b2;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
 .sort-container {
@@ -42,9 +54,10 @@ table.fixed {
     position: relative;
     vertical-align: middle;
     text-align: center;
-    border: 1px solid #e2e2e2;
+    // border: 2px solid #c2c2c2;
     border-left: none;
     height: 30px;
+    border-radius: 0px 5px 5px 0px;
 }
 
 .up-icon-container,
@@ -92,4 +105,10 @@ table.fixed {
     text-align: center;
     line-height: 40px;
     color: orange;
+}
+
+.sort-icon {
+    font-size: 14px;
+    vertical-align: -webkit-baseline-middle;
+    cursor: pointer;
 }

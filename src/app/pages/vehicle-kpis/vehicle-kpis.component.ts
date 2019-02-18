@@ -154,7 +154,10 @@ export class VehicleKpisComponent implements OnInit {
         hrs: { value: kpi.x_hrssince, class: (kpi.x_hrssince >= 24) ? 'red' : '', action: this.showDetails.bind(this, kpi) },
         trip: { value: this.getTripStatusHTML(kpi), action: this.showDetails.bind(this, kpi), isHTML: true },
         kmp: { value: kpi.x_kmph, class: kpi.x_kmph < 20 ? 'pink' : '', action: this.showDetails.bind(this, kpi) },
-        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) }
+        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
+        rowActions: {
+          click: this.showDetails.bind(this, kpi)
+        }
       });
     });
     return columns;
