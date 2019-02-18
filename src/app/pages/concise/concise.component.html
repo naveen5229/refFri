@@ -35,7 +35,7 @@
                   All Data
                   </div>
                   <div class="col-sm-3">
-                      {{kpis.length}}
+                      {{allKpis.length}}
                     </div>
                 </nb-card-body>
           </nb-card>
@@ -67,7 +67,7 @@
                 <th>Trip </th>
                 <th>Kmp </th>
                 <th>Location</th>
-                <!-- <th>View LR</th> -->
+                <th>Report</th>
               </tr>
 
             </thead>
@@ -135,9 +135,9 @@
               <td (click)="showLocation(kpi)">{{kpi.Address}}
                 <!-- <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i> -->
               </td>
-              <!-- <td>
-                <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
-              </td> -->
+              <td class="text-center">
+                <i class="fa fa-question-circle" style="cursor: pointer;" (click)="reportIssue(kpi)"></i>
+              </td>
             </tr>
             </tbody>
 

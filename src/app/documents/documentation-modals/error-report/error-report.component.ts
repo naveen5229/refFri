@@ -32,18 +32,13 @@ export class ErrorReportComponent implements OnInit {
       this.btn = this.common.params.btn || 'Close';
       this.errors = this.common.params.errorData;
       this.reason = this.common.params.Reason;
-
-      // this.reason = this.errors.reason;
       console.log("error data",this.errors);
    
      }
 
   ngOnInit() {
   }
-  // bgcolor(color){
-  //   console.log("hello ",color);
-  //   return "red";
-  // }
+
   closeModal(response) {
     this.activeModal.close({ response: response });
   }

@@ -29,13 +29,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/documents/crm-vehicle-documentions',
                 home: true,
             },
+
             {
                 title: 'Pending Details',
                 icon: 'fa fa-list',
                 link: '/documents/pending-documents',
                 home: true,
             }
- 
+
         ]
     }
 ];
+

@@ -6,33 +6,71 @@
     background: pink;
     color: black;
 }
-.blue {
-    
-    color: blue;
+
+
+.headings {
+    background: #e2e2e2;
+    font-size: 11px;
+    font-weight: 500;
 }
-.black{
+.data {
+    font-size: 10px;
+    border-bottom: 1px solid #e2e2e2;
+    min-height: 20%;
+}
+.data ion-col,
+.headings ion-col {
+    padding: 3px;
+    border-left: 1px solid #f2f2f2;
+}
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+:host ::ng-deep.black {
     color: black;
 }
-// .table-scroll thead {
-//     display: table;
-//     width: 100%;
-//     table-layout: fixed;
-//  }
- 
-//  .table-scroll tbody {
-//     max-height: 350px;
-//     overflow-y: auto;
-//     display: block;
-//     width: 100%;
-//     table-layout: fixed;
-//  }
- 
-//  .table-scroll tr {
-//     display: table;
-//     table-layout: fixed;
-//     width: 100%;
-//  }
- 
-//  .table-scroll td {
-//     height: 47px; // needed in order to keep rows from collapsing
-//  }
+.loc-icon {
+    text-align: center;
+    font-size: 10px;
+    color: orange;
+}
+
+:host ::ng-deep .circle {
+    border: 1px solid gray;
+    border-radius: 50%;
+    padding: 3px 4px;
+}
+.route-arrow {
+    font-size: 20px;
+    vertical-align: middle;
+    margin: 0px 5px;
+}
+:host ::ng-deep .complete {
+    vertical-align: middle;
+    color: green;
+}
+.exit {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.loaded{
+    font-weight: bold;
+}
+.search-box {
+    background: #fff;
+    font-size: 13px;
+    padding: 6px 8px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 60%;
+    letter-spacing: .3px;
+    color: #000;
+}
+table{
+    cursor:pointer;
+    // background: aliceblue;
+}
+
