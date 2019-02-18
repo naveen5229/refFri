@@ -7,7 +7,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
-import {EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { from } from 'rxjs';
 @Component({
   selector: 'documentation-details',
@@ -18,11 +18,11 @@ export class DocumentationDetailsComponent implements OnInit {
   title: '';
   data = [];
   selectedVehicle = null;
-  dates ={
+  dates = {
     expiryForm: '',
-    expiryEnd:'',
+    expiryEnd: '',
   };
-    
+
   currentdate = new Date;
   nextMthDate = null;
   curr = null;
@@ -39,21 +39,21 @@ export class DocumentationDetailsComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle;
-  console.log("selected id:",this.selectedVehicle.id);
+    console.log("selected id:", this.selectedVehicle.id);
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: vehicle.id })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-   
-          let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
-          this.curr = this.common.dateFormatter(this.currentdate);
-          this.nextMthDate = this.common.getDate(30,'yyyy-mm-dd');
-          console.log("expiry Date:", exp_date);
-          console.log("current date", this.curr);
-          console.log("next Month Date",this.nextMthDate);       
-        
+
+        let exp_date = this.common.dateFormatter(this.data[0].expiry_date);
+        this.curr = this.common.dateFormatter(this.currentdate);
+        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+        console.log("expiry Date:", exp_date);
+        console.log("current date", this.curr);
+        console.log("next Month Date", this.nextMthDate);
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -61,16 +61,16 @@ export class DocumentationDetailsComponent implements OnInit {
 
   }
   doucumentFilter(data) {
- 
-   let id=this.data[0].vehicle_id;
-   console.log("id",id);
+
+    let id = this.data[0].vehicle_id;
+    console.log("id", id);
     this.common.loading++;
-    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id:id })
+    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: id })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-         
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -119,32 +119,32 @@ export class DocumentationDetailsComponent implements OnInit {
     });
   }
   importVehicleDocument() {
-    this.common.params = { title: 'Bulk Import Document',vehicleId: this.selectedVehicle.id };
+    this.common.params = { title: 'Bulk Import Document', vehicleId: this.selectedVehicle.id };
     const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 
-  editData(doc){
-     console.log("Doc data",doc);
+  editData(doc) {
+    console.log("Doc data", doc);
     let documentData = [{
       regNumber: doc.regno,
-      id : doc.id,
-      vehicleId : doc.vehicle_id,
-      documentType:doc.document_type,
-      documentId : doc.document_type_id,
-      issueDate :doc.issue_date,
-      wefDate : doc.wef_date,
-      expiryDate : doc.expiry_date,
-      agentId : doc.document_agent_id,
-      agentName : doc.agent,
-      documentNumber : doc.document_number,
-      docUpload : doc.img_url,
-      remark : doc.remarks,
-      rto : doc.rto,
-      amount : doc.amount,
+      id: doc.id,
+      vehicleId: doc.vehicle_id,
+      documentType: doc.document_type,
+      documentId: doc.document_type_id,
+      issueDate: doc.issue_date,
+      wefDate: doc.wef_date,
+      expiryDate: doc.expiry_date,
+      agentId: doc.document_agent_id,
+      agentName: doc.agent,
+      documentNumber: doc.document_number,
+      docUpload: doc.img_url,
+      remark: doc.remarks,
+      rto: doc.rto,
+      amount: doc.amount,
     }];
-  
 
-    this.common.params = {documentData, title: 'Update Document',vehicleId: this.selectedVehicle.id};
+
+    this.common.params = { documentData, title: 'Update Document', vehicleId: this.selectedVehicle.id };
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {

@@ -54,6 +54,7 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+// import { SmartTableComponent } from './directives/smart-table/smart-table.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -92,7 +93,8 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     EditDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
-    DocumentReportComponent
+    DocumentReportComponent,
+    // SmartTableComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -127,7 +129,8 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     EditDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
-    DocumentReportComponent
+    DocumentReportComponent,
+    // SmartTableComponent
   ],
   imports: [
     BrowserModule,
