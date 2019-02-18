@@ -17,6 +17,7 @@
               <th>Expiry In 30 days</th>
               <th>Already Expired</th>
                <th>Total</th> 
+
             </tr>
           </thead>
 
@@ -35,6 +36,7 @@
               <td (click)="openData(doc,'alreadyexpired')" style="cursor: pointer;"
                 [ngClass]=" doc.alreadyexpired > 0 ? 'blue': 'black'">{{doc.alreadyexpired}}</td>
                <td>{{doc.total}}</td> 
+
             </tr>
             <tr>
               <td *ngIf="documentData"></td>
