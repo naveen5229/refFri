@@ -29,6 +29,16 @@
         </div>
 
         <div style="height:300px;overflow:auto">
+          <nb-card>
+              <nb-card-body (click)="allData()" style="background-color:grey;color: white">
+                  <div class="col-sm-9">
+                  All Data
+                  </div>
+                  <div class="col-sm-3">
+                      {{allKpis.length}}
+                    </div>
+                </nb-card-body>
+          </nb-card>
           <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
             <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">
               <div class="row" [ngStyle]="{'color': group.textColor}">
@@ -57,7 +67,7 @@
                 <th>Trip </th>
                 <th>Kmp </th>
                 <th>Location</th>
-                <!-- <th>View LR</th> -->
+                <th>Report</th>
               </tr>
 
             </thead>
@@ -125,9 +135,9 @@
               <td (click)="showLocation(kpi)">{{kpi.Address}}
                 <!-- <i class="icon ion-ios-pin" style="margin-left:20px; font-size:20px;"></i> -->
               </td>
-              <!-- <td>
-                <span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">View</span>
-              </td> -->
+              <td class="text-center">
+                <i class="fa fa-question-circle" style="cursor: pointer;" (click)="reportIssue(kpi)"></i>
+              </td>
             </tr>
             </tbody>
 

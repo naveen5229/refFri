@@ -9,7 +9,7 @@
     <div *ngIf="activeImage" style="height:370px; margin-bottom: 15px;">
       <img [src]="activeImage.image" class="active-image">
     </div>
-    <div class="row text-center" *ngIf="images > 1">
+    <div class="row text-center" *ngIf="images.length > 1">
       <div class="col-4" *ngFor="let image of images;">
         <div class="card"  (click)="activeImage = image">
           <img [src]="image.image || 'assets/images/default-image.jpg'" class="image">

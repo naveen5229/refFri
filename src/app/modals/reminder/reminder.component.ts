@@ -58,7 +58,14 @@ export class ReminderComponent implements OnInit {
       this.common.showToast('Select An hour!');
       return;
     }
+    console.log("returndata",this.common.params.returnData);
 
+    if(this.common.params.returnData){
+    console.log("returndata",this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00')
+     setTimeout(() =>{
+      this.activeModal.close({ date: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00' });
+    });}
+else{
     const params = {
       fo_ticket_allocation_id: this.common.params['fo_ticket_allocation_id'],
       remindtime: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00'
@@ -78,7 +85,7 @@ export class ReminderComponent implements OnInit {
         this.common.loading--;
       });
   }
-
+  }
   handleDate() {
     this.reminder.date = this.common.dateFormatter(this.reminder.date);
     this.showHours = true;

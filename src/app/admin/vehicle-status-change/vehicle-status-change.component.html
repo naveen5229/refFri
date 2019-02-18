@@ -1,0 +1,59 @@
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Vehicle Status Changes</h2>
+    </div>
+    <div class="col-sm-8" style="margin-top:-86px">
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+        (click)="getVehicleStatusAlerts('all')" value="View All">
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+        (click)="getVehicleStatusAlerts('view new')" value="View New">
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+        (click)="getVehicleStatusAlerts('view old')" value="View old">
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+        (click)="getVehicleStatusAlerts('pending')" value="Refresh">
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th>Id</th>
+          <th>Fo Name</th>
+          <th>Vehicle RegNo </th>
+          <th>Vehicle Id </th>
+          <th>Primary Status </th>
+          <th>Secondry Status</th>
+          <th>Remark</th>
+          <th>Suggestion</th>
+          <th>Alert Time</th>
+          <th>Clear UserId</th>
+          <th>Status</th>
+          <th>Hold User</th>
+          <th>Action</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
+          <td>{{VehicleStatusAlert.id}}</td>
+          <td>{{VehicleStatusAlert.name}}</td>
+          <td>{{VehicleStatusAlert.regno}}</td>
+          <td>{{VehicleStatusAlert.vehicle_id}}</td>
+          <td>{{VehicleStatusAlert.prim_status}}</td>
+          <td>{{VehicleStatusAlert.sec_status}}</td>
+          <td>{{VehicleStatusAlert.remark}}</td>
+          <td>{{VehicleStatusAlert.suggest}}</td>
+          <td>{{VehicleStatusAlert.alerttime}}</td>
+          <td>{{VehicleStatusAlert.aduserid}}</td>
+          <td>{{VehicleStatusAlert.status}}</td>
+          <td>{{VehicleStatusAlert.hold_users}}</td>
+          <td><button>action</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
+      No Data available !
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -7,13 +7,12 @@ import { KpisDetailsComponent } from '../../modals/kpis-details/kpis-details.com
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
-import { from } from 'rxjs';
 
 
 @Component({
   selector: 'vehicle-kpis',
   templateUrl: './vehicle-kpis.component.html',
-  styleUrls: ['./vehicle-kpis.component.scss','../pages.component.css']
+  styleUrls: ['./vehicle-kpis.component.scss', '../pages.component.css']
 })
 export class VehicleKpisComponent implements OnInit {
   kpis = [];
@@ -21,16 +20,39 @@ export class VehicleKpisComponent implements OnInit {
   searchTxt = '';
   filters = [];
 
+  table = {
+    data: {
+      headings: {
+        vehicle: { title: 'Vehicle', placeholder: 'Vehicle' },
+        status: { title: 'Status', placeholder: 'Status' },
+        hrs: { title: 'Hrs', placeholder: 'Hrs' },
+        trip: { title: 'Trip', placeholder: 'Trip' },
+        kmp: { title: 'Kmp', placeholder: 'Kmp' },
+        location: { title: 'location', placeholder: 'Location' }
+      },
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+
   constructor(
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
     this.getKPIS();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
     console.log('ionViewDidLoad DriverKpisPage');
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getKPIS();
   }
 
   getKPIS() {
@@ -41,6 +63,7 @@ export class VehicleKpisComponent implements OnInit {
         console.log(res);
         this.allKpis = res['data'];
         this.kpis = res['data'];
+        this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -122,6 +145,74 @@ export class VehicleKpisComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  
+  getTableColumns() {
+    let columns = [];
+    this.allKpis.map(kpi => {
+      columns.push({
+        vehicle: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
+        status: { value: kpi.showprim_status + (kpi.showsec_status ? ',' + kpi.showsec_status : ''), action: this.showDetails.bind(this, kpi) },
+        hrs: { value: kpi.x_hrssince, class: (kpi.x_hrssince >= 24) ? 'red' : '', action: this.showDetails.bind(this, kpi) },
+        trip: { value: this.getTripStatusHTML(kpi), action: this.showDetails.bind(this, kpi), isHTML: true },
+        kmp: { value: kpi.x_kmph, class: kpi.x_kmph < 20 ? 'pink' : '', action: this.showDetails.bind(this, kpi) },
+        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
+        rowActions: {
+          click: this.showDetails.bind(this, kpi)
+        }
+      });
+    });
+    return columns;
+  }
+
+  getTripStatusHTML(kpi) {
+    let html = '<div>';
+    if (kpi.trip_status_type == 0) {
+      html += `
+      <!-- Heading -->
+        <i class="fa fa-arrow-circle-right complete"></i>
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 1) {
+      html += `
+      <!-- Loading -->
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 2) {
+      html += `
+      <!-- Onward -->
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 3) {
+      html += `
+        <!-- Unloading -->
+          <span>${kpi.x_showtripstart}</span>
+          <i class="icon ion-md-arrow-round-forward"></i>
+          <span class="circle">${kpi.x_showtripend}</span>
+        `;
+    } else if (kpi.trip_status_type == 4) {
+      html += `
+      <!-- Complete -->
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+        <i class="fa fa-check-circle complete"></i>
+      `;
+    } else {
+      html += `
+      <!-- Ambigous -->
+        <span>${kpi.x_showtripstart}</span>
+        <span class="icon ion-md-route-arrow">-</span>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    }
+    return html + '</div>';
+  }
+
+
 }
 

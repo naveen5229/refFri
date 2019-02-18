@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { ReminderComponent } from '../../modals/reminder/reminder.component';
+
 
 declare var google: any;
 
@@ -17,27 +19,29 @@ export class VehicleTripUpdateComponent implements OnInit {
     endLat: null,
     endLng: null,
     endName: null,
-    endTime: null,
+    targetTime: null,
     id: null,
     regno: null,
     startLat: null,
     startLng: null,
     startName: null,
     startTime: null,
+    placementType:null,
+    vehicleId:null
   };
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public activeModal: NgbActiveModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private modalService: NgbModal,
   ) {
     this.vehicleTrip.endLat = this.common.params.endLat;
     this.vehicleTrip.endLng = this.common.params.endLng;
     this.vehicleTrip.endName = this.common.params.endName;
-    this.vehicleTrip.endTime = this.common.changeDateformat(this.common.params.endTime);
-    this.vehicleTrip.id = this.common.params.id;
-    console.log("Vehicle id",this.vehicleTrip.id);
+    this.vehicleTrip.id = this.common.params.id;;
     this.vehicleTrip.regno = this.common.params.regno;
+    this.vehicleTrip.vehicleId = this.common.params.vehicleId;
     this.vehicleTrip.startLat = this.common.params.startLat;
     this.vehicleTrip.startLng = this.common.params.startLng;
     this.vehicleTrip.startName = this.common.params.startName;
@@ -52,6 +56,16 @@ export class VehicleTripUpdateComponent implements OnInit {
     setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
 
   }
+  openReminderModal(){
+    this.common.params.returnData = true;
+    const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data",data);
+      this.vehicleTrip.targetTime = data.date;
+      console.log('Date:', this.vehicleTrip.targetTime);
+    });
+  }
+
   autoSuggestion(elementId) {
     var options = {
       types: ['(cities)'],
@@ -90,18 +104,19 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
+    this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
     let params = {
-      vehicleTripId: this.vehicleTrip.id,
-      endTrip: this.vehicleTrip.endName,
-      endLat: this.vehicleTrip.endLat,
-      endLong: this.vehicleTrip.endLng,
-      startTrip: this.vehicleTrip.startName,
-      startLat: this.vehicleTrip.startLat,
-      startLong: this.vehicleTrip.startLng,
+      vehicleId: this.vehicleTrip.vehicleId,
+      location: this.vehicleTrip.endName,
+      locationLat: this.vehicleTrip.endLat,
+      locationLng: this.vehicleTrip.endLng,
+      placementType: this.vehicleTrip.placementType,
+      targetTime: this.vehicleTrip.targetTime,
+
     }
     console.log("params", params);
     ++this.common.loading;
-    this.api.post('TripsOperation/updateTripDetails', params)
+    this.api.post('TripsOperation/vehicleTripReplacement', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res['msg']);

@@ -49,10 +49,14 @@ import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.c
 import { OrderComponent } from './acounts-modals/order/order.component';
 import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
+import { EditDocumentComponent } from './documents/documentation-modals/edit-document/edit-document.component';
+import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
+import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
 
+import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+// import { SmartTableComponent } from './directives/smart-table/smart-table.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -89,6 +93,10 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    PendingDocumentComponent,
+    ErrorReportComponent,
+    ReportIssueComponent,
+    DocumentReportComponent,
     ErrorReportComponent,
     AddEscalationIssueComponent
   ],
@@ -123,6 +131,10 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    PendingDocumentComponent,
+    ErrorReportComponent,
+    ReportIssueComponent,
+    DocumentReportComponent,
     ErrorReportComponent,
     AddEscalationIssueComponent
   ],
