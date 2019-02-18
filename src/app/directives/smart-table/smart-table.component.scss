@@ -13,11 +13,17 @@ table.fixed {
     overflow-wrap: break-word;
 }
 
+.filter-container{
+    background: #fff;
+    // border: 1.5px solid gray;
+    border-radius: 4px; 
+}
+
 .filter-input-container {
     width: calc(100% - 20px);
     display: inline-block;
     vertical-align: middle;
-    border: 2px solid #c2c2c2;
+    // border: 2px solid #c2c2c2;
     border-right: none;
     height: 30px;
     border-radius: 5px 0px 0px 5px;
@@ -37,8 +43,9 @@ table.fixed {
 }
 
 .filter-input::placeholder {
-    color: #c2c2c2;
-    font-weight: 300;
+    color: #b2b2b2;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
 .sort-container {
@@ -47,7 +54,7 @@ table.fixed {
     position: relative;
     vertical-align: middle;
     text-align: center;
-    border: 2px solid #c2c2c2;
+    // border: 2px solid #c2c2c2;
     border-left: none;
     height: 30px;
     border-radius: 0px 5px 5px 0px;

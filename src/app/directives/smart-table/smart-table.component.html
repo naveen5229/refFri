@@ -7,16 +7,18 @@
     <tr style="background:#f2f2f2;">
       <td style="padding:5px" style="width: 40px">#</td>
       <td style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
-        <div class="filter-input-container">
-          <input type="text" class="filter-input" [(ngModel)]="headings[heading].value" (input)="filterData(heading)"
-            [placeholder]="headings[heading].placeholder">
-        </div>
-        <div class="sort-container">
-          <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
+        <div class="filter-container">
+          <div class="filter-input-container">
+            <input type="text" class="filter-input" [(ngModel)]="headings[heading].value" (input)="filterData(heading)"
+              [placeholder]="headings[heading].placeholder">
+          </div>
+          <div class="sort-container">
+            <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
+          </div>
         </div>
       </td>
     </tr>
-    <tr *ngFor="let column of columns; let i = index;">
+    <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && column.rowActions.click()">
       <td style="width: 40px">{{i}}</td>
       <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
         (click)="column[heading].action && column[heading].action()"
