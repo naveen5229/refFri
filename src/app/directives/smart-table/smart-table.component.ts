@@ -4,7 +4,7 @@ import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } fro
 @Component({
   selector: 'smart-table',
   templateUrl: './smart-table.component.html',
-  styleUrls: ['./smart-table.component.scss']
+  styleUrls: ['./smart-table.component.scss','../../pages/pages.component.css']
 })
 export class SmartTableComponent implements OnInit {
   @Input() data: any;
