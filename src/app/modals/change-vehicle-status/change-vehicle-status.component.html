@@ -1,0 +1,70 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Change Vehicle Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-sm-3"></div>
+    <div style="margin-bottom:20px"><button (click)="showHalt()" style="margin-left:50px">Show Halt</button>
+      <button (click)="showTrail()" style="margin-left:50px">Show Trail</button></div>
+      
+      <div class="col-sm-3">
+          <div style="height: 560px; overflow: auto; width: 100%;">
+          <table class="table table-bordered table-hover">
+              <tbody>
+               <tr>
+                 <th>#</th>
+                 <th>Date</th>
+                 <th>Location</th>
+                 <th>Dist</th>
+                 <th>Halt Type</th>
+               </tr>
+               <tr>
+                  <td>#</td>
+                  <td>Date</td>
+                  <td>Time</td>
+                  <td>Dist</td>
+                  <td>L</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+      </div>
+          <div class="col-sm-4">
+        <div style="height: 560px; overflow: auto; width: 100%;">
+              <table class="table table-bordered table-hover">
+                  <tbody>
+                   <tr>
+                     <th>#</th>
+                     <th>Date</th>
+                     <th>Time</th>
+                     <th>Dist</th>
+                     <th>KM/h</th>
+                     <th>CS</th>
+                     <th>CHT</th>
+                   </tr>
+                   <tr *ngFor="let vehicleEvent of vehicleEvents;let i = index; " [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}" >
+                      <td (click)="markerZoomMF(i)">{{i+1}}</td>
+                      <td (click)="markerZoomMF(i)">{{vehicleEvent.date}}</td>
+                      <td (click)="markerZoomMF(i)">{{vehicleEvent.timeShort}}</td>
+                      <td (click)="markerZoomMF(i)">{{vehicleEvent.distance}}</td>
+                      <td (click)="markerZoomMF(i)">{{vehicleEvent.kmph}}</td>
+                      <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')" *ngIf="vehicleEvent.desc!='Trails'" >Create</button></td>
+                      <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"  *ngIf="vehicleEvent.desc!='Trails'||vehicleEvent.y_site_type_id">Change</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+          </div>
+    <div class="map-container col-sm-5">
+      <div #map id="map" style="margin-left:10px"> </div>
+      <div class="zoom-container">
+        <span class="zoom-btn" (click)="map.setZoom(6)">1</span>
+        <span class="zoom-btn" (click)="map.setZoom(9)">2</span>
+        <span class="zoom-btn" (click)="map.setZoom(12)">3</span>
+        <span class="zoom-btn" (click)="map.setZoom(15)">4</span>
+        <span class="zoom-btn" (click)="map.setZoom(18)">5</span>
+      </div>
+    </div>
+  </div>

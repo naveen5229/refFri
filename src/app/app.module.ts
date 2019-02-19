@@ -52,6 +52,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {EditDocumentComponent} from './documents/documentation-modals/edit-document/edit-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
+import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -89,7 +91,9 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     TaxdetailComponent,
     EditDocumentComponent,
     ErrorReportComponent,
-    DocumentReportComponent
+    DocumentReportComponent,
+    ChangeVehicleStatusComponent,
+    ChangeHaltComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -123,7 +127,9 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     TaxdetailComponent,
     EditDocumentComponent,
     ErrorReportComponent,
-    DocumentReportComponent
+    DocumentReportComponent,
+    ChangeVehicleStatusComponent,
+    ChangeHaltComponent
   ],
   imports: [
     BrowserModule,
