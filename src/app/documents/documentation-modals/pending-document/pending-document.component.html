@@ -15,7 +15,7 @@
         <div class="form-field clear">
             <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.</label>
             <!-- <input id="veh_no" name="veh_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.regno" readonly/> -->
-            <div class="col-sm-8 frm-fld mgn-vert sug-fld"><auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+            <div class="col-sm-8 frm-fld mgn-vert sug-fld"><auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
               placeholder="Enter Vehicle Number" [preSelected]="{regno: document.regno}" style="width:60%;"></auto-suggestion></div>            
         </div>
         <div class="form-field clear">
@@ -36,7 +36,7 @@
         </div>
         <div class="form-field clear">
             <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
-            <input id="wef_date" name="wef_date" type="datetime" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date | date: 'dd MMM yyyy'" (click)="getDate('wef_date')"  />
+            <input id="wef_date" name="wef_date" type="datetime" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date | date: 'dd MMM yyyy'" (click)="getDate('wef_date')" />
         </div>
         <div class="form-field clear">
             <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>

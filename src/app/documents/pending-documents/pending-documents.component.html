@@ -10,10 +10,10 @@
           <table class="table table-bordered table-hover table-scroll">
               <thead class="thead" >
                 <tr class="">
-                  <th class="col-sm-2" style="width:15%;">S.No.</th>
+                  <th class="col-sm-2" style="width:15%;">Document ID</th>
                   <th class="col-sm-2" style="width: 17%;">Vehicle No.</th>
                   <th class="col-sm-2" style="width: 17%;">Vehicle ID</th>
-                  <th class="col-sm-2" style="width: 17%;">Document ID</th>
+                  <th class="col-sm-2" style="width: 17%;">Created On</th>
                   <th class="col-sm-2" style="width: 17%;">Document Type</th>
                   <th class="col-sm-4" style="width: 17%;">Action</th>
                 </tr>
@@ -21,10 +21,10 @@
               <tbody class="" >
                   <ng-container *ngIf="data != 'undefined'">
                     <tr *ngFor="let row of data; let i = index" class="">
-                      <td class="col-sm-2" style="width: 15%;">{{i+1}}</td>
+                      <td class="col-sm-2" style="width: 15%;">{{row.id}}</td>
                       <td class="col-sm-2" style="width: 17%;">{{row.regno}}</td>
                       <td class="col-sm-2" style="width: 17%;">{{row.vehicle_id}}</td>
-                      <td class="col-sm-2" style="width: 17%;">{{row.id}}</td>
+                      <td class="col-sm-2" style="width: 17%;">{{row.addtime | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
                       <td class="col-sm-2" style="width: 17%;">{{row.name}}</td>
                       <td class="col-sm-4"  style="width: 17%;" (click)="showDetails(row)"><a href="javascript: void(0);"><i class="icon ion-md-create"></i></a></td>
                     </tr>
