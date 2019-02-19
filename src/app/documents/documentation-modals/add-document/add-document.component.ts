@@ -103,7 +103,8 @@ export class AddDocumentComponent implements OnInit {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
-      x_issue_date: this.document.dates.issue,
+      
+      x_issue_date:this.document.dates.issue,
       x_wef_date: this.document.dates.wef,
       x_expiry_date: this.document.dates.expiry,
       x_document_agent_id: this.document.agent.id,
@@ -112,7 +113,6 @@ export class AddDocumentComponent implements OnInit {
       x_rto: this.document.rto,
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
-
     };
     console.log('Params: ', params);
     this.common.loading++;
@@ -125,6 +125,12 @@ export class AddDocumentComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  dateSelect(date){
+ console.log("Selected Date:",date);
+this.document.dates[date]=this.common.dateFormatter1(this.document.dates.issue).split(' ')[0];
+console.log("Selected Date:",this.document.dates[date]);
   }
 
 

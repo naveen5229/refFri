@@ -77,6 +77,7 @@ export class DashboardComponent implements OnInit {
     });
 
     columns.push({
+      serial:{value: 'sum ' },
       docType: { value: 'Total' },
       normal: { value: this.getSum('normal'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'normal') },
       noEntry: { value: this.getSum('noentrytilldate'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'noentrytilldate') },
