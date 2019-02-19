@@ -30,15 +30,12 @@ export class DocumentReportComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '990');
+    this.common.handleModalSize('class', 'modal-lg', '1024');
     this.title = this.common.params.title;
 
-    // this.reportData.id = this.common.params.docReoprt.id;
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
-
-      //  this.getReport();
-    this.totalReport();
+   this.totalReport();
 
   }
 
@@ -52,9 +49,10 @@ export class DocumentReportComponent implements OnInit {
 
   getReport() {
     let params = {
-      id: this.common.params.docReoprt.id,
+      id:this.common.params.docReoprt.id,
       status: this.reportData.status
     };
+  
     console.log("id", params.id);
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
@@ -76,7 +74,6 @@ export class DocumentReportComponent implements OnInit {
     let params = {
       status: this.reportData.status
     }
-     
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
       .subscribe(res => {
@@ -84,7 +81,6 @@ export class DocumentReportComponent implements OnInit {
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
         this.getReport();
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -104,7 +100,7 @@ export class DocumentReportComponent implements OnInit {
       return;
     }
     this.common.params = { images, title: 'Image' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   checkForPdf(imgUrl) {

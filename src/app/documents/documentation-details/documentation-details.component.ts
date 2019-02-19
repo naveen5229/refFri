@@ -25,56 +25,53 @@ export class DocumentationDetailsComponent implements OnInit {
     expiryForm: '',
     expiryEnd: '',
   };
+  table = null;
 
-  table = {
-    data: {
-      headings: {
-        vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-        docType: { title: 'Document Type', placeholder: 'Document Type' },
-        agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
-        issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
-        wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
-        expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-        documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-        amount: { title: 'Amount', placeholder: 'Amount' },
-        remark: { title: 'Remark', placeholder: 'Remak' },
-        image: { title: 'Image', placeholder: 'Image', hideSearch: true },
-        edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
-      },
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
-  };
+  // table = {
+  //   data: {
+  //     headings: {
+  //       vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+  //       docType: { title: 'Document Type', placeholder: 'Document Type' },
+  //       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
+  //       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+  //       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
+  //       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
+  //       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
+  //       amount: { title: 'Amount', placeholder: 'Amount' },
+  //       remark: { title: 'Remark', placeholder: 'Remak' },
+  //       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+  //       edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+  //     },
+  //     columns: []
+  //   },
+  //   settings: {
+  //     hideHeader: true
+  //   }
+  // };
 
 
-  
+
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-
+      
   }
 
   ngOnInit() {
   }
- 
+
 
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle.id;
-    // console.log("selected id:", this.selectedVehicle);
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: vehicle.id })
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
-        this.doucumentFilter();
-
-
+        this.documentUpdate();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -86,20 +83,17 @@ export class DocumentationDetailsComponent implements OnInit {
     let columns = [];
     this.data.map(doc => {
       console.info("Table Data", this.data);
-      console.log("doc Data", doc.regno);
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-      console.log("expiry Date:", exp_date);
-      console.log("current date", curr);
-      console.log("next Month Date", nextMthDate);
+
       columns.push({
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         agentName: { value: doc.agent },
-        issueDate: { value:this.datePipe.transform(doc.issue_date, 'dd MMM yyyy hh:mm a')},
-        wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy hh:mm a') },
-        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy hh:mm a'), class: curr >= doc.expiry_date ? 'red' : (doc.expiry_date < nextMthDate ? 'pink' : (doc.expiry_date ? 'green' : '')) },
+        issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
+        wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: curr >= doc.expiry_date ? 'red' : (doc.expiry_date < nextMthDate ? 'pink' : (doc.expiry_date ? 'green' : '')) },
         documentNumber: { value: doc.document_number },
         amount: { value: doc.amount },
         remark: { value: doc.remark },
@@ -110,17 +104,14 @@ export class DocumentationDetailsComponent implements OnInit {
     return columns;
   }
 
-  doucumentFilter() {
+  documentUpdate() {
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
+        console.log("filter", res);
         this.data = res['data'];
-        this.table.data.columns = this.getTableColumns();
-
-
-
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -133,7 +124,6 @@ export class DocumentationDetailsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log("hii");
         console.log('new Date:', this.dates[date]);
       }
     });
@@ -164,7 +154,7 @@ export class DocumentationDetailsComponent implements OnInit {
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        this.getvehicleData(this.selectedVehicle);
+        this.documentUpdate();
       }
     });
   }
@@ -198,8 +188,32 @@ export class DocumentationDetailsComponent implements OnInit {
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        this.getvehicleData(this.selectedVehicle);
+        this.documentUpdate();
       }
     });
   }
+  setTable() {
+    return {
+      data: {
+        headings: {
+          vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+          docType: { title: 'Document Type', placeholder: 'Document Type' },
+          agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
+          issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+          wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
+          expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
+          documentNumber: { title: 'Document Number', placeholder: 'Document No' },
+          amount: { title: 'Amount', placeholder: 'Amount' },
+          remark: { title: 'Remark', placeholder: 'Remak' },
+          image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+          edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+        },
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
+  }
+
 }

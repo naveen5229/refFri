@@ -39,7 +39,6 @@ export class DashboardComponent implements OnInit {
     private modalService: NgbModal) {
     this.getDocumentData();
     this.common.refresh = this.refresh.bind(this);
-
   }
 
   ngOnInit() {
@@ -84,7 +83,6 @@ export class DashboardComponent implements OnInit {
       imageMissing: { value: this.getSum('imagemissing'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'imagemissing') },
       Expiry: { value: this.getSum('expiringin30days'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expiringin30days') },
       alreadyExpiry: { value: this.getSum('alreadyexpired'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'alreadyexpired') },
-      total: { value: '' }
     });
 
     return columns;
