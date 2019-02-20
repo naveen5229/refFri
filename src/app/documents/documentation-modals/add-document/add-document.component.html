@@ -47,7 +47,7 @@
       </div>
       <div class="col-md-7">
           <input id="issue-date" name="issue-date" type="text" placeholder="DD-MM-YYYY" autocomplete="off"
-            class="form-control" [(ngModel)]="document.dates.issue" (ngModelChange)="dateSelect('issue')"/>
+            class="form-control" [value]="document.dates.issue | date:'dd-MM-yyyy' " (ngModelChange)="dateSelect('issue')"/>
       </div>
       <div class="col-md-1 calender">
           <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>

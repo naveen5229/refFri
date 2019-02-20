@@ -129,8 +129,8 @@ export class AddDocumentComponent implements OnInit {
 
   dateSelect(date){
  console.log("Selected Date:",date);
-this.document.dates[date]=this.common.dateFormatter1(this.document.dates.issue).split(' ')[0];
-console.log("Selected Date:",this.document.dates[date]);
+ this.document.dates[date]=this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
+ console.log("Selected Date:",this.document.dates[date]);
   }
 
 
