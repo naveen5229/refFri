@@ -45,8 +45,8 @@
         <label>Issue Date</label>
       </div>
       <div class="col-md-7">
-        <input id="issue-date" name="issue-date" type="text" placeholder="DD-MM-YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.issue"/>
+        <input id="issue-date" name="issue-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
+          class="form-control" [(ngModel)]="document.dates.issue" (change)="setDate('issue')"/>
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
@@ -87,7 +87,7 @@
           </option>
         </select>
       </div>
-      <div class="col-md-5 offset-md-8" style="margin-top: -10%;">
+      <div class="col-md-5 offset-md-8" style="margin-top: -8%;">
         <button class="btn btn-default" type="button" (click)="addAgent()">Add Agent</button>
       </div>
     </div>

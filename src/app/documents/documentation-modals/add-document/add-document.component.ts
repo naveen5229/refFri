@@ -128,7 +128,11 @@ export class AddDocumentComponent implements OnInit {
         console.log(err);
       });
   }
-
+// setDate(date){
+//   let selectDate;
+//   selectDate= this.common.dateFormatter(data.date).split(' ')[0];
+//   console.log('Date:', this.document.dates[date]);
+// }
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
