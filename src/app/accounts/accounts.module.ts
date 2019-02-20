@@ -18,7 +18,7 @@ import { DaybooksComponent } from './daybooks/daybooks.component';
 import { LedgerviewComponent } from './ledgerview/ledgerview.component';
 import { LedgermappingComponent } from './ledgermapping/ledgermapping.component';
 import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
-//import { StockSubtypeComponent } from '../acounts-modals/stock-subtype/stock-subtype.component';
+import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -46,7 +46,8 @@ const PAGES_COMPONENTS = [
     DaybooksComponent,
     LedgerviewComponent,
     LedgermappingComponent,
-    InvoiceregisterComponent
+    InvoiceregisterComponent,
+    TripVoucherExpenseComponent
     //StockSubtypeComponent
   ],
 })
