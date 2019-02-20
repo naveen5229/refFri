@@ -131,6 +131,23 @@ export class PendingDocumentComponent implements OnInit {
       x_amount: this.document.amount,
 
     };
+    let issuedt_valid = 1;
+    let wefdt_valid = 1;
+    if(this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
+      issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
+    }
+    if(this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
+      wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
+    }    
+    if(issuedt_valid && wefdt_valid) {
+      this.spnexpdt = 0;
+    } else {
+      this.spnexpdt = 1;
+    }
+    if(this.spnexpdt) {
+      alert("Please check the Expiry Date validity");
+      return;
+    }
     console.log("params");
     console.log(params);
     this.common.loading++;
@@ -140,7 +157,7 @@ export class PendingDocumentComponent implements OnInit {
       this.common.loading--;
       console.log("api result", res);
       this.closeModal(true);
-      window.location.reload();
+      //window.location.reload();
     }, err => {
       this.common.loading--;
       console.log(err);
@@ -158,22 +175,35 @@ export class PendingDocumentComponent implements OnInit {
     });
   }
 
+  checkExpiryDateValidityByValue(flddate, expdate) {
+    flddate = this.common.dateFormatter(flddate).split(' ')[0];
+    expdate = this.common.dateFormatter(expdate).split(' ')[0];
+    console.log("comparing " + flddate + "-" + expdate);
+    let d1 = new Date(flddate);
+    let d2 = new Date(expdate);
+    if(d1 > d2) {
+      this.spnexpdt = 1;
+      return 0;
+    }
+    return 1;
+  }
+
   checkExpDateValidity(issuedate, wefdate, expdate) {
+    console.log("fn invoked");
     let issuedt_valid = 1;
     let wefdt_valid = 1;
-    if(issuedate != "undefined" && wefdate != "undefined" && expdate != "undefined") {
-      issuedate = this.common.dateFormatter(issuedate).split(' ')[0];
-      wefdate = this.common.dateFormatter(wefdate).split(' ')[0];
-      expdate = this.common.dateFormatter(expdate).split(' ')[0];
-      let d1 = new Date(issuedate);
-      let d2 = new Date(expdate);
-      let d3 = new Date(wefdate);
-      if(d1 > d2) {
-        issuedt_valid = 0;
-      } else if(d3 > d2) {
-        wefdt_valid = 0;
+      if(typeof issuedate != "undefined" &&  typeof expdate != "undefined") {
+        console.log("chk1");
+        console.log(issuedate.value);
+        console.log(expdate.value);
+        issuedt_valid = this.checkExpiryDateValidityByValue(issuedate.value, expdate.value);
       }
-    }
+      if(typeof wefdate != "undefined" &&  typeof expdate != "undefined") {
+        console.log("chk2");
+        console.log(wefdate.value);
+        console.log(expdate.value);
+        wefdt_valid = this.checkExpiryDateValidityByValue(wefdate.value, expdate.value);
+      }
     if(issuedt_valid && wefdt_valid) {
       this.spnexpdt = 0;
     } else {
