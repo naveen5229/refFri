@@ -18,7 +18,7 @@
           <th>End Date</th>
         </thead>
         <tbody>
-          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;">
+          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;" (click)="showVoucherSummary(tripVoucher)">
             <td>{{i+1}}</td>
             <td>{{tripVoucher.startloc}}</td>
             <td>{{tripVoucher.endloc || '--'}}</td>
@@ -60,6 +60,7 @@
       <table class="table table-bordered">
         <thead>
           <th>SN</th>
+          <th> </th>
           <th>Station name</th>
           <th>Quantity</th>
           <th>Rate</th>
@@ -69,6 +70,9 @@
         <tbody>
           <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
             <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked">
+            </td>
             <td>{{fuelFiling.name}}</td>
             <td>{{fuelFiling.litres}}</td>
             <td>{{fuelFiling.rate}}</td>

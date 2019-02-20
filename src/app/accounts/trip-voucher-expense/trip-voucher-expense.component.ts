@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
+import { ViewListComponent } from '../../modals/view-list/view-list.component';
 
 @Component({
   selector: 'trip-voucher-expense',
@@ -13,9 +16,9 @@ export class TripVoucherExpenseComponent implements OnInit {
   checkedTrips = [];
   fuelFilings = [];
   tripHeads = [];
-  tripVouchers=[];
+  tripVouchers = [];
   selectedVehicle;
-  constructor(public api: ApiService, public common: CommonService) {
+  constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal) {
 
   }
 
@@ -119,6 +122,13 @@ export class TripVoucherExpenseComponent implements OnInit {
           });
           tripHead.trips = trips;
           tripHead.total = 0;
+          let fuelFilings = [];
+          this.fuelFilings.map(fuelFiling => {
+            if (fuelFiling.isChecked) {
+              fuelFilings.push({ id: fuelFiling.id });
+            }
+          });
+          tripHead.fuelFilings = fuelFilings;
         });
 
       }, err => {
@@ -154,7 +164,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     });
     console.log('Total: ', this.tripHeads[index].total);
   }
-  getTripSummary(){
+  getTripSummary() {
     const params = {
       vehId: this.selectedVehicle.id
     };
@@ -169,6 +179,20 @@ export class TripVoucherExpenseComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
+  }
+  showVoucherSummary(tripVoucher) {
+    console.log(tripVoucher);
+    let headings = ['#', 'Start', 'End', 'Start Date', 'End Date'];
+    let data = [[1, tripVoucher.startloc, tripVoucher.endloc, tripVoucher.startdate, tripVoucher.enddate]];
+    this.common.params = { headings, data };
+    const activeModal = this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        //this.addLedger(data.ledger);
+      }
+    });
+
   }
 
 
