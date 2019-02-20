@@ -1,13 +1,30 @@
 <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Change Vehicle Status</h4>
+    <div style="margin-left:25%">
+       <span><b>Last Ind Type : </b> {{lastIndType}}  {{distDiff}} {{timeDiff}}</span> 
+        
+    </div>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
+   
   </div>
   <div class="modal-body">
     <div class="col-sm-3"></div>
-    <div style="margin-bottom:20px"><button (click)="showHalt()" style="margin-left:50px">Show Halt</button>
-      <button (click)="showTrail()" style="margin-left:50px">Show Trail</button></div>
+    <div style="margin-bottom:20px">
+      <button (click)="showHalt()" style="margin-left:20px">Show Halt</button>
+      <button (click)="showTrail()" style="margin-left:20px">Show Trail</button>
+      <button (click)="showHide()" style="margin-left:20px">{{showHideSite}}</button>
+      <button (click)="beforeLatchTime()" style="margin-left:20px">Before ltime</button>
+      <span style="margin-left:150px">
+          <span class="zoom-btn" (click)="setZoom(6)">1</span>
+          <span class="zoom-btn" (click)="setZoom(9)">2</span>
+          <span class="zoom-btn" (click)="setZoom(12)">3</span>
+          <span class="zoom-btn" (click)="setZoom(15)">4</span>
+          <span class="zoom-btn" (click)="setZoom(18)">5</span>
+      </span>
+        </div>
+     
       
       <div class="col-sm-3">
           <div style="height: 560px; overflow: auto; width: 100%;">
@@ -44,8 +61,8 @@
                      <th>CS</th>
                      <th>CHT</th>
                    </tr>
-                   <tr *ngFor="let vehicleEvent of vehicleEvents;let i = index; " [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}">
-                      <td (click)="markerZoomMF(i)">{{i+1}}</td>
+                   <tr *ngFor="let vehicleEvent of vehicleEvents;let i = index; " [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}" (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
+                      <td (click)="markerZoomMF(i)" >{{i+1}}</td>
                       <td (click)="markerZoomMF(i)">{{vehicleEvent.date}}</td>
                       <td (click)="markerZoomMF(i)">{{vehicleEvent.timeShort}}</td>
                       <td (click)="markerZoomMF(i)">{{vehicleEvent.distance}}</td>
@@ -60,13 +77,8 @@
 
           </div>
     <div class="map-container col-sm-5">
+       
       <div #map id="map" style="margin-left:10px"> </div>
-      <div class="zoom-container">
-        <span class="zoom-btn" (click)="setZoom(6)">1</span>
-        <span class="zoom-btn" (click)="setZoom(9)">2</span>
-        <span class="zoom-btn" (click)="setZoom(12)">3</span>
-        <span class="zoom-btn" (click)="setZoom(15)">4</span>
-        <span class="zoom-btn" (click)="setZoom(18)">5</span>
-      </div>
+      
     </div>
   </div>
