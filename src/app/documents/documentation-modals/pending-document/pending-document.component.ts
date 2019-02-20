@@ -21,7 +21,8 @@ export class PendingDocumentComponent implements OnInit {
   agentId = '';
   canUpdate = 1;
   canreadonly = false;
-  spnissuedt = 0;
+  spnexpdt = 0;
+  current_date = new Date();
 
   document = {
     agent: null,
@@ -157,23 +158,28 @@ export class PendingDocumentComponent implements OnInit {
     });
   }
 
-  checkDate(flddate, expdate) {
-    if(flddate != "undefined" && expdate != "undefined") {
-      flddate = this.common.dateFormatter(flddate).split(' ')[0];
+  checkExpDateValidity(issuedate, wefdate, expdate) {
+    let issuedt_valid = 1;
+    let wefdt_valid = 1;
+    if(issuedate != "undefined" && wefdate != "undefined" && expdate != "undefined") {
+      issuedate = this.common.dateFormatter(issuedate).split(' ')[0];
+      wefdate = this.common.dateFormatter(wefdate).split(' ')[0];
       expdate = this.common.dateFormatter(expdate).split(' ')[0];
-      let d1 = new Date(flddate);
+      let d1 = new Date(issuedate);
       let d2 = new Date(expdate);
-      console.log(d1 + " == " + d2);
+      let d3 = new Date(wefdate);
       if(d1 > d2) {
-        this.spnissuedt = 1;        
-      } else {
-        this.spnissuedt = 0;
+        issuedt_valid = 0;
+      } else if(d3 > d2) {
+        wefdt_valid = 0;
       }
     }
-    console.log("fld:" + flddate + ", exp:" + expdate);
-    
+    if(issuedt_valid && wefdt_valid) {
+      this.spnexpdt = 0;
+    } else {
+      this.spnexpdt = 1;
+    }
   }
-
   addAgent() {
     this.common.params = { title: 'Add Agent' };
     const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
