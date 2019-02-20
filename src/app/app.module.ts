@@ -48,7 +48,6 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
 import { OrderComponent } from './acounts-modals/order/order.component';
 import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { EditDocumentComponent } from './documents/documentation-modals/edit-document/edit-document.component';
 import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
@@ -60,6 +59,8 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -160,7 +161,8 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    Ng2SmartTableModule
+    ImageViewerModule,
+    MatIconModule,
   ],
   bootstrap: [AppComponent],
   providers: [

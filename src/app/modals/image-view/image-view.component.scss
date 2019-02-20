@@ -14,3 +14,14 @@
     padding: 5px;
 }
 
+:host ::ng-deep .image-gallery-2 {
+    width: 100%;
+    position: relative;
+    height: 700px;
+    background: #000;
+    margin-top: 45px;
+    margin-bottom: 15px;
+}
+.modal-body, .container{
+    padding: 0px !important;
+}

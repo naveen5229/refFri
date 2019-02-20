@@ -27,7 +27,7 @@ import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-sugg
 import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ImageViewerModule } from 'ng2-image-viewer';
 
 
 const PAGES_COMPONENTS = [
@@ -45,7 +45,7 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    Ng2SmartTableModule
+    ImageViewerModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -62,7 +62,6 @@ const PAGES_COMPONENTS = [
     ConciseComponent,
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
-    // AutoSuggestionComponent
   ],
 })
 export class PagesModule {
