@@ -106,7 +106,8 @@
       <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.remarks">
   </td>
   <td *ngIf="i == 0">
-      <i class="fa fa-plus text-primary" (click)="addDetails()" style="font-size: 40px;"></i></td>
+      <button (click)="addDetails()" class="plustransparent"><i class="fa fa-plus text-primary" style="font-size: 40px;"></i></button>
+    </td>
     <td *ngIf="i !== 0">
       <i class="fa fa-trash text-primary" (click)="Accounts.accDetails.splice(i,1)"></i>
     </td>
