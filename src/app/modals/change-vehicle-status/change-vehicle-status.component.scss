@@ -1,0 +1,42 @@
+.map-container {
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+#map {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+.zoom-container {
+    position: absolute;
+    z-index: 999;
+    right: 15px;
+    bottom: 100px;
+    width: 30px;
+}
+.zoom-btn {
+    display: block;
+    background:black;
+    text-align: center;
+    color: #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    margin: auto;
+    line-height: 30px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgb(143, 136, 155);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.zoom-btn:active{
+    background: #fff;
+    color: orange;
+}
+
+
+.nb-theme-corporate .modal-content {
+    min-height: 500px;
+}

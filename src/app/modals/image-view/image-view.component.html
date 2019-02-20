@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <div *ngIf="activeImage" style="height:370px; margin-bottom: 15px;">
+    <!-- <div *ngIf="activeImage" style="height:370px; margin-bottom: 15px;">
       <img [src]="activeImage.image" class="active-image">
     </div>
     <div class="row text-center" *ngIf="images.length > 1">
@@ -17,6 +17,10 @@
             {{image.name}}</span>
         </div>
       </div>
-    </div>
+    </div> -->
+    <app-image-viewer
+      [images]="images"
+      [idContainer]="'idOnHTML'" [loadOnInit]="true">
+    </app-image-viewer>
   </div>
 </div>

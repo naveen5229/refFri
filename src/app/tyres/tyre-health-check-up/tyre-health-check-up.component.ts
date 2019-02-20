@@ -26,6 +26,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
   foUsers = [];
   vehicles = [];
   tyres = [];
+  vehicleTyreDetails = []
   remark = "";
   status = "";
   checkedBy = null;
@@ -135,12 +136,14 @@ export class TyreHealthCheckUpComponent implements OnInit {
         this.refMode = 701;
       }
       let params = 'vehicleId=' +this.vehicleId+
-      '&refMode=' + this.refMode;
+      '&refMode=' + this.refMode+
+      '&mapped=1' ;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreHealths?' + params)
+      this.api.get('Tyres/getVehicleTyrePosition?' + params)
         .subscribe(res => {
           this.tyres = res['data'];
-          console.log("searchedTyreDetails", this.tyres);
+          this.vehicleTyreDetails =  JSON.parse(res['data'][0].fn_getvehicletyredetails);
+          console.log("searchedTyreDetails", this.vehicleTyreDetails);
 
         }, err => {
           console.error(err);
