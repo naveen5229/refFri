@@ -29,16 +29,15 @@
           <option *ngFor="let docType of docTypes;" id="id" name="id" [hidden]="docType.id" class="form-control" >{{docType.document_type}}
             <input type="hidden" [value]="docType.id" id="id" name="id">
           </option>
-        </datalist>
-        <div *ngIf="isFormSubmit && documentType.errors" class="error">
+        </datalist>-->
+        <!-- <div *ngIf="isFormSubmit && documentType.errors" class="error">
           <span [hidden]="!documentType.errors.required">Document type is mandatory</span>
-        </div> -->
+        </div>  -->
         <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
           placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType"></auto-suggestion>
         <div class="suggestions ng-star-inserted">
 
         </div>
-
       </div>
     </div>
     <div class="row">
@@ -46,9 +45,8 @@
         <label>Issue Date</label>
       </div>
       <div class="col-md-7">
-        <!-- (ngModelChange)="dateSelect('issue')" -->
-        <input id="issue-date" name="issue-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
-          class="form-control"  [(ngModel)]="document.dates.issue" (change)="dateSelect('issue')"  />
+        <input id="issue-date" name="issue-date" type="text" placeholder="DD-MM-YYYY" autocomplete="off"
+          class="form-control" [(ngModel)]="document.dates.issue"/>
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
@@ -60,11 +58,7 @@
         <label>Wef Date<span class="mandatory">*</span></label>
       </div>
       <div class="col-md-7">
-        <input id="wef-date" name="wef-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off" required
-          class="form-control" [(ngModel)]="document.dates.wef" (change)="dateSelect('wef')">
-        <!-- [(ngModel)]="document.dates.wef" #wefDate="ngModel"<div *ngIf="isFormSubmit && wefDate.errors" class="error">
-          <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
-        </div> -->
+        <input id="wef-date" name="wef-date" type="text" placeholder="DD-MM-YYYY" autocomplete="off"  class="form-control" [(ngModel)]="document.dates.wef" >
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
@@ -75,11 +69,9 @@
         <label>Expiry Date</label>
       </div>
       <div class="col-md-7">
-        <input id="expiry-date" name="expiry-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off" required
-          class="form-control" [(ngModel)]="document.dates.expiry" (change)="dateSelect('expiry')">
-        <!-- <div *ngIf="isFormSubmit && expiry.errors" class="error">
-              <span [hidden]="!expiry.errors.required">wef Date type mandatory</span>
-            </div> -->
+        <input id="expiry-date" name="expiry-date" type="text" placeholder="DD-MM-YYYY" autocomplete="off"
+          class="form-control" [(ngModel)]="document.dates.expiry">
+      
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>
@@ -147,11 +139,11 @@
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+      <button class="btn btn-danger" type="button"  (click)="closeModal(false)" id="cancel"
         style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
+      <button class="btn btn-primary" form="document-form" type="submit"  (click)="isFormSubmit = true"
         id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>

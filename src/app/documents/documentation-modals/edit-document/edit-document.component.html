@@ -36,8 +36,8 @@
         <label>Issue Date</label>
       </div>
       <div class="col-md-8">
-        <input id="issue-date" name="issue-date" type="datetime" placeholder="Enter the issue Date" autocomplete="off"
-          class="form-control" [value]="document.issueDate | date: 'dd MMM yyyy'" (click)="getDate('issueDate')">
+        <input id="issue-date" name="issue-date" type="text" placeholder="Enter the issue Date" autocomplete="off"
+          class="form-control"  [value]="document.issueDate | date:'dd-MMM-yyyy'" (click)="getDate('issueDate')">
       </div>
     </div>
 
@@ -46,8 +46,8 @@
         <label>Wef Date</label>
       </div>
       <div class="col-md-8">
-        <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off"
-          class="form-control" [value]="document.wefDate | date: ' dd MMM yyyy'" (click)="getDate('wefDate')">
+        <input id="wef-date" name="wef-date" type="text" placeholder="Enter the Wef Date" autocomplete="off"
+          class="form-control" [value]="document.wefDate | date:'dd-MMM-yyyy' " (click)="getDate('wefDate')">
       </div>
     </div>
 
@@ -56,8 +56,8 @@
         <label>Expiry Date</label>
       </div>
       <div class="col-md-8">
-        <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off" required
-          class="form-control" [value]="document.expiryDate | date: 'dd MMM yyyy'" (click)="getDate('expiryDate')">
+        <input id="expiry-date" name="expiry-date" type="text" placeholder="Expiry Date" autocomplete="off" required
+          class="form-control" [value]="document.expiryDate | date:'dd-MMM-yyyy' " (click)="getDate('expiryDate')">
       </div>
     </div>
 
