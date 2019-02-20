@@ -31,8 +31,9 @@
             <input id="doc_no" name="doc_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.doc_no"  />
         </div>        
         <div class="form-field clear">
-            <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date</label>
-            <input id="issue_date" name="issue_date" type="datetime" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.issue_date| date: 'dd MMM yyyy'" (click)="getDate('issue_date')" />
+            <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
+            <input #issue_date id="issue_date" name="issue_date" type="datetime" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.issue_date| date: 'dd MMM yyyy'" (click)="getDate('issue_date')" (blur)="checkDate(issue_date.value, expiry_date.value, spnissuedt)" />
+            <span *ngIf="spnissuedt" style="color: red; margin-left: 10px;">Issue Date cannot be greater than Expiry Date</span>
         </div>
         <div class="form-field clear">
             <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
@@ -40,7 +41,7 @@
         </div>
         <div class="form-field clear">
             <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
-            <input id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date | date: 'dd MMM yyyy'" (click)="getDate('expiry_date')" />
+            <input #expiry_date id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date | date: 'dd MMM yyyy'" (click)="getDate('expiry_date')" />
         </div>
         <div class="form-field clear">
             <label for="rto" class="col-sm-4 mgn-vert">RTO</label>

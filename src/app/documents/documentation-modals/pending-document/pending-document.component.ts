@@ -21,6 +21,7 @@ export class PendingDocumentComponent implements OnInit {
   agentId = '';
   canUpdate = 1;
   canreadonly = false;
+  spnissuedt = 0;
 
   document = {
     agent: null,
@@ -154,6 +155,23 @@ export class PendingDocumentComponent implements OnInit {
       }
 
     });
+  }
+
+  checkDate(flddate, expdate) {
+    if(flddate != "undefined" && expdate != "undefined") {
+      flddate = this.common.dateFormatter(flddate).split(' ')[0];
+      expdate = this.common.dateFormatter(expdate).split(' ')[0];
+      let d1 = new Date(flddate);
+      let d2 = new Date(expdate);
+      console.log(d1 + " == " + d2);
+      if(d1 > d2) {
+        this.spnissuedt = 1;        
+      } else {
+        this.spnissuedt = 0;
+      }
+    }
+    console.log("fld:" + flddate + ", exp:" + expdate);
+    
   }
 
   addAgent() {
