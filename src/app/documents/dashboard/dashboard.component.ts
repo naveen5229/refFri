@@ -4,9 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
-import { Body } from '@angular/http/src/body';
-import { from } from 'rxjs';
-import { NgIf } from '@angular/common';
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -33,11 +30,13 @@ export class DashboardComponent implements OnInit {
   };
 
 
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
     this.getDocumentData();
+
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -48,6 +47,7 @@ export class DashboardComponent implements OnInit {
     console.log('Refresh');
     this.getDocumentData();
   }
+
   getDocumentData() {
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', {})
@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit {
         this.documentData = res['data'];
         console.info("dashbord Data", this.documentData);
         this.table.data.columns = this.getTableColumns();
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -91,6 +92,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
+
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -100,6 +102,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
   getSum(key) {
     let total = 0;
     this.documentData.map(data => {

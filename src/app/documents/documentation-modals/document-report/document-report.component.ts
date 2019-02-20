@@ -25,6 +25,7 @@ export class DocumentReportComponent implements OnInit {
   nextMthDate = null;
   curr = null;
 
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -35,7 +36,9 @@ export class DocumentReportComponent implements OnInit {
 
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
+
    this.totalReport();
+
 
   }
 
@@ -64,6 +67,7 @@ export class DocumentReportComponent implements OnInit {
         let exp_date = this.common.dateFormatter(this.reportResult[0].expiry_date);
         this.curr = this.common.dateFormatter(this.currentdate);
         this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -76,6 +80,7 @@ export class DocumentReportComponent implements OnInit {
     }
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
+
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
@@ -107,6 +112,7 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
+  
   editData(doc) {
     console.log("edit model open  data", doc);
     let documentData = [{
@@ -137,5 +143,6 @@ export class DocumentReportComponent implements OnInit {
       }
     });
   }
+
 
 }

@@ -15,20 +15,19 @@
           <tbody class="">
             <ng-container *ngIf="data.vehicle_info.length">
               <tr *ngFor="let row of data.vehicle_info">
-                <td *ngFor="let col of data.columns" class="text-center">
+                <td *ngFor="let col of data.columns;" class="text-center">
                   <span *ngIf="col == 'Vehicle No.'">
                     {{row[col]}}
                   </span>
                   <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
-                    <a href="{{row[col]}}" target='blank'><img class="icon-img" src="assets/images/doc-tick.jpeg"
-                        alt="View" /></a>
+                    <img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" style="cursor: pointer;"
+                      (click)="fetchDocumentData(row,col)" />
                   </ng-container>
                   <ng-container *ngIf="row[col] == ''">
                     <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
                   </ng-container>
                 </td>
               </tr>
-
             </ng-container>
 
           </tbody>
