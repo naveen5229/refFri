@@ -123,11 +123,15 @@ label{
     background: #96ec11;
     color:black;
 }
-
-.loc-icon {
-    text-align: center;
-    font-size: 10px;
-    color: orange;
+:host ::ng-deep.icon{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
+}
+:host ::ng-deep.image{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
 }
 
 :host ::ng-deep .circle {

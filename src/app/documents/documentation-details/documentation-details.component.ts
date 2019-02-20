@@ -82,7 +82,7 @@ export class DocumentationDetailsComponent implements OnInit {
   getTableColumns() {
     let columns = [];
     this.data.map(doc => {
-      console.info("Table Data", this.data);
+      // console.info("Table Data", this.data);
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
@@ -97,8 +97,8 @@ export class DocumentationDetailsComponent implements OnInit {
         documentNumber: { value: doc.document_number },
         amount: { value: doc.amount },
         remark: { value: doc.remark },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '' },
-        edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'text-center' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '',class:'image text-center' },
+        edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
         rowActions: {}
       });
     });
