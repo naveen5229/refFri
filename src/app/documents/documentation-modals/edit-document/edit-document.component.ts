@@ -19,7 +19,7 @@ export class EditDocumentComponent implements OnInit {
   agents = [];
   docTypes = [];
   docType = null;
-  vehicleId: null;
+  vehicleId= null;
   document = {
     docId: null,
     regno: null,

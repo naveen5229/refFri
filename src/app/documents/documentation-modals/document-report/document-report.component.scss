@@ -12,8 +12,10 @@
     color: black;
 }
 i{
-    color: blue;
-    font-size: 16px;
+    color: #0e0e3a;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 29%
 }
 i{
     color: blue;
@@ -22,7 +24,6 @@ i{
 .table-scroll thead {
     display: table;
     width: 100%;
-    // table-layout: fixed;
  }
  
  .table-scroll tbody {
