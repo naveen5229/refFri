@@ -17,21 +17,22 @@ i{
     cursor: pointer;
     margin-left: 29%
 }
-i{
-    color: blue;
-    font-size: 16px;
+.table-bordered{
+    height: 350px;
+    overflow-y: auto;
+    display: block;
 }
-.table-scroll thead {
+.table-scroll.thead {
     display: table;
-    width: 100%;
+    width: 970px;
+    position: fixed;
  }
  
  .table-scroll tbody {
-    max-height: 350px;
-    overflow-y: auto;
     display: block;
     width: 100%;
     table-layout: fixed;
+    margin-top: 52px;
  }
  
  .table-scroll tr {

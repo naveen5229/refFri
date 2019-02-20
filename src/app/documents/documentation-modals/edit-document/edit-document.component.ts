@@ -100,9 +100,9 @@ export class EditDocumentComponent implements OnInit {
       x_document_id: this.document.docId,
       x_document_type_id: this.document.documentId,
       x_document_type: this.findDocumentType(this.document.documentId),
-      x_issue_date: this.document.issueDate,
-      x_wef_date: this.document.wefDate,
-      x_expiry_date: this.document.expiryDate,
+      x_issue_date:this.document.issueDate,
+      x_wef_date:this.document.wefDate,
+      x_expiry_date:this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
       x_document_number: this.document.documentNumber,
       x_base64img: this.document.docUpload,
@@ -125,6 +125,14 @@ export class EditDocumentComponent implements OnInit {
     return response;
   }
 
+  dateSelect(date){
+    console.log("Selected Date:",date);
+    let useDate;
+    useDate = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
+    console.log("Selected Date:",useDate);
+    return useDate;
+     }
+     
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
+import{ DateService } from '../../../services/date.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
@@ -7,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 import { DocumentationDetailsComponent } from "../../documentation-details/documentation-details.component";
+import { from } from 'rxjs';
 @Component({
   selector: 'add-document',
   templateUrl: './add-document.component.html',
@@ -47,6 +49,7 @@ export class AddDocumentComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
+    public date:DateService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
@@ -103,10 +106,9 @@ export class AddDocumentComponent implements OnInit {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
-      
-      x_issue_date:this.dateSelect(this.document.dates.issue),
-      x_wef_date: this.dateSelect(this.document.dates.wef),
-      x_expiry_date: this.document.dates.expiry,
+      x_issue_date:this.document.dates.issue,
+      x_wef_date: this.document.dates.wef,
+      x_expiry_date:this.document.dates.expiry,
       x_document_agent_id: this.document.agent.id,
       x_document_number: this.document.number,
       x_base64img: this.document.base64Image,
@@ -127,14 +129,6 @@ export class AddDocumentComponent implements OnInit {
       });
   }
 
-dateSelect(date){
- console.log("Selected Date:",date);
- let useDate;
- useDate = this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
- console.log("Selected Date:",useDate);
- return useDate;
-  }
-
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -143,7 +137,6 @@ dateSelect(date){
         this.document.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
         console.log('Date:', this.document.dates[date]);
       }
-
     });
   }
   findDocumentType(id) {
@@ -159,19 +152,6 @@ dateSelect(date){
     });
     return documentType;
   }
-  // findDocumentType(type) {
-  //   let id = '';
-  //   console.log("id:",type);
-  //   console.log("docTypes:",this.docTypes);
-  //   this.docTypes.map(docType => {
-  //     // console.log("doc Type: ",docType);
-  //     if (docType.document_type == type) {
-  //      id = docType.id
-  //       console.log("document id", id);
-  //     }
-  //   });
-  //   return  id;
-  // }
 
   addAgent() {
     this.common.params = { title: 'Add Agent' };
@@ -187,7 +167,6 @@ dateSelect(date){
 
   selectDocType(docType) { 
     this.document.type.id = docType.id
-    // console.log('Doc id: ', docType.id);
     console.log("doc var",this.document.type.id);
   }
 
