@@ -21,6 +21,8 @@ export class CommonService {
   searchId = null;
   refresh = null;
 
+  changeHaltModal = null;
+
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -267,7 +269,15 @@ export class CommonService {
       if (type == 'class') {
         document.getElementsByClassName(name)[position]['style'].maxWidth = size + sizeType;
       }
-    }, 100);
+    }, 10);
+
+  }
+  handleModalheight(type, name, size, sizeType = 'px', position = 0) {
+    setTimeout(() => {
+      if (type == 'class') {
+        document.getElementsByClassName(name)[position]['style'].minHeight = size + sizeType;
+      }
+    }, 10);
 
   }
 

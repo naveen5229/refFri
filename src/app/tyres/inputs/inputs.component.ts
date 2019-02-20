@@ -151,22 +151,25 @@ export class InputsComponent implements OnInit {
   }
 
   getTyreCurrentStatus(){
+    let alertMsg;
     let params = 'tyreId=' + this.tyreId;
     console.log("params ", params);
     this.api.get('Tyres/getTyreCurrentStatus?' + params)
       .subscribe(res => {
-        console.log('Res: ', res);
+        console.log('Res: ',res['data'] );
+        alertMsg = res['data'][0].rtn_msg
+        this.openConrirmationAlert(alertMsg);
+
       }, err => {
         console.error(err);
         this.common.showError();
       });
-      this.openConrirmationAlert()
   }
 
-  openConrirmationAlert(){
+  openConrirmationAlert(alertMsg){
     this.common.params = {
       title: "Current Postion Of Tyre",
-      description: "Tyre current position is :"+ ""+"Do you want to change ?"
+      description: alertMsg+" Do you want to change ?"
     }
     const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout',backdrop: 'static'});
     activeModal.result.then(data => {

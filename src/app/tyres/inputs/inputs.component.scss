@@ -72,4 +72,27 @@ th{
   .stepheniee{
     width:50px;
   }
-  
+  .vehicle-container .hover_label{
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+    left: 18px;
+    top: 18px;
+    display: none;
+  }
+  .vehicle-container .hover_label:after{
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #020202;
+    position: absolute;
+    top: 8px;
+    right: -5px;
+  }
+  .vehicle-container span:hover .hover_label{
+    display: block;
+  }
