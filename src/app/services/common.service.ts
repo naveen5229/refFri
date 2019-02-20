@@ -310,4 +310,52 @@ export class CommonService {
     }
     return generatedArray;
   }
+
+  distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+      return 0;
+    }
+    else {
+      let radlat1 = Math.PI * lat1/180;
+      let radlat2 = Math.PI * lat2/180;
+      let theta = lon1-lon2;
+      let radtheta = Math.PI * theta/180;
+      let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180/Math.PI;
+      dist = dist * 60 * 1.1515;
+          if (unit=="K") { dist = dist * 1.609344}
+      if (unit=="Mt") { dist = dist * 1.609344*1000}
+      if (unit=="N") { dist = dist * 0.8684 }
+      return dist.toFixed(0);
+      }
+  }
+
+  differenceBtwT1AndT2(date1, date2) {
+    if (date1 == date2) {
+        return 0;
+    }
+    else {
+        date1 = new Date(date1);
+        date2 = new Date(date2);
+        let difference = date1.getTime() - date2.getTime();
+
+        let daysDifference = Math.floor(difference/1000/60/60/24);
+        difference -= daysDifference*1000*60*60*24
+
+       let hoursDifference = Math.floor(difference/1000/60/60);
+        difference -= hoursDifference*1000*60*60
+
+        let minutesDifference = Math.floor(difference/1000/60);
+        difference -= minutesDifference*1000*60
+
+        let secondsDifference = Math.floor(difference/1000);
+        return (daysDifference + ' day ' + hoursDifference + ' hr ');      
+
+    // return ('difference = ' + daysDifference + ' day ' + hoursDifference + ' hour/s ' + minutesDifference + ' minute/s ' + secondsDifference + ' second/s ');      
+      }
+}
 }
