@@ -53,6 +53,7 @@ import { EditDocumentComponent } from './documents/documentation-modals/edit-doc
 import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
+import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 // import { SmartTableComponent } from './directives/smart-table/smart-table.component';
@@ -96,7 +97,8 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     ErrorReportComponent,
     ReportIssueComponent,
     DocumentReportComponent,
-    // SmartTableComponent
+    ErrorReportComponent,
+    AddEscalationIssueComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -133,7 +135,8 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     ErrorReportComponent,
     ReportIssueComponent,
     DocumentReportComponent,
-    // SmartTableComponent
+    ErrorReportComponent,
+    AddEscalationIssueComponent
   ],
   imports: [
     BrowserModule,

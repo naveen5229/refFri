@@ -17,3 +17,19 @@
 //     padding-left: 30% !important;
 //     margin-top: -13% !important;
 // }
+.add_leader_account .form-group{
+    width: 100%;
+}
+@media (min-width: 992px){
+    .modal-lg {
+        max-width: 1200px !important;
+    }
+  }
+  .modal-lg {
+    max-width: 1200px !important;
+  }
+
+  .plustransparent{
+    background-color: transparent;
+    border:0px;
+}
