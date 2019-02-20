@@ -1,0 +1,23 @@
+<div class="model-header">
+  <h4 class="model-title" id="matrix-basic-title">Escalation Matrix</h4>
+</div>
+<div class="model-body">
+    <auto-suggestion (onSelected)="getMatrix($event)" url="suggestion/getFoUsersList" display="name"
+    placeholder="Search" [preSelected]="null"></auto-suggestion>
+</div>    
+
+<table class="table table-bordered">
+<tr>
+<th>Issue Name</th>
+<th>Count Admin</th>
+<th>Action</th>
+</tr>
+<tr *ngFor="let matrix of matrixList; let i=index;" >
+  <td>{{matrix.issue_name}}</td>
+  <td>{{matrix.admin_count}}</td>
+  <td><button class="btn" (click)="openAddIssueModel(matrix)">Add</button></td>
+</tr>
+</table>
+
+      
+      

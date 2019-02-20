@@ -19,45 +19,48 @@
             <input type="hidden" [value]="docType.id" id="id" name="id">
           </option>
         </datalist> -->
-
-
-
-          <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="Vehicles/getAllDocumentTypes"
-            display="document_type" placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType"></auto-suggestion>
+          <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)"
+            url="Vehicles/getAllDocumentTypes" display="document_type" placeholder="Enter doctype" [data]="docTypes"
+            [preSelected]="null" class="documentType"></auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-6">
           <label>Vehicle Document Csv</label>
         </div>
         <div class="col-md-6">
           <div class="upload-btn-wrapper">
-            <button class="btn">Upload Csv</button>
-            <input type="file" name="vehicleDocCsv" [(ngModel)]="upload.csv" (change)="handleFileSelection($event)">
+            <input type="file" name="vehicleDocCsv" [(ngModel)]="upload.csv" (change)="handleFileSelection($event)"
+              style="margin:4%;">
+
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-12 offset-md-08">
-          <label style="text-decoration: underline;color: blue; cursor: pointer;" (click)="sampleCsv()">Sample Csv Download </label>
-
+          <label style="text-decoration: underline;color: blue; cursor: pointer;" (click)="sampleCsv()">Sample Csv
+            Download </label>
           <i class="icon ion-md-cloud-download" (click)="sampleCsv()"></i>
         </div>
       </div>
     </form>
   </div>
 </div>
+
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-        <button class="btn btn-primary" form="document-form" type="submit" outline (click)="checkCsv('validate')" id="submit"
-          style="cursor: pointer;">{{btn3}}</button>
-      </div>
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="checkCsv('validate')"
+        id="submit" style="cursor: pointer;">{{btn3}}</button>
+    </div>
     <div class="col text-right">
       <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit"
         style="cursor: pointer;">{{btn1}}</button>
