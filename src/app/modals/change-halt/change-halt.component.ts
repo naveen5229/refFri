@@ -34,8 +34,8 @@ export class ChangeHaltComponent implements OnInit {
   ngOnInit() {
   }
 
-  closeModal(response) {
-    this.activeModal.close({ response: response });
+  closeModal() {
+    this.activeModal.close();
   }
 
   submitModal() {
