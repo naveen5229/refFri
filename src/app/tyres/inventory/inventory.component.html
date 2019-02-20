@@ -27,7 +27,7 @@
             <td>{{i+1}}</td>
             <td>
               <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No" (input)="searchModels(inventory.searchModelString, i)"
-                autocomplete="off" class="form-control" [(ngModel)]="inventory.searchModelString">
+                autocomplete="off" class="form-control" [(ngModel)]="inventory.searchModelString" style="width : 175px">
               <div *ngIf="activeRow == i">
                 <ul *ngIf="(modelSuggestion) && (models.length >  0)">
                   <li *ngFor="let model of models;" (click)="selectModel(model,i)">
@@ -37,11 +37,14 @@
               </div>
             </td>
             <td><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.tyreNo">
+                [(ngModel)]="inventory.tyreNo"  style="width : 175px">
             </td>
-            <td><input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
-                class="form-control" autocomplete="off" name="date">
-              <owl-date-time #date></owl-date-time>
+            <td>
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)" placeholder="Select Date"
+                [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly >
+              <!-- <input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
+                class="form-control" autocomplete="off" name="date" style="width : 175px" >
+              <owl-date-time #date></owl-date-time> -->
             </td>
             <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.is_health" style="height: 25px;margin-top: 10px;"  (change)="valueReset(i)">
@@ -58,25 +61,30 @@
             <td><input id="psi" name="psi" type="text" placeholder="Enter psi" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.psi" [readOnly] = "!inventory.is_health">
             </td>
+            <td *ngIf="i == 0">
+                <i class="fa fa-plus  add" (click)="addMore()" ></i></td>
+        <td *ngIf="i !== 0">
+                <i class="fa fa-trash remove" (click)="inventories.splice(i,1)"></i>
+        </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="row row-width">
+    <!-- <div class="row row-width">
       <div class="col-sm-9"> </div>
 
       <div class="col-sm-3">
         <button class="btn " type="button" outline (click)="addMore()" id="addmore" style="cursor: pointer;">+</button>
         <button class="btn btn-danger" type="button" outline (click)="remove()" id="remove" style="cursor: pointer;">-</button>
       </div>
-    </div>
+    </div> -->
     <div class="row row-width">
       <div class="col-sm-1"> </div>
       <div class="col-sm-2"> </div>
 
       <div class="col-sm-3">
-        <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
+        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
       </div>
       <div class="col-sm-5"></div>
 
@@ -96,7 +104,7 @@
           <th>Entry Date </th>
           <th>Enter By </th>
           <th>Date </th>
-          <th>Details</th>
+          <!-- <th>Details</th> -->
 
         </tr>
 
@@ -109,7 +117,7 @@
           <td>{{tyreDetail.entrydate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           <td>{{tyreDetail.entryby}}</td>
           <td>{{tyreDetail.date | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-          <td>{{tyreDetail.details}}</td>
+          <!-- <td>{{tyreDetail.details}}</td> -->
         </tr>
       </tbody>
     </table>

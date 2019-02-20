@@ -1,14 +1,3 @@
-<!-- <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
-  </head>
-  
-   -->
-
-
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
@@ -33,15 +22,21 @@
         <label>Document Type <span class="mandatory">*</span></label>
       </div>
       <div class="col-md-8">
-        <input type="text" class="form-control document_type" [(ngModel)]="document.type.id" list="document_type_id"
-          name="docid" #documentType="ngModel">
-        <datalist id="document_type_id" >
-          <option *ngFor="let docType of docTypes;"   name="docid" [value]="docType.id" [hidden]="docType.id"
-            class="form-control" >{{docType.document_type}}
+        <!-- <input type="text" class="form-control document_type"
+        [(ngModel)]="document.type.id" list="document_type_id"
+          id="docid" name="docid" #documentType="ngModel">
+        <datalist id="document_type_id">       
+          <option *ngFor="let docType of docTypes;" id="id" name="id" [hidden]="docType.id" class="form-control" >{{docType.document_type}}
+            <input type="hidden" [value]="docType.id" id="id" name="id">
           </option>
         </datalist>
         <div *ngIf="isFormSubmit && documentType.errors" class="error">
           <span [hidden]="!documentType.errors.required">Document type is mandatory</span>
+        </div> -->
+        <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
+          placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType"></auto-suggestion>
+        <div class="suggestions ng-star-inserted">
+
         </div>
 
       </div>
@@ -50,31 +45,44 @@
       <div class="col-md-4">
         <label>Issue Date</label>
       </div>
-      <div class="col-md-8">
-        <input id="issue-date" name="issue-date" type="datetime" placeholder="Enter the issue Date" autocomplete="off"
-          class="form-control" [value]="document.dates.issue | date: 'dd MMM yyyy'" (click)="getDate('issue')">
+      <div class="col-md-7">
+        <!-- (ngModelChange)="dateSelect('issue')" -->
+        <input id="issue-date" name="issue-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
+          class="form-control"  [(ngModel)]="document.dates.issue" (change)="dateSelect('issue')"  />
+      </div>
+      <div class="col-md-1 calender">
+        <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-4">
         <label>Wef Date<span class="mandatory">*</span></label>
       </div>
-      <div class="col-md-8">
-        <input id="wef-date" name="wef-date" type="datetime" placeholder="Enter the Wef Date" autocomplete="off"
-          [(ngModel)]="document.dates.wef" #wefDate="ngModel" required class="form-control" [value]="document.dates.wef | date: 'MMM dd yyyy'"
-          (click)="getDate('wef')">
-        <div *ngIf="isFormSubmit && wefDate.errors" class="error">
+      <div class="col-md-7">
+        <input id="wef-date" name="wef-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off" required
+          class="form-control" [(ngModel)]="document.dates.wef" (change)="dateSelect('wef')">
+        <!-- [(ngModel)]="document.dates.wef" #wefDate="ngModel"<div *ngIf="isFormSubmit && wefDate.errors" class="error">
           <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
-        </div>
+        </div> -->
+      </div>
+      <div class="col-md-1 calender">
+        <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
         <label>Expiry Date</label>
       </div>
-      <div class="col-md-8">
-        <input id="expiry-date" name="expiry-date" type="datetime" placeholder="Expiry Date" autocomplete="off"
-          required class="form-control" [value]="document.dates.expiry | date: 'dd MMM yyyy'" (click)="getDate('expiry')">
+      <div class="col-md-7">
+        <input id="expiry-date" name="expiry-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off" required
+          class="form-control" [(ngModel)]="document.dates.expiry" (change)="dateSelect('expiry')">
+        <!-- <div *ngIf="isFormSubmit && expiry.errors" class="error">
+              <span [hidden]="!expiry.errors.required">wef Date type mandatory</span>
+            </div> -->
+      </div>
+      <div class="col-md-1 calender">
+        <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>
       </div>
     </div>
     <div class="row" style="margin-top:4px">
@@ -96,8 +104,8 @@
         <label>Document Number</label>
       </div>
       <div class="col-md-8">
-        <input id="document-id" name="document-id" type="text" placeholder="Document Number" autocomplete="off" class="form-control"
-          [(ngModel)]="document.number" maxlength="25">
+        <input id="document-id" name="document-id" type="text" placeholder="Document Number" autocomplete="off"
+          class="form-control" [(ngModel)]="document.number" maxlength="25">
       </div>
     </div>
     <div class="row">
@@ -105,7 +113,8 @@
         <label>Document Upload </label>
       </div>
       <div class="col-md-8 ">
-        <input type="file" name="myfile" [(ngModel)]="document.image" id="filePicker" (change)="handleFileSelection($event)" />
+        <input type="file" name="myfile" [(ngModel)]="document.image" id="filePicker"
+          (change)="handleFileSelection($event)" />
       </div>
     </div>
     <div class="row">
@@ -138,11 +147,12 @@
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true" id="submit"
-        style="cursor: pointer;">{{btn1}}</button>
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
+        id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

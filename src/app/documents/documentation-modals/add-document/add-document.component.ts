@@ -61,14 +61,6 @@ export class AddDocumentComponent implements OnInit {
   ngOnInit() {
   }
 
-  // getTypeId(target){
-  //   // console.log("typenew :",value);return;
-  //   this.document.type.id =target.id;
-  //   this.document.type.name = target.value;
-  //   console.log("type name :",this.document.type.name);
-
-  // }
-  
   getDocumentsData() {
     this.common.loading++;
     let response;
@@ -92,7 +84,7 @@ export class AddDocumentComponent implements OnInit {
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
-         console.log('Base 64: ', res);
+        console.log('Base 64: ', res);
         this.document.base64Image = res;
       }, err => {
         this.common.loading--;
@@ -107,13 +99,13 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
-    // console.log("type :",this.document.type);
     const params = {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
-      x_issue_date: this.document.dates.issue,
-      x_wef_date: this.document.dates.wef,
+      
+      x_issue_date:this.dateSelect(this.document.dates.issue),
+      x_wef_date: this.dateSelect(this.document.dates.wef),
       x_expiry_date: this.document.dates.expiry,
       x_document_agent_id: this.document.agent.id,
       x_document_number: this.document.number,
@@ -121,7 +113,6 @@ export class AddDocumentComponent implements OnInit {
       x_rto: this.document.rto,
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
-
     };
     console.log('Params: ', params);
     this.common.loading++;
@@ -134,6 +125,14 @@ export class AddDocumentComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+dateSelect(date){
+ console.log("Selected Date:",date);
+ let useDate;
+ useDate = this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
+ console.log("Selected Date:",useDate);
+ return useDate;
   }
 
 
@@ -149,13 +148,13 @@ export class AddDocumentComponent implements OnInit {
   }
   findDocumentType(id) {
     let documentType = '';
-    console.log("id:",id);
-    console.log("docTypes:",this.docTypes);
+    console.log("id:", id);
+    console.log("docTypes:", this.docTypes);
     this.docTypes.map(docType => {
       // console.log("doc Type: ",docType);
       if (docType.id == id) {
         documentType = docType.document_type
-        console.log("document Type",documentType);
+        console.log("document Type", documentType);
       }
     });
     return documentType;
@@ -186,8 +185,10 @@ export class AddDocumentComponent implements OnInit {
 
   }
 
-  testing(test){
-    console.log('test', test);
+  selectDocType(docType) { 
+    this.document.type.id = docType.id
+    // console.log('Doc id: ', docType.id);
+    console.log("doc var",this.document.type.id);
   }
 
 }

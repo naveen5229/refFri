@@ -38,12 +38,27 @@ import { StockSubtypeComponent } from './acounts-modals/stock-subtype/stock-subt
 import { StockitemComponent } from './acounts-modals/stockitem/stockitem.component';
 import { DirectiveModule } from './directives/directives.module';
 import { AddDocumentComponent } from './documents/documentation-modals/add-document/add-document.component';
+import { ImportDocumentComponent } from './documents/documentation-modals/import-document/import-document.component';
 import { AddAgentComponent } from '../app/documents/documentation-modals/add-agent/add-agent.component';
 import { from } from 'rxjs';
 import { AccountsComponent } from './acounts-modals/accounts/accounts.component';
 import { LedgerComponent } from './acounts-modals/ledger/ledger.component';
 import { BranchComponent } from './acounts-modals/branch/branch.component';
 import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
+import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
+import { OrderComponent } from './acounts-modals/order/order.component';
+import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
+import { EditDocumentComponent } from './documents/documentation-modals/edit-document/edit-document.component';
+import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
+import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
+import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
+import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
+import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
+
+import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
+import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
+
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 @NgModule({
@@ -71,11 +86,26 @@ import { MatIconModule } from '@angular/material/icon';
     StockSubtypeComponent,
     StockitemComponent,
     AddDocumentComponent,
+    ImportDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
+    VoucherComponent,
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent,
+    EditDocumentComponent,
+    PendingDocumentComponent,
+    ErrorReportComponent,
+    ReportIssueComponent,
+    DocumentReportComponent,
+    ErrorReportComponent,
+    AddEscalationIssueComponent,
+    DocumentReportComponent,
+    ChangeVehicleStatusComponent,
+    ChangeHaltComponent,
+    VoucherSummaryComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -98,12 +128,26 @@ import { MatIconModule } from '@angular/material/icon';
     StockSubtypeComponent,
     StockitemComponent,
     AddDocumentComponent,
+    ImportDocumentComponent,
     AddAgentComponent,
     AccountsComponent,
     LedgerComponent,
     BranchComponent,
-    VoucherComponent
-
+    VoucherComponent,
+    VehicleSearchComponent,
+    OrderComponent,
+    TaxdetailComponent,
+    EditDocumentComponent,
+    PendingDocumentComponent,
+    ErrorReportComponent,
+    ReportIssueComponent,
+    DocumentReportComponent,
+    ErrorReportComponent,
+    AddEscalationIssueComponent,
+    DocumentReportComponent,
+    ChangeVehicleStatusComponent,
+    ChangeHaltComponent,
+    VoucherSummaryComponent
   ],
   imports: [
     BrowserModule,

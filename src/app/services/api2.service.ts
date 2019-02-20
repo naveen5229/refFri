@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class Api2Service {
 
   URL: string = 'http://ec2-13-126-162-170.ap-south-1.compute.amazonaws.com:7070/'; // Dev Server
   // URL: string = 'http://ec2-13-126-162-170.ap-south-1.compute.amazonaws.com:7071/'; // Dev Server

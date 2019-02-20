@@ -74,4 +74,12 @@ export class HeaderComponent implements OnInit {
     this.user._customer = { name: '', id: '' };
     this.router.navigate(['/admin']);
   }
+
+  refresh() {
+    // window.location.reload();
+    // this.router.navigateByUrl('/pages/dashboard', { skipLocationChange: true }).then(() =>
+    //   this.router.navigate(["ConciseComponent"]));
+    this.common.refresh();
+  }
+
 }

@@ -73,54 +73,62 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row radiostockitem">
     
     <div class="col">
       <div class="form-group">
-        <label>Is Active Yes</label>
+        <span>Is Active</span>
         <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" [value]="true">
+        <label>Yes</label>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>No</label>
+          <span>&nbsp;</span>
         <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" [value]="false">
+        <label>No</label>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>Sales Yes</label>
+          <span>Sales &nbsp;&nbsp;</span>
         <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" [value]="true">
-      </div>
+        <label>Yes</label>
+        </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>No</label>
+          <span>&nbsp;</span>
         <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" [value]="false">
+        <label>No</label>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>Purchase Yes</label>
+          <span>Purchase</span>
         <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" [value]="true">
+        <label>Yes</label>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label>No</label>
+          <span>&nbsp;</span>
         <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" [value]="false">
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label>Inventary Yes</label>
-        <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" [value]="true">
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
         <label>No</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <span>Inventary</span>
+        <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" [value]="true">
+        <label>Yes</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+          <span>&nbsp;</span>
         <input type="radio" class="form-control" name="inventary" [(ngModel)]="stockItem.inventary" [value]="false">
+        <label>No</label>
       </div>
     </div>
   </div>

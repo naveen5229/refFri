@@ -3,10 +3,10 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.component';
-import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+// import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
@@ -15,6 +15,29 @@ import { ActivatedRoute } from '@angular/router';
 export class VouchersComponent implements OnInit {
   Vouchers = [];
   voucherId = '';
+  voucherName = '';
+  voucher = {
+    name: '',
+    date: '',
+    foid:'',
+    user: {
+      name: '',
+      id: ''
+    },
+    vouchertypeid:'',
+    amountDetails: [{
+      transactionType: 'debit',
+      ledger: '',
+      amount: {
+        debit: 0,
+        credit: 0
+      }
+    }],
+    code: '',
+    remarks: ''
+  };
+  
+  date = this.common.dateFormatter(new Date());
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -24,6 +47,7 @@ export class VouchersComponent implements OnInit {
       console.log('Params1: ', params);
       if (params.id) {
         this.voucherId = params.id;
+        this.voucherName = params.name;
         this.getVouchers();
       }
     });
@@ -55,21 +79,30 @@ export class VouchersComponent implements OnInit {
 
   openVoucherModal(voucher?) {
     // console.log('voucher 0: ', voucher);
-    this.common.params = { voucher, voucherId: this.voucherId };
-    const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        console.log('data voucher test',data.Voucher);
-        if (voucher) {
-          //  this.updateStockItem(voucher.id, data.stockitem);
-          //  return;
-        }
-        this.addVoucher(data.Voucher);
+    // this.common.params = { voucher, voucherId: this.voucherId, voucherName: this.voucherName };
+    // const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   if (data.response) {
+    //     console.log('data voucher test',data.Voucher);
+    //     if (voucher) {
+    //       //  this.updateStockItem(voucher.id, data.stockitem);
+    //       //  return;
+    //     }
+    //     this.addVoucher(data.Voucher);
 
-      }
-    });
+    //   }
+    // });
   }
 
+  dismiss(response) {
+    console.log('Voucher:', this.voucher);
+    if (response && (this.calculateTotal('credit') !== this.calculateTotal('debit'))) {
+      this.common.showToast('Credit And Debit Amount Should be Same');
+      return;
+    }
+    this.addVoucher(this.voucher);
+  //  this.activeModal.close({ response: response, Voucher: this.voucher });
+  }
   addVoucher(voucher) {
     console.log('voucher 1 :', voucher);
     //const params ='';
@@ -99,5 +132,40 @@ export class VouchersComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+
+  onSelected(selectedData, type, display) {
+    this.voucher[type].name = selectedData[display];
+    this.voucher[type].id = selectedData.id;
+    console.log('Accounts User: ', this.voucher);
+  }
+
+  getDate(date) {
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.voucher.date = this.common.dateFormatter(data.date).split(' ')[0];
+      //  console.log('Date:', this.date);
+    });
+  }
+
+  addAmountDetails() {
+    this.voucher.amountDetails.push({
+      transactionType: 'debit',
+      ledger: '',
+      amount: {
+        debit: 0,
+        credit: 0
+      }
+    });
+  }
+
+  calculateTotal(type) {
+    let total = 0;
+    this.voucher.amountDetails.map(amountDetail => {
+      // console.log('Amount: ',  amountDetail.amount[type]);
+      total += amountDetail.amount[type];
+    });
+    return total;
   }
 }

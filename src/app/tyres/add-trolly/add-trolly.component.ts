@@ -23,7 +23,9 @@ export class AddTrollyComponent implements OnInit {
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService
-  ) { }
+  ) { 
+    this.getTrollys();
+  }
 
   ngOnInit() {
   }
@@ -52,7 +54,6 @@ export class AddTrollyComponent implements OnInit {
   }
 
   getTrollys(){
-    if (this.foId) {
       let params = 'foId=' + this.foId;
       console.log("params ", params);
       this.api.get('Tyres/getTrollys?' + params)
@@ -64,18 +65,12 @@ export class AddTrollyComponent implements OnInit {
           console.error(err);
           this.common.showError();
         });
-    }
-    else {
-      this.common.showToast("Fo Selection is mandotry");
-    }
   }
 
   saveTrollyDetails(){
     this.common.loading++;
     let params = {
-      foId : this.foId,
       trollyNo : this.trollyNo,
-     
     };
     console.log('Params:', params);
     this.api.post('Tyres/saveTrollyDetails', params)

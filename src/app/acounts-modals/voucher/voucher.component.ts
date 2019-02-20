@@ -26,17 +26,22 @@ export class VoucherComponent implements OnInit {
         debit: 0,
         credit: 0
       }
-    }]
+    }],
+    code: '',
+    remarks: ''
   };
-
+ 
   date = this.common.dateFormatter(new Date());
   voucherId = '';
+  voucherName = '';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
     public api: ApiService) {
     if (this.common.params) {
      this.voucherId = this.common.params.voucherId;
+     this.voucherName = this.common.params.voucherName;
+     this.voucher.date = this.common.changeDateformat1(this.common.dateFormatter(new Date()));
     }
     console.log('ID: ', this.voucherId);
   }
@@ -47,7 +52,7 @@ export class VoucherComponent implements OnInit {
   dismiss(response) {
     console.log('Voucher:', this.voucher);
     if (response && (this.calculateTotal('credit') !== this.calculateTotal('debit'))) {
-      this.common.showToast('Some Messages');
+      this.common.showToast('Credit And Debit Amount Should be Same');
       return;
     }
     this.activeModal.close({ response: response, Voucher: this.voucher });

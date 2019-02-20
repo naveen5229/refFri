@@ -12,6 +12,8 @@ import { slideToLeft, slideToUp } from '../../services/animation';
 import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
+import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
+import { componentRefresh } from '@angular/core/src/render3/instructions';
 
 
 @Component({
@@ -56,7 +58,12 @@ export class ConciseComponent implements OnInit {
       name: "Trip End",
       key: "x_showtripend"
     },
-  ]
+  ];
+
+  selectedFilterKey = '';
+
+  table = null;
+
 
   constructor(
     public api: ApiService,
@@ -64,11 +71,18 @@ export class ConciseComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getKPIS();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
   }
+
+  refresh() {
+    console.log('Refresh');
+    this.getKPIS();
+  }
+
 
   getKPIS() {
     this.common.loading++;
@@ -79,13 +93,34 @@ export class ConciseComponent implements OnInit {
         this.allKpis = res['data'];
         this.kpis = res['data'];
         this.grouping(this.viewType);
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
+  getTableColumns() {
+    let columns = [];
+    this.kpis.map(kpi => {
+      columns.push({
+        vechile: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
+        status: { value: kpi.showprim_status, action: this.showDetails.bind(this, kpi) },
+        hrs: { value: kpi.x_hrssince, action: this.showDetails.bind(this, kpi), class: kpi.x_hrssince >= 24 ? 'red' : '' },
+        trip: { value: kpi.trip_status_type, action: this.showDetails.bind(this, kpi) },
+        kmp: { value: kpi.x_kmph, action: this.showDetails.bind(this, kpi), class: kpi.x_kmph < 20 ? 'pink' : '' },
+        location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
+        report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
+
+      });
+    });
+    return columns;
+  }
+
+
+
   getViewType() {
+    this.table.data.columns = this.getTableColumns();
     this.grouping(this.viewType);
   }
 
@@ -185,11 +220,14 @@ export class ConciseComponent implements OnInit {
   }
 
   filterData(filterKey) {
+    this.selectedFilterKey = filterKey;
     console.log(filterKey, this.viewType);
     this.kpis = this.allKpis.filter(kpi => {
       if (kpi[this.viewType] == filterKey) return true;
       return false;
     });
+    this.table = this.setTable();
+    console.log('Column: ', this.table);
   }
 
   getLR(kpi) {
@@ -273,7 +311,39 @@ export class ConciseComponent implements OnInit {
     this.chartData = chartInfo.chartData;
     this.chartOptions = chartInfo.chartOptions;
 
+    this.selectedFilterKey && this.filterData(this.selectedFilterKey);
 
+
+  }
+  allData() {
+    this.selectedFilterKey = '';
+    this.getKPIS();
+  }
+
+  reportIssue(kpi) {
+    console.log('Kpi:', kpi);
+    const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, kpi.x_vehicle_id));
+  }
+
+  setTable() {
+    return {
+      data: {
+        headings: {
+          vechile: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+          status: { title: 'Status', placeholder: 'Status' },
+          hrs: { title: 'Hrs', placeholder: 'Hrs ' },
+          trip: { title: 'Trip', placeholder: 'Trip' },
+          kmp: { title: 'Kmp', placeholder: 'KMP' },
+          location: { title: 'Location', placeholder: 'Location' },
+          report: { title: 'Report', placeholder: 'Report', hideSearch: true },
+        },
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
   }
 
 }

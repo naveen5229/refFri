@@ -63,6 +63,7 @@ export class LedgersComponent implements OnInit {
           per_rate: ledger.perrate,
           primarygroupid: ledger.account.primarygroup_id,
           account_id: ledger.account.id,
+          accDetails: ledger.accDetails,
           x_id:0
        };
   

@@ -5,27 +5,8 @@
 
   <nb-card-body>
     <div class="row">
-      <!-- <div class="col-sm-1"> </div> -->
-      <div class="col-sm-2"><label class="label1"><b>Customer Name </b> </label> </div>
-      <div class="col-sm-3">
-        <!-- <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString"
-          [(ngModel)]="searchString" autocomplete="off">
-
-        <div>
-          <ul *ngIf=" (showSuggestions)&&(foUsers.length >  0)">
-            <li *ngFor="let foUser of foUsers;" (click)="selectUser(foUser)">
-              {{ foUser.name}} - {{foUser.mobileno}}
-            </li>
-          </ul>
-        </div> -->
-
-        <auto-suggestion (onSelected)="selectUser($event)" url="Suggestion/getFoUsersList" [display]="['name', 'mobileno']"
-          seperator="-" placeholder="Enter customer" [preSelected]="null"></auto-suggestion>
-        <div>
-        </div>
-      </div>
-
-      <div class="col-sm-1"><label><b>Trolly No.</b></label></div>
+     <div class="col-sm-1"></div>
+     <div class="col-sm-1"><label><b>Trolly No.</b></label></div>
       <div class="col-sm-2 ">
         <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" autocomplete="off" class="form-control"
           [(ngModel)]="trollyNo">

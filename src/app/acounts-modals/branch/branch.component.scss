@@ -1,0 +1,13 @@
+.radiostockitem input[type=radio]{
+    height: auto;
+    box-shadow: none;
+    width: 20px;
+    float: right;
+}
+.radiostockitem .form-group span{
+    font-weight: bold;
+    display: block;
+}
+.radiostockitem .form-group label{
+    font-weight: normal;
+}

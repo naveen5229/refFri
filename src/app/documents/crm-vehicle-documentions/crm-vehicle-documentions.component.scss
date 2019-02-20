@@ -1,0 +1,80 @@
+.row{
+    padding-top: 1%;
+    padding-bottom: 1%
+}
+#vehicleNo{
+    width: 60% !important;
+    margin-left: 40% !important;
+    margin-top: -9% !important;
+    height:auto !important;
+}
+select {
+    width: 90% !important;
+    margin-left: 3% !important;
+    margin-top: auto !important;
+}
+.form-control{
+    width: 100%;
+    margin-left: -15%;
+    margin-top: 18%;
+}
+.document_type{
+    margin-left: 0% !important;
+    margin-top: 0px !important;
+}
+label{
+    font-size: 16px;
+    margin-left: 6%;
+    font-weight: 700;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .btn {
+    border: 2px solid gray;
+    padding: 0px 10px;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+.btn.btn-primary{
+    margin-left: -20%;
+    margin-top: 18%;
+    position: relative;
+}
+.table{
+    width: 95%;
+    margin-left: 2%;
+}
+.suggestions{
+    position: relative !important;
+}
+.red {
+    background: red;
+    color: #fff;
+}
+.pink {
+    background: pink;
+    color: black;
+}
+.green {
+    background: #96f505;
+    color: black;
+}
+.default{
+    background: #fff;
+}
+
+i{
+    font-size: 16px;
+    color: blue;
+}
