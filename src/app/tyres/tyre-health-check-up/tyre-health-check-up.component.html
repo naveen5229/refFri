@@ -5,21 +5,9 @@
 
   <nb-card-body>
     <div class="row">
-      <!-- <div class="col-sm-1"> </div> -->
-      <div class="col-sm-2"><label class="label1"><b>Customer Name </b> </label> </div>
-      <div class="col-sm-3">
-        <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString"
-          [(ngModel)]="searchString" autocomplete="off">
-        <div>
-          <ul *ngIf=" (showSuggestions)&&(foUsers.length >  0)">
-            <li *ngFor="let foUser of foUsers;" (click)="selectUser(foUser)">
-              {{ foUser.name}} - {{foUser.mobileno}}
-            </li>
-          </ul>
-        </div>
-        <div>
-        </div>
-      </div>
+      <div class="col-sm-1"> </div>
+      <div class="col-sm-2"><label class="label1"><b>Vehicle Type </b> </label> </div>
+      
       <div class="col-sm-2">
         <select [(ngModel)] = "vehicleType" class="form-control" required (change)="resetVehDetails()">
         <option value="truck">Truck</option>
@@ -33,7 +21,7 @@
         <div>
           <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
             <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
-              {{ vehicle.regno}} - {{vehicle.id}}
+              {{ vehicle.regno}}
             </li>
           </ul>
         </div>
@@ -43,7 +31,7 @@
       </div>
     </div>
     <div style="margin-top:20px">
-      <table class="table table-bordered table-hover" *ngIf="tyres">
+      <!-- <table class="table table-bordered table-hover" *ngIf="tyres">
         <thead class="thead">
           <tr>
             <th># </th>
@@ -62,14 +50,70 @@
             <td>{{i+1}}</td>
             <td>{{tyre.tyrenum}}            </td>
             <td>{{tyre.tyrepos}}</td>
-            <td>{{tyre.dttime}}</td>
+            <td>{{tyre.dttime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
             <td><input type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" ></td>
             <td><input type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" ></td>
             <td><input type="text" [(ngModel)] = "tyre.nsd3" maxlength="5"  ></td>
             <td><input type="text" [(ngModel)] = "tyre.psi" maxlength="5" ></td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
+
+      <table class="table table-bordered table-hover tbl-background"
+      *ngFor="let vehicleTyreDetail of vehicleTyreDetails; let i = index">
+      <thead class="thead">
+        <tr>
+          <th>AxleNo </th>
+          <th>Left</th>
+          <th>Right</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let axel of vehicleTyreDetail.vdata">
+          <td *ngIf="(axel.axle != '99' )"><b>Axle - {{axel.axle}}</b></td>
+          <td *ngIf="(axel.axle != '99' )">
+            <div class="vehicle-container" *ngFor="let tyre of axel.data">
+                  <label class="tyres" *ngIf="tyre.pos=='L1' || tyre.pos=='L2'">
+                      <b style="margin-right:25px">{{tyre.tyrenum}}</b>
+                      <img [class]="tyre.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                      <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                      <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                      <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                      <input class = "health-values" type="text" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                    </label>
+
+            </div>
+          </td>
+          <td *ngIf="(axel.axle != '99' ) ">
+            <div class="vehicle-container" *ngFor="let tyre of axel.data">
+                <label class="tyres" *ngIf="tyre.pos=='R1' || tyre.pos=='R2'">
+                    <b style="margin-right:25px">{{tyre.tyrenum}}</b>
+                  <img [class]="tyre.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                  <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                  <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                  <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                  <input class = "health-values" type="text" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                </label>
+            </div>
+          </td>
+          <td *ngIf="(axel.axle == '99' ) "><b>Stephenie</b></td>
+          <td colspan="2" *ngIf="(axel.axle == '99') ">
+              <div class="vehicle-container" *ngFor="let tyre of axel.data">
+                <label class="tyres">
+                    <b style="margin-right:25px">{{tyre.tyrenum}}</b>
+                    <img [class]="tyre.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                    <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                    <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                    <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                    <input class = "health-values" type="text" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                  </label>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
       <div style="margin-top: 30px; border:1px solid gray "  *ngIf="tyres.length">
         <div class="row row-width">
           <div class="col-sm-1"> </div>
@@ -78,11 +122,16 @@
             <input type="text" class="form-control" placeholder="Remark" name="remark" [(ngModel)]="remark" autocomplete="off">
           </div>
           <div class="col-sm-1"></div>
-          <div class="col-sm-1"><label><b>Status</b></label></div>
+          <div class="col-sm-1"><label><b>Date</b></label></div>
+            <div class="col-sm-3">
+                <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date ></owl-date-time>
+            </div>
+          <!-- <div class="col-sm-1"><label><b>Status</b></label></div>
           <div class="col-sm-3 ">
             <input id="status" name="status" type="text" placeholder=" Status" autocomplete="off" class="form-control"
               [(ngModel)]="status">
-          </div>
+          </div> -->
         </div>
         <div class="row row-width">
             <div class="col-sm-1"> </div>
@@ -93,10 +142,12 @@
                     </select>
             </div>
             <div class="col-sm-1"></div>
-            <div class="col-sm-1"><label><b>Date</b></label></div>
+            <!-- <div class="col-sm-1"><label><b>Date</b></label></div> -->
             <div class="col-sm-3">
-                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-                [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
+                <!-- <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date ></owl-date-time> -->
+                <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+                [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
               <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
             </div>
           </div>

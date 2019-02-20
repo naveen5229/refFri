@@ -13,7 +13,8 @@ import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.com
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
-
+// import { DocumentsComponent } from '../documents/documents.components';
+import { from } from 'rxjs';
 
 const routes: Routes = [{
   path: '',
@@ -70,7 +71,8 @@ const routes: Routes = [{
   {
     path: 'vehicle-trip',
     component: VehicleTripComponent
-  }
+  },
+  
   ],
 }];
 

@@ -105,12 +105,20 @@
               <input type="text" class="form-control" name="account-tollfreenumber" [(ngModel)]="Branches.taxexemptionno">
             </div>
           </div>
-          <div class="col">
+          <div class="col radiostockitem">
               <div class="form-group">
-                <label>Is Active Yes</label>
+                <span>Is Active</span>
+                <div class="row">
+                <div class="col">
+                <label> Yes</label>
                 <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="true">
-                <label>No</label>  <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="false">
               </div>
+              <div class="col">
+                  <label>No</label> 
+                <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="false">
+              </div>
+              </div>
+            </div>
             </div>
         </div>
         <div class="row">

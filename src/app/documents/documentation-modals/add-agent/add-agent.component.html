@@ -4,57 +4,71 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  <form #agentForm="ngForm" id="agent-form" name="agent-form" (submit)="agentForm.valid && addNewAgent()"> 
+  <form #agentForm="ngForm" id="agent-form" name="agent-form" (submit)="agentForm.valid && addNewAgent()">
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Agent Name <span class="mandatory">*</span> </label>
       </div>
+
       <div class="col-md-8">
         <input id="agent-name" name="agent-name" type="text" placeholder="Enter Agent name" autocomplete="off" class="form-control"
           required #agentName="ngModel" [(ngModel)]="agent.name" [value]="agent.name">
-          <div *ngIf="isFormSubmit && agentName.errors" class="error">
-              <span [hidden]="!agentName.errors.required">Agent Name is mandatory</span>
-            </div>
+        <div *ngIf="isFormSubmit && agentName.errors" class="error">
+          <span [hidden]="!agentName.errors.required">Agent Name is mandatory</span>
+        </div>
       </div>
+
     </div>
+
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
-        <label>Mobile Number  <span class="mandatory">*</span> </label>
+        <label>Mobile Number <span class="mandatory">*</span> </label>
       </div>
+
       <div class="col-md-8">
         <input id="mobile-number" name="mobile-number" type="text" placeholder="Mobile Number" autocomplete="off" class="form-control"
-          required  #agentMobile="ngModel" [(ngModel)]="agent.mobileNumber" [value]="agent.mobileNumber">
-          <div *ngIf="isFormSubmit && agentMobile.errors" class="error">
-              <span [hidden]="!agentMobile.errors.required">Mobile Number  is mandatory</span>
-            </div>
+          required #agentMobile="ngModel" [(ngModel)]="agent.mobileNumber" [value]="agent.mobileNumber" maxlength="10"
+          minlength="10">
+        <div *ngIf="isFormSubmit && agentMobile.errors" class="error">
+          <span [hidden]="!agentMobile.errors.required">Mobile Number is mandatory</span>
+        </div>
       </div>
+
     </div>
+
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Location</label>
       </div>
       <div class="col-md-8">
-        <input id="location" name="location" type="text" [(ngModel)]="agent.location" placeholder="Location" autocomplete="off" class="form-control">
+        <input id="location" name="location" type="text" [(ngModel)]="agent.location" placeholder="Location"
+          autocomplete="off" class="form-control">
       </div>
     </div>
+
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Email id</label>
       </div>
       <div class="col-md-8">
-        <input id="emailid" name="emailid" type="email" [(ngModel)]="agent.email" placeholder="abc@gmail.com" autocomplete="off" class="form-control">
+        <input id="emailid" name="emailid" type="email" [(ngModel)]="agent.email" placeholder="abc@gmail.com"
+          autocomplete="off" class="form-control">
       </div>
     </div>
+
   </form>
 </div>
+
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+      <button class="btn btn-danger" type="button"  (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="submit" outline (click)=" addNewAgent()"   id="submit" style="cursor: pointer;">{{btn1}}</button>
+      <button class="btn btn-primary" type="submit" form="agent-form"  (click)="isFormSubmit = true" id="submit"
+        style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
 </div>

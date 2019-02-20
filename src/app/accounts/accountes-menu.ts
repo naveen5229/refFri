@@ -1,4 +1,5 @@
 import { NbMenuItem } from '@nebular/theme';
+import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
@@ -8,10 +9,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Orders',
+        title: 'Invoice',
         icon: 'nb-home',
         link: '/accounts/orders'
     },
+
     {
         title: 'Stock Types',
         icon: 'nb-home',
@@ -44,6 +46,59 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/company-branches'
     },
     {
+        title: 'Voucher',
+        icon: 'nb-star',
+        children: [
+            {
+                title: 'Journal Voucher',
+                link: '/accounts/vouchers/-7/Journal Voucher'
+            },
+            {
+                title: 'Cash Receipt Voucher',
+                link: '/accounts/vouchers/-4/Cash Receipt Voucher'
+            },
+            {
+                title: 'Bank Receipt Voucher',
+                link: '/accounts/vouchers/-2/Bank Receipt Voucher'
+            },
+            {
+                title: 'Cash Payment Voucher',
+                link: '/accounts/vouchers/-3/Cash Payment Voucher'
+            },
+            {
+                title: 'Bank Payment Voucher',
+                link: '/accounts/vouchers/-1/Bank Payment Voucher'
+            },
+            {
+                title: 'Contra Voucher',
+                link: '/accounts/vouchers/-8/Contra Voucher'
+            },
+        ],
+    },
+    {
+        title: 'Reports',
+        icon: 'nb-bar-chart',
+        children: [
+            {
+                title: 'Day Book',
+                link: '/accounts/daybooks'
+            },
+            {
+                title: 'Ledger',
+                link: '/accounts/ledgerview'
+            },
+            {
+                title: 'Ledger Mapping',
+                link: '/accounts/ledgermapping'
+            },
+            {
+                title: 'Invoice Register',
+                link: '/accounts/invoiceregister'
+            }
+        ],
+    },
+    {
+
         title: 'vouchers',
         icon: 'nb-home',
         link: '/accounts/vouchers'

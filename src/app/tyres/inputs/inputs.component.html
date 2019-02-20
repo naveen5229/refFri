@@ -1,167 +1,182 @@
 <nb-card>
-  <nb-card-header>
+  <!-- <nb-card-header>
     <h2>Tyre Inputs</h2>
-  </nb-card-header>
+  </nb-card-header> -->
 
   <nb-card-body>
-    <div class="row">
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-2"><label class = "label1"><b>Customer Name </b> </label> </div>
-      <div class="col-sm-3">
-         <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString" autocomplete="off">
-         <div >       
-         <ul *ngIf = " (showSuggestions)&&(foUsers.length >  0)" >
-            <li *ngFor="let foUser of foUsers;" (click) = "selectUser(foUser)"  >
-              {{ foUser.name}} - {{foUser.mobileno}}
-            </li>
-          </ul>
-          </div>
-        </div>
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-1"><label><b>Vehicle Type</b></label></div>
-      <div class="col-sm-3 " >
-        <select [(ngModel)] = "vehicleType" class="form-control" required (change)="resetVehDetails()">
-          <option value="truck">Truck</option>
-          <option value="trolly">Trolly</option>
-        </select>
-      </div>
-    </div>
-    <div class="row row-width" >
-        <div class="col-sm-1">  </div>
-      <div class="col-sm-2"> <label class="label1"><b>Vehicle No. </b></label></div>
-      <div class="col-sm-3 " >
-          <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()" autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
-          <div>
-          <ul *ngIf = " (vehicleSuggestion)&&(vehicles.length >  0)" >
-              <li *ngFor="let vehicle of vehicles;" (click) = "selectVehicle(vehicle)" >
-                {{ vehicle.regno}} - {{vehicle.id}} 
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-1"><label><b>Tyre No.</b></label></div>
-      <div class="col-sm-3 " >
-          <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()" autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
-          <div>
-          <ul *ngIf = " (tyreSuggestion)&&(tyres.length >  0)" >
-              <li *ngFor="let tyre of tyres;" (click) = "selectTyres(tyre)" >
-                {{ tyre.tyrenum}} - {{tyre.id}} 
-              </li>
-            </ul>
-          </div>
-        </div>
-    </div>
-    <div class="row row-width">
-      <div class="col-sm-1">  </div>
-      <div class="col-sm-2"><label class = "label1"><b>Details </b> </label> </div>
-      <div class="col-sm-3">
-         <input type="text" class="form-control" placeholder="Detils" name="details" [(ngModel)]="details">
-          </div>
-          <div class="col-sm-1">  </div>
-          <div class="col-sm-1"><label> <b>Date</b></label> </div>
-          <div class="col-sm-3">
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-              [value]="date | date: 'dd MMM yyyy'" name="date" readonly >
-            <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
-          </div>
-        </div>
-    <div class="row row-width">
-        <div class="col-sm-1">  </div>
-      <div class="col-sm-2"><label class="label1" style="margin-top:30px"><b>Tyre Position</b></label></div>
-
-      <div class="col-sm-2">
-          Front / Rear
-        <select [(ngModel)] = "position.frontRear" class="form-control" required>
-        <option value="1">Front</option>
-        <option value="2">Rear</option>
-        <option value="3">Extra</option>
-      </select>
-      </div>
-      <div class="col-sm-2">
-        Axel
-          <select [(ngModel)] = "position.axel" class="form-control" required>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-        </select>
-        </div>
-        <div class="col-sm-2">
-          Left / Right
-            <select [(ngModel)] = "position.leftRight" class="form-control" required>
-            <option value="1">Left</option>
-            <option value="2">Right</option>
+    <div class="col-sm-8">
+      <h2>Tyre Inputs</h2>
+      <div class="row" style="margin-top:30px">
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-2"><label class="label1"><b>Vehicle Type</b></label></div>
+        <div class="col-sm-3 ">
+          <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
+            <option value="truck">Truck</option>
+            <option value="trolly">Trolly</option>
+            <option value="warehouse">Warehouse</option>
           </select>
-          </div>
-          <div class="col-sm-2">
-              Position
-              <select [(ngModel)] = "position.pos" class="form-control" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-            </select>
-            </div>
-    </div>
-   
-    <div class="row row-width">
-        <div class="col-sm-1">  </div>
-        <div class="col-sm-2">  </div>
-      
-        <div class="col-sm-3" >
-        <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button>
-        <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
         </div>
-      
       </div>
-      
+      <div class="row row-width">
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-2"> <label class="label1"><b>Vehicle No. </b></label></div>
+        <div class="col-sm-3 ">
+          <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+            autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+          <div>
+            <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+              <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+                {{ vehicle.regno}}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-"><label><b>Tyre No.</b></label></div>
+        <div class="col-sm-3 ">
+          <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
+            autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
+          <div>
+            <ul *ngIf=" (tyreSuggestion)&&(tyres.length >  0)">
+              <li *ngFor="let tyre of tyres;" (click)="selectTyres(tyre)">
+                {{ tyre.tyrenum}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row row-width">
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-2"><label class="label1"><b>Details </b> </label> </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
+        </div>
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-"><label> <b>Date</b></label> </div>
+        <div class="col-sm-3" style="margin-left:25px">
+          <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
+            class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date></owl-date-time>
+          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
+              [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
+          <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
+        </div>
+      </div>
+      <div class="row row-width">
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-2"> </div>
+
+        <div class="col-sm-3">
+          <!-- <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button> -->
+          <button class="btn btn-primary" type="button" outline (click)="getTyreCurrentStatus()" id="saveDetails"
+            style="cursor: pointer; margin-left:15px">Save</button>
+        </div>
+      </div>
+      <!-- <div class="row " style="margin-top:40px">
+        <table class="table table-bordered table-hover" *ngIf="searchedTyreDetails">
+          <thead class="thead">
+            <tr>
+              <th># </th>
+              <th>Tyre No </th>
+              <th>Tyre Position </th>
+              <th>Date </th>
+
+            </tr>
+
+          </thead>
+          <tbody>
+            <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{tyreDetail.tyrenum}}</td>
+              <td>{{tyreDetail.tyrepos}}</td>
+              <td>{{tyreDetail.dttime | date : 'dd-MMM-yyyy hh:mm a' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="no-data" *ngIf="!searchedTyreDetails.length">
+          No Data available !
+        </div>
+      </div> -->
+
+    </div>
+    <div class="col-sm-4" style="text-align:center"
+      *ngIf="(vehicleType!='warehouse') && (vehicleTyreDetails.length>=1)">
+      <b style="font-size:20px">Vehicle Front</b>
+      <table class="table table-bordered table-hover tbl-background"
+        *ngFor="let vehicleTyreDetail of vehicleTyreDetails; let i = index">
+        <thead class="thead">
+          <tr>
+            <th>AxleNo </th>
+            <th>Left</th>
+            <th>Right</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let axel of vehicleTyreDetail.vdata">
+            <td *ngIf="(axel.axle != '99' )"><b>Axle - {{axel.axle}}</b></td>
+            <td *ngIf="(axel.axle != '99' )">
+              <div class="vehicle-container">
+                <span *ngFor="let axelData of axel.data">
+                    <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
+                  <label class="tyres" *ngIf="axelData.pos=='L1'">
+                    <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                      (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
+                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                  </label>
+                  <label class="tyres" *ngIf="axelData.pos=='L2'">
+                    <input type="radio" [name]="i + '-' +axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                      (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
+                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                  </label>
+                </span>
+              </div>
+            </td>
+            <td *ngIf="(axel.axle != '99' ) ">
+              <div class="vehicle-container">
+                <span *ngFor="let axelData of axel.data">
+                    <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
+                  <label class="tyres" *ngIf="axelData.pos=='R1'">
+                    <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                      (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
+                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                  </label>
+                  <label class="tyres" *ngIf="axelData.pos=='R2'">
+                    <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                      (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
+                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                  </label>
+                </span>
+              </div>
+            </td>
+            <td *ngIf="(axel.axle == '99' ) "><b>Stephenie</b></td>
+            <td colspan="2" *ngIf="(axel.axle == '99') ">
+                <div class="vehicle-container">
+              <span *ngFor="let axelData of axel.data">
+                <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
+                  <label class="tyres">
+                  <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                    (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
+                  <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/step.jpg"
+                    style="width:30px">
+                    </label>
+              </span>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
   </nb-card-body>
 </nb-card>
 
 <!-- table to display search data -->
 <nb-card>
-    <nb-card-body>
-      <table class="table table-bordered table-hover" *ngIf = "searchedTyreDetails">
-        <thead class="thead">
-          <tr>
-            <th># </th>
-            <th>Vehicle No </th>
-            <th>Tyre No </th>
-            <th>Entry Date </th>
-            <th>Enter By </th>
-            <th>Date </th>
-            <th>Details</th>
-            
-          </tr>
-  
-        </thead>
-        <tbody>
-          <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
-              <td >{{i+1}}</td>
-              <td>{{tyreDetail.brand}} - {{tyreDetail.model}} </td>
-              <td >{{tyreDetail.tyreno}}</td>
-              <td>{{tyreDetail.entrydate}}</td>
-              <td>{{tyreDetail.entryby}}</td>
-              <td>{{tyreDetail.date}}</td>
-              <td>{{tyreDetail.details}}</td>            
-          </tr>
-        </tbody>
-      </table>
-      <div class="no-data" *ngIf="!searchedTyreDetails.length">
-          No Data available !
-      </div>
-    </nb-card-body>
-  </nb-card>
+  <nb-card-body>
+
+  </nb-card-body>
+</nb-card>

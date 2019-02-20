@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+
 
 @Component({
   selector: 'inputs',
@@ -11,8 +14,6 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 })
 export class InputsComponent implements OnInit {
 
-  foName = "";
-  foId = null;
   vehicleType = "truck";
   refMode = 701;
   vehicleNo = "";
@@ -20,7 +21,6 @@ export class InputsComponent implements OnInit {
   tyreId = null;
   tyreNo = "";
 
-  searchString = "";
   searchVehicleString = "";
   searchTyreString = "";
 
@@ -32,64 +32,40 @@ export class InputsComponent implements OnInit {
   vehicles = [];
   tyres = [];
 
-  searchedTyreDetails = [];
+  tyrePosition = null
 
-  position={
-    frontRear : null,
-    axel : null,
-    leftRight : null,
-    pos:null
-  };
-  details :null;
+  vehicleTyreDetails = [];
+  vehicleTyreDetail;
+  axels = [];
+  position = null;
+  details: null;
 
-  date = this.common.dateFormatter(new Date());
+  date1 = this.common.dateFormatter(new Date());
+
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-  ) { }
+   // private activeModal: NgbActiveModal,
+  ) {
+    //this.axels = this.common.generateArray(6)
+  }
 
   ngOnInit() {
   }
 
-  searchUser() {
-    console.log("test");
-    this.showSuggestions = true;
-    let params = 'search=' + this.searchString;
-    this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
-      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
-      .subscribe(res => {
-        this.foUsers = res['data'];
-        console.log("suggestions", this.foUsers);
-
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
+  resetVehDetails() {
+    this.vehicleNo = "";
+    this.vehicleId = null;
+    this.tyreId = null;
+    this.tyreNo = "";
+    this.searchVehicleString = "";
+    this.searchTyreString = "";
+    this.vehicleTyreDetails=[];
   }
-
-  selectUser(user) {
-    this.foName = user.name;
-    this.searchString = this.foName;
-    this.foId = user.id;
-    this.showSuggestions = false;
-  this.resetVehDetails();
-  }
- 
-  resetVehDetails()
- { 
-   this.vehicleNo = "";
-  this.vehicleId = null;
-  this.tyreId = null;
-  this.tyreNo = "";
-  this.searchVehicleString = "";
-  this.searchTyreString = "";
-}
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId+
-      '&vehicleType=' +this.vehicleType;
-      console
+      '&vehicleType=' + this.vehicleType;
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -103,17 +79,17 @@ export class InputsComponent implements OnInit {
   }
 
   selectVehicle(vehicle) {
-    console.log("vehicle",vehicle );
+    console.log("vehicle", vehicle);
     this.vehicleId = vehicle.id;
     this.vehicleNo = vehicle.regno;
-    this.searchVehicleString = this.vehicleNo+" - "+this.vehicleId;
+    this.searchVehicleString = this.vehicleNo;
     this.vehicleSuggestion = false;
+    this.searchData();
   }
 
   searchTyres() {
     this.tyreSuggestion = true;
-    let params = 'search=' + this.searchTyreString +
-      '&foId=' + this.foId;
+    let params = 'search=' + this.searchTyreString;
     this.api.get('Tyres/getTyreNumbersAccordingFO?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
       .subscribe(res => {
@@ -126,58 +102,94 @@ export class InputsComponent implements OnInit {
       });
   }
   selectTyres(tyre) {
-    console.log("tyre",tyre);
+    console.log("tyre", tyre);
     this.tyreId = tyre.id;
     this.tyreNo = tyre.tyrenum;
-    this.searchTyreString = this.tyreNo+" - "+this.tyreId;
-    console.log("searchTyreString",this.searchTyreString);
+    this.searchTyreString = this.tyreNo;
+    console.log("searchTyreString", this.searchTyreString);
     this.tyreSuggestion = false;
 
   }
 
 
-  getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.date);
-    });
-  }
+  // getDate(date) {
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.date = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.date);
+  //   });
+  // }
 
   searchData() {
-    if (this.foId) {
-      let params = 'foId=' + this.foId
-      console.log("params ", params);
-      this.api.get('Tyres/getTyreInputsAccordingFO?' + params)
-        .subscribe(res => {
-          this.searchedTyreDetails = res['data'];
-          console.log("searchedTyreDetails", this.searchedTyreDetails);
+    if (this.vehicleType == "trolly") {
+      this.refMode = 702;
+    } else if (this.vehicleType == "truck") {
+      this.refMode = 701;
+    } else if (this.vehicleType == "warehouse") {
+      this.refMode = 703;
+    } else {
 
-        }, err => {
-          console.error(err);
-          this.common.showError();
-        });
     }
-    else {
-      this.common.showToast("Fo Selection is mandotry");
-    }
+    let params = 'vehicleId=' + this.vehicleId +
+      '&refMode=' + this.refMode;
+    console.log("params ", params);
+    this.api.get('Tyres/getVehicleTyrePosition?' + params)
+      .subscribe(res => {
+        console.log('Res: ', res);
+        this.vehicleTyreDetails = JSON.parse(res['data'][0].fn_getvehicletyredetails);
+        console.log("searchedTyreDetails", this.vehicleTyreDetails);
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
   }
 
-  saveDetails() {
-    if(this.vehicleType == "trolly"){
-      this.refMode = 702;
-    }else{
-      this.refMode = 701;
+  getTyrePosition(tyrePosition,vehicleTyreDetail) {
+    this.position = tyrePosition.split('-')[1];
+    this.vehicleTyreDetail =vehicleTyreDetail;
+    console.log("tyre position = ", this.position,vehicleTyreDetail);
+  }
+
+  getTyreCurrentStatus(){
+    let alertMsg;
+    let params = 'tyreId=' + this.tyreId;
+    console.log("params ", params);
+    this.api.get('Tyres/getTyreCurrentStatus?' + params)
+      .subscribe(res => {
+        console.log('Res: ',res['data'] );
+        alertMsg = res['data'][0].rtn_msg
+        this.openConrirmationAlert(alertMsg);
+
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
+  openConrirmationAlert(alertMsg){
+    this.common.params = {
+      title: "Current Postion Of Tyre",
+      description: alertMsg+" Do you want to change ?"
     }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout',backdrop: 'static'});
+    activeModal.result.then(data => {
+     console.log("data",data.respone);
+     if(data.response){
+       this.saveDetails();
+     }
+    });
+  }
+  
+  saveDetails() {
+    let date = this.common.dateFormatter(new Date(this.date1));
     this.common.loading++;
     let params = {
-      foId : this.foId,
-      vehicleId : this.vehicleId,
-      date : this.date,
-      tyreId : this.tyreId,
-      tyrePos : this.position.frontRear+ "|"+this.position.axel+"|"+this.position.leftRight+"|"+this.position.pos,
-      details : this.details,
-      refMode : this.refMode
+      vehicleId: this.vehicleTyreDetail.vid,
+      date: date,
+      tyreId: this.tyreId,
+      tyrePos: this.position,
+      details: this.details,
+      refMode: this.vehicleTyreDetail.vtype
     };
     console.log('Params:', params);
 
@@ -192,13 +204,15 @@ export class InputsComponent implements OnInit {
           console.log("fail");
           this.common.showToast(res['data'][0].rtn_msg);
         }
+        this.searchData();
+
       }, err => {
         this.common.loading--;
         console.error(err);
         this.common.showError();
       });
   }
-  
+
 }
 
 

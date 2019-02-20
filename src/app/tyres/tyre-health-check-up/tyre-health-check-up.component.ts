@@ -10,8 +10,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./tyre-health-check-up.component.scss', '../../pages/pages.component.css', '../tyres.component.css']
 })
 export class TyreHealthCheckUpComponent implements OnInit {
-  foName = "";
-  foId = null;
+
   vehicleType = "truck";
   refMode = 701;
 
@@ -27,13 +26,12 @@ export class TyreHealthCheckUpComponent implements OnInit {
   foUsers = [];
   vehicles = [];
   tyres = [];
+  vehicleTyreDetails = []
   remark = "";
   status = "";
   checkedBy = null;
   admins =[];
-  date = this.common.dateFormatter(new Date());
- 
-
+  date1 = this.common.dateFormatter(new Date());
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService
@@ -57,31 +55,6 @@ export class TyreHealthCheckUpComponent implements OnInit {
       });
   }
 
-  searchUser() {
-    console.log("test");
-    this.showSuggestions = true;
-    let params = 'search=' + this.searchString;
-    this.api.get('Suggestion/getFoUsersList?' + params) // Customer API
-      // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
-      .subscribe(res => {
-        this.foUsers = res['data'];
-        console.log("suggestions", this.foUsers);
-
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-  }
-
-  selectUser(user) {
-    this.foName = user.name;
-    this.searchString = this.foName;
-    this.foId = user.id;
-    this.showSuggestions = false;
-   this.resetVehDetails();
-
-  }
-
   resetVehDetails()
   { 
     this.vehicleNo = "";
@@ -92,7 +65,6 @@ export class TyreHealthCheckUpComponent implements OnInit {
   searchVehicles() {
     this.vehicleSuggestion = true;
     let params = 'search=' + this.searchVehicleString +
-      '&foId=' + this.foId+
       '&vehicleType=' +this.vehicleType;
     this.api.get('Suggestion/getFoVehList?' + params) // Customer API
       // this.api.get3('booster_webservices/Suggestion/getElogistAdminList?' + params) // Admin API
@@ -110,18 +82,19 @@ export class TyreHealthCheckUpComponent implements OnInit {
     console.log("vehicle", vehicle);
     this.vehicleId = vehicle.id;
     this.vehicleNo = vehicle.regno;
-    this.searchVehicleString = this.vehicleNo + " - " + this.vehicleId;
+    this.searchVehicleString = this.vehicleNo ;
     this.vehicleSuggestion = false;
   }
-  getDate(date) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.date);
-    });
-  }
+  // getDate(date) {
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     this.date = this.common.dateFormatter(data.date).split(' ')[0];
+  //     console.log('Date:', this.date);
+  //   });
+  // }
 
   saveDetails() {
+    let date= this.common.dateFormatter(new Date(this.date1));
     if(this.vehicleType == "trolly"){
       this.refMode = 702;
     }else{
@@ -129,9 +102,8 @@ export class TyreHealthCheckUpComponent implements OnInit {
     }
     this.common.loading++;
     let params = {
-      foId : this.foId,
       vehicleId : this.vehicleId,
-      date : this.date,
+      date : date,
       tyres : JSON.stringify(this.tyres),
       remark : this.remark,
       status : this.status,
@@ -158,22 +130,25 @@ export class TyreHealthCheckUpComponent implements OnInit {
       });
   }
   searchData() {
-    if (this.foId) {
-      let params = 'foId=' + this.foId+
-      '&vehicleId=' +this.vehicleId;
+      if(this.vehicleType == "trolly"){
+        this.refMode = 702;
+      }else{
+        this.refMode = 701;
+      }
+      let params = 'vehicleId=' +this.vehicleId+
+      '&refMode=' + this.refMode+
+      '&mapped=1' ;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreHealths?' + params)
+      this.api.get('Tyres/getVehicleTyrePosition?' + params)
         .subscribe(res => {
           this.tyres = res['data'];
-          console.log("searchedTyreDetails", this.tyres);
+          this.vehicleTyreDetails =  JSON.parse(res['data'][0].fn_getvehicletyredetails);
+          console.log("searchedTyreDetails", this.vehicleTyreDetails);
 
         }, err => {
           console.error(err);
           this.common.showError();
         });
-    }
-    else {
-      this.common.showToast("Fo Selection is mandotry");
-    }
+   
   }
 }

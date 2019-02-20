@@ -28,7 +28,13 @@
     display: block;
   }
 
- 
+ .refresh{
+  padding: 10%;
+  background: content-box;
+  color: white;
+  font-size: 20px;
+  border: none;
+ }
 
   .header-container {
     display: flex;
