@@ -16,7 +16,7 @@
     width: 30px;
 }
 .zoom-btn {
-    display: block;
+    display: inline-block;
     background:black;
     text-align: center;
     color: #fff;
@@ -28,8 +28,9 @@
     line-height: 30px;
     font-weight: bold;
     box-shadow: 2px 2px 5px rgb(143, 136, 155);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     cursor: pointer;
+    margin-left:5px;
 }
 .zoom-btn:active{
     background: #fff;
