@@ -104,8 +104,8 @@ export class AddDocumentComponent implements OnInit {
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
       
-      x_issue_date:this.document.dates.issue,
-      x_wef_date: this.document.dates.wef,
+      x_issue_date:this.dateSelect(this.document.dates.issue),
+      x_wef_date: this.dateSelect(this.document.dates.wef),
       x_expiry_date: this.document.dates.expiry,
       x_document_agent_id: this.document.agent.id,
       x_document_number: this.document.number,
@@ -127,10 +127,12 @@ export class AddDocumentComponent implements OnInit {
       });
   }
 
-  dateSelect(date){
+dateSelect(date){
  console.log("Selected Date:",date);
- this.document.dates[date]=this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
- console.log("Selected Date:",this.document.dates[date]);
+ let useDate;
+ useDate = this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
+ console.log("Selected Date:",useDate);
+ return useDate;
   }
 
 

@@ -46,11 +46,12 @@
         <label>Issue Date</label>
       </div>
       <div class="col-md-7">
-          <input id="issue-date" name="issue-date" type="text" placeholder="DD-MM-YYYY" autocomplete="off"
-            class="form-control" [value]="document.dates.issue | date:'dd-MM-yyyy' " (ngModelChange)="dateSelect('issue')"/>
+        <!-- (ngModelChange)="dateSelect('issue')" -->
+        <input id="issue-date" name="issue-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
+          class="form-control"  [(ngModel)]="document.dates.issue" (change)="dateSelect('issue')"  />
       </div>
       <div class="col-md-1 calender">
-          <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
+        <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
       </div>
     </div>
 
@@ -59,14 +60,14 @@
         <label>Wef Date<span class="mandatory">*</span></label>
       </div>
       <div class="col-md-7">
-        <input id="wef-date" name="wef-date" type="datetime" placeholder="DD-MM-YYYY" autocomplete="off"
-          required class="form-control" [value]="document.dates.wef | date: ' dd-MM-yyyy'">
+        <input id="wef-date" name="wef-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off" required
+          class="form-control" [(ngModel)]="document.dates.wef" (change)="dateSelect('wef')">
         <!-- [(ngModel)]="document.dates.wef" #wefDate="ngModel"<div *ngIf="isFormSubmit && wefDate.errors" class="error">
           <span [hidden]="!wefDate.errors.required">wef Date type mandatory</span>
         </div> -->
       </div>
       <div class="col-md-1 calender">
-          <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
+        <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
       </div>
     </div>
     <div class="row">
@@ -74,14 +75,14 @@
         <label>Expiry Date</label>
       </div>
       <div class="col-md-7">
-        <input id="expiry-date" name="expiry-date" type="datetime" placeholder="DD-MM-YYYY" autocomplete="off" required
-          class="form-control" [value]="document.dates.expiry | date: 'dd-MM-yyyy'" >
+        <input id="expiry-date" name="expiry-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off" required
+          class="form-control" [(ngModel)]="document.dates.expiry" (change)="dateSelect('expiry')">
         <!-- <div *ngIf="isFormSubmit && expiry.errors" class="error">
               <span [hidden]="!expiry.errors.required">wef Date type mandatory</span>
             </div> -->
       </div>
       <div class="col-md-1 calender">
-          <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>
+        <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>
       </div>
     </div>
     <div class="row" style="margin-top:4px">

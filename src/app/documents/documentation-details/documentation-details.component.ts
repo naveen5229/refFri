@@ -57,7 +57,7 @@ export class DocumentationDetailsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-      
+
   }
 
   ngOnInit() {
@@ -97,8 +97,9 @@ export class DocumentationDetailsComponent implements OnInit {
         documentNumber: { value: doc.document_number },
         amount: { value: doc.amount },
         remark: { value: doc.remark },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: this.imageView.bind(this, doc) },
-        edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc) }
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '' },
+        edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'text-center' },
+        rowActions: {}
       });
     });
     return columns;
