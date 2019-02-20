@@ -75,6 +75,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout',backdrop: 'static'});
     activeModal.result.then(data => {
      console.log("data",data.respone); 
+     this.getEvents();
     });
   }
 
@@ -209,7 +210,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.map.fitBounds(this.bounds);
     }
     toggleBounceMF(id,evtype=1){
-        //console.log("Bounce marker");
+        console.log("Bounce marker",id);
         //console.log("index",index);
         //.log("test",test);
         //console.log("item",item);
@@ -240,5 +241,23 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
         closeModal(response) {
           this.activeModal.close({ response: response });
+        }
+        reviewComplete(){
+          console.log("VehicleStatusData",this.VehicleStatusData);
+          this.common.loading++;
+          let params = {
+            alertId : this.VehicleStatusData.id ,
+            status : 1} ;          
+          console.log(params);
+          this.api.post('HaltOperations/reviewDone?' , params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log(res);
+              this.activeModal.close();
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+            });
+          this.activeModal.close();
         }
 }
