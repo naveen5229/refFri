@@ -6,6 +6,8 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
+import { ImageViewComponent} from '../../../modals/image-view/image-view.component';
+
 @Component({
   selector: 'pending-document',
   templateUrl: './pending-document.component.html',
@@ -23,6 +25,7 @@ export class PendingDocumentComponent implements OnInit {
   canreadonly = false;
   spnexpdt = 0;
   current_date = new Date();
+  images = [];
 
   document = {
     agent: null,
@@ -67,6 +70,8 @@ export class PendingDocumentComponent implements OnInit {
       this.getDocumentsData();
       this.document.document_type = this.findDocumentType(this.document.document_type_id);
       console.log("doctype:" + this.document.document_type);
+      this.images.push({name : "doc-img", image: this.document.img_url});
+      this.common.params = { title : "Doc Image", images: this.images};
   }
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -192,6 +197,8 @@ export class PendingDocumentComponent implements OnInit {
     console.log("fn invoked");
     let issuedt_valid = 1;
     let wefdt_valid = 1;
+    console.log("issue:" + typeof issuedate + "--");
+    console.log("exp:" + typeof expdate + "--");
       if(typeof issuedate != "undefined" &&  typeof expdate != "undefined") {
         console.log("chk1");
         console.log(issuedate.value);

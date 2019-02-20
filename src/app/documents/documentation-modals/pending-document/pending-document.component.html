@@ -74,7 +74,9 @@
         </div>
       </div>
       <div class="col-sm-8">
-          <img src="{{document.img_url}}" alt="doc-img" class="doc-img" />
+          <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
+          <app-image-viewer [images]="[document.img_url]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
+          <div id="imgzoom"></div>
       </div>
     </div>
   </form>
