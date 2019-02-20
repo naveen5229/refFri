@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-
+<!-- 
     <div class="table" *ngIf="this.selectedVehicle">
       <table class="table table-bordered table-hover">
         <thead class="thead">
@@ -67,6 +67,9 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
+      <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <br>
+     
   </nb-card-body>
 </nb-card>
