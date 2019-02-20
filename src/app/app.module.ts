@@ -54,6 +54,7 @@ import {PendingDocumentComponent} from './documents/documentation-modals/pending
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
+import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
@@ -102,7 +103,8 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
     AddEscalationIssueComponent,
     DocumentReportComponent,
     ChangeVehicleStatusComponent,
-    ChangeHaltComponent
+    ChangeHaltComponent,
+    VoucherSummaryComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -143,7 +145,8 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
     AddEscalationIssueComponent,
     DocumentReportComponent,
     ChangeVehicleStatusComponent,
-    ChangeHaltComponent
+    ChangeHaltComponent,
+    VoucherSummaryComponent
   ],
   imports: [
     BrowserModule,
