@@ -84,17 +84,6 @@ table.fixed {
     cursor: pointer;
 }
 
-.zoom {
-    // transition: transform .2s;
-    /* Animation */
-}
-
-.zoom:hover {
-    // transform: scale(1.1);
-    // background: #f2f2f2;
-    // text-align: center;
-    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
 
 .no-record-found {
     width: 100%;
@@ -111,4 +100,10 @@ table.fixed {
     font-size: 14px;
     vertical-align: -webkit-baseline-middle;
     cursor: pointer;
+}
+.no-search{
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 600;
 }
