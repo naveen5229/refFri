@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
-
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -16,8 +15,8 @@ export class VehicleStatusChangeComponent implements OnInit {
   viewType = "all";
   VehicleStatusAlerts = [];
   constructor(
-    public api : ApiService,
-    public common :CommonService,
+    public api: ApiService,
+    public common: CommonService,
     private modalService: NgbModal
   ) {
 
@@ -28,8 +27,10 @@ export class VehicleStatusChangeComponent implements OnInit {
   ngOnInit() {
   }
 
+
   getVehicleStatusAlerts(viewType) {
-    let params = 'viewType=' + viewType;
+    this.viewType = viewType;
+    let params = 'viewType=' + this.viewType;
     console.log("params ", params);
     this.api.get('HaltOperations/getVehicleStatusAlerts?' + params)
       .subscribe(res => {
@@ -62,9 +63,14 @@ export class VehicleStatusChangeComponent implements OnInit {
       });
   }
 
+
   openChangeStatusModal(VehicleStatusData) {
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
-    this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+      this.getVehicleStatusAlerts(this.viewType);
+    });
   }
 }
