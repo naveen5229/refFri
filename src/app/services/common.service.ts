@@ -118,17 +118,17 @@ export class CommonService {
     this.router.navigate([page.page]);
   }
 
-  dateFormatter(date, type = 'YYYYMMDD') {
+  dateFormatter(date, type = 'YYYYMMDD', isTime = true, separator = '/') {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? '0' + d.getDate() : d.getDate();
 
-    console.log(dat + '/' + month + '/' + year);
+    console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return (dat + '/' + month + '/' + year) + ' ' + this.timeFormatter(date);
+      return (dat + separator + month + separator + year) + (isTime ? ' '  + this.timeFormatter(date) : '');
     } else {
-      return (year + '-' + month + '-' + dat) + ' ' + this.timeFormatter(date);
+      return (year + separator + month + separator + dat) + (isTime ? ' '  + this.timeFormatter(date) : '');
     }
   }
 
