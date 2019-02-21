@@ -61,7 +61,9 @@ export class PendingDocumentComponent implements OnInit {
       }
 
       this.document = this.common.params.rowData;
-      
+      if(this.document.issue_date)
+        this.document.issue_date = this.common.dateFormatter(this.document.issue_date, 'ddMMYYYY').split(' ')[0];
+
       console.log("doc params rcvd");
       console.log(this.document);
       console.log("typid:" + this.document.document_type_id);
@@ -119,6 +121,21 @@ export class PendingDocumentComponent implements OnInit {
       }*/
   }
 
+  checkExpiryDateValidity() {
+    let issuedt_valid = 1;
+    let wefdt_valid= 1;
+    if(this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
+      if(this.document.issue_date && this.document.expiry_date)
+        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
+    }
+    if(this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
+      if(this.document.wef_date && this.document.expiry_date)
+        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
+    }
+    if(!issuedt_valid || !wefdt_valid) {
+      this.common.showError("Please check the Expiry Date validity");
+    }
+  }
 
   updateDocument() {
     const params = {
@@ -139,22 +156,33 @@ export class PendingDocumentComponent implements OnInit {
     let issuedt_valid = 1;
     let wefdt_valid = 1;
     if(this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
-      issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
+      if(this.document.issue_date && this.document.expiry_date)
+        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
     if(this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
-      wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
+      if(this.document.wef_date && this.document.expiry_date)
+        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
     }    
     if(issuedt_valid && wefdt_valid) {
       this.spnexpdt = 0;
     } else {
       this.spnexpdt = 1;
     }
+    
     if(this.spnexpdt) {
-      alert("Please check the Expiry Date validity");
-      return;
+      this.common.showError("Please check the Expiry Date validity");
+      return false;
     }
+    if(this.document.issue_date)
+      params.x_issue_date = this.document.issue_date.split("/").reverse().join("-");
+    if(this.document.wef_date)
+      params.x_wef_date = this.document.wef_date.split("/").reverse().join("-");
+    if(this.document.expiry_date)
+      params.x_expiry_date = this.document.expiry_date.split("/").reverse().join("-");
+    
     console.log("params");
     console.log(params);
+    
     this.common.loading++;
     let response;
     this.api.post('Vehicles/addVehicleDocument', params)
@@ -162,7 +190,7 @@ export class PendingDocumentComponent implements OnInit {
       this.common.loading--;
       console.log("api result", res);
       this.closeModal(true);
-      //window.location.reload();
+      window.location.reload();
     }, err => {
       this.common.loading--;
       console.log(err);
@@ -173,7 +201,7 @@ export class PendingDocumentComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        this.document[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        this.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
         console.log('Date:', this.document[date]);
       }
 
@@ -187,8 +215,10 @@ export class PendingDocumentComponent implements OnInit {
    }
 
   checkExpiryDateValidityByValue(flddate, expdate) {
-    flddate = this.common.dateFormatter(flddate).split(' ')[0];
-    expdate = this.common.dateFormatter(expdate).split(' ')[0];
+    let strdt1 = flddate.split("/").reverse().join("-");
+    let strdt2 = expdate.split("/").reverse().join("-");
+    flddate = this.common.dateFormatter(strdt1).split(' ')[0];
+    expdate = this.common.dateFormatter(strdt2).split(' ')[0];
     console.log("comparing " + flddate + "-" + expdate);
     let d1 = new Date(flddate);
     let d2 = new Date(expdate);
@@ -198,31 +228,7 @@ export class PendingDocumentComponent implements OnInit {
     }
     return 1;
   }
-
-  checkExpDateValidity(issuedate, wefdate, expdate) {
-    console.log("fn invoked");
-    let issuedt_valid = 1;
-    let wefdt_valid = 1;
-    console.log("issue:" + typeof issuedate + "--");
-    console.log("exp:" + typeof expdate + "--");
-      if(typeof issuedate != "undefined" &&  typeof expdate != "undefined") {
-        console.log("chk1");
-        console.log(issuedate.value);
-        console.log(expdate.value);
-        issuedt_valid = this.checkExpiryDateValidityByValue(issuedate.value, expdate.value);
-      }
-      if(typeof wefdate != "undefined" &&  typeof expdate != "undefined") {
-        console.log("chk2");
-        console.log(wefdate.value);
-        console.log(expdate.value);
-        wefdt_valid = this.checkExpiryDateValidityByValue(wefdate.value, expdate.value);
-      }
-    if(issuedt_valid && wefdt_valid) {
-      this.spnexpdt = 0;
-    } else {
-      this.spnexpdt = 1;
-    }
-  }
+  
   addAgent() {
     this.common.params = { title: 'Add Agent' };
     const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });

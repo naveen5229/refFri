@@ -33,22 +33,24 @@
         <div class="form-field clear">
             <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
             <input id="issue_date_read" *ngIf="!canUpdate" name="issue_date_read" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.issue_date| date: 'yyyy-MM-dd'" readonly />
-            <input #issue_date  *ngIf="canUpdate" id="issue_date" name="issue_date" type="datetime" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.issue_date| date: 'dd MMM yyyy'" (click)="getDate('issue_date')" (blur)="checkDate(issue_date.value, expiry_date.value, spnissuedt)" />
+            <input #issue_date  *ngIf="canUpdate" id="issue_date" name="issue_date" type="datetime" class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date" [value]="document.issue_date| date: 'dd/MM/yyyy'"  (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
             <!-- <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date" [value]="document.issue_date | date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY" (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)"  />-->
-            <!-- <span class="col-sm-1" style='cursor:pointer; font-size: 28px;' (click)="getDate('issue_date')" ><i class="icon fa fa-calendar"></i></span> -->
+            <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;' (click)="getDate('issue_date')" ><i class="icon fa fa-calendar"></i></span>
         </div>
         <div class="form-field clear">
             <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
             <input id="wef_date_read" *ngIf="!canUpdate" name="wef_date_read" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date| date: 'yyyy-MM-dd'" readonly />
-            <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="datetime" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date | date: 'dd MMM yyyy'" (click)="getDate('wef_date')"  (blur)="checkDate(issue_date.value, expiry_date.value, spnissuedt)" />
+            <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="datetime" class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.wef_date" [value]="document.wef_date | date: 'dd/MM/yyyy'"  (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
             <!-- <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date |  date: 'yyyy-MM-dd'"  placeholder="DD-MMM-YYYY"   (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)"  />-->
+            <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;' (click)="getDate('wef_date')" ><i class="icon fa fa-calendar"></i></span>
         </div>
         <div class="form-field clear">
             <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
             <input id="expiry_date_read" *ngIf="!canUpdate" name="expiry_date_read" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" readonly />
-            <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date | date: 'dd MMM yyyy'" (click)="getDate('expiry_date')" (blur)="checkDate(issue_date.value, expiry_date.value, spnissuedt)"/>
+            <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="datetime" class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.expiry_date" [value]="document.expiry_date | date: 'dd/MM/yyyy'" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
             <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
-            <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span>
+            <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
+            <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;' (click)="getDate('expiry_date')" ><i class="icon fa fa-calendar"></i></span>
         </div>
         <div class="form-field clear">
             <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
