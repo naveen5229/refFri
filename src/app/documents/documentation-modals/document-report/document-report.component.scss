@@ -8,21 +8,31 @@
 }
 
 .green {
-    background: green;
-    color: white;
+    background: #46f946;
+    color: black;
 }
-.table-scroll thead {
+i{
+    color: #0e0e3a;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 29%
+}
+.table-bordered{
+    height: 350px;
+    overflow-y: auto;
+    display: block;
+}
+.table-scroll.thead {
     display: table;
-    width: 100%;
-    // table-layout: fixed;
+    width: 970px;
+    position: fixed;
  }
  
  .table-scroll tbody {
-    max-height: 350px;
-    overflow-y: auto;
     display: block;
     width: 100%;
     table-layout: fixed;
+    margin-top: 52px;
  }
  
  .table-scroll tr {

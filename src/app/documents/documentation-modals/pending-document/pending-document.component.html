@@ -1,0 +1,93 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body vert-mdl-pdg">
+  <form #documentForm="ngForm" id="document-form" name="document-form" (submit)="documentForm.valid && updateDocument()">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-field clear">
+          <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
+          <input id="document_id" name="document_id" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.id" readonly/>
+        </div>
+        <div class="form-field clear">
+            <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.</label>
+            <input *ngIf="!canUpdate" id="veh_no" name="veh_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.regno" readonly/>
+            <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld"><auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
+              placeholder="Enter Vehicle Number" [preSelected]="{regno: document.regno}" style="width:60%;" ></auto-suggestion></div>            
+        </div>
+        <div class="form-field clear">
+            <label for="doc_type" class="col-sm-4 mgn-vert">Document Type</label>
+            <input *ngIf="!canUpdate" id="doc_type" type="text" class="col-sm-8 form-control frm-fld mgn-vert" value="{{document.document_type}}" readonly />
+            <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+              <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
+           [data]="docTypes" placeholder="Enter Document Type" [preSelected]="{document_type: document.document_type}" class="documentType " style='width: 60% !important;' ></auto-suggestion>
+          </div>
+        </div>
+        <div class="form-field clear">
+            <label for="doc_no" class="col-sm-4 mgn-vert">Document No.</label>
+            <input id="doc_no" name="doc_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.doc_no" [readonly]="!canUpdate" />
+        </div>        
+        <div class="form-field clear">
+            <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
+            <input id="issue_date_read" *ngIf="!canUpdate" name="issue_date_read" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.issue_date| date: 'dd MMM yyyy'" readonly />
+            <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="date" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.issue_date| date: 'dd MMM yyyy'" placeholder="dd-mmm-yyyy"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)"  />
+            <!-- <span class="col-sm-1" style='cursor:pointer; font-size: 28px;' (click)="getDate('issue_date')" ><i class="icon fa fa-calendar"></i></span> -->
+        </div>
+        <div class="form-field clear">
+            <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
+            <input id="wef_date_read" *ngIf="!canUpdate" name="wef_date_read" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date| date: 'dd MMM yyyy'" readonly />
+            <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="date" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date | date: 'dd MMM yyyy'"  placeholder="dd-mmm-yyyy"   (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)"  />
+        </div>
+        <div class="form-field clear">
+            <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
+            <input id="expiry_date_read" *ngIf="!canUpdate" name="expiry_date_read" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'dd MMM yyyy'" readonly />
+            <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="date" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date | date: 'dd MMM yyyy'" placeholder="dd-mmm-yyyy"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" />
+            <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span>
+        </div>
+        <div class="form-field clear">
+            <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
+            <input id="rto" name="rto" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.rto"  [readonly]="!canUpdate"  />
+        </div>
+        <div class="form-field clear">
+            <label for="agent" class="col-sm-4 mgn-vert">Agent</label>
+            <div *ngIf="!canUpdate" ><input type="text" [(ngModel)]="document.agent" class="col-sm-8 form-control frm-fld mgn-vert" readonly/></div>
+            <div class="col-sm-8 " *ngIf="canUpdate" >
+              <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent" class="form-control frm-fld mdl-sel-agt" >
+                  <option value="">--</option>
+                  <option *ngFor="let agent of agents" [value]= agent.id >
+                      {{agent.name}}
+                  </option>
+              </select>
+              <a *ngIf="canUpdate" href="javascript: void(0);" (click)="addAgent()">Add Agent</a>
+             </div>
+        </div>
+        <div class="form-field clear">
+            <label for="amount" class="col-sm-4 mgn-vert">Amount</label>
+            <input id="amount" name="amount" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.amount" [readonly]="!canUpdate" />
+        </div>        
+        <div class="form-field clear">
+            <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
+            <textarea id="remarks" name="remarks" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks"  [readonly]="!canUpdate" ></textarea>
+        </div>
+      </div>
+      <div class="col-sm-8">
+          <img src="{{document.img_url}}" alt="doc-img" class="doc-img" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <div class="col text-right" *ngIf="canUpdate == 1">
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true" id="submit"
+        style="cursor: pointer;">{{btn1}}</button>
+    </div>
+  </div>
+</div>

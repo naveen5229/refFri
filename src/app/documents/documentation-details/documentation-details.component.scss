@@ -1,21 +1,3 @@
-// fieldset.scheduler-border {
-//     border: 1px groove #ddd !important;
-//     padding: 0 1.4em 1.4em 1.4em !important;
-//     margin: 0 0 1.5em 0 !important;
-//     -webkit-box-shadow:  0px 0px 0px 0px #000;
-//    box-shadow:  0px 0px 0px 0px #000;
-// }
-
-// legend.scheduler-border {
-//     font-size: 1.2em !important;
-//     font-weight: bold !important;
-//     text-align: left !important;
-// }
-// legend.scheduler-border {
-//     width:inherit; /* Or auto */
-//     padding:0 10px; /* To give a bit of padding on the left and right */
-//     border-bottom:none;
-// }
 .row{
     padding-top: 1%;
     padding-bottom: 1%
@@ -92,8 +74,10 @@ label{
     background: #fff;
 }
 
-i{
-    font-size: 16px;
+.icon{
+  
+    font-size: 30px !important;
+    padding-left: 34% !important;
 }
 .dataSearch{
     width: 107%;
@@ -101,4 +85,89 @@ i{
     color: black;
     font-size: 12px;
     height: auto;
+}
+// For Smart Table
+.headings {
+    background: #e2e2e2;
+    font-size: 11px;
+    font-weight: 500;
+}
+.data {
+    font-size: 10px;
+    border-bottom: 1px solid #e2e2e2;
+    min-height: 20%;
+    
+}
+.data ion-col,
+.headings ion-col {
+    padding: 3px;
+    border-left: 1px solid #f2f2f2;
+}
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+:host ::ng-deep.black {
+    color: black;
+    // display: none;
+}
+:host ::ng-deep.red {
+    background: red;
+    color: #fff;
+}
+:host ::ng-deep.pink {
+    background: pink;
+    color: black;
+}
+:host ::ng-deep.green{
+    background: #96ec11;
+    color:black;
+}
+:host ::ng-deep.icon{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
+}
+:host ::ng-deep.image{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
+}
+
+:host ::ng-deep .circle {
+    border: 1px solid gray;
+    border-radius: 50%;
+    padding: 3px 4px;
+}
+.route-arrow {
+    font-size: 20px;
+    vertical-align: middle;
+    margin: 0px 5px;
+}
+:host ::ng-deep .complete {
+    vertical-align: middle;
+    color: green;
+}
+.exit {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.loaded{
+    font-weight: bold;
+}
+.search-box {
+    background: #fff;
+    font-size: 13px;
+    padding: 6px 8px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 60%;
+    letter-spacing: .3px;
+    color: #000;
+}
+table{
+    cursor:pointer;
+    // background: aliceblue;
 }

@@ -32,19 +32,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-book',
     link: '/pages/expenses',
   },
-  // {
-  //   title: 'Concise View',
-  //   icon: 'nb-bar-chart',
-  //   link: '/pages/concise',
-  // },
   {
     title: 'Fuel Average Analysis',
     icon: 'fa fa-signal',
     link: '/pages/fuel-average-analysis',
-  },  
+  },
   {
     title: 'Vehicle Trip',
     icon: 'fa fa-truck',
     link: '/pages/vehicle-trip',
-  }, 
+  },
+  {
+    title: 'Documentation',
+    icon: 'fa fa-database',
+    link:'/documents//documents-summary'
+  }
 ];

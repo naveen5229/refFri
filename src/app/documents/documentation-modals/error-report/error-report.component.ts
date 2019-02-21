@@ -14,6 +14,13 @@ export class ErrorReportComponent implements OnInit {
   btn = '';
   errors = [];
   reason = null;
+  bgColor(bgColor){
+
+    return bgColor?bgColor:'white';
+  }
+  textColor(textColor){
+    return textColor?textColor:'black';
+  }
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -25,14 +32,13 @@ export class ErrorReportComponent implements OnInit {
       this.btn = this.common.params.btn || 'Close';
       this.errors = this.common.params.errorData;
       this.reason = this.common.params.Reason;
-
-      // this.reason = this.errors.reason;
       console.log("error data",this.errors);
    
      }
 
   ngOnInit() {
   }
+
   closeModal(response) {
     this.activeModal.close({ response: response });
   }

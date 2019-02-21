@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +18,6 @@ export class VehicleStatusChangeComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-
   ) {
 
     this.getVehicleStatusAlerts(this.viewType);
@@ -41,7 +41,6 @@ export class VehicleStatusChangeComponent implements OnInit {
       });
   }
 
-
   getPendingStatusDetails() {
     this.common.loading++;
     this.api.get('HaltOperations/getPendingAlertDetails?')
@@ -60,6 +59,7 @@ export class VehicleStatusChangeComponent implements OnInit {
         console.log(err);
       });
 
+
   }
 
   openChangeStatusModal(VehicleStatusData) {
@@ -69,6 +69,7 @@ export class VehicleStatusChangeComponent implements OnInit {
     activeModal.result.then(data => {
       //console.log("data", data.respone);
       this.getVehicleStatusAlerts(this.viewType);
+
       this.exitTicket(VehicleStatusData);
     });
   }

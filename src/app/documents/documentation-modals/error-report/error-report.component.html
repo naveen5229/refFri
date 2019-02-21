@@ -23,16 +23,15 @@
     <tbody *ngIf="errors">
       <tr *ngFor="let error of errors;">
             <th >{{error.Sno}}</th>
-            <th  [ngStyle]="{'background-color':'red','color':'white'}">{{error.Regno.name}}</th>
-            <th>{{error.Reason}}</th>
-            <th>{{error['Document No'].name}}</th> 
-            <th>{{error['Agent Name'].name}}</th>
-            <th>{{error['Issue Date'].name}}</th>
-            <th>{{error['Wef Date'].name}}</th>
-            <th>{{error['Expiry Date'].name}}</th>
-            <th>{{error.Amount.name}}</th>
+            <th  [ngStyle]="{'background-color':bgColor(error.Regno['bg-color']), 'color':textColor(error.Regno['text-color']) }">{{error.Regno.name}}</th>
+            <th  [ngStyle]="{'background-color':bgColor(error.Reason['bg-color']), 'color':textColor(error.Reason['text-color']) }">{{error.Reason}}</th>
+            <th [ngStyle]="{'background-color':bgColor(error['Document No']['bg-color']), 'color':textColor(error['Document No']['text-color']) }">{{error['Document No'].name}}</th> 
+            <th [ngStyle]="{'background-color':bgColor(error['Agent Name']['bg-color']), 'color':textColor(error['Agent Name']['text-color']) }">{{error['Agent Name'].name}}</th>
+            <th [ngStyle]="{'background-color':bgColor(error['Issue Date']['bg-color']), 'color':textColor(error['Issue Date']['text-color']) }">{{error['Issue Date'].name}}</th>
+            <th [ngStyle]="{'background-color':bgColor(error['Wef Date']['bg-color']), 'color':textColor(error['Wef Date']['text-color']) }">{{error['Wef Date'].name}}</th>
+            <th [ngStyle]="{'background-color':bgColor(error['Expiry Date']['bg-color']), 'color':textColor(error['Expiry Date']['text-color']) }">{{error['Expiry Date'].name}}</th>
+            <th [ngStyle]="{'background-color':bgColor(error.Amount['bg-color']), 'color':textColor(error.Amount['text-color']) }">{{error.Amount.name}}</th>
             <th>{{error.Remarks.name}}</th>
-
           </tr>
     </tbody>
   </table>

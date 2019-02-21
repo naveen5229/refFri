@@ -1,0 +1,38 @@
+<!-- Header -->
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<!-- Body -->
+<div class="modal-body">
+  <!-- Issue -->
+  <div class="form-group">
+    <label>Issue Type</label>
+    <select class="form-control" name="issue-type" [(ngModel)]="newIssue.type" require>
+      <option value="">Select a issue</option>
+      <option *ngFor="let issue of issues;" [value]="issue.id">{{issue.desc}}</option>
+    </select>
+  </div>
+  <!-- Remark -->
+  <div class="form-group">
+    <label>Remark</label>
+    <textarea name="remark" class="form-control" [(ngModel)]="newIssue.remark"></textarea>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="dismiss()" id="cancel"
+        style="cursor: pointer;">{{cancelBtn || 'Cancel'}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+        style="cursor: pointer;">{{submitBtn || 'Submit'}}</button>
+    </div>
+  </div>
+</div>

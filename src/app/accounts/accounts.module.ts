@@ -15,7 +15,10 @@ import { LedgersComponent } from './ledgers/ledgers.component';
 import { CompanyBranchesComponent } from './company-branches/company-branches.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
 import { DaybooksComponent } from './daybooks/daybooks.component';
-//import { StockSubtypeComponent } from '../acounts-modals/stock-subtype/stock-subtype.component';
+import { LedgerviewComponent } from './ledgerview/ledgerview.component';
+import { LedgermappingComponent } from './ledgermapping/ledgermapping.component';
+import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
+import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -40,7 +43,11 @@ const PAGES_COMPONENTS = [
     LedgersComponent,
     CompanyBranchesComponent,
     VouchersComponent,
-    DaybooksComponent
+    DaybooksComponent,
+    LedgerviewComponent,
+    LedgermappingComponent,
+    InvoiceregisterComponent,
+    TripVoucherExpenseComponent
     //StockSubtypeComponent
   ],
 })

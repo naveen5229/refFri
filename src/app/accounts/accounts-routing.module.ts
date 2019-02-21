@@ -9,10 +9,14 @@ import { StockSubtypesComponent } from './stock-subtypes/stock-subtypes.componen
 import { StockTypeComponent } from '../acounts-modals/stock-type/stock-type.component';
 import { StockitemsComponent } from './stockitems/stockitems.component';
 import { AccountComponent } from './account/account.component';
-import{ LedgersComponent } from './ledgers/ledgers.component';
-import  { CompanyBranchesComponent } from './company-branches/company-branches.component';
+import { LedgersComponent } from './ledgers/ledgers.component';
+import { CompanyBranchesComponent } from './company-branches/company-branches.component';
 import { VouchersComponent } from './vouchers/vouchers.component';
-import{ DaybooksComponent} from './daybooks/daybooks.component';
+import { DaybooksComponent } from './daybooks/daybooks.component';
+import { LedgerviewComponent } from './ledgerview/ledgerview.component';
+import { LedgermappingComponent } from './ledgermapping/ledgermapping.component';
+import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
+import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 
 const routes: Routes = [{
     path: '',
@@ -61,6 +65,22 @@ const routes: Routes = [{
         {
             path: 'daybooks',
             component: DaybooksComponent
+        },
+        {
+            path: 'ledgerview',
+            component: LedgerviewComponent
+        },
+        {
+            path: 'ledgermapping',
+            component: LedgermappingComponent
+        },
+        {
+            path: 'invoiceregister',
+            component: InvoiceregisterComponent
+        },
+        {
+            path: 'trip-voucher-expense',
+            component: TripVoucherExpenseComponent
         }
     ]
 }];

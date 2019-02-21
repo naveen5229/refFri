@@ -371,7 +371,7 @@
         <button (click)="TaxDetails(i)" style="background-color: #73a1ff;margin-right: 15px;">Tax Details</button>
       </td>
       <td *ngIf="i == 0">
-        <i class="fa fa-plus text-primary" (click)="addAmountDetails()" style="font-size: 40px;"></i></td>
+       <button class="plustransparent" (click)="addAmountDetails()"><i class="fa fa-plus text-primary"  style="font-size: 40px;"></i></button></td>
       <td *ngIf="i !== 0">
         <i class="fa fa-trash text-primary" (click)="order.amountDetails.splice(i,1)"></i>
       </td>

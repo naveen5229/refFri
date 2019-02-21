@@ -62,3 +62,13 @@
         linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
+.tooltip{
+    opacity: 1 !important;
+}
+
+.nb-theme-corporate nb-sidebar{
+    width: 12rem;
+}
+.nb-theme-corporate nb-sidebar.expanded{
+    width: 12rem;
+}
