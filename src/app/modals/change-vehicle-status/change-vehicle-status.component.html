@@ -28,12 +28,11 @@
         </div>
      
       
-      <div class="col-sm-2">
+      <div class="col-sm-3">
           <div style="height: 480px; overflow: auto; width: 100%;">
           <table class="table table-bordered table-hover">
               <tbody>
                <tr>
-                 <th>#</th>
                  <th>Dt</th>
                  <th>Loc</th>
                  <th>Dist</th>
@@ -41,11 +40,10 @@
                  <th>HT</th>
                </tr>
                <tr  *ngFor="let lUL of loadingUnLoading;let i = index; ">
-                  <td>{{i}}</td>
                   <td>{{lUL.date}}</td>
                   <td>{{lUL.loc}}</td>
                   <td>{{lUL.distance}}</td>
-                  <td>{{lUL.time}}</td>
+                  <td>{{lUL.days}}</td>
                   <td>{{lUL.y_halt_desc}}</td>
 
                 </tr>
@@ -53,7 +51,7 @@
             </table>
             </div>
       </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
         <div style="height: 480px; overflow: auto; width: 100%;" >
               <table class="table table-bordered table-hover" style = "border:1px gray solid">
                   <tbody>
@@ -78,7 +76,9 @@
                   </tbody>
                 </table>
                 </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center" ><button (click)="reviewComplete()" style="padding:5px">Review Done</button></div>
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" >
+      <button (click)="reviewComplete(1)" style="padding:5px">Review Done</button>
+      <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px" >Advanced Review</button></div>
 
           </div>
     <div class="map-container col-sm-6">
