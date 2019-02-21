@@ -125,12 +125,10 @@ export class EditDocumentComponent implements OnInit {
     return response;
   }
 
-  dateSelect(){
-   this.document.dates.issue=this.document.issueDate;
-   console.log("new date",this.document.dates.issue);
-    // this.document.dates[date] = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
-    // console.log('Date:', this.document.dates[date]);
-     }
+  // dateSelect(date){
+  //   this.document[date] = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
+  //   console.log('Date:', this.document[date]);
+  //    }
      
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });

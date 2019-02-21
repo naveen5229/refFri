@@ -11,7 +11,7 @@ label{
 
 }
 select{
-    height: 35px !important;
+    height: 40px !important;
 
 }
 .modal-body{
@@ -44,4 +44,7 @@ textarea{
     padding-left: 79%;
     font-size: 14px;
     margin-top: -6%;
+}
+input[type="date"].form-control{
+    line-height: 12px !important;
 }

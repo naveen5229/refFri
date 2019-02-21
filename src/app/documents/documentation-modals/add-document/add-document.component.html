@@ -46,7 +46,7 @@
       </div>
       <div class="col-md-8">
         <input id="issue-date" name="issue-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.issue" (onSelected)="setDate('issue')" />
+          class="form-control date" [(ngModel)]="document.dates.issue" (onSelected)="setDate('issue')" />
       </div>
       <!-- <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
@@ -105,12 +105,12 @@
         <label>Document Upload </label>
       </div>
       <div class="col-md-8 ">
-        <input type="file" name="myfile" [(ngModel)]="document.image" #upload="ngModel" required id="filePicker"
+        <input type="file" name="myfile" [(ngModel)]="document.image" #upload="ngModel"  id="filePicker"
           (change)="handleFileSelection($event)" />
       </div>
-      <div *ngIf="isFormSubmit && upload.errors" class="error">
+      <!-- <div *ngIf="isFormSubmit && upload.errors" class="error">
         <span [hidden]="!upload.errors.required">Select Image</span>
-      </div>
+      </div> -->
     </div>
     <div class="row">
       <div class="col-md-4">
@@ -118,7 +118,6 @@
       </div>
       <div class="col-md-8">
         <input type="text" name="amount" #amount="ngModel" class="form-control" [(ngModel)]="document.amount" maxlength="8" placeholder="Enter Amount">
-          <!-- <h1 ng-if="!document-form.amount.$valid">The value is too long</h1> -->
     </div>
 </div>
 <div class="row">
