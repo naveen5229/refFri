@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import{ DateService } from '../../../services/date.service';
+import { DateService } from '../../../services/date.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
@@ -49,7 +49,7 @@ export class AddDocumentComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    public date:DateService,
+    public date: DateService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
@@ -102,13 +102,16 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
+    if(!this.document.type.id){
+      return this.common.showError("Select Document Type");
+    }
     const params = {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
-      x_issue_date:this.document.dates.issue,
+      x_issue_date: this.document.dates.issue,
       x_wef_date: this.document.dates.wef,
-      x_expiry_date:this.document.dates.expiry,
+      x_expiry_date: this.document.dates.expiry,
       x_document_agent_id: this.document.agent.id,
       x_document_number: this.document.number,
       x_base64img: this.document.base64Image,
@@ -128,11 +131,11 @@ export class AddDocumentComponent implements OnInit {
         console.log(err);
       });
   }
-// setDate(date){
-//   let selectDate;
-//   selectDate= this.common.dateFormatter(data.date).split(' ')[0];
-//   console.log('Date:', this.document.dates[date]);
-// }
+  setDate(date) {
+    console.log("fetch Date", date);
+    this.document.dates[date] = this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
+    console.log('Date:', this.document.dates[date]);
+  }
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -169,9 +172,9 @@ export class AddDocumentComponent implements OnInit {
 
   }
 
-  selectDocType(docType) { 
+  selectDocType(docType) {
     this.document.type.id = docType.id
-    console.log("doc var",this.document.type.id);
-  }
+    console.log("doc var", this.document.type.id);
 
+  }
 }

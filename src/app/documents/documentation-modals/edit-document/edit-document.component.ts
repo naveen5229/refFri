@@ -125,12 +125,11 @@ export class EditDocumentComponent implements OnInit {
     return response;
   }
 
-  dateSelect(date){
-    console.log("Selected Date:",date);
-    let useDate;
-    useDate = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
-    console.log("Selected Date:",useDate);
-    return useDate;
+  dateSelect(){
+   this.document.dates.issue=this.document.issueDate;
+   console.log("new date",this.document.dates.issue);
+    // this.document.dates[date] = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
+    // console.log('Date:', this.document.dates[date]);
      }
      
   getDate(date) {
