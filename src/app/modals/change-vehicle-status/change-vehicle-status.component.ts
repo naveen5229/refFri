@@ -4,6 +4,7 @@ import { MapService } from '../../services/map.service';
 import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 
 declare let google: any;
 
@@ -34,7 +35,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   showHideSite = 'Show Site';
   lastIndDetails = null;
   loadingUnLoading =null;
-
+  customDate = null;
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
@@ -65,7 +66,17 @@ export class ChangeVehicleStatusComponent implements OnInit {
       disableDefaultUI: true,
       mapTypeControl: false,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-    };
+      scaleControl: true,
+      zoomControl:true,
+      styles: [{
+        featureType: 'all',
+        elementType: 'labels',
+        stylers: [{
+            visibility: 'on'
+        }]
+    }]
+  };
+    
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     // this.createMarker(lat, lng);
   }
@@ -186,7 +197,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
-      let text = markers[index]["text"] ? markers[index]["text"] : " ";
+      let text =markers[index]["text"] ? markers[index]["text"] : index+1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
       let lng = markers[index]["long"] ? markers[index]["long"] : 75;
@@ -325,7 +336,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("vehicleEvent",vehicleEvent);
     this.markerZoomMF(i);
         this.calculateDistanceAndTime(this.lastIndDetails,vehicleEvent.lat,vehicleEvent.long,vehicleEvent.time);
-
+        console.log("vehicleEvent.siteId",vehicleEvent.y_site_id)       
+        if(vehicleEvent.y_site_id){
+          console.log("vehicleEvent.siteId",vehicleEvent.y_site_id)
+          this.fnLoadGeofence(vehicleEvent.y_site_id);
+        }
   }
 
   showHide() {
@@ -400,4 +415,59 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("this.distDiff", this.distDiff);
     console.log("this.timeDiff", this.timeDiff);
   }
+
+  Fences = null;
+  FencesPoly = null;
+  fnLoadGeofence(siteId) {
+    this.common.loading++;
+
+    let params = {
+    siteId:siteId
+    };
+
+    this.api.post('SiteFencing/getSiteFences', params)
+    .subscribe(res => {
+      this.common.loading--;
+      console.log(res);
+      this.Fences = res['data'];
+      console.log("Fences::",this.Fences);
+      if(!this.Fences.siteId){
+      if(this.FencesPoly)
+      this.FencesPoly.setMap(null);
+      this.FencesPoly=null;
+      return false;
+      }
+      this.FencesPoly = new google.maps.Polygon({
+      paths: this.Fences.latLngs,
+      strokeColor: '#228B22',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      clickable:false,
+      fillColor: '#ADFF2F',
+      fillOpacity: 0.35
+      });
+      this.FencesPoly.setMap(this.map);
+      return true;
+      
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+}
+    
+getDate(index) {
+  const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  activeModal.result.then(data => {
+    this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
+    console.log('Date:', this.customDate);
+    this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
+    console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
+    if (this.dataType == 'events') {
+      this.getEvents();
+    } else if (this.dataType == 'trails') {
+      this.showTrail();
+    }
+  });
+}
+
 }
