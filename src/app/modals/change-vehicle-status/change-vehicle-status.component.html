@@ -65,11 +65,11 @@
                      <th>CHT</th>
                    </tr>
                    <tr *ngFor="let vehicleEvent of vehicleEvents;let i = index; " [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}" (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
-                      <td (click)="zoomFunctionality(i,vehicleEvent)" >{{i+1}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.date}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.timeShort}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.distance}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.kmph}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();" >{{i+1}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.date}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.timeShort}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.distance}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.kmph}}</td>
                       <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')" *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id" ><i class="fa fa-plus"></i></button></td>
                       <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"  *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button></td>
                     </tr>

@@ -308,7 +308,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vehId=" + this.VehicleStatusData.vehicle_id;
     console.log(params);
-    this.api.get('Vehicles/lastIndustryDetails?' + params)
+    this.api.get('HaltOperations/lastIndustryDetails?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.lastIndDetails = res['data'][0];
