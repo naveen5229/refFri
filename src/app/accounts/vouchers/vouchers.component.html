@@ -7,15 +7,16 @@
           <div class="col-6">
             <div class="form-group">
               <label>Ref</label>
-              <input type="text" id="ref-code" class="form-control" (click)="lastActiveId = 'ref-code'" name="account-name" [(ngModel)]="voucher.code"
-                autofocus>
+              <input type="text" id="ref-code" class="form-control" (click)="lastActiveId = 'ref-code'"
+                name="account-name" [(ngModel)]="voucher.code" autofocus>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
               <label>Date</label>
               <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="voucher-date"
-                name="account-date" [(ngModel)]="voucher.date" maxlength="10" (click)="lastActiveId = 'voucher-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+                name="account-date" [(ngModel)]="voucher.date" maxlength="10"
+                (click)="lastActiveId = 'voucher-date'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           </div>
 
@@ -43,12 +44,14 @@
               [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"
               display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
                   <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i"
-                    [(ngModel)]="amountDetail.ledger.name" (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" 
+                    [(ngModel)]="amountDetail.ledger.name"
+                    (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;"
                     (input)="getSuggestions(amountDetail.transactionType, amountDetail.ledger.name); allowBackspace = false;">
                 </td>
                 <td>
-                  <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i" (click)="lastActiveId = 'amount-' + i"
-                    (input)="calculateTotal(); allowBackspace = false;" [(ngModel)]="amountDetail.amount">
+                  <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
+                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(); allowBackspace = false;"
+                    [(ngModel)]="amountDetail.amount">
                 </td>
                 <!-- <td *ngIf="i == 0">
             <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
@@ -67,7 +70,8 @@
           <div class="col-4">
             <div class="form-group">
               <label>Narration</label>
-              <input type="text" class="form-control" id="narration" (click)="lastActiveId = 'narration'" name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
+              <input type="text" class="form-control" id="narration" (click)="lastActiveId = 'narration'"
+                name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
             </div>
           </div>
           <div class="col-4">
@@ -105,3 +109,21 @@
     </div>
   </nb-card-body>
 </nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="voucher.date"
+        maxlength="10">
+    </div>
+  </div>
+</div>
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+    <div class="date-modal-body">
+      <div>
+        <p>Are you want to save</p>
+        <p><span>Yes</span> <span>OR</span> <span>No</span></p>
+      </div>
+    </div>
+  </div>

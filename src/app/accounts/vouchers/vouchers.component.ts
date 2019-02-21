@@ -41,11 +41,13 @@ export class VouchersComponent implements OnInit {
     }
   };
 
+  showConfirm = false;
+
   showSuggestions = false;
   ledgers = [];
   lastActiveId = '';
   allowBackspace = true;
-
+  showDateModal = false;
   date = this.common.dateFormatter(new Date());
   constructor(public api: ApiService,
     public common: CommonService,
@@ -187,32 +189,45 @@ export class VouchersComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     console.log(event);
-    if (event.key.toLowerCase() == 'f2') {
-      document.getElementById("voucher-date").focus();
-      this.voucher.date = '';
-      //  this.moveCursor(document.getElementById("voucher-date"));
+    const activeId = document.activeElement.id;
+    if (this.showConfirm) {
+      if (key == 'y' || key == 'enter') {
+        this.common.showToast('Your Value Has been saved!');
+      }
+      this.showConfirm = false;
+      event.preventDefault();
+      return;
+    }
+    if (key == 'f2' && !this.showDateModal) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      return;
+    } else if (key == 'enter' && this.showDateModal) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter();
+      this.setFoucus(this.lastActiveId);
+      return;
+    } else if (key != 'enter' && this.showDateModal) {
+      return;
     }
 
-    // amountDetail.transactionType = $event.key.toLowerCase() == 'c' ? 'credit' : $event.key.toLowerCase() == 'd' ? 'debit'
-
-    // console.log('Active Element: ', document.activeElement);
-    // if (event.key.toLowerCase() == 'enter' && document.activeElement.id == 'ref-code') {
-    //   document.getElementById("voucher-date").focus();
-    // } else if (event.key.toLowerCase() == 'backspace' && document.activeElement.id == 'voucher-date') {
-    //   document.getElementById("ref-code").focus();
-    // }
-    // let elementsIDs = ['ref-code', 'voucher-date'];
-    const activeId = document.activeElement.id;
     if (key == 'enter') {
       if (document.activeElement.id.includes('amount-')) this.handleAmountEnter(document.activeElement.id.split('-')[1])
       else if (document.activeElement.id == 'narration') {
-        confirm('Yes or No');
+        this.showConfirm = true;
       } else if (activeId.includes('ledger-')) {
         if (!this.ledgers.length) return;
         let index = activeId.split('-')[1];
         console.log('Test: ', index, this.ledgers, this.ledgers[0]);
         this.selectLedger(this.ledgers[0], index);
         this.setFoucus('amount-' + index);
+      } else if (activeId == 'voucher-date') {
+        this.handleVoucherDateOnEnter();
+        this.setFoucus('transaction-type-0');
       } else {
         let index = this.getElementsIDs().indexOf(document.activeElement.id);
         this.setFoucus(this.getElementsIDs()[index + 1]);
@@ -239,26 +254,49 @@ export class VouchersComponent implements OnInit {
   }
 
   handleAmountEnter(index) {
-    if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
+    index = parseInt(index);
+    if (this.voucher.total.debit == this.voucher.total.credit) {
       this.setFoucus('narration');
       return;
     }
-    if (this.voucher.total.debit > this.voucher.total.credit) {
+
+    let total = {
+      debit: 0,
+      credit: 0
+    };
+
+    for (let i = 0; i <= index; i++) {
+      if (this.voucher.amountDetails[i].transactionType == 'debit') {
+        total.debit += this.voucher.amountDetails[i].amount;
+      } else {
+        total.credit += this.voucher.amountDetails[i].amount;
+      }
+    }
+    console.log('Total:', total.debit, total.credit);
+    if (total.debit == total.credit) {
+      console.log('Index', index + 1)
+      this.voucher.amountDetails.splice(index + 1, this.voucher.amountDetails.length - index - 1);
+      this.setFoucus('narration');
+      this.calculateTotal();
+      return;
+    }
+
+    if (index == this.voucher.amountDetails.length - 1 && this.voucher.total.debit > this.voucher.total.credit) {
       this.addAmountDetails('credit', this.voucher.total.debit - this.voucher.total.credit);
-    } else if (this.voucher.total.debit < this.voucher.total.credit) {
+    } else if (index == this.voucher.amountDetails.length - 1 && this.voucher.total.debit < this.voucher.total.credit) {
       this.addAmountDetails('debit', this.voucher.total.credit - this.voucher.total.debit);
     }
 
-    this.setFoucus('transaction-type-' + (parseInt(index) + 1));
     this.calculateTotal();
+    this.setFoucus('transaction-type-' + (parseInt(index) + 1));
   }
 
-  setFoucus(id) {
+  setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
       element.focus();
       this.moveCursor(element, 0, element['value'].length);
-      this.lastActiveId = id;
+      if (isSetLastActive) this.lastActiveId = id;
       console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
@@ -301,6 +339,28 @@ export class VouchersComponent implements OnInit {
     }
     this.voucher.amountDetails[index].ledger.name = ledger.y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = ledger.y_ledger_id;
+  }
+
+  handleVoucherDateOnEnter() {
+    let dateArray = [];
+    let separator = '-';
+    if (this.voucher.date.includes('-')) {
+      dateArray = this.voucher.date.split('-');
+    } else if (this.voucher.date.includes('/')) {
+      dateArray = this.voucher.date.split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.voucher.date = date + separator + month + separator + year;
   }
 
 
