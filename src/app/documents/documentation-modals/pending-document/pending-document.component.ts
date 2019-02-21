@@ -61,12 +61,12 @@ export class PendingDocumentComponent implements OnInit {
       }
 
       this.document = this.common.params.rowData;
-
+      
       console.log("doc params rcvd");
       console.log(this.document);
       console.log("typid:" + this.document.document_type_id);
       this.vehicleId = this.document.vehicle_id;
-      this.agentId = this.document.agent_id; 
+      this.agentId = this.document.agent_id;
       this.getDocumentsData();
       this.document.document_type = this.findDocumentType(this.document.document_type_id);
       console.log("doctype:" + this.document.document_type);
@@ -179,6 +179,12 @@ export class PendingDocumentComponent implements OnInit {
 
     });
   }
+
+  setDate(date){
+    console.log("fetch Date",date);
+    this.document[date] = this.common.dateFormatter(this.document.issue_date, 'ddMMYYYY').split(' ')[0];
+    console.log('Date:', this.document[date]);
+   }
 
   checkExpiryDateValidityByValue(flddate, expdate) {
     flddate = this.common.dateFormatter(flddate).split(' ')[0];
