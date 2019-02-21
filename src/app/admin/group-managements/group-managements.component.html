@@ -1,0 +1,145 @@
+<div class="model-header">
+  <h4 class="model-title" id="model-basic-title">Gropu Managements</h4>
+</div>
+<div class="model-body-1" style="border:1px Solid blue; margin-top: 10px; text-align: left">
+  <div class="body-1-tile" style="margin-left:50px; margin-top: 10px">Groups</div>
+  <div class="row" style="margin-top:20px; margin-bottom:20px">
+    <div class="col-2"></div>
+    <div class="col-3" style="text-align: center">
+      <auto-suggestion (onSelected)="searchUserId($event)" url="suggestion/getFoUsersList" display="name"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-3">
+      <input type="text" class="form-control" placeholder="group name" name="groupName"
+        [(ngModel)]="addGroupDetails.groupName">
+    </div>
+    <div class="col-2"></div>
+    <button class="add-btn" type="button" outline (click)="addGroup()" id="add" style="cursor: pointer">Add</button>
+  </div>
+</div>
+<div class="model-body-2" style="border:1px Solid blue; margin-top: 10px; text-align: left">
+  <div class="body-2-tile" style="margin-left:50px; margin-top: 10px">Group Users</div>
+  <div class="row" style="margin-top:20px; margin-bottom:20px">
+    <div class="col-1"></div>
+    <div class="col-3" style="text-align: center">
+      <auto-suggestion (onSelected)="searchGroupId($event)" url="Suggestion/getFoAdminList" display="employeename"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3">
+      <auto-suggestion (onSelected)="searchGroup($event)" url="suggestion/getGroups" display="description"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-1"></div>
+    <button class="add-btn" type="button" outline (click)="addUserGroup()" id="add" style="cursor: pointer">Add</button>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-2"></div>
+    <button class="btn-group" type="button" outline (click)="showGroups()" style="cursor: pointer">See Groups</button>
+    <div class="col-4"></div>
+    <button class="btn-group" type="button" outline (click)="showUsers()" style="cursor: pointer">See Users</button>
+  </div>
+  <div class="row">
+    <div class="col-6" *ngIf="groupFlag">
+      <table class="table show-group">
+        <tr>
+          <th>S.No.</th>
+          <th>gId</th>
+          <th>gName</th>
+          <!-- <th>action</th> -->
+        </tr>
+        <tr *ngFor="let groupList of getUserGroups; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{groupList.gid}}</td>
+          <td>{{groupList.gname}}</td>
+          <!-- <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
+              <span aria-hidden="true">&times;</span>
+            </button></td> -->
+         
+        </tr>
+      </table>
+    </div>
+    <div class="col-6">
+      <table class="table show-users" *ngIf="userFlag">
+        <tr>
+          <th>S.No.</th>
+          <th>fId</th>
+          <th>fName</th>
+          <th>action</th>
+        </tr>
+        <tr *ngFor="let userList of getGroupUsers; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{userList.fid}}</td>
+          <td>{{userList.fname}}</td>
+          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField('groupFlag')" >
+              <span aria-hidden="true">&times;</span>
+              </button></td>
+                </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="model-body-3" style="border:1px Solid blue; margin-top: 10px; text-align: left">
+  <div class="body-3-tile" style="margin-left:50px; margin-top: 10px">Group Vehicle</div>
+  <div class="row" style="margin-top:20px; margin-bottom:20px">
+    <div class="col-1"></div>
+    <div class="col-3" style="text-align: center">
+      <auto-suggestion (onSelected)="searchVGroup($event)" url="suggestion/getGroups" display="description"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3">
+      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-1"></div>
+    <button class="add-btn" type="button" outline (click)="addVehicleGroup()" id="add"
+      style="cursor: pointer">Add</button>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-2"></div>
+    <button class="btn-group" type="button" outline (click)="showVehicles()" style="cursor: pointer">See
+      Vehicles</button>
+    <div class="col-4"></div>
+    <button class="btn-group" type="button" outline (click)="showvehicleGroups()" style="cursor: pointer">See
+      Groups</button>
+  </div>
+  <div class="row">
+    <div class="col-6" *ngIf="vehicleFlag">
+      <table class="table show-group">
+        <tr>
+          <th>S.No.</th>
+          <th>vId</th>
+          <th>vRegNo.</th>
+          <th>action</th>
+        </tr>
+        <tr *ngFor="let vehicleList of getVehicles; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{vehicleList.vid}}</td>
+          <td>{{vehicleList.vregno}}</td>
+          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField('vehicleFlag')" >
+              <span aria-hidden="true">&times;</span>
+            </button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-6">
+      <table class="table show-users" *ngIf="vehicleGroupFlag">
+        <tr>
+          <th>S.No.</th>
+          <th>gId</th>
+          <th>gName</th>
+          <th>action</th>
+        </tr>
+        <tr *ngFor="let vGroupList of getVehicleGroups; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{vGroupList.gid}}</td>
+          <td>{{vGroupList.gname}}</td>
+          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
+              <span aria-hidden="true">&times;</span>
+            </button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

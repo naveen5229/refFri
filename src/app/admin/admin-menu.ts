@@ -19,4 +19,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/escalation-matrix',
         home: true,
     },
+    {
+        title: 'Group Mmanagements',
+        icon: 'nb-home',
+        link: '/admin/group-managements',
+        home: true,
+    },
 ];
