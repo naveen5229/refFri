@@ -28,12 +28,11 @@
         </div>
      
       
-      <div class="col-sm-2">
+      <div class="col-sm-3">
           <div style="height: 480px; overflow: auto; width: 100%;">
           <table class="table table-bordered table-hover">
               <tbody>
                <tr>
-                 <th>#</th>
                  <th>Dt</th>
                  <th>Loc</th>
                  <th>Dist</th>
@@ -41,11 +40,10 @@
                  <th>HT</th>
                </tr>
                <tr  *ngFor="let lUL of loadingUnLoading;let i = index; ">
-                  <td>{{i}}</td>
                   <td>{{lUL.date}}</td>
                   <td>{{lUL.loc}}</td>
                   <td>{{lUL.distance}}</td>
-                  <td>{{lUL.time}}</td>
+                  <td>{{lUL.days}}</td>
                   <td>{{lUL.y_halt_desc}}</td>
 
                 </tr>
@@ -53,7 +51,7 @@
             </table>
             </div>
       </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
         <div style="height: 480px; overflow: auto; width: 100%;" >
               <table class="table table-bordered table-hover" style = "border:1px gray solid">
                   <tbody>
@@ -67,18 +65,20 @@
                      <th>CHT</th>
                    </tr>
                    <tr *ngFor="let vehicleEvent of vehicleEvents;let i = index; " [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}" (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
-                      <td (click)="zoomFunctionality(i,vehicleEvent)" >{{i+1}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.date}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.timeShort}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.distance}}</td>
-                      <td (click)="zoomFunctionality(i,vehicleEvent)">{{vehicleEvent.kmph}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();" >{{i+1}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.date}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.timeShort}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.distance}}</td>
+                      <td (click)="zoomFunctionality(i,vehicleEvent);getSites();">{{vehicleEvent.kmph}}</td>
                       <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')" *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id" ><i class="fa fa-plus"></i></button></td>
                       <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"  *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button></td>
                     </tr>
                   </tbody>
                 </table>
                 </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center" ><button (click)="reviewComplete()" style="padding:5px">Review Done</button></div>
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" >
+      <button (click)="reviewComplete(1)" style="padding:5px">Review Done</button>
+      <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px" >Advanced Review</button></div>
 
           </div>
     <div class="map-container col-sm-6">

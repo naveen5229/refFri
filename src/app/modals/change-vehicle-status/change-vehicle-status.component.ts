@@ -85,7 +85,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.params = vehicleEvent;
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log("data", data.respone);
+     // console.log("data", data.respone);
       this.getEvents();
     });
   }
@@ -283,12 +283,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  reviewComplete() {
+  reviewComplete(status) {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
       alertId: this.VehicleStatusData.id,
-      status: 1
+      status: status
     };
     console.log(params);
     this.api.post('HaltOperations/reviewDone?', params)
@@ -308,7 +308,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vehId=" + this.VehicleStatusData.vehicle_id;
     console.log(params);
-    this.api.get('Vehicles/lastIndustryDetails?' + params)
+    this.api.get('HaltOperations/lastIndustryDetails?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.lastIndDetails = res['data'][0];

@@ -17,7 +17,7 @@ export class VehicleStatusChangeComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
 
     this.getVehicleStatusAlerts(this.viewType);
@@ -26,7 +26,6 @@ export class VehicleStatusChangeComponent implements OnInit {
 
   ngOnInit() {
   }
-
 
   getVehicleStatusAlerts(viewType) {
     this.viewType = viewType;
@@ -41,8 +40,6 @@ export class VehicleStatusChangeComponent implements OnInit {
         this.common.showError();
       });
   }
-
-
 
   getPendingStatusDetails() {
     this.common.loading++;
@@ -61,8 +58,9 @@ export class VehicleStatusChangeComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-  }
 
+
+  }
 
   openChangeStatusModal(VehicleStatusData) {
     console.log("VehicleStatusData", VehicleStatusData);
@@ -71,6 +69,61 @@ export class VehicleStatusChangeComponent implements OnInit {
     activeModal.result.then(data => {
       console.log("data", data.respone);
       this.getVehicleStatusAlerts(this.viewType);
+
+      this.exitTicket(VehicleStatusData);
     });
+  }
+
+  enterTicket(VehicleStatusData) {
+    let result;
+    let params = {
+      tblRefId: 1,
+      tblRowId: VehicleStatusData.vehicle_id
+    };
+    console.log("params", params);
+    this.common.loading++;
+    this.api.post('TicketActivityManagment/insertTicketActivity', params)
+      .subscribe(res => {
+        this.common.loading--;
+        result = res
+        console.log(result);
+        if (!result['success']) {
+          alert(result.msg);
+          return false;
+        }
+        else {
+          this.openChangeStatusModal(VehicleStatusData);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+  exitTicket(VehicleStatusData) {
+    let result;
+    var params = {
+      tblRefId: 1,
+      tblRowId: VehicleStatusData.vehicle_id
+    };
+    console.log("params", params);
+    this.common.loading++;
+    this.api.post('TicketActivityManagment/updateActivityEndTime', params)
+      .subscribe(res => {
+        this.common.loading--;
+        result = res
+        console.log(result);
+        if (!result.sucess) {
+          alert(result.msg);
+          return false;
+        }
+        else {
+          return true;
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 }
