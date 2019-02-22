@@ -53,7 +53,6 @@ export class EditDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Update';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
     this.document.docId = this.document[0].id;
@@ -95,6 +94,9 @@ export class EditDocumentComponent implements OnInit {
   }
 
   updateDocument() {
+    if(!this.document.docId){
+      return this.common.showError("Select Document Type");
+    }
     const params = {
       x_vehicle_id: this.vehicleId,
       x_document_id: this.document.docId,
@@ -110,6 +112,8 @@ export class EditDocumentComponent implements OnInit {
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
     };
+    // if(params.x_issue_date)
+    // params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
 
     this.common.loading++;
     let response;
@@ -125,13 +129,10 @@ export class EditDocumentComponent implements OnInit {
     return response;
   }
 
-  dateSelect(date){
-    console.log("Selected Date:",date);
-    let useDate;
-    useDate = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
-    console.log("Selected Date:",useDate);
-    return useDate;
-     }
+  // dateSelect(date){
+  //   this.document[date] = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
+  //   console.log('Date:', this.document[date]);
+  //    }
      
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -139,6 +140,7 @@ export class EditDocumentComponent implements OnInit {
       if (data.date) {
         this.document[date] = this.common.dateFormatter(data.date).split(' ')[0];
         console.log('Edit Date:', this.document[date]);
+        return this.document[date];
       }
     });
   }
