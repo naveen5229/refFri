@@ -141,6 +141,14 @@ export class PendingDocumentComponent implements OnInit {
     }
   }
 
+  checkDatePattern(strdate) {
+    let dateformat = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+    if(dateformat.test(strdate)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   updateDocument() {
     const params = {
       x_vehicle_id: this.document.vehicle_id,
@@ -165,7 +173,29 @@ export class PendingDocumentComponent implements OnInit {
       this.common.showError("Please enter Document Type");
       return false;
     }
-    
+
+    if(this.document.issue_date) {
+      let valid = this.checkDatePattern(this.document.issue_date);
+      if(!valid) {
+        this.common.showError("Invalid Issue Date. Date must be in DD/MM/YYYY format");
+        return false;
+      }
+    }
+    if(this.document.wef_date) {
+      let valid = this.checkDatePattern(this.document.wef_date);
+      if(!valid) {
+        this.common.showError("Invalid Wef Date. Date must be in DD/MM/YYYY format");
+        return false;
+      }
+    }
+    if(this.document.expiry_date) {
+      let valid = this.checkDatePattern(this.document.expiry_date);
+      if(!valid) {
+        this.common.showError("Invalid Expiry Date. Date must be in DD/MM/YYYY format");
+        return false;
+      }
+    }
+        
     let issuedt_valid = 1;
     let wefdt_valid = 1;
     if(this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
@@ -191,7 +221,7 @@ export class PendingDocumentComponent implements OnInit {
       params.x_issue_date = this.document.issue_date.split("/").reverse().join("-");
       let strdt = new Date(params.x_issue_date);
       if(isNaN(strdt.getTime())) {
-        this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
+        this.common.showError("Invalid Issue Date. Date formats should be DD/MM/YYYY");
         return false;
       }
     }
@@ -199,7 +229,7 @@ export class PendingDocumentComponent implements OnInit {
       params.x_wef_date = this.document.wef_date.split("/").reverse().join("-");
       let strdt = new Date(params.x_wef_date);
       if(isNaN(strdt.getTime())) {
-        this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
+        this.common.showError("Invalid Wef Date. Date formats should be DD/MM/YYYY");
         return false;
       }
     }
@@ -207,7 +237,7 @@ export class PendingDocumentComponent implements OnInit {
       params.x_expiry_date = this.document.expiry_date.split("/").reverse().join("-");
       let strdt = new Date(params.x_expiry_date);
       if(isNaN(strdt.getTime())) {
-        this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
+        this.common.showError("Invalid Expiry Date. Date formats should be DD/MM/YYYY");
         return false;
       }
     }
@@ -341,5 +371,12 @@ export class PendingDocumentComponent implements OnInit {
       this.document.document_type = "";
       this.document.document_type_id = "";
     }
+  }
+
+  getDateInDisplayFormat(strdate) {
+    if(strdate)
+      return strdate.split("-").reverse().join("/");
+    else
+      return strdate;
   }
 }
