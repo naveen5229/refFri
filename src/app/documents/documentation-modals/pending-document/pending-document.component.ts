@@ -226,6 +226,10 @@ export class PendingDocumentComponent implements OnInit {
     console.log("comparing " + flddate + "-" + expdate);
     let d1 = new Date(flddate);
     let d2 = new Date(expdate);
+    if(isNaN(d1.getTime()) || isNaN(d2.getTime())) {
+      this.common.showError("Invalid Date. Date formats should be dd/mm/yyyy");
+      return 0;
+    }
     if(d1 > d2) {
       this.spnexpdt = 1;
       return 0;
