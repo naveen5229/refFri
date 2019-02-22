@@ -177,16 +177,35 @@ export class PendingDocumentComponent implements OnInit {
       this.common.showError("Please check the Expiry Date validity");
       return false;
     }
-    if(this.document.issue_date)
-      params.x_issue_date = this.document.issue_date.split("/").reverse().join("-");
-    if(this.document.wef_date)
-      params.x_wef_date = this.document.wef_date.split("/").reverse().join("-");
-    if(this.document.expiry_date)
-      params.x_expiry_date = this.document.expiry_date.split("/").reverse().join("-");
     
+    if(this.document.issue_date) {
+      params.x_issue_date = this.document.issue_date.split("/").reverse().join("-");
+      let strdt = new Date(params.x_issue_date);
+      if(isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if(this.document.wef_date) {
+      params.x_wef_date = this.document.wef_date.split("/").reverse().join("-");
+      let strdt = new Date(params.x_wef_date);
+      if(isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if(this.document.expiry_date) {
+      params.x_expiry_date = this.document.expiry_date.split("/").reverse().join("-");
+      let strdt = new Date(params.x_expiry_date);
+      if(isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+        
     console.log("params");
     console.log(params);
-    
+    return false;
     this.common.loading++;
     let response;
     this.api.post('Vehicles/addVehicleDocument', params)
@@ -194,7 +213,7 @@ export class PendingDocumentComponent implements OnInit {
       this.common.loading--;
       console.log("api result", res);
       this.closeModal(true);
-      window.location.reload();
+      //window.location.reload();
     }, err => {
       this.common.loading--;
       console.log(err);
