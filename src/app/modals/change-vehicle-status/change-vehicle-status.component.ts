@@ -475,17 +475,17 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openSmartTool(i, vehicleEvent) {
     console.log(this.onlyDrag);
-    if(!this.onlyDrag){
-    this.vehicleEvents.forEach(vEvent => {
-      if (vEvent != vehicleEvent)
-        vEvent.isOpen = false;
-    });
-    vehicleEvent.isOpen = !vehicleEvent.isOpen;
-    this.zoomFunctionality(i, vehicleEvent);
-    this.getSites();
+    if (!this.onlyDrag) {
+      this.vehicleEvents.forEach(vEvent => {
+        if (vEvent != vehicleEvent)
+          vEvent.isOpen = false;
+      });
+      vehicleEvent.isOpen = !vehicleEvent.isOpen;
+      this.zoomFunctionality(i, vehicleEvent);
+      this.getSites();
+    }
+    this.onlyDrag = false;
   }
-  this.onlyDrag = false;
-}
 
 
   drop(event: CdkDragDrop<string[]>) {
@@ -510,38 +510,43 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
     if (movedOnItem) {
       this.common.showToast('Moved Item Detected');
-      this.siteMerge(movedItem,movedOnItem);
+      this.siteMerge(movedItem, movedOnItem);
     } else {
       this.common.showError('You have moved to different location');
     }
   }
 
-  siteMerge(movedItem,movedOnItem){
+  siteMerge(movedItem, movedOnItem) {
     this.common.loading++;
     console.log("SiteMerge");
     console.log('Moved: ', movedItem);
     console.log('Moved On: ', movedOnItem);
-    let params ={
-      dragHaltId:movedItem.haltId,
-      dropHaltId:movedOnItem.haltId
+    let params = {
+      dragHaltId: movedItem.haltId,
+      dropHaltId: movedOnItem.haltId
     };
     console.log(params);
     this.api.post('HaltOperations/mergeHalts', params)
       .subscribe(res => {
         this.common.loading--;
-        if(res['success']){
-        if (this.dataType == 'events') {
-          this.getEvents();
-        } else if (this.dataType == 'trails') {
-          this.showTrail();
+        if (res['success']) {
+          if (this.dataType == 'events') {
+            this.getEvents();
+          } else if (this.dataType == 'trails') {
+            this.showTrail();
+          }
+        } else {
+          this.common.showToast(res['msg']);
+          if (this.dataType == 'events') {
+            this.getEvents();
+          } else if (this.dataType == 'trails') {
+            this.showTrail();
+          }
         }
-      }else{
-        this.common.showToast(res['msg']);
-      }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  }
+}
 
