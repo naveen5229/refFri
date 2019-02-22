@@ -106,7 +106,7 @@ export class AddDocumentComponent implements OnInit {
       return this.common.showError("Select Document Type");
     }
     if(!this.document.base64Image){
-      return this.common.showError("Select  Image");
+      return this.common.showError("Select Document Image/File");
     }
     const params = {
       x_vehicle_id: this.vehicle.id,

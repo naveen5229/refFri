@@ -35,9 +35,12 @@
       <div class="col-md-4">
         <label>Issue Date</label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <input id="issue-date" name="issue-date" type="text" placeholder="Enter the issue Date" autocomplete="off"
-          class="form-control"  [value]="document.issueDate | date:'dd-MM-yyyy'" (click)="getDate('issueDate')">
+          class="form-control"  [value]="document.issueDate | date:'dd-MM-yyyy'"  >
+      </div>
+      <div class="col-md-1 calender">
+        <i class="icon fa fa-calendar" (click)="getDate('issueDate')"></i>
       </div>
     </div>
 
@@ -45,19 +48,25 @@
       <div class="col-md-4">
         <label>Wef Date</label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <input id="wef-date" name="wef-date" type="text" placeholder="Enter the Wef Date" autocomplete="off"
-          class="form-control" [value]="document.wefDate | date:'dd-MM-yyyy' " (click)="getDate('wefDate')">
+          class="form-control" [value]="document.wefDate | date:'dd-MM-yyyy'" >
       </div>
+        <div class="col-md-1 calender">
+        <i class="icon fa fa-calendar" (click)="getDate('wefDate')"></i>
+      </div> 
     </div>
 
     <div class="row">
       <div class="col-md-4">
         <label>Expiry Date</label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <input id="expiry-date" name="expiry-date" type="text" placeholder="Expiry Date" autocomplete="off" required
-          class="form-control" [value]="document.expiryDate | date:'dd-MM-yyyy' " (click)="getDate('expiryDate')">
+          class="form-control" [value]="document.expiryDate | date:'dd-MM-yyyy' " >
+      </div>
+      <div class="col-md-1 calender">
+        <i class="icon fa fa-calendar" (click)="getDate('expiryDate')"></i>
       </div>
     </div>
 
