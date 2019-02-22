@@ -157,6 +157,15 @@ export class PendingDocumentComponent implements OnInit {
       x_amount: this.document.amount,
 
     };
+    if(!this.document.vehicle_id) {
+      this.common.showError("Please enter Vehicle No.");
+      return false;
+    }
+    if(!this.document.document_type_id) {
+      this.common.showError("Please enter Document Type");
+      return false;
+    }
+    
     let issuedt_valid = 1;
     let wefdt_valid = 1;
     if(this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
@@ -316,5 +325,21 @@ export class PendingDocumentComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.document.vehicle_id = vehicle.id;
+  }
+
+  isValidVehicle(event) {
+    let selected_regno = event.target.value;
+    if(selected_regno == "") {
+      this.document.regno = "";
+      this.document.vehicle_id = "";
+    }
+  }
+  
+  isValidDocument(event) {
+    let selected_doctype = event.target.value;
+    if(selected_doctype == "") {
+      this.document.document_type = "";
+      this.document.document_type_id = "";
+    }
   }
 }
