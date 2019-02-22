@@ -19,7 +19,7 @@ export class EditDocumentComponent implements OnInit {
   agents = [];
   docTypes = [];
   docType = null;
-  vehicleId= null;
+  vehicleId = null;
   document = {
     docId: null,
     regno: null,
@@ -69,6 +69,16 @@ export class EditDocumentComponent implements OnInit {
     this.document.remark = this.document[0].remark;
     this.document.amount = this.document[0].amount;
     this.getDocumentsData();
+
+    if (this.document.issueDate) {
+      this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMYYYY').split(' ')[0];
+    }
+    if (this.document.wefDate) {
+      this.document.wefDate = this.common.dateFormatter(this.document.wefDate, 'ddMMYYYY').split(' ')[0];
+    }
+    if (this.document.expiryDate) {
+      this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMYYYY').split(' ')[0];
+    }
   }
 
   closeModal(response) {
@@ -94,7 +104,7 @@ export class EditDocumentComponent implements OnInit {
   }
 
   updateDocument() {
-    if(!this.document.docId){
+    if (!this.document.docId) {
       return this.common.showError("Select Document Type");
     }
     const params = {
@@ -102,9 +112,9 @@ export class EditDocumentComponent implements OnInit {
       x_document_id: this.document.docId,
       x_document_type_id: this.document.documentId,
       x_document_type: this.findDocumentType(this.document.documentId),
-      x_issue_date:this.document.issueDate,
-      x_wef_date:this.document.wefDate,
-      x_expiry_date:this.document.expiryDate,
+      x_issue_date: this.document.issueDate,
+      x_wef_date: this.document.wefDate,
+      x_expiry_date: this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
       x_document_number: this.document.documentNumber,
       x_base64img: this.document.docUpload,
@@ -112,8 +122,15 @@ export class EditDocumentComponent implements OnInit {
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
     };
-    // if(params.x_issue_date)
-    // params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
+    if (params.x_issue_date) {
+      params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
+    }
+    if (params.x_wef_date) {
+      params.x_wef_date = this.document.wefDate.split("/").reverse().join("-");
+    }
+    if (params.x_expiry_date) {
+      params.x_expiry_date = this.document.expiryDate.split("/").reverse().join("-");
+    }
 
     this.common.loading++;
     let response;
@@ -133,12 +150,12 @@ export class EditDocumentComponent implements OnInit {
   //   this.document[date] = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
   //   console.log('Date:', this.document[date]);
   //    }
-     
+
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        this.document[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        this.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
         console.log('Edit Date:', this.document[date]);
         return this.document[date];
       }
