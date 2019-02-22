@@ -78,6 +78,9 @@ export class ImportDocumentComponent implements OnInit {
       vehicleDocCsv: this.csv,
       docTypeId: this.docType.id
     };
+    if(!params.docTypeId  || !params.vehicleDocCsv ){
+      return this.common.showError("Select  Option");
+    }
     console.log("Data :", params);
     this.common.loading++;
     this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
@@ -99,6 +102,9 @@ export class ImportDocumentComponent implements OnInit {
       validate: validate,
       docTypeId: this.docType.id
     };
+    if(!params.docTypeId  || !params.vehicleDocCsv ){
+      return this.common.showError("Select  Option");
+    }
     console.log("Data :", params);
     this.common.loading++;
     this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
