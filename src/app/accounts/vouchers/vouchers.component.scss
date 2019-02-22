@@ -1,5 +1,5 @@
-// button { background-color: #73a1ff;
-// }
+button { background-color: #73a1ff;
+}
 // .transaction{
 //     height: auto !important;
 //     padding: 5px;
@@ -63,4 +63,28 @@
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
+}
+.data_model_save{
+    padding: 20px;
+    text-align: center;
+    width: auto;
+    max-width: 250px;
+}
+.data_model_save button{
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 3px;
+}
+.ledger-option{
+    border: 1px solid #f2f2f2;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+.active-ledger{
+    background: #e8f0f3;
+    font-weight: bold;
 }

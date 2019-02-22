@@ -49,6 +49,9 @@ export class VouchersComponent implements OnInit {
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatter(new Date());
+
+  activeLedgerIndex = -1;
+
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -223,8 +226,10 @@ export class VouchersComponent implements OnInit {
         if (!this.ledgers.length) return;
         let index = activeId.split('-')[1];
         console.log('Test: ', index, this.ledgers, this.ledgers[0]);
-        this.selectLedger(this.ledgers[0], index);
+        this.selectLedger(this.ledgers[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
         this.setFoucus('amount-' + index);
+        //this.setFoucus('ledger-container');
+        this.activeLedgerIndex = -1;
       } else if (activeId == 'voucher-date') {
         this.handleVoucherDateOnEnter();
         this.setFoucus('transaction-type-0');
@@ -249,14 +254,22 @@ export class VouchersComponent implements OnInit {
       this.allowBackspace = true;
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
+      if ((key.includes('arrowup') || key.includes('arrowdown')) && activeId.includes('ledger-')) {
+        this.handleArrowUpDown(key, activeId);
+        event.preventDefault();
+      }
+      //console.log('helo',document.activeElement.id);
     }
-
   }
 
   handleAmountEnter(index) {
     index = parseInt(index);
-    if (this.voucher.total.debit == this.voucher.total.credit) {
+    if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
       this.setFoucus('narration');
+      return;
+    } else if (this.voucher.total.debit == this.voucher.total.credit && index != this.voucher.amountDetails.length - 1) {
+      this.calculateTotal();
+      this.setFoucus('transaction-type-' + (index + 1));
       return;
     }
 
@@ -362,6 +375,22 @@ export class VouchersComponent implements OnInit {
     console.log('Date: ', date + separator + month + separator + year);
     this.voucher.date = date + separator + month + separator + year;
   }
+
+  handleArrowUpDown(key, activeId) {
+    if (key == 'arrowdown') {
+      if (this.activeLedgerIndex != this.ledgers.length - 1) {
+        this.activeLedgerIndex++;
+      }
+    } else {
+      if (this.activeLedgerIndex != 0) {
+        this.activeLedgerIndex--;
+      }
+    }
+    let index = parseInt(activeId.split('-')[1]);
+    this.voucher.amountDetails[index].ledger.name = this.ledgers[this.activeLedgerIndex].y_ledger_name;
+    this.voucher.amountDetails[index].ledger.id = this.ledgers[this.activeLedgerIndex].y_ledger_id;
+  }
+
 
 
 }
