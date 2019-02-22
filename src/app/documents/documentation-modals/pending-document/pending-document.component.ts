@@ -205,7 +205,7 @@ export class PendingDocumentComponent implements OnInit {
         
     console.log("params");
     console.log(params);
-    return false;
+    
     this.common.loading++;
     let response;
     this.api.post('Vehicles/addVehicleDocument', params)
@@ -213,7 +213,7 @@ export class PendingDocumentComponent implements OnInit {
       this.common.loading--;
       console.log("api result", res);
       this.closeModal(true);
-      //window.location.reload();
+      window.location.reload();
     }, err => {
       this.common.loading--;
       console.log(err);
