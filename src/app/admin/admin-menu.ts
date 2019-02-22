@@ -25,4 +25,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/group-managements',
         home: true,
     },
+    {
+        title: 'Ticket Properties',
+        icon: 'nb-home',
+        link: '/admin/ticket-properties',
+        home: true,
+    }
+    
 ];

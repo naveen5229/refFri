@@ -11,6 +11,9 @@ import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix
 import { DirectiveModule } from '../directives/directives.module';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
 
+import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
+
+
 const PAGES_COMPONENTS = [
   AdminComponent,
 ];
@@ -27,7 +30,10 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     VehicleStatusChangeComponent,
     EscalationMatrixComponent,
-    GroupManagementsComponent
+    GroupManagementsComponent,
+
+    TicketPropertiesComponent
+
   ],
 })
 export class AdminModule { }

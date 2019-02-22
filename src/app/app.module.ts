@@ -56,6 +56,8 @@ import { ReportIssueComponent } from './modals/report-issue/report-issue.compone
 import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
+
 // import { SmartTableComponent } from './directives/smart-table/smart-table.component';
 
 @NgModule({
@@ -98,7 +100,9 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     ReportIssueComponent,
     DocumentReportComponent,
     ErrorReportComponent,
-    AddEscalationIssueComponent
+    AddEscalationIssueComponent,
+    UpdateTicketPropertiesComponent,
+    
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -136,7 +140,9 @@ import { DocumentReportComponent } from './documents/documentation-modals/docume
     ReportIssueComponent,
     DocumentReportComponent,
     ErrorReportComponent,
-    AddEscalationIssueComponent
+    AddEscalationIssueComponent,
+    UpdateTicketPropertiesComponent
+    
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
+import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.component';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
@@ -13,7 +14,7 @@ const routes: Routes = [{
     children: [
         {
             path: 'dashboard',
-            component: DashboardComponent,
+            component: DashboardComponent,     
         },
         {
             path: 'vehiclestatuschange',
@@ -26,7 +27,12 @@ const routes: Routes = [{
         {
             path: 'group-managements',
             component: GroupManagementsComponent,
-        }
+        },
+        {
+            path: 'ticket-properties',
+            component: TicketPropertiesComponent,
+        },
+        
     ],
 }];
 
