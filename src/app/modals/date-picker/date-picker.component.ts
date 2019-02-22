@@ -15,13 +15,7 @@ export class DatePickerComponent implements OnInit {
 
   }
 
-  closeModal() {
-    setTimeout(() =>{
-      console.log('Date: ', this.date);
-      this.activeModal.close({ date: this.date });
-    }, 100);
-  }
-
+  
 
   ngOnInit() {
   }
@@ -39,9 +33,19 @@ export class DatePickerComponent implements OnInit {
   get monthStart(): Date {
     return this.dateService.getMonthStart(new Date());
   }
- 
   get monthEnd(): Date {
     return this.dateService.getMonthEnd(new Date());
   }
+
+  handleDateChange(){
+    
+  }
+  closeModal() {
+    setTimeout(() =>{
+      console.log('Date: ', this.date);
+      this.activeModal.close({ date: this.date });
+    }, 100);
+  }
+
 
 }

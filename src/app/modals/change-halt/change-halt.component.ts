@@ -34,8 +34,8 @@ export class ChangeHaltComponent implements OnInit {
   ngOnInit() {
   }
 
-  closeModal(response) {
-    this.activeModal.close({ response: response });
+  closeModal() {
+    this.activeModal.close();
   }
 
   submitModal() {
@@ -66,10 +66,12 @@ export class ChangeHaltComponent implements OnInit {
 
   changeHalt() {
     this.common.loading++;
-    let params = "siteHaltRowId=" + this.VehicleStatusData.haltId +
-      "&haltType=" + this.HaltType;
+    let params = {
+      siteHaltRowId:this.VehicleStatusData.haltId, 
+      haltType :this.HaltType
+    };
     console.log(params);
-    this.api.get('HaltOperations/changeHaltType?' + params)
+    this.api.post('HaltOperations/changeHaltType', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);

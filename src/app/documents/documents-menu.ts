@@ -2,7 +2,7 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Vehicle Documents Input ',
+        title: 'Documents Input ',
         icon: 'fa fa-book',
         link: '/documents/documentation-details',
         home: true,
@@ -28,16 +28,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 icon: 'fa fa-database',
                 link: '/documents/crm-vehicle-documentions',
                 home: true,
-            },
-
-            {
-                title: 'Pending Details',
-                icon: 'fa fa-list',
-                link: '/documents/pending-documents',
-                home: true,
             }
 
         ]
-    }
+    },
+
+	{
+		title: 'Pending Details',
+		icon: 'fa fa-list',
+		link: '/documents/pending-documents',
+		home: true,
+	}
 ];
 
