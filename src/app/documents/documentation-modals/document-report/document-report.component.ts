@@ -85,6 +85,9 @@ export class DocumentReportComponent implements OnInit {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
+        let exp_date = this.common.dateFormatter(this.reportResult[0].expiry_date);
+        this.curr = this.common.dateFormatter(this.currentdate);
+        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
         this.getReport();
       }, err => {
         this.common.loading--;

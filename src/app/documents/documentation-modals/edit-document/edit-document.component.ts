@@ -16,6 +16,7 @@ export class EditDocumentComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
+  spnexpdt = 0;
   agents = [];
   docTypes = [];
   docType = null;
@@ -96,17 +97,47 @@ export class EditDocumentComponent implements OnInit {
         console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
-
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  updateDocument() {
-    if (!this.document.docId) {
-      return this.common.showError("Select Document Type");
+  checkExpiryDateValidity() {
+    let issuedt_valid = 1;
+    let wefdt_valid = 1;
+    if (this.document.issueDate != "undefined" && this.document.expiryDate != "undefined") {
+      if (this.document.issueDate && this.document.expiryDate)
+        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issueDate, this.document.expiryDate);
     }
+    if (this.document.wefDate != "undefined" && this.document.expiryDate != "undefined") {
+      if (this.document.wefDate && this.document.expiryDate)
+        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wefDate, this.document.expiryDate);
+    }
+    if (!issuedt_valid || !wefdt_valid) {
+      this.common.showError("Please check the Expiry Date validity");
+    }
+  }
+  checkExpiryDateValidityByValue(flddate, expdate) {
+    let strdt1 = flddate.split("/").reverse().join("-");
+    let strdt2 = expdate.split("/").reverse().join("-");
+    flddate = this.common.dateFormatter(strdt1).split(' ')[0];
+    expdate = this.common.dateFormatter(strdt2).split(' ')[0];
+    console.log("comparing " + flddate + "-" + expdate);
+    let d1 = new Date(flddate);
+    let d2 = new Date(expdate);
+    if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
+      this.common.showError("Invalid Date. Date formats should be dd/mm/yyyy");
+      return 0;
+    }
+    if (d1 > d2) {
+      this.spnexpdt = 1;
+      return 0;
+    }
+    return 1;
+  }
+
+  updateDocument() {
     const params = {
       x_vehicle_id: this.vehicleId,
       x_document_id: this.document.docId,
@@ -122,6 +153,55 @@ export class EditDocumentComponent implements OnInit {
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
     };
+
+    if (!this.document.documentId) {
+      return this.common.showError("Select Document Type");
+    }
+    let issuedt_valid = 1;
+    let wefdt_valid = 1;
+    if (this.document.issueDate != "undefined" && this.document.expiryDate != "undefined") {
+      if (this.document.issueDate && this.document.expiryDate)
+        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issueDate, this.document.expiryDate);
+    }
+    if (this.document.wefDate != "undefined" && this.document.expiryDate != "undefined") {
+      if (this.document.wefDate && this.document.expiryDate)
+        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wefDate, this.document.expiryDate);
+    }
+    if (issuedt_valid && wefdt_valid) {
+      this.spnexpdt = 0;
+    } else {
+      this.spnexpdt = 1;
+    }
+
+    if (this.spnexpdt) {
+      this.common.showError("Please check the Expiry Date validity");
+      return false;
+    }
+
+    if (this.document.issueDate) {
+      params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
+      let strdt = new Date(params.x_issue_date);
+      if (isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if (this.document.wefDate) {
+      params.x_wef_date = this.document.wefDate.split("/").reverse().join("-");
+      let strdt = new Date(params.x_wef_date);
+      if (isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if (this.document.expiryDate) {
+      params.x_expiry_date = this.document.expiryDate.split("/").reverse().join("-");
+      let strdt = new Date(params.x_expiry_date);
+      if (isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
     if (params.x_issue_date) {
       params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
     }
@@ -146,10 +226,6 @@ export class EditDocumentComponent implements OnInit {
     return response;
   }
 
-  // dateSelect(date){
-  //   this.document[date] = this.common.dateFormatter1(this.document.issueDate).split(' ')[0];
-  //   console.log('Date:', this.document[date]);
-  //    }
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -177,7 +253,6 @@ export class EditDocumentComponent implements OnInit {
     console.log("id:", id);
     console.log("docTypes:", this.docTypes);
     this.docTypes.map(docType => {
-      // console.log("doc Type: ",docType);
       if (docType.id == id) {
         documentType = docType.document_type
         console.log("document Type", documentType);
@@ -190,6 +265,11 @@ export class EditDocumentComponent implements OnInit {
     this.document.documentId = docType.id
     console.log("doc var", this.document.documentId);
     return this.document.documentId;
+  }
+  checkType(event){
+    let id=event.target.value;
+    console.log("doc id",id);
+
   }
 
   handleFileSelection(event) {

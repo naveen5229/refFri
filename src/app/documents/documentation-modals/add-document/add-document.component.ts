@@ -19,6 +19,7 @@ export class AddDocumentComponent implements OnInit {
   btn1 = '';
   btn2 = '';
   vehicleId = '';
+  spnexpdt = 0;
 
   document = {
     image: '',
@@ -28,9 +29,9 @@ export class AddDocumentComponent implements OnInit {
       name: ''
     },
     dates: {
-      issue: '',
-      wef: '',
-      expiry: ''
+      issue: null,
+      wef: null,
+      expiry: null
     },
     number: '',
     remark: '',
@@ -58,6 +59,14 @@ export class AddDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
 
     this.vehicleId = this.common.params.vehicleId;
+
+    if (this.document.dates.issue)
+      this.document.dates.issue = this.common.dateFormatter(this.document.dates.issue, 'ddMMYYYY').split(' ')[0];
+    if (this.document.dates.wef)
+      this.document.dates.wef = this.common.dateFormatter(this.document.dates.wef, 'ddMMYYYY').split(' ')[0];
+    if (this.document.dates.expiry)
+      this.document.dates.expiry = this.common.dateFormatter(this.document.dates.expiry, 'ddMMYYYY').split(' ')[0];
+
     this.getDocumentsData();
   }
 
@@ -87,6 +96,19 @@ export class AddDocumentComponent implements OnInit {
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type",file.type);
+        if(file.type == "image/jpeg"||file.type=="image/jpg"||
+        file.type=="image/png"||file.type=="application/pdf"||
+        file.type=="application/msword"||file.type=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"||
+        file.type=="application/vnd.ms-excel"||file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+          alert("sucess");
+        }
+        else {
+           alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+           return false;
+        }
+        
         console.log('Base 64: ', res);
         this.document.base64Image = res;
       }, err => {
@@ -100,14 +122,42 @@ export class AddDocumentComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
+  checkExpiryDateValidity() {
+    let issuedt_valid = 1;
+    let wefdt_valid = 1;
+    if (this.document.dates.issue != "undefined" && this.document.dates.expiry != "undefined") {
+      if (this.document.dates.issue && this.document.dates.expiry)
+        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.dates.issue, this.document.dates.expiry);
+    }
+    if (this.document.dates.wef != "undefined" && this.document.dates.expiry != "undefined") {
+      if (this.document.dates.wef && this.document.dates.expiry)
+        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.dates.wef, this.document.dates.expiry);
+    }
+    if (!issuedt_valid || !wefdt_valid) {
+      this.common.showError("Please check the Expiry Date validity");
+    }
+  }
+
+  checkExpiryDateValidityByValue(flddate, expdate) {
+    let strdt1 = flddate.split("/").reverse().join("-");
+    let strdt2 = expdate.split("/").reverse().join("-");
+    flddate = this.common.dateFormatter(strdt1).split(' ')[0];
+    expdate = this.common.dateFormatter(strdt2).split(' ')[0];
+    console.log("comparing " + flddate + "-" + expdate);
+    let d1 = new Date(flddate);
+    let d2 = new Date(expdate);
+    if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
+      this.common.showError("Invalid Date. Date formats should be dd/mm/yyyy");
+      return 0;
+    }
+    if (d1 > d2) {
+      this.spnexpdt = 1;
+      return 0;
+    }
+    return 1;
+  }
 
   addDocument() {
-    if(!this.document.type.id){
-      return this.common.showError("Select Document Type");
-    }
-    if(!this.document.base64Image){
-      return this.common.showError("Select Document Image/File");
-    }
     const params = {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
@@ -122,29 +172,79 @@ export class AddDocumentComponent implements OnInit {
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
     };
+
+    let issuedt_valid = 1;
+    let wefdt_valid = 1;
+    if (this.document.dates.issue != "undefined" && this.document.dates.expiry != "undefined") {
+      if (this.document.dates.issue && this.document.dates.expiry)
+        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.dates.issue, this.document.dates.expiry);
+    }
+    if (this.document.dates.wef != "undefined" && this.document.dates.expiry != "undefined") {
+      if (this.document.dates.wef && this.document.dates.expiry)
+        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.dates.wef, this.document.dates.expiry);
+    }
+    if (issuedt_valid && wefdt_valid) {
+      this.spnexpdt = 0;
+    } else {
+      this.spnexpdt = 1;
+    }
+
+    if (this.spnexpdt) {
+      this.common.showError("Please check the Expiry Date validity");
+      return false;
+    }
+
+    if (this.document.dates.issue) {
+      params.x_issue_date = this.document.dates.issue.split("/").reverse().join("-");
+      let strdt = new Date(params.x_issue_date);
+      if (isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if (this.document.dates.wef) {
+      params.x_wef_date = this.document.dates.wef.split("/").reverse().join("-");
+      let strdt = new Date(params.x_wef_date);
+      if (isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if (this.document.dates.expiry) {
+      params.x_expiry_date = this.document.dates.expiry.split("/").reverse().join("-");
+      let strdt = new Date(params.x_expiry_date);
+      if (isNaN(strdt.getTime())) {
+        this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
+        return false;
+      }
+    }
+    if (!this.document.type.id) {
+      return this.common.showError("Select Document Type");
+    }
+    if (!this.document.base64Image) {
+      return this.common.showError("Select Document Image/File");
+    }
+
     console.log('Params: ', params);
     this.common.loading++;
     this.api.post('Vehicles/addVehicleDocument', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
+        alert(res["msg"]);
         this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  setDate(date) {
-    console.log("fetch Date", date);
-    this.document.dates[date] = this.common.dateFormatter(this.document.dates.issue).split(' ')[0];
-    console.log('Date:', this.document.dates[date]);
-  }
+
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        this.document.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        this.document.dates[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
         console.log('Date:', this.document.dates[date]);
       }
     });
