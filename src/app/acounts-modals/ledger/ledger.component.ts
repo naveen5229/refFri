@@ -111,4 +111,36 @@ export class LedgerComponent implements OnInit {
     this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
     console.log('Accounts Parent: ', this.Accounts);
   }
+
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    const activeId = document.activeElement.id;
+   // console.log('event',event);
+    if (key == 'enter') {
+      console.log('active',activeId);
+      if (activeId.includes('user')) {
+        this.setFoucus('code');
+      } else if (activeId.includes('code')) {
+        this.setFoucus('name');
+      }else if (activeId.includes('name')) {
+        this.setFoucus('aliasname');
+      }else if (activeId.includes('aliasname')) {
+        console.log('hello dear');
+        this.setFoucus('undergroup');
+      }else if (activeId.includes('undergroup')) {
+        this.setFoucus('perrate');
+      }
+    }
+  }
+
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
+
 }
