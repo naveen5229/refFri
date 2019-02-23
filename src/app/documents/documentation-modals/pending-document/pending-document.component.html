@@ -85,7 +85,8 @@
       </div>
       <div class="col-sm-8">
           <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
-          <app-image-viewer [images]="[document.img_url]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
+          <app-image-viewer *ngIf="document.img_url" [images]="[document.img_url]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
+          <div *ngIf="!document.img_url">No Image Exists</div>
           <div id="imgzoom"></div>
       </div>
     </div>
