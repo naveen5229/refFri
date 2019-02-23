@@ -26,6 +26,7 @@ export class PendingDocumentComponent implements OnInit {
   spnexpdt = 0;
   current_date = new Date();
   images = [];
+  doc_not_img = 0;
 
   document = {
     agent: null,
@@ -104,10 +105,15 @@ export class PendingDocumentComponent implements OnInit {
         console.log("doctype:" + this.document.document_type);
         console.log("img_url:" + this.document.img_url);
         if(this.document.img_url) {
+          if((this.document.img_url.indexOf('.pdf')> -1) || (this.document.img_url.indexOf('.doc')> -1) || (this.document.img_url.indexOf('.docx') > -1) || (this.document.img_url.indexOf('.xls')>-1) || (this.document.img_url.indexOf('.xlsx')>-1) || (this.document.img_url.indexOf('.csv')>-1)) {
+            this.doc_not_img = 1;
+          }
           this.images.push({name : "doc-img", image: this.document.img_url});
           this.common.params = { title : "Doc Image", images: this.images};
         }
 
+        console.log("doc_not_img:" + this.doc_not_img);
+        
         console.log("in typid:" + this.document.document_type_id);
         for(var i=0; i<this.docTypes.length; i++) {
           if(this.docTypes[i].id == this.document.document_type_id) {
