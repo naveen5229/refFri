@@ -202,10 +202,6 @@ export class EditDocumentComponent implements OnInit {
         return false;
       }
     }
-    if (!this.document.docUpload) {
-      return this.common.showError("Select Document Image/File");
-    }
-
     if (params.x_issue_date) {
       params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
     }
