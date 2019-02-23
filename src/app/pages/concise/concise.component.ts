@@ -107,7 +107,7 @@ export class ConciseComponent implements OnInit {
         vechile: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
         status: { value: kpi.showprim_status, action: this.showDetails.bind(this, kpi) },
         hrs: { value: kpi.x_hrssince, action: this.showDetails.bind(this, kpi), class: kpi.x_hrssince >= 24 ? 'red' : '' },
-        trip: { value: kpi.trip_status_type, action: this.showDetails.bind(this, kpi) },
+        trip: { value: this.getTripStatusHTML(kpi), action: this.showDetails.bind(this, kpi), isHTML: true },
         kmp: { value: kpi.x_kmph, action: this.showDetails.bind(this, kpi), class: kpi.x_kmph < 20 ? 'pink' : '' },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
         report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
@@ -117,6 +117,55 @@ export class ConciseComponent implements OnInit {
     return columns;
   }
 
+  getTripStatusHTML(kpi) {
+    let html = '<div>';
+    if (kpi.trip_status_type == 0) {
+      html += `
+      <!-- Heading -->
+        <i class="fa fa-arrow-circle-right complete"></i>
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 1) {
+      html += `
+      <!-- Loading -->
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 2) {
+      html += `
+      <!-- Onward -->
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 3) {
+      html += `
+        <!-- Unloading -->
+          <span>${kpi.x_showtripstart}</span>
+          <i class="icon ion-md-arrow-round-forward"></i>
+          <span class="circle">${kpi.x_showtripend}</span>
+        `;
+    } else if (kpi.trip_status_type == 4) {
+      html += `
+      <!-- Complete -->
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+        <i class="fa fa-check-circle complete"></i>
+      `;
+    } else {
+      html += `
+      <!-- Ambigous -->
+        <span>${kpi.x_showtripstart}</span>
+        <span class="icon ion-md-route-arrow">-</span>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    }
+    return html + '</div>';
+  }
 
 
   getViewType() {

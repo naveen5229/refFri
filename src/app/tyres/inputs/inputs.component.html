@@ -56,7 +56,7 @@
         <div class="col-sm-1"> </div>
         <div class="col-sm-"><label> <b>Date</b></label> </div>
         <div class="col-sm-3" style="margin-left:25px">
-          <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
+          <input [(ngModel)]="date1" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
             class="form-control" autocomplete="off" name="date">
           <owl-date-time #date></owl-date-time>
           <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
@@ -123,12 +123,12 @@
                   <label class="tyres" *ngIf="axelData.pos=='L1'">
                     <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
-                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                    <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
                   <label class="tyres" *ngIf="axelData.pos=='L2'">
                     <input type="radio" [name]="i + '-' +axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
-                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                    <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
                 </span>
               </div>
@@ -140,12 +140,12 @@
                   <label class="tyres" *ngIf="axelData.pos=='R1'">
                     <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
-                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                    <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
                   <label class="tyres" *ngIf="axelData.pos=='R2'">
                     <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
-                    <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
+                    <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
                 </span>
               </div>
@@ -158,7 +158,7 @@
                   <label class="tyres">
                   <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                     (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
-                  <img [class]="axelData.mapped!='1'?'':'seclected'" src="../../../assets/images/step.jpg"
+                  <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/step.jpg"
                     style="width:30px">
                     </label>
               </span>
