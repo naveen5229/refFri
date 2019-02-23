@@ -58,7 +58,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 @NgModule({
@@ -163,6 +163,8 @@ import { MatIconModule } from '@angular/material/icon';
     OwlNativeDateTimeModule,
     ImageViewerModule,
     MatIconModule,
+    DragDropModule,
+
   ],
   bootstrap: [AppComponent],
   providers: [
