@@ -202,6 +202,10 @@ export class EditDocumentComponent implements OnInit {
         return false;
       }
     }
+    if (!this.document.docUpload) {
+      return this.common.showError("Select Document Image/File");
+    }
+
     if (params.x_issue_date) {
       params.x_issue_date = this.document.issueDate.split("/").reverse().join("-");
     }
@@ -277,6 +281,18 @@ export class EditDocumentComponent implements OnInit {
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type",file.type);
+        if(file.type == "image/jpeg"||file.type=="image/jpg"||
+        file.type=="image/png"||file.type=="application/pdf"||
+        file.type=="application/msword"||file.type=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"||
+        file.type=="application/vnd.ms-excel"||file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+          alert("sucess");
+        }
+        else {
+           alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+           return false;
+        }
         console.log('Base 64: ', res);
         this.document.docUpload = res;
       }, err => {
