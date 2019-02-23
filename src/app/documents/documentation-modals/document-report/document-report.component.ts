@@ -135,8 +135,8 @@ export class DocumentReportComponent implements OnInit {
       rto: doc.rto,
       amount: doc.amount,
     }];
-    console.log("Document Id ;", documentData[0].id);
-
+    // /console.log("Vehicle Id", documentData[0].vehicleId);
+        // console.log("document data",documentData);
     this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

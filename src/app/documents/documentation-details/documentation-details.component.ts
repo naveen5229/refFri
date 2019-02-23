@@ -82,7 +82,6 @@ export class DocumentationDetailsComponent implements OnInit {
   getTableColumns() {
     let columns = [];
     this.data.map(doc => {
-      // console.info("Table Data", this.data);
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
@@ -110,7 +109,7 @@ export class DocumentationDetailsComponent implements OnInit {
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
         this.common.loading--;
-        console.log("filter", res);
+        // console.log("filter", res);
         this.data = res['data'];
         this.table = this.setTable();
       }, err => {

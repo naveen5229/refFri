@@ -133,7 +133,7 @@ export class ImportDocumentComponent implements OnInit {
         let file = event.target.files[0];
         console.log("Type",file.type);
         if(file.type=="application/vnd.ms-excel"){
-          alert("sucess");
+          // alert("sucess");
         }
         else {
            alert("valid Format Are : csv");
