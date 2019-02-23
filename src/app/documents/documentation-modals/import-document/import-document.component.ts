@@ -78,6 +78,9 @@ export class ImportDocumentComponent implements OnInit {
       vehicleDocCsv: this.csv,
       docTypeId: this.docType.id
     };
+    if(!params.docTypeId  || !params.vehicleDocCsv ){
+      return this.common.showError("Select  Option");
+    }
     console.log("Data :", params);
     this.common.loading++;
     this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
@@ -99,6 +102,9 @@ export class ImportDocumentComponent implements OnInit {
       validate: validate,
       docTypeId: this.docType.id
     };
+    if(!params.docTypeId  || !params.vehicleDocCsv ){
+      return this.common.showError("Select  Option");
+    }
     console.log("Data :", params);
     this.common.loading++;
     this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
@@ -108,7 +114,7 @@ export class ImportDocumentComponent implements OnInit {
         let errorData = res['data'];
         this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
         const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-        alert(res["msg"]);
+        // alert(res["msg"]);
         // this.closeModal(true);
       }, err => {
         this.common.loading--;
@@ -122,6 +128,17 @@ export class ImportDocumentComponent implements OnInit {
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
+
+
+        let file = event.target.files[0];
+        console.log("Type",file.type);
+        if(file.type=="application/vnd.ms-excel"){
+          alert("sucess");
+        }
+        else {
+           alert("valid Format Are : csv");
+           return false;
+        }
 
         res = res.toString().replace('vnd.ms-excel', 'csv');
         console.log('Base 64: ', res);
