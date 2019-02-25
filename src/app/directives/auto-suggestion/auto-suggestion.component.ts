@@ -16,6 +16,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() preSelected: any;
   @Input() seperator: string;
   @Input() data: any;
+  @Input() displayId: string;
 
   counter = 0;
   searchText = '';
