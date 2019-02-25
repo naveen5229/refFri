@@ -67,5 +67,21 @@ export class PendingDocumentsComponent implements OnInit {
         console.log("response:");
         console.log(mdldata);
       });
-    } 
+    }
+    
+    deleteDocument(row) {
+      let ret = confirm("Are you sure you want to delete this Document?");
+      if(ret) {
+        console.log("Deleting document with id:" + row.id);
+        this.api.post('Vehicles/deleteDocumentById', {x_document_id: row.id})
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("data", res);
+          window.location.reload();          
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });        
+      }
+    }
 }
