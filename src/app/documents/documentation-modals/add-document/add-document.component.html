@@ -45,38 +45,38 @@
       <div class="col-md-4">
         <label>Issue Date</label>
       </div>
-      <div class="col-md-8">
-        <input id="issue-date" name="issue-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
-          class="form-control date" [(ngModel)]="document.dates.issue" (onSelected)="setDate('issue')" />
+      <div class="col-md-7">
+        <input id="issue-date" name="issue-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
+          class="form-control date" [(ngModel)]="document.dates.issue" [value]="document.dates.issue"  (blur)="checkExpiryDateValidity()"  />
       </div>
-      <!-- <div class="col-md-1 calender">
+      <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
-      </div> -->
+      </div>
     </div>
 
     <div class="row">
       <div class="col-md-4">
         <label>Wef Date</label>
       </div>
-      <div class="col-md-8">
-        <input id="wef-date" name="wef-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.wef" (onSelected)="setDate('wef')">
+      <div class="col-md-7">
+        <input id="wef-date" name="wef-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
+          class="form-control" [(ngModel)]="document.dates.wef" (blur)="checkExpiryDateValidity()">
       </div>
-      <!-- <div class="col-md-1 calender">
+      <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
-      </div> -->
+      </div>
     </div>
     <div class="row">
       <div class="col-md-4">
         <label>Expiry Date</label>
       </div>
-      <div class="col-md-8">
-        <input id="expiry-date" name="expiry-date" type="date" placeholder="DD-MM-YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.expiry" (onSelected)="setDate('expiry')">
+      <div class="col-md-7">
+        <input id="expiry-date" name="expiry-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
+          class="form-control" [(ngModel)]="document.dates.expiry" (blur)="checkExpiryDateValidity()">
       </div>
-      <!-- <div class="col-md-1 calender">
+      <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>
-      </div> -->
+      </div>
     </div>
     <div class="row" style="margin-top:4px">
       <div class="col-md-2">
@@ -121,9 +121,7 @@
         <input type="text" name="amount" #amount="ngModel" class="form-control" [(ngModel)]="document.amount"
           maxlength="10" placeholder="Enter Amount">
       </div>
-      <!-- <div *ngIf="amount.errors > 5" class="error">
-        <span [hidden]="!amount.errors.number">Limited length</span>
-      </div> -->
+      
     </div>
     <div class="row">
       <div class="col-md-4">

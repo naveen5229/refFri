@@ -71,7 +71,6 @@ export class TyreHealthCheckUpComponent implements OnInit {
       .subscribe(res => {
         this.vehicles = res['data'];
         console.log("Vehicles", this.vehicles);
-
       }, err => {
         console.error(err);
         this.common.showError();
@@ -84,6 +83,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
     this.vehicleNo = vehicle.regno;
     this.searchVehicleString = this.vehicleNo ;
     this.vehicleSuggestion = false;
+    this.searchData();
   }
   // getDate(date) {
   //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -95,26 +95,31 @@ export class TyreHealthCheckUpComponent implements OnInit {
 
   saveDetails() {
     let date= this.common.dateFormatter(new Date(this.date1));
-    if(this.vehicleType == "trolly"){
-      this.refMode = 702;
-    }else{
-      this.refMode = 701;
-    }
-    this.common.loading++;
-    let params = {
-      vehicleId : this.vehicleId,
-      date : date,
-      tyres : JSON.stringify(this.tyres),
-      remark : this.remark,
-      status : this.status,
-      checkedBy :this.checkedBy,
-      refMode : this.refMode
+    
+    this.common.loading++;    
+    this.vehicleTyreDetails.forEach(vehicleTyreDetail => {
+      let tyredata= [];
+      vehicleTyreDetail.vdata.forEach(axle=>{
+        axle.data.forEach(tyre => {
+          console.log(tyre)
+          tyredata.push(tyre);
+        });
+      });
+      //console.log("tyre",tyredata);
 
-    };
-    console.log('Params:', params);
-    this.api.post('Tyres/saveTyreHealthDetails', params)
+      let params = {
+          vehicleId : vehicleTyreDetail.vid,
+          date : date,
+          tyres : JSON.stringify(tyredata),
+          remark : this.remark,
+          status : this.status,
+          checkedBy :this.checkedBy,
+          refMode : vehicleTyreDetail.vtype
+    
+       };
+      
+       this.api.post('Tyres/saveTyreHealthDetails', params)
       .subscribe(res => {
-        this.common.loading--;
         console.log("return id ", res['data'][0].rtn_id);
         if (res['data'][0].rtn_id > 0) {
           console.log("sucess");
@@ -124,10 +129,13 @@ export class TyreHealthCheckUpComponent implements OnInit {
           this.common.showToast(res['data'][0].rtn_msg);
         }
       }, err => {
-        this.common.loading--;
         console.error(err);
         this.common.showError();
       });
+    });
+    this.common.loading--;    
+
+
   }
   searchData() {
       if(this.vehicleType == "trolly"){
