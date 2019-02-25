@@ -52,7 +52,7 @@ export class PendingDocumentComponent implements OnInit {
     
       this.title = this.common.params.title;
       this.btn1 = this.common.params.btn1 || 'Update';
-      this.btn2 = this.common.params.btn2 || 'Cancel';
+      this.btn2 = this.common.params.btn2 || 'Discard Image';
       console.log("commonparams: ");
       console.log(this.common.params);
       if(!this.common.params.canUpdate) {
@@ -297,15 +297,7 @@ export class PendingDocumentComponent implements OnInit {
         return this.docTypes[i].document_type;
       }
     }
-    /*
-    let documentType = '';
-    this.docTypes.map(docType => {
-      if (docType.id == id) {
-        documentType = docType.document_type
-        console.log("document Type", documentType);
-      }
-    });
-    return documentType;*/
+
   }
   selectDocType(docType) {
     this.document.document_type_id = docType.id;
@@ -316,5 +308,22 @@ export class PendingDocumentComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.document.vehicle_id = vehicle.id;
+  }
+
+  deleteImage(image){
+console.log("hii",image);
+this.closeModal(true);
+this.common.loading++;
+    this.api.get('Vehicles/getPendingDetailsDocuments', {})
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("data", res);
+          // this.data = res['data'];
+
+                
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
   }
 }
