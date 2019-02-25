@@ -85,6 +85,9 @@ export class DocumentReportComponent implements OnInit {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
+        let exp_date = this.common.dateFormatter(this.reportResult[0].expiry_date);
+        this.curr = this.common.dateFormatter(this.currentdate);
+        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
         this.getReport();
       }, err => {
         this.common.loading--;
@@ -132,8 +135,8 @@ export class DocumentReportComponent implements OnInit {
       rto: doc.rto,
       amount: doc.amount,
     }];
-    console.log("Document Id ;", documentData[0].id);
-
+    // /console.log("Vehicle Id", documentData[0].vehicleId);
+        // console.log("document data",documentData);
     this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

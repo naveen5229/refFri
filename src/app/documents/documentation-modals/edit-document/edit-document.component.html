@@ -12,8 +12,8 @@
         <label> Vehicle Number </label>
       </div>
       <div class="col-md-8">
-        <input id="vehicle-regno" name="vehicle-regno" type="text" class="form-control" [(ngModel)]="document.regNumber"
-          readonly>
+        <label style="font-size:16px;">{{document.regNumber}}</label>
+
       </div>
     </div>
 
@@ -25,7 +25,7 @@
         <!-- <input type="text" *ngIf="document.documentId" [preSelected]="{document_type: document.documentType}" name="document-type" [(ngModel)]="document.documentType" > -->
         <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
           placeholder="Enter doctype" [data]="docTypes" [preSelected]="{document_type: document.documentType}"
-          class="documentType">
+          class="documentType" (keyup)="checkType($event)">
         </auto-suggestion>
         <div class="suggestions ng-star-inserted">
         </div>
@@ -36,8 +36,8 @@
         <label>Issue Date</label>
       </div>
       <div class="col-md-7">
-        <input id="issue-date" name="issue-date" type="text" placeholder="Enter the issue Date" autocomplete="off"
-          class="form-control"  [value]="document.issueDate | date:'dd-MM-yyyy'"  >
+        <input id="issue-date" name="issue-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
+          class="form-control" [value]="document.issueDate" [(ngModel)]="document.issueDate" placeholder="DD/MM/YYYY">
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('issueDate')"></i>
@@ -49,12 +49,12 @@
         <label>Wef Date</label>
       </div>
       <div class="col-md-7">
-        <input id="wef-date" name="wef-date" type="text" placeholder="Enter the Wef Date" autocomplete="off"
-          class="form-control" [value]="document.wefDate | date:'dd-MM-yyyy'" >
+        <input id="wef-date" name="wef-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
+          class="form-control" [value]="document.wefDate " [(ngModel)]="document.wefDate" placeholder="DD/MM/YYYY">
       </div>
-        <div class="col-md-1 calender">
+      <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('wefDate')"></i>
-      </div> 
+      </div>
     </div>
 
     <div class="row">
@@ -62,8 +62,8 @@
         <label>Expiry Date</label>
       </div>
       <div class="col-md-7">
-        <input id="expiry-date" name="expiry-date" type="text" placeholder="Expiry Date" autocomplete="off" required
-          class="form-control" [value]="document.expiryDate | date:'dd-MM-yyyy' " >
+        <input id="expiry-date" name="expiry-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
+          class="form-control" [value]="document.expiryDate" [(ngModel)]="document.expiryDate" placeholder="DD/MM/YYYY">
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('expiryDate')"></i>
@@ -109,7 +109,8 @@
         <label>Amount </label>
       </div>
       <div class="col-md-8">
-        <input type="text" name="amount" class="form-control" [(ngModel)]="document.amount" placeholder="Enter Amount">
+        <input type="text" name="amount" class="form-control" [(ngModel)]="document.amount" maxlength="10"
+          placeholder="Enter Amount">
       </div>
     </div>
 
@@ -118,7 +119,8 @@
         <label>RTO </label>
       </div>
       <div class="col-md-8">
-        <input type="text" name="rto" class="form-control" [(ngModel)]="document.rto" placeholder="Enter Rto">
+        <input type="text" name="rto" class="form-control" [(ngModel)]="document.rto" maxlength="20"
+          placeholder="Enter Rto">
       </div>
     </div>
 

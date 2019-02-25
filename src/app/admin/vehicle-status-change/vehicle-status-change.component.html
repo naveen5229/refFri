@@ -13,6 +13,8 @@
         (click)="getVehicleStatusAlerts('view old')" value="View old">
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
         (click)="getVehicleStatusAlerts('pending')" value="Refresh">
+        <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+        (click)="getVehicleStatusAlerts('advance review')" value="Advance Review">
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -56,5 +58,8 @@
     <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
       No Data available !
     </div>
+    <div style="margin-top:20px">
+        <b>Number Of Alerts : {{VehicleStatusAlerts.length}}</b>
+      </div>
   </nb-card-body>
 </nb-card>

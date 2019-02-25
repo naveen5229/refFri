@@ -85,10 +85,10 @@ export class VehicleStatusChangeComponent implements OnInit {
     this.api.post('TicketActivityManagment/insertTicketActivity', params)
       .subscribe(res => {
         this.common.loading--;
-        result = res
+        result = res;
         console.log(result);
         if (!result['success']) {
-          alert(result.msg);
+          //alert(result.msg);
           return false;
         }
         else {
@@ -114,7 +114,7 @@ export class VehicleStatusChangeComponent implements OnInit {
         result = res
         console.log(result);
         if (!result.sucess) {
-          alert(result.msg);
+         // alert(result.msg);
           return false;
         }
         else {

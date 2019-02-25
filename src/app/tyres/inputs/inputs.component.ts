@@ -131,7 +131,8 @@ export class InputsComponent implements OnInit {
 
     }
     let params = 'vehicleId=' + this.vehicleId +
-      '&refMode=' + this.refMode;
+      '&refMode=' + this.refMode+
+      '&mapped=0';
     console.log("params ", params);
     this.api.get('Tyres/getVehicleTyrePosition?' + params)
       .subscribe(res => {
