@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'auto-suggestion',
@@ -17,6 +19,8 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() seperator: string;
   @Input() data: any;
   @Input() displayId: string;
+  @Input() parentForm: FormGroup;
+  @Input() controlName: string;
 
   counter = 0;
   searchText = '';
@@ -24,14 +28,19 @@ export class AutoSuggestionComponent implements OnInit {
   suggestions = [];
   selectedSuggestion = null;
   displayType = 'string';
+  searchForm = null;
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
     public common: CommonService) {
 
   }
 
   ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      search: ['']
+    });
   }
 
   ngAfterViewInit() {
@@ -47,10 +56,13 @@ export class AutoSuggestionComponent implements OnInit {
       this.displayType = 'array';
     }
     console.log('Data:', this.data);
+    console.log('Parent Form: ', this.parentForm);
+    if (this.parentForm) {
+      this.searchForm = this.parentForm;
+    }
     this.cdr.detectChanges();
+
   }
-
-
 
   getSuggestions() {
     this.showSuggestions = true;
@@ -65,7 +77,7 @@ export class AutoSuggestionComponent implements OnInit {
       params = '&'
     }
     params += 'search=' + this.searchText;
-
+    console.log('Params: ', params);
     this.api.get(this.url + params)
       .subscribe(res => {
         console.log(res);
