@@ -26,6 +26,7 @@ export class PendingDocumentComponent implements OnInit {
   spnexpdt = 0;
   current_date = new Date();
   images = [];
+  doc_not_img = 0;
 
   document = {
     agent: null,
@@ -72,12 +73,15 @@ export class PendingDocumentComponent implements OnInit {
     console.log(this.document);
     console.log("typid:" + this.document.document_type_id);
     this.vehicleId = this.document.vehicle_id;
+    console.log("vehicleid:" + this.vehicleId + "=>" + this.document.vehicle_id);
     this.agentId = this.document.agent_id;
     this.getDocumentsData();
+    /*
     this.document.document_type = this.findDocumentType(this.document.document_type_id);
     console.log("doctype:" + this.document.document_type);
-    this.images.push({ name: "doc-img", image: this.document.img_url });
-    this.common.params = { title: "Doc Image", images: this.images };
+    this.images.push({name : "doc-img", image: this.document.img_url});
+    this.common.params = { title : "Doc Image", images: this.images};
+    */
   }
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -94,6 +98,21 @@ export class PendingDocumentComponent implements OnInit {
         console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
+        console.log("doctypes:");
+        console.log(res['data'].document_types_info);
+
+        this.document.document_type = this.findDocumentType(this.document.document_type_id);
+        console.log("doctype:" + this.document.document_type);
+        console.log("img_url:" + this.document.img_url);
+        if (this.document.img_url) {
+          if ((this.document.img_url.indexOf('.pdf') > -1) || (this.document.img_url.indexOf('.doc') > -1) || (this.document.img_url.indexOf('.docx') > -1) || (this.document.img_url.indexOf('.xls') > -1) || (this.document.img_url.indexOf('.xlsx') > -1) || (this.document.img_url.indexOf('.csv') > -1)) {
+            this.doc_not_img = 1;
+          }
+          this.images.push({ name: "doc-img", image: this.document.img_url });
+          this.common.params = { title: "Doc Image", images: this.images };
+        }
+
+        console.log("doc_not_img:" + this.doc_not_img);
 
         console.log("in typid:" + this.document.document_type_id);
         for (var i = 0; i < this.docTypes.length; i++) {
@@ -371,7 +390,7 @@ export class PendingDocumentComponent implements OnInit {
     else
       return strdate;
   }
-  
+
   deleteImage(image) {
     console.log("hii", image);
     this.closeModal(true);
