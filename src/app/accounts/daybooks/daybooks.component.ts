@@ -16,15 +16,15 @@ export class DaybooksComponent implements OnInit {
     startdate:'',
     ledger :{
         name:'',
-        id:''
+        id:0
       },
       branch :{
         name:'',
-        id:''
+        id:0
       },
       vouchertype :{
         name:'',
-        id:''
+        id:0
       }
     
     };
