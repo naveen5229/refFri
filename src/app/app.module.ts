@@ -61,6 +61,8 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
+
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -169,6 +171,8 @@ import { MatIconModule } from '@angular/material/icon';
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+    {  provide:  OWL_DATE_TIME_LOCALE, useValue: 'in' },
+   
   ],
 })
 export class AppModule {
