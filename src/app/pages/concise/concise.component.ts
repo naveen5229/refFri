@@ -14,7 +14,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 import { componentRefresh } from '@angular/core/src/render3/instructions';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'concise',
@@ -23,6 +23,8 @@ import { componentRefresh } from '@angular/core/src/render3/instructions';
   animations: [slideToLeft(), slideToUp()],
 })
 export class ConciseComponent implements OnInit {
+  registerForm: FormGroup;
+  submitted = false;
 
   kpis = [];
   allKpis = [];
@@ -68,7 +70,7 @@ export class ConciseComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public user: UserService,
+    public user: UserService, private formBuilder: FormBuilder,
     private modalService: NgbModal) {
     this.getKPIS();
     this.common.refresh = this.refresh.bind(this);
@@ -76,6 +78,24 @@ export class ConciseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      search: ['', Validators.required]
+    });
+  }
+
+  get f() { return this.registerForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
   }
 
   refresh() {
