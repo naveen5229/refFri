@@ -24,8 +24,8 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
                 home: true,
             },
             {
-                title: ' Document History',
-                icon: 'fa fa-database',
+                title: 'Vehicle Document',
+                icon: 'fa fa-truck',
                 link: '/documents/crm-vehicle-documentions',
                 home: true,
             }

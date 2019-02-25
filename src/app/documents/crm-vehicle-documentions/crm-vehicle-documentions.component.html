@@ -1,6 +1,6 @@
 <nb-card>
     <nb-card-header>
-        <h2>Vehicle Documents History </h2>
+        <h2>Vehicle Documents </h2>
         <hr>
     </nb-card-header>
     <nb-card-body style="min-height: 360px;">
@@ -13,6 +13,11 @@
                             <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
                                 display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
                         </div>
+                    </div>
+                    <div class="col-md-2 offset-md-08">
+                        <button type="submit" class="btn btn-primary" (click)="addDocument()"
+                            >Add
+                            Document</button>
                     </div>
                 </div>
             </form>
@@ -50,7 +55,8 @@
                         <td>{{doc.amount}}</td>
                         <td>{{doc.remarks}}</td>
                         <td>
-                            <i class="icon ion-md-image" (click)="imageView(doc)" *ngIf="doc.img_url" style="cursor:pointer;"></i>
+                            <i class="icon ion-md-image" (click)="imageView(doc)" *ngIf="doc.img_url"
+                                style="cursor:pointer;"></i>
                         </td>
                     </tr>
                 </tbody>
