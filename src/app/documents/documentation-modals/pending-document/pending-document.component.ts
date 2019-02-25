@@ -182,7 +182,7 @@ export class PendingDocumentComponent implements OnInit {
       x_rto: this.document.rto,
       x_remarks: this.document.remarks,
       x_amount: this.document.amount,
-
+      x_is_verified: true
     };
     if (!this.document.vehicle_id) {
       this.common.showError("Please enter Vehicle No.");

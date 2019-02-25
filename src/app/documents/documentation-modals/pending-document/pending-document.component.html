@@ -79,14 +79,14 @@
         </div>        
         <div class="form-field clear">
             <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
-            <div class="col-sm-8 read-lbl">{{document.remarks}}</div>
+            <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{document.remarks}}</div>
             <textarea *ngIf="canUpdate" id="remarks" name="remarks" rows="1" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks"  [readonly]="!canUpdate" ></textarea>
         </div>
       </div>
       <div class="col-sm-8">
           <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
           <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View Document</a></div>
-          <app-image-viewer *ngIf="document.img_url" [images]="[document.img_url]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
+          <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="[document.img_url]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
           <div *ngIf="!document.img_url">No Image Exists</div>
           
           <div id="imgzoom"></div>
