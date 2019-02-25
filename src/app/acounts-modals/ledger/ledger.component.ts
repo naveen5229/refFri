@@ -210,11 +210,13 @@ export class LedgerComponent implements OnInit {
     }
 
     else if (key != 'backspace') {
-     
        this.allowBackspace = false;
        //event.preventDefault();
       }
-  }
+    else if (key.includes('arrow')) {
+        this.allowBackspace = false;
+        }
+}
 
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {

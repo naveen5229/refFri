@@ -85,7 +85,7 @@ export class DocumentationDetailsComponent implements OnInit {
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-
+      console.log("Current date:",curr);
       columns.push({
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
@@ -104,20 +104,7 @@ export class DocumentationDetailsComponent implements OnInit {
     return columns;
   }
 
-  documentUpdate() {
-    this.common.loading++;
-    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
-      .subscribe(res => {
-        this.common.loading--;
-        // console.log("filter", res);
-        this.data = res['data'];
-        this.table = this.setTable();
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
-
+  
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -150,6 +137,10 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   addDocument() {
+    if(!this.selectedVehicle){
+      this.common.showError("Please select Vehicle Number");
+    return false;
+    }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -158,6 +149,19 @@ export class DocumentationDetailsComponent implements OnInit {
       }
     });
   }
+  documentUpdate() {
+    this.common.loading++;
+    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
+        this.table = this.setTable();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   importVehicleDocument() {
     this.common.params = { title: 'Bulk Import Document', vehicleId: this.selectedVehicle };
     const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
