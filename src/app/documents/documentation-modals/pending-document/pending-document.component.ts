@@ -391,20 +391,25 @@ export class PendingDocumentComponent implements OnInit {
       return strdate;
   }
 
-  deleteImage(image) {
-    console.log("hii", image);
-    this.closeModal(true);
+  deleteImage(id) {
+  
+    let ret= confirm("Are you sure to delete this Document ?");
+    if(ret){
+      console.log("Deleted Image id is: ",id);
     this.common.loading++;
-    this.api.get('Vehicles/getPendingDetailsDocuments', {})
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("data", res);
-        // this.data = res['data'];
-
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+    this.api.post('Vehicles/deleteDocumentById', {x_document_id: id})
+    .subscribe(res => {
+      this.common.loading--;
+      console.log("data", res);
+      this.closeModal(true);
+      window.location.reload();
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+      window.location.reload();
+    });
+  
+   
+    }
+}
 }
