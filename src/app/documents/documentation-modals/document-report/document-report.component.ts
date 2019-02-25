@@ -24,6 +24,7 @@ export class DocumentReportComponent implements OnInit {
   currentdate = new Date;
   nextMthDate = null;
   curr = null;
+  selectedVehicle=null;
 
 
   constructor(public api: ApiService,
@@ -120,7 +121,8 @@ export class DocumentReportComponent implements OnInit {
     console.log("edit model open  data", doc);
     let documentData = [{
       regNumber: doc.regno,
-      id: doc.document_id,
+      id:doc.id,
+      docId: doc.document_id,
       vehicleId: doc.vehicle_id,
       documentType: doc.document_type,
       documentId: doc.document_type_id,
@@ -135,17 +137,30 @@ export class DocumentReportComponent implements OnInit {
       rto: doc.rto,
       amount: doc.amount,
     }];
-    // /console.log("Vehicle Id", documentData[0].vehicleId);
-        // console.log("document data",documentData);
+    this.selectedVehicle=documentData[0].vehicleId;
+      //  console.log("doc id",documentData[0].id);
     this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        // this.closeModal(true);
-        this.getReport();
+        //  this.closeModal(true);
+        this.documentUpdate();
       }
     });
   }
+  documentUpdate() {
+    this.common.loading++;
+    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
+      .subscribe(res => {
+        this.common.loading--;
+        this.reportResult = res['data'];
+        this.totalReport();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
 
 
 }

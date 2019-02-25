@@ -57,6 +57,7 @@ export class EditDocumentComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
     this.document.docId = this.document[0].id;
+    console.log("doc Id:",this.document.docId);
     this.document.regNumber = this.document[0].regNumber;
     this.document.documentId = this.document[0].documentId;
     this.document.documentType = this.document[0].documentType;
@@ -218,6 +219,7 @@ export class EditDocumentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
+        alert(res['msg']);
         this.closeModal(true);
       }, err => {
         this.common.loading--;
