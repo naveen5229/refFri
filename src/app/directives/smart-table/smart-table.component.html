@@ -27,10 +27,12 @@
     </thead>
     <tbody>
 
-      <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && column.rowActions.click()">
+      <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && handleRowClick(column, i)"
+        (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()" [ngClass]="activeRow == i ? 'active-row' : ''">
         <td style="width: 40px">{{i+1}}</td>
         <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
           (click)="column[heading].action && column[heading].action()"
+          (dblclick)="handleColDoubleClick(column, heading)"
           [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
           <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
             [innerHTML]="column[heading].value"></div>

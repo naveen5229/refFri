@@ -102,16 +102,18 @@ export class ConciseComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.kpis.map(kpi => {
+    this.kpis.map((kpi, i) => {
       columns.push({
-        vechile: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
-        status: { value: kpi.showprim_status, action: this.showDetails.bind(this, kpi) },
-        hrs: { value: kpi.x_hrssince, action: this.showDetails.bind(this, kpi), class: kpi.x_hrssince >= 24 ? 'red' : '' },
-        trip: { value: this.getTripStatusHTML(kpi), action: this.showDetails.bind(this, kpi), isHTML: true },
-        kmp: { value: kpi.x_kmph, action: this.showDetails.bind(this, kpi), class: kpi.x_kmph < 20 ? 'pink' : '' },
+        vechile: { value: kpi.x_showveh, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        status: { value: kpi.showprim_status, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        hrs: { value: kpi.x_hrssince, action: '', class: kpi.x_hrssince >= 24 ? 'red' : '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        kmp: { value: kpi.x_kmph, action: '', class: kpi.x_kmph < 20 ? 'pink' : '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
         report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
-
+        rowActions: {
+          click: 'selectRow'
+        }
       });
     });
     return columns;
