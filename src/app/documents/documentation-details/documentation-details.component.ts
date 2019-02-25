@@ -150,6 +150,10 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   addDocument() {
+    if(!this.selectedVehicle){
+      this.common.showError("Please select Vehicle Number");
+    return false;
+    }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

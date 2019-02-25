@@ -29,11 +29,15 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
-
+  refresh() {
+    console.log('Refresh');
+    window.location.reload();
+  }
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle;
@@ -59,8 +63,9 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
   }
 
   addDocument() {
-    if(!this.selectedVehicle){
+    if (!this.selectedVehicle) {
       this.common.showError("Please select Vehicle Number");
+      // return false;
     }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle.id };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
