@@ -4,7 +4,7 @@ import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } fro
 @Component({
   selector: 'smart-table',
   templateUrl: './smart-table.component.html',
-  styleUrls: ['./smart-table.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./smart-table.component.scss', '../../pages/pages.component.css']
 })
 export class SmartTableComponent implements OnInit {
   @Input() data: any;
@@ -13,6 +13,7 @@ export class SmartTableComponent implements OnInit {
   headings = null;
   columns = [];
   sortType = '';
+  activeRow = -1;
 
   constructor(private cdr: ChangeDetectorRef, ) { }
 
@@ -77,6 +78,22 @@ export class SmartTableComponent implements OnInit {
 
     if (sortType == 'desc' || this.sortType == 'desc') this.columns.reverse();
     this.sortType = this.sortType == 'desc' ? 'asc' : 'desc';
+  }
+
+  handleRowClick(column, index) {
+    if (column.rowActions.click == 'selectRow') {
+      this.activeRow = index;
+    } else {
+      column.rowActions.click()
+    }
+  }
+
+
+  handleColDoubleClick(column, heading) {
+    console.log('Column :', column);
+    if (column[heading].colActions && column[heading].colActions.dblclick) {
+      column[heading].colActions.dblclick()
+    }
   }
 
 }
