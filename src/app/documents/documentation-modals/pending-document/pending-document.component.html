@@ -79,7 +79,7 @@
         </div>        
         <div class="form-field clear">
             <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
-            <div class="col-sm-8 read-lbl">{{document.remarks}}</div>
+            <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{document.remarks}}</div>
             <textarea *ngIf="canUpdate" id="remarks" name="remarks" rows="1" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks"  [readonly]="!canUpdate" ></textarea>
         </div>
       </div>
