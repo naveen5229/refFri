@@ -8,6 +8,7 @@ import { ImageViewComponent } from '../../../modals/image-view/image-view.compon
 import { EditDocumentComponent } from '../../documentation-modals/edit-document/edit-document.component';
 import { normalize } from 'path';
 import { from } from 'rxjs';
+import { NgIf } from '@angular/common';
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
@@ -143,8 +144,9 @@ export class DocumentReportComponent implements OnInit {
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        //  this.closeModal(true);
+        this.closeModal(true);
         this.documentUpdate();
+        // this.getReport();
       }
     });
   }
@@ -154,7 +156,10 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-        this.totalReport();
+       
+          // this.totalReport();
+    
+        
       }, err => {
         this.common.loading--;
         console.log(err);
