@@ -43,8 +43,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/vehicle-trip',
   },
   {
+    title: 'Tyre',
+    icon: ' fa-tire-flat',
+    link:'/tyres/inventory'
+  },
+  {
     title: 'Documentation',
     icon: 'fa fa-database',
-    link:'/documents//documents-summary'
+    link:'/documents/documents-summary'
+  },
+  {
+    title: 'Account',
+    icon: 'fa fa-money',
+    link:'/accounts/dashboard'
   }
 ];
