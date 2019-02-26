@@ -227,3 +227,13 @@
 </div>
 </nb-card-body>
 </nb-card>
+
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>

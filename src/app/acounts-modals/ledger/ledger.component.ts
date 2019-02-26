@@ -9,6 +9,7 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./ledger.component.scss']
 })
 export class LedgerComponent implements OnInit {
+  showConfirm = false;
   Accounts = {
     name: '',
     aliasname: '',
@@ -76,7 +77,7 @@ export class LedgerComponent implements OnInit {
       console.log('Accounts: ', this.Accounts);
     }
     
-    this.common.handleModalSize('class', 'modal-lg', '950');
+    this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
   
@@ -99,8 +100,10 @@ export class LedgerComponent implements OnInit {
   ngOnInit() {
   }
   dismiss(response) {
-    console.log('Accounts:', this.Accounts);
+   console.log('Accounts:', this.Accounts);
+   // console.log('Accounts:', response);
     this.activeModal.close({ response: response, ledger: this.Accounts });
+   // this.activeModal.close({ ledger: this.Accounts });
   }
 
   onSelected(selectedData, type, display) {
@@ -119,6 +122,18 @@ export class LedgerComponent implements OnInit {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
    // console.log('event',event);
+
+   if (this.showConfirm) {
+    if (key == 'y' || key == 'enter') {
+      console.log('Accounts show confirm:', this.Accounts);
+     this.dismiss(true);
+      this.common.showToast('Your Value Has been saved!');
+    }
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+  }
+
     if (key == 'enter') {
 
       console.log('active',activeId);
@@ -163,6 +178,7 @@ export class LedgerComponent implements OnInit {
       let index = activeId.split('-')[1]; 
       console.log(index);
      // this.setFoucus('mobileno-'+index);
+     this.showConfirm = true;
     }
     } else if (key == 'backspace') {
 
