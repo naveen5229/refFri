@@ -39,8 +39,8 @@ export class InputsComponent implements OnInit {
   axels = [];
   position = null;
   details: null;
-
-  date1 = this.common.dateFormatter(new Date());
+ date1 = null;
+//  date1 = this.common.dateFormatter(new Date());
 
   constructor(private modalService: NgbModal,
     public common: CommonService,

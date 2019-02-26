@@ -133,6 +133,7 @@ export class InventoryComponent implements OnInit {
   }
 
   saveDetails() {
+   
     this.common.loading++;
     let params = { inventories: JSON.stringify(this.inventories) };//JSON.stringify(this.inventories) ;
     console.log('Params:', params);

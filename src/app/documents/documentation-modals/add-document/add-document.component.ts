@@ -97,18 +97,19 @@ export class AddDocumentComponent implements OnInit {
       .then(res => {
         this.common.loading--;
         let file = event.target.files[0];
-        console.log("Type",file.type);
-        if(file.type == "image/jpeg"||file.type=="image/jpg"||
-        file.type=="image/png"||file.type=="application/pdf"||
-        file.type=="application/msword"||file.type=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"||
-        file.type=="application/vnd.ms-excel"||file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
-          alert("sucess");
+        console.log("Type", file.type);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png" || file.type == "application/pdf" ||
+          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          this.common.showError("SuccessFull File Selected");
         }
         else {
-           alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
-           return false;
+          //  alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          return false;
         }
-        
+
         console.log('Base 64: ', res);
         this.document.base64Image = res;
       }, err => {
@@ -231,8 +232,17 @@ export class AddDocumentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
-        alert(res["msg"]);
-        this.closeModal(true);
+        let result=res["msg"];
+        
+        if (result=="success") {
+          this.common.showError("Success");
+          this.closeModal(true);
+        }
+        else{
+          alert(result);
+          
+        }
+        
       }, err => {
         this.common.loading--;
         console.log(err);
