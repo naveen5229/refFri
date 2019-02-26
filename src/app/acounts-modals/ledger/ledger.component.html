@@ -22,7 +22,7 @@
             <label>Code</label>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" name="account-name" id="code" [(ngModel)]="Accounts.code">
+            <input type="text" class="form-control" name="account-code" id="code" [(ngModel)]="Accounts.code">
         </div>
       </div>
   </div>
@@ -38,7 +38,7 @@
           <label>Alias Name</label>
       </div>
       <div class="col-md-4">
-          <input type="text" class="form-control" name="account-name" id="aliasname" [(ngModel)]="Accounts.aliasname">
+          <input type="text" class="form-control" name="account-aliasname" id="aliasname" [(ngModel)]="Accounts.aliasname">
       </div>
       </div>
   </div>
@@ -76,36 +76,36 @@
 </tr>
 <tr *ngFor="let Details of Accounts.accDetails; let i = index;" style="background: #e8f0f3;">
   <td>
-      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.name">    
+      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.name"  [id]="'accountName-' + i">    
   </td>
   <td> 
-    <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation" display="name" placeholder="Enter Salutation" [preSelected]="null">
+    <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation" display="name" [displayId]="'salution-' + i" placeholder="Enter Salutation" [preSelected]="null">
   </auto-suggestion>
   </td>
   <td>
-      <input type="number" class="form-control" name="account-mobileno" [(ngModel)]="Details.mobileNo">    
+      <input type="number" class="form-control" name="account-mobileno"  [id]="'mobileno-' + i" [(ngModel)]="Details.mobileNo">    
   </td>
   <td>
-      <input type="email" class="form-control" name="account-email" [(ngModel)]="Details.email">  
+      <input type="email" class="form-control" name="account-email"   [id]="'email-' + i" [(ngModel)]="Details.email">  
   </td>
   <td>
-      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.panNo">    
+      <input type="text" class="form-control" name="account-name"  [id]="'panNo-' + i" [(ngModel)]="Details.panNo">    
   </td>
   <td>
-      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.tanNo">    
+      <input type="text" class="form-control" name="account-name"  [id]="'tanNo-' + i" [(ngModel)]="Details.tanNo">    
   </td>
   <td>
-      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.gstNo">    
+      <input type="text" class="form-control" name="account-name"  [id]="'gstNo-' + i" [(ngModel)]="Details.gstNo">    
   </td>
   <td>
-      <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name" placeholder="Enter City" [preSelected]="null">
+      <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name" [displayId]="'city-' + i" placeholder="Enter City" [preSelected]="null">
     </auto-suggestion>
   </td>
   <td>
-      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.address">
+      <input type="text" class="form-control" name="account-name"  [id]="'address-' + i" [(ngModel)]="Details.address">
   </td>
   <td> 
-      <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.remarks">
+      <input type="text" class="form-control" name="account-name"  [id]="'remarks-' + i" [(ngModel)]="Details.remarks">
   </td>
   <td *ngIf="i == 0">
       <button (click)="addDetails()" class="plustransparent"><i class="fa fa-plus text-primary" style="font-size: 40px;"></i></button>
