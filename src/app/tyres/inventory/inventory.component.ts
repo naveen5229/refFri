@@ -113,6 +113,7 @@ export class InventoryComponent implements OnInit {
         alerts = true;
         break;
       }
+     
     }
     if (alerts == true) {
       alert("NSD-1 , NSD-2 , NSD-3 , PSI fields are mandatory is  Is_Health is Checked");

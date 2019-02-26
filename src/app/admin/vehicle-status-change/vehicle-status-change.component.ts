@@ -49,11 +49,11 @@ export class VehicleStatusChangeComponent implements OnInit {
         console.log(res);
         let data = [];
         res['data'].map((pendingAlert, index) => {
-          data.push([index, pendingAlert.name, pendingAlert.cnt, pendingAlert.actct, pendingAlert.wuct, this.common.changeDateformat(pendingAlert.time)]);
+          data.push([index, pendingAlert.alertname, pendingAlert.cnt, pendingAlert.actct, pendingAlert.wuct, this.common.changeDateformat(pendingAlert.time)]);
         });
         console.log(data);
         this.common.params = { title: 'Pending Alert Details:', headings: ["#", "Activity Name", "Count", "Since Updated (In Minutes)", "Working User (In Last 10 Minutes)", "Clear Tickets (In Last 10 Minutes)"], data };
-        this.modalService.open(ViewListComponent, { size: 'md', container: 'nb-layout' });
+        this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
       }, err => {
         this.common.loading--;
         console.log(err);
