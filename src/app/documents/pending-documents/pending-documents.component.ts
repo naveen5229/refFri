@@ -63,9 +63,27 @@ export class PendingDocumentsComponent implements OnInit {
       this.common.params = {rowData, title: 'Update Document', canUpdate: 1};
       this.common.handleModalSize('class', 'modal-lg', '1200');
       const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
+      activeModal.result.then(mdldata => {
         console.log("response:");
-        console.log(data);
+        console.log(mdldata);
       });
-    } 
+    }
+    
+    deleteDocument(row) {
+      let ret = confirm("Are you sure you want to delete this Document?");
+      if(ret) {
+        console.log("Deleting document with id:" + row.id);
+        this.common.loading++;
+        this.api.post('Vehicles/deleteDocumentById', {x_document_id: row.id})
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("data", res);
+          window.location.reload();          
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+          window.location.reload();
+        });        
+      }
+    }
 }

@@ -3,36 +3,41 @@
     font-size: 11px;
     font-weight: 500;
 }
+
 .data {
     font-size: 10px;
     border-bottom: 1px solid #e2e2e2;
     min-height: 20%;
-    
 }
+
 .data ion-col,
 .headings ion-col {
     padding: 3px;
     border-left: 1px solid #f2f2f2;
 }
+
 :host ::ng-deep.blue {
     color: blue;
     font-weight: 700;
 }
+
 :host ::ng-deep.black {
-    color: black;
-    // display: none;
+    color: black; // display: none;
 }
+
 :host ::ng-deep.red {
     background: red;
     color: #fff;
 }
+
 :host ::ng-deep.pink {
     background: pink;
     color: black;
 }
-:host ::ng-deep.green{
+
+:host ::ng-deep.green {
     background: #96ec11;
-    color:black;
+    color: black;
 }
 
 .loc-icon {
@@ -46,22 +51,27 @@
     border-radius: 50%;
     padding: 3px 4px;
 }
+
 .route-arrow {
     font-size: 20px;
     vertical-align: middle;
     margin: 0px 5px;
 }
+
 :host ::ng-deep .complete {
     vertical-align: middle;
     color: green;
 }
+
 .exit {
     vertical-align: middle;
     margin-right: 3px;
 }
-.loaded{
+
+.loaded {
     font-weight: bold;
 }
+
 .search-box {
     background: #fff;
     font-size: 13px;
@@ -74,7 +84,15 @@
     letter-spacing: .3px;
     color: #000;
 }
-table{
-    cursor:pointer;
-    // background: aliceblue;
+
+table {
+    cursor: pointer; // background: aliceblue;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
 }

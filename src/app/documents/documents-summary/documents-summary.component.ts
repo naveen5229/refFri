@@ -24,7 +24,6 @@ export class DocumentsSummaryComponent implements OnInit {
 
     this.common.refresh = this.refresh.bind(this);
     this.getDocumentMatrixData();
-    this.common.refresh = this.refresh.bind(this);
 
   }
 

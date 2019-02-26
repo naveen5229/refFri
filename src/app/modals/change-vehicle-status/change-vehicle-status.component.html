@@ -1,72 +1,115 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Change Vehicle Status</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="col-sm-3"></div>
-    <div style="margin-bottom:20px"><button (click)="showHalt()" style="margin-left:50px">Show Halt</button>
-      <button (click)="showTrail()" style="margin-left:50px">Show Trail</button></div>
-      
-      <div class="col-sm-3">
-          <div style="height: 560px; overflow: auto; width: 100%;">
-          <table class="table table-bordered table-hover">
-              <tbody>
-               <tr>
-                 <th>#</th>
-                 <th>Date</th>
-                 <th>Location</th>
-                 <th>Dist</th>
-                 <th>Halt Type</th>
-               </tr>
-               <tr>
-                  <td>#</td>
-                  <td>Date</td>
-                  <td>Time</td>
-                  <td>Dist</td>
-                  <td>L</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-      </div>
-          <div class="col-sm-4">
-        <div style="height: 560px; overflow: auto; width: 100%;" >
-              <table class="table table-bordered table-hover" style = "border:1px gray solid">
-                  <tbody>
-                   <tr>
-                     <th>#</th>
-                     <th>Date</th>
-                     <th>Time</th>
-                     <th>Dist</th>
-                     <th>KM/h</th>
-                     <th>CS</th>
-                     <th>CHT</th>
-                   </tr>
-                   <tr *ngFor="let vehicleEvent of vehicleEvents;let i = index; " [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}">
-                      <td (click)="markerZoomMF(i)">{{i+1}}</td>
-                      <td (click)="markerZoomMF(i)">{{vehicleEvent.date}}</td>
-                      <td (click)="markerZoomMF(i)">{{vehicleEvent.timeShort}}</td>
-                      <td (click)="markerZoomMF(i)">{{vehicleEvent.distance}}</td>
-                      <td (click)="markerZoomMF(i)">{{vehicleEvent.kmph}}</td>
-                      <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')" *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_type_id" >Create</button></td>
-                      <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"  *ngIf="vehicleEvent.desc!='Trails'">Change</button></td>
-                    </tr>
-                  </tbody>
-                </table>
-                </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center" ><button (click)="reviewComplete()" style="padding:5px">Review Done</button></div>
+  <h4 class="modal-title" id="modal-basic-title">Change Vehicle Status</h4>
+  <div style="margin-left:15%">
+    <span><b>VehicleNo : </b> {{VehicleStatusData.regno}}</span> &nbsp;&nbsp;
+    <span><b>VehicleId : </b> {{VehicleStatusData.vehicle_id}}</span> &nbsp;&nbsp;
+    <span><b>Last Ind Type : </b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp; {{timeDiff}}</span>
 
-          </div>
-    <div class="map-container col-sm-5">
-      <div #map id="map" style="margin-left:10px"> </div>
-      <div class="zoom-container">
-        <span class="zoom-btn" (click)="setZoom(6)">1</span>
-        <span class="zoom-btn" (click)="setZoom(9)">2</span>
-        <span class="zoom-btn" (click)="setZoom(12)">3</span>
-        <span class="zoom-btn" (click)="setZoom(15)">4</span>
-        <span class="zoom-btn" (click)="setZoom(18)">5</span>
-      </div>
+  </div>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+<div class="modal-body">
+  <div class="col-sm-3"></div>
+  <div style="margin-bottom:20px">
+    <button (click)="showHalt()" style="margin-left:10px">Show Halt</button>
+    <button (click)="showTrail()" style="margin-left:10px">Show Trail</button>
+    <!-- <button (click)="showHide()" style="margin-left:10px">{{showHideSite}}</button> -->
+    <button (click)="beforeLatchTime()" style="margin-left:10px">Before ltime</button>
+    <input type="text" style="cursor: pointer;margin-left:10px;" autocomplete="off" (click)="getDate('date')"
+      placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date" readonly>
+    <!-- <span style="margin-left:150px">
+      <span class="zoom-btn" (click)="setZoom(6)">1</span>
+      <span class="zoom-btn" (click)="setZoom(9)">2</span>
+      <span class="zoom-btn" (click)="setZoom(12)">3</span>
+      <span class="zoom-btn" (click)="setZoom(15)">4</span>
+      <span class="zoom-btn" (click)="setZoom(18)">5</span>
+    </span> -->
+  </div>
+
+
+  <div class="col-sm-3">
+    <div style="height: 480px; overflow: auto; width: 100%;">
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr>
+            <th>Dt</th>
+            <th>Loc</th>
+            <th>Dist</th>
+            <th>Days</th>
+            <th>HT</th>
+          </tr>
+          <tr *ngFor="let lUL of loadingUnLoading;let i = index; ">
+            <td>{{lUL.date}}</td>
+            <td>{{lUL.loc}}</td>
+            <td>{{lUL.distance}}</td>
+            <td>{{lUL.days}}</td>
+            <td>{{lUL.y_halt_desc}}</td>
+
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+  <div class="col-sm-3">
+    <!-- <accordion>
+                  <group title="First Group">this is the content</group>
+                </accordion> -->
+    <div style="height: 480px; overflow: auto; width: 100%;">
+      <table class="table table-bordered table-hover" style="border:1px gray solid">
+        <thead>
+          <th>#</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Dist</th>
+          <th>KM/h</th>
+          <th>CS</th>
+          <th>CHT</th>
+        </thead>
+        <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
+          <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
+            (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
+            [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}"
+            (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
+            <td (click)="openSmartTool(i,vehicleEvent);">{{i+1}}</td>
+            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
+            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
+            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
+            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
+            <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
+                *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i class="fa fa-plus"></i></button></td>
+            <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
+                *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button></td>
+          </tr>
+          <tr *ngIf="vehicleEvent.isOpen">
+            <td colspan="7">
+              <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
+                  <span class="zoom-btn" (click)="setZoom(6)">1</span>
+                  <span class="zoom-btn" (click)="setZoom(9)">2</span>
+                  <span class="zoom-btn" (click)="setZoom(12)">3</span>
+                  <span class="zoom-btn" (click)="setZoom(15)">4</span>
+                  <span class="zoom-btn" (click)="setZoom(18)">5</span>
+                  <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
+                </span></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center">
+      <button (click)="reviewComplete(1)" style="padding:5px">Review Done</button>
+      <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced Review</button></div>
+
+  </div>
+  <div class="map-container col-sm-6">
+
+    <div #map id="map" style="margin-left:10px"> </div>
+
+  </div>
+  <!-- <accordion>
+      <title>test</title>
+      <details>test1</details>
+    </accordion> -->
+</div>

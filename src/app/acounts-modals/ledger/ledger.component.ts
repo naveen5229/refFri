@@ -36,6 +36,9 @@ export class LedgerComponent implements OnInit {
       name:''
     }]
   };
+
+  
+  allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -111,4 +114,118 @@ export class LedgerComponent implements OnInit {
     this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
     console.log('Accounts Parent: ', this.Accounts);
   }
+
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    const activeId = document.activeElement.id;
+   // console.log('event',event);
+    if (key == 'enter') {
+
+      console.log('active',activeId);
+      if (activeId.includes('user')) {
+        this.setFoucus('code');
+      } else if (activeId.includes('code')) {
+        this.setFoucus('name');
+      }else if (activeId.includes('name')) {
+        this.setFoucus('aliasname');
+      }else if (activeId.includes('aliasname')) { this.setFoucus('undergroup'); }
+     else if (activeId.includes('undergroup')) { this.setFoucus('perrate'); }
+     else if (activeId.includes('perrate')){ 
+      this.setFoucus('accountName-0');
+     } else if (activeId.includes('accountName-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('salution-'+index);
+    } else if (activeId.includes('salution-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('mobileno-'+index);
+    }else if (activeId.includes('mobileno-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('email-'+index);
+    }else if (activeId.includes('email-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('panNo-'+index);
+    }else if (activeId.includes('panNo-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('tanNo-'+index);
+    }else if (activeId.includes('tanNo-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('gstNo-'+index);
+    }else if (activeId.includes('gstNo-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('city-'+index);
+    }else if (activeId.includes('city-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('address-'+index);
+    }else  if (activeId.includes('address-')){  
+      let index = activeId.split('-')[1]; 
+      this.setFoucus('remarks-'+index);
+    }else if (activeId.includes('remarks-')){  
+      let index = activeId.split('-')[1]; 
+      console.log(index);
+     // this.setFoucus('mobileno-'+index);
+    }
+    } else if (key == 'backspace') {
+
+      if (activeId.includes('accountName-')){  
+        let index = parseInt(activeId.split('-')[1]);
+        if(index != 0){ 
+        this.setFoucus('remarks-'+ (index-1) );
+        }else{
+          this.setFoucus('perrate');
+        }
+      }else if (activeId.includes('salution-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('accountName-'+index);
+      } else if (activeId.includes('mobileno-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('salution-'+index);
+      }else if (activeId.includes('email-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('mobileno-'+index);
+      }else if (activeId.includes('panNo-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('email-'+index);
+      }else if (activeId.includes('tanNo-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('panNo-'+index);
+      }else if (activeId.includes('gstNo-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('tanNo-'+index);
+      }else if (activeId.includes('city-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('gstNo-'+index);
+      }else  if (activeId.includes('address-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('city-'+index);
+      }else  if (activeId.includes('remarks-')){  
+        let index = activeId.split('-')[1]; 
+        this.setFoucus('address-'+index);
+      }
+      
+      if (activeId == 'perrate') this.setFoucus('undergroup');
+      if (activeId == 'undergroup') this.setFoucus('aliasname');
+      if (activeId == 'aliasname') this.setFoucus('name');
+      if (activeId == 'name') this.setFoucus('code');
+      if (activeId == 'code') this.setFoucus('user');
+    }
+
+    else if (key != 'backspace') {
+       this.allowBackspace = false;
+       //event.preventDefault();
+      }
+    else if (key.includes('arrow')) {
+        this.allowBackspace = false;
+        }
+}
+
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
+
 }

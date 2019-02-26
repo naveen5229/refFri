@@ -26,9 +26,9 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-1">
-        <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button>
-      </div>
+      <!-- <div class="col-sm-1">
+        <button class="btn btn-primary" type="button" outline (click)="searchData()" id="serarchData" style="cursor: pointer;">Search</button>
+      </div> -->
     </div>
     <div style="margin-top:20px">
       <!-- <table class="table table-bordered table-hover" *ngIf="tyres">
@@ -75,11 +75,11 @@
             <div class="vehicle-container" *ngFor="let tyre of axel.data">
                   <label class="tyres" *ngIf="tyre.pos=='L1' || tyre.pos=='L2'">
                       <b style="margin-right:25px">{{tyre.tyrenum}}</b>
-                      <img [class]="tyre.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
-                      <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
-                      <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
-                      <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
-                      <input class = "health-values" type="text" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                      <img [class]="tyre.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
                     </label>
 
             </div>
@@ -88,11 +88,11 @@
             <div class="vehicle-container" *ngFor="let tyre of axel.data">
                 <label class="tyres" *ngIf="tyre.pos=='R1' || tyre.pos=='R2'">
                     <b style="margin-right:25px">{{tyre.tyrenum}}</b>
-                  <img [class]="tyre.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
-                  <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
-                  <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
-                  <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
-                  <input class = "health-values" type="text" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                  <img [class]="tyre.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
                 </label>
             </div>
           </td>
@@ -101,11 +101,11 @@
               <div class="vehicle-container" *ngFor="let tyre of axel.data">
                 <label class="tyres">
                     <b style="margin-right:25px">{{tyre.tyrenum}}</b>
-                    <img [class]="tyre.mapped!='1'?'':'seclected'" src="../../../assets/images/tyre1.jpg">
-                    <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
-                    <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
-                    <input class = "health-values" type="text" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
-                    <input class = "health-values" type="text" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                    <img [class]="tyre.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
                   </label>
             </div>
           </td>

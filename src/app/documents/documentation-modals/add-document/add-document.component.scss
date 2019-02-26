@@ -11,8 +11,12 @@ label{
 
 }
 select{
-    padding-top:1%;
+    height: 40px !important;
 
+}
+.modal-body{
+    padding-top: 0px;
+    
 }
 .agent{
     width: 90%;
@@ -32,4 +36,15 @@ auto-suggestion{
 .calender{
     font-size: 25px !important;
     margin-left: -3% !important;
+}
+textarea{
+    height: 40px;
+}
+.error{
+    padding-left: 79%;
+    font-size: 14px;
+    margin-top: -6%;
+}
+input[type="date"].form-control{
+    line-height: 12px !important;
 }
