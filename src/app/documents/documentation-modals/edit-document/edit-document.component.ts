@@ -21,6 +21,9 @@ export class EditDocumentComponent implements OnInit {
   docTypes = [];
   docType = null;
   vehicleId = null;
+  images = [];
+  doc_not_img = 0;
+
   document = {
     docId: null,
     regno: null,
@@ -34,7 +37,7 @@ export class EditDocumentComponent implements OnInit {
     agentName: null,
     documentNumber: null,
     docUpload: null,
-    newDocUpload: '',
+    newDocUpload: null,
     remark: null,
     rto: null,
     amount: null,
@@ -66,12 +69,12 @@ export class EditDocumentComponent implements OnInit {
     this.document.expiryDate = this.document[0].expiryDate;
     this.document.agentId = this.document[0].agentId;
     this.document.documentNumber = this.document[0].documentNumber;
-    // this.document.docUpload =this.document[0].docUpload;
+    this.document.docUpload =this.document[0].docUpload;
     this.document.rto = this.document[0].rto;
     this.document.remark = this.document[0].remark;
     this.document.amount = this.document[0].amount;
     this.getDocumentsData();
-
+    this.common.handleModalSize('class', 'modal-lg', '1200');
     if (this.document.issueDate) {
       this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMYYYY').split(' ')[0];
     }
@@ -98,6 +101,14 @@ export class EditDocumentComponent implements OnInit {
         console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
+        console.log("img_url:" + this.document.docUpload);
+        if (this.document.docUpload) {
+          if ((this.document.docUpload.indexOf('.pdf') > -1) || (this.document.docUpload.indexOf('.doc') > -1) || (this.document.docUpload.indexOf('.docx') > -1) || (this.document.docUpload.indexOf('.xls') > -1) || (this.document.docUpload.indexOf('.xlsx') > -1) || (this.document.docUpload.indexOf('.csv') > -1)) {
+            this.doc_not_img = 1;
+          }
+          this.images.push({ name: "doc-img", image: this.document.docUpload });
+          this.common.params = { title: "Doc Image", images: this.images };
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -149,7 +160,7 @@ export class EditDocumentComponent implements OnInit {
       x_expiry_date: this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
       x_document_number: this.document.documentNumber,
-      x_base64img: this.document.docUpload,
+      x_base64img: this.document.newDocUpload,
       x_rto: this.document.rto,
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
@@ -285,14 +296,14 @@ export class EditDocumentComponent implements OnInit {
         file.type=="image/png"||file.type=="application/pdf"||
         file.type=="application/msword"||file.type=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"||
         file.type=="application/vnd.ms-excel"||file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
-          alert("sucess");
+          
         }
         else {
            alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
            return false;
         }
         console.log('Base 64: ', res);
-        this.document.docUpload = res;
+        this.document.newDocUpload = res;
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);

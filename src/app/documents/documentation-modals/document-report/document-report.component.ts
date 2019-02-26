@@ -25,7 +25,7 @@ export class DocumentReportComponent implements OnInit {
   currentdate = new Date;
   nextMthDate = null;
   curr = null;
-  selectedVehicle=null;
+  selectedVehicle = null;
 
 
   constructor(public api: ApiService,
@@ -39,7 +39,7 @@ export class DocumentReportComponent implements OnInit {
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
 
-   this.totalReport();
+    this.totalReport();
 
 
   }
@@ -54,10 +54,10 @@ export class DocumentReportComponent implements OnInit {
 
   getReport() {
     let params = {
-      id:this.common.params.docReoprt.id,
+      id: this.common.params.docReoprt.id,
       status: this.reportData.status
     };
-  
+
     console.log("id", params.id);
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
@@ -117,12 +117,12 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
-  
+
   editData(doc) {
     console.log("edit model open  data", doc);
     let documentData = [{
       regNumber: doc.regno,
-      id:doc.id,
+      id: doc.id,
       docId: doc.document_id,
       vehicleId: doc.vehicle_id,
       documentType: doc.document_type,
@@ -138,10 +138,11 @@ export class DocumentReportComponent implements OnInit {
       rto: doc.rto,
       amount: doc.amount,
     }];
-    this.selectedVehicle=documentData[0].vehicleId;
-      //  console.log("doc id",documentData[0].id);
+    this.selectedVehicle = documentData[0].vehicleId;
+    console.log("id",documentData[0].id);
+    // this.common.handleModalSize('class', 'modal-lg', '1024');
     this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
-    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.closeModal(true);
@@ -156,10 +157,10 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-       
-          // this.totalReport();
-    
-        
+
+        // this.totalReport();
+
+
       }, err => {
         this.common.loading--;
         console.log(err);

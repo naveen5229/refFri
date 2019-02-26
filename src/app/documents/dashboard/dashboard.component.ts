@@ -113,6 +113,7 @@ export class DashboardComponent implements OnInit {
 
 
   totalData(status) {
+    // this.common.handleModalSize('class', 'modal-lg', '1200');
     this.common.params = { status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
