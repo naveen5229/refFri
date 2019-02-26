@@ -79,9 +79,9 @@ export class BranchComponent implements OnInit {
 
   ngOnInit() {
   }
-  dismiss() {
+  dismiss(response) {
     console.log('Accounts:', this.Branches);
-    this.activeModal.close({ response: true, ledger: this.Branches });
+    this.activeModal.close({ response: response, ledger: this.Branches });
   }
 
   onSelected(selectedData, type, display) {
@@ -98,7 +98,7 @@ export class BranchComponent implements OnInit {
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         console.log('Accounts show confirm:', this.Branches);
-       this.dismiss();
+       this.dismiss(true);
         this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;

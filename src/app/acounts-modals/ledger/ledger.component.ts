@@ -99,10 +99,10 @@ export class LedgerComponent implements OnInit {
 
   ngOnInit() {
   }
-  dismiss() {
+  dismiss(response) {
    console.log('Accounts:', this.Accounts);
    // console.log('Accounts:', response);
-    this.activeModal.close({ response: true, ledger: this.Accounts });
+    this.activeModal.close({ response: response, ledger: this.Accounts });
    // this.activeModal.close({ ledger: this.Accounts });
   }
 
@@ -126,7 +126,7 @@ export class LedgerComponent implements OnInit {
    if (this.showConfirm) {
     if (key == 'y' || key == 'enter') {
       console.log('Accounts show confirm:', this.Accounts);
-     this.dismiss();
+     this.dismiss(true);
       this.common.showToast('Your Value Has been saved!');
     }
     this.showConfirm = false;
