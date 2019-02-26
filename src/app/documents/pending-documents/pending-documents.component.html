@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card style="margin-left: 30px;">
   <nb-card-header>
     <h2>Pending Vehicle Documents</h2>
     <hr>
@@ -26,7 +26,10 @@
                       <td class="col-sm-2" style="width: 17%;">{{row.vehicle_id}}</td>
                       <td class="col-sm-2" style="width: 17%;">{{row.addtime | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
                       <td class="col-sm-2" style="width: 17%;">{{row.name}}</td>
-                      <td class="col-sm-4"  style="width: 17%;" (click)="showDetails(row)"><a href="javascript: void(0);"><i class="icon ion-md-create"></i></a></td>
+                      <td class="col-sm-4"  style="width: 17%;">
+                        <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i class="icon ion-md-create"></i></a>&nbsp;
+                        <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                   </ng-container>
               </tbody>

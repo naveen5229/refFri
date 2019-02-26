@@ -5,6 +5,8 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
+import { from } from 'rxjs';
 @Component({
   selector: 'crm-vehicle-documentions',
   templateUrl: './crm-vehicle-documentions.component.html',
@@ -27,11 +29,15 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
-
+  refresh() {
+    console.log('Refresh');
+    window.location.reload();
+  }
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle;
@@ -55,6 +61,22 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
       });
 
   }
+
+  addDocument() {
+    if (!this.selectedVehicle) {
+      this.common.showError("Please select Vehicle Number");
+      // return false;
+    }
+    this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle.id };
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("result");
+        this.getvehicleData(this.selectedVehicle);
+      }
+    });
+  }
+
   doucumentFilter(data) {
     let id = this.data[0].vehicle_id;
     console.log("id", id);

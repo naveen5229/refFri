@@ -39,8 +39,8 @@ export class InputsComponent implements OnInit {
   axels = [];
   position = null;
   details: null;
-
-  date1 = this.common.dateFormatter(new Date());
+ date1 = null;
+//  date1 = this.common.dateFormatter(new Date());
 
   constructor(private modalService: NgbModal,
     public common: CommonService,
@@ -131,7 +131,8 @@ export class InputsComponent implements OnInit {
 
     }
     let params = 'vehicleId=' + this.vehicleId +
-      '&refMode=' + this.refMode;
+      '&refMode=' + this.refMode+
+      '&mapped=0';
     console.log("params ", params);
     this.api.get('Tyres/getVehicleTyrePosition?' + params)
       .subscribe(res => {
@@ -151,22 +152,41 @@ export class InputsComponent implements OnInit {
   }
 
   getTyreCurrentStatus(){
+if(!this.searchVehicleString)
+{
+  this.common.showError("Please select vehicle Number");
+  return false;
+}
+if(!this.searchTyreString || !this.tyrePosition){
+  this.common.showError("Please select Tyre Position");
+  return false;
+}
+if(!this.date1)
+{
+  this.common.showError("please fill Date");
+  return false;
+
+}
+
+    let alertMsg;
     let params = 'tyreId=' + this.tyreId;
     console.log("params ", params);
     this.api.get('Tyres/getTyreCurrentStatus?' + params)
       .subscribe(res => {
-        console.log('Res: ', res);
+        console.log('Res: ',res['data'] );
+        alertMsg = res['data'][0].rtn_msg
+        this.openConrirmationAlert(alertMsg);
+
       }, err => {
         console.error(err);
         this.common.showError();
       });
-      this.openConrirmationAlert()
   }
 
-  openConrirmationAlert(){
+  openConrirmationAlert(alertMsg){
     this.common.params = {
       title: "Current Postion Of Tyre",
-      description: "Tyre current position is :"+ ""+"Do you want to change ?"
+      description: alertMsg+" Do you want to change ?"
     }
     const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout',backdrop: 'static'});
     activeModal.result.then(data => {
@@ -179,6 +199,8 @@ export class InputsComponent implements OnInit {
   
   saveDetails() {
     let date = this.common.dateFormatter(new Date(this.date1));
+
+
     this.common.loading++;
     let params = {
       vehicleId: this.vehicleTyreDetail.vid,

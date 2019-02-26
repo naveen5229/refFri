@@ -16,19 +16,19 @@
           </div>
          
           <div class="col-md-2 offset-md-08">
-            <button type="submit" class="btn btn-primary" (click)="addDocument()" *ngIf="this.selectedVehicle">Add
-              Document</button>`
+            <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
+              Document</button>
           </div>
         </div>
       </form>
 
-      <div class="row" *ngIf="this.selectedVehicle">
-        <div class="col-md-06 offset-md-08" style="margin-top: -8%;margin-left: 83%;">
-          <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>`
+      <div class="row">
+        <div class="col-md-06" style="margin-top: -8%;margin-left: 40%;">
+          <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
         </div>
       </div>
     </div>
-
+<!-- 
     <div class="table" *ngIf="this.selectedVehicle">
       <table class="table table-bordered table-hover">
         <thead class="thead">
@@ -67,6 +67,9 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
+      <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <br>
+     
   </nb-card-body>
 </nb-card>

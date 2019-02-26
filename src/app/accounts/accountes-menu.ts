@@ -13,7 +13,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/accounts/orders'
     },
-    
+
     {
         title: 'Stock Types',
         icon: 'nb-home',
@@ -79,25 +79,34 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Reports',
         icon: 'nb-bar-chart',
         children: [
-                {
-                    title: 'Day Book',
-                    link: '/accounts/daybooks'
-                },
-                {
-                    title: 'Ledger',
-                    link: '/accounts/ledgerview'
-                },
-                {
-                    title: 'Ledger Mapping',
-                    link: '/accounts/ledgermapping'
-                },
-                {
-                    title: 'Invoice Register',
-                    link: '/accounts/invoiceregister'
-                }
-               ],
+            {
+                title: 'Day Book',
+                link: '/accounts/daybooks'
+            },
+            {
+                title: 'Ledger',
+                link: '/accounts/ledgerview'
+            },
+            {
+                title: 'Ledger Mapping',
+                link: '/accounts/ledgermapping'
+            },
+            {
+                title: 'Invoice Register',
+                link: '/accounts/invoiceregister'
+            }
+        ],
+    },
+    {
+
+        title: 'vouchers',
+        icon: 'nb-home',
+        link: '/accounts/vouchers'
+    },
+    {
+        title: 'Trip Voucher Expense',
+        icon: 'nb-home',
+        link: '/accounts/trip-voucher-expense'
     }
-
-
 
 ];

@@ -29,6 +29,7 @@
 }
 :host ::ng-deep.black {
     color: black;
+    // display: none;
 }
 .loc-icon {
     text-align: center;
@@ -73,4 +74,8 @@ table{
     cursor:pointer;
     // background: aliceblue;
 }
+nb-card{
+    padding-left: 4% !important;
+}
+
 

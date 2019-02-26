@@ -1,11 +1,18 @@
-<div class="suggestion-container">
-    <input type="text" autocomplete="off" name="suggestion-input" class="form-control" [(ngModel)]="searchText" (input)="getSuggestions()"
-        [ngClass]="className || 'custom-input-1'" [placeholder]="placeholder || 'Enter search text'" [id]="displayId || 'suggestion-id'" required>
+<div class="suggestion-container" [formGroup]="searchForm" (keydown)="handleKeyDown($event)">
+    <input type="text" autocomplete="off" [formControlName]="controlName || 'search'" name="suggestion-input"
+        class="form-control" (input)="getSuggestions()" [ngClass]="className || 'custom-input-1'"
+        [(ngModel)]="searchText" [placeholder]="placeholder || 'Enter search text'" [id]="id || 'suggestion'"
+        [name]="name || 'suggestion'" required>
     <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
-        <p *ngFor="let suggestion of suggestions" class="suggestion" (click)="selectSuggestion(suggestion)">
+        <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
+            [ngClass]="activeSuggestion == i ? 'active-suggestion' : ''" (click)="selectSuggestion(suggestion)">
             {{generateString(suggestion)}}
         </p>
     </div>
+
+    <!-- <div *ngIf="parentForm && f.search.errors" class="invalid-feedback">
+        <div *ngIf="f.search.errors.required">Last Name is required</div>
+    </div> -->
 </div>
 
 <!-- How To Use -->

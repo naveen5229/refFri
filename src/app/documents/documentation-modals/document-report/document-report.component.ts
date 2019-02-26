@@ -24,6 +24,7 @@ export class DocumentReportComponent implements OnInit {
   currentdate = new Date;
   nextMthDate = null;
   curr = null;
+  selectedVehicle=null;
 
 
   constructor(public api: ApiService,
@@ -31,15 +32,13 @@ export class DocumentReportComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-lg', '990');
+    this.common.handleModalSize('class', 'modal-lg', '1024');
     this.title = this.common.params.title;
 
-    // this.reportData.id = this.common.params.docReoprt.id;
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
 
-    // this.getReport();
-    this.totalReport();
+   this.totalReport();
 
 
   }
@@ -50,26 +49,14 @@ export class DocumentReportComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
-  getDocumentData() {
-    this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', {})
-      .subscribe(res => {
-        this.common.loading--;
-        this.reportResult = res['data'];
-        // console.info("dashbord Data", this.documentData);
-        // this.table.data.columns = this.getTableColumns();
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
 
 
   getReport() {
     let params = {
-      id: this.common.params.docReoprt.id,
+      id:this.common.params.docReoprt.id,
       status: this.reportData.status
     };
+  
     console.log("id", params.id);
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
@@ -92,7 +79,6 @@ export class DocumentReportComponent implements OnInit {
     let params = {
       status: this.reportData.status
     }
-    // this.getReport();
     this.common.loading++;
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
 
@@ -100,7 +86,10 @@ export class DocumentReportComponent implements OnInit {
         this.common.loading--;
         this.reportResult = res['data'];
         console.log("Api result", this.reportResult);
-
+        let exp_date = this.common.dateFormatter(this.reportResult[0].expiry_date);
+        this.curr = this.common.dateFormatter(this.currentdate);
+        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+        this.getReport();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -120,7 +109,7 @@ export class DocumentReportComponent implements OnInit {
       return;
     }
     this.common.params = { images, title: 'Image' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   checkForPdf(imgUrl) {
@@ -132,7 +121,8 @@ export class DocumentReportComponent implements OnInit {
     console.log("edit model open  data", doc);
     let documentData = [{
       regNumber: doc.regno,
-      id: doc.document_id,
+      id:doc.id,
+      docId: doc.document_id,
       vehicleId: doc.vehicle_id,
       documentType: doc.document_type,
       documentId: doc.document_type_id,
@@ -147,17 +137,30 @@ export class DocumentReportComponent implements OnInit {
       rto: doc.rto,
       amount: doc.amount,
     }];
-    console.log("Document Id ;", documentData[0].id);
-
+    this.selectedVehicle=documentData[0].vehicleId;
+      //  console.log("doc id",documentData[0].id);
     this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        // this.closeModal(true);
-        this.getReport();
+        //  this.closeModal(true);
+        this.documentUpdate();
       }
     });
   }
+  documentUpdate() {
+    this.common.loading++;
+    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
+      .subscribe(res => {
+        this.common.loading--;
+        this.reportResult = res['data'];
+        this.totalReport();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
 
 
 }

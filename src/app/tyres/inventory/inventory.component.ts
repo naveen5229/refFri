@@ -96,6 +96,16 @@ export class InventoryComponent implements OnInit {
   }
 
   testFilledData() {
+    // console.log("model name:",this.models[0].item_id)
+    if(!this.inventories[0].searchModelString)
+    {
+      this.common.showError("Select Tyre Model");
+      return false;
+    }
+    if(!this.inventories[0].tyreNo)
+    {
+      
+    }
     let alerts = false;
     let count = this.inventories.length;
     let afterRemove =[];
@@ -132,6 +142,7 @@ export class InventoryComponent implements OnInit {
   }
 
   saveDetails() {
+   
     this.common.loading++;
     let params = { inventories: JSON.stringify(this.inventories) };//JSON.stringify(this.inventories) ;
     console.log('Params:', params);

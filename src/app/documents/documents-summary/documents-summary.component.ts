@@ -19,10 +19,12 @@ export class DocumentsSummaryComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public user: UserService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    public user: UserService) {
+
     this.common.refresh = this.refresh.bind(this);
     this.getDocumentMatrixData();
+
   }
 
   ngOnInit() {
