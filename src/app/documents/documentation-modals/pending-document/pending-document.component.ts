@@ -43,7 +43,9 @@ export class PendingDocumentComponent implements OnInit {
     remarks: null,
     rto: null,
     vehicle_id: null,
-    wef_date: null
+    wef_date: null,
+    img_url2: null,
+    img_url3: null
   };
   constructor(public api: ApiService,
     public common: CommonService,
@@ -82,6 +84,18 @@ export class PendingDocumentComponent implements OnInit {
     this.images.push({name : "doc-img", image: this.document.img_url});
     this.common.params = { title : "Doc Image", images: this.images};
     */
+    if(this.document.img_url != "undefined" && this.document.img_url) {
+     this.images.push( this.document.img_url);
+   }
+   if(this.document.img_url2 != "undefined" && this.document.img_url2) {
+      this.images.push(this.document.img_url2);
+   }
+   if(this.document.img_url3 != "undefined" && this.document.img_url3) {
+      this.images.push(this.document.img_url3);
+    }
+    console.log("images:");
+    console.log(this.images);
+    
   }
   closeModal(response) {
     this.activeModal.close({ response: response });
