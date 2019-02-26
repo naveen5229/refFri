@@ -39,6 +39,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
   loadingUnLoading = null;
   customDate = null;
   onlyDrag = false;
+  vehicleEvent = null;
+  convertSiteHaltFlag = false;
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
@@ -245,7 +247,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.Markers.push(marker);
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+      if (markers[index]["type"] == "site") {
 
+        marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
+
+      }
       // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
     }
@@ -405,6 +411,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
     this.VehicleStatusData.latch_time = this.common.dateFormatter(subtractLTime);
     console.log("after substracting", this.VehicleStatusData.latch_time);
+    this.reloadData();
+  }
+
+  reloadData() {
     if (this.dataType == 'events') {
       this.getEvents();
     } else if (this.dataType == 'trails') {
@@ -465,11 +475,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       console.log('Date:', this.customDate);
       this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
       console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
-      if (this.dataType == 'events') {
-        this.getEvents();
-      } else if (this.dataType == 'trails') {
-        this.showTrail();
-      }
+      this.reloadData();
     });
   }
 
@@ -509,7 +515,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     });
 
     if (movedOnItem) {
-      this.common.showToast('Moved Item Detected');
+      //  this.common.showToast('Moved Item Detected');
       this.siteMerge(movedItem, movedOnItem);
     } else {
       this.common.showError('You have moved to different location');
@@ -530,23 +536,62 @@ export class ChangeVehicleStatusComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {
-          if (this.dataType == 'events') {
-            this.getEvents();
-          } else if (this.dataType == 'trails') {
-            this.showTrail();
-          }
+          this.reloadData();
         } else {
           this.common.showToast(res['msg']);
-          if (this.dataType == 'events') {
-            this.getEvents();
-          } else if (this.dataType == 'trails') {
-            this.showTrail();
-          }
+          this.reloadData();
         }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+  setSiteHalt(vehicleEvent, convertSiteHaltFlag) {
+    this.convertSiteHaltFlag = convertSiteHaltFlag;
+    this.vehicleEvent = vehicleEvent;
+
+  }
+
+  convertSiteHalt(siteId) {
+    console.log(this.convertSiteHaltFlag);
+    if (this.convertSiteHaltFlag) {
+      this.common.loading++;
+      let params = {
+        vehicleHaltRowId: this.vehicleEvent.haltId,
+        siteId: siteId,
+      };
+      console.log(params);
+      this.api.post('HaltOperations/allocateVehicleHaltToSite', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log(res);
+          this.reloadData();
+
+          this.convertSiteHaltFlag = false;
+
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+  }
+
+  deleteHalt(vehicleEvent) {
+    this.common.loading++;
+    let params = {
+      haltId: vehicleEvent.haltId,
+    };
+    console.log(params);
+    this.api.post('HaltOperations/deleteHalt', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+       this.reloadData();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }
+
 

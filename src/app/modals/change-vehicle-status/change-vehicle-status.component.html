@@ -92,6 +92,8 @@
                   <span class="zoom-btn" (click)="setZoom(15)">4</span>
                   <span class="zoom-btn" (click)="setZoom(18)">5</span>
                   <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
+                  <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)" *ngIf ="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
+                  <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf ="vehicleEvent.y_is_delete"><i class="fa fa-trash"></i></span>
                 </span></div>
             </td>
           </tr>

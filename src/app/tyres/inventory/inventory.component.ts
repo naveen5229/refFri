@@ -96,16 +96,6 @@ export class InventoryComponent implements OnInit {
   }
 
   testFilledData() {
-    // console.log("model name:",this.models[0].item_id)
-    if(!this.inventories[0].searchModelString)
-    {
-      this.common.showError("Select Tyre Model");
-      return false;
-    }
-    if(!this.inventories[0].tyreNo)
-    {
-      
-    }
     let alerts = false;
     let count = this.inventories.length;
     let afterRemove =[];
@@ -123,6 +113,7 @@ export class InventoryComponent implements OnInit {
         alerts = true;
         break;
       }
+     
     }
     if (alerts == true) {
       alert("NSD-1 , NSD-2 , NSD-3 , PSI fields are mandatory is  Is_Health is Checked");
