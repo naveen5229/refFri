@@ -509,7 +509,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     });
 
     if (movedOnItem) {
-      this.common.showToast('Moved Item Detected');
+    //  this.common.showToast('Moved Item Detected');
       this.siteMerge(movedItem, movedOnItem);
     } else {
       this.common.showError('You have moved to different location');
