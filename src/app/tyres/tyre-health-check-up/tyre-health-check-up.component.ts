@@ -94,7 +94,6 @@ export class TyreHealthCheckUpComponent implements OnInit {
   // }
 
   saveDetails() {
-<<<<<<< HEAD
     if (!this.checkedBy) {
       alert("Check by is Mandatory");
     } else {
@@ -107,18 +106,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
             console.log(tyre)
             tyredata.push(tyre);
           });
-=======
-  
-    let date= this.common.dateFormatter(new Date(this.date1));
-    
-    this.common.loading++;    
-    this.vehicleTyreDetails.forEach(vehicleTyreDetail => {
-      let tyredata= [];
-      vehicleTyreDetail.vdata.forEach(axle=>{
-        axle.data.forEach(tyre => {
-          console.log(tyre)
-          tyredata.push(tyre);
->>>>>>> lalit
+
         });
         //console.log("tyre",tyredata);
 
