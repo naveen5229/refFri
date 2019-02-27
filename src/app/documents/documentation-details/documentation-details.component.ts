@@ -189,7 +189,8 @@ export class DocumentationDetailsComponent implements OnInit {
 
 
     this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id };
-    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    this.common.handleModalSize('class', 'modal-lg', '1200');
+    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.documentUpdate();
