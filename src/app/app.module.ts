@@ -63,6 +63,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -166,7 +167,7 @@ import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
     ImageViewerModule,
     MatIconModule,
     DragDropModule,
-
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
   providers: [

@@ -58,7 +58,9 @@ export class PendingDocumentsComponent implements OnInit {
         img_url: row.img_url,
         doc_no: row.document_number,
         rto: row.rto,
-        amount: row.amount
+        amount: row.amount,
+        img_url2: row.img_url2,
+        img_url3: row.img_url3
       };
       this.common.params = {rowData, title: 'Update Document', canUpdate: 1};
       this.common.handleModalSize('class', 'modal-lg', '1200');

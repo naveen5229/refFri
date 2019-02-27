@@ -31,6 +31,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
   status = "";
   checkedBy = null;
   admins = [];
+
   date1 = this.common.dateFormatter(new Date());
   constructor(private modalService: NgbModal,
     public common: CommonService,
@@ -105,6 +106,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
             console.log(tyre)
             tyredata.push(tyre);
           });
+
         });
         //console.log("tyre",tyredata);
 
