@@ -59,6 +59,7 @@ export class EditDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
+    console.log("document data:",this.document);
     this.document.docId = this.document[0].id;
     console.log("doc Id:",this.document.docId);
     this.document.regNumber = this.document[0].regNumber;

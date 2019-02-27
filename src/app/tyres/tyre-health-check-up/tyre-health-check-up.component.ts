@@ -31,8 +31,8 @@ export class TyreHealthCheckUpComponent implements OnInit {
   status = "";
   checkedBy = null;
   admins =[];
-  date1 = null;
-  // date1 = this.common.dateFormatter(new Date());
+  // date1 = null;
+  date1 = this.common.dateFormatter(new Date());
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService
@@ -95,17 +95,7 @@ export class TyreHealthCheckUpComponent implements OnInit {
   // }
 
   saveDetails() {
-    if(!this.date1)
-    {
-      this.common.showError("please fill Date");
-      return false;
-    
-    }
-    if(!this.checkedBy){
-      this.common.showError("Please Select Checked By");
-      return false;
-    }
-
+  
     let date= this.common.dateFormatter(new Date(this.date1));
     
     this.common.loading++;    

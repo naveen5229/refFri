@@ -97,15 +97,7 @@ export class InventoryComponent implements OnInit {
 
   testFilledData() {
     // console.log("model name:",this.models[0].item_id)
-    if(!this.inventories[0].searchModelString)
-    {
-      this.common.showError("Select Tyre Model");
-      return false;
-    }
-    if(!this.inventories[0].tyreNo)
-    {
-      
-    }
+  
     let alerts = false;
     let count = this.inventories.length;
     let afterRemove =[];

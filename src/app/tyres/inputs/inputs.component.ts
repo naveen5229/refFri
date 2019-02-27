@@ -39,8 +39,8 @@ export class InputsComponent implements OnInit {
   axels = [];
   position = null;
   details: null;
- date1 = null;
-//  date1 = this.common.dateFormatter(new Date());
+//  date1 = null;
+ date1 = this.common.dateFormatter(new Date());
 
   constructor(private modalService: NgbModal,
     public common: CommonService,
@@ -152,21 +152,6 @@ export class InputsComponent implements OnInit {
   }
 
   getTyreCurrentStatus(){
-if(!this.searchVehicleString)
-{
-  this.common.showError("Please select vehicle Number");
-  return false;
-}
-if(!this.searchTyreString || !this.tyrePosition){
-  this.common.showError("Please select Tyre Position");
-  return false;
-}
-if(!this.date1)
-{
-  this.common.showError("please fill Date");
-  return false;
-
-}
 
     let alertMsg;
     let params = 'tyreId=' + this.tyreId;
