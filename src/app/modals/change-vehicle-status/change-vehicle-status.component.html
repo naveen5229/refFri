@@ -20,6 +20,8 @@
     <button (click)="beforeLatchTime()" style="margin-left:10px">Before ltime</button>
     <input type="text" style="cursor: pointer;margin-left:10px;" autocomplete="off" (click)="getDate('date')"
       placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date" readonly>
+      <button id="addAutomaticHalt" (click)="addAutomaticHalt()"style="margin-left:10px" >Add Auto Halt </button>
+
     <!-- <span style="margin-left:150px">
       <span class="zoom-btn" (click)="setZoom(6)">1</span>
       <span class="zoom-btn" (click)="setZoom(9)">2</span>

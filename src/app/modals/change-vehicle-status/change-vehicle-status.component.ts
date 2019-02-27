@@ -245,10 +245,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.setBounds(latlng);
       thisMarkers.push(marker);
       this.Markers.push(marker);
-      //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
-      //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
+      
       if (markers[index]["type"] == "site") {
-
+        let show = markers[index]['name']+" , "+markers[index]['typename'];
+        marker.addListener('mouseover', this.showInfoWindow.bind(this,show,marker ));
+        marker.addListener('mouseout', this.closeInfoWindow.bind(this));
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
@@ -456,7 +457,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
           strokeOpacity: 0.8,
           strokeWeight: 2,
           clickable: false,
-          fillColor: '#ADFF2F',
+          fillColor: '#A7D8A2',
           fillOpacity: 0.35
         });
         this.FencesPoly.setMap(this.map);
@@ -592,6 +593,53 @@ export class ChangeVehicleStatusComponent implements OnInit {
         console.log(err);
       });
   }
+  infowindow = null;
+  showInfoWindow(show,marker) {
+    console.log('Info:', show);
+    if(this.infowindow!=null){
+      this.infowindow.close();
+  }
+     
+    this. infowindow = new google.maps.InfoWindow({
+      content: show,
+      size: new google.maps.Size(50, 50),
+      maxWidth: 300
+  });
+ 
+    this.infowindow.open(this.map, marker);
+}
+
+closeInfoWindow(){
+  this.infowindow.close();
+}
+
+addAutomaticHalt(){
+  console.log("VehicleStatusData",this.VehicleStatusData);
+  this.common.loading++;
+  let  params = {
+     fromTime:this.VehicleStatusData.latch_time,
+     vehicleId:this.VehicleStatusData.vehicle_id,
+     tLat:this.VehicleStatusData.tlat,
+     tLong:this.VehicleStatusData.tlong,
+     tTime:this.VehicleStatusData.ttime,
+ }
+
+ console.log("params=",params);
+
+ this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
+      .subscribe(res => {
+        this.common.loading--;
+        if (res['success']) {
+          this.reloadData();
+        } else {
+          this.common.showToast(res['msg']);
+          this.reloadData();
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+ }
 }
 
 
