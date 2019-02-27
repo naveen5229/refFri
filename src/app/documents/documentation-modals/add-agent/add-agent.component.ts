@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'add-agent',
   templateUrl: './add-agent.component.html',
@@ -14,7 +14,7 @@ export class AddAgentComponent implements OnInit {
   btn1 = '';
   btn2 = '';
   isFormSubmit = false;
-
+  agentForm: FormGroup;
   agent = {
     name: '',
     mobileNumber: '',
@@ -25,14 +25,36 @@ export class AddAgentComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private activeModal: NgbActiveModal) {
+    private activeModal: NgbActiveModal,
+    private formBuilder: FormBuilder) {
     this.title = this.common.params.title || 'Add Agent';
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
   }
 
   ngOnInit() {
+    this.agentForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      mobileNo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]],
+      location:[''],
+      email:['',]
+    });
+    console.log('Agent Form: ', this.agentForm);
   }
+  // convenience getter for easy access to form fields
+  get f() { return this.agentForm.controls; }
+
+  // onSubmit() {
+  //   this.isFormSubmit = true;
+
+  //   // stop here if form is invalid
+  //   if (this.agentForm.invalid) {
+  //     return;
+  //   }
+
+  //   alert('SUCCESS!! :-)')
+  // }
+
 
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -40,10 +62,10 @@ export class AddAgentComponent implements OnInit {
 
   addNewAgent() {
     const params = {
-      x_name: this.agent.name,
-      x_mobileno: this.agent.mobileNumber,
-      x_location: this.agent.location,
-      x_email: this.agent.email
+      x_name: this.agentForm.controls.name.value,
+      x_mobileno: this.agentForm.controls.mobileNo.value,
+      x_location: this.agentForm.controls.location.value,
+      x_email: this.agentForm.controls.email.value
     };
     console.info("Params: ", params);
 

@@ -96,6 +96,7 @@ export class InventoryComponent implements OnInit {
   }
 
   testFilledData() {
+
     let alerts = false;
     let count = this.inventories.length;
     let afterRemove =[];

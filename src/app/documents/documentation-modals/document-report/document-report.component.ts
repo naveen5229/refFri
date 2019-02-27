@@ -8,6 +8,7 @@ import { ImageViewComponent } from '../../../modals/image-view/image-view.compon
 import { EditDocumentComponent } from '../../documentation-modals/edit-document/edit-document.component';
 import { normalize } from 'path';
 import { from } from 'rxjs';
+import { NgIf } from '@angular/common';
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
@@ -116,12 +117,12 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
-  
+
   editData(doc) {
     console.log("edit model open  data", doc);
     let documentData = [{
       regNumber: doc.regno,
-      id:doc.id,
+      id: this.reportResult[0].id,
       docId: doc.document_id,
       vehicleId: doc.vehicle_id,
       documentType: doc.document_type,
@@ -137,14 +138,16 @@ export class DocumentReportComponent implements OnInit {
       rto: doc.rto,
       amount: doc.amount,
     }];
-    this.selectedVehicle=documentData[0].vehicleId;
-      //  console.log("doc id",documentData[0].id);
+    this.selectedVehicle = documentData[0].vehicleId;
+    console.log("Doc id:",documentData[0].id);
+    // this.common.handleModalSize('class', 'modal-lg', '1024');
     this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
-    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        //  this.closeModal(true);
+        this.closeModal(true);
         this.documentUpdate();
+        // this.getReport();
       }
     });
   }
@@ -154,7 +157,10 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-        this.totalReport();
+
+        // this.totalReport();
+
+
       }, err => {
         this.common.loading--;
         console.log(err);
