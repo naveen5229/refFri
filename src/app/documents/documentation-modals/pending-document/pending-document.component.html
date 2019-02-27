@@ -86,7 +86,7 @@
       <div class="col-sm-8">
           <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
           <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View Document</a></div>
-          <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="[document.img_url]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
+          <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
           <div *ngIf="!document.img_url">No Image Exists</div>
           
           <div id="imgzoom"></div>

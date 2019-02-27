@@ -8,7 +8,6 @@ import { InputsComponent } from './inputs/inputs.component';
 import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 import { AddTrollyComponent } from './add-trolly/add-trolly.component';
 import { VehicleTrollyMappingComponent } from './vehicle-trolly-mapping/vehicle-trolly-mapping.component';
-import { VehicleTyrePositionMasterComponent } from './vehicle-tyre-position-master/vehicle-tyre-position-master.component';
 
 const routes: Routes = [{
     path: '',
@@ -38,10 +37,7 @@ const routes: Routes = [{
             path: 'vehicle-trolly-mapping',
             component: VehicleTrollyMappingComponent,
         },
-        {
-            path: 'vehicle-tyre-position-master',
-            component: VehicleTyrePositionMasterComponent,
-        },
+       
     ],
 }];
 
