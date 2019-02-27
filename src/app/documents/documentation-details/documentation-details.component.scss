@@ -47,8 +47,8 @@ label{
     opacity: 0;
   }
 .btn.btn-primary{
-    margin-left: -20%;
-    margin-top: 18%;
+    // margin-left: -20%;
+    margin-top: 30px;
     position: relative;
 }
 .table{
@@ -109,6 +109,7 @@ label{
 }
 :host ::ng-deep.black {
     color: black;
+    background: cornsilk;
     // display: none;
 }
 :host ::ng-deep.red {

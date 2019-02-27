@@ -20,6 +20,8 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
     expiryForm: '',
     expiryEnd: '',
   };
+  loginType=null;
+  loginid=null;
 
   currentdate = new Date;
   nextMthDate = null;
@@ -30,9 +32,17 @@ export class CrmVehicleDocumentionsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
+    this.loginType = this.user._loggedInBy;
+    this. checkAdmin();
   }
 
   ngOnInit() {
+  }
+  
+  checkAdmin() {
+    if (this.loginType == "admin") {
+      return this.loginid=1;
+    }
   }
   refresh() {
     console.log('Refresh');
