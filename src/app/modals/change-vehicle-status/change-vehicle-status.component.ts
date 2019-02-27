@@ -249,6 +249,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (markers[index]["type"] == "site") {
         let show = markers[index]['name']+" , "+markers[index]['typename'];
         marker.addListener('mouseover', this.showInfoWindow.bind(this,show,marker ));
+        marker.addListener('mouseout', this.closeInfoWindow.bind(this));
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
@@ -606,6 +607,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
   });
  
     this.infowindow.open(this.map, marker);
+}
+
+closeInfoWindow(){
+  this.infowindow.close();
 }
 
 addAutomaticHalt(){
