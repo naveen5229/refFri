@@ -19,7 +19,7 @@
             <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
               Document</button>
           </div>
-          <div class="col-md-02 offset-md-08">
+          <div class="col-md-02 offset-md-08" *ngIf="loginid==1">
             <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
           </div>
         </div>
