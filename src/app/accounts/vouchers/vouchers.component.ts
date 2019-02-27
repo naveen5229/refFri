@@ -16,30 +16,7 @@ export class VouchersComponent implements OnInit {
   Vouchers = [];
   voucherId = '';
   voucherName = '';
-  voucher = {
-    name: '',
-    date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    foid: '',
-    user: {
-      name: '',
-      id: ''
-    },
-    vouchertypeid: '',
-    amountDetails: [{
-      transactionType: 'debit',
-      ledger: {
-        name: '',
-        id: ''
-      },
-      amount: 0
-    }],
-    code: '',
-    remarks: '',
-    total: {
-      debit: 0,
-      credit: 0
-    }
-  };
+  voucher = this.setVoucher();
 
   showConfirm = false;
 
@@ -69,6 +46,33 @@ export class VouchersComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  setVoucher() {
+    return {
+      name: '',
+      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      foid: '',
+      user: {
+        name: '',
+        id: ''
+      },
+      vouchertypeid: '',
+      amountDetails: [{
+        transactionType: 'debit',
+        ledger: {
+          name: '',
+          id: ''
+        },
+        amount: 0
+      }],
+      code: '',
+      remarks: '',
+      total: {
+        debit: 0,
+        credit: 0
+      }
+    };
   }
 
   getVouchers() {
@@ -114,20 +118,20 @@ export class VouchersComponent implements OnInit {
       this.common.showToast('Credit And Debit Amount Should be Same');
       return;
     }
-    this.addVoucher(this.voucher);
+    this.addVoucher();
     //  this.activeModal.close({ response: response, Voucher: this.voucher });
   }
 
-  addVoucher(voucher) {
-    console.log('voucher 1 :', voucher);
+  addVoucher() {
+    console.log('voucher 1 :', this.voucher);
     //const params ='';
     const params = {
-      foid: voucher.user.id,
+      foid: this.voucher.user.id,
       // vouchertypeid: voucher.voucher.id,
-      customercode: voucher.code,
-      remarks: voucher.remarks,
-      date: voucher.date,
-      amountDetails: voucher.amountDetails,
+      customercode: this.voucher.code,
+      remarks: this.voucher.remarks,
+      date: this.voucher.date,
+      amountDetails: this.voucher.amountDetails,
       vouchertypeid: this.voucherId
     };
 
@@ -137,10 +141,13 @@ export class VouchersComponent implements OnInit {
     this.api.post('Voucher/InsertVoucher', params)
       .subscribe(res => {
         this.common.loading--;
-        // console.log('res: ', res['data'].code);
+        console.log('res: ', res['data'].code);
+        if (res['success']) {
+          this.voucher = this.setVoucher();
+          this.getVouchers();
+          this.common.showToast('Your Code :' + res['data'].code);
+        }
 
-        this.getVouchers();
-        this.common.showToast('Your Code :' + res['data'].code);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -195,6 +202,7 @@ export class VouchersComponent implements OnInit {
     const activeId = document.activeElement.id;
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
+        this.addVoucher();
         this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
@@ -390,6 +398,8 @@ export class VouchersComponent implements OnInit {
     this.voucher.amountDetails[index].ledger.name = this.ledgers[this.activeLedgerIndex].y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = this.ledgers[this.activeLedgerIndex].y_ledger_id;
   }
+
+
 
 
 
