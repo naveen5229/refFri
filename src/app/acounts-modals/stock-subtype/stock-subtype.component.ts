@@ -99,6 +99,11 @@ export class StockSubtypeComponent implements OnInit {
     this.showSuggestions.stockType = false;
   }
 
+  onSelected(selectedData, type, display) {
+    this.stockSubType[type].name = selectedData[display];
+    this.stockSubType  [type].id = selectedData.id;
+    //console.log('Stock Unit: ', this.stockItem);
+  }
   dismiss(response) {
     console.log('Stock Type:', this.stockSubType);
     this.activeModal.close({ response: response, stockSubType: this.stockSubType });

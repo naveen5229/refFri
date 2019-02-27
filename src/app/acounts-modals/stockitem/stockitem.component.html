@@ -28,7 +28,7 @@
         <label>Stock Sub Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" url="Suggestion/GetSearchStockType" display="name"
-        placeholder="Enter Stock Sub Type" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter Stock Sub Type" inputId="stockSubType" [preSelected]="null"></auto-suggestion>
       </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
