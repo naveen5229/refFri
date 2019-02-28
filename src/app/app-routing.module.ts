@@ -44,8 +44,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path:'documents',
+    path: 'documents',
     loadChildren: 'app/documents/documents.module#DocumentsModule',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'lorry-receipt',
+    loadChildren: 'app/lorry-receipt/lorry-receipt.module#LorryReceiptModule',
     canActivate: [AuthGuard],
   },
   {
