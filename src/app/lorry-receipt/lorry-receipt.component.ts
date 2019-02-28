@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 
-import { MENU_ITEMS } from './lorry-receipt-menu';
+import { ADMIN_MENU_ITEMS, CUSTOMER_MENU_ITEMS } from './lorry-receipt-menu';
+import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'ngx-pages',
+  selector: 'ngx-lorry-receipt',
   template: `
+
     <ngx-sample-layout>
       <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
@@ -12,6 +14,8 @@ import { MENU_ITEMS } from './lorry-receipt-menu';
   `,
 })
 export class LorryReceiptComponent {
+  menu = this.user._loggedInBy == 'admin' ? ADMIN_MENU_ITEMS : CUSTOMER_MENU_ITEMS;
+  constructor(public user: UserService) {
+  }
 
-  menu = MENU_ITEMS;
 }

@@ -19,13 +19,14 @@
             <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
               Document</button>
           </div>
+          <div class="col-md-02 offset-md-08" *ngIf="loginid==1">
+            <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
+          </div>
         </div>
       </form>
 
-      <div class="row">
-        <div class="col-md-06" style="margin-top: -8%;margin-left: 40%;">
-          <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
-        </div>
+      <div class="row" *ngIf="loginid==1">
+      
       </div>
     </div>
 <!-- 
