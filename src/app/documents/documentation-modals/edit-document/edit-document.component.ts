@@ -168,7 +168,12 @@ export class EditDocumentComponent implements OnInit {
     };
 
     if (!this.document.documentId) {
-      return this.common.showError("Select Document Type");
+      alert("Select Document Type");
+    }
+    if(!this.document.wefDate||!this.document.expiryDate)
+    {
+      alert("Select WefDate & ExpiryDate must be provide ");
+      return false;
     }
     let issuedt_valid = 1;
     let wefdt_valid = 1;
@@ -227,17 +232,28 @@ export class EditDocumentComponent implements OnInit {
 
     this.common.loading++;
     let response;
+    console.log("params",params);
     this.api.post('Vehicles/addVehicleDocument', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
-        alert(res['msg']);
-        this.closeModal(true);
+        let result=(res['msg']);
+        if (result=="success") {
+          this.common.showError("Success");
+          this.closeModal(true);
+        }
+        else{
+          alert(result);
+          
+        }
+       
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-    return response;
+      // this.closeModal(true);
+    //  return response;
+  
   }
 
 

@@ -84,7 +84,7 @@
               </option>
             </select>
           </div>
-          <div class="col-md-5 offset-md-8" style="margin-top: -8%;">
+          <div class="col-md-5 offset-md-8" style="margin-top: -10%;">
             <button class="btn btn-default" type="button" (click)="addAgent()">Add Agent</button>
           </div>
         </div>
@@ -139,7 +139,7 @@
         </div>
       </div>
       <div class="col-sm-8">
-
+          
           <div *ngIf="doc_not_img"><a target='_blank' href="{{document.docUpload}}" title="View Document" style="font-size: 20px; color: blue; text-decoration: underline">View Document Pdf</a></div>
           <app-image-viewer *ngIf="document.docUpload && !doc_not_img" [images]="[document.docUpload]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
           <div *ngIf="!document.docUpload">No Image Exists</div>
