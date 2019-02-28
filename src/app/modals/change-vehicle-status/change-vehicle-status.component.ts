@@ -247,7 +247,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.Markers.push(marker);
       
       if (markers[index]["type"] == "site") {
-        let show = markers[index]['name']+" , "+markers[index]['typename'];
+        let show = markers[index]['name']+" , "+markers[index]['typename']+ " , " +markers[index]['id'];
         marker.addListener('mouseover', this.showInfoWindow.bind(this,show,marker ));
         marker.addListener('mouseout', this.closeInfoWindow.bind(this));
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
