@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LorryReceiptComponent } from './lorry-receipt.component';
 
-
 const routes: Routes = [{
     path: '',
     component: LorryReceiptComponent,
@@ -12,6 +11,7 @@ const routes: Routes = [{
             path: 'dashboard',
             component: DashboardComponent,
         }]
+
 }];
 
 @NgModule({
@@ -19,4 +19,5 @@ const routes: Routes = [{
     exports: [RouterModule],
 })
 export class LorryReceiptRoutingModule {
+
 }
