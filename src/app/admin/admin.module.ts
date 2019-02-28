@@ -9,6 +9,8 @@ import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-st
 
 import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
 import { DirectiveModule } from '../directives/directives.module';
+import { LRViewComponent } from './lrview/lrview.component';
+import { GenerateLRComponent } from './generate-lr/generate-lr.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -25,7 +27,9 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     VehicleStatusChangeComponent,
-    EscalationMatrixComponent
+    EscalationMatrixComponent,
+    LRViewComponent,
+    GenerateLRComponent
   ],
 })
 export class AdminModule { }
