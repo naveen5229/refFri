@@ -33,7 +33,7 @@
         <!-- <input type="text" class="form-control" name="stocktype"> -->
 
         <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
-        placeholder="Enter User" inputId="stocktype" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion>
       </div>
       <div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
         <ul>
@@ -46,13 +46,13 @@
     <div class="col">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="stock-name" [(ngModel)]="stockSubType.name">
+        <input type="text" class="form-control" name="stock-name" id="stock-name" [(ngModel)]="stockSubType.name">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Code</label>
-        <input type="text" class="form-control" name="stock-code" [(ngModel)]="stockSubType.code">
+        <input type="text" class="form-control" name="stock-code" id="stock-code" [(ngModel)]="stockSubType.code">
       </div>
     </div>
   </div>
