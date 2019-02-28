@@ -62,6 +62,10 @@ export class PendingDocumentComponent implements OnInit {
       this.canUpdate = 0;
       this.canreadonly = true;
     }
+    
+    localStorage.setItem('foadminId', this.user._customer.id);
+    // console.log("FoAdmin Id",this.user._customer.id);
+    console.log(localStorage.getItem('foadminId'));
 
     this.document = this.common.params.rowData;
     if (this.document.issue_date)
@@ -123,6 +127,13 @@ export class PendingDocumentComponent implements OnInit {
             this.doc_not_img = 1;
           }
           this.images.push({ name: "doc-img", image: this.document.img_url });
+          this.common.params = { title: "Doc Image", images: this.images };
+        }
+        if (this.document.img_url2) {
+          if ((this.document.img_url2.indexOf('.pdf') > -1) || (this.document.img_url2.indexOf('.doc') > -1) || (this.document.img_url2.indexOf('.docx') > -1) || (this.document.img_url2.indexOf('.xls') > -1) || (this.document.img_url2.indexOf('.xlsx') > -1) || (this.document.img_url2.indexOf('.csv') > -1)) {
+            this.doc_not_img = 1;
+          }
+          this.images.push({ name: "doc-img", image: this.document.img_url2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
 
