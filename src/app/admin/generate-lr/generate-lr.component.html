@@ -1,0 +1,65 @@
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Generate LR </h2>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-bordered table-hover">
+
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <h2>Company Name</h2><br>
+            <Address>address</Address>
+          </td>
+          <td>GR NO.</td>
+          <td>Date</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h5>Consignor's Name & Address : </h5><br>
+            <Address>address</Address>
+          </td>
+          <td>
+            <h5>Delivery Address : </h5><br>
+            address
+          </td>
+          <td>
+            <h5>Consignee's Name & Address : </h5><br>
+            <Address>address</Address>
+          </td>
+        </tr>
+        
+        <tr>
+          <td colspan="3"></td>
+          <td><h5>Payable Amount :</h5></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            Conditions
+          </td>
+          <td>Logistic Sign</td>
+        </tr>
+        <tr>
+          <td colspan="4"><h5>website</h5></td>
+        </tr>
+      </tbody>
+    </table>
+    <table *ngIf = "materialDetails" class="table table-bordered table-hover">
+        <tr>
+            <td><h5>No. of Articles</h5></td>
+            <td><h5>Particlars</h5></td>
+            <td><h5>Weight (Tons)</h5></td>
+            <td><h5>Payment:</h5></td>
+          </tr>
+          <tr *ngFor = "let material of materialDetails; let i= index ">
+            <td>{{material.articleNo}}</td>
+            <td>{{material.material}}</td>
+            <td>{{material.weight}}</td>
+            <td>{{material.materialValue}}</td>
+          </tr>
+    </table>
+    <button (click) = "openParticularsModal()" *ngIf = "!materialDetails" >MaterialDetails</button>
+  </nb-card-body>
+</nb-card>
