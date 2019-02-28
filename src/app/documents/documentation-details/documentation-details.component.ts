@@ -116,7 +116,7 @@ export class DocumentationDetailsComponent implements OnInit {
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
         edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
-        delete: { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' },
+        delete: { value: `${this.loginid == 1?'<i class="fa fa-trash"></i>':''}`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' },
 
         rowActions: {}
       });
@@ -251,7 +251,7 @@ export class DocumentationDetailsComponent implements OnInit {
           remark: { title: 'Remark', placeholder: 'Remak' },
           image: { title: 'Image', placeholder: 'Image', hideSearch: true },
           edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
-          delete: { title: 'Delete', placeholder: 'Delete', hideSearch: true },
+          delete: { title: 'Delete', placeholder: 'Delete', hideSearch: true , },
         },
         columns: this.getTableColumns()
       },
