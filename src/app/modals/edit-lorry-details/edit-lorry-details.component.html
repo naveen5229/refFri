@@ -1,0 +1,101 @@
+<div class="model-header" style="margin-top:10px; margin-left:10px; margin-right:10px;">
+  <h6 class="model-title" id="model-basic-title">Add Location</h6>
+  <button type="button" class="close" style="margin-top : -30px; background-color: white" aria-label="Close"
+    (click)=dismiss(false)>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="border" style="height: 2px; color: brown; margin-top: 20px; margin-bottom: 20px"></div>
+<div class="model-body">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="from-group">
+        <select [(ngModel)]="option" class="form-control"
+          style="height:30px; border: 2px solid darkcyan; font-size: 10px">
+          <option value="accept">Accept</option>
+          <option value="reject">Reject</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn-loadLr" style="width:150px" type="button" (click)="loadLr()">Load LR</button>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn-loadInvoice" type="button" style="width:150px" (click)="loadInvoice()">Load Invoice</button>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn-loadOther" style="width:150px" type="button" (click)="loadOther()">Load Invoice</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <input type="text" class="form-control" name="RNo." placeholder="Receipt No.">
+      <input type="text" class="from-control" name="source" placeholder="Source">
+      <input type="text" class="from-control" name="destination" placeholder="Destination" style="margin-bottom:10px">
+      <auto-suggestion (onSelected)="searchVehicle($event)"  url="suggestion/getVehicleList" display="regno"
+      placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+      
+      <input type="text" class="from-control" name="remark" placeholder="Remark">
+      <div class="row">
+        <div class="col-9">
+          <input type="text" class="form-control" name="agent-name" placeholder="Transport Agent Name"
+            style="font-size: 10px">
+        </div>
+        <div class="col-3">
+          <button class="btn-agentName" type="button"
+            style="background-color: transparent; margin-top: 10px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+            (click)="addAgentNmae()">Add</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <input type="text" class="form-control" name="consignee-name" placeholder="Consignee Name"
+            style="font-size: 10px">
+        </div>
+        <div class="col-3">
+          <button class="btn-consigneeName" type="button"
+            style="background-color: transparent; margin-top: 10px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+            (click)="addAgentNmae()">Add</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <input type="text" class="form-control" name="consigner-name" placeholder="Consigner Name"
+            style="font-size: 10px">
+        </div>
+        <div class="col-3">
+          <button class="btn-consignerName" type="button"
+            style="background-color: transparent; margin-top: 10px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+            (click)="addAgentNmae()">Add</button>
+        </div>
+      </div>
+      <input type="text" name="lr-date" class="form-control" placeholder="LR Date">
+      <div class="from-group" style="margin-top:10px">
+        <select [(ngModel)]="payment" class="form-control"
+          style="height:30px; border: 2px solid darkcyan; font-size: 10px">
+          <option value="toPay">ToPay</option>
+          <option value="advance">Advance</option>
+        </select>
+      </div>
+      <input type="text" name="tonnage" class="form-control" placeholder="Tonnage">
+      <input type="text" name="rate" class="form-control" placeholder="Rate">
+      <input type="text" name="amount" class="form-control" placeholder="Amount">
+      <input type="text" name="material" class="form-control" placeholder="Material">
+      <div class="row" style="margin-top:10px">
+        <div class="col-6">
+          <Button class="btn btn-danger" type="button">Reset</Button>
+        </div>
+        <div class="col-6">
+          <Button class="btn btn-primary" type="button">Submit</Button>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+        <img src="{{image_url}}" alt="doc-img" class="doc-img" />
+    <!-- <ng-template *ngIf="LrFlag==true; then showLr" elseif="InvoiceFlag==true; then showInvoice" elseif="otherFlag==true; then showOther"></ng-template>
+    <ng-template #showLr><img src="{{documents.lr_image}}"></ng-template>
+    <ng-template #showInvoice><img src="{{documents.invoice_image}}"></ng-template>
+    <ng-template #showOther><img src="{{documents.other_image}}"></ng-template> -->
+    </div>
+  </div>
+</div>

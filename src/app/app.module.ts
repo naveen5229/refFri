@@ -61,6 +61,9 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
+import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
+import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
+
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -110,7 +113,10 @@ import { ParticlularsComponent } from './modals/particlulars/particlulars.compon
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent
+    ParticlularsComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
+    
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -153,7 +159,9 @@ import { ParticlularsComponent } from './modals/particlulars/particlulars.compon
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent
+    ParticlularsComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent
   ],
   imports: [
     BrowserModule,
