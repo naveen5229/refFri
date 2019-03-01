@@ -61,6 +61,8 @@ export class PendingDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Update';
     this.btn2 = this.common.params.btn2 || 'Discard Image';
+
+    console.log("user identifation: ",this.user._loggedInBy);
     console.log("commonparams: ");
     console.log(this.common.params);
     if (!this.common.params.canUpdate) {
