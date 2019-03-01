@@ -15,13 +15,7 @@ export class DatePickerComponent implements OnInit {
 
   }
 
-  closeModal() {
-    setTimeout(() =>{
-      console.log('Date: ', this.date);
-      this.activeModal.close({ date: this.date });
-    }, 100);
-  }
-
+  
 
   ngOnInit() {
   }
@@ -31,17 +25,27 @@ export class DatePickerComponent implements OnInit {
   }
 
   removeDummy() {
-    let allTags = document.getElementsByTagName('nb-card-header');
-    allTags[1]['style'].display = 'none';
-    console.log('All Tags: ', allTags);
+    // let allTags = document.getElementsByTagName('nb-card-header');
+    // allTags[1]['style'].display = 'none';
+    // console.log('All Tags: ', allTags);
   }
 
   get monthStart(): Date {
     return this.dateService.getMonthStart(new Date());
   }
- 
   get monthEnd(): Date {
     return this.dateService.getMonthEnd(new Date());
   }
+
+  handleDateChange(){
+    
+  }
+  closeModal() {
+    setTimeout(() =>{
+      console.log('Date: ', this.date);
+      this.activeModal.close({ date: this.date });
+    }, 100);
+  }
+
 
 }

@@ -28,6 +28,14 @@
     display: block;
   }
 
+ .refresh{
+  padding: 10%;
+  background: content-box;
+  color: white;
+  font-size: 20px;
+  border: none;
+ }
+
   .header-container {
     display: flex;
     align-items: center;
@@ -202,6 +210,8 @@
     nb-action:not(.toggle-layout) {
       padding: 0;
     }
+
+    
   }
 
   @include media-breakpoint-down(xs) {

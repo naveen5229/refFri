@@ -1,0 +1,48 @@
+.red {
+    background: red;
+    color: #fff;
+}
+
+.pink {
+    background: pink;
+}
+
+.green {
+    background: #46f946;
+    color: black;
+}
+i{
+    color: #0e0e3a;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 29%
+}
+.table-bordered{
+    height: 350px;
+    overflow-y: auto;
+    display: block;
+}
+.table-scroll.thead {
+    display: table;
+    width: 1150px;
+    position: fixed;
+ }
+ 
+ .table-scroll tbody {
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 52px;
+ }
+ 
+ .table-scroll tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+ }
+ 
+ .table-scroll td {
+    height: 47px; // needed in order to keep rows from collapsing
+    table-layout: fixed;
+    word-wrap:break-word;
+ }

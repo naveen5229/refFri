@@ -6,8 +6,9 @@
 </div>
 <div class="modal-body">
   <div class="custom-modal-header" id="modal_title">
-    <span *ngIf="showHours" (click)="showHours = false;" class="back-btn">
-      <i class="fa fa-chevron-left"></i>
+    <span *ngIf="showHours" (click)="showHours = false;" class="back-btn" style="font-size:25px; cursor:pointer">
+      <!-- <i class="fa fa-chevron-left"></i> -->
+      <i class="fa fa-hand-o-left" aria-hidden="true"></i>
       <span>Back</span>
     </span>
   </div>
@@ -47,7 +48,7 @@
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer;">Cancel</button>
+      <button class="btn btn-danger" type="button" outline (click)="dismiss()" id="cancel" style="cursor: pointer;">Cancel</button>
     </div>
     <div class="col text-right">
       <button class="btn btn-primary" type="button" outline (click)="setReminder()" id="reminder" style="cursor: pointer;">Set

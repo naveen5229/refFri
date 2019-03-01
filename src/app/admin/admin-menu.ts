@@ -7,4 +7,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/dashboard',
         home: true,
     },
+    {
+        title: 'Vehicle Status Change',
+        icon: 'nb-home',
+        link: '/admin/vehiclestatuschange',
+        home: true,
+    },
+    {
+        title: 'Escalation Matrix',
+        icon: 'nb-home',
+        link: '/admin/escalation-matrix',
+        home: true,
+    },
+    {
+        title: 'LR View',
+        icon: 'nb-home',
+        link: '/admin/lrview',
+        home: true,
+    },
+    {
+        title: 'Generate LR',
+        icon: 'nb-home',
+        link: '/admin/generate-lr',
+        home: true,
+    },
 ];

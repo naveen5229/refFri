@@ -22,6 +22,14 @@ import { DatePickerComponent } from '../modals/date-picker/date-picker.component
 
 import { from } from 'rxjs';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
+import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
+import { AutoSuggestionComponent } from '../directives/auto-suggestion/auto-suggestion.component';
+import { DirectiveModule } from '../directives/directives.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -34,7 +42,12 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     MiscellaneousModule,
-    ChartModule
+    ChartModule,
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    ImageViewerModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -50,6 +63,7 @@ const PAGES_COMPONENTS = [
     TicketActionsComponent,
     ConciseComponent,
     FuelAverageAnalysisComponent,
+    VehicleTripComponent,
   ],
 })
 export class PagesModule {

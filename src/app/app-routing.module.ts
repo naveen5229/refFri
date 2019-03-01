@@ -10,6 +10,7 @@ import {
 } from '@nebular/auth';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
+import { VehicleKpisComponent } from './pages/vehicle-kpis/vehicle-kpis.component';
 
 const routes: Routes = [
   {
@@ -24,15 +25,33 @@ const routes: Routes = [
   },
   {
     path: 'accounts',
-    loadChildren: 'app/accounts/accounts.module#AccountsModule'
+    loadChildren: 'app/accounts/accounts.module#AccountsModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'partner',
-    loadChildren: 'app/partner/partner.module#PartnerModule'
+    loadChildren: 'app/partner/partner.module#PartnerModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'admin',
-    loadChildren: 'app/admin/admin.module#AdminModule'
+    loadChildren: 'app/admin/admin.module#AdminModule',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'tyres',
+    loadChildren: 'app/tyres/tyres.module#TyresModule',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'documents',
+    loadChildren: 'app/documents/documents.module#DocumentsModule',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'lorry-receipt',
+    loadChildren: 'app/lorry-receipt/lorry-receipt.module#LorryReceiptModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',
@@ -44,6 +63,10 @@ const routes: Routes = [
       },
       {
         path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'login/:type',
         component: LoginComponent,
       },
       {

@@ -518,7 +518,7 @@ export class ProfitCalculatorComponent {
     //  document.getElementById(id).className = "profit-input";
   }
 
-  goToPage() {
+  goToPage(page) {
     //this.navCtrl.push(page);
     this.router.navigate(['/intelligence/path-viewer']);
   }

@@ -5,6 +5,12 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AdminComponent } from './admin.component';
+import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
+
+import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
+import { DirectiveModule } from '../directives/directives.module';
+import { LRViewComponent } from './lrview/lrview.component';
+import { GenerateLRComponent } from './generate-lr/generate-lr.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -16,9 +22,14 @@ const PAGES_COMPONENTS = [
     AdminRoutingModule,
     ThemeModule,
     DashboardModule,
+    DirectiveModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    VehicleStatusChangeComponent,
+    EscalationMatrixComponent,
+    LRViewComponent,
+    GenerateLRComponent
   ],
 })
 export class AdminModule { }
