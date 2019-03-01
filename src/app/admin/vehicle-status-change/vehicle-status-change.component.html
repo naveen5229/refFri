@@ -4,6 +4,7 @@
       <h2>Vehicle Status Changes</h2>
     </div>
     <div class="col-sm-8" style="margin-top:-86px">
+        <input type="button" style="margin-top: 8%; padding: 11px; background-color:hsl(0,50%,75%);border-radius:15px" id ="statusPending" (click)="getPendingStatusDetails()" value="Pending Alerts" >
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
         (click)="getVehicleStatusAlerts('all')" value="View All">
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
@@ -12,6 +13,8 @@
         (click)="getVehicleStatusAlerts('view old')" value="View old">
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
         (click)="getVehicleStatusAlerts('pending')" value="Refresh">
+        <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+        (click)="getVehicleStatusAlerts('advance review')" value="Advance Review">
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -48,12 +51,15 @@
           <td>{{VehicleStatusAlert.aduserid}}</td>
           <td>{{VehicleStatusAlert.status}}</td>
           <td>{{VehicleStatusAlert.hold_users}}</td>
-          <td><button>action</button></td>
+          <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
         </tr>
       </tbody>
     </table>
     <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
       No Data available !
     </div>
+    <div style="margin-top:20px">
+        <b>Number Of Alerts : {{VehicleStatusAlerts.length}}</b>
+      </div>
   </nb-card-body>
 </nb-card>

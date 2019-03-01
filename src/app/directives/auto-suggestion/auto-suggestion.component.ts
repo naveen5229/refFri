@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'auto-suggestion',
@@ -16,6 +18,10 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() preSelected: any;
   @Input() seperator: string;
   @Input() data: any;
+  @Input() id: string;
+  @Input() name: string;
+  @Input() parentForm: FormGroup;
+  @Input() controlName: string;
 
   counter = 0;
   searchText = '';
@@ -23,14 +29,20 @@ export class AutoSuggestionComponent implements OnInit {
   suggestions = [];
   selectedSuggestion = null;
   displayType = 'string';
+  searchForm = null;
+  activeSuggestion = -1;
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
     public common: CommonService) {
 
   }
 
   ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      search: ['']
+    });
   }
 
   ngAfterViewInit() {
@@ -46,10 +58,13 @@ export class AutoSuggestionComponent implements OnInit {
       this.displayType = 'array';
     }
     console.log('Data:', this.data);
+    console.log('Parent Form: ', this.parentForm);
+    if (this.parentForm) {
+      this.searchForm = this.parentForm;
+    }
     this.cdr.detectChanges();
+
   }
-
-
 
   getSuggestions() {
     this.showSuggestions = true;
@@ -64,7 +79,7 @@ export class AutoSuggestionComponent implements OnInit {
       params = '&'
     }
     params += 'search=' + this.searchText;
-
+    console.log('Params: ', params);
     this.api.get(this.url + params)
       .subscribe(res => {
         console.log(res);
@@ -81,6 +96,7 @@ export class AutoSuggestionComponent implements OnInit {
     this.selectedSuggestion = suggestion;
     this.showSuggestions = false;
     this.onSelected.emit(suggestion);
+    this.activeSuggestion = -1;
   }
 
   generateString(suggestion) {
@@ -97,6 +113,29 @@ export class AutoSuggestionComponent implements OnInit {
       displayText = suggestion[this.display];
     }
     return displayText;
+  }
+
+  handleKeyDown(event) {
+    // console.log('Event:', event);
+    const key = event.key.toLowerCase();
+    if (!this.showSuggestions) return;
+    if (key == 'arrowdown') {
+      if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;
+      else this.activeSuggestion = 0;
+      event.preventDefault();
+    } else if (key == 'arrowup') {
+      if (this.activeSuggestion != 0) this.activeSuggestion--;
+      else this.activeSuggestion = this.suggestions.length - 1;
+      event.preventDefault();
+    } else if (key == 'enter') {
+      if (this.activeSuggestion == -1) {
+        this.selectSuggestion(this.suggestions[this.activeSuggestion]);
+      } else {
+        this.selectSuggestion(this.suggestions[0]);
+      }
+    }
+
+
   }
 
 

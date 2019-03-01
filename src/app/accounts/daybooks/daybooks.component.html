@@ -1,9 +1,7 @@
-<h1>Day Book</h1>
-
-
-
-
-<div class="row">
+<nb-card>
+  <nb-card-body style="min-height: 450px;">
+    <h1>Day Book</h1>
+<div class="row" style="margin-left: 5px;">
   <div class="col">
     <div class="form-group">
       <label>Branch</label>
@@ -21,7 +19,7 @@
     <div class="col">
         <div class="form-group">
           <label>Ledger</label>
-          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger" display="name"
+          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
             placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
@@ -44,7 +42,7 @@
   <div class="col">
     <div class="form-group">
       <button class="btn btn-primary" type="button" outline (click)="getDayBook()" id="submit"
-        style="cursor: pointer;">Submit</button>
+        style="cursor: pointer;margin-top: 18px;">Submit</button>
     </div>
   </div>
 </div>
@@ -68,3 +66,5 @@
     <td>{{dataItem.y_date | date : 'dd MMM HH:mm'}}</td>
   </tr>
 </table>
+</nb-card-body>
+</nb-card>

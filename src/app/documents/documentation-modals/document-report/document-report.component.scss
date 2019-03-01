@@ -12,25 +12,27 @@
     color: black;
 }
 i{
-    color: blue;
-    font-size: 16px;
+    color: #0e0e3a;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 29%
 }
-i{
-    color: blue;
-    font-size: 16px;
+.table-bordered{
+    height: 350px;
+    overflow-y: auto;
+    display: block;
 }
-.table-scroll thead {
+.table-scroll.thead {
     display: table;
-    width: 100%;
-    // table-layout: fixed;
+    width: 1150px;
+    position: fixed;
  }
  
  .table-scroll tbody {
-    max-height: 350px;
-    overflow-y: auto;
     display: block;
     width: 100%;
     table-layout: fixed;
+    margin-top: 52px;
  }
  
  .table-scroll tr {

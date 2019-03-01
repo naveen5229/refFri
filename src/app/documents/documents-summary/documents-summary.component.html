@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card style="margin-left: 10px;">
   <nb-card-header>
     <h2>Vehicle Documents Dashboard</h2>
     <hr>
@@ -19,11 +19,7 @@
                   <span *ngIf="col == 'Vehicle No.'">
                     {{row[col]}}
                   </span>
-                  <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.' && row[col].indexOf('http') > -1">
-                    <a href="{{row[col]}}" target='blank'><img class="icon-img" src="assets/images/doc-tick.jpeg"
-                        alt="View" /></a>
-                  </ng-container>
-                  <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.' && row[col].indexOf('http') == -1">
+                  <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
                     <img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" style="cursor: pointer;"
                       (click)="fetchDocumentData(row,col)" />
                   </ng-container>

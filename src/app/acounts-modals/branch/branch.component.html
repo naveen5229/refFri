@@ -1,3 +1,5 @@
+<nb-card>
+  <nb-card-body (keydown)="keyHandler($event)">
 <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add Company Branch</h4>
     <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
@@ -12,25 +14,25 @@
           <label>User</label>
           <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
           <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Enter User" [preSelected]="null"></auto-suggestion>
+          placeholder="Enter User" displayId="user" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label>Name</label>
-          <input type="text" class="form-control" name="account-name" [(ngModel)]="Branches.name">
+          <input type="text" class="form-control" name="account-name" id="name"[(ngModel)]="Branches.name">
         </div>
       </div>
       <div class="col">
           <div class="form-group">
             <label>Code</label>
-            <input type="text" class="form-control" name="account-code" [(ngModel)]="Branches.code">
+            <input type="text" class="form-control" name="account-code" id="code" [(ngModel)]="Branches.code">
           </div>
         </div>
         <div class="col">
             <div class="form-group">
               <label>Phone Number</label>
-              <input type="text" class="form-control" name="account-code" [(ngModel)]="Branches.phonenumber">
+              <input type="text" class="form-control" name="account-phonenumber" id="phonenumber" [(ngModel)]="Branches.phonenumber">
             </div>
           </div>
     </div>
@@ -38,25 +40,25 @@
       <div class="col">
         <div class="form-group">
           <label>Mobile Number</label>
-          <input type="text" class="form-control" name="account-mobilenumber" [(ngModel)]="Branches.mobilenumber">
+          <input type="text" class="form-control" name="account-mobilenumber" id="mobilenumber" [(ngModel)]="Branches.mobilenumber">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label>Fax Number</label>
-          <input type="text" class="form-control" name="account-name" [(ngModel)]="Branches.faxnumber">
+          <input type="text" class="form-control" name="account-name" id="faxnumber" [(ngModel)]="Branches.faxnumber">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label>Toll Free Number</label>
-          <input type="text" class="form-control" name="account-tollfreenumber" [(ngModel)]="Branches.tollfreenumber">
+          <input type="text" class="form-control" name="account-tollfreenumber"  id="tollfreenumber" [(ngModel)]="Branches.tollfreenumber">
         </div>
       </div>
       <div class="col">
           <div class="form-group">
             <label>Email</label>
-            <input type="text" class="form-control" name="account-email" [(ngModel)]="Branches.email">
+            <input type="text" class="form-control" name="account-email" id="email" [(ngModel)]="Branches.email">
           </div>
         </div>
     </div>
@@ -64,25 +66,25 @@
         <div class="col">
           <div class="form-group">
             <label>Excise Number</label>
-            <input type="text" class="form-control" name="account-mobilenumber" [(ngModel)]="Branches.exciseno">
+            <input type="text" class="form-control" name="account-mobilenumber" id="exciseno" [(ngModel)]="Branches.exciseno">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Tin Number</label>
-            <input type="text" class="form-control" name="account-name" [(ngModel)]="Branches.tinno">
+            <input type="text" class="form-control" name="account-tinno" id="tinno" [(ngModel)]="Branches.tinno">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Pan Number</label>
-            <input type="text" class="form-control" name="account-pannumber" [(ngModel)]="Branches.panno">
+            <input type="text" class="form-control" name="account-pannumber" id="panno" [(ngModel)]="Branches.panno">
           </div>
         </div>
         <div class="col">
             <div class="form-group">
               <label>Import Export  Number</label>
-              <input type="text" class="form-control" name="account-importexportnumber" [(ngModel)]="Branches.importexportno">
+              <input type="text" class="form-control" name="account-importexportnumber" id="importexportno" [(ngModel)]="Branches.importexportno">
             </div>
           </div>
       </div>
@@ -90,40 +92,48 @@
           <div class="col">
             <div class="form-group">
               <label>Tan Number</label>
-              <input type="text" class="form-control" name="account-tannumber" [(ngModel)]="Branches.tanno">
+              <input type="text" class="form-control" name="account-tannumber" id="tanno" [(ngModel)]="Branches.tanno">
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label>Gst Number</label>
-              <input type="text" class="form-control" name="account-taxnumber" [(ngModel)]="Branches.gstno">
+              <input type="text" class="form-control" name="account-taxnumber" id="gstno" [(ngModel)]="Branches.gstno">
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label>Tax Exemption Number</label>
-              <input type="text" class="form-control" name="account-tollfreenumber" [(ngModel)]="Branches.taxexemptionno">
+              <input type="text" class="form-control" name="account-tollfreenumber" id="taxexemptionno" [(ngModel)]="Branches.taxexemptionno">
             </div>
           </div>
-          <div class="col">
+          <div class="col radiostockitem">
               <div class="form-group">
-                <label>Is Active Yes</label>
-                <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="true">
-                <label>No</label>  <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="false">
+                <span>Is Active</span>
+                <div class="row">
+                <div class="col">
+                <label> Yes</label>
+                <input type="radio" class="form-control" name="isactive" id="isactive" [(ngModel)]="Branches.isactive" value="true">
               </div>
+              <div class="col">
+                  <label>No</label> 
+                <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="false">
+              </div>
+              </div>
+            </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
               <div class="form-group">
                 <label>Address</label>
-                <textarea class="form-control" name="account-address" [(ngModel)]="Branches.addressline"></textarea>
+                <textarea class="form-control" name="account-address" id="addressline" [(ngModel)]="Branches.addressline"></textarea>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label>Remarks</label>
-                <textarea class="form-control" name="account-remarks" [(ngModel)]="Branches.remarks"></textarea>
+                <textarea class="form-control" name="account-remarks" id="remarks" [(ngModel)]="Branches.remarks"></textarea>
               </div>
             </div>
            
@@ -141,3 +151,15 @@
       </div>
     </div>
   </div>
+</nb-card-body>
+</nb-card>
+
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>

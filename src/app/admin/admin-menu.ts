@@ -20,6 +20,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'LR View',
+        icon: 'nb-home',
+        link: '/admin/lrview',
+        home: true,
+    },
+    {
+        title: 'Generate LR',
+        icon: 'nb-home',
+        link: '/admin/generate-lr',
+        home: true,
+    },
+    {
         title: 'Group Mmanagements',
         icon: 'nb-home',
         link: '/admin/group-managements',
@@ -37,5 +49,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/lorry-receipt-details',
         home: true,
     }
-    
+
 ];

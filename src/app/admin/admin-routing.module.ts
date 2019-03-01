@@ -6,6 +6,9 @@ import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
+import { LRViewComponent } from './lrview/lrview.component';
+import { GenerateLRComponent } from './generate-lr/generate-lr.component';
+
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 
 
@@ -15,7 +18,7 @@ const routes: Routes = [{
     children: [
         {
             path: 'dashboard',
-            component: DashboardComponent,     
+            component: VehicleStatusChangeComponent,
         },
         {
             path: 'vehiclestatuschange',
@@ -24,6 +27,14 @@ const routes: Routes = [{
         {
             path: 'escalation-matrix',
             component: EscalationMatrixComponent,
+        },
+        {
+            path: 'lrview',
+            component: LRViewComponent,
+        },
+        {
+            path: 'generate-lr',
+            component: GenerateLRComponent,
         },
         {
             path: 'group-managements',
