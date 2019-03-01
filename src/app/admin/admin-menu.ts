@@ -30,6 +30,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/ticket-properties',
         home: true,
+    },
+    {
+        title: 'Lorry Receipt Details',
+        icon: 'nb-home',
+        link: '/admin/lorry-receipt-details',
+        home: true,
     }
     
 ];

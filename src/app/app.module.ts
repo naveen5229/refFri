@@ -57,6 +57,7 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
+import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 
 // import { SmartTableComponent } from './directives/smart-table/smart-table.component';
 
@@ -102,6 +103,7 @@ import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properti
     ErrorReportComponent,
     AddEscalationIssueComponent,
     UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     
   ],
   entryComponents: [
@@ -141,7 +143,8 @@ import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properti
     DocumentReportComponent,
     ErrorReportComponent,
     AddEscalationIssueComponent,
-    UpdateTicketPropertiesComponent
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent
     
   ],
   imports: [

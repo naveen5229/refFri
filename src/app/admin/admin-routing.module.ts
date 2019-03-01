@@ -6,6 +6,7 @@ import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
+import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 
 
 const routes: Routes = [{
@@ -31,6 +32,10 @@ const routes: Routes = [{
         {
             path: 'ticket-properties',
             component: TicketPropertiesComponent,
+        },
+        {
+            path: 'lorry-receipt-details',
+            component: LorryReceiptDetailsComponent,
         },
         
     ],
