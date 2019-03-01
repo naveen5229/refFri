@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-sm-4">
 
-        <!-- <div *ngIf="this.user._customer.id==45; else notShow"> -->
+        <!-- <div *ngIf="this.user._customer.id ==45; else notShow"> -->
           <div class="form-field clear">
             <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
             <div class="col-sm-8 read-lbl" *ngIf="!canUpdate">{{document.id}}</div>
@@ -76,10 +76,6 @@
               (click)="getDate('expiry_date')"><i class="icon fa fa-calendar"></i></span>
           </div>
         <!-- </div> -->
-
-        <!-- <ng-template #notShow>
-         
-        </ng-template>-->
 
 
         <div class="form-field clear">

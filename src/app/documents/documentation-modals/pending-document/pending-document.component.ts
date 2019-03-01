@@ -47,6 +47,11 @@ export class PendingDocumentComponent implements OnInit {
     img_url2: null,
     img_url3: null
   };
+  // userlist=[{
+  //   id: null,
+  // }];
+
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -62,10 +67,9 @@ export class PendingDocumentComponent implements OnInit {
       this.canUpdate = 0;
       this.canreadonly = true;
     }
-    
-    localStorage.setItem('foadminId', this.user._customer.id);
-    // console.log("FoAdmin Id",this.user._customer.id);
-    console.log(localStorage.getItem('foadminId'));
+    // this.userlist[0].id = this.user._customer.id;
+    // localStorage.setItem('foadminId', this.user._customer.id);
+    // console.log(localStorage.getItem('foadminId'));
 
     this.document = this.common.params.rowData;
     if (this.document.issue_date)

@@ -11,10 +11,10 @@
               <thead class="thead" >
                 <tr class="">
                   <th class="col-sm-2" style="width:15%;">Document ID</th>
-                  <th class="col-sm-2" style="width: 17%;">Vehicle No.</th>
+                  <!-- <th class="col-sm-2" style="width: 17%;">Vehicle No.</th> -->
                   <th class="col-sm-2" style="width: 17%;">Vehicle ID</th>
                   <th class="col-sm-2" style="width: 17%;">Created On</th>
-                  <th class="col-sm-2" style="width: 17%;">Document Type</th>
+                  <!-- <th class="col-sm-2" style="width: 17%;">Document Type</th> -->
                   <th class="col-sm-4" style="width: 17%; padding-left: 4%">Action</th>
                 </tr>
               </thead>
@@ -22,10 +22,10 @@
                   <ng-container *ngIf="data != 'undefined'">
                     <tr *ngFor="let row of data; let i = index" class="">
                       <td class="col-sm-2" style="width: 15%;">{{row.id}}</td>
-                      <td class="col-sm-2" style="width: 17%;">{{row.regno}}</td>
+                      <!-- <td class="col-sm-2" style="width: 17%;">{{row.regno}}</td> -->
                       <td class="col-sm-2" style="width: 17%;">{{row.vehicle_id}}</td>
                       <td class="col-sm-2" style="width: 17%;">{{row.addtime | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
-                      <td class="col-sm-2" style="width: 17%;">{{row.name}}</td>
+                      <!-- <td class="col-sm-2" style="width: 17%;">{{row.name}}</td> -->
                       <td class="col-sm-4"  style="width: 17%;">
                         <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i class="icon ion-md-create"></i></a>&nbsp;
                         <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i class="fa fa-trash"></i></a>
