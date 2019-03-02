@@ -1,12 +1,16 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
+import { GroupManagementsComponent } from './group-managements/group-managements.component';
+import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.component';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
-import { LRViewComponent } from './lrview/lrview.component';
-import { GenerateLRComponent } from './generate-lr/generate-lr.component';
 
+
+import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
+import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 
 
 const routes: Routes = [{
@@ -32,7 +36,21 @@ const routes: Routes = [{
         {
             path: 'generate-lr',
             component: GenerateLRComponent,
-        }
+        },
+        {
+            path: 'group-managements',
+            component: GroupManagementsComponent,
+        },
+        {
+            path: 'ticket-properties',
+            component: TicketPropertiesComponent,
+        },
+        {
+            path: 'lorry-receipt-details',
+            component: LorryReceiptDetailsComponent,
+        },
+        
+
     ],
 }];
 

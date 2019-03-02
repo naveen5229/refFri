@@ -11,7 +11,7 @@
         <label> Material </label>
       </div>
       <div class="col-md-2">
-        <input type="text" class="form-control" [(ngModel)]="particular.material">
+        <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material">
       </div>
       <div class="col-md-1">
         <label>Number Of Articles </label>
@@ -20,38 +20,37 @@
         <input type="text" class="form-control" [(ngModel)]="particular.articleNo">
       </div>
       <div class="col-md-1">
-        <label>Invoice</label>
-      </div>
-      <div class="col-md-2">
-        <input type="text" class="form-control" [(ngModel)]="particular.invoice">
-      </div>
-
-      <div class="col-md-1">
-        <label>Material Value</label>
-      </div>
-      <div class="col-md-2">
-        <input type="text" class="form-control" [(ngModel)]="particular.materialValue">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-1">
         <label>Weight (In Tons)</label>
       </div>
       <div class="col-md-2">
         <input type="text" class="form-control" [(ngModel)]="particular.weight">
       </div>
       <div class="col-md-1">
+        <label>Material Value</label>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.materialValue">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1">
+        <label>Invoice</label>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.invoice">
+      </div>
+      <div class="col-md-1">
         <label>container No </label>
       </div>
       <div class="col-md-2">
-        <input type="text" class="form-control" [(ngModel)]="particular.containerNo">
+        <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.containerNo">
       </div>
       <div class="col-md-1">
         <label>Seal No</label>
       </div>
       <div class="col-md-2">
-        <input type="text" class="form-control" [(ngModel)]="particular.sealNo">
+        <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.sealNo">
       </div> 
       <div class="col-md-2">
           <button (click)= "particular.customField = true; particular.customButton = false" *ngIf= "particular.customButton" >Add Field </button>
@@ -59,29 +58,29 @@
     </div>
     <div class="row" *ngIf= "particular.customField">
         <div class="col-md-1">
-            <input type="text" class="form-control" [(ngModel)]="particular.customLabel1">          
+            <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[0]">          
         </div>
         <div class="col-md-2">
-          <input type="text" class="form-control" [(ngModel)]="particular.customValue1">
+          <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[1]">
         </div>
         <div class="col-md-1">
-            <input type="text" class="form-control" [(ngModel)]="particular.customLabel2">          
+            <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[2]">          
         </div>
         <div class="col-md-2">
-          <input type="text" class="form-control" [(ngModel)]="particular.customValue2">
+          <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[3]">
         </div>
         <div class="col-md-1">
-            <input type="text" class="form-control" [(ngModel)]="particular.customLabel3">         
+            <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[4]">         
         </div>
         <div class="col-md-2">
-          <input type="text" class="form-control" [(ngModel)]="particular.customValue3">
+          <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[5]">
         </div>
   
         <div class="col-md-1">
-            <input type="text" class="form-control" [(ngModel)]="particular.customLabel4">
+            <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[6]">
         </div>
         <div class="col-md-2">
-          <input type="text" class="form-control" [(ngModel)]="particular.customValue4">
+          <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[7]">
         </div>
       </div>
     <div class="row">

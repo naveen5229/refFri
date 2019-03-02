@@ -1,0 +1,24 @@
+<div class="model-header" style="margin-top:10px">
+  <h4 class="model-title">Lorry Receipt Details</h4>
+</div>
+<div class="model-body" style="margin-top:20px">
+  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px;">
+    <tr style="background-color: lightblue; color:peru;">
+      <th>Id</th>
+      <th>Receipt No.</th>
+      <th>Source</th>
+      <th>Destination</th>
+      <th>Weight</th>
+      <th>Current User</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let data of pendinglr; let i=index;">
+      <td>{{data.id}}</td>
+      <td>{{data.receipt_no}}</td>
+      <td>{{data.source}}</td>
+      <td>{{data.destination}}</td>
+      <td>{{data.weight}}</td>
+      <td>{{data.current_user}}</td>
+      <td><button class="btn" (click)="openEditLorryDetailsModel(data)">Edit</button></td>
+  </table>
+</div>
