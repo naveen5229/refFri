@@ -1,0 +1,30 @@
+<div class="model-header" style="margin-left:20px; margin-top: 20px; margin-right: 20px">
+  <h6 class="model-title" id="model-basic-title">Ticket Properties</h6>
+  <button type="button" class="close" style="margin-top : -30px" aria-label="Close" (click)=dismiss(false)>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="border" style="height: 2px; background-color: darkslategray; margin-top: 20px; margin-bottom: 20px"></div>
+<div class="modael-body" style="margin-top: 20px; margin-bottom: 20px; text-align: center">
+  <div class="row" style="margin-left: 70px; margin-right: 50px">
+    <div class="col-4"><input type="text"  class="form-control" [(ngModel)]="ticketProperties.issue_name" name="isue type" style="font-size: 10px;"></div>
+    <div class="col-4"><input type="text"  class="form-control" [(ngModel)]="ticketProperties.esc_time" name="esc_time" style="font-size: 10px;"></div>
+  </div>
+  <div class="row" style="margin-left: 70px; margin-top: 10px; margin-right: 50px">
+    <div class="col-4"><input type="text"  class="form-control" [(ngModel)]="ticketProperties.compl_rem_time" name="compl_rem_time" style="font-size: 10px;"></div>
+    <div class="col-4"><input type="text"  class="form-control" [(ngModel)]="ticketProperties.compl_esc_time" name="compl_esc_time" style="font-size: 10px;"></div>
+  </div>
+  <div class="row" style="margin-left: 90px; margin-top: 10px;">
+    <input type="checkbox" class="form-control" name="is_reminder" [(ngModel)]="ticketProperties.is_reminder" style="height:15px; width:15px;">
+    &nbsp; is_reminder
+    <input type="checkbox" class="form-control" name="is_escalate" [(ngModel)]="ticketProperties.is_escalate" style="height:15px; width:15px; margin-left: 30px;">
+    &nbsp; is_escalate
+  </div>
+  <div class="row" style="margin-top: 10px; margin-left: 90px;">
+    <input type="checkbox" class="form-control" name="is_deliverytime" [(ngModel)]="ticketProperties.is_deliverytime"
+        style="height:15px; width:15px;"> &nbsp; is_deliverytime
+    <input type="checkbox" class="form-control" name="is_urgent" [(ngModel)]="ticketProperties.is_urgent" style="height:15px; width:15px; margin-left: 10px;">
+    &nbsp; is_urgent
+  </div>
+  <button class="btn-submit" type="button" (click)="updateProperties()" style="text-align: center; margin-top: 20px; width: 80px; height:20px; border: rgb(0, 128, 64); background-color: darkslategray; font-size: 10px; color: whitesmoke">Submit</button>
+</div>

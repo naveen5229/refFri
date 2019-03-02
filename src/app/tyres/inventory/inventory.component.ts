@@ -96,6 +96,7 @@ export class InventoryComponent implements OnInit {
   }
 
   testFilledData() {
+
     let alerts = false;
     let count = this.inventories.length;
     let afterRemove =[];
@@ -113,6 +114,7 @@ export class InventoryComponent implements OnInit {
         alerts = true;
         break;
       }
+     
     }
     if (alerts == true) {
       alert("NSD-1 , NSD-2 , NSD-3 , PSI fields are mandatory is  Is_Health is Checked");
@@ -132,6 +134,7 @@ export class InventoryComponent implements OnInit {
   }
 
   saveDetails() {
+   
     this.common.loading++;
     let params = { inventories: JSON.stringify(this.inventories) };//JSON.stringify(this.inventories) ;
     console.log('Params:', params);

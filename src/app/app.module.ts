@@ -48,9 +48,8 @@ import { VoucherComponent } from './acounts-modals/voucher/voucher.component';
 import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.component';
 import { OrderComponent } from './acounts-modals/order/order.component';
 import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { EditDocumentComponent } from './documents/documentation-modals/edit-document/edit-document.component';
-import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
+import { PendingDocumentComponent } from './documents/documentation-modals/pending-document/pending-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
@@ -59,8 +58,19 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { MatIconModule } from '@angular/material/icon';
+import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
+import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
+
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
+import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
+import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -106,6 +116,11 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
+    ParticlularsComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
+    AddConsigneeComponent,
+    AddDriverComponent,
     AddTripComponent
   ],
   entryComponents: [
@@ -149,6 +164,11 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
+    ParticlularsComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
+    AddConsigneeComponent,
+    AddDriverComponent,
     AddTripComponent
   ],
   imports: [
@@ -163,11 +183,16 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    Ng2SmartTableModule
+    ImageViewerModule,
+    MatIconModule,
+    DragDropModule,
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
+
   ],
 })
 export class AppModule {

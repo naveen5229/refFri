@@ -6,17 +6,18 @@
 </div>
 
 <div class="modal-body">
-  <form #agentForm="ngForm" id="agent-form" name="agent-form" (submit)="agentForm.valid && addNewAgent()">
+
+  <form [formGroup]="agentForm" name="agent-form" id="agent-form" (submit)="agentForm.valid && addNewAgent()">
     <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Agent Name <span class="mandatory">*</span> </label>
       </div>
 
-      <div class="col-md-8">
-        <input id="agent-name" name="agent-name" type="text" placeholder="Enter Agent name" autocomplete="off" class="form-control"
-          required #agentName="ngModel" [(ngModel)]="agent.name" [value]="agent.name">
-        <div *ngIf="isFormSubmit && agentName.errors" class="error">
-          <span [hidden]="!agentName.errors.required">Agent Name is mandatory</span>
+      <div class="col-md-8 form-group">
+        <input id="agent-name" name="agent-name" type="text" placeholder="Enter Agent name" autocomplete="off"
+          class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': isFormSubmit && f.name.errors }">
+        <div *ngIf="isFormSubmit && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Agent Name is required</div>
         </div>
       </div>
 
@@ -27,12 +28,17 @@
         <label>Mobile Number <span class="mandatory">*</span> </label>
       </div>
 
-      <div class="col-md-8">
-        <input id="mobile-number" name="mobile-number" type="text" placeholder="Mobile Number" autocomplete="off" class="form-control"
-          required #agentMobile="ngModel" [(ngModel)]="agent.mobileNumber" [value]="agent.mobileNumber" maxlength="10"
-          minlength="10">
-        <div *ngIf="isFormSubmit && agentMobile.errors" class="error">
+      <div class="col-md-8 form-group">
+        <input id="mobile-number" name="mobile-number" type="text" placeholder="Mobile Number" autocomplete="off"
+          class="form-control" formControlName="mobileNo" minlength="10" maxlength="10" 
+          [ngClass]="{ 'is-invalid': isFormSubmit && f.mobileNo.errors }">
+        <!-- <div *ngIf="isFormSubmit && agentMobile.errors" class="error">
           <span [hidden]="!agentMobile.errors.required">Mobile Number is mandatory</span>
+        </div> -->
+        <div *ngIf="isFormSubmit && f.mobileNo.errors" class="invalid-feedback">
+          <div *ngIf="f.mobileNo.errors.required">mobileNumber Name is required</div>
+          <div *ngIf="f.mobileNo.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.mobileNo.errors.maxlength ">mobile Number maxlength 10</div>
         </div>
       </div>
 
@@ -42,8 +48,8 @@
       <div class="col-md-4">
         <label>Location</label>
       </div>
-      <div class="col-md-8">
-        <input id="location" name="location" type="text" [(ngModel)]="agent.location" placeholder="Location"
+      <div class="col-md-8 form-group">
+        <input id="location" name="location" type="text" formControlName="location" placeholder="Location"
           autocomplete="off" class="form-control">
       </div>
     </div>
@@ -53,7 +59,7 @@
         <label>Email id</label>
       </div>
       <div class="col-md-8">
-        <input id="emailid" name="emailid" type="email" [(ngModel)]="agent.email" placeholder="abc@gmail.com"
+        <input id="emailid" name="emailid" type="email" formControlName="email" placeholder="abc@gmail.com"
           autocomplete="off" class="form-control">
       </div>
     </div>
@@ -64,10 +70,11 @@
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button"  (click)="closeModal(false)" id="cancel" style="cursor: pointer;">{{btn2}}</button>
+      <button class="btn btn-danger" type="button" (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="submit" form="agent-form"  (click)="isFormSubmit = true" id="submit"
+      <button class="btn btn-primary" type="submit" form="agent-form" (click)="isFormSubmit = true" id="submit"
         style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>

@@ -7,7 +7,7 @@
 }
 
 .table-scroll tbody {
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
     display: block;
     width: 100%;
@@ -22,4 +22,7 @@
 
 .table-scroll td {
     height: 47px; // needed in order to keep rows from collapsing
+}
+nb-card{
+    padding-left: 4% !important;
 }

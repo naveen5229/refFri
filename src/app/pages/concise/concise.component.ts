@@ -14,7 +14,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { log } from 'util';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 import { componentRefresh } from '@angular/core/src/render3/instructions';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'concise',
@@ -23,6 +23,8 @@ import { componentRefresh } from '@angular/core/src/render3/instructions';
   animations: [slideToLeft(), slideToUp()],
 })
 export class ConciseComponent implements OnInit {
+  registerForm: FormGroup;
+  submitted = false;
 
   kpis = [];
   allKpis = [];
@@ -68,7 +70,7 @@ export class ConciseComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public user: UserService,
+    public user: UserService, private formBuilder: FormBuilder,
     private modalService: NgbModal) {
     this.getKPIS();
     this.common.refresh = this.refresh.bind(this);
@@ -76,6 +78,24 @@ export class ConciseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      search: ['', Validators.required]
+    });
+  }
+
+  get f() { return this.registerForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
   }
 
   refresh() {
@@ -102,21 +122,72 @@ export class ConciseComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.kpis.map(kpi => {
+    this.kpis.map((kpi, i) => {
       columns.push({
-        vechile: { value: kpi.x_showveh, action: this.showDetails.bind(this, kpi) },
-        status: { value: kpi.showprim_status, action: this.showDetails.bind(this, kpi) },
-        hrs: { value: kpi.x_hrssince, action: this.showDetails.bind(this, kpi), class: kpi.x_hrssince >= 24 ? 'red' : '' },
-        trip: { value: kpi.trip_status_type, action: this.showDetails.bind(this, kpi) },
-        kmp: { value: kpi.x_kmph, action: this.showDetails.bind(this, kpi), class: kpi.x_kmph < 20 ? 'pink' : '' },
+        vechile: { value: kpi.x_showveh, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        status: { value: kpi.showprim_status, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        hrs: { value: kpi.x_hrssince, action: '', class: kpi.x_hrssince >= 24 ? 'red' : '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        kmp: { value: kpi.x_kmph, action: '', class: kpi.x_kmph < 20 ? 'pink' : '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
         report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
-
+        rowActions: {
+          click: 'selectRow'
+        }
       });
     });
     return columns;
   }
 
+  getTripStatusHTML(kpi) {
+    let html = '<div>';
+    if (kpi.trip_status_type == 0) {
+      html += `
+      <!-- Heading -->
+        <i class="fa fa-arrow-circle-right complete"></i>
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 1) {
+      html += `
+      <!-- Loading -->
+        <span class="circle">${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 2) {
+      html += `
+      <!-- Onward -->
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    } else if (kpi.trip_status_type == 3) {
+      html += `
+        <!-- Unloading -->
+          <span>${kpi.x_showtripstart}</span>
+          <i class="icon ion-md-arrow-round-forward"></i>
+          <span class="circle">${kpi.x_showtripend}</span>
+        `;
+    } else if (kpi.trip_status_type == 4) {
+      html += `
+      <!-- Complete -->
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripend}</span>
+        <i class="fa fa-check-circle complete"></i>
+      `;
+    } else {
+      html += `
+      <!-- Ambigous -->
+        <span>${kpi.x_showtripstart}</span>
+        <span class="icon ion-md-route-arrow">-</span>
+        <span>${kpi.x_showtripend}</span>
+      `;
+    }
+    return html + '</div>';
+  }
 
 
   getViewType() {

@@ -1,8 +1,6 @@
-<h1>Ledger View</h1>
-
-
-
-
+<nb-card>
+    <nb-card-body style="min-height: 450px;">
+      <h1>Ledger View</h1>
 <div class="row" style="margin-left: 5px;">
   <div class="col">
     <div class="form-group">
@@ -21,7 +19,7 @@
     <div class="col">
         <div class="form-group">
           <label>Ledger</label>
-          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger" display="name"
+          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
             placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
@@ -68,3 +66,5 @@
     <td>{{dataItem.y_date | date : 'dd MMM HH:mm'}}</td>
   </tr>
 </table>
+</nb-card-body>
+</nb-card>

@@ -32,11 +32,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-book',
     link: '/pages/expenses',
   },
-  // {
-  //   title: 'Concise View',
-  //   icon: 'nb-bar-chart',
-  //   link: '/pages/concise',
-  // },
   {
     title: 'Fuel Average Analysis',
     icon: 'fa fa-signal',
@@ -48,8 +43,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/vehicle-trip',
   },
   {
+    title: 'Tyre',
+    icon: 'fa fa-cog',
+    link:'/tyres/inventory'
+  },
+  {
     title: 'Documentation',
     icon: 'fa fa-database',
-    link:'/documents'
+    link:'/documents/documents-summary'
+  },
+  {
+    title: 'Account',
+    icon: 'fa fa-money',
+    link:'/accounts/dashboard'
   }
 ];

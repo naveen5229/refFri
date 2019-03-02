@@ -47,8 +47,8 @@ label{
     opacity: 0;
   }
 .btn.btn-primary{
-    margin-left: -20%;
-    margin-top: 18%;
+    // margin-left: -20%;
+    margin-top: 30px;
     position: relative;
 }
 .table{
@@ -109,6 +109,7 @@ label{
 }
 :host ::ng-deep.black {
     color: black;
+    background: cornsilk;
     // display: none;
 }
 :host ::ng-deep.red {
@@ -120,14 +121,18 @@ label{
     color: black;
 }
 :host ::ng-deep.green{
-    background: #96ec11;
+    background: #0bff0b;
     color:black;
 }
-
-.loc-icon {
-    text-align: center;
-    font-size: 10px;
-    color: orange;
+:host ::ng-deep.icon{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
+}
+:host ::ng-deep.image{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
 }
 
 :host ::ng-deep .circle {
@@ -166,4 +171,13 @@ label{
 table{
     cursor:pointer;
     // background: aliceblue;
+}
+nb-card{
+    padding-left: 4% !important;
+}
+
+
+
+ngx-footer {
+    padding-left: 10% !important;   
 }
