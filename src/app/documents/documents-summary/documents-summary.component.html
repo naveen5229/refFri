@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" /></td><td>Normal</td>
+                    <td><img class="icon-img" src="assets/images/doc-tick.png" alt="View" /></td><td>Normal</td>
                   </tr>
                   <tr>
                     <td><img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" /></td><td>Expired</td>
@@ -56,10 +56,10 @@
                   <span *ngIf="col == 'Vehicle No.'">
                     {{row[col]}}
                   </span>
-                  <ng-container *ngIf="row[col] == 'BlackTick' && col != 'Vehicle No.'">
+                  <span *ngIf="row[col] == 'BlackTick' && col != 'Vehicle No.'">
                     <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" style="cursor: pointer;"
                       (click)="fetchDocumentData(row,col)" />
-                  </ng-container>
+                  </span>
                   <span *ngIf="row[col] == 'BlackCross' && col != 'Vehicle No.'">
                     <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" style="cursor: pointer;"
                       (click)="fetchDocumentData(row,col)" />
@@ -69,12 +69,12 @@
                       (click)="fetchDocumentData(row,col)" />
                   </span>
                   <span *ngIf="row[col] == 'GreenTick' && col != 'Vehicle No.'">
-                    <img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" style="cursor: pointer;"
+                    <img class="icon-img" src="assets/images/doc-tick.png" alt="View" style="cursor: pointer;"
                       (click)="fetchDocumentData(row,col)" />
                   </span>
-                  <ng-container *ngIf="row[col] == ''">
+                  <span *ngIf="row[col] == ''">
                     <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
-                  </ng-container>
+                  </span>
                 </td>
               </tr>
             </ng-container>
