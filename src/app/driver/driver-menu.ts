@@ -16,6 +16,12 @@ export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/driver',
         home: true,
+    },
+    {
+        title: 'Add Driver',
+        icon: 'nb-home',
+        link: '/driver/add-driver',
+        home: true,
     }
 
 ];
