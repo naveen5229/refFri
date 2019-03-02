@@ -15,14 +15,14 @@
           <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
           <div class="col-sm-8 read-lbl" *ngIf="!canUpdate">{{document.id}}</div>
           <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
-            class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.id" readonly />
+            class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />
         </div>
         <div class="form-field clear">
           <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
           <div *ngIf="!canUpdate" class="col-sm-8 read-lbl"> {{document.regno}}</div>
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
             <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-              placeholder="Enter Vehicle Number" [preSelected]="{regno: document.regno}" style="width:60%;"
+              placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
               (keyup)="isValidVehicle($event)"></auto-suggestion>
           </div>
         </div>
@@ -32,16 +32,11 @@
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
             <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
               [data]="docTypes" placeholder="Enter Document Type"
-              [preSelected]="{document_type: document.document_type}" class="documentType "
+              [preSelected]="null" class="documentType "
               style='width: 60% !important;' (keyup)="isValidDocument($event)"></auto-suggestion>
           </div>
         </div>
-        <div class="form-field clear">
-          <label for="doc_no" class="col-sm-4 mgn-vert">Document No.</label>
-          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{document.doc_no}}</div>
-          <input *ngIf="canUpdate" id="doc_no" name="doc_no" type="text" class="col-sm-8 form-control frm-fld mgn-vert"
-            maxlength="25" [(ngModel)]="document.doc_no" [readonly]="!canUpdate" />
-        </div>
+
         <div class="form-field clear">
           <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
           <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{getDateInDisplayFormat(document.issue_date)}} </div>
@@ -77,13 +72,29 @@
         <!-- </div> -->
 
         <div *ngIf="this.user._loggedInBy=='customer'; else adminData">
-          <div class="form-field clear">
-            <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
-            <input type="text" id="rto" name="rto" type="text" class="form-control" [(ngModel)]="document.rto"
-              maxlength="20" placeholder="Enter Rto">
+            <div class="row form-field clear">
+                <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
+                <div class="col-sm-8 read-lbl">
+                  {{document.remarks}}
+                </div>
+              </div>
+
+          <div class=" row form-field clear">
+            <label for="doc_no" class="col-sm-4 mgn-vert">Document No.</label>
+            <div class="col-sm-8">
+              <input id="doc_no" name="doc_no" type="text" class=" form-control " maxlength="25"
+                [(ngModel)]="document.doc_no" />
+            </div>
 
           </div>
-          <div class="form-field clear">
+          <div class="row form-field clear">
+            <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
+            <div class="col-sm-8 ">
+              <input type="text" id="rto" name="rto" type="text" class="form-control" [(ngModel)]="document.rto"
+                maxlength="20" placeholder="Enter Rto">
+            </div>
+          </div>
+          <div class="row form-field clear">
             <label for="agent" class="col-sm-4 mgn-vert">Agent</label>
             <div class="col-sm-8 ">
               <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent"
@@ -97,29 +108,37 @@
             </div>
           </div>
 
-          <div class="form-field clear">
+          <div class="row form-field clear">
             <label for="amount" class="col-sm-4 mgn-vert">Amount</label>
-            <input id="amount" name="amount" type="text" class="col-sm-8 form-control frm-fld mgn-vert"
-              [(ngModel)]="document.amount" maxlength="10" maxlength="10" placeholder="Enter Amount" />
+            <div class="col-sm-8 ">
+              <input id="amount" name="amount" type="text" class="form-control frm-fld mgn-vert"
+                [(ngModel)]="document.amount"  maxlength="10" maxlength="10" placeholder="Enter Amount" />
+            </div>
           </div>
-          <div class="form-field clear">
-            <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
-            <textarea id="remarks" name="remarks" rows="1" class="col-sm-8 form-control frm-fld  mgn-vert"
-              [(ngModel)]="document.remarks"></textarea>
-          </div>
+        
         </div>
       </div>
-      
-        <ng-template #adminData>
-          <div class="form-field clear">
-            <label for="rto" class="col-sm-4 mgn-vert">RTO</label>
-            <div  class="col-sm-8 read-lbl">{{document.rto}}</div>
-          
-          </div>
-          <div class="form-field clear">
-            <label for="agent" class="col-sm-4 mgn-vert">Agent</label>
-            <div  class="col-sm-8 read-lbl">{{document.agent}}</div>
-            <!-- <div class="col-sm-8 " *ngIf="canUpdate">
+
+      <ng-template #adminData>
+          <div class="row form-field clear">
+              <label for="remarks" class="col-sm-4 " style="padding-left:8%;">Remarks</label>
+              <div class="col-sm-8 read-lbl">{{document.remarks}}</div>
+             
+            </div>
+            <div class="row form-field clear">
+              <label for="doc_no" class="col-sm-4 mgn-vert" style="padding-left:8%;">Document No.</label>
+              <div  class="col-sm-8 read-lbl">{{document.doc_no}}</div>
+            </div>
+
+        <div class="row form-field clear">
+          <label for="rto" class="col-sm-4 mgn-vert" style="padding-left:8%;">RTO</label>
+          <div class="col-sm-8 read-lbl">{{document.rto}}</div>
+
+        </div>
+        <div class="row form-field clear">
+          <label for="agent" class="col-sm-4 mgn-vert" style="padding-left:8%;">Agent</label>
+          <div class="col-sm-8 read-lbl">{{document.agent}}</div>
+          <!-- <div class="col-sm-8 " *ngIf="canUpdate">
               <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent"
                 class="form-control frm-fld mdl-sel-agt">
                 <option value="">--</option>
@@ -129,18 +148,14 @@
               </select>
               <a *ngIf="canUpdate" href="javascript: void(0);" (click)="addAgent()">Add Agent</a> 
             </div> -->
-          </div>
-          <div class="form-field clear">
-            <label for="amount" class="col-sm-4 mgn-vert">Amount</label>
-            <div class="col-sm-8 read-lbl">{{document.amount}}</div>
-           
-          </div>
-          <div class="form-field clear">
-              <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
-              <div class="col-sm-8 read-lbl">{{document.remarks}}</div>
-              <textarea *ngIf="canUpdate" id="remarks" name="remarks" rows="1" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks"  [readonly]="!canUpdate" ></textarea>
-          </div>
-        </ng-template>
+        </div>
+        <div class="row form-field clear">
+          <label for="amount" class="col-sm-4 mgn-vert" style="padding-left:8%;">Amount</label>
+          <div class="col-sm-8 read-lbl">{{document.amount}}</div>
+
+        </div>
+     
+      </ng-template>
 
       <div class="col-sm-8">
         <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
@@ -168,7 +183,7 @@
         id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
     <div class="col text-right" *ngIf="this.user._loggedInBy== 'customer'">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
+      <button class="btn btn-primary" form="document-form" type="submit"  (click)="customerByUpdate()"
         id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>
