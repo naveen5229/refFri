@@ -14,7 +14,7 @@ export class ReminderComponent implements OnInit {
     date: '',
     time: ''
   };
-
+title='';
   dates = [{
     name: 'Today',
     date: this.common.getDate(),
@@ -40,6 +40,12 @@ export class ReminderComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
+      if(this.common.params.title){
+        this.title = this.common.params.title;
+      }
+      else{
+        this.title = "Reminder";
+      }
   }
 
   ngOnInit() {

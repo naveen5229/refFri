@@ -47,6 +47,11 @@ export class PendingDocumentComponent implements OnInit {
     img_url2: null,
     img_url3: null
   };
+  // userlist=[{
+  //   id: null,
+  // }];
+
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -56,12 +61,17 @@ export class PendingDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Update';
     this.btn2 = this.common.params.btn2 || 'Discard Image';
+
+    console.log("user identifation: ", this.user._loggedInBy);
     console.log("commonparams: ");
     console.log(this.common.params);
     if (!this.common.params.canUpdate) {
       this.canUpdate = 0;
       this.canreadonly = true;
     }
+    // this.userlist[0].id = this.user._customer.id;
+    // localStorage.setItem('foadminId', this.user._customer.id);
+    // console.log(localStorage.getItem('foadminId'));
 
     this.document = this.common.params.rowData;
     if (this.document.issue_date)
@@ -84,18 +94,18 @@ export class PendingDocumentComponent implements OnInit {
     this.images.push({name : "doc-img", image: this.document.img_url});
     this.common.params = { title : "Doc Image", images: this.images};
     */
-    if(this.document.img_url != "undefined" && this.document.img_url) {
-     this.images.push( this.document.img_url);
-   }
-   if(this.document.img_url2 != "undefined" && this.document.img_url2) {
+    if (this.document.img_url != "undefined" && this.document.img_url) {
+      this.images.push(this.document.img_url);
+    }
+    if (this.document.img_url2 != "undefined" && this.document.img_url2) {
       this.images.push(this.document.img_url2);
-   }
-   if(this.document.img_url3 != "undefined" && this.document.img_url3) {
+    }
+    if (this.document.img_url3 != "undefined" && this.document.img_url3) {
       this.images.push(this.document.img_url3);
     }
     console.log("images:");
     console.log(this.images);
-    
+
   }
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -123,6 +133,13 @@ export class PendingDocumentComponent implements OnInit {
             this.doc_not_img = 1;
           }
           this.images.push({ name: "doc-img", image: this.document.img_url });
+          this.common.params = { title: "Doc Image", images: this.images };
+        }
+        if (this.document.img_url2) {
+          if ((this.document.img_url2.indexOf('.pdf') > -1) || (this.document.img_url2.indexOf('.doc') > -1) || (this.document.img_url2.indexOf('.docx') > -1) || (this.document.img_url2.indexOf('.xls') > -1) || (this.document.img_url2.indexOf('.xlsx') > -1) || (this.document.img_url2.indexOf('.csv') > -1)) {
+            this.doc_not_img = 1;
+          }
+          this.images.push({ name: "doc-img", image: this.document.img_url2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
 
@@ -182,7 +199,35 @@ export class PendingDocumentComponent implements OnInit {
       return false;
     }
   }
+
+  customerByUpdate() {
+    const params = {
+      x_document_id: this.document.id,
+      x_document_agent_id: this.document.agent_id,
+      x_document_number: this.document.doc_no,
+      x_rto: this.document.rto,
+      x_amount: this.document.amount,
+      x_is_verified: true
+    }
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/updateVehicleDocumentByCustomer', params )
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("api result", res);
+        alert(res['msg']);
+        this.closeModal(true);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
+  }
+
+
   updateDocument() {
+    if(this.user._loggedInBy=='admin')
+    {
     const params = {
       x_vehicle_id: this.document.vehicle_id,
       x_document_id: this.document.id,
@@ -280,7 +325,7 @@ export class PendingDocumentComponent implements OnInit {
 
     this.common.loading++;
     let response;
-    this.api.post('Vehicles/addVehicleDocument', params)
+    this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
@@ -291,6 +336,7 @@ export class PendingDocumentComponent implements OnInit {
         console.log(err);
       });
     return response;
+    }
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -406,24 +452,24 @@ export class PendingDocumentComponent implements OnInit {
   }
 
   deleteImage(id) {
-  
-    let ret= confirm("Are you sure to delete this Document ?");
-    if(ret){
-      console.log("Deleted Image id is: ",id);
-    this.common.loading++;
-    this.api.post('Vehicles/deleteDocumentById', {x_document_id: id})
-    .subscribe(res => {
-      this.common.loading--;
-      console.log("data", res);
-      this.closeModal(true);
-      window.location.reload();
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-      window.location.reload();
-    });
-  
-   
+
+    let ret = confirm("Are you sure to delete this Document ?");
+    if (ret) {
+      console.log("Deleted Image id is: ", id);
+      this.common.loading++;
+      this.api.post('Vehicles/deleteDocumentById', { x_document_id: id })
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("data", res);
+          this.closeModal(true);
+          window.location.reload();
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+          window.location.reload();
+        });
+
+
     }
-}
+  }
 }

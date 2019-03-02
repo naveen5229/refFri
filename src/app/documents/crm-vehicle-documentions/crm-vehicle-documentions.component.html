@@ -15,8 +15,13 @@
                         </div>
                     </div>
                     <div class="col-md-2 offset-md-08">
-                        <button type="submit" class="btn btn-primary" (click)="addDocument()"
-                            >Add
+                        <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
+                            Document</button>
+                    </div>
+                </div>
+                <div class="row" *ngIf="loginid==1">
+                    <div class="col-md-06" style="margin-top: -8%;margin-left: 40%;">
+                        <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import
                             Document</button>
                     </div>
                 </div>

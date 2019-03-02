@@ -16,7 +16,7 @@
         <div class="col-md-4">
             <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
             <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-           displayId="user" placeholder="Enter User" [preSelected]="null"  class="suggestion-containerbox"></auto-suggestion>
+           id="user" placeholder="Enter User" [preSelected]="null"  class="suggestion-containerbox"></auto-suggestion>
         </div>
         <div class="col-md-2 text-center">
             <label>Code</label>
@@ -49,7 +49,7 @@
         </div>
         <div class="col-md-4">
             <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount"  display="name"
-            displayId="undergroup"  placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+            id="undergroup"  placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
         </div>
         <div class="col-md-2 text-center">
           <label>Per Rate</label>
@@ -79,7 +79,7 @@
       <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.name"  [id]="'accountName-' + i">    
   </td>
   <td> 
-    <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation" display="name" [displayId]="'salution-' + i" placeholder="Enter Salutation" [preSelected]="null">
+    <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation" display="name" [id]="'salution-' + i" placeholder="Enter Salutation" [preSelected]="null">
   </auto-suggestion>
   </td>
   <td>
@@ -98,7 +98,7 @@
       <input type="text" class="form-control" name="account-name"  [id]="'gstNo-' + i" [(ngModel)]="Details.gstNo">    
   </td>
   <td>
-      <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name" [displayId]="'city-' + i" placeholder="Enter City" [preSelected]="null">
+      <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name" [id]="'city-' + i" placeholder="Enter City" [preSelected]="null">
     </auto-suggestion>
   </td>
   <td>
@@ -227,3 +227,13 @@
 </div>
 </nb-card-body>
 </nb-card>
+
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>
