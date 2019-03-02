@@ -6,6 +6,43 @@
   <nb-card-body style="min-height: 360px;">
     <div class="container">
       <div class="row col-sm-12">
+          <div class="col-sm-6">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Symbol</th><th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" /></td><td>Normal</td>
+                  </tr>
+                  <tr>
+                    <td><img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" /></td><td>Expired</td>
+                  </tr>
+                  <tr>
+                    <td><img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" /></td><td>Unverified</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          <div class="col-sm-6">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <th>Symbol</th><th>Description</th>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td><img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" /></td><td>No Image/Upload</td>
+                    </tr>
+                    <tr>
+                      <td><img class="icon-img" src="assets/images/doc-cross.png" alt="No" /></td><td>No Record</td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row col-sm-12">
         <table class="table table-bordered table-hover table-scroll">
           <thead class="thead">
             <tr>
@@ -19,10 +56,22 @@
                   <span *ngIf="col == 'Vehicle No.'">
                     {{row[col]}}
                   </span>
-                  <ng-container *ngIf="row[col] != '' && col != 'Vehicle No.'">
-                    <img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" style="cursor: pointer;"
+                  <ng-container *ngIf="row[col] == 'BlackTick' && col != 'Vehicle No.'">
+                    <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" style="cursor: pointer;"
                       (click)="fetchDocumentData(row,col)" />
                   </ng-container>
+                  <span *ngIf="row[col] == 'BlackCross' && col != 'Vehicle No.'">
+                    <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" style="cursor: pointer;"
+                      (click)="fetchDocumentData(row,col)" />
+                  </span>
+                  <span *ngIf="row[col] == 'RedTick' && col != 'Vehicle No.'">
+                    <img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" style="cursor: pointer;"
+                      (click)="fetchDocumentData(row,col)" />
+                  </span>
+                  <span *ngIf="row[col] == 'GreenTick' && col != 'Vehicle No.'">
+                    <img class="icon-img" src="assets/images/doc-tick.jpeg" alt="View" style="cursor: pointer;"
+                      (click)="fetchDocumentData(row,col)" />
+                  </span>
                   <ng-container *ngIf="row[col] == ''">
                     <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
                   </ng-container>
