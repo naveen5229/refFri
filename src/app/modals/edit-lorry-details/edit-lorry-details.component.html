@@ -18,13 +18,14 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <button class="btn-loadLr" style="width:150px" type="button" (click)="loadLr()">Load LR</button>
+      <button class="btn-loadLr" style="width:150px" type="button" (click)="loadImage('LR')">Load LR</button>
     </div>
     <div class="col-sm-3">
-      <button class="btn-loadInvoice" type="button" style="width:150px" (click)="loadInvoice()">Load Invoice</button>
+      <button class="btn-loadInvoice" type="button" style="width:150px" (click)="loadImage('Invoice')">Load
+        Invoice</button>
     </div>
     <div class="col-sm-3">
-      <button class="btn-loadOther" style="width:150px" type="button" (click)="loadOther()">Load Invoice</button>
+      <button class="btn-loadOther" style="width:150px" type="button" (click)="loadImage('Other')">Load Invoice</button>
     </div>
   </div>
   <div class="row">
@@ -32,9 +33,9 @@
       <input type="text" class="form-control" name="RNo." placeholder="Receipt No.">
       <input type="text" class="from-control" name="source" placeholder="Source">
       <input type="text" class="from-control" name="destination" placeholder="Destination" style="margin-bottom:10px">
-      <auto-suggestion (onSelected)="searchVehicle($event)"  url="suggestion/getVehicleList" display="regno"
-      placeholder="Search ID" [preSelected]="null"></auto-suggestion>
-      
+      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+
       <input type="text" class="from-control" name="remark" placeholder="Remark">
       <div class="row">
         <div class="col-9">
@@ -91,11 +92,8 @@
       </div>
     </div>
     <div class="col-9">
-        <img src="{{image_url}}" alt="doc-img" class="doc-img" />
-    <!-- <ng-template *ngIf="LrFlag==true; then showLr" elseif="InvoiceFlag==true; then showInvoice" elseif="otherFlag==true; then showOther"></ng-template>
-    <ng-template #showLr><img src="{{documents.lr_image}}"></ng-template>
-    <ng-template #showInvoice><img src="{{documents.invoice_image}}"></ng-template>
-    <ng-template #showOther><img src="{{documents.other_image}}"></ng-template> -->
+      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+      </app-image-viewer>
     </div>
   </div>
 </div>
