@@ -6,10 +6,11 @@ import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
-import { LRViewComponent } from './lrview/lrview.component';
-import { GenerateLRComponent } from './generate-lr/generate-lr.component';
+
 
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
+import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 
 
 const routes: Routes = [{
@@ -49,6 +50,7 @@ const routes: Routes = [{
             component: LorryReceiptDetailsComponent,
         },
         
+
     ],
 }];
 
