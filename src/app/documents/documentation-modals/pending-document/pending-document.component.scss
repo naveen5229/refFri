@@ -29,8 +29,8 @@ auto-suggestion{
     overflow: auto !important;
     max-height: 150px !important;
 }
-.form-control.frm-fld { width: 60%; display: inline; margin-left: 6px; }
-.form-control { width: 60%;}
+//.form-control.frm-fld { width: 60%; display: block; margin-left: 6px; }
+//.form-control { width: 60%;}
 .suggestion-container .form-control {width: 60% !important;}
 .custom-input-1 { width:60% !important;}
 .mgn-vert { margin-top: 3px; margin-bottom: 3px;}
@@ -38,5 +38,5 @@ auto-suggestion{
 .clear { clear:both;}
 .sug-fld { padding-left: 6px; padding-right: 19px;}
 .vert-mdl-pdg { padding-top : 3px; padding-bottom: 3px;}
-.mdl-sel-agt {width: 102% !important; margin-left: -9px !important;}
+.mdl-sel-agt {width: 100% !important; margin: 0px !important; height: auto !important;}
 .read-lbl { padding: 0.75rem 1.125rem;}
