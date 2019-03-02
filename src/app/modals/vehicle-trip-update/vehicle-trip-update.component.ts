@@ -58,6 +58,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
   openReminderModal(){
     this.common.params.returnData = true;
+    this.common.params.title = "Target Time";
     const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data",data);
@@ -104,6 +105,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
+    if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
     this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
@@ -126,5 +128,9 @@ export class VehicleTripUpdateComponent implements OnInit {
         --this.common.loading;
         console.log('Err:', err);
       });
+  }else{
+    alert("Next Location And Purpose is Mandatory");
   }
+}
+  
 }
