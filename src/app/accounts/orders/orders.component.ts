@@ -16,9 +16,9 @@ import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.com
 export class OrdersComponent implements OnInit {
 
   order = {
-    date: '',
+    date: this.common.dateFormatter(new Date()).split(' ')[0],
     biltynumber: '',
-    biltydate: '',
+    biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
     totalamount:0,
     grnremarks:'',
     branch: {
@@ -114,6 +114,10 @@ export class OrdersComponent implements OnInit {
         console.log(this.order[date]);
     });
   }
+  
+  
+
+  
 
   TaxDetails(i) {
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -122,6 +126,7 @@ export class OrdersComponent implements OnInit {
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
+        this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
     });
@@ -188,5 +193,107 @@ export class OrdersComponent implements OnInit {
     return total;
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    const activeId = document.activeElement.id;
+    console.log('Active Id', activeId);
+
+    if (key == 'enter') {
+    //  this.allowBackspace = true;
+      // console.log('active', activeId);
+      if (activeId.includes('branch')) {
+        this.setFoucus('ordertype');
+      } else  if (activeId.includes('ordertype')) {
+        this.setFoucus('custcode');
+      }else  if (activeId.includes('custcode')) {
+        this.handleVoucherDateOnEnter();
+        this.setFoucus('date');
+      } else  if (activeId.includes('biltydate')) {
+        this.setFoucus('deliveryterms');
+      } else  if (activeId.includes('date')) {
+        this.setFoucus('purchaseledger');
+      } else  if (activeId.includes('discountledger')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('discountate'+'-'+index);
+      }else  if (activeId.includes('purchaseledger')) {
+         this.setFoucus('ledger');
+      }  else  if (activeId.includes('ledger')) {
+        this.setFoucus('vendorbidref');
+      } else  if (activeId.includes('vendorbidref')) {
+        this.setFoucus('qutationrefrence');
+      } else  if (activeId.includes('qutationrefrence')) {
+        this.setFoucus('shipmentlocation');
+      } else  if (activeId.includes('shipmentlocation')) {
+        this.setFoucus('paymentterms');
+      } else  if (activeId.includes('paymentterms')) {
+        this.setFoucus('biltynumber');
+      } else  if (activeId.includes('biltynumber')) {
+        this.setFoucus('biltydate');
+      }  else  if (activeId.includes('deliveryterms')) {
+        console.log(this.order.ordertype.name);
+        this.setFoucus('billingaddress');
+      } else  if ((activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('purchase'))) || activeId.includes('grnremarks')) {
+         this.setFoucus('orderremarks');
+      }  else if (activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
+        this.setFoucus('grnremarks');
+     } else  if (activeId.includes('orderremarks')) {
+        //let index = activeId.split('-')[1];
+       // console.log('stockitem'+'-'+index);
+        this.setFoucus('stockitem'+'-'+0);
+      } else  if (activeId.includes('stockitem')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('qty'+'-'+index);
+      } else  if (activeId.includes('qty')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('rate'+'-'+index);
+      } else  if (activeId.includes('rate')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('discountledger'+'-'+index);
+      }  else  if (activeId.includes('discountate')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('warehouse'+'-'+index);
+      } else  if (activeId.includes('warehouse')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('remarks'+'-'+index);
+      } else  if (activeId.includes('remarks')) {
+        let index = parseInt(activeId.split('-')[1]);
+        this.setFoucus('taxDetail'+'-'+index);
+      } 
+    }
+  }
+
+  
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
+  
+  handleVoucherDateOnEnter() {
+    let dateArray = [];
+    let separator = '-';
+    if (this.order.date.includes('-')) {
+      dateArray = this.order.date.split('-');
+    } else if (this.order.date.includes('/')) {
+      dateArray = this.order.date.split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.order.date = date + separator + month + separator + year;
+  }
 
 }
