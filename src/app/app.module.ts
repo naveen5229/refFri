@@ -59,6 +59,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
+import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -104,7 +105,8 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
     DocumentReportComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
-    VoucherSummaryComponent
+    VoucherSummaryComponent,
+    AddTripComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -146,7 +148,8 @@ import { ChangeHaltComponent } from './modals/change-halt/change-halt.component'
     DocumentReportComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
-    VoucherSummaryComponent
+    VoucherSummaryComponent,
+    AddTripComponent
   ],
   imports: [
     BrowserModule,
