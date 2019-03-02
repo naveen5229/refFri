@@ -19,7 +19,7 @@
             <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
               Document</button>
           </div>
-          <div class="col-md-02 offset-md-08" *ngIf="loginid==1">
+          <div class="col-md-02 offset-md-08" *ngIf="this.user._loggedInBy=='admin'">
             <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
           </div>
         </div>
@@ -71,6 +71,6 @@
     </div> -->
       <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
       <br>
-     
+    
   </nb-card-body>
 </nb-card>
