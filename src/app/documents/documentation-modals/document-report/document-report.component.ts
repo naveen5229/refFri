@@ -159,10 +159,6 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-
-        // this.totalReport();
-
-
       }, err => {
         this.common.loading--;
         console.log(err);

@@ -44,7 +44,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Tyre',
-    icon: ' fa-tire-flat',
+    icon: 'fa fa-cog',
     link:'/tyres/inventory'
   },
   {
