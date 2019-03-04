@@ -50,9 +50,6 @@ export class PendingDocumentComponent implements OnInit {
     img_url2: null,
     img_url3: null
   };
-  // userlist=[{
-  //   id: null,
-  // }];
 
 
   constructor(public api: ApiService,
@@ -227,11 +224,28 @@ export class PendingDocumentComponent implements OnInit {
     return response;
   }
 
+  getVehicleId(regno) {
+    console.log("get Vehcile Id", regno);
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/getVehIdByRegno', { x_regno: regno })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("api result", res);
+        this.document.vehicle_id = res["data"];
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return this.document.vehicle_id;
+  }
 
   updateDocument() {
     if (this.user._loggedInBy == 'admin') {
       const params = {
-        x_vehicle_id: this.document.vehicle_id,
+        x_vehicle_id: this.getVehicleId(this.document.regno),
+
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
         x_document_type: this.findDocumentType(this.document.document_type_id),
@@ -245,6 +259,7 @@ export class PendingDocumentComponent implements OnInit {
         x_amount: this.document.amount,
         x_is_verified: true
       };
+      console.log("Id is", params.x_vehicle_id);
       if (!this.document.vehicle_id) {
         this.common.showError("Please enter Vehicle No.");
         return false;
@@ -471,16 +486,14 @@ export class PendingDocumentComponent implements OnInit {
               this.common.loading--;
               console.log("data", res);
               this.closeModal(true);
-              // window.location.reload();
+              this.common.showToast("Success Delete");
             }, err => {
               this.common.loading--;
               console.log(err);
-              // window.location.reload();
+            
             });
         }
-      });
-
-
+      })
     }
   }
 

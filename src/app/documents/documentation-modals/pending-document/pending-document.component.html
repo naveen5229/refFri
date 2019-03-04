@@ -19,11 +19,11 @@
         </div>
         <div class="form-field clear">
           <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
-          
+          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl" > {{document.regno}}</div>
+
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-            
               <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
-              class="col-sm-8 form-control frm-fld mgn-vert" style="width:100%; margin-left:2%;" [(ngModel)]="document.newRegno" />
+              class="form-control " [(ngModel)]="document.newRegno" (change)="getVehicleId(document.newRegno)" />
     
             <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
               placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
@@ -78,7 +78,7 @@
         <div *ngIf="this.user._loggedInBy=='customer'; else adminData">
             <div class="row form-field clear">
               
-                <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
+                <label for="remarks" class="col-sm-4 mgn-vert" style="margin-left:4%;">Remarks</label>
                 <div class="col-sm-8 read-lbl">
                   {{document.remarks}}
                 </div>
@@ -127,10 +127,10 @@
       <ng-template #adminData>
           <div class="row form-field clear">
               <label for="remarks" class="col-sm-4 " style="padding-left:8%;">Remarks</label>
+              <div *ngIf="!canUpdate" class="col-sm-8 read-lbl" > {{document.remarks}}</div>
 
-              <div class="col-sm-8 mgn-vert">
-                  <textarea  id="remarks" name="remarks" rows="1" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks" ></textarea>
-
+              <div class="col-sm-8" *ngIf="canUpdate">
+                  <textarea  id="remarks" name="remarks" style="margin-left: -4%;" rows="1" class="form-control " [(ngModel)]="document.remarks" ></textarea>
               </div>
              
             </div>

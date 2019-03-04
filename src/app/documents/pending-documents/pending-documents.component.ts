@@ -75,35 +75,37 @@ export class PendingDocumentsComponent implements OnInit {
     activeModal.result.then(mdldata => {
       console.log("response:");
       console.log(mdldata);
+      this.getPendingDetailsDocuments();
     });
   }
 
+  
   deleteDocument(row) {
+    let remark;
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
-    this.common.params = { RemarkModalComponent, title: 'Delete Document'};
-   
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-      console.log("reason For delete: ",data);
-      }
-    });
-  }
+      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
 
-    
-      // console.log("Deleting document with id:" + row.id);
-      // this.common.loading++;
-      // this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.id })
-      //   .subscribe(res => {
-      //     this.common.loading--;
-      //     console.log("data", res);
-      //     window.location.reload();
-      //   }, err => {
-      //     this.common.loading--;
-      //     console.log(err);
-      //     window.location.reload();
-      //   });
-    
+      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.id, x_remarks: remark })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.getPendingDetailsDocuments();
+              this.common.showToast("Success Delete");
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+              this.getPendingDetailsDocuments();
+            });
+        }
+      })
+    }
   }
+      
 }

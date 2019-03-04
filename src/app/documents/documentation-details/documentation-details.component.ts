@@ -28,7 +28,7 @@ export class DocumentationDetailsComponent implements OnInit {
   };
   table = null;
 
- 
+
   // table = {
   //   data: {
   //     headings: {
@@ -154,7 +154,7 @@ export class DocumentationDetailsComponent implements OnInit {
     return columns;
   }
 
-  
+
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -174,13 +174,13 @@ export class DocumentationDetailsComponent implements OnInit {
     },
     {
       name: "image",
-      image: doc.img_url2 
+      image: doc.img_url2
     },
     {
       name: "image",
-      image: doc.img_url3 
+      image: doc.img_url3
     },
-  ];
+    ];
     console.log("images:", images);
     if (this.checkForPdf(images[0].image)) {
       window.open(images[0].image);
@@ -258,36 +258,33 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   deleteData(doc) {
+    let remark;
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
-    this.common.params = { RemarkModalComponent, title: 'Delete Document', vehicleId: doc.vehicle_id };
-   
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-      console.log("reason For delete: ",data);
-      }
-    });
-  }
-   
+      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
 
-    if (ret) {
-      // console.log("Deleting document with id:" + doc.id);
-      // this.common.loading++;
-      // this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id })
-      //   .subscribe(res => {
-      //     this.common.loading--;
-      //     console.log("data", res);
-      //     this.documentUpdate();
-      //   }, err => {
-      //     this.common.loading--;
-      //     console.log(err);
-      //     this.documentUpdate();
-      //   });
+      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.documentUpdate();
+              
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+              this.documentUpdate();
+              
+            });
+        }
+      })
     }
 
   }
-
-  
 
 }

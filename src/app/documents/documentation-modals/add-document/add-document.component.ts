@@ -103,7 +103,7 @@ export class AddDocumentComponent implements OnInit {
           file.type == "image/png" || file.type == "application/pdf" ||
           file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
           file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          this.common.showError("SuccessFull File Selected");
+          this.common.showToast("SuccessFull File Selected");
         }
         else {
           //  alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
@@ -236,7 +236,7 @@ export class AddDocumentComponent implements OnInit {
         let result=res["msg"];
         
         if (result=="success") {
-          this.common.showError("Success");
+          this.common.showToast("Success");
           this.closeModal(true);
         }
         else{
