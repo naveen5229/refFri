@@ -1,3 +1,118 @@
-<p>
-  voucher-summary works!
-</p>
+<nb-card>
+  <nb-card-body>
+    <button style="margin-bottom:10px;" (click)="addTrip()">Add New Trip </button>
+      <button type="button" class="close" style="margin-top : 10px"  aria-label="Close" (click)=dismiss(false)>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      <div>
+          <table class="table table-bordered">
+            <thead>
+              <th>SN</th>
+              <th> </th>
+              <th>Start Location</th>
+              <th>End Location</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trip of trips;let i=index;">
+                <td>{{i+1}}</td>
+                <td>
+                  <input type="checkbox" [name]="'trip-' + i" [(ngModel)]="trip.isChecked"
+                    (ngModelChange)="checkedAllSelected()">
+                </td>
+                <td>{{trip.start_name}}</td>
+                <td>{{trip.end_name || '--'}}</td>
+                <td>{{trip.start_time | date : 'dd MMM'}}</td>
+                <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+            <button style="margin-bottom:10px;" (click)="getFuelFillings()">Show Fuel Entries</button>
+          </div>
+          <div>
+            <table class="table table-bordered">
+              <thead>
+                <th>SN</th>
+                <th> </th>
+                <th>Station name</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Date</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
+                  <td>{{i+1}}</td>
+                  <td>
+                    <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked">
+                  </td>
+                  <td>{{fuelFiling.name}}</td>
+                  <td>{{fuelFiling.litres}}</td>
+                  <td>{{fuelFiling.rate}}</td>
+                  <td>{{fuelFiling.amount}}</td>
+                  <td>{{fuelFiling.date | date : 'dd MMM'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <button style="margin-bottom:10px;" (click)="getHeads()">Show Head</button>
+          </div>
+      
+          <div>
+            <table class="table table-bordered">
+              <thead>
+                <th>SN</th>
+                <th>Head</th>
+                <th>Total</th>
+                <th *ngFor="let trip of checkedTrips;">{{trip.start_name}} - {{trip.end_name}}</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tripHead of tripHeads;let i = index;">
+                  <td>{{i+1}}</td>
+                  <td>{{tripHead.name}}</td>
+                  <td>
+                    <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total">
+                  </td>
+                  <td *ngFor="let trip of tripHead.trips; let j = index;">
+                    <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount" (input)="calculateTripHeadTotal(i)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <button (click)="addVoucher()">Submit</button>
+          </div>
+          <div>
+              <button style="text-align:right;" (click)="dismiss(false)">Close</button>
+            </div>
+    <!-- <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th>Start Location</th>
+          <th>End Location</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Name</th>
+          <th>Amount</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let voucherDetail of voucherDetails;let i=index;">
+            <td>{{i+1}}</td>
+            <td>{{voucherDetail.start_name}}</td>
+            <td>{{voucherDetail.end_name || '--'}}</td>
+            <td>{{voucherDetail.start_time | date : 'dd MMM'}}</td>
+            <td>{{voucherDetail.end_time | date : 'dd MMM'}}</td>
+            <td>{{voucherDetail.name}}</td>
+            <td>{{voucherDetail.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  </nb-card-body>
+  </nb-card>
