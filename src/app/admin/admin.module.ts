@@ -15,6 +15,7 @@ import { TicketPropertiesComponent } from './ticket-properties/ticket-properties
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
 
 const PAGES_COMPONENTS = [
@@ -37,7 +38,8 @@ const PAGES_COMPONENTS = [
     GenerateLRComponent,
     GroupManagementsComponent,
     TicketPropertiesComponent,
-    LorryReceiptDetailsComponent
+    IssueAlertsComponent,
+    LorryReceiptDetailsComponent,
 
   ],
 })

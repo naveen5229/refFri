@@ -90,3 +90,26 @@
     </div>
   </div>
 </div>
+<table class="table table-bordered table-hover">
+    <thead class="thead">
+      <tr>
+        <th>#</th>
+        <th>Location</th>
+        <th>Purpose</th>
+        <th>Target Time</th>
+        <th>Add Time</th>
+        <th>Delete</th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let placement of placements">
+        <td>{{placement.id}}</td>
+        <td>{{placement.location}}</td>
+        <td>{{placement.purpose}}</td>
+        <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
+      </tr>
+    </tbody>
+  </table>
