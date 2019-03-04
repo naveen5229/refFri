@@ -25,7 +25,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
             },
             {
                 title: 'Document Summary',
-                icon: 'fa fa-list-ul',
+                icon: 'fa fa-file-text',
                 link: '/documents/dashboard',
                 home: true,
             },
@@ -41,7 +41,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
 
     {
         title: 'Pending Details',
-        icon: 'fa fa-list',
+        icon: 'fa fa-pencil-square-o',
         link: '/documents/pending-documents',
         home: true,
     }
@@ -67,7 +67,7 @@ export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [
             },
             {
                 title: 'Document Summary',
-                icon: 'fa fa-list-ul',
+                icon: 'fa fa-file-text',
                 link: '/documents/dashboard',
             },
             {

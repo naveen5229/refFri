@@ -70,6 +70,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
+import { 
+   MatFormFieldModule,
+  MatMenuModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule
+} from '@angular/material';
+import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -119,7 +128,8 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    DatePicker2Component
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -166,7 +176,8 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    DatePicker2Component
   ],
   imports: [
     BrowserModule,
@@ -183,7 +194,9 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     ImageViewerModule,
     MatIconModule,
     DragDropModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -191,6 +204,7 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
 
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule {
 }

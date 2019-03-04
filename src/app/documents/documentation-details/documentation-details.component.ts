@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -153,6 +154,7 @@ export class DocumentationDetailsComponent implements OnInit {
     return columns;
   }
 
+  
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -258,18 +260,30 @@ export class DocumentationDetailsComponent implements OnInit {
   deleteData(doc) {
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
-      console.log("Deleting document with id:" + doc.id);
-      this.common.loading++;
-      this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.documentUpdate();
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-          this.documentUpdate();
-        });
+    this.common.params = { RemarkModalComponent, title: 'Delete Document', vehicleId: doc.vehicle_id };
+   
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      console.log("reason For delete: ",data);
+      }
+    });
+  }
+   
+
+    if (ret) {
+      // console.log("Deleting document with id:" + doc.id);
+      // this.common.loading++;
+      // this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id })
+      //   .subscribe(res => {
+      //     this.common.loading--;
+      //     console.log("data", res);
+      //     this.documentUpdate();
+      //   }, err => {
+      //     this.common.loading--;
+      //     console.log(err);
+      //     this.documentUpdate();
+      //   });
     }
 
   }
