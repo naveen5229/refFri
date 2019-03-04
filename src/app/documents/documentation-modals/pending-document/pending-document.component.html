@@ -19,11 +19,15 @@
         </div>
         <div class="form-field clear">
           <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
-          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl"> {{document.regno}}</div>
+          
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
+            
+              <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
+              class="col-sm-8 form-control frm-fld mgn-vert" style="width:100%; margin-left:2%;" [(ngModel)]="document.newRegno" />
+    
+            <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
               placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
-              (keyup)="isValidVehicle($event)"></auto-suggestion>
+              (keyup)="isValidVehicle($event)"></auto-suggestion> -->
           </div>
         </div>
         <div class="form-field clear">
@@ -39,7 +43,7 @@
 
         <div class="form-field clear">
           <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
-          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{getDateInDisplayFormat(document.issue_date)}} </div>
+          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{getDateInDisplayFormat(document.issue_date)| date:'dd-MMM-yyyy'}} </div>
           <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="text"
             class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date"
             [value]="document.issue_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
@@ -49,7 +53,7 @@
         </div>
         <div class="form-field clear">
           <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
-          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl mgn-vert">{{getDateInDisplayFormat(document.wef_date)}}
+          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl mgn-vert">{{getDateInDisplayFormat(document.wef_date)| date:'dd-MMM-yyyy'}}
           </div>
           <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="text"
             class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.wef_date" [value]="document.wef_date "
@@ -60,7 +64,7 @@
         </div>
         <div class="form-field clear">
           <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
-          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{getDateInDisplayFormat(document.expiry_date)}}</div>
+          <div *ngIf="!canUpdate" class="col-sm-8 read-lbl">{{getDateInDisplayFormat(document.expiry_date)| date:'dd-MMM-yyyy'}}</div>
           <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text"
             class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.expiry_date"
             [value]="document.expiry_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
@@ -73,6 +77,7 @@
 
         <div *ngIf="this.user._loggedInBy=='customer'; else adminData">
             <div class="row form-field clear">
+              
                 <label for="remarks" class="col-sm-4 mgn-vert">Remarks</label>
                 <div class="col-sm-8 read-lbl">
                   {{document.remarks}}
@@ -122,7 +127,11 @@
       <ng-template #adminData>
           <div class="row form-field clear">
               <label for="remarks" class="col-sm-4 " style="padding-left:8%;">Remarks</label>
-              <div class="col-sm-8 read-lbl">{{document.remarks}}</div>
+
+              <div class="col-sm-8 mgn-vert">
+                  <textarea  id="remarks" name="remarks" rows="1" class="col-sm-8 form-control frm-fld  mgn-vert" [(ngModel)]="document.remarks" ></textarea>
+
+              </div>
              
             </div>
             <div class="row form-field clear">
