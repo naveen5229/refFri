@@ -1,7 +1,7 @@
 <div class="suggestion-container" [formGroup]="searchForm" (keydown)="handleKeyDown($event)">
     <input type="text" autocomplete="off" [formControlName]="controlName || 'search'" name="suggestion-input"
         class="form-control" (input)="getSuggestions()" [ngClass]="className || 'custom-input-1'"
-        [(ngModel)]="searchText" [placeholder]="placeholder || 'Enter search text'" [id]="id || 'suggestion'"
+        [(ngModel)]="searchText" [placeholder]="placeholder || 'Enter search text'" [id]="inputId || 'suggestion'"
         [name]="name || 'suggestion'" required>
     <div class="suggestions" *ngIf="showSuggestions && suggestions.length && searchText">
         <p *ngFor="let suggestion of suggestions; let i = index;" class="suggestion"
