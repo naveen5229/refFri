@@ -1,6 +1,12 @@
-<div class="model-header">
-  <h4 class="model-title" id="matrix-basic-title">Escalation Matrix</h4>
-</div>
+
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Escalation Matrix</h2>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+
 <div class="model-body">
     <auto-suggestion (onSelected)="getMatrix($event)" url="suggestion/getFoUsersList" display="name"
     placeholder="Search" [preSelected]="null"></auto-suggestion>
@@ -18,6 +24,8 @@
   <td><button class="btn" (click)="openAddIssueModel(matrix)">Add</button></td>
 </tr>
 </table>
+</nb-card-body>
+</nb-card>
 
       
       

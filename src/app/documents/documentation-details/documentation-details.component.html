@@ -3,8 +3,10 @@
     <h2>Vehicle Documents Input </h2>
     <hr>
   </nb-card-header>
+  
   <nb-card-body style="min-height: 360px;">
     <div class="container">
+    
       <form>
         <div class="row">
           <div class="col-md-3">
@@ -19,13 +21,14 @@
             <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
               Document</button>
           </div>
+          <!-- <div class="col-md-02 offset-md-08" *ngIf="this.user._loggedInBy=='admin'">
+            <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
+          </div> -->
         </div>
       </form>
 
-      <div class="row">
-        <div class="col-md-06" style="margin-top: -8%;margin-left: 40%;">
-          <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
-        </div>
+      <div class="row" *ngIf="loginid==1">
+      
       </div>
     </div>
 <!-- 
@@ -70,6 +73,6 @@
     </div> -->
       <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
       <br>
-     
+    
   </nb-card-body>
 </nb-card>

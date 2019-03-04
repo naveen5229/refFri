@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
         this.documentData = res['data'];
         console.info("dashbord Data", this.documentData);
         this.table.data.columns = this.getTableColumns();
-
+        
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -64,9 +64,9 @@ export class DashboardComponent implements OnInit {
   }
 
   getTableColumns() {
+    
     let columns = [];
     this.documentData.map(doc => {
-
       columns.push({
         docType: { value: doc.name },
         normal: { value: doc.normal, class: doc.normal > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'normal') },
@@ -99,6 +99,7 @@ export class DashboardComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.response) {
         this.getDocumentData();
+        window.location.reload();
       }
     });
   }
@@ -113,11 +114,13 @@ export class DashboardComponent implements OnInit {
 
 
   totalData(status) {
+    // this.common.handleModalSize('class', 'modal-lg', '1200');
     this.common.params = { status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        this.getDocumentData();
+        this.getDocumentData(); 
+        window.location.reload();
       }
     });
   }
