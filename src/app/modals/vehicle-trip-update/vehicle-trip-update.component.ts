@@ -125,7 +125,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         --this.common.loading;
         console.log(res['msg']);
         this.common.showToast(res['msg']);
-        this.activeModal.close();
+       // this.activeModal.close();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
@@ -136,7 +136,7 @@ export class VehicleTripUpdateComponent implements OnInit {
 }
 
 getVehiclePlacements(){
-  let params = "vehId= 16475";// + this.vehicleTrip.vehicleId;
+  let params = this.vehicleTrip.vehicleId;
   this.api.get('VehicleTrips/vehiclePlacements?' +params)
       .subscribe(res => {
         console.log('Res: ', res['data']);
