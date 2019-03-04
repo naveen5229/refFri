@@ -14,6 +14,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Issue Alerts',
+        icon: 'nb-home',
+        link: '/admin/issue-alerts',
+        home: true,
+    },
+    {
         title: 'Escalation Matrix',
         icon: 'nb-home',
         link: '/admin/escalation-matrix',
@@ -37,6 +43,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/group-managements',
         home: true,
     },
+   
     {
         title: 'Ticket Properties',
         icon: 'nb-home',

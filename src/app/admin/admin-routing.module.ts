@@ -6,6 +6,7 @@ import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
+import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
 
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
@@ -24,6 +25,10 @@ const routes: Routes = [{
         {
             path: 'vehiclestatuschange',
             component: VehicleStatusChangeComponent,
+        },
+        {
+            path: 'issue-alerts',
+            component: IssueAlertsComponent,
         },
         {
             path: 'escalation-matrix',
