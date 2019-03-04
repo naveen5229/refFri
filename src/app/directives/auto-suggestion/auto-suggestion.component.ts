@@ -128,7 +128,7 @@ export class AutoSuggestionComponent implements OnInit {
       else this.activeSuggestion = this.suggestions.length - 1;
       event.preventDefault();
     } else if (key == 'enter') {
-      if (this.activeSuggestion == -1) {
+      if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {
         this.selectSuggestion(this.suggestions[0]);
