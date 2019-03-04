@@ -455,6 +455,7 @@ export class PendingDocumentComponent implements OnInit {
   }
 
   deleteImage(id) {
+    let remark;
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
       this.common.params = { RemarkModalComponent, title: 'Delete Document' };
@@ -462,22 +463,25 @@ export class PendingDocumentComponent implements OnInit {
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-        
-        console.log("reason For delete: ", data.remark);
-        this.common.loading++;
-        this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: data.remark })
-          .subscribe(res => {
-            this.common.loading--;
-            console.log("data", res);
-            this.closeModal(true);
-            window.location.reload();
-          }, err => {
-            this.common.loading--;
-            console.log(err);
-            window.location.reload();
-          });
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.closeModal(true);
+              // window.location.reload();
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+              // window.location.reload();
+            });
         }
       });
+
+
     }
   }
+
 }
