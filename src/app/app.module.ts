@@ -63,6 +63,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
+import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
@@ -129,6 +130,7 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
+    AddTripComponent,
     DatePicker2Component
   ],
   entryComponents: [
@@ -177,6 +179,7 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
+    AddTripComponent,
     DatePicker2Component
   ],
   imports: [
