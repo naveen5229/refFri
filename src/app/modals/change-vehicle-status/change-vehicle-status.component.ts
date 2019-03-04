@@ -344,7 +344,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   zoomFunctionality(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
-    this.markerZoomMF(i);
+    this.markerZoomMF(i,16);
     this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
     console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
     if (vehicleEvent.y_site_id) {
@@ -373,6 +373,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   getSites() {
     if (this.map) {
+      this.common.loading++;
       let boundsx = this.map.getBounds();
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
@@ -381,7 +382,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
       let lng2 = ne.lng();
       let lng1 = sw.lng();
 
-      this.common.loading++;
       let params = {
         lat1: lat1,
         lng1: lng1,
@@ -391,14 +391,17 @@ export class ChangeVehicleStatusComponent implements OnInit {
       console.log(params);
       this.api.post('VehicleStatusChange/getSiteAndSubSite?', params)
         .subscribe(res => {
-          this.common.loading--;
           console.log(res);
-          if (this.siteMarkers.length == 0)
+          if (this.siteMarkers.length == 0){
             this.siteMarkers = this.createMarkers(res['data'], false);
+            this.common.loading--;
+          }
           else {
             this.clearOtherMarker(this.siteMarkers);
             this.siteMarkers = this.createMarkers(res['data'], false);
+            this.common.loading--;
           }
+          
         }, err => {
           this.common.loading--;
           console.log(err);
