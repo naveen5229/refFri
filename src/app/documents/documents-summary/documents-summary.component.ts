@@ -72,9 +72,7 @@ export class DocumentsSummaryComponent implements OnInit {
           expiry_date: newdate,
           issue_date: this.docdata[0].issue_date,
           remarks: this.docdata[0].remarks,
-          img_url:this.docdata[0].img_url,
-          img_url2:this.docdata[0].img_url2,
-          img_url3:this.docdata[0].img_url3,
+          img_url: this.docdata[0].img_url,
           doc_no: this.docdata[0].document_number,
           rto: this.docdata[0].rto,
           amount: this.docdata[0].amount
