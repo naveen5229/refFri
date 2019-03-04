@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from '../../services/api.service';
-import { CommonService } from '../../services/common.service';
+import { ApiService } from '../../../services/api.service';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'particlulars',
@@ -11,15 +11,19 @@ import { CommonService } from '../../services/common.service';
 export class ParticlularsComponent implements OnInit {
   particulars = [
  {
-    material:null,
-    invoice:null,
-    articleNo:null,
-    materialValue:null,
+    articleNo:null,    
     weight:null,
+    otherDetail :
+   {
+    invoice:null,
+    material:null,
+    materialValue:null,
     containerNo:null,
     sealNo:null,
-    customField:false,
-    customButton:true
+    customDetail:[],
+   },
+   customField:false,
+   customButton:true
   }]
   constructor(
     public api: ApiService,
@@ -33,6 +37,10 @@ export class ParticlularsComponent implements OnInit {
   ngOnInit() {
   }
 
+  addField(i){
+    this.particulars[i].otherDetail.customDetail.push(null);
+  }
+
 
 closeModal(flag) {
   if(flag){
@@ -43,16 +51,20 @@ closeModal(flag) {
   }
 }
 addMore() {
-  this.particulars.push({
-    material:null,
-    invoice:null,
-    articleNo:null,
-    materialValue:null,
-    weight:null,
-    containerNo:null,
-    sealNo:null,
-    customField:false,
-    customButton:true
+  this.particulars.push({   
+      articleNo:null,    
+      weight:null,
+      otherDetail :
+     {
+      invoice:null,
+      material:null,
+      materialValue:null,
+      containerNo:null,
+      sealNo:null,
+      customDetail:[],
+     },
+     customField:false,
+     customButton:true
   });
 }
 }

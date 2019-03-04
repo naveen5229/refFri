@@ -29,6 +29,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     placementType:null,
     vehicleId:null
   };
+  placements = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -46,6 +47,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.startLng = this.common.params.startLng;
     this.vehicleTrip.startName = this.common.params.startName;
     this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.startTime);
+    this.getVehiclePlacements();
   }
 
   ngOnInit() {
@@ -58,10 +60,12 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
   openReminderModal(){
     this.common.params.returnData = true;
+    this.common.params.title = "Target Time";
     const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data",data);
       this.vehicleTrip.targetTime = data.date;
+      this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
       console.log('Date:', this.vehicleTrip.targetTime);
     });
   }
@@ -104,7 +108,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
-    this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
+    if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
       location: this.vehicleTrip.endName,
@@ -121,10 +125,44 @@ export class VehicleTripUpdateComponent implements OnInit {
         --this.common.loading;
         console.log(res['msg']);
         this.common.showToast(res['msg']);
-        this.activeModal.close();
+       // this.activeModal.close();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
+  }else{
+    alert("Next Location And Purpose is Mandatory");
   }
+}
+
+getVehiclePlacements(){
+  let params = this.vehicleTrip.vehicleId;
+  this.api.get('VehicleTrips/vehiclePlacements?' +params)
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.placements = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+}
+
+delete(placement) {
+  console.log("issue",placement);
+  this.common.loading++;
+  let params = {
+    placementId: placement.id,
+    status: true
+  };
+  console.log(params);
+  this.api.post('VehicleTrips/updateVehiclePlacement?', params)
+    .subscribe(res => {
+      this.common.loading--;
+     this.getVehiclePlacements();
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+}
+  
 }

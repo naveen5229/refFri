@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -27,8 +28,7 @@ export class DocumentationDetailsComponent implements OnInit {
   };
   table = null;
 
-  loginType = null;
-  loginid = null;
+ 
   // table = {
   //   data: {
   //     headings: {
@@ -61,8 +61,8 @@ export class DocumentationDetailsComponent implements OnInit {
     private modalService: NgbModal) {
     console.log("All Api:", api)
 
-    this.loginType = this.user._loggedInBy;
-    this.checkAdmin();
+    // this.loginType = this.user._loggedInBy;
+    // this.checkAdmin();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -74,11 +74,11 @@ export class DocumentationDetailsComponent implements OnInit {
     this.getTableColumns();
   }
 
-  checkAdmin() {
-    if (this.loginType == "admin") {
-      return this.loginid = 1;
-    }
-  }
+  // checkAdmin() {
+  //   if (this.loginType == "admin") {
+  //     return this.loginid = 1;
+  //   }
+  // }
 
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
@@ -94,6 +94,34 @@ export class DocumentationDetailsComponent implements OnInit {
       });
 
   }
+  setTable() {
+    let headings = {
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+      docType: { title: 'Document Type', placeholder: 'Document Type' },
+      agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
+      issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+      wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
+      expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
+      documentNumber: { title: 'Document Number', placeholder: 'Document No' },
+      amount: { title: 'Amount', placeholder: 'Amount' },
+      remark: { title: 'Remark', placeholder: 'Remak' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+      edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+    };
+
+    if (this.user._loggedInBy == 'admin') {
+      headings['delete'] = { title: 'Delete', placeholder: 'Delete', hideSearch: true, };
+    }
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
+  }
 
   getTableColumns() {
     let columns = [];
@@ -103,8 +131,7 @@ export class DocumentationDetailsComponent implements OnInit {
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       console.log("expiry date:", exp_date);
-
-      columns.push({
+      let column = {
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         agentName: { value: doc.agent },
@@ -116,15 +143,18 @@ export class DocumentationDetailsComponent implements OnInit {
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
         edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
-        delete: { value: `${this.loginid == 1?'<i class="fa fa-trash"></i>':''}`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' },
-
         rowActions: {}
-      });
+      };
+      if (this.user._loggedInBy == 'admin') {
+        column['delete'] = { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' };
+      }
+
+      columns.push(column);
     });
     return columns;
   }
 
-
+  
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -141,13 +171,23 @@ export class DocumentationDetailsComponent implements OnInit {
     let images = [{
       name: "image",
       image: doc.img_url
-    }];
+    },
+    {
+      name: "image",
+      image: doc.img_url2 
+    },
+    {
+      name: "image",
+      image: doc.img_url3 
+    },
+  ];
     console.log("images:", images);
     if (this.checkForPdf(images[0].image)) {
       window.open(images[0].image);
       return;
     }
     this.common.params = { images, title: 'Image' };
+    this.common.handleModalSize('class', 'modal-lg', '1024');
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
@@ -220,45 +260,34 @@ export class DocumentationDetailsComponent implements OnInit {
   deleteData(doc) {
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
-      console.log("Deleting document with id:" + doc.id);
-      this.common.loading++;
-      this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.documentUpdate();
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-          this.documentUpdate();
-        });
-    }
-
-  }
-
-  setTable() {
-    return {
-      data: {
-        headings: {
-          vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-          docType: { title: 'Document Type', placeholder: 'Document Type' },
-          agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
-          issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
-          wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
-          expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-          documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-          amount: { title: 'Amount', placeholder: 'Amount' },
-          remark: { title: 'Remark', placeholder: 'Remak' },
-          image: { title: 'Image', placeholder: 'Image', hideSearch: true },
-          edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
-          delete: { title: 'Delete', placeholder: 'Delete', hideSearch: true , },
-        },
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true
+    this.common.params = { RemarkModalComponent, title: 'Delete Document', vehicleId: doc.vehicle_id };
+   
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      console.log("reason For delete: ",data);
       }
-    }
+    });
   }
+   
+
+    if (ret) {
+      // console.log("Deleting document with id:" + doc.id);
+      // this.common.loading++;
+      // this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id })
+      //   .subscribe(res => {
+      //     this.common.loading--;
+      //     console.log("data", res);
+      //     this.documentUpdate();
+      //   }, err => {
+      //     this.common.loading--;
+      //     console.log(err);
+      //     this.documentUpdate();
+      //   });
+    }
+
+  }
+
+  
 
 }
