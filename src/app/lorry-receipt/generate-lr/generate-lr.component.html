@@ -15,28 +15,44 @@
             </select> </td>
         </tr>
         <tr>
+            <td><label>Vehicle No</label></td>
+            <td>
+              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+                placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+            </td>
+            <td><label>LR No</label></td>
+            <td>
+              {{lr.lrNumber}}
+              <!-- <input type="text" readonly [(ngModel)]=lr.lrNumber class="form-control"> -->
+             </td>
+            
+          </tr>
+        <tr>
           <td><label>Date</label></td>
-          <td> <input type="text" [(ngModel)]=lr.date class="form-control"></td>
+          <td>   
+             <!-- <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
+            class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date></owl-date-time> -->
+            <input type="text" [(ngModel)]=lr.date class="form-control">
+          </td>
           <td><label>Driver Mob NO </label></td>
 
           <td><span><auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-              placeholder="" style="width:100%;" class="col-md-10"></auto-suggestion> <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()" ></i> </div></span> </td>
+              placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion> <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()" ></i> </div></span> </td>
         </tr>
         <tr>
             <td><label>Driver Name</label></td>
-            <td> <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly></td>
+            <td> 
+              {{driver.name}}
+              <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
+            </td>
             <td><label>License No </label></td>
-            <td><input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly> </td>
+            <td>
+              {{driver.licenseNo}}
+              <!-- <input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly>  -->
+            </td>
           </tr>
-        <tr>
-          <td><label>LR No</label></td>
-          <td><input type="text" readonly [(ngModel)]=lr.lrNumber class="form-control"> </td>
-          <td><label>Vehicle No</label></td>
-          <td>
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-          </td>
-        </tr>
+       
         <tr>
           <td><label>Source City</label></td>
           <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td>
@@ -45,18 +61,24 @@
         </tr>
         <tr>
           <td><label>Consignor Name</label></td>
-          <td> <span><auto-suggestion (onSelected)="getConsignorDetail($event)" url="LorryReceiptsOperation/getCompaniesDetails" display="name"
-            placeholder="" style="width:100%;" class="col-md-10"></auto-suggestion><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()" ></i></span></td>
+          <td> <span><auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
+            placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()" ></i></span></td>
           <td><label>Consignor Address</label></td>
-          <td><input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off"> </td>
+          <td>
+            {{lr.consignorAddress}}
+            <!-- <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off"> -->
+           </td>
 
         </tr>
         <tr>
           <td><label>Consignee Name</label></td>
-          <td> <span><auto-suggestion (onSelected)="getConsigneeDetail($event)" url="LorryReceiptsOperation/getCompaniesDetails" display="name"
-            placeholder="" style="width:100%;" class="col-md-10"></auto-suggestion><div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()" ></i> </div> </span></td>
+          <td> <span><auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
+            placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()" ></i> </div> </span></td>
           <td><label>Consignee Address</label></td>
-          <td><input type="text" [(ngModel)]=lr.consigneeAddress class="form-control" > </td>
+          <td>
+              {{lr.consigneeAddress}}
+            <!-- <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control" > -->
+           </td>
           
         </tr>
         <tr>

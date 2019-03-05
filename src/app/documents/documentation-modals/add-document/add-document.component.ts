@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
+import { DatePicker2Component } from '../../../modals/date-picker2/date-picker2.component';
 import { DocumentationDetailsComponent } from "../../documentation-details/documentation-details.component";
 import { from } from 'rxjs';
 @Component({

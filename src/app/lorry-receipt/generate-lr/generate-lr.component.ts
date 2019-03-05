@@ -27,8 +27,6 @@ lr = {
   conditions : "1. consignorAddress consignorAddress consignorAddress",
   paymentTerm : "ToBeFilled",
   payableAmount:1000,
-  driverName:null,
-  licenseNo:null
   //date:this.common.dateFormatter(new Date())
 };
 particulars = [
@@ -48,6 +46,10 @@ particulars = [
     customField:false,
     customButton:true
    }]
+   driver={
+     name:"Lalit",
+     licenseNo:"ABDV1234"
+   }
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,) {
@@ -88,8 +90,8 @@ particulars = [
   }
   getDriverData(driver){
     console.log("driver",driver);
-    this.lr.driverName = driver.empname;
-    this.lr.licenseNo = 567555;
+    this.driver.name = driver.empname;
+    this.driver.licenseNo = "567555";
   }
   getConsignorDetail(consignor){
     console.log("consignor",consignor);
