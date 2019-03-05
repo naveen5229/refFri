@@ -11,14 +11,14 @@
             <div class="form-group">
               <label>Branch</label>
               <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
-                display="name" inputId="branch" placeholder="Enter Branch" [preSelected]="null"></auto-suggestion>
+                display="name" inputId="branch" placeholder="Enter Branch"   [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label>Invoice Type</label>
               <auto-suggestion (onSelected)="onSelected($event, 'ordertype', 'name')" url="Suggestion/GetOrderTypeList"
-                display="name" inputId="ordertype" placeholder="Enter Order Type" [preSelected]="null"></auto-suggestion>
+                display="name" inputId="ordertype" placeholder="Enter Order Type" [data]="orderTypeData" [preSelected]="null"></auto-suggestion>
             </div>
           </div>
         </div>

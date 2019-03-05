@@ -14,7 +14,8 @@ import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.com
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-
+  branchdata=[];
+  orderTypeData=[];
   order = {
     date: this.common.dateFormatter(new Date()).split(' ')[0],
     biltynumber: '',
@@ -58,7 +59,10 @@ export class OrdersComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) {
+      this.getBranchList();
+      this.getOrderList();
+     }
 
   ngOnInit() {
   }
@@ -97,7 +101,40 @@ export class OrdersComponent implements OnInit {
 
     });
   }
+  getBranchList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetBranchList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.branchdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
 
+  }
+  getOrderList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetOrderTypeList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.orderTypeData = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
   dismiss(response) {
     // console.log('Order:', this.order);
     if (response) {

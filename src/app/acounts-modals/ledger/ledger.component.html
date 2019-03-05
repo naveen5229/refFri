@@ -34,7 +34,7 @@
           </div>
           <div class="col-md-4">
             <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" id="name"
-              (input)="Accounts.aliasname=Accounts.name">
+              (input)="Accounts.aliasname=Accounts.name" [value]="Accounts.name |titlecase">
           </div>
           <div class="col-md-2 text-center">
             <label>Alias Name</label>
@@ -247,6 +247,15 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>
+
+<div class="date-modal" *ngIf="showExit" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you sure want to close ?</p>
       <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
     </div>
   </div>

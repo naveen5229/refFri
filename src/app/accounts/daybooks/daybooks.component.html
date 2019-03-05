@@ -6,37 +6,35 @@
     <div class="form-group">
       <label>Branch</label>
       <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
-        placeholder="Enter Branch"  [preSelected]="All"></auto-suggestion>
+        placeholder="Enter Branch"  [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
     </div>
   </div>
   <div class="col">
       <div class="form-group">
         <label>Voucher Type</label>
         <auto-suggestion (onSelected)="onSelected($event, 'vouchertype', 'name')" url="Suggestion/GetVouchertypeList" display="name"
-          placeholder="Enter Voucher Type" [preSelected]="All"></auto-suggestion>
+          placeholder="Enter Voucher Type" [data]="vouchertypedata" [preSelected]="{name:'All'}" ></auto-suggestion>
       </div>
     </div>
     <div class="col">
         <div class="form-group">
           <label>Ledger</label>
           <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-            placeholder="Enter Ledger" [preSelected]="All"></auto-suggestion>
+            placeholder="Enter Ledger" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
       </div>
       <div class="col">
           <div class="form-group">
               <label>Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startdate')"
-              placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
-              readonly>
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" 
+              placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate" maxlength="10">
           </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label>End Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('enddate')"
-                placeholder="Select Date" name="account-enddate" [(ngModel)]="DayBook.enddate"
-                readonly>
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="DayBook.enddate" maxlength="10">
             </div>
           </div>
   <div class="col">
@@ -59,7 +57,7 @@
   </tr>
   <tr *ngFor="let dataItem of DayData; let i = index;">
     <td>{{i + 1}}</td>
-    <td>{{dataItem.y_date | date : 'dd MMM HH:mm'}}</td>
+    <td>{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
     <td>{{dataItem.y_particulars}}</td>
