@@ -150,7 +150,7 @@
       <div class="col-sm-8">
           
           <div *ngIf="doc_not_img"><a target='_blank' href="{{document.docUpload}}" title="View Document" style="font-size: 20px; color: blue; text-decoration: underline">View Document Pdf</a></div>
-          <app-image-viewer *ngIf="document.docUpload && !doc_not_img" [images]="[document.docUpload]" [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
+          <app-image-viewer *ngIf="document.docUpload && !doc_not_img" [images]="[document.docUpload]"  [idContainer]="'idOnHTML'" [loadOnInit]="true"></app-image-viewer>
           <div *ngIf="!document.docUpload">No Image Exists</div>
       
       </div>

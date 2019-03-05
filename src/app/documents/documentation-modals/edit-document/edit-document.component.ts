@@ -90,6 +90,8 @@ export class EditDocumentComponent implements OnInit {
     }
   }
 
+  
+
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
@@ -122,6 +124,17 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
+        // if (this.document.docUpload != "undefined" && this.document.docUpload) {
+        //   this.images.push(this.document.docUpload);
+        // }
+        // if (this.document.docUpload2 != "undefined" && this.document.docUpload2) {
+        //   this.images.push(this.document.docUpload2);
+        // }
+        // if (this.document.docUpload3 != "undefined" && this.document.docUpload3) {
+        //   this.images.push(this.document.docUpload3);
+        // }
+
+        
       }, err => {
         this.common.loading--;
         console.log(err);
