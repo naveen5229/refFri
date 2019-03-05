@@ -2,3 +2,14 @@
     font-size: 20px;
     color: red;
 }
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.tableFixHead th {
+    position: sticky;
+    top: 0;
+    background: #677078;
+}
