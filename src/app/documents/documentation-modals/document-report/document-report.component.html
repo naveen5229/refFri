@@ -21,7 +21,7 @@
           <th>Amount</th>
           <th>Remark</th>
           <th>Image</th>
-          <th>Edit</th>
+          <!-- <th>Edit</th> -->
         </tr>
       </thead>
       <tbody class="table-scroll">
@@ -37,7 +37,7 @@
           <td>{{doc.amount}}</td>
           <td>{{doc.remarks}}</td>
           <td><i *ngIf="doc.img_url" class="icon ion-md-image" (click)="imageView(doc)"></i></td>
-          <td (click)="editData(doc)"><i class="icon ion-md-create"></i></td>
+          <!-- <td (click)="editData(doc)"><i class="icon ion-md-create"></i></td> -->
         </tr>
       </tbody>
     </table>

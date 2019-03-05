@@ -5,92 +5,60 @@
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
-      <div class="row col-sm-12">
+      <div class="row description">
         <table class="table table-bordered table-hover">
-          <div class="col-sm-1">
-            <label>Symbol</label>
-            <img class="icon-img" src="assets/images/doc-tick.png" alt="View" />
-          </div>
-          <div class="col-sm-1">
-            <label>Description</label>
-            Normal
-          </div>
-          <div class="col-sm-1">
-            <label>Symbol</label>
-            <img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" />
-          </div>
-          <div class="col-sm-1">
-            <label>Description</label>
-            Expired
-          </div>
-          <div class="col-sm-1">
-            <label>Symbol</label>
-            <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" />
-          </div>
-          <div class="col-sm-1">
-            <label>Description</label>
-            Unverified
-          </div>
-          <div class="col-sm-1">
-            <label>Symbol</label>
-            <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" />
-          </div>
-          <div class="col-sm-2">
-            <label>Description</label>
-            No Image/Upload
-          </div>
-          <div class="col-sm-1">
-            <label>Symbol</label>
-            <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
-          </div>
-          <div class="col-sm-1">
-            <label>Description</label>
-            No Record
-          </div>
+          <tr>
+            <td>Normal <img class="icon-img" src="assets/images/doc-tick.png" alt="View" /></td>
+            <td>Expired    <img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" /></td>
+            <td>Unverified   <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" /></td>
+            <td> No Image/Upload   <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" /></td>
+            <td>No Record  <img class="icon-img" src="assets/images/doc-cross.png" alt="No" /></td>
+            <!-- </td><img class="icon-img" src="assets/images/doc-tick.png" alt="View" /></td> -->
+          </tr>
+          
         </table>
-
-
       </div>
-      <div class="row col-sm-12">
-        <table class="table table-bordered table-hover table-scroll">
-          <thead class="thead">
-            <tr>
-              <th *ngFor="let col of data.columns; let i=index">{{col}}</th>
+    
+    <div class="row col-sm-12">
+      <table class="table table-bordered table-hover table-scroll">
+        <thead class="thead">
+          <tr>
+            <th *ngFor="let col of data.columns; let i=index">{{col}}</th>
+          </tr>
+        </thead>
+        <tbody class="">
+          <ng-container *ngIf="data.vehicle_info.length">
+            <tr *ngFor="let row of data.vehicle_info">
+              <td *ngFor="let col of data.columns;" class="text-center">
+                <span *ngIf="col == 'Vehicle No.'">
+                  {{row[col]}}
+                </span>
+                <span *ngIf="row[col] == 'BlackTick' && col != 'Vehicle No.'">
+                  <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" style="cursor: pointer;"
+                    (click)="fetchDocumentData(row,col)" />
+                </span>
+                <span *ngIf="row[col] == 'BlackCross' && col != 'Vehicle No.'">
+                  <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" style="cursor: pointer;"
+                    (click)="fetchDocumentData(row,col)" />
+                </span>
+                <span *ngIf="row[col] == 'RedTick' && col != 'Vehicle No.'">
+                  <img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" style="cursor: pointer;"
+                    (click)="fetchDocumentData(row,col)" />
+                </span>
+                <span *ngIf="row[col] == 'GreenTick' && col != 'Vehicle No.'">
+                  <img class="icon-img" src="assets/images/doc-tick.png" alt="View" style="cursor: pointer;"
+                    (click)="fetchDocumentData(row,col)" />
+                </span>
+                <span *ngIf="row[col] == ''">
+                  <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
+                </span>
+              </td>
             </tr>
-          </thead>
-          <tbody class="">
-            <ng-container *ngIf="data.vehicle_info.length">
-              <tr *ngFor="let row of data.vehicle_info">
-                <td *ngFor="let col of data.columns;" class="text-center">
-                  <span *ngIf="col == 'Vehicle No.'">
-                    {{row[col]}}
-                  </span>
-                  <span *ngIf="row[col] == 'BlackTick' && col != 'Vehicle No.'">
-                    <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" style="cursor: pointer;"
-                      (click)="fetchDocumentData(row,col)" />
-                  </span>
-                  <span *ngIf="row[col] == 'BlackCross' && col != 'Vehicle No.'">
-                    <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" style="cursor: pointer;"
-                      (click)="fetchDocumentData(row,col)" />
-                  </span>
-                  <span *ngIf="row[col] == 'RedTick' && col != 'Vehicle No.'">
-                    <img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" style="cursor: pointer;"
-                      (click)="fetchDocumentData(row,col)" />
-                  </span>
-                  <span *ngIf="row[col] == 'GreenTick' && col != 'Vehicle No.'">
-                    <img class="icon-img" src="assets/images/doc-tick.png" alt="View" style="cursor: pointer;"
-                      (click)="fetchDocumentData(row,col)" />
-                  </span>
-                  <span *ngIf="row[col] == ''">
-                    <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
-                  </span>
-                </td>
-              </tr>
-            </ng-container>
+          </ng-container>
 
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
+    </div>
     </div>
   </nb-card-body>
 </nb-card>

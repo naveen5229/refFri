@@ -29,7 +29,7 @@ export class PendingDocumentComponent implements OnInit {
   current_date = new Date();
   images = [];
   doc_not_img = 0;
-
+  
   document = {
     agent: null,
     agent_id: null,
@@ -61,19 +61,17 @@ export class PendingDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Update';
     this.btn2 = this.common.params.btn2 || 'Discard Image';
-
-    console.log("user identifation: ", this.user._loggedInBy);
-    console.log("commonparams: ");
-    console.log(this.common.params);
+     
+    console.log("user identifation: ", this.user._customer);
+  
     if (!this.common.params.canUpdate) {
       this.canUpdate = 0;
       this.canreadonly = true;
     }
-    // this.userlist[0].id = this.user._customer.id;
-    // localStorage.setItem('foadminId', this.user._customer.id);
-    // console.log(localStorage.getItem('foadminId'));
+ 
 
     this.document = this.common.params.rowData;
+    console.log("pending data:",this.common.params.rowData);
     if (this.document.issue_date)
       this.document.issue_date = this.common.dateFormatter(this.document.issue_date, 'ddMMYYYY').split(' ')[0];
     if (this.document.wef_date)
@@ -88,21 +86,14 @@ export class PendingDocumentComponent implements OnInit {
     console.log("vehicleid:" + this.vehicleId + "=>" + this.document.vehicle_id);
     this.agentId = this.document.agent_id;
     this.getDocumentsData();
+    this.getDocumentPending(); 
     /*
     this.document.document_type = this.findDocumentType(this.document.document_type_id);
     console.log("doctype:" + this.document.document_type);
     this.images.push({name : "doc-img", image: this.document.img_url});
     this.common.params = { title : "Doc Image", images: this.images};
     */
-    if (this.document.img_url != "undefined" && this.document.img_url) {
-      this.images.push(this.document.img_url);
-    }
-    if (this.document.img_url2 != "undefined" && this.document.img_url2) {
-      this.images.push(this.document.img_url2);
-    }
-    if (this.document.img_url3 != "undefined" && this.document.img_url3) {
-      this.images.push(this.document.img_url3);
-    }
+   
     console.log("images:");
     console.log(this.images);
 
@@ -113,6 +104,39 @@ export class PendingDocumentComponent implements OnInit {
 
   ngOnInit() {
   }
+
+getDocumentPending(){
+  const params = {
+    x_user_id: this.user._customer.id,
+    x_document_id: this.document.id,
+  }
+  this.common.loading++;
+  let response;
+  
+  this.api.post('Vehicles/getPendingDocDetail', params)
+    .subscribe(res => {
+      this.common.loading--;
+      console.log("pending detalis:", res);
+      this.document.img_url=res["data"][0].img_url;
+      this.document.img_url2= res["data"][0].img_url2;
+      this.document.img_url3 = res["data"][0].img_url3;
+      if (this.document.img_url != "undefined" && this.document.img_url) {
+        this.images.push(this.document.img_url);
+      }
+      if (this.document.img_url2 != "undefined" && this.document.img_url2) {
+        this.images.push(this.document.img_url2);
+      }
+      if (this.document.img_url3 != "undefined" && this.document.img_url3) {
+        this.images.push(this.document.img_url3);
+      }
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+ 
+}
+
+
   getDocumentsData() {
     this.common.loading++;
     let response;
@@ -202,13 +226,15 @@ export class PendingDocumentComponent implements OnInit {
 
   customerByUpdate() {
     const params = {
+      x_user_id: this.user._customer.id,
       x_document_id: this.document.id,
       x_document_agent_id: this.document.agent_id,
       x_document_number: this.document.doc_no,
       x_rto: this.document.rto,
       x_amount: this.document.amount,
-      x_is_verified: true
+      // x_is_verified: true
     }
+ 
     this.common.loading++;
     let response;
     this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
@@ -245,19 +271,19 @@ export class PendingDocumentComponent implements OnInit {
     if (this.user._loggedInBy == 'admin') {
       const params = {
         x_vehicle_id: this.getVehicleId(this.document.regno),
-
+        x_user_id: this.user._customer.id,
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
         x_document_type: this.findDocumentType(this.document.document_type_id),
         x_issue_date: this.document.issue_date,
         x_wef_date: this.document.wef_date,
         x_expiry_date: this.document.expiry_date,
-        x_document_agent_id: this.document.agent_id,
-        x_document_number: this.document.doc_no,
-        x_rto: this.document.rto,
+        // x_document_agent_id: this.document.agent_id,
+        // x_document_number: this.document.doc_no,
+        // x_rto: this.document.rto,
         x_remarks: this.document.remarks,
-        x_amount: this.document.amount,
-        x_is_verified: true
+        // x_amount: this.document.amount,
+        // x_is_verified: true
       };
       console.log("Id is", params.x_vehicle_id);
       if (!this.document.vehicle_id) {
@@ -481,7 +507,7 @@ export class PendingDocumentComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark ,x_user_id:this.user._customer.id})
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);

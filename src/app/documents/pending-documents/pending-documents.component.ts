@@ -36,13 +36,11 @@ export class PendingDocumentsComponent implements OnInit {
 
   getPendingDetailsDocuments() {
     this.common.loading++;
-    this.api.get('Vehicles/getPendingDetailsDocuments', {})
+    this.api.post('Vehicles/getPendingDocumentsList', {x_user_id :this.user._customer.id,x_is_admin :1})
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -51,7 +49,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   showDetails(row) {
     let rowData = {
-      id: row.id,
+      id: row.document_id,
       vehicle_id: row.vehicle_id,
       regno: row.regno,
       document_type: row.name,
@@ -92,7 +90,7 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.id, x_remarks: remark })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark,x_user_id:this.user._customer.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);

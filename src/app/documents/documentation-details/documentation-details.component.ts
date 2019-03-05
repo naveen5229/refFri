@@ -202,6 +202,7 @@ export class DocumentationDetailsComponent implements OnInit {
       return false;
     }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
+    // this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -242,12 +243,14 @@ export class DocumentationDetailsComponent implements OnInit {
       agentName: doc.agent,
       documentNumber: doc.document_number,
       docUpload: doc.img_url,
+      docUpload2: doc.img_url2,
+      docUpload3:doc.img_url3,
       remark: doc.remarks,
       rto: doc.rto,
       amount: doc.amount,
     }];
 
-    this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id };
+    this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id, };
     this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -269,7 +272,7 @@ export class DocumentationDetailsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark,x_user_id:this.user._customer.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
