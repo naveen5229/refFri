@@ -46,4 +46,6 @@ export class LorryReceiptDetailsComponent implements OnInit {
     });
   }
 
+  
+
 }

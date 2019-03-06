@@ -36,7 +36,7 @@
           <td>{{doc.rto}}</td>
           <td>{{doc.amount}}</td>
           <td>{{doc.remarks}}</td>
-          <td><i *ngIf="doc.img_url" class="icon ion-md-image" (click)="imageView(doc)"></i></td>
+          <td><i *ngIf="doc.hasimage" class="icon ion-md-image"></i></td>
           <!-- <td (click)="editData(doc)"><i class="icon ion-md-create"></i></td> -->
         </tr>
       </tbody>
