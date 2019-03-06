@@ -88,3 +88,32 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #000 !important;
 }
+
+.zoom-btn {
+    display: inline-block;
+    background:black;
+    text-align: center;
+    color: #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    margin: auto;
+    line-height: 30px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgb(143, 136, 155);
+    margin-bottom: 5px;
+    cursor: pointer;
+    margin-left:5px;
+}
+.zoom-btn:active{
+    background: #fff;
+    color: orange;
+}
+.zoom-container {
+    position: absolute;
+    z-index: 999;
+    right: 15px;
+    bottom: 100px;
+    width: 30px;
+}

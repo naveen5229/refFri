@@ -4,6 +4,7 @@ import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
+import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 
 
 const routes: Routes = [{
@@ -21,6 +22,10 @@ const routes: Routes = [{
         {
             path: 'escalation-matrix',
             component: EscalationMatrixComponent,
+        },
+        {
+            path: 'site-fencing',
+            component: SiteFencingComponent,
         }
     ],
 }];
