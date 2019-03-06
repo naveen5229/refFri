@@ -23,12 +23,11 @@ lr = {
   deliveryAddress:null,
   consignorAddress:null,
   sameAsDelivery: false,
-  footer:"www.elogist.in",
-  conditions : "1. consignorAddress consignorAddress consignorAddress",
   paymentTerm : "ToBeFilled",
   payableAmount:1000,
   //date:this.common.dateFormatter(new Date())
 };
+
 particulars = [
   {
      articleNo:null,    
@@ -46,10 +45,12 @@ particulars = [
     customField:false,
     customButton:true
    }]
+
    driver={
      name:"Lalit",
      licenseNo:"ABDV1234"
    }
+
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,) {
