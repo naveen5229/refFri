@@ -8,8 +8,6 @@ import { AdminComponent } from './admin.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
 import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
 import { DirectiveModule } from '../directives/directives.module';
-// import { LRViewComponent } from './lrview/lrview.component';
-// import { GenerateLRComponent } from './generate-lr/generate-lr.component';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
 import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
@@ -18,6 +16,7 @@ import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.co
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
+import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -29,7 +28,8 @@ const PAGES_COMPONENTS = [
   TicketPropertiesComponent,
   IssueAlertsComponent,
   LorryReceiptDetailsComponent,
-  SiteFencingComponent
+  SiteFencingComponent,
+  DiagnosticsComponent
 ];
 
 
