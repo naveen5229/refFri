@@ -65,6 +65,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/particlulars/particlulars.component';
+import { AddDriverComponent } from './modals/DriverModals/add-driver/add-driver.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -110,7 +111,8 @@ import { ParticlularsComponent } from './modals/particlulars/particlulars.compon
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent
+    ParticlularsComponent,
+    AddDriverComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -153,7 +155,8 @@ import { ParticlularsComponent } from './modals/particlulars/particlulars.compon
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent
+    ParticlularsComponent,
+    AddDriverComponent
   ],
   imports: [
     BrowserModule,

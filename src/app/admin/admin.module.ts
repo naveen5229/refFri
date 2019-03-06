@@ -11,6 +11,7 @@ import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix
 import { DirectiveModule } from '../directives/directives.module';
 import { LRViewComponent } from './lrview/lrview.component';
 import { GenerateLRComponent } from './generate-lr/generate-lr.component';
+import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -29,7 +30,8 @@ const PAGES_COMPONENTS = [
     VehicleStatusChangeComponent,
     EscalationMatrixComponent,
     LRViewComponent,
-    GenerateLRComponent
+    GenerateLRComponent,
+    DiagnosticsComponent
   ],
 })
 export class AdminModule { }

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddDriverComponent } from './add-driver/add-driver.component';
 import { DriverComponent } from './driver.component';
+import { DriverListComponent } from './driver-list/driver-list.component';
 
 const routes: Routes = [{
     path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [{
         {
             path: 'add-driver',
             component: AddDriverComponent,
+        },
+        {
+            path: 'driver-list',
+            component: DriverListComponent,
         },
     ],
 }];

@@ -31,4 +31,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/generate-lr',
         home: true,
     },
+    {
+        title: 'Diagnostics',
+        icon: 'nb-home',
+        link: '/admin/diagnostics',
+        home: true,
+    },
 ];

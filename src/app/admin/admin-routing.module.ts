@@ -6,7 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
 import { LRViewComponent } from './lrview/lrview.component';
 import { GenerateLRComponent } from './generate-lr/generate-lr.component';
-
+import { DiagnosticsComponent} from './diagnostics/diagnostics.component';
 
 
 const routes: Routes = [{
@@ -32,6 +32,11 @@ const routes: Routes = [{
         {
             path: 'generate-lr',
             component: GenerateLRComponent,
+        },
+        {
+           
+             path:  'diagnostics' ,
+             component: DiagnosticsComponent,
         }
     ],
 }];

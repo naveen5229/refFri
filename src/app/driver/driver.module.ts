@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { DriverComponent } from './driver.component';
 import { DriverRoutingModule } from './driver-routing.module';
 import { AddDriverComponent } from './add-driver/add-driver.component';
+import { DriverListComponent } from './driver-list/driver-list.component';
 
 const PAGES_COMPONENTS = [
   DriverComponent,
@@ -24,6 +25,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     AddDriverComponent,
+    DriverListComponent,
   ],
 })
 export class DriverModule { }
