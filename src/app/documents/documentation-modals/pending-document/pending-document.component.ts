@@ -175,6 +175,16 @@ getDocumentPending(){
           this.common.params = { title: "Doc Image", images: this.images };
         }
 
+        if (this.document.img_url3) {
+          if ((this.document.img_url2.indexOf('.pdf') > -1) || (this.document.img_url3.indexOf('.doc') > -1) || (this.document.img_url3.indexOf('.docx') > -1) || (this.document.img_url3.indexOf('.xls') > -1) || (this.document.img_url3.indexOf('.xlsx') > -1) || (this.document.img_url3.indexOf('.csv') > -1)) {
+            this.doc_not_img = 1;
+          }
+          this.images.push({ name: "doc-img", image: this.document.img_url3 });
+          this.common.params = { title: "Doc Image", images: this.images };
+        }
+
+        
+
         console.log("doc_not_img:" + this.doc_not_img);
 
         console.log("in typid:" + this.document.document_type_id);

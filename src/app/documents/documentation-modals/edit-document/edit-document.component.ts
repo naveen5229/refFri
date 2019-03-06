@@ -78,15 +78,24 @@ export class EditDocumentComponent implements OnInit {
     this.document.remark = this.document[0].remark;
     this.document.amount = this.document[0].amount;
     this.getDocumentsData();
+    if (this.document.docUpload != "undefined" && this.document.docUpload) {
+      this.images.push(this.document.docUpload);
+    }
+    if (this.document.docUpload2 != "undefined" && this.document.docUpload2) {
+      this.images.push(this.document.docUpload2);
+    }
+    if (this.document.docUpload3 != "undefined" && this.document.docUpload3) {
+      this.images.push(this.document.docUpload3);
+    }
     this.common.handleModalSize('class', 'modal-lg', '1200');
     if (this.document.issueDate) {
-      this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMMYYYY').split(' ')[0];
+      this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMYYYY').split(' ')[0];
     }
     if (this.document.wefDate) {
-      this.document.wefDate = this.common.dateFormatter(this.document.wefDate, 'ddMMMYYYY').split(' ')[0];
+      this.document.wefDate = this.common.dateFormatter(this.document.wefDate, 'ddMMYYYY').split(' ')[0];
     }
     if (this.document.expiryDate) {
-      this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMMYYYY').split(' ')[0];
+      this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMYYYY').split(' ')[0];
     }
   }
 
@@ -124,15 +133,7 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
-        // if (this.document.docUpload != "undefined" && this.document.docUpload) {
-        //   this.images.push(this.document.docUpload);
-        // }
-        // if (this.document.docUpload2 != "undefined" && this.document.docUpload2) {
-        //   this.images.push(this.document.docUpload2);
-        // }
-        // if (this.document.docUpload3 != "undefined" && this.document.docUpload3) {
-        //   this.images.push(this.document.docUpload3);
-        // }
+     
 
         
       }, err => {
@@ -253,7 +254,7 @@ export class EditDocumentComponent implements OnInit {
     if (params.x_expiry_date) {
       params.x_expiry_date = this.document.expiryDate.split("/").reverse().join("-");
     }
-
+  
     this.common.loading++;
     let response;
     console.log("params", params);
