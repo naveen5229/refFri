@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
     this.getDocumentData();
 
     this.common.refresh = this.refresh.bind(this);
+    console.log("foid:", this.user._customer.id);
   }
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class DashboardComponent implements OnInit {
 
   getDocumentData() {
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', {})
+    this.api.post('Vehicles/getDocumentsStatistics',{})
       .subscribe(res => {
         this.common.loading--;
         this.documentData = res['data'];
@@ -68,24 +69,24 @@ export class DashboardComponent implements OnInit {
     let columns = [];
     this.documentData.map(doc => {
       columns.push({
-        docType: { value: doc.name },
-        normal: { value: doc.normal, class: doc.normal > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'normal') },
-        noEntry: { value: doc.noentrytilldate, class: doc.noentrytilldate > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'noentrytilldate') },
-        imageMissing: { value: doc.imagemissing, class: doc.imagemissing > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'imagemissing') },
-        Expiry: { value: doc.expiringin30days, class: doc.expiringin30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiringin30days') },
-        alreadyExpiry: { value: doc.alreadyexpired, class: doc.alreadyexpired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'alreadyexpired') },
+        docType: { value: doc.docname },
+        normal: { value: doc.verified, class: doc.verified > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'verified') },
+        noEntry: { value: doc.unverified, class: doc.unverified > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'unverified') },
+        imageMissing: { value: doc.pendingimage, class: doc.pendingimage > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'pendingimage') },
+        Expiry: { value: doc.expiring30days, class: doc.expiring30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiring30days') },
+        alreadyExpiry: { value: doc.expired, class: doc.expired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expired') },
       });
     });
 
-    columns.push({
-      serial:{value: 'sum ' },
-      docType: { value: 'Total' },
-      normal: { value: this.getSum('normal'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'normal') },
-      noEntry: { value: this.getSum('noentrytilldate'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'noentrytilldate') },
-      imageMissing: { value: this.getSum('imagemissing'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'imagemissing') },
-      Expiry: { value: this.getSum('expiringin30days'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expiringin30days') },
-      alreadyExpiry: { value: this.getSum('alreadyexpired'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'alreadyexpired') },
-    });
+    // columns.push({
+    //   serial:{value: 'sum ' },
+    //   docType: { value: 'Total' },
+    //   normal: { value: this.getSum('verified'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'verified') },
+    //   noEntry: { value: this.getSum('unverified'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'unverified') },
+    //   imageMissing: { value: this.getSum('pendingimage'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'pendingimage') },
+    //   Expiry: { value: this.getSum('expiring30days'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expiring30days') },
+    //   alreadyExpiry: { value: this.getSum('expired'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expired') },
+    // });
 
     return columns;
 
