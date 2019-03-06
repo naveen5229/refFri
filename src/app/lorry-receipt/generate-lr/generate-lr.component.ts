@@ -96,9 +96,11 @@ particulars = [
   }
   getConsignorDetail(consignor){
     console.log("consignor",consignor);
+    this.lr.consignorAddress = "Jaipur";
   }
   getConsigneeDetail(consignee){
     console.log("consignee",consignee);
+    this.lr.consigneeAddress = "delhi";
   }
   getBranchDetails(){
     console.log(this.lr.branch)
