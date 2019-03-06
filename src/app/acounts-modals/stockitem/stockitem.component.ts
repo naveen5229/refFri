@@ -9,7 +9,7 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./stockitem.component.scss']
 })
 export class StockitemComponent implements OnInit {
-
+  showConfirm = false;
   stockItem = {
     name: '',
     code: '',
@@ -34,7 +34,6 @@ export class StockitemComponent implements OnInit {
 
   };
 
-
   showSuggestions = {
     user: false,
     stockType: false
@@ -45,6 +44,7 @@ export class StockitemComponent implements OnInit {
     stockTypes: []
   };
 
+  allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -84,7 +84,7 @@ export class StockitemComponent implements OnInit {
   onSelected(selectedData, type, display) {
     this.stockItem[type].name = selectedData[display];
     this.stockItem[type].id = selectedData.id;
-    //console.log('Stock Unit: ', this.stockItem);
+    console.log('Stock Unit: ', this.stockItem);
   }
 
 
@@ -92,5 +92,88 @@ export class StockitemComponent implements OnInit {
   dismiss(response) {
     console.log('Stock Type:', this.stockItem);
     this.activeModal.close({ response: response, stockItem: this.stockItem });
+  }
+
+
+  
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    const activeId = document.activeElement.id;
+    console.log('Active Id', activeId);
+
+    if (this.showConfirm) {
+      if (key == 'y' || key == 'enter') {
+        console.log('Ledgers show stockType:', this.stockItem);
+        this.dismiss(true);
+        this.common.showToast('Your Value Has been saved!');
+      }
+      this.showConfirm = false;
+      event.preventDefault();
+      return;
+    }
+  
+    if (key == 'enter') {
+      this.allowBackspace = true;
+      // console.log('active', activeId);
+     // console.log('Active jj: ', activeId.includes('aliasname'));
+      if (activeId.includes('user')) {
+        this.setFoucus('stockSubType');
+      } else if (activeId.includes('stockSubType')) {
+        this.setFoucus('unit');
+      } else if (activeId == 'unit') {
+        this.setFoucus('name');
+      } else if (activeId == 'name') {
+        this.setFoucus('code');
+      } else if (activeId == 'code') {
+        this.setFoucus('maxlimit');
+      } else if (activeId == 'maxlimit') {
+        this.setFoucus('minlimit');
+      } else if (activeId == 'minlimit') {
+        this.setFoucus('isactive');
+      } else if (activeId == 'isactive' || activeId == 'notisactive') {
+        this.setFoucus('sales');
+      } else if (activeId == 'sales' || activeId == 'notsales') {
+        this.setFoucus('purchase');
+      } else if (activeId == 'purchase'||activeId == 'notpurchase') {
+         this.setFoucus('inventary');
+       }else if (activeId == 'inventary'|| activeId == 'notinventary') {
+        // this.setFoucus('stock-name');
+        this.showConfirm = true;
+       }
+  }else if (key == 'backspace' && this.allowBackspace) {
+    event.preventDefault();
+    console.log('active 1', activeId);
+    if (activeId == 'inventary'|| activeId == 'notinventary') this.setFoucus('purchase');
+    if (activeId == 'purchase'||activeId == 'notpurchase') this.setFoucus('sales');
+    if (activeId == 'sales'|| activeId == 'notsales') this.setFoucus('isactive');
+    if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
+    if (activeId == 'minlimit') this.setFoucus('maxlimit');
+    if (activeId == 'maxlimit') this.setFoucus('code');
+    if (activeId == 'code') this.setFoucus('name');
+    if (activeId == 'name') this.setFoucus('unit');
+    if (activeId == 'unit') this.setFoucus('stockSubType');
+    if (activeId == 'stockSubType') this.setFoucus('user');
+  }  else if (key.includes('arrow')) {
+    this.allowBackspace = false;
+  } else if (key != 'backspace') {
+    this.allowBackspace = false;
+    //event.preventDefault();
+  }
+
+    
+  }
+
+
+
+  
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }

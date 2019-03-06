@@ -73,6 +73,8 @@ export class DocumentsSummaryComponent implements OnInit {
           issue_date: this.docdata[0].issue_date,
           remarks: this.docdata[0].remarks,
           img_url: this.docdata[0].img_url,
+          img_url2:this.docdata[0].img_url2,
+          img_url3: this.docdata[0].img_url3,
           doc_no: this.docdata[0].document_number,
           rto: this.docdata[0].rto,
           amount: this.docdata[0].amount
@@ -82,8 +84,8 @@ export class DocumentsSummaryComponent implements OnInit {
         this.common.handleModalSize('class', 'modal-lg', '1200');
         const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         activeModal.result.then(mdldata => {
-          console.log("response:");
-          console.log(mdldata);
+          console.log("response:", mdldata);
+          this.getDocumentMatrixData();
         });
       }, err => {
         this.common.loading--;

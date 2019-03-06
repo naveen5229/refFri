@@ -38,6 +38,7 @@ export class BranchComponent implements OnInit {
     addressline: '',
     remarks: ''
   };
+  allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -108,7 +109,7 @@ export class BranchComponent implements OnInit {
 
 
     if (key == 'enter') {
-
+      this.allowBackspace = true;
       console.log('active',activeId);
       if (activeId.includes('user')) {
         this.setFoucus('name');
@@ -148,7 +149,8 @@ export class BranchComponent implements OnInit {
         this.showConfirm = true;
        // this.setFoucus('submit');
       }
-  } else if (key == 'backspace') {
+  } else  if (key == 'backspace' && this.allowBackspace) {
+    event.preventDefault();
       if (activeId.includes('name')) {
       this.setFoucus('user');
     }else  if (activeId.includes('code')) {
@@ -185,6 +187,11 @@ export class BranchComponent implements OnInit {
       this.setFoucus('addressline');
     }
 
+  } else if (key.includes('arrow')) {
+    this.allowBackspace = false;
+  } else if (key != 'backspace') {
+    this.allowBackspace = false;
+    //event.preventDefault();
   }
 
 

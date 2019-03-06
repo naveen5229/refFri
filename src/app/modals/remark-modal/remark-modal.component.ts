@@ -42,7 +42,7 @@ export class RemarkModalComponent implements OnInit {
       this.common.showError(this.label + ' is mandatory!');
       return;
     }
-    console.log("Halt Reason", this.remark);
+    console.log("delete Reason", this.remark);
     this.activeModal.close({ remark: this.remark, response: response });
   }
 

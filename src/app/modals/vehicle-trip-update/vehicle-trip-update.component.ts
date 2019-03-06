@@ -27,8 +27,11 @@ export class VehicleTripUpdateComponent implements OnInit {
     startName: null,
     startTime: null,
     placementType:null,
-    vehicleId:null
+    vehicleId:null,
+    siteId:null
   };
+  placements = null;
+  placementSuggestion = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -36,6 +39,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     private datePipe: DatePipe,
     private modalService: NgbModal,
   ) {
+    console.log(this.common.params)
     this.vehicleTrip.endLat = this.common.params.endLat;
     this.vehicleTrip.endLng = this.common.params.endLng;
     this.vehicleTrip.endName = this.common.params.endName;
@@ -45,7 +49,10 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.startLat = this.common.params.startLat;
     this.vehicleTrip.startLng = this.common.params.startLng;
     this.vehicleTrip.startName = this.common.params.startName;
+    this.vehicleTrip.siteId = this.common.params.siteId;
     this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.startTime);
+    this.getVehiclePlacements();
+    this.getPlacementSuggestion();
   }
 
   ngOnInit() {
@@ -58,10 +65,12 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
   openReminderModal(){
     this.common.params.returnData = true;
+    this.common.params.title = "Target Time";
     const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data",data);
       this.vehicleTrip.targetTime = data.date;
+      this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
       console.log('Date:', this.vehicleTrip.targetTime);
     });
   }
@@ -104,7 +113,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
-    this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
+    if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
       location: this.vehicleTrip.endName,
@@ -121,10 +130,67 @@ export class VehicleTripUpdateComponent implements OnInit {
         --this.common.loading;
         console.log(res['msg']);
         this.common.showToast(res['msg']);
-        this.activeModal.close();
+        this.getVehiclePlacements();
+       // this.activeModal.close();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
       });
+  }else{
+    alert("Next Location And Purpose is Mandatory");
   }
+}
+
+getPlacementSuggestion(){
+  let params ={
+    vehicleId: this.vehicleTrip.vehicleId,
+    siteId: this.vehicleTrip.siteId
+  } 
+ 
+  this.api.post('Placement/getSuggestion?' ,params)
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.placementSuggestion = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+}
+
+getVehiclePlacements(){
+  let params = "vehId=" +this.vehicleTrip.vehicleId;
+  this.api.get('VehicleTrips/vehiclePlacements?' +params)
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.placements = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+}
+
+delete(placement) {
+  console.log("issue",placement);
+  this.common.loading++;
+  let params = {
+    placementId: placement.id,
+    status: true
+  };
+  console.log(params);
+  this.api.post('VehicleTrips/updateVehiclePlacement?', params)
+    .subscribe(res => {
+      this.common.loading--;
+     this.getVehiclePlacements();
+    }, err => {
+      this.common.loading--;
+      console.log(err);
+    });
+}
+  
+setPlacementDetail(placementSuggestion){
+  console.log("placementSuggestion",placementSuggestion);
+  this.vehicleTrip.endName = placementSuggestion.loc_name;
+  this.vehicleTrip.endLat = placementSuggestion.lat;
+  this.vehicleTrip.endLng = placementSuggestion.long;
+}
 }

@@ -1,0 +1,40 @@
+<nb-card>
+    <nb-card-header>
+      <div class="col-sm-4">
+        <h2>Issues Status Changes</h2>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <table class="table table-bordered table-hover">
+        <thead class="thead">
+          <tr>
+            <th>Id</th>
+            <th>Issue Type</th>
+            <th>Vehicle No.</th>
+            <th>Add User</th>
+            <th>Add Time</th>
+            <th>Remark</th>
+            <th>Action</th>
+          </tr>
+  
+        </thead>
+        <tbody>
+          <tr *ngFor="let issue of issues;let i= index">
+            <td>{{i+1}}</td>
+            <td>{{issue.issuetype}}</td>
+            <td>{{issue.vehicleno}}</td>
+            <td>{{issue.foadminuser}} : {{issue.fouser}} </td>
+            <td>{{issue.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <td>{{issue.remark}}</td>
+            <td><button (click)="issueComplete(issue)">Done</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="no-data" *ngIf="!issues.length">
+        No Data available !
+      </div>
+      <div style="margin-top:20px">
+          <b>Number Of Alerts : {{issues.length}}</b>
+        </div>
+    </nb-card-body>
+  </nb-card>
