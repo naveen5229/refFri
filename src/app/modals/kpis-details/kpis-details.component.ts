@@ -61,6 +61,7 @@ export class KpisDetailsComponent implements OnInit {
   }
 
   getUpadte(kpi){
+    console.log("kpi",kpi);
     let tripDetails ={
       id : kpi.x_trip_id,
       endName : kpi.x_showtripend,
@@ -68,7 +69,8 @@ export class KpisDetailsComponent implements OnInit {
       startTime : kpi.x_showstarttime,
       endTime : kpi.x_showendtime,
       regno : kpi.x_showveh,
-      vehicleId:kpi.x_vehicle_id
+      vehicleId:kpi.x_vehicle_id,
+      siteId:kpi.x_hl_site_id
       
     }
     // this.common.params= tripDetails;
