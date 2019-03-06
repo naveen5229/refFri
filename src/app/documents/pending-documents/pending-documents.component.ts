@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { PendingDocumentComponent } from '../../documents/documentation-modals/pending-document/pending-document.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 
 @Component({
@@ -35,13 +36,11 @@ export class PendingDocumentsComponent implements OnInit {
 
   getPendingDetailsDocuments() {
     this.common.loading++;
-    this.api.get('Vehicles/getPendingDetailsDocuments', {})
+    this.api.post('Vehicles/getPendingDocumentsList', {x_user_id :this.user._customer.id,x_is_admin :1})
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-
-
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -50,7 +49,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   showDetails(row) {
     let rowData = {
-      id: row.id,
+      id: row.document_id,
       vehicle_id: row.vehicle_id,
       regno: row.regno,
       document_type: row.name,
@@ -74,24 +73,37 @@ export class PendingDocumentsComponent implements OnInit {
     activeModal.result.then(mdldata => {
       console.log("response:");
       console.log(mdldata);
+      this.getPendingDetailsDocuments();
     });
   }
 
+  
   deleteDocument(row) {
+    let remark;
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
-      console.log("Deleting document with id:" + row.id);
-      this.common.loading++;
-      this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.id })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          window.location.reload();
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-          window.location.reload();
-        });
+      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
+
+      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark,x_user_id:this.user._customer.id })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.getPendingDetailsDocuments();
+              this.common.showToast("Success Delete");
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+              this.getPendingDetailsDocuments();
+            });
+        }
+      })
     }
   }
+      
 }

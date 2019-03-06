@@ -287,7 +287,9 @@ export class ConciseComponent implements OnInit {
     this.common.params = { kpi };
     const activeModal = this.modalService.open(KpisDetailsComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.componentInstance.modalHeader = 'kpisDetails';
-
+    // activeModal.result.then(data => {
+    //     this.getKPIS();
+    // });
   }
 
   filterData(filterKey) {

@@ -14,7 +14,7 @@
           <label>User</label>
           <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
           <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Enter User" displayId="user" [preSelected]="null"></auto-suggestion>
+          placeholder="Enter User" inputId="user" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
       <div class="col">

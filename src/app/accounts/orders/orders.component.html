@@ -1,2 +1,528 @@
-<h1>Orders</h1>
-<button class="btn" (click)="openModal()">Add Invoice</button>
+
+<!--button class="btn" (click)="openModal()">Add Invoice</button-->
+    <nb-card>
+        <nb-card-body (keydown)="keyHandler($event)">
+            <h1>Orders</h1>
+     
+      
+        <div class="row" style="margin-bottom: 30px;">
+      
+          <div class="col-4">
+            <div class="form-group">
+              <label>Branch</label>
+              <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
+                display="name" inputId="branch" placeholder="Enter Branch" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Invoice Type</label>
+              <auto-suggestion (onSelected)="onSelected($event, 'ordertype', 'name')" url="Suggestion/GetOrderTypeList"
+                display="name" inputId="ordertype" placeholder="Enter Order Type" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Purchase Start -->
+        <div *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">
+          <div class="row">
+            <!--div class="col">
+            <div class="form-group">
+              <label>Code</label>
+              <input type="text" class="form-control" name="account-name" [(ngModel)]="order.code">
+            </div>
+          </div-->
+            <div class="col">
+              <div class="form-group">
+                <label>Invoice No.</label>
+                <input type="text" class="form-control" id="custcode" name="account-custcode" [(ngModel)]="order.custcode">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Invoice Date</label>
+                <!--input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
+                  placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" id="date" name="account-date" [(ngModel)]="order.date"
+                  readonly-->
+
+                  <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="date"
+                  name="account-date" [(ngModel)]="order.date" maxlength="10"
+                  (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Purchase Ledger</label>
+                <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
+                  url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger" placeholder="Enter Purchase Ledger" [preSelected]="null">
+                </auto-suggestion>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label>Supplier Ledger</label>
+                <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
+                  display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="null"></auto-suggestion>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Supplier Ref.No</label>
+                <input type="text" class="form-control" name="account-vendorbidref" id="vendorbidref" [(ngModel)]="order.vendorbidref"
+                  placeholder="Vender Bid Reference">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>P.O.No.</label>
+                <input type="text" class="form-control" name="account-qutationrefrence" id="qutationrefrence" [(ngModel)]="order.qutationrefrence"
+                  placeholder="Quatation Reference">
+              </div>
+            </div>
+      
+      
+            <div class="col">
+              <div class="form-group">
+                <label>Shipment Location</label>
+                <input type="text" class="form-control" name="account-shipmentlocation" id="shipmentlocation" [(ngModel)]="order.shipmentlocation"
+                  placeholder="Shipment Location">
+              </div>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label>Payment Terms</label>
+                <input type="text" class="form-control" name="account-paymentterms" id="paymentterms" [(ngModel)]="order.paymentterms"
+                  placeholder="Payment Terms">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Bilty Number</label>
+                <input type="text" class="form-control" name="account-biltynumber" id="biltynumber" [(ngModel)]="order.biltynumber"
+                  placeholder="Bilty Number">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Bilty Date</label>
+                <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
+                <!--input type="text" style="cursor: pointer;" class="form-control"
+                  (click)="Date('biltydate')" placeholder="Select Date" id="biltydate" [value]="date | date: 'dd MMM yyyy'"
+                  name="account-date" [(ngModel)]="order.biltydate" readonly-->
+
+                  <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="biltydate"
+                  name="account-biltydate" [(ngModel)]="order.biltydate" maxlength="10"
+                  (click)="lastActiveId = 'account-biltydate'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Dilivery Terms</label>
+                <input type="text" class="form-control" name="account-deliveryterms" id="deliveryterms" [(ngModel)]="order.deliveryterms"
+                  placeholder="Delivery Terms">
+              </div>
+            </div>
+            <!--div class="col">
+            <div class="form-group">
+              <label>Approved</label>
+              Yes<input type="radio" name="account-Approved" [(ngModel)]="order.Approved" value="true">
+              <label>No</label>
+              <input type="radio" name="account-Approved" [(ngModel)]="order.Approved" value="false">
+            </div>
+            
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Delete Review</label>
+              Yes<input type="radio" name="account-delreview" [(ngModel)]="order.delreview" value="true">
+              <label>No</label>
+              <input type="radio" name="account-delreview" [(ngModel)]="order.delreview" value="false">
+            </div>
+          </div-->
+          </div>
+          <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" name="account-billingaddress" id="billingaddress" [(ngModel)]="order.billingaddress"
+                placeholder="Vender Billing Address"></textarea>
+            </div>
+          </div>
+      
+      
+      
+          <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" name="account-orderremarks" id="orderremarks"  [(ngModel)]="order.orderremarks"
+                placeholder="Invoice Remarks"></textarea>
+            </div>
+          </div>
+          </div>
+        </div>
+      <!-- Purchase End -->
+       
+      <!--sales-->
+      <div *ngIf="order.ordertype.name.toLowerCase().includes('sales')">
+        <div class="row">
+          <!--div class="col">
+          <div class="form-group">
+            <label>Code</label>
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="order.code">
+          </div>
+        </div-->
+          <div class="col">
+            <div class="form-group">
+              <label>Invoice No.</label>
+              <input type="text" class="form-control" name="account-custcode" id="custcode" [(ngModel)]="order.custcode">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Invoice Date</label>
+              <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
+              <!--input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
+                placeholder="Invoice Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" id="date" [(ngModel)]="order.date"
+                readonly-->
+
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="date"
+                name="account-date" [(ngModel)]="order.date" maxlength="10"
+                (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Sales Ledger</label>
+              <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
+                url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger" placeholder="Enter Sales Ledger" [preSelected]="null">
+              </auto-suggestion>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Party Name</label>
+              <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
+                display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Order No</label>
+              <input type="text" class="form-control" id="vendorbidref" name="account-vendorbidref" [(ngModel)]="order.vendorbidref"
+                placeholder="Order No">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Other Reference</label>
+              <input type="text" class="form-control" id="qutationrefrence" name="account-qutationrefrence" [(ngModel)]="order.qutationrefrence"
+                placeholder="Other Reference">
+            </div>
+          </div>
+      
+      
+          <div class="col">
+            <div class="form-group">
+              <label>Shipment Location</label>
+              <input type="text" class="form-control" id="shipmentlocation" name="account-shipmentlocation" [(ngModel)]="order.shipmentlocation"
+                placeholder="Shipment Location">
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Payment Terms</label>
+              <input type="text" class="form-control" id="paymentterms" name="account-paymentterms" [(ngModel)]="order.paymentterms"
+                placeholder="Payment Terms">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Eway Bill Number</label>
+              <input type="text" class="form-control" id="biltynumber" name="account-biltynumber" [(ngModel)]="order.biltynumber"
+                placeholder="Eway Bill Number">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Eway Bill Date</label>
+              <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
+              <!--input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
+                (click)="getDate('biltydate')" placeholder="Eway Bill Date" [value]="date | date: 'dd MMM yyyy'"
+                name="account-date" id="biltydate" [(ngModel)]="order.biltydate" readonly-->
+
+                
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="biltydate"
+                name="account-biltydate" [(ngModel)]="order.biltydate" maxlength="10"
+                (click)="lastActiveId = 'account-biltydate'; allowBackspace = false;" (input)="allowBackspace = false;">
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Dilivery Terms</label>
+              <input type="text" class="form-control" id="deliveryterms" name="account-deliveryterms" [(ngModel)]="order.deliveryterms"
+                placeholder="Delivery Terms">
+            </div>
+          </div>
+          <!--div class="col">
+          <div class="form-group">
+            <label>Approved</label>
+            Yes<input type="radio" name="account-Approved" [(ngModel)]="order.Approved" value="true">
+            <label>No</label>
+            <input type="radio" name="account-Approved" [(ngModel)]="order.Approved" value="false">
+          </div>
+          
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label>Delete Review</label>
+            Yes<input type="radio" name="account-delreview" [(ngModel)]="order.delreview" value="true">
+            <label>No</label>
+            <input type="radio" name="account-delreview" [(ngModel)]="order.delreview" value="false">
+          </div>
+        </div-->
+        </div>
+        <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <textarea class="form-control" name="account-billingaddress" id="billingaddress" [(ngModel)]="order.billingaddress"
+              placeholder="Party Billing Address"></textarea>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <textarea class="form-control" name="account-grnremarks" id="grnremarks" [(ngModel)]="order.grnremarks"
+              placeholder="Consignee Address"></textarea>
+          </div>
+        </div>
+      
+      
+        <div class="col">
+          <div class="form-group">
+            <textarea class="form-control" name="account-orderremarks" id="orderremarks" [(ngModel)]="order.orderremarks"
+              placeholder="Invoice Remarks"></textarea>
+          </div>
+        </div>
+        </div>
+      </div>
+      <!--sales end-->
+        <div class="row"></div>
+      
+        <table>
+          <tr style="background-color: #eeeeee;">
+            <th>Stock Item</th>
+            <th>Stock Unit</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Amount</th>
+            <th>Dis Ledger</th>
+            <th>Dis Amount</th>
+            <th>Line Amount</th>
+      
+            <th>Warehouse</th>
+            <th>remarks</th>
+            <th></th>
+            <th></th>
+          </tr>
+      
+      
+          <tr *ngFor="let amountDetail of order.amountDetails; let i = index;" style="background: #e8f0f3;">
+            <td>
+              <auto-suggestion
+                (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
+                url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i"placeholder="Enter Stock Item" [preSelected]="null">
+              </auto-suggestion>
+            </td>
+            <td>
+              <!--auto-suggestion (onSelected)="amountDetail.stockunit = $event.id" url="Suggestion/getUnit"  display="name"
+          placeholder="Enter Stock Unit" [preSelected]="null" aria-readonly=""></auto-suggestion-->
+      
+              <input type="text" class="form-control" autocomplete="off" name="account-stockunit"
+                placeholder="Enter Stock Unit" [(ngModel)]="amountDetail.stockunit.name" readonly>
+            </td>
+            <td style="width: 100px;">
+              <input type="number" class="form-control" autocomplete="off" name="account-qty" [id]="'qty-' + i"
+                (input)="amountDetail.amount = amountDetail.qty * amountDetail.rate;" [(ngModel)]="amountDetail.qty">
+            </td>
+            <td>
+              <input type="number" class="form-control" autocomplete="off" name="account-rate" [id]="'rate-' + i" [(ngModel)]="amountDetail.rate"
+                (input)="amountDetail.amount = amountDetail.qty * amountDetail.rate;">
+            </td>
+            <td>
+              <input type="number" class="form-control" autocomplete="off" name="account-amount"
+                [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
+            </td>
+            <td>
+              <auto-suggestion (onSelected)="amountDetail.discountledger = $event.id" [inputId]="'discountledger-' + i" url="Suggestion/GetPurchaseLedger"
+                display="name" placeholder="Enter Discount Ledger" [preSelected]="null"></auto-suggestion>
+            </td>
+            <!--td>
+          <input type="number"  class="form-control" autocomplete="off" name="account-discountamount" [(ngModel)]="amountDetail.discountamount">
+      </td-->
+            <td> <input type="number" class="form-control" autocomplete="off" name="account-discountate"
+                [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
+                (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;"></td>
+            <td>
+              <input type="number" class="form-control" autocomplete="off" name="account-lineamount" 
+                [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
+            </td>
+      
+            <td>
+              <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse" display="name"
+                placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i" ></auto-suggestion>
+            </td>
+            <td>
+              <input type="text" class="form-control" autocomplete="off" name="account-remarks" [id]="'remarks-' + i"
+                [(ngModel)]="amountDetail.remarks">
+            </td>
+            <td>
+              <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" style="background-color: #73a1ff;margin-right: 15px;">Tax Details</button>
+            </td>
+            <td *ngIf="i == 0">
+             <button class="plustransparent" id="plustransparent" (click)="addAmountDetails()"><i class="fa fa-plus text-primary"  style="font-size: 40px;"></i></button></td>
+            <td *ngIf="i !== 0">
+              <i class="fa fa-trash text-primary" (click)="order.amountDetails.splice(i,1)"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><b>Total Amount : </b></td>
+            <td><input type="text" class="form-control" autocomplete="off" name="account-totalamount"
+                [(ngModel)]="order.totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
+          </tr>
+        </table>
+        <!-- Amount Details -->
+        <!--div  *ngFor="let amountDetail of order.amountDetails; let i = index;" style="background: #e8f0f3;">
+          <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Stock Item</label>
+              <auto-suggestion (onSelected)="amountDetail.stockitem = $event.id" url="Suggestion/GetStockItem"  display="name"
+              placeholder="Enter Stock Item" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Stock Unit</label>
+              <auto-suggestion (onSelected)="amountDetail.stockunit = $event.id" url="Suggestion/getUnit"  display="name"
+              placeholder="Enter Stock Unit" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Quantity</label>
+              <input type="text"  class="form-control" autocomplete="off" name="account-qty" [(ngModel)]="amountDetail.qty">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Rate</label>
+              <input type="text"  class="form-control" autocomplete="off" name="account-rate" [(ngModel)]="amountDetail.rate">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Amount</label>
+              <input type="text"  class="form-control" autocomplete="off" name="account-amount" [(ngModel)]="amountDetail.amount">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Dis Ledger</label>
+              <auto-suggestion (onSelected)="amountDetail.discountledger = $event.id" url="Suggestion/GetPurchaseLedger" display="name"
+                placeholder="Enter Discount Ledger" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+      
+          <div class="col">
+            <div class="form-group">
+              <label>Dis Amount</label>
+              <input type="text"  class="form-control" autocomplete="off" name="account-discountamount" [(ngModel)]="amountDetail.discountamount">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Discountate</label>
+              <input type="text"  class="form-control" autocomplete="off" name="account-discountate" [(ngModel)]="amountDetail.discountate">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Line Amount</label>
+              <input type="text"  class="form-control" autocomplete="off" name="account-lineamount" [(ngModel)]="amountDetail.lineamount">
+            </div>
+          </div>
+          
+      
+          <div class="col-1" style="white-space:pre-wrap;">
+            <button (click)="TaxDetails(i)">Tax Details</button>
+          </div>
+        </div>
+          <div class="row">
+            <div class="col-4">
+            <div class="form-group">
+              <label>Warehouse</label>
+              <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"  display="name"
+                placeholder="Enter Warehouse" [preSelected]="null"></auto-suggestion>
+            </div>
+          </div>
+      
+          <div class="col-4">
+            <div class="form-group">
+              <label>remarks</label>
+              <textarea class="form-control"  name="account-remarks" [(ngModel)]="amountDetail.remarks"></textarea>
+             </div>
+          </div>
+          
+          <div class="col-2" *ngIf="i == 0">
+            <i class="fa fa-plus text-primary" (click)="addAmountDetails()"></i>
+          </div>
+          <div class="col-2" *ngIf="i !== 0">
+            <i class="fa fa-trash text-primary" (click)="order.amountDetails.splice(i,1)"></i>
+          </div>
+        </div>
+        </div>
+        <!-- End Amount Details -->
+      
+      
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+              style="cursor: pointer;">Cancel</button>
+          </div>
+          <div class="col text-right">
+            <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+              style="cursor: pointer;">Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+</nb-card>
+
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+    <div class="date-modal-body data_model_save">
+      <div>
+        <p>Are you want to save ?</p>
+        <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      </div>
+    </div>
+  </div>

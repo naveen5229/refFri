@@ -71,6 +71,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
+import { 
+   MatFormFieldModule,
+  MatMenuModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule
+} from '@angular/material';
+import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 @NgModule({
   declarations: [AppComponent,
@@ -123,6 +132,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
+    DatePicker2Component,
     AddFuelFillingComponent
   ],
   entryComponents: [
@@ -172,6 +182,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
+    DatePicker2Component,
     AddFuelFillingComponent
   ],
   imports: [
@@ -189,7 +200,9 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     ImageViewerModule,
     MatIconModule,
     DragDropModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -197,6 +210,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
 
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule {
 }

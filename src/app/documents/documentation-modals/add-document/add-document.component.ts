@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
+import { DatePicker2Component } from '../../../modals/date-picker2/date-picker2.component';
 import { DocumentationDetailsComponent } from "../../documentation-details/documentation-details.component";
 import { from } from 'rxjs';
 @Component({
@@ -22,8 +23,11 @@ export class AddDocumentComponent implements OnInit {
   spnexpdt = 0;
 
   document = {
-    image: '',
+    image1: null,
+    image2 : null,
+    image3 : null,
     base64Image: null,
+    
     type: {
       id: '',
       name: ''
@@ -57,7 +61,7 @@ export class AddDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-
+   console.log( "Customer id :",this.user._customer.id);
     this.vehicleId = this.common.params.vehicleId;
 
     if (this.document.dates.issue)
@@ -91,7 +95,7 @@ export class AddDocumentComponent implements OnInit {
   }
 
 
-  handleFileSelection(event) {
+  handleFileSelection(event, index) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
@@ -102,16 +106,15 @@ export class AddDocumentComponent implements OnInit {
           file.type == "image/png" || file.type == "application/pdf" ||
           file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
           file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          this.common.showError("SuccessFull File Selected");
+          this.common.showToast("SuccessFull File Selected");
         }
         else {
-          //  alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
           this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
           return false;
         }
 
         console.log('Base 64: ', res);
-        this.document.base64Image = res;
+        this.document['image' + index] = res;
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);
@@ -160,18 +163,21 @@ export class AddDocumentComponent implements OnInit {
 
   addDocument() {
     const params = {
+      x_entryby:this.user._customer.id,
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
       x_issue_date: this.document.dates.issue,
       x_wef_date: this.document.dates.wef,
       x_expiry_date: this.document.dates.expiry,
-      x_document_agent_id: this.document.agent.id,
-      x_document_number: this.document.number,
-      x_base64img: this.document.base64Image,
-      x_rto: this.document.rto,
+      // x_document_agent_id: this.document.agent.id,
+      // x_document_number: this.document.number,
+      x_base64img: this.document.image1,
+      x_base64img2: this.document.image2,
+      x_base64img3: this.document.image3,
+      // x_rto: this.document.rto,
       x_remarks: this.document.remark,
-      x_amount: this.document.amount,
+      // x_amount: this.document.amount,
     };
 
     let issuedt_valid = 1;
@@ -222,20 +228,19 @@ export class AddDocumentComponent implements OnInit {
     if (!this.document.type.id) {
       return this.common.showError("Select Document Type");
     }
-    if (!this.document.base64Image) {
+    if (!this.document.image1) {
       return this.common.showError("Select Document Image/File");
     }
-
     console.log('Params: ', params);
     this.common.loading++;
-    this.api.post('Vehicles/addVehicleDocument', params)
+    this.api.post('Vehicles/addVehicleDocumentWeb', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
         let result=res["msg"];
         
         if (result=="success") {
-          this.common.showError("Success");
+          this.common.showToast("Success");
           this.closeModal(true);
         }
         else{

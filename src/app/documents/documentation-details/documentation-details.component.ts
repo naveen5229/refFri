@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -27,7 +28,7 @@ export class DocumentationDetailsComponent implements OnInit {
   };
   table = null;
 
- 
+
   // table = {
   //   data: {
   //     headings: {
@@ -102,6 +103,7 @@ export class DocumentationDetailsComponent implements OnInit {
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
+      rto: { title: 'Rto', placeholder: 'Rto' }, 
       amount: { title: 'Amount', placeholder: 'Amount' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
@@ -138,6 +140,7 @@ export class DocumentationDetailsComponent implements OnInit {
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
         expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
         documentNumber: { value: doc.document_number },
+        rto:{value:doc.rto},
         amount: { value: doc.amount },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
@@ -152,6 +155,7 @@ export class DocumentationDetailsComponent implements OnInit {
     });
     return columns;
   }
+
 
 
   getDate(date) {
@@ -172,13 +176,13 @@ export class DocumentationDetailsComponent implements OnInit {
     },
     {
       name: "image",
-      image: doc.img_url2 
+      image: doc.img_url2
     },
     {
       name: "image",
-      image: doc.img_url3 
+      image: doc.img_url3
     },
-  ];
+    ];
     console.log("images:", images);
     if (this.checkForPdf(images[0].image)) {
       window.open(images[0].image);
@@ -200,6 +204,7 @@ export class DocumentationDetailsComponent implements OnInit {
       return false;
     }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
+    // this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -240,12 +245,14 @@ export class DocumentationDetailsComponent implements OnInit {
       agentName: doc.agent,
       documentNumber: doc.document_number,
       docUpload: doc.img_url,
+      docUpload2: doc.img_url2,
+      docUpload3:doc.img_url3,
       remark: doc.remarks,
       rto: doc.rto,
       amount: doc.amount,
     }];
 
-    this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id };
+    this.common.params = { documentData, title: 'Update Document', vehicleId: doc.vehicle_id, };
     this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -256,24 +263,33 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   deleteData(doc) {
+    let remark;
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
-      console.log("Deleting document with id:" + doc.id);
-      this.common.loading++;
-      this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.documentUpdate();
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-          this.documentUpdate();
-        });
+      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
+
+      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark,x_user_id:this.user._customer.id })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.documentUpdate();
+              
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+              this.documentUpdate();
+              
+            });
+        }
+      })
     }
 
   }
-
-  
 
 }
