@@ -1,20 +1,128 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { ReminderComponent } from '../../modals/reminder/reminder.component';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+
+declare var google: any;
 @Component({
   selector: 'add-trip',
   templateUrl: './add-trip.component.html',
   styleUrls: ['./add-trip.component.scss']
 })
 export class AddTripComponent implements OnInit {
-
-  constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
-
+  startTime;
+  targetTime;
+  VehicleId;
+  vehicleTrip = {
+    endLat: null,
+    endLng: null,
+    endName: null,
+    regno: null,
+    startLat: null,
+    startLng: null,
+    startName: null,
+    placementType:null
+  };
+  constructor(public api: ApiService,
+    public common: CommonService,
+    public user: UserService,
+    public activeModal: NgbActiveModal,
+    private datePipe: DatePipe,
+    private modalService: NgbModal,
+  ){
+    this.VehicleId = this.common.params.vehId;
   }
+ 
 
   ngOnInit() {
   }
+  ngAfterViewInit(): void {
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
 
+  }
+  getDate(type) {
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if(type=='startdate')
+        this.startTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        if(type=='enddate')
+        this.targetTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        console.log('lrdate: '+this.startTime);
+      }
+    });
+  }
+
+  autoSuggestion(elementId) {
+    var options = {
+      types: ['(cities)'],
+      componentRestrictions: { country: "in" }
+    };
+    let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
+    let autocomplete = new google.maps.places.Autocomplete(ref, options);
+    google.maps.event.addListener(autocomplete, 'place_changed', this.updateLocation.bind(this,elementId, autocomplete));
+  }
+
+  updateLocation(elementId,autocomplete) {
+    console.log('tets');
+    let place = autocomplete.getPlace();
+    let lat = place.geometry.location.lat();
+    let lng = place.geometry.location.lng();
+    place = autocomplete.getPlace().formatted_address;
+   
+    this.setLocations(elementId,place,lat,lng);
+  }
+
+  setLocations(elementId,place,lat,lng){
+    console.log("elementId",elementId,"place",place,"lat",lat,"lng",lng);
+    if(elementId=='vehicleTrip_starttrip'){
+    this.vehicleTrip.startName = place;
+    this.vehicleTrip.startLat = lat;
+    this.vehicleTrip.startLng = lng;
+    }else if(elementId=='vehicleTrip_endtrip'){
+      this.vehicleTrip.endLat = lat;
+      this.vehicleTrip.endLng = lng;
+      this.vehicleTrip.endName = place;
+    }
+  }
+
+  closeModal() {
+    this.activeModal.close();
+  }
+  addTrip() {
+    console.log(this.vehicleTrip);
+    this.startTime = this.startTime.split("/").reverse().join("-");
+    this.startTime  = new Date(this.startTime );
+    this.targetTime = this.targetTime.split("/").reverse().join("-");
+    this.targetTime  = new Date(this.targetTime );
+    let params = {
+      vehicleId: this.VehicleId,
+      startTrip: this.vehicleTrip.startName,
+      endTrip:this.vehicleTrip.endName,
+      startLat: this.vehicleTrip.startLat,
+      startLong:this.vehicleTrip.startLng,
+      endLat: this.vehicleTrip.endLat,
+      endLong: this.vehicleTrip.endLng,
+      startTime: this.startTime,
+      endTime: this.targetTime
+    }
+    console.log("params", params);
+    ++this.common.loading;
+    this.api.post('VehicleTrips/insertTripDetails', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log(res['msg']);
+        this.common.showToast(res['msg']);
+        this.activeModal.close();
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+}
 }

@@ -54,6 +54,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'driver',
+    loadChildren: 'app/driver/driver.module#DriverModule',
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'auth',
     component: NbAuthComponent,
     children: [

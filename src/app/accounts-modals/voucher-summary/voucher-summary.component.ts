@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
+import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 @Component({
   selector: 'voucher-summary',
   templateUrl: './voucher-summary.component.html',
@@ -18,6 +19,7 @@ export class VoucherSummaryComponent implements OnInit {
   tripHeads = [];
   VehicleId;
   VoucherId;
+  
   constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
     this.trips = this.common.params.tripDetails;
     this.VehicleId = this.common.params.vehId;
@@ -235,6 +237,17 @@ export class VoucherSummaryComponent implements OnInit {
     let vehId=this.VehicleId; 
     this.common.params = {vehId};
     const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        //this.addLedger(data.ledger);
+      }
+    });
+  }
+  addFuelFilling(){
+    let vehId=this.VehicleId; 
+    this.common.params = {vehId};
+    const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
