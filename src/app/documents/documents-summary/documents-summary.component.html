@@ -26,35 +26,7 @@
             <th *ngFor="let col of data.columns; let i=index">{{col}}</th>
           </tr>
         </thead>
-        <tbody class="">
-          <ng-container *ngIf="data.vehicle_info.length">
-            <tr *ngFor="let row of data.vehicle_info">
-              <td *ngFor="let col of data.columns;" class="text-center">
-                <span *ngIf="col == 'Vehicle No.'">
-                  {{row[col]}}
-                </span>
-                <span *ngIf="row[col] == 'BlackTick' && col != 'Vehicle No.'">
-                  <img class="icon-img" src="assets/images/doc-black-tick.png" alt="View" style="cursor: pointer;"
-                    (click)="fetchDocumentData(row,col)" />
-                </span>
-                <span *ngIf="row[col] == 'BlackCross' && col != 'Vehicle No.'">
-                  <img class="icon-img" src="assets/images/doc-black-cross.png" alt="View" style="cursor: pointer;"
-                    (click)="fetchDocumentData(row,col)" />
-                </span>
-                <span *ngIf="row[col] == 'RedTick' && col != 'Vehicle No.'">
-                  <img class="icon-img" src="assets/images/doc-red-tick.png" alt="View" style="cursor: pointer;"
-                    (click)="fetchDocumentData(row,col)" />
-                </span>
-                <span *ngIf="row[col] == 'GreenTick' && col != 'Vehicle No.'">
-                  <img class="icon-img" src="assets/images/doc-tick.png" alt="View" style="cursor: pointer;"
-                    (click)="fetchDocumentData(row,col)" />
-                </span>
-                <span *ngIf="row[col] == ''">
-                  <img class="icon-img" src="assets/images/doc-cross.png" alt="No" />
-                </span>
-              </td>
-            </tr>
-          </thead>
+        
           <tbody class="">
             <ng-container *ngIf="data.vehicle_info.length">
               <tr *ngFor="let row of data.vehicle_info">

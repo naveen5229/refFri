@@ -28,6 +28,7 @@ export class PendingDocumentComponent implements OnInit {
   spnexpdt = 0;
   current_date = new Date();
   images = [];
+  imgs = [];
   doc_not_img = 0;
   
   document = {
@@ -93,17 +94,20 @@ export class PendingDocumentComponent implements OnInit {
     this.images.push({name : "doc-img", image: this.document.img_url});
     this.common.params = { title : "Doc Image", images: this.images};
     */
+   console.log("doc data:");
+    console.log(this.document);
    if (this.document.img_url != "undefined" && this.document.img_url) {
-    this.images.push(this.document.img_url);
+    this.imgs.push(this.document.img_url);
   }
   if (this.document.img_url2 != "undefined" && this.document.img_url2) {
-    this.images.push(this.document.img_url2);
+    this.imgs.push(this.document.img_url2);
   }
   if (this.document.img_url3 != "undefined" && this.document.img_url3) {
-    this.images.push(this.document.img_url3);
+    this.imgs.push(this.document.img_url3);
   }
+    this.images = this.imgs;
     console.log("images:");
-    console.log(this.images);
+    console.log(this.imgs);
 
   }
   closeModal(response) {
@@ -286,7 +290,7 @@ getDocumentPending(){
   }
 
   updateDocument() {
-    if (this.user._loggedInBy == 'admin') {
+    if (this.user._loggedInBy == 'admin' && this.canUpdate==1) {
       const params = {
         x_vehicle_id: this.getVehicleId(this.document.regno),
         x_user_id: this.user._customer.id,
@@ -383,7 +387,7 @@ getDocumentPending(){
 
       console.log("params");
       console.log(params);
-
+    
       this.common.loading++;
       let response;
       this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
@@ -397,7 +401,9 @@ getDocumentPending(){
           this.common.loading--;
           console.log(err);
         });
+      
       return response;
+      
     }
   }
   getDate(date) {

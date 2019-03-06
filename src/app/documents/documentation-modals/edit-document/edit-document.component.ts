@@ -187,13 +187,13 @@ export class EditDocumentComponent implements OnInit {
       x_wef_date: this.document.wefDate,
       x_expiry_date: this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
-      // x_document_number: this.document.documentNumber,
+      x_document_number: this.document.documentNumber,
       // x_base64img: this.document.newDocUpload,
       // x_base64img2: this.document.newDocUpload,
       // x_base64img3 : this.document.newDocUpload,
-      // x_rto: this.document.rto,
+      x_rto: this.document.rto,
       x_remarks: this.document.remark,
-      // x_amount: this.document.amount,
+      x_amount: this.document.amount,
     };
     // console.log("image  ",params.x_base64img, params.x_base64img2,params.x_base64img3);
     if (!this.document.documentId) {
@@ -258,7 +258,7 @@ export class EditDocumentComponent implements OnInit {
     this.common.loading++;
     let response;
     console.log("params", params);
-    this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
+    this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);

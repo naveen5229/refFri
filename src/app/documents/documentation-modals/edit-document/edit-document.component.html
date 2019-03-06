@@ -40,7 +40,7 @@
             <label>Issue Date</label>
           </div>
           <div class="col-md-7">
-              <label style="font-size:16px;">{{document.issueDate | date:'dd-MM-yyyy'}}</label>
+              <label style="font-size:16px;">{{document.issueDate}}</label>
             <!-- <input id="issue-date" name="issue-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
               class="form-control" [value]="document.issueDate  " [(ngModel)]="document.issueDate "
               placeholder="DD/MM/YYYY">
@@ -56,7 +56,7 @@
             <label>Wef Date</label>
           </div>
           <div class="col-md-7">
-              <label style="font-size:16px;">{{document.wefDate | date:'dd-MM-yyyy'}}</label>
+              <label style="font-size:16px;">{{document.wefDate}}</label>
             <!-- <input id="wef-date" name="wef-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
               class="form-control" [value]="document.wefDate " [(ngModel)]="document.wefDate" placeholder="DD/MM/YYYY">
           </div>
@@ -71,7 +71,7 @@
             <label>Expiry Date</label>
           </div>
           <div class="col-md-7">
-              <label style="font-size:16px;">{{document.expiryDate | date:'dd-MM-yyyy'}}</label>
+              <label style="font-size:16px;">{{document.expiryDate}}</label>
             <!-- <input id="expiry-date" name="expiry-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
               class="form-control" [value]="document.expiryDate" [(ngModel)]="document.expiryDate"
               placeholder="DD/MM/YYYY">
@@ -146,7 +146,20 @@
             <textarea name="remark" class="form-control" [(ngModel)]="document.remark" placeholder="remark"></textarea>
           </div>
         </div>
+        <div class="row">
+          <div class="col-sm-4" style="margin-left:30%;">
+            <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+              style="cursor: pointer;">{{btn2}}</button>
+          </div>
+          <div class="col-sm-4" >
+            <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
+              id="submit" style="cursor: pointer;">{{btn1}}</button>
+          </div>
+        </div>
       </div>
+
+      
+
       <div class="col-sm-8">
           
           <div *ngIf="doc_not_img"><a target='_blank' href="{{document.docUpload}}" title="View Document" style="font-size: 20px; color: blue; text-decoration: underline">View Document Pdf</a></div>
@@ -159,7 +172,7 @@
 </div>
 
 <div class="modal-footer">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col">
       <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
         style="cursor: pointer;">{{btn2}}</button>
@@ -168,5 +181,5 @@
       <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
         id="submit" style="cursor: pointer;">{{btn1}}</button>
     </div>
-  </div>
+  </div> -->
 </div>
