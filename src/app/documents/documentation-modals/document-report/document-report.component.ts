@@ -62,7 +62,7 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-        console.log("Api  get result", this.reportResult);
+        console.log(" get api result", this.reportResult);
         this.curr = this.common.dateFormatter(this.currentdate);
         this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       }, err => {
@@ -82,9 +82,7 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-        console.log("Api result", this.reportResult);
-
-        // console.log("total report id",this.reportResult[0].id);
+        console.log("total api result", this.reportResult);
         this.curr = this.common.dateFormatter(this.currentdate);
         this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
         this.getReport();
