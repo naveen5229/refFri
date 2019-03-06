@@ -63,6 +63,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
+import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
@@ -70,6 +71,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
+import { 
+   MatFormFieldModule,
+  MatMenuModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule
+} from '@angular/material';
+import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -119,7 +130,10 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    AddTripComponent,
+    DatePicker2Component,
+    AddFuelFillingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -166,7 +180,10 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    AddTripComponent,
+    DatePicker2Component,
+    AddFuelFillingComponent
   ],
   imports: [
     BrowserModule,
@@ -183,7 +200,9 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     ImageViewerModule,
     MatIconModule,
     DragDropModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -191,6 +210,7 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
 
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule {
 }

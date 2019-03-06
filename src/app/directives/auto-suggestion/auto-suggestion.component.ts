@@ -18,7 +18,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() preSelected: any;
   @Input() seperator: string;
   @Input() data: any;
-  @Input() id: string;
+  @Input() inputId: string;
   @Input() name: string;
   @Input() parentForm: FormGroup;
   @Input() controlName: string;
@@ -128,7 +128,7 @@ export class AutoSuggestionComponent implements OnInit {
       else this.activeSuggestion = this.suggestions.length - 1;
       event.preventDefault();
     } else if (key == 'enter') {
-      if (this.activeSuggestion == -1) {
+      if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {
         this.selectSuggestion(this.suggestions[0]);

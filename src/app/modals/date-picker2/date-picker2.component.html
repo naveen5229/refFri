@@ -1,0 +1,19 @@
+<!-- <mat-form-field>
+    <mat-label>Date</mat-label>
+    <input  [value]="date.value" matInput [matDatepicker]="myPicker"  placeholder="date">
+    <mat-datepicker-toggle  matSuffix [for]="myPicker"></mat-datepicker-toggle>
+    <mat-datepicker #myPicker></mat-datepicker>
+</mat-form-field> -->
+<!-- <div class="nebular-calendar"> 
+    <nb-calendar [(date)]="date" name="date" [boundingMonth]="true" >
+    </nb-calendar> 
+    <button  (click) = "closeModal()" class="btn btn-primary" style="margin-left:45%; margin-left: 45%; background-color: #87aeff;">OK</button>
+  </div> -->
+
+<mat-form-field >
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date" >
+    <button  (click) = "closeModal()" class="btn btn-primary" style="margin-left:45%; margin-left: 45%; background-color: #87aeff;">OK</button>
+
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker ></mat-datepicker>
+  </mat-form-field>

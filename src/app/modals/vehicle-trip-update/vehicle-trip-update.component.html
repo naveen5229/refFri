@@ -44,6 +44,9 @@
         <label>Next Location</label>
       </div>
       <div class="col-md-8" style="margin-top:5px">
+        <button class="btn" *ngFor = "let placementSuggestion of placementSuggestion; let i = index" (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:15px">
+          {{placementSuggestion.loc_name}}
+        </button>
         <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name"
           [(ngModel)]="vehicleTrip.endName">
         <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left" placeholder="End lat"
@@ -90,3 +93,26 @@
     </div>
   </div>
 </div>
+<table class="table table-bordered table-hover">
+    <thead class="thead">
+      <tr>
+        <th>#</th>
+        <th>Location</th>
+        <th>Purpose</th>
+        <th>Target Time</th>
+        <th>Add Time</th>
+        <th>Delete</th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let placement of placements">
+        <td>{{placement.id}}</td>
+        <td>{{placement.location}}</td>
+        <td>{{placement.purpose}}</td>
+        <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
+      </tr>
+    </tbody>
+  </table>

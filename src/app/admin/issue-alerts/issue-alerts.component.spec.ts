@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingDocumentsComponent } from './pending-documents.component';
+import { IssueAlertsComponent } from './issue-alerts.component';
 
-describe('PendingDocumentsComponent', () => {
-  let component: PendingDocumentsComponent;
-  let fixture: ComponentFixture<PendingDocumentsComponent>;
+describe('IssueAlertsComponent', () => {
+  let component: IssueAlertsComponent;
+  let fixture: ComponentFixture<IssueAlertsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingDocumentsComponent ]
+      declarations: [ IssueAlertsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PendingDocumentsComponent);
+    fixture = TestBed.createComponent(IssueAlertsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
