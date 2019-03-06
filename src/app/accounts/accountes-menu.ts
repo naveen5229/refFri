@@ -98,12 +98,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
-
-        title: 'vouchers',
-        icon: 'nb-home',
-        link: '/accounts/vouchers'
-    },
-    {
         title: 'Trip Voucher Expense',
         icon: 'nb-home',
         link: '/accounts/trip-voucher-expense'

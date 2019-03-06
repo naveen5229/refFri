@@ -23,6 +23,32 @@
 .table-scroll td {
     height: 47px; // needed in order to keep rows from collapsing
 }
+.icon-black {
+    color: black; font-size: 24px; cursor:pointer;
+}
+.icon-red {
+    color: red; font-size: 24px; cursor:pointer;
+}
+.icon-green {
+    color: green; font-size: 24px; cursor:pointer;
+}
+.icon-red-cross {
+    color: red; font-size: 24px; cursor:arrow;
+}
+.i-black {
+    color: black; font-size: 24px; 
+}
+.i-red {
+    color: red; font-size: 24px;
+}
+.i-green {
+    color: green; font-size: 24px;
+}
+.i-red-cross {
+    color: red; font-size: 24px;
+}
+span.mgn-lt { margin-left: 15px;}
+.pdg-ltrt-none { padding-left: 0; padding-right: 0;}
 nb-card{
     padding-left: 4% !important;
 }
