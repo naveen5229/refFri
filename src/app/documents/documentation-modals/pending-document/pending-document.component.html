@@ -31,7 +31,7 @@
 
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
               <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
-              class="form-control " [(ngModel)]="document.newRegno" (change)="getVehicleId(document.newRegno)" />
+              class="form-control " [(ngModel)]="document.newRegno"  />
     
             <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
               placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
