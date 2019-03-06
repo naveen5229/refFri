@@ -4,7 +4,8 @@
       <h2>Vehicle Status Changes</h2>
     </div>
     <div class="col-sm-8" style="margin-top:-86px">
-        <input type="button" style="margin-top: 8%; padding: 11px; background-color:hsl(0,50%,75%);border-radius:15px" id ="statusPending" (click)="getPendingStatusDetails()" value="Pending Alerts" >
+      <input type="button" style="margin-top: 8%; padding: 11px; background-color:hsl(0,50%,75%);border-radius:15px"
+        id="statusPending" (click)="getPendingStatusDetails()" value="Pending Alerts">
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
         (click)="getVehicleStatusAlerts('all')" value="View All">
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
@@ -13,53 +14,55 @@
         (click)="getVehicleStatusAlerts('view old')" value="View old">
       <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
         (click)="getVehicleStatusAlerts('pending')" value="Refresh">
-        <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
         (click)="getVehicleStatusAlerts('advance review')" value="Advance Review">
     </div>
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-bordered table-hover">
-      <thead class="thead">
-        <tr>
-          <th>Id</th>
-          <th>Fo Name</th>
-          <th>Vehicle RegNo </th>
-          <th>Vehicle Id </th>
-          <th>Primary Status </th>
-          <th>Secondry Status</th>
-          <th>Remark</th>
-          <th>Suggestion</th>
-          <th>Alert Time</th>
-          <th>Clear UserId</th>
-          <th>Status</th>
-          <th>Hold User</th>
-          <th>Action</th>
-        </tr>
+    <div class="tableFixHead">
+      <table class="table table-bordered table-hover ">
+        <thead class="thead">
+          <tr>
+            <th>Id</th>
+            <th>Fo Name</th>
+            <th>Vehicle RegNo </th>
+            <th>Vehicle Id </th>
+            <th>Primary Status </th>
+            <th>Secondry Status</th>
+            <th>Remark</th>
+            <th>Suggestion</th>
+            <th>Alert Time</th>
+            <th>Clear UserId</th>
+            <th>Status</th>
+            <th>Hold User</th>
+            <th>Action</th>
+          </tr>
 
-      </thead>
-      <tbody>
-        <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
-          <td>{{VehicleStatusAlert.id}}</td>
-          <td>{{VehicleStatusAlert.name}}</td>
-          <td>{{VehicleStatusAlert.regno}}</td>
-          <td>{{VehicleStatusAlert.vehicle_id}}</td>
-          <td>{{VehicleStatusAlert.prim_status}}</td>
-          <td>{{VehicleStatusAlert.sec_status}}</td>
-          <td>{{VehicleStatusAlert.remark}}</td>
-          <td>{{VehicleStatusAlert.suggest}}</td>
-          <td>{{VehicleStatusAlert.alerttime}}</td>
-          <td>{{VehicleStatusAlert.aduserid}}</td>
-          <td>{{VehicleStatusAlert.status}}</td>
-          <td>{{VehicleStatusAlert.hold_users}}</td>
-          <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
-        </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
+            <td>{{VehicleStatusAlert.id}}</td>
+            <td>{{VehicleStatusAlert.name}}</td>
+            <td>{{VehicleStatusAlert.regno}}</td>
+            <td>{{VehicleStatusAlert.vehicle_id}}</td>
+            <td>{{VehicleStatusAlert.prim_status}}</td>
+            <td>{{VehicleStatusAlert.sec_status}}</td>
+            <td>{{VehicleStatusAlert.remark}}</td>
+            <td>{{VehicleStatusAlert.suggest}}</td>
+            <td>{{VehicleStatusAlert.alerttime}}</td>
+            <td>{{VehicleStatusAlert.aduserid}}</td>
+            <td>{{VehicleStatusAlert.status}}</td>
+            <td>{{VehicleStatusAlert.hold_users}}</td>
+            <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
       No Data available !
     </div>
     <div style="margin-top:20px">
-        <b>Number Of Alerts : {{VehicleStatusAlerts.length}}</b>
-      </div>
+      <b>Number Of Alerts : {{VehicleStatusAlerts.length}}</b>
+    </div>
   </nb-card-body>
 </nb-card>
