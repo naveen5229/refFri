@@ -80,6 +80,7 @@ import {
   MatNativeDateModule
 } from '@angular/material';
 import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -131,7 +132,8 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component
+    DatePicker2Component,
+    AddFuelFillingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -180,7 +182,8 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component
+    DatePicker2Component,
+    AddFuelFillingComponent
   ],
   imports: [
     BrowserModule,
