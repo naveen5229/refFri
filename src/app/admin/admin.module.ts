@@ -17,9 +17,19 @@ import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
+import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
+  VehicleStatusChangeComponent,
+  EscalationMatrixComponent,
+  LRViewComponent,
+  GenerateLRComponent,
+  GroupManagementsComponent,
+  TicketPropertiesComponent,
+  IssueAlertsComponent,
+  LorryReceiptDetailsComponent,
+  SiteFencingComponent
 ];
 
 
@@ -32,15 +42,6 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
-    VehicleStatusChangeComponent,
-    EscalationMatrixComponent,
-    LRViewComponent,
-    GenerateLRComponent,
-    GroupManagementsComponent,
-    TicketPropertiesComponent,
-    IssueAlertsComponent,
-    LorryReceiptDetailsComponent,
-
   ],
 })
 export class AdminModule { }

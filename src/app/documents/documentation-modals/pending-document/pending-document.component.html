@@ -54,7 +54,7 @@
         <div class="form-field clear">
           <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
           <div *ngIf="!canUpdate" class="col-sm-8 ">
-              <label style="font-size:16px;">   {{getDateInDisplayFormat(document.issue_date)| date:'dd-MMM-yyyy'}}</label>
+              <label style="font-size:16px;">   {{getDateInDisplayFormat(document.issue_date)| date:'dd-MM-yyyy'}}</label>
           </div>
           <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="text"
             class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date"
@@ -66,7 +66,7 @@
         <div class="form-field clear">
           <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
           <div *ngIf="!canUpdate" class="col-sm-8">
-              <label style="font-size:16px;"> {{getDateInDisplayFormat(document.wef_date)| date:'dd-MMM-yyyy'}}</label>
+              <label style="font-size:16px;"> {{getDateInDisplayFormat(document.wef_date)| date:'dd-MM-yyyy'}}</label>
            
           </div>
           <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="text"
@@ -79,7 +79,7 @@
         <div class="form-field clear">
           <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
           <div *ngIf="!canUpdate" class="col-sm-8">
-              <label style="font-size:16px;"> {{getDateInDisplayFormat(document.expiry_date)| date:'dd-MMM-yyyy'}}</label>
+              <label style="font-size:16px;"> {{getDateInDisplayFormat(document.expiry_date)| date:'dd-MM-yyyy'}}</label>
            </div>
           <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text"
             class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.expiry_date"
@@ -137,56 +137,23 @@
             </div>
 
             <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4" *ngIf="this.user._loggedInBy== 'admin'" >
                 <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
                   style="cursor: pointer;">{{btn2}}</button>
               </div>
 
-            <div class="col-sm-4" *ngIf="canUpdate == 1 || this.user._loggedInBy== 'admin'" style="margin-left:30%;" >
+            <div class="col-sm-4" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'" style="margin-left:30%;" >
                 <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
                   id="submit" style="cursor: pointer;">{{btn1}}</button>
               </div>
-              <div class="col-sm-4" *ngIf="this.user._loggedInBy== 'customer'"style="margin-left:30%;" >
-                <button class="btn btn-primary" form="document-form" type="submit"  (click)="customerByUpdate()"
+              <div class="col-sm-4" *ngIf="canUpdate === 0 " style="margin-left:30%;" >
+                <button class="btn btn-primary"  type="submit"  (click)="customerByUpdate()"
                   id="submit" style="cursor: pointer;">{{btn1}}</button>
               </div>
             </div>
           
         </div>
       <!-- </div> -->
-<!-- 
-      <ng-template #adminData>
-          <div class="row form-field clear">
-              <label for="remarks" class="col-sm-4 " style="padding-left:8%;">Remarks</label>
-              <div *ngIf="!canUpdate" class="col-sm-8 read-lbl" > {{document.remarks}}</div>
-
-              <div class="col-sm-8" *ngIf="canUpdate">
-                  <textarea  id="remarks" name="remarks" style="margin-left: -4%;" rows="1" class="form-control " [(ngModel)]="document.remarks" ></textarea>
-              </div>
-             
-            </div>
-            <div class="row form-field clear">
-              <label for="doc_no" class="col-sm-4 mgn-vert" style="padding-left:8%;">Document No.</label>
-              <div  class="col-sm-8 read-lbl">{{document.doc_no}}</div>
-            </div>
-
-        <div class="row form-field clear">
-          <label for="rto" class="col-sm-4 mgn-vert" style="padding-left:8%;">RTO</label>
-          <div class="col-sm-8 read-lbl">{{document.rto}}</div>
-
-        </div>
-        <div class="row form-field clear">
-          <label for="agent" class="col-sm-4 mgn-vert" style="padding-left:8%;">Agent</label>
-          <div class="col-sm-8 read-lbl">{{document.agent}}</div>
-         
-        </div>
-        <div class="row form-field clear">
-          <label for="amount" class="col-sm-4 mgn-vert" style="padding-left:8%;">Amount</label>
-          <div class="col-sm-8 read-lbl">{{document.amount}}</div>
-
-        </div>
-     
-      </ng-template> -->
 
       <div class="col-sm-8">
         <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
