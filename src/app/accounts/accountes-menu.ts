@@ -3,9 +3,9 @@ import { VoucherComponent } from '../acounts-modals/voucher/voucher.component';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Dashboard',
-        icon: 'nb-home',
-        link: '/accounts/dashboard',
+        title: 'Home Dashboard',
+        icon: 'fa fa-home',
+        link: '/pages/dashboard',
         home: true,
     },
     {
@@ -96,12 +96,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/invoiceregister'
             }
         ],
-    },
-    {
-
-        title: 'vouchers',
-        icon: 'nb-home',
-        link: '/accounts/vouchers'
     },
     {
         title: 'Trip Voucher Expense',
