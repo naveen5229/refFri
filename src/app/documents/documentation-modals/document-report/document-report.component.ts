@@ -54,7 +54,7 @@ export class DocumentReportComponent implements OnInit {
 
   getReport() {
     let params = {
-      id: this.common.params.docReoprt.id,
+      id: this.common.params.docReoprt.document_type_id,
       status: this.reportData.status
     };
     this.common.loading++;
@@ -74,10 +74,10 @@ export class DocumentReportComponent implements OnInit {
   totalReport() {
     let params = {
       status: this.reportData.status,
-
+      id: 0
     }
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
+    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status ,x_document_type_id:params.id })
 
       .subscribe(res => {
         this.common.loading--;

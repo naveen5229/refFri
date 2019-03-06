@@ -44,6 +44,9 @@
         <label>Next Location</label>
       </div>
       <div class="col-md-8" style="margin-top:5px">
+        <button class="btn" *ngFor = "let placementSuggestion of placementSuggestion; let i = index" (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:15px">
+          {{placementSuggestion.loc_name}}
+        </button>
         <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name"
           [(ngModel)]="vehicleTrip.endName">
         <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left" placeholder="End lat"
