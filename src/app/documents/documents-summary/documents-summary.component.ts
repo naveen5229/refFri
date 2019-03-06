@@ -82,8 +82,8 @@ export class DocumentsSummaryComponent implements OnInit {
         this.common.handleModalSize('class', 'modal-lg', '1200');
         const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         activeModal.result.then(mdldata => {
-          console.log("response:");
-          console.log(mdldata);
+          console.log("response:", mdldata);
+          this.getDocumentMatrixData();
         });
       }, err => {
         this.common.loading--;
