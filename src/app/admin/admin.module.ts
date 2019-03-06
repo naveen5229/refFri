@@ -18,6 +18,8 @@ import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.co
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
+import { SiteDetailsComponent } from './site-details/site-details.component';
+import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update-site-details.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -29,7 +31,9 @@ const PAGES_COMPONENTS = [
   TicketPropertiesComponent,
   IssueAlertsComponent,
   LorryReceiptDetailsComponent,
-  SiteFencingComponent
+  SiteFencingComponent,
+  SiteDetailsComponent,
+  
 ];
 
 

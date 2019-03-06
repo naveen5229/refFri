@@ -3,6 +3,9 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MapService } from '../../services/map.service';
+declare var google: any;
+
 @Component({
   selector: 'update-site-details',
   templateUrl: './update-site-details.component.html',
@@ -13,15 +16,15 @@ export class UpdateSiteDetailsComponent implements OnInit {
   s_name;
   latitude;
   longitude;
+  moveLoc = '';
+  siteLoc = '';
+  isStrictLoading  = 3;
   constructor(
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-
-
-
-
+    private mapService: MapService,
   ) {
     this.s_name = this.common.params.site.site_name;
     console.log(this.common.params.site);
@@ -29,9 +32,51 @@ export class UpdateSiteDetailsComponent implements OnInit {
 
 
   ngOnInit() {
+    
   }
+  updateSiteDetails() {
+    let params = {
+      siteId:this.common.params.site_id,
+      locationName:this.siteLoc,
+      isStrictLoading :this.isStrictLoading ,
+    }
+    ++this.common.loading;
+    this.api.post('Site/updateSiteDetails', {params})
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Res:', res['data']);
+      }, err => {
+        --this.common.loading;
+
+        console.log('Err:', err);
+      });
+    }
   dismiss() {
     this.activeModal.close();
   }
-
+  ngAfterViewInit() {
+    this.mapService.autoSuggestion("siteLoc");
+    this.mapService.mapIntialize("map");
+    console.log(this.common.params);
+    this.mapService.createMarkers([{lat:this.common.params.site.lat,long: this.common.params.site.lng,type:'site'}]);  
+    //this.mapService.createMarkers(this.latitude , this.longitude);
+  }
+ 
+  // updateLocation(elementId,autocomplete) {
+  //   console.log('tets');
+  //   let place = autocomplete.getPlace();
+  //   let lat = place.geometry.location.lat();
+  //   let lng = place.geometry.location.lng();
+  //   place = autocomplete.getPlace().formatted_address;
+ 
+  //   this.setLocations(elementId,place,lat,lng);
+  // }
+ 
+  // setLocations(elementId,place,lat,lng){
+  //   console.log("elementId",elementId,"place",place,"lat",lat,"lng",lng);
+  //   //this.vehicleTrip.startName = place;
+  //  // this.vehicleTrip.startLat = lat;
+  //  // this.vehicleTrip.startLng = lng;
+  // }
+ 
 }

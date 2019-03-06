@@ -80,6 +80,7 @@ import {
   MatNativeDateModule
 } from '@angular/material';
 import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -131,7 +132,8 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component
+    DatePicker2Component,
+    UpdateSiteDetailsComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -180,7 +182,9 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component
+    DatePicker2Component,
+    UpdateSiteDetailsComponent
+    
   ],
   imports: [
     BrowserModule,
