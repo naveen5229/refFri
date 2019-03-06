@@ -272,27 +272,26 @@ export class PendingDocumentComponent implements OnInit {
     return response;
   }
 
-  getVehicleId(regno) {
-    console.log("get Vehcile Id", regno);
-    this.common.loading++;
-    let response;
-    this.api.post('Vehicles/getVehIdByRegno', { x_regno: regno })
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("api result", res);
-        this.document.vehicle_id = res["data"];
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return this.document.vehicle_id;
-  }
+  // getVehicleId(regno) {
+  //   console.log("get Vehcile Id", regno);
+  //   this.common.loading++;
+  //   let response;
+  //   this.api.post('Vehicles/getVehIdByRegno', { x_regno: regno })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log("api result", res);
+  //       this.document.vehicle_id = res["data"];
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  //   return this.document.vehicle_id;
+  // }
 
   updateDocument() {
     if (this.user._loggedInBy == 'admin' && this.canUpdate == 1) {
       const params = {
-        x_vehicle_id: this.getVehicleId(this.document.regno),
+        x_vehicle_id: this.document.regno,
         x_user_id: this.user._customer.id,
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
