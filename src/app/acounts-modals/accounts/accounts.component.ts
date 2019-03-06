@@ -23,6 +23,7 @@ Accounts={
   }
 
 };
+  allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -84,6 +85,7 @@ Accounts={
 
 
           if (key == 'enter') {
+            this.allowBackspace = true;
             if (activeId.includes('user')) {
               this.setFoucus('account');
             }else  if (activeId.includes('account')) {
@@ -91,12 +93,18 @@ Accounts={
             }else  if (activeId.includes('name')) {
               this.showConfirm = true;
             }
-          } else  if (key == 'backspace') {
+          } else  if (key == 'backspace' && this.allowBackspace) {
+            event.preventDefault();
             if (activeId.includes('name')) {
               this.setFoucus('account');
             }else  if (activeId.includes('account')) {
               this.setFoucus('user');
             }
+          } else if (key.includes('arrow')) {
+            this.allowBackspace = false;
+          } else if (key != 'backspace') {
+            this.allowBackspace = false;
+            //event.preventDefault();
           }
 
 

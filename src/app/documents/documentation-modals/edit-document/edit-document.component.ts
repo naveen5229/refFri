@@ -37,7 +37,8 @@ export class EditDocumentComponent implements OnInit {
     agentName: null,
     documentNumber: null,
     docUpload: null,
-    newDocUpload: null,
+    docUpload2: null,
+    docUpload3: null,
     remark: null,
     rto: null,
     amount: null,
@@ -59,9 +60,9 @@ export class EditDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
-    console.log("document data:",this.document);
+    console.log("document data:", this.document);
     this.document.docId = this.document[0].id;
-    console.log("doc Id:",this.document.docId);
+    console.log("doc Id:", this.document.docId);
     this.document.regNumber = this.document[0].regNumber;
     this.document.documentId = this.document[0].documentId;
     this.document.documentType = this.document[0].documentType;
@@ -70,11 +71,22 @@ export class EditDocumentComponent implements OnInit {
     this.document.expiryDate = this.document[0].expiryDate;
     this.document.agentId = this.document[0].agentId;
     this.document.documentNumber = this.document[0].documentNumber;
-    this.document.docUpload =this.document[0].docUpload;
+    this.document.docUpload = this.document[0].docUpload;
+    this.document.docUpload2 = this.document[0].docUpload2;
+    this.document.docUpload3 = this.document[0].docUpload3;
     this.document.rto = this.document[0].rto;
     this.document.remark = this.document[0].remark;
     this.document.amount = this.document[0].amount;
     this.getDocumentsData();
+    if (this.document.docUpload != "undefined" && this.document.docUpload) {
+      this.images.push(this.document.docUpload);
+    }
+    if (this.document.docUpload2 != "undefined" && this.document.docUpload2) {
+      this.images.push(this.document.docUpload2);
+    }
+    if (this.document.docUpload3 != "undefined" && this.document.docUpload3) {
+      this.images.push(this.document.docUpload3);
+    }
     this.common.handleModalSize('class', 'modal-lg', '1200');
     if (this.document.issueDate) {
       this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMYYYY').split(' ')[0];
@@ -86,6 +98,8 @@ export class EditDocumentComponent implements OnInit {
       this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMYYYY').split(' ')[0];
     }
   }
+
+  
 
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -103,6 +117,7 @@ export class EditDocumentComponent implements OnInit {
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
         console.log("img_url:" + this.document.docUpload);
+        console.log("img_url:" + this.document.docUpload2);
         if (this.document.docUpload) {
           if ((this.document.docUpload.indexOf('.pdf') > -1) || (this.document.docUpload.indexOf('.doc') > -1) || (this.document.docUpload.indexOf('.docx') > -1) || (this.document.docUpload.indexOf('.xls') > -1) || (this.document.docUpload.indexOf('.xlsx') > -1) || (this.document.docUpload.indexOf('.csv') > -1)) {
             this.doc_not_img = 1;
@@ -110,6 +125,17 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload });
           this.common.params = { title: "Doc Image", images: this.images };
         }
+
+        if (this.document.docUpload2) {
+          if ((this.document.docUpload2.indexOf('.pdf') > -1) || (this.document.docUpload2.indexOf('.doc') > -1) || (this.document.docUpload2.indexOf('.docx') > -1) || (this.document.docUpload2.indexOf('.xls') > -1) || (this.document.docUpload2.indexOf('.xlsx') > -1) || (this.document.docUpload2.indexOf('.csv') > -1)) {
+            this.doc_not_img = 1;
+          }
+          this.images.push({ name: "doc-img", image: this.document.docUpload2 });
+          this.common.params = { title: "Doc Image", images: this.images };
+        }
+     
+
+        
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -153,6 +179,7 @@ export class EditDocumentComponent implements OnInit {
   updateDocument() {
     const params = {
       x_vehicle_id: this.vehicleId,
+      x_user_id: this.user._customer.id,
       x_document_id: this.document.docId,
       x_document_type_id: this.document.documentId,
       x_document_type: this.findDocumentType(this.document.documentId),
@@ -161,20 +188,18 @@ export class EditDocumentComponent implements OnInit {
       x_expiry_date: this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
       x_document_number: this.document.documentNumber,
-      x_base64img: this.document.newDocUpload,
+      // x_base64img: this.document.newDocUpload,
+      // x_base64img2: this.document.newDocUpload,
+      // x_base64img3 : this.document.newDocUpload,
       x_rto: this.document.rto,
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
     };
-
+    // console.log("image  ",params.x_base64img, params.x_base64img2,params.x_base64img3);
     if (!this.document.documentId) {
       alert("Select Document Type");
     }
-    if(!this.document.wefDate||!this.document.expiryDate)
-    {
-      alert("Select WefDate & ExpiryDate must be provide ");
-      return false;
-    }
+
     let issuedt_valid = 1;
     let wefdt_valid = 1;
     if (this.document.issueDate != "undefined" && this.document.expiryDate != "undefined") {
@@ -229,31 +254,31 @@ export class EditDocumentComponent implements OnInit {
     if (params.x_expiry_date) {
       params.x_expiry_date = this.document.expiryDate.split("/").reverse().join("-");
     }
-
+  
     this.common.loading++;
     let response;
-    console.log("params",params);
-    this.api.post('Vehicles/addVehicleDocument', params)
+    console.log("params", params);
+    this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
-        let result=(res['msg']);
-        if (result=="success") {
-          this.common.showError("Success");
+        let result = (res['msg']);
+        if (result == "success") {
+          this.common.showToast("Success");
           this.closeModal(true);
         }
-        else{
+        else {
           alert(result);
-          
+
         }
-       
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-      // this.closeModal(true);
+    // this.closeModal(true);
     //  return response;
-  
+
   }
 
 
@@ -266,6 +291,12 @@ export class EditDocumentComponent implements OnInit {
         return this.document[date];
       }
     });
+  }
+  getDateInDisplayFormat(strdate) {
+    if (strdate)
+      return strdate.split("-").reverse().join("/");
+    else
+      return strdate;
   }
 
   addAgent() {
@@ -296,9 +327,9 @@ export class EditDocumentComponent implements OnInit {
     console.log("doc var", this.document.documentId);
     return this.document.documentId;
   }
-  checkType(event){
-    let id=event.target.value;
-    console.log("doc id",id);
+  checkType(event) {
+    let id = event.target.value;
+    console.log("doc id", id);
 
   }
 
@@ -308,19 +339,19 @@ export class EditDocumentComponent implements OnInit {
       .then(res => {
         this.common.loading--;
         let file = event.target.files[0];
-        console.log("Type",file.type);
-        if(file.type == "image/jpeg"||file.type=="image/jpg"||
-        file.type=="image/png"||file.type=="application/pdf"||
-        file.type=="application/msword"||file.type=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"||
-        file.type=="application/vnd.ms-excel"||file.type=="application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
-          
+        console.log("Type", file.type);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png" || file.type == "application/pdf" ||
+          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+
         }
         else {
-           alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
-           return false;
+          alert("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          return false;
         }
         console.log('Base 64: ', res);
-        this.document.newDocUpload = res;
+        // this.document.newDocUpload = res;
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);

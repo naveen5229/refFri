@@ -23,6 +23,7 @@ export class CustomerSelectionComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public router: Router,
     private route: ActivatedRoute,
+    
   ) {
 
   }

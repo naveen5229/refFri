@@ -1,3 +1,5 @@
+<nb-card>
+  <nb-card-body (keydown)="keyHandler($event)">
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Add Tax Detail</h4>
   <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
@@ -18,16 +20,16 @@
 <tr  *ngFor="let taxdetail of taxdetails; let i = index;" style="background: #e8f0f3;">
 <td>
     <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
-    placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+   [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
 </td>
 <td>
-    <input type="number" class="form-control" [name]="'taxrate-' + i" [(ngModel)]="taxdetail.taxrate">
+    <input type="number" class="form-control" [name]="'taxrate-' + i" [id]="'taxrate-' + i" [(ngModel)]="taxdetail.taxrate">
 </td>
 <td>
-    <input type="number" class="form-control" [name]="'taxamount-' + i" [(ngModel)]="taxdetail.taxamount" > 
+    <input type="number" class="form-control" [name]="'taxamount-' + i" [id]="'taxamount-' + i" [(ngModel)]="taxdetail.taxamount" > 
 </td>
 <td *ngIf="i == 0">
-    <i class="fa fa-plus text-primary" (click)="addAmountDetails()" style="font-size: 40px;"></i></td>
+    <i class="fa fa-plus text-primary" [id]="'taxdetailbutton-'+i" (click)="addAmountDetails()" style="font-size: 40px;"></i></td>
    <td  *ngIf="i !== 0">  <i class="fa fa-trash text-primary" (click)="taxdetails.splice(i,1)" style="font-size: 40px;"></i>
 </td>
 </tr>
@@ -71,6 +73,17 @@
     <div class="col text-right">
       <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
       </button>
+    </div>
+  </div>
+</div>
+</nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are You Want to More Tax Detail Then Press Y Otherwise Save to press Enter</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
     </div>
   </div>
 </div>
