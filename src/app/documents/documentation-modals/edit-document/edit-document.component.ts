@@ -78,15 +78,24 @@ export class EditDocumentComponent implements OnInit {
     this.document.remark = this.document[0].remark;
     this.document.amount = this.document[0].amount;
     this.getDocumentsData();
+    if (this.document.docUpload != "undefined" && this.document.docUpload) {
+      this.images.push(this.document.docUpload);
+    }
+    if (this.document.docUpload2 != "undefined" && this.document.docUpload2) {
+      this.images.push(this.document.docUpload2);
+    }
+    if (this.document.docUpload3 != "undefined" && this.document.docUpload3) {
+      this.images.push(this.document.docUpload3);
+    }
     this.common.handleModalSize('class', 'modal-lg', '1200');
     if (this.document.issueDate) {
-      this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMMYYYY').split(' ')[0];
+      this.document.issueDate = this.common.dateFormatter(this.document.issueDate, 'ddMMYYYY').split(' ')[0];
     }
     if (this.document.wefDate) {
-      this.document.wefDate = this.common.dateFormatter(this.document.wefDate, 'ddMMMYYYY').split(' ')[0];
+      this.document.wefDate = this.common.dateFormatter(this.document.wefDate, 'ddMMYYYY').split(' ')[0];
     }
     if (this.document.expiryDate) {
-      this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMMYYYY').split(' ')[0];
+      this.document.expiryDate = this.common.dateFormatter(this.document.expiryDate, 'ddMMYYYY').split(' ')[0];
     }
   }
 
@@ -124,15 +133,7 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
-        // if (this.document.docUpload != "undefined" && this.document.docUpload) {
-        //   this.images.push(this.document.docUpload);
-        // }
-        // if (this.document.docUpload2 != "undefined" && this.document.docUpload2) {
-        //   this.images.push(this.document.docUpload2);
-        // }
-        // if (this.document.docUpload3 != "undefined" && this.document.docUpload3) {
-        //   this.images.push(this.document.docUpload3);
-        // }
+     
 
         
       }, err => {
@@ -186,13 +187,13 @@ export class EditDocumentComponent implements OnInit {
       x_wef_date: this.document.wefDate,
       x_expiry_date: this.document.expiryDate,
       x_document_agent_id: this.document.agentId,
-      // x_document_number: this.document.documentNumber,
+      x_document_number: this.document.documentNumber,
       // x_base64img: this.document.newDocUpload,
       // x_base64img2: this.document.newDocUpload,
       // x_base64img3 : this.document.newDocUpload,
-      // x_rto: this.document.rto,
+      x_rto: this.document.rto,
       x_remarks: this.document.remark,
-      // x_amount: this.document.amount,
+      x_amount: this.document.amount,
     };
     // console.log("image  ",params.x_base64img, params.x_base64img2,params.x_base64img3);
     if (!this.document.documentId) {
@@ -253,11 +254,11 @@ export class EditDocumentComponent implements OnInit {
     if (params.x_expiry_date) {
       params.x_expiry_date = this.document.expiryDate.split("/").reverse().join("-");
     }
-
+  
     this.common.loading++;
     let response;
     console.log("params", params);
-    this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
+    this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("api result", res);
