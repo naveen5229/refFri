@@ -1,3 +1,5 @@
+<nb-card>
+  <nb-card-body (keydown)="keyHandler($event)">
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Add Secondary Account</h4>
   <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
@@ -12,20 +14,20 @@
         <label>User</label>
         <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-        placeholder="Enter User" [preSelected]="null"></auto-suggestion>
+        inputId="user" name="user" placeholder="Enter User" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Parent Account Name</label>
         <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
-        placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name">
+        <input type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
       </div>
     </div>
   </div>
@@ -40,6 +42,19 @@
     <div class="col text-right">
       <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
       </button>
+    </div>
+  </div>
+</div>
+
+
+</nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
     </div>
   </div>
 </div>

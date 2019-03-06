@@ -1,12 +1,12 @@
 <nb-card>
   <nb-card-body>
 
-    <div style="width:250px;">
-      <auto-suggestion (onSelected)="getPendingTrips($event)" url="Suggestion/getVehicleList" display="regno"
+    <div class="col-sm-3" style="margin-bottom :10px">
+      <auto-suggestion (onSelected)="getTripSummary($event)" url="Suggestion/getVehicleList" display="regno"
       placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
     </div>
-    <div>
-      <button (click)="getTripSummary()">View Summary</button>
+    <div class="col-sm-6" style="text-align :right">
+      <button (click)="getPendingTrips()">ADD New Voucher</button>
     </div>
     <div>
       <table class="table table-bordered">
@@ -18,7 +18,7 @@
           <th>End Date</th>
         </thead>
         <tbody>
-          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;" (click)="showVoucherSummary(tripVoucher)">
+          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;" (click)="getVoucherSummary(tripVoucher)">
             <td>{{i+1}}</td>
             <td>{{tripVoucher.startloc}}</td>
             <td>{{tripVoucher.endloc || '--'}}</td>
@@ -28,7 +28,7 @@
         </tbody>
       </table>
     </div>
-    <div>
+    <!-- <div>
       <table class="table table-bordered">
         <thead>
           <th>SN</th>
@@ -110,6 +110,6 @@
     </div>
     <div>
       <button (click)="addVoucher()">Submit</button>
-    </div>
+    </div> -->
   </nb-card-body>
 </nb-card>

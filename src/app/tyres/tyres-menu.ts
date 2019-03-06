@@ -2,9 +2,9 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Dashboard',
-        icon: 'nb-home',
-        link: '/tyres/dashboard',
+        title: 'Home Dashboard',
+        icon: 'fa fa-home',
+        link: '/pages/dashboard',
         home: true,
     },
     {
@@ -35,12 +35,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Vehicle Trolly Mapping',
         icon: 'fa fa-map-signs',
         link: '/tyres/vehicle-trolly-mapping',
-        home: true,
-    },
-    {
-        title: 'Vehicle Tyre Position Master',
-        icon: 'fa fa-map-signs',
-        link: '/tyres/vehicle-tyre-position-master',
         home: true,
     },
 ];

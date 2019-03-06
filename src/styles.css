@@ -89,9 +89,19 @@
     background: #000 !important;
 }
 
+.menu-item:first-child .menu-title::after {
+    content: '' !important;
+    display: none !important;
+    color: #ffffff;
+    margin-left: 0;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.875rem;
+}
+
 .zoom-btn {
     display: inline-block;
-    background:black;
+    background: black;
     text-align: center;
     color: #fff;
     border-radius: 50%;
@@ -104,12 +114,14 @@
     box-shadow: 2px 2px 5px rgb(143, 136, 155);
     margin-bottom: 5px;
     cursor: pointer;
-    margin-left:5px;
+    margin-left: 5px;
 }
-.zoom-btn:active{
+
+.zoom-btn:active {
     background: #fff;
     color: orange;
 }
+
 .zoom-container {
     position: absolute;
     z-index: 999;
