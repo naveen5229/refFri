@@ -12,6 +12,7 @@ import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 
 
 const routes: Routes = [{
@@ -54,8 +55,10 @@ const routes: Routes = [{
             path: 'lorry-receipt-details',
             component: LorryReceiptDetailsComponent,
         },
-        
-
+        {
+            path: 'site-fencing',
+            component: SiteFencingComponent,
+        }
     ],
 }];
 
