@@ -130,6 +130,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         --this.common.loading;
         console.log(res['msg']);
         this.common.showToast(res['msg']);
+        this.getVehiclePlacements();
        // this.activeModal.close();
       }, err => {
         --this.common.loading;

@@ -55,7 +55,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/lorry-receipt-details',
         home: true,
-    }
-
-    
+    },
+    {
+        title: 'Site Fencing',
+        icon: 'nb-home',
+        link: '/admin/site-fencing',
+        home: true,
+    },
 ];
