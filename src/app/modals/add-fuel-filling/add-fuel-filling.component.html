@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Fuel Filling</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="row" style="margin-top:5px">
+          <div class="col-md-4">
+            <label> Station Name </label>
+          </div>
+          <div class="col-md-8">
+            <input type="text" class="form-control" id="stationName" name="startTrip" placeholder="station Name"
+              [(ngModel)]="fuelEntries.stationName">
+          </div>
+        </div>
+        <div class="row" style="margin-top:5px">
+            <div class="col-md-4">
+              <label> Quantity </label>
+            </div>
+            <div class="col-md-8">
+              <input type="text" class="form-control" id="quantity" name="startTrip" placeholder="Quantity"
+                [(ngModel)]="fuelEntries.quantity">
+            </div>
+          </div>
+          <div class="row" style="margin-top:5px">
+              <div class="col-md-4">
+                <label> Rate </label>
+              </div>
+              <div class="col-md-8">
+                <input type="text" class="form-control" id="rate" name="startTrip" placeholder="Rate"
+                  [(ngModel)]="fuelEntries.rate">
+              </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+                <div class="col-md-4">
+                  <label> Amount </label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="amount" name="startTrip" placeholder="Amount"
+                    [(ngModel)]="fuelEntries.amount">
+                </div>
+              </div>
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label> Date </label>
+        </div>
+        <div class="col-md-8" style="margin-top:5px">
+          <input type="text" id="fillDate" class="form-control" [(ngModel)]="fillDate" name="fillDate"
+            placeholder="Date" (click)="getDate('startdate')" autocomplete="off">
+        </div>
+      </div>
+    </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="addFuelFilling();" style="cursor:pointer;">Submit</button>
+      </div>
+    </div>
+  </div>

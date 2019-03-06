@@ -71,6 +71,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -121,7 +122,8 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
-    AddTripComponent
+    AddTripComponent,
+    AddFuelFillingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -169,7 +171,8 @@ import { AddDriverComponent } from './modals/add-driver/add-driver.component';
     EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
-    AddTripComponent
+    AddTripComponent,
+    AddFuelFillingComponent
   ],
   imports: [
     BrowserModule,
