@@ -141,6 +141,13 @@ export class PendingDocumentComponent implements OnInit {
         if (this.document.img_url3 != "undefined" && this.document.img_url3) {
           this.images.push(this.document.img_url3);
         }
+        // console.log("msg:",res["data"][0].errormsg,);   
+        if(res["msg"] !="success")  
+        {
+           alert(res["msg"]);
+           console.log("sucess......");
+        }
+            
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -291,7 +298,8 @@ export class PendingDocumentComponent implements OnInit {
   updateDocument() {
     if (this.user._loggedInBy == 'admin' && this.canUpdate == 1) {
       const params = {
-        x_vehicle_id: this.document.regno,
+        x_vehicleno:this.document.newRegno,
+        x_vehicle_id:0,
         x_user_id: this.user._customer.id,
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
@@ -299,13 +307,15 @@ export class PendingDocumentComponent implements OnInit {
         x_issue_date: this.document.issue_date,
         x_wef_date: this.document.wef_date,
         x_expiry_date: this.document.expiry_date,
+        x_remarks: this.document.remarks,
         // x_document_agent_id: this.document.agent_id,
         // x_document_number: this.document.doc_no,
         // x_rto: this.document.rto,
-        x_remarks: this.document.remarks,
+       
         // x_amount: this.document.amount,
         // x_is_verified: true
       };
+      // console.log("reg id:",this.getVehicleId(this.document.newRegno));
       console.log("Id is", params.x_vehicle_id);
       if (!this.document.vehicle_id) {
         this.common.showError("Please enter Vehicle No.");
@@ -395,7 +405,9 @@ export class PendingDocumentComponent implements OnInit {
           console.log("api result", res);
           let result = (res['msg']);
           if (result == "success") {
-            this.common.showToast("Success");
+            
+            alert("Success");
+            
             this.closeModal(true);
           }
           else {
