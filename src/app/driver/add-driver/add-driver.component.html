@@ -1,0 +1,133 @@
+<nb-card>
+   <nb-card-header>
+      <h2>Drivers Input</h2>
+    </nb-card-header> 
+
+  <nb-card-body>
+    <form [formGroup]="driverForm" name="driver-form" id="driver-form" (submit)="driverForm.valid && addNewdriver()">
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
+            <label>Name</label>
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control" id="driver-name" name="driver-name" placeholder="Driver Name" [ngClass]="{ 'is-invalid': isFormSubmit && f.name.errors }" [(ngModel)]="driver.name">
+            <div *ngIf="isFormSubmit && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">Driver Name is required</div>
+            </div>
+          </div>
+
+
+          </div>
+
+
+
+          <div class="col-3">
+            <label>Contact Number</label>
+          </div>
+          <div class="col-3">
+            <!-- <input type="text" class="form-control" id="Name"> -->
+            <input type="text" class="form-control" id="mobile-number"
+             name="mobile-number" placeholder="Mobile NO." formControlName="mobileNo" minlength="10" maxlength="10" [ngClass]="{ 'is-invalid': isFormSubmit && f.mobileNo.errors }" [(ngModel)]="driver.mobileno"required>
+             <div *ngIf="isFormSubmit && f.mobileNo.errors" class="invalid-feedback">
+              <div *ngIf="f.mobileNo.errors.required">mobileNumber Name is required</div>
+              <div *ngIf="f.mobileNo.errors.minlength ">mobile Number minlength 10</div>
+              <div *ngIf="f.mobileNo.errors.maxlength ">mobile Number maxlength 10</div>
+            </div>
+         
+        </div>
+        </div>
+        <div class="row margin-top-15">
+          <div class="col-3">
+            <label>Upload photo</label>
+          </div>
+          <div class="col-3">
+            <input type="file" class="file-control" id="upload-photo"  name="upload-photo" [(ngModel)]="driver.photo">
+          </div>
+
+
+
+          <div class="col-3">
+
+
+            <label>Lisence Number</label>
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control" id="lisence-number" name="lisence-no." placeholder="Lisence No." [(ngModel)]="driver.lisenceno">
+          </div>
+        </div>
+
+
+        <div class="row margin-top-15">
+          <div class="col-3">
+            <label>Lisence photo</label>
+          </div>
+          <div class="col-3">
+            <input type="file" class="file-control" id="lisence-photo" name="lisence-photo" [(ngModel)]="driver.lisencephoto">
+          </div>
+
+          <div class="col-3">
+
+
+            <label>Aadhar Number</label>
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control" id="Aadhar-number" name="adhar-no." placeholder="Aadhar_No." [(ngModel)]="driver.aadharno">
+          </div>
+        </div>
+
+
+        <div class="row margin-top-15">
+          <div class="col-3">
+
+
+            <label>Aadhar photo</label>
+          </div>
+          <div class="col-3">
+            <input type="file" class="file-control" id="aadhar-photo" name="aadhar_photo" [(ngModel)]="driver.aadharphoto">
+          </div>
+
+
+          <div class="col-3">
+
+
+            <label>Date of Joining</label>
+          </div>
+          <div class="col-3">
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()" placeholder="Select Date"
+              [value]="driver.doj | date: 'dd MMM yyyy'" name="date" readonly >
+          </div>
+        </div>
+
+
+        <div class="row margin-top-15">
+          <div class="col-3">
+            <label>Salary</label>
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control" id="Salary" name="salary" placeholder="Salary" [(ngModel)]="driver.salary">
+          </div>
+
+
+          <div class="col-3">
+            <label>Gauranter</label>
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control" id="Gauranter" name="guranter" placeholder="guarenter" [(ngModel)]="driver.guranter">
+          </div>
+        </div>
+        <div class="row margin-top-15">
+          <div class="col-3">
+           <label>Guranter Mobile No.</label> 
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control" minlength="10" maxlength="10" id="guranter-no." placeholder="Guranter mobile No." [(ngModel)]="driver.gurantermobileNo">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 text-center margin-top-15">
+      <button type="submit" class="btn btn-primary">ADD</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
