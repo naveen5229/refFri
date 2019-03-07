@@ -10,12 +10,13 @@
           <table class="table table-bordered table-hover table-scroll">
               <thead class="thead" >
                 <tr class="">
-                  <th class="col-sm-2" style="width:15%;">Document ID</th>
+                    <th class="col-sm-2" style="width:5%;">Sr No</th>
+                  <th  style="width:5%;">Document ID</th>
                   <!-- <th class="col-sm-2" style="width: 17%;">Vehicle No.</th> -->
-                  <th class="col-sm-2" style="width: 17%;">Vehicle ID</th>
-                  <th class="col-sm-2" style="width: 17%;">Fo name</th>
-                  <th class="col-sm-2" style="width: 17%;">Created On</th>
-                  <th class="col-sm-2" style="width: 17%;">Last UpdateUser</th> 
+                  <th class="col-sm-2" style="width: 15%;">Vehicle ID</th>
+                  <th class="col-sm-2" style="width: 15%;">Fo name</th>
+                  <th class="col-sm-2" style="width: 15%;">Created On</th>
+                  <th class="col-sm-2" style="width: 15%;">Last UpdateUser</th> 
                   <!-- <th class="col-sm-2" style="width: 17%;">Document Type</th> -->
                   <th class="col-sm-4" style="width: 17%; padding-left: 4%">Action</th>
                 </tr>
@@ -23,12 +24,13 @@
               <tbody class="" >
                   <ng-container *ngIf="data != 'undefined'">
                     <tr *ngFor="let row of data; let i = index" class="">
+                      <td style="width:5%;">{{i + 1}}</td>
                       <td class="col-sm-2" style="width: 15%;">{{row.document_id}}</td>
                       <!-- <td class="col-sm-2" style="width: 17%;">{{row.regno}}</td> -->
-                      <td class="col-sm-2" style="width: 17%;">{{row.vehicle_id}}</td>
-                      <td class="col-sm-2" style="width: 17%;">{{row.foname}}</td>
-                      <td class="col-sm-2" style="width: 17%;">{{row.lastupdatetime | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
-                      <td class="col-sm-2" style="width: 17%;">{{row.lastupdateuser}}</td>
+                      <td class="col-sm-2" style="width: 15%;">{{row.vehicle_id}}</td>
+                      <td class="col-sm-2" style="width: 15%;">{{row.foname}}</td>
+                      <td class="col-sm-2" style="width: 15%;">{{row.lastupdatetime | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
+                      <td class="col-sm-2" style="width: 15%;">{{row.lastupdateuser}}</td>
                       <!-- <td class="col-sm-2" style="width: 17%;">{{row.name}}</td> -->
                       <td class="col-sm-4"  style="width: 17%;">
                         <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i class="icon ion-md-create"></i></a>&nbsp;

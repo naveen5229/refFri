@@ -278,6 +278,7 @@ export class DocumentationDetailsComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
+              alert(res["msg"]);
               this.documentUpdate();
               
             }, err => {

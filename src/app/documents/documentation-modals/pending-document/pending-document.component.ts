@@ -141,13 +141,13 @@ export class PendingDocumentComponent implements OnInit {
         if (this.document.img_url3 != "undefined" && this.document.img_url3) {
           this.images.push(this.document.img_url3);
         }
-        let message= res["data"][0].errormsg;
-        console.log("msg:",message);
-        if(message.length>2){
-           alert(message);
-           this.closeModal(true);
+        // console.log("msg:",res["data"][0].errormsg,);   
+        if(res["msg"] !="success")  
+        {
+           alert(res["msg"]);
+           console.log("sucess......");
         }
-        
+            
       }, err => {
         this.common.loading--;
         console.log(err);

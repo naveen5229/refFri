@@ -264,7 +264,7 @@ export class EditDocumentComponent implements OnInit {
         console.log("api result", res);
         let result = (res['msg']);
         if (result == "success") {
-          this.common.showToast("Success");
+          alert(res['msg']);
           this.closeModal(true);
         }
         else {
