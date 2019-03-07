@@ -133,7 +133,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddDriverComponent,
     AddTripComponent,
     DatePicker2Component,
-    AddFuelFillingComponent
+    AddFuelFillingComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -183,7 +183,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddDriverComponent,
     AddTripComponent,
     DatePicker2Component,
-    AddFuelFillingComponent
+    AddFuelFillingComponent,
   ],
   imports: [
     BrowserModule,
