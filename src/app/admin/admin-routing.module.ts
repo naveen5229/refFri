@@ -9,6 +9,8 @@ import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-st
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
 
+import { DiagnosticsComponent} from './diagnostics/diagnostics.component';
+
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
@@ -58,6 +60,10 @@ const routes: Routes = [{
         {
             path: 'site-fencing',
             component: SiteFencingComponent,
+        },
+        {
+             path:  'diagnostics' ,
+             component: DiagnosticsComponent,
         }
     ],
 }];
