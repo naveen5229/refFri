@@ -186,6 +186,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddTripComponent,
     DatePicker2Component,
     AddFuelFillingComponent,
+
     AddDriverComponent
   ],
   imports: [

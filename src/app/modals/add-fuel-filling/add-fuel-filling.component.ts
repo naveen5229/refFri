@@ -16,6 +16,7 @@ export class AddFuelFillingComponent implements OnInit {
   fillDate;
   VehicleId;
   fuelEntries = {
+    stationId:null,
     stationName: null,
     quantity: null,
     rate: null,
@@ -35,11 +36,14 @@ export class AddFuelFillingComponent implements OnInit {
   }
   addFuelFilling(){
     console.log(this.fuelEntries);
-    this.fillDate = this.fillDate.split("/").reverse().join("-");
-    this.fillDate  = new Date(this.fillDate);
+    // this.fillDate = this.fillDate.split("/").reverse().join("-");
+    // this.fillDate  = new Date(this.fillDate);
+    this.common.dateFormatter(this.fillDate);
+      console.log('fillDate',this.fillDate);
     let params = {
       vehId: this.VehicleId,
       stationName: this.fuelEntries.stationName,
+      id:this.fuelEntries.stationId,
       litres:this.fuelEntries.quantity,
       rate: this.fuelEntries.rate,
       amount:this.fuelEntries.amount,
@@ -57,6 +61,23 @@ export class AddFuelFillingComponent implements OnInit {
         --this.common.loading;
         console.log('Err:', err);
       });
+  }
+
+  searchStationName(stationList){
+     this.fuelEntries.stationName=stationList.name;
+     this.fuelEntries.stationId=stationList.id;
+  }
+
+  getDate(){
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.fillDate = this.common.dateFormatter(data.date).split(' ')[0];
+        console.log('lrdate: ' + this.fillDate);
+
+      }
+
+    });
   }
 
 }

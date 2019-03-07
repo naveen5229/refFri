@@ -32,11 +32,9 @@ export class PendingDocumentsComponent implements OnInit {
     this.getPendingDetailsDocuments();
   }
 
-
-
   getPendingDetailsDocuments() {
     this.common.loading++;
-    this.api.post('Vehicles/getPendingDocumentsList', {x_user_id :this.user._customer.id,x_is_admin :1})
+    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1 })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -77,20 +75,18 @@ export class PendingDocumentsComponent implements OnInit {
     });
   }
 
-  
   deleteDocument(row) {
     let remark;
     let ret = confirm("Are you sure you want to delete this Document?");
     if (ret) {
       this.common.params = { RemarkModalComponent, title: 'Delete Document' };
-
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark,x_user_id:this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._customer.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
@@ -105,5 +101,5 @@ export class PendingDocumentsComponent implements OnInit {
       })
     }
   }
-      
+
 }

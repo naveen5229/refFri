@@ -88,14 +88,9 @@ export class PendingDocumentComponent implements OnInit {
     this.agentId = this.document.agent_id;
     this.getDocumentsData();
     this.getDocumentPending();
-    /*
-    this.document.document_type = this.findDocumentType(this.document.document_type_id);
-    console.log("doctype:" + this.document.document_type);
-    this.images.push({name : "doc-img", image: this.document.img_url});
-    this.common.params = { title : "Doc Image", images: this.images};
-    */
-    console.log("doc data:");
-    console.log(this.document);
+
+    // console.log("doc data:");
+    // console.log(this.document);
     if (this.document.img_url != "undefined" && this.document.img_url) {
       this.imgs.push(this.document.img_url);
     }
@@ -124,7 +119,6 @@ export class PendingDocumentComponent implements OnInit {
     }
     this.common.loading++;
     let response;
-
     this.api.post('Vehicles/getPendingDocDetail', params)
       .subscribe(res => {
         this.common.loading--;
@@ -141,6 +135,13 @@ export class PendingDocumentComponent implements OnInit {
         if (this.document.img_url3 != "undefined" && this.document.img_url3) {
           this.images.push(this.document.img_url3);
         }
+        // console.log("msg:",res["data"][0].errormsg,);   
+        if (res["msg"] != "success") {
+          alert(res["msg"]);
+          this.closeModal(true);
+          console.log("sucess......");
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -187,10 +188,7 @@ export class PendingDocumentComponent implements OnInit {
           this.common.params = { title: "Doc Image", images: this.images };
         }
 
-
-
-        console.log("doc_not_img:" + this.doc_not_img);
-
+        // console.log("doc_not_img:" + this.doc_not_img);
         console.log("in typid:" + this.document.document_type_id);
         for (var i = 0; i < this.docTypes.length; i++) {
           if (this.docTypes[i].id == this.document.document_type_id) {
@@ -198,10 +196,8 @@ export class PendingDocumentComponent implements OnInit {
             console.log("dt=" + this.document.document_type);
           }
         }
-
         console.log("agentid:" + this.agentId);
         this.markAgentSelected(this.agentId);
-
 
       }, err => {
         this.common.loading--;
@@ -254,7 +250,6 @@ export class PendingDocumentComponent implements OnInit {
       x_document_number: this.document.doc_no,
       x_rto: this.document.rto,
       x_amount: this.document.amount,
-      // x_is_verified: true
     }
 
     this.common.loading++;
@@ -291,7 +286,8 @@ export class PendingDocumentComponent implements OnInit {
   updateDocument() {
     if (this.user._loggedInBy == 'admin' && this.canUpdate == 1) {
       const params = {
-        x_vehicle_id: this.document.regno,
+        x_vehicleno: this.document.newRegno,
+        x_vehicle_id: 0,
         x_user_id: this.user._customer.id,
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
@@ -299,12 +295,8 @@ export class PendingDocumentComponent implements OnInit {
         x_issue_date: this.document.issue_date,
         x_wef_date: this.document.wef_date,
         x_expiry_date: this.document.expiry_date,
-        // x_document_agent_id: this.document.agent_id,
-        // x_document_number: this.document.doc_no,
-        // x_rto: this.document.rto,
         x_remarks: this.document.remarks,
-        // x_amount: this.document.amount,
-        // x_is_verified: true
+
       };
       console.log("Id is", params.x_vehicle_id);
       if (!this.document.vehicle_id) {
@@ -384,9 +376,6 @@ export class PendingDocumentComponent implements OnInit {
         }
       }
 
-      console.log("params");
-      console.log(params);
-
       this.common.loading++;
       let response;
       this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
@@ -395,7 +384,9 @@ export class PendingDocumentComponent implements OnInit {
           console.log("api result", res);
           let result = (res['msg']);
           if (result == "success") {
-            this.common.showToast("Success");
+
+            alert("Success");
+
             this.closeModal(true);
           }
           else {
@@ -418,7 +409,6 @@ export class PendingDocumentComponent implements OnInit {
         this.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
         console.log('Date:', this.document[date]);
       }
-
     });
   }
 

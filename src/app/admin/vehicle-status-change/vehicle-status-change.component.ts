@@ -14,11 +14,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class VehicleStatusChangeComponent implements OnInit {
   viewType = "all";
   VehicleStatusAlerts = [];
+  status = {
+    1:'Accept',
+    0:'Pending',
+    '-1':'Advance Review'
+  }
   constructor(
     public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
-  ) {
+  )
+   {
 
     this.getVehicleStatusAlerts(this.viewType);
 
