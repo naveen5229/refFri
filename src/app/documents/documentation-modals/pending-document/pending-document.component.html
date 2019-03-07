@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body vert-mdl-pdg">
   <form #documentForm="ngForm" id="document-form" name="document-form"
-    (submit)="documentForm.valid && updateDocument()">
+    (submit)="documentForm.valid && updateDocument(0)">
     <div class="row">
       <div class="col-sm-4">
 
@@ -30,7 +30,7 @@
 
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
             <input *ngIf="canUpdate" id="document_id" name="document_id" type="text" class="form-control "
-              [(ngModel)]="document.newRegno" />
+              [(ngModel)]="document.newRegno" (blur)="validateRegno()" />
 
             <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
               placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
@@ -132,20 +132,33 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-sm-4" *ngIf="this.user._loggedInBy== 'admin'">
-            <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
-              style="cursor: pointer;">{{btn2}}</button>
-          </div>
+       
 
-          <div class="col-sm-4" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'" style="margin-left:30%;">
+        <div class="row" style="margin-top:20px">
+         
+
+
+          <div class="col-sm-3" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'">
             <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
               id="submit" style="cursor: pointer;">{{btn1}}</button>
           </div>
-          <div class="col-sm-4" *ngIf="canUpdate === 0 " style="margin-left:30%;">
+
+          <div class="col-sm-3" style="margin-left: 20%;">
+              <button class="btn btn-default" type="button"  (click)="updateDocument(1)" id="advance"
+              style="cursor: pointer;">Advance Review</button> 
+          </div>
+
+          <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left:30%;">
             <button class="btn btn-primary" type="submit" (click)="customerByUpdate()" id="submit"
               style="cursor: pointer;">{{btn1}}</button>
           </div>
+        </div>
+
+        <div class="row" style="margin-left: 20%;margin-top:20px">
+            <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
+                <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
+                  style="cursor: pointer;">{{btn2}}</button>
+              </div>  
         </div>
 
       </div>

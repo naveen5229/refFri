@@ -16,7 +16,7 @@ import { from } from 'rxjs';
 })
 export class PendingDocumentsComponent implements OnInit {
   data = [];
-  modalCount = 0;
+  // modalCount = 0;
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -68,21 +68,21 @@ export class PendingDocumentsComponent implements OnInit {
     };
     this.common.params = { rowData, title: 'Update Document', canUpdate: 1 };
     this.common.handleModalSize('class', 'modal-lg', '1200');
-    const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    this.modalCount++;
+    const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout' });
+    // this.modalCount++;
     console.log('Modal Instance: ', activeModal.componentInstance);
     activeModal.result.then(mdldata => {
       console.log("response:");
       console.log(mdldata);
-      this.getPendingDetailsDocuments();
-      this.modalCount--;
+      // this.getPendingDetailsDocuments();
+      // this.modalCount--;
     });
 
-    if (this.modalCount < 2) {
-      setTimeout(() => {
-        this.showDetails(this.data[index], ++index);
-      }, 5000);
-    }
+    // if (this.modalCount < 2) {
+    //   setTimeout(() => {
+    //     this.showDetails(this.data[index], ++index);
+    //   }, 5000);
+    // }
   }
 
   deleteDocument(row) {

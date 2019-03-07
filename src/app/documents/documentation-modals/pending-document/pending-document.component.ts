@@ -217,21 +217,44 @@ export class PendingDocumentComponent implements OnInit {
     }*/
   }
 
+  validateRegno() {
+    this.document.newRegno = (this.document.newRegno).toUpperCase();
+  }
+
+  updateDateFormat(strdate) {
+    strdate = strdate.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
+    return strdate;
+  }
+
+
   checkExpiryDateValidity() {
     let issuedt_valid = 1;
     let wefdt_valid = 1;
     if (this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
+      if(this.document.issue_date.indexOf('/') == -1)
+        this.document.issue_date = this.updateDateFormat(this.document.issue_date);
+
+      if(this.document.expiry_date.indexOf('/') == -1)
+        this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.issue_date && this.document.expiry_date)
         issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
+
     if (this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
+      if(this.document.wef_date.indexOf('/') == -1)
+        this.document.wef_date = this.updateDateFormat(this.document.wef_date);
+      if(this.document.expiry_date.indexOf('/') == -1)
+        this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.wef_date && this.document.expiry_date)
         wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
     }
+
     if (!issuedt_valid || !wefdt_valid) {
       this.common.showError("Please check the Expiry Date validity");
     }
   }
+
+
 
   checkDatePattern(strdate) {
     let dateformat = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
@@ -283,7 +306,7 @@ export class PendingDocumentComponent implements OnInit {
   //   return this.document.vehicle_id;
   // }
 
-  updateDocument() {
+  updateDocument(status) {
     if (this.user._loggedInBy == 'admin' && this.canUpdate == 1) {
       const params = {
         x_vehicleno: this.document.newRegno,
@@ -296,109 +319,109 @@ export class PendingDocumentComponent implements OnInit {
         x_wef_date: this.document.wef_date,
         x_expiry_date: this.document.expiry_date,
         x_remarks: this.document.remarks,
-
+        x_advreview:status
       };
-      console.log("Id is", params.x_vehicle_id);
-      if (!this.document.vehicle_id) {
-        this.common.showError("Please enter Vehicle No.");
-        return false;
-      }
-      if (!this.document.document_type_id) {
-        this.common.showError("Please enter Document Type");
-        return false;
-      }
+      console.log("Id is", params);
+    //   if (!this.document.vehicle_id) {
+    //     this.common.showError("Please enter Vehicle No.");
+    //     return false;
+    //   }
+    //   if (!this.document.document_type_id) {
+    //     this.common.showError("Please enter Document Type");
+    //     return false;
+    //   }
 
-      if (this.document.issue_date) {
-        let valid = this.checkDatePattern(this.document.issue_date);
-        if (!valid) {
-          this.common.showError("Invalid Issue Date. Date must be in DD/MM/YYYY format");
-          return false;
-        }
-      }
-      if (this.document.wef_date) {
-        let valid = this.checkDatePattern(this.document.wef_date);
-        if (!valid) {
-          this.common.showError("Invalid Wef Date. Date must be in DD/MM/YYYY format");
-          return false;
-        }
-      }
-      if (this.document.expiry_date) {
-        let valid = this.checkDatePattern(this.document.expiry_date);
-        if (!valid) {
-          this.common.showError("Invalid Expiry Date. Date must be in DD/MM/YYYY format");
-          return false;
-        }
-      }
+    //   if (this.document.issue_date) {
+    //     let valid = this.checkDatePattern(this.document.issue_date);
+    //     if (!valid) {
+    //       this.common.showError("Invalid Issue Date. Date must be in DD/MM/YYYY format");
+    //       return false;
+    //     }
+    //   }
+    //   if (this.document.wef_date) {
+    //     let valid = this.checkDatePattern(this.document.wef_date);
+    //     if (!valid) {
+    //       this.common.showError("Invalid Wef Date. Date must be in DD/MM/YYYY format");
+    //       return false;
+    //     }
+    //   }
+    //   if (this.document.expiry_date) {
+    //     let valid = this.checkDatePattern(this.document.expiry_date);
+    //     if (!valid) {
+    //       this.common.showError("Invalid Expiry Date. Date must be in DD/MM/YYYY format");
+    //       return false;
+    //     }
+    //   }
 
-      let issuedt_valid = 1;
-      let wefdt_valid = 1;
-      if (this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
-        if (this.document.issue_date && this.document.expiry_date)
-          issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
-      }
-      if (this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
-        if (this.document.wef_date && this.document.expiry_date)
-          wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
-      }
-      if (issuedt_valid && wefdt_valid) {
-        this.spnexpdt = 0;
-      } else {
-        this.spnexpdt = 1;
-      }
+    //   let issuedt_valid = 1;
+    //   let wefdt_valid = 1;
+    //   if (this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
+    //     if (this.document.issue_date && this.document.expiry_date)
+    //       issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
+    //   }
+    //   if (this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
+    //     if (this.document.wef_date && this.document.expiry_date)
+    //       wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
+    //   }
+    //   if (issuedt_valid && wefdt_valid) {
+    //     this.spnexpdt = 0;
+    //   } else {
+    //     this.spnexpdt = 1;
+    //   }
 
-      if (this.spnexpdt) {
-        this.common.showError("Please check the Expiry Date validity");
-        return false;
-      }
+    //   if (this.spnexpdt) {
+    //     this.common.showError("Please check the Expiry Date validity");
+    //     return false;
+    //   }
 
-      if (this.document.issue_date) {
-        params.x_issue_date = this.document.issue_date.split("/").reverse().join("-");
-        let strdt = new Date(params.x_issue_date);
-        if (isNaN(strdt.getTime())) {
-          this.common.showError("Invalid Issue Date. Date formats should be DD/MM/YYYY");
-          return false;
-        }
-      }
-      if (this.document.wef_date) {
-        params.x_wef_date = this.document.wef_date.split("/").reverse().join("-");
-        let strdt = new Date(params.x_wef_date);
-        if (isNaN(strdt.getTime())) {
-          this.common.showError("Invalid Wef Date. Date formats should be DD/MM/YYYY");
-          return false;
-        }
-      }
-      if (this.document.expiry_date) {
-        params.x_expiry_date = this.document.expiry_date.split("/").reverse().join("-");
-        let strdt = new Date(params.x_expiry_date);
-        if (isNaN(strdt.getTime())) {
-          this.common.showError("Invalid Expiry Date. Date formats should be DD/MM/YYYY");
-          return false;
-        }
-      }
+    //   if (this.document.issue_date) {
+    //     params.x_issue_date = this.document.issue_date.split("/").reverse().join("-");
+    //     let strdt = new Date(params.x_issue_date);
+    //     if (isNaN(strdt.getTime())) {
+    //       this.common.showError("Invalid Issue Date. Date formats should be DD/MM/YYYY");
+    //       return false;
+    //     }
+    //   }
+    //   if (this.document.wef_date) {
+    //     params.x_wef_date = this.document.wef_date.split("/").reverse().join("-");
+    //     let strdt = new Date(params.x_wef_date);
+    //     if (isNaN(strdt.getTime())) {
+    //       this.common.showError("Invalid Wef Date. Date formats should be DD/MM/YYYY");
+    //       return false;
+    //     }
+    //   }
+    //   if (this.document.expiry_date) {
+    //     params.x_expiry_date = this.document.expiry_date.split("/").reverse().join("-");
+    //     let strdt = new Date(params.x_expiry_date);
+    //     if (isNaN(strdt.getTime())) {
+    //       this.common.showError("Invalid Expiry Date. Date formats should be DD/MM/YYYY");
+    //       return false;
+    //     }
+    //   }
 
-      this.common.loading++;
-      let response;
-      this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("api result", res);
-          let result = (res['msg']);
-          if (result == "success") {
+    //   this.common.loading++;
+    //   let response;
+    //   this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
+    //     .subscribe(res => {
+    //       this.common.loading--;
+    //       console.log("api result", res);
+    //       let result = (res['msg']);
+    //       if (result == "success") {
 
-            alert("Success");
+    //         alert("Success");
 
-            this.closeModal(true);
-          }
-          else {
-            alert(result);
+    //         this.closeModal(true);
+    //       }
+    //       else {
+    //         alert(result);
 
-          }
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-        });
+    //       }
+    //     }, err => {
+    //       this.common.loading--;
+    //       console.log(err);
+    //     });
 
-      return response;
+    //   return response;
 
     }
   }
@@ -541,5 +564,9 @@ export class PendingDocumentComponent implements OnInit {
       })
     }
   }
+
+
+  
+
 
 }
