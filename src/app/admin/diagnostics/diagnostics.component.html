@@ -1,0 +1,49 @@
+<nb-card>
+  <nb-card-header>
+    Diagnostics
+  </nb-card-header>
+  <nb-card-body>
+    <form class="form-group">
+
+      <div class="row">
+        <div class="col-3">
+        <label>Distance Travelled In A Time Range</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <input type="text" class="form-control" id="vechile-no" placeholder="Enter Vechile No."> 
+        </div>
+      <div class="col-3">
+          <input type="date" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startTime')" placeholder="Start Time"
+          [value]="diagnostics.startTime | date: 'dd MMM yyyy'" name="date" readonly >
+      </div>
+      <div class="col-3">
+          <!-- sowl-date-time #date ></owl-date-time> -->
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary" >Calculate</button>
+
+      </div>
+      <div class="col-2">
+        <input type="text" placeholder="Distance" class="form-control" readonly>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <label>Vechile Trails In A Time Range</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Enter Vechile No" >
+
+        </div>
+        <div class="col-3">
+        
+           
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
