@@ -9,16 +9,17 @@ declare var google: any;
 @Component({
   selector: 'update-site-details',
   templateUrl: './update-site-details.component.html',
-  styleUrls: ['./update-site-details.component.scss']
+  styleUrls: ['./update-site-details.component.scss','../../pages/pages.component.css']
 })
 export class UpdateSiteDetailsComponent implements OnInit {
   // updateSiteDetails:any= [s_name:'',latitude:'',longitude:''];
   s_name;
+  flag_success : boolean=false;
   latitude;
   longitude;
   moveLoc = '';
   siteLoc = '';
-  isStrictLoading  = 3;
+  isStrictLoading  = "null";
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -44,11 +45,19 @@ export class UpdateSiteDetailsComponent implements OnInit {
     ++this.common.loading;
     this.api.post('Site/updateSiteDetails', params)
       .subscribe(res => {
-        --this.common.loading;
         console.log('Res:', res);
-      }, err => {
+        var flag= "success";
         --this.common.loading;
-
+        if(res['msg']=="success"){
+          alert(res['msg']);
+          this.dismiss(); 
+        }
+        else{
+          alert("site location is not updated");
+        }
+      }, err => {
+        --this.common.loading; 
+        alert("site location is not updated");
         console.log('Err:', err);
       });
     }

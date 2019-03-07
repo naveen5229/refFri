@@ -42,7 +42,7 @@ updateSiteDetail(site){
   // let latitude=site.lat;
   // let longitude=site.lng;
   this.common.params= {site};
-  this.common.handleModalSize('class', 'modal-lg', '1200');
+  this.common.handleModalSize('class', 'modal-lg', '1600');
   const activeModal= this.modalService.open(UpdateSiteDetailsComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
      activeModal.result.then(data =>{
        if(!data.status){
