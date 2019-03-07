@@ -36,15 +36,16 @@ export class UpdateSiteDetailsComponent implements OnInit {
   }
   updateSiteDetails() {
     let params = {
-      siteId:this.common.params.site_id,
+      siteId:this.common.params.site.site_id,
       locationName:this.siteLoc,
       isStrictLoading :this.isStrictLoading ,
     }
+    console.log("params",params);
     ++this.common.loading;
-    this.api.post('Site/updateSiteDetails', {params})
+    this.api.post('Site/updateSiteDetails', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res['data']);
+        console.log('Res:', res);
       }, err => {
         --this.common.loading;
 
@@ -55,7 +56,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
     this.activeModal.close();
   }
   ngAfterViewInit() {
-    this.mapService.autoSuggestion("siteLoc");
+    this.mapService.autoSuggestion("siteLoc",(place,lat,lng)=> this.siteLoc);
     this.mapService.mapIntialize("map");
     console.log(this.common.params);
     this.mapService.createMarkers([{lat:this.common.params.site.lat,long: this.common.params.site.lng,type:'site'}]);  

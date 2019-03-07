@@ -2,31 +2,29 @@
     <h1>Update Site name</h1>
     <button type="button" class="close" aria- label="Close" (click)="dismiss()">x</button>
     <div class="row">
-        <div class="col-4">
-            <form>
+        <div class="col-3">
                 <div class="form-ng ">
                     <div class="site_name">
-                        <p>Site Name</p>
-                        <textarea rows="1" cols="4"> {{this.s_name}}</textarea>
+                       <span> Site Name :  
+                       <b>{{this.s_name}} </b></span>
                     </div>
-                    <div class="site_name">
-                        <p>Site Location </p>
+                    <div class="site_name" style="margin-top:15px">
+                         
                         <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="siteLoc" class="form-control">
-                        <!-- <input  type="text"  placeholder="Site Location" > -->
+                   <!-- <input  type="text"  placeholder="Site Location" > -->
                     </div>
-                    <div class="dropdown site_name">
-                        <p>Select Options</p>
+                    <div class="dropdown site_name"  style="margin-top:15px">
                         <select id="myList" [(ngModel)]="isStrictLoading "> 
-                            <option value="1">Yes</option>
-                            <option value="2">No</option>
-                            <option value="3">Cant Say</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                            <option value="null">Cant Say</option>
                         </select>
+                        
                     </div>
                     <button class="submit_button" type="submit" (click)="updateSiteDetails()" >Submit</button>
                 </div>
-            </form>
         </div>
-        <div class="col-8">
+        <div class="col-9">
             <div id="map" class="map"></div>
         </div>
     </div>
