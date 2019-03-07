@@ -32,7 +32,6 @@ const PAGES_COMPONENTS = [
   DiagnosticsComponent,
 
 ];
-
 @NgModule({
   imports: [
     AdminRoutingModule,
