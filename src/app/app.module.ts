@@ -71,7 +71,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
 import { 
    MatFormFieldModule,
   MatMenuModule,
@@ -82,6 +81,7 @@ import {
 import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 
+import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -124,18 +124,17 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent,
-    UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
+    ParticlularsComponent,
     AddDriverComponent,
+    VechileTrailsComponent,
     AddTripComponent,
-    DatePicker2Component,
     AddFuelFillingComponent,
-    AddDriverComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -168,6 +167,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    EditLorryDetailsComponent,
     PendingDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
@@ -180,13 +180,16 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component,
     AddFuelFillingComponent,
-    AddDriverComponent
+    AddConsigneeComponent,
+    AddDriverComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    VechileTrailsComponent,
+    AddTripComponent
   ],
   imports: [
     BrowserModule,

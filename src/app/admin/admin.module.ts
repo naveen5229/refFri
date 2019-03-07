@@ -17,6 +17,7 @@ import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -38,7 +39,9 @@ const PAGES_COMPONENTS = [
     AdminRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+     OwlNativeDateTimeModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
