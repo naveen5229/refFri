@@ -69,9 +69,9 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   getAllTypesOfDocuments() {
-    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1 })
+    this.api.get('Vehicles/getAllDocumentTypesList')
       .subscribe(res => {
-        console.log("data", res);
+        console.log("All Type Docs: ", res);
         this.documentTypes = res['data'];
       }, err => {
         console.log(err);
@@ -155,6 +155,7 @@ export class PendingDocumentsComponent implements OnInit {
       .subscribe(res => {
         // this.common.loading--;
         console.log("pending detalis:", res);
+        this.modal[modal].data.document.id = res['data'][0].document_id;
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
@@ -610,6 +611,16 @@ export class PendingDocumentsComponent implements OnInit {
 
   openNextModal(modal) {
     this.showDetails({ document_id: 0, vehicle_id: 0 });
+  }
+
+  checkDateFormat(modal, dateType) {
+    let dateValue = this.modal[modal].data.document[dateType];
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
+    console.log('Date: ', this.modal[modal].data.document[dateType]);
   }
 
 }
