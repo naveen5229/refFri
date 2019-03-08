@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -67,6 +67,7 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
@@ -207,10 +208,12 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     MatDatepickerModule,
     MatNativeDateModule 
   ],
+  
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+   // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
