@@ -174,6 +174,7 @@ export class PendingDocumentsComponent implements OnInit {
           this.closeModal(true, modal);
           console.log("sucess......");
         }
+        
       }, err => {
         // this.common.loading--;
         console.log(err);
@@ -332,15 +333,6 @@ export class PendingDocumentsComponent implements OnInit {
 
       };
       console.log("Id is", params);
-
-      if (!document.vehicle_id) {
-        this.common.showError("Please enter Vehicle No.");
-        return false;
-      }
-      if (!document.document_type_id) {
-        this.common.showError("Please enter Document Type");
-        return false;
-      }
 
       if (document.issue_date) {
         let valid = this.checkDatePattern(document.issue_date);
