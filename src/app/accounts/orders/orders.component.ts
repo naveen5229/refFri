@@ -14,13 +14,19 @@ import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.com
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-
+  branchdata = [];
+  orderTypeData = [];
+  supplier = [];
+  ledgers = { all: [], suggestions: [] };
+  showSuggestions = false;
+  activeLedgerIndex = -1;
   order = {
     date: this.common.dateFormatter(new Date()).split(' ')[0],
     biltynumber: '',
     biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
-    totalamount:0,
-    grnremarks:'',
+    totalamount: 0,
+    grnremarks: '',
+    billingaddress: '',
     branch: {
       name: '',
       id: ''
@@ -41,61 +47,135 @@ export class OrdersComponent implements OnInit {
       transactionType: 'debit',
       ledger: '',
       taxledger: '',
-      stockitem: '',
+      stockitem: {
+        name: '',
+        id: ''
+      },
       stockunit: {
-      name:'',
-      id:''
+        name: '',
+        id: ''
       },
       qty: '',
-      discountledger: '',
-      warehouse: '',
+      discountledger: { name: '', id: '' },
+      warehouse: { name: '', id: '' },
       taxDetails: '',
-      remarks:'',
-      lineamount:0
+      remarks: '',
+      lineamount: 0
     }]
   };
+
+  suggestions = {
+    purchaseLedgers: [],
+    supplierLedgers: [],
+    stockItems: [],
+    discountLedgers: [],
+    warehouses: [],
+    invoiceTypes: [],
+    list: []
+  };
+  suggestionIndex = -1;
+
+  activeId = '';
+  lastActiveId = '';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) {
+    this.getBranchList();
+    this.getInvoiceTypes();
+    this.getPurchaseLedgers();
+    this.getSupplierLedgers();
+    this.getStockItems();
+    this.getWarehouses();
+  }
 
   ngOnInit() {
   }
-  /*
-  openModal (order?) {
-    console.log('ledger123',order);
-      if (order) this.common.params = order;
-      const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',windowClass : "myCustomModalClass" });
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-        // this.addLedger(data.ledger);
-        }
-      });
-  } */
-
-
-  
 
   addAmountDetails() {
     this.order.amountDetails.push({
       transactionType: 'debit',
       ledger: '',
       taxledger: '',
-      stockitem: '',
+      stockitem: { name: '', id: '' },
       stockunit: {
-        name:'',
-        id:''
-        },
+        name: '',
+        id: ''
+      },
       qty: '',
-      discountledger: '',
-      warehouse: '',
+      discountledger: { name: '', id: '' },
+      warehouse: { name: '', id: '' },
       taxDetails: '',
-      remarks:'',
-      lineamount:0
+      remarks: '',
+      lineamount: 0
 
     });
+  }
+
+  getBranchList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetBranchList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.branchdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  getInvoiceTypes() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetOrderTypeList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.suggestions.invoiceTypes = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  getStockItems() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetStockItem?search=123')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.suggestions.stockItems = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  getWarehouses() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetWareHouse?search=123')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.suggestions.warehouses = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 
   dismiss(response) {
@@ -105,19 +185,16 @@ export class OrdersComponent implements OnInit {
       // return;
       this.addOrder(this.order);
     }
-   // this.activeModal.close({ response: response, Voucher: this.order });
+    // this.activeModal.close({ response: response, Voucher: this.order });
   }
+
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.order[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log(this.order[date]);
+      console.log(this.order[date]);
     });
   }
-  
-  
-
-  
 
   TaxDetails(i) {
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -138,6 +215,13 @@ export class OrdersComponent implements OnInit {
     console.log('order User: ', this.order);
   }
 
+  onSelectedaddress(selectedData, type, display) {
+    this.order[type].name = selectedData[display];
+    this.order[type].id = selectedData.id;
+    this.order.billingaddress = selectedData.address;
+    console.log('order User: ', this.order);
+  }
+
   addOrder(order) {
     console.log('new order', order);
     // const params = {};
@@ -145,7 +229,7 @@ export class OrdersComponent implements OnInit {
       billingaddress: order.billingaddress,
       orderremarks: order.orderremarks,
       biltynumber: order.biltynumber,
-     // code: order.code,
+      // code: order.code,
       biltydatestamp: order.biltydate,
       custcode: order.custcode,
       orderdata: order.date,
@@ -160,8 +244,8 @@ export class OrdersComponent implements OnInit {
       ordertype: order.ordertype.id,
       purchaseledgerid: order.purchaseledger.id,
       grnremarks: order.grnremarks,
-     // approved: order.Approved,
-     // delreview: order.delreview,
+      // approved: order.Approved,
+      // delreview: order.delreview,
       amountDetails: order.amountDetails
     };
 
@@ -174,7 +258,7 @@ export class OrdersComponent implements OnInit {
         console.log('res: ', res);
         //this.GetLedger();
         this.common.showToast('Invoice Are Saved');
-      return;
+        return;
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -184,85 +268,119 @@ export class OrdersComponent implements OnInit {
 
   }
 
- calculateTotal() {
+  calculateTotal() {
     let total = 0;
     this.order.amountDetails.map(amountDetail => {
       // console.log('Amount: ',  amountDetail.amo  unt[type]);
-        total += amountDetail.lineamount;
+      total += amountDetail.lineamount;
     });
     return total;
   }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
-    const activeId = document.activeElement.id;
-    console.log('Active Id', activeId);
+    this.activeId = document.activeElement.id;
+    console.log('Active Id', this.activeId);
 
     if (key == 'enter') {
-    //  this.allowBackspace = true;
-      // console.log('active', activeId);
-      if (activeId.includes('branch')) {
+      if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
-      } else  if (activeId.includes('ordertype')) {
+      } else if (this.activeId.includes('ordertype')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('custcode');
-      }else  if (activeId.includes('custcode')) {
+      } else if (this.activeId.includes('custcode')) {
         this.handleVoucherDateOnEnter();
         this.setFoucus('date');
-      } else  if (activeId.includes('biltydate')) {
+      } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
-      } else  if (activeId.includes('date')) {
+      } else if (this.activeId.includes('date')) {
         this.setFoucus('purchaseledger');
-      } else  if (activeId.includes('discountledger')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('discountate'+'-'+index);
-      }else  if (activeId.includes('purchaseledger')) {
-         this.setFoucus('ledger');
-      }  else  if (activeId.includes('ledger')) {
+      } else if (this.activeId.includes('purchaseledger')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        this.setFoucus('ledger');
+      } else if (this.activeId.includes('discountledger')) {
+        console.log('0000000000000000000000000000000');
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('discountate' + '-' + index);
+      } else if (this.activeId.includes('ledger')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('vendorbidref');
-      } else  if (activeId.includes('vendorbidref')) {
+      } else if (this.activeId.includes('vendorbidref')) {
         this.setFoucus('qutationrefrence');
-      } else  if (activeId.includes('qutationrefrence')) {
+      } else if (this.activeId.includes('qutationrefrence')) {
         this.setFoucus('shipmentlocation');
-      } else  if (activeId.includes('shipmentlocation')) {
+      } else if (this.activeId.includes('shipmentlocation')) {
         this.setFoucus('paymentterms');
-      } else  if (activeId.includes('paymentterms')) {
+      } else if (this.activeId.includes('paymentterms')) {
         this.setFoucus('biltynumber');
-      } else  if (activeId.includes('biltynumber')) {
+      } else if (this.activeId.includes('biltynumber')) {
         this.setFoucus('biltydate');
-      }  else  if (activeId.includes('deliveryterms')) {
+      } else if (this.activeId.includes('deliveryterms')) {
         console.log(this.order.ordertype.name);
         this.setFoucus('billingaddress');
-      } else  if ((activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('purchase'))) || activeId.includes('grnremarks')) {
-         this.setFoucus('orderremarks');
-      }  else if (activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
+      } else if ((this.activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('purchase'))) || this.activeId.includes('grnremarks')) {
+        this.setFoucus('orderremarks');
+      } else if (this.activeId.includes('billingaddress') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
         this.setFoucus('grnremarks');
-     } else  if (activeId.includes('orderremarks')) {
+      } else if (this.activeId.includes('orderremarks')) {
         //let index = activeId.split('-')[1];
-       // console.log('stockitem'+'-'+index);
-        this.setFoucus('stockitem'+'-'+0);
-      } else  if (activeId.includes('stockitem')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('qty'+'-'+index);
-      } else  if (activeId.includes('qty')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('rate'+'-'+index);
-      } else  if (activeId.includes('rate')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('discountledger'+'-'+index);
-      }  else  if (activeId.includes('discountate')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('warehouse'+'-'+index);
-      } else  if (activeId.includes('warehouse')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('remarks'+'-'+index);
-      } else  if (activeId.includes('remarks')) {
-        let index = parseInt(activeId.split('-')[1]);
-        this.setFoucus('taxDetail'+'-'+index);
-      } 
+        // console.log('stockitem'+'-'+index);
+        this.setFoucus('stockitem' + '-' + 0);
+      } else if (this.activeId.includes('stockitem')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('qty' + '-' + index);
+      } else if (this.activeId.includes('qty')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('rate' + '-' + index);
+      } else if (this.activeId.includes('rate')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('discountledger' + '-' + index);
+      } else if (this.activeId.includes('discountate')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('warehouse' + '-' + index);
+      } else if (this.activeId.includes('warehouse')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('remarks' + '-' + index);
+      } else if (this.activeId.includes('remarks')) {
+        let index = parseInt(this.activeId.split('-')[1]);
+        this.setFoucus('taxDetail' + '-' + index);
+      }
+    } else if (key.includes('arrow')) {
+      //  this.allowBackspace = false;
+      if (key.includes('arrowup') || key.includes('arrowdown')) {
+        this.handleArrowUpDown(key);
+        event.preventDefault();
+      }
     }
   }
 
-  
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
@@ -273,7 +391,7 @@ export class OrdersComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
-  
+
   handleVoucherDateOnEnter() {
     let dateArray = [];
     let separator = '-';
@@ -296,4 +414,151 @@ export class OrdersComponent implements OnInit {
     this.order.date = date + separator + month + separator + year;
   }
 
+
+  getPurchaseLedgers() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.suggestions.purchaseLedgers = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  getSupplierLedgers() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedgerAddress', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.suggestions.supplierLedgers = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  selectLedger(ledger) {
+    //  console.log('Last Active ID:', this.lastActiveId);
+    /*  if (!index && this.lastActiveId.includes('ledger')) {
+        index = this.lastActiveId.split('-')[1];
+      } */
+    console.log('LEDGER: ', ledger);
+    this.order.purchaseledger.name = ledger.name;
+    this.order.purchaseledger.id = ledger.id;
+    this.setFoucus('ledger');
+
+  }
+
+  handleArrowUpDown(key) {
+    const suggestionIDs = this.generateIDs();
+    console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
+    if (suggestionIDs.indexOf(this.activeId) == -1) return;
+
+    if (key == 'arrowdown') {
+      if (this.suggestionIndex != this.suggestions.list.length - 1) this.suggestionIndex++;
+      else this.suggestionIndex = 0;
+    } else {
+      if (this.suggestionIndex != 0) this.suggestionIndex--;
+      else this.suggestionIndex = this.suggestions.list.length - 1;
+    }
+
+    // this.voucher.amountDetails[index].ledger.name = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_name;
+    // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
+  }
+
+  generateIDs() {
+    let IDs = ['ordertype', 'purchaseledger', 'ledger'];
+    this.order.amountDetails.map((amountDetails, index) => {
+      IDs.push('stockitem-' + index);
+      IDs.push('discountledger-' + index);
+      IDs.push('warehouse-' + index);
+    });
+    return IDs;
+  }
+
+  getSuggestions() {
+    const element = document.getElementById(this.activeId);
+    const search = element ? element['value'] ? element['value'].toLowerCase() : '' : '';
+    console.log('Search: ', search, this.activeId);
+    let suggestions = [];
+    if (this.activeId == 'ordertype') {
+      if (element['value']) {
+        suggestions = this.suggestions.invoiceTypes.filter(invoiceType => invoiceType.name.replace(/\./g, "").toLowerCase().includes(search));
+        suggestions.splice(10, suggestions.length - 1)
+      }
+    } else if (this.activeId == 'purchaseledger') {
+      if (element['value']) {
+        suggestions = this.suggestions.purchaseLedgers.filter(purchaseLedger => purchaseLedger.name.replace(/\./g, "").toLowerCase().includes(search));
+        suggestions.splice(10, suggestions.length - 1)
+      }
+    } else if (this.activeId == 'ledger') {
+      if (element['value']) {
+        suggestions = this.suggestions.supplierLedgers.filter(supplierLedger => supplierLedger.name.replace(/\./g, "").toLowerCase().includes(search));
+        suggestions.splice(10, suggestions.length - 1)
+      }
+    } else if (this.activeId.includes('stockitem')) {
+      if (element['value']) {
+        suggestions = this.suggestions.stockItems.filter(stockItem => stockItem.name.replace(/\./g, "").toLowerCase().includes(search));
+        suggestions.splice(10, suggestions.length - 1)
+      }
+    } else if (this.activeId.includes('discountledger')) {
+      if (element['value']) {
+        suggestions = this.suggestions.purchaseLedgers.filter(purchaseLedger => purchaseLedger.name.replace(/\./g, "").toLowerCase().includes(search));
+        suggestions.splice(10, suggestions.length - 1)
+      }
+    } else if (this.activeId.includes('warehouse')) {
+      if (element['value']) {
+        suggestions = this.suggestions.warehouses.filter(warehouse => warehouse.name.replace(/\./g, "").toLowerCase().includes(search));
+        suggestions.splice(10, suggestions.length - 1)
+      }
+    }
+    // purchaseledger stockitem-
+    this.suggestions.list = suggestions;
+    return this.suggestions.list;
+
+  }
+
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion: ', suggestion);
+    if (this.activeId == 'ordertype') {
+      this.order.ordertype.name = suggestion.name;
+      this.order.ordertype.id = suggestion.id;
+    } else if (this.activeId == 'purchaseledger') {
+      this.order.purchaseledger.name = suggestion.name;
+      this.order.purchaseledger.id = suggestion.id;
+    } else if (this.activeId == 'ledger') {
+      this.order.ledger.name = suggestion.name;
+      this.order.ledger.id = suggestion.id;
+      this.order.billingaddress = suggestion.address;
+    } else if (this.activeId.includes('stockitem')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.order.amountDetails[index].stockitem.name = suggestion.name;
+      this.order.amountDetails[index].stockitem.id = suggestion.name;
+      this.order.amountDetails[index].stockunit.name = suggestion.stockname;
+      this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+    } else if (this.activeId.includes('discountledger')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.order.amountDetails[index].discountledger.name = suggestion.name;
+      this.order.amountDetails[index].discountledger.id = suggestion.id;
+    } else if (this.activeId.includes('warehouse')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.order.amountDetails[index].warehouse.name = suggestion.name;
+      this.order.amountDetails[index].warehouse.id = suggestion.name;
+    }
+
+  }
 }
