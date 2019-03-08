@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 declare var google: any;
@@ -97,10 +98,16 @@ export class AddTripComponent implements OnInit {
   }
   addTrip() {
     console.log(this.vehicleTrip);
-    this.startTime = this.startTime.split("/").reverse().join("-");
-    this.startTime  = new Date(this.startTime );
-    this.targetTime = this.targetTime.split("/").reverse().join("-");
-    this.targetTime  = new Date(this.targetTime );
+    // this.startTime = this.startTime.split("/").reverse().join("-");
+    // this.startTime  = new Date(this.startTime );
+    // this.targetTime = this.targetTime.split("/").reverse().join("-");
+    // this.targetTime  = new Date(this.targetTime );
+    // this.datePipe.transform(this.targetTime,'yyyy-MM-dd');
+    // console.log('targetTime',this.targetTime);
+      this.startTime = this.common.dateFormatter(this.startTime);
+      console.log('startTime',this.startTime);
+      this.targetTime = this.common.dateFormatter(this.targetTime);
+      console.log('targetTime',this.targetTime);
     let params = {
       vehicleId: this.VehicleId,
       startTrip: this.vehicleTrip.startName,

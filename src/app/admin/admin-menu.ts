@@ -66,5 +66,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/diagnostics',
         home: true,
-    },
+    }
 ];

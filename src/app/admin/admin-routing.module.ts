@@ -15,6 +15,7 @@ import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-rece
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
+import { SiteDetailsComponent } from './site-details/site-details.component';
 
 
 const routes: Routes = [{
@@ -64,6 +65,10 @@ const routes: Routes = [{
         {
              path:  'diagnostics' ,
              component: DiagnosticsComponent,
+        },
+        {
+            path: 'site-details',
+            component: SiteDetailsComponent
         }
     ],
 }];

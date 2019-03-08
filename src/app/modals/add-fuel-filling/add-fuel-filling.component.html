@@ -10,8 +10,10 @@
             <label> Station Name </label>
           </div>
           <div class="col-md-8">
-            <input type="text" class="form-control" id="stationName" name="startTrip" placeholder="station Name"
-              [(ngModel)]="fuelEntries.stationName">
+              <auto-suggestion (onSelected)="searchStationName($event,'Consignee')" url="Suggestion/GetFuelStation" display="name"
+              placeholder="station Name" [preSelected]="null"></auto-suggestion>
+            <!-- <input type="text" class="form-control" id="stationName" name="startTrip" placeholder="station Name"
+              [(ngModel)]="fuelEntries.stationName"> -->
           </div>
         </div>
         <div class="row" style="margin-top:5px">

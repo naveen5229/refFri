@@ -28,41 +28,12 @@ export class DocumentationDetailsComponent implements OnInit {
   };
   table = null;
 
-
-  // table = {
-  //   data: {
-  //     headings: {
-  //       vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-  //       docType: { title: 'Document Type', placeholder: 'Document Type' },
-  //       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
-  //       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
-  //       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
-  //       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-  //       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-  //       amount: { title: 'Amount', placeholder: 'Amount' },
-  //       remark: { title: 'Remark', placeholder: 'Remak' },
-  //       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
-  //       edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
-  //     },
-  //     columns: []
-  //   },
-  //   settings: {
-  //     hideHeader: true
-  //   }
-  // };
-
-
-
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    console.log("All Api:", api)
-
-    // this.loginType = this.user._loggedInBy;
-    // this.checkAdmin();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -73,12 +44,6 @@ export class DocumentationDetailsComponent implements OnInit {
     console.log('Refresh');
     this.getTableColumns();
   }
-
-  // checkAdmin() {
-  //   if (this.loginType == "admin") {
-  //     return this.loginid = 1;
-  //   }
-  // }
 
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
@@ -92,8 +57,8 @@ export class DocumentationDetailsComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-
   }
+
   setTable() {
     let headings = {
       vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
@@ -103,7 +68,7 @@ export class DocumentationDetailsComponent implements OnInit {
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-      rto: { title: 'Rto', placeholder: 'Rto' }, 
+      rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
@@ -140,7 +105,7 @@ export class DocumentationDetailsComponent implements OnInit {
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
         expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
         documentNumber: { value: doc.document_number },
-        rto:{value:doc.rto},
+        rto: { value: doc.rto },
         amount: { value: doc.amount },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
@@ -155,8 +120,6 @@ export class DocumentationDetailsComponent implements OnInit {
     });
     return columns;
   }
-
-
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -204,7 +167,6 @@ export class DocumentationDetailsComponent implements OnInit {
       return false;
     }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
-    // this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -212,6 +174,7 @@ export class DocumentationDetailsComponent implements OnInit {
       }
     });
   }
+
   documentUpdate() {
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
@@ -231,7 +194,7 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   editData(doc) {
-    console.log("Doc data", doc);
+    // console.log("Doc data", doc);
     let documentData = [{
       regNumber: doc.regno,
       id: doc.id,
@@ -246,7 +209,7 @@ export class DocumentationDetailsComponent implements OnInit {
       documentNumber: doc.document_number,
       docUpload: doc.img_url,
       docUpload2: doc.img_url2,
-      docUpload3:doc.img_url3,
+      docUpload3: doc.img_url3,
       remark: doc.remarks,
       rto: doc.rto,
       amount: doc.amount,
@@ -274,22 +237,21 @@ export class DocumentationDetailsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark,x_user_id:this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark, x_user_id: this.user._customer.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
+              alert(res["msg"]);
               this.documentUpdate();
-              
+
             }, err => {
               this.common.loading--;
               console.log(err);
               this.documentUpdate();
-              
+
             });
         }
       })
     }
-
   }
-
 }
