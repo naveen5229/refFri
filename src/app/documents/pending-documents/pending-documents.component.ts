@@ -50,39 +50,20 @@ export class PendingDocumentsComponent implements OnInit {
     let rowData = {
       id: row.document_id,
       vehicle_id: row.vehicle_id,
-      regno: row.regno,
-      document_type: row.name,
-      document_type_id: row.document_type_id,
-      agent: row.agent,
-      agent_id: row.document_agent_id,
-      wef_date: row.wef_date,
-      expiry_date: row.expiry_date,
-      issue_date: row.issue_date,
-      remarks: row.remarks,
-      img_url: row.img_url,
-      doc_no: row.document_number,
-      rto: row.rto,
-      amount: row.amount,
-      img_url2: row.img_url2,
-      img_url3: row.img_url3
+     // regno: row.regno,
+    
     };
     this.common.params = { rowData, title: 'Update Document', canUpdate: 1 };
     this.common.handleModalSize('class', 'modal-lg', '1200');
     const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout' });
-    // this.modalCount++;
-    console.log('Modal Instance: ', activeModal.componentInstance);
     activeModal.result.then(mdldata => {
       console.log("response:");
       console.log(mdldata);
        this.getPendingDetailsDocuments();
-      // this.modalCount--;
+     
     });
 
-    // if (this.modalCount < 2) {
-    //   setTimeout(() => {
-    //     this.showDetails(this.data[index], ++index);
-    //   }, 5000);
-    // }
+   
   }
 
   deleteDocument(row) {
@@ -110,6 +91,22 @@ export class PendingDocumentsComponent implements OnInit {
         }
       })
     }
+  }
+  
+
+  selectList(id){
+    console.log("list value:",id);
+
+    this.common.loading++;
+    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1 ,x_advreview : parseInt(id) })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.data = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 }

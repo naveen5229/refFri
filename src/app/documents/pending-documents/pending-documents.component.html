@@ -1,12 +1,21 @@
 <nb-card style="margin-left: 30px;">
   <nb-card-header>
-    <h2>Pending Vehicle Documents</h2>
-    <hr>
+    Pending Vehicle Documents
+
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
       <div class="row">
         <div>{{data.length}} Records</div>
+        <div class="col-sm-3 list" >
+
+          <select name="list" class="form-control " (change)="getPendingDetailsDocuments($event.target.value)">
+            <option class="form-control" [value]="0">Pending</option>
+            <option class="form-control" [value]="1">Advance Review</option>
+          </select>
+
+        </div>
+
         <table class="table table-bordered table-hover table-scroll">
           <thead class="thead">
             <tr class="">
