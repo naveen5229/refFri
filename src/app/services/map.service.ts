@@ -134,7 +134,7 @@ export class MapService {
         };
       } else {
         if (subType == 'marker')
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + index + "|" + pinColor + "|000000";
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
