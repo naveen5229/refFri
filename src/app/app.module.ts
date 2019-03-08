@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -73,16 +73,17 @@ import { ParticlularsComponent } from './modals/LRModals/particlulars/particlula
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import { 
-   MatFormFieldModule,
+import {
+  MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
-import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 
+import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -136,7 +137,8 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddTripComponent,
     DatePicker2Component,
     AddFuelFillingComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    UpdateSiteDetailsComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -187,7 +189,9 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddTripComponent,
     DatePicker2Component,
     AddFuelFillingComponent,
-   AddDriverComponent
+    AddDriverComponent,
+    UpdateSiteDetailsComponent
+
   ],
   imports: [
     BrowserModule,
@@ -206,17 +210,17 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
-  
+
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
-   // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
+    // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }
