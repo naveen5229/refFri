@@ -9,13 +9,9 @@ import { DocumentationDetailsComponent } from './documentation-details/documenta
 import { DirectiveModule } from '../directives/directives.module';
 import { from } from 'rxjs';
 import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
-
-// import { AddAgentComponent } from './documentation-modals/add-agent/add-agent.component';
-import { EditDocumentComponent } from './documentation-modals/edit-document/edit-document.component';
 import { PendingDocumentsComponent } from './pending-documents/pending-documents.component';
-// /import { ErrorReportComponent } from './documentation-modals/error-report/error-report.component';
-import { CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
 import { DatePipe } from '@angular/common';
+import { ChangeHistoryComponent } from './change-history/change-history.component';
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,
@@ -27,7 +23,8 @@ const PAGES_COMPONENTS = [
     DocumentsRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+
   ],
   providers: [DatePipe],
   declarations: [
@@ -35,10 +32,8 @@ const PAGES_COMPONENTS = [
 
     DocumentationDetailsComponent,
     DocumentsSummaryComponent,
-    CrmVehicleDocumentionsComponent,  
     PendingDocumentsComponent,
-    CrmVehicleDocumentionsComponent,    
-    CrmVehicleDocumentionsComponent
+    ChangeHistoryComponent,
   ],
 })
 export class DocumentsModule { }
