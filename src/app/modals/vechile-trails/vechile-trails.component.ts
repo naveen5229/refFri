@@ -20,10 +20,14 @@ export class VechileTrailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.mapService.mapIntialize('vehicleTrails');
-    setTimeout(()=>{
-    this.mapService.createMarkers(this.markers);
-  },2000) 
+  }
+  ngAfterViewInit(){
+      this.common.loading++;
+      this.mapService.mapIntialize('vehicleTrails');
+      setTimeout(()=>{
+      this.mapService.createMarkers(this.markers,true);
+      this.common.loading--;
+    },1000); 
   }
   closeModal() {
     this.markers=[];

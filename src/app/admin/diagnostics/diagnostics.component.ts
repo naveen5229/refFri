@@ -88,7 +88,7 @@ export class DiagnosticsComponent implements OnInit {
       this.api.post('VehicleStatusChange/getVehicleTrail', param)
         .subscribe(res => {
           this.common.loading--;
-          if(res['data'].length>=0){
+          if(res['data'].length>0){
           this.common.params = res['data'];
           console.log('res: ', this.common.params);          
           this.modalservice.open(VechileTrailsComponent,{ size: 'lg', container: 'nb-layout'});
