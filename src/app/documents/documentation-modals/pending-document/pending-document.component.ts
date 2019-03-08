@@ -490,24 +490,26 @@ export class PendingDocumentComponent implements OnInit {
     }
 
   }
+  
   selectDocType(docType) {
     this.document.document_type_id = docType.id;
     console.log('Doc id: ', docType.id);
     console.log("doc var", this.document.document_type_id);
   }
 
+
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.document.vehicle_id = vehicle.id;
   }
 
-  isValidVehicle(event) {
-    let selected_regno = event.target.value;
-    if (selected_regno == "") {
-      this.document.regno = "";
-      this.document.vehicle_id = "";
-    }
-  }
+  // isValidVehicle(event) {
+  //   let selected_regno = event.target.value;
+  //   if (selected_regno == "") {
+  //     this.document.regno = "";
+  //     this.document.vehicle_id = "";
+  //   }
+  // }
 
   isValidDocument(event) {
     let selected_doctype = event.target.value;
