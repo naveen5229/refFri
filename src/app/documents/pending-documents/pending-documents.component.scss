@@ -93,8 +93,8 @@ auto-suggestion {
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.5);
     padding: 20px;
+    background: transparent;
 }
 
 .custom-modal-body {
@@ -103,6 +103,8 @@ auto-suggestion {
 
 .custom-active-modal {
     z-index: 1050;
+    background: rgba(0, 0, 0, 0.5);
+
 }
 
 .custom-passive-modal {

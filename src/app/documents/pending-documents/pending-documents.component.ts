@@ -35,7 +35,6 @@ export class PendingDocumentsComponent implements OnInit {
   lastActiveIndex = -1;
 
 
-
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -88,23 +87,63 @@ export class PendingDocumentsComponent implements OnInit {
 
     this.lastActiveIndex = index;
 
-    // this.common.handleModalSize('class', 'modal-lg', '1200');
-    // const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    // activeModal.result.then(mdldata => {
-    //   console.log("response:");
-    //   console.log(mdldata);
-    //   this.getPendingDetailsDocuments();
-    // });
-    console.log('----------------------------------------------');
-    console.log('Data: ', rowData);
-    console.log('----------------------------------------------');
-
     this.modalOpenHandling({ rowData, title: 'Update Document', canUpdate: 1 });
-    // if (!this.modal.first.show || !this.modal.second.show) {
-    //   setTimeout(() => {
-    //     this.showDetails(this.data[index + 1], index + 1);
-    //   }, 5000);
-    // }
+  }
+
+  modalOpenHandling(params) {
+    console.log('Handler Start: ', this.modal.active);
+    if (!this.modal.active) {
+      this.modal.first.class = 'custom-active-modal';
+      this.modal.first.show = true;
+      this.handleModalData('first', params);
+      this.modal.active = 'first';
+    } else if (this.modal.active == 'first') {
+      this.modal.second.class = 'custom-passive-modal';
+      this.modal.second.show = true;
+      this.handleModalData('second', params);
+      this.modal.active = 'first';
+    } else if (this.modal.active == 'second') {
+      this.modal.first.class = 'custom-passive-modal';
+      this.modal.first.show = true;
+      this.handleModalData('first', params);
+      this.modal.active = 'second';
+    }
+    console.log('Handler End: ', this.modal.active);
+
+  }
+
+  handleModalData(modal, params) {
+    this.modal[modal].data.title = 'Active Modala: ' + modal;
+    this.modal[modal].data.btn1 = params.btn1 || 'Update';
+    this.modal[modal].data.btn2 = params.btn2 || 'Discard Image';
+    if (!params.canUpdate) {
+      this.modal[modal].data.canUpdate = 0;
+      this.modal[modal].data.canreadonly = true;
+    }
+
+    this.modal[modal].data.document = params.rowData;
+    if (this.modal[modal].data.document.issue_date)
+      this.modal[modal].data.document.issue_date = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
+    if (this.modal[modal].data.document.wef_date)
+      this.modal[modal].data.document.wef_date = this.common.dateFormatter(this.modal[modal].data.document.wef_date, 'ddMMYYYY').split(' ')[0];
+    if (this.modal[modal].data.document.expiry_date)
+      this.modal[modal].data.document.expiry_date = this.common.dateFormatter(this.modal[modal].data.document.expiry_date, 'ddMMYYYY').split(' ')[0];
+
+    this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
+    this.modal[modal].data.agentId = this.modal[modal].data.document.agent_id;
+    this.getDocumentsData(modal);
+    this.getDocumentPending(modal);
+
+    if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
+      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
+    }
+    if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
+      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url2);
+    }
+    if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
+      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
+    }
+    this.modal[modal].data.images = this.modal[modal].data.imgs;
   }
 
   deleteDocument(row) {
@@ -134,85 +173,20 @@ export class PendingDocumentsComponent implements OnInit {
     }
   }
 
-  modalOpenHandling(params) {
-    console.log('Handler Start: ', this.modal.active);
-    if (!this.modal.active) {
-      this.modal.first.class = 'custom-active-modal';
-      this.modal.first.show = true;
-      this.handleModalData('first', params);
-      this.modal.active = 'first';
-    } else if (this.modal.active == 'first') {
-      this.modal.second.class = 'custom-passive-modal';
-      this.modal.second.show = true;
-      this.handleModalData('second', params);
-      this.modal.active = 'first';
-    } else if (this.modal.active == 'second') {
-      this.modal.first.class = 'custom-passive-modal';
-      this.modal.first.show = true;
-      this.handleModalData('first', params);
-      this.modal.active = 'second';
-    }
-    console.log('Handler End: ', this.modal.active);
 
-  }
 
-  handleModalData(modal, params) {
 
-    this.modal[modal].data.title = 'Active Modala: ' + modal;
-    this.modal[modal].data.btn1 = params.btn1 || 'Update';
-    this.modal[modal].data.btn2 = params.btn2 || 'Discard Image';
-
-    // console.log("user identifation: ", this.user._customer);
-
-    if (!params.canUpdate) {
-      this.modal[modal].data.canUpdate = 0;
-      this.modal[modal].data.canreadonly = true;
-    }
-
-    this.modal[modal].data.document = params.rowData;
-    // console.log("pending data:", params.rowData);
-    if (this.modal[modal].data.document.issue_date)
-      this.modal[modal].data.document.issue_date = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
-    if (this.modal[modal].data.document.wef_date)
-      this.modal[modal].data.document.wef_date = this.common.dateFormatter(this.modal[modal].data.document.wef_date, 'ddMMYYYY').split(' ')[0];
-    if (this.modal[modal].data.document.expiry_date)
-      this.modal[modal].data.document.expiry_date = this.common.dateFormatter(this.modal[modal].data.document.expiry_date, 'ddMMYYYY').split(' ')[0];
-
-    // console.log("doc params rcvd");
-    // console.log(this.modal[modal].data.document);
-    // console.log("typid:" + this.modal[modal].data.document.document_type_id);
-    this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
-    // console.log("vehicleid:" + this.modal[modal].data.vehicleId + "=>" + this.modal[modal].data.document.vehicle_id);
-    this.modal[modal].data.agentId = this.modal[modal].data.document.agent_id;
-    this.getDocumentsData(modal);
-    this.getDocumentPending(modal);
-
-    // console.log("doc data:");
-    // console.log(this.document);
-    if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
-    }
-    if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url2);
-    }
-    if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
-    }
-    this.modal[modal].data.images = this.modal[modal].data.imgs;
-    // console.log("images:");
-    // console.log(this.modal[modal].data.imgs);
-  }
 
   getDocumentPending(modal) {
     const params = {
       x_user_id: this.user._customer.id,
       x_document_id: this.modal[modal].data.document.id,
     }
-    this.common.loading++;
+    // this.common.loading++;
     console.log('Params: ', params);
     this.api.post('Vehicles/getPendingDocDetail', params)
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log("pending detalis:", res);
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
@@ -234,7 +208,7 @@ export class PendingDocumentsComponent implements OnInit {
         }
 
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log(err);
       });
 
@@ -242,20 +216,15 @@ export class PendingDocumentsComponent implements OnInit {
 
 
   getDocumentsData(modal) {
-    this.common.loading++;
-    let response;
+    // this.common.loading++;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.modal[modal].data.vehicleId })
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log("data", res);
         this.modal[modal].data.agents = res['data'].document_agents_info;
         this.modal[modal].data.docTypes = res['data'].document_types_info;
-        console.log("doctypes:");
-        console.log(res['data'].document_types_info);
 
         this.modal[modal].data.document.document_type = this.findDocumentType(this.modal[modal].data.document.document_type_id, modal);
-        console.log("doctype:" + this.modal[modal].data.document.document_type);
-        console.log("img_url:" + this.modal[modal].data.document.img_url);
         if (this.modal[modal].data.document.img_url) {
           if ((this.modal[modal].data.document.img_url.indexOf('.pdf') > -1) || (this.modal[modal].data.document.img_url.indexOf('.doc') > -1) || (this.modal[modal].data.document.img_url.indexOf('.docx') > -1) || (this.modal[modal].data.document.img_url.indexOf('.xls') > -1) || (this.modal[modal].data.document.img_url.indexOf('.xlsx') > -1) || (this.modal[modal].data.document.img_url.indexOf('.csv') > -1)) {
             this.modal[modal].data.doc_not_img = 1;
@@ -279,19 +248,15 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.params = { title: "Doc Image", images: this.modal[modal].data.images };
         }
 
-        // console.log("doc_not_img:" + this.doc_not_img);
-        console.log("in typid:" + this.modal[modal].data.document.document_type_id);
         for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
           if (this.modal[modal].data.docTypes[i].id == this.modal[modal].data.document.document_type_id) {
             this.modal[modal].data.document.document_type = this.modal[modal].data.docTypes[i].document_type;
-            console.log("dt=" + this.modal[modal].data.document.document_type);
           }
         }
-        console.log("agentid:" + this.modal[modal].data.agentId);
         this.markAgentSelected(this.modal[modal].data.agentId, modal);
 
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log(err);
       });
   }
