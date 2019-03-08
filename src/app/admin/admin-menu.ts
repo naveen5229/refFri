@@ -60,6 +60,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Site Fencing',
         icon: 'nb-home',
         link: '/admin/site-fencing',
-        home: true,
     },
+    {
+        title: 'Diagnostics',
+        icon: 'nb-home',
+        link: '/admin/diagnostics',
+        home: true,
+    }
 ];

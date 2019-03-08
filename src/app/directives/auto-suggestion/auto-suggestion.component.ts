@@ -73,6 +73,7 @@ export class AutoSuggestionComponent implements OnInit {
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
+    if (this.searchText.length < 3) return;
     let params = '?';
     console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
@@ -127,7 +128,7 @@ export class AutoSuggestionComponent implements OnInit {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
       else this.activeSuggestion = this.suggestions.length - 1;
       event.preventDefault();
-    } else if (key == 'enter') {
+    } else if (key == 'enter' || key=='tab') {
       if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {

@@ -67,20 +67,23 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import { 
-   MatFormFieldModule,
+import {
+  MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
-import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
+
+import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -133,7 +136,9 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddDriverComponent,
     AddTripComponent,
     DatePicker2Component,
-    AddFuelFillingComponent
+    AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -183,7 +188,10 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddDriverComponent,
     AddTripComponent,
     DatePicker2Component,
-    AddFuelFillingComponent
+    AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent
+
   ],
   imports: [
     BrowserModule,
@@ -202,15 +210,17 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
+
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }

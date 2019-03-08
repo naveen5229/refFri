@@ -1,77 +1,84 @@
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Add Vehicle Trip</h4>
-          <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- <div class="container">
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add Vehicle Trip</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <div class="container">
             <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
-            <!-- <div class="row" style="margin-top:5px">
+  <!-- <div class="row" style="margin-top:5px">
               <!-- <div class="col-md-4">
                 <label> Vehicle Regno </label>
               </div> -->
-              <!-- <div class="col-md-8">
+  <!-- <div class="col-md-8">
                 <input id="vehicleTripRegNo" name="vehRegNo" type="text" placeholder="Vehicle Reg No" autocomplete="off" class="form-control"
                   [(ngModel)]="vehicleTrip.regno"  readonly>
               </div>
             </div> -->
-            <div class="row" style="margin-top:5px">
-                <div class="col-md-4">
-                  <label> Start Location </label>
-                </div>
-                <div class="col-md-8">
-                  <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name"
-                    [(ngModel)]="vehicleTrip.startName">
-                  <input id="vehicleTrip_start_lat" name="startLat" class="form-control" style="text-align: left" placeholder="Start lat"
-                    type="hidden" readonly [(ngModel)]="vehicleTrip.startLat">
-                  <input id="vehicleTrip_start_long" name="startLong" class="form-control" style="text-align: left" placeholder="Start lng"
-                    type="hidden" readonly [(ngModel)]="vehicleTrip.startLng">
-                </div>
-              </div>
-            <div class="row" style="margin-top:5px">
-              <div class="col-md-4">
-                <label> Start Time </label>
-              </div>
-              <div class="col-md-8" style="margin-top:5px">
-                <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)]="startTime" name="startTime"
-                  placeholder="Entry Time" (click)="getDate('startdate')" autocomplete="off">
-              </div>
-            </div>
-            
-            <div class="row" style="margin-top:5px">
-              <div class="col-md-4">
-                <label>Destination Location</label>
-              </div>
-              <div class="col-md-8" style="margin-top:5px">
-                <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name"
-                  [(ngModel)]="vehicleTrip.endName">
-                <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left" placeholder="End lat"
-                  type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
-                <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left" placeholder="End lng"
-                  type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
-              </div>
-            </div>
-            <div class="row" style="margin-top:5px">
-                <div class="col-md-4">
-                  <label>Exit Time</label>
-                </div>
-                <div class="col-md-8">
-                    <!-- <input [(ngModel)]="vehicleTrip.targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4">
+      <label> Start Location </label>
+    </div>
+    <div class="col-md-8">
+      <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name"
+        [(ngModel)]="vehicleTrip.startName">
+      <input id="vehicleTrip_start_lat" name="startLat" class="form-control" style="text-align: left"
+        placeholder="Start lat" type="hidden" readonly [(ngModel)]="vehicleTrip.startLat">
+      <input id="vehicleTrip_start_long" name="startLong" class="form-control" style="text-align: left"
+        placeholder="Start lng" type="hidden" readonly [(ngModel)]="vehicleTrip.startLng">
+    </div>
+  </div>
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4">
+      <label> Start Time </label>
+    </div>
+    <div class="col-md-8" style="margin-top:5px">
+      <input [(ngModel)]="startTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="Entry Time"
+        class="form-control" autocomplete="off" name="startTime">
+      <owl-date-time #date1></owl-date-time>
+      <!-- <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)]="startTime" name="startTime"
+                  placeholder="Entry Time" (click)="getDate('startdate')" autocomplete="off"> -->
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4">
+      <label>Destination Location</label>
+    </div>
+    <div class="col-md-8" style="margin-top:5px">
+      <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name"
+        [(ngModel)]="vehicleTrip.endName">
+      <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left" placeholder="End lat"
+        type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
+      <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left"
+        placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
+    </div>
+  </div>
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4">
+      <label>Exit Time</label>
+    </div>
+    <div class="col-md-8">
+      <!-- <input [(ngModel)]="vehicleTrip.targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
                     autocomplete="off" name="date">
                   <owl-date-time #date></owl-date-time> -->
-                  <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime" [(ngModel)]="targetTime"
-                    placeholder="End Time" autocomplete="off" (click)="getDate('enddate')">
-                </div>
-              </div>
-          </div>
-        <div class="modal-footer">
-          <div class="row">
-            <div class="col">
-              <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
-            </div>
-            <div class="col">
-              <button class="btn btn-primary" (click)="addTrip();" style="cursor:pointer;">Submit</button>
-            </div>
-          </div>
-        </div>
+      <!-- <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime" [(ngModel)]="targetTime"
+                    placeholder="End Time" autocomplete="off" (click)="getDate('enddate')"> -->
+      <input [(ngModel)]="targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="End Time"
+        class="form-control" autocomplete="off" name="targetTime">
+      <owl-date-time #date></owl-date-time>
+      
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" (click)="addTrip();" style="cursor:pointer;">Submit</button>
+    </div>
+  </div>
+</div>

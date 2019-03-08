@@ -12,7 +12,7 @@ export class ApiService {
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //  URL: string = 'http://192.168.0.115/booster_webservices/'; // Umang
-  // URL: string = 'http://localhost/booster_webservices/'; // sachin
+  //  URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
   // URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
 
   constructor(private http: HttpClient,

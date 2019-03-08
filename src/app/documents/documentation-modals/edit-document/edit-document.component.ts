@@ -60,9 +60,9 @@ export class EditDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.vehicleId = this.common.params.vehicleId;
     this.document = this.common.params.documentData;
-    console.log("document data:", this.document);
+    // console.log("document data:", this.document);
     this.document.docId = this.document[0].id;
-    console.log("doc Id:", this.document.docId);
+    // console.log("doc Id:", this.document.docId);
     this.document.regNumber = this.document[0].regNumber;
     this.document.documentId = this.document[0].documentId;
     this.document.documentType = this.document[0].documentType;
@@ -99,8 +99,6 @@ export class EditDocumentComponent implements OnInit {
     }
   }
 
-  
-
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
@@ -113,7 +111,7 @@ export class EditDocumentComponent implements OnInit {
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
       .subscribe(res => {
         this.common.loading--;
-        console.log("data", res);
+        // console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
         console.log("img_url:" + this.document.docUpload);
@@ -133,9 +131,8 @@ export class EditDocumentComponent implements OnInit {
           this.images.push({ name: "doc-img", image: this.document.docUpload2 });
           this.common.params = { title: "Doc Image", images: this.images };
         }
-     
 
-        
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -195,7 +192,7 @@ export class EditDocumentComponent implements OnInit {
       x_remarks: this.document.remark,
       x_amount: this.document.amount,
     };
-    // console.log("image  ",params.x_base64img, params.x_base64img2,params.x_base64img3);
+
     if (!this.document.documentId) {
       alert("Select Document Type");
     }
@@ -254,7 +251,7 @@ export class EditDocumentComponent implements OnInit {
     if (params.x_expiry_date) {
       params.x_expiry_date = this.document.expiryDate.split("/").reverse().join("-");
     }
-  
+
     this.common.loading++;
     let response;
     console.log("params", params);
@@ -264,23 +261,18 @@ export class EditDocumentComponent implements OnInit {
         console.log("api result", res);
         let result = (res['msg']);
         if (result == "success") {
-          this.common.showToast("Success");
+          alert(res['msg']);
           this.closeModal(true);
         }
         else {
           alert(result);
-
         }
 
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-    // this.closeModal(true);
-    //  return response;
-
   }
-
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -292,6 +284,7 @@ export class EditDocumentComponent implements OnInit {
       }
     });
   }
+  
   getDateInDisplayFormat(strdate) {
     if (strdate)
       return strdate.split("-").reverse().join("/");
