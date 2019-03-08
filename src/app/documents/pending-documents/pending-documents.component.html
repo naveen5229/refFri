@@ -54,8 +54,7 @@
       </button>
     </div>
     <div class="modal-body vert-mdl-pdg">
-      <form #documentFormFirst="ngForm" id="document-form-first" name="document-form-first"
-        (submit)="documentFormFirst.valid && updateDocument('first')">
+      <form #documentFormFirst="ngForm" id="document-form-first" name="document-form-first">
         <div class="row">
           <div class="col-sm-4">
 
@@ -79,8 +78,8 @@
 
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <input *ngIf="modal.first.data.canUpdate" id="document_id-first" (focusout)="openNextModal('second')"
-                  name="document_id-first" type="text" class="form-control "
-                  [(ngModel)]="modal.first.data.document.newRegno" />
+                  name="document_id-first" [value]="modal.first.data.document.newRegno | uppercase" type="text"
+                  class="form-control " [(ngModel)]="modal.first.data.document.newRegno" />
 
                 <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
                     placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
@@ -194,14 +193,15 @@
 
             <div class="row">
               <div class="col-sm-4" *ngIf="this.user._loggedInBy == 'admin'">
-                <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id, 'first')"
-                  id="cancel-first" style="cursor: pointer;">{{modal.first.data.btn2}}</button>
+                <button class="btn btn-danger" type="button" outline
+                  (click)="deleteImage(modal.first.data.document.id, 'first')" id="cancel-first"
+                  style="cursor: pointer;">{{modal.first.data.btn2}}</button>
               </div>
 
               <div class="col-sm-4" *ngIf="modal.first.data.canUpdate === 1 && this.user._loggedInBy == 'admin'"
                 style="margin-left:30%;">
-                <button class="btn btn-primary" form="document-form" type="submit" outline
-                  (click)="modal.first.data.isFormSubmit = true" id="submit-first"
+                <button class="btn btn-primary" form="document-form" type="button" outline
+                  (click)="updateDocument('first')" id="submit-first"
                   style="cursor: pointer;">{{modal.first.data.btn1}}</button>
               </div>
               <div class="col-sm-4" *ngIf="modal.first.data.canUpdate === 0 " style="margin-left:30%;">
@@ -219,7 +219,7 @@
                 Document</a>
             </div>
             <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
-              [images]="modal.first.data.images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+              [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId" [loadOnInit]="true">
             </app-image-viewer>
             <div *ngIf="!modal.first.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-first"></div>
@@ -385,8 +385,9 @@
 
             <div class="row">
               <div class="col-sm-4" *ngIf="this.user._loggedInBy == 'admin'">
-                <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id, 'second')"
-                  id="cancel-second" style="cursor: pointer;">{{modal.second.data.btn2}}</button>
+                <button class="btn btn-danger" type="button" outline
+                  (click)="deleteImage(modal.first.data.document.id, 'second')" id="cancel-second"
+                  style="cursor: pointer;">{{modal.second.data.btn2}}</button>
               </div>
 
               <div class="col-sm-4" *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'"
@@ -410,7 +411,7 @@
                 Document</a>
             </div>
             <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
-              [images]="modal.second.data.images" [idContainer]="'idOnHTML_2'" [loadOnInit]="true">
+              [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId" [loadOnInit]="true">
             </app-image-viewer>
             <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-second"></div>

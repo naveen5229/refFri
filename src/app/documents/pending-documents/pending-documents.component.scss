@@ -94,7 +94,7 @@ auto-suggestion {
     left: 0;
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
-    padding: 60px;
+    padding: 20px;
 }
 
 .custom-modal-body {
@@ -102,11 +102,11 @@ auto-suggestion {
 }
 
 .custom-active-modal {
-    z-index: 99999;
+    z-index: 1050;
 }
 
 .custom-passive-modal {
-    z-index: 9999;
+    z-index: 1049;
 }
 
 // Modal END
