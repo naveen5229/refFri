@@ -4,9 +4,8 @@ import { DocumentsComponent } from './documents.components';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
-
 import { PendingDocumentsComponent } from './pending-documents/pending-documents.component';
-import { CrmVehicleDocumentionsComponent } from './crm-vehicle-documentions/crm-vehicle-documentions.component';
+import { ChangeHistoryComponent } from '../documents/change-history/change-history.component';
 
 const routes: Routes = [{
     path: '',
@@ -16,10 +15,7 @@ const routes: Routes = [{
             path: 'dashboard',
             component: DashboardComponent,
         },
-        {
-            path: 'crm-vehicle-documentions',
-            component: CrmVehicleDocumentionsComponent,
-        },
+       
         {
             path: 'documentation-details',
             component: DocumentationDetailsComponent,
@@ -32,7 +28,11 @@ const routes: Routes = [{
         {
             path: 'pending-documents',
             component: PendingDocumentsComponent,
-        }
+        },     
+        {
+            path: 'change-history',
+            component: ChangeHistoryComponent,
+        },
     ],
 }];
 
