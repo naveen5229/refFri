@@ -81,7 +81,7 @@
         <tr *ngFor="let Details of Accounts.accDetails; let i = index;" style="background: #e8f0f3;">
           <td>
             <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
-              display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="null">
+              display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="{name:' '}">
             </auto-suggestion>
           </td>
           <td>

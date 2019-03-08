@@ -11,34 +11,35 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./daybooks.component.scss']
 })
 export class DaybooksComponent implements OnInit {
- 
+
   DayBook = {
-    enddate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    ledger :{
-        name:'',
-        id:0
-      },
-      branch :{
-        name:'',
-        id:0
-      },
-      vouchertype :{
-        name:'',
-        id:0
-      }
-    
-    };
-    vouchertypedata=[];
-    branchdata=[];
-  DayData=[];
+    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    ledger: {
+      name: '',
+      id: 0
+    },
+    branch: {
+      name: '',
+      id: 0
+    },
+    vouchertype: {
+      name: '',
+      id: 0
+    },
+    issumrise:'true'
+
+  };
+  vouchertypedata = [];
+  branchdata = [];
+  DayData = [];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
+    public modalService: NgbModal) {
     this.getVoucherTypeList();
     this.getBranchList();
-    }
+  }
 
   ngOnInit() {
   }
@@ -57,7 +58,7 @@ export class DaybooksComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getBranchList() {
@@ -74,7 +75,7 @@ export class DaybooksComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getDayBook() {
@@ -86,7 +87,7 @@ export class DaybooksComponent implements OnInit {
       branch: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
     };
-    
+
     this.common.loading++;
     this.api.post('Company/GetDayBook', params)
       .subscribe(res => {
@@ -97,17 +98,17 @@ export class DaybooksComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.DayBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log(this.DayBook[date]);
+      console.log(this.DayBook[date]);
     });
   }
-  
+
   onSelected(selectedData, type, display) {
     this.DayBook[type].name = selectedData[display];
     this.DayBook[type].id = selectedData.id;
@@ -117,25 +118,41 @@ export class DaybooksComponent implements OnInit {
   handleVoucherDateOnEnter() {
     let dateArray = [];
     let separator = '-';
-   /* if (this.voucher.date.includes('-')) {
-      dateArray = this.voucher.date.split('-');
-    } else if (this.voucher.date.includes('/')) {
-      dateArray = this.voucher.date.split('/');
-      separator = '/';
-    } else {
-      this.common.showError('Invalid Date Format!');
-      return;
-    }
-    let date = dateArray[0];
-    date = date.length == 1 ? '0' + date : date;
-    let month = dateArray[1];
-    month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[2];
-    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.voucher.date = date + separator + month + separator + year;
-   */
+    /* if (this.voucher.date.includes('-')) {
+       dateArray = this.voucher.date.split('-');
+     } else if (this.voucher.date.includes('/')) {
+       dateArray = this.voucher.date.split('/');
+       separator = '/';
+     } else {
+       this.common.showError('Invalid Date Format!');
+       return;
+     }
+     let date = dateArray[0];
+     date = date.length == 1 ? '0' + date : date;
+     let month = dateArray[1];
+     month = month.length == 1 ? '0' + month : month;
+     let year = dateArray[2];
+     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+     console.log('Date: ', date + separator + month + separator + year);
+     this.voucher.date = date + separator + month + separator + year;
+    */
 
+  }
+
+  filterData(dayDatas) {
+    let yCodes = [];
+    dayDatas.map(dayData =>{
+      if(yCodes.indexOf(dayData.y_code) !== -1){
+        dayData.y_code = ' ';
+        dayData.y_date = 0;
+      }else{
+        yCodes.push(dayData.y_code);
+        //yCodes.push(dayData.y_date);
+
+       // dataItem.y_date | date : 'dd MMM yyyy'
+      }
+    });
+    return dayDatas;
   }
 
 }

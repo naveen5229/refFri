@@ -58,8 +58,10 @@
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
     <td>{{dataItem.y_ledger}}</td>
-    <td>{{dataItem.y_dramunt}}</td>
-    <td>{{dataItem.y_cramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_dramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt == 0" ></td>
+    <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_cramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt ==0" ></td>
   </tr>
 </table>
 </nb-card-body>

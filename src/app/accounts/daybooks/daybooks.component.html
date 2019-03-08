@@ -37,6 +37,16 @@
                 placeholder="Select Date" name="account-enddate" [(ngModel)]="DayBook.enddate" maxlength="10">
             </div>
           </div>
+          <div class="col">
+            <div class="form-group">
+                <label>All</label>
+                <input type="radio" style="cursor: pointer;"  autocomplete="off"
+                 name="account-radio" value="true" [(ngModel)]="DayBook.issumrise">
+                 <label>Is Sumrise</label>
+                 <input type="radio" style="cursor: pointer;"  autocomplete="off"
+                  name="account-radio" value="false" [(ngModel)]="DayBook.issumrise">
+            </div>
+          </div>
   <div class="col">
     <div class="form-group">
       <button class="btn btn-primary" type="button" outline (click)="getDayBook()" id="submit"
@@ -45,7 +55,7 @@
   </div>
 </div>
 <table class="table table-bordered">
-  <tr>
+  <!-- <tr>
     <th>#</th>
     <th>Date</th>
     <th>Code</th>
@@ -55,16 +65,37 @@
     <th>Amount(Credit)</th>
     
   </tr>
-  <tr *ngFor="let dataItem of DayData; let i = index;">
-    <td>{{i + 1}}</td>
-    <td>{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
+  <tr  *ngFor=" let dataItem of filterData(DayData); let i = index;">
+    <td *ngIf="dataItem.y_dramunt != 0">{{i + 1}}</td>
+    <td *ngIf="dataItem.y_dramunt == 0"></td>
+    <td *ngIf="dataItem.y_date != 0" >{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
+    <td *ngIf="dataItem.y_date == 0 " ></td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
     <td>{{dataItem.y_particulars}}</td>
-    <td>{{dataItem.y_dramunt}}</td>
-    <td>{{dataItem.y_cramunt}}</td>
+    <td *ngIf="dataItem.y_dramunt==0"></td>
+    <td *ngIf="dataItem.y_dramunt != 0">{{dataItem.y_dramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt==0"></td>
+    <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cramunt}}</td>
     
-  </tr>
+  </tr> -->
+  <tr>
+      <th>Particular</th>
+      <th>Vch Type</th>
+      <th>Vch No.</th>
+      <th>Amount(Debit)</th>
+      <th>Amount(Credit)</th>
+      
+    </tr>
+    <tr  *ngFor=" let dataItem of filterData(DayData);">
+        <td>{{dataItem.y_particulars}}</td>
+        <td>{{dataItem.y_type}}</td>
+        <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+        <td>{{dataItem.y_dramunt}}</td>
+        <td>{{dataItem.y_cramunt}}</td>
+    
+      
+    </tr>
 </table>
 </nb-card-body>
 </nb-card>
