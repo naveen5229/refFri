@@ -1,12 +1,21 @@
 <nb-card style="margin-left: 30px;">
   <nb-card-header>
-    <h2>Pending Vehicle Documents</h2>
-    <hr>
+    Pending Vehicle Documents
+
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
       <div class="row">
         <div>{{data.length}} Records</div>
+        <div class="col-sm-3 list">
+
+          <select name="list" class="form-control " (change)="getPendingDetailsDocuments($event.target.value)">
+            <option class="form-control" [value]="0">Pending</option>
+            <option class="form-control" [value]="1">Advance Review</option>
+          </select>
+
+        </div>
+
         <table class="table table-bordered table-hover table-scroll">
           <thead class="thead">
             <tr class="">
@@ -29,7 +38,7 @@
                 <td class="col-sm-2" style="width: 15%;">{{row.lastupdatetime | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
                 <td class="col-sm-2" style="width: 15%;">{{row.lastupdateuser}}</td>
                 <td class="col-sm-4" style="width: 17%;">
-                  <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row, i)"><i
+                  <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i
                       class="icon ion-md-create"></i></a>&nbsp;
                   <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i
                       class="fa fa-trash"></i></a>
@@ -110,7 +119,7 @@
               <input #issue_date_first *ngIf="modal.first.data.canUpdate" id="issue_date-first" name="issue_date-first"
                 type="text" class="col-sm-6 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.first.data.document.issue_date" [value]="modal.first.data.document.issue_date"
-                (blur)="checkExpiryDateValidity('first')" placeholder="DD/MM/YYYY" />
+                (focusout)="checkDateFormat('first', 'issue_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date', 'first')"><i class="icon fa fa-calendar"></i></span>
             </div>
@@ -124,7 +133,7 @@
               <input #wefdate_first *ngIf="modal.first.data.canUpdate" id="wef_date-first" name="wef_date-first"
                 type="text" class="col-sm-6 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.first.data.document.wef_date" [value]="modal.first.data.document.wef_date "
-                (blur)="checkExpiryDateValidity('first')" placeholder="DD/MM/YYYY" />
+                (focusout)="checkDateFormat('first', 'wef_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('wef_date', 'first')"><i class="icon fa fa-calendar"></i></span>
             </div>
@@ -137,7 +146,7 @@
               <input #expiry_date_first *ngIf="modal.first.data.canUpdate" id="expiry_date-first"
                 name="expiry_date-first" type="text" class="col-sm-6 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.first.data.document.expiry_date" [value]="modal.first.data.document.expiry_date"
-                (blur)="checkExpiryDateValidity('first')" placeholder="DD/MM/YYYY" />
+                (focusout)="checkDateFormat('first', 'expiry_date')" placeholder="DD/MM/YYYY" />
               <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
               <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
               <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
@@ -192,21 +201,25 @@
             </div>
 
             <div class="row">
-              <div class="col-sm-4" *ngIf="this.user._loggedInBy == 'admin'">
-                <button class="btn btn-danger" type="button" outline
-                  (click)="deleteImage(modal.first.data.document.id, 'first')" id="cancel-first"
-                  style="cursor: pointer;">{{modal.first.data.btn2}}</button>
-              </div>
-
-              <div class="col-sm-4" *ngIf="modal.first.data.canUpdate === 1 && this.user._loggedInBy == 'admin'"
-                style="margin-left:30%;">
+              <div class="col-6" *ngIf="modal.first.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
                 <button class="btn btn-primary" form="document-form" type="button" outline
                   (click)="updateDocument('first')" id="submit-first"
                   style="cursor: pointer;">{{modal.first.data.btn1}}</button>
               </div>
-              <div class="col-sm-4" *ngIf="modal.first.data.canUpdate === 0 " style="margin-left:30%;">
+              <div class="col-6" *ngIf="modal.first.data.canUpdate === 0 ">
                 <button class="btn btn-primary" type="submit" (click)="customerByUpdate('first')" id="submit-first"
                   style="cursor: pointer;">{{modal.first.data.btn1}}</button>
+              </div>
+
+              <div class="col-6">
+                <button class="btn btn-default" type="button" (click)="updateDocument('first', 1)" id="advance"
+                  style="cursor: pointer;">Advance Review</button>
+              </div>
+
+              <div class="col-12 text-center" *ngIf="this.user._loggedInBy == 'admin'" style="margin-top: 30px;">
+                <button class="btn btn-danger" type="button" outline
+                  (click)="deleteImage(modal.first.data.document.id, 'first')" id="cancel-first"
+                  style="cursor: pointer;">{{modal.first.data.btn2}}</button>
               </div>
             </div>
 
@@ -219,7 +232,8 @@
                 Document</a>
             </div>
             <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
-              [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId" [loadOnInit]="true">
+              [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId"
+              [loadOnInit]="true">
             </app-image-viewer>
             <div *ngIf="!modal.first.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-first"></div>
@@ -269,7 +283,7 @@
 
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <input *ngIf="modal.second.data.canUpdate" id="document_id-second" (focusout)="openNextModal('first')"
-                  name="document_id-second" type="text" class="form-control "
+                  name="document_id-second" type="text" [value]="modal.second.data.document.newRegno | uppercase" class="form-control "
                   [(ngModel)]="modal.second.data.document.newRegno" />
 
                 <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
@@ -301,7 +315,7 @@
               <input #issue_date_second *ngIf="modal.second.data.canUpdate" id="issue_date-second"
                 name="issue_date-second" type="text" class="col-sm-6 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.second.data.document.issue_date" [value]="modal.second.data.document.issue_date"
-                (blur)="checkExpiryDateValidity('second')" placeholder="DD/MM/YYYY" />
+                (focusout)="checkDateFormat('second', 'issue_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date', 'second')"><i class="icon fa fa-calendar"></i></span>
             </div>
@@ -315,7 +329,7 @@
               <input #wefdate_second *ngIf="modal.second.data.canUpdate" id="wef_date-second" name="wef_date-second"
                 type="text" class="col-sm-6 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.second.data.document.wef_date" [value]="modal.second.data.document.wef_date "
-                (blur)="checkExpiryDateValidity('second')" placeholder="DD/MM/YYYY" />
+                (focusout)="checkDateFormat('second', 'wef_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('wef_date', 'second')"><i class="icon fa fa-calendar"></i></span>
             </div>
@@ -328,7 +342,7 @@
               <input #expiry_date_second *ngIf="modal.second.data.canUpdate" id="expiry_date-second"
                 name="expiry_date-second" type="text" class="col-sm-6 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.second.data.document.expiry_date" [value]="modal.second.data.document.expiry_date"
-                (blur)="checkExpiryDateValidity('second')" placeholder="DD/MM/YYYY" />
+                (focusout)="checkDateFormat('second', 'expiry_date')" placeholder="DD/MM/YYYY" />
               <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
               <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
               <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
@@ -383,22 +397,29 @@
             </div>
 
             <div class="row">
-              <div class="col-sm-4" *ngIf="this.user._loggedInBy == 'admin'">
+              <div class="col-6 text-center"
+                *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
+                <button class="btn btn-primary" form="document-form" type="submit" outline
+                  (click)="updateDocument('second')" id="submit-second"
+                  style="cursor: pointer;">{{modal.second.data.btn1}}</button>
+              </div>
+
+              <div class="col-6 text-center" *ngIf="modal.second.data.canUpdate === 0 ">
+                <button class="btn btn-primary" type="submit" (click)="customerByUpdate('second')" id="submit-second"
+                  style="cursor: pointer;">{{modal.second.data.btn1}}</button>
+              </div>
+
+              <div class="col-6 text-center">
+                <button class="btn btn-default" type="button" (click)="updateDocument('second', 1)" id="advance"
+                  style="cursor: pointer;">Advance Review</button>
+              </div>
+
+              <div class="col-12 text-center" *ngIf="this.user._loggedInBy == 'admin'" style="margin-top: 30px;">
                 <button class="btn btn-danger" type="button" outline
                   (click)="deleteImage(modal.first.data.document.id, 'second')" id="cancel-second"
                   style="cursor: pointer;">{{modal.second.data.btn2}}</button>
               </div>
 
-              <div class="col-sm-4" *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'"
-                style="margin-left:30%;">
-                <button class="btn btn-primary" form="document-form" type="submit" outline
-                  (click)="updateDocument('second')" id="submit-second"
-                  style="cursor: pointer;">{{modal.second.data.btn1}}</button>
-              </div>
-              <div class="col-sm-4" *ngIf="modal.second.data.canUpdate === 0 " style="margin-left:30%;">
-                <button class="btn btn-primary" type="submit" (click)="customerByUpdate('second')" id="submit-second"
-                  style="cursor: pointer;">{{modal.second.data.btn1}}</button>
-              </div>
             </div>
 
           </div>
@@ -410,7 +431,8 @@
                 Document</a>
             </div>
             <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
-              [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId" [loadOnInit]="true">
+              [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
+              [loadOnInit]="true">
             </app-image-viewer>
             <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-second"></div>
