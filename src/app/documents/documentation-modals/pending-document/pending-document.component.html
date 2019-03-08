@@ -171,7 +171,7 @@
             Document</a>
         </div>
         <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
-          [loadOnInit]="true"></app-image-viewer>
+          [loadOnInit]="true" [snapView]="false"></app-image-viewer>
         <div *ngIf="!document.img_url">No Image Exists</div>
         <div id="imgzoom"></div>
       </div>

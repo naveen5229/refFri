@@ -230,6 +230,7 @@ export class PendingDocumentComponent implements OnInit {
       if (this.document.expiry_date.indexOf('/') == -1)
         this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.issue_date && this.document.expiry_date)
+      
         issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
 

@@ -9,7 +9,7 @@
         <div>{{data.length}} Records</div>
         <div class="col-sm-3 list" >
 
-          <select name="list" class="form-control " (change)="getPendingDetailsDocuments($event.target.value)">
+          <select name="list" class="form-control " (change)="selectList($event.target.value)">
             <option class="form-control" [value]="0">Pending</option>
             <option class="form-control" [value]="1">Advance Review</option>
           </select>
