@@ -74,7 +74,7 @@ export class PendingDocumentsComponent implements OnInit {
     activeModal.result.then(mdldata => {
       console.log("response:");
       console.log(mdldata);
-      // this.getPendingDetailsDocuments();
+       this.getPendingDetailsDocuments();
       // this.modalCount--;
     });
 

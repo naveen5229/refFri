@@ -240,6 +240,11 @@ export class PendingDocumentComponent implements OnInit {
         issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
 
+    if (this.document.wef_date != "undefined" ) {
+      if(this.document.wef_date.indexOf('/') == -1)
+        this.document.wef_date = this.updateDateFormat(this.document.wef_date);
+    }
+
     if (this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
       if(this.document.wef_date.indexOf('/') == -1)
         this.document.wef_date = this.updateDateFormat(this.document.wef_date);
