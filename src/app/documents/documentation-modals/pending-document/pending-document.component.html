@@ -137,15 +137,13 @@
        
 
         <div class="row" style="margin-top:20px">
-         
-
-
+        
           <div class="col-sm-3" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'">
             <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
               id="submit" style="cursor: pointer;">{{btn1}}</button>
           </div>
 
-          <div class="col-sm-3" style="margin-left: 20%;">
+          <div class="col-sm-3" style="margin-left: 20%;" *ngIf=" canUpdate === 1 && this.user._loggedInBy== 'admin'">
               <button class="btn btn-default" type="button"  (click)="updateDocument(1)" id="advance"
               style="cursor: pointer;">Advance Review</button> 
           </div>
@@ -166,7 +164,7 @@
       </div>
 
 
-      <div class="col-sm-8">
+      <div class="col-sm-8 imageView">
         <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View
             Document</a>
         </div>

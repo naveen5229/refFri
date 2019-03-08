@@ -9,15 +9,18 @@ import { EditDocumentComponent } from '../../documentation-modals/edit-document/
 import { normalize } from 'path';
 import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
-  styleUrls: ['./document-report.component.scss', '../../../pages/pages.component.css']
+  styleUrls: ['./document-report.component.scss', '../../../pages/pages.component.css'],
+  providers: [DatePipe]
 })
 export class DocumentReportComponent implements OnInit {
-
+  table = null;
   title = '';
-  reportResult = [];
+  data = [];
+  // reportResult = [];
   reportData = {
     id: null,
     status: '',
@@ -30,6 +33,7 @@ export class DocumentReportComponent implements OnInit {
 
 
   constructor(public api: ApiService,
+    private datePipe: DatePipe,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
@@ -39,6 +43,8 @@ export class DocumentReportComponent implements OnInit {
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
     this.getReport();
+    // /this.getTableColumns();
+   
   }
 
   ngOnInit() {
@@ -47,6 +53,66 @@ export class DocumentReportComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
+
+
+  setTable() {
+    let headings = {
+      docId: { title: 'Document Id', placeholder: 'Document Id' },
+      vehicleNumber: { title: 'vehicle Number ', placeholder: 'vehicle Number' },
+      docType: { title: 'Document Type', placeholder: 'Document Type' },
+      issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+      wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
+      expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
+      documentNumber: { title: 'Document Number', placeholder: 'Document No' },
+      agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
+      rto: { title: 'Rto', placeholder: 'Rto' },
+      amount: { title: 'Amount', placeholder: 'Amount' },
+      remark: { title: 'Remark', placeholder: 'Remak' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+      // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+    };
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
+  }
+
+
+  getTableColumns() {
+    let columns = [];
+    this.data.map(doc => {
+
+      let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
+      let curr = this.common.dateFormatter(new Date()).split(' ')[0];
+      let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+      console.log("expiry date:", exp_date);
+
+      let column = {
+        docId:{ value : doc.id},
+        vehicleNumber: { value: doc.regno },
+        docType: { value: doc.document_type },
+        issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
+        wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
+        documentNumber: { value: doc.document_number },
+        agentName: { value: doc.agent },
+        rto: { value: doc.rto },
+        amount: { value: doc.amount },
+        remark: { value: doc.remarks },
+        image: { value: `${doc.hasimage ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true , class: 'image text-center'},
+        rowActions: {}
+      };
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
 
 
   getReport() {
@@ -58,10 +124,11 @@ export class DocumentReportComponent implements OnInit {
     this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
-        this.reportResult = res['data'];
-        console.log(" get api result", this.reportResult);
-        this.curr = this.common.dateFormatter(this.currentdate);
-        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+        this.data = res['data'];
+        // console.log(" get api result", this.data);
+        // this.curr = this.common.dateFormatter(this.currentdate);
+        // this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -77,7 +144,7 @@ export class DocumentReportComponent implements OnInit {
   //   this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
   //     .subscribe(res => {
   //       this.common.loading--;
-  //       this.reportResult = res['data'];
+  //       this.data = res['data'];
   //       console.log("total api result", this.reportResult);
   //       this.curr = this.common.dateFormatter(this.currentdate);
   //       this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
@@ -89,71 +156,71 @@ export class DocumentReportComponent implements OnInit {
 
   // }
 
-  imageView(doc) {
-    console.log("image data", doc);
-    let images = [{
-      name: "image",
-      image: doc.img_url
-    }];
-    console.log("images:", images);
-    if (this.checkForPdf(images[0].image)) {
-      window.open(images[0].image);
-      return;
-    }
-    this.common.params = { images, title: 'Image' };
-    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+  // imageView(doc) {
+  //   console.log("image data", doc);
+  //   let images = [{
+  //     name: "image",
+  //     image: doc.img_url
+  //   }];
+  //   console.log("images:", images);
+  //   if (this.checkForPdf(images[0].image)) {
+  //     window.open(images[0].image);
+  //     return;
+  //   }
+  //   this.common.params = { images, title: 'Image' };
+  //   const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  // }
 
-  checkForPdf(imgUrl) {
-    var split = imgUrl.split(".");
-    return split[split.length - 1] == 'pdf' ? true : false;
-  }
+  // checkForPdf(imgUrl) {
+  //   var split = imgUrl.split(".");
+  //   return split[split.length - 1] == 'pdf' ? true : false;
+  // }
 
-  editData(doc) {
-    let documentData = [{
-      regNumber: doc.regno,
-      id: doc.id,
-      docId: doc.document_id,
-      vehicleId: doc.vehicle_id,
-      documentType: doc.document_type,
-      documentId: doc.document_type_id,
-      issueDate: doc.issue_date,
-      wefDate: doc.wef_date,
-      expiryDate: doc.expiry_date,
-      agentId: doc.document_agent_id,
-      agentName: doc.agent,
-      documentNumber: doc.document_number,
-      docUpload: doc.img_url,
-      remark: doc.remarks,
-      rto: doc.rto,
-      amount: doc.amount,
-    }];
-    this.selectedVehicle = documentData[0].vehicleId;
-    console.log("Doc id:", documentData[0].id);
-    setTimeout(() => {
-      console.log('Test');
-      this.common.handleModalSize('class', 'modal-lg', '1200', 'px', 1);
-    }, 200);
-    this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
-    const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.closeModal(true);
-        this.documentUpdate();
-        // this.getReport();
-      }
-    });
-  }
+  // editData(doc) {
+  //   let documentData = [{
+  //     regNumber: doc.regno,
+  //     id: doc.id,
+  //     docId: doc.document_id,
+  //     vehicleId: doc.vehicle_id,
+  //     documentType: doc.document_type,
+  //     documentId: doc.document_type_id,
+  //     issueDate: doc.issue_date,
+  //     wefDate: doc.wef_date,
+  //     expiryDate: doc.expiry_date,
+  //     agentId: doc.document_agent_id,
+  //     agentName: doc.agent,
+  //     documentNumber: doc.document_number,
+  //     docUpload: doc.img_url,
+  //     remark: doc.remarks,
+  //     rto: doc.rto,
+  //     amount: doc.amount,
+  //   }];
+  //   this.selectedVehicle = documentData[0].vehicleId;
+  //   console.log("Doc id:", documentData[0].id);
+  //   setTimeout(() => {
+  //     console.log('Test');
+  //     this.common.handleModalSize('class', 'modal-lg', '1200', 'px', 1);
+  //   }, 200);
+  //   this.common.params = { documentData, title: 'Update Document', vehicleId: documentData[0].vehicleId };
+  //   const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     if (data.response) {
+  //       this.closeModal(true);
+  //       this.documentUpdate();
+  //       // this.getReport();
+  //     }
+  //   });
+  // }
 
-  documentUpdate() {
-    this.common.loading++;
-    this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
-      .subscribe(res => {
-        this.common.loading--;
-        this.reportResult = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  // documentUpdate() {
+  //   this.common.loading++;
+  //   this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       this.reportResult = res['data'];
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 }
