@@ -23,14 +23,11 @@ lr = {
   deliveryAddress:null,
   consignorAddress:null,
   sameAsDelivery: false,
-  footer:"www.elogist.in",
-  conditions : "1. consignorAddress consignorAddress consignorAddress",
   paymentTerm : "ToBeFilled",
   payableAmount:1000,
-  driverName:null,
-  licenseNo:null
-  //date:this.common.dateFormatter(new Date())
+  date :''+new Date()
 };
+
 particulars = [
   {
      articleNo:null,    
@@ -48,10 +45,18 @@ particulars = [
     customField:false,
     customButton:true
    }]
+
+   driver={
+     name:"Lalit",
+     licenseNo:"ABDV1234"
+   }
+
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,) {
       this.branches = ['Jaipur',"Mumbai", "delhi"];
+    this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+      console.log("new Date()",new Date(),this.lr.date);
      }
 
   ngOnInit() {
@@ -88,14 +93,16 @@ particulars = [
   }
   getDriverData(driver){
     console.log("driver",driver);
-    this.lr.driverName = driver.empname;
-    this.lr.licenseNo = 567555;
+    this.driver.name = driver.empname;
+    this.driver.licenseNo = "567555";
   }
   getConsignorDetail(consignor){
     console.log("consignor",consignor);
+    this.lr.consignorAddress = "Jaipur";
   }
   getConsigneeDetail(consignee){
     console.log("consignee",consignee);
+    this.lr.consigneeAddress = "delhi";
   }
   getBranchDetails(){
     console.log(this.lr.branch)
@@ -128,6 +135,7 @@ addMore() {
 }
 
 saveDetails(){
+  this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
   let params={
     lrDetails:this.lr,
     particulars:this.particulars

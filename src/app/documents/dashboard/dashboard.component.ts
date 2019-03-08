@@ -16,11 +16,11 @@ export class DashboardComponent implements OnInit {
     data: {
       headings: {
         docType: { title: 'Document Type', placeholder: 'Document Type' },
-        normal: { title: 'Normal', placeholder: 'Normal' },
-        noEntry: { title: 'No Entry Till Date', placeholder: 'No Entry Till Date' },
-        imageMissing: { title: 'Image Missing', placeholder: 'Image Missing' },
-        Expiry: { title: 'Expiry In 30 days', placeholder: 'Expiry In 30 days' },
-        alreadyExpiry: { title: 'Already Expired', placeholder: 'Already Expired' },
+        verified: { title: 'verified', placeholder: 'Verified' },
+        unverified: { title: 'unverified', placeholder: 'Unverified' },
+        pendingimage: { title: 'pendingimage', placeholder: 'Image Missing' },
+        expiring30days: { title: 'Expiry In 30 days', placeholder: 'Expiry In 30 days' },
+        expired: { title: 'Expired', placeholder: 'Expired' },
       },
       columns: []
     },
@@ -29,15 +29,13 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-
-
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
     this.getDocumentData();
-
     this.common.refresh = this.refresh.bind(this);
+    console.log("foid:", this.user._customer.id);
   }
 
   ngOnInit() {
@@ -56,7 +54,6 @@ export class DashboardComponent implements OnInit {
         this.documentData = res['data'];
         console.info("dashbord Data", this.documentData);
         this.table.data.columns = this.getTableColumns();
-        
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -64,34 +61,30 @@ export class DashboardComponent implements OnInit {
   }
 
   getTableColumns() {
-    
     let columns = [];
     this.documentData.map(doc => {
       columns.push({
-        docType: { value: doc.name },
-        normal: { value: doc.normal, class: doc.normal > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'normal') },
-        noEntry: { value: doc.noentrytilldate, class: doc.noentrytilldate > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'noentrytilldate') },
-        imageMissing: { value: doc.imagemissing, class: doc.imagemissing > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'imagemissing') },
-        Expiry: { value: doc.expiringin30days, class: doc.expiringin30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiringin30days') },
-        alreadyExpiry: { value: doc.alreadyexpired, class: doc.alreadyexpired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'alreadyexpired') },
+        docType: { value: doc.docname },
+        verified: { value: doc.verified, class: doc.verified > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'verified') },
+        unverified: { value: doc.unverified, class: doc.unverified > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'unverified') },
+        pendingimage: { value: doc.pendingimage, class: doc.pendingimage > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'pendingimage') },
+        expiring30days: { value: doc.expiring30days, class: doc.expiring30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiring30days') },
+        expired: { value: doc.expired, class: doc.expired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expired') },
       });
     });
 
-    columns.push({
-      serial:{value: 'sum ' },
-      docType: { value: 'Total' },
-      normal: { value: this.getSum('normal'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'normal') },
-      noEntry: { value: this.getSum('noentrytilldate'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'noentrytilldate') },
-      imageMissing: { value: this.getSum('imagemissing'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'imagemissing') },
-      Expiry: { value: this.getSum('expiringin30days'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expiringin30days') },
-      alreadyExpiry: { value: this.getSum('alreadyexpired'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'alreadyexpired') },
-    });
+    // columns.push({
+    //   serial:{value: 'sum ' },
+    //   docType: { value: 'Total' },
+    //   verified: { value: this.getSum('verified'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'verified') },
+    //   unverified: { value: this.getSum('unverified'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'unverified') },
+    //   pendingimage: { value: this.getSum('pendingimage'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'pendingimage') },
+    //   expiring30days: { value: this.getSum('expiring30days'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expiring30days') },
+    //   expired: { value: this.getSum('expired'), class: 1 > 0 ? 'blue' : 'black', action: this.totalData.bind(this, 'expired') },
+    // });
 
     return columns;
-
   }
-
-
 
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
@@ -112,17 +105,15 @@ export class DashboardComponent implements OnInit {
     return total;
   }
 
-
   totalData(status) {
     // this.common.handleModalSize('class', 'modal-lg', '1200');
     this.common.params = { status, title: 'Document Report' };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        this.getDocumentData(); 
+        this.getDocumentData();
         window.location.reload();
       }
     });
   }
-
 }

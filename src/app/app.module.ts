@@ -67,19 +67,24 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import { 
-   MatFormFieldModule,
+import {
+  MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
-import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
+
+import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
+import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -122,16 +127,19 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent,
-    UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
+    ParticlularsComponent,
     AddDriverComponent,
+    VechileTrailsComponent,
     AddTripComponent,
-    DatePicker2Component
+    AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -164,6 +172,7 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    EditLorryDetailsComponent,
     PendingDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
@@ -176,11 +185,18 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component
+    AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent,
+    AddConsigneeComponent,
+    AddDriverComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    VechileTrailsComponent,
+    AddTripComponent
   ],
   imports: [
     BrowserModule,
@@ -199,15 +215,17 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
+
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }

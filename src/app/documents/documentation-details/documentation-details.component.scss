@@ -74,11 +74,11 @@ label{
     background: #fff;
 }
 
-.icon{
-  
+.icon{ 
     font-size: 30px !important;
     padding-left: 34% !important;
 }
+
 .dataSearch{
     width: 107%;
     margin: 0% !important;
@@ -86,6 +86,7 @@ label{
     font-size: 12px;
     height: auto;
 }
+
 // For Smart Table
 .headings {
     background: #e2e2e2;
@@ -95,9 +96,9 @@ label{
 .data {
     font-size: 10px;
     border-bottom: 1px solid #e2e2e2;
-    min-height: 20%;
-    
+    min-height: 20%;   
 }
+
 .data ion-col,
 .headings ion-col {
     padding: 3px;
@@ -169,14 +170,12 @@ label{
     color: #000;
 }
 table{
-    cursor:pointer;
-    // background: aliceblue;
+    cursor:pointer;   
 }
+
 nb-card{
     padding-left: 4% !important;
 }
-
-
 
 ngx-footer {
     padding-left: 10% !important;   

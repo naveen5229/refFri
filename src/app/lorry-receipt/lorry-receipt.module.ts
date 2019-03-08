@@ -9,6 +9,7 @@ import { LorryReceiptComponent } from './lorry-receipt.component';
 import { LorryReceiptRoutingModule } from './lorry-receipt-routing.module';
 import { LRViewComponent } from './lrview/lrview.component';
 import { GenerateLRComponent } from './generate-lr/generate-lr.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 const PAGES_COMPONENTS = [
@@ -21,7 +22,9 @@ const PAGES_COMPONENTS = [
     LorryReceiptRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule 
   ],
   providers: [DatePipe],
   declarations: [

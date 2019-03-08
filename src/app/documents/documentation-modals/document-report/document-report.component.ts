@@ -35,13 +35,10 @@ export class DocumentReportComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.common.handleModalSize('class', 'modal-lg', '1200');
-
     this.title = this.common.params.title;
-
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
-
-    this.totalReport();
+    this.getReport();
   }
 
   ngOnInit() {
@@ -54,7 +51,7 @@ export class DocumentReportComponent implements OnInit {
 
   getReport() {
     let params = {
-      id: this.common.params.docReoprt.id,
+      id: this.common.params.docReoprt.document_type_id,
       status: this.reportData.status
     };
     this.common.loading++;
@@ -62,7 +59,7 @@ export class DocumentReportComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.reportResult = res['data'];
-        console.log("Api  get result", this.reportResult);
+        console.log(" get api result", this.reportResult);
         this.curr = this.common.dateFormatter(this.currentdate);
         this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       }, err => {
@@ -71,29 +68,26 @@ export class DocumentReportComponent implements OnInit {
       });
   }
 
-  totalReport() {
-    let params = {
-      status: this.reportData.status,
+  // totalReport() {
+  //   let params = {
+  //     status: this.reportData.status,
+  //     id: 0
+  //   }
+  //   this.common.loading++;
+  //   this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       this.reportResult = res['data'];
+  //       console.log("total api result", this.reportResult);
+  //       this.curr = this.common.dateFormatter(this.currentdate);
+  //       this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+  //       this.getReport();
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
 
-    }
-    this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status })
-
-      .subscribe(res => {
-        this.common.loading--;
-        this.reportResult = res['data'];
-        console.log("Api result", this.reportResult);
-
-        // console.log("total report id",this.reportResult[0].id);
-        this.curr = this.common.dateFormatter(this.currentdate);
-        this.nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-        this.getReport();
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-  }
+  // }
 
   imageView(doc) {
     console.log("image data", doc);
@@ -116,7 +110,6 @@ export class DocumentReportComponent implements OnInit {
   }
 
   editData(doc) {
-    console.log("edit model open  data", doc);
     let documentData = [{
       regNumber: doc.regno,
       id: doc.id,
@@ -150,9 +143,8 @@ export class DocumentReportComponent implements OnInit {
         // this.getReport();
       }
     });
-
-
   }
+
   documentUpdate() {
     this.common.loading++;
     this.api.post('Vehicles/getVehicleDocumentsById', { x_vehicle_id: this.selectedVehicle })
@@ -164,7 +156,4 @@ export class DocumentReportComponent implements OnInit {
         console.log(err);
       });
   }
-
-
-
 }
