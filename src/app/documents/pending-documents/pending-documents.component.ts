@@ -84,7 +84,6 @@ export class PendingDocumentsComponent implements OnInit {
       img_url2: row.img_url2,
       img_url3: row.img_url3
     };
-
     this.lastActiveIndex = index;
 
     this.modalOpenHandling({ rowData, title: 'Update Document', canUpdate: 1 });
