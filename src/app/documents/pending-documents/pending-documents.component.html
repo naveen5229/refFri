@@ -245,8 +245,7 @@
       </button>
     </div>
     <div class="modal-body vert-mdl-pdg">
-      <form #documentFormSecond="ngForm" id="document-form-second" name="document-form-second"
-        (submit)="documentFormSecond.valid && updateDocument('second')">
+      <form #documentFormSecond="ngForm" id="document-form-second" name="document-form-second">
         <div class="row">
           <div class="col-sm-4">
 
@@ -393,7 +392,7 @@
               <div class="col-sm-4" *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'"
                 style="margin-left:30%;">
                 <button class="btn btn-primary" form="document-form" type="submit" outline
-                  (click)="modal.second.data.isFormSubmit = true" id="submit-second"
+                  (click)="updateDocument('second')" id="submit-second"
                   style="cursor: pointer;">{{modal.second.data.btn1}}</button>
               </div>
               <div class="col-sm-4" *ngIf="modal.second.data.canUpdate === 0 " style="margin-left:30%;">

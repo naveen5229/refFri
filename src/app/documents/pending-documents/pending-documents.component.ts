@@ -113,7 +113,7 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   handleModalData(modal, params) {
-    this.modal[modal].data.title = 'Active Modala: ' + modal;
+    this.modal[modal].data.title = params.title;
     this.modal[modal].data.btn1 = params.btn1 || 'Update';
     this.modal[modal].data.btn2 = params.btn2 || 'Discard Image';
     if (!params.canUpdate) {

@@ -95,6 +95,8 @@ auto-suggestion {
     width: 100%;
     padding: 20px;
     background: transparent;
+    overflow: auto;
+    height: 100%;
 }
 
 .custom-modal-body {
