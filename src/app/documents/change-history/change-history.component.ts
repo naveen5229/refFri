@@ -49,14 +49,12 @@ export class ChangeHistoryComponent implements OnInit {
   searchHistory() {
     let params = {
       x_vehicle_id: this.selectedVehicle,
-
       x_document_type_id: this.documentTypeId
     };
     this.common.loading++;
     this.api.post('Vehicles/getDocumentChangeHistory', { x_vehicle_id: this.selectedVehicle, x_document_type_id: this.documentTypeId })
       .subscribe(res => {
-        this.common.loading--;
-      
+        this.common.loading--;     
         this.data = res['data'];
         this.table = this.setTable();
       }, err => {
@@ -67,13 +65,13 @@ export class ChangeHistoryComponent implements OnInit {
 
   setTable() {
     let headings = {
-      documentId: { title: 'Document Id', placeholder: 'Document Id' },
+      documentId: { title: 'Document Id', placeholder: 'Doc Id' },
+      id: { title:'DocTypeId', Placeholder:'DocTypeId'},
       docType: { title: 'Document Type', placeholder: 'Document Type' },
-      docTypeId:{title:'Document Type Id' ,Placeholder:'Document Type Id'},
-      issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
-      wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
-      expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-      entryTime: { title: 'Entry Time', placeholder: 'Enrty Time' },
+      issueDate: { title: 'Issue Date', placeholder: 'IssueDate' },
+      wefDate: { title: 'Wef Date', placeholder: 'WefDate' },
+      expiryDate: { title: 'Expiry Date', placeholder: 'ExpiryDate' },
+      entryTime: { title: 'Entry Time', placeholder: 'EnrtyTime' },
       userId: { title: 'User Id', placeholder: 'User Id' },
       entryMode: { title: 'Entry Mode', placeholder: 'Entry Mode' },
       status: { title: 'Status', placeholder: 'Status' },
@@ -100,8 +98,8 @@ export class ChangeHistoryComponent implements OnInit {
       console.log("expiry date:", exp_date);
       let column = {
         documentId: { value: doc.DocumentID },
+        id: { value: doc.DocumentTypeID },
         docType: { value: doc.DocumentType },
-        docTypeId: { value: doc.DocumentTypeID },
         issueDate: { value: this.datePipe.transform(doc.IssueDate, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.WefDate, 'dd MMM yyyy') },
         expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
@@ -112,7 +110,6 @@ export class ChangeHistoryComponent implements OnInit {
        
       };
       
-
       columns.push(column);
     });
     return columns;
