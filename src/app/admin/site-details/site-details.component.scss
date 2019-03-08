@@ -1,0 +1,30 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+   }
+    th {
+        background-color: #737373;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: #fff;
+   }
+   td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color:#000;
+   }
+   td button{
+    background-color: #005aff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+   }
+   tr td:nth-last-child(1){
+       width: 100px;
+   }
+   tr:nth-child(even) {
+    background-color: #eaeaea;
+   }
