@@ -33,7 +33,7 @@ const PAGES_COMPONENTS = [
   SiteFencingComponent,
   DiagnosticsComponent,
   SiteDetailsComponent,
-  
+
 ];
 @NgModule({
   imports: [

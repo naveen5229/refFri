@@ -61,9 +61,9 @@ export class MapService {
 }
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
-    if (this.isMapLoaded) {
-      return;
-    }
+    // if (this.isMapLoaded) {
+    //   return;
+    // }
     this.mapDiv = document.getElementById(div);
     let latlng = new google.maps.LatLng(lat, long);
     let opt =
@@ -105,7 +105,7 @@ export class MapService {
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
   }
-  createMarkers(markers,clickEvent?, changeBounds = true) {
+  createMarkers(markers,dropPoly=false,changeBounds = true,clickEvent? ) {
 
     let thisMarkers = [];
     console.log("Markers", markers);
@@ -134,7 +134,7 @@ export class MapService {
         };
       } else {
         if (subType == 'marker')
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + index + "|" + pinColor + "|000000";
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
@@ -153,6 +153,8 @@ export class MapService {
         map: this.map,
         title: title
       });
+      if(dropPoly)
+        this.drawPolyMF(latlng);
       if (changeBounds)
         this.setBounds(latlng);
       thisMarkers.push(marker);
@@ -224,5 +226,22 @@ export class MapService {
       let lng1 = sw.lng();
       return{lat1:lat1,lat2:lat2,lng1:lng1,lng2:lng2};
     }
+  }
+   drawPolyMF(to){
+    if (!this.polygonPath) {
+      this.polygonPath = new google.maps.Polyline({
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 2,
+        icons: [{
+          icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW},
+          offset: '100%',
+          repeat: '20px'
+        }]
+      });
+      this.polygonPath.setMap(this.map);
+    }
+    var path = this.polygonPath.getPath();
+    path.push(to);
   }
 }
