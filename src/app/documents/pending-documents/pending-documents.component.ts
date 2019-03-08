@@ -32,7 +32,8 @@ export class PendingDocumentsComponent implements OnInit {
     }
   };
 
-  lastActiveIndex = -1;
+  documentTypes = [];
+
 
 
   constructor(
@@ -41,14 +42,17 @@ export class PendingDocumentsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getPendingDetailsDocuments();
+    this.getAllTypesOfDocuments();
     this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
+
   refresh() {
     console.log('Refresh');
     this.getPendingDetailsDocuments();
+    this.getAllTypesOfDocuments();
   }
 
   getPendingDetailsDocuments() {
@@ -64,28 +68,21 @@ export class PendingDocumentsComponent implements OnInit {
       });
   }
 
-  showDetails(row, index) {
+  getAllTypesOfDocuments() {
+    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1 })
+      .subscribe(res => {
+        console.log("data", res);
+        this.documentTypes = res['data'];
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  showDetails(row) {
     let rowData = {
       id: row.document_id,
       vehicle_id: row.vehicle_id,
-      regno: row.regno,
-      document_type: row.name,
-      document_type_id: row.document_type_id,
-      agent: row.agent,
-      agent_id: row.document_agent_id,
-      wef_date: row.wef_date,
-      expiry_date: row.expiry_date,
-      issue_date: row.issue_date,
-      remarks: row.remarks,
-      img_url: row.img_url,
-      doc_no: row.document_number,
-      rto: row.rto,
-      amount: row.amount,
-      img_url2: row.img_url2,
-      img_url3: row.img_url3
     };
-    this.lastActiveIndex = index;
-
     this.modalOpenHandling({ rowData, title: 'Update Document', canUpdate: 1 });
   }
 
@@ -108,13 +105,13 @@ export class PendingDocumentsComponent implements OnInit {
       this.modal.active = 'second';
     }
     console.log('Handler End: ', this.modal.active);
-
   }
 
   handleModalData(modal, params) {
     this.modal[modal].data.title = params.title;
     this.modal[modal].data.btn1 = params.btn1 || 'Update';
     this.modal[modal].data.btn2 = params.btn2 || 'Discard Image';
+
     if (!params.canUpdate) {
       this.modal[modal].data.canUpdate = 0;
       this.modal[modal].data.canreadonly = true;
@@ -130,8 +127,6 @@ export class PendingDocumentsComponent implements OnInit {
 
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
     this.modal[modal].data.agentId = this.modal[modal].data.document.agent_id;
-    this.getDocumentsData(modal);
-    this.getDocumentPending(modal);
 
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
@@ -143,38 +138,11 @@ export class PendingDocumentsComponent implements OnInit {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
     }
     this.modal[modal].data.images = this.modal[modal].data.imgs;
+
+    this.getDocumentPending(modal);
+    // this.getDocumentsData(modal);
+    this.modal[modal].data.docTypes = this.documentTypes;
   }
-
-  deleteDocument(row) {
-    let remark;
-    let ret = confirm("Are you sure you want to delete this Document?");
-    if (ret) {
-      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
-      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        if (data.response) {
-          console.log("reason For delete: ", data.remark);
-          remark = data.remark;
-          this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._customer.id })
-            .subscribe(res => {
-              this.common.loading--;
-              console.log("data", res);
-              this.getPendingDetailsDocuments();
-              this.common.showToast("Success Delete");
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-              this.getPendingDetailsDocuments();
-            });
-        }
-      })
-    }
-  }
-
-
-
-
 
   getDocumentPending(modal) {
     const params = {
@@ -205,7 +173,6 @@ export class PendingDocumentsComponent implements OnInit {
           this.closeModal(true, modal);
           console.log("sucess......");
         }
-
       }, err => {
         // this.common.loading--;
         console.log(err);
@@ -214,48 +181,45 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
 
-  getDocumentsData(modal) {
-    // this.common.loading++;
-    this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.modal[modal].data.vehicleId })
+  deleteDocument(row) {
+    let remark;
+    let ret = confirm("Are you sure you want to delete this Document?");
+    if (ret) {
+      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
+      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._customer.id })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.getPendingDetailsDocuments();
+              this.common.showToast("Success Delete");
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+              this.getPendingDetailsDocuments();
+            });
+        }
+      })
+    }
+  }
+
+
+  selectList(id) {
+    console.log("list value:", id);
+
+    this.common.loading++;
+    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1, x_advreview: parseInt(id) })
       .subscribe(res => {
-        // this.common.loading--;
+        this.common.loading--;
         console.log("data", res);
-        this.modal[modal].data.agents = res['data'].document_agents_info;
-        this.modal[modal].data.docTypes = res['data'].document_types_info;
-
-        this.modal[modal].data.document.document_type = this.findDocumentType(this.modal[modal].data.document.document_type_id, modal);
-        if (this.modal[modal].data.document.img_url) {
-          if ((this.modal[modal].data.document.img_url.indexOf('.pdf') > -1) || (this.modal[modal].data.document.img_url.indexOf('.doc') > -1) || (this.modal[modal].data.document.img_url.indexOf('.docx') > -1) || (this.modal[modal].data.document.img_url.indexOf('.xls') > -1) || (this.modal[modal].data.document.img_url.indexOf('.xlsx') > -1) || (this.modal[modal].data.document.img_url.indexOf('.csv') > -1)) {
-            this.modal[modal].data.doc_not_img = 1;
-          }
-          this.modal[modal].data.images.push({ name: "doc-img", image: this.modal[modal].data.document.img_url });
-          this.common.params = { title: "Doc Image", images: this.modal[modal].data.images };
-        }
-        if (this.modal[modal].data.document.img_url2) {
-          if ((this.modal[modal].data.document.img_url2.indexOf('.pdf') > -1) || (this.modal[modal].data.document.img_url2.indexOf('.doc') > -1) || (this.modal[modal].data.document.img_url2.indexOf('.docx') > -1) || (this.modal[modal].data.document.img_url2.indexOf('.xls') > -1) || (this.modal[modal].data.document.img_url2.indexOf('.xlsx') > -1) || (this.modal[modal].data.document.img_url2.indexOf('.csv') > -1)) {
-            this.modal[modal].data.doc_not_img = 1;
-          }
-          this.modal[modal].data.images.push({ name: "doc-img", image: this.modal[modal].data.document.img_url2 });
-          this.common.params = { title: "Doc Image", images: this.modal[modal].data.images };
-        }
-
-        if (this.modal[modal].data.document.img_url3) {
-          if ((this.modal[modal].data.document.img_url2.indexOf('.pdf') > -1) || (this.modal[modal].data.document.img_url3.indexOf('.doc') > -1) || (this.modal[modal].data.document.img_url3.indexOf('.docx') > -1) || (this.modal[modal].data.document.img_url3.indexOf('.xls') > -1) || (this.modal[modal].data.document.img_url3.indexOf('.xlsx') > -1) || (this.modal[modal].data.document.img_url3.indexOf('.csv') > -1)) {
-            this.modal[modal].data.doc_not_img = 1;
-          }
-          this.modal[modal].data.images.push({ name: "doc-img", image: this.modal[modal].data.document.img_url3 });
-          this.common.params = { title: "Doc Image", images: this.modal[modal].data.images };
-        }
-
-        for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
-          if (this.modal[modal].data.docTypes[i].id == this.modal[modal].data.document.document_type_id) {
-            this.modal[modal].data.document.document_type = this.modal[modal].data.docTypes[i].document_type;
-          }
-        }
-        this.markAgentSelected(this.modal[modal].data.agentId, modal);
-
+        this.data = res['data'];
       }, err => {
-        // this.common.loading--;
+        this.common.loading--;
         console.log(err);
       });
   }
@@ -348,7 +312,7 @@ export class PendingDocumentsComponent implements OnInit {
     return response;
   }
 
-  updateDocument(modal) {
+  updateDocument(modal, status?) {
     console.log('Test');
     if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
       let document = this.modal[modal].data.document;
@@ -363,9 +327,11 @@ export class PendingDocumentsComponent implements OnInit {
         x_wef_date: document.wef_date,
         x_expiry_date: document.expiry_date,
         x_remarks: document.remarks,
+        x_advreview: status || 0
 
       };
-      console.log("Id is", params.x_vehicle_id);
+      console.log("Id is", params);
+
       if (!document.vehicle_id) {
         this.common.showError("Please enter Vehicle No.");
         return false;
@@ -531,8 +497,6 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   findDocumentType(id, modal) {
-    console.log(this.modal[modal].data.docTypes);
-    console.log("idpassed:" + id);
     for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
       console.log("val:" + this.modal[modal].data.docTypes[i]);
       if (this.modal[modal].data.docTypes[i].id == id) {
@@ -645,7 +609,7 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   openNextModal(modal) {
-    this.showDetails(this.data[this.lastActiveIndex + 1], this.lastActiveIndex + 1);
+    this.showDetails({ document_id: 0, vehicle_id: 0 });
   }
 
 }

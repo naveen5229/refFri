@@ -89,8 +89,7 @@ export class PendingDocumentComponent implements OnInit {
     this.getDocumentsData();
     this.getDocumentPending();
 
-    // console.log("doc data:");
-    // console.log(this.document);
+
     if (this.document.img_url != "undefined" && this.document.img_url) {
       this.imgs.push(this.document.img_url);
     }
@@ -159,8 +158,8 @@ export class PendingDocumentComponent implements OnInit {
         console.log("data", res);
         this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
-        console.log("doctypes:");
-        console.log(res['data'].document_types_info);
+        // console.log("doctypes:");
+        // console.log(res['data'].document_types_info);
 
         this.document.document_type = this.findDocumentType(this.document.document_type_id);
         console.log("doctype:" + this.document.document_type);
@@ -208,13 +207,7 @@ export class PendingDocumentComponent implements OnInit {
     var elt = document.getElementById('doc_agent') as HTMLSelectElement;
 
     console.log("option:" + option_val);
-    /*for(var i=0; i < elt.options.length; i++) {
-      console.log("i=" + i + ", val:" + elt.options[i].value);
-      if(elt.options[i].value == option_val) {
-        elt.selectedIndex = i;
-        break;
-      }
-    }*/
+
   }
 
   validateRegno() {
@@ -231,24 +224,24 @@ export class PendingDocumentComponent implements OnInit {
     let issuedt_valid = 1;
     let wefdt_valid = 1;
     if (this.document.issue_date != "undefined" && this.document.expiry_date != "undefined") {
-      if(this.document.issue_date.indexOf('/') == -1)
+      if (this.document.issue_date.indexOf('/') == -1)
         this.document.issue_date = this.updateDateFormat(this.document.issue_date);
 
-      if(this.document.expiry_date.indexOf('/') == -1)
+      if (this.document.expiry_date.indexOf('/') == -1)
         this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.issue_date && this.document.expiry_date)
         issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
 
-    if (this.document.wef_date != "undefined" ) {
-      if(this.document.wef_date.indexOf('/') == -1)
+    if (this.document.wef_date != "undefined") {
+      if (this.document.wef_date.indexOf('/') == -1)
         this.document.wef_date = this.updateDateFormat(this.document.wef_date);
     }
 
     if (this.document.wef_date != "undefined" && this.document.expiry_date != "undefined") {
-      if(this.document.wef_date.indexOf('/') == -1)
+      if (this.document.wef_date.indexOf('/') == -1)
         this.document.wef_date = this.updateDateFormat(this.document.wef_date);
-      if(this.document.expiry_date.indexOf('/') == -1)
+      if (this.document.expiry_date.indexOf('/') == -1)
         this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.wef_date && this.document.expiry_date)
         wefdt_valid = this.checkExpiryDateValidityByValue(this.document.wef_date, this.document.expiry_date);
@@ -295,21 +288,7 @@ export class PendingDocumentComponent implements OnInit {
     return response;
   }
 
-  // getVehicleId(regno) {
-  //   console.log("get Vehcile Id", regno);
-  //   this.common.loading++;
-  //   let response;
-  //   this.api.post('Vehicles/getVehIdByRegno', { x_regno: regno })
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log("api result", res);
-  //       this.document.vehicle_id = res["data"];
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  //   return this.document.vehicle_id;
-  // }
+
 
   updateDocument(status) {
     if (this.user._loggedInBy == 'admin' && this.canUpdate == 1) {
@@ -324,9 +303,9 @@ export class PendingDocumentComponent implements OnInit {
         x_wef_date: this.document.wef_date,
         x_expiry_date: this.document.expiry_date,
         x_remarks: this.document.remarks,
-        x_advreview:status
+        x_advreview: status
       };
-      console.log("Id is", params);
+
       if (!this.document.vehicle_id) {
         this.common.showError("Please enter Vehicle No.");
         return false;
@@ -406,21 +385,24 @@ export class PendingDocumentComponent implements OnInit {
 
       this.common.loading++;
       let response;
+      // console.log("param :",params);
+      // return;
+
       this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
         .subscribe(res => {
           this.common.loading--;
           console.log("api result", res);
           let result = (res['msg']);
           if (result == "success") {
-
             alert("Success");
-
             this.closeModal(true);
           }
           else {
             alert(result);
-
           }
+      
+
+
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -571,9 +553,7 @@ export class PendingDocumentComponent implements OnInit {
       })
     }
   }
-
-
-  
+ 
 
 
 }

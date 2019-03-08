@@ -4,6 +4,8 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+<nb-card>
+  <nb-card-body >
 <div class="modal-body vert-mdl-pdg">
   <form #documentForm="ngForm" id="document-form" name="document-form"
     (submit)="documentForm.valid && updateDocument(0)">
@@ -45,7 +47,7 @@
           <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
             <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
               [data]="docTypes" placeholder="Enter Document Type" [preSelected]="null" class="documentType "
-              style='width: 60% !important;' (keyup)="isValidDocument($event)"></auto-suggestion>
+              style='width: 60% !important;'  (keyup)="isValidDocument($event)"></auto-suggestion>
           </div>
         </div>
 
@@ -176,6 +178,8 @@
     </div>
   </form>
 </div>
+</nb-card-body>
+</nb-card>
 
 <div class="modal-footer">
   <!-- <div class="row">
