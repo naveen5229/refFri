@@ -18,10 +18,16 @@ export class VouchersComponent implements OnInit {
   voucherName = '';
   voucher = this.setVoucher();
 
+  ledgers = {
+    credit: [],
+    debit: [],
+    suggestions: []
+  };
+
   showConfirm = false;
 
   showSuggestions = false;
-  ledgers = [];
+  // ledgers = [];
   lastActiveId = '';
   allowBackspace = true;
   showDateModal = false;
@@ -42,6 +48,9 @@ export class VouchersComponent implements OnInit {
         this.getVouchers();
       }
     });
+    this.getLedgers('debit');
+    this.getLedgers('credit');
+   
 
   }
 
@@ -153,7 +162,7 @@ export class VouchersComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
-
+      this.setFoucus('ref-code');
   }
 
 
@@ -231,10 +240,13 @@ export class VouchersComponent implements OnInit {
       else if (document.activeElement.id == 'narration') {
         this.showConfirm = true;
       } else if (activeId.includes('ledger-')) {
-        if (!this.ledgers.length) return;
+        // if (!this.ledgers.length) return;
         let index = activeId.split('-')[1];
-        console.log('Test: ', index, this.ledgers, this.ledgers[0]);
-        this.selectLedger(this.ledgers[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
+        if (this.activeLedgerIndex > this.ledgers.suggestions.length - 1) {
+          this.activeLedgerIndex = 0;
+        }
+        console.log('Test: ', index, this.ledgers, this.ledgers.suggestions[0]);
+        this.selectLedger(this.ledgers.suggestions[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
@@ -267,6 +279,10 @@ export class VouchersComponent implements OnInit {
         event.preventDefault();
       }
       //console.log('helo',document.activeElement.id);
+    } else if (activeId.includes('ledger-')) {
+      let index = activeId.split('-')[1];
+      let transactionType = document.getElementById('transaction-type-' + index)['value'];
+
     }
   }
 
@@ -339,22 +355,23 @@ export class VouchersComponent implements OnInit {
     // ele.setSelectionRange(startIndex, endIndex);
   }
 
-  getSuggestions(transactionType, name) {
+  getLedgers(transactionType, name?) {
     this.showSuggestions = true;
     let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + this.voucherId + '&search=' + name;
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
         console.log(res);
-        this.ledgers = res['data'];
+        this.ledgers[transactionType] = res['data'];
       }, err => {
         console.error(err);
         this.common.showError();
       });
+      this.setFoucus('ref-code');
   }
 
   selectLedger(ledger, index?) {
-    console.log('Last Active ID:', this.lastActiveId);
+    console.log('Last Active ID:', this.lastActiveId, ledger);
     if (!index && this.lastActiveId.includes('ledger')) {
       index = this.lastActiveId.split('-')[1];
     }
@@ -385,8 +402,9 @@ export class VouchersComponent implements OnInit {
   }
 
   handleArrowUpDown(key, activeId) {
+    let index = parseInt(activeId.split('-')[1]);
     if (key == 'arrowdown') {
-      if (this.activeLedgerIndex != this.ledgers.length - 1) {
+      if (this.activeLedgerIndex != this.ledgers.suggestions.length - 1) {
         this.activeLedgerIndex++;
       }
     } else {
@@ -394,9 +412,28 @@ export class VouchersComponent implements OnInit {
         this.activeLedgerIndex--;
       }
     }
-    let index = parseInt(activeId.split('-')[1]);
-    this.voucher.amountDetails[index].ledger.name = this.ledgers[this.activeLedgerIndex].y_ledger_name;
-    this.voucher.amountDetails[index].ledger.id = this.ledgers[this.activeLedgerIndex].y_ledger_id;
+
+    // this.voucher.amountDetails[index].ledger.name = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_name;
+    // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
+  }
+
+  getActiveLedgerType(ledgers) {
+    if (!this.lastActiveId || !this.lastActiveId.includes('ledger-')) return [];
+    let index = parseInt(this.lastActiveId.split('-')[1]);
+    let transactionType = document.getElementById('transaction-type-' + index) ? document.getElementById('transaction-type-' + index)['value'] : '';
+    if (transactionType) {
+      let suggestions = ledgers[transactionType];
+      // console.log(document.getElementById(this.lastActiveId)['value']);
+      if (document.getElementById(this.lastActiveId) && document.getElementById(this.lastActiveId)['value']) {
+        let search = document.getElementById(this.lastActiveId)['value'].toLowerCase();
+        suggestions = ledgers[transactionType].filter(ledger => ledger.y_ledger_name.toLowerCase().includes(search));
+      }
+      this.ledgers.suggestions = suggestions;
+      return suggestions;
+    }
+    return [];
+
+
   }
 
 

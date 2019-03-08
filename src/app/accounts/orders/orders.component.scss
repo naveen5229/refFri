@@ -1,6 +1,12 @@
 button { background-color: #73a1ff;
 }
-
+.ledger-container{
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  padding: 8px;
+  max-height: 390px;
+  overflow: auto;
+}
 
 .date-modal{
     position: absolute;
@@ -28,3 +34,16 @@ button { background-color: #73a1ff;
     color: #fff;
     border-radius: 3px;
   }
+
+  .ledger-option{
+    border: 1px solid #f2f2f2;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+.active-ledger{
+    background: #e8f0f3;
+    font-weight: bold;
+}

@@ -84,6 +84,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
+import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -126,16 +127,16 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent,
-    UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
+    ParticlularsComponent,
     AddDriverComponent,
+    VechileTrailsComponent,
     AddTripComponent,
-    DatePicker2Component,
     AddFuelFillingComponent,
     AddDriverComponent,
     UpdateSiteDetailsComponent
@@ -171,6 +172,7 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    EditLorryDetailsComponent,
     PendingDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
@@ -183,15 +185,18 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component,
     AddFuelFillingComponent,
     AddDriverComponent,
-    UpdateSiteDetailsComponent
-
+    UpdateSiteDetailsComponent,
+    AddConsigneeComponent,
+    AddDriverComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    VechileTrailsComponent,
+    AddTripComponent
   ],
   imports: [
     BrowserModule,

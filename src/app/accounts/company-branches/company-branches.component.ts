@@ -43,7 +43,7 @@ Branches = [];
   openModal (Branches?) {
     // console.log('Accounts',Accounts);
        if (Branches) this.common.params = Branches;
-       const activeModal = this.modalService.open(BranchComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+       const activeModal = this.modalService.open(BranchComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false });
        activeModal.result.then(data => {
          // console.log('Data: ', data);
          if (data.response) {
