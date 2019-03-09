@@ -157,6 +157,7 @@ export class EditLorryDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ' + res['data']);
+        this.common.showToast('Success !!');
         this.showAgentLayout = false;
         this.common.handleModalSize('class', 'modal-lg', '1000');
         this.showMain = true;
@@ -217,6 +218,9 @@ export class EditLorryDetailsComponent implements OnInit {
         console.log('res: ', res['msg']);
         if(res['msg']=="Success"){
            this.resetValues(); 
+           this.common.showToast('Success !!');
+           this.isDelete=true;
+           this.dismiss(false);
         }
       }, err => {
         this.common.loading--;
@@ -276,6 +280,7 @@ export class EditLorryDetailsComponent implements OnInit {
               this.common.loading--;
               console.log('res: ',res['msg']);
               this.isDelete=true;
+              this.dismiss(false);
             }, err=>{
               this.common.loading--;
               this.common.showError();
