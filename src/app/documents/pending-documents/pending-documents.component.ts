@@ -513,18 +513,6 @@ export class PendingDocumentsComponent implements OnInit {
     console.log("doc var", this.modal[modal].data.document.document_type_id);
   }
 
-  // getvehicleData(vehicle) {
-  //   console.log('Vehicle Data: ', vehicle);
-  //   this.document.vehicle_id = vehicle.id;
-  // }
-
-  // isValidVehicle(event) {
-  //   let selected_regno = event.target.value;
-  //   if (selected_regno == "") {
-  //     this.document.regno = "";
-  //     this.document.vehicle_id = "";
-  //   }
-  // }
 
   isValidDocument(event, modal) {
     let selected_doctype = event.target.value;

@@ -87,3 +87,7 @@ nb-card{
 table{
     cursor:pointer;   
 }
+.documentType{
+    overflow: auto !important;
+    max-height: 150px !important;
+}

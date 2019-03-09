@@ -110,7 +110,7 @@
               </div>
             </div>
 
-            <div class="form-field clear">
+            <!-- <div class="form-field clear">
               <label for="issue_date-first" class="col-sm-4 mgn-vert">Issue Date:</label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">
@@ -122,7 +122,7 @@
                 (focusout)="checkDateFormat('first', 'issue_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date', 'first')"><i class="icon fa fa-calendar"></i></span>
-            </div>
+            </div> -->
             <div class="form-field clear">
               <label for="wef_date-first" class="col-sm-4 mgn-vert">W.e.f Date</label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
@@ -306,7 +306,7 @@
               </div>
             </div>
 
-            <div class="form-field clear">
+            <!-- <div class="form-field clear">
               <label for="issue_date-second" class="col-sm-4 mgn-vert">Issue Date:</label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">
@@ -318,7 +318,7 @@
                 (focusout)="checkDateFormat('second', 'issue_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date', 'second')"><i class="icon fa fa-calendar"></i></span>
-            </div>
+            </div> -->
             <div class="form-field clear">
               <label for="wef_date-second" class="col-sm-4 mgn-vert">W.e.f Date</label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
@@ -432,7 +432,7 @@
             </div>
             <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
               [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
-              [loadOnInit]="true">
+              [loadOnInit]="true" >
             </app-image-viewer>
             <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-second"></div>
