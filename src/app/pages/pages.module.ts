@@ -31,6 +31,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
@@ -64,6 +65,7 @@ const PAGES_COMPONENTS = [
     ConciseComponent,
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
+    
   ],
 })
 export class PagesModule {
