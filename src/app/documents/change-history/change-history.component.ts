@@ -14,6 +14,7 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 export class ChangeHistoryComponent implements OnInit {
   selectedVehicle = null;
   documentTypeId = null;
+  docTypes = [];
   data = [];
   table = null;
 
@@ -31,15 +32,34 @@ export class ChangeHistoryComponent implements OnInit {
   }
   refresh() {
     console.log('Refresh');
-    // this.getTableColumns();
+    this.searchHistory();
   }
 
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.selectedVehicle = vehicle.id;
+    this.getDocumentsData();
 
   }
 
+
+  getDocumentsData() {
+    this.common.loading++;
+    let response;
+    this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.selectedVehicle })
+      .subscribe(res => {
+        this.common.loading--;
+        // console.log("data", res);
+        // this.vehicle = res['data'].vehicle_info[0];
+        // this.agents = res['data'].document_agents_info;
+        this.docTypes = res['data'].document_types_info;
+        console.log("data type ",this.docTypes);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    return response;
+  }
 
   selectDocType(docType) {
     console.log("api result", docType);
@@ -47,6 +67,10 @@ export class ChangeHistoryComponent implements OnInit {
     console.log("doc var", this.documentTypeId);
   }
   searchHistory() {
+    if(!this.selectedVehicle || !this.documentTypeId){
+      alert("Select All Require Field")
+      return;
+    }
     let params = {
       x_vehicle_id: this.selectedVehicle,
       x_document_type_id: this.documentTypeId
@@ -56,6 +80,10 @@ export class ChangeHistoryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;     
         this.data = res['data'];
+        if(this.data.length<1)
+        {
+          alert("not result Available");
+        }
         this.table = this.setTable();
       }, err => {
         this.common.loading--;
