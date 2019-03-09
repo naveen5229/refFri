@@ -25,10 +25,10 @@ export class DocumentReportComponent implements OnInit {
     id: null,
     status: '',
   };
-  currentdate = new Date;
-  nextMthDate = null;
-  exp_date = null;
-  curr = null;
+  // currentdate = new Date;
+  // nextMthDate = null;
+  // exp_date = null;
+  // curr = null;
   selectedVehicle = null;
 
 
@@ -44,7 +44,7 @@ export class DocumentReportComponent implements OnInit {
     console.info("report data", this.reportData);
     this.getReport();
     // /this.getTableColumns();
-   
+
   }
 
   ngOnInit() {
@@ -88,23 +88,28 @@ export class DocumentReportComponent implements OnInit {
     this.data.map(doc => {
 
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
-      let curr = this.common.dateFormatter(new Date()).split(' ')[0];
+      let curr = this.common.dateFormatter1(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-      console.log("expiry date:", exp_date);
+
+      // for comapring
+      let exp_date2 = new Date(exp_date.split('/').join('-'));
+      let nxtmth2 = new Date(this.common.dateFormatter1(nextMthDate).split(' ')[0]);
+      let currdt2 = new Date(curr);
+
 
       let column = {
-        docId:{ value : doc.id},
+        docId: { value: doc.id },
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : (exp_date2 ? 'green' : '')) },
         documentNumber: { value: doc.document_number },
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
         remark: { value: doc.remarks },
-        image: { value: `${doc.hasimage ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true , class: 'image text-center'},
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
         rowActions: {}
       };
       columns.push(column);
@@ -156,25 +161,34 @@ export class DocumentReportComponent implements OnInit {
 
   // }
 
-  // imageView(doc) {
-  //   console.log("image data", doc);
-  //   let images = [{
-  //     name: "image",
-  //     image: doc.img_url
-  //   }];
-  //   console.log("images:", images);
-  //   if (this.checkForPdf(images[0].image)) {
-  //     window.open(images[0].image);
-  //     return;
-  //   }
-  //   this.common.params = { images, title: 'Image' };
-  //   const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  // }
+  imageView(doc) {
+    console.log("image data", doc);
+    let images = [{
+      name: "image",
+      image: doc.img_url
+    },
+     {
+      name: "image",
+      image: doc.img_url2
+    },
+     {
+      name: "image",
+      image: doc.img_url3
+    }
+    ];
+    console.log("images:", images);
+    if (this.checkForPdf(images[0].image)) {
+      window.open(images[0].image);
+      return;
+    }
+    this.common.params = { images, title: 'Image' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
-  // checkForPdf(imgUrl) {
-  //   var split = imgUrl.split(".");
-  //   return split[split.length - 1] == 'pdf' ? true : false;
-  // }
+  checkForPdf(imgUrl) {
+    var split = imgUrl.split(".");
+    return split[split.length - 1] == 'pdf' ? true : false;
+  }
 
   // editData(doc) {
   //   let documentData = [{
