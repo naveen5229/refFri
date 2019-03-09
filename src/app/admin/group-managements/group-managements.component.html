@@ -1,7 +1,7 @@
-<div class="model-header">
+<div class="model-header" style="margin-left:10px">
   <h4 class="model-title" id="model-basic-title">Group Managements</h4>
 </div>
-<div class="model-body-1" style="border:1px Solid blue; margin-top: 10px; text-align: left">
+<div class="model-body-1" style="border:1px Solid darkcyan; margin-top: 10px; margin-left:10px; margin-right:10px; text-align: left">
   <div class="body-1-tile" style="margin-left:50px; margin-top: 10px">Groups</div>
   <div class="row" style="margin-top:20px; margin-bottom:20px">
     <div class="col-2"></div>
@@ -14,10 +14,10 @@
         [(ngModel)]="addGroupDetails.groupName">
     </div>
     <div class="col-2"></div>
-    <button class="add-btn" type="button" outline (click)="addGroup()" id="add" style="cursor: pointer">Add</button>
+    <button class="btn btn-primary" type="button" outline (click)="addGroup()" id="add">Add</button>
   </div>
 </div>
-<div class="model-body-2" style="border:1px Solid blue; margin-top: 10px; text-align: left">
+<div class="model-body-2" style="border:1px Solid darkcyan; margin-top: 10px; margin-left:10px; margin-right:10px; text-align:left">
   <div class="body-2-tile" style="margin-left:50px; margin-top: 10px">Group Users</div>
   <div class="row" style="margin-top:20px; margin-bottom:20px">
     <div class="col-1"></div>
@@ -31,13 +31,13 @@
         placeholder="Search ID" [preSelected]="null"></auto-suggestion>
     </div>
     <div class="col-1"></div>
-    <button class="add-btn" type="button" outline (click)="addUserGroup()" id="add" style="cursor: pointer">Add</button>
+    <button class="btn btn-primary" type="button" outline (click)="addUserGroup()" id="add">Add</button>
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-2"></div>
-    <button class="btn-group" type="button" outline (click)="showGroups()" style="cursor: pointer">See Groups</button>
+    <button class="btn-group" type="button" outline (click)="showGroups()" style="cursor: pointer; background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See Groups</button>
     <div class="col-4"></div>
-    <button class="btn-group" type="button" outline (click)="showUsers()" style="cursor: pointer">See Users</button>
+    <button class="btn-group" type="button" outline (click)="showUsers()" style="cursor: pointer;  background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See Users</button>
   </div>
   <div class="row">
     <div class="col-6" *ngIf="groupFlag">
@@ -79,7 +79,7 @@
     </div>
   </div>
 </div>
-<div class="model-body-3" style="border:1px Solid blue; margin-top: 10px; text-align: left">
+<div class="model-body-3" style="border:1px Solid darkcyan; margin-top: 10px; margin-left:10px; margin-right:10px; text-align: left ">
   <div class="body-3-tile" style="margin-left:50px; margin-top: 10px">Group Vehicle</div>
   <div class="row" style="margin-top:20px; margin-bottom:20px">
     <div class="col-1"></div>
@@ -93,15 +93,14 @@
         placeholder="Search ID" [preSelected]="null"></auto-suggestion>
     </div>
     <div class="col-1"></div>
-    <button class="add-btn" type="button" outline (click)="addVehicleGroup()" id="add"
-      style="cursor: pointer">Add</button>
+    <button class="btn btn-primary" type="button" outline (click)="addVehicleGroup()" id="add">Add</button>
   </div>
   <div class="row" style="margin-bottom:10px">
     <div class="col-2"></div>
-    <button class="btn-group" type="button" outline (click)="showVehicles()" style="cursor: pointer">See
+    <button class="btn-group" type="button" outline (click)="showVehicles()" style="cursor: pointer; background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See
       Vehicles</button>
     <div class="col-4"></div>
-    <button class="btn-group" type="button" outline (click)="showvehicleGroups()" style="cursor: pointer">See
+    <button class="btn-group" type="button" outline (click)="showvehicleGroups()" style="cursor: pointer; background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See
       Groups</button>
   </div>
   <div class="row">
