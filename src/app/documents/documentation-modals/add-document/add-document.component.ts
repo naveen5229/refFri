@@ -59,7 +59,7 @@ export class AddDocumentComponent implements OnInit {
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-    console.log("Customer id :", this.user._customer.id);
+
     this.vehicleId = this.common.params.vehicleId;
 
     if (this.document.dates.issue)
@@ -160,7 +160,7 @@ export class AddDocumentComponent implements OnInit {
 
   addDocument() {
     const params = {
-      x_entryby: this.user._customer.id,
+      x_entryby: this.user._details.id,
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
@@ -172,6 +172,8 @@ export class AddDocumentComponent implements OnInit {
       x_base64img3: this.document.image3,
       x_remarks: this.document.remark,
     };
+   
+
 
     let issuedt_valid = 1;
     let wefdt_valid = 1;
@@ -284,5 +286,15 @@ export class AddDocumentComponent implements OnInit {
   selectDocType(docType) {
     this.document.type.id = docType.id
     console.log("doc var", this.document.type.id);
+  }
+
+  checkDateFormat(dateType){
+    let dateValue = this.document.dates[dateType];
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    this.document.dates[dateType] = date + '/' + month + '/' + year;
+    console.log('Date: ', this.document.dates[dateType]);
   }
 }

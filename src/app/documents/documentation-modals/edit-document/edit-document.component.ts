@@ -176,7 +176,7 @@ export class EditDocumentComponent implements OnInit {
   updateDocument() {
     const params = {
       x_vehicle_id: this.vehicleId,
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: this.document.docId,
       x_document_type_id: this.document.documentId,
       x_document_type: this.findDocumentType(this.document.documentId),

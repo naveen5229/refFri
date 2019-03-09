@@ -46,6 +46,34 @@
           </tbody>
         </table>
       </div>
+
+      <div class="row">
+       <h2>Work List</h2>
+       
+
+        <table class="table table-bordered table-hover table-scroll">
+          <thead class="thead">
+            <tr class="">
+              <th class="col-sm-2" style="width:5%;">Sr No</th>
+              <th style="width:5%;">User Name</th>
+              <th class="col-sm-2" style="width: 5%;">Work Date</th>
+              <th class="col-sm-2" style="width: 5%;">Total Docs</th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <ng-container *ngIf="data != 'undefined'">
+              <tr *ngFor="let row of userdata; let i = index" class="">
+                <td style="width:5%;">{{i + 1}}</td>
+                <td class="col-sm-2" style="width: 15%;">{{row.username}}</td>
+                <td class="col-sm-2" style="width: 15%;">{{row.workdate | date:'dd-MMM-yyyy'}}</td>
+                <td class="col-sm-2" style="width: 15%;">{{row.totaldocs}}</td> 
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    
+
     </div>
   </nb-card-body>
 </nb-card>
@@ -438,6 +466,19 @@
         </div>
       </form>
     </div>
+
+    
+    
+     
+
+
+
+
+
+
+
+
+
 
     <div class="modal-footer">
     </div>
