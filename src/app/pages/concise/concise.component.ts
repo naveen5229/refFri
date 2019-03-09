@@ -230,8 +230,9 @@ export class ConciseComponent implements OnInit {
     console.log('All ', this.allKpis);
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
-    this.kpiGroupsKeys = Object.keys(this.kpiGroups);
-
+    console.log("this.kpiGroups",this.kpiGroups);
+    this.kpiGroupsKeys = Object.keys(this.kpiGroups) ;
+    console.log("this.kpiGroupsKeys",this.kpiGroupsKeys);
     this.keyGroups = [];
 
     this.kpiGroupsKeys.map(key => {
