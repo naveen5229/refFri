@@ -17,6 +17,7 @@ import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.c
 })
 export class PendingDocumentsComponent implements OnInit {
   data = [];
+  userdata = [];
 
   modal = {
     active: '',
@@ -43,6 +44,7 @@ export class PendingDocumentsComponent implements OnInit {
     private modalService: NgbModal) {
     this.getPendingDetailsDocuments();
     this.getAllTypesOfDocuments();
+    this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -333,15 +335,19 @@ export class PendingDocumentsComponent implements OnInit {
 
       };
       console.log("Id is", params);
-   
-      if (!document.vehicle_id) {
-        this.common.showError("Please enter Vehicle No.");
-        return false;
+      if(params.x_advreview==0){
+        if (!document.vehicle_id ) {
+          this.common.showError("Please enter Vehicle No.");
+          return false;
+        }
       }
+    
+      if(params.x_advreview==0){
       if (!document.document_type_id) {
         this.common.showError("Please enter Document Type");
         return false;
       }
+    }
 
       if (document.issue_date) {
         let valid = this.checkDatePattern(document.issue_date);
@@ -610,6 +616,21 @@ export class PendingDocumentsComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
     console.log('Date: ', this.modal[modal].data.document[dateType]);
+  }
+
+
+  getUserWorkList(){
+    this.common.loading++;
+    this.api.post('Vehicles/getUserWorkSummary ', {})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.userdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 
 }
