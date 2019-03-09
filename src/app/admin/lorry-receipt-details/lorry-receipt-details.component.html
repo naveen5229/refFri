@@ -8,23 +8,26 @@
     <thead class="thead">
       <tr>
       <th>Id</th>
-      <th>Receipt No.</th>
+      <th>Vehicle RegNo.</th>
+      <th>Vehicle Id</th>
       <th>Source</th>
       <th>Destination</th>
-      <th>Weight</th>
-      <th>Current User</th>
+      <th>User</th>
+      <th>addTime</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of pendinglr; let i=index;">
       <td>{{data.id}}</td>
-      <td>{{data.receipt_no}}</td>
+      <td>{{data.regno}}</td>
+      <td>{{data.vehicle_id}}</td>
       <td>{{data.source}}</td>
       <td>{{data.destination}}</td>
-      <td>{{data.weight}}</td>
       <td>{{data.current_user}}</td>
-      <td><button class="btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button></td>
+      <!-- <td>{{data.weight}}</td> -->
+      <td>{{data.addtime}}</td>
+      <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
     </tbody>
   </table>
 </div>

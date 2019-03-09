@@ -82,6 +82,7 @@ import {
 import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -135,7 +136,8 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
     AddTripComponent,
     DatePicker2Component,
     AddFuelFillingComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    
   ],
   entryComponents: [
     KpisDetailsComponent,
