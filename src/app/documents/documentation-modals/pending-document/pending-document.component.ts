@@ -113,7 +113,7 @@ export class PendingDocumentComponent implements OnInit {
 
   getDocumentPending() {
     const params = {
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: this.document.id,
     }
     this.common.loading++;
@@ -266,7 +266,7 @@ export class PendingDocumentComponent implements OnInit {
 
   customerByUpdate() {
     const params = {
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: this.document.id,
       x_document_agent_id: this.document.agent_id,
       x_document_number: this.document.doc_no,
@@ -296,7 +296,7 @@ export class PendingDocumentComponent implements OnInit {
       const params = {
         x_vehicleno: this.document.newRegno,
         x_vehicle_id: 0,
-        x_user_id: this.user._customer.id,
+        x_user_id: this.user._details.id,
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
         x_document_type: this.findDocumentType(this.document.document_type_id),
@@ -539,7 +539,7 @@ export class PendingDocumentComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);

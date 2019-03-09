@@ -160,7 +160,7 @@ export class AddDocumentComponent implements OnInit {
 
   addDocument() {
     const params = {
-      x_entryby: this.user._customer.id,
+      x_entryby: this.user._details.id,
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
@@ -172,6 +172,8 @@ export class AddDocumentComponent implements OnInit {
       x_base64img3: this.document.image3,
       x_remarks: this.document.remark,
     };
+   
+
 
     let issuedt_valid = 1;
     let wefdt_valid = 1;
