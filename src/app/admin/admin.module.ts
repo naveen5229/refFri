@@ -17,6 +17,8 @@ import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
+import { SiteDetailsComponent } from './site-details/site-details.component';
+import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update-site-details.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -30,9 +32,9 @@ const PAGES_COMPONENTS = [
   LorryReceiptDetailsComponent,
   SiteFencingComponent,
   DiagnosticsComponent,
+  SiteDetailsComponent,
 
 ];
-
 @NgModule({
   imports: [
     AdminRoutingModule,

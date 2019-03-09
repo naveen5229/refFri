@@ -6,37 +6,33 @@
     <div class="form-group">
       <label>Branch</label>
       <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
-        placeholder="Enter Branch" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter Branch"  [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
     </div>
   </div>
   <div class="col">
       <div class="form-group">
         <label>Voucher Type</label>
         <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
-          placeholder="Enter Voucher Type" [preSelected]="null"></auto-suggestion>
+          placeholder="Enter Voucher Type" [data]="vouchertypedata" [preSelected]="{name:'All'}"></auto-suggestion>
       </div>
     </div>
     <div class="col">
         <div class="form-group">
           <label>Ledger</label>
           <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-            placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+            placeholder="Enter Ledger" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
       </div>
       <div class="col">
           <div class="form-group">
               <label>Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startDate')"
-              placeholder="Select Date" name="account-startDate" [(ngModel)]="ledger.startDate"
-              readonly>
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
           </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label>End Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('endDate')"
-                placeholder="Select Date" name="account-endDate" [(ngModel)]="ledger.endDate"
-                readonly>
+                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
             </div>
           </div>
   <div class="col">
@@ -49,21 +45,23 @@
 <table class="table table-bordered">
   <tr>
     <th>#</th>
+    <th>Date</th>
     <th>Code</th>
     <th>Customer Code</th>
     <th>Ledger</th>
     <th>Amount(Debit)</th>
     <th>Amount(Credit)</th>
-    <th>Date</th>
   </tr>
   <tr *ngFor="let dataItem of ledgerData; let i = index;">
     <td>{{i + 1}}</td>
+    <td>{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
     <td>{{dataItem.y_ledger}}</td>
-    <td>{{dataItem.y_dramunt}}</td>
-    <td>{{dataItem.y_cramunt}}</td>
-    <td>{{dataItem.y_date | date : 'dd MMM HH:mm'}}</td>
+    <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_dramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt == 0" ></td>
+    <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_cramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt ==0" ></td>
   </tr>
 </table>
 </nb-card-body>

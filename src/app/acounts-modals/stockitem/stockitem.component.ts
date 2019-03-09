@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class StockitemComponent implements OnInit {
   showConfirm = false;
+  showExit=false;
   stockItem = {
     name: '',
     code: '',
@@ -100,6 +101,25 @@ export class StockitemComponent implements OnInit {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
+
+    if (event.key == "Escape") {
+      this.showExit=true;
+    }
+    if (this.showExit) {
+      if (key == 'y' || key == 'enter') {
+        this.showExit = false;
+       event.preventDefault();
+       this.activeModal.close();
+       return;
+       // this.close();
+      }else   if ( key == 'n') {
+        this.showExit = false;
+        event.preventDefault();
+        return;
+
+      }
+      
+    }
 
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {

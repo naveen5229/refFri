@@ -47,7 +47,7 @@ export class StockTypesComponent implements OnInit {
 
   openStockTypeModal(stockType?) {
     if (stockType) this.common.params = {stockType};
-    const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
