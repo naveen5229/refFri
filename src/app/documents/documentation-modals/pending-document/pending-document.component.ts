@@ -113,7 +113,7 @@ export class PendingDocumentComponent implements OnInit {
 
   getDocumentPending() {
     const params = {
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: this.document.id,
     }
     this.common.loading++;
@@ -230,6 +230,7 @@ export class PendingDocumentComponent implements OnInit {
       if (this.document.expiry_date.indexOf('/') == -1)
         this.document.expiry_date = this.updateDateFormat(this.document.expiry_date);
       if (this.document.issue_date && this.document.expiry_date)
+      
         issuedt_valid = this.checkExpiryDateValidityByValue(this.document.issue_date, this.document.expiry_date);
     }
 
@@ -265,7 +266,7 @@ export class PendingDocumentComponent implements OnInit {
 
   customerByUpdate() {
     const params = {
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: this.document.id,
       x_document_agent_id: this.document.agent_id,
       x_document_number: this.document.doc_no,
@@ -295,7 +296,7 @@ export class PendingDocumentComponent implements OnInit {
       const params = {
         x_vehicleno: this.document.newRegno,
         x_vehicle_id: 0,
-        x_user_id: this.user._customer.id,
+        x_user_id: this.user._details.id,
         x_document_id: this.document.id,
         x_document_type_id: this.document.document_type_id,
         x_document_type: this.findDocumentType(this.document.document_type_id),
@@ -306,10 +307,13 @@ export class PendingDocumentComponent implements OnInit {
         x_advreview: status
       };
 
-      if (!this.document.vehicle_id) {
-        this.common.showError("Please enter Vehicle No.");
-        return false;
-      }
+      // if(params.x_advreview==0){
+      //   if (!document.vehicle_id ) {
+      //     this.common.showError("Please enter Vehicle No.");
+      //     return false;
+      //   }
+      // }
+      
       if (!this.document.document_type_id) {
         this.common.showError("Please enter Document Type");
         return false;
@@ -538,7 +542,7 @@ export class PendingDocumentComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);

@@ -17,6 +17,7 @@ import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.c
 })
 export class PendingDocumentsComponent implements OnInit {
   data = [];
+  userdata = [];
 
   modal = {
     active: '',
@@ -43,6 +44,7 @@ export class PendingDocumentsComponent implements OnInit {
     private modalService: NgbModal) {
     this.getPendingDetailsDocuments();
     this.getAllTypesOfDocuments();
+    this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -57,7 +59,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   getPendingDetailsDocuments() {
     this.common.loading++;
-    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1 })
+    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -146,7 +148,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   getDocumentPending(modal) {
     const params = {
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: this.modal[modal].data.document.id,
     }
     // this.common.loading++;
@@ -194,7 +196,7 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._details.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
@@ -215,7 +217,7 @@ export class PendingDocumentsComponent implements OnInit {
     console.log("list value:", id);
 
     this.common.loading++;
-    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._customer.id, x_is_admin: 1, x_advreview: parseInt(id) })
+    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: parseInt(id) })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -291,13 +293,14 @@ export class PendingDocumentsComponent implements OnInit {
   customerByUpdate(modal) {
     let document = this.modal[modal].data.document;
     const params = {
-      x_user_id: this.user._customer.id,
+      x_user_id: this.user._details.id,
       x_document_id: document.id,
       x_document_agent_id: document.agent_id,
       x_document_number: document.doc_no,
       x_rto: document.rto,
       x_amount: document.amount,
     }
+   
 
     this.common.loading++;
     let response;
@@ -321,7 +324,7 @@ export class PendingDocumentsComponent implements OnInit {
       const params = {
         x_vehicleno: document.newRegno,
         x_vehicle_id: 0,
-        x_user_id: this.user._customer.id,
+        x_user_id: this.user._details.id,
         x_document_id: document.id,
         x_document_type_id: document.document_type_id,
         x_document_type: this.findDocumentType(document.document_type_id, modal),
@@ -333,6 +336,19 @@ export class PendingDocumentsComponent implements OnInit {
 
       };
       console.log("Id is", params);
+      // if(params.x_advreview==0){
+      //   if (!document.vehicle_id ) {
+      //     this.common.showError("Please enter Vehicle No.");
+      //     return false;
+      //   }
+      // }
+    
+      if(params.x_advreview==0){
+      if (!document.document_type_id) {
+        this.common.showError("Please enter Document Type");
+        return false;
+      }
+    }
 
       if (document.issue_date) {
         let valid = this.checkDatePattern(document.issue_date);
@@ -505,18 +521,6 @@ export class PendingDocumentsComponent implements OnInit {
     console.log("doc var", this.modal[modal].data.document.document_type_id);
   }
 
-  // getvehicleData(vehicle) {
-  //   console.log('Vehicle Data: ', vehicle);
-  //   this.document.vehicle_id = vehicle.id;
-  // }
-
-  // isValidVehicle(event) {
-  //   let selected_regno = event.target.value;
-  //   if (selected_regno == "") {
-  //     this.document.regno = "";
-  //     this.document.vehicle_id = "";
-  //   }
-  // }
 
   isValidDocument(event, modal) {
     let selected_doctype = event.target.value;
@@ -545,7 +549,7 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
@@ -613,6 +617,21 @@ export class PendingDocumentsComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
     console.log('Date: ', this.modal[modal].data.document[dateType]);
+  }
+
+
+  getUserWorkList(){
+    this.common.loading++;
+    this.api.post('Vehicles/getUserWorkSummary ', {})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.userdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 
 }

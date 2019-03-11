@@ -5,8 +5,8 @@
   <div class="col-4">
     <div class="form-group">
       <label>Secondary Goup</label>
-      <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" url="Suggestion/GetAccount" display="name"
-        placeholder="Enter Secondary Group" [preSelected]="null"></auto-suggestion>
+      <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')"  display="name"
+        placeholder="Enter Secondary Group" [data]="secondaryData" [preSelected]="{name:'All'}"></auto-suggestion>
     </div>
   </div>
     <div class="col-4">

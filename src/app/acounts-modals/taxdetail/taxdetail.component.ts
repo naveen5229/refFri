@@ -20,7 +20,9 @@ export class TaxdetailComponent implements OnInit {
 
   }];
   constructor(private activeModal: NgbActiveModal,
-    public common: CommonService){ }
+    public common: CommonService){
+      this.setFoucus('taxledger-0');
+     }
 
     allowBackspace = true;
   ngOnInit() {

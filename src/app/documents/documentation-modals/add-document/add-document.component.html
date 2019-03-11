@@ -36,7 +36,7 @@
       <div class="col-md-7">
         <input id="issue-date" name="issue-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
           class="form-control date" [(ngModel)]="document.dates.issue" [value]="document.dates.issue"
-          (blur)="checkExpiryDateValidity()" />
+          (blur)="checkExpiryDateValidity()"  (focusout)="checkDateFormat('issue')" />
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
@@ -49,7 +49,7 @@
       </div>
       <div class="col-md-7">
         <input id="wef-date" name="wef-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.wef" (blur)="checkExpiryDateValidity()">
+          class="form-control" [(ngModel)]="document.dates.wef" (focusout)="checkDateFormat('wef')" (blur)="checkExpiryDateValidity()">
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
@@ -62,7 +62,7 @@
       </div>
       <div class="col-md-7">
         <input id="expiry-date" name="expiry-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.expiry" (blur)="checkExpiryDateValidity()">
+          class="form-control" [(ngModel)]="document.dates.expiry" (focusout)="checkDateFormat('expiry')" (blur)="checkExpiryDateValidity()">
       </div>
       <div class="col-md-1 calender">
         <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>

@@ -43,7 +43,7 @@ Accounts =[];
   openAccountModal (Accounts?) {
    // console.log('Accounts',Accounts);
       if (Accounts) this.common.params = Accounts;
-      const activeModal = this.modalService.open(AccountsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(AccountsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
