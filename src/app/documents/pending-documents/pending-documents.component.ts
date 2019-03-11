@@ -336,12 +336,12 @@ export class PendingDocumentsComponent implements OnInit {
 
       };
       console.log("Id is", params);
-      if(params.x_advreview==0){
-        if (!document.vehicle_id ) {
-          this.common.showError("Please enter Vehicle No.");
-          return false;
-        }
-      }
+      // if(params.x_advreview==0){
+      //   if (!document.vehicle_id ) {
+      //     this.common.showError("Please enter Vehicle No.");
+      //     return false;
+      //   }
+      // }
     
       if(params.x_advreview==0){
       if (!document.document_type_id) {

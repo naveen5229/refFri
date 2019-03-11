@@ -307,10 +307,13 @@ export class PendingDocumentComponent implements OnInit {
         x_advreview: status
       };
 
-      if (!this.document.vehicle_id) {
-        this.common.showError("Please enter Vehicle No.");
-        return false;
-      }
+      // if(params.x_advreview==0){
+      //   if (!document.vehicle_id ) {
+      //     this.common.showError("Please enter Vehicle No.");
+      //     return false;
+      //   }
+      // }
+      
       if (!this.document.document_type_id) {
         this.common.showError("Please enter Document Type");
         return false;
