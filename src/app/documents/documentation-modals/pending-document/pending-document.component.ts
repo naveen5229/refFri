@@ -542,7 +542,7 @@ export class PendingDocumentComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id,x_deldoc :0 })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);

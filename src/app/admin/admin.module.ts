@@ -19,8 +19,8 @@ import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update-site-details.component';
-import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component'; 
   import { from } from 'rxjs';
+import { DocumentsModule } from '../documents/documents.module';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -34,9 +34,7 @@ const PAGES_COMPONENTS = [
   LorryReceiptDetailsComponent,
   SiteFencingComponent,
   DiagnosticsComponent,
-  SiteDetailsComponent,
-  PendingDocumentsComponent
-  
+  SiteDetailsComponent,  
 ];
 @NgModule({
   imports: [
@@ -46,6 +44,7 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    DocumentsModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
