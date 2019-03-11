@@ -164,63 +164,62 @@ export class AddDocumentComponent implements OnInit {
       x_vehicle_id: this.vehicle.id,
       x_document_type_id: this.document.type.id,
       x_document_type: this.findDocumentType(this.document.type.id),
-      x_issue_date: this.document.dates.issue,
-      x_wef_date: this.document.dates.wef,
-      x_expiry_date: this.document.dates.expiry,
+      // x_issue_date: this.document.dates.issue,
+      // x_wef_date: this.document.dates.wef,
+      // x_expiry_date: this.document.dates.expiry,
       x_base64img: this.document.image1,
       x_base64img2: this.document.image2,
       x_base64img3: this.document.image3,
-      x_remarks: this.document.remark,
     };
    
 
 
-    let issuedt_valid = 1;
-    let wefdt_valid = 1;
-    if (this.document.dates.issue != "undefined" && this.document.dates.expiry != "undefined") {
-      if (this.document.dates.issue && this.document.dates.expiry)
-        issuedt_valid = this.checkExpiryDateValidityByValue(this.document.dates.issue, this.document.dates.expiry);
-    }
-    if (this.document.dates.wef != "undefined" && this.document.dates.expiry != "undefined") {
-      if (this.document.dates.wef && this.document.dates.expiry)
-        wefdt_valid = this.checkExpiryDateValidityByValue(this.document.dates.wef, this.document.dates.expiry);
-    }
-    if (issuedt_valid && wefdt_valid) {
-      this.spnexpdt = 0;
-    } else {
-      this.spnexpdt = 1;
-    }
+    // let issuedt_valid = 1;
+    // let wefdt_valid = 1;
+    // if (this.document.dates.issue != "undefined" && this.document.dates.expiry != "undefined") {
+    //   if (this.document.dates.issue && this.document.dates.expiry)
+    //     issuedt_valid = this.checkExpiryDateValidityByValue(this.document.dates.issue, this.document.dates.expiry);
+    // }
+    // if (this.document.dates.wef != "undefined" && this.document.dates.expiry != "undefined") {
+    //   if (this.document.dates.wef && this.document.dates.expiry)
+    //     wefdt_valid = this.checkExpiryDateValidityByValue(this.document.dates.wef, this.document.dates.expiry);
+    // }
+    // if (issuedt_valid && wefdt_valid) {
+    //   this.spnexpdt = 0;
+    // } else {
+    //   this.spnexpdt = 1;
+    // }
 
-    if (this.spnexpdt) {
-      this.common.showError("Please check the Expiry Date validity");
-      return false;
-    }
+    // if (this.spnexpdt) {
+    //   this.common.showError("Please check the Expiry Date validity");
+    //   return false;
+    // }
 
-    if (this.document.dates.issue) {
-      params.x_issue_date = this.document.dates.issue.split("/").reverse().join("-");
-      let strdt = new Date(params.x_issue_date);
-      if (isNaN(strdt.getTime())) {
-        this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
-        return false;
-      }
-    }
-    if (this.document.dates.wef) {
-      params.x_wef_date = this.document.dates.wef.split("/").reverse().join("-");
-      let strdt = new Date(params.x_wef_date);
-      if (isNaN(strdt.getTime())) {
-        this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
-        return false;
-      }
-    }
-    if (this.document.dates.expiry) {
-      params.x_expiry_date = this.document.dates.expiry.split("/").reverse().join("-");
-      let strdt = new Date(params.x_expiry_date);
-      if (isNaN(strdt.getTime())) {
-        this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
-        return false;
-      }
-    }
-    if (!this.document.type.id) {
+    // if (this.document.dates.issue) {
+    //   params.x_issue_date = this.document.dates.issue.split("/").reverse().join("-");
+    //   let strdt = new Date(params.x_issue_date);
+    //   if (isNaN(strdt.getTime())) {
+    //     this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
+    //     return false;
+    //   }
+    // }
+    // if (this.document.dates.wef) {
+    //   params.x_wef_date = this.document.dates.wef.split("/").reverse().join("-");
+    //   let strdt = new Date(params.x_wef_date);
+    //   if (isNaN(strdt.getTime())) {
+    //     this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
+    //     return false;
+    //   }
+    // }
+    // if (this.document.dates.expiry) {
+    //   params.x_expiry_date = this.document.dates.expiry.split("/").reverse().join("-");
+    //   let strdt = new Date(params.x_expiry_date);
+    //   if (isNaN(strdt.getTime())) {
+    //     this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
+    //     return false;
+    //   }
+    // }
+     if (!this.document.type.id) {
       return this.common.showError("Select Document Type");
     }
     if (!this.document.image1) {
