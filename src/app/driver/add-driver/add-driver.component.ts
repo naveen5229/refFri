@@ -35,11 +35,13 @@ export class AddDriverComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.driverForm = this.formbuilder.group({
-      name: ['', Validators.required],
-      mobileNo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]],
-    })
+     this.driverForm = this.formbuilder.group({
+      name: ['', Validators.required ,Validators.minLength(3)],
+       mobileno: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]],
+     })
   }
+  
+  
   
   getDate() {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -49,3 +51,4 @@ export class AddDriverComponent implements OnInit {
     });
   }
 }
+
