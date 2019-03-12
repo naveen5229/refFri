@@ -21,6 +21,7 @@ import { SiteDetailsComponent } from './site-details/site-details.component';
 import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update-site-details.component';
   import { from } from 'rxjs';
 import { DocumentsModule } from '../documents/documents.module';
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -34,7 +35,8 @@ const PAGES_COMPONENTS = [
   LorryReceiptDetailsComponent,
   SiteFencingComponent,
   DiagnosticsComponent,
-  SiteDetailsComponent,  
+  SiteDetailsComponent, 
+  UserPreferencesComponent 
 ];
 @NgModule({
   imports: [
