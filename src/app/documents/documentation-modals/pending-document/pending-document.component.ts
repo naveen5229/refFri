@@ -89,7 +89,7 @@ export class PendingDocumentComponent implements OnInit {
     this.getDocumentsData();
     this.getDocumentPending();
 
-
+    this.imgs = [];
     if (this.document.img_url != "undefined" && this.document.img_url) {
       this.imgs.push(this.document.img_url);
     }
@@ -125,6 +125,7 @@ export class PendingDocumentComponent implements OnInit {
         this.document.img_url = res["data"][0].img_url;
         this.document.img_url2 = res["data"][0].img_url2;
         this.document.img_url3 = res["data"][0].img_url3;
+        this.images = [];
         if (this.document.img_url != "undefined" && this.document.img_url) {
           this.images.push(this.document.img_url);
         }
