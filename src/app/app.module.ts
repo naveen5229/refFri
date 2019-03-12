@@ -73,7 +73,7 @@ import { ParticlularsComponent } from './modals/LRModals/particlulars/particlula
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import {
+import { 
   MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
@@ -85,6 +85,9 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -138,8 +141,10 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     VechileTrailsComponent,
     AddTripComponent,
     AddFuelFillingComponent,
-    AddDriverComponent,
-    UpdateSiteDetailsComponent
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -189,14 +194,15 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     AddDriverComponent,
     AddTripComponent,
     AddFuelFillingComponent,
-    AddDriverComponent,
+    AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent,
     AddTripComponent,
     AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent
+    AddTripComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent 
   ],
   imports: [
     BrowserModule,
