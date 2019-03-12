@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'change-halt',
@@ -18,7 +19,8 @@ export class ChangeHaltComponent implements OnInit {
   constructor(
     public common: CommonService,
     private activeModal: NgbActiveModal,
-    public api: ApiService
+    public api: ApiService,
+    private modalService: NgbModal,
   ) {
     this.type = this.common.changeHaltModal;
     if(this.type=='SiteType'){
@@ -28,7 +30,7 @@ export class ChangeHaltComponent implements OnInit {
       this.title = "Choose Halt Type"
     }
     this.VehicleStatusData = this.common.params;
-    console.log(this.common.changeHaltModal,this.common.params);
+    console.log("vehicle status9999999999",this.VehicleStatusData);
   }
 
   ngOnInit() {
@@ -40,11 +42,12 @@ export class ChangeHaltComponent implements OnInit {
 
   submitModal() {
     if (this.type == 'SiteType') {
-      this.createSite()
+      this.createSite();
     }else if(this.type == 'HaltType'){
-      this.changeHalt()
+      this.checkHaltValue();
     }
   }
+
   createSite() {
     this.common.loading++;
     let params = "siteHaltRowId=" + this.VehicleStatusData.haltId +
@@ -62,6 +65,47 @@ export class ChangeHaltComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  checkHaltValue(){
+    console.log(this.HaltType)
+    if(this.HaltType == 11 || this.HaltType == 21){
+      this.getlastHalt();
+    }else{
+      this.changeHalt();
+    }
+  }
+
+  getlastHalt(){
+    this.common.loading++;
+    console.log(this.VehicleStatusData);
+    let params = {
+      vehicleId:this.VehicleStatusData.haltId, 
+    };
+    this.api.post('HaltOperations/getLastHalt', params)
+      .subscribe(res => {
+         this.common.loading--;
+         console.log(res['data']);
+        if(res['data']==this.HaltType){
+          this.openConrirmationAlert();
+        }else{
+          this.changeHalt();
+        }
+      });
+  }
+  
+  openConrirmationAlert() {
+    this.common.params = {
+      title: "your current halt Type and doesn't match with previous halt",
+      description: " Do you want to continue ?"
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+      if (data.response) {
+        this. changeHalt();
+      }
+    });
   }
 
   changeHalt() {

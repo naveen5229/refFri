@@ -140,7 +140,7 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     AddTripComponent,
     AddFuelFillingComponent,
     AddDriverComponent,
-    UpdateSiteDetailsComponent
+    UpdateSiteDetailsComponent,
     
   ],
   entryComponents: [
