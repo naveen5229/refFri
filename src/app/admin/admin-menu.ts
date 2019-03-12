@@ -43,7 +43,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/group-managements',
         home: true,
     },
-   
+
     {
         title: 'Ticket Properties',
         icon: 'nb-home',
@@ -66,5 +66,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/diagnostics',
         home: true,
-    }
+    },
+    {
+        title: 'Document',
+        icon: 'nb-home',
+        children: [
+            {
+                title: 'Pending Details',
+                icon: 'fa fa-pencil-square-o',
+                link: '/admin/pending-documents',
+                home: true,
+            },
+
+        ]
+    },
 ];
