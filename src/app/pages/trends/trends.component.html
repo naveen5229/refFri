@@ -1,0 +1,119 @@
+<nb-card>
+  <nb-card-header>
+    Trends
+  </nb-card-header>
+  <nb-card-body>
+    <div class="model-body">
+      <div class="row">
+          <div class="col-sm-3">
+              <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
+                <option value="11">Loading</option>
+                <option value="21">Unloading</option>
+                <option value="0">Onward</option>
+              </select>
+            </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date" placeholder="End Date" (click)="getDate('end')">
+        </div>
+        <div class="col-sm-3">
+          <button class="btn btn-primary" (click)="getTrends()">submit</button>
+        </div>
+      </div>
+      <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
+      <div class="row" *ngIf="showtrend">
+        <div class="col-sm-12">
+          <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-left:10px; margin-right:10px;min-height: 200px;" [options]="chartObject.options"></chart>
+        </div>
+        <!-- <div class="col-sm-3">
+          <table class="table table-bordered" style="margin-right: 5px; margin-top:10px">
+            <thead class="thead" style="background-color:darkgrey">
+              <tr>
+                <th>Date</th>
+                <th *ngIf="trendType==11">Loading Hours</th>
+                <th *ngIf="trendType==21">UnLoading Hours </th>
+                <th *ngIf="trendType==0">OnWard Hours </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of Details; let i=index;">
+                <td>{{data.date_day | date : 'dd MMM'}}</td>
+                <td *ngIf="trendType==11">{{data.loading_hrs}}</td>
+                <td *ngIf="trendType==21">{{data.unloading_hrs}}</td>
+                <td *ngIf="trendType==0">{{data.onward_per}}</td>
+
+            </tbody>
+          </table>
+
+        </div> -->
+      </div>
+      <div class="row"  style="margin: 10px" *ngIf="showTables">
+        <div class="col-sm-6" style="height:300px;overflow:auto;">
+            <table class="table table-bordered">
+                <thead class="thead" style="background-color:darkgrey">
+                  <tr>
+                    <th>sitename</th>
+                    <th *ngIf="trendType==11">Loading Hours</th>
+                    <th *ngIf="trendType==21">UnLoading Hours </th>
+                        
+                  </tr>
+                </thead>
+                <tbody *ngIf="trendType==11">
+                    <ng-container *ngFor="let data of siteDetails; let i=index;">
+                  <tr *ngIf="(trendType==11 && data.loading!= null) || (trendType==21 && data.unloading!= null)">
+                    <td><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                        <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
+                        <ng-template #showname>{{data.sitename}}</ng-template>
+                    </td>
+                    <td *ngIf="trendType==11">{{data.loading}}</td>
+                  </tr>
+                  </ng-container>
+                </tbody>
+                <tbody *ngIf="trendType==21">
+                    <ng-container *ngFor="let data of siteUnloading; let i=index;">
+                  <tr *ngIf="(trendType==11 && data.loading!= null) || (trendType==21 && data.unloading!= null)">
+                    <td><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                        <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
+                        <ng-template #showname>{{data.sitename}}</ng-template>
+                    </td>
+                    <td *ngIf="trendType==21">{{data.unloading}}</td>
+                  </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+        </div>
+        <div class="col-sm-6" style="height:300px;overflow:auto;">
+            <table class="table table-bordered">
+                <thead class="thead" style="background-color:darkgrey">
+                  <tr>
+                    <th>vehicle_name</th>
+                    <th *ngIf="trendType==11">Loading Hours</th>
+                    <th *ngIf="trendType==21">UnLoading Hours </th>
+    
+                  </tr>
+                </thead>
+                <tbody *ngIf="trendType==11">
+                  <ng-container *ngFor="let data of vehicleDetails; let i=index;">
+                  <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
+                    <td>{{data.vehicle_name}}</td>
+                    <td *ngIf="trendType==11">{{data.loading_hrs}}</td>
+                  </tr>
+                  </ng-container>  
+                </tbody>
+                <tbody *ngIf="trendType==21">
+                    <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
+                    <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
+                      <td>{{data.vehicle_name}}</td>
+                      <td *ngIf="trendType==21">{{data.unloading_hrs}}</td>
+                    </tr>
+                    </ng-container>  
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

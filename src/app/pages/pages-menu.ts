@@ -56,6 +56,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Account',
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
-  }
+  },
+  {
+    title: 'Vehicle Report',
+    icon: 'fa fa-database',
+    link:'/pages/vehicle-report'
+  },
+  {
+    title: 'Trends',
+    icon: 'fa fa-database',
+    link:'/pages/trends'
+  },
   
 ];
