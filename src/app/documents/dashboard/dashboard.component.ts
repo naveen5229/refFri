@@ -29,14 +29,11 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-
-
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
     this.getDocumentData();
-
     this.common.refresh = this.refresh.bind(this);
     console.log("foid:", this.user._customer.id);
   }
@@ -51,13 +48,12 @@ export class DashboardComponent implements OnInit {
 
   getDocumentData() {
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics',{})
+    this.api.post('Vehicles/getDocumentsStatistics', {})
       .subscribe(res => {
         this.common.loading--;
         this.documentData = res['data'];
         console.info("dashbord Data", this.documentData);
         this.table.data.columns = this.getTableColumns();
-        
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -65,16 +61,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getTableColumns() {
-    
     let columns = [];
     this.documentData.map(doc => {
       columns.push({
         docType: { value: doc.docname },
-        verified: { value: doc.verified, class: doc.verified > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'verified') },
-        unverified: { value: doc.unverified, class: doc.unverified > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'unverified') },
-        pendingimage: { value: doc.pendingimage, class: doc.pendingimage > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'pendingimage') },
-        expiring30days: { value: doc.expiring30days, class: doc.expiring30days > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expiring30days') },
-        expired: { value: doc.expired, class: doc.expired > 0 ? 'blue' : 'black', action: this.openData.bind(this, doc, 'expired') },
+        verified: { value: doc.verified, class: doc.verified > 0 ? 'blue' : 'black', action:doc.verified >0 ? this.openData.bind(this, doc, 'verified') : '' },
+        unverified: { value: doc.unverified, class: doc.unverified > 0 ? 'blue' : 'black', action: doc.unverified >0 ? this.openData.bind(this, doc, 'unverified'): '' },
+        pendingimage: { value: doc.pendingimage, class: doc.pendingimage > 0 ? 'blue' : 'black', action: doc.pendingimage >0 ? this.openData.bind(this, doc, 'pendingimage') : '' },
+        expiring30days: { value: doc.expiring30days, class: doc.expiring30days > 0 ? 'blue' : 'black', action: doc.expiring30days >0 ? this.openData.bind(this, doc, 'expiring30days') : '' },
+        expired: { value: doc.expired, class: doc.expired > 0 ? 'blue' : 'black', action: doc.expired >0 ? this.openData.bind(this, doc, 'expired') : '', },
       });
     });
 
@@ -89,10 +84,7 @@ export class DashboardComponent implements OnInit {
     // });
 
     return columns;
-
   }
-
-
 
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
@@ -113,17 +105,15 @@ export class DashboardComponent implements OnInit {
     return total;
   }
 
-
-  totalData(status) {
-    // this.common.handleModalSize('class', 'modal-lg', '1200');
-    this.common.params = { status, title: 'Document Report' };
-    const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getDocumentData(); 
-        window.location.reload();
-      }
-    });
-  }
-
+  // totalData(status) {
+  //   // this.common.handleModalSize('class', 'modal-lg', '1200');
+  //   this.common.params = { status, title: 'Document Report' };
+  //   const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     if (data.response) {
+  //       this.getDocumentData();
+  //       window.location.reload();
+  //     }
+  //   });
+  // }
 }

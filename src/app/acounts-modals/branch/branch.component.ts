@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class BranchComponent implements OnInit {
   showConfirm = false;
+  showExit=false;
   Branches = {
     name: '',
     user: {
@@ -95,6 +96,24 @@ export class BranchComponent implements OnInit {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('event',event);
+    if (event.key == "Escape") {
+      this.showExit=true;
+    }
+    if (this.showExit) {
+      if (key == 'y' || key == 'enter') {
+        this.showExit = false;
+       event.preventDefault();
+       this.activeModal.close();
+       return;
+       // this.close();
+      }else   if ( key == 'n') {
+        this.showExit = false;
+        event.preventDefault();
+        return;
+
+      }
+      
+    }
 
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {

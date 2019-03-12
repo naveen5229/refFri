@@ -11,9 +11,12 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./invoiceregister.component.scss']
 })
 export class InvoiceregisterComponent implements OnInit {
+  
+  vouchertypedata=[];
+  branchdata=[];
   invoiceRegister = {
-    endDate:'',
-    startDate:'',
+    endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     custCode:'',
     code:'',
     ledger :{
@@ -35,11 +38,47 @@ export class InvoiceregisterComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
+      this.getVoucherTypeList();
+      this.getBranchList();
     }
 
   ngOnInit() {
   }
 
+  getVoucherTypeList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetVouchertypeList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.vouchertypedata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
+  getBranchList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetBranchList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.branchdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
   getInvoiceRegister() {
     console.log('Invoice Reister:', this.invoiceRegister);
     let params = {

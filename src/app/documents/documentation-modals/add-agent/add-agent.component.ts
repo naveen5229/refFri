@@ -44,17 +44,7 @@ export class AddAgentComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.agentForm.controls; }
 
-  // onSubmit() {
-  //   this.isFormSubmit = true;
-
-  //   // stop here if form is invalid
-  //   if (this.agentForm.invalid) {
-  //     return;
-  //   }
-
-  //   alert('SUCCESS!! :-)')
-  // }
-
+ 
 
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -67,8 +57,7 @@ export class AddAgentComponent implements OnInit {
       x_location: this.agentForm.controls.location.value,
       x_email: this.agentForm.controls.email.value
     };
-    console.info("Params: ", params);
-
+    
     this.common.loading++;
     this.api.post('Vehicles/addAgent', params)
       .subscribe(res => {

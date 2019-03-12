@@ -25,7 +25,7 @@ lr = {
   sameAsDelivery: false,
   paymentTerm : "ToBeFilled",
   payableAmount:1000,
-  //date:this.common.dateFormatter(new Date())
+  date :''+new Date()
 };
 
 particulars = [
@@ -55,6 +55,8 @@ particulars = [
     public common: CommonService,
     public api: ApiService,) {
       this.branches = ['Jaipur',"Mumbai", "delhi"];
+    this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+      console.log("new Date()",new Date(),this.lr.date);
      }
 
   ngOnInit() {
@@ -96,9 +98,11 @@ particulars = [
   }
   getConsignorDetail(consignor){
     console.log("consignor",consignor);
+    this.lr.consignorAddress = "Jaipur";
   }
   getConsigneeDetail(consignee){
     console.log("consignee",consignee);
+    this.lr.consigneeAddress = "delhi";
   }
   getBranchDetails(){
     console.log(this.lr.branch)
@@ -131,6 +135,7 @@ addMore() {
 }
 
 saveDetails(){
+  this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
   let params={
     lrDetails:this.lr,
     particulars:this.particulars

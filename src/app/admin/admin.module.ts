@@ -14,9 +14,13 @@ import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-rece
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
-
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
+import { SiteDetailsComponent } from './site-details/site-details.component';
+import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update-site-details.component';
+  import { from } from 'rxjs';
+import { DocumentsModule } from '../documents/documents.module';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -29,16 +33,18 @@ const PAGES_COMPONENTS = [
   IssueAlertsComponent,
   LorryReceiptDetailsComponent,
   SiteFencingComponent,
-  DiagnosticsComponent
+  DiagnosticsComponent,
+  SiteDetailsComponent
 ];
-
-
 @NgModule({
   imports: [
     AdminRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    DocumentsModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,

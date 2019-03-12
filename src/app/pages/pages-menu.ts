@@ -7,11 +7,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
     home: true,
   },
-  {
-    title: 'Vehicle KPIs',
-    icon: 'nb-tables',
-    link: '/pages/vehicle-kpis',
-  },
+  // {
+  //   title: 'Vehicle KPIs',
+  //   icon: 'nb-tables',
+  //   link: '/pages/vehicle-kpis',
+  // },
   {
     title: 'Tickets',
     icon: 'nb-notifications',
@@ -57,4 +57,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
   }
+  
 ];

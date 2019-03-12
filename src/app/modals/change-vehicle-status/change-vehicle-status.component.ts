@@ -27,6 +27,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     name: '',
     time: ''
   };
+  lUlBtn = false;
   dataType = 'events';
   VehicleStatusData;
   vehicleEvents = [];

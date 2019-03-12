@@ -9,11 +9,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ApiService {
 
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-  //URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
-  //  URL: string = 'http://192.168.0.115/booster_webservices/'; // Umang
-   URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
-  // URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
+    // URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
+  //  URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
+  //URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
 
   constructor(private http: HttpClient,
     public user: UserService) {
@@ -60,6 +60,7 @@ export class ApiService {
       'Content-Type': 'application/json',
       'version': '1.0',
       'entrymode': entryMode,
+      'apptype': 'dashboard',
       'authkey': this.user._token || ''
     });
 
