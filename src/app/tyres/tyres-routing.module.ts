@@ -8,6 +8,7 @@ import { InputsComponent } from './inputs/inputs.component';
 import { TyreHealthCheckUpComponent } from './tyre-health-check-up/tyre-health-check-up.component';
 import { AddTrollyComponent } from './add-trolly/add-trolly.component';
 import { VehicleTrollyMappingComponent } from './vehicle-trolly-mapping/vehicle-trolly-mapping.component';
+import { TyreModalsComponent } from './tyre-modals/tyre-modals.component';
 
 const routes: Routes = [{
     path: '',
@@ -36,6 +37,10 @@ const routes: Routes = [{
         {
             path: 'vehicle-trolly-mapping',
             component: VehicleTrollyMappingComponent,
+        },
+        {
+            path: 'tyre-modals',
+            component: TyreModalsComponent,
         },
        
     ],
