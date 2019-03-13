@@ -16,6 +16,7 @@ import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { RouteGuard } from '../guards/route.guard';
+import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
 
 
 const routes: Routes = [{
@@ -31,6 +32,10 @@ const routes: Routes = [{
             path: 'vehiclestatuschange',
             component: VehicleStatusChangeComponent,
             canActivate: [RouteGuard]
+        },
+        {
+            path: 'vscticketaudit',
+            component: VSCTicketAuditComponent,
         },
         {
             path: 'issue-alerts',

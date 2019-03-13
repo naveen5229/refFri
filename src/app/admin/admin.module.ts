@@ -22,6 +22,7 @@ import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update
   import { from } from 'rxjs';
 import { DocumentsModule } from '../documents/documents.module';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
+import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -50,6 +51,7 @@ const PAGES_COMPONENTS = [
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    VSCTicketAuditComponent,
   ],
 })
 export class AdminModule { }
