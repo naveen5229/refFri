@@ -57,6 +57,20 @@ export class VehicleReportComponent implements OnInit {
                 this.endTime=new Date(this.endTime);
                 console.log('endTime: '+this.endTime);
                 this.resultTime=this.endTime-this.startTime;
+                console.log('begore resultTime: '+this.resultTime);
+                 // let sec = this.resultTime / 1000; //in s
+                // let min = this.resultTime/ 60 / 1000; //in minutes
+                // let hour = this.resultTime / 3600 / 1000; //in hours
+                
+                let sec=this.resultTime/1000;
+                console.log('sec: '+sec);
+                let min=sec/60;
+                console.log('min: '+min);
+                let hour=min/60;
+                console.log('hour: '+hour); 
+                // this.resultTime=hour.toFixed(2)
+                // hour= Math.floor(hour) % 60;
+                this.resultTime=hour.toFixed(2);
                 console.log('resultTime: '+this.resultTime);
                 this.duration.push(this.resultTime);
                });

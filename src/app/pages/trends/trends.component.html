@@ -24,8 +24,11 @@
       </div>
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
       <div class="row" *ngIf="showtrend">
-        <div class="col-sm-12">
-          <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-left:10px; margin-right:10px;min-height: 200px;" [options]="chartObject.options"></chart>
+        <div class="col-sm-1" style="padding-top:50px">
+            <label>{{yScale}}</label>
+        </div>    
+        <div class="col-sm-11" style="margin-left:-40px">    
+          <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;min-height: 200px;" [options]="chartObject.options"></chart>
         </div>
         <!-- <div class="col-sm-3">
           <table class="table table-bordered" style="margin-right: 5px; margin-top:10px">
@@ -55,9 +58,10 @@
             <table class="table table-bordered">
                 <thead class="thead" style="background-color:darkgrey">
                   <tr>
-                    <th>sitename</th>
+                    <th>Site Name</th>
                     <th *ngIf="trendType==11">Loading Hours</th>
-                    <th *ngIf="trendType==21">UnLoading Hours </th>
+                    <th *ngIf="trendType==21">Unloading Hours </th>
+                    <th>Count</th>
                         
                   </tr>
                 </thead>
@@ -68,7 +72,8 @@
                         <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td *ngIf="trendType==11">{{data.loading}}</td>
+                    <td>{{data.loading}}</td>
+                    <td>{{data.loading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>
@@ -79,7 +84,8 @@
                         <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td *ngIf="trendType==21">{{data.unloading}}</td>
+                    <td>{{data.unloading}}</td>
+                    <td>{{data.unloading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>
@@ -89,9 +95,10 @@
             <table class="table table-bordered">
                 <thead class="thead" style="background-color:darkgrey">
                   <tr>
-                    <th>vehicle_name</th>
+                    <th>Vehicle Name</th>
                     <th *ngIf="trendType==11">Loading Hours</th>
-                    <th *ngIf="trendType==21">UnLoading Hours </th>
+                    <th *ngIf="trendType==21">Unloading Hours </th>
+                    <th>Count</th>
     
                   </tr>
                 </thead>
@@ -99,7 +106,8 @@
                   <ng-container *ngFor="let data of vehicleDetails; let i=index;">
                   <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
                     <td>{{data.vehicle_name}}</td>
-                    <td *ngIf="trendType==11">{{data.loading_hrs}}</td>
+                    <td>{{data.loading_hrs}}</td>
+                    <td>{{data.loading_count}}</td>
                   </tr>
                   </ng-container>  
                 </tbody>
@@ -107,7 +115,8 @@
                     <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
                     <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
                       <td>{{data.vehicle_name}}</td>
-                      <td *ngIf="trendType==21">{{data.unloading_hrs}}</td>
+                      <td>{{data.unloading_hrs}}</td>
+                      <td>{{data.unloading_count}}</td>
                     </tr>
                     </ng-container>  
                   </tbody>

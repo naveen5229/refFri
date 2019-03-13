@@ -33,6 +33,7 @@ export class TrendsComponent implements OnInit {
   url = '';
   flag = 'Loading';
   bgColor='#00695C';
+  yScale='Hours';
   chartObject = {
     type: '',
     data: {},
@@ -98,14 +99,17 @@ export class TrendsComponent implements OnInit {
           this.showChart();
 
         });
-        this.getSiteWise();
-        this.getVehicleWise();
+        // this.getSiteWise();
+        // this.getVehicleWise();
 
       }, err => {
         this.common.loading--;
         this.common.showError();
 
       })
+
+      this.getSiteWise();
+      this.getVehicleWise();
 
   }
 
@@ -115,7 +119,7 @@ export class TrendsComponent implements OnInit {
       labels: this.dateDay,
       datasets: [
         {
-          label: this.flag,
+        //  label: this.flag,
           data: this.Hours,
           borderColor: this.bgColor,
           fill: false
@@ -125,6 +129,9 @@ export class TrendsComponent implements OnInit {
     this.chartObject.options = {
       responsive: true,
       maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
       yAxes: [{
         ticks: {
           min: 100,
@@ -151,7 +158,7 @@ export class TrendsComponent implements OnInit {
         console.log('siteDetails: ', this.siteDetails);
         _.sortBy(this.siteDetails, ['unloading']).reverse().map(keyData => {
           this.siteUnloading.push(keyData);
-          console.log('siteUnloading: ',  this.siteUnloading);
+          //console.log('siteUnloading: ',  this.siteUnloading);
         });
         
       },
@@ -179,7 +186,7 @@ export class TrendsComponent implements OnInit {
           this.vehicleUnloading.push(keyData);
         });
         
-        console.log('vehicleUnloading: ',  this.vehicleUnloading);
+       // console.log('vehicleUnloading: ',  this.vehicleUnloading);
        
       },
         err => {
@@ -198,19 +205,22 @@ export class TrendsComponent implements OnInit {
         this.Hours.push(element.loading_hrs);
         this.showTables = true;
         this.flag = "Loading"
-        this.bgColor='#009688';
+        this.bgColor='#00695C';
+        this.yScale='Hours'
         this.showChart();
       } else if (this.trendType == "21") {
         this.Hours.push(element.unloading_hrs);
         this.showTables = true;
         this.flag = "UnLoading"
         this.bgColor='#E91E63';
+        this.yScale='Hours'
         this.showChart();
       } else if (this.trendType == "0") {
         this.Hours.push(element.onward_per);
         this.showTables = false;
         this.flag = "onWard"
         this.bgColor='#4CAF50';
+        this.yScale='percent'
         this.showChart();
       }
 
