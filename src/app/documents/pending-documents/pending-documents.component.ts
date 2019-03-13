@@ -161,6 +161,7 @@ export class PendingDocumentsComponent implements OnInit {
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
+        this.modal[modal].data.document.remarks = res["data"][0].remarks;
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {

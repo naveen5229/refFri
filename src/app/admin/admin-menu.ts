@@ -80,4 +80,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ]
     },
+
+    {
+        title: 'User Prefrence',
+        icon: 'nb-home',
+        link: '/admin/user-preferences',
+        home: true,
+    },
 ];
