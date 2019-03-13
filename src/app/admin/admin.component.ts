@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { RouteGuard } from '../guards/route.guard';
 
 import { MENU_ITEMS } from './admin-menu';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'ngx-pages',
@@ -13,4 +15,6 @@ import { MENU_ITEMS } from './admin-menu';
 })
 export class AdminComponent {
   menu = MENU_ITEMS;
+  // page = ;
+  
 }
