@@ -10,6 +10,7 @@ import { UserService } from '../../@core/data/users.service';
   styleUrls: ['./ledgermapping.component.scss']
 })
 export class LedgermappingComponent implements OnInit {
+  secondaryData=[];
   ledgerMapping = {
     ledger :{
         name:'',
@@ -25,13 +26,30 @@ export class LedgermappingComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
+      this.getSecondaryData();
     }
 
 
   ngOnInit() {
   }
 
+  getSecondaryData() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetSecondaryAccount', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.secondaryData = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
 
+  }
   getLedgerView() {
   //  console.log('Ledger:', this.ledgerMapping);
     let params = {

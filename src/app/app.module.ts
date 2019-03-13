@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -73,7 +73,7 @@ import { ParticlularsComponent } from './modals/LRModals/particlulars/particlula
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import {
+import { 
   MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
@@ -84,6 +84,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
+import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { HttpResponseHandlerService } from './services/http-response-handler.service';
+
+import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -126,19 +132,23 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent,
-    UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
+    ParticlularsComponent,
     AddDriverComponent,
+    VechileTrailsComponent,
     AddTripComponent,
-    DatePicker2Component,
     AddFuelFillingComponent,
     AddDriverComponent,
-    UpdateSiteDetailsComponent
+    UpdateSiteDetailsComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -171,6 +181,7 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    EditLorryDetailsComponent,
     PendingDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
@@ -183,15 +194,19 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component,
     AddFuelFillingComponent,
-    AddDriverComponent,
-    UpdateSiteDetailsComponent
-
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    AddConsigneeComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    VechileTrailsComponent,
+    AddTripComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent 
   ],
   imports: [
     BrowserModule,
@@ -217,6 +232,7 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],

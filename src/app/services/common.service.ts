@@ -22,7 +22,7 @@ export class CommonService {
   themeSubscription: any;
   searchId = null;
   refresh = null;
-
+  passedVehicleId = null;
   changeHaltModal = null;
 
 

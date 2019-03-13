@@ -19,6 +19,7 @@ export class PendingDocumentsComponent implements OnInit {
   data = [];
   userdata = [];
 
+  listtype = 0;
   modal = {
     active: '',
     first: {
@@ -59,7 +60,8 @@ export class PendingDocumentsComponent implements OnInit {
 
   getPendingDetailsDocuments() {
     this.common.loading++;
-    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
+    if(this.listtype == 1) {
+      this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: 1 })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -68,6 +70,17 @@ export class PendingDocumentsComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+    } else {
+      this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("data", res);
+          this.data = res['data'];
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
   }
 
   getAllTypesOfDocuments() {
@@ -152,6 +165,7 @@ export class PendingDocumentsComponent implements OnInit {
     const params = {
       x_user_id: this.user._details.id,
       x_document_id: this.modal[modal].data.document.id,
+      x_advreview: this.listtype
     }
     console.log('Params: ', params);
     this.api.post('Vehicles/getPendingDocDetail', params)
@@ -161,7 +175,6 @@ export class PendingDocumentsComponent implements OnInit {
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
-        this.modal[modal].data.document.remarks = res["data"][0].remarks;
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
@@ -179,6 +192,7 @@ export class PendingDocumentsComponent implements OnInit {
           this.closeModal(true, modal);
           console.log("sucess......");
         }
+        
       }, err => {
         // this.common.loading--;
         console.log(err);
@@ -217,6 +231,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   selectList(id) {
     console.log("list value:", id);
+    this.listtype = parseInt(id);
 
     this.common.loading++;
     this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: parseInt(id) })
