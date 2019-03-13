@@ -85,7 +85,7 @@ export class DocumentsSummaryComponent implements OnInit {
         const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         activeModal.result.then(mdldata => {
           console.log("response:", mdldata);
-          this.getDocumentMatrixData();
+          // this.getDocumentMatrixData();
         });
       }, err => {
         this.common.loading--;

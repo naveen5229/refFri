@@ -44,7 +44,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Group Mmanagements',
+        title: 'Group Managements',
         icon: 'nb-home',
         link: '/admin/group-managements',
         home: true,
