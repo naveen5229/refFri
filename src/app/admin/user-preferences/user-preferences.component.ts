@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserPreferencesComponent implements OnInit {
 
   form: FormGroup;
-  
+
 
   data = [
     // {
@@ -38,11 +38,9 @@ export class UserPreferencesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder) {
-      this.findSections();
-
-
+    this.getAllPages();
   }
- 
+
 
   ngOnInit() {
   }
@@ -50,9 +48,10 @@ export class UserPreferencesComponent implements OnInit {
 
   findSections() {
     this.sections = [];
+    this.pagesGroups = {};
     this.data.map(data => {
       let section = { title: data.route.split('/')[1], isSelected: false };
-      if (!this.sections.filter(s => s.name == section.title).length) {
+      if (!this.sections.filter(s => s.title == section.title).length) {
         this.sections.push(section);
       }
       if (!this.pagesGroups[section.title]) {
@@ -77,22 +76,52 @@ export class UserPreferencesComponent implements OnInit {
   checkOrUnCheckAll(index) {
     this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
   }
-  getSuggestions(){
-   
-    
+
+  getAllPages() {
     this.common.loading++;
-    this.api.post('UserRoles/getAllPages', { })
+    this.api.post('UserRoles/getAllPages', {})
       .subscribe(res => {
         this.common.loading--;
-       
-        this.sections= res['data'];
-        console.log("Res Data:",this.sections);
-        // this.findSections();
-       
+
+        this.data = res['data'];
+        console.log("Res Data:", this.data);
+        this.findSections();
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  getUserPages(user) {
+    console.log('User: ', user);
+    const params = {
+      id: user.id
+    };
+    this.common.loading++;
+    this.api.post('', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res);
+        this.checkSelectedPages(res['data']);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
+  }
+
+  checkSelectedPages(pages) {
+    this.sections.map(section => {
+      this.pagesGroups[section.title].map(page => {
+        page.isSelected = this.findSelectedOrNot(page.id, pages);
+      });
+    });
+  }
+
+  findSelectedOrNot(id, pages) {
+    let status = false;
+    pages.map(page => (page.id == id) && (status = page.isSelected));
+    return status;
   }
 
 

@@ -15,6 +15,7 @@ import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
+import { RouteGuard } from '../guards/route.guard';
 
 
 const routes: Routes = [{
@@ -24,22 +25,28 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: VehicleStatusChangeComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'vehiclestatuschange',
             component: VehicleStatusChangeComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'issue-alerts',
             component: IssueAlertsComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'escalation-matrix',
             component: EscalationMatrixComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'lrview',
             component: LRViewComponent,
+            canActivate: [RouteGuard]
+
         },
         {
             path: 'generate-lr',
@@ -48,34 +55,42 @@ const routes: Routes = [{
         {
             path: 'group-managements',
             component: GroupManagementsComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'ticket-properties',
             component: TicketPropertiesComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'lorry-receipt-details',
             component: LorryReceiptDetailsComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'site-fencing',
             component: SiteFencingComponent,
+            canActivate: [RouteGuard]
         },
         {
              path:  'diagnostics' ,
              component: DiagnosticsComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'site-details',
-            component: SiteDetailsComponent
+            component: SiteDetailsComponent,
+            canActivate: [RouteGuard]
         },
         {
             path: 'pending-documents',
-            component: PendingDocumentsComponent
+            component: PendingDocumentsComponent,
+            canActivate: [RouteGuard]
         },
         {
             path:'user-preferences',
-            component: UserPreferencesComponent
+            component: UserPreferencesComponent,
+            canActivate: [RouteGuard]
         }
     ],
 }];
