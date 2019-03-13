@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.component';
 // import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { UserService } from '../../@core/data/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 @Component({
   selector: 'vouchers',
@@ -40,7 +40,9 @@ export class VouchersComponent implements OnInit {
     public common: CommonService,
     private route: ActivatedRoute,
     public user: UserService,
+    public router: Router,
     public modalService: NgbModal) {
+    this.voucher = this.setVoucher();
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -48,14 +50,14 @@ export class VouchersComponent implements OnInit {
         this.voucherName = params.name;
         this.getVouchers();
       }
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
     this.getLedgers('debit');
     this.getLedgers('credit');
-
-
   }
 
   ngOnInit() {
+
   }
 
   setVoucher() {
