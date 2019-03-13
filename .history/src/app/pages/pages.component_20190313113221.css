@@ -142,7 +142,7 @@ tr{
 }
 .modal-header{
     text-align: center;
-    background-color:   #e0e0e0;
+    background-color:   #dcd4d4;
     
 }
 .no-data {
@@ -151,6 +151,11 @@ tr{
     font-weight: 400;
     padding-left: 38%;
 }
+
+/* .nb-theme-corporate nb-menu{
+    font-size: 10px;
+} */
+
 :host ::ng-deep nb-sidebar .main-container{
     background-color: #263238 !important;
     border:0px !important;
@@ -175,9 +180,6 @@ tr{
 :host ::ng-deep  nb-menu .menu-item a.active{
     background-color: #26A69A !important;
     color: #fff !important;
-}
-:host ::ng-deep  nb-menu .menu-item a.active::before{
-    background: #fff !important;
 }
 :host ::ng-deep .menu-icon::before{
     content: '';
@@ -234,11 +236,4 @@ tr{
     background: #324148 !important;
     color: #f7fafb !important;
     box-shadow: none !important;
-}
-:host ::ng-deep nb-base-calendar.medium nb-card{
-    width: 100%;
-}
-:host ::ng-deep nb-base-calendar.medium nb-card-header{
-    padding: 10px 20px;
-    border-bottom: 1px solid #eaeaea;
 }

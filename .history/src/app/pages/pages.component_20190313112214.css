@@ -142,7 +142,7 @@ tr{
 }
 .modal-header{
     text-align: center;
-    background-color:   #e0e0e0;
+    background-color:   #dcd4d4;
     
 }
 .no-data {
@@ -151,6 +151,11 @@ tr{
     font-weight: 400;
     padding-left: 38%;
 }
+
+/* .nb-theme-corporate nb-menu{
+    font-size: 10px;
+} */
+
 :host ::ng-deep nb-sidebar .main-container{
     background-color: #263238 !important;
     border:0px !important;
@@ -159,7 +164,7 @@ tr{
     background-color: #263238 !important;
     color: #fff !important;
 }
-:host ::ng-deep nb-menu .menu-items > .menu-item{
+:host ::ng-deep .nb-theme-corporate nb-menu .menu-items > .menu-item{
     border: 0px !important;
 }
 .menu-items{
@@ -167,25 +172,15 @@ tr{
     font-size: 12px !important;
 }
 :host ::ng-deep .menu-items a{
-    font-size: 12px;
+    font-size: 14px;
     padding: 15px 10px !important;
-    border-radius: 0px !important;
-}
-:host ::ng-deep nb-menu .menu-item a:hover, 
-:host ::ng-deep  nb-menu .menu-item a.active{
-    background-color: #26A69A !important;
-    color: #fff !important;
-}
-:host ::ng-deep  nb-menu .menu-item a.active::before{
-    background: #fff !important;
 }
 :host ::ng-deep .menu-icon::before{
     content: '';
     display: block;
     font-family: 'FontAwesome';
-    font-size: 16px;
+    font-size: 22px;
     margin-right: 8px;
-    color: #fff;
 }
 :host ::ng-deep .nb-home::before{
     content: '\f015';
@@ -216,11 +211,9 @@ tr{
 }
 :host ::ng-deep .fa-database::before{
     content: '\f15c';
-    font-size: 14px;
 } 
 :host ::ng-deep .fa-money::before{
     content: '\f283';
-    font-size: 14px;
 }  
 :host ::ng-deep .control-icon.nb-notifications::before{
     content: '\f0f3';
@@ -234,11 +227,4 @@ tr{
     background: #324148 !important;
     color: #f7fafb !important;
     box-shadow: none !important;
-}
-:host ::ng-deep nb-base-calendar.medium nb-card{
-    width: 100%;
-}
-:host ::ng-deep nb-base-calendar.medium nb-card-header{
-    padding: 10px 20px;
-    border-bottom: 1px solid #eaeaea;
 }

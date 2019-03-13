@@ -7,8 +7,8 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 @Component({
   selector: 'expenses',
   templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.scss','../pages.component.css']
-  
+  styleUrls: ['./expenses.component.scss','../pages.component.css'],
+  animations: [slideToLeft()],
 })
 export class ExpensesComponent implements OnInit {
   expenses = [];

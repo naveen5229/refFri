@@ -142,7 +142,7 @@ tr{
 }
 .modal-header{
     text-align: center;
-    background-color:   #e0e0e0;
+    background-color:   #dcd4d4;
     
 }
 .no-data {
@@ -235,10 +235,6 @@ tr{
     color: #f7fafb !important;
     box-shadow: none !important;
 }
-:host ::ng-deep nb-base-calendar.medium nb-card{
+:host ::ng-deep .nb-theme-corporate nb-base-calendar.medium nb-card{
     width: 100%;
-}
-:host ::ng-deep nb-base-calendar.medium nb-card-header{
-    padding: 10px 20px;
-    border-bottom: 1px solid #eaeaea;
 }

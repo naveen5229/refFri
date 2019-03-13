@@ -7,7 +7,7 @@
 <div class="modal-body">
   <div class="container">
     <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
-    <div class="row">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Vehicle Regno </label>
       </div>
@@ -16,7 +16,7 @@
           [(ngModel)]="vehicleTrip.regno"  readonly>
       </div>
     </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
         <div class="col-md-4">
           <label> Last Location </label>
         </div>
@@ -29,21 +29,21 @@
             type="hidden" readonly [(ngModel)]="vehicleTrip.startLng">
         </div>
       </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Last Loc Time </label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8" style="margin-top:5px">
         <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)]="vehicleTrip.startTime" name="startTime"
           placeholder="Entry Time" autocomplete="off" readonly>
       </div>
     </div>
     
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Next Location</label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8" style="margin-top:5px">
         <button class="btn" *ngFor = "let placementSuggestion of placementSuggestion; let i = index" (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:15px">
           {{placementSuggestion.loc_name}}
         </button>
@@ -56,11 +56,11 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Purpose </label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8" style="margin-top:5px">
        <select  [(ngModel)]="vehicleTrip.placementType" class="form-control" style="height:44px">
         <option value="11" selected>Loading</option>
         <option value="21">UnLoading</option>
@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
         <div class="col-md-4">
           <label>Target Time</label>
         </div>
@@ -89,7 +89,7 @@
       <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
     <div class="col">
-      <button class="btn btn-primary" (click)="updateTrip();" style="cursor:pointer;background-color:#6ac8ff;">Update</button>
+      <button class="btn btn-primary" (click)="updateTrip();" style="cursor:pointer;">Update</button>
     </div>
   </div>
 </div>

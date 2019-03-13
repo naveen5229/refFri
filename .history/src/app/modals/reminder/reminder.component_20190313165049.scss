@@ -102,7 +102,7 @@
     font-size: 16px;
 }
 
-.hour-row-1,
+.hour-row-1.
 .hour-row-2,
 .hour-row-3,
 .hour-row-4 {
@@ -114,15 +114,14 @@
 }
 
 .back-btn {
-    margin-top: -3px;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 16px !important;
+    position: absolute;
+    left: 10px;
+    font-size: 13px;
+    margin-top: 3px;
 }
 
 .back-btn * {
     vertical-align: middle;
-    margin-right: 5px;
 }
 .modal-footer{
     justify-content:center;
@@ -130,7 +129,4 @@
 .modal-footer button{
     font-size: 10px;
     margin: 0px;
-}
-.modal-header{
-    padding: 10px 15px;
 }
