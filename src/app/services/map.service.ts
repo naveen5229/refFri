@@ -61,9 +61,9 @@ export class MapService {
 }
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
-    if (this.isMapLoaded) {
-      return;
-    }
+    // if (this.isMapLoaded) {
+    //   return;
+    // }
     this.mapDiv = document.getElementById(div);
     let latlng = new google.maps.LatLng(lat, long);
     let opt =

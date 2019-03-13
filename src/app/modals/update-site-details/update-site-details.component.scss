@@ -1,6 +1,4 @@
 .update-site_mokup{
-   
-
 position: relative;
 padding: 20px;
 }
@@ -9,6 +7,12 @@ content: '';
 display: block;
 clear: both;
 overflow: hidden;
+}
+.map{
+    height: 400px;
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
 }
 .update-site_mokup h1{
 padding: 20px 0px;
@@ -64,8 +68,4 @@ font-size: 16px;
 margin: 30px 0px;
 padding: 8px 14px;
 outline: none;
-}
-.map{
-    height: 200%;
-    width: 100%;
 }
