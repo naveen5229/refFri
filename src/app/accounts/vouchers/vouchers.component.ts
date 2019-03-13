@@ -23,7 +23,8 @@ export class VouchersComponent implements OnInit {
     debit: [],
     suggestions: []
   };
-
+  currentbalance = 0;
+  balances = {};
   showConfirm = false;
 
   showSuggestions = false;
@@ -50,7 +51,7 @@ export class VouchersComponent implements OnInit {
     });
     this.getLedgers('debit');
     this.getLedgers('credit');
-   
+
 
   }
 
@@ -162,7 +163,7 @@ export class VouchersComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
-      this.setFoucus('ref-code');
+    this.setFoucus('ref-code');
   }
 
 
@@ -191,7 +192,7 @@ export class VouchersComponent implements OnInit {
     });
   }
 
-  calculateTotal() {
+  calculateTotal(index?) {
     this.voucher.total.debit = 0;
     this.voucher.total.credit = 0;
     this.voucher.amountDetails.map(amountDetail => {
@@ -202,6 +203,17 @@ export class VouchersComponent implements OnInit {
         this.voucher.total.credit += amountDetail.amount;
       }
     });
+    if (index) {
+      let ledgerId = this.voucher.amountDetails[index].ledger.id;
+
+      if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
+        console.log('check condition');
+        this.voucher.amountDetails[index].amount = 0;
+        alert('Please enter valid amount');
+      }
+      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
+    }
+
   }
 
 
@@ -247,6 +259,10 @@ export class VouchersComponent implements OnInit {
         }
         console.log('Test: ', index, this.ledgers, this.ledgers.suggestions[0]);
         this.selectLedger(this.ledgers.suggestions[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
+        console.log('hello dear', this.voucher.amountDetails[index].transactionType);
+        if ((this.voucherId == '-1' || this.voucherId == '-3') && (this.voucher.amountDetails[index].transactionType == 'credit')) {
+          this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
+        }
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
@@ -281,8 +297,9 @@ export class VouchersComponent implements OnInit {
       //console.log('helo',document.activeElement.id);
     } else if (activeId.includes('ledger-')) {
       let index = activeId.split('-')[1];
-      let transactionType = document.getElementById('transaction-type-' + index)['value'];
-
+      // console.log(index);
+      // let transactionType = document.getElementById('trasactionn-type-' + index)['value'];
+      let transactionType = this.voucher.amountDetails[index].transactionType;
     }
   }
 
@@ -367,8 +384,27 @@ export class VouchersComponent implements OnInit {
         console.error(err);
         this.common.showError();
       });
-      this.setFoucus('ref-code');
+    this.setFoucus('ref-code');
   }
+
+  getCurrentBalance(ledgerId) {
+    this.showSuggestions = true;
+    let url = 'Suggestion/getCurrentBalance?branchid=' + 0 + '&fromdate=' + this.date + '&ledgerid=' + ledgerId;
+    console.log('URL: ', url);
+    this.api.get(url)
+      .subscribe(res => {
+        console.log('current balance', res['data'][0]['get_currentbalance']);
+        // return res['data'][0]['get_currentbalance'];
+        this.balances[ledgerId] = { main: res['data'][0]['get_currentbalance'], current: res['data'][0]['get_currentbalance'] };
+        this.currentbalance = (res['data'][0]['get_currentbalance']) - this.voucher.total.credit;
+        console.log('check current balance', this.currentbalance);
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+    this.setFoucus('ref-code');
+  }
+
 
   selectLedger(ledger, index?) {
     console.log('Last Active ID:', this.lastActiveId, ledger);
@@ -433,6 +469,30 @@ export class VouchersComponent implements OnInit {
     }
     return [];
 
+
+  }
+
+  findBalance(index) {
+    let amount = 0;
+    let allCreditAmounts = [];
+    let ledgerId = this.voucher.amountDetails[index].ledger.id;
+    this.voucher.amountDetails.map((amountDetail, index) => {
+      if (amountDetail.transactionType == 'credit' && amountDetail.ledger.id == ledgerId) {
+        allCreditAmounts.push({ index: index, amountDetail: amountDetail });
+      }
+    });
+    const activeId = document.activeElement.id;
+
+    let sum = 0;
+    for (let i = 0; i < allCreditAmounts.length; i++) {
+      if (allCreditAmounts[i].index == index) break;
+      sum += allCreditAmounts[i].amountDetail.amount;
+    }
+    console.log('Amount: ', amount);
+    if (!this.balances[ledgerId]) {
+      return 0;
+    }
+    return this.balances[ledgerId].main - sum;
 
   }
 
