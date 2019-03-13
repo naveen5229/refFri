@@ -69,9 +69,7 @@ export class UserPreferencesComponent implements OnInit {
     console.log('All Sections: ', this.sections, this.pagesGroups);
   }
 
-  updatePreferences() {
-    console.log(this.pagesGroups);
-  }
+
 
   checkOrUnCheckAll(index) {
     this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
@@ -85,6 +83,7 @@ export class UserPreferencesComponent implements OnInit {
 
         this.data = res['data'];
         console.log("Res Data:", this.data);
+        this.checkSelectedPages(this.data);
         this.findSections();
 
       }, err => {
@@ -93,13 +92,28 @@ export class UserPreferencesComponent implements OnInit {
       });
   }
 
+  updatePreferences() {
+    let param = this.pagesGroups;
+    console.log("Param:",param);
+        this.common.loading++;
+    this.api.post('UserRoles/setPagesWrtUser', {pages:param})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
+    
+  }
+
   getUserPages(user) {
     console.log('User: ', user);
     const params = {
       id: user.id
     };
     this.common.loading++;
-    this.api.post('', params)
+    this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
