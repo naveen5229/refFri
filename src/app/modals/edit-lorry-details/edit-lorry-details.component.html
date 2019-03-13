@@ -65,7 +65,7 @@
       <input type="text" class="from-control" id="destination" name="destination" [(ngModel)]="LrData.destination"
         placeholder="Destination" style="margin-bottom:10px">
       <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+        placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
 
       <input type="text" class="from-control" name="remark" [(ngModel)]="LrData.remark" placeholder="Remark" style="margin-bottom:10px">
       <div class="row">
@@ -138,7 +138,7 @@
             placeholder="Pan No.">
         </div>
         <div class="col-6">
-          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbname1" name="name"
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.name" name="name"
             placeholder="Name">
         </div>
       </div>

@@ -13,7 +13,7 @@
       <th>Source</th>
       <th>Destination</th>
       <th>User</th>
-      <th>addTime</th>
+      <th>Add Time</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -26,7 +26,7 @@
       <td>{{data.destination}}</td>
       <td>{{data.current_user}}</td>
       <!-- <td>{{data.weight}}</td> -->
-      <td>{{data.addtime}}</td>
+      <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
       <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
     </tbody>
   </table>

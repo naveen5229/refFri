@@ -7,15 +7,14 @@ import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
-
-
 import { DiagnosticsComponent} from './diagnostics/diagnostics.component';
-
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
+import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 
 
 const routes: Routes = [{
@@ -69,6 +68,14 @@ const routes: Routes = [{
         {
             path: 'site-details',
             component: SiteDetailsComponent
+        },
+        {
+            path: 'pending-documents',
+            component: PendingDocumentsComponent
+        },
+        {
+            path:'user-preferences',
+            component: UserPreferencesComponent
         }
     ],
 }];

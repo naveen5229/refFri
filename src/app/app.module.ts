@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -85,6 +85,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { HttpResponseHandlerService } from './services/http-response-handler.service';
 
 @NgModule({
   declarations: [AppComponent,
@@ -140,8 +141,8 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     AddTripComponent,
     AddFuelFillingComponent,
     AddDriverComponent,
-    UpdateSiteDetailsComponent,
-    
+    UpdateSiteDetailsComponent
+
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -224,6 +225,7 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
