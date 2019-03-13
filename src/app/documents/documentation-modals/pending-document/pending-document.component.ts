@@ -74,11 +74,11 @@ export class PendingDocumentComponent implements OnInit {
     this.document = this.common.params.rowData;
     console.log("pending data:", this.common.params.rowData);
     if (this.document.issue_date)
-      this.document.issue_date = this.common.dateFormatter(this.document.issue_date, 'ddMMYYYY').split(' ')[0];
+      this.document.issue_date = this.common.dateFormatter(this.document.issue_date, 'ddMMMYYYY').split(' ')[0];
     if (this.document.wef_date)
-      this.document.wef_date = this.common.dateFormatter(this.document.wef_date, 'ddMMYYYY').split(' ')[0];
+      this.document.wef_date = this.common.dateFormatter(this.document.wef_date, 'ddMMMYYYY').split(' ')[0];
     if (this.document.expiry_date)
-      this.document.expiry_date = this.common.dateFormatter(this.document.expiry_date, 'ddMMYYYY').split(' ')[0];
+      this.document.expiry_date = this.common.dateFormatter(this.document.expiry_date, 'ddMMMYYYY').split(' ')[0];
 
     console.log("doc params rcvd");
     console.log(this.document);
