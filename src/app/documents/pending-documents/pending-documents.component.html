@@ -221,8 +221,8 @@
             <div class="row form-field clear">
               <label for="remarks-first" class="col-sm-4 mgn">Remarks</label>
               <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                <textarea id="remarks-first" name="remarks-first" rows="1" class="form-control "
-                  [(ngModel)]="modal.first.data.document.remarks"></textarea>
+                <textarea id="remarks-first" name="remarks-first" rows="2" class="form-control "
+                  [(ngModel)]="modal.first.data.document.remarks" [value]="modal.first.data.document.remarks"></textarea>
               </div>
             </div>
 
@@ -417,8 +417,8 @@
             <div class="row form-field clear">
               <label for="remarks-second" class="col-sm-4 mgn">Remarks</label>
               <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                <textarea id="remarks-second" name="remarks-second" rows="1" class="form-control "
-                  [(ngModel)]="modal.second.data.document.remarks"></textarea>
+                <textarea id="remarks-second" name="remarks-second" rows="2" class="form-control "
+                  [(ngModel)]="modal.second.data.document.remarks" [value]="modal.second.data.document.remarks"></textarea>
               </div>
             </div>
 

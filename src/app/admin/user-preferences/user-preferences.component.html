@@ -1,0 +1,73 @@
+<nb-card>
+  <nb-card-header>
+    User Prefernces
+  </nb-card-header>
+
+  <nb-card-body style="min-height: 360px;">
+    <div class="search" style="width: 250px; text-align: center; margin-bottom: 20px; margin-left: 50px">
+      <auto-suggestion (onSelected)="getSuggestions()" url="UserRoles/getActiveAdminUsers" display="employeename"
+        placeholder="Search" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="container">
+      <div *ngFor="let section of sections; let j = index;">
+        <div><input type="checkbox" [name]="'section-' + j" [(ngModel)]="section.isSelected" (change)="checkOrUnCheckAll(j)"> {{section.title | uppercase}}</div>
+        <div class="row">
+          <div class="col-3" *ngFor="let page of pagesGroups[section.title]; let i = index;">
+            <input type="checkbox" [name]="section + '-page-' + i" [id]="section + '-page-' + i"
+              [(ngModel)]="page.isSelected"> {{page.title}}
+          </div>
+        </div>
+      </div>
+      <p>
+        <button class="btn btn-secondary" (click)="updatePreferences()">Save</button>
+      </p>
+    </div>
+
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+<!-- 
+
+<h4>Admin</h4>
+<hr>
+<div class="form-group admin">
+  
+    <label class="checkbox-inline">
+        <input type="checkbox" name="lrView" > LR View
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="statusChange" > vehicle status Change
+    </label>
+     
+    <label class="checkbox-inline">
+        <input type="checkbox" name="lrView" > issue Alert
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="statusChange" > Escalation Matrix
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="lrGenerate" > Lr Generate
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="groupManagement" > Group Management
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="ticket" >ticket Properties
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="lorryReceipt" >lorry-Receipt Details
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="diagnostics" > diagnostics
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="siteDetails" > Site Details
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="pending" > Pending Documents
+    </label>
+</div> -->
