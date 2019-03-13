@@ -32,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DriversAttendanceComponent } from './drivers-attendance/drivers-attendance.component';
 
 
+
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
@@ -65,6 +66,7 @@ const PAGES_COMPONENTS = [
     ConciseComponent,
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
+    
     DriversAttendanceComponent,
   ],
 })

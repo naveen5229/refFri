@@ -11,9 +11,11 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./ledgerview.component.scss']
 })
 export class LedgerviewComponent implements OnInit {
+  vouchertypedata=[];
+  branchdata=[];
   ledger = {
-    endDate:'',
-    startDate:'',
+    endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger :{
         name:'',
         id:''
@@ -33,12 +35,46 @@ export class LedgerviewComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
-   // this.getDayBook();
+    this.getVoucherTypeList();
+    this.getBranchList();
     }
 
   ngOnInit() {
   }
+  getVoucherTypeList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetVouchertypeList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.vouchertypedata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
 
+  }
+  getBranchList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetBranchList', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.branchdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
   getLedgerView() {
     console.log('Ledger:', this.ledger);
     let params = {
