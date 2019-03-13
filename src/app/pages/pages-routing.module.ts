@@ -15,6 +15,8 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 
  // import { DocumentsComponent } from '../documents/documents.components';
+import {DriversAttendanceComponent}  from './drivers-attendance/drivers-attendance.component';
+// import { DocumentsComponent } from '../documents/documents.components';
 import { from } from 'rxjs';
 
 const routes: Routes = [{
@@ -73,7 +75,11 @@ const routes: Routes = [{
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
-   
+  {
+    path: 'drivers-attendance',
+    component: DriversAttendanceComponent
+  },
+  
   ],
 }];
 

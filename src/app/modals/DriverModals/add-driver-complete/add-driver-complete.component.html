@@ -1,6 +1,9 @@
 <nb-card>
   <nb-card-header>
     <h2>Drivers Input</h2>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </nb-card-header>
 
   <nb-card-body>
@@ -11,12 +14,12 @@
           <label>Name</label>
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="driver-name" formControlName="name"
-            autocomplete="off" minLength="3" maxLength="64"
+          <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="name"
+             minlength="3" maxlength="64"
             placeholder="Driver Name">
-          <!-- <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-            <div *ngIf="f.name.errors.required">Driver Name is required</div>
- -->
+          <!-- <div *ngIf="submitted && f.name.errors" class="invalid-feedback"> -->
+            <!-- //<div *ngIf="f.name.errors.required">Driver Name is required</div> -->
+
 
           
 
@@ -85,7 +88,7 @@
           </div>
           <div class="col-3">
             <input type="file" class="file-control" id="aadhar-photo" formControlName="aadharphoto"
-              (change)="handleFileSelection($event,3)" >
+              (change)="handleFileSelection($event,3)">
           </div>
 
 
@@ -115,7 +118,7 @@
             <label>Gauranter</label>
           </div>
           <div class="col-3">
-            <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter" placeholder="guarenter"
+            <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter" placeholder="guranter"
               >
           </div>
         </div>
@@ -124,7 +127,7 @@
             <label>Guranter Mobile No.</label>
           </div>
           <div class="col-3">
-            <input type="text" class="form-control" minlength="10" autocomplete="off" maxlength="10" id="guranter-no."
+            <input type="text" class="form-control" autocomplete="off" minlength="10" maxlength="10" id="guranter-no."
               placeholder="Guranter mobile No."  formControlName="guranterno">
               
             
@@ -134,7 +137,7 @@
 
       
       <div class="col-md-12 text-center margin-top-15">
-        <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="submitted = true" >ADD</button><!--(click)="submitted=true">ADD</button>--> 
+        <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="submitted=true" >ADD</button><!--(click)="submitted=true">ADD</button>--> 
       </div>
 
     </form>

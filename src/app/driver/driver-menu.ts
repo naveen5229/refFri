@@ -28,7 +28,14 @@ export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/driver/driver-list',
         home: true,
-    }
+    },
+    {
+        
+        title: 'vehicle-driver-mapping',
+        icon: 'nb-home',
+        link: '/driver/vehicle-driver-mapping',
+        home: true,
+    },
 
 ];
 
