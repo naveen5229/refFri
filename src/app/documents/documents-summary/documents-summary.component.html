@@ -50,27 +50,7 @@
                   </span>
                   <span *ngIf="row[col] == null && col != 'vehicle'">
                     <i class="fa fa-times-circle icon-red-cross" (click)="fetchDocumentData(row, col, row[col])"></i>
-                  </span>
-                  <!--
-                  <span *ngIf="row[col].indexOf('3_') > -1">             
-                    <i class="fa fa-check icon-black" (click)="fetchDocumentData(row,col)"></i>
-                  </span>
-                  <span *ngIf="row[col].indexOf('1_') > -1">
-              
-                    <i class="fa fa-times icon-black" (click)="fetchDocumentData(row,col)"></i>
-                  </span>
-                  <span *ngIf="colval.indexOf('2_') > -1">
-                  
-                    <i class="fa fa-check icon-red" (click)="fetchDocumentData(row,col)"></i>
-                  </span>
-                  <span *ngIf="colval.indexOf('4_') > -1">
-                
-                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row,col)"></i>
-                  </span>
-                  <span *ngIf="colval == ''">
-                    <i class="fa fa-times-circle icon-red-cross" (click)="fetchDocumentData(row,col)"></i>
-                  </span>
-                -->
+                  </span>                  
                 </td>
               </tr>
             </ng-container>

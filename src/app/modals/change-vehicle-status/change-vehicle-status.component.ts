@@ -7,6 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { resetComponentState } from '@angular/core/src/render3/instructions';
 
 declare let google: any;
 
@@ -27,6 +28,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     name: '',
     time: ''
   };
+  btnStatus=true;
   lUlBtn = false;
   dataType = 'events';
   VehicleStatusData;
@@ -99,6 +101,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openChangeHaltModal(vehicleEvent, type) {
     this.common.changeHaltModal = type;
+    this.common.passedVehicleId = this.VehicleStatusData.vehicle_id;
     this.common.params = vehicleEvent;
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -161,10 +164,23 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
+      this.resetBtnStatus();
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  resetBtnStatus(){
+    this.btnStatus = true;
+    this.vehicleEvents.forEach(vehicleEventDetail =>{
+      console.log("vehicleEventDetail",vehicleEventDetail)
+      if(vehicleEventDetail.color=='ff13ec'){
+        this.btnStatus = false;
+        return;
+      }
+    });
   }
 
   getLoadingUnLoading() {

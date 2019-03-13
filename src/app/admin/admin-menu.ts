@@ -38,7 +38,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Group Mmanagements',
+        title: 'Group Managements',
         icon: 'nb-home',
         link: '/admin/group-managements',
         home: true,
@@ -87,4 +87,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/user-preferences',
         home: true,
     },
+    {
+        title: 'Site Details',
+        icon: 'nb-home',
+        link: '/admin/site-details',
+        home: true,
+    }
+
 ];
