@@ -30,7 +30,7 @@ export class ChangeHaltComponent implements OnInit {
       this.title = "Choose Halt Type"
     }
     this.VehicleStatusData = this.common.params;
-    console.log("vehicle status9999999999",this.VehicleStatusData);
+    console.log("vehicle status9999999999",this.VehicleStatusData,this.common.passedVehicleId );
   }
 
   ngOnInit() {
@@ -80,8 +80,9 @@ export class ChangeHaltComponent implements OnInit {
     this.common.loading++;
     console.log(this.VehicleStatusData);
     let params = {
-      vehicleId:this.VehicleStatusData.haltId, 
+      vehicleId:this.common.passedVehicleId , 
     };
+    console.log("params=",params)
     this.api.post('HaltOperations/getLastHalt', params)
       .subscribe(res => {
          this.common.loading--;

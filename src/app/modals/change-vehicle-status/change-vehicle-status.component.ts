@@ -101,6 +101,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openChangeHaltModal(vehicleEvent, type) {
     this.common.changeHaltModal = type;
+    this.common.passedVehicleId = this.VehicleStatusData.vehicle_id;
     this.common.params = vehicleEvent;
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
