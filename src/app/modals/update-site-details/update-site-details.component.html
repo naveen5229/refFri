@@ -5,7 +5,7 @@
     </button>
 </div>
 
-<div class="modal-body" style="min-height:800px;">
+<div class="modal-body" style="min-height:300px;">
     <div class="container">
         <div class="row">
             <div class="col-3">
@@ -31,8 +31,16 @@
 
                 </div>
             </div>
-            <div class="col-9" >
-                <div id="map" class="map"  ></div>
+
+            <div class="col-9">
+                <span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+                </span>
+                <div id="map" class="map"></div>
             </div>
         </div>
     </div>
