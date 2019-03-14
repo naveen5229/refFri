@@ -82,10 +82,16 @@ export class DocumentsSummaryComponent implements OnInit {
         return 3;
       } else if(strval.indexOf('4_')> -1) {
         return 4;
+      } else {
+        return 99;
       }
     } else {
       return 0;
     }
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
   fetchDocumentData(row, col, colval) {
