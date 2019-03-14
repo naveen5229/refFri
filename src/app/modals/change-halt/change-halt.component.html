@@ -7,11 +7,11 @@
 <div class="modal-body">
   <div class="container" *ngIf="type=='HaltType'">
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType" (click)="getlastHalt(11)">  
       Loading
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType"(click)="getlastHalt(21)" >
       UnLoading
     </label>
     <label class="halt-label">

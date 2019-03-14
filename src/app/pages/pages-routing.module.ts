@@ -14,9 +14,11 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
-import {TrendsComponent}from './trends/trends.component';
+import { TrendsComponent } from './trends/trends.component';
 
- // import { DocumentsComponent } from '../documents/documents.components';
+// import { DocumentsComponent } from '../documents/documents.components';
+import { DriversAttendanceComponent } from './drivers-attendance/drivers-attendance.component';
+// import { DocumentsComponent } from '../documents/documents.components';
 import { from } from 'rxjs';
 
 const routes: Routes = [{
@@ -76,6 +78,10 @@ const routes: Routes = [{
     component: VehicleTripComponent
   },
   {
+    path: 'drivers-attendance',
+    component: DriversAttendanceComponent
+  },
+  {
     path: 'vehicle-report',
     component: VehicleReportComponent
   },
@@ -83,7 +89,7 @@ const routes: Routes = [{
     path: 'trends',
     component: TrendsComponent
   },
-   
+
   ],
 }];
 

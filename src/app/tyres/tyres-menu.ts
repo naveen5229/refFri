@@ -37,4 +37,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/vehicle-trolly-mapping',
         home: true,
     },
+    {
+        title: 'Tyre Modals',
+        icon: 'fa fa-map-signs',
+        link: '/tyres/tyre-modals',
+        home: true,
+    },
 ];

@@ -8,6 +8,7 @@ import { DriverComponent } from './driver.component';
 import { DriverRoutingModule } from './driver-routing.module';
 import { AddDriverComponent } from './add-driver/add-driver.component';
 import { DriverListComponent } from './driver-list/driver-list.component';
+import { VehicleDriverMappingComponent } from './vehicle-driver-mapping/vehicle-driver-mapping.component';
 
 const PAGES_COMPONENTS = [
   DriverComponent,
@@ -26,6 +27,7 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     AddDriverComponent,
     DriverListComponent,
+    VehicleDriverMappingComponent,
   ],
 })
 export class DriverModule { }

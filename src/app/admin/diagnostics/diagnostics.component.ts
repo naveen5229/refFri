@@ -5,7 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router'
 import { ApiService } from '../../services/api.service';
 import { VechileTrailsComponent } from '../../modals/vechile-trails/vechile-trails.component';
-
+import { ChangeVehicleStatusComponent} from '../../modals/change-vehicle-status/change-vehicle-status.component';
 
 @Component({
   selector: 'diagnostics',
@@ -26,6 +26,12 @@ export class DiagnosticsComponent implements OnInit {
     startTime : this.common.dateFormatter(new Date()),
     endDate : this.common.dateFormatter(new Date())
   };
+  VehicleStatusData = {
+    vehicle_id:null,
+    latch_time:null,
+    //ttime:null
+
+  }
 
   constructor(
     public router: Router,
@@ -72,8 +78,10 @@ export class DiagnosticsComponent implements OnInit {
 
       if(type=='trails'){
         this.Trails.vechileno= vehicle.id;
-      }else{
+      }if(type=='distance'){
         this.diagnostics.vechileno = vehicle.id;
+      }if(type=='Status'){
+        this.VehicleStatusData.vehicle_id = vehicle.id;
       }
     }
     getVehicleTrails(){
@@ -100,6 +108,30 @@ export class DiagnosticsComponent implements OnInit {
           this.common.showError();
         })
     }
+    getChangeVehicleStatusChange(){
+      let params = {
+        vehicleId: this.VehicleStatusData.vehicle_id,
+        fromTime: this.VehicleStatusData.latch_time,
+        //toTime: this.VehicleStatusData.ttime,
+        suggestId: 1
+      }
+      console.log("param",params);
+       this.common.loading++;
+       this.api.post('VehicleStatusChange/getVehicleTrail', params)
+         .subscribe(res => {
+           this.common.loading--;
+           if(res['data'].length>0){
+           this.common.params = res['data'];
+           console.log('res: ', this.common.params);          
+           this.modalservice.open(ChangeVehicleStatusComponent,{ size: 'lg', container: 'nb-layout'});
+           }else{
+             alert("Vehicle Trails are not present for this time period");
+           }
+         }, err => {
+           this.common.loading--;
+           this.common.showError();
+         })
+     }
     }
 
 

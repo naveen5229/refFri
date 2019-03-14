@@ -11,6 +11,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class SiteFencingComponent implements OnInit {
 
+  mergeSiteId= null;
   typeIds = [];
   typeId = 1;
   moveLoc = '';
@@ -34,6 +35,24 @@ export class SiteFencingComponent implements OnInit {
     this.mapService.createPolygonPath();
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
   }
+  mergeSite() {
+    if(!this.mergeSiteId){
+      this.commonService.showToast("Select Old Site!!");
+      return;
+    }
+    if(!this.selectedSite){
+      this.commonService.showToast("Select New Site!!");
+      return;
+    }
+    this.apiService.post("SiteFencing/mergeSite", {oldId:this.mergeSiteId,newId:this.selectedSite})
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.commonService.showToast(res['msg']);
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
+  }
   getTypeIds() {
     this.apiService.post("SiteFencing/getSiteTypes", {})
       .subscribe(res => {
@@ -51,23 +70,46 @@ export class SiteFencingComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', data);
-        this.clearAll();
+        this.clearAll(false);
         this.mapService.createMarkers(data);
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
         this.siteName = data[0].name;
         this.selectedSite = site;
+        this.getRemainingTable();
         this.apiService.post("SiteFencing/getSiteFences", { siteId: this.selectedSite })
           .subscribe(res => {
             let data = res['data'];
+            let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if(data['siteId']){
-              this.mapService.createPolygon(data.latLngs);
+            if(data[this.selectedSite]&&count==1){
+              this.mapService.createPolygon(data[this.selectedSite]);
+              this.isUpdate=true;
+              console.log("Single",data[this.selectedSite]);
+            }
+            else if(data[this.selectedSite]&&count>1){
+              let latLngsArray = [];
+              let mainLatLng = null;
+              for (const datax in data) {
+                if (data.hasOwnProperty(datax)) {
+                  const datav = data[datax];
+                  if(datax==this.selectedSite)
+                    mainLatLng = datav;
+                  else
+                    this.mergeSiteId=datax;
+                  latLngsArray.push(datav);
+                  console.log("Multi",datax);
+                }
+              }
+              this.mapService.createPolygons(latLngsArray,mainLatLng);
               this.isUpdate=true;
             }
-            else
-             this.isUpdate=false;
+            else{
+              this.isUpdate=false;
+              console.log("Else",);
+            }
+            this.mapService.zoomMap(18.5);
           }, err => {
             console.error(err);
             this.commonService.showError();
@@ -79,14 +121,15 @@ export class SiteFencingComponent implements OnInit {
 
     this.commonService.loading--;
   }
-  clearAll() {
+  clearAll(loadTable = true) {
     this.exitTicket();
     this.mapService.isDrawAllow = false;
     this.siteName = null;
     this.siteLoc = null;
     this.typeId = 1;
     this.selectedSite = null;
-    this.getRemainingTable();
+    if(loadTable)
+      this.getRemainingTable();
     this.mapService.clearAll();
   }
   submitPolygon() {
