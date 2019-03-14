@@ -12,6 +12,7 @@ export class MapService {
   bounds = null;
   infoWindow = null;
   polygon = null;
+  polygons = [];
   isMapLoaded = false;
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -105,6 +106,30 @@ export class MapService {
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
   }
+  createPolygons(latLngsMulti,mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+    latLngsMulti.forEach(latLngs => {
+      let colorBorder = '#228B22';
+      let colorFill = '#ADFF2F';
+      if(mainLatLngs==latLngs){
+        colorBorder = '#550000';
+        colorFill = '#ff7f7f';
+      }
+      const defaultOptions = {
+        paths: latLngs,
+        strokeColor: colorBorder,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: false,
+        fillColor: colorFill,
+        fillOpacity: 0.35
+      };
+      this.polygons.push( new google.maps.Polygon(options || defaultOptions));
+    });
+    this.polygons.forEach(polygon => {
+      polygon.setMap(this.map);      
+    });
+    
+  }
   createMarkers(markers,clickEvent?, changeBounds = true) {
 
     let thisMarkers = [];
@@ -178,6 +203,12 @@ export class MapService {
     if (this.polygon) {
       this.polygon.setMap(null);
       this.polygon=null;
+    }
+    if (this.polygons.length>0) {
+      this.polygons.forEach(polygon => {
+        polygon.setMap(null);
+      });
+      this.polygons=[];
     }
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
