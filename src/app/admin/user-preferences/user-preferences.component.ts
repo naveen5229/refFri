@@ -127,9 +127,11 @@ export class UserPreferencesComponent implements OnInit {
       console.log('Pages: ', this.pagesGroups[section.title]);
       this.pagesGroups[section.title].map(page => {
         if (page.isSelected) {
-          console.log('---------------------------------------------');
+         
           data.push({ "id": page.id, "status":page.isSelected });
         }
+       
+     
       })
     });
     return data;
