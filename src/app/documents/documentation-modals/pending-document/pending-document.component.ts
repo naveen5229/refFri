@@ -87,7 +87,7 @@ export class PendingDocumentComponent implements OnInit {
     console.log("vehicleid:" + this.vehicleId + "=>" + this.document.vehicle_id);
     this.agentId = this.document.agent_id;
     this.getDocumentsData();
-    this.getDocumentPending();
+    // this.getDocumentPending();
 
     this.imgs = [];
     if (this.document.img_url != "undefined" && this.document.img_url) {

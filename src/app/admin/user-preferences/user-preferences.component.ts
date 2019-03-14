@@ -28,7 +28,7 @@ export class UserPreferencesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder) {
-    this.getAllPages();
+ 
   }
 
 
@@ -52,7 +52,7 @@ export class UserPreferencesComponent implements OnInit {
         id: data.id,
         title: data.title,
         route: data.route,
-        isSelected: false
+        isSelected: data.userid
       });
     });
 
@@ -65,36 +65,27 @@ export class UserPreferencesComponent implements OnInit {
     this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
   }
 
-  getAllPages() {
-    this.common.loading++;
-    this.api.post('UserRoles/getAllPages', {})
-      .subscribe(res => {
-        this.common.loading--;
 
-        this.data = res['data'];
-        console.log("Res Data:", this.data);
-        this.checkSelectedPages(this.data);
-        this.findSections();
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
 
   getUserPages(user) {
     this.selectedUser.details = user;
     console.log('User: ', user);
     const params = {
-      id: user.id
+      userId: user.id
     };
     this.common.loading++;
     this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
+        
+        this.data = res['data'];
+        console.log("Res Data:", this.data)
+
         this.selectedUser.oldPreferences = res['data'];
         this.checkSelectedPages(res['data']);
+        this.findSections();
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -137,7 +128,7 @@ export class UserPreferencesComponent implements OnInit {
       this.pagesGroups[section.title].map(page => {
         if (page.isSelected) {
           console.log('---------------------------------------------');
-          data.push({ id: page.id, status: page.isSelected });
+          data.push({ "id": page.id, "status":page.isSelected });
         }
       })
     });
