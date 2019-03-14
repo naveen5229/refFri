@@ -4,22 +4,22 @@
       <div class="col-6 table">
         <table>
           <tbody>
-              <tr>
-                  <td>
-                    <div></div>
-                  </td>
-                  <td>
-                    <input placeholder="Old Site Id" [(ngModel)]="mergeSiteId" class="form-control">
-                  </td>
-                  <td>
-                    <button (click)="mergeSite()" class="btn btn-primary">Merge</button>
-                  </td>
-    
-                </tr>
             <tr>
               <td>
-                <select class="form-control">
-                  <option *ngFor="let typeIdx of typeIds;" (click)="typeId=typeIdx.id; getRemainingTable()"
+                <div></div>
+              </td>
+              <td>
+                <input placeholder="Old Site Id" [(ngModel)]="mergeSiteId" class="form-control">
+              </td>
+              <td>
+                <button (click)="mergeSite()" class="btn btn-primary">Merge</button>
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="typeId" (change)="getRemainingTable()">
+                  <option *ngFor="let typeIdx of typeIds;" 
                     [value]="typeIdx.id">{{typeIdx.description}}</option>
                 </select>
               </td>
