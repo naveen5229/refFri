@@ -351,9 +351,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.lastIndDetails = res['data'][0];
-        console.log("lastIndDetails", this.lastIndDetails);
-        this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.VehicleStatusData.latch_time);
-        this.lastIndType = this.lastIndDetails.li_type;
+        if(this.lastIndDetails){
+          console.log("lastIndDetails", this.lastIndDetails);
+          this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.VehicleStatusData.latch_time);
+          this.lastIndType = this.lastIndDetails.li_type;
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
