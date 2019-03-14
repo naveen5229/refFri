@@ -30,6 +30,9 @@ export class TrendsComponent implements OnInit {
   trendType = '11';
   siteUnloading = [];
   vehicleUnloading = [];
+  week_number='';
+  month_number='';
+  period='0';
   url = '';
   flag = 'Loading';
   bgColor='#00695C';
@@ -61,10 +64,11 @@ export class TrendsComponent implements OnInit {
   ngOnInit() { }
 
   getDefaultTrend(){
-
-   this.endDate=this.common.dateFormatter(new Date())
+   //this.endDate=this.common.dateFormatter(new Date())
    let today=new Date();
-   let startday=new Date(today.setDate(today.getDate()-7));
+   let endDay=new Date(today.setDate(today.getDate()-1))
+   this.endDate=this.common.dateFormatter(endDay);
+   let startday=new Date(today.setDate(today.getDate()-6));
    this.startDate=this.common.dateFormatter(startday);
    console.log('endDate',this.endDate);
    console.log('startDate',startday, this.startDate);
@@ -117,12 +121,15 @@ export class TrendsComponent implements OnInit {
     this.chartObject.type = 'line';
     this.chartObject.data = {
       labels: this.dateDay,
+      
       datasets: [
         {
         //  label: this.flag,
           data: this.Hours,
           borderColor: this.bgColor,
-          fill: false
+          fill: false,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#FFEB3B'
         }
       ]
     };
@@ -132,6 +139,7 @@ export class TrendsComponent implements OnInit {
       legend: {
         display: false
       },
+             
       yAxes: [{
         ticks: {
           min: 100,
@@ -242,6 +250,10 @@ export class TrendsComponent implements OnInit {
 
     });
 
+
+  }
+
+  changePeriod(){
 
   }
 
