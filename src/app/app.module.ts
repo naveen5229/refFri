@@ -85,6 +85,7 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map.component';
 
 
 @NgModule({
@@ -142,6 +143,7 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     AddFuelFillingComponent,
     AddDriverComponent,
     UpdateSiteDetailsComponent,
+    VehiclesOnMapComponent,
     
     
   ],

@@ -34,7 +34,7 @@
               <div class="col-sm-3">
                 {{allKpis.length}}
               </div>
-            </nb-card-body>
+             </nb-card-body>
           </nb-card>
           <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
             <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">

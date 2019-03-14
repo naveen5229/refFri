@@ -7,6 +7,7 @@ import { NbThemeService } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { getPluralCategory } from '@angular/common/src/i18n/localization';
 
 
 
@@ -30,13 +31,14 @@ export class TrendsComponent implements OnInit {
   trendType = '11';
   siteUnloading = [];
   vehicleUnloading = [];
-  week_number='';
-  month_number='';
+  week_number='7';
+  month_number='7';
   period='0';
   url = '';
   flag = 'Loading';
   bgColor='#00695C';
   yScale='Hours';
+  onWardFlag=false;
   chartObject = {
     type: '',
     data: {},
@@ -65,6 +67,8 @@ export class TrendsComponent implements OnInit {
 
   getDefaultTrend(){
    //this.endDate=this.common.dateFormatter(new Date())
+   if(this.period=="0")
+   {
    let today=new Date();
    let endDay=new Date(today.setDate(today.getDate()-1))
    this.endDate=this.common.dateFormatter(endDay);
@@ -72,51 +76,19 @@ export class TrendsComponent implements OnInit {
    this.startDate=this.common.dateFormatter(startday);
    console.log('endDate',this.endDate);
    console.log('startDate',startday, this.startDate);
-    this.getTrends();
+    this.getDayWiseTrends();
+   }
+   else if(this.period=="1"){
+     this.week_number='7'
+     this.getweeklyTrend();
+   }else{
+     this.month_number='7';
+     this.getMonthlyTrends();
+   }
 
   }
 
-  getTrends() {
-    this.Hours = [];
-    this.dateDay = [];
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
-    let params = {
-      startDate: this.startDate,
-      endDate: this.endDate
-    };
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.post('Trends/getTrendsDayWise', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res['data']);
-        this.Details = res['data'];
-        this.Details.forEach((element) => {
-          this.showdate = this.datepipe.transform(element.date_day, 'dd-MMM');
-          this.dateDay.push(this.showdate);
-          console.log('dateDay: ', this.showdate);
-          this.Hours.push(element.loading_hrs);
-          this.showTables = true;
-          this.flag = "Loading";
-          this.showtrend = true;
-          this.showChart();
-
-        });
-        // this.getSiteWise();
-        // this.getVehicleWise();
-
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-
-      })
-
-      this.getSiteWise();
-      this.getVehicleWise();
-
-  }
-
+  
   showChart() {
     this.chartObject.type = 'line';
     this.chartObject.data = {
@@ -205,35 +177,14 @@ export class TrendsComponent implements OnInit {
   }
 
   changeTrendType() {
-
-    this.Hours = [];
-    console.log('changeTrendType:', 'call');
-    this.Details.forEach((element) => {
-      if (this.trendType == "11") {
-        this.Hours.push(element.loading_hrs);
-        this.showTables = true;
-        this.flag = "Loading"
-        this.bgColor='#00695C';
-        this.yScale='Hours'
-        this.showChart();
-      } else if (this.trendType == "21") {
-        this.Hours.push(element.unloading_hrs);
-        this.showTables = true;
-        this.flag = "UnLoading"
-        this.bgColor='#E91E63';
-        this.yScale='Hours'
-        this.showChart();
-      } else if (this.trendType == "0") {
-        this.Hours.push(element.onward_per);
-        this.showTables = false;
-        this.flag = "onWard"
-        this.bgColor='#4CAF50';
-        this.yScale='percent'
-        this.showChart();
-      }
-
-
-    });
+   if(this.period=="0"){
+      this.getDayWiseTrends();
+   }else if(this.period=="1"){
+      this.getweeklyTrend();
+   }else{
+       this.getMonthlyTrends(); 
+   }  
+   
   }
 
   getDate(type){
@@ -253,9 +204,175 @@ export class TrendsComponent implements OnInit {
 
   }
 
-  changePeriod(){
+  // changePeriod(){
+  //   if(this.period=="0"){
+  //     this.getDayWiseTrends();
+  //   }else if(this.period=="1"){
+  //     this.getweeklyTrend();
+  //   }else{
+  //     this.getMonthlyTrends();
+  //   }
+  // }
+
+  getDayWiseTrends() {
+    this.Hours = [];
+    this.dateDay =[];
+    this.startDate = this.common.dateFormatter(this.startDate);
+    this.endDate = this.common.dateFormatter(this.endDate);
+    let params = {
+      startDate: this.startDate,
+      endDate: this.endDate
+    };
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api.post('Trends/getTrendsDayWise', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['data']);
+        this.Details = res['data'];
+        this.Details.forEach((element) => {
+          this.showdate = this.datepipe.transform(element.date_day, 'dd-MMM');
+          this.dateDay.push(this.showdate);
+          console.log('dateDay: ', this.showdate);
+          this.Hours.push(element.loading_hrs);
+          this.showTables = true;
+          this.flag = "Loading";
+          this.showtrend = true;
+          this.showChart();
+
+        });
+        // this.getSiteWise();
+        // this.getVehicleWise();
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+
+      })
+      this.getCategoryDayWise()
+      this.getSiteWise();
+      this.getVehicleWise();
+  }
+
+  getCategoryDayWise(){
+
+    this.Hours = [];
+    console.log('changeTrendType:', 'call');
+    this.Details.forEach((element) => {
+      if (this.trendType == "11") {
+         
+        this.Hours.push(element.loading_hrs);
+        this.showTables = true;
+        this.flag = "Loading"
+        this.bgColor='#00695C';
+        this.yScale='Hours'
+        this.onWardFlag=false;
+      
+      } else if (this.trendType == "21") {
+        this.Hours.push(element.unloading_hrs);
+        this.showTables = true;
+        this.flag = "UnLoading"
+        this.bgColor='#E91E63';
+        this.yScale='Hours'
+        this.onWardFlag=true;
+        this.showChart();
+      } else if (this.trendType == "0") {
+        this.Hours.push(element.onward_per);
+        this.showTables = true;
+        this.flag = "onWard"
+        this.bgColor='#4CAF50';
+        this.yScale='percent'
+        this.onWardFlag=true;
+        this.showChart();
+        
+      }
+
+
+    });
 
   }
+
+  getweeklyTrend(){
+   
+   this.getCategoryWeekWise();   
+  }
+
+  getCategoryWeekWise(){
+
+    this.Hours = [];
+    console.log('changeTrendType:', 'call');
+    this.Details.forEach((element) => {
+      if (this.trendType == "11") {
+         
+        this.Hours.push(element.loading_hrs);
+        this.showTables = true;
+        this.flag = "Loading"
+        this.bgColor='#00695C';
+        this.yScale='Hours'
+      
+      } else if (this.trendType == "21") {
+        this.Hours.push(element.unloading_hrs);
+        this.showTables = true;
+        this.flag = "UnLoading"
+        this.bgColor='#E91E63';
+        this.yScale='Hours'
+        this.showChart();
+      } else if (this.trendType == "0") {
+        this.Hours.push(element.onward_per);
+        this.showTables = false;
+        this.flag = "onWard"
+        this.bgColor='#4CAF50';
+        this.yScale='percent'
+        this.showChart();
+        
+      }
+
+
+    });
+
+  }
+
+  getMonthlyTrends(){
+
+    this.getCategoryMonthWise();
+
+  }
+
+  getCategoryMonthWise(){
+
+    this.Hours = [];
+    console.log('changeTrendType:', 'call');
+    this.Details.forEach((element) => {
+      if (this.trendType == "11") {
+         
+        this.Hours.push(element.loading_hrs);
+        this.showTables = true;
+        this.flag = "Loading"
+        this.bgColor='#00695C';
+        this.yScale='Hours'
+      
+      } else if (this.trendType == "21") {
+        this.Hours.push(element.unloading_hrs);
+        this.showTables = true;
+        this.flag = "UnLoading"
+        this.bgColor='#E91E63';
+        this.yScale='Hours'
+        this.showChart();
+      } else if (this.trendType == "0") {
+        this.Hours.push(element.onward_per);
+        this.showTables = false;
+        this.flag = "onWard"
+        this.bgColor='#4CAF50';
+        this.yScale='percent'
+        this.showChart();
+        
+      }
+
+
+    });
+
+  }
+  
 
 
 }

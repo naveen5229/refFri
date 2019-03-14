@@ -4,7 +4,7 @@
   </nb-card-header>
   <nb-card-body>
     <div class="model-body">
-      <div class="row">
+      <div class="row" style="margin-left:30px;">
           <div class="col-sm-3">
               <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
                 <option value="11">Loading</option>
@@ -13,7 +13,7 @@
               </select>
             </div>
          <div class="col-sm-3">
-              <select [(ngModel)]="period" class="form-control" (change)="changePeriod()" style=" border: 2px solid darkcyan; font-size: 10px">
+              <select [(ngModel)]="period" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
                 <option value="0">Day</option>
                 <option value="1">Week</option>
                 <option value="2">Month</option>
@@ -32,7 +32,7 @@
             <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date" placeholder="End Date" (click)="getDate('end')">
         </div>
         <div class="col-sm-2">
-          <button class="btn btn-primary" (click)="getTrends()">submit</button>
+          <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
         </div>
       </div>
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
@@ -67,7 +67,7 @@
         </div> -->
       </div>
       <div class="row"  style="margin: 10px" *ngIf="showTables">
-        <div class="col-sm-6" style="height:300px;overflow:auto;">
+        <div class="col-sm-6" style="height:300px;overflow:auto;" *ngIf="!onWardFlag">
             <table class="table table-bordered">
                 <thead class="thead" style="background-color:darkgrey">
                   <tr>
@@ -104,7 +104,7 @@
                 </tbody>
               </table>
         </div>
-        <div class="col-sm-6" style="height:300px;overflow:auto;">
+        <div class="col-sm-6" style="height:300px;overflow:auto;" *ngIf="!onWardFlag">
             <table class="table table-bordered">
                 <thead class="thead" style="background-color:darkgrey">
                   <tr>
@@ -134,6 +134,28 @@
                     </ng-container>  
                   </tbody>
               </table>
+          </div>
+          <div class="col-sm-12" style="height:300px;overflow:auto;" *ngIf="onWardFlag">
+
+            <table class="table table-bordered" style="margin-left: 70px; margin-right:70px;text-align: center;">
+              <thead class="thead" style="background-color:darkgrey">
+                <tr>
+                  <th>Vehicle Name</th>
+                  <th>OnWard Hours</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr *ngFor="let data of vehicleDetails; let i=index;" >
+                  <td>{{data.vehicle_name}}</td>
+                  <td>{{data.onward_per}}</td>
+                  <td></td>
+                </tr>
+               
+              </tbody> 
+            </table>  
+
           </div>
       </div>
     </div>
