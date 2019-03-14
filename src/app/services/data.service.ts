@@ -30,6 +30,11 @@ export class DataService {
         link: '/admin/vehiclestatuschange',
       },
       {
+        title: 'VSC Ticket Audit',
+        icon: 'nb-home',
+        link: '/admin/vscticketaudit',
+      },
+      {
         title: 'Issue Alerts',
         icon: 'nb-home',
         link: '/admin/issue-alerts',
@@ -93,6 +98,12 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/user-preferences',
       },
+      {
+        title: 'Site Details',
+        icon: 'nb-home',
+        link: '/admin/site-details',
+        home: true,
+      }
     ];
   }
 }

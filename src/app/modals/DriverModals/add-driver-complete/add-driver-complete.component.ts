@@ -1,39 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Driver } from 'selenium-webdriver/edge';
-import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePickerComponent } from '../../date-picker/date-picker.component';
+import { CommonService } from '../../../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../../services/api.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
-  selector: 'add-driver',
-  templateUrl: './add-driver.component.html',
-  styleUrls: ['./add-driver.component.scss']
+  selector: 'add-driver-complete',
+  templateUrl: './add-driver-complete.component.html',
+  styleUrls: ['./add-driver-complete.component.scss']
 })
-export class AddDriverComponent implements OnInit {
+export class AddDriverCompleteComponent implements OnInit {
   driverForm: FormGroup;
   submitted = false;
-
   driver = {
     name: null,
     date: this.common.dateFormatter(new Date()),
     mobileno: null,
-    driverphoto: null,
-    lisenceno: null,
-    lisencephoto: null,
-    aadharno: null,
-    aadharphoto: null,
-    Salary: null,
+    photo: null,
+    lisenceNumber: null,
+    lisencePhoto: null,
+    adharNumber: null,
+    adharPhoto: null,
+    salary: null,
     guranter: null,
-    guranterno: null
+    guranterMobileNo: null
+  };
 
-  }
-  constructor(
-    public common: CommonService,
+  constructor(public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
-    private apiservice: ApiService) {
+    public api: ApiService,
+    public user: UserService,
+    public activeModal: NgbActiveModal) {
+    console.log('Driver: ', this.common.params);
 
   }
 
@@ -52,11 +54,12 @@ export class AddDriverComponent implements OnInit {
       date: ['']
     })
   }
-
+  closeModal() {
+    this.driverForm.controls = null;
+    
+    this.activeModal.close({ response: true });
+  }
   get f() { return this.driverForm.controls; }
-
-
-
 
   getDate() {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -66,38 +69,8 @@ export class AddDriverComponent implements OnInit {
     });
   }
 
-  handleFileSelection(event, index) {
-    this.common.loading++;
-    this.common.getBase64(event.target.files[0])
-      .then(res => {
-        this.common.loading--;
-        let file = event.target.files[0];
-        console.log("Type", file.type);
-        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
-          file.type == "image/png" || file.type == "application/pdf" ||
-          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-          this.common.showToast("SuccessFull File Selected");
-        }
-        else {
-          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
-          return false;
-        }
-
-        console.log('Base 64: ', res);
-        // this.driver['image' + index] = res;
-      }, err => {
-        this.common.loading--;
-        console.error('Base Err: ', err);
-      })
-  }
-
   addNewdriver() {
-
-
-    let response;
-    //this.submitted = true;
-    let params = {
+    const params = {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       photo: this.driverForm.controls.uploadPhoto.value,
@@ -108,11 +81,9 @@ export class AddDriverComponent implements OnInit {
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
     };
-    console.log("Data:",params);
     this.common.loading++;
-    this.apiservice.post('/Drivers/add', params )
+    this.api.post('/Drivers/add', params)
       .subscribe(res => {
-
         this.common.loading--;
         console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
@@ -120,10 +91,6 @@ export class AddDriverComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-      
-    
-
   }
 
 }
-
