@@ -126,22 +126,16 @@ export class UserPreferencesComponent implements OnInit {
     this.sections.map(section => {
       console.log('Pages: ', this.pagesGroups[section.title]);
       this.pagesGroups[section.title].map(page => {
-        if (page.isSelected) {
-         
-          data.push({ "id": page.id, "status":page.isSelected });
+        if (page.isSelected) {       
+          data.push({ "id": page.id, "status":1 });
+        } 
+        else{
+          data.push({"id":page.id, "status":0});
         }
-       
-     
       })
+    
     });
     return data;
   }
-
-
-
-
-
-
-
 
 }
