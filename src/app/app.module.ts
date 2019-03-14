@@ -73,7 +73,7 @@ import { ParticlularsComponent } from './modals/LRModals/particlulars/particlula
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import {
+import { 
   MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
@@ -87,6 +87,9 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 import { HttpResponseHandlerService } from './services/http-response-handler.service';
 
+import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -141,8 +144,11 @@ import { HttpResponseHandlerService } from './services/http-response-handler.ser
     AddTripComponent,
     AddFuelFillingComponent,
     AddDriverComponent,
-    UpdateSiteDetailsComponent
-
+    UpdateSiteDetailsComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -192,14 +198,15 @@ import { HttpResponseHandlerService } from './services/http-response-handler.ser
     AddDriverComponent,
     AddTripComponent,
     AddFuelFillingComponent,
-    AddDriverComponent,
+    AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent,
     AddTripComponent,
     AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent
+    AddTripComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent 
   ],
   imports: [
     BrowserModule,

@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Driver } from 'selenium-webdriver/edge';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-
 @Component({
-  selector: 'add-driver',
-  templateUrl: './add-driver.component.html',
-  styleUrls: ['./add-driver.component.scss']
+  selector: 'edit-driver',
+  templateUrl: './edit-driver.component.html',
+  styleUrls: ['./edit-driver.component.scss']
 })
-export class AddDriverComponent implements OnInit {
-  driverForm: FormGroup;
+export class EditDriverComponent implements OnInit {
   submitted = false;
-
+  driverForm: FormGroup;
   driver = {
     name: null,
     date: this.common.dateFormatter(new Date()),
@@ -30,34 +28,44 @@ export class AddDriverComponent implements OnInit {
 
   }
   constructor(
+    private apiservice: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
-    private apiservice: ApiService) {
+    private activeModal:NgbActiveModal
+  ) {
 
   }
 
   ngOnInit() {
     this.driverForm = this.formbuilder.group({
-      name: [''],
-      mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      guranterno: [''],
+      name: [this.common.params.driver.empname],
+      mobileno: [this.common.params.driver.mobileno, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      guranterno: [this.common.params.driver.guarantor_mobileno],
       lisenceno: [''],
       uploadPhoto: [''],
       lisencephoto: [''],
       aadharno: [''],
       aadharphoto: [''],
       Salary: [''],
-      guranter: [''],
+      guranter: [this.common.params.driver.guarantor_name],
       date: ['']
-    })
+    });
+    if (this.common.params.driver) {
+      //  console.log(this.common.params.driver);
+      // this.driverForm.setValue({
+      //   name:"prashant";
+
+      // }
+      // )
+
+      //   (this.common.params.driver.empname);
+      // this.driverForm.controls.mobileno.value = this.common.params.driver.mobileno;
+      // this.driverForm.controls.date = this.common.params.driver.doj;
+      // this.driverForm.controls.guranter=this.common.params.driver.guarantor_name;
+      // this.driverForm.controls.data=this.common.params.driver.guarantor_mobileno;
+    }
   }
-
-  get f() { return this.driverForm.controls; }
-
-
-
-
   getDate() {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -65,7 +73,7 @@ export class AddDriverComponent implements OnInit {
       console.log('Date:', this.driver.date);
     });
   }
-
+  get f() { return this.driverForm.controls; }
   handleFileSelection(event, index) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
@@ -91,8 +99,12 @@ export class AddDriverComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
+  closeModal(){
+    this.activeModal.close({ response: true });
+    
+  }
+  Updatedriver() {
 
-  addNewdriver() {
 
 
     let response;
@@ -108,22 +120,19 @@ export class AddDriverComponent implements OnInit {
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
     };
-    console.log("Data:",params);
     this.common.loading++;
-    this.apiservice.post('/Drivers/add', params )
+    this.apiservice.post('/Drivers/edit', params)
       .subscribe(res => {
-
         this.common.loading--;
         console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-      
-    
+
 
   }
 
 }
-

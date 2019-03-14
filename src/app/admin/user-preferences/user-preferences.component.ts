@@ -14,21 +14,11 @@ export class UserPreferencesComponent implements OnInit {
   form: FormGroup;
 
 
-  data = [
-    // {
-    //   id:null,
-    //   title:null,
-    //   url:null,
-    // }
-    // { id: 1, name: 'Page 1', url: '/admin/page-1' },
-    // { id: 2, name: 'Page 2', url: '/admin/page-2' },
-    // { id: 3, name: 'Page 3', url: '/admin/page-3' },
-    // { id: 4, name: 'Page 4', url: '/admin/page-4' },
-    // { id: 5, name: 'Page 5', url: '/documents/page-1' },
-    // { id: 6, name: 'Page 6', url: '/documents/page-2' },
-    // { id: 7, name: 'Page 7', url: '/tyres/page-3' },
-    // { id: 8, name: 'Page 8', url: '/tyres/page-4' },
-  ];
+  data = [];
+  selectedUser = {
+    details: null,
+    oldPreferences: []
+  };
 
   sections = [];
   pagesGroups = {};
@@ -38,7 +28,7 @@ export class UserPreferencesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder) {
-    this.getAllPages();
+ 
   }
 
 
@@ -62,48 +52,40 @@ export class UserPreferencesComponent implements OnInit {
         id: data.id,
         title: data.title,
         route: data.route,
-        isSelected: false
+        isSelected: data.userid
       });
     });
 
     console.log('All Sections: ', this.sections, this.pagesGroups);
   }
 
-  updatePreferences() {
-    console.log(this.pagesGroups);
-  }
+
 
   checkOrUnCheckAll(index) {
     this.pagesGroups[this.sections[index].title].map(page => page.isSelected = this.sections[index].isSelected);
   }
 
-  getAllPages() {
-    this.common.loading++;
-    this.api.post('UserRoles/getAllPages', {})
-      .subscribe(res => {
-        this.common.loading--;
 
-        this.data = res['data'];
-        console.log("Res Data:", this.data);
-        this.findSections();
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
 
   getUserPages(user) {
+    this.selectedUser.details = user;
     console.log('User: ', user);
     const params = {
-      id: user.id
+      userId: user.id
     };
     this.common.loading++;
-    this.api.post('', params)
+    this.api.post('UserRoles/getAllPages', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
+        
+        this.data = res['data'];
+        console.log("Res Data:", this.data)
+
+        this.selectedUser.oldPreferences = res['data'];
         this.checkSelectedPages(res['data']);
+        this.findSections();
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -120,9 +102,44 @@ export class UserPreferencesComponent implements OnInit {
 
   findSelectedOrNot(id, pages) {
     let status = false;
-    pages.map(page => (page.id == id) && (status = page.isSelected));
+    pages.map(page => (page.id == id) && (status = page.userid ? true : false));
     return status;
   }
+
+  updatePreferences() {
+    const params = { pages: this.findSelectedPages(), userId: this.selectedUser.details.id };
+    console.log("Param:", params);
+    this.common.loading++;
+    this.api.post('UserRoles/setPagesWrtUser', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res);
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+      })
+  }
+
+  findSelectedPages() {
+    let data = [];
+    console.log('Sections: ', this.sections);
+    this.sections.map(section => {
+      console.log('Pages: ', this.pagesGroups[section.title]);
+      this.pagesGroups[section.title].map(page => {
+        if (page.isSelected) {
+          console.log('---------------------------------------------');
+          data.push({ "id": page.id, "status":page.isSelected });
+        }
+      })
+    });
+    return data;
+  }
+
+
+
+
+
+
 
 
 }

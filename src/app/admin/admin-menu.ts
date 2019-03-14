@@ -14,6 +14,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'VSC Ticket Audit',
+        icon: 'nb-home',
+        link: '/admin/vscticketaudit',
+        home: true,
+    },
+    {
         title: 'Issue Alerts',
         icon: 'nb-home',
         link: '/admin/issue-alerts',
