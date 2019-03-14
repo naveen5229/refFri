@@ -150,12 +150,12 @@
               <button class="btn btn-default" type="button"  (click)="updateDocument(1)" id="advance"
               style="cursor: pointer;">Advance Review</button> 
           </div> -->
-              <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
+              <!-- <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
                 <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
                   style="cursor: pointer;">{{btn2}}</button>
-              </div>
+              </div> -->
 
-              <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 25%;">
+              <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 60%;">
                 <button class="btn btn-primary" type="submit" (click)="customerByUpdate()" id="submit"
                   style="cursor: pointer;">{{btn1}}</button>
               </div>
