@@ -258,9 +258,9 @@
 
           <div class="col-sm-8">
               
-            <div class="rc-image"><a target='_blank' href="{{modal.first.data.document.rcImage}}"
-                title="View Document">View
-                RC</a>
+            <div class="rc-image">
+              <a target='_blank' href="{{modal.first.data.document.rcImage}}"
+                title="View Document">RC Image</a>
             </div>
             <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
               [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId"
@@ -462,7 +462,7 @@
 
           <div class="col-sm-8">
             <div class="rc-image"><a target='_blank' href="{{modal.second.data.document.rcImage}}"
-                title="View Document">View RC</a>
+                title="View Document">RC Image</a>
             </div>
             <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
               [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
@@ -476,17 +476,6 @@
     </div>
 
     
-    
-     
-
-
-
-
-
-
-
-
-
 
     <div class="modal-footer">
     </div>
