@@ -230,9 +230,9 @@ export class ConciseComponent implements OnInit {
     console.log('All ', this.allKpis);
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
-    console.log("this.kpiGroups",this.kpiGroups);
-    this.kpiGroupsKeys = Object.keys(this.kpiGroups) ;
-    console.log("this.kpiGroupsKeys",this.kpiGroupsKeys);
+    console.log("this.kpiGroups", this.kpiGroups);
+    this.kpiGroupsKeys = Object.keys(this.kpiGroups);
+    console.log("this.kpiGroupsKeys", this.kpiGroupsKeys);
     this.keyGroups = [];
 
     this.kpiGroupsKeys.map(key => {
@@ -294,14 +294,19 @@ export class ConciseComponent implements OnInit {
   }
 
   filterData(filterKey) {
-    this.selectedFilterKey = filterKey;
-    console.log(filterKey, this.viewType);
-    this.kpis = this.allKpis.filter(kpi => {
-      if (kpi[this.viewType] == filterKey) return true;
-      return false;
-    });
-    this.table = this.setTable();
-    console.log('Column: ', this.table);
+    if (filterKey == 'All') {
+      this.kpis = this.allKpis;
+    } else {
+      this.selectedFilterKey = filterKey;
+      console.log(filterKey, this.viewType);
+      this.kpis = this.allKpis.filter(kpi => {
+        if (kpi[this.viewType] == filterKey) return true;
+        return false;
+      });
+    }
+      this.table = this.setTable();
+      console.log('Column: ', this.table);
+    
   }
 
   getLR(kpi) {
@@ -391,7 +396,8 @@ export class ConciseComponent implements OnInit {
   }
   allData() {
     this.selectedFilterKey = '';
-    this.getKPIS();
+    //this.getKPIS();
+    this.filterData('All');
   }
 
   reportIssue(kpi) {
