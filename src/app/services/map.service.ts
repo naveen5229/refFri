@@ -110,7 +110,7 @@ export class MapService {
     latLngsMulti.forEach(latLngs => {
       let colorBorder = '#228B22';
       let colorFill = '#ADFF2F';
-      if (mainLatLngs == latLngs) {
+      if (mainLatLngs != latLngs) {
         colorBorder = '#550000';
         colorFill = '#ff7f7f';
       }
