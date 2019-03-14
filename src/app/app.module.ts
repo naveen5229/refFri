@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -67,19 +67,29 @@ import { AddTripComponent } from './modals/add-trip/add-trip.component';
 
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
 import { 
-   MatFormFieldModule,
+  MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
-import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
+
+import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
+import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { HttpResponseHandlerService } from './services/http-response-handler.service';
+
+import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -122,16 +132,23 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent,
-    UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
+    ParticlularsComponent,
     AddDriverComponent,
+    VechileTrailsComponent,
     AddTripComponent,
-    DatePicker2Component
+    AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -164,6 +181,7 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    EditLorryDetailsComponent,
     PendingDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
@@ -176,11 +194,19 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
-    EditLorryDetailsComponent,
     AddConsigneeComponent,
     AddDriverComponent,
     AddTripComponent,
-    DatePicker2Component
+    AddFuelFillingComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    AddConsigneeComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    VechileTrailsComponent,
+    AddTripComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent 
   ],
   imports: [
     BrowserModule,
@@ -199,15 +225,18 @@ import {  CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
+
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: OWL_DATE_TIME_LOCALE, useValue: 'in' },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
+    // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }

@@ -129,3 +129,7 @@
     bottom: 100px;
     width: 30px;
 }
+select.form-control {
+    height: auto !important;
+    padding: 6px !important;
+}

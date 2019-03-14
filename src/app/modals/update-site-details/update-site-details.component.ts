@@ -1,0 +1,92 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap'
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MapService } from '../../services/map.service';
+declare var google: any;
+
+@Component({
+  selector: 'update-site-details',
+  templateUrl: './update-site-details.component.html',
+  styleUrls: ['./update-site-details.component.scss','../../pages/pages.component.css']
+})
+export class UpdateSiteDetailsComponent implements OnInit {
+  // updateSiteDetails:any= [s_name:'',latitude:'',longitude:''];
+  s_name;
+  flag_success : boolean=false;
+  latitude;
+  longitude;
+  moveLoc = '';
+  siteLoc = '';
+  isStrictLoading  = "null";
+  constructor(
+    public api: ApiService,
+    public common: CommonService,
+    private modalService: NgbModal,
+    private activeModal: NgbActiveModal,
+    private mapService: MapService,
+  ) {
+    this.s_name = this.common.params.site.site_name;
+    console.log(this.common.params.site);
+  }
+
+
+  ngOnInit() {
+    
+  }
+  updateSiteDetails() {
+    let params = {
+      siteId:this.common.params.site.site_id,
+      locationName:this.siteLoc,
+      isStrictLoading :this.isStrictLoading ,
+    }
+    console.log("params",params);
+    ++this.common.loading;
+    this.api.post('Site/updateSiteDetails', params)
+      .subscribe(res => {
+        console.log('Res:', res);
+        var flag= "success";
+        --this.common.loading;
+        if(res['msg']=="success"){
+          alert(res['msg']);
+          this.dismiss(); 
+        }
+        else{
+          alert("site location is not updated");
+        }
+      }, err => {
+        --this.common.loading; 
+        alert("site location is not updated");
+        console.log('Err:', err);
+      });
+    }
+  dismiss() {
+    this.activeModal.close();
+  }
+  ngAfterViewInit() {
+    this.mapService.mapIntialize("map");
+    setTimeout(() => {
+      this.mapService.autoSuggestion("siteLoc",(place,lat,lng)=> this.siteLoc);
+      this.mapService.createMarkers([{lat:this.common.params.site.lat,long: this.common.params.site.lng,type:'site'}]);  
+    }, 2000);
+  }
+ 
+  // updateLocation(elementId,autocomplete) {
+  //   console.log('tets');
+  //   let place = autocomplete.getPlace();
+  //   let lat = place.geometry.location.lat();
+  //   let lng = place.geometry.location.lng();
+  //   place = autocomplete.getPlace().formatted_address;
+ 
+  //   this.setLocations(elementId,place,lat,lng);
+  // }
+ 
+  // setLocations(elementId,place,lat,lng){
+  //   console.log("elementId",elementId,"place",place,"lat",lat,"lng",lng);
+  //   //this.vehicleTrip.startName = place;
+  //  // this.vehicleTrip.startLat = lat;
+  //  // this.vehicleTrip.startLng = lng;
+  // }
+ 
+}

@@ -41,9 +41,68 @@ export class LorryReceiptDetailsComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1000');
     activeModel.result.then(data =>{
       if(!data.status){
-       
+       this.exitTicket(details);
+       if(data.isDelete){
+       this.getPendingLr();
+       }
       }
     });
   }
+
+  enterTicket(details) {
+    let result;
+    let params = {
+      tblRefId: 6,
+      tblRowId: details.id
+    };
+    console.log("params", params);
+    this.common.loading++;
+    this.api.post('TicketActivityManagment/insertTicketActivity', params)
+      .subscribe(res => {
+        this.common.loading--;
+        result = res;
+        console.log(result);
+        if (!result['success']) {
+          //alert(result.msg);
+          return false;
+        }
+        else {
+          this.openEditLorryDetailsModel(details);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  exitTicket(details) {
+    let result;
+    var params = {
+      tblRefId: 6,
+      tblRowId: details.id
+    };
+    console.log("params", params);
+    this.common.loading++;
+    this.api.post('TicketActivityManagment/updateActivityEndTime', params)
+      .subscribe(res => {
+        this.common.loading--;
+        result = res
+        console.log(result);
+        if (!result.sucess) {
+         // alert(result.msg);
+          return false;
+        }
+        else {
+          return true;
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  
 
 }

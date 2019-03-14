@@ -94,6 +94,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Invoice Register',
                 link: '/accounts/invoiceregister'
+            },
+            {
+                title: 'OutStanding',
+                link: '/accounts/outstanding'
             }
         ],
     },

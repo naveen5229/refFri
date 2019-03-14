@@ -126,9 +126,9 @@ export class ConciseComponent implements OnInit {
       columns.push({
         vechile: { value: kpi.x_showveh, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         status: { value: kpi.showprim_status, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
-        hrs: { value: kpi.x_hrssince, action: '', class: kpi.x_hrssince >= 24 ? 'red' : '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        hrs: { value: kpi.x_hrssince, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
-        kmp: { value: kpi.x_kmph, action: '', class: kpi.x_kmph < 20 ? 'pink' : '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
         report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
         rowActions: {
@@ -230,8 +230,9 @@ export class ConciseComponent implements OnInit {
     console.log('All ', this.allKpis);
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
+    console.log("this.kpiGroups", this.kpiGroups);
     this.kpiGroupsKeys = Object.keys(this.kpiGroups);
-
+    console.log("this.kpiGroupsKeys", this.kpiGroupsKeys);
     this.keyGroups = [];
 
     this.kpiGroupsKeys.map(key => {
@@ -293,14 +294,19 @@ export class ConciseComponent implements OnInit {
   }
 
   filterData(filterKey) {
-    this.selectedFilterKey = filterKey;
-    console.log(filterKey, this.viewType);
-    this.kpis = this.allKpis.filter(kpi => {
-      if (kpi[this.viewType] == filterKey) return true;
-      return false;
-    });
-    this.table = this.setTable();
-    console.log('Column: ', this.table);
+    if (filterKey == 'All') {
+      this.kpis = this.allKpis;
+    } else {
+      this.selectedFilterKey = filterKey;
+      console.log(filterKey, this.viewType);
+      this.kpis = this.allKpis.filter(kpi => {
+        if (kpi[this.viewType] == filterKey) return true;
+        return false;
+      });
+    }
+      this.table = this.setTable();
+      console.log('Column: ', this.table);
+    
   }
 
   getLR(kpi) {
@@ -390,7 +396,8 @@ export class ConciseComponent implements OnInit {
   }
   allData() {
     this.selectedFilterKey = '';
-    this.getKPIS();
+    //this.getKPIS();
+    this.filterData('All');
   }
 
   reportIssue(kpi) {

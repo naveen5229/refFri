@@ -51,20 +51,20 @@ export class MapService {
     this.map.setZoom(level);
   }
 
-  zoomMap(zoomValue){
+  zoomMap(zoomValue) {
     this.map.setZoom(zoomValue);
-    if(zoomValue==10||zoomValue==12||zoomValue==14){
-        this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    }else if(zoomValue==16||zoomValue==18){
-        this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+    if (zoomValue == 10 || zoomValue == 12 || zoomValue == 14) {
+      this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+    } else if (zoomValue == 16 || zoomValue == 18) {
+      this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
-}
+  }
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
-    if (this.isMapLoaded) {
-      return;
-    }
+    // if (this.isMapLoaded) {
+    //   return;
+    // }
     this.mapDiv = document.getElementById(div);
     let latlng = new google.maps.LatLng(lat, long);
     let opt =
@@ -106,11 +106,11 @@ export class MapService {
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
   }
-  createPolygons(latLngsMulti,mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+  createPolygons(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
     latLngsMulti.forEach(latLngs => {
       let colorBorder = '#228B22';
       let colorFill = '#ADFF2F';
-      if(mainLatLngs==latLngs){
+      if (mainLatLngs == latLngs) {
         colorBorder = '#550000';
         colorFill = '#ff7f7f';
       }
@@ -123,15 +123,15 @@ export class MapService {
         fillColor: colorFill,
         fillOpacity: 0.35
       };
-      this.polygons.push( new google.maps.Polygon(options || defaultOptions));
+      this.polygons.push(new google.maps.Polygon(options || defaultOptions));
     });
     this.polygons.forEach(polygon => {
-      polygon.setMap(this.map);      
+      polygon.setMap(this.map);
     });
-    
-  }
-  createMarkers(markers,clickEvent?, changeBounds = true) {
 
+  }
+
+  createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {
     let thisMarkers = [];
     console.log("Markers", markers);
     for (let index = 0; index < markers.length; index++) {
@@ -159,7 +159,7 @@ export class MapService {
         };
       } else {
         if (subType == 'marker')
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + index + "|" + pinColor + "|000000";
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
@@ -178,11 +178,13 @@ export class MapService {
         map: this.map,
         title: title
       });
+      if (dropPoly)
+        this.drawPolyMF(latlng);
       if (changeBounds)
         this.setBounds(latlng);
       thisMarkers.push(marker);
       this.markers.push(marker);
-      clickEvent && marker.addListener('click', clickEvent.bind(this,markers[index]));
+      clickEvent && marker.addListener('click', clickEvent.bind(this, markers[index]));
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
@@ -202,13 +204,13 @@ export class MapService {
     }
     if (this.polygon) {
       this.polygon.setMap(null);
-      this.polygon=null;
+      this.polygon = null;
     }
-    if (this.polygons.length>0) {
+    if (this.polygons.length > 0) {
       this.polygons.forEach(polygon => {
         polygon.setMap(null);
       });
-      this.polygons=[];
+      this.polygons = [];
     }
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
@@ -253,7 +255,24 @@ export class MapService {
       let lat1 = sw.lat();
       let lng2 = ne.lng();
       let lng1 = sw.lng();
-      return{lat1:lat1,lat2:lat2,lng1:lng1,lng2:lng2};
+      return { lat1: lat1, lat2: lat2, lng1: lng1, lng2: lng2 };
     }
+  }
+  drawPolyMF(to) {
+    if (!this.polygonPath) {
+      this.polygonPath = new google.maps.Polyline({
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 2,
+        icons: [{
+          icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
+          offset: '100%',
+          repeat: '20px'
+        }]
+      });
+      this.polygonPath.setMap(this.map);
+    }
+    var path = this.polygonPath.getPath();
+    path.push(to);
   }
 }
