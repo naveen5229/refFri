@@ -65,11 +65,11 @@ export class UpdateSiteDetailsComponent implements OnInit {
     this.activeModal.close();
   }
   ngAfterViewInit() {
-    this.mapService.autoSuggestion("siteLoc",(place,lat,lng)=> this.siteLoc);
     this.mapService.mapIntialize("map");
-    console.log(this.common.params);
-    this.mapService.createMarkers([{lat:this.common.params.site.lat,long: this.common.params.site.lng,type:'site'}]);  
-    //this.mapService.createMarkers(this.latitude , this.longitude);
+    setTimeout(() => {
+      this.mapService.autoSuggestion("siteLoc",(place,lat,lng)=> this.siteLoc);
+      this.mapService.createMarkers([{lat:this.common.params.site.lat,long: this.common.params.site.lng,type:'site'}]);  
+    }, 2000);
   }
  
   // updateLocation(elementId,autocomplete) {

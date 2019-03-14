@@ -19,6 +19,7 @@ export class PendingDocumentsComponent implements OnInit {
   data = [];
   userdata = [];
 
+  listtype = 0;
   modal = {
     active: '',
     first: {
@@ -59,7 +60,8 @@ export class PendingDocumentsComponent implements OnInit {
 
   getPendingDetailsDocuments() {
     this.common.loading++;
-    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
+    if(this.listtype == 1) {
+      this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: 1 })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -68,6 +70,17 @@ export class PendingDocumentsComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+    } else {
+      this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("data", res);
+          this.data = res['data'];
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
   }
 
   getAllTypesOfDocuments() {
@@ -85,6 +98,7 @@ export class PendingDocumentsComponent implements OnInit {
       id: row.document_id,
       vehicle_id: row.vehicle_id,
     };
+    console.log("Model Doc Id:", rowData.id);
     this.modalOpenHandling({ rowData, title: 'Update Document', canUpdate: 1 });
   }
 
@@ -130,6 +144,7 @@ export class PendingDocumentsComponent implements OnInit {
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
     this.modal[modal].data.agentId = this.modal[modal].data.document.agent_id;
 
+    this.modal[modal].data.imgs = [];
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
     }
@@ -150,17 +165,19 @@ export class PendingDocumentsComponent implements OnInit {
     const params = {
       x_user_id: this.user._details.id,
       x_document_id: this.modal[modal].data.document.id,
+      x_advreview: this.listtype
     }
-    // this.common.loading++;
     console.log('Params: ', params);
     this.api.post('Vehicles/getPendingDocDetail', params)
       .subscribe(res => {
-        // this.common.loading--;
         console.log("pending detalis:", res);
         this.modal[modal].data.document.id = res['data'][0].document_id;
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
+        this.modal[modal].data.document.remarks = res["data"][0].remarks;
+        // add in 11-03-2018 fro check image is null
+        this.modal[modal].data.images = [];
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url);
         }
@@ -196,7 +213,7 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._details.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._details.id,x_deldoc :1 })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
@@ -215,6 +232,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   selectList(id) {
     console.log("list value:", id);
+    this.listtype = parseInt(id);
 
     this.common.loading++;
     this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: parseInt(id) })
@@ -300,7 +318,7 @@ export class PendingDocumentsComponent implements OnInit {
       x_rto: document.rto,
       x_amount: document.amount,
     }
-   
+
 
     this.common.loading++;
     let response;
@@ -342,13 +360,13 @@ export class PendingDocumentsComponent implements OnInit {
       //     return false;
       //   }
       // }
-    
-      if(params.x_advreview==0){
-      if (!document.document_type_id) {
-        this.common.showError("Please enter Document Type");
-        return false;
+
+      if (params.x_advreview == 0) {
+        if (!document.document_type_id) {
+          this.common.showError("Please enter Document Type");
+          return false;
+        }
       }
-    }
 
       if (document.issue_date) {
         let valid = this.checkDatePattern(document.issue_date);
@@ -549,7 +567,7 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id,x_deldoc :0 })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
@@ -607,6 +625,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   openNextModal(modal) {
     this.showDetails({ document_id: 0, vehicle_id: 0 });
+
   }
 
   checkDateFormat(modal, dateType) {
@@ -620,7 +639,7 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
 
-  getUserWorkList(){
+  getUserWorkList() {
     this.common.loading++;
     this.api.post('Vehicles/getUserWorkSummary ', {})
       .subscribe(res => {
