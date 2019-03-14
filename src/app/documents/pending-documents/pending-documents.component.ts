@@ -172,9 +172,11 @@ export class PendingDocumentsComponent implements OnInit {
       .subscribe(res => {
         console.log("pending detalis:", res);
         this.modal[modal].data.document.id = res['data'][0].document_id;
+        this.modal[modal].data.document.newRegno = res['data'][0].regno;
         this.modal[modal].data.document.img_url = res["data"][0].img_url;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
+        this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
         this.modal[modal].data.document.remarks = res["data"][0].remarks;
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];

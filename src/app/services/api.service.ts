@@ -21,13 +21,12 @@ export class ApiService {
 
 
   post(subURL: string, body: any, options?) {
-    console.log('Test::::');
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
-    console.log('Test::::');
+   
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }

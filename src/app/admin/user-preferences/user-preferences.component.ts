@@ -114,6 +114,7 @@ export class UserPreferencesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);
+        alert(res['msg']);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -126,20 +127,16 @@ export class UserPreferencesComponent implements OnInit {
     this.sections.map(section => {
       console.log('Pages: ', this.pagesGroups[section.title]);
       this.pagesGroups[section.title].map(page => {
-        if (page.isSelected) {
-          console.log('---------------------------------------------');
-          data.push({ "id": page.id, "status":page.isSelected });
+        if (page.isSelected) {       
+          data.push({ id: page.id, status:1 });
+        } 
+        else{
+          data.push({id:page.id, status:0});
         }
       })
+    
     });
     return data;
   }
-
-
-
-
-
-
-
 
 }

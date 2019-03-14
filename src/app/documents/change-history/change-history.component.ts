@@ -44,18 +44,18 @@ export class ChangeHistoryComponent implements OnInit {
 
 
   getDocumentsData() {
-    this.common.loading++;
+    // this.common.loading++;
     let response;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         // console.log("data", res);
         // this.vehicle = res['data'].vehicle_info[0];
         // this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
         console.log("data type ",this.docTypes);
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log(err);
       });
     return response;
