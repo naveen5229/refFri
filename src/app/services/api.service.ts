@@ -9,11 +9,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ApiService {
 
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-  // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
-   URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
+  //  URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
   //  URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
-  //URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
+  // URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
 
   constructor(private http: HttpClient,
     public user: UserService) {
@@ -21,13 +21,12 @@ export class ApiService {
 
 
   post(subURL: string, body: any, options?) {
-    console.log('Test::::');
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
-    console.log('Test::::');
+   
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }

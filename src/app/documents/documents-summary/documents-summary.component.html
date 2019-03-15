@@ -6,31 +6,38 @@
     <div class="container">
       <div class="row col-sm-12 pdg-ltrt-none">
         <div class="col-sm-12">
-          <table class="table table-bordered table-hover">
-            <tr>
-              <td *ngIf="total_normal"><i class="fa fa-check i-green"></i> Normal <span>({{total_normal}})</span></td>
-              <td *ngIf="total_expired"><i class="fa fa-check i-red"></i> Expired <span>({{total_expired}})</span></td>
-              <td *ngIf="total_normal"><i class="fa fa-check i-black"></i> Unverified <span>({{total_unverified}})</span></td>
-              <td *ngIf="total_noimage"><i class="fa fa-times i-black"></i> No Image/Upload <span>({{total_noimage}})</span></td>
-              <td *ngIf="total_norecord"><i class="fa fa-times-circle i-red-cross"></i> No Record <span>({{total_norecord}})</span></td>
-            </tr>
-          </table>
+            <table class="table table-bordered table-hover">
+              <tr>
+                <td *ngFor="let statusrow of this.data.summary; ">
+                  <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"></i><input type='radio' name='rdostatus' value='0' (click)="filterRows(statusrow.status)" > No Record <span>({{statusrow.total}})</span></span>
+                  <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio' name='rdostatus' value='1' (click)="filterRows(statusrow.status)" > No Image/Upload <span>({{statusrow.total}})</span></span>
+                  <span *ngIf="statusrow.status == 2"><i class="fa fa-check i-red"></i><input type='radio' name='rdostatus' value='2' (click)="filterRows(statusrow.status)" > Expired <span>({{statusrow.total}})</span></span>
+                  <span *ngIf="statusrow.status == 3"><i class="fa fa-check i-black"></i><input type='radio' name='rdostatus' value='3' (click)="filterRows(statusrow.status)" > Unverified <span>({{statusrow.total}})</span></span>
+                  <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio' name='rdostatus' value='4' (click)="filterRows(statusrow.status)" > Normal  <span>({{statusrow.total}})</span></span>
+                  <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio' name='rdostatus' value='5' (click)="filterRows(statusrow.status)" > Near Expiring  <span>({{statusrow.total}})</span></span>
+                  <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 5)">
+                    Other <span>({{statusrow.total}})</span>
+                  </span>
+                </td>
+                <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="resetRowsVisibility()">Show All</td>
+              </tr>
+            </table>          
         </div>
       </div>
 
       <div class="row col-sm-12">
-        <table class="table table-bordered table-hover table-scroll">
+        <table class="table table-bordered table-hover table-scroll" id="tbldocs">
           <thead class="thead">
             <tr>
-              <th>S.No.</th>
+              <th class="idx-fld">S.No.</th>
               <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
             </tr>
           </thead>
 
           <tbody class="">
             <ng-container *ngIf="total_recs">
-              <tr *ngFor="let row of data.result; let i=index;">
-                <td>{{i+1}}</td>
+              <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
+                <td class="idx-fld">{{i+1}}</td>
                 <td *ngFor="let col of columns; " class="text-center">
                   <span *ngIf="col.toUpperCase() == 'VEHICLE'">
                     {{row[col]}}
@@ -50,7 +57,11 @@
                 
                     <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) > 4 && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="getDocumentType(row[col]) == 5 && col.toUpperCase() != 'VEHICLE'">
+                
+                    <i class="fa fa-check icon-yellow" (click)="fetchDocumentData(row, col, row[col])"></i>
+                  </span>
+                  <span *ngIf="getDocumentType(row[col]) > 5 && col.toUpperCase() != 'VEHICLE'">
                       {{row[col]}}
                   </span>
                   <span *ngIf="row[col] == null && col.toUpperCase() != 'VEHICLE'">
