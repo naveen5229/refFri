@@ -11,16 +11,21 @@ import { CommonService } from '../../services/common.service';
 export class StockitemComponent implements OnInit {
   showConfirm = false;
   showExit=false;
+  StockTypeItemsdata=[];
   stockItem = {
     name: '',
     code: '',
     maxlimit :'',
     minlimit :'',
-    isactive :'',
-    sales :'',
-    purchase:'',
-    inventary:'',
+    isactive :true,
+    sales :false,
+    purchase:false,
+    inventary:true,
     unit: {
+      name: '',
+      id: ''
+    },
+    stockType: {
       name: '',
       id: ''
     },
@@ -46,11 +51,15 @@ export class StockitemComponent implements OnInit {
   };
 
   allowBackspace = true;
+  stockTypeName='';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-      console.log(this.common.params);
+    //  console.log('stock item new',this.common.params.stockType);
     if (this.common.params) {
+     this.stockTypeName = this.common.params.stockType;
+    
+
       this.stockItem = {
         name: this.common.params.name,
         code: this.common.params.code,
@@ -61,6 +70,10 @@ export class StockitemComponent implements OnInit {
         stockSubType: {
           name: this.common.params.stoctsubtypename,
           id: this.common.params.stocktypeid
+        },
+        stockType: {
+          name:'',
+          id: ''
         },
         user: {
           name: '',
@@ -76,10 +89,32 @@ export class StockitemComponent implements OnInit {
 
       console.log('Stock: ', this.stockItem);
     }
+    console.log('testing purpose',this.stockTypeName);
+    this.getStockType();
   }
 
 
   ngOnInit() {
+  }
+
+  getStockType() {
+    let params = {
+      search: 123
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/GetTypeOfStock', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('StockTypeItemsdata 22:', res['data']);
+        this.StockTypeItemsdata = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
   }
 
   onSelected(selectedData, type, display) {
@@ -136,7 +171,7 @@ export class StockitemComponent implements OnInit {
       this.allowBackspace = true;
       // console.log('active', activeId);
      // console.log('Active jj: ', activeId.includes('aliasname'));
-      if (activeId.includes('user')) {
+      if (activeId.includes('stockType')) {
         this.setFoucus('stockSubType');
       } else if (activeId.includes('stockSubType')) {
         this.setFoucus('unit');
@@ -172,7 +207,7 @@ export class StockitemComponent implements OnInit {
     if (activeId == 'code') this.setFoucus('name');
     if (activeId == 'name') this.setFoucus('unit');
     if (activeId == 'unit') this.setFoucus('stockSubType');
-    if (activeId == 'stockSubType') this.setFoucus('user');
+    if (activeId == 'stockSubType') this.setFoucus('stockType');
   }  else if (key.includes('arrow')) {
     this.allowBackspace = false;
   } else if (key != 'backspace') {

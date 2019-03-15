@@ -23,6 +23,10 @@ export class UserService {
 
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
     this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
+
+
+
+    
     this._pages = [
       { id: 1, route: '/admin/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
@@ -41,5 +45,6 @@ export class UserService {
       { id: 15, route: '/admin/vscticketaudit' }
     ]
   }
+  
 
 }

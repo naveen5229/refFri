@@ -537,17 +537,17 @@ export class OrdersComponent implements OnInit {
     if (this.activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
-    } else if (this.activeId == 'purchaseledger') {
-      this.order.purchaseledger.name = suggestion.name;
-      this.order.purchaseledger.id = suggestion.id;
     } else if (this.activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
       this.order.billingaddress = suggestion.address;
-    } else if (this.activeId.includes('stockitem')) {
+    } else if (this.activeId == 'purchaseledger') {
+      this.order.purchaseledger.name = suggestion.name;
+      this.order.purchaseledger.id = suggestion.id;
+    }  else if (this.activeId.includes('stockitem')) {
       const index = parseInt(this.activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
-      this.order.amountDetails[index].stockitem.id = suggestion.name;
+      this.order.amountDetails[index].stockitem.id = suggestion.id;
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
     } else if (this.activeId.includes('discountledger')) {
@@ -557,7 +557,7 @@ export class OrdersComponent implements OnInit {
     } else if (this.activeId.includes('warehouse')) {
       const index = parseInt(this.activeId.split('-')[1]);
       this.order.amountDetails[index].warehouse.name = suggestion.name;
-      this.order.amountDetails[index].warehouse.id = suggestion.name;
+      this.order.amountDetails[index].warehouse.id = suggestion.id;
     }
 
   }
