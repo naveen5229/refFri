@@ -62,3 +62,19 @@ nb-card{
     width: 95% !important;
     margin: 0% !important;
 }
+#tbldocs {
+    counter-reset: rowNumber;
+}
+
+table#tbldocs tbody tr {
+    counter-increment: rowNumber;
+}
+
+table#tbldocs tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 0.5em;
+    margin-right: 2px;
+}
+table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
+    width: 130px;
+}
