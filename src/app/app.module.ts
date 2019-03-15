@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -73,7 +73,7 @@ import { ParticlularsComponent } from './modals/LRModals/particlulars/particlula
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
 import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import {
+import { 
   MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
@@ -85,7 +85,13 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { HttpResponseHandlerService } from './services/http-response-handler.service';
+import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map.component';
 
+
+import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -140,7 +146,13 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     AddTripComponent,
     AddFuelFillingComponent,
     AddDriverComponent,
-    UpdateSiteDetailsComponent
+    UpdateSiteDetailsComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent
+    VehiclesOnMapComponent,
+    
     
   ],
   entryComponents: [
@@ -191,14 +203,15 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
     AddDriverComponent,
     AddTripComponent,
     AddFuelFillingComponent,
-    AddDriverComponent,
+    AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     AddConsigneeComponent,
-    AddDriverComponent,
     AddTripComponent,
     AddFuelFillingComponent,
     VechileTrailsComponent,
-    AddTripComponent
+    AddTripComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent 
   ],
   imports: [
     BrowserModule,
@@ -224,6 +237,7 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],

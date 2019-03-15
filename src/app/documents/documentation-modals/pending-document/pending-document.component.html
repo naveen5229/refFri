@@ -5,7 +5,7 @@
   </button>
 </div>
 <nb-card>
-  <nb-card-body>
+  <nb-card-body style="overflow:inherit;">
     <div class="modal-body vert-mdl-pdg">
       <form #documentForm="ngForm" id="document-form" name="document-form"
         (submit)="documentForm.valid && updateDocument(0)">
@@ -132,7 +132,7 @@
             <div class="row form-field clear">
               <label for="remarks" class="col-sm-4 mgn">Remarks</label>
               <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                <textarea id="remarks" name="remarks" rows="1" class="form-control "
+                <textarea id="remarks" name="remarks" rows="3" class="form-control "
                   [(ngModel)]="document.remarks"></textarea>
               </div>
             </div>
@@ -150,12 +150,12 @@
               <button class="btn btn-default" type="button"  (click)="updateDocument(1)" id="advance"
               style="cursor: pointer;">Advance Review</button> 
           </div> -->
-              <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
+              <!-- <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
                 <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
                   style="cursor: pointer;">{{btn2}}</button>
-              </div>
+              </div> -->
 
-              <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 25%;">
+              <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 60%;">
                 <button class="btn btn-primary" type="submit" (click)="customerByUpdate()" id="submit"
                   style="cursor: pointer;">{{btn1}}</button>
               </div>

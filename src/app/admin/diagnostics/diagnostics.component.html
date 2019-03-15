@@ -46,19 +46,47 @@
 
         </div>
         <div class="col-3">
-            <input [(ngModel)]="Trails.startTime" [owlDateTime]="date2 " [owlDateTimeTrigger]="date2" placeholder="Start time" class="form-control" autocomplete="off" name="date">
+            <input [(ngModel)]="Trails.startTime" [owlDateTime]="date2" [owlDateTimeTrigger]="date2" placeholder="Start time" class="form-control" autocomplete="off" name="date2">
             <owl-date-time #date2 ></owl-date-time>
         </div>
      <div class="col-3">
-    <input [(ngModel)]="Trails.endDate" [owlDateTime]="date3 " [owlDateTimeTrigger]="date3" placeholder="End Time" class="form-control" autocomplete="off" name="date">
+    <input [(ngModel)]="Trails.endDate" [owlDateTime]="date3" [owlDateTimeTrigger]="date3" placeholder="End Time" class="form-control" autocomplete="off" name="date3">
     <owl-date-time #date3 ></owl-date-time>
       </div>
       <div class="col-2">
         <button class="btn btn-primary"  (click)="getVehicleTrails()">Calculate</button>
       </div>
+      
            
         </div>
       </div>
+      <div class="divActivities" style="border:2px solid  blue">
+        <div class="row">
+          <div class="col-3">
+          <label>Change Vehicle Status</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+              
+            <auto-suggestion (onSelected)="getvehicleData($event,'Status')" url="Vehicles/getVehicleListForFoid"
+                 display="regno" placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null"></auto-suggestion> 
+          </div>
+        <div class="col-3">
+            <input [(ngModel)]="VehicleStatusData.latch_time" [owlDateTime]="date4" [owlDateTimeTrigger]="date4" placeholder="Start Time" class="form-control" autocomplete="off" name="date4">
+            <owl-date-time #date4 ></owl-date-time>
+        </div>
+        <!-- <div class="col-3">
+            <input [(ngModel)]="VehicleStatusData.ttime" [owlDateTime]="date5" [owlDateTimeTrigger]="date5" placeholder="End Time" class="form-control" autocomplete="off" name="date5">
+           <owl-date-time #date5 ></owl-date-time>
+        </div> -->
+        <div class="col-2">
+          <button class="btn btn-primary" (click)="ChangeVehicleStatusChange()">Vehicle History</button>
+  
+        </div>
+        
+        </div>
+        </div>
     </form>
   </nb-card-body>
 </nb-card>
