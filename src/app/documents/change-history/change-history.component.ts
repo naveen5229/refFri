@@ -130,7 +130,7 @@ export class ChangeHistoryComponent implements OnInit {
         docType: { value: doc.DocumentType },
         issueDate: { value: this.datePipe.transform(doc.IssueDate, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.WefDate, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
+        expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: exp_date==null && curr >= exp_date ? 'red' : (exp_date==null && exp_date < nextMthDate ? 'pink' : (doc.ExpiryDate==null ? 'default' : 'green')) },
         entryTime: { value: this.datePipe.transform(doc.EntryTime, 'dd MMM yyyy hh:mm:ss a') },
         userId: { value: doc.UserID },
         entryMode: { value: doc.EntryMode },
