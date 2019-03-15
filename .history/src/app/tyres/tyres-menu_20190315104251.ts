@@ -9,19 +9,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Inventory',
-        icon: 'fa fa-recycle',
+        icon: 'fa fa-text-width',
         link: '/tyres/inventory',
         home: true,
     },
     {
         title: 'Inputs',
-        icon: 'fa fa-pencil-square-o',
+        icon: 'fa fa-angle-double-left',
         link: '/tyres/inputs',
         home: true,
     },
     {
         title: 'Health Checkup',
-        icon: 'fa fa-medkit',
+        icon: 'fa fa-check-circle',
         link: '/tyres/tyre-health-check-up',
         home: true,
     },
@@ -33,7 +33,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Vehicle Trolly Mapping',
-        icon: 'fa fa-street-view',
+        icon: 'fa fa-map-signs',
         link: '/tyres/vehicle-trolly-mapping',
         home: true,
     },

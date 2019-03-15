@@ -80,39 +80,47 @@ export class SiteFencingComponent implements OnInit {
         this.getRemainingTable();
         this.apiService.post("SiteFencing/getSiteFences", { siteId: this.selectedSite })
           .subscribe(res => {
+            this.commonService.loading++;
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
             if(data[this.selectedSite]&&count==1){
-              this.mapService.createPolygon(data[this.selectedSite]);
+              this.mapService.createPolygon(data[this.selectedSite].latLngs);
               this.isUpdate=true;
               console.log("Single",data[this.selectedSite]);
             }
             else if(data[this.selectedSite]&&count>1){
               let latLngsArray = [];
               let mainLatLng = null;
+              let secLatLngs =null;
+              let minDis=100000;
               for (const datax in data) {
                 if (data.hasOwnProperty(datax)) {
                   const datav = data[datax];
                   if(datax==this.selectedSite)
-                    mainLatLng = datav;
-                  else
+                    mainLatLng = datav.latLngs;
+                  else if(minDis>datav.dis){
                     this.mergeSiteId=datax;
-                  latLngsArray.push(datav);
+                    secLatLngs = datav.latLngs;
+                    minDis=datav.dis;
+                  }
+                  latLngsArray.push(datav.latLngs);
                   console.log("Multi",datax);
                 }
               }
-              this.mapService.createPolygons(latLngsArray,mainLatLng);
+              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs);
               this.isUpdate=true;
             }
             else{
               this.isUpdate=false;
-              console.log("Else",);
+              console.log("Else");
             }
             this.mapService.zoomMap(18.5);
+            this.commonService.loading--;
           }, err => {
             console.error(err);
             this.commonService.showError();
+            this.commonService.loading--;
           });
       }, err => {
         console.error(err);
@@ -126,10 +134,11 @@ export class SiteFencingComponent implements OnInit {
     this.mapService.isDrawAllow = false;
     this.siteName = null;
     this.siteLoc = null;
-    this.typeId = 1;
     this.selectedSite = null;
-    if(loadTable)
+    if(loadTable){
+      this.typeId = 1;
       this.getRemainingTable();
+    }
     this.mapService.clearAll();
   }
   submitPolygon() {
@@ -165,7 +174,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast("Created");
               this.gotoSingle();
               this.getRemainingTable();
-              this.clearAll();
+              this.clearAll(false);
             }, err => {
               console.error(err);
               this.commonService.showError();
@@ -180,7 +189,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast("Updated");
               this.getRemainingTable();
               this.gotoSingle();
-              this.clearAll();
+              this.clearAll(false);
             }, err => {
               console.error(err);
               this.commonService.showError();
