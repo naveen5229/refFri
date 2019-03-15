@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { StockitemComponent} from '../../acounts-modals/stockitem/stockitem.component';
+import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { UserService } from '../../@core/data/users.service';
 
 @Component({
@@ -15,9 +15,9 @@ export class StockitemsComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
+    public modalService: NgbModal) {
     this.getStockItems();
-    }
+  }
 
   ngOnInit() {
   }
@@ -26,7 +26,7 @@ export class StockitemsComponent implements OnInit {
     let params = {
       foid: 123
     };
-    
+
     this.common.loading++;
     this.api.post('Stock/GetStockItem', params)
       .subscribe(res => {
@@ -42,13 +42,15 @@ export class StockitemsComponent implements OnInit {
 
   }
 
-  openStockItemModal (stockitem?) {
-  console.log('stockitem',stockitem);
-     if (stockitem){ this.common.params = stockitem;
-     }else {
-      this.common.params = {stockType:'Tyre'};
-     }
-    const activeModal = this.modalService.open(StockitemComponent, { size: 'lg',  container: 'nb-layout', backdrop: 'static',keyboard :false });
+  openStockItemModal(stockitem?) {
+    console.log('stockitem', stockitem);
+    if (stockitem) {
+      this.common.params = stockitem;
+    } 
+    else {
+      this.common.params = { stockType: { name: 'Tyre', id: -1 } };
+    }
+    const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
@@ -56,30 +58,30 @@ export class StockitemsComponent implements OnInit {
           this.updateStockItem(stockitem.id, data.stockitem);
           return;
         }
-       this.addStockItem(data.stockItem);
+        this.addStockItem(data.stockItem);
       }
     });
   }
 
   addStockItem(stockItem) {
     console.log(stockItem);
-   // const params ='';
-     const params = {
-        //foid: stockItem.user.id,
-         name: stockItem.name,
-        code: stockItem.code,
-        stocksubtypeid: stockItem.stockSubType.id,
-        sales: stockItem.sales,
-        purchase: stockItem.purchase,
-        minlimit: stockItem.minlimit,
-        maxlimit: stockItem.maxlimit,
-        isactive: stockItem.isactive,
-        inventary: stockItem.inventary,
-        stockunit  : stockItem.unit.id
-       
-     };
+    // const params ='';
+    const params = {
+      //foid: stockItem.user.id,
+      name: stockItem.name,
+      code: stockItem.code,
+      stocksubtypeid: stockItem.stockSubType.id,
+      sales: stockItem.sales,
+      purchase: stockItem.purchase,
+      minlimit: stockItem.minlimit,
+      maxlimit: stockItem.maxlimit,
+      isactive: stockItem.isactive,
+      inventary: stockItem.inventary,
+      stockunit: stockItem.unit.id
 
-     console.log('params: ',params);
+    };
+
+    console.log('params: ', params);
     this.common.loading++;
 
     this.api.post('Stock/InsertStockItem', params)
@@ -95,25 +97,25 @@ export class StockitemsComponent implements OnInit {
 
   }
 
-  updateStockItem(stockItemid,stockItem) {
+  updateStockItem(stockItemid, stockItem) {
     console.log(stockItem);
-   // const params ='';
-     const params = {
-        //foid: stockItem.user.id,
-         name: stockItem.name,
-        code: stockItem.code,
-        stocksubtypeid: stockItem.stockSubType.id,
-        sales: stockItem.sales,
-        purchase: stockItem.purchase,
-        minlimit: stockItem.minlimit,
-        maxlimit: stockItem.maxlimit,
-        isactive: stockItem.isactive,
-        inventary: stockItem.inventary,
-        stockunit  : stockItem.unit.id,
-        stockItemid :stockItemid
-     };
+    // const params ='';
+    const params = {
+      //foid: stockItem.user.id,
+      name: stockItem.name,
+      code: stockItem.code,
+      stocksubtypeid: stockItem.stockSubType.id,
+      sales: stockItem.sales,
+      purchase: stockItem.purchase,
+      minlimit: stockItem.minlimit,
+      maxlimit: stockItem.maxlimit,
+      isactive: stockItem.isactive,
+      inventary: stockItem.inventary,
+      stockunit: stockItem.unit.id,
+      stockItemid: stockItemid
+    };
 
-     console.log('paramsans: ',params);
+    console.log('paramsans: ', params);
     this.common.loading++;
 
     this.api.post('Stock/UpdateStockItem', params)
