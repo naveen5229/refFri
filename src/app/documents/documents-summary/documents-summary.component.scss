@@ -32,6 +32,9 @@
 .icon-green {
     color: green; font-size: 24px; cursor:pointer;
 }
+.icon-yellow {
+    color: yellow; font-size: 24px; cursor:pointer;
+}
 .icon-red-cross {
     color: red; font-size: 24px; cursor:arrow;
 }
@@ -47,8 +50,11 @@
 .i-red-cross {
     color: red; font-size: 24px;
 }
+.btn-all { padding-top: 13px;}
 span.mgn-lt { margin-left: 15px;}
 .pdg-ltrt-none { padding-left: 0; padding-right: 0;}
+.idx-fld { width: 40px; }
+.cls-hide { display: none !important;}
 nb-card{
     padding-left: 4% !important;
 }
