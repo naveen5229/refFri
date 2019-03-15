@@ -1,13 +1,25 @@
 <nb-card>
   <nb-card-body>
     <div class="row">
-      <div class="col-4 table">
+      <div class="col-6 table">
         <table>
           <tbody>
             <tr>
               <td>
-                <select class="form-control">
-                  <option *ngFor="let typeIdx of typeIds;" (click)="typeId=typeIdx.id; getRemainingTable()"
+                <div></div>
+              </td>
+              <td>
+                <input placeholder="Old Site Id" [(ngModel)]="mergeSiteId" class="form-control">
+              </td>
+              <td>
+                <button (click)="mergeSite()" class="btn btn-primary">Merge</button>
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                <select class="form-control" [(ngModel)]="typeId" (change)="getRemainingTable()">
+                  <option *ngFor="let typeIdx of typeIds;" 
                     [value]="typeIdx.id">{{typeIdx.description}}</option>
                 </select>
               </td>
@@ -74,12 +86,12 @@
               <td style="width:40px;">{{remainingElement.id}}</td>
               <td>{{remainingElement.name}}</td>
               <td>{{remainingElement.hotcnt || '0'}}</td>
-              <td (click)="selectedSite = remainingElement.id ;gotoSingle();">Action</td>
+              <td (click)="selectedSite = remainingElement.id;gotoSingle();">Action</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div id="map" class="map col-8">
+      <div id="map" class="map col-6">
       </div>
     </div>
 
