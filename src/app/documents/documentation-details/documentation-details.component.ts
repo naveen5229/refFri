@@ -61,8 +61,8 @@ export class DocumentationDetailsComponent implements OnInit {
 
   setTable() {
     let headings = {
-      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-      docType: { title: 'Document Type', placeholder: 'Document Type' },
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No', },
+      docType: { title: 'Document Type', placeholder: 'Document Type',  },
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },

@@ -86,6 +86,8 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 import { HttpResponseHandlerService } from './services/http-response-handler.service';
+import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map.component';
+
 
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
@@ -149,6 +151,9 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     UpdateSiteDetailsComponent,
     EditDriverComponent,
     // VehicleDriverMappingComponent
+    VehiclesOnMapComponent,
+    
+    
   ],
   entryComponents: [
     KpisDetailsComponent,
