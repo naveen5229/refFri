@@ -1,9 +1,38 @@
 <nb-card>
   <nb-card-header>
     <h2>vehicle Driver Mapping</h2>
-   
+
   </nb-card-header>
   <nb-card-body>
+    <form class="form-group">
+      <div class="row">
+        <div class="col-3">
+          <label>Mobile No/Driver Name</label>
+        </div>
+        <div class="col-3">
+          <auto-suggestion (onSelected)="getvehicleData($event)" url="Drivers/getDriversSuggestion"
+               display="empname" placeholder="Enter Mobile NO/Name" style="width:60%;" [preSelected]="null"></auto-suggestion> 
+        </div>
+
+        <div class="col-2">
+          <!-- //<div class="form-group"> -->
+          <select class="form-control" name="select" [(ngModel)]="selectedStatus">
+            <option *ngFor="let mapping of driverStatus" [value]="mapping.id">
+              {{mapping.description}}
+
+            </option>
+          </select>
+          <!-- </div> -->
+        </div>
+        <div class="col-2" *ngIf="selectedStatus == 901 || selectedStatus == 902">
+          <input type="text" class="form-control" readonly placeholder="Reg No">
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary">Update</button>
+
+        </div>
+      </div>
+    </form>
     <div class="container">
       <table class="table table-bordered table-hover table-scroll">
         <thead class="thead">
@@ -17,11 +46,11 @@
         <tbody>
           <tr *ngFor="let driver of driverMapping; let i = index">
             <th scope="row">{{i+1}}</th>
-            <td>{{driver.regno}}</td>
-            <td>{{driver.md_name}}</td>
-            <td>{{driver.md_no}}</td>
-            <td>{{driver.sd_name}}</td>
-            <td>{{driver.sd_no}}</td>
+            <td (click)="remapDriver(driver)">{{driver.regno}}</td>
+            <td (click)="mapDriver(driver, 'main')">{{driver.md_name}}</td>
+            <td (click)="mapDriver(driver, 'main')">{{driver.md_no}}</td>
+            <td (click)="mapDriver(driver, 'secondry')">{{driver.sd_name}}</td>
+            <td (click)="mapDriver(driver, 'secondry')">{{driver.sd_no}}</td>
           </tr>
         </tbody>
 

@@ -1,0 +1,47 @@
+<nb-card>
+    <nb-card-header>
+      <h2>Driver Status Change</h2>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </nb-card-header>
+      <nb-card-body>
+        <form class="form-group">
+          <div class="row">
+            <div class="col-3">
+              <input type="text" class="form-control" placeholder="Reg NO" name="regno" readonly>
+              </div>
+            </div>
+            <div class="row mrg-margin-top">
+              <div class="col-2">
+                <label>Driver Name</label>
+              </div>
+              <div class="col-3">
+                <input type="text" class="form-control" name="name" placeholder="Driver Name">
+
+              </div>
+              <div class="col-2">
+                <label>Driver Mobile Number</label>
+
+              </div>
+              <div class="col-3">
+                <input type="text" class="form-control" name="mobileno" placeholder="Mobile Number">
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary" name="submit">UPDATE</button>
+              </div>
+            </div>
+            <div class="row mrg-margin-top">
+              <div class="col-3">
+                  <select class="form-control" >
+                      <option *ngFor = "let mapping of driverStatus" value= {{mapping.id}} >
+                        {{mapping.description}}
+        
+                      </option>
+                    </select>
+              </div>
+            </div>
+            </form>
+            </nb-card-body>
+            
+          

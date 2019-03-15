@@ -1,0 +1,91 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Driver Vehicle Remapping</h2>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="driverRemapForm" name="addDriver-form" id="addDriver-form"
+      (submit)="driverRemapForm.valid && Remapdriver()">
+
+      <div class="row">
+        <div class="col-3">
+          <label>{{maping.regno}}</label>
+        </div>
+      </div>
+      <div class="row margin-top-15">
+        <div class="col-2">
+          <label>Primary Driver Name</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="primaryDriver"
+            minlength="3" maxlength="64" placeholder="Driver Name">
+
+        </div>
+        <div class="col-2">
+          <label>Mobile Number</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
+            formControlName="pdriverMobile" minlength="10" required maxlength="10"
+            [ngClass]="{ 'is-invalid': submitted && f.PdriverMobile.errors }" required>
+          <div *ngIf="submitted &&  f.PdriverMobile.errors" class="invalid-feedback">
+            <div *ngIf="f.PdriverMobile.errors.required">mobileNumber is required</div>
+            <div *ngIf="f.PdriverMobile.errors.minlength ">mobile Number minlength 10</div>
+            <div *ngIf="f.PdriverMobile.errors.maxlength ">mobile Number maxlength 10</div>
+          </div>
+        </div>
+
+
+        <div class="col-2" *ngIf="this.common.params.driver.sd_id">
+          <select class="form-control" formControlName="pdStatus" [ngClass]="{ 'is-invalid': submitted && f.pdStatus.errors }" >
+            <option *ngFor="let status of driverStatus" [value]="status.id">
+              {{status.description}}
+
+            </option>
+          </select>
+          <div *ngIf="submitted  && f.pdStatus.errors" class="invalid-feedback">
+            <div *ngIf="f.pdStatus.errors.required">Driver Status is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row margin-top-15">
+        <div class="col-2">
+          <label>Secondary Driver</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" placeholder="Driver Name" formControlName="scndryDriver" id="name">
+        </div>
+        <div class="col-2">
+          <label>Mobile Number</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
+            formControlName="SdriverMobile" minlength="10" required maxlength="10"
+            [ngClass]="{ 'is-invalid': submitted && f.SdriverMobile.errors }" required>
+          <div *ngIf="submitted && f.SdriverMobile.errors" class="invalid-feedback">
+            <div *ngIf="f.SdriverMobile.errors.required">mobileNumber is required</div>
+            <div *ngIf="f.SdriverMobile.errors.minlength ">mobile Number minlength 10</div>
+            <div *ngIf="f.SdriverMobile.errors.maxlength ">mobile Number maxlength 10</div>
+          </div>
+        </div>
+        <div class="col-2" *ngIf="this.common.params.driver.sd_id">
+          <select class="form-control" formControlName="sdStatus"  [ngClass]="{ 'is-invalid': submitted && f.sdStatus.errors }">
+            <option *ngFor="let status of driverStatus" [value]="status.id">
+              {{status.description}}
+
+            </option>
+          </select>
+          <div *ngIf="submitted && f.sdStatus.errors" class="invalid-feedback">
+            <div *ngIf="f.sdStatus.errors.required">Driver Status is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 text-center margin-top-15">
+        <button class="btn btn-primary" form="addDriver-form" id="submit" type="submit"
+          (click)="submitted=true">SUBMIT</button>
+      </div>
+    </form>
+  </nb-card-body>
