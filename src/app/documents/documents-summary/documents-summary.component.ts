@@ -15,11 +15,6 @@ export class DocumentsSummaryComponent implements OnInit {
   docdata = [];
   columns = [];
   vehicle_info = [];
-  total_norecord = 0;
-  total_normal = 0;
-  total_expired = 0;
-  total_unverified = 0;
-  total_noimage = 0;
   total_recs = 0;
 
   constructor(
@@ -38,7 +33,7 @@ export class DocumentsSummaryComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    this.getDocumentMatrixData();
+    window.location.reload();
   }
 
   getDocumentMatrixData() {
@@ -48,20 +43,11 @@ export class DocumentsSummaryComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-        for(var i=0; i<this.data.summary.length; i++) {
-          console.log("status:" + this.data.summary[i].status + "=" + this.data.summary[i].total);
-          switch(this.data.summary[i].status) {
-            case 0: this.total_norecord = this.data.summary[i].total; break;
-            case 1: this.total_noimage = this.data.summary[i].total; break;
-            case 2: this.total_expired = this.data.summary[i].total; break;
-            case 3: this.total_unverified = this.data.summary[i].total; break;
-            case 4: this.total_normal = this.data.summary[i].total; break;
-          }
-        }
         this.total_recs = this.data.result.length;
         if(this.data.result.length) {
           for(var key in this.data.result[0]) {
-            this.columns.push(key);
+            if(key.charAt(0) != "_")
+              this.columns.push(key);
           }
           console.log("columns");
           console.log(this.columns);
@@ -74,14 +60,8 @@ export class DocumentsSummaryComponent implements OnInit {
   
   getDocumentType(strval) {
     if(strval) {
-      if(strval.indexOf('1_')> -1) {
-        return 1;
-      } else if(strval.indexOf('2_')> -1) {
-        return 2;
-      } else if(strval.indexOf('3_')> -1) {
-        return 3;
-      } else if(strval.indexOf('4_')> -1) {
-        return 4;
+      if(strval.indexOf('_') > -1) {
+        return strval.split('_')[0];
       } else {
         return 99;
       }
@@ -92,6 +72,80 @@ export class DocumentsSummaryComponent implements OnInit {
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  resetRowsVisibility() {
+    let tblelt = document.getElementById('tbldocs');
+    var rows=tblelt.querySelectorAll('tr');
+    console.log("rows=" + rows.length);
+    if(rows.length > 1) {
+      for(var i=1; i<rows.length; i++) {
+        rows[i].classList.remove('cls-hide');
+      }
+    }
+  }
+  
+  filterRows(status) {
+    console.log("checking for status:" + status);
+    this.resetRowsVisibility();
+    let tblelt = document.getElementById('tbldocs');
+    var rows=tblelt.querySelectorAll('tr');
+    console.log("rows=" + rows.length);
+    if(rows.length > 1) {
+      //console.log("rowscoll::");
+      //console.log(rows);
+      for(var i=1; i<rows.length; i++) {
+        let classlst = rows[i].classList;
+        if(classlst.length) {
+          let flag = 0;
+          if(classlst.length == 1 && classlst[0] != ("" + status)) {
+            rows[i].classList.add('cls-hide');
+          } else {
+            for(var j=0; j< classlst.length; j++) {
+              if(classlst[j].indexOf('--') > -1) {
+                let arrclass = classlst[j].split('--');
+                console.log(arrclass);
+                console.log("indexval=" + arrclass.indexOf(status));
+                if(arrclass.indexOf("" + status) == -1) {
+                  console.log("row hidden:");
+                  console.log(rows[i]);
+                  rows[i].classList.add('cls-hide');
+                  flag = 1;
+                  continue;
+                }
+              } else if(classlst[j].length == 1 && classlst[j] != ("" + status)) {
+                rows[i].classList.add('cls-hide');
+                flag = 1;
+                continue;
+              } 
+            }
+          }
+        }
+      }
+    }
+  }
+
+  getDocClasses(row) {
+    let docclass = [];
+    let strclass = "";
+    
+      for(var i=0; i< this.columns.length; i++){
+        let colval = row[this.columns[i]];
+        if(colval) {
+          if(colval.indexOf('_') > -1) {
+            let status = colval.split('_')[0];
+            docclass.push(status);
+          }
+        } else if(colval == null) {
+          docclass.push(0);
+        }
+      }
+      if(docclass.length == 0) {
+        docclass.push(0);
+      }
+      strclass = docclass.join('--');
+        
+    return strclass;
   }
 
   fetchDocumentData(row, col, colval) {

@@ -125,6 +125,12 @@ label{
     background: #0bff0b;
     color:black;
 }
+
+:host ::ng-deep.default
+{
+    background: transparent;
+    border: transparent;
+}
 :host ::ng-deep.icon{
     color: #0e0e3a;
     font-size: 18px;
@@ -135,6 +141,7 @@ label{
     font-size: 18px;
  
 }
+
 
 :host ::ng-deep .circle {
     border: 1px solid gray;

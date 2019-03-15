@@ -10,17 +10,22 @@ import { CommonService } from '../../services/common.service';
 })
 export class StockitemComponent implements OnInit {
   showConfirm = false;
-  showExit=false;
+  showExit = false;
+  StockTypeItemsdata = [];
   stockItem = {
     name: '',
     code: '',
-    maxlimit :'',
-    minlimit :'',
-    isactive :'',
-    sales :'',
-    purchase:'',
-    inventary:'',
+    maxlimit: '',
+    minlimit: '',
+    isactive: true,
+    sales: false,
+    purchase: false,
+    inventary: true,
     unit: {
+      name: '',
+      id: ''
+    },
+    stockType: {
       name: '',
       id: ''
     },
@@ -46,11 +51,15 @@ export class StockitemComponent implements OnInit {
   };
 
   allowBackspace = true;
+  stockTypeName = '';
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-      console.log(this.common.params);
+    //  console.log('stock item new',this.common.params.stockType);
     if (this.common.params) {
+      //  this.stockTypeName = this.common.params.stockType;
+
+
       this.stockItem = {
         name: this.common.params.name,
         code: this.common.params.code,
@@ -62,24 +71,47 @@ export class StockitemComponent implements OnInit {
           name: this.common.params.stoctsubtypename,
           id: this.common.params.stocktypeid
         },
+        stockType: this.common.params.stockType || { name: '', id: '' },
         user: {
           name: '',
           id: ''
         },
         maxlimit: common.params.min_limit,
-        minlimit : common.params.min_limit,
-        isactive : common.params.is_active,
-        sales : common.params.for_sales,
-        purchase   : common.params.for_purchase,
-        inventary : common.params.for_inventory
+        minlimit: common.params.min_limit,
+        isactive: common.params.is_active,
+        sales: common.params.for_sales,
+        purchase: common.params.for_purchase,
+        inventary: common.params.for_inventory
       }
 
       console.log('Stock: ', this.stockItem);
     }
+    console.log('testing purpose', this.stockTypeName);
+    this.getStockType();
   }
 
 
   ngOnInit() {
+  }
+
+  getStockType() {
+    let params = {
+      search: 123
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/GetTypeOfStock', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('StockTypeItemsdata 22:', res['data']);
+        this.StockTypeItemsdata = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
   }
 
   onSelected(selectedData, type, display) {
@@ -96,29 +128,29 @@ export class StockitemComponent implements OnInit {
   }
 
 
-  
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
 
     if (event.key == "Escape") {
-      this.showExit=true;
+      this.showExit = true;
     }
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
-       event.preventDefault();
-       this.activeModal.close();
-       return;
-       // this.close();
-      }else   if ( key == 'n') {
+        event.preventDefault();
+        this.activeModal.close();
+        return;
+        // this.close();
+      } else if (key == 'n') {
         this.showExit = false;
         event.preventDefault();
         return;
 
       }
-      
+
     }
 
     if (this.showConfirm) {
@@ -131,12 +163,12 @@ export class StockitemComponent implements OnInit {
       event.preventDefault();
       return;
     }
-  
+
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-     // console.log('Active jj: ', activeId.includes('aliasname'));
-      if (activeId.includes('user')) {
+      // console.log('Active jj: ', activeId.includes('aliasname'));
+      if (activeId.includes('stockType')) {
         this.setFoucus('stockSubType');
       } else if (activeId.includes('stockSubType')) {
         this.setFoucus('unit');
@@ -154,38 +186,38 @@ export class StockitemComponent implements OnInit {
         this.setFoucus('sales');
       } else if (activeId == 'sales' || activeId == 'notsales') {
         this.setFoucus('purchase');
-      } else if (activeId == 'purchase'||activeId == 'notpurchase') {
-         this.setFoucus('inventary');
-       }else if (activeId == 'inventary'|| activeId == 'notinventary') {
+      } else if (activeId == 'purchase' || activeId == 'notpurchase') {
+        this.setFoucus('inventary');
+      } else if (activeId == 'inventary' || activeId == 'notinventary') {
         // this.setFoucus('stock-name');
         this.showConfirm = true;
-       }
-  }else if (key == 'backspace' && this.allowBackspace) {
-    event.preventDefault();
-    console.log('active 1', activeId);
-    if (activeId == 'inventary'|| activeId == 'notinventary') this.setFoucus('purchase');
-    if (activeId == 'purchase'||activeId == 'notpurchase') this.setFoucus('sales');
-    if (activeId == 'sales'|| activeId == 'notsales') this.setFoucus('isactive');
-    if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
-    if (activeId == 'minlimit') this.setFoucus('maxlimit');
-    if (activeId == 'maxlimit') this.setFoucus('code');
-    if (activeId == 'code') this.setFoucus('name');
-    if (activeId == 'name') this.setFoucus('unit');
-    if (activeId == 'unit') this.setFoucus('stockSubType');
-    if (activeId == 'stockSubType') this.setFoucus('user');
-  }  else if (key.includes('arrow')) {
-    this.allowBackspace = false;
-  } else if (key != 'backspace') {
-    this.allowBackspace = false;
-    //event.preventDefault();
+      }
+    } else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', activeId);
+      if (activeId == 'inventary' || activeId == 'notinventary') this.setFoucus('purchase');
+      if (activeId == 'purchase' || activeId == 'notpurchase') this.setFoucus('sales');
+      if (activeId == 'sales' || activeId == 'notsales') this.setFoucus('isactive');
+      if (activeId == 'isactive' || activeId == 'notisactive') this.setFoucus('minlimit');
+      if (activeId == 'minlimit') this.setFoucus('maxlimit');
+      if (activeId == 'maxlimit') this.setFoucus('code');
+      if (activeId == 'code') this.setFoucus('name');
+      if (activeId == 'name') this.setFoucus('unit');
+      if (activeId == 'unit') this.setFoucus('stockSubType');
+      if (activeId == 'stockSubType') this.setFoucus('stockType');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+      //event.preventDefault();
+    }
+
+
   }
 
-    
-  }
 
 
 
-  
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

@@ -61,8 +61,9 @@ export class DocumentationDetailsComponent implements OnInit {
 
   setTable() {
     let headings = {
+      docId:{title :'DocId',placeholder:'DocId'},
       vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-      docType: { title: 'Document Type', placeholder: 'Document Type' },
+      docType: { title: 'Document Type', placeholder: 'Document Type'  },
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
@@ -98,12 +99,13 @@ export class DocumentationDetailsComponent implements OnInit {
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       console.log("expiry date:", exp_date);
       let column = {
+        docId:{value: doc.id},
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         agentName: { value: doc.agent },
         issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class:exp_date==null && curr >= exp_date  ? 'red' : (exp_date==null && exp_date < nextMthDate ? 'pink' : ( doc.expiry_date == null ? 'default' : 'green')) },
         documentNumber: { value: doc.document_number },
         rto: { value: doc.rto },
         amount: { value: doc.amount },

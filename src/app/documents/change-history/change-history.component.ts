@@ -44,18 +44,18 @@ export class ChangeHistoryComponent implements OnInit {
 
 
   getDocumentsData() {
-    this.common.loading++;
+    // this.common.loading++;
     let response;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         // console.log("data", res);
         // this.vehicle = res['data'].vehicle_info[0];
         // this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
         console.log("data type ",this.docTypes);
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log(err);
       });
     return response;
@@ -94,7 +94,7 @@ export class ChangeHistoryComponent implements OnInit {
   setTable() {
     let headings = {
       documentId: { title: 'Document Id', placeholder: 'Doc Id' },
-      id: { title:'DocTypeId', Placeholder:'DocTypeId'},
+      id: { title:'DocTypeId', placeholder:'DocTypeId'},
       docType: { title: 'Document Type', placeholder: 'Document Type' },
       issueDate: { title: 'Issue Date', placeholder: 'IssueDate' },
       wefDate: { title: 'Wef Date', placeholder: 'WefDate' },
@@ -130,7 +130,7 @@ export class ChangeHistoryComponent implements OnInit {
         docType: { value: doc.DocumentType },
         issueDate: { value: this.datePipe.transform(doc.IssueDate, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.WefDate, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: curr >= exp_date ? 'red' : (exp_date < nextMthDate ? 'pink' : (exp_date ? 'green' : '')) },
+        expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: exp_date==null && curr >= exp_date ? 'red' : (exp_date==null && exp_date < nextMthDate ? 'pink' : (doc.ExpiryDate==null ? 'default' : 'green')) },
         entryTime: { value: this.datePipe.transform(doc.EntryTime, 'dd MMM yyyy hh:mm:ss a') },
         userId: { value: doc.UserID },
         entryMode: { value: doc.EntryMode },

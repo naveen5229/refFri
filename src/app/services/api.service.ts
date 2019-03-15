@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AccountService } from './account.service';
 // import { CommonService } from '../services/common.service';
 
 @Injectable({
@@ -12,22 +14,25 @@ export class ApiService {
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //  URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
-  //  URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
-  //URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
+  // URL: string = 'http://localhost/booster_webservices/'; // sachin
+  // URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
 
   constructor(private http: HttpClient,
+    public router: Router,
+    public accountService: AccountService,
     public user: UserService) {
   }
 
 
   post(subURL: string, body: any, options?) {
-    console.log('Test::::');
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
-    console.log('Test::::');
+
+    // if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
+
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }
@@ -40,6 +45,15 @@ export class ApiService {
         subURL += '?foAdminId=' + this.user._customer.id;
       }
     }
+
+    // if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
+    //   if (subURL.includes('?')) {
+    //     subURL += '&branch=' + this.accountService.selected.branch;
+    //   } else {
+    //     subURL += '?branch=' + this.accountService.selected.branch;
+    //   }
+    // };
+
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
