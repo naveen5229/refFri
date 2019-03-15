@@ -61,8 +61,8 @@ export class DocumentationDetailsComponent implements OnInit {
 
   setTable() {
     let headings = {
-      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-      docType: { title: 'Document Type', placeholder: 'Document Type' },
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No', },
+      docType: { title: 'Document Type', placeholder: 'Document Type',  },
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
@@ -237,7 +237,7 @@ export class DocumentationDetailsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark, x_user_id: this.user._customer.id })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark, x_user_id: this.user._details.id,x_deldoc :1 })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);

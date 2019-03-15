@@ -76,15 +76,11 @@ export class KpisDetailsComponent implements OnInit {
     // this.common.params= tripDetails;
     // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
-    if(kpi.x_prim_status == 20 || kpi.x_prim_status == 21 || kpi.x_prim_status == 51){
+    
       this.common.params= tripDetails;
       console.log("vehicleTrip",tripDetails);
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    }else{
-      console.log(kpi.x_prim_status)
-
-      this.common.showToast("This trip cannot be updated ");
-    }
+    
   }
 
   closeModal() {

@@ -75,7 +75,7 @@
         <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
           <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
             (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
-            [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}"
+            [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
             (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
             <td (click)="openSmartTool(i,vehicleEvent);">{{i+1}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
@@ -107,7 +107,7 @@
         </tbody>
       </table>
     </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center">
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="btnStatus">
       <button (click)="reviewComplete(1)" style="padding:5px">Review Done</button>
       <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced Review</button></div>
 

@@ -1,9 +1,20 @@
-// nb-card{
-//     padding-left: 4% !important;
-// }
+
+nb-card{
+    margin-left: 4%;
+}
 a {
     font-size: 20px;
     padding: 12%;
+}
+.rc-image{
+    margin-left: 0px;
+    padding: 6px;
+    display: block;
+   
+}
+.rc-image a{
+    padding: 0px;
+    cursor: pointer;
 }
 
 .row {

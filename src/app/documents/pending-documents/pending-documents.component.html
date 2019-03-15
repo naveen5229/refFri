@@ -46,6 +46,34 @@
           </tbody>
         </table>
       </div>
+
+      <div class="row">
+       <h6>Work List</h6>
+       
+
+        <table class="table table-bordered table-hover table-scroll">
+          <thead class="thead">
+            <tr class="">
+              <th class="col-sm-2" style="width:5%;">Sr No</th>
+              <th style="width:5%;">User Name</th>
+              <th class="col-sm-2" style="width: 5%;">Work Date</th>
+              <th class="col-sm-2" style="width: 5%;">Total Docs</th>
+            </tr>
+          </thead>
+          <tbody class="">
+            <ng-container *ngIf="data != 'undefined'">
+              <tr *ngFor="let row of userdata; let i = index" class="">
+                <td style="width:5%;">{{i + 1}}</td>
+                <td class="col-sm-2" style="width: 15%;">{{row.username}}</td>
+                <td class="col-sm-2" style="width: 15%;">{{row.workdate | date:'dd-MMM-yyyy'}}</td>
+                <td class="col-sm-2" style="width: 15%;">{{row.totaldocs}}</td> 
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    
+
     </div>
   </nb-card-body>
 </nb-card>
@@ -65,7 +93,7 @@
         <div class="row">
           <div class="col-sm-4">
 
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="document_id-first" class="col-sm-4 mgn-vert">Document ID</label>
 
               <div class="col-sm-8 " *ngIf="!modal.first.data.canUpdate">
@@ -77,7 +105,7 @@
               <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
                   class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />-->
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="veh_no-first" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">{{modal.first.data.document.regno}}</label>
@@ -93,7 +121,7 @@
                     (keyup)="isValidVehicle($event)"></auto-suggestion> -->
               </div>
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="doc_type-first" class="col-sm-4 mgn-vert">Document Type<span
                   class="mandatory">*</span></label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
@@ -108,7 +136,7 @@
               </div>
             </div>
 
-            <div class="form-field clear">
+            <!-- <div class="form-field clear">
               <label for="issue_date-first" class="col-sm-4 mgn-vert">Issue Date:</label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">
@@ -120,35 +148,39 @@
                 (focusout)="checkDateFormat('first', 'issue_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date', 'first')"><i class="icon fa fa-calendar"></i></span>
-            </div>
-            <div class="form-field clear">
+            </div> -->
+            <div class="row form-field clear">
               <label for="wef_date-first" class="col-sm-4 mgn-vert">W.e.f Date</label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">
                   {{getDateInDisplayFormat(modal.first.data.document.wef_date)| date:'dd-MM-yyyy'}}</label>
 
               </div>
-              <input #wefdate_first *ngIf="modal.first.data.canUpdate" id="wef_date-first" name="wef_date-first"
-                type="text" class="col-sm-6 form-control frm-fld mgn-vert"
+              <div class="col-8" style="padding-left:7px;">
+                <input #wefdate_first *ngIf="modal.first.data.canUpdate" id="wef_date-first" name="wef_date-first"
+                type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.first.data.document.wef_date" [value]="modal.first.data.document.wef_date "
                 (focusout)="checkDateFormat('first', 'wef_date')" placeholder="DD/MM/YYYY" />
-              <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+              <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('wef_date', 'first')"><i class="icon fa fa-calendar"></i></span>
+              </div>
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="expiry_date-first" class="col-sm-4 mgn-vert">Expiry Date</label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">
                   {{getDateInDisplayFormat(modal.first.data.document.expiry_date)| date:'dd-MM-yyyy'}}</label>
               </div>
-              <input #expiry_date_first *ngIf="modal.first.data.canUpdate" id="expiry_date-first"
-                name="expiry_date-first" type="text" class="col-sm-6 form-control frm-fld mgn-vert"
+              <div class="col-8" style="padding-left:7px;">
+                <input #expiry_date_first *ngIf="modal.first.data.canUpdate" id="expiry_date-first"
+                name="expiry_date-first" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.first.data.document.expiry_date" [value]="modal.first.data.document.expiry_date"
                 (focusout)="checkDateFormat('first', 'expiry_date')" placeholder="DD/MM/YYYY" />
               <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
               <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-              <span *ngIf="modal.first.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+              <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('expiry_date', 'first')"><i class="icon fa fa-calendar"></i></span>
+              </div>
             </div>
 
             <div class="row form-field clear" *ngIf="modal.first.data.canUpdate == 0">
@@ -191,10 +223,10 @@
             </div>
 
             <div class="row form-field clear">
-              <label for="remarks-first" class="col-sm-4 mgn">Remarks</label>
-              <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                <textarea id="remarks-first" name="remarks-first" rows="1" class="form-control "
-                  [(ngModel)]="modal.first.data.document.remarks"></textarea>
+              <label for="remarks-first" class="col-sm-4">Remarks</label>
+              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
+                <textarea id="remarks-first" name="remarks-first" rows="3" class="form-control "
+                  [(ngModel)]="modal.first.data.document.remarks" [value]="modal.first.data.document.remarks"></textarea>
               </div>
             </div>
 
@@ -225,9 +257,10 @@
 
 
           <div class="col-sm-8">
-            <div *ngIf="modal.first.data.doc_not_img"><a target='_blank' href="{{modal.first.data.document.img_url}}"
-                title="View Document">View
-                Document</a>
+              
+            <div class="rc-image">
+              <a target='_blank' href="{{modal.first.data.document.rcImage}}"
+                title="View Document">RC Image</a>
             </div>
             <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
               [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId"
@@ -261,7 +294,7 @@
         <div class="row">
           <div class="col-sm-4">
 
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="document_id-second" class="col-sm-4 mgn-vert">Document ID</label>
 
               <div class="col-sm-8 " *ngIf="!modal.second.data.canUpdate">
@@ -273,7 +306,7 @@
               <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
                         class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />-->
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="veh_no-second" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">{{modal.second.data.document.regno}}</label>
@@ -289,7 +322,7 @@
                           (keyup)="isValidVehicle($event)"></auto-suggestion> -->
               </div>
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="doc_type-second" class="col-sm-4 mgn-vert">Document Type<span
                   class="mandatory">*</span></label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
@@ -304,7 +337,7 @@
               </div>
             </div>
 
-            <div class="form-field clear">
+            <!-- <div class="form-field clear">
               <label for="issue_date-second" class="col-sm-4 mgn-vert">Issue Date:</label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">
@@ -316,35 +349,39 @@
                 (focusout)="checkDateFormat('second', 'issue_date')" placeholder="DD/MM/YYYY" />
               <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date', 'second')"><i class="icon fa fa-calendar"></i></span>
-            </div>
-            <div class="form-field clear">
+            </div> -->
+            <div class="row form-field clear">
               <label for="wef_date-second" class="col-sm-4 mgn-vert">W.e.f Date</label>
-              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
+              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8" style="padding-left:7px;">
                 <label style="font-size:16px;">
                   {{getDateInDisplayFormat(modal.second.data.document.wef_date)| date:'dd-MM-yyyy'}}</label>
 
               </div>
-              <input #wefdate_second *ngIf="modal.second.data.canUpdate" id="wef_date-second" name="wef_date-second"
-                type="text" class="col-sm-6 form-control frm-fld mgn-vert"
+              <div class="col-8" style="padding-left:7px;">
+                <input #wefdate_second *ngIf="modal.second.data.canUpdate" id="wef_date-second" name="wef_date-second"
+                type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.second.data.document.wef_date" [value]="modal.second.data.document.wef_date "
                 (focusout)="checkDateFormat('second', 'wef_date')" placeholder="DD/MM/YYYY" />
-              <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+              <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('wef_date', 'second')"><i class="icon fa fa-calendar"></i></span>
+              </div>
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="expiry_date-second" class="col-sm-4 mgn-vert">Expiry Date</label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">
                   {{getDateInDisplayFormat(modal.second.data.document.expiry_date)| date:'dd-MM-yyyy'}}</label>
               </div>
-              <input #expiry_date_second *ngIf="modal.second.data.canUpdate" id="expiry_date-second"
-                name="expiry_date-second" type="text" class="col-sm-6 form-control frm-fld mgn-vert"
+              <div class="col-8" style="padding-left:7px;">
+                <input #expiry_date_second *ngIf="modal.second.data.canUpdate" id="expiry_date-second"
+                name="expiry_date-second" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                 [(ngModel)]="modal.second.data.document.expiry_date" [value]="modal.second.data.document.expiry_date"
                 (focusout)="checkDateFormat('second', 'expiry_date')" placeholder="DD/MM/YYYY" />
               <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
               <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-              <span *ngIf="modal.second.data.canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+              <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('expiry_date', 'second')"><i class="icon fa fa-calendar"></i></span>
+              </div>
             </div>
 
             <div class="row form-field clear" *ngIf="modal.second.data.canUpdate == 0">
@@ -387,10 +424,10 @@
             </div>
 
             <div class="row form-field clear">
-              <label for="remarks-second" class="col-sm-4 mgn">Remarks</label>
-              <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                <textarea id="remarks-second" name="remarks-second" rows="1" class="form-control "
-                  [(ngModel)]="modal.second.data.document.remarks"></textarea>
+              <label for="remarks-second" class="col-sm-4">Remarks</label>
+              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
+                <textarea id="remarks-second" name="remarks-second" rows="3" class="form-control "
+                  [(ngModel)]="modal.second.data.document.remarks" [value]="modal.second.data.document.remarks"></textarea>
               </div>
             </div>
 
@@ -424,13 +461,12 @@
 
 
           <div class="col-sm-8">
-            <div *ngIf="modal.second.data.doc_not_img"><a target='_blank' href="{{modal.second.data.document.img_url}}"
-                title="View Document">View
-                Document</a>
+            <div class="rc-image"><a target='_blank' href="{{modal.second.data.document.rcImage}}"
+                title="View Document">RC Image</a>
             </div>
             <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
               [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
-              [loadOnInit]="true">
+              [loadOnInit]="true" >
             </app-image-viewer>
             <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
             <div id="imgzoom-second"></div>
@@ -438,6 +474,8 @@
         </div>
       </form>
     </div>
+
+    
 
     <div class="modal-footer">
     </div>
