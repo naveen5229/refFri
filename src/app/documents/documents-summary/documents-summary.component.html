@@ -16,7 +16,7 @@
                   <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio' name='rdostatus' value='4' (click)="filterRows(statusrow.status)" > Normal  <span>({{statusrow.total}})</span></span>
                   <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio' name='rdostatus' value='5' (click)="filterRows(statusrow.status)" > Near Expiring  <span>({{statusrow.total}})</span></span>
                   <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 5)">
-                    Other <span>({{statusrow.total}})</span>
+                    <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)" > Other <span>({{statusrow.total}})</span>
                   </span>
                 </td>
                 <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="resetRowsVisibility()">Show All</td>
@@ -29,7 +29,6 @@
         <table class="table table-bordered table-hover table-scroll" id="tbldocs">
           <thead class="thead">
             <tr>
-              <th class="idx-fld">S.No.</th>
               <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
             </tr>
           </thead>
@@ -37,7 +36,6 @@
           <tbody class="">
             <ng-container *ngIf="total_recs">
               <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
-                <td class="idx-fld">{{i+1}}</td>
                 <td *ngFor="let col of columns; " class="text-center">
                   <span *ngIf="col.toUpperCase() == 'VEHICLE'">
                     {{row[col]}}

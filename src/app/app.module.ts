@@ -91,6 +91,10 @@ import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map
 
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AccountService } from './services/account.service';
+import { ApiService } from './services/api.service';
+import { CommonService } from './services/common.service';
+import { UserService } from './@core/data/users.service';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
@@ -237,9 +241,8 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
-
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

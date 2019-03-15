@@ -57,6 +57,7 @@ export class CommonService {
   }
 
 
+
   constructor(
     public router: Router,
     private toastrService: NbToastrService,
@@ -64,10 +65,8 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe
-  ) {
-
-
+    private datePipe: DatePipe) {
+    
   }
 
   showError(msg?) {
