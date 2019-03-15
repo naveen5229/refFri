@@ -30,11 +30,11 @@
         <label>Stock Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
 
-        <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
-      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion>
+        <!--auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion-->
      
-      <auto-suggestion  *ngIf= "this.stockTypeName != null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
-      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="{name:this.stockTypeName}" readonly></auto-suggestion>
+      <auto-suggestion   (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
    
     </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">

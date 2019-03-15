@@ -57,7 +57,7 @@ export class StockitemComponent implements OnInit {
     public api: ApiService) {
     //  console.log('stock item new',this.common.params.stockType);
     if (this.common.params) {
-     this.stockTypeName = this.common.params.stockType;
+     // this.stockTypeName = this.common.params.stockType;
     
 
       this.stockItem = {
@@ -71,10 +71,7 @@ export class StockitemComponent implements OnInit {
           name: this.common.params.stoctsubtypename,
           id: this.common.params.stocktypeid
         },
-        stockType: {
-          name:'',
-          id: ''
-        },
+        stockType: this.common.params.stockType || {name: '', id: ''},
         user: {
           name: '',
           id: ''
@@ -132,7 +129,7 @@ export class StockitemComponent implements OnInit {
 
 
   
-  keyHandler(event) {
+  keyHandler(event) { 
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
