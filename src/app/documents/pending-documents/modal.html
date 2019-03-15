@@ -185,7 +185,7 @@
 
 
                     <div class="col-sm-8">
-                        <div class="rc-image"><a target='_blank' href="{{modal.second.data.document.rcImage}}"
+                        <div *ngIf="modal.second.data.document.rcImage" class="rc-image"><a target='_blank' href="{{modal.second.data.document.rcImage}}"
                                 title="View Document">RC Image</a>
                         </div>
 
