@@ -312,7 +312,7 @@
         </td>
         <td style="width: 100px;">
           <input type="number" class="form-control" autocomplete="off" name="account-qty" [id]="'qty-' + i"
-            (input)="amountDetail.amount = amountDetail.qty * amountDetail.rate;" [(ngModel)]="amountDetail.qty">
+            (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;" [(ngModel)]="amountDetail.qty">
         </td>
         <td>
           <input type="number" class="form-control" autocomplete="off" name="account-rate" [id]="'rate-' + i"
@@ -335,7 +335,7 @@
         <td>
           <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
             [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
-        </td>
+        </td> 
 
         <td>
           <input type="text" [id]="'warehouse-' + i" class="form-control" [name]="'warehouse-' + i" [(ngModel)]="amountDetail.warehouse.name">
