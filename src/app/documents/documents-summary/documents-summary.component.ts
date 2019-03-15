@@ -60,16 +60,8 @@ export class DocumentsSummaryComponent implements OnInit {
   
   getDocumentType(strval) {
     if(strval) {
-      if(strval.indexOf('1_')> -1) {
-        return 1;
-      } else if(strval.indexOf('2_')> -1) {
-        return 2;
-      } else if(strval.indexOf('3_')> -1) {
-        return 3;
-      } else if(strval.indexOf('4_')> -1) {
-        return 4;
-      } else if(strval.indexOf('5_')> -1) {
-        return 5;
+      if(strval.indexOf('_') > -1) {
+        return strval.split('_')[0];
       } else {
         return 99;
       }
@@ -144,6 +136,8 @@ export class DocumentsSummaryComponent implements OnInit {
             let status = colval.split('_')[0];
             docclass.push(status);
           }
+        } else if(colval == null) {
+          docclass.push(0);
         }
       }
       if(docclass.length == 0) {

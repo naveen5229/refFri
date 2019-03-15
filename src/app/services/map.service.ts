@@ -106,13 +106,19 @@ export class MapService {
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
   }
-  createPolygons(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+  createPolygons(latLngsMulti, mainLatLngs?, secLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
     latLngsMulti.forEach(latLngs => {
-      let colorBorder = '#228B22';
-      let colorFill = '#ADFF2F';
-      if (mainLatLngs != latLngs) {
-        colorBorder = '#550000';
-        colorFill = '#ff7f7f';
+      let colorBorder;
+      let colorFill;
+      if (secLatLngs == latLngs) {
+        colorBorder = '#f00';
+        colorFill = '#f88';
+      } else if (mainLatLngs != latLngs) {
+        colorBorder = '#00f';
+        colorFill = '#88f';
+      }else{
+        colorBorder = '#0f0';
+        colorFill = '#8f8';
       }
       const defaultOptions = {
         paths: latLngs,

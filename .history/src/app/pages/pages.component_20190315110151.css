@@ -151,6 +151,11 @@ tr{
 }
 :host ::ng-deep .menu-icon::before{
     content: '';
+    display: block;
+    font-family: 'FontAwesome';
+    font-size: 16px;
+    margin-right: 8px;
+    color: #fff;
   }
 :host ::ng-deep .nb-home::before{
     content: '\f015';
