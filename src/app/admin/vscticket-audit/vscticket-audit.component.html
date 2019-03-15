@@ -16,7 +16,7 @@
             </label>
           </div>
           <div class="col-sm-2" *ngIf = "ticketAccordingTo=='user'">
-              <auto-suggestion (onSelected)="searchUser($event)" url="suggestion/getVehicleList" display="regno"
+              <auto-suggestion (onSelected)="searchUser($event)" url="suggestion/getElogistAdminList" display="employeename"
               placeholder="Admin Name" [preSelected]="null"></auto-suggestion>
           </div>
           <div class="col-sm-2" *ngIf = "ticketAccordingTo=='vehicle'">
@@ -34,48 +34,64 @@
             <owl-date-time #date1></owl-date-time>
           </div>
           <div class="col-sm-2">
-              <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
+              <Button class="btn btn-primary" type="button" (click)="getAlert()">Get Report</Button>
           </div>
         </div>
 
    <!-- according to User -->
-  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px">
+  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px" *ngIf = "ticketAccordingTo=='user'" >
     <thead class="thead" style="background-color:darkgrey">
-      <tr *ngIf="report.length">
-      <th>Id</th>
+      <tr *ngIf="reportUserWise.length">
+      <th>Alert Id</th>
+      <th>FO Name</th>
       <th>Vehicle RegNo</th>
       <th>Vehicle Id</th>
+      <th>lTime</th>
+      <th>tTime</th>
+      <th>Add Time</th>
       <th>Clear Time </th>
       <th>Action</th> 
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of report; let i=index;">
+    <tr *ngFor="let data of reportUserWise; let i=index;">
       <td>{{data.id}}</td>
-      <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-      <td>{{data.halt_reason}}</td>
-      <td>{{data.site_name}}</td>
-      <td>{{data.loc_name}}</td>
-      <td>{{duration[i]}}</td>
+      <td>{{data.name}}</td>
+      <td>{{data.regno}}</td>
+      <td>{{data.vehicle_id}}</td>
+      <td>{{data.latch_time | date : 'dd MMM HH:mm'}}</td>
+      <td>{{data.ttime | date : 'dd MMM HH:mm'}}</td>
+      <td>{{data.alerttime}}</td>
+      <td>{{data.cleartime | date : 'dd MMM HH:mm'}}</td>
+      <td><button (click)="openVSCModel(data)">Check Detail</button></td>
     </tbody>
   </table> 
 
 <!-- according to Vehicle -->
-  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px">
+  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px" *ngIf = "ticketAccordingTo=='vehicle'">
       <thead class="thead" style="background-color:darkgrey">
-        <tr *ngIf="report.length">
-        <th>Id</th>
+        <tr *ngIf="reportVehicleWise.length">
+        <th>Alert Id</th>
+        <th>FO Name</th>
+        <th>lTime</th>
+        <th>tTime</th>
+        <th>Add Time</th>
         <th>Cleared By</th>
         <th>Clear Time </th>
         <th>Action</th> 
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of report; let i=index;">
-        <td>{{data.id}}</td>
-        <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-        <td>{{data.halt_reason}}</td>
-        <td>{{data.site_name}}</td>
+      <tr *ngFor="let data of reportVehicleWise; let i=index;">
+          <td>{{data.id}}</td>
+          <td>{{data.name}}</td>
+          <td>{{data.latch_time | date : 'dd MMM HH:mm'}}</td>
+          <td>{{data.ttime | date : 'dd MMM HH:mm'}}</td>
+          <td>{{data.alerttime}}</td>
+          <td *ngIf="data.aduserid==-1">auto</td>
+          <td *ngIf="data.aduserid!=-1">{{data.emp_name}}</td>
+          <td>{{data.cleartime | date : 'dd MMM HH:mm'}}</td>
+          <td><button (click)="openVSCModel(data)">Check Detail</button></td>
       </tbody>
     </table> 
   </div>
