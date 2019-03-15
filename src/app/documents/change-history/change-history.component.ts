@@ -94,7 +94,7 @@ export class ChangeHistoryComponent implements OnInit {
   setTable() {
     let headings = {
       documentId: { title: 'Document Id', placeholder: 'Doc Id' },
-      id: { title:'DocTypeId', Placeholder:'DocTypeId'},
+      id: { title:'DocTypeId', placeholder:'DocTypeId'},
       docType: { title: 'Document Type', placeholder: 'Document Type' },
       issueDate: { title: 'Issue Date', placeholder: 'IssueDate' },
       wefDate: { title: 'Wef Date', placeholder: 'WefDate' },
