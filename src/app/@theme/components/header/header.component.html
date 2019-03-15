@@ -7,7 +7,7 @@
 </div>
 <div class="form-group" class="header_button back_btn" style="margin:6px 0px 0px 0px;width: 50px;">
   <button *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name" class="form-control"
-    (click)="backTOHome()"><img src="../assets/images/left-arrow.png"></button>
+    (click)="backTOHome()"><img src="assets/images/left-arrow.png"></button>
 </div>
 <div class="form-group" style="margin:0px; width: 500px;">
   <h4 *ngIf="this.user._loggedInBy !== 'customer' && this.user._customer.name"
@@ -27,7 +27,7 @@
 
 <div class="form-group" class="header_button add_customer" *ngIf="this.user._loggedInBy !== 'customer'"
   style="margin:6px 0px 0px 0px; width: 70px;">
-  <button class="form-control" (click)="openChangeModal()"><img src="../assets/images/add-contact.png"></button>
+  <button class="form-control" (click)="openChangeModal()"><img src="assets/images/add-contact.png"></button>
 </div>
 
 
