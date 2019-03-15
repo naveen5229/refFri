@@ -47,9 +47,9 @@ export class StockitemsComponent implements OnInit {
     if (stockitem) {
       this.common.params = stockitem;
     } 
-    else {
-      this.common.params = { stockType: { name: 'Tyre', id: -1 } };
-    }
+    // else {
+    //   this.common.params = { stockType: { name: 'Tyre', id: -1 } };
+    // }
     const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
