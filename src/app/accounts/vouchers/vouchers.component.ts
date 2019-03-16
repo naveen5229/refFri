@@ -435,8 +435,8 @@ export class VouchersComponent implements OnInit {
     month = month.length == 1 ? '0' + month : month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.voucher.date = date + separator + month + separator + year;
+    console.log('Date: ', year + separator + month + separator + date);
+    this.voucher.date = year + separator + month + separator + date;
   }
 
   handleArrowUpDown(key, activeId) {

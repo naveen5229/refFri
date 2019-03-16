@@ -40,4 +40,8 @@ ul{
   padding: 6px 15px;
   z-index: 999;
 }
+li:hover{
+  background-color: #26A69A !important;
+  color: #fff;
+}
 
