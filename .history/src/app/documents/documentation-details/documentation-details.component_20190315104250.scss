@@ -173,8 +173,11 @@ label{
 table{
     cursor:pointer;   
 }
-nb-card-header {
-    padding: 20px;
-    border: 1px solid #efefef;
-    margin-bottom: 20px;
+
+nb-card{
+    padding-left: 4% !important;
+}
+
+ngx-footer {
+    padding-left: 10% !important;   
 }
