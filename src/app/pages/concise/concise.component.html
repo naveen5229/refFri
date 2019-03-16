@@ -27,7 +27,7 @@
 
         <div class="status_box" style="height:300px;overflow:auto">
           <nb-card>
-            <nb-card-body (click)="allData()">
+            <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
                 <div style="background-color:grey;color: white; width: 20px;height: 20px;border-radius: 3px;">
                 </div>
@@ -42,7 +42,7 @@
           </nb-card>
           <div *ngIf="viewType == 'showprim_status'">
             <nb-card *ngFor="let status of primaryStatus; let i = index;">
-              <nb-card-body (click)="choosePrimarySubStatus(status)">
+              <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 3px;"
                     [ngStyle]="{'background-color':status.bgColor}">
@@ -59,7 +59,7 @@
           </div>
           <div *ngIf="viewType !== 'showprim_status'">
             <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
-              <nb-card-body (click)="filterData(group.name)">
+              <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 3px;"
                     [ngStyle]="{'background-color':group.bgColor}">
