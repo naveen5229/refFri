@@ -474,8 +474,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
             if (data.hasOwnProperty(datax)) {
               const datav = data[datax];
               if (datax == siteId)
-                mainLatLng = datav;
-              latLngsArray.push(datav);
+                mainLatLng = datav.latLngs;
+              latLngsArray.push(datav.latLngs);
               console.log("Multi", datax);
             }
           }
