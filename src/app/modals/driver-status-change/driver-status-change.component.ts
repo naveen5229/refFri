@@ -13,14 +13,16 @@ driverStatus=[];
     public common:CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal
-  ) { }
+  ) {
+    this.getdriverStatus();
+   }
 
   ngOnInit() {
   }
   getdriverStatus() {
     this.common.loading++;
     let response;
-    this.api.get('Drivers/getStatus')
+    this.api.get('/Drivers/getStatus')
       .subscribe(res => {
         this.common.loading--;
         

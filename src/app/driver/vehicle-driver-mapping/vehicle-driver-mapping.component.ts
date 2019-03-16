@@ -10,13 +10,13 @@ import { DriverStatusChangeComponent } from '../../modals/driver-status-change/d
   styleUrls: ['./vehicle-driver-mapping.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleDriverMappingComponent implements OnInit {
-  driverMapping = [];
-  driverStatus = [{
-    id: null
-  }];
+  data = [];
+  //driverStatus = [{
+  //id: null
+  //}];
+  table = null;
 
-
-  selectedStatus = '';
+  // selectedStatus = '';
 
   constructor(
     public common: CommonService,
@@ -24,8 +24,7 @@ export class VehicleDriverMappingComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     this.getdriverMapping();
-    this.getdriverStatus();
-    // this.getdriverSuggestion();
+
   }
 
   ngOnInit() {
@@ -36,6 +35,47 @@ export class VehicleDriverMappingComponent implements OnInit {
     console.log($driverInfo.status);
     console.log($driverInfo.refid);
   }
+
+
+  setTable() {
+    let headings = {
+      regno: { title: 'Vehicle Number', placeholder: 'Vehicle Number' },
+      mainDriver: { title: 'Primary Driver ', placeholder: 'Primary Driver ' },
+      mobileno: { title: 'Mobile Number', placeholder: 'Mobile Number' },
+      secondaryDriver: { title: 'Secondary Driver  ', placeholder: 'Secondary Driver ' },
+      mobileno2: { title: 'Mobile  Number', placeholder: 'Mobile Number' },
+
+    };
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    this.data.map(driver => {
+      let column = {
+        regno: { value: driver.regno, action: this.remapDriver.bind(this, driver) },
+        mainDriver: { value: driver.md_name,action: this.mapDriver.bind(this,driver.md_no, driver.md_name,)  },
+        mobileno: { value: driver.md_no,action:this.mapDriver.bind(this,driver) },
+        secondaryDriver: { value: driver.sd_name },
+        mobileno2: { value: driver.sd_no },
+        rowActions: {}
+      };
+
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
+
   getdriverMapping() {
     this.common.loading++;
     let response;
@@ -43,7 +83,8 @@ export class VehicleDriverMappingComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.driverMapping = res['data'];
+        this.data = res['data'];
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -57,26 +98,34 @@ export class VehicleDriverMappingComponent implements OnInit {
 
   }
 
-  getdriverStatus() {
-    this.common.loading++;
-    let response;
-    this.api.get('Drivers/getStatus')
-      .subscribe(res => {
-        this.common.loading--;
+  // getdriverStatus() {
+  //   this.common.loading++;
+  //   let response;
+  //   this.api.get('Drivers/getStatus')
+  //     .subscribe(res => {
+  //       this.common.loading--;
 
-        this.driverStatus = res['data'];
-        console.log("Driver Status:", this.driverStatus);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return response;
+  //       this.driverStatus = res['data'];
+  //       console.log("Driver Status:", this.driverStatus);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  //   return response;
 
-  }
+  // }
 
   remapDriver(driver) {
     this.common.params = { driver };
-    this.modalService.open(DriverVehicleRemappingComponent, { size: 'lg', container: 'nb-layout' });
+
+    const activeModal = this.modalService.open(DriverVehicleRemappingComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        // closeModal(true);
+        this.getdriverMapping();
+      }
+    });
+
   }
   mapDriver(driver, type) {
     this.common.params = { driver, type };

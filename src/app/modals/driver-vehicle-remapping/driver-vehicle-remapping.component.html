@@ -6,7 +6,7 @@
     </button>
   </nb-card-header>
   <nb-card-body>
-    <form [formGroup]="driverRemapForm" name="addDriver-form" id="addDriver-form"
+    <form [formGroup]="driverRemapForm" name="driverRemap-form"  id="driverRemap-form"
       (submit)="driverRemapForm.valid && Remapdriver()">
 
       <div class="row">
@@ -19,8 +19,8 @@
           <label>Primary Driver Name</label>
         </div>
         <div class="col-3">
-          <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="primaryDriver"
-            minlength="3" maxlength="64" placeholder="Driver Name">
+          <input type="text" class="form-control" id="drivername" autocomplete="off" formControlName="primaryDriver"
+             placeholder="Driver Name">
 
         </div>
         <div class="col-2">
@@ -29,16 +29,16 @@
         <div class="col-3">
           <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
             formControlName="pdriverMobile" minlength="10" required maxlength="10"
-            [ngClass]="{ 'is-invalid': submitted && f.PdriverMobile.errors }" required>
-          <div *ngIf="submitted &&  f.PdriverMobile.errors" class="invalid-feedback">
-            <div *ngIf="f.PdriverMobile.errors.required">mobileNumber is required</div>
-            <div *ngIf="f.PdriverMobile.errors.minlength ">mobile Number minlength 10</div>
-            <div *ngIf="f.PdriverMobile.errors.maxlength ">mobile Number maxlength 10</div>
+            [ngClass]="{ 'is-invalid': submitted && f.pdriverMobile.errors }" required>
+          <div *ngIf="submitted &&  f.pdriverMobile.errors" class="invalid-feedback">
+            <div *ngIf="f.pdriverMobile.errors.required">mobileNumber is required</div>
+            <div *ngIf="f.pdriverMobile.errors.minlength">mobile Number minlength 10</div>
+            <div *ngIf="f.pdriverMobile.errors.maxlength">mobile Number maxlength 10</div>
           </div>
         </div>
 
 
-        <div class="col-2" *ngIf="this.common.params.driver.sd_id">
+        <div class="col-2" *ngIf="this.common.params.driver.md_id">
           <select class="form-control" formControlName="pdStatus" [ngClass]="{ 'is-invalid': submitted && f.pdStatus.errors }" >
             <option *ngFor="let status of driverStatus" [value]="status.id">
               {{status.description}}
@@ -84,7 +84,7 @@
         </div>
       </div>
       <div class="col-md-12 text-center margin-top-15">
-        <button class="btn btn-primary" form="addDriver-form" id="submit" type="submit"
+        <button class="btn btn-primary" form="driverRemap-form" id="submit" type="submit"
           (click)="submitted=true">SUBMIT</button>
       </div>
     </form>
