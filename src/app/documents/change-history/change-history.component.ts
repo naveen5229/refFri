@@ -17,7 +17,7 @@ export class ChangeHistoryComponent implements OnInit {
   docTypes = [];
   data = [];
   table = null;
-
+  headings = [];
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
@@ -44,18 +44,13 @@ export class ChangeHistoryComponent implements OnInit {
 
 
   getDocumentsData() {
-    // this.common.loading++;
     let response;
     this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.selectedVehicle })
       .subscribe(res => {
-        // this.common.loading--;
-        // console.log("data", res);
-        // this.vehicle = res['data'].vehicle_info[0];
-        // this.agents = res['data'].document_agents_info;
+
         this.docTypes = res['data'].document_types_info;
-        console.log("data type ",this.docTypes);
+        console.log("data type ", this.docTypes);
       }, err => {
-        // this.common.loading--;
         console.log(err);
       });
     return response;
@@ -67,7 +62,7 @@ export class ChangeHistoryComponent implements OnInit {
     console.log("doc var", this.documentTypeId);
   }
   searchHistory() {
-    if(!this.selectedVehicle || !this.documentTypeId){
+    if (!this.selectedVehicle || !this.documentTypeId) {
       alert("Select All Require Field")
       return;
     }
@@ -78,36 +73,41 @@ export class ChangeHistoryComponent implements OnInit {
     this.common.loading++;
     this.api.post('Vehicles/getDocumentChangeHistory', { x_vehicle_id: this.selectedVehicle, x_document_type_id: this.documentTypeId })
       .subscribe(res => {
-        this.common.loading--;     
+        this.common.loading--;
         this.data = res['data'];
-        if(this.data.length<1)
-        {
-          alert("not result Available");
-        }
         this.table = this.setTable();
+        let first_rec = this.data[0];
+        this.table.data.headings = {};
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+
+        }
+        return this.headings;
+
+    
+
+
       }, err => {
+        
         this.common.loading--;
         console.log(err);
       });
   }
 
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
   setTable() {
-    let headings = {
-      documentId: { title: 'Document Id', placeholder: 'Doc Id' },
-      id: { title:'DocTypeId', placeholder:'DocTypeId'},
-      docType: { title: 'Document Type', placeholder: 'Document Type' },
-      issueDate: { title: 'Issue Date', placeholder: 'IssueDate' },
-      wefDate: { title: 'Wef Date', placeholder: 'WefDate' },
-      expiryDate: { title: 'Expiry Date', placeholder: 'ExpiryDate' },
-      entryTime: { title: 'Entry Time', placeholder: 'EnrtyTime' },
-      userId: { title: 'User Id', placeholder: 'User Id' },
-      entryMode: { title: 'Entry Mode', placeholder: 'Entry Mode' },
-      status: { title: 'Status', placeholder: 'Status' },
-      
-    };
+    let headings = {};
+
     return {
       data: {
-        headings: headings,
+        headings: this.headings,
         columns: this.getTableColumns()
       },
       settings: {
@@ -117,28 +117,37 @@ export class ChangeHistoryComponent implements OnInit {
   }
 
   getTableColumns() {
+    console.log("Hiii");
     let columns = [];
     this.data.map(doc => {
-
-      let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
-      let curr = this.common.dateFormatter(new Date()).split(' ')[0];
-      let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
-      console.log("expiry date:", exp_date);
-      let column = {
-        documentId: { value: doc.DocumentID },
-        id: { value: doc.DocumentTypeID },
-        docType: { value: doc.DocumentType },
-        issueDate: { value: this.datePipe.transform(doc.IssueDate, 'dd MMM yyyy') },
-        wefDate: { value: this.datePipe.transform(doc.WefDate, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: exp_date==null && curr >= exp_date ? 'red' : (exp_date==null && exp_date < nextMthDate ? 'pink' : (doc.ExpiryDate==null ? 'default' : 'green')) },
-        entryTime: { value: this.datePipe.transform(doc.EntryTime, 'dd MMM yyyy hh:mm:ss a') },
-        userId: { value: doc.UserID },
-        entryMode: { value: doc.EntryMode },
-        status: { value: doc.Status },
+      let valobj = {};
+      for(var i = 0; i < this.headings.length; i++) {
        
-      };
+   
+        console.log("doc index value:",doc[this.headings[i]]);
+        valobj[this.headings[i]] = { value: doc[this.headings[i]] };
+      }
       
-      columns.push(column);
+
+      // let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
+      // let curr = this.common.dateFormatter(new Date()).split(' ')[0];
+      // let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
+      // console.log("expiry date:",);
+            // documentId: { value: doc.DocumentID },
+        // id: { value: doc.DocumentTypeID },
+        // docType: { value: doc.DocumentType },
+        // issueDate: { value: this.datePipe.transform(doc.IssueDate, 'dd MMM yyyy') },
+        // wefDate: { value: this.datePipe.transform(doc.WefDate, 'dd MMM yyyy') },
+        // expiryDate: { value: this.datePipe.transform(doc.ExpiryDate, 'dd MMM yyyy'), class: exp_date==null && curr >= exp_date ? 'red' : (exp_date==null && exp_date < nextMthDate ? 'pink' : (doc.ExpiryDate==null ? 'default' : 'green')) },
+        // entryTime: { value: this.datePipe.transform(doc.EntryTime, 'dd MMM yyyy hh:mm:ss a') },
+        // userId: { value: doc.UserID },
+        // entryMode: { value: doc.EntryMode },
+        // status: { value: doc.Status },
+
+      
+
+
+      columns.push(valobj);
     });
     return columns;
   }
