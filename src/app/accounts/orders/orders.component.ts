@@ -88,10 +88,60 @@ export class OrdersComponent implements OnInit {
     this.getSupplierLedgers();
     this.getStockItems();
     this.getWarehouses();
+    this.setFoucus('ordertype');
   }
 
   ngOnInit() {
   }
+
+
+
+  setInvoice() {
+    return {
+      date: this.common.dateFormatter(new Date()).split(' ')[0],
+      biltynumber: '',
+      biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
+      totalamount: 0,
+      grnremarks: '',
+      billingaddress: '',
+      branch: {
+        name: '',
+        id: ''
+      },
+      ordertype: {
+        name: '',
+        id: ''
+      },
+      ledger: {
+        name: '',
+        id: ''
+      },
+      purchaseledger: {
+        name: '',
+        id: ''
+      },
+      amountDetails: [{
+        transactionType: 'debit',
+        ledger: '',
+        taxledger: '',
+        stockitem: {
+          name: '',
+          id: ''
+        },
+        stockunit: {
+          name: '',
+          id: ''
+        },
+        qty: '',
+        discountledger: { name: '', id: '' },
+        warehouse: { name: '', id: '' },
+        taxDetails: '',
+        remarks: '',
+        lineamount: 0
+      }]
+    };
+  }
+
 
   addAmountDetails() {
     this.order.amountDetails.push({
@@ -257,8 +307,11 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
+        this.order =  this.setInvoice();
+        this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
+        
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
