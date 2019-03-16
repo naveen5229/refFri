@@ -244,10 +244,10 @@ export class ConciseComponent implements OnInit {
       let subStatus = statusArray.join(',').trim();
       let findStatus = false;
       if (status == 'No Data 12 Hr') {
-        status = 'No Data';
+        status = 'Issue';
         subStatus = '12 Hr +';
       } else if (status == 'Undetected') {
-        status = 'No Data',
+        status = 'Issue',
           subStatus = 'Undetected';
       }
       this.primaryStatus.map(primaryStatus => {
