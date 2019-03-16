@@ -14,14 +14,15 @@ import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/veh
 })
 export class KpisDetailsComponent implements OnInit {
   kpi = null;
-
+vehicleInfo = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
+      this.common.handleModalSize('class', 'modal-lg', '1200');
     this.kpi = this.common.params.kpi;
-    
+    this.getVehicleInformation();
   }
 
   ngOnInit() {
@@ -85,5 +86,21 @@ export class KpisDetailsComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  getVehicleInformation() {
+    this.common.loading++;
+    let params = "vehicleId="+this.kpi.x_vehicle_id;
+    console.log("params",params);
+    this.api.get('VehicleKpis/getVehicleInformation?'+params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.vehicleInfo = res['data'][0];
+        console.log("data", this.vehicleInfo);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 }

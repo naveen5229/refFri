@@ -5,10 +5,121 @@
   </button>
 </div>
 <div class="modal-body">
-  <table class="table table-bordered table-hover">
-
+  <div class="col-sm-4">
+    <table class="table table-bordered table-hover">
+      <thead class="thead" style="text-align:center">
+        <th colspan="2">Generic Info</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Driver Name </td>
+          <td>{{vehicleInfo.d_name}}</td>
+        </tr>
+        <tr>
+          <td>Driver Contact No </td>
+          <td>{{vehicleInfo.d_mobile}}</td>
+        </tr>
+        <tr>
+          <td>GPS Status </td>
+          <td>{{vehicleInfo.gps_stat}}</td>
+        </tr>
+        <tr>
+          <td>GPS Provider </td>
+          <td>{{vehicleInfo.gps_prov}}</td>
+        </tr>
+        <tr>
+          <td>Current Location </td>
+          <td>{{vehicleInfo.current_loc}}</td>
+        </tr>
+        <tr>
+          <td>Current Location Time</td>
+          <td>{{vehicleInfo.cur_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-4">
+    <table class="table table-bordered table-hover">
+      <thead class="thead" style="text-align:center">
+        <th colspan="2">Trip Information</th>
+      </thead>
+      <tbody>
+          <tr>
+            <td>Distance From Source </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Distance To Destination</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Trip Start Time</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Trip End Time </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ETOA / Delay </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Total KM</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td>EL Rating</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>% Movement time (Trip) </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>KMPD</td>
+              <td></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  <div class="col-sm-4">
+    <table class="table table-bordered table-hover">
+      <thead class="thead" style="text-align:center">
+        <th colspan="2" >Performance Indicator</th>
+      </thead>
+      <tbody>
+          <tr>
+            <td>Today's KM </td>
+            <td>{{vehicleInfo.kmtoday}}</td>
+          </tr>
+          <tr>
+            <td>Yesterday's KM </td>
+            <td>{{vehicleInfo.kmyesterday}}</td>
+          </tr>
+          <tr>
+            <td>KM Travelled (Month) </td>
+            <td>{{vehicleInfo.kmmonth}}</td>
+          </tr>
+          <tr>
+            <td>Loaded % KM (Month) </td>
+            <td>{{vehicleInfo.lkmmonth}}</td>
+          </tr>
+          <tr>
+            <td>% Movement Time (Month)</td>
+            <td>{{vehicleInfo.mvttime}}</td>
+          </tr>
+          <tr>
+            <td>Vehicle Utility Rating (Percentile)</td>
+            <td>{{vehicleInfo.vutilrt}}</td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+  <!--
+  <table>
     <tbody>
-      <tr>
+       <tr>
         <th>Vehicle</th>
         <td>{{kpi.x_showveh}}</td>
       </tr>
@@ -40,59 +151,59 @@
       </tr>
       <tr (click)= "getUpadte(kpi)">
         <th>Trip</th>
-        <td>
-          <!-- Heading -->
-          <div col-4  *ngIf="kpi.trip_status_type == 0">
+        <td> -->
+  <!-- Heading -->
+  <!-- <div col-4  *ngIf="kpi.trip_status_type == 0">
             <i class="icon ion-md-exit"></i>
             <span class="circle">{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
 
             <span>{{kpi.x_showtripend}}</span>
-          </div>
+          </div> -->
 
-          <!-- Heading -->
-          <div col-4 *ngIf="kpi.trip_status_type == 0">
+  <!-- Heading -->
+  <!-- <div col-4 *ngIf="kpi.trip_status_type == 0">
             <i name="exit" class="fa fa-sign-out-alt"></i>
             <span class="circle">{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
 
             <span>{{kpi.x_showtripend}}</span>
-          </div>
+          </div> -->
 
-          <!-- Loading -->
-          <div col-4  *ngIf="kpi.trip_status_type == 1">
+  <!-- Loading -->
+  <!-- <div col-4  *ngIf="kpi.trip_status_type == 1">
             <span class="circle">{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
 
             <span>{{kpi.x_showtripend}}</span>
-          </div>
+          </div> -->
 
-          <!-- Onward -->
-          <div col-4  *ngIf="kpi.trip_status_type == 2">
+  <!-- Onward -->
+  <!-- <div col-4  *ngIf="kpi.trip_status_type == 2">
             <span>{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
 
             <span>{{kpi.x_showtripend}}</span>
-          </div>
+          </div> -->
 
-          <!-- Unloading -->
-          <div col-4  *ngIf="kpi.trip_status_type == 3">
+  <!-- Unloading -->
+  <!-- <div col-4  *ngIf="kpi.trip_status_type == 3">
             <span>{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
             <span class="circle">{{kpi.x_showtripend}}</span>
-          </div>
+          </div> -->
 
-          <!-- Complete -->
-          <div col-4  *ngIf="kpi.trip_status_type == 4">
+  <!-- Complete -->
+  <!-- <div col-4  *ngIf="kpi.trip_status_type == 4">
             <span>{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
 
             <span>{{kpi.x_showtripend}}</span>
             <i class="complete" name="checkmark-circle-outline"></i>
-          </div>
+          </div> -->
 
-          <!-- Ambigous -->
-          <div col-4  *ngIf="kpi.trip_status_type == 5">
+  <!-- Ambigous -->
+  <!-- <div col-4  *ngIf="kpi.trip_status_type == 5">
             <span>{{kpi.x_showtripstart}}</span>
             <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
 
@@ -143,10 +254,10 @@
       <tr>
         <th>Location</th>
         <td>{{kpi.Address}}</td>
-      </tr>
+      </tr> 
 
     </tbody>
-  </table>
+  </table>-->
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="closeModal()" style="cursor:pointer">Close</button>
