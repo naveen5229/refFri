@@ -21,6 +21,7 @@ import { log } from 'util';
 export class PendingDocumentsComponent implements OnInit {
   data = [];
   userdata = [];
+  columns = [];
 
   listtype = 0;
   modal = {
@@ -69,6 +70,14 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log("data", res);
           this.data = res['data'];
+          if(this.data.length) {
+            for(var key in this.data[0]) {
+              if(key.charAt(0) != "_")
+                this.columns.push(key);
+            }
+            console.log("columns");
+            console.log(this.columns);
+          }
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -79,6 +88,14 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log("data", res);
           this.data = res['data'];
+          if(this.data.length) {
+            for(var key in this.data[0]) {
+              if(key.charAt(0) != "_")
+                this.columns.push(key);
+            }
+            console.log("columns");
+            console.log(this.columns);
+          }
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -97,8 +114,9 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   showDetails(row) {
+    // _docid
     let rowData = {
-      id: row.document_id,
+      id: row._docid,
       vehicle_id: row.vehicle_id,
     };
     console.log("Model Doc Id:", rowData.id);
@@ -205,6 +223,10 @@ export class PendingDocumentsComponent implements OnInit {
       });
 
   }
+  
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
 
 
   deleteDocument(row) {
@@ -218,7 +240,7 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row.document_id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row._docid, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
