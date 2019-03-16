@@ -58,6 +58,7 @@ export class DocumentsSummaryComponent implements OnInit {
       });
   }
   
+  
   getDocumentType(strval) {
     if(strval) {
       if(strval.indexOf('_') > -1) {

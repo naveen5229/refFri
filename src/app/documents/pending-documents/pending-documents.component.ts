@@ -22,6 +22,7 @@ export class PendingDocumentsComponent implements OnInit {
   data = [];
   userdata = [];
   columns = [];
+  columns2 = []
 
   listtype = 0;
   modal = {
@@ -58,8 +59,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    this.getPendingDetailsDocuments();
-    this.getAllTypesOfDocuments();
+    window.location.reload();
   }
 
   getPendingDetailsDocuments() {
@@ -267,6 +267,7 @@ export class PendingDocumentsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
+   
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -681,7 +682,7 @@ export class PendingDocumentsComponent implements OnInit {
     }
 
     openNextModal(modal) {
-      this.showDetails({ document_id: 0, vehicle_id: 0 });
+      this.showDetails({ _docid: 0, vehicle_id: 0 });
 
     }
 
@@ -703,6 +704,14 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log("data", res);
           this.userdata = res['data'];
+          if(this.userdata.length) {
+            for(var key in this.userdata[0]) {
+              if(key.charAt(0) != "_")
+                this.columns2.push(key);
+            }
+            console.log("columns");
+            console.log(this.columns2);
+          }
         }, err => {
           this.common.loading--;
           console.log(err);
