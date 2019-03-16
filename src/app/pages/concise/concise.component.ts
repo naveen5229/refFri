@@ -15,6 +15,7 @@ import { log } from 'util';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 import { componentRefresh } from '@angular/core/src/render3/instructions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RadioSelectionComponent } from '../../modals/radio-selection/radio-selection.component';
 
 @Component({
   selector: 'concise',
@@ -65,6 +66,9 @@ export class ConciseComponent implements OnInit {
   selectedFilterKey = '';
 
   table = null;
+
+  primaryStatus = [];
+  subPrimaryStatus = {};
 
 
   constructor(
@@ -195,36 +199,6 @@ export class ConciseComponent implements OnInit {
     this.grouping(this.viewType);
   }
 
-  // grouping(viewType) {
-  //   console.log('All ', this.allKpis);
-  //   this.kpis = this.allKpis;
-  //   this.statusGroup = _.groupBy(this.allKpis, viewType);
-  //   this.groupList = Object.keys(this.statusGroup);
-  //   let chartLabels = [];
-  //   let chartDatas = [];
-  //   let clr;
-  //   let tclr;
-
-  //   console.log(this.statusGroup);
-
-  //   for (var k in this.statusGroup) {
-  //     if (typeof this.statusGroup[k] !== 'function') {
-  //       let k1 = k + " : " + this.statusGroup[k].length
-  //       chartLabels.push(k1);
-  //       chartDatas.push(this.statusGroup[k].length);
-  //       let hue = Math.floor((Math.random() * 359) + 1);
-  //       let saturation = '100%';
-  //       let textLightness = '25%';
-  //       let lightness = '75%';
-  //       clr = `hsl(${hue}, ${saturation}, ${lightness})`
-  //       this.chartsColors.push(clr);
-  //       tclr = `hsl(${hue}, ${saturation}, ${textLightness})`
-  //       this.textColor.push(tclr);
-  //     }
-  //   }
-
-  //   this.common.pieChart(chartLabels, chartDatas, this.chartsColors);
-  // }
 
   grouping(viewType) {
     console.log('All ', this.allKpis);
@@ -235,18 +209,143 @@ export class ConciseComponent implements OnInit {
     console.log("this.kpiGroupsKeys", this.kpiGroupsKeys);
     this.keyGroups = [];
 
-    this.kpiGroupsKeys.map(key => {
-      const hue = Math.floor((Math.random() * 359) + 1);
-      this.keyGroups.push({
-        name: key,
-        bgColor: `hsl(${hue}, 100%, 75%)`,
-        textColor: `hsl(${hue}, 100%, 25%)`
+    if (viewType == 'showprim_status') {
+      this.primaryStatusGrouping();
+      this.primaryStatus.map(primaryStatus => {
+        const hue = Math.floor((Math.random() * 359) + 1);
+        this.keyGroups.push({
+          name: primaryStatus.name,
+          bgColor: `hsl(${hue}, 100%, 75%)`,
+          textColor: `hsl(${hue}, 100%, 25%)`
+        });
+        primaryStatus.bgColor = `hsl(${hue}, 100%, 75%)`;
+        primaryStatus.textColor = `hsl(${hue}, 100%, 25%)`;
       });
-    });
+    } else {
+      this.kpiGroupsKeys.map(key => {
+        const hue = Math.floor((Math.random() * 359) + 1);
+        this.keyGroups.push({
+          name: key,
+          bgColor: `hsl(${hue}, 100%, 75%)`,
+          textColor: `hsl(${hue}, 100%, 25%)`
+        });
+      });
+    }
 
-    this.sortData();
+    this.sortData(viewType);
+
   }
 
+  primaryStatusGrouping() {
+    this.primaryStatus = [];
+    this.allKpis.map(kpi => {
+      let statusArray = kpi.showprim_status.split(',');
+      let status = statusArray.splice(0, 1)[0].trim();
+      let subStatus = statusArray.join(',').trim();
+      let findStatus = false;
+      if (status == 'No Data 12 Hr') {
+        status = 'Issue';
+        subStatus = '12 Hr +';
+      } else if (status == 'Undetected') {
+        status = 'Issue',
+          subStatus = 'Undetected';
+      }
+      this.primaryStatus.map(primaryStatus => {
+        if (primaryStatus.name == status) {
+          findStatus = true;
+          primaryStatus.length++;
+          primaryStatus.subStatus[subStatus] ? primaryStatus.subStatus[subStatus].push(kpi) : primaryStatus.subStatus[subStatus] = [kpi];
+        }
+      });
+
+      if (!findStatus) {
+        this.primaryStatus.push({ name: status, length: 1, subStatus: {} });
+        this.primaryStatus[this.primaryStatus.length - 1].subStatus[subStatus] = [kpi];
+      };
+
+    });
+
+    console.log('Status: ', this.primaryStatus);
+  }
+
+  sortData(viewType) {
+    let data = [];
+    this.chartColors = [];
+    let chartLabels = [];
+    let chartData = [];
+    if (viewType == 'showprim_status') {
+      this.primaryStatus = _.sortBy(this.primaryStatus, ['length']).reverse();
+      this.primaryStatus.map(primaryStatus => {
+        this.chartColors.push(primaryStatus.bgColor);
+        chartLabels.push(primaryStatus.name);
+        chartData.push(primaryStatus.length);
+      });
+    } else {
+      this.keyGroups.map(group => {
+        data.push({ group: group, length: this.kpiGroups[group.name].length });
+      });
+
+      this.kpiGroupsKeys = [];
+      _.sortBy(data, ['length']).reverse().map(keyData => {
+        this.kpiGroupsKeys.push(keyData.group);
+      });
+
+      this.kpiGroupsKeys.map(keyGroup => {
+        this.chartColors.push(keyGroup.bgColor);
+        chartLabels.push(keyGroup.name);
+        chartData.push(this.kpiGroups[keyGroup.name].length);
+      });
+
+    }
+
+    console.log(this.chartColors, this.kpiGroupsKeys);
+    let chartInfo = this.common.pieChart(chartLabels, chartData, this.chartColors);
+    this.chartData = chartInfo.chartData;
+    this.chartOptions = chartInfo.chartOptions;
+
+    this.selectedFilterKey && this.filterData(this.selectedFilterKey, viewType);
+
+
+  }
+
+  filterData(filterKey, viewType?) {
+    if (this.viewType == 'showprim_status' || viewType == 'showprim_status') {
+      this.kpis = [];
+      if (filterKey == 'All') {
+        this.primaryStatus.map(primaryStatus => {
+          Object.keys(primaryStatus.subStatus).map(subStatus => {
+            primaryStatus.subStatus[subStatus].map(kpi => {
+              this.kpis.push(kpi);
+            });
+          });
+        });
+      } else {
+
+        for (let i = 0; i < this.primaryStatus.length; i++) {
+          if (this.primaryStatus[i].name == filterKey) {
+            Object.keys(this.primaryStatus[i].subStatus).map(subStatus => {
+              this.primaryStatus[i].subStatus[subStatus].map(kpi => {
+                this.kpis.push(kpi);
+              });
+            });
+            break;
+          }
+        }
+      }
+    } else if (filterKey == 'All') {
+      this.kpis = this.allKpis;
+    } else {
+      this.selectedFilterKey = filterKey;
+      console.log(filterKey, this.viewType);
+      this.kpis = this.allKpis.filter(kpi => {
+        if (kpi[this.viewType] == filterKey) return true;
+        return false;
+      });
+    }
+    this.table = this.setTable();
+    console.log('Column: ', this.table);
+
+  }
 
   showLocation(kpi) {
     if (!kpi.x_tlat) {
@@ -293,21 +392,7 @@ export class ConciseComponent implements OnInit {
     // });
   }
 
-  filterData(filterKey) {
-    if (filterKey == 'All') {
-      this.kpis = this.allKpis;
-    } else {
-      this.selectedFilterKey = filterKey;
-      console.log(filterKey, this.viewType);
-      this.kpis = this.allKpis.filter(kpi => {
-        if (kpi[this.viewType] == filterKey) return true;
-        return false;
-      });
-    }
-      this.table = this.setTable();
-      console.log('Column: ', this.table);
-    
-  }
+
 
   getLR(kpi) {
     this.common.loading++;
@@ -362,38 +447,7 @@ export class ConciseComponent implements OnInit {
     this.grouping(this.viewType);
   }
 
-  sortData() {
-    let data = [];
-    this.keyGroups.map(group => {
-      data.push({ group: group, length: this.kpiGroups[group.name].length });
-    });
 
-    console.log(_.sortBy(data, ['length']).reverse());
-    this.kpiGroupsKeys = [];
-    _.sortBy(data, ['length']).reverse().map(keyData => {
-      this.kpiGroupsKeys.push(keyData.group);
-    });
-
-    this.chartColors = [];
-
-    let chartLabels = [];
-    let chartData = [];
-
-    this.kpiGroupsKeys.map(keyGroup => {
-      this.chartColors.push(keyGroup.bgColor);
-      chartLabels.push(keyGroup.name + ' : ' + this.kpiGroups[keyGroup.name].length);
-      chartData.push(this.kpiGroups[keyGroup.name].length);
-    });
-
-    console.log(this.chartColors, this.kpiGroupsKeys);
-    let chartInfo = this.common.pieChart(chartLabels, chartData, this.chartColors);
-    this.chartData = chartInfo.chartData;
-    this.chartOptions = chartInfo.chartOptions;
-
-    this.selectedFilterKey && this.filterData(this.selectedFilterKey);
-
-
-  }
   allData() {
     this.selectedFilterKey = '';
     //this.getKPIS();
@@ -425,6 +479,36 @@ export class ConciseComponent implements OnInit {
       }
     }
   }
+
+  choosePrimarySubStatus(primaryStatus) {
+    if (Object.keys(primaryStatus.subStatus).length == 1) {
+      this.kpis = primaryStatus.subStatus[Object.keys(primaryStatus.subStatus)[0]];
+      this.table = this.setTable();
+      return;
+    }
+
+    let options = [];
+    Object.keys(primaryStatus.subStatus).map((subStatus, index) => {
+      if (index == 0) options.push({ id: 0, name: 'All', kpis: [] });
+      primaryStatus.subStatus[subStatus].map(kpi => options[0].kpis.push(Object.assign({}, kpi)));
+      options.push({
+        id: index + 1,
+        name: (subStatus || primaryStatus.name) + ' : ' + primaryStatus.subStatus[subStatus].length,
+        kpis: primaryStatus.subStatus[subStatus]
+      });
+    });
+
+    options[0].name += ' : ' + options[0].kpis.length;
+    this.common.params = { options };
+    const modal = this.modalService.open(RadioSelectionComponent, { size: 'sm' });
+    modal.result.then(data => {
+      if (data.status) {
+        this.kpis = data.selectedOption.kpis;
+        this.table = this.setTable();
+      }
+    });
+  }
+
 
 }
 
