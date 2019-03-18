@@ -78,34 +78,11 @@ table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
 .select_cat_tabel table tr td{
     position: relative;
 }
-.document-heading_box tr td{
-    padding: 0px;
-}
-.document-heading_box tr td > span{
-    display: block;
-    position: relative;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-}
-.document-heading_box tr td > span i{
-    vertical-align: middle;
-    margin-right: 5px;
-}
-.document-heading_box tr td input{
+.document-dash-contnet table tr td{
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0px;
     margin: 0px;
-    left: 0px;
-    z-index: 99;
-    opacity: 0;
-    cursor: pointer;
-}
-.document-heading_box tbody tr:hover{
-    background-color: transparent;
-}
-.document-heading_box tbody tr td:hover{
-    background-color: rgba(0, 0, 0, 0.075);
+    left: 0px;;
 }

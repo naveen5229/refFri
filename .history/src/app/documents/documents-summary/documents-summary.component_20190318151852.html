@@ -6,7 +6,7 @@
     <div class="document-dash-contnet">
       <div class="row col-sm-12 pdg-ltrt-none">
         <div class="col-sm-12">
-            <table class="table table-bordered table-hover document-heading_box">
+            <table class="table table-bordered table-hover">
               <tr>
                 <td *ngFor="let statusrow of this.data.summary; ">
                   <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"></i><input type='radio' name='rdostatus' value='0' (click)="filterRows(statusrow.status)" > No Record <span>({{statusrow.total}})</span></span>
