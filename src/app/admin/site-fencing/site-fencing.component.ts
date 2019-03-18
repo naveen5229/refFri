@@ -85,7 +85,7 @@ export class SiteFencingComponent implements OnInit {
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
             if(data[this.selectedSite]&&count==1){
-              this.mapService.createPolygon(data[this.selectedSite]);
+              this.mapService.createPolygon(data[this.selectedSite].latLngs);
               this.isUpdate=true;
               console.log("Single",data[this.selectedSite]);
             }

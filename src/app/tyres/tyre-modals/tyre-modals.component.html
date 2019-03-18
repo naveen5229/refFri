@@ -17,20 +17,30 @@
           </select>
         </div>
       <div class="col-sm-4">
-        <button (click)=openAddModals() class="btn">Add Modal</button>
+        <button (click)=openStockItemModal() class="btn">Add Modal</button>
       </div>
      
     </div>
   </nb-card-header>
 
   <nb-card-body>
-    <div class="row">
-      <div class="col-sm-1"></div>
-      
-      <div class="col-sm-2">
-
-      </div>
-    </div>
+      <div class="row">
+          <div class="col-sm-1">
+            <span> 
+              Brand Name : 
+            </span>
+          </div>
+          <div class="col-sm-2">
+    
+              <select class="form-control" [(ngModel)] = "selectedModal" (change)="getStockItems()">
+                <option *ngFor="let modal of modals" [value]="modal.id"  >{{modal.name}}
+                </option>
+              </select>
+            </div>
+          <div class="col-sm-4">
+            <button (click)=openAddModals() class="btn btn-primary">Add Modal</button>
+          </div>
+        </div>
     <div style="margin-top:20px">
       <table class="table table-bordered table-hover">
         <thead class="thead">
