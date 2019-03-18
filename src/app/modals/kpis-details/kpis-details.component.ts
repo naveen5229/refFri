@@ -14,7 +14,7 @@ import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/veh
 })
 export class KpisDetailsComponent implements OnInit {
   kpi = null;
-vehicleInfo = null;
+  vehicleInfo : null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
