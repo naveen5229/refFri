@@ -15,6 +15,7 @@ import { log } from 'util';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 import { componentRefresh } from '@angular/core/src/render3/instructions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RadioSelectionComponent } from '../../modals/radio-selection/radio-selection.component';
 
 @Component({
   selector: 'concise',
@@ -240,8 +241,15 @@ export class ConciseComponent implements OnInit {
     this.allKpis.map(kpi => {
       let statusArray = kpi.showprim_status.split(',');
       let status = statusArray.splice(0, 1)[0].trim();
-      let findStatus = false;
       let subStatus = statusArray.join(',').trim();
+      let findStatus = false;
+      if (status == 'No Data 12 Hr') {
+        status = 'Issue';
+        subStatus = '12 Hr +';
+      } else if (status == 'Undetected') {
+        status = 'Issue',
+          subStatus = 'Undetected';
+      }
       this.primaryStatus.map(primaryStatus => {
         if (primaryStatus.name == status) {
           findStatus = true;
@@ -266,9 +274,10 @@ export class ConciseComponent implements OnInit {
     let chartLabels = [];
     let chartData = [];
     if (viewType == 'showprim_status') {
+      this.primaryStatus = _.sortBy(this.primaryStatus, ['length']).reverse();
       this.primaryStatus.map(primaryStatus => {
         this.chartColors.push(primaryStatus.bgColor);
-        chartLabels.push(primaryStatus.name + ' : ' + primaryStatus.length);
+        chartLabels.push(primaryStatus.name);
         chartData.push(primaryStatus.length);
       });
     } else {
@@ -283,7 +292,7 @@ export class ConciseComponent implements OnInit {
 
       this.kpiGroupsKeys.map(keyGroup => {
         this.chartColors.push(keyGroup.bgColor);
-        chartLabels.push(keyGroup.name + ' : ' + this.kpiGroups[keyGroup.name].length);
+        chartLabels.push(keyGroup.name);
         chartData.push(this.kpiGroups[keyGroup.name].length);
       });
 
@@ -302,7 +311,6 @@ export class ConciseComponent implements OnInit {
   filterData(filterKey, viewType?) {
     if (this.viewType == 'showprim_status' || viewType == 'showprim_status') {
       this.kpis = [];
-      console.log('-----------------Selected Secret Key: ', filterKey);
       if (filterKey == 'All') {
         this.primaryStatus.map(primaryStatus => {
           Object.keys(primaryStatus.subStatus).map(subStatus => {
@@ -312,14 +320,9 @@ export class ConciseComponent implements OnInit {
           });
         });
       } else {
-        console.log('-------------------- Key Matched: ', filterKey, this.primaryStatus);
 
         for (let i = 0; i < this.primaryStatus.length; i++) {
-          console.log('-------------------- Key Matched: ', filterKey, this.primaryStatus[i]);
           if (this.primaryStatus[i].name == filterKey) {
-            console.log('-------------------- Key Matched: ', filterKey, this.primaryStatus[i]);
-            console.log('-------------------- Sub Status: ', Object.keys(this.primaryStatus[i].subStatus), this.primaryStatus[i]);
-
             Object.keys(this.primaryStatus[i].subStatus).map(subStatus => {
               this.primaryStatus[i].subStatus[subStatus].map(kpi => {
                 this.kpis.push(kpi);
@@ -476,6 +479,36 @@ export class ConciseComponent implements OnInit {
       }
     }
   }
+
+  choosePrimarySubStatus(primaryStatus) {
+    if (Object.keys(primaryStatus.subStatus).length == 1) {
+      this.kpis = primaryStatus.subStatus[Object.keys(primaryStatus.subStatus)[0]];
+      this.table = this.setTable();
+      return;
+    }
+
+    let options = [];
+    Object.keys(primaryStatus.subStatus).map((subStatus, index) => {
+      if (index == 0) options.push({ id: 0, name: 'All', kpis: [] });
+      primaryStatus.subStatus[subStatus].map(kpi => options[0].kpis.push(Object.assign({}, kpi)));
+      options.push({
+        id: index + 1,
+        name: (subStatus || primaryStatus.name) + ' : ' + primaryStatus.subStatus[subStatus].length,
+        kpis: primaryStatus.subStatus[subStatus]
+      });
+    });
+
+    options[0].name += ' : ' + options[0].kpis.length;
+    this.common.params = { options };
+    const modal = this.modalService.open(RadioSelectionComponent, { size: 'sm' });
+    modal.result.then(data => {
+      if (data.status) {
+        this.kpis = data.selectedOption.kpis;
+        this.table = this.setTable();
+      }
+    });
+  }
+
 
 }
 
