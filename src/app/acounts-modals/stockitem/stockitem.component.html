@@ -30,11 +30,11 @@
         <label>Stock Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
 
-        <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+        <!-- <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion>
-     
-      <auto-suggestion  *ngIf= "this.stockTypeName != null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
-      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="{name:this.stockTypeName}" readonly></auto-suggestion>
+      -->
+      <auto-suggestion  (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
    
     </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
@@ -82,21 +82,22 @@
         <input type="text" class="form-control" id="name" name="stock-name" [(ngModel)]="stockItem.name">
       </div>
     </div>
-    <div class="col">
+    <div class="col" *ngIf="!(common.params && common.params.stockType)">
       <div class="form-group">
         <label>Max Limit</label>
         <input type="text" class="form-control" name="maxlimit" id="maxlimit" [(ngModel)]="stockItem.maxlimit">
       </div>
     </div>
-    <div class="col">
+    <div class="col" *ngIf="!(common.params && common.params.stockType)">
       <div class="form-group">
         <label>Min Limit</label>
         <input type="text" class="form-control" name="minlimit" id="minlimit" [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
       </div>
     </div>
   </div>
-  <div class="row radiostockitem">
-    <div class="col-3">
+
+  <div class="row radiostockitem"  *ngIf="!(common.params && common.params.stockType)">
+   <div class="col-3">
         <label>Is Active</label>
         <div class="row">
             <div class="col-4 pr-0">

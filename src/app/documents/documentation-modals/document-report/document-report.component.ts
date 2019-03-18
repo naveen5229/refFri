@@ -57,7 +57,7 @@ export class DocumentReportComponent implements OnInit {
 
   setTable() {
     let headings = {
-      docId: { title: 'Document Id', placeholder: 'Document Id' },
+      docId: { title: 'Doc Id', placeholder: 'Doc Id' },
       vehicleNumber: { title: 'vehicle Number ', placeholder: 'vehicle Number' },
       docType: { title: 'Document Type', placeholder: 'Document Type' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
@@ -93,6 +93,8 @@ export class DocumentReportComponent implements OnInit {
 
       // for comapring
       let exp_date2 = new Date(exp_date.split('/').join('-'));
+      exp_date2 = exp_date2.getFullYear()==1970?null:exp_date2;
+      
       let nxtmth2 = new Date(this.common.dateFormatter1(nextMthDate).split(' ')[0]);
       let currdt2 = new Date(curr);
 
@@ -103,7 +105,7 @@ export class DocumentReportComponent implements OnInit {
         docType: { value: doc.document_type },
         issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : (exp_date2 ? 'green' : '')) },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: exp_date2==null ? 'default' : currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : 'green') },
         documentNumber: { value: doc.document_number },
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
