@@ -16,14 +16,26 @@ export class ChangeHistoryComponent implements OnInit {
   documentTypeId = null;
   docTypes = [];
   data = [];
-  table = null;
+  //table = null;
+  table = {
+    data: {
+      headings: { },
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
   headings = [];
+  valobj = {};
+ 
   constructor(
     private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+      //this.headings.length;
 
     this.common.refresh = this.refresh.bind(this);
   }
@@ -74,8 +86,7 @@ export class ChangeHistoryComponent implements OnInit {
     this.api.post('Vehicles/getDocumentChangeHistory', { x_vehicle_id: this.selectedVehicle, x_document_type_id: this.documentTypeId })
       .subscribe(res => {
         this.common.loading--;
-        this.data = res['data'];
-        this.table = this.setTable();
+        this.data = res['data'];        
         let first_rec = this.data[0];
         this.table.data.headings = {};
         for (var key in first_rec) {
@@ -84,13 +95,8 @@ export class ChangeHistoryComponent implements OnInit {
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
           }
-
         }
-        return this.headings;
-
-    
-
-
+        this.table.data.columns = this.getTableColumns();
       }, err => {
         
         this.common.loading--;
@@ -104,7 +110,7 @@ export class ChangeHistoryComponent implements OnInit {
 
   setTable() {
     let headings = {};
-
+    let columns ={};
     return {
       data: {
         headings: this.headings,
@@ -117,17 +123,14 @@ export class ChangeHistoryComponent implements OnInit {
   }
 
   getTableColumns() {
-    console.log("Hiii");
     let columns = [];
-    this.data.map(doc => {
-      let valobj = {};
-      for(var i = 0; i < this.headings.length; i++) {
-       
    
+    console.log("Data=",this.data);
+    this.data.map(doc => {
+      for(let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:",doc[this.headings[i]]);
-        valobj[this.headings[i]] = { value: doc[this.headings[i]] };
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};
       }
-      
 
       // let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       // let curr = this.common.dateFormatter(new Date()).split(' ')[0];
@@ -144,10 +147,7 @@ export class ChangeHistoryComponent implements OnInit {
         // entryMode: { value: doc.EntryMode },
         // status: { value: doc.Status },
 
-      
-
-
-      columns.push(valobj);
+      columns.push(this.valobj);
     });
     return columns;
   }

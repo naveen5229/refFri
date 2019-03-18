@@ -45,10 +45,22 @@ tr{
 /*  Cancel button css */
 .btn.btn-danger{
     color: white;
+    background-color: #f05e77;
 }
-    /* submit Button Css */
+.btn.btn-danger:hover,
+.btn.btn-danger:active,
+.btn.btn-danger:focus{
+    background-color: #e22242;
+}
+/* submit Button Css */
 .btn.btn-primary{
      color: #fff;
+     background-color: #73a1ff;
+}
+.btn.btn-primary:hover,
+.btn.btn-primary:active,
+.btn.btn-primary:focus{
+    background-color: #0054ff;
 }
  /* Default Button css */
 .btn.btn-default.btn-sm{
