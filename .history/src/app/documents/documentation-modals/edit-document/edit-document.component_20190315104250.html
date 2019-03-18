@@ -8,7 +8,8 @@
   <form #documentForm="ngForm" id="document-form" name="document-form"
     (submit)="documentForm.valid && updateDocument()">
     <div class="row">
-      <div class="col-md-4 model_left_section">
+      <div class="col-md-4">
+
           <div class="row">
               <div class="col-md-4">
                 <label> Document id </label>
@@ -33,6 +34,12 @@
           </div>
           <div class="col-md-8">
             <label style="font-size:16px;">{{document.documentType}}</label>
+            <!-- <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
+              placeholder="Enter doctype" [data]="docTypes" [preSelected]="{document_type: document.documentType}"
+              class="documentType" (keyup)="checkType($event)">
+            </auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div> -->
           </div>
         </div>
         <div class="row">
@@ -41,24 +48,47 @@
           </div>
           <div class="col-md-7">
             <label style="font-size:16px;">{{document.issueDate}}</label>
+            <!-- <input id="issue-date" name="issue-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
+              class="form-control" [value]="document.issueDate  " [(ngModel)]="document.issueDate "
+              placeholder="DD/MM/YYYY">
+          </div>
+          <div class="col-md-1 calender">
+            <i class="icon fa fa-calendar" (click)="getDate('issueDate')"></i>
+          </div> -->
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-4">
             <label>Wef Date</label>
           </div>
           <div class="col-md-7">
             <label style="font-size:16px;">{{document.wefDate}}</label>
+            <!-- <input id="wef-date" name="wef-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
+              class="form-control" [value]="document.wefDate " [(ngModel)]="document.wefDate" placeholder="DD/MM/YYYY">
+          </div>
+          <div class="col-md-1 calender">
+            <i class="icon fa fa-calendar" (click)="getDate('wefDate')"></i>
+          </div> -->
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-4">
             <label>Expiry Date</label>
           </div>
           <div class="col-md-7">
             <label style="font-size:16px;">{{document.expiryDate}}</label>
+            <!-- <input id="expiry-date" name="expiry-date" type="text" autocomplete="off" (blur)="checkExpiryDateValidity()"
+              class="form-control" [value]="document.expiryDate" [(ngModel)]="document.expiryDate"
+              placeholder="DD/MM/YYYY">
+          </div>
+          <div class="col-md-1 calender">
+            <i class="icon fa fa-calendar" (click)="getDate('expiryDate')"></i>
+          </div> -->
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-2">
             <label>Agent</label>
@@ -71,6 +101,7 @@
             <a href="javascript: void(0);" (click)="addAgent()">Add Agent</a>
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-4 ">
             <label>Document Number</label>
@@ -81,6 +112,18 @@
               maxlength="25">
           </div>
         </div>
+
+        <!-- <div class="row">
+          <div class="col-md-4">
+            <label>Document Upload </label>
+          </div>
+          <div class="col-md-8 ">
+            <input type="file" name="myfile" id="filePicker" [(ngModel)]="document.newDocUpload" (change)="handleFileSelection($event)" />
+            <input type="file" name="myfile2" id="filePicker" [(ngModel)]="document.newDocUpload2" (change)="handleFileSelection($event)" />
+            <input type="file" name="myfile3" id="filePicker" [(ngModel)]="document.newDocUpload3" (change)="handleFileSelection($event)" />
+          </div>
+        </div> -->
+
         <div class="row">
           <div class="col-md-4">
             <label>Amount </label>
@@ -90,6 +133,7 @@
               placeholder="Enter Amount">
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-4">
             <label>RTO </label>
@@ -99,6 +143,7 @@
               placeholder="Enter Rto">
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-4">
             <label>Remark </label>
@@ -108,16 +153,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4" style="margin-left:30%;">
             <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
               style="cursor: pointer;">{{btn2}}</button>
           </div>
-          <div class="col-sm-6 text-right">
+          <div class="col-sm-4">
             <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
               id="submit" style="cursor: pointer;">{{btn1}}</button>
           </div>
         </div>
       </div>
+
       <div class="col-sm-8">
         <div *ngIf="doc_not_img"><a target='_blank' href="{{document.docUpload}}" title="View Document"
             style="font-size: 20px; color: blue; text-decoration: underline">View Document Pdf</a></div>
@@ -129,5 +175,16 @@
     </div>
   </form>
 </div>
-<div class="modal-footer"> 
+
+<div class="modal-footer">
+  <!-- <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
+        id="submit" style="cursor: pointer;">{{btn1}}</button>
+    </div>
+  </div> -->
 </div>

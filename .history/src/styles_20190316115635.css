@@ -57,11 +57,8 @@
 .nb-theme-corporate nb-sidebar.expanded {
   width: 15rem;
 }
-.menu-sidebar .main-container{
+.expanded .main-container{
   width: 15rem !important;
-}
-.compacted .main-container{
-  width: auto !important;
 }
 /* width */
 
@@ -197,14 +194,4 @@ nb-menu .menu-item a.active::before{
   margin-right: 8px;
   color: #fff;
 }
-nb-menu .menu-item > .menu-items{
-  background: #3a454a !important;
-}
-nb-menu .menu-item > .menu-items > .menu-item{
-  background: #3a454a !important;
-  color: #fff !important;
-  padding: 0px !important;
-}
-nb-menu .menu-item > .menu-items > .menu-item a{
-  border:0px !important;
-}
+

@@ -1,26 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <div class="row">
-      <div class="col-sm-2">
-        <h2>Tyre Modals</h2>
-      </div>
-      <div class="col-sm-1">
-        <span> 
-          Brand Name : 
-        </span>
-      </div>
-      <div class="col-sm-2">
-
-          <select class="form-control" [(ngModel)] = "selectedModal" (change)="getStockItems()">
-            <option *ngFor="let modal of modals" [value]="modal.id"  >{{modal.name}}
-            </option>
-          </select>
-        </div>
-      <div class="col-sm-4">
-        <button (click)=openStockItemModal() class="btn">Add Modal</button>
-      </div>
-     
-    </div>
+      <h2>Tyre Modals</h2>
   </nb-card-header>
 
   <nb-card-body>
@@ -38,7 +18,7 @@
               </select>
             </div>
           <div class="col-sm-4">
-            <button (click)=openAddModals() class="btn btn-primary">Add Modal</button>
+            <button (click)=openAddModals() class="btn">Add Modal</button>
           </div>
         </div>
     <div style="margin-top:20px">

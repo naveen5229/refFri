@@ -10,16 +10,20 @@ label{
     position: relative;
 
 }
-select{
-    height: 40px !important;
 
-}
 .modal-body{
     padding-top: 0px;
     
 }
 .agent{
-    width: 90%;
+    width: 100%;
+    margin-left: 28%;
+}
+a{
+    margin-left: 34%;
+}
+textarea{
+    height: 80px;
 }
 .suggestions ng-star-inserted{
     overflow: auto !important;
@@ -36,18 +40,4 @@ auto-suggestion{
 .calender{
     font-size: 25px !important;
     margin-left: -3% !important;
-}
-textarea{
-    height: 40px;
-}
-.error{
-    padding-left: 79%;
-    font-size: 14px;
-    margin-top: -6%;
-}
-input[type="date"].form-control{
-    line-height: 12px !important;
-}
-.upload_img_btn input{
-    margin-top: 10px;
 }

@@ -4,11 +4,11 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body" style="min-height:220px">
+<div class="modal-body" style="height:220px">
   <div class="form-group">
     <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString"
       [(ngModel)]="searchString" autocomplete="off">
-    <ul class="auto_listing" *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
+    <ul *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
       <li *ngFor="let suggestion of suggestions;" (click)="selectUser(suggestion)" style="height:30px;font-size: 14px">
         {{ suggestion.foaname}} - {{suggestion.foaid}} - {{suggestion.foname}} - {{suggestion.foid}} -
         {{suggestion.fomobileno}}
