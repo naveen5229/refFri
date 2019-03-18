@@ -95,6 +95,7 @@ import { AccountService } from './services/account.service';
 import { ApiService } from './services/api.service';
 import { CommonService } from './services/common.service';
 import { UserService } from './@core/data/users.service';
+import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
@@ -156,6 +157,7 @@ import { UserService } from './@core/data/users.service';
     EditDriverComponent,
     // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
+    VoucherdetailComponent,
     
     
   ],
@@ -215,6 +217,7 @@ import { UserService } from './@core/data/users.service';
     VechileTrailsComponent,
     AddTripComponent,
     EditDriverComponent,
+    VoucherdetailComponent,
     // VehicleDriverMappingComponent 
   ],
   imports: [

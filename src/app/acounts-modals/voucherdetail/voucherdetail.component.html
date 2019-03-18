@@ -1,0 +1,24 @@
+<nb-card>
+  <nb-card-body>
+      <h1>Voucher Detail</h1>
+<table class="table table-bordered">
+    <tr>
+        <th>Particular</th>
+        <th>Vch Type</th>
+        <th>Vch No.</th>
+        <th>Amount(Debit)</th>
+        <th>Amount(Credit)</th>
+        
+      </tr>
+      <tr  *ngFor=" let dataItem of Detail;">
+          <td>{{dataItem.y_particulars}}</td>
+          <td>{{dataItem.y_type}}</td>
+          <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+          <td>{{dataItem.y_dramunt}}</td>
+          <td>{{dataItem.y_cramunt}}</td>
+      
+        
+      </tr>
+  </table>
+</nb-card-body>
+</nb-card>

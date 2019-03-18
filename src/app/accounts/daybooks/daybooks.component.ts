@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import {VoucherdetailComponent}from '../../acounts-modals/voucherdetail/voucherdetail.component';
 
 @Component({
   selector: 'daybooks',
@@ -153,6 +154,25 @@ export class DaybooksComponent implements OnInit {
       }
     });
     return dayDatas;
+  }
+
+  getBookDetail(voucherId){
+console.log('vouher id',voucherId);
+this.common.params = voucherId;
+
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+       return;
+      //   if (stocksubType) {
+         
+      //     this.updateStockSubType(stocksubType.id, data.stockSubType);
+      //     return;
+      //   }
+      //  this.addStockSubType(data.stockSubType)
+      }
+    });
   }
 
 }
