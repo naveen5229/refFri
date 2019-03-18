@@ -25,7 +25,7 @@ nb-card-header {
 }
 :host ::ng-deep.black {
     color: black;
-    // background: cornsilk;
+    background: cornsilk;
     // display: none;
 }
 :host ::ng-deep.red {
@@ -39,11 +39,6 @@ nb-card-header {
 :host ::ng-deep.green{
     background: #0bff0b;
     color:black;
-}
-:host ::ng-deep.default
-{
-    background: transparent;
-    border: transparent;
 }
 :host ::ng-deep.icon{
     color: #0e0e3a;

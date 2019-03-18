@@ -52,6 +52,7 @@ export class PendingDocumentsComponent implements OnInit {
     this.getAllTypesOfDocuments();
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
+    this.listtype;
   }
 
   ngOnInit() {
@@ -82,7 +83,8 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log(err);
         });
-    } else {
+    } 
+    else {
       this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
         .subscribe(res => {
           this.common.loading--;
@@ -268,6 +270,7 @@ export class PendingDocumentsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
+        this.columns = [];
         if(this.data.length) {
           for(var key in this.data[0]) {
             if(key.charAt(0) != "_")
@@ -276,7 +279,6 @@ export class PendingDocumentsComponent implements OnInit {
           console.log("columns");
           console.log(this.columns);
         }
-   
       }, err => {
         this.common.loading--;
         console.log(err);

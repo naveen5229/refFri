@@ -125,12 +125,6 @@ label{
     background: #0bff0b;
     color:black;
 }
-
-:host ::ng-deep.default
-{
-    background: transparent;
-    border: transparent;
-}
 :host ::ng-deep.icon{
     color: #0e0e3a;
     font-size: 18px;
@@ -179,8 +173,11 @@ label{
 table{
     cursor:pointer;   
 }
-nb-card-header {
-    padding: 20px;
-    border: 1px solid #efefef;
-    margin-bottom: 20px;
+
+nb-card{
+    padding-left: 4% !important;
+}
+
+ngx-footer {
+    padding-left: 10% !important;   
 }

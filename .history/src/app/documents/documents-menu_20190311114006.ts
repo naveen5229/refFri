@@ -27,7 +27,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Customer Dashboard',
-        icon: 'fa fa-user',
+        icon: 'nb-home',
         children: [
             {
                 title: 'Document Dashboard',
