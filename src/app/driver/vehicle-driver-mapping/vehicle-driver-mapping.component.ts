@@ -60,14 +60,17 @@ export class VehicleDriverMappingComponent implements OnInit {
   getTableColumns() {
     let columns = [];
     this.data.map(driver => {
+
       let column = {
+
         regno: { value: driver.regno, action: this.remapDriver.bind(this, driver) },
-        mainDriver: { value: driver.md_name,action: this.mapDriver.bind(this,driver.md_no, driver.md_name,)  },
-        mobileno: { value: driver.md_no,action:this.mapDriver.bind(this,driver) },
-        secondaryDriver: { value: driver.sd_name },
-        mobileno2: { value: driver.sd_no },
+        mainDriver: { value: driver.md_name, action: driver.md_name ? this.mapDriver.bind(this, driver, driver.md_name, driver.md_no) : '' },
+        mobileno: { value: driver.md_no, action: driver.md_no ? this.mapDriver.bind(this, driver, driver.md_name, driver.md_no) : '' },
+        secondaryDriver: { value: driver.sd_name, action: driver.sd_name ? this.mapDriver.bind(this, driver, driver.sd_name, driver.sd_no) : '' },
+        mobileno2: { value: driver.sd_no, action: driver.sd_no ? this.mapDriver.bind(this, driver, driver.sd_name, driver.sd_no) : '' },
         rowActions: {}
       };
+
 
       columns.push(column);
     });
@@ -127,9 +130,19 @@ export class VehicleDriverMappingComponent implements OnInit {
     });
 
   }
-  mapDriver(driver, type) {
-    this.common.params = { driver, type };
-    this.modalService.open(DriverStatusChangeComponent, { size: 'lg', container: 'nb-layout' });
+  mapDriver(driver, name, mobile) {
+    console.log("Before Param :", driver, name, mobile);
+    this.common.params = { driver, name, mobile };
+    const activeModal= this.modalService.open(DriverStatusChangeComponent, { size: 'lg', container: 'nb-layout' });
+     activeModal.result.then(data=>{
+       if(data.response){
+         this.getdriverMapping();
+       }
+     })
   }
+  // mapDriverSecondry(driver) {
+  //   this.common.params={driver};
+  //   this.modalService.open(DriverStatusChangeComponent,{ size: 'lg', container: 'nb-layout' })
+  // }
 
 }

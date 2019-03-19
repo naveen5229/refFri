@@ -1,17 +1,11 @@
 <nb-card>
   <nb-card-header>
     <h2>vehicle Driver Mapping</h2>
-  
+
   </nb-card-header>
   <nb-card-body>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
 
-   
-
-
-
-      <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
-      <br>
-
-    
   </nb-card-body>
 </nb-card>
