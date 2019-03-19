@@ -14,14 +14,15 @@ import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/veh
 })
 export class KpisDetailsComponent implements OnInit {
   kpi = null;
-
+  vehicleInfo : null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
+      this.common.handleModalSize('class', 'modal-lg', '1200');
     this.kpi = this.common.params.kpi;
-    
+    this.getVehicleInformation();
   }
 
   ngOnInit() {
@@ -61,6 +62,7 @@ export class KpisDetailsComponent implements OnInit {
   }
 
   getUpadte(kpi){
+    console.log("kpi",kpi);
     let tripDetails ={
       id : kpi.x_trip_id,
       endName : kpi.x_showtripend,
@@ -68,24 +70,37 @@ export class KpisDetailsComponent implements OnInit {
       startTime : kpi.x_showstarttime,
       endTime : kpi.x_showendtime,
       regno : kpi.x_showveh,
-      vehicleId:kpi.x_vehicle_id
+      vehicleId:kpi.x_vehicle_id,
+      siteId:kpi.x_hl_site_id
       
     }
     // this.common.params= tripDetails;
     // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
-    if(kpi.x_prim_status == 20 || kpi.x_prim_status == 21 || kpi.x_prim_status == 51){
+    
       this.common.params= tripDetails;
       console.log("vehicleTrip",tripDetails);
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    }else{
-      console.log(kpi.x_prim_status)
-
-      this.common.showToast("This trip cannot be updated ");
-    }
+    
   }
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  getVehicleInformation() {
+    this.common.loading++;
+    let params = "vehicleId="+this.kpi.x_vehicle_id;
+    console.log("params",params);
+    this.api.get('VehicleKpis/getVehicleInformation?'+params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.vehicleInfo = res['data'][0];
+        console.log("data", this.vehicleInfo);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 }

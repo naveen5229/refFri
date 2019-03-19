@@ -14,13 +14,14 @@
 <div class="modal-body">
   <div class="col-sm-3"></div>
   <div style="margin-bottom:20px">
+    <button (click)="lUlBtn=!lUlBtn">Previous L/UL</button>
     <button (click)="showHalt()" style="margin-left:10px">Show Halt</button>
     <button (click)="showTrail()" style="margin-left:10px">Show Trail</button>
     <!-- <button (click)="showHide()" style="margin-left:10px">{{showHideSite}}</button> -->
     <button (click)="beforeLatchTime()" style="margin-left:10px">Before ltime</button>
     <input type="text" style="cursor: pointer;margin-left:10px;" autocomplete="off" (click)="getDate('date')"
       placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date" readonly>
-      <button id="addAutomaticHalt" (click)="addAutomaticHalt()"style="margin-left:10px" >Add Auto Halt </button>
+    <button id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:10px">Add Auto Halt </button>
 
     <!-- <span style="margin-left:150px">
       <span class="zoom-btn" (click)="setZoom(6)">1</span>
@@ -32,7 +33,7 @@
   </div>
 
 
-  <div class="col-sm-3">
+  <div class="col-sm-3" *ngIf="lUlBtn">
     <div style="height: 480px; overflow: auto; width: 100%;">
       <table class="table table-bordered table-hover">
         <tbody>
@@ -55,16 +56,17 @@
       </table>
     </div>
   </div>
-  <div class="col-sm-3">
+  <div [class]=" lUlBtn?'col-sm-3':'col-sm-4'">
     <!-- <accordion>
                   <group title="First Group">this is the content</group>
                 </accordion> -->
-    <div style="height: 480px; overflow: auto; width: 100%;">
+    <div class="tableFixHead">
       <table class="table table-bordered table-hover" style="border:1px gray solid">
         <thead>
           <th>#</th>
           <th>Date</th>
           <th>Time</th>
+          <th>Location</th>
           <th>Dist</th>
           <th>KM/h</th>
           <th>CS</th>
@@ -73,11 +75,12 @@
         <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
           <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
             (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
-            [ngStyle]="vehicleEvent.desc!='Trails'?{'background-color':'#'+vehicleEvent.color}:{'background-color':'#'+ffffff}"
+            [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
             (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
             <td (click)="openSmartTool(i,vehicleEvent);">{{i+1}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
+            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
             <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
@@ -94,20 +97,22 @@
                   <span class="zoom-btn" (click)="setZoom(15)">4</span>
                   <span class="zoom-btn" (click)="setZoom(18)">5</span>
                   <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
-                  <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)" *ngIf ="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
-                  <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf ="vehicleEvent.y_is_delete"><i class="fa fa-trash"></i></span>
+                  <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
+                    *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
+                  <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
+                      class="fa fa-trash"></i></span>
                 </span></div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center">
-      <button (click)="reviewComplete(1)" style="padding:5px">Review Done</button>
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" >
+      <button (click)="reviewComplete(1)" style="padding:5px" *ngIf="btnStatus">Review Done</button>
       <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced Review</button></div>
 
   </div>
-  <div class="map-container col-sm-6">
+  <div [class]=" lUlBtn?' map-container col-sm-6':'map-container col-sm-8'">
 
     <div #map id="map" style="margin-left:10px"> </div>
 

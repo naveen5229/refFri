@@ -9,6 +9,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./stock-type.component.scss']
 })
 export class StockTypeComponent implements OnInit {
+  showConfirm = false;
+  showExit=false;
   stockType = {
     user: {
       name: '',
@@ -19,6 +21,7 @@ export class StockTypeComponent implements OnInit {
   };
   showSuggestions = false;
   suggestions = [];
+  allowBackspace = true;
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -72,4 +75,75 @@ export class StockTypeComponent implements OnInit {
     //console.log('Stock Unit: ', this.stockItem);
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    const activeId = document.activeElement.id;
+    console.log('Active Id', activeId);
+    if (event.key == "Escape") {
+      this.showExit=true;
+    }
+    if (this.showExit) {
+      if (key == 'y' || key == 'enter') {
+        this.showExit = false;
+       event.preventDefault();
+       this.activeModal.close();
+       return;
+       // this.close();
+      }else   if ( key == 'n') {
+        this.showExit = false;
+        event.preventDefault();
+        return;
+
+      }
+      
+    }
+
+    if (this.showConfirm) {
+      if (key == 'y' || key == 'enter') {
+        console.log('Ledgers show stockType:', this.stockType);
+        this.dismiss(true);
+        this.common.showToast('Your Value Has been saved!');
+      }
+      this.showConfirm = false;
+      event.preventDefault();
+      return;
+    }
+    if (key == 'enter') {
+      this.allowBackspace = true;
+      // console.log('active', activeId);
+     // console.log('Active jj: ', activeId.includes('aliasname'));
+      if (activeId.includes('user')) {
+        this.setFoucus('name');
+      } else if (activeId.includes('name')) {
+        this.setFoucus('code');
+      } else if (activeId == 'code') {
+       // this.setFoucus('aliasname');
+       this.showConfirm = true;
+      }
+  } else if (key == 'backspace' && this.allowBackspace) {
+    event.preventDefault();
+    console.log('active 1', activeId);
+    if (activeId == 'code') this.setFoucus('name');
+    if (activeId == 'name') this.setFoucus('user');
+  }  else if (key.includes('arrow')) {
+    this.allowBackspace = false;
+  } else if (key != 'backspace') {
+    this.allowBackspace = false;
+    //event.preventDefault();
+  }
+
+
+}
+
+  
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
 }

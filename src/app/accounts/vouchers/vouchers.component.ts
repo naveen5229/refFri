@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.component';
 // import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { UserService } from '../../@core/data/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 @Component({
   selector: 'vouchers',
@@ -18,10 +18,17 @@ export class VouchersComponent implements OnInit {
   voucherName = '';
   voucher = this.setVoucher();
 
+  ledgers = {
+    credit: [],
+    debit: [],
+    suggestions: []
+  };
+  currentbalance = 0;
+  balances = {};
   showConfirm = false;
 
   showSuggestions = false;
-  ledgers = [];
+  // ledgers = [];
   lastActiveId = '';
   allowBackspace = true;
   showDateModal = false;
@@ -33,7 +40,9 @@ export class VouchersComponent implements OnInit {
     public common: CommonService,
     private route: ActivatedRoute,
     public user: UserService,
+    public router: Router,
     public modalService: NgbModal) {
+    this.voucher = this.setVoucher();
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -41,11 +50,14 @@ export class VouchersComponent implements OnInit {
         this.voucherName = params.name;
         this.getVouchers();
       }
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
-
+    this.getLedgers('debit');
+    this.getLedgers('credit');
   }
 
   ngOnInit() {
+
   }
 
   setVoucher() {
@@ -153,7 +165,7 @@ export class VouchersComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
-
+    this.setFoucus('ref-code');
   }
 
 
@@ -182,7 +194,7 @@ export class VouchersComponent implements OnInit {
     });
   }
 
-  calculateTotal() {
+  calculateTotal(index?) {
     this.voucher.total.debit = 0;
     this.voucher.total.credit = 0;
     this.voucher.amountDetails.map(amountDetail => {
@@ -193,6 +205,17 @@ export class VouchersComponent implements OnInit {
         this.voucher.total.credit += amountDetail.amount;
       }
     });
+    if (index) {
+      let ledgerId = this.voucher.amountDetails[index].ledger.id;
+
+      if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
+        console.log('check condition');
+        this.voucher.amountDetails[index].amount = 0;
+        alert('Please enter valid amount');
+      }
+      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
+    }
+
   }
 
 
@@ -231,10 +254,17 @@ export class VouchersComponent implements OnInit {
       else if (document.activeElement.id == 'narration') {
         this.showConfirm = true;
       } else if (activeId.includes('ledger-')) {
-        if (!this.ledgers.length) return;
+        // if (!this.ledgers.length) return;
         let index = activeId.split('-')[1];
-        console.log('Test: ', index, this.ledgers, this.ledgers[0]);
-        this.selectLedger(this.ledgers[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
+        if (this.activeLedgerIndex > this.ledgers.suggestions.length - 1) {
+          this.activeLedgerIndex = 0;
+        }
+        console.log('Test: ', index, this.ledgers, this.ledgers.suggestions[0]);
+        this.selectLedger(this.ledgers.suggestions[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
+        console.log('hello dear', this.voucher.amountDetails[index].transactionType);
+        if ((this.voucherId == '-1' || this.voucherId == '-3') && (this.voucher.amountDetails[index].transactionType == 'credit')) {
+          this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
+        }
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
@@ -267,6 +297,11 @@ export class VouchersComponent implements OnInit {
         event.preventDefault();
       }
       //console.log('helo',document.activeElement.id);
+    } else if (activeId.includes('ledger-')) {
+      let index = activeId.split('-')[1];
+      // console.log(index);
+      // let transactionType = document.getElementById('trasactionn-type-' + index)['value'];
+      let transactionType = this.voucher.amountDetails[index].transactionType;
     }
   }
 
@@ -339,22 +374,42 @@ export class VouchersComponent implements OnInit {
     // ele.setSelectionRange(startIndex, endIndex);
   }
 
-  getSuggestions(transactionType, name) {
+  getLedgers(transactionType, name?) {
     this.showSuggestions = true;
     let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + this.voucherId + '&search=' + name;
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
         console.log(res);
-        this.ledgers = res['data'];
+        this.ledgers[transactionType] = res['data'];
       }, err => {
         console.error(err);
         this.common.showError();
       });
+    this.setFoucus('ref-code');
   }
 
+  getCurrentBalance(ledgerId) {
+    this.showSuggestions = true;
+    let url = 'Suggestion/getCurrentBalance?branchid=' + 0 + '&fromdate=' + this.date + '&ledgerid=' + ledgerId;
+    console.log('URL: ', url);
+    this.api.get(url)
+      .subscribe(res => {
+        console.log('current balance', res['data'][0]['get_currentbalance']);
+        // return res['data'][0]['get_currentbalance'];
+        this.balances[ledgerId] = { main: res['data'][0]['get_currentbalance'], current: res['data'][0]['get_currentbalance'] };
+        this.currentbalance = (res['data'][0]['get_currentbalance']) - this.voucher.total.credit;
+        console.log('check current balance', this.currentbalance);
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+    this.setFoucus('ref-code');
+  }
+
+
   selectLedger(ledger, index?) {
-    console.log('Last Active ID:', this.lastActiveId);
+    console.log('Last Active ID:', this.lastActiveId, ledger);
     if (!index && this.lastActiveId.includes('ledger')) {
       index = this.lastActiveId.split('-')[1];
     }
@@ -380,13 +435,14 @@ export class VouchersComponent implements OnInit {
     month = month.length == 1 ? '0' + month : month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.voucher.date = date + separator + month + separator + year;
+    console.log('Date: ', year + separator + month + separator + date);
+    this.voucher.date = year + separator + month + separator + date;
   }
 
   handleArrowUpDown(key, activeId) {
+    let index = parseInt(activeId.split('-')[1]);
     if (key == 'arrowdown') {
-      if (this.activeLedgerIndex != this.ledgers.length - 1) {
+      if (this.activeLedgerIndex != this.ledgers.suggestions.length - 1) {
         this.activeLedgerIndex++;
       }
     } else {
@@ -394,9 +450,52 @@ export class VouchersComponent implements OnInit {
         this.activeLedgerIndex--;
       }
     }
-    let index = parseInt(activeId.split('-')[1]);
-    this.voucher.amountDetails[index].ledger.name = this.ledgers[this.activeLedgerIndex].y_ledger_name;
-    this.voucher.amountDetails[index].ledger.id = this.ledgers[this.activeLedgerIndex].y_ledger_id;
+
+    // this.voucher.amountDetails[index].ledger.name = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_name;
+    // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
+  }
+
+  getActiveLedgerType(ledgers) {
+    if (!this.lastActiveId || !this.lastActiveId.includes('ledger-')) return [];
+    let index = parseInt(this.lastActiveId.split('-')[1]);
+    let transactionType = document.getElementById('transaction-type-' + index) ? document.getElementById('transaction-type-' + index)['value'] : '';
+    if (transactionType) {
+      let suggestions = ledgers[transactionType];
+      // console.log(document.getElementById(this.lastActiveId)['value']);
+      if (document.getElementById(this.lastActiveId) && document.getElementById(this.lastActiveId)['value']) {
+        let search = document.getElementById(this.lastActiveId)['value'].toLowerCase();
+        suggestions = ledgers[transactionType].filter(ledger => ledger.y_ledger_name.toLowerCase().includes(search));
+      }
+      this.ledgers.suggestions = suggestions;
+      return suggestions;
+    }
+    return [];
+
+
+  }
+
+  findBalance(index) {
+    let amount = 0;
+    let allCreditAmounts = [];
+    let ledgerId = this.voucher.amountDetails[index].ledger.id;
+    this.voucher.amountDetails.map((amountDetail, index) => {
+      if (amountDetail.transactionType == 'credit' && amountDetail.ledger.id == ledgerId) {
+        allCreditAmounts.push({ index: index, amountDetail: amountDetail });
+      }
+    });
+    const activeId = document.activeElement.id;
+
+    let sum = 0;
+    for (let i = 0; i < allCreditAmounts.length; i++) {
+      if (allCreditAmounts[i].index == index) break;
+      sum += allCreditAmounts[i].amountDetail.amount;
+    }
+    console.log('Amount: ', amount);
+    if (!this.balances[ledgerId]) {
+      return 0;
+    }
+    return this.balances[ledgerId].main - sum;
+
   }
 
 

@@ -1,48 +1,79 @@
-.red {
+
+ .data ion-col,
+.headings ion-col {
+    padding: 3px;
+    border-left: 1px solid #f2f2f2;
+}
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+:host ::ng-deep.black {
+    color: black;
+    background: cornsilk;
+    // display: none;
+}
+:host ::ng-deep.red {
     background: red;
     color: #fff;
 }
-
-.pink {
+:host ::ng-deep.pink {
     background: pink;
-}
-
-.green {
-    background: #46f946;
     color: black;
 }
-i{
+:host ::ng-deep.green{
+    background: #0bff0b;
+    color:black;
+}
+:host ::ng-deep.default
+{
+    background: transparent;
+    border: transparent;
+}
+:host ::ng-deep.icon{
     color: #0e0e3a;
+    font-size: 18px;
+ 
+}
+:host ::ng-deep.image{
+    color: #0e0e3a;
+    font-size: 18px;
+ 
+}
+
+:host ::ng-deep .circle {
+    border: 1px solid gray;
+    border-radius: 50%;
+    padding: 3px 4px;
+}
+.route-arrow {
     font-size: 20px;
-    cursor: pointer;
-    margin-left: 29%
+    vertical-align: middle;
+    margin: 0px 5px;
 }
-.table-bordered{
-    height: 350px;
-    overflow-y: auto;
-    display: block;
+:host ::ng-deep .complete {
+    vertical-align: middle;
+    color: green;
 }
-.table-scroll.thead {
-    display: table;
-    width: 1150px;
-    position: fixed;
- }
- 
- .table-scroll tbody {
-    display: block;
-    width: 100%;
-    table-layout: fixed;
-    margin-top: 52px;
- }
- 
- .table-scroll tr {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
- }
- 
- .table-scroll td {
-    height: 47px; // needed in order to keep rows from collapsing
-    table-layout: fixed;
-    word-wrap:break-word;
- }
+.exit {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.loaded{
+    font-weight: bold;
+}
+.search-box {
+    background: #fff;
+    font-size: 13px;
+    padding: 6px 8px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    vertical-align: middle;
+    margin-left: 10px;
+    width: 60%;
+    letter-spacing: .3px;
+    color: #000;
+}
+table{
+    cursor:pointer;   
+}

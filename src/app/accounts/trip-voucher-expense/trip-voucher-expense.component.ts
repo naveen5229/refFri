@@ -18,6 +18,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   tripHeads = [];
   tripVouchers = [];
   selectedVehicle;
+  vehicles=[];
   constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal) {
 
   }
@@ -25,23 +26,33 @@ export class TripVoucherExpenseComponent implements OnInit {
   ngOnInit() {
   }
 
-  getPendingTrips(vehicle) {
-    this.selectedVehicle = vehicle;
-    console.log(vehicle);
+  getPendingTrips() {
     const params = {
-      vehId: vehicle.id
+      vehId: this.selectedVehicle.id
     };
     this.common.loading++;
     this.api.post('VehicleTrips/getPendingVehicleTrips', params)
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.trips = res['data'];
+        this.showTripSummary(res['data']);
+        //this.trips = res['data'];
       }, err => {
         console.log(err);
         this.common.loading--;
         this.common.showError();
       });
+  }
+  showTripSummary(tripDetails){ 
+    let vehId=this.selectedVehicle.id;
+    this.common.params = { vehId,tripDetails};
+    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        //this.addLedger(data.ledger);
+      }
+    });
   }
 
   checkedAllSelected() {
@@ -164,9 +175,11 @@ export class TripVoucherExpenseComponent implements OnInit {
     });
     console.log('Total: ', this.tripHeads[index].total);
   }
-  getTripSummary() {
+  getTripSummary(vehicle) {
+    this.selectedVehicle = vehicle;
+    console.log(vehicle);
     const params = {
-      vehId: this.selectedVehicle.id
+      vehId: vehicle.id
     };
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getTripExpenseVouchers', params)
@@ -180,19 +193,35 @@ export class TripVoucherExpenseComponent implements OnInit {
         this.common.showError();
       });
   }
-  showVoucherSummary(tripVoucher) {
+  getVoucherSummary(tripVoucher) {
     console.log(tripVoucher);
-    let headings = ['#', 'Start', 'End', 'Start Date', 'End Date'];
-    let data = [[1, tripVoucher.startloc, tripVoucher.endloc, tripVoucher.startdate, tripVoucher.enddate]];
-    this.common.params = { headings, data };
-    const activeModal = this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const params = {
+      voucherId: tripVoucher.id,
+      startDate:tripVoucher.startdate,
+      endDate:tripVoucher.enddate
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.showVoucherSummary(res['data'],tripVoucher);
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+  showVoucherSummary(tripDetails,tripVoucher){
+    let vehId=this.selectedVehicle.id; 
+    this.common.params = { vehId,tripDetails,tripVoucher};
+    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
         //this.addLedger(data.ledger);
       }
     });
-
   }
 
 

@@ -7,6 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { resetComponentState } from '@angular/core/src/render3/instructions';
 
 declare let google: any;
 
@@ -27,6 +28,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     name: '',
     time: ''
   };
+  btnStatus = true;
+  lUlBtn = false;
   dataType = 'events';
   VehicleStatusData;
   vehicleEvents = [];
@@ -34,6 +37,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   lastIndType = null;
   timeDiff = null;
   distDiff = null;
+  polygons = [];
   showHideSite = 'HS';
   lastIndDetails = null;
   loadingUnLoading = null;
@@ -98,6 +102,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openChangeHaltModal(vehicleEvent, type) {
     this.common.changeHaltModal = type;
+    this.common.passedVehicleId = this.VehicleStatusData.vehicle_id;
     this.common.params = vehicleEvent;
     const activeModal = this.modalService.open(ChangeHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -160,10 +165,23 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
         this.createMarkers(res['data']);
+        this.resetBtnStatus();
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  resetBtnStatus() {
+    this.btnStatus = true;
+    this.vehicleEvents.forEach(vehicleEventDetail => {
+      console.log("vehicleEventDetail", vehicleEventDetail)
+      if (vehicleEventDetail.color == 'ff13ec') {
+        this.btnStatus = false;
+        return;
+      }
+    });
   }
 
   getLoadingUnLoading() {
@@ -245,10 +263,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.setBounds(latlng);
       thisMarkers.push(marker);
       this.Markers.push(marker);
-      
+
       if (markers[index]["type"] == "site") {
-        let show = markers[index]['name']+" , "+markers[index]['typename']+ " , " +markers[index]['id'];
-        marker.addListener('mouseover', this.showInfoWindow.bind(this,show,marker ));
+        let show = markers[index]['name'] + " , " + markers[index]['typename'] + " , " + markers[index]['id'];
+        marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
         marker.addListener('mouseout', this.closeInfoWindow.bind(this));
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
@@ -333,9 +351,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.lastIndDetails = res['data'][0];
-        console.log("lastIndDetails", this.lastIndDetails);
-        this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.VehicleStatusData.latch_time);
-        this.lastIndType = this.lastIndDetails.li_type;
+        if(this.lastIndDetails){
+          console.log("lastIndDetails", this.lastIndDetails);
+          this.calculateDistanceAndTime(this.lastIndDetails, this.VehicleStatusData.latch_lat, this.VehicleStatusData.latch_long, this.VehicleStatusData.latch_time);
+          this.lastIndType = this.lastIndDetails.li_type;
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -344,7 +364,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   zoomFunctionality(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
-    this.markerZoomMF(i);
+    this.markerZoomMF(i, 19);
     this.calculateDistanceAndTime(this.lastIndDetails, vehicleEvent.lat, vehicleEvent.long, vehicleEvent.time);
     console.log("vehicleEvent.siteId", vehicleEvent.y_site_id)
     if (vehicleEvent.y_site_id) {
@@ -373,6 +393,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   getSites() {
     if (this.map) {
+      this.common.loading++;
       let boundsx = this.map.getBounds();
       let ne = boundsx.getNorthEast(); // LatLng of the north-east corner
       let sw = boundsx.getSouthWest(); // LatLng of the south-west corder
@@ -381,7 +402,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
       let lng2 = ne.lng();
       let lng1 = sw.lng();
 
-      this.common.loading++;
       let params = {
         lat1: lat1,
         lng1: lng1,
@@ -391,14 +411,17 @@ export class ChangeVehicleStatusComponent implements OnInit {
       console.log(params);
       this.api.post('VehicleStatusChange/getSiteAndSubSite?', params)
         .subscribe(res => {
-          this.common.loading--;
           console.log(res);
-          if (this.siteMarkers.length == 0)
+          if (this.siteMarkers.length == 0) {
             this.siteMarkers = this.createMarkers(res['data'], false);
+            this.common.loading--;
+          }
           else {
             this.clearOtherMarker(this.siteMarkers);
             this.siteMarkers = this.createMarkers(res['data'], false);
+            this.common.loading--;
           }
+
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -441,32 +464,61 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
     this.api.post('SiteFencing/getSiteFences', params)
       .subscribe(res => {
-        this.common.loading--;
-        console.log(res);
-        this.Fences = res['data'];
-        console.log("Fences::", this.Fences);
-        if (!this.Fences.siteId) {
-          if (this.FencesPoly)
-            this.FencesPoly.setMap(null);
-          this.FencesPoly = null;
-          return false;
+        let data = res['data'];
+        let count = Object.keys(data).length;
+        console.log('Res: ', res['data']);
+        if (count > 0) {
+          let latLngsArray = [];
+          let mainLatLng = null;
+          for (const datax in data) {
+            if (data.hasOwnProperty(datax)) {
+              const datav = data[datax];
+              if (datax == siteId)
+                mainLatLng = datav.latLngs;
+              latLngsArray.push(datav.latLngs);
+              console.log("Multi", datax);
+            }
+          }
+          this.createPolygons(latLngsArray, mainLatLng);
         }
-        this.FencesPoly = new google.maps.Polygon({
-          paths: this.Fences.latLngs,
-          strokeColor: '#228B22',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          clickable: false,
-          fillColor: '#A7D8A2',
-          fillOpacity: 0.35
-        });
-        this.FencesPoly.setMap(this.map);
-        return true;
-
+        else {
+          console.log("Else");
+        }
+        this.common.loading--;
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+  createPolygons(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+    if (this.polygons.length > 0) {
+      this.polygons.forEach(polygon => {
+        polygon.setMap(null);
+      });
+      this.polygons = [];
+    }
+    latLngsMulti.forEach(latLngs => {
+      let colorBorder = '#228B22';
+      let colorFill = '#ADFF2F';
+      if (mainLatLngs != latLngs) {
+        colorBorder = '#550000';
+        colorFill = '#ff7f7f';
+      }
+      const defaultOptions = {
+        paths: latLngs,
+        strokeColor: colorBorder,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        clickable: false,
+        fillColor: colorFill,
+        fillOpacity: 0.35
+      };
+      this.polygons.push(new google.maps.Polygon(options || defaultOptions));
+    });
+    this.polygons.forEach(polygon => {
+      polygon.setMap(this.map);
+    });
+
   }
 
   getDate(index) {
@@ -587,46 +639,46 @@ export class ChangeVehicleStatusComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-       this.reloadData();
+        this.reloadData();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
   infowindow = null;
-  showInfoWindow(show,marker) {
+  showInfoWindow(show, marker) {
     console.log('Info:', show);
-    if(this.infowindow!=null){
+    if (this.infowindow != null) {
       this.infowindow.close();
-  }
-     
-    this. infowindow = new google.maps.InfoWindow({
+    }
+
+    this.infowindow = new google.maps.InfoWindow({
       content: show,
       size: new google.maps.Size(50, 50),
       maxWidth: 300
-  });
- 
+    });
+
     this.infowindow.open(this.map, marker);
-}
+  }
 
-closeInfoWindow(){
-  this.infowindow.close();
-}
+  closeInfoWindow() {
+    this.infowindow.close();
+  }
 
-addAutomaticHalt(){
-  console.log("VehicleStatusData",this.VehicleStatusData);
-  this.common.loading++;
-  let  params = {
-     fromTime:this.VehicleStatusData.latch_time,
-     vehicleId:this.VehicleStatusData.vehicle_id,
-     tLat:this.VehicleStatusData.tlat,
-     tLong:this.VehicleStatusData.tlong,
-     tTime:this.VehicleStatusData.ttime,
- }
+  addAutomaticHalt() {
+    console.log("VehicleStatusData", this.VehicleStatusData);
+    this.common.loading++;
+    let params = {
+      fromTime: this.VehicleStatusData.latch_time,
+      vehicleId: this.VehicleStatusData.vehicle_id,
+      tLat: this.VehicleStatusData.tlat,
+      tLong: this.VehicleStatusData.tlong,
+      tTime: this.VehicleStatusData.ttime,
+    }
 
- console.log("params=",params);
+    console.log("params=", params);
 
- this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
+    this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
       .subscribe(res => {
         this.common.loading--;
         if (res['success']) {
@@ -639,7 +691,7 @@ addAutomaticHalt(){
         this.common.loading--;
         console.log(err);
       });
- }
+  }
 }
 
 

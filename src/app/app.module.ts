@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -49,7 +49,7 @@ import { VehicleSearchComponent } from './modals/vehicle-search/vehicle-search.c
 import { OrderComponent } from './acounts-modals/order/order.component';
 import { TaxdetailComponent } from './acounts-modals/taxdetail/taxdetail.component';
 import { EditDocumentComponent } from './documents/documentation-modals/edit-document/edit-document.component';
-import {PendingDocumentComponent} from './documents/documentation-modals/pending-document/pending-document.component';
+import { PendingDocumentComponent } from './documents/documentation-modals/pending-document/pending-document.component';
 import { ErrorReportComponent } from './documents/documentation-modals/error-report/error-report.component';
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
@@ -58,15 +58,45 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { MatIconModule } from '@angular/material/icon';
+import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
+import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
+import { AddTripComponent } from './modals/add-trip/add-trip.component';
+
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ParticlularsComponent } from './modals/particlulars/particlulars.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
+import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
+import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
+import { 
+  MatFormFieldModule,
+  MatMenuModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule
+} from '@angular/material';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-filling.component';
 
+import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
+import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { HttpResponseHandlerService } from './services/http-response-handler.service';
+import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map.component';
+
+
+import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AccountService } from './services/account.service';
+import { ApiService } from './services/api.service';
+import { CommonService } from './services/common.service';
+import { UserService } from './@core/data/users.service';
+import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -109,10 +139,27 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    UpdateTicketPropertiesComponent,
+    EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
+    AddConsigneeComponent,
     ParticlularsComponent,
+    AddDriverComponent,
+    VechileTrailsComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent
+    VehiclesOnMapComponent,
+    RadioSelectionComponent,
+    
+    
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -145,6 +192,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     OrderComponent,
     TaxdetailComponent,
     EditDocumentComponent,
+    EditLorryDetailsComponent,
     PendingDocumentComponent,
     ErrorReportComponent,
     ReportIssueComponent,
@@ -155,7 +203,22 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent
+    ParticlularsComponent,
+    UpdateTicketPropertiesComponent,
+    AddConsigneeComponent,
+    AddDriverComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    AddDriverCompleteComponent,
+    UpdateSiteDetailsComponent,
+    AddConsigneeComponent,
+    AddTripComponent,
+    AddFuelFillingComponent,
+    VechileTrailsComponent,
+    AddTripComponent,
+    EditDriverComponent,
+    // VehicleDriverMappingComponent 
+    RadioSelectionComponent
   ],
   imports: [
     BrowserModule,
@@ -172,15 +235,19 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ImageViewerModule,
     MatIconModule,
     DragDropModule,
-    ImageCropperModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
+
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    {  provide:  OWL_DATE_TIME_LOCALE, useValue: 'in' },
-   
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
+    // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }

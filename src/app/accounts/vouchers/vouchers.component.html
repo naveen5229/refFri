@@ -45,13 +45,16 @@
               display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
                   <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i"
                     [(ngModel)]="amountDetail.ledger.name"
-                    (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;"
-                    (input)="getSuggestions(amountDetail.transactionType, amountDetail.ledger.name); allowBackspace = false;">
+                    (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
                 </td>
                 <td>
                   <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
-                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(); allowBackspace = false;"
+                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
                     [(ngModel)]="amountDetail.amount">
+                  <span
+                    *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
+                      Available Balance is</i>
+                    {{findBalance(i)}})</span>
                 </td>
                 <!-- <td *ngIf="i == 0">
             <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
@@ -87,6 +90,7 @@
               <input type="text" class="form-control" name="account-name" readonly [(ngModel)]="voucher.total.credit"
                 style="background: #e8f0f3">
             </div>
+
           </div>
         </div>
         <!-- Submit -->
@@ -100,7 +104,7 @@
       </div>
       <div class="col-3 ledger-container" id="ledger-container">
         <div>
-          <div *ngFor="let ledger of ledgers; let i = index;" class="ledger-option"
+          <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
             [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
             <span>{{ledger.y_ledger_name}}</span>
           </div>

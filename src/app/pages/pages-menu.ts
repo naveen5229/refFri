@@ -7,11 +7,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
     home: true,
   },
-  {
-    title: 'Vehicle KPIs',
-    icon: 'nb-tables',
-    link: '/pages/vehicle-kpis',
-  },
+  // {
+  //   title: 'Vehicle KPIs',
+  //   icon: 'nb-tables',
+  //   link: '/pages/vehicle-kpis',
+  // },
   {
     title: 'Tickets',
     icon: 'nb-notifications',
@@ -44,7 +44,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Tyre',
-    icon: ' fa-tire-flat',
+    icon: 'fa fa-cog',
     link:'/tyres/inventory'
   },
   {

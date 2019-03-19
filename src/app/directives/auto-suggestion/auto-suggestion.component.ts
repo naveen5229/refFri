@@ -18,7 +18,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() preSelected: any;
   @Input() seperator: string;
   @Input() data: any;
-  @Input() id: string;
+  @Input() inputId: string;
   @Input() name: string;
   @Input() parentForm: FormGroup;
   @Input() controlName: string;
@@ -73,6 +73,7 @@ export class AutoSuggestionComponent implements OnInit {
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
+    if (this.searchText.length < 3) return;
     let params = '?';
     console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
@@ -127,8 +128,8 @@ export class AutoSuggestionComponent implements OnInit {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
       else this.activeSuggestion = this.suggestions.length - 1;
       event.preventDefault();
-    } else if (key == 'enter') {
-      if (this.activeSuggestion == -1) {
+    } else if (key == 'enter' || key=='tab') {
+      if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {
         this.selectSuggestion(this.suggestions[0]);

@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class BranchComponent implements OnInit {
   showConfirm = false;
+  showExit=false;
   Branches = {
     name: '',
     user: {
@@ -38,6 +39,7 @@ export class BranchComponent implements OnInit {
     addressline: '',
     remarks: ''
   };
+  allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -94,6 +96,24 @@ export class BranchComponent implements OnInit {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('event',event);
+    if (event.key == "Escape") {
+      this.showExit=true;
+    }
+    if (this.showExit) {
+      if (key == 'y' || key == 'enter') {
+        this.showExit = false;
+       event.preventDefault();
+       this.activeModal.close();
+       return;
+       // this.close();
+      }else   if ( key == 'n') {
+        this.showExit = false;
+        event.preventDefault();
+        return;
+
+      }
+      
+    }
 
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
@@ -108,7 +128,7 @@ export class BranchComponent implements OnInit {
 
 
     if (key == 'enter') {
-
+      this.allowBackspace = true;
       console.log('active',activeId);
       if (activeId.includes('user')) {
         this.setFoucus('name');
@@ -148,7 +168,8 @@ export class BranchComponent implements OnInit {
         this.showConfirm = true;
        // this.setFoucus('submit');
       }
-  } else if (key == 'backspace') {
+  } else  if (key == 'backspace' && this.allowBackspace) {
+    event.preventDefault();
       if (activeId.includes('name')) {
       this.setFoucus('user');
     }else  if (activeId.includes('code')) {
@@ -185,6 +206,11 @@ export class BranchComponent implements OnInit {
       this.setFoucus('addressline');
     }
 
+  } else if (key.includes('arrow')) {
+    this.allowBackspace = false;
+  } else if (key != 'backspace') {
+    this.allowBackspace = false;
+    //event.preventDefault();
   }
 
 

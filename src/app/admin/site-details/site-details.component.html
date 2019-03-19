@@ -1,0 +1,34 @@
+<h2>SiteDetails</h2>
+<br><br>
+
+<table frame="box" style="width:100%">
+  <thead>
+  
+    
+    
+    <th><b>SiteID</b></th>
+    <th><b>SiteName</b></th> 
+    <th><b>Lat</b></th>
+    <th><b>Long</b></th>
+    <th><b>Sh_Cnt</b></th> 
+    <th><b>Action</b></th>
+    
+    </thead>
+<tbody>
+    <tr *ngFor="let site of siteDetails; let i = index">
+  <td>{{site.site_id}}</td>
+  <td>{{site.site_name}}</td>
+  <td>{{site.lat}}</td>
+    <td>{{site.lng}}</td>
+    <td>{{site.sh_cnt}}</td>
+    <td><button type="button" class="btn btn-primery" (click)="updateSiteDetail(site)">Edit Row</button></td>
+    </tr>
+</tbody>
+</table>
+ 
+  
+  
+  
+ 
+  
+ 

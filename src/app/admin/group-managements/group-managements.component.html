@@ -1,0 +1,144 @@
+<div class="model-header" style="margin-left:10px">
+  <h4 class="model-title" id="model-basic-title">Group Managements</h4>
+</div>
+<div class="model-body-1" style="border:1px Solid darkcyan; margin-top: 10px; margin-left:10px; margin-right:10px; text-align: left">
+  <div class="body-1-tile" style="margin-left:50px; margin-top: 10px">Groups</div>
+  <div class="row" style="margin-top:20px; margin-bottom:20px">
+    <div class="col-2"></div>
+    <div class="col-3" style="text-align: center">
+      <auto-suggestion (onSelected)="searchUserId($event)" url="suggestion/getFoUsersList" display="name"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-3">
+      <input type="text" class="form-control" placeholder="group name" name="groupName"
+        [(ngModel)]="addGroupDetails.groupName">
+    </div>
+    <div class="col-2"></div>
+    <button class="btn btn-primary" type="button" outline (click)="addGroup()" id="add">Add</button>
+  </div>
+</div>
+<div class="model-body-2" style="border:1px Solid darkcyan; margin-top: 10px; margin-left:10px; margin-right:10px; text-align:left">
+  <div class="body-2-tile" style="margin-left:50px; margin-top: 10px">Group Users</div>
+  <div class="row" style="margin-top:20px; margin-bottom:20px">
+    <div class="col-1"></div>
+    <div class="col-3" style="text-align: center">
+      <auto-suggestion (onSelected)="searchGroupId($event)" url="Suggestion/getFoAdminList" display="employeename"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3">
+      <auto-suggestion (onSelected)="searchGroup($event)" url="suggestion/getGroups" display="description"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-1"></div>
+    <button class="btn btn-primary" type="button" outline (click)="addUserGroup()" id="add">Add</button>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-2"></div>
+    <button class="btn-group" type="button" outline (click)="showGroups()" style="cursor: pointer; background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See Groups</button>
+    <div class="col-4"></div>
+    <button class="btn-group" type="button" outline (click)="showUsers()" style="cursor: pointer;  background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See Users</button>
+  </div>
+  <div class="row">
+    <div class="col-6" *ngIf="groupFlag">
+      <table class="table show-group">
+        <tr>
+          <th>S.No.</th>
+          <th>gId</th>
+          <th>gName</th>
+          <!-- <th>action</th> -->
+        </tr>
+        <tr *ngFor="let groupList of getUserGroups; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{groupList.gid}}</td>
+          <td>{{groupList.gname}}</td>
+          <!-- <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
+              <span aria-hidden="true">&times;</span>
+            </button></td> -->
+         
+        </tr>
+      </table>
+    </div>
+    <div class="col-6">
+      <table class="table show-users" *ngIf="userFlag">
+        <tr>
+          <th>S.No.</th>
+          <th>fId</th>
+          <th>fName</th>
+          <th>action</th>
+        </tr>
+        <tr *ngFor="let userList of getGroupUsers; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{userList.fid}}</td>
+          <td>{{userList.fname}}</td>
+          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField('groupFlag')" >
+              <span aria-hidden="true">&times;</span>
+              </button></td>
+                </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="model-body-3" style="border:1px Solid darkcyan; margin-top: 10px; margin-left:10px; margin-right:10px; text-align: left ">
+  <div class="body-3-tile" style="margin-left:50px; margin-top: 10px">Group Vehicle</div>
+  <div class="row" style="margin-top:20px; margin-bottom:20px">
+    <div class="col-1"></div>
+    <div class="col-3" style="text-align: center">
+      <auto-suggestion (onSelected)="searchVGroup($event)" url="suggestion/getGroups" display="description"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3">
+      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-1"></div>
+    <button class="btn btn-primary" type="button" outline (click)="addVehicleGroup()" id="add">Add</button>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-2"></div>
+    <button class="btn-group" type="button" outline (click)="showVehicles()" style="cursor: pointer; background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See
+      Vehicles</button>
+    <div class="col-4"></div>
+    <button class="btn-group" type="button" outline (click)="showvehicleGroups()" style="cursor: pointer; background-color: darkcyan; color: white; border: 2px solid darkgray; border-radius: 2px; font-size: 10px">See
+      Groups</button>
+  </div>
+  <div class="row">
+    <div class="col-6" *ngIf="vehicleFlag">
+      <table class="table show-group">
+        <tr>
+          <th>S.No.</th>
+          <th>vId</th>
+          <th>vRegNo.</th>
+          <th>action</th>
+        </tr>
+        <tr *ngFor="let vehicleList of getVehicles; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{vehicleList.vid}}</td>
+          <td>{{vehicleList.vregno}}</td>
+          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField('vehicleFlag')" >
+              <span aria-hidden="true">&times;</span>
+            </button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-6">
+      <table class="table show-users" *ngIf="vehicleGroupFlag">
+        <tr>
+          <th>S.No.</th>
+          <th>gId</th>
+          <th>gName</th>
+          <th>action</th>
+        </tr>
+        <tr *ngFor="let vGroupList of getVehicleGroups; let i=index;">
+          <td>{{i+1}}</td>
+          <td>{{vGroupList.gid}}</td>
+          <td>{{vGroupList.gname}}</td>
+          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
+              <span aria-hidden="true">&times;</span>
+            </button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

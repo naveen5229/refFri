@@ -9,6 +9,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./stock-subtype.component.scss']
 })
 export class StockSubtypeComponent implements OnInit {
+  showConfirm = false;
+  showExit=false;
   stockSubType = {
     user: {
       name: '',
@@ -32,6 +34,8 @@ export class StockSubtypeComponent implements OnInit {
     users: [],
     stockTypes: []
   };
+
+  allowBackspace = true;
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -99,8 +103,92 @@ export class StockSubtypeComponent implements OnInit {
     this.showSuggestions.stockType = false;
   }
 
+  onSelected(selectedData, type, display) {
+    this.stockSubType[type].name = selectedData[display];
+    this.stockSubType  [type].id = selectedData.id;
+    //console.log('Stock Unit: ', this.stockItem);
+  }
   dismiss(response) {
     console.log('Stock Type:', this.stockSubType);
     this.activeModal.close({ response: response, stockSubType: this.stockSubType });
+  }
+
+
+  
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    const activeId = document.activeElement.id;
+    console.log('Active Id', activeId);
+    if (event.key == "Escape") {
+      this.showExit=true;
+    }
+    if (this.showExit) {
+      if (key == 'y' || key == 'enter') {
+        this.showExit = false;
+       event.preventDefault();
+       this.activeModal.close();
+       return;
+       // this.close();
+      }else   if ( key == 'n') {
+        this.showExit = false;
+        event.preventDefault();
+        return;
+
+      }
+      
+    }
+      
+    if (this.showConfirm) {
+      if (key == 'y' || key == 'enter') {
+        console.log('Ledgers show stockType:', this.stockSubType);
+        this.dismiss(true);
+        this.common.showToast('Your Value Has been saved!');
+      }
+      this.showConfirm = false;
+      event.preventDefault();
+      return;
+    }
+
+    if (key == 'enter') {
+      this.allowBackspace = true;
+      // console.log('active', activeId);
+     // console.log('Active jj: ', activeId.includes('aliasname'));
+      if (activeId.includes('user')) {
+        this.setFoucus('stocktype');
+      } else if (activeId.includes('stocktype')) {
+        this.setFoucus('stock-name');
+      } else if (activeId == 'stock-name') {
+        this.setFoucus('stock-code');
+      } else if (activeId == 'stock-code') {
+       // this.setFoucus('stock-name');
+       this.showConfirm = true;
+      }
+  } else if (key == 'backspace' && this.allowBackspace) {
+    event.preventDefault();
+    console.log('active 1', activeId);
+    if (activeId == 'stock-code') this.setFoucus('stock-name');
+    if (activeId == 'stock-name') this.setFoucus('stocktype');
+    if (activeId == 'stocktype') this.setFoucus('user');
+  }  else if (key.includes('arrow')) {
+    this.allowBackspace = false;
+  } else if (key != 'backspace') {
+    this.allowBackspace = false;
+    //event.preventDefault();
+  }
+
+
+  }
+
+
+  
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }

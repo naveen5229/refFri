@@ -1,0 +1,53 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-8">
+        <h2>Fuel Average Analysis</h2>
+      </div>
+      <div class="col-sm-2">
+        <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Select Start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date" readonly>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')" placeholder="Select End Date"
+          [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div>
+      <table class="table table-bordered table-hover">
+        <thead class="thead">
+          <tr>
+            <th>#</th>
+            <th>Vehicle No</th>
+            <th>Filling Time</th>
+            <th>Last Filling Time</th>
+            <th>Location Trail</th>
+            <th>Average</th>
+            <th>Total Fuel</th>
+            <th>Total Distance</th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="fuelAvgDetails.length!=0">
+          <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index" (click)= "getDetails(fuelAvgDetail)">
+            <th scope="row" >{{i + 1}}</th>
+            <td>{{fuelAvgDetail.regno}}</td>
+            <td>{{fuelAvgDetail.current_filling_entry_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <td>{{fuelAvgDetail.last_filling_entry_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <td>{{fuelAvgDetail.location_trail}}</td>
+            <td>{{fuelAvgDetail.avg_consumption}}</td>
+            <td>{{fuelAvgDetail.total_fuel}}</td>
+            <td>{{fuelAvgDetail.distance}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+      <div class="no-data" *ngIf="fuelAvgDetails.length==0">
+        No Data available !
+    </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

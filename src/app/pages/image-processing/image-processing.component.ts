@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageCropperModule, ImageCroppedEvent } from 'ngx-image-cropper';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
@@ -11,25 +10,25 @@ import { CommonService } from '../../services/common.service';
 })
 export class ImageProcessingComponent implements OnInit {
 
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
+  // imageChangedEvent: any = '';
+  // croppedImage: any = '';
 
-  extractedText = '';
+  // extractedText = '';
 
   constructor(public api: ApiService, public common: CommonService) { }
 
   ngOnInit() {
   }
 
-  fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
+  // fileChangeEvent(event: any): void {
+  //   this.imageChangedEvent = event;
 
-  }
+  // }
 
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    console.log('Cropped Image: ', this.croppedImage);
-  }
+  // imageCropped(event: ImageCroppedEvent) {
+  //   this.croppedImage = event.base64;
+  //   console.log('Cropped Image: ', this.croppedImage);
+  // }
 
   imageLoaded() {
     // show cropper
