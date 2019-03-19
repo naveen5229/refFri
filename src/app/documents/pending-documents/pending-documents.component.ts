@@ -271,15 +271,15 @@ export class PendingDocumentsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-        this.columns = [];
-        if(this.data.length) {
-          for(var key in this.data[0]) {
-            if(key.charAt(0) != "_")
-              this.columns.push(key);
-          }
-          console.log("columns");
-          console.log(this.columns);
-        }
+        // this.columns = [];
+        // if(this.data.length) {
+        //   for(var key in this.data[0]) {
+        //     if(key.charAt(0) != "_")
+        //       this.columns.push(key);
+        //   }
+        //   console.log("columns");
+        //   console.log(this.columns);
+        // }
       }, err => {
         this.common.loading--;
         console.log(err);
