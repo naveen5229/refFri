@@ -165,10 +165,13 @@
             <div class="col">
               <div class="form-group">
                 <label>Sales Ledger</label>
-                <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
+                <!-- <auto-suggestion (onSelected)="onSelected($event, 'purchaseledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger"
                   placeholder="Enter Sales Ledger" [preSelected]="null">
-                </auto-suggestion>
+                </auto-suggestion> -->
+                <input type="text" class="form-control" id="purchaseledger" name="purchaseledger"
+                [(ngModel)]="order.purchaseledger.name"
+                (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
             </div>
           </div>
@@ -176,8 +179,10 @@
             <div class="col">
               <div class="form-group">
                 <label>Party Name</label>
-                <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
-                  display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion>
+                <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
+                  display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
+                  <input type="text" class="form-control" id="ledger" name="ledger" [(ngModel)]="order.ledger.name" require>
+              
               </div>
             </div>
             <div class="col">
