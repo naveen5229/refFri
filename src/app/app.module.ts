@@ -95,6 +95,7 @@ import { AccountService } from './services/account.service';
 import { ApiService } from './services/api.service';
 import { CommonService } from './services/common.service';
 import { UserService } from './@core/data/users.service';
+import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
@@ -156,6 +157,7 @@ import { UserService } from './@core/data/users.service';
     EditDriverComponent,
     // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
+    RadioSelectionComponent,
     
     
   ],
@@ -216,6 +218,7 @@ import { UserService } from './@core/data/users.service';
     AddTripComponent,
     EditDriverComponent,
     // VehicleDriverMappingComponent 
+    RadioSelectionComponent
   ],
   imports: [
     BrowserModule,

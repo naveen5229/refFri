@@ -11,11 +11,11 @@ import { AccountService } from './account.service';
 export class ApiService {
 
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
- URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+ //URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //  URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
-   //URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
+   URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -31,7 +31,7 @@ export class ApiService {
       console.log("foAdminId", body);
     }
 
-    // if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
 
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
@@ -46,13 +46,13 @@ export class ApiService {
       }
     }
 
-    // if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
-    //   if (subURL.includes('?')) {
-    //     subURL += '&branch=' + this.accountService.selected.branch;
-    //   } else {
-    //     subURL += '?branch=' + this.accountService.selected.branch;
-    //   }
-    // };
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
+      if (subURL.includes('?')) {
+        subURL += '&branch=' + this.accountService.selected.branch;
+      } else {
+        subURL += '?branch=' + this.accountService.selected.branch;
+      }
+    };
 
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
@@ -84,4 +84,6 @@ export class ApiService {
     console.log('Test::::');
     return headers;
   }
+
+  
 }

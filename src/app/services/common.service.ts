@@ -131,7 +131,7 @@ export class CommonService {
 
     // console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return (dat + separator + month + separator + year) + (isTime ? ' ' + this.timeFormatter(date) : '');
+      return ( year + separator + month + separator +  dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     } else {
       return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     }
