@@ -27,7 +27,7 @@
 
         <div class="status_box" style="height:300px;overflow:auto">
           <nb-card>
-            <nb-card-body (click)="allData()">
+            <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
                 <div style="background-color:grey;color: white; width: 20px;height: 20px;border-radius: 3px;">
                 </div>
@@ -38,12 +38,32 @@
               <div class="col-sm-3">
                 {{allKpis.length}}
               </div>
-             </nb-card-body>
+            </nb-card-body>
           </nb-card>
-          <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
-            <nb-card-body (click)="filterData(group.name)">
+          <div *ngIf="viewType == 'showprim_status'">
+            <nb-card *ngFor="let status of primaryStatus; let i = index;">
+              <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
-                  <div [ngStyle]="{'background-color':group.bgColor}" style="width: 20px;height: 20px;border-radius: 3px;"></div>  
+                  <div style="width: 20px;height: 20px;border-radius: 3px;"
+                    [ngStyle]="{'background-color':status.bgColor}">
+                  </div>
+                </div>
+                <div class="col-sm-8">
+                  {{status.name | titlecase}}
+                </div>
+                <div class="col-sm-3">
+                  {{status.length}}
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+          <div *ngIf="viewType !== 'showprim_status'">
+            <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
+              <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
+                <div class="col-sm-1 p-0">
+                  <div style="width: 20px;height: 20px;border-radius: 3px;"
+                    [ngStyle]="{'background-color':group.bgColor}">
+                  </div>
                 </div>
                 <div class="col-sm-8">
                   {{group.name | titlecase}}
@@ -51,8 +71,10 @@
                 <div class="col-sm-3">
                   {{kpiGroups[group.name].length}}
                 </div>
-            </nb-card-body>
-          </nb-card>
+              </nb-card-body>
+            </nb-card>
+          </div>
+
         </div>
       </div>
       <div class="col-sm-9" *ngIf="table">

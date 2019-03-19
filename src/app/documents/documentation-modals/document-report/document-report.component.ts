@@ -57,7 +57,7 @@ export class DocumentReportComponent implements OnInit {
 
   setTable() {
     let headings = {
-      docId: { title: 'Document Id', placeholder: 'Document Id' },
+      docId: { title: 'Doc Id', placeholder: 'Doc Id' },
       vehicleNumber: { title: 'vehicle Number ', placeholder: 'vehicle Number' },
       docType: { title: 'Document Type', placeholder: 'Document Type' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },

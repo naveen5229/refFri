@@ -96,6 +96,7 @@ import { ApiService } from './services/api.service';
 import { CommonService } from './services/common.service';
 import { UserService } from './@core/data/users.service';
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
+import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
@@ -158,6 +159,7 @@ import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherde
     // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
     VoucherdetailComponent,
+    RadioSelectionComponent,
     
     
   ],
@@ -219,6 +221,7 @@ import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherde
     EditDriverComponent,
     VoucherdetailComponent,
     // VehicleDriverMappingComponent 
+    RadioSelectionComponent
   ],
   imports: [
     BrowserModule,
