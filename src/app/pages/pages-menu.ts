@@ -58,19 +58,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link:'/accounts/dashboard'
   },
   {
-    title: 'drivers-attendance',
-    icon: 'fa fa-database',
-    link:'/pages/drivers-attendance'
-  },
-  {
-    title: 'Vehicle Report',
-    icon: 'fa fa-database',
-    link:'/pages/vehicle-report'
-  },
-  {
-    title: 'Trends',
-    icon: 'fa fa-database',
-    link:'/pages/trends'
-  },
-  
+    title: 'image Processing',
+    icon: 'fa fa-money',
+    link:'/pages/image-processing'
+  }
 ];
