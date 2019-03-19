@@ -16,6 +16,23 @@
                   [(ngModel)]="vehicleTrip.regno"  readonly>
               </div>
             </div> -->
+            <div class="row" style="margin-top:5px" *ngIf = "prevehicleId == -1">
+              <div class="col-md-4">
+                <label> Vehicle Regno</label>
+              </div>
+              <div class="col-md-8" style="margin-top:5px">
+                <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+              display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+              </div>
+            </div>
+            <div class="row" style="margin-top:5px" *ngIf = "prevehicleId != -1">
+              <div class="col-md-4">
+                <label> Vehicle Id</label>
+              </div>
+              <div class="col-md-8" style="margin-top:5px">
+                <label></label>
+              </div>
+            </div>
   <div class="row" style="margin-top:5px">
     <div class="col-md-4">
       <label> Start Location </label>

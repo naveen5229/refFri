@@ -207,7 +207,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   designsDefaults = [
     "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z",///Rect
-    "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"//Pin
+    "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z",//Pin
+    "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z"///Rect
   ];
   bounds = null;
   Markers = [];
@@ -219,7 +220,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[1];
+        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[2];
       let text = markers[index]["text"] ? markers[index]["text"] : index + 1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
@@ -236,7 +237,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
           fillOpacity: 1,
           scale: 1.3,
           strokeColor: pinColor,
-          strokeWeight: 2
+          strokeWeight: 2,
         };
       } else {
         if (subType == 'marker'){
@@ -276,6 +277,13 @@ export class ChangeVehicleStatusComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
+      // else {
+      //   let show = text;
+      //   marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
+      //   marker.addListener('mouseout', this.closeInfoWindow.bind(this));
+      //   marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
+
+      // }
       // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
     }
