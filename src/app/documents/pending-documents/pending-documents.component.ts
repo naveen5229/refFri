@@ -117,6 +117,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   showDetails(row) {
     // _docid
+    console.log ("Row", row);
     let rowData = {
       id: row._docid,
       vehicle_id: row.vehicle_id,

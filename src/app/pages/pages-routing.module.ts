@@ -20,7 +20,6 @@ import { TrendsComponent } from './trends/trends.component';
 import { DriversAttendanceComponent } from './drivers-attendance/drivers-attendance.component';
 // import { DocumentsComponent } from '../documents/documents.components';
 import { from } from 'rxjs';
-
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
