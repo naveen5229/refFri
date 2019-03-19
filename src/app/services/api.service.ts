@@ -14,6 +14,7 @@ export class ApiService {
   // URL: string = 'http://192.168.0.118/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://localhost/webservices/booster_webservices/';
+  // IMAGE_PROCESSING_URL = 'http://localhost:5000/';  // Local
 
   constructor(private http: HttpClient,
     public user: UserService) {
@@ -64,4 +65,12 @@ export class ApiService {
 
     return headers;
   }
+
+  // imageProcessingPost(subURL: string, body: any, options?) {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json'
+  //   });
+
+  //   return this.http.post(this.IMAGE_PROCESSING_URL + subURL, body, { headers: headers })
+  // }
 }

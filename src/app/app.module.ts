@@ -65,6 +65,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/particlulars/particlulars.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -110,7 +112,7 @@ import { ParticlularsComponent } from './modals/particlulars/particlulars.compon
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
-    ParticlularsComponent
+    ParticlularsComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -170,6 +172,7 @@ import { ParticlularsComponent } from './modals/particlulars/particlulars.compon
     ImageViewerModule,
     MatIconModule,
     DragDropModule,
+    ImageCropperModule,
     ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
