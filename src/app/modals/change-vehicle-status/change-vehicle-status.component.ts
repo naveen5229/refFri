@@ -446,7 +446,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("before substracting", this.VehicleStatusData.latch_time);
     let ltime = new Date(this.VehicleStatusData.latch_time);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
-    this.VehicleStatusData.latch_time = this.common.dateFormatter(subtractLTime);
+    this.VehicleStatusData.latch_time = this.common.dateFormatter1(subtractLTime);
     console.log("after substracting", this.VehicleStatusData.latch_time);
     this.reloadData();
   }
@@ -537,9 +537,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
   getDate(index) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
+      this.customDate = this.common.dateFormatter1(data.date).split(' ')[0];
       console.log('Date:', this.customDate);
-      this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
+      this.VehicleStatusData.latch_time = this.common.dateFormatter1(this.customDate);
       console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
       this.reloadData();
     });

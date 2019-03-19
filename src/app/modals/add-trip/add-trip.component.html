@@ -54,8 +54,7 @@
       <input [(ngModel)]="startTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="Entry Time"
         class="form-control" autocomplete="off" name="startTime">
       <owl-date-time #date1></owl-date-time>
-      <!-- <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)]="startTime" name="startTime"
-                  placeholder="Entry Time" (click)="getDate('startdate')" autocomplete="off"> -->
+     
     </div>
   </div>
 
@@ -77,11 +76,6 @@
       <label>Exit Time</label>
     </div>
     <div class="col-md-8">
-      <!-- <input [(ngModel)]="vehicleTrip.targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
-                    autocomplete="off" name="date">
-                  <owl-date-time #date></owl-date-time> -->
-      <!-- <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime" [(ngModel)]="targetTime"
-                    placeholder="End Time" autocomplete="off" (click)="getDate('enddate')"> -->
       <input [(ngModel)]="targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="End Time"
         class="form-control" autocomplete="off" name="targetTime">
       <owl-date-time #date></owl-date-time>
