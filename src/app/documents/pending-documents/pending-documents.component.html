@@ -18,7 +18,7 @@
           <thead class="thead">
 
             <tr>
-              <th>SrNo</th>
+              <th >SrNo</th>
               <th *ngFor="let col of columns" class="text-center">
                 {{formatTitle(col)}}
               </th>
@@ -35,7 +35,7 @@
                   <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
            
                 </td>
-                  <td class="col-sm-5">
+                  <td class="col-sm-5" style="max-width:20px;">
                     <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i
                         class="icon ion-md-create"></i></a>&nbsp;
                     <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i

@@ -16,7 +16,7 @@ export class ChangeHistoryComponent implements OnInit {
   documentTypeId = null;
   docTypes = [];
   data = [];
-  //table = null;
+  
   table = {
     data: {
       headings: { },
@@ -35,7 +35,6 @@ export class ChangeHistoryComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-      //this.headings.length;
 
     this.common.refresh = this.refresh.bind(this);
   }
@@ -88,7 +87,6 @@ export class ChangeHistoryComponent implements OnInit {
         this.common.loading--;
         this.data = res['data'];        
         let first_rec = this.data[0];
-        this.table.data.headings = {};
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
@@ -108,23 +106,9 @@ export class ChangeHistoryComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  setTable() {
-    let headings = {};
-    let columns ={};
-    return {
-      data: {
-        headings: this.headings,
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true
-      }
-    }
-  }
 
   getTableColumns() {
     let columns = [];
-   
     console.log("Data=",this.data);
     this.data.map(doc => {
       for(let i = 0; i < this.headings.length; i++) {
@@ -146,10 +130,8 @@ export class ChangeHistoryComponent implements OnInit {
         // userId: { value: doc.UserID },
         // entryMode: { value: doc.EntryMode },
         // status: { value: doc.Status },
-
       columns.push(this.valobj);
     });
     return columns;
   }
-
 }
