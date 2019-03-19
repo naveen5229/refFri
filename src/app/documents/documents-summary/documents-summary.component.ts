@@ -86,6 +86,25 @@ export class DocumentsSummaryComponent implements OnInit {
     }
   }
   
+  showAllRecords() {
+    this.resetRowsVisibility();
+    this.resetSerialNo();
+  }
+
+  resetSerialNo() {
+    let tblelt = document.getElementById('tbldocs');
+    var rows=tblelt.querySelectorAll('tr');
+    if(rows.length > 1) {
+      let ctr = 1;
+      for(var i=1; i<rows.length; i++) {
+        if(!rows[i].classList.contains('cls-hide')) {
+          rows[i].cells[0].innerHTML = "" + ctr;
+          ctr++;
+        }
+      }
+    }
+  }
+
   filterRows(status) {
     console.log("checking for status:" + status);
     this.resetRowsVisibility();
@@ -100,7 +119,7 @@ export class DocumentsSummaryComponent implements OnInit {
         if(classlst.length) {
           let flag = 0;
           if(classlst.length == 1 && classlst[0] != ("" + status)) {
-            rows[i].classList.add('cls-hide');
+            rows[i].classList.add('cls-hide');            
           } else {
             for(var j=0; j< classlst.length; j++) {
               if(classlst[j].indexOf('--') > -1) {
@@ -124,6 +143,7 @@ export class DocumentsSummaryComponent implements OnInit {
         }
       }
     }
+    this.resetSerialNo();
   }
 
   getDocClasses(row) {
