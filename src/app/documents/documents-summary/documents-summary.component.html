@@ -19,7 +19,7 @@
                     <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)" > Other <span>({{statusrow.total}})</span>
                   </span>
                 </td>
-                <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="resetRowsVisibility()">Show All</td>
+                <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="showAllRecords()">Show All</td>
               </tr>
             </table>          
         </div>
@@ -29,7 +29,7 @@
         <table class="table table-bordered table-hover table-scroll" id="tbldocs">
           <thead class="thead">
             <tr>
-              <th>SrNo</th>
+              <th style='width: 40px;'>SN</th>
               <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
             </tr>
           </thead>
@@ -38,7 +38,7 @@
             <ng-container *ngIf="total_recs">
               <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
 
-                <td> <span>{{i + 1}}</span></td>
+                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
         
                 <td *ngFor="let col of columns; " class="text-center">
                    
