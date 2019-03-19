@@ -33,12 +33,7 @@
                   <td style="width:5%;">{{i + 1}}</td>
                   <td *ngFor="let col of columns">
                   <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
-                  <!-- <span class="col-sm-1" style="width: 15%;">{{row[col]}}</span>
-                  <span class="col-sm-1" style="width: 15%;">{{row[col]}}</span>
-                  <span class="col-sm-1" style="width:15%;">{{row[col]}}</span>
-                  <span class="col-sm-1" style="width:15%;">{{row[col]}}</span>
-                  <span class="col-sm-1" style="min-width: 100px;">{{row[col] | date: 'dd-MMM-yyyy hh:mm a'}}</span>
-                  <span class="col-sm-1" style="width: 15%;">{{row[col]}}</span> -->
+           
                 </td>
                   <td class="col-sm-5">
                     <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i
@@ -103,10 +98,11 @@
 
               <div class="col-sm-8 " *ngIf="!modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
-
+               
               </div>
               <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
+                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.first.data.document.review > 0">Review :{{modal.first.data.document.review}}</label>
                 <span *ngIf="modal.first.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.first.data.document.rcImage}}" title="View Document">RC Image</a>
                 </span>
@@ -252,7 +248,7 @@
               </div>
 
               <div class="col-6">
-                <button class="btn btn-default" type="button" (click)="updateDocument('first', 1)" id="advance"
+                <button class="btn btn-primary" type="button" (click)="updateDocument('first', 1)" id="advance"
                   style="cursor: pointer;">Advance Review</button>
               </div>
 
@@ -310,6 +306,7 @@
 
               <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                 <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
+                <label style="font-size:16px;  margin-left: 5%;" *ngIf="modal.second.data.document.review > 0">Review :{{modal.second.data.document.review}}</label>
 
                 <span *ngIf="modal.second.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.second.data.document.rcImage}}" title="View Document">RC Image</a>
@@ -458,7 +455,7 @@
               </div>
 
               <div class="col-6 text-center">
-                <button class="btn btn-default" type="button" (click)="updateDocument('second', 1)" id="advance"
+                <button class="btn btn-primary" type="button" (click)="updateDocument('second', 1)" id="advance"
                   style="cursor: pointer;">Advance Review</button>
               </div>
 

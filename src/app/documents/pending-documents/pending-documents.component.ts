@@ -52,6 +52,7 @@ export class PendingDocumentsComponent implements OnInit {
     this.getAllTypesOfDocuments();
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
+    this.listtype;
   }
 
   ngOnInit() {
@@ -82,7 +83,8 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log(err);
         });
-    } else {
+    } 
+    else {
       this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
         .subscribe(res => {
           this.common.loading--;
@@ -199,6 +201,7 @@ export class PendingDocumentsComponent implements OnInit {
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
         this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
         this.modal[modal].data.document.remarks = res["data"][0].remarks;
+        this.modal[modal].data.document.review = res["data"][0].reviewcount;
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
@@ -267,7 +270,15 @@ export class PendingDocumentsComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
-   
+        this.columns = [];
+        if(this.data.length) {
+          for(var key in this.data[0]) {
+            if(key.charAt(0) != "_")
+              this.columns.push(key);
+          }
+          console.log("columns");
+          console.log(this.columns);
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
