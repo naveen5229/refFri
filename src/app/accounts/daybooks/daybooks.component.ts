@@ -12,7 +12,7 @@ import {VoucherdetailComponent}from '../../acounts-modals/voucherdetail/voucherd
   styleUrls: ['./daybooks.component.scss']
 })
 export class DaybooksComponent implements OnInit {
-
+  selectedName='';
   DayBook = {
     enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
@@ -147,7 +147,7 @@ export class DaybooksComponent implements OnInit {
         dayData.y_code = ' ';
         dayData.y_date = 0;
       }else{
-        yCodes.push(dayData.y_code);
+       
         //yCodes.push(dayData.y_date);
 
        // dataItem.y_date | date : 'dd MMM yyyy'
@@ -160,7 +160,7 @@ export class DaybooksComponent implements OnInit {
 console.log('vouher id',voucherId);
 this.common.params = voucherId;
 
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false });
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false});
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
@@ -174,5 +174,10 @@ this.common.params = voucherId;
       }
     });
   }
+
+  RowSelected(u:any){
+    console.log('data of u',u);
+   this.selectedName=u;   // declare variable in component.
+    }
 
 }

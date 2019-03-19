@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from '../../@core/data/users.service';
 
 @Component({
   selector: 'voucherdetail',
@@ -11,10 +10,10 @@ import { UserService } from '../../@core/data/users.service';
 })
 export class VoucherdetailComponent implements OnInit {
   Detail =[];
-  constructor(public api: ApiService,
+  constructor(
+    private activeModal: NgbActiveModal,
     public common: CommonService,
-    public user: UserService,
-    public modalService: NgbModal) {
+    public api: ApiService) {
     this.getDayBookDetailList();
   }
   ngOnInit() {
@@ -37,4 +36,9 @@ export class VoucherdetailComponent implements OnInit {
    this.common.showError();
  });
   }
+  dismiss(response) {
+    //console.log('Accounts:', this.Branches);
+    this.activeModal.close({ response: response,test:this.Detail});
+  }
+
 }

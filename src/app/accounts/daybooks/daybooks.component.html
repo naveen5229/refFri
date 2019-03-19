@@ -87,14 +87,14 @@
       <th>Amount(Credit)</th>
       
     </tr>
-    <tr  *ngFor=" let dataItem of filterData(DayData);">
+    <tr  *ngFor=" let dataItem of filterData(DayData);" (click)="RowSelected(dataItem.y_voucherid);" (dblclick)="getBookDetail(dataItem.y_voucherid)"  (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass] = "{'highlight' : dataItem.y_voucherid == selectedName}">
         <td>{{dataItem.y_particulars}}</td>
         <td>{{dataItem.y_type}}</td>
-        <td  (click)="getBookDetail(dataItem.y_voucherid)">{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+        <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
         <td>{{dataItem.y_dramunt}}</td>
         <td>{{dataItem.y_cramunt}}</td>
     
-      
+
     </tr>
 </table>
 </nb-card-body>
