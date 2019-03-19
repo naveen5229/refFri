@@ -19,24 +19,46 @@
                 <option value="2">Month</option>
               </select>
           </div>  
-          <div class="col-sm-3" *ngIf="period==1">
+          <div class="col-sm-3" *ngIf="period==1 || period==2">
+            <select [(ngModel)]="week_month_number" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+        </div>
+        <!-- <div class="col-sm-3" *ngIf="period==2">
+          <select [(ngModel)]="month_number" class="form-control" (change)="changeWeekValue()" style=" border: 2px solid darkcyan; font-size: 10px">
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+      </div> -->
+          <!-- <div class="col-sm-3" *ngIf="period==1">
             <input type="text" class="form-control" [(ngModel)]="week_number" name="weekNo." placeholder="Number of Week"> 
           </div> 
           <div class="col-sm-3" *ngIf="period==2">
             <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
-          </div> 
+          </div>  -->
         <div class="col-sm-2" *ngIf="period==0">
             <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
         </div>
         <div class="col-sm-2" *ngIf="period==0">
             <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date" placeholder="End Date" (click)="getDate('end')">
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" *ngIf="period==0">
           <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
         </div>
       </div>
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
-      <div class="row" *ngIf="showtrend">
+      <div class="row">
         <div class="col-sm-1" style="padding-top:50px">
             <label>{{yScale}}</label>
         </div>    
@@ -155,7 +177,6 @@
                
               </tbody> 
             </table>  
-
           </div>
       </div>
     </div>

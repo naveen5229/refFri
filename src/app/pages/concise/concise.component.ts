@@ -15,6 +15,7 @@ import { log } from 'util';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 import { componentRefresh } from '@angular/core/src/render3/instructions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VehiclesOnMapComponent } from '../../modals/vehicles-on-map/vehicles-on-map.component';
 
 @Component({
   selector: 'concise',
@@ -425,6 +426,18 @@ export class ConciseComponent implements OnInit {
       }
     }
   }
+   
+  // openVehicleOnMapModel(){
+
+  //   const activeModel=this.modalService.open(VehiclesOnMapComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+  //   this.common.handleModalSize('class', 'modal-lg', '1000');
+  //   activeModel.result.then(data =>{
+  //    if(!data.status){
+                
+  //    }        
+  //   });
+
+ // }
 
 }
 

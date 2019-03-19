@@ -92,6 +92,9 @@ import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -211,6 +214,7 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     VechileTrailsComponent,
     AddTripComponent,
     EditDriverComponent,
+    VehiclesOnMapComponent
     // VehicleDriverMappingComponent 
   ],
   imports: [
@@ -230,7 +234,11 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
+      libraries: ['drawing']
+    })
   ],
 
   bootstrap: [AppComponent],
