@@ -127,9 +127,10 @@ export class ChangeHistoryComponent implements OnInit {
    
     console.log("Data=",this.data);
     this.data.map(doc => {
+      this.valobj = {};
       for(let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:",doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};        
       }
 
       // let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
