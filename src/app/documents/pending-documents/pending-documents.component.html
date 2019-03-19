@@ -1,8 +1,8 @@
 <nb-card style="margin-left: 30px;">
   <nb-card-header>
     Pending Vehicle Documents
-  </nb-card-header>
 
+  </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
       <div class="row">
@@ -16,31 +16,32 @@
 
         <table class="table table-bordered table-hover table-scroll">
           <thead class="thead">
+
             <tr>
               <th>SrNo</th>
               <th *ngFor="let col of columns" class="text-center">
                 {{formatTitle(col)}}
               </th>
-              <th style="min-width:160px; text-align: center;">Action</th>
+              <th style="width:120px; text-align: center;">Action</th>
             </tr>
           </thead>
 
           <tbody class="">
             <ng-container *ngIf="data != 'undefined'">
               <tr *ngFor="let row of data; let i = index" class="">
-
-                <td style="width:5%;">{{i + 1}}</td>
-                <td *ngFor="let col of columns">
+               
+                  <td style="width:5%;">{{i + 1}}</td>
+                  <td *ngFor="let col of columns">
                   <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
-
+           
                 </td>
-                <td class="col-sm-5" style="max-width:20px;">
-                  <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i
-                      class="icon ion-md-create"></i></a>&nbsp;
-                  <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i
-                      class="fa fa-trash"></i></a>
-                </td>
-
+                  <td class="" style="width: 120px;">
+                    <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i
+                        class="icon ion-md-create"></i></a>&nbsp;
+                    <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i
+                        class="fa fa-trash"></i></a>
+                    </td>
+                
               </tr>
             </ng-container>
           </tbody>
@@ -49,6 +50,8 @@
 
       <div class="row">
         <h6>Work List</h6>
+
+
         <table class="table table-bordered table-hover table-scroll">
           <thead class="thead">
             <tr>
@@ -62,17 +65,19 @@
               <tr *ngFor="let row of userdata; let i = index">
                 <td style="width:5%;">{{i + 1}}</td>
                 <td *ngFor="let col of columns2">
-                  <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
-                </td>
+                <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
+              </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
       </div>
 
+
     </div>
   </nb-card-body>
 </nb-card>
+
 
 <!-- Modal First-->
 <div class="custom-modal-1" *ngIf="modal.first.show" [ngClass]="modal.first.class">
@@ -90,19 +95,21 @@
 
             <div class="row form-field clear">
               <label for="document_id-first" class="col-sm-4 mgn-vert">Document ID</label>
+
               <div class="col-sm-8 " *ngIf="!modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
+               
               </div>
               <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
-                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.first.data.document.review > 0">Review
-                  :{{modal.first.data.document.review}}</label>
+                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.first.data.document.review > 0">Review :{{modal.first.data.document.review}}</label>
                 <span *ngIf="modal.first.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.first.data.document.rcImage}}" title="View Document">RC Image</a>
                 </span>
               </div>
-            </div>
 
+
+            </div>
             <div class="row form-field clear">
               <label for="veh_no-first" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
@@ -119,7 +126,6 @@
                     (keyup)="isValidVehicle($event)"></auto-suggestion> -->
               </div>
             </div>
-            
             <div class="row form-field clear">
               <label for="doc_type-first" class="col-sm-4 mgn-vert">Document Type<span
                   class="mandatory">*</span></label>
@@ -300,8 +306,7 @@
 
               <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                 <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
-                <label style="font-size:16px;  margin-left: 5%;" *ngIf="modal.second.data.document.review > 0">Review
-                  :{{modal.second.data.document.review}}</label>
+                <label style="font-size:16px;  margin-left: 5%;" *ngIf="modal.second.data.document.review > 0">Review :{{modal.second.data.document.review}}</label>
 
                 <span *ngIf="modal.second.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.second.data.document.rcImage}}" title="View Document">RC Image</a>
