@@ -499,6 +499,7 @@ export class ConciseComponent implements OnInit {
     });
 
     options[0].name += ' : ' + options[0].kpis.length;
+    console.log("options",options);
     this.common.params = { options };
     const modal = this.modalService.open(RadioSelectionComponent, { size: 'sm' });
     modal.result.then(data => {

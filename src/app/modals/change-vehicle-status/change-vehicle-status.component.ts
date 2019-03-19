@@ -219,7 +219,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
+        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[1];
       let text = markers[index]["text"] ? markers[index]["text"] : index + 1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
@@ -239,8 +239,11 @@ export class ChangeVehicleStatusComponent implements OnInit {
           strokeWeight: 2
         };
       } else {
-        if (subType == 'marker')
+        if (subType == 'marker'){
           pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
+          console.log("Pin Image:",pinImage);
+          
+        }
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
@@ -262,6 +265,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (changeBounds)
         this.setBounds(latlng);
       thisMarkers.push(marker);
+      console.log("ThisMarker: ",thisMarkers);
+      
       this.Markers.push(marker);
 
       if (markers[index]["type"] == "site") {
