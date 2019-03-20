@@ -208,7 +208,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   designsDefaults = [
     "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z",///Rect
     "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z",//Pin
-    "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z"///Rect
+    "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"///Rect
   ];
   bounds = null;
   Markers = [];
