@@ -3,25 +3,26 @@
     <h2>Vehicle Documents Dashboard</h2>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
-    <div class="container">
+    <div class="document-dash-contnet">
       <div class="row col-sm-12 pdg-ltrt-none">
         <div class="col-sm-12">
             <table class="table table-bordered table-hover">
-              <tr>
-                <td *ngFor="let statusrow of this.data.summary; ">
-                  <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"></i><input type='radio' name='rdostatus' value='0' (click)="filterRows(statusrow.status)" > No Record <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio' name='rdostatus' value='1' (click)="filterRows(statusrow.status)" > No Image/Upload <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 2"><i class="fa fa-check i-red"></i><input type='radio' name='rdostatus' value='2' (click)="filterRows(statusrow.status)" > Expired <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 3"><i class="fa fa-check i-black"></i><input type='radio' name='rdostatus' value='3' (click)="filterRows(statusrow.status)" > Unverified <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio' name='rdostatus' value='4' (click)="filterRows(statusrow.status)" > Normal  <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio' name='rdostatus' value='5' (click)="filterRows(statusrow.status)" > Near Expiring  <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 5)">
-                    <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)" > Other <span>({{statusrow.total}})</span>
-                  </span>
-                </td>
-                <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="showAllRecords()">Show All</td>
-              </tr>
-            </table>          
+                <tr>
+                  <td *ngFor="let statusrow of this.data.summary; ">
+                    <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"></i><input type='radio' name='rdostatus' value='0' (click)="filterRows(statusrow.status)" > No Record <span>({{statusrow.total}})</span></span>
+                    <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio' name='rdostatus' value='1' (click)="filterRows(statusrow.status)" > No Image/Upload <span>({{statusrow.total}})</span></span>
+                    <span *ngIf="statusrow.status == 2"><i class="fa fa-check i-red"></i><input type='radio' name='rdostatus' value='2' (click)="filterRows(statusrow.status)" > Expired <span>({{statusrow.total}})</span></span>
+                    <span *ngIf="statusrow.status == 3"><i class="fa fa-check i-black"></i><input type='radio' name='rdostatus' value='3' (click)="filterRows(statusrow.status)" > Unverified <span>({{statusrow.total}})</span></span>
+                    <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio' name='rdostatus' value='4' (click)="filterRows(statusrow.status)" > Normal  <span>({{statusrow.total}})</span></span>
+                    <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio' name='rdostatus' value='5' (click)="filterRows(statusrow.status)" > Near Expiring  <span>({{statusrow.total}})</span></span>
+                    <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 5)">
+                      <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)" > Other <span>({{statusrow.total}})</span>
+                    </span>
+                  </td>
+                  <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="showAllRecords()">Show All</td>
+                </tr>
+              </table>          
+
         </div>
       </div>
 

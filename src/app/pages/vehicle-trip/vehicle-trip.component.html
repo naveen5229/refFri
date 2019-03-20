@@ -2,6 +2,7 @@
     <nb-card-header>
       <div class="row">
         <div class="col-sm-10"><h2>Vehicle Trips</h2></div>
+        <button class="btn" (click)="openAddTripModal()">Add Trip</button>
       </div>
     </nb-card-header>
     <nb-card-body>
@@ -11,20 +12,20 @@
             <tr>
               <th>#</th>
               <th>Vehicle No</th>
-              <th>Start Date</th>
               <th>Start Name</th>
-              <th>End Date</th>
+              <th>Start Date</th>
               <th>End Name</th>
+              <th>End Date</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let vehicleTrip of vehicleTrips; let i = index" (click)="getUpadte(vehicleTrip)">
               <th scope="row" >{{i + 1}}</th>
               <td>{{vehicleTrip.regno}}</td>
-              <td>{{vehicleTrip.startTime | date : 'dd MMM hh:mm a'}}</td>
-              <td>{{vehicleTrip.startName}}</td>           
-              <td>{{vehicleTrip.endTime | date : 'dd MMM hh:mm a'}}</td>
-              <td>{{vehicleTrip.endName}}</td>
+              <td>{{vehicleTrip.start_name}}</td> 
+              <td>{{vehicleTrip.start_time | date : 'dd MMM hh:mm a'}}</td>
+              <td>{{vehicleTrip.end_name}}</td>
+              <td>{{vehicleTrip.end_time | date : 'dd MMM hh:mm a'}}</td>
             </tr>
         </table>
   

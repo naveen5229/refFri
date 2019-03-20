@@ -1,0 +1,77 @@
+.center { text-align: center;}
+.icon-img { width: 20px; height: 20px; border-radius: 50%; }
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-scroll tbody {
+    max-height: 600px;
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-scroll tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-scroll td {
+    height: 47px; // needed in order to keep rows from collapsing
+}
+.icon-black {
+    color: black; font-size: 24px; cursor:pointer;
+}
+.icon-red {
+    color: red; font-size: 24px; cursor:pointer;
+}
+.icon-green {
+    color: green; font-size: 24px; cursor:pointer;
+}
+.icon-yellow {
+    color: yellow; font-size: 24px; cursor:pointer;
+}
+.icon-red-cross {
+    color: red; font-size: 24px; cursor:arrow;
+}
+.i-black {
+    color: black; font-size: 24px; 
+}
+.i-red {
+    color: red; font-size: 24px;
+}
+.i-green {
+    color: green; font-size: 24px;
+}
+.i-red-cross {
+    color: red; font-size: 24px;
+}
+.btn-all { padding-top: 13px;}
+span.mgn-lt { margin-left: 15px;}
+.pdg-ltrt-none { padding-left: 0; padding-right: 0;}
+.idx-fld { width: 40px; }
+.cls-hide { display: none !important;}
+.description{
+    width: 95% !important;
+    margin: 0% !important;
+}
+#tbldocs {
+    counter-reset: rowNumber;
+}
+
+table#tbldocs tbody tr {
+    counter-increment: rowNumber;
+}
+
+table#tbldocs tbody tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 0.5em;
+    margin-right: 2px;
+}
+table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
+    width: 130px;
+}
