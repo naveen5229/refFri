@@ -23,6 +23,7 @@ export class AddDocumentComponent implements OnInit {
   updateimage = 0;
   docId= null;
   vehicleid= null;
+  docTypeid = null;
   docType = null;
 
   document = {
@@ -70,7 +71,8 @@ export class AddDocumentComponent implements OnInit {
       this.updateimage = 1;
       this.docId = this.common.params.row.id;
       this.vehicleid = this.common.params.row.vehicle_id;
-      this.docType = this.common.params.row.document_type_id;
+      this.docType = this.common.params.row.document_type;
+      this.docTypeid = this.common.params.row.document_type_id;
     }
 
     if (this.document.dates.issue)
@@ -191,6 +193,7 @@ export class AddDocumentComponent implements OnInit {
       x_entryby: this.user._details.id,
       x_document_id: this.docId,
       x_vehicle_id: this.vehicleid,
+      x_document_type_id: this.docTypeid,
       x_document_type : this.docType,
       x_base64img: this.document.image1,
       x_base64img2: this.document.image2,
