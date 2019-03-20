@@ -19,6 +19,11 @@ export class AddDocumentComponent implements OnInit {
   btn2 = '';
   vehicleId = '';
   spnexpdt = 0;
+// for report model
+  updateimage = 0;
+  docId= null;
+  vehicleid= null;
+  docType = null;
 
   document = {
     image1: null,
@@ -61,6 +66,12 @@ export class AddDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
 
     this.vehicleId = this.common.params.vehicleId;
+    if (this.common.params.row) {
+      this.updateimage = 1;
+      this.docId = this.common.params.row.id;
+      this.vehicleid = this.common.params.row.vehicle_id;
+      this.docType = this.common.params.row.document_type_id;
+    }
 
     if (this.document.dates.issue)
       this.document.dates.issue = this.common.dateFormatter(this.document.dates.issue, 'ddMMYYYY').split(' ')[0];
@@ -159,69 +170,37 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
+    if (this.updateimage == 0) {
+      console.log("hii");
+      const params = {
+        x_entryby: this.user._details.id,
+        x_vehicle_id: this.vehicle.id,
+        x_document_type_id: this.document.type.id,
+        x_document_type: this.findDocumentType(this.document.type.id),
+        // x_issue_date: this.document.dates.issue,
+        // x_wef_date: this.document.dates.wef,
+        // x_expiry_date: this.document.dates.expiry,
+        x_base64img: this.document.image1,
+        x_base64img2: this.document.image2,
+        x_base64img3: this.document.image3,
+      };
+      console.log("params",params);
+    }
+   
     const params = {
       x_entryby: this.user._details.id,
-      x_vehicle_id: this.vehicle.id,
-      x_document_type_id: this.document.type.id,
-      x_document_type: this.findDocumentType(this.document.type.id),
-      // x_issue_date: this.document.dates.issue,
-      // x_wef_date: this.document.dates.wef,
-      // x_expiry_date: this.document.dates.expiry,
+      x_document_id: this.docId,
+      x_vehicle_id: this.vehicleid,
+      x_document_type : this.docType,
       x_base64img: this.document.image1,
       x_base64img2: this.document.image2,
       x_base64img3: this.document.image3,
+
     };
-   
 
-
-    // let issuedt_valid = 1;
-    // let wefdt_valid = 1;
-    // if (this.document.dates.issue != "undefined" && this.document.dates.expiry != "undefined") {
-    //   if (this.document.dates.issue && this.document.dates.expiry)
-    //     issuedt_valid = this.checkExpiryDateValidityByValue(this.document.dates.issue, this.document.dates.expiry);
+    // if (!this.document.type.id) {
+    //   return this.common.showError("Select Document Type");
     // }
-    // if (this.document.dates.wef != "undefined" && this.document.dates.expiry != "undefined") {
-    //   if (this.document.dates.wef && this.document.dates.expiry)
-    //     wefdt_valid = this.checkExpiryDateValidityByValue(this.document.dates.wef, this.document.dates.expiry);
-    // }
-    // if (issuedt_valid && wefdt_valid) {
-    //   this.spnexpdt = 0;
-    // } else {
-    //   this.spnexpdt = 1;
-    // }
-
-    // if (this.spnexpdt) {
-    //   this.common.showError("Please check the Expiry Date validity");
-    //   return false;
-    // }
-
-    // if (this.document.dates.issue) {
-    //   params.x_issue_date = this.document.dates.issue.split("/").reverse().join("-");
-    //   let strdt = new Date(params.x_issue_date);
-    //   if (isNaN(strdt.getTime())) {
-    //     this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
-    //     return false;
-    //   }
-    // }
-    // if (this.document.dates.wef) {
-    //   params.x_wef_date = this.document.dates.wef.split("/").reverse().join("-");
-    //   let strdt = new Date(params.x_wef_date);
-    //   if (isNaN(strdt.getTime())) {
-    //     this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
-    //     return false;
-    //   }
-    // }
-    // if (this.document.dates.expiry) {
-    //   params.x_expiry_date = this.document.dates.expiry.split("/").reverse().join("-");
-    //   let strdt = new Date(params.x_expiry_date);
-    //   if (isNaN(strdt.getTime())) {
-    //     this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
-    //     return false;
-    //   }
-    // }
-     if (!this.document.type.id) {
-      return this.common.showError("Select Document Type");
-    }
     if (!this.document.image1) {
       return this.common.showError("Select Document Image/File");
     }
@@ -230,7 +209,7 @@ export class AddDocumentComponent implements OnInit {
     this.api.post('Vehicles/addVehicleDocumentWeb', params)
       .subscribe(res => {
         this.common.loading--;
-         console.log("api result", res);
+        console.log("api result", res);
         let result = res["msg"];
         if (result == "success") {
           this.common.showToast("Success");
@@ -287,7 +266,7 @@ export class AddDocumentComponent implements OnInit {
     console.log("doc var", this.document.type.id);
   }
 
-  checkDateFormat(dateType){
+  checkDateFormat(dateType) {
     let dateValue = this.document.dates[dateType];
     if (dateValue.length < 8) return;
     let date = dateValue[0] + dateValue[1];

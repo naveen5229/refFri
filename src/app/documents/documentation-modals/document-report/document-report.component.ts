@@ -112,7 +112,7 @@ export class DocumentReportComponent implements OnInit {
         rto: { value: doc.rto },
         amount: { value: doc.amount },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc), class: 'image text-center' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
       };
       columns.push(column);
@@ -120,8 +120,15 @@ export class DocumentReportComponent implements OnInit {
     return columns;
   }
   add(row){
+    console.log("row Data:",row);
     this.common.params = { row, title: 'Upload Image' };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+          if (data.response) {
+            this.closeModal(true);
+            this.getReport();
+          }
+        });
   }
     
   
