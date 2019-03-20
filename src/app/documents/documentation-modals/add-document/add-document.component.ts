@@ -172,8 +172,6 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
-    if (this.updateimage == 0) {
-      console.log("hii");
       const params = {
         x_entryby: this.user._details.id,
         x_vehicle_id: this.vehicle.id,
@@ -186,20 +184,19 @@ export class AddDocumentComponent implements OnInit {
         x_base64img2: this.document.image2,
         x_base64img3: this.document.image3,
       };
-      console.log("params",params);
-    }
+    
    
-    const params = {
-      x_entryby: this.user._details.id,
-      x_document_id: this.docId,
-      x_vehicle_id: this.vehicleid,
-      x_document_type_id: this.docTypeid,
-      x_document_type : this.docType,
-      x_base64img: this.document.image1,
-      x_base64img2: this.document.image2,
-      x_base64img3: this.document.image3,
+    // const params = {
+    //   x_entryby: this.user._details.id,
+    //   x_document_id: this.docId,
+    //   x_vehicle_id: this.vehicleid,
+    //   x_document_type_id: this.docTypeid,
+    //   x_document_type : this.docType,
+    //   x_base64img: this.document.image1,
+    //   x_base64img2: this.document.image2,
+    //   x_base64img3: this.document.image3,
 
-    };
+    // };
 
     // if (!this.document.type.id) {
     //   return this.common.showError("Select Document Type");
