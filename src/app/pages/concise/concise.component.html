@@ -56,11 +56,11 @@
                 </div>
                 
               </nb-card-body>
-              <div class="select_option ">
+              <div class="select_option" *ngIf="activePrimaryStatus == status.name">
                 <ul>
-                  <li><span></span> All : 102</li>
-                  <li><span></span> 12 Hr + :24</li>
-                  <li><span></span> Undetected : 78</li>
+                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)"><span></span> {{option.name}}</li>
+                  <!-- <li><span></span> 12 Hr + :24</li> -->
+                  <!-- <li><span></span> Undetected : 78</li> -->
                 </ul>
               </div>
             </nb-card>
