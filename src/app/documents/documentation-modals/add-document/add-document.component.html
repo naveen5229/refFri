@@ -16,8 +16,8 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row" *ngIf="updateimage==0">
+      <div class="col-md-4" >
         <label>Document Type <span class="mandatory">*</span></label>
       </div>
       <div class="col-md-8">
@@ -28,66 +28,16 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="row">
-      <div class="col-md-4">
-        <label>Issue Date</label>
-      </div>
-      <div class="col-md-7">
-        <input id="issue-date" name="issue-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
-          class="form-control date" [(ngModel)]="document.dates.issue" [value]="document.dates.issue"
-          (blur)="checkExpiryDateValidity()"  (focusout)="checkDateFormat('issue')" />
-      </div>
-      <div class="col-md-1 calender">
-        <i class="icon fa fa-calendar" (click)="getDate('issue')"></i>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <label>Wef Date</label>
-      </div>
-      <div class="col-md-7">
-        <input id="wef-date" name="wef-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.wef" (focusout)="checkDateFormat('wef')" (blur)="checkExpiryDateValidity()">
-      </div>
-      <div class="col-md-1 calender">
-        <i class="icon fa fa-calendar" (click)="getDate('wef')"></i>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <label>Expiry Date</label>
-      </div>
-      <div class="col-md-7">
-        <input id="expiry-date" name="expiry-date" type="text" placeholder="DD/MM/YYYY" autocomplete="off"
-          class="form-control" [(ngModel)]="document.dates.expiry" (focusout)="checkDateFormat('expiry')" (blur)="checkExpiryDateValidity()">
-      </div>
-      <div class="col-md-1 calender">
-        <i class="icon fa fa-calendar" (click)="getDate('expiry')"></i>
-      </div>
-    </div> -->
-
     <div class="row">
       <div class="col-md-4">
         <label>Document Upload </label>
       </div>
-      <div class="col-md-8 ">
+      <div class="col-md-8 upload_img_btn ">
         <input type="file" name="myfile1" id="filePicker1" (change)="handleFileSelection($event,1)" />
         <input type="file" name="myfile2" id="filePicker2" (change)="handleFileSelection($event,2)" />
         <input type="file" name="myfile3" id="filePicker3" (change)="handleFileSelection($event,3)" />
       </div>
     </div>
-<!-- 
-    <div class="row">
-      <div class="col-md-4">
-        <label>Remark </label>
-      </div>
-      <div class="col-md-8">
-        <textarea name="remark" class="form-control" [(ngModel)]="document.remark" placeholder="remark"></textarea>
-      </div>
-    </div> -->
   </form>
 </div>
 

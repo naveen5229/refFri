@@ -12,15 +12,18 @@ import { DocumentReportComponent } from '../documentation-modals/document-report
 export class DashboardComponent implements OnInit {
 
   documentData = [];
+  headings = [];
   table = {
     data: {
       headings: {
+        /*
         docType: { title: 'Document Type', placeholder: 'Document Type' },
         verified: { title: 'verified', placeholder: 'Verified' },
         unverified: { title: 'unverified', placeholder: 'Unverified' },
         pendingimage: { title: 'pendingimage', placeholder: 'Image Missing' },
         expiring30days: { title: 'Expiry In 30 days', placeholder: 'Expiry In 30 days' },
         expired: { title: 'Expired', placeholder: 'Expired' },
+        */
       },
       columns: []
     },
@@ -41,18 +44,41 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if(pos > 0) {
+      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
   refresh() {
     console.log('Refresh');
-    this.getDocumentData();
+    //this.getDocumentData();
+    window.location.reload();
   }
 
   getDocumentData() {
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', {})
+    this.api.post('Vehicles/getDocumentsStatisticsnew', {})
       .subscribe(res => {
         this.common.loading--;
         this.documentData = res['data'];
         console.info("dashbord Data", this.documentData);
+        let first_rec = this.documentData[0];
+        this.table.data.headings = {};
+        for(var key in first_rec) {
+          if(key.charAt(0) != "_") {
+            this.headings.push(key);
+            let hdgobj = {title: this.formatTitle(key), placeholder: this.formatTitle(key)};
+            this.table.data.headings[key] = hdgobj;
+          }
+        }
+        console.log("hdgs:");
+        console.log(this.headings);
+        console.log(this.table.data.headings);
+
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -62,6 +88,7 @@ export class DashboardComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
+    /*
     this.documentData.map(doc => {
       columns.push({
         docType: { value: doc.docname },
@@ -72,6 +99,32 @@ export class DashboardComponent implements OnInit {
         expired: { value: doc.expired, class: doc.expired > 0 ? 'blue' : 'black', action: doc.expired >0 ? this.openData.bind(this, doc, 'expired') : '', },
       });
     });
+    */
+   this.documentData.map(doc => {
+      let valobj = {};
+      let total = {};
+      let docobj = { document_type_id : 0};
+      for(var i = 0; i < this.headings.length; i++) {
+        let strval = doc[this.headings[i]];
+        let status = '';
+        let val = 0;
+        if(strval.indexOf('_') > 0) {
+            let arrval = strval.split('_');
+            status = arrval[0];
+            val = arrval[1];
+        } else {
+          val = strval;
+        }
+        docobj.document_type_id = doc['_doctypeid'];
+        valobj[this.headings[i]] = { value: val, class: val > 0? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
+        
+
+      }
+     
+      columns.push(valobj); 
+      // columns.push(total);     
+    });
+    
 
     // columns.push({
     //   serial:{value: 'sum ' },

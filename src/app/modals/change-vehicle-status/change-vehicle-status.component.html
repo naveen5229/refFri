@@ -107,8 +107,8 @@
         </tbody>
       </table>
     </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="btnStatus">
-      <button (click)="reviewComplete(1)" style="padding:5px">Review Done</button>
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" >
+      <button (click)="reviewComplete(1)" style="padding:5px" *ngIf="btnStatus">Review Done</button>
       <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced Review</button></div>
 
   </div>
