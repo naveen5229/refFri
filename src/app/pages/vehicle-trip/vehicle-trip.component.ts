@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { Component, OnInit } from '@angular/core';
+import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 
 @Component({
   selector: 'vehicle-trip',
@@ -45,12 +46,16 @@ export class VehicleTripComponent implements OnInit {
     }else{
       this.common.params= vehicleTrip;
       console.log("vehicleTrip",vehicleTrip);
-      
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     }
     this.getVehicleTrips();
     
 
+  }
+  openAddTripModal(){
+    this.common.params = {vehId:-1};
+    //console.log("open add trip maodal", this.common.params.vehId);
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
   }
 
 }
