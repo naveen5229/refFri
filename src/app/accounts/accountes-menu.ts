@@ -102,6 +102,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Balance Sheet',
                 link: '/accounts/balancesheet'
+            },
+            {
+                title:'Profit&Loass',
+                link: '/accounts/profitloss'
             }
             
         ],
