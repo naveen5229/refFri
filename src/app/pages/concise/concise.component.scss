@@ -136,8 +136,23 @@ table {
         li:nth-child(3) span{
             background-color: #ff5200;
         }
+        li:nth-child(4) span{
+            background-color: #2196F3;
+        }
+        li:nth-child(5) span{
+            background-color: #009688;
+        }
+        li:nth-child(6) span{
+            background-color: #607D8B;
+        }
+        li:nth-child(7) span{
+            background-color: #9C27B0;
+        }
         li + li{
             margin-top: 10px;
+        }
+        li{
+            cursor: pointer;
         }
     }
 }
