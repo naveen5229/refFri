@@ -47,9 +47,6 @@
 .i-green {
     color: green; font-size: 24px;
 }
-.i-yellow {
-    color: yellow; font-size: 24px;
- }
 .i-red-cross {
     color: red; font-size: 24px;
 }
@@ -71,7 +68,7 @@ table#tbldocs tbody tr {
 }
 
 table#tbldocs tbody tr td:first-child::before {
-    // content: counter(rowNumber);
+    content: counter(rowNumber);
     min-width: 0.5em;
     margin-right: 2px;
 }
@@ -111,9 +108,4 @@ table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
 }
 .document-heading_box tbody tr td:hover{
     background-color: rgba(0, 0, 0, 0.075);
-    width: 40px;
-}
-nb-card-header {
-    padding: 12px;
-    border: 1px solid #efefef;
 }

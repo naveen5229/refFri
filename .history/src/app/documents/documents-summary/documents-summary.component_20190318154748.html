@@ -33,7 +33,6 @@
         <table class="table table-bordered table-hover table-scroll" id="tbldocs">
           <thead class="thead">
             <tr>
-              <th style='width: 40px;'>SN</th>
               <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
             </tr>
           </thead>
@@ -41,11 +40,7 @@
           <tbody class="">
             <ng-container *ngIf="total_recs">
               <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
-
-                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
-        
                 <td *ngFor="let col of columns; " class="text-center">
-                   
                   <span *ngIf="col.toUpperCase() == 'VEHICLE'">
                     {{row[col]}}
                   </span>

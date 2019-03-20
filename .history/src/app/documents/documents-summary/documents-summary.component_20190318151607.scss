@@ -47,9 +47,6 @@
 .i-green {
     color: green; font-size: 24px;
 }
-.i-yellow {
-    color: yellow; font-size: 24px;
- }
 .i-red-cross {
     color: red; font-size: 24px;
 }
@@ -71,7 +68,7 @@ table#tbldocs tbody tr {
 }
 
 table#tbldocs tbody tr td:first-child::before {
-    // content: counter(rowNumber);
+    content: counter(rowNumber);
     min-width: 0.5em;
     margin-right: 2px;
 }
@@ -81,21 +78,21 @@ table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
 .select_cat_tabel table tr td{
     position: relative;
 }
-.document-heading_box tr td{
+.document-dash-contnet table tr td{
     padding: 0px;
 }
-.document-heading_box tr td > span{
+.document-dash-contnet table tr td > span{
     display: block;
     position: relative;
     padding: 10px;
     width: 100%;
     text-align: center;
 }
-.document-heading_box tr td > span i{
+.document-dash-contnet table tr td > span i{
     vertical-align: middle;
     margin-right: 5px;
 }
-.document-heading_box tr td input{
+.document-dash-contnet table tr td input{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -106,14 +103,9 @@ table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
     opacity: 0;
     cursor: pointer;
 }
-.document-heading_box tbody tr:hover{
+.document-dash-contnet .table-hover tbody tr:hover{
     background-color: transparent;
 }
-.document-heading_box tbody tr td:hover{
+.document-dash-contnet .table-hover tbody tr td:hover{
     background-color: rgba(0, 0, 0, 0.075);
-    width: 40px;
-}
-nb-card-header {
-    padding: 12px;
-    border: 1px solid #efefef;
 }

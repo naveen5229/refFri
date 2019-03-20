@@ -3,10 +3,10 @@
     <h2>Vehicle Documents Dashboard</h2>
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
-    <div class="document-dash-contnet">
+    <div class="d-flex">
       <div class="row col-sm-12 pdg-ltrt-none">
         <div class="col-sm-12">
-            <table class="table table-bordered table-hover document-heading_box">
+            <table class="table table-bordered table-hover">
               <tr>
                 <td *ngFor="let statusrow of this.data.summary; ">
                   <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"></i><input type='radio' name='rdostatus' value='0' (click)="filterRows(statusrow.status)" > No Record <span>({{statusrow.total}})</span></span>
@@ -19,11 +19,7 @@
                     <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)" > Other <span>({{statusrow.total}})</span>
                   </span>
                 </td>
-                <td class="btn-all" style="position: relative;">
-                  <span>
-                      <input type='radio' name='rdostatus' value='-1'  (click)="resetRowsVisibility()">Show All
-                  </span>
-                </td>
+                <td class="btn-all"><input type='radio' name='rdostatus' value='-1'  (click)="resetRowsVisibility()">Show All</td>
               </tr>
             </table>          
         </div>
@@ -33,7 +29,6 @@
         <table class="table table-bordered table-hover table-scroll" id="tbldocs">
           <thead class="thead">
             <tr>
-              <th style='width: 40px;'>SN</th>
               <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
             </tr>
           </thead>
@@ -41,11 +36,7 @@
           <tbody class="">
             <ng-container *ngIf="total_recs">
               <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
-
-                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
-        
                 <td *ngFor="let col of columns; " class="text-center">
-                   
                   <span *ngIf="col.toUpperCase() == 'VEHICLE'">
                     {{row[col]}}
                   </span>
