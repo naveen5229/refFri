@@ -14,7 +14,7 @@
     style="color:white;margin-top: 14px;font-size: 18px;"> <i class="fa fa-user"></i> {{this.user._customer.name}}</h4>
 </div>
 <div class="form-group" style="margin:0px; width:400px;">
-  <h4 *ngIf="this.user._loggedInBy == 'customer'" style="color:white;margin-top: 14px;font-size: 18px;">
+  <h4 *ngIf="this.user._loggedInBy == 'customer' && this.router.url.indexOf('/admin/')== -1" style="color:white;margin-top: 14px;font-size: 18px;">
     {{this.user._details.name}}</h4>
 </div>
 
