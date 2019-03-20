@@ -247,6 +247,7 @@ export class PendingDocumentsComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
+              this.columns = [];
               this.getPendingDetailsDocuments();
               this.common.showToast("Success Delete");
             }, err => {
