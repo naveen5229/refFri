@@ -207,7 +207,8 @@ export class VouchersComponent implements OnInit {
     });
     if (index) {
       let ledgerId = this.voucher.amountDetails[index].ledger.id;
-
+        console.log('total credit amount',this.voucher.total.credit);
+        console.log('find balance amount',this.findBalance(index));
       if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
         console.log('check condition');
         this.voucher.amountDetails[index].amount = 0;
@@ -490,7 +491,7 @@ export class VouchersComponent implements OnInit {
       if (allCreditAmounts[i].index == index) break;
       sum += allCreditAmounts[i].amountDetail.amount;
     }
-    console.log('Amount: ', amount);
+    console.log('Amount credit for voucher: ', amount);
     if (!this.balances[ledgerId]) {
       return 0;
     }
