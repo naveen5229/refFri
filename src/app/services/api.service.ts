@@ -18,7 +18,6 @@ export class ApiService {
 
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://localhost/webservices/booster_webservices/';
-  // IMAGE_PROCESSING_URL = 'http://localhost:5000/';  // Local
 
   constructor(private http: HttpClient,
     public router: Router,
