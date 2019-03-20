@@ -23,6 +23,7 @@ export class AddDocumentComponent implements OnInit {
   updateimage = 0;
   docId= null;
   vehicleid= null;
+  docTypeid = null;
   docType = null;
 
   document = {
@@ -70,7 +71,8 @@ export class AddDocumentComponent implements OnInit {
       this.updateimage = 1;
       this.docId = this.common.params.row.id;
       this.vehicleid = this.common.params.row.vehicle_id;
-      this.docType = this.common.params.row.document_type_id;
+      this.docType = this.common.params.row.document_type;
+      this.docTypeid = this.common.params.row.document_type_id;
     }
 
     if (this.document.dates.issue)
@@ -170,8 +172,6 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
-    if (this.updateimage == 0) {
-      console.log("hii");
       const params = {
         x_entryby: this.user._details.id,
         x_vehicle_id: this.vehicle.id,
@@ -184,19 +184,19 @@ export class AddDocumentComponent implements OnInit {
         x_base64img2: this.document.image2,
         x_base64img3: this.document.image3,
       };
-      console.log("params",params);
-    }
+    
    
-    const params = {
-      x_entryby: this.user._details.id,
-      x_document_id: this.docId,
-      x_vehicle_id: this.vehicleid,
-      x_document_type : this.docType,
-      x_base64img: this.document.image1,
-      x_base64img2: this.document.image2,
-      x_base64img3: this.document.image3,
+    // const params = {
+    //   x_entryby: this.user._details.id,
+    //   x_document_id: this.docId,
+    //   x_vehicle_id: this.vehicleid,
+    //   x_document_type_id: this.docTypeid,
+    //   x_document_type : this.docType,
+    //   x_base64img: this.document.image1,
+    //   x_base64img2: this.document.image2,
+    //   x_base64img3: this.document.image3,
 
-    };
+    // };
 
     // if (!this.document.type.id) {
     //   return this.common.showError("Select Document Type");
