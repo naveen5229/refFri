@@ -98,7 +98,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
+            },
+            {
+                title: 'Balance Sheet',
+                link: '/accounts/balancesheet'
             }
+            
         ],
     },
     {
