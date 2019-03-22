@@ -55,6 +55,21 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
+  exportCSV() {
+    console.log("doctypid:" + this.common.params.docReoprt.document_type_id + ", status:" + this.reportData.status);
+    this.api.post('Vehicles/getDocumentsStatisticsCsv', { x_status: this.reportData.status, x_document_type_id: this.common.params.docReoprt.document_type_id })
+      .subscribe(res => {
+        this.common.loading--;
+        /*
+        const blob = new Blob([res], { type: 'text/csv' });
+        const url= window.URL.createObjectURL(blob);
+        window.open(url);
+        */
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   setTable() {
     let headings = {
