@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
           val = strval;
         }
         docobj.document_type_id = doc['_doctypeid'];
-        valobj[this.headings[i]] = { value: val, class: val > 0? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
+        valobj[this.headings[i]] = { value: val, class: (val > 0 && (doc['_doctypeid'] > 0))? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
       }
       columns.push(valobj);      
     });
