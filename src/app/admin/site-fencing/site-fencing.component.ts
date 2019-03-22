@@ -84,13 +84,14 @@ export class SiteFencingComponent implements OnInit {
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if(data[this.selectedSite]&&count==1){
+            if(count==1){
               this.mapService.createPolygon(data[this.selectedSite]);
               this.isUpdate=true;
               console.log("Single",data[this.selectedSite]);
             }
-            else if(data[this.selectedSite]&&count>1){
+            else if(count>1){
               let latLngsArray = [];
+              let showIndex = [];
               let mainLatLng = null;
               let secLatLngs =null;
               let minDis=100000;
@@ -106,9 +107,11 @@ export class SiteFencingComponent implements OnInit {
                   }
                   latLngsArray.push(datav.latLngs);
                   console.log("Multi",datax);
+                  showIndex.push(datax);
                 }
               }
-              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs);
+              
+              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs,showIndex);
               this.isUpdate=true;
             }
             else{
