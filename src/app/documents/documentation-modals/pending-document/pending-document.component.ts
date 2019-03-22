@@ -49,7 +49,8 @@ export class PendingDocumentComponent implements OnInit {
     vehicle_id: null,
     wef_date: null,
     img_url2: null,
-    img_url3: null
+    img_url3: null,
+    verify : null,
   };
 
 

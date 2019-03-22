@@ -205,7 +205,8 @@ export class DocumentsSummaryComponent implements OnInit {
           img_url3: this.docdata[0].img_url3,
           doc_no: this.docdata[0].document_number,
           rto: this.docdata[0].rto,
-          amount: this.docdata[0].amount
+          amount: this.docdata[0].amount,
+          verify: this.docdata[0].is_verified,
         };
 
         console.log("rowdata:");
