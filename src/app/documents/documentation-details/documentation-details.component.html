@@ -1,8 +1,7 @@
 <nb-card>
   <nb-card-header>
-    Vehicle Documents Input 
+    <h2>Vehicle Documents Input</h2> 
   </nb-card-header>
-
   <nb-card-body style="min-height: 360px;">
     <div class="container">
       <form>
@@ -25,8 +24,9 @@
         </div>
       </form>
 
-      <div class="row" *ngIf="loginid==1">
-      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+      <input id="input"  type="file" accept="image/*" style=" width: 180px;" #files (change)="save($event)" />
+      
     </div>
     <!-- 
     <div class="table" *ngIf="this.selectedVehicle">

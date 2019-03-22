@@ -58,18 +58,11 @@ export class DocumentsSummaryComponent implements OnInit {
       });
   }
   
+  
   getDocumentType(strval) {
     if(strval) {
-      if(strval.indexOf('1_')> -1) {
-        return 1;
-      } else if(strval.indexOf('2_')> -1) {
-        return 2;
-      } else if(strval.indexOf('3_')> -1) {
-        return 3;
-      } else if(strval.indexOf('4_')> -1) {
-        return 4;
-      } else if(strval.indexOf('5_')> -1) {
-        return 5;
+      if(strval.indexOf('_') > -1) {
+        return strval.split('_')[0];
       } else {
         return 99;
       }
@@ -93,6 +86,25 @@ export class DocumentsSummaryComponent implements OnInit {
     }
   }
   
+  showAllRecords() {
+    this.resetRowsVisibility();
+    this.resetSerialNo();
+  }
+
+  resetSerialNo() {
+    let tblelt = document.getElementById('tbldocs');
+    var rows=tblelt.querySelectorAll('tr');
+    if(rows.length > 1) {
+      let ctr = 1;
+      for(var i=1; i<rows.length; i++) {
+        if(!rows[i].classList.contains('cls-hide')) {
+          rows[i].cells[0].innerHTML = "" + ctr;
+          ctr++;
+        }
+      }
+    }
+  }
+
   filterRows(status) {
     console.log("checking for status:" + status);
     this.resetRowsVisibility();
@@ -107,7 +119,7 @@ export class DocumentsSummaryComponent implements OnInit {
         if(classlst.length) {
           let flag = 0;
           if(classlst.length == 1 && classlst[0] != ("" + status)) {
-            rows[i].classList.add('cls-hide');
+            rows[i].classList.add('cls-hide');            
           } else {
             for(var j=0; j< classlst.length; j++) {
               if(classlst[j].indexOf('--') > -1) {
@@ -131,6 +143,7 @@ export class DocumentsSummaryComponent implements OnInit {
         }
       }
     }
+    this.resetSerialNo();
   }
 
   getDocClasses(row) {
@@ -144,6 +157,8 @@ export class DocumentsSummaryComponent implements OnInit {
             let status = colval.split('_')[0];
             docclass.push(status);
           }
+        } else if(colval == null) {
+          docclass.push(0);
         }
       }
       if(docclass.length == 0) {
@@ -190,7 +205,8 @@ export class DocumentsSummaryComponent implements OnInit {
           img_url3: this.docdata[0].img_url3,
           doc_no: this.docdata[0].document_number,
           rto: this.docdata[0].rto,
-          amount: this.docdata[0].amount
+          amount: this.docdata[0].amount,
+          verify: this.docdata[0].is_verified,
         };
 
         console.log("rowdata:");

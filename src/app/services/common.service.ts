@@ -57,6 +57,7 @@ export class CommonService {
   }
 
 
+
   constructor(
     public router: Router,
     private toastrService: NbToastrService,
@@ -64,10 +65,8 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe
-  ) {
-
-
+    private datePipe: DatePipe) {
+    
   }
 
   showError(msg?) {
@@ -132,7 +131,7 @@ export class CommonService {
 
     // console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return (dat + separator + month + separator + year) + (isTime ? ' ' + this.timeFormatter(date) : '');
+      return ( year + separator + month + separator +  dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     } else {
       return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     }
@@ -144,7 +143,7 @@ export class CommonService {
     let month = d.getMonth() <= 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? '0' + d.getDate() : d.getDate();
 
-    console.log(dat + '-' + month + '-' + year);
+    console.log(year + '-' + month + '-' + dat);
 
     return (year + '-' + month + '-' + dat);
 

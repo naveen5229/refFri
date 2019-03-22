@@ -207,7 +207,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   designsDefaults = [
     "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z",///Rect
-    "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"//Pin
+    "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z",//Pin
+    "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"///Rect
   ];
   bounds = null;
   Markers = [];
@@ -219,7 +220,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
+        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[2];
       let text = markers[index]["text"] ? markers[index]["text"] : index + 1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
@@ -236,11 +237,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
           fillOpacity: 1,
           scale: 1.3,
           strokeColor: pinColor,
-          strokeWeight: 2
+          strokeWeight: 2,
         };
       } else {
-        if (subType == 'marker')
+        if (subType == 'marker'){
           pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
+          console.log("Pin Image:",pinImage);
+          
+        }
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
@@ -262,6 +266,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (changeBounds)
         this.setBounds(latlng);
       thisMarkers.push(marker);
+      console.log("ThisMarker: ",thisMarkers);
+      
       this.Markers.push(marker);
 
       if (markers[index]["type"] == "site") {
@@ -271,6 +277,13 @@ export class ChangeVehicleStatusComponent implements OnInit {
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
 
       }
+      // else {
+      //   let show = text;
+      //   marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
+      //   marker.addListener('mouseout', this.closeInfoWindow.bind(this));
+      //   marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
+
+      // }
       // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
     }
@@ -433,7 +446,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("before substracting", this.VehicleStatusData.latch_time);
     let ltime = new Date(this.VehicleStatusData.latch_time);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
-    this.VehicleStatusData.latch_time = this.common.dateFormatter(subtractLTime);
+    this.VehicleStatusData.latch_time = this.common.dateFormatter1(subtractLTime);
     console.log("after substracting", this.VehicleStatusData.latch_time);
     this.reloadData();
   }
@@ -524,9 +537,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
   getDate(index) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
+      this.customDate = this.common.dateFormatter1(data.date).split(' ')[0];
       console.log('Date:', this.customDate);
-      this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
+      this.VehicleStatusData.latch_time = this.common.dateFormatter1(this.customDate);
       console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
       this.reloadData();
     });

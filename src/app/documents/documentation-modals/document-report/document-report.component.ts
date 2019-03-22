@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../../modals/image-view/image-view.component';
+import { AddDocumentComponent} from '../add-document/add-document.component';
 import { EditDocumentComponent } from '../../documentation-modals/edit-document/edit-document.component';
 import { normalize } from 'path';
 import { from } from 'rxjs';
@@ -57,7 +58,7 @@ export class DocumentReportComponent implements OnInit {
 
   setTable() {
     let headings = {
-      docId: { title: 'Document Id', placeholder: 'Document Id' },
+      docId: { title: 'Doc Id', placeholder: 'Doc Id' },
       vehicleNumber: { title: 'vehicle Number ', placeholder: 'vehicle Number' },
       docType: { title: 'Document Type', placeholder: 'Document Type' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
@@ -67,6 +68,7 @@ export class DocumentReportComponent implements OnInit {
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
+      verified: { title: 'Verified', placeholder: 'Verified' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
@@ -93,6 +95,8 @@ export class DocumentReportComponent implements OnInit {
 
       // for comapring
       let exp_date2 = new Date(exp_date.split('/').join('-'));
+      exp_date2 = exp_date2.getFullYear()==1970?null:exp_date2;
+      
       let nxtmth2 = new Date(this.common.dateFormatter1(nextMthDate).split(' ')[0]);
       let currdt2 = new Date(curr);
 
@@ -103,19 +107,34 @@ export class DocumentReportComponent implements OnInit {
         docType: { value: doc.document_type },
         issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : (exp_date2 ? 'green' : '')) },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: exp_date2==null ? 'default' : currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : 'green') },
         documentNumber: { value: doc.document_number },
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
+        verified: { value: doc.verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
       };
       columns.push(column);
     });
     return columns;
   }
+  add(row){
+    console.log("row Data:",row);
+    this.common.params = { row, title: 'Upload Image' };
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+          if (data.response) {
+            this.closeModal(true);
+            this.getReport();
+        
+          }
+        });
+  }
+    
+  
 
 
 
@@ -126,7 +145,7 @@ export class DocumentReportComponent implements OnInit {
       status: this.reportData.status
     };
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
+    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];

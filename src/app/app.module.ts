@@ -56,6 +56,7 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
 import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -91,6 +92,12 @@ import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map
 
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AccountService } from './services/account.service';
+import { ApiService } from './services/api.service';
+import { CommonService } from './services/common.service';
+import { UserService } from './@core/data/users.service';
+import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
+import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 @NgModule({
   declarations: [AppComponent,
@@ -134,6 +141,7 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -152,6 +160,8 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     EditDriverComponent,
     // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
+    VoucherdetailComponent,
+    RadioSelectionComponent,
     
     
   ],
@@ -194,6 +204,7 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -211,7 +222,9 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
     VechileTrailsComponent,
     AddTripComponent,
     EditDriverComponent,
+    VoucherdetailComponent,
     // VehicleDriverMappingComponent 
+    RadioSelectionComponent
   ],
   imports: [
     BrowserModule,
@@ -237,9 +250,8 @@ import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-comp
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
-
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

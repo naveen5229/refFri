@@ -1,9 +1,7 @@
 <nb-card>
   <nb-card-header>
-    Document Change History
-
+    <h2>Document Change History</h2>
   </nb-card-header>
-
   <nb-card-body style="min-height: 370px;">
     <div class="container">
       <form>
@@ -19,25 +17,21 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>DocumentType</label>
-                <auto-suggestion  (onSelected)="selectDocType($event)" url="" display="document_type"
+              <auto-suggestion (onSelected)="selectDocType($event)" url="" display="document_type"
                 placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType" required>
               </auto-suggestion>
-                <div class="suggestions ng-star-inserted">
-                </div>
-              
+              <div class="suggestions ng-star-inserted">
+              </div>
             </div>
           </div>
-
-
           <div class="col-md-3">
-            <button type="submit" class="btn btn-primary mt-4" (click)="searchHistory()">Search</button>
+            <label style="display: block;">&nbsp;</label>
+            <button type="submit" class="btn btn-primary" (click)="searchHistory()">Search</button>
           </div>
         </div>
       </form>
     </div>
-
     <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
-
     <br>
   </nb-card-body>
 </nb-card>
