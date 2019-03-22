@@ -112,7 +112,7 @@ export class DocumentReportComponent implements OnInit {
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
-        verified: { value: doc.verified? 'Yes': 'No' },
+        verified: { value: doc.verified ? 'Yes': 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
