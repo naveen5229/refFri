@@ -129,6 +129,7 @@ export class DocumentReportComponent implements OnInit {
           if (data.response) {
             this.closeModal(true);
             this.getReport();
+        
           }
         });
   }
