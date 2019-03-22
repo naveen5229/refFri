@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../../modals/image-view/image-view.component';
+import { AddDocumentComponent} from '../add-document/add-document.component';
 import { EditDocumentComponent } from '../../documentation-modals/edit-document/edit-document.component';
 import { normalize } from 'path';
 import { from } from 'rxjs';
@@ -113,13 +114,27 @@ export class DocumentReportComponent implements OnInit {
         amount: { value: doc.amount },
         verified: { value: doc.verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
       };
       columns.push(column);
     });
     return columns;
   }
+  add(row){
+    console.log("row Data:",row);
+    this.common.params = { row, title: 'Upload Image' };
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+          if (data.response) {
+            this.closeModal(true);
+            this.getReport();
+        
+          }
+        });
+  }
+    
+  
 
 
 

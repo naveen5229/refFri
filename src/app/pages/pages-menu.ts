@@ -56,10 +56,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Account',
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
-  },
-  {
-    title: 'image Processing',
-    icon: 'fa fa-money',
-    link:'/pages/image-processing'
   }
 ];

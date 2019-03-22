@@ -18,7 +18,6 @@ import { TrendsComponent } from './trends/trends.component';
 
 // import { DocumentsComponent } from '../documents/documents.components';
 import { DriversAttendanceComponent } from './drivers-attendance/drivers-attendance.component';
-// import { DocumentsComponent } from '../documents/documents.components';
 import { from } from 'rxjs';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 
@@ -78,10 +77,10 @@ const routes: Routes = [{
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
-  {
-    path: 'image-processing',
-    component: ImageProcessingComponent
-  },
+  // {
+  //   path: 'image-processing',
+  //   component: ImageProcessingComponent
+  // },
   ],
 }];
 

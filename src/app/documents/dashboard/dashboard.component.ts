@@ -102,6 +102,7 @@ export class DashboardComponent implements OnInit {
     */
    this.documentData.map(doc => {
       let valobj = {};
+      let total = {};
       let docobj = { document_type_id : 0};
       for(var i = 0; i < this.headings.length; i++) {
         let strval = doc[this.headings[i]];
@@ -115,10 +116,15 @@ export class DashboardComponent implements OnInit {
           val = strval;
         }
         docobj.document_type_id = doc['_doctypeid'];
-        valobj[this.headings[i]] = { value: val, class: (val > 0 && (doc['_doctypeid'] > 0))? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
+        valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
+        
+
       }
-      columns.push(valobj);      
+     
+      columns.push(valobj); 
+      // columns.push(total);     
     });
+    
 
     // columns.push({
     //   serial:{value: 'sum ' },

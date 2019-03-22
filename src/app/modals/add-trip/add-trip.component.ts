@@ -18,7 +18,9 @@ declare var google: any;
 export class AddTripComponent implements OnInit {
   startTime;
   targetTime;
+  tripTypeId=1;
   VehicleId;
+  prevehicleId;
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -37,6 +39,7 @@ export class AddTripComponent implements OnInit {
     private modalService: NgbModal,
   ){
     this.VehicleId = this.common.params.vehId;
+    this.prevehicleId= this.VehicleId;
   }
  
 
@@ -98,12 +101,6 @@ export class AddTripComponent implements OnInit {
   }
   addTrip() {
     console.log(this.vehicleTrip);
-    // this.startTime = this.startTime.split("/").reverse().join("-");
-    // this.startTime  = new Date(this.startTime );
-    // this.targetTime = this.targetTime.split("/").reverse().join("-");
-    // this.targetTime  = new Date(this.targetTime );
-    // this.datePipe.transform(this.targetTime,'yyyy-MM-dd');
-    // console.log('targetTime',this.targetTime);
       this.startTime = this.common.dateFormatter(this.startTime);
       console.log('startTime',this.startTime);
       this.targetTime = this.common.dateFormatter(this.targetTime);
@@ -117,7 +114,8 @@ export class AddTripComponent implements OnInit {
       endLat: this.vehicleTrip.endLat,
       endLong: this.vehicleTrip.endLng,
       startTime: this.startTime,
-      endTime: this.targetTime
+      endTime: this.targetTime,
+      tripTypeId:this.tripTypeId
     }
     console.log("params", params);
     ++this.common.loading;
@@ -131,5 +129,10 @@ export class AddTripComponent implements OnInit {
         --this.common.loading;
         console.log('Err:', err);
       });
+}
+
+getvehicleData(vehicle){
+  console.log("vehicle",vehicle);
+  this.VehicleId = vehicle.id;
 }
 }
