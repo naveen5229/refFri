@@ -67,6 +67,7 @@ export class DocumentReportComponent implements OnInit {
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
+      verified: { title: 'Verified', placeholder: 'Verified' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
@@ -110,6 +111,7 @@ export class DocumentReportComponent implements OnInit {
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
+        verified: { value: doc.verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
         rowActions: {}
@@ -128,7 +130,7 @@ export class DocumentReportComponent implements OnInit {
       status: this.reportData.status
     };
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
+    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
