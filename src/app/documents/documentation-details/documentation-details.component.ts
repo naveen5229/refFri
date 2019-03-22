@@ -72,7 +72,8 @@ export class DocumentationDetailsComponent implements OnInit {
       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
       rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
-      remark: { title: 'Remark', placeholder: 'Remak' },
+      remark: { title: 'Remark', placeholder: 'Remark' },
+      verified: { title: 'Verified', placeholder: 'Verified' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
       edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
     };
@@ -111,6 +112,7 @@ export class DocumentationDetailsComponent implements OnInit {
         rto: { value: doc.rto },
         amount: { value: doc.amount },
         remark: { value: doc.remarks },
+        verified: { value: doc.is_verified? 'Yes': 'No' },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
         edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
         rowActions: {}
