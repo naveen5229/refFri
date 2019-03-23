@@ -17,7 +17,7 @@ export class VouchersComponent implements OnInit {
   Vouchers = [];
   voucherId = '';
   voucherName = '';
-  voucher = this.setVoucher();
+  voucher = null;
 
   ledgers = {
     credit: [],
@@ -55,6 +55,7 @@ export class VouchersComponent implements OnInit {
     });
     this.getLedgers('debit');
     this.getLedgers('credit');
+    this.voucher =  this.setVoucher();
   }
 
   ngOnInit() {
@@ -72,7 +73,7 @@ export class VouchersComponent implements OnInit {
       },
       vouchertypeid: '',
       amountDetails: [{
-        transactionType: 'debit',
+        transactionType: (this.voucherId == '-3' || this.voucherId == '-1' ) ? 'credit' :  'debit',
         ledger: {
           name: '',
           id: ''
@@ -88,7 +89,7 @@ export class VouchersComponent implements OnInit {
     };
   }
 
-  getVouchers() {
+  getVouchers() { 
     let params = {
       voucherId: this.voucherId
     };
