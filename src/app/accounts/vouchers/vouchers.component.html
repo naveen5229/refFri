@@ -34,7 +34,7 @@
                 <td>
                   <select class="form-control" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
                     [(ngModel)]="amountDetail.transactionType" style="padding: 4px 8px;height:auto;"
-                    (change)="calculateTotal()" (click)="lastActiveId = 'transaction-type-' + i">
+                    (change)="calculateTotal()" (click)="lastActiveId = 'transaction-type-' + i" >
                     <option value="debit">Debit</option>
                     <option value="credit">Credit</option>
                   </select>
@@ -90,7 +90,6 @@
               <input type="text" class="form-control" name="account-name" readonly [(ngModel)]="voucher.total.credit"
                 style="background: #e8f0f3">
             </div>
-
           </div>
         </div>
         <!-- Submit -->
