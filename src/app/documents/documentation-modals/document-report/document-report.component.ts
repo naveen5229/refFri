@@ -223,6 +223,7 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
+  
 
   // editData(doc) {
   //   let documentData = [{

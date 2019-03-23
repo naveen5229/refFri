@@ -5,6 +5,11 @@
   </button>
 </div>
 <div class="modal-body">
+    <button class="btn btn-link" (click)="exportToExcel('#tableToExport')">
+        <span class="glyphicon glyphicon-share"></span>
+   Export to Excel
+      </button>
+ 
 
   <!-- <div class="table">
     <table class="table table-bordered table-hover table-scroll">
@@ -46,6 +51,6 @@
   </div> -->
 
   <!-- <span title="CSV Export" (click)="exportCSV()">Export : <i class="fa fa-file-excel-o" style="font-size:18px"></i></span>-->
-  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  <smart-table *ngIf="data.length" id="tableToExport" [data]="table.data" [settings]="table.settings"></smart-table>
   <br>
 </div>
