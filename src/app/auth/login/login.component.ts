@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.user._loggedInBy = 'customer';
       }
+      console.log("Login By",this.user._loggedInBy);
 
     });
   }
