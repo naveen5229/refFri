@@ -55,6 +55,21 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
+  exportCSV() {
+    console.log("doctypid:" + this.common.params.docReoprt.document_type_id + ", status:" + this.reportData.status);
+    this.api.post('Vehicles/getDocumentsStatisticsCsv', { x_status: this.reportData.status, x_document_type_id: this.common.params.docReoprt.document_type_id })
+      .subscribe(res => {
+        this.common.loading--;
+        /*
+        const blob = new Blob([res], { type: 'text/csv' });
+        const url= window.URL.createObjectURL(blob);
+        window.open(url);
+        */
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   setTable() {
     let headings = {
@@ -68,6 +83,7 @@ export class DocumentReportComponent implements OnInit {
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
+      verified: { title: 'Verified', placeholder: 'Verified' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
@@ -111,8 +127,9 @@ export class DocumentReportComponent implements OnInit {
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
+        verified: { value: doc.verified ? 'Yes': 'No' },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc), class: 'image text-center' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
       };
       columns.push(column);
@@ -120,8 +137,16 @@ export class DocumentReportComponent implements OnInit {
     return columns;
   }
   add(row){
+    console.log("row Data:",row);
     this.common.params = { row, title: 'Upload Image' };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+          if (data.response) {
+            this.closeModal(true);
+            this.getReport();
+        
+          }
+        });
   }
     
   
@@ -135,7 +160,7 @@ export class DocumentReportComponent implements OnInit {
       status: this.reportData.status
     };
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
+    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];

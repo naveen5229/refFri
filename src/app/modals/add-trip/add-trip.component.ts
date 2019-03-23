@@ -18,6 +18,7 @@ declare var google: any;
 export class AddTripComponent implements OnInit {
   startTime;
   targetTime;
+  tripTypeId=1;
   VehicleId;
   prevehicleId;
   vehicleTrip = {
@@ -113,7 +114,8 @@ export class AddTripComponent implements OnInit {
       endLat: this.vehicleTrip.endLat,
       endLong: this.vehicleTrip.endLng,
       startTime: this.startTime,
-      endTime: this.targetTime
+      endTime: this.targetTime,
+      tripTypeId:this.tripTypeId
     }
     console.log("params", params);
     ++this.common.loading;

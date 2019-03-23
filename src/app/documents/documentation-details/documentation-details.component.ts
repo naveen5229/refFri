@@ -9,6 +9,7 @@ import { AddDocumentComponent } from '../../documents/documentation-modals/add-d
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
+import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
 import { from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -71,6 +72,7 @@ export class DocumentationDetailsComponent implements OnInit {
       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
       rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
+      verified: { title: 'Verified', placeholder: 'Verified' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
       edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
@@ -99,7 +101,7 @@ export class DocumentationDetailsComponent implements OnInit {
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       console.log("expiry date:", exp_date);
       let column = {
-        docId:{value: doc.id},
+        docId:{value: doc.id, class: this.user._loggedInBy == 'admin'? 'blue': 'black', action:this.openHistory.bind(this, doc.id)},
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         agentName: { value: doc.agent },
@@ -109,6 +111,7 @@ export class DocumentationDetailsComponent implements OnInit {
         documentNumber: { value: doc.document_number },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
+        verified: { value: doc.verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
         edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
@@ -121,6 +124,17 @@ export class DocumentationDetailsComponent implements OnInit {
       columns.push(column);
     });
     return columns;
+  }
+
+  openHistory(doc_id) {
+    this.common.params = { doc_id, title: 'Document Change History' };
+    const activeModal = this.modalService.open(DocumentHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        //this.getHistoryData();
+        //window.location.reload();
+      }
+    });
   }
 
   getDate(date) {
@@ -256,4 +270,19 @@ export class DocumentationDetailsComponent implements OnInit {
       })
     }
   }
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
 }
