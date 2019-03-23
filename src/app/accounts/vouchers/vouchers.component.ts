@@ -7,6 +7,7 @@ import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.c
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { isUndefined } from 'util';
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
@@ -16,7 +17,7 @@ export class VouchersComponent implements OnInit {
   Vouchers = [];
   voucherId = '';
   voucherName = '';
-  voucher = this.setVoucher();
+  voucher = null;
 
   ledgers = {
     credit: [],
@@ -54,6 +55,7 @@ export class VouchersComponent implements OnInit {
     });
     this.getLedgers('debit');
     this.getLedgers('credit');
+    this.voucher =  this.setVoucher();
   }
 
   ngOnInit() {
@@ -71,7 +73,7 @@ export class VouchersComponent implements OnInit {
       },
       vouchertypeid: '',
       amountDetails: [{
-        transactionType: 'debit',
+        transactionType: (this.voucherId == '-3' || this.voucherId == '-1' ) ? 'credit' :  'debit',
         ledger: {
           name: '',
           id: ''
@@ -87,7 +89,7 @@ export class VouchersComponent implements OnInit {
     };
   }
 
-  getVouchers() {
+  getVouchers() { 
     let params = {
       voucherId: this.voucherId
     };
@@ -194,30 +196,7 @@ export class VouchersComponent implements OnInit {
     });
   }
 
-  calculateTotal(index?) {
-    this.voucher.total.debit = 0;
-    this.voucher.total.credit = 0;
-    this.voucher.amountDetails.map(amountDetail => {
-      console.log(amountDetail, amountDetail.transactionType, amountDetail.amount)
-      if (amountDetail.transactionType == 'debit') {
-        this.voucher.total.debit += amountDetail.amount;
-      } else {
-        this.voucher.total.credit += amountDetail.amount;
-      }
-    });
-    if (index) {
-      let ledgerId = this.voucher.amountDetails[index].ledger.id;
-        console.log('total credit amount',this.voucher.total.credit);
-        console.log('find balance amount',this.findBalance(index));
-      if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
-        console.log('check condition');
-        this.voucher.amountDetails[index].amount = 0;
-        alert('Please enter valid amount');
-      }
-      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
-    }
 
-  }
 
 
   keyHandler(event) {
@@ -476,6 +455,7 @@ export class VouchersComponent implements OnInit {
   }
 
   findBalance(index) {
+    console.log('IndexL::::', index);
     let amount = 0;
     let allCreditAmounts = [];
     let ledgerId = this.voucher.amountDetails[index].ledger.id;
@@ -491,11 +471,36 @@ export class VouchersComponent implements OnInit {
       if (allCreditAmounts[i].index == index) break;
       sum += allCreditAmounts[i].amountDetail.amount;
     }
-    console.log('Amount credit for voucher: ', amount);
+    // console.log('Amount credit for voucher: ', amount);
     if (!this.balances[ledgerId]) {
       return 0;
     }
     return this.balances[ledgerId].main - sum;
+
+  }
+
+  calculateTotal(index?) {
+    this.voucher.total.debit = 0;
+    this.voucher.total.credit = 0;
+    this.voucher.amountDetails.map(amountDetail => {
+      console.log(amountDetail, amountDetail.transactionType, amountDetail.amount)
+      if (amountDetail.transactionType == 'debit') {
+        this.voucher.total.debit += amountDetail.amount;
+      } else {
+        this.voucher.total.credit += amountDetail.amount;
+      }
+    });
+    if (!isUndefined(index)) {
+      let ledgerId = this.voucher.amountDetails[index].ledger.id;
+      console.log('total credit amount', this.voucher.total.credit);
+      console.log('find balance amount', this.findBalance(index));
+      if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
+        console.log('check condition');
+        this.voucher.amountDetails[index].amount = 0;
+        alert('Please enter valid amount');
+      }
+      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
+    }
 
   }
 
