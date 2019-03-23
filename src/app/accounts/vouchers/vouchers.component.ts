@@ -8,6 +8,8 @@ import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { isUndefined } from 'util';
+import { LedgerComponent} from '../../acounts-modals/ledger/ledger.component';
+
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
@@ -203,6 +205,10 @@ export class VouchersComponent implements OnInit {
     const key = event.key.toLowerCase();
     console.log(event);
     const activeId = document.activeElement.id;
+    if (event.altKey && key === 'c') {
+      // console.log('alt + C pressed');
+      this.openledger();
+    }
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         this.addVoucher();
@@ -505,6 +511,50 @@ export class VouchersComponent implements OnInit {
   }
 
 
+  openledger(ledger?) {
+    console.log('ledger123',ledger);
+      if (ledger) this.common.params = ledger;
+      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' ,keyboard :false});
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+         // console.log('ledger data',data.ledger);
+         this.addLedger(data.ledger);
+        }
+      });
+    }
+
+    addLedger(ledger) {
+      console.log('ledgerdata',ledger);
+     // const params ='';
+      const params = {
+          name: ledger.name,
+          alias_name: ledger.aliasname,
+          code: ledger.code,
+          foid: ledger.user.id,
+          per_rate: ledger.perrate,
+          primarygroupid: ledger.account.primarygroup_id,
+          account_id: ledger.account.id,
+          accDetails: ledger.accDetails,
+          x_id:0
+       };
+  
+       console.log('params11: ',params);
+      this.common.loading++;
+  
+      this.api.post('Accounts/InsertLedger', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res);
+          this.getLedgers('debit');
+          this.getLedgers('credit');
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+  
+    }
 
 
 

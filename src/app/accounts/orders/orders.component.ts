@@ -6,7 +6,7 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
-
+import { LedgerComponent} from '../../acounts-modals/ledger/ledger.component';
 
 @Component({
   selector: 'orders',
@@ -329,12 +329,16 @@ export class OrdersComponent implements OnInit {
     });
     return total;
   }
-
+ 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active Id', this.activeId);
-
+    console.log('Active event', event);
+    // console.log('Active Id', this.activeId);
+    if (event.altKey && key === 'c') {
+      // console.log('alt + C pressed');
+      this.openledger();
+    } 
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
@@ -546,7 +550,7 @@ export class OrdersComponent implements OnInit {
   getSuggestions() {
     const element = document.getElementById(this.activeId);
     const search = element ? element['value'] ? element['value'].toLowerCase() : '' : '';
-    console.log('Search: ', search, this.activeId);
+    // console.log('Search: ', search, this.activeId);
     let suggestions = [];
     if (this.activeId == 'ordertype') {
       if (element['value']) {
@@ -614,4 +618,48 @@ export class OrdersComponent implements OnInit {
     }
 
   }
+
+  openledger(ledger?) {
+    console.log('ledger123',ledger);
+      if (ledger) this.common.params = ledger;
+      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' ,keyboard :false});
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+         // console.log('ledger data',data.ledger);
+         this.addLedger(data.ledger);
+        }
+      });
+    }
+
+    addLedger(ledger) {
+      console.log('ledgerdata',ledger);
+     // const params ='';
+      const params = {
+          name: ledger.name,
+          alias_name: ledger.aliasname,
+          code: ledger.code,
+          foid: ledger.user.id,
+          per_rate: ledger.perrate,
+          primarygroupid: ledger.account.primarygroup_id,
+          account_id: ledger.account.id,
+          accDetails: ledger.accDetails,
+          x_id:0
+       };
+  
+       console.log('params11: ',params);
+      this.common.loading++;
+  
+      this.api.post('Accounts/InsertLedger', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res);
+        this.getPurchaseLedgers();
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+  
+    }
 }
