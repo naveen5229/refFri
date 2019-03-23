@@ -55,6 +55,21 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
+  exportCSV() {
+    console.log("doctypid:" + this.common.params.docReoprt.document_type_id + ", status:" + this.reportData.status);
+    this.api.post('Vehicles/getDocumentsStatisticsCsv', { x_status: this.reportData.status, x_document_type_id: this.common.params.docReoprt.document_type_id })
+      .subscribe(res => {
+        this.common.loading--;
+        /*
+        const blob = new Blob([res], { type: 'text/csv' });
+        const url= window.URL.createObjectURL(blob);
+        window.open(url);
+        */
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
   setTable() {
     let headings = {
@@ -112,7 +127,7 @@ export class DocumentReportComponent implements OnInit {
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
-        verified: { value: doc.verified? 'Yes': 'No' },
+        verified: { value: doc.verified ? 'Yes': 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
@@ -208,6 +223,7 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
+  
 
   // editData(doc) {
   //   let documentData = [{

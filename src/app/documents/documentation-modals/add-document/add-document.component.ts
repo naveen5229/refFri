@@ -111,7 +111,7 @@ export class AddDocumentComponent implements OnInit {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
-        this.common.loading--;
+        //this.common.loading--;
         let file = event.target.files[0];
         console.log("Type", file.type);
         if (file.type == "image/jpeg" || file.type == "image/jpg" ||
@@ -125,12 +125,46 @@ export class AddDocumentComponent implements OnInit {
           return false;
         }
 
-        console.log('Base 64: ', res);
+        //console.log('Base 64: ', res);
         this.document['image' + index] = res;
+        this.compressImage(res, index);
+        this.common.loading--;
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);
       })
+  }
+
+  compressImage(base64Image, index) {
+    let image = new Image();
+    image.onload = () => {
+      // Resize the image using canvas  
+      let canvas = document.createElement('canvas'),
+        max_size = 1504,// TODO : max size for a pic  
+        width = image.width,
+        height = image.height;
+      if (width > height) {
+        if (width > max_size) {
+          height *= max_size / width;
+          width = max_size;
+        }
+      } else {
+        if (height > max_size) {
+          width *= max_size / height;
+          height = max_size;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+
+      //Getting base64 string; 
+      //this.images[index].base64 = canvas.toDataURL('image/jpeg').split(",")[1];      
+      this.document['image' + index] = canvas.toDataURL('image/jpeg');      
+      console.log('Image Compressed !');
+      console.log(this.document['image' + index]);
+    }
+    image.src = base64Image;
   }
 
 

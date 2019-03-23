@@ -5,6 +5,8 @@
   </button>
 </div>
 <div class="modal-body">
+  
+ 
 
   <!-- <div class="table">
     <table class="table table-bordered table-hover table-scroll">
@@ -45,7 +47,7 @@
     </table>
   </div> -->
 
-
-  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  <!-- <span title="CSV Export" (click)="exportCSV()">Export : <i class="fa fa-file-excel-o" style="font-size:18px"></i></span>-->
+  <smart-table *ngIf="data.length" id="tableToExport" [data]="table.data" [settings]="table.settings"></smart-table>
   <br>
 </div>
