@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DriverVehicleRemappingComponent } from '../../modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from '../../modals/driver-status-change/driver-status-change.component';
+import {NewDriverStatusComponent} from '../../modals/new-driver-status/new-driver-status.component';
 @Component({
   selector: 'vehicle-driver-mapping',
   templateUrl: './vehicle-driver-mapping.component.html',
@@ -144,5 +145,9 @@ export class VehicleDriverMappingComponent implements OnInit {
   //   this.common.params={driver};
   //   this.modalService.open(DriverStatusChangeComponent,{ size: 'lg', container: 'nb-layout' })
   // }
+  Add(driver){
+    this.common.params=driver;
+    this.modalService.open(NewDriverStatusComponent,{size: 'lg', container: 'nb-layout'});
+  }
 
 }

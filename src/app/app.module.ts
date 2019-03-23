@@ -88,7 +88,8 @@ import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.c
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
-import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component'
+import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
+import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -147,6 +148,7 @@ import { DriverStatusChangeComponent } from './modals/driver-status-change/drive
     EditDriverComponent,
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -205,7 +207,8 @@ import { DriverStatusChangeComponent } from './modals/driver-status-change/drive
     AddTripComponent,
     EditDriverComponent,
     DriverVehicleRemappingComponent,
-    DriverStatusChangeComponent
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   imports: [
     BrowserModule,

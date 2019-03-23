@@ -21,13 +21,13 @@ export class ApiService {
 
 
   post(subURL: string, body: any, options?) {
-    console.log('Test::::');
+   // console.log('Test::::');
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
-    console.log('Test::::');
+    //console.log('Test::::');
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }
@@ -57,9 +57,9 @@ export class ApiService {
   }
 
   setHeaders() {
-    console.log('Test::::');    
+    //console.log('Test::::');    
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
-    console.log('Test::::');
+   // console.log('Test::::');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
