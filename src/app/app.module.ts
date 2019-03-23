@@ -56,6 +56,7 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
 import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -140,6 +141,7 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -202,6 +204,7 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,

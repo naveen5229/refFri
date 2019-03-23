@@ -1,0 +1,23 @@
+<nb-card>
+  <nb-card-body>
+<button class="btn" (click)="openStockSubTypeModal()">Add Stock Sub Type</button>
+<table class="table table-bordered">
+  <tr>
+    <th>S.no</th>
+<th>Stock Type</th>
+<th>Stock Sub Type</th>
+<th>Code</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+<tr *ngFor="let stockType of stockSubTypes; let i = index;">
+  <td>{{i + 1}}</td>
+  <td>{{stockType.stocktypename}}</td>
+  <td>{{stockType.name}}</td>
+  <td>{{stockType.code}}</td>
+  <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
+  <td><button class="btn" (click)="openStockSubTypeModal(stockType)">Edit</button></td>
+</tr>
+</table>
+</nb-card-body>
+</nb-card>

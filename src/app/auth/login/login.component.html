@@ -1,6 +1,9 @@
 
 
 <div class="main">
+<div class="blink" *ngIf="this.user._loggedInBy== 'admin'">
+  <span>Now You By Admin</span>
+</div>
   <i *ngIf="listenOTP" (click)="listenOTP = false;" class="icon ion-md-arrow-round-back back-icon"></i>
   <div class="logo">
     <img src="http://elogist.in/images/elogist-logo.png">

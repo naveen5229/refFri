@@ -63,6 +63,7 @@ export class SiteFencingComponent implements OnInit {
         this.commonService.showError();
       });
   }
+  tempData = [];
   gotoSingle() {
     this.commonService.loading++;
     let site = this.selectedSite;
@@ -71,7 +72,7 @@ export class SiteFencingComponent implements OnInit {
         let data = res['data'];
         console.log('Res: ', data);
         this.clearAll(false);
-        this.mapService.createMarkers(data);
+        this.tempData = data;
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
@@ -84,13 +85,17 @@ export class SiteFencingComponent implements OnInit {
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if(data[this.selectedSite]&&count==1){
-              this.mapService.createPolygon(data[this.selectedSite].latLngs);
+            if(data[this.selectedSite])
+              this.tempData[0]['color'] = 'f00';
+            this.mapService.createMarkers(this.tempData);
+            if(count==1){
+              this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
               this.isUpdate=true;
-              console.log("Single",data[this.selectedSite]);
+              console.log("Single",data[Object.keys(data)[0]]);
             }
-            else if(data[this.selectedSite]&&count>1){
+            else if(count>1){
               let latLngsArray = [];
+              let showIndex = [];
               let mainLatLng = null;
               let secLatLngs =null;
               let minDis=100000;
@@ -106,9 +111,11 @@ export class SiteFencingComponent implements OnInit {
                   }
                   latLngsArray.push(datav.latLngs);
                   console.log("Multi",datax);
+                  showIndex.push(datax);
                 }
               }
-              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs);
+              
+              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs,showIndex);
               this.isUpdate=true;
             }
             else{

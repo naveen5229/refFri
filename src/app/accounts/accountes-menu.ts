@@ -10,44 +10,44 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Invoice',
-        icon: 'nb-home',
+        icon: 'fas fa-file-invoice',
         link: '/accounts/orders'
     },
 
     {
         title: 'Stock Types',
-        icon: 'nb-home',
+        icon: 'fas fa-weight-hanging',
         link: '/accounts/stock-types'
     },
     {
         title: 'Stock Sub Types',
-        icon: 'nb-home',
+        icon: 'fas fa-weight-hanging',
         link: '/accounts/stock-subtypes'
     }
     ,
     {
         title: 'Stock Item',
-        icon: 'nb-home',
+        icon: 'fa fa-list',
         link: '/accounts/stockitem'
     },
     {
         title: 'Account',
-        icon: 'nb-home',
+        icon: 'fa fa-university',
         link: '/accounts/account'
     },
     {
         title: 'Ledger',
-        icon: 'nb-home',
+        icon: 'fas fa-file-invoice-dollar',
         link: '/accounts/ledgers'
     },
     {
         title: 'Company-Branches',
-        icon: 'nb-home',
+        icon: 'fa fa-building-o',
         link: '/accounts/company-branches'
     },
     {
         title: 'Voucher',
-        icon: 'nb-star',
+        icon: 'fas fa-ticket-alt',
         children: [
             {
                 title: 'Journal Voucher',
@@ -77,7 +77,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Reports',
-        icon: 'nb-bar-chart',
+        icon: 'fa fa-file-excel',
         children: [
             {
                 title: 'Day Book',
@@ -112,7 +112,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Trip Voucher Expense',
-        icon: 'nb-home',
+        icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
     }
 
