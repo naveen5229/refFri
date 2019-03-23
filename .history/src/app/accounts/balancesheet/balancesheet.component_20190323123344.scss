@@ -23,18 +23,11 @@ nb-card-header{
             tr{
                 background-color: #E0E0E0;
                 color: #56b5b4;
-                td{
-                    padding-left: 20px;
-                    font-weight: bold;
-                }
             }
             tr:nth-child(1){
                 background-color: #D6D6D6;
                 color: #277092;
                 font-weight: bold;
-                td{
-                    padding-left: 10px;
-                }
             }
         }
         th,td{

@@ -14,8 +14,8 @@ export class BalancesheetComponent implements OnInit {
 
   balanceData = {
     enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-
+  // startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatter(21/03/2019, 'ddMMYYYY', false, '-'),
     branch: {
       name: '',
       id: 0

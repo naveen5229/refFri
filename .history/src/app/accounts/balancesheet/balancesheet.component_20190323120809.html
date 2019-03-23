@@ -36,38 +36,30 @@
     </div>
     
     <div class="row balance-shit">
-  <div class="col-6 pr-0">
+<div class="col-6 pr-0">
     <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Liability</th>
-          <th style="text-align: right;">Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor=" let dataItem of filterData(balanceSheetData, 0)">
-          <td>{{dataItem.y_name}}</td>
-          <td style="text-align: right;">{{dataItem.y_amount}}</td>
-        </tr>
-      </tbody>
+      <tr>
+        <th>Liability</th>
+        <th style="text-align: right;">Amount</th>
+      </tr>
+      <tr *ngFor=" let dataItem of filterData(balanceSheetData, 0)">
+        <td>{{dataItem.y_name}}</td>
+        <td>{{dataItem.y_amount}}</td>
+      </tr>
     </table>
     </div>
     <div class="col-6 pl-0">
-      <table class="table table-bordered">
-        <thead>
+        <table class="table table-bordered">
           <tr>
-              <th>Asset</th>
-              <th style="text-align: right;">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
+            <th>Asset</th>
+            <th>Amount</th>
+          </tr>
           <tr *ngFor=" let dataItem of filterData(balanceSheetData, 1)">
             <td>{{dataItem.y_name}}</td>
-            <td style="text-align: right;">{{dataItem.y_amount}}</td>
+            <td>{{dataItem.y_amount}}</td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+        </table>
+        </div>
+      </div>
   </nb-card-body>
 </nb-card>
