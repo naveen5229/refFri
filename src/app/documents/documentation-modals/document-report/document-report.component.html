@@ -5,7 +5,10 @@
   </button>
 </div>
 <div class="modal-body">
-    <download-as-excel xlname="sample.xls" sheetname="sample" template="document-report.component.html" object="tc"></download-as-excel>
+    <button class="btn btn-link" (click)="exportToExcel('#tableToExport')">
+        <span class="glyphicon glyphicon-share"></span>
+   Export to Excel
+      </button>
  
 
   <!-- <div class="table">
