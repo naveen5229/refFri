@@ -85,12 +85,15 @@ export class SiteFencingComponent implements OnInit {
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if(data[this.selectedSite])
+            if(data[this.selectedSite]){
               this.tempData[0]['color'] = 'f00';
+              this.isUpdate=true;
+            }
+            else
+              this.isUpdate=false;
             this.mapService.createMarkers(this.tempData);
             if(count==1){
               this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
-              this.isUpdate=true;
               console.log("Single",data[Object.keys(data)[0]]);
             }
             else if(count>1){
@@ -116,10 +119,8 @@ export class SiteFencingComponent implements OnInit {
               }
               
               this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs,showIndex);
-              this.isUpdate=true;
             }
             else{
-              this.isUpdate=false;
               console.log("Else");
             }
             this.mapService.zoomMap(18.5);
