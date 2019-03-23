@@ -73,3 +73,29 @@ input {
     margin-left: 25px;
     font-size: 14px;
 }
+.blink{
+    background-color: transparent;
+    text-align: center;
+}
+span{
+    font-size: 25px;
+    font-family: cursive;
+    color: white;
+    animation: blink 2s linear infinite;
+}
+@keyframes blink{
+0%{opacity: 0; color: wheat}
+50%{opacity: .5; color: whitesmoke}
+100%{opacity: 1; color: black}
+}
+
+// .admin{
+//     animation:blinkingText 0.8s infinite;
+// }
+// @keyframes blinkingText{
+//     0%{     color: red;    }
+//     49%{    color: transparent; }
+//     50%{    color: transparent; }
+//     99%{    color:transparent;  }
+//     100%{   color: red;    }
+// }
