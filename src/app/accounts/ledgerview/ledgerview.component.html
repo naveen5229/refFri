@@ -45,6 +45,7 @@
   </div>
 </div>
 <table class="table table-bordered">
+    <thead style="background-color:#09587a;">
   <tr>
     <th>#</th>
     <th>Date</th>
@@ -54,6 +55,7 @@
     <th>Amount(Debit)</th>
     <th>Amount(Credit)</th>
   </tr>
+  </thead>
   <tr *ngFor="let dataItem of ledgerData; let i = index;">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>

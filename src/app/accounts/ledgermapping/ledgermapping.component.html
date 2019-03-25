@@ -26,17 +26,20 @@
       </div>
     </div>
   </div>
-  <table class="table table-bordered">
-    <tr>
-      <th>#</th>
-      <th>Group Name</th>
-      <th>Ledger Name</th>
-    </tr>
-    <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
-      <td>{{i + 1}}</td>
-      <td>{{dataItem.y_group_name}}</td>
-      <td>{{dataItem.y_ledger_name}}</td>
-    </tr>
-  </table>
+</div>
+<table class="table table-bordered">
+    <thead style="background-color:#09587a;">
+  <tr>
+    <th>#</th>
+    <th>Group Name</th>
+    <th>Ledger Name</th>
+  </tr>
+  </thead>
+  <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{dataItem.y_group_name}}</td>
+    <td>{{dataItem.y_ledger_name}}</td>
+  </tr>
+</table>
 </nb-card-body>
 </nb-card>
