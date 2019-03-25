@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { Component, OnInit } from '@angular/core';
 import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
+import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 
 @Component({
   selector: 'vehicle-trip',
@@ -67,4 +68,26 @@ export class VehicleTripComponent implements OnInit {
     });
   }
 
+  reportIssue(vehicleTrip){
+    console.log("reportIssue",vehicleTrip);
+    const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleTrip.id));
+
+  }
+  deleteTrip(vehicleTrip){
+    console.log("deleteTrip",vehicleTrip);
+    let params = {
+      tripId : vehicleTrip.id
+    }
+    ++this.common.loading;
+    this.api.post('VehicleTrips/deleteVehicleTrip', {params})
+      .subscribe(res => {
+        --this.common.loading;
+        console.log('Res:', res['data']);
+      }, err => {
+        --this.common.loading;
+
+        console.log('Err:', err);
+      });
+  }
 }

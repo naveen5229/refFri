@@ -339,7 +339,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
-      alertId: this.VehicleStatusData.id,
+      vehicleId: this.VehicleStatusData.vehicle_id ,
+      latchTime: this.VehicleStatusData.latch_time,
+      toTime:this.VehicleStatusData.ttime,
       status: status
     };
     console.log(params);
