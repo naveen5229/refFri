@@ -388,6 +388,7 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('paymentterms')) {
         this.setFoucus('biltynumber');
       } else if (this.activeId.includes('biltynumber')) {
+        this.handleVoucherBiltyDateOnEnter();
         this.setFoucus('biltydate');
       } else if (this.activeId.includes('deliveryterms')) {
         console.log(this.order.ordertype.name);
@@ -448,6 +449,28 @@ export class OrdersComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
+  
+  handleVoucherBiltyDateOnEnter() {
+    let dateArray = [];
+    let separator = '-';
+    if (this.order.date.includes('-')) {
+      dateArray = this.order.date.split('-');
+    } else if (this.order.date.includes('/')) {
+      dateArray = this.order.date.split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[2];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[0];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+   // console.log('Date: ', date + separator + month + separator + year);
+    this.order.biltydate = year + separator + month + separator +  date;
+  }
 
   handleVoucherDateOnEnter() {
     let dateArray = [];
@@ -461,14 +484,14 @@ export class OrdersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[0];
+    let date = dateArray[2];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[2];
+    let year = dateArray[0];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.order.date = date + separator + month + separator + year;
+   // console.log('Date: ', date + separator + month + separator + year);
+    this.order.date = year + separator + month + separator +  date;
   }
 
 
