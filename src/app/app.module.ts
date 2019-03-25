@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -85,6 +85,8 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
+import { HttpResponseHandlerService } from './services/http-response-handler.service';
+
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
@@ -143,6 +145,8 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     VechileTrailsComponent,
     AddTripComponent,
     AddFuelFillingComponent,
+    AddDriverComponent,
+    UpdateSiteDetailsComponent,
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     EditDriverComponent,
@@ -234,6 +238,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
 
   ],
