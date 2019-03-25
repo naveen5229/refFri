@@ -2,41 +2,44 @@
   <nb-card-header>
     <h4>Ledger Mapping</h4>
   </nb-card-header>
-<nb-card-body style="min-height: 450px;">
-  <div class="row">
-    <div class="col-4">
-      <div class="form-group">
-        <label>Secondary Goup</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')"  display="name"
-          placeholder="Enter Secondary Group" [data]="secondaryData" [preSelected]="{name:'All'}"></auto-suggestion>
-      </div>
-    </div>
+  <nb-card-body style="min-height: 450px;">
+    <div class="row">
       <div class="col-4">
-          <div class="form-group">
-            <label>Ledger</label>
-            <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-              placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
-          </div>
+        <div class="form-group">
+          <label>Secondary Goup</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" display="name"
+            placeholder="Enter Secondary Group" [data]="secondaryData" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
-        
-    <div class="col-4">
-      <div class="form-group">
-        <button class="btn btn-primary" type="button" outline (click)="getLedgerView()" id="submit"
-          style="cursor: pointer;margin-top: 18px;">Submit</button>
+      </div>
+      <div class="col-4">
+        <div class="form-group">
+          <label>Ledger</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
+            display="name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="form-group">
+          <button class="btn btn-primary" type="button" outline (click)="getLedgerView()" id="submit"
+            style="cursor: pointer;margin-top: 18px;">Submit</button>
+        </div>
       </div>
     </div>
-  </div>
-  <table class="table table-bordered">
-    <tr>
-      <th>#</th>
-      <th>Group Name</th>
-      <th>Ledger Name</th>
-    </tr>
-    <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
-      <td>{{i + 1}}</td>
-      <td>{{dataItem.y_group_name}}</td>
-      <td>{{dataItem.y_ledger_name}}</td>
-    </tr>
-  </table>
-</nb-card-body>
+    
+    <table class="table table-bordered">
+      <thead style="background-color:#09587a;">
+        <tr>
+          <th>#</th>
+          <th>Group Name</th>
+          <th>Ledger Name</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
+        <td>{{i + 1}}</td>
+        <td>{{dataItem.y_group_name}}</td>
+        <td>{{dataItem.y_ledger_name}}</td>
+      </tr>
+    </table>
+  </nb-card-body>
 </nb-card>
