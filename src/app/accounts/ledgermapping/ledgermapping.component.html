@@ -25,11 +25,13 @@
   </div>
 </div>
 <table class="table table-bordered">
+    <thead style="background-color:#09587a;">
   <tr>
     <th>#</th>
     <th>Group Name</th>
     <th>Ledger Name</th>
   </tr>
+  </thead>
   <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_group_name}}</td>

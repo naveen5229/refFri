@@ -59,6 +59,7 @@
   </div>
 </div>
 <table class="table table-bordered">
+    <thead style="background-color:#09587a;">
   <tr>
     <th>#</th>
     <th>Code</th>
@@ -69,6 +70,7 @@
     <th>Tax Amount</th>
     <th>Net Amount</th>
   </tr>
+  </thead>
   <tr *ngFor="let dataItem of DayData; let i = index;">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_code}}</td>
