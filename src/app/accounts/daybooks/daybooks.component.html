@@ -1,7 +1,9 @@
 <nb-card>
+  <nb-card-header>
+    <h4>Day Book</h4>
+  </nb-card-header>
   <nb-card-body style="min-height: 450px;">
-    <h1>Day Book</h1>
-<div class="row" style="margin-left: 5px;">
+<div class="row">
   <div class="col">
     <div class="form-group">
       <label>Branch</label>
@@ -79,6 +81,7 @@
     <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cramunt}}</td>
     
   </tr> -->
+  <thead style="background-color:#09587a;">
   <tr>
       <th>Particular</th>
       <th>Vch Type</th>
@@ -87,6 +90,7 @@
       <th>Amount(Credit)</th>
       
     </tr>
+    </thead>
     <tr  *ngFor=" let dataItem of filterData(DayData);" (click)="RowSelected(dataItem.y_voucherid);" (dblclick)="getBookDetail(dataItem.y_voucherid)"  (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass] = "{'highlight' : dataItem.y_voucherid == selectedName}">
         <td>{{dataItem.y_particulars}}</td>
         <td>{{dataItem.y_type}}</td>

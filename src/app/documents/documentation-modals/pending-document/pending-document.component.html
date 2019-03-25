@@ -17,6 +17,10 @@
 
               <div class="col-sm-8 " *ngIf="!canUpdate">
                 <label style="font-size:16px;">{{document.id}}</label>
+                <span *ngIf="document.verify == true" style="margin-left:20%;">
+                 <label style="font-size:16px; "> Verified </label>
+                </span>
+               
               </div>
               <div class="col-sm-8 " *ngIf="canUpdate">
                 <label style="font-size:16px;">{{document.id}}</label>
@@ -28,6 +32,7 @@
               <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
               <div *ngIf="!canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">{{document.regno}}</label>
+                
               </div>
 
               <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">

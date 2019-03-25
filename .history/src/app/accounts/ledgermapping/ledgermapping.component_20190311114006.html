@@ -1,0 +1,40 @@
+<nb-card>
+    <nb-card-body style="min-height: 450px;">
+<h1>Ledger Mapping</h1>
+<div class="row" style="margin-left: 5px;">
+  <div class="col-4">
+    <div class="form-group">
+      <label>Secondary Goup</label>
+      <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')"  display="name"
+        placeholder="Enter Secondary Group" [data]="secondaryData" [preSelected]="{name:'All'}"></auto-suggestion>
+    </div>
+  </div>
+    <div class="col-4">
+        <div class="form-group">
+          <label>Ledger</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
+            placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+        </div>
+      </div>
+      
+  <div class="col-4">
+    <div class="form-group">
+      <button class="btn btn-primary" type="button" outline (click)="getLedgerView()" id="submit"
+        style="cursor: pointer;margin-top: 18px;">Submit</button>
+    </div>
+  </div>
+</div>
+<table class="table table-bordered">
+  <tr>
+    <th>#</th>
+    <th>Group Name</th>
+    <th>Ledger Name</th>
+  </tr>
+  <tr *ngFor="let dataItem of ledgerMappingData; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{dataItem.y_group_name}}</td>
+    <td>{{dataItem.y_ledger_name}}</td>
+  </tr>
+</table>
+</nb-card-body>
+</nb-card>
