@@ -139,14 +139,15 @@ export class VehicleDriverMappingComponent implements OnInit {
        if(data.response){
          this.getdriverMapping();
        }
-     })
+     });
   }
   // mapDriverSecondry(driver) {
   //   this.common.params={driver};
   //   this.modalService.open(DriverStatusChangeComponent,{ size: 'lg', container: 'nb-layout' })
   // }
   Add(driver){
-    this.common.params=driver;
+    console.log('Driver: ', driver); 
+   // this.common.params = { data: this.data }; 
     this.modalService.open(NewDriverStatusComponent,{size: 'lg', container: 'nb-layout'});
   }
 

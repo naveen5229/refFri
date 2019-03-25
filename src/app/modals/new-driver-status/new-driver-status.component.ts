@@ -8,24 +8,31 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./new-driver-status.component.scss']
 })
 export class NewDriverStatusComponent implements OnInit {
-  driverStatus =[];
-  mobileno=null;
-  Regno=null;
+  driverStatus = [];
+  mobileno = null;
+  Regno = null;
+  selectedType = '';
   constructor(
-    public api:ApiService,
-    public common:CommonService,
-    private activeModal : NgbActiveModal,
+    public api: ApiService,
+    public common: CommonService,
+    private activeModal: NgbActiveModal,
 
-  ) { 
-     //this.Regno=this.common.params.driver.regno;
-     this.getdriverStatus();
+  ) {
+    // console.log('Params: ', this.common.params); 
+    // this.Regno = this.common.params.driver.regno;
+    this.getdriverStatus();
   }
-  getvehicleData(fodriver){
-    this.mobileno =fodriver.mobileno;
+  getvehicleData(fodriver) {
+    this.mobileno = fodriver.mobileno;
+  }
+  getvehicle(vehicle) {
+    this.Regno = vehicle.id;
   }
   ngOnInit() {
   }
-
+  closeModal() {
+    this.activeModal.close();
+  }
   getdriverStatus() {
     this.common.loading++;
     let response;
