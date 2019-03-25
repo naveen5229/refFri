@@ -162,7 +162,9 @@ export class DocumentReportComponent implements OnInit {
           info.push(docdata);
         });
         console.log(info);
-        new Angular5Csv(info, (new Date()).getTime() + '');
+        let date=(new Date()).getTime() ;
+        console.log("Date :",date);
+        new Angular5Csv(info,(this.fodata['name'].toUpperCase()) );
             
       }, err => {
         this.common.loading--;

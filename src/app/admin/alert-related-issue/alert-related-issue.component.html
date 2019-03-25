@@ -1,0 +1,71 @@
+<nb-card>
+<nb-card-header>
+  <div class="col-sm-4">
+    <h2>Vehicle Status Changes</h2>
+  </div>
+  <div class="col-sm-8" style="margin-top:-86px">
+    <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px"
+      id="statusPending" (click)="missingIndustry()" value="Missing Industry">
+    <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      (click)="backLogs()" value="Backlogs">
+  
+  </div>
+</nb-card-header>
+<nb-card-body>
+  <div class="tableFixHead">
+    <table class="table table-bordered table-hover ">
+      <thead class="thead" *ngIf="missingIndusrtyData">
+        <tr>
+          <th>Vehicle Id</th>
+          <th>Type</th>
+          <th>Distance </th>
+          <th>Disa </th>
+          <th>Current Start </th>
+          <th>Outside Start</th>
+         
+          <th>Action</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let alert of missingIndusrtyData">
+          <td>{{alert.y_vehicle_id}}</td>
+          <td>{{alert.y_btw_types}}</td>
+          <td>{{alert.y_dis}}</td>
+          <td>{{alert.y_disa}}</td>
+          <td>{{alert.y_curr_start}}</td>
+          <td>{{alert.y_outside_start}}</td>
+         
+          <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
+        </tr>
+      </tbody>
+      <thead class="thead" *ngIf="backlogData">
+        <tr>
+          <th>Vehicle Id</th>
+          <th>Type</th>
+          <th>Distance </th>
+          <th>Disa </th>
+          <th>Current Start </th>
+          <th>Outside Start</th>
+         
+          <th>Action</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let alert of backlogData">
+          <td>{{alert.y_vehicle_id}}</td>
+          <td>{{alert.y_btw_types}}</td>
+          <td>{{alert.y_dis}}</td>
+          <td>{{alert.y_disa}}</td>
+          <td>{{alert.y_curr_start}}</td>
+          <td>{{alert.y_outside_start}}</td>
+         
+          <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</nb-card-body>
+</nb-card>
