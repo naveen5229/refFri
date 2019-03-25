@@ -1,0 +1,119 @@
+<nb-card>
+  <nb-card-header>
+    <h4>Trip Voucher Expense</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-3" style="margin-bottom :10px">
+          <auto-suggestion (onSelected)="getTripSummary($event)" url="Suggestion/getVehicleList" display="regno"
+          placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
+        </div>
+        <div class="col-sm-6" style="text-align :right">
+            <button (click)="getPendingTrips()" class="btn btn-primary">ADD New Voucher</button>
+          </div>
+    </div>
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th>Start Location</th>
+          <th>End Location</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;" (click)="getVoucherSummary(tripVoucher)">
+            <td>{{i+1}}</td>
+            <td>{{tripVoucher.startloc}}</td>
+            <td>{{tripVoucher.endloc || '--'}}</td>
+            <td>{{tripVoucher.startdate | date : 'dd MMM'}}</td>
+            <td>{{tripVoucher.enddate | date : 'dd MMM'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th> </th>
+          <th>Start Location</th>
+          <th>End Location</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trip of trips;let i=index;">
+            <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'trip-' + i" [(ngModel)]="trip.isChecked"
+                (ngModelChange)="checkedAllSelected()">
+            </td>
+            <td>{{trip.start_name}}</td>
+            <td>{{trip.end_name || '--'}}</td>
+            <td>{{trip.start_time | date : 'dd MMM'}}</td>
+            <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="getFuelFillings()">Show Fuel Entries</button>
+    </div>
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th> </th>
+          <th>Station name</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
+            <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked">
+            </td>
+            <td>{{fuelFiling.name}}</td>
+            <td>{{fuelFiling.litres}}</td>
+            <td>{{fuelFiling.rate}}</td>
+            <td>{{fuelFiling.amount}}</td>
+            <td>{{fuelFiling.date | date : 'dd MMM'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="getHeads()">Show Head</button>
+    </div>
+
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th>Head</th>
+          <th>Total</th>
+          <th *ngFor="let trip of checkedTrips;">{{trip.start_name}} - {{trip.end_name}}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tripHead of tripHeads;let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{tripHead.name}}</td>
+            <td>
+              <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total">
+            </td>
+            <td *ngFor="let trip of tripHead.trips; let j = index;">
+              <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount" (input)="calculateTripHeadTotal(i)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="addVoucher()">Submit</button>
+    </div> -->
+  </nb-card-body>
+</nb-card>

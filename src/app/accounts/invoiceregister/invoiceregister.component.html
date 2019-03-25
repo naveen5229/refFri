@@ -1,60 +1,63 @@
 <nb-card>
-    <nb-card-body style="min-height: 450px;">
-<h1>Invoice Register</h1>
-<div class="row" style="margin-left: 5px;">
-  <div class="col">
-    <div class="form-group">
-      <label>Branch</label>
-      <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
-        placeholder="Enter Branch" [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
-    </div>
-  </div>
-  <div class="col">
+  <nb-card-header>
+    <h4>Invoice Register</h4>
+  </nb-card-header>
+<nb-card-body style="min-height: 450px;">
+  <div class="row">
+    <div class="col">
       <div class="form-group">
-        <label>Voucher Type</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'orderType', 'name')" url="Suggestion/GetOrderTypeList" display="name"
-          placeholder="Enter Order Type" [data]="vouchertypedata" [preSelected]="{name:'All'}"></auto-suggestion>
+        <label>Branch</label>
+        <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
+          placeholder="Enter Branch" [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
       </div>
     </div>
     <div class="col">
         <div class="form-group">
-          <label>Ledger</label>
-          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-            placeholder="Enter Ledger" [preSelected]="{name:'All'}"></auto-suggestion>
+          <label>Voucher Type</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'orderType', 'name')" url="Suggestion/GetOrderTypeList" display="name"
+            placeholder="Enter Order Type" [data]="vouchertypedata" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
       </div>
       <div class="col">
           <div class="form-group">
-              <label>Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10"
-              placeholder="Select Date" name="account-startDate" [(ngModel)]="invoiceRegister.startDate"
-              readonly>
+            <label>Ledger</label>
+            <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
+              placeholder="Enter Ledger" [preSelected]="{name:'All'}"></auto-suggestion>
           </div>
         </div>
         <div class="col">
             <div class="form-group">
-                <label>End Date</label>
+                <label>Starting Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10"
-                placeholder="Select Date" name="account-endDate" [(ngModel)]="invoiceRegister.endDate"
+                placeholder="Select Date" name="account-startDate" [(ngModel)]="invoiceRegister.startDate"
                 readonly>
             </div>
           </div>
           <div class="col">
               <div class="form-group">
-                  <label>Code</label>
-                  <input type="text" class="form-control" placeholder="Code" name="account-code" [(ngModel)]="invoiceRegister.code">
+                  <label>End Date</label>
+                  <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10"
+                  placeholder="Select Date" name="account-endDate" [(ngModel)]="invoiceRegister.endDate"
+                  readonly>
               </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label>Cust Code</label>
-                    <input type="text" class="form-control"  placeholder="Cust Code" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
+                    <label>Code</label>
+                    <input type="text" class="form-control" placeholder="Code" name="account-code" [(ngModel)]="invoiceRegister.code">
                 </div>
               </div>
-  <div class="col">
-    <div class="form-group">
-      <button class="btn btn-primary" type="button" outline (click)="getInvoiceRegister()" id="submit"
-        style="cursor: pointer;margin-top: 18px;">Submit</button>
+              <div class="col">
+                  <div class="form-group">
+                      <label>Cust Code</label>
+                      <input type="text" class="form-control"  placeholder="Cust Code" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
+                  </div>
+                </div>
+    <div class="col">
+      <div class="form-group">
+        <button class="btn btn-primary" type="button" outline (click)="getInvoiceRegister()" id="submit"
+          style="cursor: pointer;margin-top: 18px;">Submit</button>
+      </div>
     </div>
   </div>
 </div>
