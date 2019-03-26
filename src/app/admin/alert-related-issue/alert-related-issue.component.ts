@@ -1,0 +1,104 @@
+import { Component, OnInit } from '@angular/core';
+
+import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
+
+import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
+@Component({
+  selector: 'alert-related-issue',
+  templateUrl: './alert-related-issue.component.html',
+  styleUrls: ['./alert-related-issue.component.scss', '../../pages/pages.component.css']
+})
+export class AlertRelatedIssueComponent implements OnInit {
+  missingIndusrtyData = [];
+  missing = 0;
+  backlog = 0;
+  backlogData = [];
+  constructor(public api: ApiService,
+    public common: CommonService,
+    private modalService: NgbModal, ) { }
+
+  ngOnInit() {
+  }
+
+  missingIndustry() {
+    this.common.loading++;
+    this.api.get('HaltOperations/getMissingIndustries')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.missingIndusrtyData = res['data'];
+        console.log("data:", this.missingIndusrtyData);
+        if (this.missingIndusrtyData) {
+          this.missing = 1;
+          this.backlog = 0;
+        }
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  backLogs() {
+    this.common.loading++;
+    this.api.get('HaltOperations/getBacklogs')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.backlogData = res['data'];
+        console.log("data:", this.backlogData);
+        if (this.backlogData) {
+          this.backlog = 1;
+          this.missing = 0;
+        }
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  missingIssue(issue){
+    let ltime =  new Date(issue.addtime);
+    let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
+    let latch_time = this.common.dateFormatter(subtractLTime);
+    console.log("issue:",issue);
+    let VehicleStatusData = {
+      vehicle_id : issue.y_vehicle_id,
+      ttime:issue.y_curr_start,
+      suggest:null,
+      latch_time:issue.y_outside_start
+    }
+    console.log("VehicleStatusData", VehicleStatusData);
+   
+    this.common.params = VehicleStatusData;
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+    });
+
+  }
+  backlogsIssue(backlogsIssue){
+    let ltime =  new Date(backlogsIssue.addtime);
+    let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
+    let latch_time = this.common.dateFormatter(subtractLTime);
+    console.log("issue:",backlogsIssue);
+    let VehicleStatusData = {
+      vehicle_id : backlogsIssue.x_vehicle_id,
+      ttime:backlogsIssue.y_sec_start_time,
+      suggest:null,
+      latch_time:backlogsIssue.y_start_time
+    }
+    console.log("VehicleStatusData", VehicleStatusData);
+   
+    this.common.params = VehicleStatusData;
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+    });
+
+  }
+
+}
