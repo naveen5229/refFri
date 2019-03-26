@@ -1,28 +1,27 @@
 <nb-card>
   <nb-card-header>
     <div class="col-sm-4">
-      <h2>Vehicle Status Changes</h2>
+      <h2>Alert Related Issues</h2>
     </div>
     <div class="col-sm-8" style="margin-top:-86px">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="missingIndustry"
         (click)="missingIndustry()" value="Missing Industry">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
-        (click)="backLogs()" value="Backlogs">
+      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="backLogs" (click)="backLogs()"
+        value="Backlogs">
 
     </div>
   </nb-card-header>
   <nb-card-body>
     <div class="tableFixHead">
-      <table class="table table-bordered table-hover " *ngIf="missingIndusrtyData.length">
+      <table class="table table-bordered table-hover " *ngIf="missing==1 || backLogs==0">
         <thead class="thead">
           <tr>
             <th>Vehicle Id</th>
             <th>Type</th>
             <th>Distance </th>
-            <th>Disa </th>
-            <th>Current Start </th>
-            <th>Outside Start</th>
-
+            <th>Arial Time </th>
+            <th>From Time </th>
+            <th>End Time</th>
             <th>Action</th>
           </tr>
 
@@ -33,37 +32,39 @@
             <td>{{alert.y_btw_types}}</td>
             <td>{{alert.y_dis}}</td>
             <td>{{alert.y_disa}}</td>
-            <td>{{alert.y_curr_start}}</td>
-            <td>{{alert.y_outside_start}}</td>
+            <td>{{alert.y_curr_start | date :"dd-MMM hh:mm"}}</td>
+            <td>{{alert.y_outside_start | date :"dd-MMM hh:mm" }}</td>
 
-            <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
+            <td><button (click)="missingIssue(alert)">Take Action</button></td>
           </tr>
         </tbody>
       </table>
-      <table class="table table-bordered table-hover " *ngIf="backlogData.length">
+      <table class="table table-bordered table-hover" *ngIf="backLogs==1 || missing==0  ">
         <thead class="thead">
           <tr>
             <th>Vehicle Id</th>
-            <th>Type</th>
+            <th>Regno </th>
+            <th>Fo Name</th>
             <th>Distance </th>
-            <th>Disa </th>
+            <th>Arial Time </th>
             <th>Current Start </th>
             <th>Outside Start</th>
-
+            <th>Remark</th>
             <th>Action</th>
           </tr>
 
         </thead>
         <tbody>
           <tr *ngFor="let alert of backlogData">
-            <td>{{alert.y_vehicle_id}}</td>
-            <td>{{alert.y_btw_types}}</td>
+            <td>{{alert.x_vehicle_id}}</td>
+            <td>{{alert.y_regno}}</td>
+            <td>{{alert.y_fo_name}}</td>
             <td>{{alert.y_dis}}</td>
             <td>{{alert.y_disa}}</td>
-            <td>{{alert.y_curr_start}}</td>
-            <td>{{alert.y_outside_start}}</td>
-
-            <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
+            <td>{{alert.y_start_time | date :"dd-MMM hh:mm"}}</td>
+            <td>{{alert.y_sec_start_time |date :"dd-MMM hh:mm"}}</td>
+            <td>{{alert.y_remark}}</td>
+            <td><button (click)="backlogsIssue(alert)">Take Action</button></td>
           </tr>
         </tbody>
       </table>
