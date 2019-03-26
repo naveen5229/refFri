@@ -2,39 +2,39 @@
   <nb-card-header>
     <h4>Ledger View</h4>
   </nb-card-header>
-    <nb-card-body style="min-height: 450px;">
+    <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
 <div class="row">
   <div class="col">
     <div class="form-group">
       <label>Branch</label>
       <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
-        placeholder="Enter Branch"  [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
+        placeholder="Enter Branch"  [data]="branchdata" inputId="branch" [preSelected]="{name:'All'}"></auto-suggestion>
     </div>
   </div>
   <div class="col">
       <div class="form-group">
         <label>Voucher Type</label>
         <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
-          placeholder="Enter Voucher Type" [data]="vouchertypedata" [preSelected]="{name:'All'}"></auto-suggestion>
+          placeholder="Enter Voucher Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion>
       </div>
     </div>
     <div class="col">
         <div class="form-group">
           <label>Ledger</label>
           <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-            placeholder="Enter Ledger" [preSelected]="{name:'All'}"></auto-suggestion>
+            placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
       </div>
       <div class="col">
           <div class="form-group">
               <label>Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
+              <input type="text" style="cursor: pointer;" class="form-control" id="startdate" autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
           </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label>End Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
+                <input type="text" style="cursor: pointer;" class="form-control" id="enddate" autocomplete="off" maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
             </div>
           </div>
   <div class="col">

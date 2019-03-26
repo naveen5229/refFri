@@ -2,20 +2,20 @@
   <nb-card-header>
     <h4>Ledger Mapping</h4>
   </nb-card-header>
-  <nb-card-body style="min-height: 450px;">
+  <nb-card-body style="min-height: 450px;"  (keydown)="keyHandler($event)">
     <div class="row">
       <div class="col-4">
         <div class="form-group">
           <label>Secondary Goup</label>
           <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" display="name"
-            placeholder="Enter Secondary Group" [data]="secondaryData" [preSelected]="{name:'All'}"></auto-suggestion>
+            placeholder="Enter Secondary Group" [data]="secondaryData" inputId="secondaryname" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
       </div>
       <div class="col-4">
         <div class="form-group">
           <label>Ledger</label>
           <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
-            display="name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
+            display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
 
