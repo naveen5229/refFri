@@ -78,7 +78,7 @@ export class DocumentReportComponent implements OnInit {
         let rowHeading = [['SNo', 'DocumentID', 'Vehicle', 'Type', 'Wef Date', 'Expiry Date']];
         let keyHeading = ['sno', 'id', 'regno', 'document_type', 'wef_date', 'expiry_date'];
         let pageOrientation = "l"; //l or p
-        let address = ["elogist Solutions Pvt. Ltd.", "Address: 605-21, Jaipur Electronic Market", "Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018", "Support: 8081604455", "Website: www.walle8.com"];
+        let address = [this.fodata['name'].toUpperCase()];
         let strstatus = this.reportData.status.toUpperCase();
         switch(strstatus) {
           case 'VERIFIED' : strstatus = 'VERIFIED DOCUMENTS'; break;
@@ -89,7 +89,7 @@ export class DocumentReportComponent implements OnInit {
           case 'PENDINGDOC' : strstatus = 'PENDING DOCUMENTS'; break;
           default: break;
         }
-        let centerheading = ["Customer: " + this.fodata['name'].toUpperCase(), "Mobile: " + this.fodata['mobileno'], strstatus];
+        let centerheading = [strstatus];
         this.getPDFFromTable(rowHeading, keyHeading, this.data, pageOrientation, document.getElementById('img-logo'), address, centerheading);
       }, err => {
         this.common.loading--;
@@ -117,25 +117,25 @@ export class DocumentReportComponent implements OnInit {
     var pageContent = function (data) {
       //header
       let x = 35;
-      let y = 25;
+      let y = 40;
 
-      doc.setFontSize(10);
+      doc.setFontSize(14);
       for(let i=0; i<address.length; i++) {
         if(i== 0)
           doc.setFont("times", "bold");
         else
           doc.setFont("times", "normal");
         doc.text(address[i], x, y);
-        y=y+10;
+        y=y+14;
       }
       let max_y = y;
       let pageWidth= parseInt(doc.internal.pageSize.width);
       x=pageWidth / 2;
-      y=25;
+      y=40;
       doc.setFontSize(12);
       for(let i=0; i<centerheading.length; i++) {
-        doc.text(centerheading[i], x - 30, y);
-        y=y+12;
+        doc.text(centerheading[i], x - 50, y);
+        y=y+14;
       }
       max_y = max_y < y? y: max_y;
       y= 15;
