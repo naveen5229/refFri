@@ -106,7 +106,8 @@ export class AlertRelatedIssueComponent implements OnInit {
       vehicle_id: issue.y_vehicle_id,
       ttime: issue.y_curr_start,
       suggest: null,
-      latch_time: issue.y_outside_start
+      latch_time: issue.y_outside_start,
+      status:2
     }
     console.log("VehicleStatusData", VehicleStatusData);
 
@@ -125,7 +126,8 @@ export class AlertRelatedIssueComponent implements OnInit {
       vehicle_id: backlogsIssue.x_vehicle_id,
       ttime: backlogsIssue.y_sec_start_time,
       suggest: null,
-      latch_time: backlogsIssue.y_start_time
+      latch_time: backlogsIssue.y_start_time,
+      status:3
     }
     console.log("VehicleStatusData", VehicleStatusData);
 

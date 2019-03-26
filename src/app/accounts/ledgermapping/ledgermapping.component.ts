@@ -22,11 +22,13 @@ export class LedgermappingComponent implements OnInit {
       },
     };
     ledgerMappingData=[];
+    activeId='';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
       this.getSecondaryData();
+      this.setFoucus('secondaryname');
     }
 
 
@@ -77,5 +79,29 @@ export class LedgermappingComponent implements OnInit {
     this.ledgerMapping[type].name = selectedData[display];
     this.ledgerMapping[type].id = selectedData.id;
     // console.log('order User: ', this.DayBook);
+  }
+  
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if (key == 'enter') {
+       if (this.activeId.includes('secondaryname')) {
+        this.setFoucus('ledger');
+      }else  if (this.activeId.includes('ledger')) {
+        this.setFoucus('submit');
+      }
+    }
+  }
+
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }

@@ -7,7 +7,7 @@
       <input type="button"  id="missingIndustry" class="missingIndustry"
         (click)="missingIndustry()" value="Missing Industry">
       <input type="button"  id="backLogs" class="backLogs" (click)="backLogs()"
-        value="Backlogs">
+        value="Missing History">
 
     </div>
   </nb-card-header>
@@ -29,7 +29,7 @@
 
             <td style="width:5%;">{{i + 1}}</td>
             <td *ngFor="let col of columns">
-              <span style="min-width: 200px;">{{alert[col]}}</span>
+              <span style="min-width: 200px;">{{(col=='y_curr_start'||col=='y_outside_start')? ( common.changeDateformat2(alert[col])):alert[col]}}</span>
             </td>
             <td><button (click)="missingIssue(alert)">Take Action</button></td>
 
@@ -53,7 +53,7 @@
       
                   <td style="width:5%;">{{i + 1}}</td>
                   <td *ngFor="let col of columns2">
-                    <span style="min-width: 200px;">{{alert[col]}}</span>
+                    <span style="min-width: 200px;">{{(col=='y_sec_start_time'||col=='y_start_time')? ( common.changeDateformat2(alert[col])):alert[col]}}</span>
                   </td>
                   <td><button (click)="backlogsIssue(alert)">Take Action</button></td>
       
