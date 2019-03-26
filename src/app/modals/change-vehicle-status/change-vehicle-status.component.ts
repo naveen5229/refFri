@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
+import { ReportIssueComponent } from '../report-issue/report-issue.component';
 
 declare let google: any;
 
@@ -45,6 +46,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   onlyDrag = false;
   vehicleEvent = null;
   convertSiteHaltFlag = false;
+  toTime= this.common.dateFormatter(new Date());
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
@@ -57,7 +59,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.getLastIndDetails();
     this.getEvents();
     this.getLoadingUnLoading();
-
+    console.log("date1",this.toTime);
   }
 
   ngOnInit() {
@@ -123,7 +125,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       'vehicleId': this.VehicleStatusData.vehicle_id,
       'fromTime': this.VehicleStatusData.latch_time,
-      'toTime': this.VehicleStatusData.ttime,
+      'toTime': this.toTime,
       'suggestId': this.VehicleStatusData.suggest
     }
     console.log(params);
@@ -156,7 +158,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.VehicleStatusData.ttime;
+      "&toTime=" + this.toTime;
     console.log(params);
     this.api.get('HaltOperations/getHaltHistory?' + params)
       .subscribe(res => {
@@ -190,7 +192,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&latchTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.VehicleStatusData.ttime;
+      "&toTime=" + this.toTime;
     console.log(params);
     this.api.get('HaltOperations/getMasterHaltDetail?' + params)
       .subscribe(res => {
@@ -341,7 +343,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       vehicleId: this.VehicleStatusData.vehicle_id ,
       latchTime: this.VehicleStatusData.latch_time,
-      toTime:this.VehicleStatusData.ttime,
+      toTime:this.toTime,
       status: status
     };
     console.log(params);
@@ -688,7 +690,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       vehicleId: this.VehicleStatusData.vehicle_id,
       tLat: this.VehicleStatusData.tlat,
       tLong: this.VehicleStatusData.tlong,
-      tTime: this.VehicleStatusData.ttime,
+      tTime: this.toTime,
     }
 
     console.log("params=", params);
@@ -706,6 +708,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  reportIssue(vehicleEvent){
+    this.common.params= {refPage : 'vsc'};
+    console.log("reportIssue",vehicleEvent);
+    const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
+
   }
 }
 
