@@ -21,6 +21,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
   moveLoc = '';
   siteLoc = '';
   isStrictLoading  = "null";
+  siteId = null;
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -29,6 +30,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
     private mapService: MapService,
   ) {
     this.s_name = this.common.params.site.site_name;
+    this.siteId=this.common.params.site.site_id;
     console.log(this.common.params.site);
   }
 
@@ -38,7 +40,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
   }
   updateSiteDetails() {
     let params = {
-      siteId:this.common.params.site.site_id,
+      siteId:this.siteId,
       locationName:this.siteLoc,
       isStrictLoading :this.isStrictLoading ,
     }
@@ -89,11 +91,12 @@ export class UpdateSiteDetailsComponent implements OnInit {
   //  // this.vehicleTrip.startLat = lat;
   //  // this.vehicleTrip.startLng = lng;
   // }
-  reportIssue(siteId){
+  reportIssue(){
+    ;
     this.common.params= {refPage : 'sd'};
-    console.log("reportIssue",siteId);
+    console.log("reportIssue",this.siteId);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
-    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, siteId));
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, this.siteId));
   
   }
 }
