@@ -88,6 +88,7 @@ export class StockitemComponent implements OnInit {
     }
     console.log('testing purpose', this.stockTypeName);
     this.getStockType();
+    this.setFoucus('stockType');
   }
 
 
@@ -173,10 +174,10 @@ export class StockitemComponent implements OnInit {
       } else if (activeId.includes('stockSubType')) {
         this.setFoucus('unit');
       } else if (activeId == 'unit') {
-        this.setFoucus('name');
-      } else if (activeId == 'name') {
         this.setFoucus('code');
       } else if (activeId == 'code') {
+        this.setFoucus('name');
+      } else if (activeId == 'name') {
         this.setFoucus('maxlimit');
       } else if (activeId == 'maxlimit') {
         this.setFoucus('minlimit');

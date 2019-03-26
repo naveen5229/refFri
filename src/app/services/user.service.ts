@@ -42,7 +42,8 @@ export class UserService {
       { id: 12, route: '/admin/pending-documents' },
       { id: 13, route: '/admin/user-preferences' },
       { id: 14, route: '/admin/site-details' },
-      { id: 15, route: '/admin/vscticketaudit' }
+      { id: 15, route: '/admin/vscticketaudit' },
+      { id: 16, route: '/admin/alert-related-issue' }
     ]
   }
   
