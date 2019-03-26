@@ -6,7 +6,7 @@ import { ApiService } from './api.service';
 })
 export class AccountService {
   selected = {
-    branch: ''
+    branch: '0'
   };
   branches = [];
 
