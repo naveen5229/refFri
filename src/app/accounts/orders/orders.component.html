@@ -1,6 +1,6 @@
 <nb-card>
 <nb-card-header>
-    <h2>Invoice</h2>
+    <h4>Invoice</h4>
   </nb-card-header>
   <nb-card-body (keydown)="keyHandler($event)">
     <div class="row mb-4">
@@ -363,12 +363,7 @@
               </td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td colspan="6">&nbsp;</td>
               <td><b>Total Amount : </b></td>
               <td><input type="text" class="form-control" autocomplete="off" name="account-totalamount"
                   [(ngModel)]="order.totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
@@ -398,7 +393,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
     </div>
   </div>
 </div>

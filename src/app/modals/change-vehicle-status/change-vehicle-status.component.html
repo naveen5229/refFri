@@ -56,7 +56,7 @@
       </table>
     </div>
   </div>
-  <div [class]=" lUlBtn?'col-sm-3':'col-sm-4'">
+  <div [class]=" lUlBtn?'col-sm-3':'col-sm-5'">
     <!-- <accordion>
                   <group title="First Group">this is the content</group>
                 </accordion> -->
@@ -69,6 +69,7 @@
           <th>Location</th>
           <th>Dist</th>
           <th>KM/h</th>
+          <th>AdUserId</th>
           <th>CS</th>
           <th>CHT</th>
         </thead>
@@ -83,6 +84,7 @@
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
+            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}</td>
             <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
                 *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i class="fa fa-plus"></i></button></td>
             <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
@@ -112,7 +114,7 @@
       <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced Review</button></div>
 
   </div>
-  <div [class]=" lUlBtn?' map-container col-sm-6':'map-container col-sm-8'">
+  <div [class]=" lUlBtn?' map-container col-sm-6':'map-container col-sm-7'">
 
     <div #map id="map" style="margin-left:10px"> </div>
 
