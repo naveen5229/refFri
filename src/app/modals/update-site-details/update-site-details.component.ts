@@ -92,7 +92,6 @@ export class UpdateSiteDetailsComponent implements OnInit {
   //  // this.vehicleTrip.startLng = lng;
   // }
   reportIssue(){
-    ;
     this.common.params= {refPage : 'sd'};
     console.log("reportIssue",this.siteId);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
