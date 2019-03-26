@@ -18,6 +18,8 @@ export class AlertRelatedIssueComponent implements OnInit {
   missing = 0;
   backlog = 0;
   backlogData = [];
+  columns = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal, ) { }
@@ -37,6 +39,13 @@ export class AlertRelatedIssueComponent implements OnInit {
           this.missing = 1;
           this.backlog = 0;
         }
+        if(this.missingIndusrtyData.length) {
+          for(var key in this.missingIndusrtyData[0]) {
+            if(key.charAt(0) != "_")
+              this.columns.push(key);
+          }
+        }
+        console.log("columns:",this.columns);
 
       }, err => {
         this.common.loading--;
@@ -99,6 +108,11 @@ export class AlertRelatedIssueComponent implements OnInit {
     activeModal.result.then(data => {
     });
 
+  }
+
+  
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
 }
