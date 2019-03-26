@@ -1,0 +1,28 @@
+<nb-card>
+  <nb-card-header>
+    <h5>Stock Item</h5>
+  </nb-card-header>
+  <nb-card-body>
+<button class="btn mb-4" (click)="openAccountModal()">Add Account</button>
+<table class="table table-bordered">
+  <thead style="background-color: #EEEEEE;">
+      <tr>
+        <th>#</th>
+        <th>Fo User</th>
+        <th>Name</th>
+        <th>Date</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let Accounts of Accounts; let i = index;">
+        <td>{{i + 1}}</td>
+        <td>{{ Accounts.foname}}</td>
+        <td>{{Accounts.name}}</td>
+        <td>{{Accounts.entry_dt | date : 'dd MMM HH:mm'}}</td>
+        <!--td><button class="btn" (click)="openAccountModal(Accounts)">Edit</button></td-->
+      </tr>
+  </tbody>
+  
+</table>
+</nb-card-body>
+</nb-card>

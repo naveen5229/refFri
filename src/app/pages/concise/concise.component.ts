@@ -70,6 +70,9 @@ export class ConciseComponent implements OnInit {
   primaryStatus = [];
   subPrimaryStatus = {};
 
+  activePrimaryStatus = '';
+  primarySubStatus = [];
+
 
   constructor(
     public api: ApiService,
@@ -482,9 +485,16 @@ export class ConciseComponent implements OnInit {
   }
 
   choosePrimarySubStatus(primaryStatus) {
+    if (primaryStatus.name == this.activePrimaryStatus) {
+      this.activePrimaryStatus = '';
+      this.primarySubStatus = [];
+      return;
+    }
     if (Object.keys(primaryStatus.subStatus).length == 1) {
       this.kpis = primaryStatus.subStatus[Object.keys(primaryStatus.subStatus)[0]];
       this.table = this.setTable();
+      this.primarySubStatus = [];
+      this.activePrimaryStatus = '';
       return;
     }
 
@@ -500,16 +510,26 @@ export class ConciseComponent implements OnInit {
     });
 
     options[0].name += ' : ' + options[0].kpis.length;
-    console.log("options",options);
-    this.common.params = { options };
-    const modal = this.modalService.open(RadioSelectionComponent, { size: 'sm' });
-    modal.result.then(data => {
-      if (data.status) {
-        this.kpis = data.selectedOption.kpis;
-        this.table = this.setTable();
-      }
-    });
+    console.log("options", options);
+    // this.common.params = { options };
+    // const modal = this.modalService.open(RadioSelectionComponent, { size: 'sm' });
+    // modal.result.then(data => {
+    //   if (data.status) {
+    //     this.kpis = data.selectedOption.kpis;
+    //     this.table = this.setTable();
+    //   }
+    // });
+    this.primarySubStatus = options;
+    this.activePrimaryStatus = primaryStatus.name;
+    console.log(this.activePrimaryStatus);
   }
+
+  selectSubStatus(kpis) {
+    this.kpis = kpis;
+    this.table = this.setTable();
+  }
+
+
 
 
 }

@@ -11,6 +11,9 @@ import { normalize } from 'path';
 import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { DatePipe } from '@angular/common';
+import jsPDF from 'jspdf';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
@@ -21,6 +24,7 @@ export class DocumentReportComponent implements OnInit {
   table = null;
   title = '';
   data = [];
+  fodata = [];
   // reportResult = [];
   reportData = {
     id: null,
@@ -55,6 +59,117 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
+  exportPDF() {
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+      .subscribe(res => {
+        this.fodata = res['data'];
+        this.common.loading--;
+        let doc = new jsPDF({
+          orientation: 'landscape',
+          unit: 'px',
+          format: 'a4'
+        });
+        let strcontent = document.getElementById("doc_report").innerHTML;
+        let hdg_html = "<tr><th>#</th><th>DocID</th><th>Vehicle</th><th>Document</th><th>Issue Date</th><th>Wef Date</th><th>Expiry Date</th><th>Doc No.</th><th>RTO</th><th>Amount</th><th>Verified</th><th>Remark</th></tr>";
+        let content = this.getTableColumns();
+        
+        console.log("content::");
+        console.log(content);
+        let tbl_html = "<table>" + hdg_html + "</table>";
+        console.log("content:");
+        console.log(strcontent);
+        doc.addImage(document.getElementById('img-logo'), 'JPEG', 15, 15, 50, 50, 'logo', 'NONE', 0);
+        doc.text(this.fodata['name'], 200, 25);
+        doc.text('Phone: ' + this.fodata['mobileno'], 200, 40)
+        doc.text(this.reportData.status, 200, 55);
+        doc.fromHTML(tbl_html, 15, 70, {
+          'width': 350,
+              'elementHandlers': this.specialElementHandlers
+          });
+        doc.fromHTML(strcontent, 15, 100, {
+          'width': 350,
+              'elementHandlers': this.specialElementHandlers
+          });
+        doc.save('report.pdf');
+        
+        
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });    
+      
+  }
+
+  specialElementHandlers() {
+
+  }
+
+  exportCSV() {
+    
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+      .subscribe(res => {
+        this.fodata = res['data'];
+        //this.common.loading--;
+        
+        let info = [];
+        let client = {"Customer" : "Name: " + this.fodata['name'].toUpperCase()};
+        let mobileno = {"Mobile" : "Mobile: " + this.fodata['mobileno']};
+        let status = {"Status" : "Status: " + this.reportData.status.toUpperCase()};
+        let organization = {"elogist Solutions  Pvt. Ltd.": "elogist Solutions  Pvt. Ltd."}; 
+        let website = {"Website: www.walle8.com" : "Website: www.walle8.com"}; 
+        let address = {"Address: 605-21 ": "Address: 605-21", " Jaipur Electronic Market ": " Jaipur Electronic Market "};
+        let address_sec = {"Riddhi Siddhi Circle": "Riddhi Siddhi Circle", " Gopalpura Bypass " : " Gopalpura Bypass ", " Jaipur ": " Jaipur ", " Rajasthan - 302018 ": " Rajasthan - 302018 " }; 
+        let support = {"Support:  8081604455": "Support:  8081604455"};
+        let temp = {
+          "SN" : "SN",
+          "DocumentID": "DocumentID",
+          "VehicleNo": "VehicleNo",
+          "IssueDate": "IssueDate",
+          "WefDate": "WefDate",
+          "ExpiryDate": "ExpiryDate",
+          "DocumentNo": "DocumentNo",
+          "RTO": "RTO",
+          "Amount": "Amount",
+          "Verified": "Verified",
+          "Remark": "Remark"
+        };
+        info.push(organization);
+        info.push(website);
+        info.push(address);
+        info.push(address_sec);
+        info.push(support);
+        
+        info.push(client);
+        info.push(mobileno);
+        info.push(status);
+        
+        info.push(temp);
+        
+        this.data.map((doc, index) => {
+          let docdata = {
+            "SN": (index + 1),
+            "DocumentID": doc.id,
+            "VehicleNo": doc.regno,
+            "IssueDate": doc.issue_date == null? '': doc.issue_date,
+            "WefDate": doc.wef_date == null? '': doc.wef_date,
+            "ExpiryDate": doc.expiry_date == null? '': doc.expiry_date,
+            "DocumentNo": doc.document_number == null? '': doc.document_number,
+            "RTO": doc.rto == null? '': doc.rto,
+            "Amount": doc.amount == null? '': doc.amount,
+            "Verified": doc.verified? 'Yes': 'No',
+            "Remark": doc.remarks == null? '': doc.remarks
+          };
+          info.push(docdata);
+        });
+        console.log(info);
+        new Angular5Csv(info, (new Date()).getTime() + '');
+            
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });    
+  
+  }
 
   setTable() {
     let headings = {
@@ -68,6 +183,7 @@ export class DocumentReportComponent implements OnInit {
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       rto: { title: 'Rto', placeholder: 'Rto' },
       amount: { title: 'Amount', placeholder: 'Amount' },
+      verified: { title: 'Verified', placeholder: 'Verified' },
       remark: { title: 'Remark', placeholder: 'Remak' },
       image: { title: 'Image', placeholder: 'Image', hideSearch: true },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
@@ -111,8 +227,9 @@ export class DocumentReportComponent implements OnInit {
         agentName: { value: doc.agent },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
+        verified: { value: doc.verified ? 'Yes': 'No' },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc), class: 'image text-center' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
         rowActions: {}
       };
       columns.push(column);
@@ -120,8 +237,16 @@ export class DocumentReportComponent implements OnInit {
     return columns;
   }
   add(row){
+    console.log("row Data:",row);
     this.common.params = { row, title: 'Upload Image' };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+          if (data.response) {
+            this.closeModal(true);
+            this.getReport();
+        
+          }
+        });
   }
     
   
@@ -135,7 +260,7 @@ export class DocumentReportComponent implements OnInit {
       status: this.reportData.status
     };
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatistics', { x_status: params.status, x_document_type_id: params.id })
+    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
@@ -198,6 +323,7 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
+  
 
   // editData(doc) {
   //   let documentData = [{

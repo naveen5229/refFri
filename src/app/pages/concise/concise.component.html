@@ -56,6 +56,13 @@
                 </div>
                 
               </nb-card-body>
+              <div class="select_option" *ngIf="activePrimaryStatus == status.name">
+                <ul>
+                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)"><span></span> {{option.name}}</li>
+                  <!-- <li><span></span> 12 Hr + :24</li> -->
+                  <!-- <li><span></span> Undetected : 78</li> -->
+                </ul>
+              </div>
             </nb-card>
           </div>
           <div *ngIf="viewType !== 'showprim_status'">

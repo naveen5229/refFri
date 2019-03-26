@@ -7,6 +7,10 @@ import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.c
 import { UserService } from '../../@core/data/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { isUndefined } from 'util';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
+import { AccountService } from '../../services/account.service';
+
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
@@ -16,7 +20,7 @@ export class VouchersComponent implements OnInit {
   Vouchers = [];
   voucherId = '';
   voucherName = '';
-  voucher = this.setVoucher();
+  voucher = null;
 
   ledgers = {
     credit: [],
@@ -41,7 +45,8 @@ export class VouchersComponent implements OnInit {
     private route: ActivatedRoute,
     public user: UserService,
     public router: Router,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public accountService: AccountService) {
     this.voucher = this.setVoucher();
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -54,6 +59,7 @@ export class VouchersComponent implements OnInit {
     });
     this.getLedgers('debit');
     this.getLedgers('credit');
+    this.voucher = this.setVoucher();
   }
 
   ngOnInit() {
@@ -71,7 +77,7 @@ export class VouchersComponent implements OnInit {
       },
       vouchertypeid: '',
       amountDetails: [{
-        transactionType: 'debit',
+        transactionType: (this.voucherId == '-3' || this.voucherId == '-1') ? 'credit' : 'debit',
         ledger: {
           name: '',
           id: ''
@@ -130,7 +136,16 @@ export class VouchersComponent implements OnInit {
       this.common.showToast('Credit And Debit Amount Should be Same');
       return;
     }
-    this.addVoucher();
+    if (this.accountService.selected.branch) {
+      // this.accountService.selected.branch
+      this.addVoucher();
+      this.showConfirm = false;
+      event.preventDefault();
+      return;
+    } else {
+      alert('Please Select Branch');
+    }
+  
     //  this.activeModal.close({ response: response, Voucher: this.voucher });
   }
 
@@ -194,36 +209,17 @@ export class VouchersComponent implements OnInit {
     });
   }
 
-  calculateTotal(index?) {
-    this.voucher.total.debit = 0;
-    this.voucher.total.credit = 0;
-    this.voucher.amountDetails.map(amountDetail => {
-      console.log(amountDetail, amountDetail.transactionType, amountDetail.amount)
-      if (amountDetail.transactionType == 'debit') {
-        this.voucher.total.debit += amountDetail.amount;
-      } else {
-        this.voucher.total.credit += amountDetail.amount;
-      }
-    });
-    if (index) {
-      let ledgerId = this.voucher.amountDetails[index].ledger.id;
-        console.log('total credit amount',this.voucher.total.credit);
-        console.log('find balance amount',this.findBalance(index));
-      if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
-        console.log('check condition');
-        this.voucher.amountDetails[index].amount = 0;
-        alert('Please enter valid amount');
-      }
-      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
-    }
 
-  }
 
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     console.log(event);
     const activeId = document.activeElement.id;
+    if (event.altKey && key === 'c') {
+      // console.log('alt + C pressed');
+      this.openledger();
+    }
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         this.addVoucher();
@@ -253,7 +249,12 @@ export class VouchersComponent implements OnInit {
     if (key == 'enter') {
       if (document.activeElement.id.includes('amount-')) this.handleAmountEnter(document.activeElement.id.split('-')[1])
       else if (document.activeElement.id == 'narration') {
-        this.showConfirm = true;
+        if (this.accountService.selected.branch) {
+          // this.accountService.selected.branch
+          this.showConfirm = true;
+        } else {
+          alert('Please Select Branch');
+        }
       } else if (activeId.includes('ledger-')) {
         // if (!this.ledgers.length) return;
         let index = activeId.split('-')[1];
@@ -430,11 +431,11 @@ export class VouchersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[0];
+    let date = dateArray[2];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[2];
+    let year = dateArray[0];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
     console.log('Date: ', year + separator + month + separator + date);
     this.voucher.date = year + separator + month + separator + date;
@@ -476,6 +477,7 @@ export class VouchersComponent implements OnInit {
   }
 
   findBalance(index) {
+    console.log('IndexL::::', index);
     let amount = 0;
     let allCreditAmounts = [];
     let ledgerId = this.voucher.amountDetails[index].ledger.id;
@@ -491,7 +493,7 @@ export class VouchersComponent implements OnInit {
       if (allCreditAmounts[i].index == index) break;
       sum += allCreditAmounts[i].amountDetail.amount;
     }
-    console.log('Amount credit for voucher: ', amount);
+    // console.log('Amount credit for voucher: ', amount);
     if (!this.balances[ledgerId]) {
       return 0;
     }
@@ -499,7 +501,76 @@ export class VouchersComponent implements OnInit {
 
   }
 
+  calculateTotal(index?) {
+    this.voucher.total.debit = 0;
+    this.voucher.total.credit = 0;
+    this.voucher.amountDetails.map(amountDetail => {
+      console.log(amountDetail, amountDetail.transactionType, amountDetail.amount)
+      if (amountDetail.transactionType == 'debit') {
+        this.voucher.total.debit += amountDetail.amount;
+      } else {
+        this.voucher.total.credit += amountDetail.amount;
+      }
+    });
+    if (!isUndefined(index)) {
+      let ledgerId = this.voucher.amountDetails[index].ledger.id;
+      console.log('total credit amount', this.voucher.total.credit);
+      console.log('find balance amount', this.findBalance(index));
+      if (this.findBalance(index) && this.findBalance(index) < this.voucher.total.credit) {
+        console.log('check condition');
+        this.voucher.amountDetails[index].amount = 0;
+        alert('Please enter valid amount');
+      }
+      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
+    }
 
+  }
+
+
+  openledger(ledger?) {
+    console.log('ledger123', ledger);
+    if (ledger) this.common.params = ledger;
+    const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        this.addLedger(data.ledger);
+      }
+    });
+  }
+
+  addLedger(ledger) {
+    console.log('ledgerdata', ledger);
+    // const params ='';
+    const params = {
+      name: ledger.name,
+      alias_name: ledger.aliasname,
+      code: ledger.code,
+      foid: ledger.user.id,
+      per_rate: ledger.perrate,
+      primarygroupid: ledger.account.primarygroup_id,
+      account_id: ledger.account.id,
+      accDetails: ledger.accDetails,
+      x_id: 0
+    };
+
+    console.log('params11: ', params);
+    this.common.loading++;
+
+    this.api.post('Accounts/InsertLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        this.getLedgers('debit');
+        this.getLedgers('credit');
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
 
 

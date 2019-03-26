@@ -1,0 +1,36 @@
+button { 
+    background-color: #73a1ff;
+    border-radius: 5px !important;
+    text-transform: capitalize !important;
+    padding: 10px !important;
+}
+
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.balance-shit{
+    .table{
+        thead{
+            background-color: #0B567D;
+            color: #fff;
+            th{
+                
+            }
+        }
+        tr{
+            background-color: #E0E0E0;
+            color: #56b5b4;
+            th{
+                border: 1px solid #C7C7C7;
+            }
+            th:first-child{
+                width: 350px;
+            }
+            td{
+                border: 1px solid #C7C7C7;
+            }
+        }
+    }
+}

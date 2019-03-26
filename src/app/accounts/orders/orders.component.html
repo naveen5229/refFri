@@ -1,11 +1,11 @@
 <nb-card>
+<nb-card-header>
+    <h4>Invoice</h4>
+  </nb-card-header>
   <nb-card-body (keydown)="keyHandler($event)">
-    <h1>Invoice</h1>
-
-    <div class="row">
+    <div class="row mb-4">
       <div class="col-9">
-        <div class="row" style="margin-bottom: 30px;">
-
+        <div class="row">
           <div class="col-4">
             <div class="form-group">
               <label>Branch</label>
@@ -270,8 +270,8 @@
       </div>
 
 
-      <div class="col-3 ledger-container" id="ledger-container">
-        <div>
+      <div class="col-3" id="ledger-container">
+        <div class="ledger-container">
           <div *ngFor="let suggestion of getSuggestions(); let i = index;" class="ledger-option"
             [ngClass]="suggestionIndex == i ? 'active-ledger' : ''" (click)='selectSuggestion(suggestion)'>
             <span>{{suggestion.name}}</span>
@@ -281,99 +281,94 @@
     </div>
     <!--sales end-->
     <div class="row"></div>
+    <table class="invoice_tabel">
+      <thead>
+          <tr style="background-color: #eeeeee;">
+              <th>Stock Item</th>
+              <th>Unit</th>
+              <th>Qty</th>
+              <th>Rate</th>
+              <th>Amount</th>
+              <th>Dis Ledger</th>
+              <th>Dis Amount</th>
+              <th>Line Amount</th>
+              <th>Warehouse</th>
+              <th>remarks</th>
+              <th></th>
+              <th></th>
+            </tr>
+      </thead>
 
-    <table>
-      <tr style="background-color: #eeeeee;">
-        <th>Stock Item</th>
-        <th>Unit</th>
-        <th>Qty</th>
-        <th>Rate</th>
-        <th>Amount</th>
-        <th>Dis Ledger</th>
-        <th>Dis Amount</th>
-        <th>Line Amount</th>
-
-        <th>Warehouse</th>
-        <th>remarks</th>
-        <th></th>
-        <th></th>
-      </tr>
-
-
-      <tr *ngFor="let amountDetail of order.amountDetails; let i = index;" style="background: #e8f0f3;">
-        <td>
-          <input type="text" [id]="'stockitem-' + i" class="form-control" name="'stockitem-' + i" [(ngModel)]="amountDetail.stockitem.name" required>
-          <!-- <auto-suggestion
-            (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
-            url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"
-            [preSelected]="null">
-          </auto-suggestion> -->
-        </td>
-        <td>
-
-          <input type="text" class="form-control" autocomplete="off" name="account-stockunit"
-            placeholder="Enter Stock Unit" [(ngModel)]="amountDetail.stockunit.name" readonly
-            style="background-color: #eeeeee;">
-        </td>
-        <td style="width: 100px;">
-          <input type="number" class="form-control" autocomplete="off" name="account-qty" [id]="'qty-' + i"
-            (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;" [(ngModel)]="amountDetail.qty">
-        </td>
-        <td>
-          <input type="number" class="form-control" autocomplete="off" name="account-rate" [id]="'rate-' + i"
-            [(ngModel)]="amountDetail.rate" (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;">
-        </td>
-        <td>
-          <input type="number" class="form-control" autocomplete="off" name="account-amount"
-            [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
-        </td>
-        <td>
-            <input type="text" [id]="'discountledger-' + i" class="form-control" [name]="'discountledger-' + i" [(ngModel)]="amountDetail.discountledger.name">        
-          <!-- <auto-suggestion (onSelected)="amountDetail.discountledger = $event.id" [inputId]="'discountledger-' + i"
-            url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Discount Ledger" [preSelected]="null">
-          </auto-suggestion> -->
-        </td>
-
-        <td> <input type="number" class="form-control" autocomplete="off" name="account-discountate"
-            [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
-            (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;" [value]="0"></td>
-        <td>
-          <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
-            [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
-        </td> 
-
-        <td>
-          <input type="text" [id]="'warehouse-' + i" class="form-control" [name]="'warehouse-' + i" [(ngModel)]="amountDetail.warehouse.name">
-          <!-- <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"
-            display="name" placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i">
-          </auto-suggestion> -->
-        </td>
-        <td>
-          <input type="text" class="form-control" autocomplete="off" name="account-remarks" [id]="'remarks-' + i"
-            [(ngModel)]="amountDetail.remarks">
-        </td>
-        <td>
-          <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i"
-            style="background-color: #73a1ff;margin-right: 15px;">Tax Details</button>
-        </td>
-        <td *ngIf="i == 0">
-          <button class="plustransparent" id="plustransparent" (click)="addAmountDetails()"><i
-              class="fa fa-plus text-primary" style="font-size: 40px;"></i></button></td>
-        <td *ngIf="i !== 0">
-          <i class="fa fa-trash text-primary" (click)="order.amountDetails.splice(i,1)"></i>
-        </td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><b>Total Amount : </b></td>
-        <td><input type="text" class="form-control" autocomplete="off" name="account-totalamount"
-            [(ngModel)]="order.totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
-      </tr>
+      <tbody>
+          <tr *ngFor="let amountDetail of order.amountDetails; let i = index;" style="background: #e8f0f3;">
+              <td>
+                <input type="text" [id]="'stockitem-' + i" class="form-control" name="'stockitem-' + i" [(ngModel)]="amountDetail.stockitem.name" required>
+                <!-- <auto-suggestion
+                  (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
+                  url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"
+                  [preSelected]="null">
+                </auto-suggestion> -->
+              </td>
+              <td>
+      
+                <input type="text" class="form-control" autocomplete="off" name="account-stockunit"
+                  placeholder="Enter Stock Unit" [(ngModel)]="amountDetail.stockunit.name" readonly
+                  style="background-color: #eeeeee;">
+              </td>
+              <td style="width: 100px;">
+                <input type="number" class="form-control" autocomplete="off" name="account-qty" [id]="'qty-' + i"
+                  (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;" [(ngModel)]="amountDetail.qty">
+              </td>
+              <td>
+                <input type="number" class="form-control" autocomplete="off" name="account-rate" [id]="'rate-' + i"
+                  [(ngModel)]="amountDetail.rate" (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;">
+              </td>
+              <td>
+                <input type="number" class="form-control" autocomplete="off" name="account-amount"
+                  [(ngModel)]="amountDetail.amount" readonly style="background-color: #eeeeee;">
+              </td>
+              <td>
+                  <input type="text" [id]="'discountledger-' + i" class="form-control" [name]="'discountledger-' + i" [(ngModel)]="amountDetail.discountledger.name">        
+                <!-- <auto-suggestion (onSelected)="amountDetail.discountledger = $event.id" [inputId]="'discountledger-' + i"
+                  url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Discount Ledger" [preSelected]="null">
+                </auto-suggestion> -->
+              </td>
+      
+              <td> <input type="number" class="form-control" autocomplete="off" name="account-discountate"
+                  [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
+                  (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;" [value]="0"></td>
+              <td>
+                <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
+                  [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
+              </td> 
+      
+              <td>
+                <input type="text" [id]="'warehouse-' + i" class="form-control" [name]="'warehouse-' + i" [(ngModel)]="amountDetail.warehouse.name">
+                <!-- <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"
+                  display="name" placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i">
+                </auto-suggestion> -->
+              </td>
+              <td>
+                <input type="text" class="form-control" autocomplete="off" name="account-remarks" [id]="'remarks-' + i"
+                  [(ngModel)]="amountDetail.remarks">
+              </td>
+              <td>
+                <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax Details</button>
+              </td>
+              <td *ngIf="i == 0">
+                <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
+                    class="fa fa-plus text-primary" style="font-size: 40px;"></i></button></td>
+              <td *ngIf="i !== 0">
+                <button (click)="order.amountDetails.splice(i,1)" class="btn btn-danger"><i class="fa fa-trash text-primary"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6">&nbsp;</td>
+              <td><b>Total Amount : </b></td>
+              <td><input type="text" class="form-control" autocomplete="off" name="account-totalamount"
+                  [(ngModel)]="order.totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
+            </tr>
+      </tbody>
     </table>
 
 
@@ -398,7 +393,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
     </div>
   </div>
 </div>
