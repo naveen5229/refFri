@@ -1,0 +1,20 @@
+.remove{
+    font-size: 20px;
+    color: red;
+}
+#missingIndustry:active :hover{
+    background: coral;
+
+
+}
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.tableFixHead th {
+    position: sticky;
+    top: 0;
+    background: #677078;
+}
