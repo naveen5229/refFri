@@ -91,7 +91,7 @@
                 *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button></td>
           </tr>
           <tr *ngIf="vehicleEvent.isOpen">
-            <td colspan="7">
+            <td colspan="9">
               <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
                   <span class="zoom-btn" (click)="setZoom(6)">1</span>
                   <span class="zoom-btn" (click)="setZoom(9)">2</span>
@@ -103,6 +103,7 @@
                     *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
                   <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
                       class="fa fa-trash"></i></span>
+                  <span class="zoom-btn"><i class="fa fa-question-circle report-btn" (click)="reportIssue(vehicleEvent);"></i></span>
                 </span></div>
             </td>
           </tr>
