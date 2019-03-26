@@ -12,7 +12,9 @@ import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'document-report',
@@ -20,6 +22,8 @@ import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
   styleUrls: ['./document-report.component.scss', '../../../pages/pages.component.css'],
   providers: [DatePipe]
 })
+
+
 export class DocumentReportComponent implements OnInit {
   table = null;
   title = '';
@@ -30,6 +34,8 @@ export class DocumentReportComponent implements OnInit {
     id: null,
     status: '',
   };
+  
+
   // currentdate = new Date;
   // nextMthDate = null;
   // exp_date = null;
@@ -60,39 +66,31 @@ export class DocumentReportComponent implements OnInit {
   }
 
   exportPDF() {
+    this.common.loading++;
     this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
       .subscribe(res => {
         this.fodata = res['data'];
         this.common.loading--;
-        let doc = new jsPDF({
-          orientation: 'landscape',
-          unit: 'px',
-          format: 'a4'
-        });
-        let strcontent = document.getElementById("doc_report").innerHTML;
-        let hdg_html = "<tr><th>#</th><th>DocID</th><th>Vehicle</th><th>Document</th><th>Issue Date</th><th>Wef Date</th><th>Expiry Date</th><th>Doc No.</th><th>RTO</th><th>Amount</th><th>Verified</th><th>Remark</th></tr>";
-        let content = this.getTableColumns();
         
-        console.log("content::");
-        console.log(content);
-        let tbl_html = "<table>" + hdg_html + "</table>";
-        console.log("content:");
-        console.log(strcontent);
-        doc.addImage(document.getElementById('img-logo'), 'JPEG', 15, 15, 50, 50, 'logo', 'NONE', 0);
-        doc.text(this.fodata['name'], 200, 25);
-        doc.text('Phone: ' + this.fodata['mobileno'], 200, 40)
-        doc.text(this.reportData.status, 200, 55);
-        doc.fromHTML(tbl_html, 15, 70, {
-          'width': 350,
-              'elementHandlers': this.specialElementHandlers
-          });
-        doc.fromHTML(strcontent, 15, 100, {
-          'width': 350,
-              'elementHandlers': this.specialElementHandlers
-          });
-        doc.save('report.pdf');
-        
-        
+        console.log("data=>");
+        console.log(this.data);
+
+        let rowHeading = [['SNo', 'DocumentID', 'Vehicle', 'Type', 'Wef Date', 'Expiry Date']];
+        let keyHeading = ['sno', 'id', 'regno', 'document_type', 'wef_date', 'expiry_date'];
+        let pageOrientation = "l"; //l or p
+        let address = ["elogist Solutions Pvt. Ltd.", "Address: 605-21, Jaipur Electronic Market", "Riddhi Siddhi Circle, Gopalpura Bypass, Jaipur, Rajasthan - 302018", "Support: 8081604455", "Website: www.walle8.com"];
+        let strstatus = this.reportData.status.toUpperCase();
+        switch(strstatus) {
+          case 'VERIFIED' : strstatus = 'VERIFIED DOCUMENTS'; break;
+          case 'UNVERIFIED' : strstatus = 'UNVERIFIED DOCUMENTS'; break;
+          case 'PENDINGIMAGE' : strstatus = 'PENDING IMAGES'; break;
+          case 'EXPIRING30DAYS' : strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
+          case 'EXPIRED' : strstatus = 'EXPIRED DOCUMENTS'; break;
+          case 'PENDINGDOC' : strstatus = 'PENDING DOCUMENTS'; break;
+          default: break;
+        }
+        let centerheading = ["Customer: " + this.fodata['name'].toUpperCase(), "Mobile: " + this.fodata['mobileno'], strstatus];
+        this.getPDFFromTable(rowHeading, keyHeading, this.data, pageOrientation, document.getElementById('img-logo'), address, centerheading);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -102,6 +100,103 @@ export class DocumentReportComponent implements OnInit {
 
   specialElementHandlers() {
 
+  }
+
+  getPDFFromTable(rowHeading, keyHeading, data, pageOrientation, eltLogoImage, address, centerheading) {
+    let doc = new jsPDF({
+      orientation: pageOrientation,
+      unit: 'px',
+      format: 'a4'
+    });
+    
+    this.processPDF(doc, rowHeading, keyHeading, data, address, eltLogoImage, centerheading);
+    doc.save('report.pdf');
+  }
+  
+  processPDF(doc, rowHeading,keyHeading, tabledata,address, eltLogoImage, centerheading) {
+    var pageContent = function (data) {
+      //header
+      let x = 35;
+      let y = 25;
+
+      doc.setFontSize(10);
+      for(let i=0; i<address.length; i++) {
+        if(i== 0)
+          doc.setFont("times", "bold");
+        else
+          doc.setFont("times", "normal");
+        doc.text(address[i], x, y);
+        y=y+10;
+      }
+      let max_y = y;
+      let pageWidth= parseInt(doc.internal.pageSize.width);
+      x=pageWidth / 2;
+      y=25;
+      doc.setFontSize(12);
+      for(let i=0; i<centerheading.length; i++) {
+        doc.text(centerheading[i], x - 30, y);
+        y=y+12;
+      }
+      max_y = max_y < y? y: max_y;
+      y= 15;
+      doc.addImage(eltLogoImage, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      max_y = max_y < 70? 70: max_y;
+      doc.setFontSize(12);
+
+      doc.line(20, 70, pageWidth - 20, 70);
+
+      // FOOTER
+      var str = "Page " + data.pageCount;
+      
+      doc.setFontSize(10);
+      doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+    };
+    let rowsdata = [];
+    for(let i=0; i<tabledata.length; i++) {
+      let datarow = [];
+      for(let j=0; j<keyHeading.length; j++) {
+        if(keyHeading[j] == "sno") {
+          let sno = i+1;
+          datarow.push('' + sno);
+        }else if(tabledata[i][keyHeading[j]] === true)
+          datarow.push("Yes");
+        else if(tabledata[i][keyHeading[j]] === false)
+          datarow.push("No");
+        else {
+          if(isNaN(tabledata[i][keyHeading[j]])) {
+            let dt = new Date(tabledata[i][keyHeading[j]]);
+            if(!isNaN(dt.getTime())) {
+              datarow.push(this.datePipe.transform(tabledata[i][keyHeading[j]], 'dd MMM yyyy'));
+            } else {
+              datarow.push(tabledata[i][keyHeading[j]]);
+            }
+          } else {
+            datarow.push(tabledata[i][keyHeading[j]]);
+          }
+        }
+      }
+      rowsdata.push(datarow);
+    }
+    let tempLineBreak={fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth : 10, cellWidth: 40 };
+    doc.autoTable( {
+      head: rowHeading,
+      body: rowsdata,
+      theme: 'grid',
+      didDrawPage: pageContent,
+      margin: {top: 80},
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10
+      },
+      styles: tempLineBreak,
+      columnStyles: {text: {cellWidth: 40 }},
+      
+      /*,
+        bodyStyles: {
+        fillColor: [52, 73, 94],
+        textColor: 240
+      }*/
+    });
   }
 
   exportCSV() {
