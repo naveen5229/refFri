@@ -83,6 +83,8 @@ export class AlertRelatedIssueComponent implements OnInit {
             if (key.charAt(0) != "y_") {
               this.columns2.push(key);
               key = key.replace("y_", '');
+              if(key.charAt(0) != "x_")
+              key = key.replace("x_", '');
               this.header2.push(key);
             }
 
