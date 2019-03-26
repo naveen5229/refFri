@@ -126,7 +126,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       'vehicleId': this.VehicleStatusData.vehicle_id,
       'fromTime': this.VehicleStatusData.latch_time,
       'toTime': this.toTime,
-      'suggestId': this.VehicleStatusData.suggest
+      'suggestId': this.VehicleStatusData.suggest,
+      'status': this.VehicleStatusData.status
     }
     console.log(params);
     this.api.post('VehicleStatusChange/getVehicleTrail', params)
@@ -158,7 +159,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.toTime;
+      "&toTime=" + this.toTime+
+      "&status=" + this.VehicleStatusData.status; 
     console.log(params);
     this.api.get('HaltOperations/getHaltHistory?' + params)
       .subscribe(res => {
