@@ -34,12 +34,14 @@ export class DaybooksComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
+  activeId = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
     this.getVoucherTypeList();
     this.getBranchList();
+    this.setFoucus('branch');
   }
 
   ngOnInit() {
@@ -179,5 +181,36 @@ this.common.params = voucherId;
     console.log('data of u',u);
    this.selectedName=u;   // declare variable in component.
     }
+
+    
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if (key == 'enter') {
+      if (this.activeId.includes('branch')) {
+        this.setFoucus('vouchertype');
+      }else  if (this.activeId.includes('vouchertype')) {
+        this.setFoucus('ledger');
+      }else  if (this.activeId.includes('ledger')) {
+        this.setFoucus('startdate');
+      }else  if (this.activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else  if (this.activeId.includes('enddate')) {
+        this.setFoucus('submit');
+      }
+    }
+  }
+
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
 
 }

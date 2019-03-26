@@ -1,28 +1,28 @@
 <nb-card>
-  <nb-card-body style="min-height: 450px;">
-    <h1>Profit&Loss</h1>
+  <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+    <h1>Profit & Loss A/C</h1>
     <div class="row" style="margin-left: 5px;">
-      <div class="col">
+      <!--div class="col">
         <div class="form-group">
           <label>Branch</label>
           <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
             display="name" placeholder="Enter Branch" [data]="branchdata" [preSelected]="{name:'All'}">
           </auto-suggestion>
         </div>
-      </div>
+      </div-->
 
       <div class="col">
         <div class="form-group">
           <label>Starting Date</label>
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            name="account-date" [(ngModel)]="plData.startdate" maxlength="10">
+            name="account-date" [(ngModel)]="plData.startdate" id="startdate" maxlength="10">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label>End Date</label>
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            name="account-enddate" [(ngModel)]="plData.enddate" maxlength="10">
+            name="account-enddate" [(ngModel)]="plData.enddate" id="enddate" maxlength="10">
         </div>
       </div>
       <div class="col">
