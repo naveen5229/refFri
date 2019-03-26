@@ -2,55 +2,53 @@
   <nb-card-header>
     <h4>Invoice Register</h4>
   </nb-card-header>
-<nb-card-body style="min-height: 450px;">
+<nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
   <div class="row">
     <div class="col">
       <div class="form-group">
         <label>Branch</label>
         <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
-          placeholder="Enter Branch" [data]="branchdata" [preSelected]="{name:'All'}"></auto-suggestion>
+          placeholder="Enter Branch" [data]="branchdata" inputId="branch" [preSelected]="{name:'All'}"></auto-suggestion>
       </div>
     </div>
     <div class="col">
         <div class="form-group">
           <label>Voucher Type</label>
           <auto-suggestion (onSelected)="onSelected($event, 'orderType', 'name')" url="Suggestion/GetOrderTypeList" display="name"
-            placeholder="Enter Order Type" [data]="vouchertypedata" [preSelected]="{name:'All'}"></auto-suggestion>
+            placeholder="Enter Order Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion>
         </div>
       </div>
       <div class="col">
           <div class="form-group">
             <label>Ledger</label>
             <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-              placeholder="Enter Ledger" [preSelected]="{name:'All'}"></auto-suggestion>
+              placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion>
           </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label>Starting Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10"
-                placeholder="Select Date" name="account-startDate" [(ngModel)]="invoiceRegister.startDate"
-                readonly>
+                placeholder="Select Date" name="account-startDate" id="startdate" [(ngModel)]="invoiceRegister.startDate"x>
             </div>
           </div>
           <div class="col">
               <div class="form-group">
                   <label>End Date</label>
-                  <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" maxlength="10"
-                  placeholder="Select Date" name="account-endDate" [(ngModel)]="invoiceRegister.endDate"
-                  readonly>
+                  <input type="text" style="cursor: pointer;" class="form-control" id="enddate" autocomplete="off" maxlength="10"
+                  placeholder="Select Date" name="account-endDate" [(ngModel)]="invoiceRegister.endDate">
               </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>Code</label>
-                    <input type="text" class="form-control" placeholder="Code" name="account-code" [(ngModel)]="invoiceRegister.code">
+                    <input type="text" class="form-control" placeholder="Code" id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
                 </div>
               </div>
               <div class="col">
                   <div class="form-group">
                       <label>Cust Code</label>
-                      <input type="text" class="form-control"  placeholder="Cust Code" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
+                      <input type="text" class="form-control"  placeholder="Cust Code" id="custcode" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
                   </div>
                 </div>
     <div class="col">
