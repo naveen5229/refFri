@@ -86,9 +86,26 @@ export class AlertRelatedIssueComponent implements OnInit {
               if(key.charAt(0) != "x_")
               key = key.replace("x_", '');
               this.header2.push(key);
+             
+
             }
+            
 
           }
+          // for (var i in this.header2){
+          //   i = this.header2[i];
+          //   if(i == "site_id")
+          //   {
+          //     console.log("hiii",i);
+          //     this.header2[i].pop();
+
+          //   }
+          //   console.log("header :",this.header2);
+          // }
+          
+              
+          
+          
           console.log("columns:", this.columns2);
         }
 
@@ -97,6 +114,7 @@ export class AlertRelatedIssueComponent implements OnInit {
         console.log(err);
       });
   }
+
   missingIssue(issue) {
     let ltime = new Date(issue.addtime);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
