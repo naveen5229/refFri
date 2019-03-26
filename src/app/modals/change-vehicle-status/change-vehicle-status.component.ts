@@ -127,7 +127,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       'fromTime': this.VehicleStatusData.latch_time,
       'toTime': this.toTime,
       'suggestId': this.VehicleStatusData.suggest,
-      'status': this.VehicleStatusData.status
+      'status': this.VehicleStatusData.status?this.VehicleStatusData.status:10
     }
     console.log(params);
     this.api.post('VehicleStatusChange/getVehicleTrail', params)
@@ -154,17 +154,18 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   getEvents() {
+    let status = this.VehicleStatusData.status?this.VehicleStatusData.status:10;
     this.dataType = 'events';
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.VehicleStatusData.latch_time +
       "&toTime=" + this.toTime+
-      "&status=" + this.VehicleStatusData.status; 
+      "&status=" +status;  
     console.log(params);
     this.api.get('HaltOperations/getHaltHistory?' + params)
       .subscribe(res => {
-        this.common.loading--;
+        this.common.loading--; 
         console.log(res);
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
@@ -224,7 +225,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[2];
+        markers[index]["type"] == "subSite" ? this.designsDefaults[1] :null ;//this.designsDefaults[2]
       let text = markers[index]["text"] ? markers[index]["text"] : index + 1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
