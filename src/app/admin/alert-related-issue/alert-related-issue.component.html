@@ -4,9 +4,9 @@
       <h2>Alert Related Issues</h2>
     </div>
     <div class="col-sm-8" style="margin-top:-86px">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="missingIndustry"
+      <input type="button"  id="missingIndustry" class="missingIndustry"
         (click)="missingIndustry()" value="Missing Industry">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="backLogs" (click)="backLogs()"
+      <input type="button"  id="backLogs" class="backLogs" (click)="backLogs()"
         value="Backlogs">
 
     </div>
@@ -17,7 +17,7 @@
         <thead class="thead">
           <tr>
             <th>SrNo</th>
-            <th *ngFor="let col of columns" class="text-center">
+            <th *ngFor="let col of header" class="text-center">
               {{formatTitle(col)}}
             </th>
             <th style="width:120px; text-align: center;">Action</th>
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
 
-          <tr *ngFor="let alert of missingIndusrtyData; let i = index" class="">
+          <tr *ngFor="let alert of missingIndusrtyData; let i = index">
 
             <td style="width:5%;">{{i + 1}}</td>
             <td *ngFor="let col of columns">
@@ -34,46 +34,32 @@
             <td><button (click)="missingIssue(alert)">Take Action</button></td>
 
           </tr>
-          <!-- <tr *ngFor="let alert of missingIndusrtyData">
-            <td>{{alert.y_vehicle_id}}</td>
-            <td>{{alert.y_btw_types}}</td>
-            <td>{{alert.y_dis}}</td>
-            <td>{{alert.y_disa}}</td>
-            <td>{{alert.y_curr_start | date :"dd-MMM hh:mm"}}</td>
-            <td>{{alert.y_outside_start | date :"dd-MMM hh:mm" }}</td>
-
-            <td><button (click)="missingIssue(alert)">Take Action</button></td>
-          </tr> -->
         </tbody>
       </table>
       <table class="table table-bordered table-hover" *ngIf="backLogs==1 || missing==0  ">
-        <thead class="thead">
-          <tr>
-            <th>Vehicle Id</th>
-            <th>Regno </th>
-            <th>Fo Name</th>
-            <th>Distance </th>
-            <th>Arial Time </th>
-            <th>Current Start </th>
-            <th>Outside Start</th>
-            <th>Remark</th>
-            <th>Action</th>
-          </tr>
+          <thead class="thead">
+              <tr>
+                <th>SrNo</th>
+                <th *ngFor="let col of header2" class="text-center">
+                  {{formatTitle(col)}}
+                </th>
+                <th style="width:120px; text-align: center;">Action</th>
+              </tr>
+            </thead>
 
-        </thead>
-        <tbody>
-          <tr *ngFor="let alert of backlogData">
-            <td>{{alert.x_vehicle_id}}</td>
-            <td>{{alert.y_regno}}</td>
-            <td>{{alert.y_fo_name}}</td>
-            <td>{{alert.y_dis}}</td>
-            <td>{{alert.y_disa}}</td>
-            <td>{{alert.y_start_time | date :"dd-MMM hh:mm"}}</td>
-            <td>{{alert.y_sec_start_time |date :"dd-MMM hh:mm"}}</td>
-            <td>{{alert.y_remark}}</td>
-            <td><button (click)="backlogsIssue(alert)">Take Action</button></td>
-          </tr>
-        </tbody>
+            <tbody>
+
+                <tr *ngFor="let alert of backlogData; let i = index">
+      
+                  <td style="width:5%;">{{i + 1}}</td>
+                  <td *ngFor="let col of columns2">
+                    <span style="min-width: 200px;">{{alert[col]}}</span>
+                  </td>
+                  <td><button (click)="backlogsIssue(alert)">Take Action</button></td>
+      
+                </tr>
+              </tbody>
+      
       </table>
     </div>
 

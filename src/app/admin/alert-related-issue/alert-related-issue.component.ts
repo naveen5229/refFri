@@ -19,15 +19,22 @@ export class AlertRelatedIssueComponent implements OnInit {
   backlog = 0;
   backlogData = [];
   columns = [];
+  header = [];
+  header2 = [];
+  columns2 =[];
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal, ) { }
+    private modalService: NgbModal, ) {
+    this.missingIndustry();
+  }
 
   ngOnInit() {
   }
 
   missingIndustry() {
+    this.header = [];
+    this.columns = [];
     this.common.loading++;
     this.api.get('HaltOperations/getMissingIndustries')
       .subscribe(res => {
@@ -39,13 +46,17 @@ export class AlertRelatedIssueComponent implements OnInit {
           this.missing = 1;
           this.backlog = 0;
         }
-        if(this.missingIndusrtyData.length) {
-          for(var key in this.missingIndusrtyData[0]) {
-            if(key.charAt(0) != "_")
+        if (this.missingIndusrtyData.length) {
+          for (var key in this.missingIndusrtyData[0]) {
+            if (key.charAt(0) != "y_") {
               this.columns.push(key);
+              key = key.replace("y_", '');
+              this.header.push(key);
+            }
+
           }
+          console.log("columns:", this.columns);
         }
-        console.log("columns:",this.columns);
 
       }, err => {
         this.common.loading--;
@@ -54,6 +65,8 @@ export class AlertRelatedIssueComponent implements OnInit {
   }
 
   backLogs() {
+    this.header2 = [];
+    this.columns2 = [];
     this.common.loading++;
     this.api.get('HaltOperations/getBacklogs')
       .subscribe(res => {
@@ -65,44 +78,55 @@ export class AlertRelatedIssueComponent implements OnInit {
           this.backlog = 1;
           this.missing = 0;
         }
+        if (this.backlogData.length) {
+          for (var key in this.backlogData[0]) {
+            if (key.charAt(0) != "y_") {
+              this.columns2.push(key);
+              key = key.replace("y_", '');
+              this.header2.push(key);
+            }
+
+          }
+          console.log("columns:", this.columns2);
+        }
 
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  missingIssue(issue){
-    let ltime =  new Date(issue.addtime);
+  missingIssue(issue) {
+    let ltime = new Date(issue.addtime);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
     let latch_time = this.common.dateFormatter(subtractLTime);
-    console.log("issue:",issue);
+    console.log("issue:", issue);
     let VehicleStatusData = {
-      vehicle_id : issue.y_vehicle_id,
-      ttime:issue.y_curr_start,
-      suggest:null,
-      latch_time:issue.y_outside_start
+      vehicle_id: issue.y_vehicle_id,
+      ttime: issue.y_curr_start,
+      suggest: null,
+      latch_time: issue.y_outside_start
     }
     console.log("VehicleStatusData", VehicleStatusData);
-   
+
     this.common.params = VehicleStatusData;
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
     });
 
   }
-  backlogsIssue(backlogsIssue){
-    let ltime =  new Date(backlogsIssue.addtime);
+  backlogsIssue(backlogsIssue) {
+    let ltime = new Date(backlogsIssue.addtime);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
     let latch_time = this.common.dateFormatter(subtractLTime);
-    console.log("issue:",backlogsIssue);
+    console.log("issue:", backlogsIssue);
     let VehicleStatusData = {
-      vehicle_id : backlogsIssue.x_vehicle_id,
-      ttime:backlogsIssue.y_sec_start_time,
-      suggest:null,
-      latch_time:backlogsIssue.y_start_time
+      vehicle_id: backlogsIssue.x_vehicle_id,
+      ttime: backlogsIssue.y_sec_start_time,
+      suggest: null,
+      latch_time: backlogsIssue.y_start_time
     }
     console.log("VehicleStatusData", VehicleStatusData);
-   
+
     this.common.params = VehicleStatusData;
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
@@ -110,8 +134,9 @@ export class AlertRelatedIssueComponent implements OnInit {
 
   }
 
-  
+
   formatTitle(title) {
+
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
