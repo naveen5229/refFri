@@ -46,6 +46,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   onlyDrag = false;
   vehicleEvent = null;
   convertSiteHaltFlag = false;
+  toTime= this.common.dateFormatter(new Date());
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
@@ -58,7 +59,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.getLastIndDetails();
     this.getEvents();
     this.getLoadingUnLoading();
-
+    console.log("date1",this.toTime);
   }
 
   ngOnInit() {
@@ -124,7 +125,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       'vehicleId': this.VehicleStatusData.vehicle_id,
       'fromTime': this.VehicleStatusData.latch_time,
-      'toTime': this.VehicleStatusData.ttime,
+      'toTime': this.toTime,
       'suggestId': this.VehicleStatusData.suggest
     }
     console.log(params);
@@ -157,7 +158,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.VehicleStatusData.ttime;
+      "&toTime=" + this.toTime;
     console.log(params);
     this.api.get('HaltOperations/getHaltHistory?' + params)
       .subscribe(res => {
@@ -191,7 +192,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&latchTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.VehicleStatusData.ttime;
+      "&toTime=" + this.toTime;
     console.log(params);
     this.api.get('HaltOperations/getMasterHaltDetail?' + params)
       .subscribe(res => {
@@ -342,7 +343,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       vehicleId: this.VehicleStatusData.vehicle_id ,
       latchTime: this.VehicleStatusData.latch_time,
-      toTime:this.VehicleStatusData.ttime,
+      toTime:this.toTime,
       status: status
     };
     console.log(params);
@@ -689,7 +690,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       vehicleId: this.VehicleStatusData.vehicle_id,
       tLat: this.VehicleStatusData.tlat,
       tLong: this.VehicleStatusData.tlong,
-      tTime: this.VehicleStatusData.ttime,
+      tTime: this.toTime,
     }
 
     console.log("params=", params);
