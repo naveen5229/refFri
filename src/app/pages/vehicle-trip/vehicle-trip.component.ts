@@ -60,15 +60,14 @@ export class VehicleTripComponent implements OnInit {
     this.common.params = {vehId:-1};
     //console.log("open add trip maodal", this.common.params.vehId);
     const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
-    activeModal.result.then(data => {
-      console.log("data", data.respone);
-      
+    activeModal.result.then(data => {      
         this.getVehicleTrips();
      
     });
   }
 
   reportIssue(vehicleTrip){
+    this.common.params= {refPage : 'vt'};
     console.log("reportIssue",vehicleTrip);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleTrip.id));
@@ -80,10 +79,11 @@ export class VehicleTripComponent implements OnInit {
       tripId : vehicleTrip.id
     }
     ++this.common.loading;
-    this.api.post('VehicleTrips/deleteVehicleTrip', {params})
+    this.api.post('VehicleTrips/deleteVehicleTrip',params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res['data']);
+        console.log('Res:', res);
+        this.common.showToast(res['msg']);
       }, err => {
         --this.common.loading;
 
