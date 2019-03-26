@@ -15,20 +15,22 @@ export class ProfitlossComponent implements OnInit {
   plData = {
     enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    branch: {
-      name: '',
-      id: 0
-    }
+    // branch: {
+    //   name: '',
+    //   id: 0
+    // }
 
   };
   branchdata = [];
   profitLossData = [];
+  activeId="";
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
     // this.getBalanceSheet();
     this.getBranchList();
+    this.setFoucus('startdate');
   }
 
   ngOnInit() {
@@ -57,7 +59,7 @@ export class ProfitlossComponent implements OnInit {
     let params = {
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
-      branch: this.plData.branch.id,
+     // branch: this.plData.branch.id,
     };
 
     this.common.loading++;
@@ -76,5 +78,28 @@ export class ProfitlossComponent implements OnInit {
 
   filterData(assetdata, slug) {
     return assetdata.filter(data => { return (data.y_is_assets === slug ? true : false) });
+  }
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if (key == 'enter') {
+        if (this.activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else  if (this.activeId.includes('enddate')) {
+        this.setFoucus('submit');
+      }
+    }
+  }
+
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }
