@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
+import { ReportIssueComponent } from '../report-issue/report-issue.component';
 declare var google: any;
 
 @Component({
@@ -88,5 +89,11 @@ export class UpdateSiteDetailsComponent implements OnInit {
   //  // this.vehicleTrip.startLat = lat;
   //  // this.vehicleTrip.startLng = lng;
   // }
- 
+  reportIssue(siteId){
+    this.common.params= {refPage : 'sd'};
+    console.log("reportIssue",siteId);
+    const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, siteId));
+  
+  }
 }

@@ -224,7 +224,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[2];
+        markers[index]["type"] == "subSite" ? this.designsDefaults[1] :null ;//this.designsDefaults[2]
       let text = markers[index]["text"] ? markers[index]["text"] : index + 1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
