@@ -109,8 +109,7 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      },
-     
+      },   
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
