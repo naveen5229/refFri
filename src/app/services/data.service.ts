@@ -45,6 +45,12 @@ export class DataService {
         link: '/admin/escalation-matrix',
       },
       {
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
+        home: true,
+      },
+      {
         title: 'LR View',
         icon: 'fa fa-info-circle',
         link: '/admin/lrview',
@@ -104,12 +110,7 @@ export class DataService {
         link: '/admin/site-details',
         home: true,
       },
-      {
-        title: 'Alert Related Issue',
-        icon: 'far fa-bell',
-        link: '/admin/alert-related-issue',
-        home: true,
-      }
+     
     ];
   }
 }
