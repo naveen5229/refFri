@@ -7,13 +7,13 @@
   <nb-card-body>
     <table class="table table-bordered">
       <tbody>
-        <tr>
+        <!-- <tr>
           <td><label>Branch</label></td>
           <td> <select [(ngModel)]=lr.branch (change)="getBranchDetails()" class="form-conrol" style="width: 150px;
                   height: 31px;" placeholder="select branch">
               <option *ngFor="let branch of branches" [value]="branch">{{branch}}</option>
             </select> </td>
-        </tr>
+        </tr> -->
         <tr>
             <td><label>Vehicle No</label></td>
             <td>
@@ -24,8 +24,7 @@
             <td>
               {{lr.lrNumber}}
               <!-- <input type="text" readonly [(ngModel)]=lr.lrNumber class="form-control"> -->
-             </td>
-            
+             </td>          
           </tr>
         <tr>
           <td><label>Date</label></td>
@@ -90,6 +89,21 @@
                   (change)="fillConsigneeAddress();"> &nbsp;&nbsp;&nbsp; Same as Consignee Address &nbsp;&nbsp;&nbsp;
             <td><input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off"></td>
           </tr>
+
+
+          <tr>
+              <td><label>T.A. Name</label></td>
+              <td>
+                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent"
+                  display="name" placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
+              </td>
+              <td><label>T.A. Id</label></td>
+              <td>
+                {{taId}}
+               </td>          
+            </tr>
+
+
         <tr>
           <td><label>Payable Amount</label></td>
           <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>

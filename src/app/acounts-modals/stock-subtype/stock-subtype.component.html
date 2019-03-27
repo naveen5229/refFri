@@ -35,13 +35,13 @@
         <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
         placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion>
       </div>
-      <div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
+      <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
         <ul>
           <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
             {{stocktype.name}}
           </li>
         </ul>
-      </div>
+      </div-->
     </div>
     <div class="col">
       <div class="form-group">

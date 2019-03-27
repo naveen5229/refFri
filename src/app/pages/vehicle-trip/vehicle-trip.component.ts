@@ -6,6 +6,7 @@ import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/veh
 import { Component, OnInit } from '@angular/core';
 import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
+import { UpdateTripDetailComponent } from '../../modals/update-trip-detail/update-trip-detail.component';
 
 @Component({
   selector: 'vehicle-trip',
@@ -71,7 +72,6 @@ export class VehicleTripComponent implements OnInit {
     console.log("reportIssue",vehicleTrip);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleTrip.id));
-
   }
   deleteTrip(vehicleTrip){
     console.log("deleteTrip",vehicleTrip);
@@ -89,5 +89,14 @@ export class VehicleTripComponent implements OnInit {
 
         console.log('Err:', err);
       });
+  }
+
+  update(vehicleTrip){
+    this.common.params = {vehicleTrip:vehicleTrip};
+    const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
+    activeModal.result.then(data => {      
+        this.getVehicleTrips();
+     
+    });
   }
 }

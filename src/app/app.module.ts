@@ -98,7 +98,11 @@ import { CommonService } from './services/common.service';
 import { UserService } from './@core/data/users.service';
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
+import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -162,6 +166,7 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
     VehiclesOnMapComponent,
     VoucherdetailComponent,
     RadioSelectionComponent,
+    UpdateTripDetailComponent,
     
     
   ],
@@ -223,8 +228,10 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
     AddTripComponent,
     EditDriverComponent,
     VoucherdetailComponent,
+    VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
-    RadioSelectionComponent
+    RadioSelectionComponent,
+    UpdateTripDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -243,7 +250,11 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
+      libraries: ['drawing']
+    })
   ],
 
   bootstrap: [AppComponent],
