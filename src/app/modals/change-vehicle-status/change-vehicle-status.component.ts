@@ -691,8 +691,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       fromTime: this.VehicleStatusData.latch_time,
       vehicleId: this.VehicleStatusData.vehicle_id,
-      tLat: this.VehicleStatusData.tlat,
-      tLong: this.VehicleStatusData.tlong,
+      tLat: 0.0,
+      tLong: 0.0,
       tTime: this.toTime,
     }
 
