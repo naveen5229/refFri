@@ -60,6 +60,7 @@ export class VouchersComponent implements OnInit {
     this.getLedgers('debit');
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
+    this.common.currentPage = this.voucherName;
   }
 
   ngOnInit() {
@@ -145,7 +146,7 @@ export class VouchersComponent implements OnInit {
     } else {
       alert('Please Select Branch');
     }
-  
+
     //  this.activeModal.close({ response: response, Voucher: this.voucher });
   }
 
@@ -173,6 +174,9 @@ export class VouchersComponent implements OnInit {
           this.voucher = this.setVoucher();
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
+        } else {
+          let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+          this.common.showError(message);
         }
 
       }, err => {
