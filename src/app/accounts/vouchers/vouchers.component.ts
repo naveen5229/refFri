@@ -174,6 +174,7 @@ export class VouchersComponent implements OnInit {
           this.voucher = this.setVoucher();
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
+          this.setFoucus('ref-code');
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);
@@ -184,7 +185,6 @@ export class VouchersComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
-    this.setFoucus('ref-code');
   }
 
 
@@ -218,7 +218,7 @@ export class VouchersComponent implements OnInit {
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
-    console.log(event);
+    // console.log(event);
     const activeId = document.activeElement.id;
     if (event.altKey && key === 'c') {
       // console.log('alt + C pressed');
@@ -227,7 +227,7 @@ export class VouchersComponent implements OnInit {
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         this.addVoucher();
-        this.common.showToast('Your Value Has been saved!');
+        // this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();
@@ -289,7 +289,7 @@ export class VouchersComponent implements OnInit {
       else this.voucher.amountDetails[index].transactionType = 'debit';
       this.calculateTotal();
     } else if (key == 'backspace') {
-      console.log('Selected: ', window.getSelection().toString(), this.allowBackspace);
+      // console.log('Selected: ', window.getSelection().toString(), this.allowBackspace);
       if (activeId == 'ref-code' || !this.allowBackspace) return;
       event.preventDefault();
       let index = this.getElementsIDs().indexOf(document.activeElement.id);
@@ -525,7 +525,10 @@ export class VouchersComponent implements OnInit {
         this.voucher.amountDetails[index].amount = 0;
         alert('Please enter valid amount');
       }
-      this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
+      console.log('LedgerID:', ledgerId, this.balances[ledgerId]);
+      if (this.balances[ledgerId]) {
+        this.balances[ledgerId].current = this.balances[ledgerId].main - this.voucher.total.credit;
+      }
     }
 
   }

@@ -10,14 +10,14 @@
             <div class="form-group">
               <label>Ref</label>
               <input type="text" id="ref-code" class="form-control" (click)="lastActiveId = 'ref-code'"
-                name="account-name" [(ngModel)]="voucher.code" autofocus>
+                name="account-name" [(ngModel)]="voucher.code" autofocus autocomplete="doNotAutoComplete">
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
               <label>Date</label>
               <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="voucher-date"
-                name="account-date" [(ngModel)]="voucher.date" maxlength="10"
+                name="account-date" [(ngModel)]="voucher.date" maxlength="10" autocomplete="off"
                 (click)="lastActiveId = 'voucher-date'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           </div>
@@ -46,12 +46,12 @@
               [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"
               display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
                   <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i"
-                    [(ngModel)]="amountDetail.ledger.name"
+                    [(ngModel)]="amountDetail.ledger.name" autocomplete="off"
                     (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
                 </td>
                 <td>
                   <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
-                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
+                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;" autocomplete="off"
                     [(ngModel)]="amountDetail.amount">
                   <span
                     *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
