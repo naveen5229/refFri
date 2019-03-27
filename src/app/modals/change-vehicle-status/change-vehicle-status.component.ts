@@ -221,6 +221,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
     let thisMarkers = [];
     console.log("Markers", markers);
+    this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
 
       let subType = markers[index]["subType"];
@@ -268,7 +269,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         map: this.map,
         title: title
       });
-      if (changeBounds)
+      if (changeBounds&&!(''+markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
       console.log("ThisMarker: ",thisMarkers);
@@ -718,7 +719,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("reportIssue",vehicleEvent);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
+  }
 
+  mapReset(){
+    this.reloadData();
   }
 }
 
