@@ -56,7 +56,7 @@ export class CommonService {
     201: { title: 'KPI Details', page: 'VehicleKpiDetailsPage' }
   }
 
-
+  currentPage = '';
 
   constructor(
     public router: Router,
