@@ -34,41 +34,32 @@
         </div>
       </div>
     </div>
-      
-  <div class="row profit-loss">
-    <div class="col-6 pr-0">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-                <th>Particulars</th>
-                <th style="text-align: right">Amount</th>
-              </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor=" let dataItem of filterData(profitLossData, 0)">
-                <td>{{dataItem.y_name}}</td>
-                <td style="text-align: right">{{dataItem.y_amount}}</td>
-              </tr>
-          </tbody>
-         
-        </table>
+    
+    <div class="row">
+<div class="col-6">
+    <table class="table table-bordered">
+      <tr>
+        <th>Particulars</th>
+        <th>Amount</th>
+      </tr>
+      <tr *ngFor=" let dataItem of filterData(profitLossData, 0)">
+        <td>{{dataItem.y_name}}</td>
+        <td>{{dataItem.y_amount}}</td>
+      </tr>
+    </table>
     </div>
-    <div class="col-6 pl-0">
-      <table class="table table-bordered">
-        <thead>
+    <div class="col-6">
+        <table class="table table-bordered">
           <tr>
-              <th>Particulars</th>
-              <th style="text-align: right">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
+            <th>Particulars</th>
+            <th>Amount</th>
+          </tr>
           <tr *ngFor=" let dataItem of filterData(profitLossData, 1)">
             <td>{{dataItem.y_name}}</td>
-            <td style="text-align: right">{{dataItem.y_amount}}</td>
+            <td>{{dataItem.y_amount}}</td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</nb-card-body>
+        </table>
+        </div>
+      </div>
+  </nb-card-body>
 </nb-card>
