@@ -103,6 +103,18 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
+      },
+      {
+        title: 'gps-supplier-mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
+      },
+      {
+        title: 'vehicles-view',
+        icon: 'nb-home',
+        link: '/admin/vehicles-view',
+        home: true,
       }
     ];
   }

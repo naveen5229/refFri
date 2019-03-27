@@ -23,14 +23,14 @@
       <div class="col">
           <div class="from-group">
           <label>User Id</label>
-          <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList" display="employeename"
+          <auto-suggestion (onSelected)="getUser($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename"
            placeholder="Search Name" [preSelected]="null"></auto-suggestion>
           </div>
       </div>
       <div class="col">
           <div class="from-group">
           <label>Senior Id</label>
-          <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList" display="employeename"
+          <auto-suggestion (onSelected)="getSenior($event)" url="Suggestion/getFoAdminList?foid={{escalationType.id}}" display="employeename"
            placeholder="Search Name" [preSelected]="null"></auto-suggestion>
           </div>
       </div>

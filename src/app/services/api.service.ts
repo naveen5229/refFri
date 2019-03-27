@@ -14,6 +14,7 @@ export class ApiService {
   // URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
   //  URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
   //URL : string = 'http://localhost/transtruck/booster_webservices/'; //prashant
+   UrlTranstruckNew: string =     'http://elogist.in/transtrucknew/';
 
   constructor(private http: HttpClient,
     public user: UserService) { 
@@ -42,6 +43,47 @@ export class ApiService {
     }
 
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
+  }
+
+  postToTranstrucknew(subURL: string, body: any, options?) {
+    console.log('Test::::');
+    // if (this.user._customer.id) {
+    //   body['foAdminId'] = this.user._customer.id;
+      // console.log(body['foAdminId']);
+    //   console.log("foAdminId", body);
+    // }
+    console.log('Test::::');
+    console.log('BODY: ', body);
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    console.log('Test::::');
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'version': '1.0',
+      'entrymode': entryMode,
+      'authkey': this.user._token || ''
+    });
+
+    return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: headers })
+  }
+
+  getToTranstruckNew(subURL: string, params?: any) {
+    // if (this.user._customer.id) {
+    //   if (subURL.includes('?')) {
+    //     subURL += '&foAdminId=' + this.user._customer.id;
+    //   } else {
+        subURL += '?' + params;
+    //   }
+    // }
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    console.log('Test::::');
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'version': '1.0',
+      'entrymode': entryMode,
+      'authkey': this.user._token || ''
+    });
+
+    return this.http.get(this.UrlTranstruckNew + subURL, { headers: headers })
   }
 
   put(subURL: string, body: any) {

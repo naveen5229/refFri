@@ -17,6 +17,9 @@ import { PendingDocumentsComponent } from '../documents/pending-documents/pendin
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { RouteGuard } from '../guards/route.guard';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
+import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
+import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
+
 
 
 const routes: Routes = [{
@@ -96,7 +99,18 @@ const routes: Routes = [{
             path:'user-preferences',
             component: UserPreferencesComponent,
             canActivate: [RouteGuard]
-        }
+        },
+        {
+            path:'gps-supplier-mapping',
+            component: GpsSupplierMappingComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path:'vehicles-view',
+            component: VehiclesViewComponent,
+            canActivate: [RouteGuard]
+        },
+        
     ],
 }];
 

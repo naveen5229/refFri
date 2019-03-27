@@ -98,6 +98,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
+    },
+    {
+        title: 'Gps Supplier Mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
+    },
+    {
+        title: 'Vehicles View',
+        icon: 'nb-home',
+        link: '/admin/vehicles-view',
+        home: true,
     }
 
 ];

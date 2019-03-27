@@ -48,7 +48,7 @@
             <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
           </div>  -->
         <div class="col-sm-2" *ngIf="period==0">
-            <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
+            <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
         </div>
         <div class="col-sm-2" *ngIf="period==0">
             <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date" placeholder="End Date" (click)="getDate('end')">
@@ -100,26 +100,29 @@
                         
                   </tr>
                 </thead>
+                <!-- {{siteDetails[0].loading}} -->
                 <tbody *ngIf="trendType==11">
                     <ng-container *ngFor="let data of siteDetails; let i=index;">
-                  <tr *ngIf="(trendType==11 && data.loading!= null) || (trendType==21 && data.unloading!= null)">
-                    <td><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
-                        <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
+                  <tr *ngIf="trendType==11 && data.loading_hrs!= 0">
+                    <td *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                        <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td>{{data.loading}}</td>
+                    <td *ngIf="data.sitename==null">No Site</td>
+                    <td>{{data.loading_hrs}}</td>
                     <td>{{data.loading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>
                 <tbody *ngIf="trendType==21">
                     <ng-container *ngFor="let data of siteUnloading; let i=index;">
-                  <tr *ngIf="(trendType==11 && data.loading!= null) || (trendType==21 && data.unloading!= null)">
-                    <td><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
-                        <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
+                  <tr *ngIf="trendType==21 && data.unloading_hrs!= 0">
+                    <td *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                        <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td>{{data.unloading}}</td>
+                    <td *ngIf="data.sitename==null">No Site</td>
+                    <td>{{data.unloading_hrs}}</td>
                     <td>{{data.unloading_count}}</td>
                   </tr>
                   </ng-container>
@@ -140,18 +143,18 @@
                 <tbody *ngIf="trendType==11">
                   <ng-container *ngFor="let data of vehicleDetails; let i=index;">
                   <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
-                    <td>{{data.vehicle_name}}</td>
+                    <td>{{data.vehicle_id}}</td>
                     <td>{{data.loading_hrs}}</td>
-                    <td>{{data.loading_count}}</td>
+                    <td>{{data.ldng_count}}</td>
                   </tr>
                   </ng-container>  
                 </tbody>
                 <tbody *ngIf="trendType==21">
                     <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
                     <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
-                      <td>{{data.vehicle_name}}</td>
+                      <td>{{data.vehicle_id}}</td>
                       <td>{{data.unloading_hrs}}</td>
-                      <td>{{data.unloading_count}}</td>
+                      <td>{{data.unldng_count}}</td>
                     </tr>
                     </ng-container>  
                   </tbody>
@@ -170,8 +173,8 @@
               <tbody>
                 
                 <tr *ngFor="let data of vehicleDetails; let i=index;" >
-                  <td>{{data.vehicle_name}}</td>
-                  <td>{{data.onward_per}}</td>
+                  <td>{{data.vehicle_id}}</td>
+                  <td>{{data.onward}}</td>
                   <td></td>
                 </tr>
                
