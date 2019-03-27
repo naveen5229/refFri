@@ -96,16 +96,9 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   setLocations(elementId,place,lat,lng){
-    console.log("elementId",elementId,"place",place,"lat",lat,"lng",lng);
-    if(elementId=='vehicleTrip_starttrip'){
-    this.vehicleTrip.startName = place;
-    this.vehicleTrip.startLat = lat;
-    this.vehicleTrip.startLng = lng;
-    }else if(elementId=='vehicleTrip_endtrip'){
       this.vehicleTrip.endLat = lat;
       this.vehicleTrip.endLng = lng;
       this.vehicleTrip.endName = place;
-    }
   }
 
   closeModal() {
@@ -138,7 +131,7 @@ export class VehicleTripUpdateComponent implements OnInit {
       });
   }else{
     alert("Next Location And Purpose is Mandatory");
-  }
+   }
 }
 
 getPlacementSuggestion(){

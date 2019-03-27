@@ -14,8 +14,20 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Pending Details',
+        icon: 'fa fa-pencil-square-o',
+        link: '/documents/pending-documents',
+        home: true,
+    },
+    // {
+    //     title: 'Change History',
+    //     icon: 'fa fa-history',
+    //     link: '/documents/change-history',
+    //     home: true,
+    // },
+    {
         title: 'Customer Dashboard',
-        icon: 'nb-home',
+        icon: 'fa fa-user',
         children: [
             {
                 title: 'Document Dashboard',
@@ -29,22 +41,11 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
                 link: '/documents/dashboard',
                 home: true,
             },
-            // {
-            //     title: 'Vehicle Document History',
-            //     icon: 'fa fa-truck',
-            //     link: '/documents/documentation-details',
-            //     home: true,
-            // }
-
+           
         ]
     },
 
-    {
-        title: 'Pending Details',
-        icon: 'fa fa-pencil-square-o',
-        link: '/documents/pending-documents',
-        home: true,
-    }
+   
 ];
 
 export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [

@@ -5,12 +5,15 @@
   </button>
 </div>
 <div class="modal-body">
+  
+ 
 
-  <div class="table">
+  <!-- <div class="table">
     <table class="table table-bordered table-hover table-scroll">
       <thead class=" table-scroll thead">
         <tr>
           <th>Sr No</th>
+          <th>Document Id</th>
           <th>Vehicle Number</th>
           <th>Document Type</th>
           <th>Issue Date</th>
@@ -21,12 +24,13 @@
           <th>Amount</th>
           <th>Remark</th>
           <th>Image</th>
-          <!-- <th>Edit</th> -->
+           <th>Edit</th>
         </tr>
       </thead>
       <tbody class="table-scroll">
         <tr *ngFor="let doc of reportResult ; let i = index">
           <th scope="row">{{i + 1}}</th>
+          <td>{{doc.id}}</td>
           <td>{{doc.regno}}</td>
           <td>{{doc.document_type}}</td>
           <td>{{doc.issue_date | date:'dd-MMM-yyyy'}}</td>
@@ -36,10 +40,18 @@
           <td>{{doc.rto}}</td>
           <td>{{doc.amount}}</td>
           <td>{{doc.remarks}}</td>
-          <td><i *ngIf="doc.img_url" class="icon ion-md-image" (click)="imageView(doc)"></i></td>
-          <!-- <td (click)="editData(doc)"><i class="icon ion-md-create"></i></td> -->
+          <td><i *ngIf="doc.hasimage" class="icon ion-md-image"></i></td>
+           <td (click)="editData(doc)"><i class="icon ion-md-create"></i></td> 
         </tr>
       </tbody>
     </table>
-  </div>
+  </div> -->
+
+  <img src="assets/images/elogist.png" alt="logo" id="img-logo" style="display: none;"/>
+  <span>Export : 
+    <!-- <span title="PDF Export" (click)="exportPDF()" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i></span> -->
+    <span title="CSV Export" (click)="exportCSV()" style="cursor: pointer;margin-left: 5px; font-size: 16px;">CSV</span>
+</span>
+  <smart-table id="doc_report" *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  <br>
 </div>

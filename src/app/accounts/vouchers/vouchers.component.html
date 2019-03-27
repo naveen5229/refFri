@@ -1,6 +1,8 @@
 <nb-card>
+<nb-card-header>
+  <h4 class="modal-title"> Add Voucher ({{this.voucherName}})</h4>
+</nb-card-header>
   <nb-card-body (keydown)="keyHandler($event)">
-    <h4 class="modal-title"> Add Voucher ({{this.voucherName}})</h4>
     <div class="row">
       <div class="col-9">
         <div class="row">
@@ -34,7 +36,7 @@
                 <td>
                   <select class="form-control" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
                     [(ngModel)]="amountDetail.transactionType" style="padding: 4px 8px;height:auto;"
-                    (change)="calculateTotal()" (click)="lastActiveId = 'transaction-type-' + i">
+                    (change)="calculateTotal()" (click)="lastActiveId = 'transaction-type-' + i" >
                     <option value="debit">Debit</option>
                     <option value="credit">Credit</option>
                   </select>
@@ -45,13 +47,16 @@
               display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
                   <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i"
                     [(ngModel)]="amountDetail.ledger.name"
-                    (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;"
-                    (input)="getSuggestions(amountDetail.transactionType, amountDetail.ledger.name); allowBackspace = false;">
+                    (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
                 </td>
                 <td>
                   <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i"
-                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(); allowBackspace = false;"
+                    (click)="lastActiveId = 'amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
                     [(ngModel)]="amountDetail.amount">
+                  <span
+                    *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
+                      Available Balance is</i>
+                    {{findBalance(i)}})</span>
                 </td>
                 <!-- <td *ngIf="i == 0">
             <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
@@ -100,7 +105,7 @@
       </div>
       <div class="col-3 ledger-container" id="ledger-container">
         <div>
-          <div *ngFor="let ledger of ledgers; let i = index;" class="ledger-option"
+          <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
             [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
             <span>{{ledger.y_ledger_name}}</span>
           </div>
@@ -123,7 +128,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
     </div>
   </div>
 </div>

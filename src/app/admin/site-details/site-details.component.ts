@@ -45,9 +45,8 @@ updateSiteDetail(site){
   this.common.handleModalSize('class', 'modal-lg', '1200');
   const activeModal= this.modalService.open(UpdateSiteDetailsComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
      activeModal.result.then(data =>{
-       if(!data.status){
-        
-       }
-     });
+        this.getsiteDetails();
+       });
+    
 }
 }

@@ -14,6 +14,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'VSC Ticket Audit',
+        icon: 'nb-home',
+        link: '/admin/vscticketaudit',
+        home: true,
+    },
+    {
         title: 'Issue Alerts',
         icon: 'nb-home',
         link: '/admin/issue-alerts',
@@ -38,12 +44,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Group Mmanagements',
+        title: 'Group Managements',
         icon: 'nb-home',
         link: '/admin/group-managements',
         home: true,
     },
-   
+
     {
         title: 'Ticket Properties',
         icon: 'nb-home',
@@ -60,6 +66,44 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Site Fencing',
         icon: 'nb-home',
         link: '/admin/site-fencing',
+    },
+    {
+        title: 'Diagnostics',
+        icon: 'nb-home',
+        link: '/admin/diagnostics',
         home: true,
     },
+    {
+        title: 'Document',
+        icon: 'nb-home',
+        children: [
+            {
+                title: 'Pending Details',
+                icon: 'fa fa-pencil-square-o',
+                link: '/admin/pending-documents',
+                home: true,
+            },
+
+        ]
+    },
+
+    {
+        title: 'User Prefrence',
+        icon: 'nb-home',
+        link: '/admin/user-preferences',
+        home: true,
+    },
+    {
+        title: 'Site Details',
+        icon: 'nb-home',
+        link: '/admin/site-details',
+        home: true,
+    },
+    {
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
+        home: true,
+    }
+
 ];

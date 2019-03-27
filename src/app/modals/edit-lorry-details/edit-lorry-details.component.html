@@ -1,17 +1,42 @@
 <div class="model-header" style="margin-top:10px; margin-left:10px; margin-right:10px;">
-  <h6 class="model-title" id="model-basic-title">Add Location</h6>
-  <button type="button" class="close" style="margin-top : -30px; background-color: white" aria-label="Close"
+  <!-- <button type="button" class="close"  background-color: white" aria-label="Close"
     (click)=dismiss(false)>
     <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="border" style="height: 2px; color: brown; margin-top: 20px; margin-bottom: 20px"></div>
-<div class="model-body">
+  </button> -->
+     <button type="button" class="close" style="background-color:white; margin-left: 15px; margin-top:-10px" aria-label="Close" (click)=dismiss(false)>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> 
+  <div class="row"style="margin-left: 20px; margin-right: 20px;">
+    <table class="table table-bordered" >
+      <thead class="thead">
+        <tr>
+          <th>VehicleRegNo.</th>
+          <th>VehicleId</th>
+          <th>LRId</th>
+          <th>addUserId</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr *ngFor="let data of pendinglr; let i=index;"> -->
+        <tr>
+          <td>{{LrData.regno}}</td>
+          <td>{{LrData.vehicle_id}}</td>
+          <td>{{LrData.id}}</td>
+          <td>{{LrData.aduserid}}</td>
+      </tbody>
+    </table>
+  </div>
+
+<div class="border" style="height: 2px; color: brown; margin-top: 10px; margin-bottom: 20px"></div>
+<div class="model-body" style="margin-left:10px; margin-right:10px; margin-bottom:10px">
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-3" *ngIf="showAgentLayout">
+      <h6>Transport Agent Name</h6>
+    </div>
+    <div class="col-sm-3" *ngIf="showMain">
       <div class="from-group">
-        <select [(ngModel)]="option" class="form-control"
-          style="height:30px; border: 2px solid darkcyan; font-size: 10px">
+        <select [(ngModel)]="option" class="form-control" style="border: 2px solid darkcyan; font-size: 10px">
           <option value="accept">Accept</option>
           <option value="reject">Reject</option>
         </select>
@@ -24,73 +49,154 @@
       <button class="btn-loadInvoice" type="button" style="width:150px" (click)="loadImage('Invoice')">Load
         Invoice</button>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <button class="btn-loadOther" style="width:150px" type="button" (click)="loadImage('Other')">Load Invoice</button>
     </div>
+    <div class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px" (click)="removeLrDetails()">
+    </div>
   </div>
-  <div class="row">
-    <div class="col-3">
-      <input type="text" class="form-control" name="RNo." placeholder="Receipt No.">
-      <input type="text" class="from-control" name="source" placeholder="Source">
-      <input type="text" class="from-control" name="destination" placeholder="Destination" style="margin-bottom:10px">
-      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-        placeholder="Search ID" [preSelected]="null"></auto-suggestion>
 
-      <input type="text" class="from-control" name="remark" placeholder="Remark">
+  <div class="row">
+
+    <div class="col-3" *ngIf="showMain">
+      <input type="text" class="form-control" [(ngModel)]="LrData.receipt_no" name="RNo." placeholder="Receipt No.">
+      <input type="text" class="from-control" id="source" [(ngModel)]="LrData.source" name="source"
+        placeholder="Source">
+      <input type="text" class="from-control" id="destination" name="destination" [(ngModel)]="LrData.destination"
+        placeholder="Destination" style="margin-bottom:10px">
+      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+        placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+
+      <input type="text" class="from-control" name="remark" [(ngModel)]="LrData.remark" placeholder="Remark" style="margin-bottom:10px">
       <div class="row">
-        <div class="col-9">
-          <input type="text" class="form-control" name="agent-name" placeholder="Transport Agent Name"
-            style="font-size: 10px">
+        <div class="col-9" style="margin-bottom:10px">
+          <auto-suggestion (onSelected)="searchTaName($event,'Consignee')" url="Suggestion/GetTransportAgent"
+            display="name" placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
         </div>
         <div class="col-3">
           <button class="btn-agentName" type="button"
-            style="background-color: transparent; margin-top: 10px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
-            (click)="addAgentNmae()">Add</button>
+            style="background-color: transparent; margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+            (click)="addAgentName()">Add</button>
         </div>
       </div>
       <div class="row">
-        <div class="col-9">
-          <input type="text" class="form-control" name="consignee-name" placeholder="Consignee Name"
-            style="font-size: 10px">
+        <div class="col-9" style="margin-bottom:10px">
+          <auto-suggestion (onSelected)="searchName($event,'Consignee')" url="Suggestion/GetCompanies" display="name"
+            placeholder="Consignee Name" [preSelected]="null"></auto-suggestion>
+          <!-- <input type="text" class="form-control" name="consignee-name" placeholder="Consignee Name"
+            style="font-size: 10px"> -->
         </div>
         <div class="col-3">
           <button class="btn-consigneeName" type="button"
-            style="background-color: transparent; margin-top: 10px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
-            (click)="addAgentNmae()">Add</button>
+            style="background-color: transparent; margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+            (click)="add()">Add</button>
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="margin-bottom:10px">
         <div class="col-9">
-          <input type="text" class="form-control" name="consigner-name" placeholder="Consigner Name"
-            style="font-size: 10px">
+          <auto-suggestion (onSelected)="searchName($event,'Consigner')" url="Suggestion/GetCompanies" display="name"
+            placeholder="Consigner Name" [preSelected]="null"></auto-suggestion>
+          <!-- <input type="text" class="form-control" name="consigner-name" placeholder="Consigner Name"
+            style="font-size: 10px"> -->
         </div>
         <div class="col-3">
           <button class="btn-consignerName" type="button"
-            style="background-color: transparent; margin-top: 10px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
-            (click)="addAgentNmae()">Add</button>
+            style="background-color: transparent;  margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+            (click)="add()">Add</button>
         </div>
       </div>
-      <input type="text" name="lr-date" class="form-control" placeholder="LR Date">
+      <input type="text" class="form-control" [(ngModel)]="lrDate" name="date" placeholder="date" (click)="getDate()">
+      <!-- <input [(ngModel)]="lrDate" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date"
+            class="form-control" autocomplete="off" name="date">
+          <owl-date-time #date></owl-date-time> -->
       <div class="from-group" style="margin-top:10px">
-        <select [(ngModel)]="payment" class="form-control"
-          style="height:30px; border: 2px solid darkcyan; font-size: 10px">
+        <select [(ngModel)]="payType" class="form-control" style=" border: 2px solid darkcyan; font-size: 10px">
           <option value="toPay">ToPay</option>
           <option value="advance">Advance</option>
         </select>
       </div>
-      <input type="text" name="tonnage" class="form-control" placeholder="Tonnage">
-      <input type="text" name="rate" class="form-control" placeholder="Rate">
-      <input type="text" name="amount" class="form-control" placeholder="Amount">
-      <input type="text" name="material" class="form-control" placeholder="Material">
+      <input type="text" name="tonnage" [(ngModel)]="tonnage" class="form-control" placeholder="Tonnage">
+      <input type="text" name="rate" [(ngModel)]="LrData.rate" class="form-control" placeholder="Rate">
+      <input type="text" name="amount" [(ngModel)]="LrData.amount" class="form-control" placeholder="Amount"
+        style="margin-bottom:10px">
+      <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
+        placeholder="Material Name" [preSelected]="null" ></auto-suggestion>
       <div class="row" style="margin-top:10px">
         <div class="col-6">
-          <Button class="btn btn-danger" type="button">Reset</Button>
+          <Button class="btn btn-danger" type="reset" (click)="resetValues()">Reset</Button>
         </div>
         <div class="col-6">
-          <Button class="btn btn-primary" type="button">Submit</Button>
+          <Button class="btn btn-primary" type="button" (click)="insertLrDetails()">Submit</Button>
         </div>
       </div>
     </div>
+    <div class="col-3" *ngIf="showAgentLayout" style="margin-bottom:10px">
+
+      <div class="row">
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.pan" name="pan"
+            placeholder="Pan No.">
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.name" name="name"
+            placeholder="Name">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.city" name="city"
+            placeholder="City">
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.gstin" name="gst"
+            placeholder="Gstin">
+        </div>
+      </div>
+      <h6>Sub Admin 1</h6>
+      <div class="row">
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbname1" name="name"
+            placeholder="Name">
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbmobile1" name="mobile"
+            placeholder="Mobile">
+        </div>
+      </div>
+      <h6>Sub Admin 2</h6>
+      <div class="row">
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbname2" name="name"
+            placeholder="Name">
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbmobile2" name="mobile"
+            placeholder="Mobile">
+        </div>
+      </div>
+      <h6>Sub Admin 3</h6>
+      <div class="row">
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbname3" name="name"
+            placeholder="Name">
+        </div>
+        <div class="col-6">
+          <input type="text" class="form-control" [(ngModel)]="transportAgentDetails.sbmobile3" name="mobile"
+            placeholder="Mobile">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px; margin-left: 10px">
+        <div class="col-6">
+          <Button class="btn btn-primary" type="button" (click)="insertAgentInfo()">Submit</Button>
+        </div>
+        <div class="col-6">
+          <Button class="btn btn-danger" type="button" (click)="resetView()">Close</Button>
+        </div>
+      </div>
+    </div>
+
     <div class="col-9">
       <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
       </app-image-viewer>

@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class LedgerComponent implements OnInit {
   showConfirm = false;
+  showExit=false;
   salutiondata=[];
   Accounts = {
     name: '',
@@ -119,6 +120,7 @@ export class LedgerComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
@@ -140,10 +142,28 @@ export class LedgerComponent implements OnInit {
   }
 
   keyHandler(event) {
+    if (event.key == "Escape") {
+      this.showExit=true;
+    }
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
 
+    if (this.showExit) {
+      if (key == 'y' || key == 'enter') {
+        this.showExit = false;
+       event.preventDefault();
+       this.activeModal.close();
+       return;
+       // this.close();
+      }else   if ( key == 'n') {
+        this.showExit = false;
+        event.preventDefault();
+        return;
+
+      }
+      
+    }
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         console.log('Ledgers show confirm:', this.Accounts);
@@ -260,6 +280,10 @@ export class LedgerComponent implements OnInit {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
       this.allowBackspace = false;
+      //event.preventDefault();
+    }
+    else if (key == 'Escape') {
+     alert('hello');
       //event.preventDefault();
     }
   }

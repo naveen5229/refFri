@@ -1,0 +1,81 @@
+<nb-card>
+  <nb-card-header>
+    <h4>Outstanding</h4>
+  </nb-card-header>
+  <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+      <div class="row">
+          <div class="col-9">
+            <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label>Branch</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
+            display="name" placeholder="Enter Branch" inputId="branch" [data]="branchdata" [preSelected]="{name:'All'}">
+          </auto-suggestion>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <label>Ledger</label>
+          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
+            display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion>
+        </div>
+      </div>
+      </div>
+      <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label>Starting Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control" id="startdate" autocomplete="off" maxlength="10"
+            name="account-startDate" [(ngModel)]="ledger.startDate">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control" id="enddate" autocomplete="off" maxlength="10"
+            name="account-endDate" [(ngModel)]="ledger.endDate">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary" type="button" outline (click)="getLedgerView()" id="submit"
+            style="cursor: pointer;margin-top: 18px;">Submit</button>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <table class="table table-bordered" style="width:100%">
+      <thead style="background-color:#09587a;">
+        <tr>
+          <th>Code</th>
+          <th>Ref. No.</th>
+          <th>Voucher Type</th>
+          <th>Particular</th>
+          <th style="text-align:right;">Amount(Debit)</th>
+          <th style="text-align:right;">Amount(Credit)</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let voucherEntry of voucherEntries; let i = index;">
+        <tr class="heading_second">
+          <td colspan="3">&nbsp;</td>
+          <td>{{voucherEntry.name}}</td>
+          <td style="text-align:right;">{{voucherEntry.amount.debit}}</td>
+          <td style="text-align:right;">{{voucherEntry.amount.credit}}</td>
+        </tr>
+        <tr *ngFor="let voucher of voucherEntry.vouchers">
+          <td>{{voucher.y_code}}</td>
+          <td>{{voucher.y_cust_code}}</td>
+          <td>{{voucher.y_type}}</td>
+          <td>&nbsp;</td>
+          <td *ngIf="voucher.y_dramunt != 0" style="text-align:right;">{{voucher.y_dramunt}}</td>
+          <td *ngIf="voucher.y_dramunt == 0"></td>
+          <td *ngIf="voucher.y_cramunt != 0" style="text-align:right;">{{voucher.y_cramunt}}</td>
+          <td *ngIf="voucher.y_cramunt ==0"></td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

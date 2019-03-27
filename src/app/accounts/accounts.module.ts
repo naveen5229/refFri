@@ -19,6 +19,9 @@ import { LedgerviewComponent } from './ledgerview/ledgerview.component';
 import { LedgermappingComponent } from './ledgermapping/ledgermapping.component';
 import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
 import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
+import { OutstandingComponent } from './outstanding/outstanding.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { ProfitlossComponent } from './profitloss/profitloss.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -47,7 +50,10 @@ const PAGES_COMPONENTS = [
     LedgerviewComponent,
     LedgermappingComponent,
     InvoiceregisterComponent,
-    TripVoucherExpenseComponent
+    TripVoucherExpenseComponent,
+    OutstandingComponent,
+    BalancesheetComponent,
+    ProfitlossComponent
     //StockSubtypeComponent
   ],
 })

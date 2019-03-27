@@ -1,0 +1,115 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Tyre Health Check Up</h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-2 text-right"><label class="label1"><b>Vehicle Type </b> </label> </div>
+      <div class="col-sm-3">
+        <select [(ngModel)] = "vehicleType" class="form-control" required (change)="resetVehDetails()">
+        <option value="truck">Truck</option>
+        <option value="trolly">Trolly</option>
+      </select>
+      </div>
+      <div class="col-sm-2 text-right"><label><b>Vehicle No.</b></label></div>
+      <div class="col-sm-3 ">
+        <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+          autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+        <div>
+          <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+            <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+              {{ vehicle.regno}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px">
+      <table class="table table-bordered table-hover tbl-background"
+      *ngFor="let vehicleTyreDetail of vehicleTyreDetails; let i = index">
+      <thead class="thead">
+        <tr>
+          <th>AxleNo </th>
+          <th>Left</th>
+          <th>Right</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let axel of vehicleTyreDetail.vdata">
+          <td *ngIf="(axel.axle != '99' )"><b>Axle - {{axel.axle}}</b></td>
+          <td *ngIf="(axel.axle != '99' )">
+            <div class="vehicle-container" *ngFor="let tyre of axel.data">
+                  <label class="tyres" *ngIf="tyre.pos=='L1' || tyre.pos=='L2'">
+                      <b style="margin-right:25px">{{tyre.tyrenum}}</b>
+                      <img [class]="tyre.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                      <input class = "health-values" type="number" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                    </label>
+
+            </div>
+          </td>
+          <td *ngIf="(axel.axle != '99' ) ">
+            <div class="vehicle-container" *ngFor="let tyre of axel.data">
+                <label class="tyres" *ngIf="tyre.pos=='R1' || tyre.pos=='R2'">
+                    <b style="margin-right:25px">{{tyre.tyrenum}}</b>
+                  <img [class]="tyre.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                  <input class = "health-values" type="number" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                </label>
+            </div>
+          </td>
+          <td *ngIf="(axel.axle == '99' ) "><b>Stephenie</b></td>
+          <td colspan="2" *ngIf="(axel.axle == '99') ">
+              <div class="vehicle-container" *ngFor="let tyre of axel.data">
+                <label class="tyres">
+                    <b style="margin-right:25px">{{tyre.tyrenum}}</b>
+                    <img [class]="tyre.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd1" maxlength="5" placeholder="NSD-1" >
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd2" maxlength="5" placeholder="NSD-2" >
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.nsd3" maxlength="5" placeholder="NSD-3" >
+                    <input class = "health-values" type="number" [(ngModel)] = "tyre.psi" maxlength="5" placeholder="PSI" >
+                  </label>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+      <div class="tyre_health_form" *ngIf="tyres.length">
+        <div class="row" style="border: 1px solid #d0d0d0;padding: 15px;">
+          <div class="col-12">
+            <div class="col-sm-2"><label class="label1"><b>Remark </b> </label></div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" placeholder="Remark" name="remark" [(ngModel)]="remark" autocomplete="off">
+            </div>
+            <div class="col-sm-2"><label><b>Date</b></label></div>
+            <div class="col-sm-3">
+                <input [(ngModel)]="date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control" autocomplete="off" name="date">
+                <owl-date-time #date ></owl-date-time>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="col-sm-2"><label class="label1"><b>Checked By </b> </label> </div>
+            <div class="col-sm-3">
+                <select [(ngModel)] = "checkedBy" class="form-control" required>
+                    <option *ngFor="let admin of admins" [value]="admin.id">{{admin.employeename}}</option>
+                    </select>
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+    <div class="no-data alert-danger" *ngIf="!tyres.length">
+        No Data available !
+      </div> 
+  </nb-card-body>
+</nb-card>

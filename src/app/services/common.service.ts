@@ -4,6 +4,8 @@ import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, Nb
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ApiService } from './api.service';
+import { DataService } from './data.service';
+import { UserService } from './user.service';
 
 
 
@@ -20,7 +22,7 @@ export class CommonService {
   themeSubscription: any;
   searchId = null;
   refresh = null;
-
+  passedVehicleId = null;
   changeHaltModal = null;
 
 
@@ -55,15 +57,16 @@ export class CommonService {
   }
 
 
+
   constructor(
     public router: Router,
     private toastrService: NbToastrService,
     private theme: NbThemeService,
     public api: ApiService,
-    private datePipe: DatePipe
-  ) {
-
-
+    public dataService: DataService,
+    public user: UserService,
+    private datePipe: DatePipe) {
+    
   }
 
   showError(msg?) {
@@ -128,9 +131,9 @@ export class CommonService {
 
     // console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return (dat + separator + month + separator + year) + (isTime ? ' '  + this.timeFormatter(date) : '');
+      return ( year + separator + month + separator +  dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     } else {
-      return (year + separator + month + separator + dat) + (isTime ? ' '  + this.timeFormatter(date) : '');
+      return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     }
   }
 
@@ -140,7 +143,7 @@ export class CommonService {
     let month = d.getMonth() <= 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() <= 9 ? '0' + d.getDate() : d.getDate();
 
-    console.log(dat + '-' + month + '-' + year);
+    console.log(year + '-' + month + '-' + dat);
 
     return (year + '-' + month + '-' + dat);
 
@@ -302,7 +305,7 @@ export class CommonService {
         this.showToast(res['msg']);
       }, err => this.apiErrorHandler(err, true, true))
   }
-  
+
   generateArray(length) {
     let generatedArray = [];
     for (let i = 0; i < length; i++) {
@@ -316,46 +319,63 @@ export class CommonService {
       return 0;
     }
     else {
-      let radlat1 = Math.PI * lat1/180;
-      let radlat2 = Math.PI * lat2/180;
-      let theta = lon1-lon2;
-      let radtheta = Math.PI * theta/180;
+      let radlat1 = Math.PI * lat1 / 180;
+      let radlat2 = Math.PI * lat2 / 180;
+      let theta = lon1 - lon2;
+      let radtheta = Math.PI * theta / 180;
       let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
       if (dist > 1) {
         dist = 1;
       }
       dist = Math.acos(dist);
-      dist = dist * 180/Math.PI;
+      dist = dist * 180 / Math.PI;
       dist = dist * 60 * 1.1515;
-          if (unit=="K") { dist = dist * 1.609344}
-      if (unit=="Mt") { dist = dist * 1.609344*1000}
-      if (unit=="N") { dist = dist * 0.8684 }
+      if (unit == "K") { dist = dist * 1.609344 }
+      if (unit == "Mt") { dist = dist * 1.609344 * 1000 }
+      if (unit == "N") { dist = dist * 0.8684 }
       return dist.toFixed(0);
-      }
+    }
   }
 
   differenceBtwT1AndT2(date1, date2) {
     if (date1 == date2) {
-        return 0;
+      return 0;
     }
     else {
-        date1 = new Date(date1);
-        date2 = new Date(date2);
-        let difference = date1.getTime() - date2.getTime();
+      date1 = new Date(date1);
+      date2 = new Date(date2);
+      let difference = date1.getTime() - date2.getTime();
 
-        let daysDifference = Math.floor(difference/1000/60/60/24);
-        difference -= daysDifference*1000*60*60*24
+      let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
+      difference -= daysDifference * 1000 * 60 * 60 * 24
 
-       let hoursDifference = Math.floor(difference/1000/60/60);
-        difference -= hoursDifference*1000*60*60
+      let hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+      difference -= hoursDifference * 1000 * 60 * 60
 
-        let minutesDifference = Math.floor(difference/1000/60);
-        difference -= minutesDifference*1000*60
+      let minutesDifference = Math.floor(difference / 1000 / 60);
+      difference -= minutesDifference * 1000 * 60
 
-        let secondsDifference = Math.floor(difference/1000);
-        return (daysDifference + ' day ' + hoursDifference + ' hr ');      
+      let secondsDifference = Math.floor(difference / 1000);
+      return (daysDifference + ' day ' + hoursDifference + ' hr ');
 
-    // return ('difference = ' + daysDifference + ' day ' + hoursDifference + ' hour/s ' + minutesDifference + ' minute/s ' + secondsDifference + ' second/s ');      
+      // return ('difference = ' + daysDifference + ' day ' + hoursDifference + ' hour/s ' + minutesDifference + ' minute/s ' + secondsDifference + ' second/s ');      
+    }
+  }
+
+  menuGenerator(menuType) {
+    return this.dataService._menu[menuType].filter(menu => {
+      if (menu.children && menu.children.length) {
+        menu.children = menu.children.filter(childMenu => this.checkPagePresense(childMenu));
+        return true;
       }
-}
+      return this.checkPagePresense(menu);
+    });
+  }
+
+
+  checkPagePresense(menu) {
+    let status = false;
+    this.user._pages.map(page => (page.route == menu.link) && (status = true));
+    return status;
+  }
 }

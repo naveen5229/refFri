@@ -1,0 +1,31 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Drivers List</h2>
+    <div class="float-right">
+      <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <table class="table table-bordered table-hover table-scroll">
+        <thead class="thead">
+          <th>#</th>
+          <th>Driver Name</th>
+          <th>Mobile_Number</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let driver of driverLists; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{driver.empname}}</td>
+            <td>{{driver.mobileno}}</td>
+
+            <td><button class="btn btn-primary" (click)="updateDriverInfo(driver)" id="submit">Update</button></td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </nb-card-body>
+</nb-card>

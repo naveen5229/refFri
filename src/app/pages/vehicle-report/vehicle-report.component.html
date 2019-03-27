@@ -1,0 +1,56 @@
+<nb-card>
+  <nb-card-header>
+      Vehicle Report
+  </nb-card-header>
+  <nb-card-body>
+    
+<div class="model-body">
+    <div class="row">
+        <div class="col-sm-3">
+            <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+            placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+        </div>
+        <div class="col-sm-3">
+            <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
+            autocomplete="off" name="date">
+          <owl-date-time #date></owl-date-time>
+        </div>
+        <div class="col-sm-3">
+            <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time" class="form-control"
+            autocomplete="off" name="date1">
+          <owl-date-time #date1></owl-date-time>
+        </div>
+        <div class="col-sm-3">
+            <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
+        </div>
+      </div>
+<table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px">
+  <thead class="thead" style="background-color:darkgrey">
+    <tr *ngIf="report.length">
+    <th>Id</th>
+    <th>Date Time</th>
+    <th>Reason</th>
+    <th>Stoppage </th>
+    <th>Place</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Duration(Hours)</th>
+    <th>Action</th> 
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let data of report; let i=index;">
+    <td>{{i+1}}</td>
+    <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
+    <td>{{data.halt_reason}}</td>
+    <td>{{data.site_name}}</td>
+    <td>{{data.loc_name}}</td>
+    <td>{{data.start_time | date : 'dd MMM HH:mm'}}</td>
+    <td>{{data.end_time | date : 'dd MMM HH:mm'}}</td>
+    <td>{{duration[i]}}</td>
+    <td  (click)="showMap(data)"><i class="fa fa-map-marker"></i></td>
+  </tbody>
+</table> 
+</div>
+</nb-card-body>
+</nb-card>
