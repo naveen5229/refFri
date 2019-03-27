@@ -100,6 +100,9 @@ import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherde
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -225,6 +228,7 @@ import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-tr
     AddTripComponent,
     EditDriverComponent,
     VoucherdetailComponent,
+    VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent
@@ -246,7 +250,11 @@ import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-tr
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
+      libraries: ['drawing']
+    })
   ],
 
   bootstrap: [AppComponent],
