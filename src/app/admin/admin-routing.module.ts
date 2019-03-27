@@ -17,6 +17,8 @@ import { PendingDocumentsComponent } from '../documents/pending-documents/pendin
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { RouteGuard } from '../guards/route.guard';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
+import { AlertRelatedIssueComponent }from './alert-related-issue/alert-related-issue.component';
+    import { from } from 'rxjs';
 
 
 const routes: Routes = [{
@@ -95,6 +97,11 @@ const routes: Routes = [{
         {
             path:'user-preferences',
             component: UserPreferencesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path:'alert-related-issue',
+            component: AlertRelatedIssueComponent,
             canActivate: [RouteGuard]
         }
     ],

@@ -5,6 +5,8 @@
   </button>
 </div>
 <div class="modal-body">
+  
+ 
 
   <!-- <div class="table">
     <table class="table table-bordered table-hover table-scroll">
@@ -45,7 +47,11 @@
     </table>
   </div> -->
 
-  <!-- <span title="CSV Export" (click)="exportCSV()">Export : <i class="fa fa-file-excel-o" style="font-size:18px"></i></span>-->
-  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  <img src="assets/images/elogist.png" alt="logo" id="img-logo" style="display: none;"/>
+  <span>Export : 
+    <span title="PDF Export" (click)="exportPDF()" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>Pdf</span>
+    <span title="CSV Export" (click)="exportCSV()" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>Csv</span>
+</span>
+  <smart-table id="doc_report" *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
   <br>
 </div>

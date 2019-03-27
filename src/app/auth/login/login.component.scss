@@ -81,12 +81,14 @@ span{
     font-size: 25px;
     font-family: cursive;
     color: white;
-    animation: blink 2s linear infinite;
+    animation: blink 5s linear infinite;
 }
 @keyframes blink{
-0%{opacity: 0; color: wheat}
-50%{opacity: .5; color: whitesmoke}
-100%{opacity: 1; color: black}
+0%{opacity: 0; color: white}
+0%{opacity: 0.25; color: white}
+50%{opacity: .5; color: white}
+0%{opacity: 0.75; color: #FF5722}
+100%{opacity: 1; color: #FF5722}
 }
 
 // .admin{

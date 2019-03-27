@@ -16,10 +16,10 @@ import { Router } from '@angular/router';
 export class DocumentsComponent {
   menu = this.user._loggedInBy == 'admin' ? ADMIN_MENU_ITEMS : CUSTOMER_MENU_ITEMS;
   constructor(public user: UserService, public router: Router) {
-    if (this.user._loggedInBy == 'customer') {
-      this.router.navigate(['/pages']);
-      return;
-    }
+    // if (this.user._loggedInBy == 'customer') {
+    //   this.router.navigate(['/pages']);
+    //   return;
+    // }
 
   }
 }
