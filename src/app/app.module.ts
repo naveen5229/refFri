@@ -56,6 +56,7 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
 import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -91,6 +92,13 @@ import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map
 
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AccountService } from './services/account.service';
+import { ApiService } from './services/api.service';
+import { CommonService } from './services/common.service';
+import { UserService } from './@core/data/users.service';
+import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
+import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
+import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 
@@ -137,6 +145,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -155,6 +164,9 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     EditDriverComponent,
     // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
+    VoucherdetailComponent,
+    RadioSelectionComponent,
+    UpdateTripDetailComponent,
     
     
   ],
@@ -197,6 +209,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -214,8 +227,11 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VechileTrailsComponent,
     AddTripComponent,
     EditDriverComponent,
-    VehiclesOnMapComponent
+    VoucherdetailComponent,
+    VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
+    RadioSelectionComponent,
+    UpdateTripDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -245,9 +261,8 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
-
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

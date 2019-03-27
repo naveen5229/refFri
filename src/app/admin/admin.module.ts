@@ -23,6 +23,7 @@ import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update
 import { DocumentsModule } from '../documents/documents.module';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
+import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-issue.component';
 import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
 import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 
@@ -59,6 +60,7 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     VSCTicketAuditComponent,
+    AlertRelatedIssueComponent,
     GpsSupplierMappingComponent,
     VehiclesViewComponent,
    

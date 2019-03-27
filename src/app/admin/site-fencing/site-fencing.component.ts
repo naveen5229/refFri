@@ -63,6 +63,7 @@ export class SiteFencingComponent implements OnInit {
         this.commonService.showError();
       });
   }
+  tempData = [];
   gotoSingle() {
     this.commonService.loading++;
     let site = this.selectedSite;
@@ -71,7 +72,7 @@ export class SiteFencingComponent implements OnInit {
         let data = res['data'];
         console.log('Res: ', data);
         this.clearAll(false);
-        this.mapService.createMarkers(data);
+        this.tempData = data;
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
@@ -80,39 +81,54 @@ export class SiteFencingComponent implements OnInit {
         this.getRemainingTable();
         this.apiService.post("SiteFencing/getSiteFences", { siteId: this.selectedSite })
           .subscribe(res => {
+            this.commonService.loading++;
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if(data[this.selectedSite]&&count==1){
-              this.mapService.createPolygon(data[this.selectedSite]);
+            if(data[this.selectedSite]){
+              this.tempData[0]['color'] = 'f00';
               this.isUpdate=true;
-              console.log("Single",data[this.selectedSite]);
             }
-            else if(data[this.selectedSite]&&count>1){
+            else
+              this.isUpdate=false;
+            this.mapService.createMarkers(this.tempData);
+            if(count==1){
+              this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
+              console.log("Single",data[Object.keys(data)[0]]);
+            }
+            else if(count>1){
               let latLngsArray = [];
+              let showIndex = [];
               let mainLatLng = null;
+              let secLatLngs =null;
+              let minDis=100000;
               for (const datax in data) {
                 if (data.hasOwnProperty(datax)) {
                   const datav = data[datax];
                   if(datax==this.selectedSite)
-                    mainLatLng = datav;
-                  else
+                    mainLatLng = datav.latLngs;
+                  else if(minDis>datav.dis){
                     this.mergeSiteId=datax;
-                  latLngsArray.push(datav);
+                    secLatLngs = datav.latLngs;
+                    minDis=datav.dis;
+                  }
+                  latLngsArray.push(datav.latLngs);
                   console.log("Multi",datax);
+                  showIndex.push(datax);
                 }
               }
-              this.mapService.createPolygons(latLngsArray,mainLatLng);
-              this.isUpdate=true;
+              
+              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs,showIndex);
             }
             else{
-              this.isUpdate=false;
-              console.log("Else",);
+              console.log("Else");
             }
             this.mapService.zoomMap(18.5);
+            this.commonService.loading--;
           }, err => {
             console.error(err);
             this.commonService.showError();
+            this.commonService.loading--;
           });
       }, err => {
         console.error(err);
@@ -126,10 +142,11 @@ export class SiteFencingComponent implements OnInit {
     this.mapService.isDrawAllow = false;
     this.siteName = null;
     this.siteLoc = null;
-    this.typeId = 1;
     this.selectedSite = null;
-    if(loadTable)
+    if(loadTable){
+      this.typeId = 1;
       this.getRemainingTable();
+    }
     this.mapService.clearAll();
   }
   submitPolygon() {
@@ -165,7 +182,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast("Created");
               this.gotoSingle();
               this.getRemainingTable();
-              this.clearAll();
+              this.clearAll(false);
             }, err => {
               console.error(err);
               this.commonService.showError();
@@ -180,7 +197,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast("Updated");
               this.getRemainingTable();
               this.gotoSingle();
-              this.clearAll();
+              this.clearAll(false);
             }, err => {
               console.error(err);
               this.commonService.showError();

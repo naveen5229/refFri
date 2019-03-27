@@ -5,18 +5,22 @@
   </button>
 </div>
 <nb-card>
-  <nb-card-body>
+  <nb-card-body style="overflow:inherit;padding-top: 0px;">
     <div class="modal-body vert-mdl-pdg">
       <form #documentForm="ngForm" id="document-form" name="document-form"
         (submit)="documentForm.valid && updateDocument(0)">
         <div class="row">
           <div class="col-sm-4">
 
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
 
               <div class="col-sm-8 " *ngIf="!canUpdate">
                 <label style="font-size:16px;">{{document.id}}</label>
+                <span *ngIf="document.verify == true" style="margin-left:20%;">
+                 <label style="font-size:16px; "> Verified </label>
+                </span>
+               
               </div>
               <div class="col-sm-8 " *ngIf="canUpdate">
                 <label style="font-size:16px;">{{document.id}}</label>
@@ -24,10 +28,11 @@
               <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
             class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />-->
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
               <div *ngIf="!canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">{{document.regno}}</label>
+                
               </div>
 
               <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
@@ -39,8 +44,8 @@
               (keyup)="isValidVehicle($event)"></auto-suggestion> -->
               </div>
             </div>
-            <div class="form-field clear">
-              <label for="doc_type" class="col-sm-4 mgn-vert">Document Type<span class="mandatory">*</span></label>
+            <div class="row form-field clear">
+              <label for="doc_type" class="col-sm-4 mgn-vert">Doc Type<span class="mandatory">*</span></label>
               <div *ngIf="!canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">{{document.document_type}}</label>
               </div>
@@ -52,7 +57,7 @@
               </div>
             </div>
 
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
               <div *ngIf="!canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">
@@ -64,7 +69,7 @@
               <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('issue_date')"><i class="icon fa fa-calendar"></i></span>
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
               <div *ngIf="!canUpdate" class="col-sm-8">
                 <label style="font-size:16px;"> {{getDateInDisplayFormat(document.wef_date)| date:'dd-MM-yyyy'}}</label>
@@ -76,7 +81,7 @@
               <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
                 (click)="getDate('wef_date')"><i class="icon fa fa-calendar"></i></span>
             </div>
-            <div class="form-field clear">
+            <div class="row form-field clear">
               <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
               <div *ngIf="!canUpdate" class="col-sm-8">
                 <label style="font-size:16px;">
@@ -92,7 +97,7 @@
             </div>
 
             <div class="row form-field clear" *ngIf="canUpdate == 0">
-              <label for="agent" class="col-sm-4 mgn">Agent</label>
+              <label for="agent" class="col-sm-4 ">Agent</label>
               <div class="col-sm-8 ">
                 <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent"
                   class="form-control frm-fld mdl-sel-agt">
@@ -106,7 +111,7 @@
             </div>
 
             <div class=" row form-field clear" *ngIf="canUpdate == 0">
-              <label for="doc_no" class="col-sm-4 mgn">Document No.</label>
+              <label for="doc_no" class="col-sm-4 ">Document No.</label>
               <div class="col-sm-8">
                 <input id="doc_no" name="doc_no" type="text" class=" form-control " maxlength="25"
                   [(ngModel)]="document.doc_no" />
@@ -114,7 +119,7 @@
             </div>
 
             <div class="row form-field clear" *ngIf="canUpdate == 0">
-              <label for="amount" class="col-sm-4 mgn">Amount</label>
+              <label for="amount" class="col-sm-4 ">Amount</label>
               <div class="col-sm-8 ">
                 <input id="amount" name="amount" type="text" class="form-control frm-fld mgn-vert"
                   [(ngModel)]="document.amount" maxlength="10" maxlength="10" placeholder="Enter Amount" />
@@ -122,7 +127,7 @@
             </div>
 
             <div class="row form-field clear" *ngIf="canUpdate == 0">
-              <label for="rto" class="col-sm-4 mgn">RTO</label>
+              <label for="rto" class="col-sm-4 ">RTO</label>
               <div class="col-sm-8 ">
                 <input type="text" id="rto" name="rto" type="text" class="form-control" [(ngModel)]="document.rto"
                   maxlength="20" placeholder="Enter Rto">
@@ -130,9 +135,9 @@
             </div>
 
             <div class="row form-field clear">
-              <label for="remarks" class="col-sm-4 mgn">Remarks</label>
-              <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                <textarea id="remarks" name="remarks" rows="1" class="form-control "
+              <label for="remarks" class="col-sm-4 ">Remarks</label>
+              <div class="col-sm-8">
+                <textarea id="remarks" name="remarks" rows="2" class="form-control "
                   [(ngModel)]="document.remarks"></textarea>
               </div>
             </div>
@@ -177,20 +182,3 @@
   </nb-card-body>
 </nb-card>
 
-<div class="modal-footer">
-  <!-- <div class="row">
-    <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
-        style="cursor: pointer;">{{btn2}}</button>
-    </div>
-  
-    <div class="col text-right" *ngIf="canUpdate == 1 || this.user._loggedInBy== 'admin'">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
-        id="submit" style="cursor: pointer;">{{btn1}}</button>
-    </div>
-    <div class="col text-right" *ngIf="this.user._loggedInBy== 'customer'">
-      <button class="btn btn-primary" form="document-form" type="submit"  (click)="customerByUpdate()"
-        id="submit" style="cursor: pointer;">{{btn1}}</button>
-    </div>
-  </div> -->
-</div>

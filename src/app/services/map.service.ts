@@ -93,6 +93,7 @@ export class MapService {
       });
     this.isMapLoaded = true;
   }
+
   createPolygon(latLngs, options?) {// strokeColor = '#', fillColor = '#') {
     const defaultOptions = {
       paths: latLngs,
@@ -106,29 +107,50 @@ export class MapService {
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
   }
-  createPolygons(latLngsMulti, mainLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+  createPolygons(latLngsMulti, mainLatLngs?, secLatLngs?, showOnHover?, options?) {// strokeColor = '#', fillColor = '#') {
+    let index = 0;
+
     latLngsMulti.forEach(latLngs => {
-      let colorBorder = '#228B22';
-      let colorFill = '#ADFF2F';
-      if (mainLatLngs == latLngs) {
-        colorBorder = '#550000';
-        colorFill = '#ff7f7f';
+      let colorBorder;
+      let colorFill;
+      let isMain = false;
+      if (secLatLngs == latLngs) {
+        colorBorder = '#f00';
+        colorFill = '#f88';
+      } else if (mainLatLngs != latLngs) {
+        colorBorder = '#00f';
+        colorFill = '#88f';
+      } else {
+        colorBorder = '#0f0';
+        colorFill = '#8f8';
+        isMain = true;
       }
       const defaultOptions = {
         paths: latLngs,
         strokeColor: colorBorder,
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        clickable: false,
+        clickable: !isMain,
         fillColor: colorFill,
         fillOpacity: 0.35
       };
-      this.polygons.push(new google.maps.Polygon(options || defaultOptions));
-    });
-    this.polygons.forEach(polygon => {
+      let polygon = new google.maps.Polygon(options || defaultOptions);
+      this.polygons.push(polygon);
       polygon.setMap(this.map);
+      let infoWindow = new google.maps.InfoWindow();
+      infoWindow.opened = false;
+      let showContent = showOnHover[index];
+      google.maps.event.addListener(polygon, 'mouseover', function (evt) {
+        infoWindow.setContent("Info: "+showContent);
+        infoWindow.setPosition(evt.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+      google.maps.event.addListener(polygon, 'mouseout', function (evt) {
+        infoWindow.close();
+        infoWindow.opened = false;
+      });
+      index++;
     });
-
   }
 
   createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {

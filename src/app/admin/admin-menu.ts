@@ -32,6 +32,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
+        home: true,
+    },
+    {
         title: 'LR View',
         icon: 'nb-home',
         link: '/admin/lrview',
@@ -111,5 +117,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/vehicles-view',
         home: true,
     }
+
 
 ];

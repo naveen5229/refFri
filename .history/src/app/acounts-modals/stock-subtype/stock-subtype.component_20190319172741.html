@@ -1,0 +1,92 @@
+<nb-card style="margin:0px;">
+  <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Stock Sub Type</h4>
+  <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label>User</label>
+        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name" inputId="user" [(ngModel)]="stockSubType.user.name"-->
+        <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
+        placeholder="Enter User" inputId="user" [preSelected]="null"></auto-suggestion>
+      </div>
+
+      <div class="suggestions" *ngIf="showSuggestions.user && suggestions.users.length && stockSubType.user.name">
+        <ul>
+          <li *ngFor="let user of suggestions.users" class="suggestion" (click)="selectUser(user)">
+            {{user.name}}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>Stock Type</label>
+        <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockSubType.stockType.name">
+        <!-- <input type="text" class="form-control" name="stocktype"> -->
+
+        <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
+        placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion>
+      </div>
+      <div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
+        <ul>
+          <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
+            {{stocktype.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="stock-name" id="stock-name" [(ngModel)]="stockSubType.name">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label>Code</label>
+        <input type="text" class="form-control" name="stock-code" id="stock-code" [(ngModel)]="stockSubType.code">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer;">Cancel</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
+      </button>
+    </div>
+  </div>
+</div>
+</nb-card-body>
+</nb-card>
+
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>
+<div class="date-modal" *ngIf="showExit" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you sure want to close ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>

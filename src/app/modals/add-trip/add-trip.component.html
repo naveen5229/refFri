@@ -16,6 +16,23 @@
                   [(ngModel)]="vehicleTrip.regno"  readonly>
               </div>
             </div> -->
+            <div class="row" style="margin-top:5px" *ngIf = "prevehicleId == -1">
+              <div class="col-md-4">
+                <label> Vehicle Regno</label>
+              </div>
+              <div class="col-md-8" style="margin-top:5px">
+                <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+              display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+              </div>
+            </div>
+            <div class="row" style="margin-top:5px" *ngIf = "prevehicleId != -1">
+              <div class="col-md-4">
+                <label> Vehicle Id</label>
+              </div>
+              <div class="col-md-8" style="margin-top:5px">
+                <label></label>
+              </div>
+            </div>
   <div class="row" style="margin-top:5px">
     <div class="col-md-4">
       <label> Start Location </label>
@@ -34,11 +51,13 @@
       <label> Start Time </label>
     </div>
     <div class="col-md-8" style="margin-top:5px">
-      <input [(ngModel)]="startTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="Entry Time"
-        class="form-control" autocomplete="off" name="startTime">
+      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')" placeholder="Select Date"
+                [value]="startTime | date: 'dd MMM yyyy'" name="date" readonly >
+
+      <!-- <input [(ngModel)]="startTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="Entry Time"
+        class="form-control" autocomplete="off" name="startTime"> -->
       <owl-date-time #date1></owl-date-time>
-      <!-- <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)]="startTime" name="startTime"
-                  placeholder="Entry Time" (click)="getDate('startdate')" autocomplete="off"> -->
+     
     </div>
   </div>
 
@@ -57,17 +76,29 @@
   </div>
   <div class="row" style="margin-top:5px">
     <div class="col-md-4">
-      <label>Exit Time</label>
+      <label>End Time</label>
     </div>
     <div class="col-md-8">
-      <!-- <input [(ngModel)]="vehicleTrip.targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
-                    autocomplete="off" name="date">
-                  <owl-date-time #date></owl-date-time> -->
-      <!-- <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime" [(ngModel)]="targetTime"
-                    placeholder="End Time" autocomplete="off" (click)="getDate('enddate')"> -->
-      <input [(ngModel)]="targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="End Time"
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')" placeholder="Select Date"
+        [value]="targetTime | date: 'dd MMM yyyy'" name="date" readonly >
+      <!-- <input [(ngModel)]="targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="End Time"
         class="form-control" autocomplete="off" name="targetTime">
-      <owl-date-time #date></owl-date-time>
+      <owl-date-time #date></owl-date-time> -->
+      
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4">
+      <label>Trip Type</label>
+    </div>
+    <div class="col-md-8">
+      <select [(ngModel)]="tripTypeId" class="form-control">
+        <option value="1">Loading - UnLoading</option>
+        <option value="11">UnLoading - Loading</option>
+        <option value="2">Loading - Others</option>
+        <option value="12">UnLoading - Others</option>
+      </select>
       
     </div>
   </div>

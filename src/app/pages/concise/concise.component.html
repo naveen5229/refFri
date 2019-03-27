@@ -10,7 +10,7 @@
             <option value="x_showtripend">Trip End</option>
           </select>
         </div> -->
-        <div style="font-size:25px;text-align: center " class="row">
+        <div style="font-size:18px;margin:0px;text-align: center;padding:10px 0px; " class="row">
           <div class="col-sm-2">
             <span (click)="changeOptions('reverse')"> <i class="icon ion-ios-rewind"></i></span>
           </div>
@@ -25,30 +25,64 @@
           <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
 
-        <div style="height:300px;overflow:auto">
+        <div class="status_box" style="height:300px;overflow:auto">
           <nb-card>
-            <nb-card-body (click)="allData()" style="background-color:grey;color: white">
-              <div class="col-sm-9">
+            <nb-card-body (click)="allData()" style="cursor: pointer;">
+              <div class="col-sm-1 p-0">
+                <div style="background-color:grey;color: white; width: 20px;height: 20px;border-radius: 3px;">
+                </div>
+              </div>
+              <div class="col-sm-8">
                 All Data
               </div>
               <div class="col-sm-3">
                 {{allKpis.length}}
               </div>
-             </nb-card-body>
+            </nb-card-body>
           </nb-card>
-          <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
-            <nb-card-body (click)="filterData(group.name)" [ngStyle]="{'background-color':group.bgColor}">
-              <div class="row" [ngStyle]="{'color': group.textColor}">
-                <div class="col-sm-9">
+          <div *ngIf="viewType == 'showprim_status'">
+            <nb-card *ngFor="let status of primaryStatus; let i = index;">
+              <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
+                <div class="col-sm-1 p-0">
+                  <div style="width: 20px;height: 20px;border-radius: 3px;"
+                    [ngStyle]="{'background-color':status.bgColor}">
+                  </div>
+                </div>
+                <div class="col-sm-8">
+                  {{status.name | titlecase}}
+                </div>
+                <div class="col-sm-3">
+                  {{status.length}}
+                </div>
+                
+              </nb-card-body>
+              <div class="select_option" *ngIf="activePrimaryStatus == status.name">
+                <ul>
+                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)"><span></span> {{option.name}}</li>
+                  <!-- <li><span></span> 12 Hr + :24</li> -->
+                  <!-- <li><span></span> Undetected : 78</li> -->
+                </ul>
+              </div>
+            </nb-card>
+          </div>
+          <div *ngIf="viewType !== 'showprim_status'">
+            <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
+              <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
+                <div class="col-sm-1 p-0">
+                  <div style="width: 20px;height: 20px;border-radius: 3px;"
+                    [ngStyle]="{'background-color':group.bgColor}">
+                  </div>
+                </div>
+                <div class="col-sm-8">
                   {{group.name | titlecase}}
                 </div>
                 <div class="col-sm-3">
                   {{kpiGroups[group.name].length}}
                 </div>
-              </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
 
-            </nb-card-body>
-          </nb-card>
         </div>
         <!-- <button class="btn btn-primary" style="margin-left:50px; margin-top:10px" (click)="openVehicleOnMapModel()">Show Map</button> -->
       </div>
