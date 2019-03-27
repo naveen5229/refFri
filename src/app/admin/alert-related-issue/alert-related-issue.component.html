@@ -9,10 +9,9 @@
       <input type="button" id="backLogs" class="backLogs btn-design" (click)="backLogs()" value="Missing History">
 
     </div>
-    <div class="col-1 pl-0 pt-2">{{missingIndusrtyData.length}} Records</div>
     <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
       <label>Distance</label>
-      <select name="distance" class="form-control " (change)="selectdistance($event.target.value)">
+      <select name="distance" class="form-control "  [(ngModel)]="distance" (change)="missingIndustry()">
         <option class="form-control" [value]="1">Low</option>
         <option class="form-control" [value]="2">Modrate</option>
         <option class="form-control" [value]="3">High</option>
@@ -20,12 +19,13 @@
     </div>
     <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
       <label>Ratio</label>
-      <select name="ratio" class="form-control " (change)="selectratio($event.target.value)">
+      <select name="ratio" class="form-control " [(ngModel)]="ratio" (change)="missingIndustry()">
         <option class="form-control" [value]="1">Low</option>
         <option class="form-control" [value]="2">Modrate</option>
         <option class="form-control" [value]="3">High</option>
       </select>
     </div>
+    <div class="col-1 pl-0 pt-2" *ngIf="missing==1 || backLogs==0">{{missingIndusrtyData.length}} Records</div>
   </nb-card-header>
   <nb-card-body>
     <div class="tableFixHead">
