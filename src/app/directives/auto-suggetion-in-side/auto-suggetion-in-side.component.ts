@@ -49,24 +49,22 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   handleTargetId() {
-    console.log(this.targetId);
     let ele = document.getElementById(this.targetId);
-    console.log(ele);
-    ele.oninput = () => {
-      console.log('Tts');
-      let txt = document.getElementById(this.targetId)['value'];
-      console.log(txt);
-      this.filterData(txt);
-    }
+    ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
     ele.onkeydown = this.handleKeyDown.bind(this);
-
   }
 
   filterData(searchText) {
-
+    if (!searchText) {
+      this.suggestions = this.data;
+      this.suggestions.splice(10, this.suggestions.length - 11);
+      return;
+    }
     this.suggestions = this.data.filter(suggestion => {
       return suggestion[this.display].toLowerCase().includes(searchText.toLowerCase());
-    })
+    });
+    this.suggestions.splice(10, this.suggestions.length - 11);
+    return;
   }
 
   selectSuggestion(suggestion) {

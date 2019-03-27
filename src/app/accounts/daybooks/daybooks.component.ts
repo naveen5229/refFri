@@ -34,13 +34,15 @@ export class DaybooksComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
-  activeId = '';
+  ledgerData=[];
+  activeId = 'branch';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
     this.getVoucherTypeList();
     this.getBranchList();
+    this.getAllLedger();
     this.setFoucus('branch');
   }
 
@@ -74,6 +76,24 @@ export class DaybooksComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.branchdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+  
+  getAllLedger() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerData = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

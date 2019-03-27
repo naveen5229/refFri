@@ -22,21 +22,28 @@ export class AlertRelatedIssueComponent implements OnInit {
   header = [];
   header2 = [];
   columns2 =[];
+  distance = 1;
+  ratio = 3;
+  
 
   constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal, ) {
     this.missingIndustry();
+  
   }
 
   ngOnInit() {
   }
 
   missingIndustry() {
+
     this.header = [];
     this.columns = [];
     this.common.loading++;
-    this.api.get('HaltOperations/getMissingIndustries')
+    console.log("distance ",this.distance);
+    let params = "?disMode="+this.distance+"&ratioMode="+this.ratio;
+    this.api.get('HaltOperations/getMissingIndustries'+params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
