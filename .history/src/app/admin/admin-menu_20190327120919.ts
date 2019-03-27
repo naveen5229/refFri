@@ -1,115 +1,109 @@
-import { Injectable } from '@angular/core';
+import { NbMenuItem } from '@nebular/theme';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class DataService {
-
-  public routes = {
-    cost: [],
-    profit: []
-  };
-  public costRoutes = [];
-
-  _menu = {
-    admin: this.setAdminpages()
-  };
-
-  constructor() { }
-
-  setAdminpages() {
-    return [
-      {
+export const MENU_ITEMS: NbMenuItem[] = [
+    {
         title: 'Dashboard',
         icon: 'fa fa-home',
         link: '/admin/dashboard',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Vehicle Status Change',
         icon: 'fas fa-clipboard-check',
         link: '/admin/vehiclestatuschange',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'VSC Ticket Audit',
-        icon: 'fas fa-ticket-alt',
+        icon: 'nb-home',
         link: '/admin/vscticketaudit',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Issue Alerts',
-        icon: 'fa fa-exclamation-triangle',
+        icon: 'nb-home',
         link: '/admin/issue-alerts',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Escalation Matrix',
-        icon: 'fa fa-chart-bar',
+        icon: 'nb-home',
         link: '/admin/escalation-matrix',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'LR View',
-        icon: 'fa fa-info-circle',
+        icon: 'nb-home',
         link: '/admin/lrview',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Generate LR',
-        icon: 'fa fa-pencil',
+        icon: 'nb-home',
         link: '/admin/generate-lr',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Group Managements',
-        icon: 'fa fa-users',
+        icon: 'nb-home',
         link: '/admin/group-managements',
-      },
+        home: true,
+    },
 
-      {
+    {
         title: 'Ticket Properties',
-        icon: 'fas fa-ticket-alt',
+        icon: 'nb-home',
         link: '/admin/ticket-properties',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Lorry Receipt Details',
-        icon: 'fas fa-receipt',
+        icon: 'nb-home',
         link: '/admin/lorry-receipt-details',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Site Fencing',
-        icon: 'fas fa-coins',
+        icon: 'nb-home',
         link: '/admin/site-fencing',
-      },
-      {
+    },
+    {
         title: 'Diagnostics',
-        icon: 'fa fa-stethoscope',
+        icon: 'nb-home',
         link: '/admin/diagnostics',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Document',
-        icon: 'fa fa-file-alt',
+        icon: 'nb-home',
         children: [
-          {
-            title: 'Pending Details',
-            icon: 'fa fa-pencil-square-o',
-            link: '/admin/pending-documents',
-          },
+            {
+                title: 'Pending Details',
+                icon: 'fa fa-pencil-square-o',
+                link: '/admin/pending-documents',
+                home: true,
+            },
 
         ]
-      },
+    },
 
-      {
+    {
         title: 'User Prefrence',
-        icon: 'fas fa-user-cog',
+        icon: 'nb-home',
         link: '/admin/user-preferences',
-      },
-      {
+        home: true,
+    },
+    {
         title: 'Site Details',
-        icon: 'fa fa-sitemap',
+        icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
-      },
-      {
+    },
+    {
         title: 'Alert Related Issue',
         icon: 'far fa-bell',
         link: '/admin/alert-related-issue',
         home: true,
-      }
-    ];
-  }
-}
+    }
+
+];

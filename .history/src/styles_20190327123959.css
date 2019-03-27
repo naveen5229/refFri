@@ -217,8 +217,7 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .fas.fa-money-check-alt:before,
 .fas.fa-clipboard-check::before,
 .fas.fa-receipt::before,
-.fas.fa-coins::before,
-.fas.fa-user-cog::before{
+.fasfa-coins::before{
   font-family:inherit;
 }
 .nb-theme-corporate .modal-content{

@@ -100,7 +100,7 @@ export class DataService {
       },
       {
         title: 'Site Details',
-        icon: 'fa fa-sitemap',
+        icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
       },
