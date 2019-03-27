@@ -183,7 +183,11 @@ export class LedgerComponent implements OnInit {
     this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
     console.log('Accounts Parent: ', this.Accounts);
   }
-
+ modelCondition(){
+  this.showConfirm = false;
+  event.preventDefault();
+  return;
+ }
   keyHandler(event) {
     if (event.key == "Escape") {
       this.showExit=true;

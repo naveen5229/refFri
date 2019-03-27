@@ -129,7 +129,11 @@ export class VouchersComponent implements OnInit {
     //   }
     // });
   }
-
+  modelCondition(){
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+   }
   dismiss(response) {
     console.log('Voucher:', this.voucher);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
