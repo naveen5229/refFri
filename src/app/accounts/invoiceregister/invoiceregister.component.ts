@@ -27,20 +27,22 @@ export class InvoiceregisterComponent implements OnInit {
         name:'',
         id:''
       },
-      orderType :{
+      voucherType :{
         name:'',
         id:''
       }
     
     };
     invoiceRegisterData=[];
-    activeId='';
+    ledgerList=[];
+    activeId='branch';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
       this.getVoucherTypeList();
       this.getBranchList();
+      this.getLedgerList();
       this.setFoucus('branch');
     }
 
@@ -57,6 +59,23 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.vouchertypedata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -90,7 +109,7 @@ export class InvoiceregisterComponent implements OnInit {
       branch: this.invoiceRegister.branch.id,
       code: this.invoiceRegister.code,
       custCode: this.invoiceRegister.custCode,
-      orderType: this.invoiceRegister.orderType.id,
+      orderType: this.invoiceRegister.voucherType.id,
     };
     
     this.common.loading++;
@@ -126,8 +145,8 @@ export class InvoiceregisterComponent implements OnInit {
     console.log('Active event', event);
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
-        this.setFoucus('vouchertype');
-      }else  if (this.activeId.includes('vouchertype')) {
+        this.setFoucus('voucherType');
+      }else  if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       }else  if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
