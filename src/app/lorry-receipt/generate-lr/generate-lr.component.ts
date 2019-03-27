@@ -17,7 +17,7 @@ export class GenerateLRComponent implements OnInit {
 materialDetails = null;
 branches = null;
 lr = {
-  branch:"Jaipur",
+  //branch:"Jaipur",
   taxPaidBy:null,
   consigneeAddress:null,
   deliveryAddress:null,
@@ -47,14 +47,17 @@ particulars = [
    }]
 
    driver={
-     name:"Lalit",
-     licenseNo:"ABDV1234"
+     name:null,
+     licenseNo:null
    }
+
+   taName = null;
+   taId = null;
 
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,) {
-      this.branches = ['Jaipur',"Mumbai", "delhi"];
+      // this.branches = ['Jaipur',"Mumbai", "delhi"];
     this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
       console.log("new Date()",new Date(),this.lr.date);
      }
@@ -105,7 +108,7 @@ particulars = [
     this.lr.consigneeAddress = "delhi";
   }
   getBranchDetails(){
-    console.log(this.lr.branch)
+   // console.log(this.lr.branch)
   }
   fillConsigneeAddress()
 {
@@ -132,6 +135,10 @@ addMore() {
      customField:false,
      customButton:true
   });
+}
+searchTaName(taDetail){
+  this.taName = taDetail.name;
+  this.taId = taDetail.id;
 }
 
 saveDetails(){

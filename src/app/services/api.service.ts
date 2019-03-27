@@ -72,9 +72,7 @@ export class ApiService {
   }
 
   setHeaders() {
-    console.log('Test::::');
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
-    console.log('Test::::');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
@@ -82,7 +80,6 @@ export class ApiService {
       'apptype': 'dashboard',
       'authkey': this.user._token || ''
     });
-    console.log('Test::::');
     return headers;
   }
 
