@@ -134,10 +134,14 @@ export class VouchersComponent implements OnInit {
   dismiss(response) {
     console.log('Voucher:', this.voucher);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
-      this.common.showToast('Credit And Debit Amount Should be Same');
+      this.common.showError('Credit And Debit Amount Should be Same');
+      return;
+    } else if (response && this.voucher.total.debit == 0) {
+      this.common.showError('Please Enter Amount');
       return;
     }
-    if (this.accountService.selected.branch) {
+    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch != '0');
+    if (this.accountService.selected.branch != '0') {
       // this.accountService.selected.branch
       this.addVoucher();
       this.showConfirm = false;
@@ -226,11 +230,16 @@ export class VouchersComponent implements OnInit {
     }
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
-        this.addVoucher();
-        // this.common.showToast('Your Value Has been saved!');
+        this.showConfirm = false;
+        event.preventDefault();
+        if (this.voucher.total.debit == 0) {
+          this.common.showError('Please Enter Amount');
+        } else if (this.accountService.selected.branch == '0') {
+          alert('Please Select Branch');
+        } else {
+          this.addVoucher();
+        }
       }
-      this.showConfirm = false;
-      event.preventDefault();
       return;
     }
     if (key == 'f2' && !this.showDateModal) {
