@@ -7,9 +7,11 @@
       <input type="button" id="missingIndustry" class="missingIndustry btn-design" (click)="missingIndustry()"
         value="Missing Industry">
       <input type="button" id="backLogs" class="backLogs btn-design" (click)="backLogs()" value="Missing History">
+      <input type="button" id="ticket" class="ticket btn-design" (click)="ticket()" value="Ticket">
 
     </div>
-    <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
+
+    <!-- <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
       <label>Distance</label>
       <select name="distance" class="form-control "  [(ngModel)]="distance" (change)="missingIndustry()">
         <option class="form-control" [value]="1">Low</option>
@@ -25,11 +27,11 @@
         <option class="form-control" [value]="3">High</option>
       </select>
     </div>
-    <div class="col-1 pl-0 pt-2" *ngIf="missing==1 || backLogs==0">{{missingIndusrtyData.length}} Records</div>
+    <div class="col-1 pl-0 pt-2" *ngIf="missing==1 || backLogs==0">{{missingIndusrtyData.length}} Records</div> -->
   </nb-card-header>
   <nb-card-body>
     <div class="tableFixHead">
-      <table class="table table-bordered table-hover " *ngIf="missing==1 || backLogs==0">
+      <!-- <table class="table table-bordered table-hover " *ngIf="missing==1 || backLogs==0 ">
         <thead class="thead">
           <tr>
             <th>SrNo</th>
@@ -52,10 +54,11 @@
       </table>
       <div class="no-data" *ngIf=" missingIndusrtyData.length==null">
           No Data available !
-        </div>
-      
+        </div> -->
 
-      <table class="table table-bordered table-hover" *ngIf="backLogs==1 || missing==0  ">
+        <div class="col-1 pl-0 pt-2" *ngIf="backLogs==1 || tickets==0">{{backlogData.length}} Records</div> 
+
+      <table class="table table-bordered table-hover" *ngIf="backLogs== 1 || tickets ==0 ">
         <thead class="thead">
           <tr>
             <th>SrNo</th>
@@ -76,10 +79,45 @@
           </tr>
         </tbody>
       </table>
-      <!-- <div class="no-data" *ngIf=" backlogData.length == null">
-          No Data available !
-        </div>
-      -->
+
+      <div class="col-1 pl-0 pt-2" *ngIf="tickets==1 || backLogs==0">{{ticketsData.length}} Records</div> 
+
+      <table class="table table-bordered table-hover" *ngIf="tickets==1 || backLogs==0 ">
+        <thead class="thead">
+          <tr>
+            <th>id</th>
+            <th>Vehicle Id</th>
+            <th>Regno </th>
+            <th>Ltime</th>
+            <th>Ttime</th>
+            <th>Disa </th>
+            <th>Dis</th>
+            <th>Ratio</th>
+            <th>Fo Name </th>
+            <th>Hold By</th>
+            <th>status</th>
+            <th>Remark </th>
+            <th>Action </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of ticketsData;">
+            <td>{{ticket.id}}</td>
+            <td>{{ticket.vehicle_id}}</td>
+            <td>{{ticket.regno}}</td>
+            <td>{{ticket.ltime | date:'dd MMM hh:mm' }}</td>
+            <td>{{ticket.ttime | date:'dd MMM hh:mm'}}</td>
+            <td>{{ticket.disa }}</td>
+            <td>{{ticket.dis}}</td>
+            <td>{{ticket.ratio}}</td>
+            <td>{{ticket.fo_name}}</td>
+            <td>{{ticket.hold_by}}</td>
+            <td>{{ticket.status==0  ?'pending' :(ticket.status==1 ?'accept':' reject')  }}</td>
+            <td>{{ticket.remark}}</td>
+            <td><button (click)="enterTicket(ticket)">Take Action</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </nb-card-body>

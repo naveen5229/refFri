@@ -101,6 +101,7 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
 
 @NgModule({
@@ -167,6 +168,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VoucherdetailComponent,
     RadioSelectionComponent,
     UpdateTripDetailComponent,
+    ResolveMissingIndustryComponent,
     
     
   ],
@@ -231,7 +233,8 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
-    UpdateTripDetailComponent
+    UpdateTripDetailComponent,
+    ResolveMissingIndustryComponent
   ],
   imports: [
     BrowserModule,
