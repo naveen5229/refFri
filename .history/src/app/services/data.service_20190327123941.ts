@@ -77,12 +77,12 @@ export class DataService {
       },
       {
         title: 'Diagnostics',
-        icon: 'fa fa-stethoscope',
+        icon: 'nb-home',
         link: '/admin/diagnostics',
       },
       {
         title: 'Document',
-        icon: 'fa fa-file-alt',
+        icon: 'nb-home',
         children: [
           {
             title: 'Pending Details',
@@ -95,12 +95,12 @@ export class DataService {
 
       {
         title: 'User Prefrence',
-        icon: 'fas fa-user-cog',
+        icon: 'nb-home',
         link: '/admin/user-preferences',
       },
       {
         title: 'Site Details',
-        icon: 'fa fa-sitemap',
+        icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
       },

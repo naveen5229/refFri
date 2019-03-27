@@ -31,58 +31,58 @@ export class DataService {
       },
       {
         title: 'VSC Ticket Audit',
-        icon: 'fas fa-ticket-alt',
+        icon: 'nb-home',
         link: '/admin/vscticketaudit',
       },
       {
         title: 'Issue Alerts',
-        icon: 'fa fa-exclamation-triangle',
+        icon: 'nb-home',
         link: '/admin/issue-alerts',
       },
       {
         title: 'Escalation Matrix',
-        icon: 'fa fa-chart-bar',
+        icon: 'nb-home',
         link: '/admin/escalation-matrix',
       },
       {
         title: 'LR View',
-        icon: 'fa fa-info-circle',
+        icon: 'nb-home',
         link: '/admin/lrview',
       },
       {
         title: 'Generate LR',
-        icon: 'fa fa-pencil',
+        icon: 'nb-home',
         link: '/admin/generate-lr',
       },
       {
         title: 'Group Managements',
-        icon: 'fa fa-users',
+        icon: 'nb-home',
         link: '/admin/group-managements',
       },
 
       {
         title: 'Ticket Properties',
-        icon: 'fas fa-ticket-alt',
+        icon: 'nb-home',
         link: '/admin/ticket-properties',
       },
       {
         title: 'Lorry Receipt Details',
-        icon: 'fas fa-receipt',
+        icon: 'nb-home',
         link: '/admin/lorry-receipt-details',
       },
       {
         title: 'Site Fencing',
-        icon: 'fas fa-coins',
+        icon: 'nb-home',
         link: '/admin/site-fencing',
       },
       {
         title: 'Diagnostics',
-        icon: 'fa fa-stethoscope',
+        icon: 'nb-home',
         link: '/admin/diagnostics',
       },
       {
         title: 'Document',
-        icon: 'fa fa-file-alt',
+        icon: 'nb-home',
         children: [
           {
             title: 'Pending Details',
@@ -95,12 +95,12 @@ export class DataService {
 
       {
         title: 'User Prefrence',
-        icon: 'fas fa-user-cog',
+        icon: 'nb-home',
         link: '/admin/user-preferences',
       },
       {
         title: 'Site Details',
-        icon: 'fa fa-sitemap',
+        icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
       },

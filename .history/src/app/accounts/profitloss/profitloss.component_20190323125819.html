@@ -1,30 +1,28 @@
 <nb-card>
-  <nb-card-header>
-    <h4>Profit&Loss</h4>
-  </nb-card-header>
   <nb-card-body style="min-height: 450px;">
-    <div class="row">
-      <!-- <div class="col">
+    <h1>Profit&Loss</h1>
+    <div class="row" style="margin-left: 5px;">
+      <div class="col">
         <div class="form-group">
           <label>Branch</label>
           <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
             display="name" placeholder="Enter Branch" [data]="branchdata" [preSelected]="{name:'All'}">
           </auto-suggestion>
         </div>
-      </div> -->
+      </div>
 
       <div class="col">
         <div class="form-group">
           <label>Starting Date</label>
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            name="account-date" [(ngModel)]="plData.startdate" id="startdate" maxlength="10">
+            name="account-date" [(ngModel)]="plData.startdate" maxlength="10">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label>End Date</label>
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
-            name="account-enddate" [(ngModel)]="plData.enddate" id="enddate" maxlength="10">
+            name="account-enddate" [(ngModel)]="plData.enddate" maxlength="10">
         </div>
       </div>
       <div class="col">
@@ -34,41 +32,32 @@
         </div>
       </div>
     </div>
-      
-  <div class="row profit-loss">
-    <div class="col-6 pr-0">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-                <th>Particulars</th>
-                <th style="text-align: right">Amount</th>
-              </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor=" let dataItem of filterData(profitLossData, 0)">
-                <td>{{dataItem.y_name}}</td>
-                <td style="text-align: right">{{dataItem.y_amount}}</td>
-              </tr>
-          </tbody>
-         
-        </table>
+    
+    <div class="row">
+<div class="col-6">
+    <table class="table table-bordered">
+      <tr>
+        <th>Particulars</th>
+        <th>Amount</th>
+      </tr>
+      <tr *ngFor=" let dataItem of filterData(profitLossData, 0)">
+        <td>{{dataItem.y_name}}</td>
+        <td>{{dataItem.y_amount}}</td>
+      </tr>
+    </table>
     </div>
-    <div class="col-6 pl-0">
-      <table class="table table-bordered">
-        <thead>
+    <div class="col-6">
+        <table class="table table-bordered">
           <tr>
-              <th>Particulars</th>
-              <th style="text-align: right">Amount</th>
-            </tr>
-        </thead>
-        <tbody>
+            <th>Particulars</th>
+            <th>Amount</th>
+          </tr>
           <tr *ngFor=" let dataItem of filterData(profitLossData, 1)">
             <td>{{dataItem.y_name}}</td>
-            <td style="text-align: right">{{dataItem.y_amount}}</td>
+            <td>{{dataItem.y_amount}}</td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</nb-card-body>
+        </table>
+        </div>
+      </div>
+  </nb-card-body>
 </nb-card>
