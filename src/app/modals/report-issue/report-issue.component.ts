@@ -23,6 +23,7 @@ export class ReportIssueComponent implements OnInit {
   constructor(public common: CommonService, public api: ApiService,
     private activeModal: NgbActiveModal,
   ) {
+    console.log("refPage",this.common.params.refPage);
     this.getIssues();
   }
 
@@ -31,7 +32,8 @@ export class ReportIssueComponent implements OnInit {
 
   getIssues() {
     this.common.loading++;
-    this.api.get('InformationIssue/getIssueType')
+    let params = "refPage="+this.common.params.refPage;
+    this.api.get('InformationIssue/getIssueType?'+params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res: ', res);

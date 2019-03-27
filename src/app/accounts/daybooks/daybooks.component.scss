@@ -18,3 +18,17 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+
+table{
+    thead{
+        color: #fff;
+    }
+    tbody{
+        background-color: #eeeeee;
+    }
+    .heading_second{
+            background-color:#d7d7d7;
+            color: #447586;
+            font-weight: bold;
+        }
+}

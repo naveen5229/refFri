@@ -57,17 +57,17 @@ export class DiagnosticsComponent implements OnInit {
   calculateDistance() {
 
       let params={
-        vehId : this.diagnostics.vechileno,
-        startTime: this.common.dateFormatter(this.diagnostics.startTime),
-        endDate: this.common.dateFormatter(this.diagnostics.endDate)
+        vehicleId : this.diagnostics.vechileno,
+        fromTime: this.common.dateFormatter1(this.diagnostics.startTime),
+        tTime: this.common.dateFormatter1(this.diagnostics.endDate)
       };
       console.log("params :", params);
       this.common.loading++;
-      this.api.post('Vehicles/getVehDistanceBwTime', {vehId:params.vehId,startTime:params.startTime,endDate:params.endDate})
+      this.api.post('Vehicles/getVehDistanceBwTime', params)
         .subscribe(res => {
           this.common.loading--;
           console.log('res: ', res['data']);
-          this.Distance = res['data']?res['data']+" KM":"Not Available";
+          this.Distance = res['data']?parseInt(''+(res['data']/1000))+" KM":"Not Available";
         }, err => {
           this.common.loading--;
           this.common.showError();
@@ -87,9 +87,10 @@ export class DiagnosticsComponent implements OnInit {
     getVehicleTrails(){
      let param = {
       vehicleId : this.Trails.vechileno,
-      fromTime : this.common.dateFormatter( this.Trails.startTime),
-      toTime : this.common.dateFormatter(this.Trails.endDate),
-      suggestId:1
+      fromTime : this.common.dateFormatter1( this.Trails.startTime),
+      toTime : this.common.dateFormatter1(this.Trails.endDate),
+      suggestId:1,
+      status:0
      }
      console.log("param",param);
       this.common.loading++;

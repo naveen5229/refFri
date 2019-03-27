@@ -12,20 +12,25 @@
             <tr>
               <th>#</th>
               <th>Vehicle No</th>
-              <th>Start Name</th>
               <th>Start Date</th>
+              <th>Start Name</th>
               <th>End Name</th>
               <th>End Date</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let vehicleTrip of vehicleTrips; let i = index">
               <th scope="row" >{{i + 1}}</th>
               <td>{{vehicleTrip.regno}}</td>
-              <td>{{vehicleTrip.start_name}}</td> 
               <td>{{vehicleTrip.start_time | date : 'dd MMM hh:mm a'}}</td>
+              <td>{{vehicleTrip.start_name}}</td> 
               <td>{{vehicleTrip.end_name}}</td>
               <td>{{vehicleTrip.end_time | date : 'dd MMM hh:mm a'}}</td>
+              <td><span>
+                <span *ngIf = "!is_manual"><i class="fa fa-trash remove" (click)="vehicleTrips.splice(i,1);deleteTrip(vehicleTrip)"></i></span>
+                <span style="margin-left:20px"><i class="fa fa-question-circle report-btn" (click)="reportIssue(vehicleTrip);"></i></span>
+              </span></td>
             </tr>
         </table>
   
