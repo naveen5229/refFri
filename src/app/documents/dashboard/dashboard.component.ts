@@ -158,6 +158,24 @@ export class DashboardComponent implements OnInit {
     return total;
   }
 
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Document Summary";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
   // totalData(status) {
   //   // this.common.handleModalSize('class', 'modal-lg', '1200');
   //   this.common.params = { status, title: 'Document Report' };

@@ -53,6 +53,8 @@ export class DocumentReportComponent implements OnInit {
     this.title = this.common.params.title;
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
+    console.log("user::");
+    console.log(this.user);
     this.getReport();
     // /this.getTableColumns();
 
@@ -65,97 +67,30 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  getPDFFromHtml(tblEltId) {
-
-    //remove table cols with del class
-    let tblelt = document.getElementById(tblEltId);
-    if(tblelt.nodeName != "TABLE") {
-      tblelt = document.querySelector("#" + tblEltId + " table");
-    }
-    let cols=tblelt.querySelectorAll('td.del');
-    if(cols.length > 1) {
-      for(let i=1; i<cols.length; i++) {
-        cols[i].remove();
-      }
-    }
-    let hdg_coll = [];
-    let hdgs = [];
-    let hdgCols = tblelt.querySelectorAll('th');
-    console.log("hdgcols:");
-    console.log(hdgCols.length);
-    if(hdgCols.length >= 1) {
-      for(let i=0; i< hdgCols.length; i++) {
-        let elthtml  = hdgCols[i].innerHTML;
-        if(elthtml.indexOf('<input') > -1) {
-          let eltinput = hdgCols[i].querySelector("input");
-          let attrval = eltinput.getAttribute('placeholder');
-          hdgs.push(attrval);
-        } else if(elthtml.indexOf('<img') > -1)  {
-          let attrval = hdgCols[i].getAttribute('title');
-          hdgs.push(attrval);
-        } else if(elthtml.indexOf('href') > -1)  {
-          let strval = hdgCols[i].innerHTML;
-          hdgs.push(strval);
-        } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, '');
-          console.log("hdgval:" + plainText);
-          hdgs.push(plainText);
-        }
-      }
-    }
-    hdg_coll.push(hdgs);
-    let rows = [];
-    let tblrows = tblelt.querySelectorAll('tbody tr');
-    if(tblrows.length >= 1) {
-      for(let i=0; i < tblrows.length; i++) {
-        let rowCols = tblrows[i].querySelectorAll('td');
-        let rowdata = [];
-        for(let j=0; j< rowCols.length; j++) {
-          let colhtml = rowCols[j].innerHTML;
-          if(colhtml.indexOf('input') > -1) {
-            let attrval = rowCols[j].getAttribute('placeholder');
-            rowdata.push(attrval);
-          } else if(colhtml.indexOf('img') > -1)  {
-            let attrval = rowCols[j].getAttribute('title');
-            rowdata.push(attrval);
-          } else if(colhtml.indexOf('href') > -1)  {
-            let strval = rowCols[j].innerHTML;
-            rowdata.push(strval);
-          } else {
-            let plainText = colhtml.replace(/<[^>]*>/g, '');
-            rowdata.push(plainText);
-          }          
-        }
-        rows.push(rowdata);
-      }
-    }
-
-    let doc = new jsPDF({
-      orientation: "l",
-      unit: 'px',
-      format: 'a4'
-    });
-    
-    let tempLineBreak={fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth : 10, cellWidth: 40 };
-    doc.autoTable({
-        head: hdg_coll,
-        body: rows,
-        theme: 'grid',
-        margin: {top: 80},
-        headStyles: {
-          fillColor: [98, 98, 98],
-          fontSize: 10
-        },
-        styles: tempLineBreak,
-        columnStyles: {text: {cellWidth: 40 }},
-        
-    });
-    doc.save('report.pdf');
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
+      .subscribe(res => {
+        this.common.loading--;
+        this.fodata = res['data'];
+        let left_heading = this.fodata['name'];
+        let center_heading = this.reportData.status.toUpperCase();
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
-
+  
   exportPDF() {
     this.common.loading++;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
       .subscribe(res => {
         this.fodata = res['data'];
         this.common.loading--;
@@ -296,8 +231,10 @@ export class DocumentReportComponent implements OnInit {
   }
 
   exportCSV() {
-    
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+     userid = this.user._details.id; 
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
       .subscribe(res => {
         this.fodata = res['data'];
         //this.common.loading--;
