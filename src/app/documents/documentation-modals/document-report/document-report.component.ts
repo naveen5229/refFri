@@ -66,8 +66,12 @@ export class DocumentReportComponent implements OnInit {
   }
 
   exportPDF() {
+    let userid = this.user._customer.id;
+   if(this.user._loggedInBy == "customer")
+     userid = this.user._details.id;
+     
     this.common.loading++;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
       .subscribe(res => {
         this.fodata = res['data'];
         this.common.loading--;
@@ -200,8 +204,11 @@ export class DocumentReportComponent implements OnInit {
   }
 
   exportCSV() {
+    let userid = this.user._customer.id;
+   if(this.user._loggedInBy == "customer")
+     userid = this.user._details.id;
     
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
       .subscribe(res => {
         this.fodata = res['data'];
         //this.common.loading--;
