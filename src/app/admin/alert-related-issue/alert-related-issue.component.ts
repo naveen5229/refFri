@@ -22,6 +22,8 @@ export class AlertRelatedIssueComponent implements OnInit {
   header = [];
   header2 = [];
   columns2 =[];
+  distance = null;
+  
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -62,6 +64,11 @@ export class AlertRelatedIssueComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+  selectdistance(id){
+    this.distance = parseInt(id);
+    console.log("list value:",this.distance);
+
   }
 
   backLogs() {
