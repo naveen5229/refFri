@@ -9,6 +9,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 
 declare let google: any;
 
@@ -29,7 +30,7 @@ export class ResolveMissingIndustryComponent implements OnInit {
     name: '',
     time: ''
   };
-  btnStatus = true;
+  btnStatus = false;
   lUlBtn = false;
   dataType = 'events';
   VehicleStatusData;
@@ -179,11 +180,11 @@ export class ResolveMissingIndustryComponent implements OnInit {
   }
 
   resetBtnStatus() {
-    this.btnStatus = true;
+    this.btnStatus = false;
     this.vehicleEvents.forEach(vehicleEventDetail => {
       // console.log("vehicleEventDetail", vehicleEventDetail)
       if (vehicleEventDetail.color == '88ff4d' || vehicleEventDetail.color == 'ff4d4d') {
-        this.btnStatus = false;
+        this.btnStatus = true;
         return;
       }
     });
@@ -217,12 +218,14 @@ export class ResolveMissingIndustryComponent implements OnInit {
   ];
   bounds = null;
   Markers = [];
+  
   createMarkers(markers, changeBounds = true, drawPoly = false) {
 
     let thisMarkers = [];
     console.log("Markers", markers);
+    this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
-
+ 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] :null ;//this.designsDefaults[2]
@@ -233,7 +236,7 @@ export class ResolveMissingIndustryComponent implements OnInit {
       let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
       let latlng = new google.maps.LatLng(lat, lng);
       let pinImage;
-      //pin Image  
+      //pin Image
       if (design) {
         pinImage = {
           path: design,
@@ -246,9 +249,9 @@ export class ResolveMissingIndustryComponent implements OnInit {
         };
       } else {
         if (subType == 'marker'){
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin%7C" + text + "|" + pinColor + "|000000";
           console.log("Pin Image:",pinImage);
-          
+ 
         }
         else //if(subType=='circle')
           pinImage = {
@@ -259,8 +262,8 @@ export class ResolveMissingIndustryComponent implements OnInit {
             strokeWeight: 1
           };
       }
-
-
+ 
+ 
       let marker = new google.maps.Marker({
         position: latlng,
         flat: true,
@@ -268,26 +271,26 @@ export class ResolveMissingIndustryComponent implements OnInit {
         map: this.map,
         title: title
       });
-      if (changeBounds)
+      if (changeBounds&&!(''+markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
       console.log("ThisMarker: ",thisMarkers);
-      
+ 
       this.Markers.push(marker);
-
+ 
       if (markers[index]["type"] == "site") {
         let show = markers[index]['name'] + " , " + markers[index]['typename'] + " , " + markers[index]['id'];
         marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
         marker.addListener('mouseout', this.closeInfoWindow.bind(this));
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
-
+ 
       }
       // else {
       //   let show = text;
       //   marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
       //   marker.addListener('mouseout', this.closeInfoWindow.bind(this));
       //   marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
-
+ 
       // }
       // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
@@ -344,13 +347,19 @@ export class ResolveMissingIndustryComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
-      vehicleId: this.VehicleStatusData.vehicle_id ,
-      latchTime: this.VehicleStatusData.latch_time,
-      toTime:this.toTime,
+      rowId : this.VehicleStatusData.id,
+      remark:null,
       status: status
     };
-    console.log(params);
-    this.api.post('HaltOperations/reviewDone?', params)
+    if(params.status==-1)
+    { 
+      this.common.loading--;
+      this.openConrirmationAlert(params);
+      // this.activeModal.close();
+      return ;
+    }
+    console.log("param:",params);  
+    this.api.post('MissingIndustry/edit', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
@@ -359,8 +368,35 @@ export class ResolveMissingIndustryComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-    this.activeModal.close();
+    // this.activeModal.close();
   }
+
+  openConrirmationAlert(params) {
+   
+    // let remark;
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("reason For delete: ", data.remark);
+        params.remark = data.remark;
+        this.common.loading++;
+        this.api.post('MissingIndustry/edit', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("data", res);
+            alert(res["msg"]);
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+
+          });
+      }
+      this.activeModal.close();
+    });
+  }
+
+
+
 
   getLastIndDetails() {
     console.log("VehicleStatusData", this.VehicleStatusData);

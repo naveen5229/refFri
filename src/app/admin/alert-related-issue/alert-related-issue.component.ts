@@ -188,13 +188,14 @@ openChangeStatusModal(issue){
   let latch_time = this.common.dateFormatter(subtractLTime);
   
   let missingIssue = {
+    id : issue.id,
     vehicle_id: issue.vehicle_id,
     ttime: issue.ttime,
     suggest: null,
     latch_time: issue.ltime,
     status: 2
   }
-  console.log("VehicleStatusData", missingIssue);
+  console.log("missing open data ", missingIssue);
 
   this.common.params = missingIssue;
   const activeModal = this.modalService.open(ResolveMissingIndustryComponent, { size: 'lg', container: 'nb-layout' });
