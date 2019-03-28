@@ -9,33 +9,34 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./driver-attendance.component.scss', '../../pages/pages.component.css']
 })
 export class DriverAttendanceComponent implements OnInit {
-  driverList = [];
-  length = 31;
-  days = this.common.generateArray(31);
+  driverAttendance = [];
+ // length = 31;
+  // days = this.common.generateArray(31);
   
   //generatedArray=[];
   constructor(
     public api: ApiService,
     public common: CommonService,
   ) {
-    this.getdriverList();
+    //this.getdriverList();
     //  var getDaysInMonth = function(month,year){
     //    return new Date={year, month , 0}.getDate();
     //  }
-
+    this.getdriverAttendance();
   }
   
   ngOnInit() {
   }
 
-  getdriverList() {
+  getdriverAttendance() {
     this.common.loading++;
     let response;
-    this.api.get('Drivers/getFoDrivers')
+    this.api.get('Drivers/getDriverAttendance')
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.driverList = res['data'];
+        this.driverAttendance = res['data'];
+       // console.log('Attendance:',this.driverAttendance);
       }, err => {
         this.common.loading--;
         console.log(err);
