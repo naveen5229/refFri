@@ -65,7 +65,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
-
+import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
@@ -167,6 +167,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VoucherdetailComponent,
     RadioSelectionComponent,
     UpdateTripDetailComponent,
+    ManualHaltComponent
     
     
   ],
@@ -231,7 +232,8 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
-    UpdateTripDetailComponent
+    UpdateTripDetailComponent,
+    ManualHaltComponent
   ],
   imports: [
     BrowserModule,

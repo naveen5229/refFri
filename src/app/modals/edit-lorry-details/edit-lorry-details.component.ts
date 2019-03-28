@@ -21,8 +21,13 @@ export class EditLorryDetailsComponent implements OnInit {
   LrData = null;
   vehId = "";
   lrDate = '';
-  payType='';
+  payType="toPay";
+  regNo='';
+  taName='';
+  consignerName='';
+  consineeName=''
   isDelete=false;
+  option='accept';
   // LrData = {
   //   receiptNo: null,
   //   source: this.documents.source,
@@ -64,6 +69,11 @@ export class EditLorryDetailsComponent implements OnInit {
     private modalService: NgbModal) {
     if (this.common.params) {
       this.LrData = this.common.params.details;
+      console.log("LrData",this.LrData);
+      this.regNo=this.LrData.regno;
+      this.taName=this.LrData.ta_name;
+      this.consignerName=this.LrData.consigner_name;
+      this.consineeName=this.LrData.consignee_name;
       this.payType=this.LrData.pay_type;
       console.info('Document: ', this.LrData);
 
