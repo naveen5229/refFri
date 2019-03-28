@@ -6,13 +6,13 @@
     <div class="row">
       <div class="col-9">
         <div class="row">
-          <div class="col-4">
+          <!-- <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Branch</label>
               <input type="text" id="branch" class="form-control tjr-input" name="branch"
                 [(ngModel)]="DayBook.branch.name">
             </div>
-          </div>
+          </div> -->
           <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Voucher</label>
@@ -27,16 +27,17 @@
                 [(ngModel)]="DayBook.ledger.name">
             </div>
           </div>
+          <div class="col-4">
+              <div class="form-group">
+                <label class="tjr-label">Starting Date</label>
+                <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+                  id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
+                  maxlength="10">
+              </div>
+            </div>
         </div>
         <div class="row">
-          <div class="col-4">
-            <div class="form-group">
-              <label class="tjr-label">Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
-                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
-                maxlength="10">
-            </div>
-          </div>
+         
           <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
@@ -53,10 +54,10 @@
         </div>
       </div>
       <div class="col-3">
-        <div class="form-group" *ngIf="this.activeId.includes('branch')">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
-        </div>
+        </div> -->
         <div class="form-group" *ngIf="this.activeId.includes('vouchertype')">
           <auto-suggetion-in-side [data]="vouchertypedata" targetId="vouchertype" display="name"
             (select)="onSelected($event, 'vouchertype', 'name')"></auto-suggetion-in-side>
@@ -96,6 +97,7 @@
   </tr> -->
       <thead style="background-color:#263238;">
         <tr>
+          <th>Date</th>
           <th>Particular</th>
           <th>Vch Type</th>
           <th>Vch No.</th>
@@ -107,6 +109,7 @@
       <tr *ngFor=" let dataItem of filterData(DayData);" (click)="RowSelected(dataItem.y_voucherid);"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : dataItem.y_voucherid == selectedName}">
+        <td>{{dataItem.y_date}}</td>
         <td>{{dataItem.y_particulars}}</td>
         <td>{{dataItem.y_type}}</td>
         <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>

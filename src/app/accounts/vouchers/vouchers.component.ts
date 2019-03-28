@@ -142,6 +142,8 @@ export class VouchersComponent implements OnInit {
       return;
     } else if (response && this.voucher.total.debit == 0) {
       this.common.showError('Please Enter Amount');
+      this.showConfirm = false;
+      event.preventDefault();
       return;
     }
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch != '0');

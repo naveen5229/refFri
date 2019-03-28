@@ -1,6 +1,6 @@
-<nb-card>
+<nb-card style="padding-top: 15px;">
   <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
-    <h1>Profit & Loss A/C</h1>
+    <!-- <h1>Profit & Loss A/C</h1> -->
     <div class="row" style="margin-left: 5px;">
       <!--div class="col">
         <div class="form-group">
@@ -13,27 +13,27 @@
 
       <div class="col">
         <div class="form-group">
-          <label>Starting Date</label>
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
+          <label class="tjr-label">Starting Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" placeholder="Select Date"
             name="account-date" [(ngModel)]="plData.startdate" id="startdate" maxlength="10">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
-          <label>End Date</label>
-          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" placeholder="Select Date"
+          <label class="tjr-label">End Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" placeholder="Select Date"
             name="account-enddate" [(ngModel)]="plData.enddate" id="enddate" maxlength="10">
         </div>
       </div>
       <div class="col">
         <div class="form-group">
-          <button class="btn btn-primary" type="button" outline (click)="getBalanceSheet()" id="submit"
+          <button class="btn btn-primary tjr-button" type="button" outline (click)="getBalanceSheet()" id="submit"
             style="cursor: pointer;margin-top: 18px;">Submit</button>
         </div>
       </div>
     </div>
     
-    <div class="row">
+    <!-- <div class="row">
 <div class="col-6">
     <table class="table table-bordered">
       <tr>
@@ -58,6 +58,92 @@
           </tr>
         </table>
         </div>
-      </div>
+      </div> -->
+
+      <!-- <div class="row balance-shit">
+          <div class="col-6 pr-0">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Liability</th>
+                  <th style="text-align: right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let liability of liabilities;">
+                <tr style="background: #b1c6ec;">
+                  <td>{{liability.name}}</td>
+                  <td style="text-align: right;">{{liability.amount}}</td>
+                </tr>
+                <tr *ngFor=" let balanceSheet of liability.balanceSheets " style="background: #dadfe6;">
+                  <td>{{balanceSheet.y_name}}</td>
+                  <td style="text-align: right;">{{balanceSheet.y_amount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-6 pl-0">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th style="text-align: right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let asset of assets;">
+                <tr style="background: #b1c6ec;">
+                  <td>{{asset.name}}</td>
+                  <td style="text-align: right;">{{asset.amount}}</td>
+                </tr>
+                <tr *ngFor=" let balanceSheet of asset.balanceSheets " style="background: #dadfe6;">
+                  <td>{{balanceSheet.y_name}}</td>
+                  <td style="text-align: right;">{{balanceSheet.y_amount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> -->
+
+        <div class="row balance-shit">
+            <div class="col-6 pr-0">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Particulars</th>
+                    <th style="text-align: right;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let liability of liabilities;">
+                  <tr style="background: #b1c6ec;">
+                    <td>{{liability.name}}</td>
+                    <td style="text-align: right;">{{liability.amount}}</td>
+                  </tr>
+                  <tr *ngFor=" let balanceSheet of liability.profitLossData " style="background: #dadfe6;">
+                    <td>{{balanceSheet.y_ledger_name}}</td>
+                    <td style="text-align: right;">{{balanceSheet.y_amount}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-6 pl-0">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Particulars</th>
+                    <th style="text-align: right;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let asset of assets;">
+                  <tr style="background: #b1c6ec;">
+                    <td>{{asset.name}}</td>
+                    <td style="text-align: right;">{{asset.amount}}</td>
+                  </tr>
+                  <tr *ngFor=" let balanceSheet of asset.profitLossData " style="background: #dadfe6;">
+                    <td>{{balanceSheet.y_ledger_name}}</td>
+                    <td style="text-align: right;">{{balanceSheet.y_amount}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
   </nb-card-body>
 </nb-card>

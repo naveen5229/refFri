@@ -6,6 +6,7 @@
     </div>
     <div class="modal-body" >
       <table class="table table-bordered">
+          <thead style="background-color:#ddd;">
         <tr>
           <th>Particular</th>
           <!--th>Vch Type</th>
@@ -14,6 +15,7 @@
           <th>Amount(Credit)</th>
 
         </tr>
+        </thead>
         <tr *ngFor=" let dataItem of Detail;">
           <td>{{dataItem.y_particulars}}</td>
           <!--td>{{dataItem.y_type}}</td>
