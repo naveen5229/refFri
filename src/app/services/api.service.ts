@@ -64,7 +64,7 @@ export class ApiService {
     console.log('Test::::');
     // if (this.user._customer.id) {
     //   body['foAdminId'] = this.user._customer.id;
-      // console.log(body['foAdminId']);
+    // console.log(body['foAdminId']);
     //   console.log("foAdminId", body);
     // }
     console.log('Test::::');
@@ -86,7 +86,7 @@ export class ApiService {
     //   if (subURL.includes('?')) {
     //     subURL += '&foAdminId=' + this.user._customer.id;
     //   } else {
-        subURL += '?' + params;
+    subURL += '?' + params;
     //   }
     // }
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
@@ -125,7 +125,7 @@ export class ApiService {
     return headers;
   }
 
-  
+
   // imageProcessingPost(subURL: string, body: any, options?) {
   //   let headers = new HttpHeaders({
   //     'Content-Type': 'application/json'

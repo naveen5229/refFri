@@ -101,8 +101,12 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
 
+import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
+import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
+import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -167,9 +171,13 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VoucherdetailComponent,
     RadioSelectionComponent,
     UpdateTripDetailComponent,
-    ManualHaltComponent
+    ManualHaltComponent,
+    ResolveMissingIndustryComponent,
     
     
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -233,7 +241,11 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
-    ManualHaltComponent
+    ManualHaltComponent,
+    ResolveMissingIndustryComponent,
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   imports: [
     BrowserModule,

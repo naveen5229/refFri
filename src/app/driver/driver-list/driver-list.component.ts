@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Driver } from 'selenium-webdriver/edge';
 import { CommonService } from '../../services/common.service';
-import { NgbModal,NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 import { updateBinding } from '@angular/core/src/render3/instructions';
 import {EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
@@ -18,8 +18,7 @@ export class DriverListComponent implements OnInit {
   constructor(public api: ApiService,
     public router: Router,
     private modalService: NgbModal,
-    public common: CommonService,
-    private activeModal:NgbActiveModal ) {
+    public common: CommonService  ) {
     this.getdriverLists();
 
   }
@@ -29,20 +28,28 @@ export class DriverListComponent implements OnInit {
 
   addDriver() {
     // this.router.navigate(['/driver/add-driver']);
-    const activeModal= this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getdriverLists();
-      }
-    });
+    // const activeModal =
+     const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
+     activeModal.result.then(data=>{
+       if (data.response){
+         this.getdriverLists();
+       }
+     })
+    // activeModal.result.then(data => {
+      // if (data.response) {
+        // this.getdriverLists();
+      // }
+    // });
 
   }
 
   updateDriverInfo(driver) {
     this.common.params = { driver };
-    const activeModal = this.modalService.open(EditDriverComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data => {
-      if (data.response) {
+   // const activeModal =
+     const activeModal= this.modalService.open(EditDriverComponent, { size: 'lg', container: 'nb-layout' });
+     activeModal.result.then(data => {
+       if (data.response) {
+      // closeModal(true);
         this.getdriverLists();
       }
     });

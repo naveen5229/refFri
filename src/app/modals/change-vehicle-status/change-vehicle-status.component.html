@@ -71,7 +71,7 @@
           <th>KM/h</th>
           <th>AdUserId</th>
           <th>CS</th>
-          <th>CHT</th>
+          <th>CHT <span style="margin-left:15px" ><i class="fa fa-refresh report-btn" (click)="mapReset();"></i></span></th>
         </thead>
         <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
           <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
