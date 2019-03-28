@@ -1,10 +1,9 @@
 .TJR-auto-suggestion-container{
-    border: 1px solid #e2e2e2;
-    border-radius: 5px;
-    padding: 8px;
-    min-height: 100px;
-    max-height: 390px;
-    overflow: auto;
+    border: 1px solid #e2e2e2 !important;
+    border-radius: 5px !important;
+    padding: 8px !important;
+    height: 100px !important;
+    overflow: auto !important;
   }
 
 .suggestion-option{

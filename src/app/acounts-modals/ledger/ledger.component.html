@@ -7,6 +7,8 @@
       </button>
     </div>
     <div class="modal-body add_leader_account">
+      <div class="row">
+        <div class="col-9">
 
       <div class="row">
         <div class="form-group">
@@ -15,9 +17,10 @@
           </div>
           <div class="col-md-4">
             <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
-            <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList"
+            <!-- <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList"
               display="name" inputId="user" placeholder="Enter User" [preSelected]="null" class="suggestion-containerbox">
-            </auto-suggestion>
+            </auto-suggestion> -->
+            <input type="text" id="user" class="form-control" name="user" [(ngModel)]="Accounts.user.name">
           </div>
           <div class="col-md-2 text-center">
             <label>Code</label>
@@ -52,7 +55,8 @@
           </div>
           <div class="col-md-4">
             <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount"
-              display="name" inputId="undergroup" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+              display="name" inputId="undergroup" [data]="underGroupdata" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+              <!-- <input type="text" id="undergroup" class="form-control" name="undergroup" [(ngModel)]="Accounts.account.name"> -->
           </div>
           <div class="col-md-2 text-center">
             <label>Per Rate</label>
@@ -63,6 +67,18 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group" *ngIf="this.activeId.includes('user')">
+        <auto-suggetion-in-side [data]="userdata" targetId="user" display="name" (select)="onSelected($event, 'user', 'name')"></auto-suggetion-in-side>
+      </div>
+      <!-- <div class="form-group" *ngIf="this.activeId.includes('undergroup')">
+        <auto-suggetion-in-side [data]="underGroupdata" targetId="undergroup" display="name" (select)="onParent($event, 'account', 'name')"></auto-suggetion-in-side>
+      </div> -->
+      
+     
+    </div>
+  </div>
 
       <table class="invoice_tabel">
         <thead style="background-color: #eeeeee;">
@@ -253,7 +269,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

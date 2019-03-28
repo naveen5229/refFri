@@ -13,7 +13,7 @@ nb-card-header{
 .balance-shit{
     .table{
         thead{
-            background-color: #0B567D;
+            background-color: #263238;
             color: #fff;
             th:first-child{
                 width: 350px;
@@ -21,11 +21,11 @@ nb-card-header{
         }
         tbody{
             tr{
-                background-color: #E0E0E0;
-                color: #56b5b4;
+                background-color: #eeeeee;
+                color: #4b4b4b;
                 td{
                     padding-left: 20px;
-                    font-weight: bold;
+                    
                 }
             }
             tr:nth-child(1){
