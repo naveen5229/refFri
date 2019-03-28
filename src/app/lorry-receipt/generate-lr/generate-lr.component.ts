@@ -7,6 +7,7 @@ import { windowWhen } from 'rxjs/operators';
 import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from '../../modals/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
+import { LRViewComponent } from '../lrview/lrview.component';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { AccountService } from '../../services/account.service';
 export class GenerateLRComponent implements OnInit {
   materialDetails = null;
   branches = null;
+  vehicleId = null;
   lr = {
     //branch:"Jaipur",
     taxPaidBy: null,
@@ -30,6 +32,9 @@ export class GenerateLRComponent implements OnInit {
     sameAsDelivery: false,
     paymentTerm: "1",
     payableAmount: 1000,
+    lrNumber: null,
+    sourceCity:null,
+    destinationCity:null,
     date: '' + new Date()
   };
 
@@ -53,7 +58,8 @@ export class GenerateLRComponent implements OnInit {
 
   driver = {
     name: null,
-    licenseNo: null
+    licenseNo: null,
+    id:null
   }
 
   taName = null;
@@ -100,13 +106,14 @@ export class GenerateLRComponent implements OnInit {
   }
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
-    
+    this.vehicleId = vehicle.id;
 
   }
   getDriverData(driver) {
     console.log("driver", driver);
     this.driver.name = driver.empname;
     this.driver.licenseNo = driver.licence_no;
+    this.driver.id = driver.id
   }
   getConsignorDetail(consignor) {
     console.log("consignor", consignor);
@@ -169,12 +176,32 @@ export class GenerateLRComponent implements OnInit {
     });
 
     this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+    // let params1 = {
+    //   lrDetails: this.lr,
+    //   particulars: particulars
+    // }
+    // console.log("params1", params1);
+    // console.log("Branch Id",this.accountService.selected.branch);
     let params = {
-      lrDetails: this.lr,
-      particulars: particulars
+      branchId : this.accountService.selected.branch,
+      vehicleId :this.vehicleId,
+      lrNo : this.lr.lrNumber ,
+      lrDate :this.lr.date,
+      driverId :this.driver.id,
+      source :this.lr.sourceCity,
+      destination :this.lr.destinationCity,
+      consignorId :this.lr.consignorId,
+      consigneeId :this.lr.consigneeId,
+      amount : this.lr.payableAmount,
+      payType : this.lr.paymentTerm,
+      taxPaid :this.lr.taxPaidBy,
+      travelAgentId:this.taId,
+      deliveryAddress:this.lr.deliveryAddress,
+      lrDetails:JSON.stringify(this.particulars),
+      remarks:null
     }
-    console.log("params", params);
-    console.log("Branch Id",this.accountService.selected.branch);
+    console.log("params",params);
+    
     this.api.post('LorryReceiptsOperation/generateLR', params)
       .subscribe(res => {
         console.log('response :', res);
