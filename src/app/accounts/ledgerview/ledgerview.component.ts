@@ -31,12 +31,16 @@ export class LedgerviewComponent implements OnInit {
     
     };
   ledgerData=[];
+  ledgerList=[];
+  activeId = 'branch';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
     this.getVoucherTypeList();
     this.getBranchList();
+    this.getLedgerList();
+    this.setFoucus('branch');
     }
 
   ngOnInit() {
@@ -68,6 +72,23 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.branchdata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -109,5 +130,35 @@ export class LedgerviewComponent implements OnInit {
     this.ledger[type].name = selectedData[display];
     this.ledger[type].id = selectedData.id;
     // console.log('order User: ', this.DayBook);
+  }
+
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if (key == 'enter') {
+      if (this.activeId.includes('branch')) {
+        this.setFoucus('voucherType');
+      }else  if (this.activeId.includes('voucherType')) {
+        this.setFoucus('ledger');
+      }else  if (this.activeId.includes('ledger')) {
+        this.setFoucus('startdate');
+      }else  if (this.activeId.includes('startdate')) {
+        this.setFoucus('enddate');
+      }else  if (this.activeId.includes('enddate')) {
+        this.setFoucus('submit');
+      }
+    }
+  }
+
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }

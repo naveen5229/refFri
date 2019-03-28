@@ -2,12 +2,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { EscalationMatrixComponent } from './escalation-matrix/escalation-matrix.component';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
-import { TicketPropertiesComponent} from './ticket-properties/ticket-properties.component';
+import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-status-change.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
-import { DiagnosticsComponent} from './diagnostics/diagnostics.component';
+import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
@@ -16,6 +16,12 @@ import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { RouteGuard } from '../guards/route.guard';
+import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
+import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-issue.component';
+import { from } from 'rxjs';
+import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
+import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
+
 
 
 const routes: Routes = [{
@@ -31,6 +37,10 @@ const routes: Routes = [{
             path: 'vehiclestatuschange',
             component: VehicleStatusChangeComponent,
             canActivate: [RouteGuard]
+        },
+        {
+            path: 'vscticketaudit',
+            component: VSCTicketAuditComponent,
         },
         {
             path: 'issue-alerts',
@@ -73,8 +83,8 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
-             path:  'diagnostics' ,
-             component: DiagnosticsComponent,
+            path: 'diagnostics',
+            component: DiagnosticsComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -88,10 +98,26 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
-            path:'user-preferences',
+            path: 'user-preferences',
             component: UserPreferencesComponent,
             canActivate: [RouteGuard]
-        }
+        },
+        {
+            path: 'alert-related-issue',
+            component: AlertRelatedIssueComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'gps-supplier-mapping',
+            component: GpsSupplierMappingComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicles-view',
+            component: VehiclesViewComponent,
+            canActivate: [RouteGuard]
+        },
+
     ],
 }];
 

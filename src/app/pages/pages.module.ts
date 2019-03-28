@@ -29,8 +29,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DriversAttendanceComponent } from './drivers-attendance/drivers-attendance.component';
-
+import { ImageProcessingComponent } from './image-processing/image-processing.component';
 
 
 const PAGES_COMPONENTS = [
@@ -66,8 +65,7 @@ const PAGES_COMPONENTS = [
     ConciseComponent,
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
-    
-    DriversAttendanceComponent,
+    ImageProcessingComponent,
   ],
 })
 export class PagesModule {

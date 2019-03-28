@@ -44,5 +44,12 @@
     color: #fff;
     border-radius: 3px;
   }
-  button { background-color: #73a1ff;
+  button { 
+    background-color: #73a1ff;
+    border-radius: 5px !important;
+  }
+  .close{
+    background-color: #ccc;
+    font-size: 26px;
+    padding: 10px 15px;
   }

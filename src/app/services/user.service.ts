@@ -23,6 +23,10 @@ export class UserService {
 
     this._loggedInBy = localStorage.getItem('LOGGED_IN_BY') || '';
     this._customer = JSON.parse(localStorage.getItem('CUSTOMER_DETAILS')) || { name: '', id: '' };
+
+
+
+    
     this._pages = [
       { id: 1, route: '/admin/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
@@ -37,8 +41,13 @@ export class UserService {
       { id: 11, route: '/admin/diagnostics' },
       { id: 12, route: '/admin/pending-documents' },
       { id: 13, route: '/admin/user-preferences' },
-
+      { id: 14, route: '/admin/site-details' },
+      { id: 15, route: '/admin/vscticketaudit' },
+      { id: 16, route: '/admin/alert-related-issue' },
+      { id: 17, route: '/admin/gps-supplier-mapping' },
+      { id: 18, route: '/admin/vehicles-view' }
     ]
   }
+  
 
 }

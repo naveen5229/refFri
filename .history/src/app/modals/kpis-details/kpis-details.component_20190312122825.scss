@@ -1,0 +1,17 @@
+.modal-header{
+    padding: 15px 20px;
+    .close{
+        font-size: 30px;
+    }
+}
+.modal-footer{
+    button{
+        margin: 0px;
+        background-color: #000;
+        color: #fff;
+        padding: 15px 25px;
+        display: block;
+        height: auto;
+        width: auto;
+    }
+}

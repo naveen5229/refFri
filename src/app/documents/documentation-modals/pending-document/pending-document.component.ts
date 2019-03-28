@@ -49,7 +49,8 @@ export class PendingDocumentComponent implements OnInit {
     vehicle_id: null,
     wef_date: null,
     img_url2: null,
-    img_url3: null
+    img_url3: null,
+    verify : null,
   };
 
 
@@ -87,7 +88,7 @@ export class PendingDocumentComponent implements OnInit {
     console.log("vehicleid:" + this.vehicleId + "=>" + this.document.vehicle_id);
     this.agentId = this.document.agent_id;
     this.getDocumentsData();
-    this.getDocumentPending();
+    // this.getDocumentPending();
 
     this.imgs = [];
     if (this.document.img_url != "undefined" && this.document.img_url) {
