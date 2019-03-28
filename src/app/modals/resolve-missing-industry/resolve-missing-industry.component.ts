@@ -250,7 +250,7 @@ export class ResolveMissingIndustryComponent implements OnInit {
       } else {
         if (subType == 'marker'){
           pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin%7C" + text + "|" + pinColor + "|000000";
-          console.log("Pin Image:",pinImage);
+          // console.log("Pin Image:",pinImage);
  
         }
         else //if(subType=='circle')
@@ -274,7 +274,7 @@ export class ResolveMissingIndustryComponent implements OnInit {
       if (changeBounds&&!(''+markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
-      console.log("ThisMarker: ",thisMarkers);
+      // console.log("ThisMarker: ",thisMarkers);
  
       this.Markers.push(marker);
  
@@ -348,8 +348,9 @@ export class ResolveMissingIndustryComponent implements OnInit {
     this.common.loading++;
     let params = {
       rowId : this.VehicleStatusData.id,
-      remark:null,
-      status: status
+      remark:this.VehicleStatusData.remark || null,
+      status: status,
+      
     };
     if(params.status==-1)
     { 
@@ -372,8 +373,11 @@ export class ResolveMissingIndustryComponent implements OnInit {
   }
 
   openConrirmationAlert(params) {
+          
+
+    this.common.params={remark:params.remark,title:'Reject Reason '}
    
-    // let remark;
+    
     const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -384,14 +388,14 @@ export class ResolveMissingIndustryComponent implements OnInit {
           .subscribe(res => {
             this.common.loading--;
             console.log("data", res);
-            alert(res["msg"]);
+            this.activeModal.close();
+
           }, err => {
             this.common.loading--;
             console.log(err);
 
           });
       }
-      this.activeModal.close();
     });
   }
 
