@@ -1,0 +1,57 @@
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Manual Halt</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div class="model-body" style="margin-left:20px; margin-right:20px; margin-top:10px; text-align: center">
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-3">
+        <input [(ngModel)]="startTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Entry Time"
+        class="form-control" autocomplete="off" name="startTime">
+      <owl-date-time #date></owl-date-time>
+      </div>
+      <div class="col-sm-3">
+        <input [(ngModel)]="endTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="End Time"
+        class="form-control" autocomplete="off" name="endTime">
+      <owl-date-time #date1></owl-date-time>
+      </div>
+      <div class="col-sm-3">
+          <input type="text" class="from-control" id="place" [(ngModel)]="location.haltlocation" name="place"
+          placeholder="Enter Location">
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-6">
+          <select [(ngModel)]="halt_type" class="form-control" (change)="haltTypeChange(halt_type)" style=" border: 2px solid darkcyan; font-size: 15px">
+              <option value="11">loading</option>
+              <option value="21">unloading</option>
+              <!-- <option value="41">Food/Tea</option>
+              <option value="42">Rest</option>
+              <option value="43">Food+Rest</option>
+              <option value="51">Fuel Filling</option>
+              <option value="61">Nearby Toll</option>
+              <option value="101">Nearby Origin</option>
+              <option value="201">Nearby Destination</option>
+              <option value="301">RTO</option>
+              <option value="311">Break Down</option>
+              <option value="321">Puncture</option>
+              <option value="331">Maintenance</option>
+              <option value="401">Hisaab</option>
+              <option value="411">Documents</option>
+              <option value="501">No Entry Ahead</option>
+              <option value="601">Driver Unavailable</option>
+              <option value="701">Other Reason</option>
+              <option value="901">Unknown</option>
+              <option value="0">Other</option> -->
+              </select>
+      </div>
+      <div class="col-sm-6">
+          <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+          placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px" type="button" outline (click)="saveHalt()" id="saveDetails"
+            style="cursor: pointer;">Save</button>
+    </div>
+  
