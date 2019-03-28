@@ -23,6 +23,7 @@ export class EditLorryDetailsComponent implements OnInit {
   lrDate = '';
   payType='';
   isDelete=false;
+  regno = '';
   // LrData = {
   //   receiptNo: null,
   //   source: this.documents.source,
@@ -66,6 +67,7 @@ export class EditLorryDetailsComponent implements OnInit {
       this.LrData = this.common.params.details;
       this.payType=this.LrData.pay_type;
       console.info('Document: ', this.LrData);
+      this.regno = this.LrData.regno;
 
     }
   }
@@ -74,8 +76,10 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   searchVehicle(vehicleList) {
-    console.log('vehiclelist: ' + vehicleList);
+    console.log('vehiclelist: ' , vehicleList);
     this.vehId = vehicleList.id;
+    return this.vehId;
+    console.log("id:",this.vehId);
   }
 
   loadImage(flag) {
@@ -134,6 +138,7 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   searchTaName(TaList) {
+    console.log("list",TaList);
     this.LrData.ta_id = TaList.id;
     this.LrData.ta_name = TaList.name;
   }
@@ -190,7 +195,7 @@ export class EditLorryDetailsComponent implements OnInit {
       dest: this.LrData.destination,
       destLat: this.LrData.destination_lat,
       destLng: this.LrData.destination_long,
-      vehId: this.vehId,
+      vehId: this.searchVehicle(this.vehId),
       remark: this.LrData.remark,
       id: this.LrData.id,
       receiptNo: this.LrData.receipt_no,
