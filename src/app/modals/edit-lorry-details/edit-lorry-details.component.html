@@ -125,13 +125,14 @@
         style="margin-bottom:10px">
 
       <div class="row" id="ton-material">
+        <div class="col-sm-6" style="margin-top: 10px">
+            <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
+              placeholder="Material Name" [preSelected]="null"></auto-suggestion>
+        </div>
         <div class="col-sm-6">
           <input type="text" name="tonnage" [(ngModel)]="tonnage" class="form-control" placeholder="Tonnage">
         </div>
-        <div class="col-sm-6" style="margin-top: 11px">
-          <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
-            placeholder="Material Name" [preSelected]="null"></auto-suggestion>
-        </div>
+
       </div>
       <div class="row" style="margin-top:10px">
         <div class="col-6">
