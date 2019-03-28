@@ -1,0 +1,266 @@
+<nb-card style="margin:0px;">
+  <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add Ledger Account</h4>
+      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body add_leader_account">
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>User</label>
+          </div>
+          <div class="col-md-4">
+            <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
+            <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList"
+              display="name" inputId="user" placeholder="Enter User" [preSelected]="null" class="suggestion-containerbox">
+            </auto-suggestion>
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Code</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="account-code" id="code" [(ngModel)]="Accounts.code">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Name</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" id="name"
+              (input)="Accounts.aliasname=Accounts.name" [value]="Accounts.name |titlecase">
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Alias Name</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="account-aliasname" id="aliasname"
+              [(ngModel)]="Accounts.aliasname">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Under Group</label>
+          </div>
+          <div class="col-md-4">
+            <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount"
+              display="name" inputId="undergroup" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Per Rate</label>
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" name="account-perrate" id="perrate"
+              [(ngModel)]="Accounts.perrate">
+          </div>
+        </div>
+      </div>
+
+      <table class="invoice_tabel">
+        <thead style="background-color: #eeeeee;">
+            <tr>
+                <th>Salutation</th>
+                <th>Name</th>
+                <th>Mobile No.</th>
+                <th>Email</th>
+                <th>Pan No.</th>
+                <th>Tan No.</th>
+                <th>Gst No.</th>
+                <th>City</th>
+                <th>Address</th>
+                <th>Remarks</th>
+                <th>&nbsp;</th>
+              </tr>
+        </thead>
+       <tbody style="background: #e8f0f3;">
+          <tr *ngFor="let Details of Accounts.accDetails; let i = index;">
+              <td>
+                <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
+                  display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="{name:' '}">
+                </auto-suggestion>
+              </td>
+              <td>
+                <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.name"
+                  [id]="'accountName-' + i" [value]="Accounts.name" >
+              </td>
+              <td>
+                <input type="number" class="form-control" name="account-mobileno" [id]="'mobileno-' + i"
+                  [(ngModel)]="Details.mobileNo">
+              </td>
+              <td>
+                <input type="email" class="form-control" name="account-email" [id]="'email-' + i"
+                  [(ngModel)]="Details.email">
+              </td>
+              <td>
+                <input type="text" class="form-control" name="account-name" [id]="'panNo-' + i" [(ngModel)]="Details.panNo">
+              </td>
+              <td>
+                <input type="text" class="form-control" name="account-name" [id]="'tanNo-' + i" [(ngModel)]="Details.tanNo">
+              </td>
+              <td>
+                <input type="text" class="form-control" name="account-name" [id]="'gstNo-' + i" [(ngModel)]="Details.gstNo">
+              </td>
+              <td>
+                <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name"
+                  [inputId]="'city-' + i" [name]="'city-' + i"  placeholder="Enter City" [preSelected]="null">
+                </auto-suggestion>
+              </td>
+              <td>
+                <input type="text" class="form-control" name="account-name" [id]="'address-' + i"
+                  [(ngModel)]="Details.address">
+              </td>
+              <td>
+                <input type="text" class="form-control" name="account-name" [id]="'remarks-' + i"
+                  [(ngModel)]="Details.remarks">
+              </td>
+              <td *ngIf="i == 0">
+                <button (click)="addDetails()" class="plustransparent btn btn-plus btn-primary"><i class="fa fa-plus"
+                    style="font-size: 40px;"></i></button>
+              </td>
+              <td *ngIf="i !== 0">
+                <i class="fa fa-trash text-primary" (click)="Accounts.accDetails.splice(i,1)"></i>
+              </td>
+            </tr>
+       </tbody>
+      </table>
+
+      <!--div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Salutation</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.salutationId">
+        </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Mobile No.</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-mobileno" [(ngModel)]="Accounts.mobileNo">
+        </div>
+      </div>
+  </div>
+  
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Email</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-email" [(ngModel)]="Accounts.email">
+        </div>
+      </div>
+  </div>
+  
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Pan No.</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.panNo">
+        </div>
+      </div>
+  </div>
+  
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Tan No</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.tanNo">
+        </div>
+      </div>
+  </div>
+  
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Gst No.</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.gstNo">
+        </div>
+      </div>
+  </div>
+  
+  
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>City</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.cityId">
+        </div>
+      </div>
+  </div> 
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Address</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.address">
+        </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="form-group">
+        <div class="col-md-4 text-center">
+          <label>Remarks</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.remarks">
+        </div>
+      </div>
+  </div-->
+    </div>
+
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+        </div>
+        <div class="col text-right">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>
+
+<div class="date-modal" *ngIf="showExit" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you sure want to close ?</p>
+      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+    </div>
+  </div>
+</div>

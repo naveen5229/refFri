@@ -1,5 +1,5 @@
-<nb-card>
-  <nb-card-body (keydown)="keyHandler($event)">
+<nb-card style="margin:0px;">
+  <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Stock Sub Type</h4>
   <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
@@ -35,13 +35,13 @@
         <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
         placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion>
       </div>
-      <div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
+      <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
         <ul>
           <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
             {{stocktype.name}}
           </li>
         </ul>
-      </div>
+      </div-->
     </div>
     <div class="col">
       <div class="form-group">
@@ -86,7 +86,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you sure want to close ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
     </div>
   </div>
 </div>

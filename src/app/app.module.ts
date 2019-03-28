@@ -56,6 +56,7 @@ import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-e
 import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
+import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -86,9 +87,22 @@ import { AddFuelFillingComponent } from './modals/add-fuel-filling/add-fuel-fill
 import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-site-details.component';
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 import { HttpResponseHandlerService } from './services/http-response-handler.service';
+import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map.component';
+
 
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AccountService } from './services/account.service';
+import { ApiService } from './services/api.service';
+import { CommonService } from './services/common.service';
+import { UserService } from './@core/data/users.service';
+import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
+import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
+import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
+// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+
+
 import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
@@ -134,6 +148,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -150,6 +165,13 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     EditDriverComponent,
+    // VehicleDriverMappingComponent
+    VehiclesOnMapComponent,
+    VoucherdetailComponent,
+    RadioSelectionComponent,
+    UpdateTripDetailComponent,
+    
+    
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
@@ -193,6 +215,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     ErrorReportComponent,
     AddEscalationIssueComponent,
     DocumentReportComponent,
+    DocumentHistoryComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -210,6 +233,11 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     VechileTrailsComponent,
     AddTripComponent,
     EditDriverComponent,
+    VoucherdetailComponent,
+    VehiclesOnMapComponent,
+    // VehicleDriverMappingComponent 
+    RadioSelectionComponent,
+    UpdateTripDetailComponent,
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
@@ -231,16 +259,19 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     DragDropModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
+      libraries: ['drawing']
+    })
   ],
 
   bootstrap: [AppComponent],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
     // {provide: OWL_DATE_TIME_FORMATS, useValue: 'MMMM YYYY'}
-
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -21,63 +21,74 @@ export class DataService {
     return [
       {
         title: 'Dashboard',
-        icon: 'nb-home',
+        icon: 'fa fa-home',
         link: '/admin/dashboard',
       },
       {
         title: 'Vehicle Status Change',
-        icon: 'nb-home',
+        icon: 'fas fa-clipboard-check',
         link: '/admin/vehiclestatuschange',
       },
       {
+        title: 'VSC Ticket Audit',
+        icon: 'fas fa-ticket-alt',
+        link: '/admin/vscticketaudit',
+      },
+      {
         title: 'Issue Alerts',
-        icon: 'nb-home',
+        icon: 'fa fa-exclamation-triangle',
         link: '/admin/issue-alerts',
       },
       {
         title: 'Escalation Matrix',
-        icon: 'nb-home',
+        icon: 'fa fa-chart-bar',
         link: '/admin/escalation-matrix',
       },
       {
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
+        home: true,
+      },
+      {
         title: 'LR View',
-        icon: 'nb-home',
+        icon: 'fa fa-info-circle',
         link: '/admin/lrview',
       },
       {
         title: 'Generate LR',
-        icon: 'nb-home',
+        icon: 'fa fa-pencil',
         link: '/admin/generate-lr',
       },
       {
         title: 'Group Managements',
-        icon: 'nb-home',
+        icon: 'fa fa-users',
         link: '/admin/group-managements',
       },
 
       {
         title: 'Ticket Properties',
-        icon: 'nb-home',
+        icon: 'fas fa-ticket-alt',
         link: '/admin/ticket-properties',
       },
       {
         title: 'Lorry Receipt Details',
-        icon: 'nb-home',
+        icon: 'fas fa-receipt',
         link: '/admin/lorry-receipt-details',
       },
       {
         title: 'Site Fencing',
-        icon: 'nb-home',
+        icon: 'fas fa-coins',
         link: '/admin/site-fencing',
       },
       {
         title: 'Diagnostics',
-        icon: 'nb-home',
+        icon: 'fa fa-stethoscope',
         link: '/admin/diagnostics',
       },
       {
         title: 'Document',
-        icon: 'nb-home',
+        icon: 'fa fa-file-alt',
         children: [
           {
             title: 'Pending Details',
@@ -90,9 +101,27 @@ export class DataService {
 
       {
         title: 'User Prefrence',
-        icon: 'nb-home',
+        icon: 'fas fa-user-cog',
         link: '/admin/user-preferences',
       },
+      {
+        title: 'Site Details',
+        icon: 'fa fa-sitemap',
+        link: '/admin/site-details',
+        home: true,
+      },   
+      {
+        title: 'gps-supplier-mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
+      },
+      {
+        title: 'vehicles-view',
+        icon: 'nb-home',
+        link: '/admin/vehicles-view',
+        home: true,
+      }
     ];
   }
 }

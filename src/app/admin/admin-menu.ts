@@ -14,6 +14,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'VSC Ticket Audit',
+        icon: 'nb-home',
+        link: '/admin/vscticketaudit',
+        home: true,
+    },
+    {
         title: 'Issue Alerts',
         icon: 'nb-home',
         link: '/admin/issue-alerts',
@@ -23,6 +29,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Escalation Matrix',
         icon: 'nb-home',
         link: '/admin/escalation-matrix',
+        home: true,
+    },
+    {
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
         home: true,
     },
     {
@@ -92,6 +104,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/site-details',
         home: true,
+    },
+    {
+        title: 'Gps Supplier Mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
+    },
+    {
+        title: 'Vehicles View',
+        icon: 'nb-home',
+        link: '/admin/vehicles-view',
+        home: true,
     }
+
 
 ];

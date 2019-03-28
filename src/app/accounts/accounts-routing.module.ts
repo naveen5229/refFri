@@ -18,6 +18,8 @@ import { LedgermappingComponent } from './ledgermapping/ledgermapping.component'
 import { InvoiceregisterComponent } from './invoiceregister/invoiceregister.component';
 import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher-expense.component';
 import { OutstandingComponent } from './outstanding/outstanding.component';
+import { BalancesheetComponent } from './balancesheet/balancesheet.component';
+import { ProfitlossComponent}from './profitloss/profitloss.component';
 
 const routes: Routes = [{
     path: '',
@@ -86,6 +88,14 @@ const routes: Routes = [{
         {
             path: 'outstanding',
             component: OutstandingComponent
+        },
+        {
+            path:'balancesheet',
+            component:BalancesheetComponent
+        },
+        {
+            path:'profitloss',
+            component:ProfitlossComponent
         }
 
         

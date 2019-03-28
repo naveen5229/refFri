@@ -23,17 +23,18 @@
       <table class="table table-bordered table-hover ">
         <thead class="thead">
           <tr>
-            <th>Id</th>
+            <!-- <th>Id</th> -->
             <th>Fo Name</th>
             <th>Vehicle RegNo </th>
             <th>Vehicle Id </th>
             <th>Primary Status </th>
             <th>Secondry Status</th>
-            <th>Remark</th>
+            <!-- <th>Remark</th> -->
             <th>Suggestion</th>
             <th>Alert Time</th>
-            <th>Clear UserId</th>
-            <th>Status</th>
+            <!-- <th>Clear UserId</th>
+            <th>Cleared By</th> -->
+            <!-- <th>Status</th> -->
             <th>Hold User</th>
             <th>Action</th>
           </tr>
@@ -41,18 +42,19 @@
         </thead>
         <tbody>
           <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
-            <td>{{VehicleStatusAlert.id}}</td>
-            <td>{{VehicleStatusAlert.name}}</td>
+            <!-- <td>{{VehicleStatusAlert.id}}</td> -->
+            <td>{{VehicleStatusAlert.fo_name}}</td>
             <td>{{VehicleStatusAlert.regno}}</td>
             <td>{{VehicleStatusAlert.vehicle_id}}</td>
             <td>{{VehicleStatusAlert.prim_status}}</td>
             <td>{{VehicleStatusAlert.sec_status}}</td>
-            <td>{{VehicleStatusAlert.remark}}</td>
+            <!-- <td>{{VehicleStatusAlert.remark}}</td> -->
             <td>{{VehicleStatusAlert.suggest}}</td>
-            <td>{{VehicleStatusAlert.alerttime}}</td>
-            <td>{{VehicleStatusAlert.aduserid}}</td>
-            <td>{{status[VehicleStatusAlert.status]}}</td>
-            <td>{{VehicleStatusAlert.hold_users}}</td>
+            <td>{{VehicleStatusAlert.alert_time}}</td>
+            <!-- <td>{{VehicleStatusAlert.aduserid}}</td>
+            <td>{{VehicleStatusAlert.clearedby}}</td> -->
+            <!-- <td>{{status[VehicleStatusAlert.status]}}</td> -->
+            <td>{{VehicleStatusAlert.hold_by}}</td>
             <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
           </tr>
         </tbody>

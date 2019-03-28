@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Vehicle On Map</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="model-body" style="min-height:800px; min-width: 500px;">
+  <agm-map [(latitude)]="Location.lat" [(longitude)]="Location.lng" [(zoom)]="Location.zoom" [disableDefaultUI]="true"
+    [zoomControl]="true" (mapReady)="onMapReady($event)">
+    <agm-marker *ngFor="let data of markers; let i=index;" [(latitude)]="data.lat" [(longitude)]="data.long"
+      (mouseOver)="showInfo(data)"  (mouseOut)="hideInfo(data)" [markerDraggable]="true" (dragEnd)='markerDragEnd($event)'>
+      <agm-info-window [isOpen]="show">
+        <div>{{data.label}}</div>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
+</div>
+<!-- <div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Vehicle On map</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="map-container">
+     <div class="input-container" *ngIf="location.time">
+      <p text-center><b>Location Time:</b> {{location.time | date : 'dd-MMM-yyyy hh:mm a'}}</p>
+    </div> -->
+    <!-- <div #map id="map" style="height:300px"> </div> --> -->
+    <!-- <div class="zoom-container">
+      <span class="zoom-btn" (click)="setZoom(6)">1</span>
+      <span class="zoom-btn" (click)="setZoom(9)">2</span>
+      <span class="zoom-btn" (click)="setZoom(12)">3</span>
+      <span class="zoom-btn" (click)="setZoom(15)">4</span>
+      <span class="zoom-btn" (click)="setZoom(18)">5</span>
+    </div> -->
+  <!-- </div>
+</div> -->
