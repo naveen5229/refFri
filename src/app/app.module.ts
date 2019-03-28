@@ -101,6 +101,7 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
 
 import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
@@ -170,6 +171,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     VoucherdetailComponent,
     RadioSelectionComponent,
     UpdateTripDetailComponent,
+    ResolveMissingIndustryComponent,
     
     
     DriverVehicleRemappingComponent,
@@ -238,6 +240,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
+    ResolveMissingIndustryComponent,
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
