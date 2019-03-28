@@ -181,8 +181,8 @@ export class ResolveMissingIndustryComponent implements OnInit {
   resetBtnStatus() {
     this.btnStatus = true;
     this.vehicleEvents.forEach(vehicleEventDetail => {
-      console.log("vehicleEventDetail", vehicleEventDetail)
-      if (vehicleEventDetail.color == 'ffff00') {
+      // console.log("vehicleEventDetail", vehicleEventDetail)
+      if (vehicleEventDetail.color == '88ff4d' || vehicleEventDetail.color == 'ff4d4d') {
         this.btnStatus = false;
         return;
       }

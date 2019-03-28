@@ -19,7 +19,7 @@ export class AlertRelatedIssueComponent implements OnInit {
   ticketsData = [];
   missing = 0;
   backlog = 0;
-  tickets = 0;
+  tickets = 1;
   backlogData = [];
   columns = [];
   header = [];
