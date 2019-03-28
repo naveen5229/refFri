@@ -103,6 +103,9 @@ import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-tr
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 
 
+import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
+import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
+import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -169,6 +172,9 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     UpdateTripDetailComponent,
     
     
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -231,7 +237,10 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
-    UpdateTripDetailComponent
+    UpdateTripDetailComponent,
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   imports: [
     BrowserModule,
