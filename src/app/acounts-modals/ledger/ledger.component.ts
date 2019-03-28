@@ -12,6 +12,9 @@ export class LedgerComponent implements OnInit {
   showConfirm = false;
   showExit=false;
   salutiondata=[];
+  userdata=[];
+  underGroupdata=[];
+  activeId="user";
   Accounts = {
     name: '',
     aliasname: '',
@@ -80,6 +83,8 @@ export class LedgerComponent implements OnInit {
 
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.GetSalution();
+    this.getUserData();
+    this.getUnderGroup();
   }
 
 
@@ -118,7 +123,45 @@ export class LedgerComponent implements OnInit {
       });
 
   }
+  
+  getUnderGroup() {
+    let params = {
+      search: 123
+    };
+    
+    this.common.loading++;
+    this.api.post('Suggestion/getAllUnderGroupData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.underGroupdata = res['data'];
 
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+  getUserData() {
+    let params = {
+      search: 123
+    };
+    
+    this.common.loading++;
+    this.api.post('Suggestion/getAllfouser', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.userdata = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   ngOnInit() {
     
   }
@@ -140,7 +183,11 @@ export class LedgerComponent implements OnInit {
     this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
     console.log('Accounts Parent: ', this.Accounts);
   }
-
+ modelCondition(){
+  this.showConfirm = false;
+  event.preventDefault();
+  return;
+ }
   keyHandler(event) {
     if (event.key == "Escape") {
       this.showExit=true;

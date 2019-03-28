@@ -24,11 +24,15 @@ export class AutoSuggetionInSideComponent implements OnInit {
 
   ngOnChanges(changes) {
     this.data = changes.data.currentValue;
-    this.display = changes.display.currentValue;
-    if (this.seperator) {
+    if (changes.display) {
+      this.display = changes.display.currentValue;
+    }
+    if (changes.seperator) {
       this.seperator = changes.seperator.currentValue;
     }
-    this.targetId = changes.targetId.currentValue;
+    if (changes.targetId) {
+      this.targetId = changes.targetId.currentValue;
+    }
     this.initialize();
   }
 
@@ -75,7 +79,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   handleKeyDown(event) {
-    console.log('Event:', event);
+    // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
       if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;

@@ -22,32 +22,32 @@
             </td>
             <td><label>LR No</label></td>
             <td>
-              {{lr.lrNumber}}
-              <!-- <input type="text" readonly [(ngModel)]=lr.lrNumber class="form-control"> -->
+              <!-- {{lr.lrNumber}} -->
+              <input type="text" [(ngModel)]=lr.lrNumber class="form-control" placeholder="Enter LR Number">
              </td>          
           </tr>
         <tr>
           <td><label>Date</label></td>
           <td>   
               <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " 
-              class="form-control" autocomplete="off" name="date">
+              class="form-control" autocomplete="off" name="date" placeholder="Enter Date">
             <owl-date-time #date></owl-date-time>
             
             <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
           </td>
-          <td><label>Driver Mob NO </label></td>
+          <td><label>T.A. Name</label></td>
 
-          <td><span><auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-              placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion> <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()" ></i> </div></span> </td>
+          <td><auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent"
+            display="name" placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion></td>
         </tr>
-        <tr>
-            <td><label>Driver Name</label></td>
-            <td> 
+        <tr><td><label>Driver Mob NO </label></td>
+          <td><span><auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
+            placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion> <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()" ></i> </div></span> </td>
+            <td><label>Driver Name : </label>
               {{driver.name}}
               <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
             </td>
-            <td><label>License No </label></td>
-            <td>
+            <td><label>License No : </label> 
               {{driver.licenseNo}}
               <!-- <input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly>  -->
             </td>
@@ -91,7 +91,7 @@
           </tr>
 
 
-          <tr>
+          <!-- <tr>
               <td><label>T.A. Name</label></td>
               <td>
                   <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent"
@@ -101,7 +101,7 @@
               <td>
                 {{taId}}
                </td>          
-            </tr>
+            </tr> -->
 
 
         <tr>
@@ -109,8 +109,8 @@
           <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>
           <td><label>Payment Term</label></td>
           <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol" style="width: 150px; height: 31px;">
-              <option value="ToPay">To Pay</option>
-              <option value="ToBeFilled">To Be Filled</option>
+              <option value="1">ToPay</option>
+              <option value="2">Advance</option>
             </select></td>
         </tr>
         <tr>
@@ -141,7 +141,7 @@
       </tbody>
     </table>
     <div>
-      <label>MaterialDetail</label>
+      <label>Material Details</label>
       <table class="table table-bordered">
         <tbody *ngFor="let particular of particulars; let i = index;">
           <tr>
@@ -149,13 +149,16 @@
               <label> Material </label>
             </td>
             <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material">
+                <auto-suggestion (onSelected)="searchMaterialType($event,i)" url="Suggestion/GetMaterialTypes" display="name"
+                placeholder="Material Name" [preSelected]="null" ></auto-suggestion>
+              <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
+              <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
             </td>
             <td>
               <label>Number Of Articles </label>
             </td>
             <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.articleNo">
+              <input type="text" class="form-control" [(ngModel)]="particular.articles">
             </td>
             <td>
               <label>Weight (In Tons)</label>
@@ -167,7 +170,7 @@
               <label>Material Value</label>
             </td>
             <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.materialValue">
+              <input type="text" class="form-control" [(ngModel)]="particular.material_value">
             </td>
             <td *ngIf="i == particulars.length-1"><button (click)= "particular.customField = true; particular.customButton = false" *ngIf= "particular.customButton" >Add Fields</button></td>   
            <td *ngIf="i == particulars.length-1"><button (click)="addMore()" >Add Materials</button></td>
@@ -179,53 +182,53 @@
                 <label> Invoice </label>
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.invoice">
+                <input type="text" class="form-control" [(ngModel)]="particular.invoice">
               </td>
               <td>
                 <label>container No </label>
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.containerNo">
+                <input type="text" class="form-control" [(ngModel)]="particular.customfields.containerno">
               </td>
               <td>
                 <label>Seal No</label>
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.sealNo">
+                <input type="text" class="form-control" [(ngModel)]="particular.customfields.sealno">
               </td>
               <td>
                 <label>DCPI No</label>
               </td>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.dcpiNo">
+                <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
               </td>
              
             </tr>
             
           <tr  *ngIf = "particular.customField ">
               <td>
-                  <input type="text" placeholder="Name" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[0]">          
+                  <input type="text" placeholder="Name" class="form-control" [(ngModel)]="particular.customfields.customDetail[0]">          
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[1]">
+                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.customfields.customDetail[1]">
               </td>
               <td>
-                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.otherDetail.customDetail[2]">          
+                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.customfields.customDetail[2]">          
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[3]">
+                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.customfields.customDetail[3]">
               </td>
               <td>
-                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.otherDetail.customDetail[4]">         
+                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.customfields.customDetail[4]">         
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[5]">
+                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.customfields.customDetail[5]">
               </td>
               <td>
-                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.otherDetail.customDetail[6]">
+                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.customfields.customDetail[6]">
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[7]">
+                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.customfields.customDetail[7]">
               </td>
             </tr>
          

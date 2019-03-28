@@ -104,6 +104,9 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
 
+import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
+import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
+import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -171,6 +174,9 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
     ResolveMissingIndustryComponent,
     
     
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -234,7 +240,10 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
-    ResolveMissingIndustryComponent
+    ResolveMissingIndustryComponent,
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
   ],
   imports: [
     BrowserModule,
