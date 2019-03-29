@@ -34,7 +34,6 @@ export class AddConsigneeComponent implements OnInit {
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
       mobileNo:['',[Validators.minLength(10),Validators.maxLength(10),Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
     });
-    console.log('Consignee Form: ', this.Form);
   }
   // convenience getter for easy access to form fields
   get f() { return this.Form.controls; }
@@ -57,7 +56,6 @@ export class AddConsigneeComponent implements OnInit {
 
     }
     console.log("params", params);
-    return;
     ++this.common.loading;
     this.api.post('LorryReceiptsOperation/InsertCompanies', params)
       .subscribe(res => {
