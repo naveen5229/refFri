@@ -1,32 +1,12 @@
 <nb-card>
   <nb-card-header>
     <h2>vehicle Driver Mapping</h2>
-   
+    <button class="btn btn-primary" align="left" type="submit" id="submit" (click)="Add(driver)">ADD</button>
+
   </nb-card-header>
   <nb-card-body>
-    <div class="container">
-      <table class="table table-bordered table-hover table-scroll">
-        <thead class="thead">
-          <th>#</th>
-          <th>Reg NO.</th>
-          <th>Main Driver</th>
-          <th>Mobile Number</th>
-          <th>Secondry Driver</th>
-          <th>Mobile Number</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let driver of driverMapping; let i = index">
-            <th scope="row">{{i+1}}</th>
-            <td>{{driver.regno}}</td>
-            <td>{{driver.md_name}}</td>
-            <td>{{driver.md_no}}</td>
-            <td>{{driver.sd_name}}</td>
-            <td>{{driver.sd_no}}</td>
-          </tr>
-        </tbody>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
 
-      </table>
-
-    </div>
   </nb-card-body>
 </nb-card>
