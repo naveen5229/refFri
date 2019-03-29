@@ -1,19 +1,24 @@
-<nb-card>
-  <nb-card-header>
-    <h2>Driver New Status</h2>
+<!-- <nb-card>
+  <nb-card-header> -->
+      <div class="modal-header">
+    <!-- <h2>Driver New Status</h2> -->
+    <h4 class="modal-title" id="modal-basic-title">Driver New Status</h4>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
-  </nb-card-header>
+    </div>
+  <!-- </nb-card-header>
   <nb-card-body>
     
-     <form class="form-group">
+     <form class="form-group"> -->
       <!-- <div class="row">
         <div class="col-3" *ngIf="selectedType == 901 || selectedType == 902">
           <auto-suggestion (onSelected)="getvehicle($event)" url="Vehicles/getVehicleListForFoid"
           display="regno" placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null"></auto-suggestion>
         </div>
       </div> -->
+      <div class="modal-body">
+          <div class="container">
       <div class="row margin-top-15">
         <div class="col-3">
           <label> Driver Name </label>
@@ -58,10 +63,14 @@
           display="regno" placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null"></auto-suggestion>
         </div>
       </div>
+      </div>
+      </div>
+      <div class="modal-footer">
                <div class="col-md-12 text-center margin-top-15">
                   <button class="btn btn-primary" id="submit" type="submit"
                     (click)="NewStatus()">submit</button>
                 </div>
-                </form>
+                </div>
+                <!-- </form>
                 </nb-card-body>
-                </nb-card>
+                </nb-card> -->
