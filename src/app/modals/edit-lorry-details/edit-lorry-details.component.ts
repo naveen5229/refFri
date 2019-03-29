@@ -23,7 +23,6 @@ export class EditLorryDetailsComponent implements OnInit {
   vehId = "";
   lrDate = '';
   payType="toPay";
-  regNo='';
   taName='';
   consignerName='';
   consineeName=''
@@ -72,7 +71,6 @@ export class EditLorryDetailsComponent implements OnInit {
     if (this.common.params) {
       this.LrData = this.common.params.details;
       console.log("LrData",this.LrData);
-      this.regNo=this.LrData.regno;
       this.taName=this.LrData.ta_name;
       this.consignerName=this.LrData.consigner_name;
       this.consineeName=this.LrData.consignee_name;
