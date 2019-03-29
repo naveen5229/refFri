@@ -67,7 +67,7 @@
       <input type="text" class="from-control" id="destination" name="destination" [(ngModel)]="LrData.destination"
         placeholder="Destination" style="margin-bottom:10px">
       <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-        placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+        placeholder="Vehicle Number"   [preSelected]="{regno:regno}"></auto-suggestion>
 
       <input type="text" class="from-control" name="remark" [(ngModel)]="LrData.remark" placeholder="Remark"
         style="margin-bottom:10px">
@@ -211,8 +211,9 @@
     </div>
 
     <div class="col-9">
-      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true"  [snapView]="false">
       </app-image-viewer>
+      
     </div>
   </div>
 </div>
