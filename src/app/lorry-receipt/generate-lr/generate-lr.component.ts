@@ -8,8 +8,9 @@ import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-c
 import { AddDriverComponent } from '../../modals/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
 import { LRViewComponent } from '../lrview/lrview.component';
+import { MapService } from '../../services/map.service';
 
-
+declare var google: any;
 @Component({
   selector: 'generate-lr',
   templateUrl: './generate-lr.component.html',
@@ -22,19 +23,20 @@ export class GenerateLRComponent implements OnInit {
   lr = {
     //branch:"Jaipur",
     taxPaidBy: null,
-    consigneeName:null,
+    consigneeName: null,
     consigneeAddress: null,
-    consigneeId:null,
+    consigneeId: null,
     deliveryAddress: null,
     consignorAddress: null,
-    consignorName :null,
-    consignorId:null,
+    consignorName: null,
+    consignorId: null,
     sameAsDelivery: false,
     paymentTerm: "1",
     payableAmount: 1000,
     lrNumber: null,
-    sourceCity:null,
-    destinationCity:null,
+    sourceCity: null,
+    destinationCity: null,
+    remark: null,
     date: '' + new Date()
   };
 
@@ -59,7 +61,7 @@ export class GenerateLRComponent implements OnInit {
   driver = {
     name: null,
     licenseNo: null,
-    id:null
+    id: null
   }
 
   taName = null;
@@ -67,18 +69,56 @@ export class GenerateLRComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
     public common: CommonService,
-    public accountService : AccountService,
-    public api: ApiService, ) {
+    public accountService: AccountService,
+    public api: ApiService,
+    public mapService: MapService) {
+
     // this.branches = ['Jaipur',"Mumbai", "delhi"];
     this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
     console.log("new Date()", new Date(), this.lr.date);
-   
+
+
   }
 
   ngOnInit() {
     this.getBranches();
-    
+
   }
+  ngAfterViewInit(): void {
+    setTimeout(this.autoSuggestion.bind(this, 'sourceCity'), 3000);
+    setTimeout(this.autoSuggestion.bind(this, 'destinationCity'), 3000);
+
+  }
+
+  autoSuggestion(elementId) {
+    var options = {
+      types: ['(cities)'],
+      componentRestrictions: { country: "in" }
+    };
+    let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
+    let autocomplete = new google.maps.places.Autocomplete(ref, options);
+    google.maps.event.addListener(autocomplete, 'place_changed', this.getLocation.bind(this, elementId, autocomplete));
+  }
+
+  getLocation(elementId, autocomplete) {
+    console.log('tets');
+    let place = autocomplete.getPlace();
+    let lat = place.geometry.location.lat();
+    let lng = place.geometry.location.lng();
+    place = autocomplete.getPlace().formatted_address;
+
+    this.setLocations(elementId, place, lat, lng);
+  }
+
+  setLocations(elementId, place, lat, lng) {
+    if (elementId == 'sourceCity') {
+      this.lr.sourceCity = place;
+    } else if (elementId == 'destinationCity') {
+      this.lr.destinationCity = place;
+    }
+  }
+
+
   getBranches() {
     this.api.post('Suggestion/GetBranchList', { search: 123 })
       .subscribe(res => {
@@ -160,8 +200,14 @@ export class GenerateLRComponent implements OnInit {
     this.taName = taDetail.name;
     this.taId = taDetail.id;
   }
-  searchMaterialType(material, i) {
-    this.particulars[i].material = material.name;
+  searchMaterialType(material, i, name) {
+
+  }
+
+  material(i) {
+    console.log('material-' + i);
+    this.particulars[i].material = document.getElementById('material-' + i)['value'];
+    console.log('Vlue', this.particulars[i].material);
   }
 
   saveDetails() {
@@ -182,30 +228,36 @@ export class GenerateLRComponent implements OnInit {
     // }
     // console.log("params1", params1);
     // console.log("Branch Id",this.accountService.selected.branch);
+    //this.particulars.
     let params = {
-      branchId : this.accountService.selected.branch,
-      vehicleId :this.vehicleId,
-      lrNo : this.lr.lrNumber ,
-      lrDate :this.lr.date,
-      driverId :this.driver.id,
-      source :this.lr.sourceCity,
-      destination :this.lr.destinationCity,
-      consignorId :this.lr.consignorId,
-      consigneeId :this.lr.consigneeId,
-      amount : this.lr.payableAmount,
-      payType : this.lr.paymentTerm,
-      taxPaid :this.lr.taxPaidBy,
-      travelAgentId:this.taId,
-      deliveryAddress:this.lr.deliveryAddress,
-      lrDetails:JSON.stringify(this.particulars),
-      remarks:null
+      branchId: this.accountService.selected.branch,
+      vehicleId: this.vehicleId,
+      lrNo: this.lr.lrNumber,
+      lrDate: this.lr.date,
+      driverId: this.driver.id,
+      source: this.lr.sourceCity,
+      destination: this.lr.destinationCity,
+      consignorId: this.lr.consignorId,
+      consigneeId: this.lr.consigneeId,
+      amount: this.lr.payableAmount,
+      payType: this.lr.paymentTerm,
+      taxPaid: this.lr.taxPaidBy,
+      travelAgentId: this.taId,
+      deliveryAddress: this.lr.deliveryAddress,
+      lrDetails: JSON.stringify(particulars),
+      remarks: this.lr.remark
     }
-    console.log("params",params);
-    
+    console.log("params", params);
+
     this.api.post('LorryReceiptsOperation/generateLR', params)
       .subscribe(res => {
-        console.log('response :', res);
         --this.common.loading;
+        console.log('response :', res['data'][0].rtn_id);
+        if (res['data'][0].rtn_id > 0) {
+          this.common.showToast("LR Generated Successfully");
+        } else {
+          this.common.showToast(res['data'][0].rtn_msg);
+        }
       }, err => {
         --this.common.loading;
         console.log('Error: ', err);
