@@ -314,7 +314,7 @@ export class EditLorryDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['msg']);
-        if (res['success'] == true) {
+        if (res['success']) {
          this.common.showToast('Success !!');
          this.isUpdated = true;
          this.dismiss();

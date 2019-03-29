@@ -107,6 +107,7 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
 import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
+import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -178,6 +179,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    VehicleReportComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -246,6 +248,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    VehicleReportComponent,
   ],
   imports: [
     BrowserModule,
