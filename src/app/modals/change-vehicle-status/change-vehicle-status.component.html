@@ -71,7 +71,7 @@
           <th>KM/h</th>
           <th>AdUserId</th>
           <th>CS</th>
-          <th>CHT</th>
+          <th>CHT <span style="margin-left:15px" ><i class="fa fa-refresh report-btn" (click)="mapReset();"></i></span></th>
         </thead>
         <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
           <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
@@ -103,7 +103,9 @@
                     *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
                   <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
                       class="fa fa-trash"></i></span>
+                  <span class="zoom-btn" *ngIf="!vehicleEvent.haltTypeId == -1" (click)="openManualHalt(vehicleEvent);">MH</span>
                   <span class="zoom-btn"><i class="fa fa-question-circle report-btn" (click)="reportIssue(vehicleEvent);"></i></span>
+
                 </span></div>
             </td>
           </tr>

@@ -17,15 +17,15 @@ export class DaybooksComponent implements OnInit {
     enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
-      name: '',
+      name: 'All',
       id: 0
     },
     branch: {
-      name: '',
+      name: 'All',
       id: 0
     },
     vouchertype: {
-      name: '',
+      name: 'All',
       id: 0
     },
     issumrise:'true'
@@ -34,14 +34,17 @@ export class DaybooksComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
-  activeId = '';
+  ledgerData=[];
+  activeId = 'branch';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
     this.getVoucherTypeList();
     this.getBranchList();
+    this.getAllLedger();
     this.setFoucus('branch');
+    this.common.currentPage = 'Day Book';
   }
 
   ngOnInit() {
@@ -81,13 +84,31 @@ export class DaybooksComponent implements OnInit {
       });
 
   }
+  
+  getAllLedger() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerData = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
   getDayBook() {
     console.log('Accounts:', this.DayBook);
     let params = {
       startdate: this.DayBook.startdate,
       enddate: this.DayBook.enddate,
       ledger: this.DayBook.ledger.id,
-      branch: this.DayBook.branch.id,
+      branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
     };
 
@@ -115,7 +136,8 @@ export class DaybooksComponent implements OnInit {
   onSelected(selectedData, type, display) {
     this.DayBook[type].name = selectedData[display];
     this.DayBook[type].id = selectedData.id;
-    // console.log('order User: ', this.DayBook);
+    console.log('Selected Data: ', selectedData, type, display);
+    console.log('order User: ', this.DayBook);
   }
 
   handleVoucherDateOnEnter() {
@@ -186,7 +208,7 @@ this.common.params = voucherId;
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active event', event);
+    // console.log('Active event', event);
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('vouchertype');

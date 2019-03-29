@@ -57,7 +57,7 @@ export class CommonService {
     201: { title: 'KPI Details', page: 'VehicleKpiDetailsPage' }
   }
 
-
+  currentPage = '';
 
   constructor(
     public router: Router,
@@ -79,7 +79,7 @@ export class CommonService {
     const config = {
       status: type || 'success',
       destroyByClick: true,
-      duration: duration || 3000,
+      duration: duration || 5000,
       hasIcon: true,
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
       preventDuplicates: false,
@@ -384,7 +384,7 @@ export class CommonService {
     this.user._pages.map(page => (page.route == menu.link) && (status = true));
     return status;
   }
-
+  
   getPDFFromTableId(tblEltId, left_heading, center_heading) {
 
     //remove table cols with del class

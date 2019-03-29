@@ -22,12 +22,14 @@ export class LedgermappingComponent implements OnInit {
       },
     };
     ledgerMappingData=[];
+    ledgerList=[];
     activeId='';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
       this.getSecondaryData();
+      this.getLedgerList();
       this.setFoucus('secondaryname');
     }
 
@@ -72,7 +74,23 @@ export class LedgermappingComponent implements OnInit {
       }); 
   }
 
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
 
+  }
 
   
   onSelected(selectedData, type, display) {

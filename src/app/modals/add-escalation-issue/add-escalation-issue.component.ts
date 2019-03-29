@@ -14,15 +14,15 @@ export class AddEscalationIssueComponent implements OnInit {
   userLevel="one";
   level=1;
   escalationType={
-    id: -1,
-    issueType: -1
+    id: '',
+    issueType: ''
    };
    addIssueField = {
-     userId:-1,
-     SeniorId:-1,
-     foid:-1,
-     userLevel:-1,
-     issue_type_id:-1
+     userId:'',
+     SeniorId:'',
+     foid:'',
+     userLevel:'',
+     issue_type_id:''
    };
   
   
@@ -87,6 +87,7 @@ export class AddEscalationIssueComponent implements OnInit {
          user_level:this.level
         
       };
+      console.log('params to insert',params);
       this.common.loading++;
       this.api.post('FoTicketEscalation/insertTicketEscalation',params)
               .subscribe(res =>{
