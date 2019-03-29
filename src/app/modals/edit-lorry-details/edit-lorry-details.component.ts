@@ -19,7 +19,6 @@ export class EditLorryDetailsComponent implements OnInit {
   images = [];
   tonnage='';
   LrData = null;
-  // oldvehId = "";
   vehId = "";
   lrDate = '';
   payType="toPay";
