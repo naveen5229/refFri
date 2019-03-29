@@ -17,17 +17,17 @@ export class EditLorryDetailsComponent implements OnInit {
   showMain = true;
   showAgentLayout = false;
   images = [];
-  tonnage='';
+  tonnage = '';
   LrData = null;
   vehId = "";
   lrDate = '';
-  payType="toPay";
-  regNo='';
-  taName='';
-  consignerName='';
-  consineeName=''
-  isDelete=false;
-  option='accept';
+  payType = "toPay";
+  regno = '';
+  taName = '';
+  consignerName = '';
+  consineeName = ''
+  isUpdated = false;
+  option = 'accept';
   // LrData = {
   //   receiptNo: null,
   //   source: this.documents.source,
@@ -69,12 +69,13 @@ export class EditLorryDetailsComponent implements OnInit {
     private modalService: NgbModal) {
     if (this.common.params) {
       this.LrData = this.common.params.details;
-      console.log("LrData",this.LrData);
-      this.regNo=this.LrData.regno;
-      this.taName=this.LrData.ta_name;
-      this.consignerName=this.LrData.consigner_name;
-      this.consineeName=this.LrData.consignee_name;
-      this.payType=this.LrData.pay_type;
+      console.log("LrData", this.LrData);
+      this.regno = this.LrData.regno;
+      this.vehId=this.LrData.vehicle_id;
+      this.taName = this.LrData.ta_name;
+      this.consignerName = this.LrData.consigner_name;
+      this.consineeName = this.LrData.consignee_name;
+      this.payType = this.LrData.pay_type;
       console.info('Document: ', this.LrData);
 
     }
@@ -86,6 +87,9 @@ export class EditLorryDetailsComponent implements OnInit {
   searchVehicle(vehicleList) {
     console.log('vehiclelist: ' + vehicleList);
     this.vehId = vehicleList.id;
+    console.log("id:",this.vehId);
+    return this.vehId;
+    
   }
 
   loadImage(flag) {
@@ -109,8 +113,12 @@ export class EditLorryDetailsComponent implements OnInit {
     }
   }
 
-  dismiss(status) {
-    this.activeModal.close({ status: status, isDelete:this.isDelete});
+  closeModal() {
+    this.activeModal.close();
+  }
+
+  dismiss() {
+    this.activeModal.close({isUpdated: this.isUpdated });
   }
 
   getDate() {
@@ -133,19 +141,24 @@ export class EditLorryDetailsComponent implements OnInit {
     this.showAgentLayout = true;
     this.common.handleModalSize('class', 'modal-lg', '1300');
   }
+
   searchName(nameList, flag) {
     if (flag == 'Consignee') {
       this.LrData.consignee_id = nameList.id;
       this.LrData.consignee_name = nameList.name;
+      return this.LrData.consignee_id;
     } else {
       this.LrData.consigner_id = nameList.id;
       this.LrData.consigner_name = nameList.name;
+      return this.LrData.consigner_id;
     }
   }
 
   searchTaName(TaList) {
     this.LrData.ta_id = TaList.id;
     this.LrData.ta_name = TaList.name;
+    return this.LrData.ta_id;
+    
   }
 
   insertAgentInfo() {
@@ -179,6 +192,11 @@ export class EditLorryDetailsComponent implements OnInit {
         this.showMain = true;
       })
 
+  }
+
+  changePayType(){
+    this.LrData.pay_type=this.payType;
+    console.log('paytype to change',this.LrData.pay_type);
   }
 
   resetView() {
@@ -226,11 +244,11 @@ export class EditLorryDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['msg']);
-        if(res['msg']=="Success"){
-           this.resetValues(); 
-           this.common.showToast('Success !!');
-           this.isDelete=true;
-           this.dismiss(false);
+        if (res['msg'] == "Success") {
+          //this.resetValues();
+          this.common.showToast('Success !!');
+          this.isUpdated = true;
+         this.dismiss();
         }
       }, err => {
         this.common.loading--;
@@ -278,47 +296,66 @@ export class EditLorryDetailsComponent implements OnInit {
     }
   }
 
-  removeLrDetails(){
-    let params={
-      lr_id:this.LrData.id,
-      image_url:this.images[0]
+  removeLrDetails() {
+    if(this.images[0]==null)
+    {
+      console.log('image to delete',this.images[0]);
+      this.common.showToast('Load LR To Delete !!');
+      return;
+    }
+   
+    let params = {
+      lr_id: this.LrData.id,
+      image_url: this.images[0]
     };
-    console.log('params: ',params);
+    console.log('params: ', params);
     this.common.loading++;
-    this.api.post('LorryReceiptsOperation/deleteLr',params)
-            .subscribe(res =>{
-              this.common.loading--;
-              console.log('res: ',res['msg']);
-              this.isDelete=true;
-              this.dismiss(false);
-            }, err=>{
-              this.common.loading--;
-              this.common.showError();
-            })
+    this.api.post('LorryReceiptsOperation/deleteLr', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['msg']);
+        if (res['success'] == "true") {
+         this.common.showToast('Success !!');
+         this.isUpdated = true;
+         this.dismiss();
+        }else{
+          this.common.showToast('something went wrong');
+        }
+        
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  getMaterialName(){
+    //console.log(document.getElementById('material_input')['value']);
+    this.LrData.material_name=document.getElementById('material_input')['value'];
+    console.log('getMaterialName',this.LrData.material_name);
   }
 
   resetValues() {
-    this.LrData.receipt_no=null;
-    this.LrData.source=null;
-    this.LrData.source_lat=null;
-    this.LrData.source_long=null;
-    this.LrData.destination=null;
-    this.LrData. destination_lat=null;
-    this.LrData.destination_long=null;
-    this.LrData.remark= null;
-    this.LrData.ta_name=null;
-    this.LrData.ta_id=null;
-    this.LrData.consigner_name=null;
-    this.LrData.consigner_id=null;
-    this.LrData.consignee_name=null;
-    this.LrData.pay_type=null;
-    this.LrData.tonnage=null;
-    this.LrData.amount=null;
-    this.LrData.material=null;
-    this.LrData.material_id=null;
-    this.LrData.rate=null;
-    this.vehId=null;
-    this.lrDate=null;
+    this.LrData.receipt_no = null;
+    this.LrData.source = null;
+    this.LrData.source_lat = null;
+    this.LrData.source_long = null;
+    this.LrData.destination = null;
+    this.LrData.destination_lat = null;
+    this.LrData.destination_long = null;
+    this.LrData.remark = null;
+    this.LrData.ta_name = null;
+    this.LrData.ta_id = null;
+    this.LrData.consigner_name = null;
+    this.LrData.consigner_id = null;
+    this.LrData.consignee_name = null;
+    this.LrData.pay_type = null;
+    this.LrData.tonnage = null;
+    this.LrData.amount = null;
+    this.LrData.material = null;
+    this.LrData.material_id = null;
+    this.LrData.rate = null;
+    this.vehId = null;
+    this.lrDate = null;
   }
 
 }

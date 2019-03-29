@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button> -->
   <button type="button" class="close" style="background-color:white; margin-left: 15px; margin-top:-10px"
-    aria-label="Close" (click)=dismiss(false)>
+    aria-label="Close" (click)=closeModal()>
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -66,15 +66,17 @@
         placeholder="Source">
       <input type="text" class="from-control" id="destination" name="destination" [(ngModel)]="LrData.destination"
         placeholder="Destination" style="margin-bottom:10px">
-      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-        placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+      <!-- <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+        placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion> -->
+        <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+       placeholder="Vehicle Number"   [preSelected]="{regno:regno}"></auto-suggestion>
 
       <input type="text" class="from-control" name="remark" [(ngModel)]="LrData.remark" placeholder="Remark"
         style="margin-bottom:10px">
       <div class="row">
         <div class="col-9" style="margin-bottom:10px">
           <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
-            placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
+            placeholder="Transport Agent Name" [preSelected]="{name:taName}"></auto-suggestion>
         </div>
         <div class="col-3">
           <button class="btn-agentName" type="button"
@@ -86,7 +88,7 @@
       <div class="row" style="margin-bottom:10px">
         <div class="col-9">
           <auto-suggestion (onSelected)="searchName($event,'Consigner')" url="Suggestion/GetCompanies" display="name"
-            placeholder="Consigner Name" [preSelected]="null"></auto-suggestion>
+            placeholder="Consigner Name" [preSelected]="{name:consignerName}"></auto-suggestion>
           <!-- <input type="text" class="form-control" name="consigner-name" placeholder="Consigner Name"
             style="font-size: 10px"> -->
         </div>
@@ -99,7 +101,7 @@
       <div class="row">
         <div class="col-9" style="margin-bottom:10px">
           <auto-suggestion (onSelected)="searchName($event,'Consignee')" url="Suggestion/GetCompanies" display="name"
-            placeholder="Consignee Name" [preSelected]="null"></auto-suggestion>
+            placeholder="Consignee Name" [preSelected]="{name:consineeName}"></auto-suggestion>
           <!-- <input type="text" class="form-control" name="consignee-name" placeholder="Consignee Name"
               style="font-size: 10px"> -->
         </div>
@@ -115,9 +117,9 @@
             class="form-control" autocomplete="off" name="date">
           <owl-date-time #date></owl-date-time> -->
       <div class="from-group" style="margin-top:10px">
-        <select [(ngModel)]="payType" class="form-control" style=" border: 2px solid darkcyan; font-size: 13px">
-          <option value="toPay">ToPay</option>
-          <option value="advance">Advance</option>
+        <select [(ngModel)]="payType" class="form-control" (change)="changePayType()" style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="1">ToPay</option>
+          <option value="2">Advance</option>
         </select>
       </div>
       <input type="text" name="rate" [(ngModel)]="LrData.rate" class="form-control" placeholder="Rate">
@@ -127,10 +129,10 @@
       <div class="row" id="ton-material">
         <div class="col-sm-6" style="margin-top: 10px">
             <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
-              placeholder="Material Name" [preSelected]="null"></auto-suggestion>
+              placeholder="Material Name" [inputId]="'material_input'" [preSelected]="null"></auto-suggestion>
         </div>
         <div class="col-sm-6">
-          <input type="text" name="tonnage" [(ngModel)]="tonnage" class="form-control" placeholder="Tonnage">
+          <input type="text" name="tonnage" [(ngModel)]="tonnage" (focus)="getMaterialName()" class="form-control" placeholder="Tonnage">
         </div>
 
       </div>
