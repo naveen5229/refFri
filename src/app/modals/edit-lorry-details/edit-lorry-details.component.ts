@@ -77,6 +77,8 @@ export class EditLorryDetailsComponent implements OnInit {
       this.consineeName = this.LrData.consignee_name;
       this.payType = this.LrData.pay_type;
       console.info('Document: ', this.LrData);
+      this.regno = this.LrData.regno;
+      this.vehId=this.LrData.vehicle_id;
 
     }
   }
@@ -84,8 +86,9 @@ export class EditLorryDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+ 
   searchVehicle(vehicleList) {
-    console.log('vehiclelist: ' + vehicleList);
+    console.log('vehiclelist: ' , vehicleList);
     this.vehId = vehicleList.id;
     console.log("id:",this.vehId);
     return this.vehId;
@@ -155,6 +158,7 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   searchTaName(TaList) {
+    console.log("list",TaList);
     this.LrData.ta_id = TaList.id;
     this.LrData.ta_name = TaList.name;
     return this.LrData.ta_id;
