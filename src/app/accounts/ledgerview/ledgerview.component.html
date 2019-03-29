@@ -9,22 +9,25 @@
   <div class="col">
     <div class="form-group">
       <label>Branch</label>
-      <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
-        placeholder="Enter Branch"  [data]="branchdata" inputId="branch" [preSelected]="{name:'All'}"></auto-suggestion>
+      <!-- <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList" display="name"
+        placeholder="Enter Branch"  [data]="branchdata" inputId="branch" [preSelected]="{name:'All'}"></auto-suggestion> -->
+        <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="ledger.branch.name"/>
     </div>
   </div>
   <div class="col">
       <div class="form-group">
         <label>Voucher Type</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
-          placeholder="Enter Voucher Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion>
+        <!-- <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
+          placeholder="Enter Voucher Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion> -->
+          <input type="text" id="voucherType" class="form-control" name="voucherType" [(ngModel)]="ledger.voucherType.name"/>
       </div>
     </div>
     <div class="col">
         <div class="form-group">
           <label>Ledger</label>
-          <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-            placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion>
+          <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
+            placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
+            <input type="text" id="ledger" class="form-control" name="ledger" [(ngModel)]="ledger.ledger.name">
         </div>
       </div>
       </div>
@@ -48,17 +51,18 @@
     </div>
   </div>
 </div>
-</div>
-</div>
+  </div>
 <div class="col-3">
-    <div class="form-group">
-        <!-- <div *ngFor="let suggestion of getSuggestions(); let i = index;" class="ledger-option"
-        [ngClass]="suggestionIndex == i ? 'active-ledger' : ''" (click)='selectSuggestion(suggestion)'>
-        <span>{{suggestion.name}}</span>
-      </div> -->
-        
-    
-    </div>
+    <div class="form-group" *ngIf="this.activeId.includes('branch')">
+        <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
+      </div>
+      <div class="form-group" *ngIf="this.activeId.includes('voucherType')">
+          <auto-suggetion-in-side [data]="vouchertypedata" targetId="voucherType" display="name" (select)="onSelected($event, 'voucherType', 'name')"></auto-suggetion-in-side>
+        </div>
+        <div class="form-group" *ngIf="this.activeId.includes('ledger')">
+            <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name" (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+          </div>
+</div>
 </div>
 <table class="table table-bordered">
     <thead style="background-color:#09587a;">

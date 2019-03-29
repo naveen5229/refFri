@@ -4,30 +4,47 @@
 }
 .missingIndustry:focus{
     background: coral;
-    border-radius:15px;
+    border-radius:5px;
 }
 .backLogs:focus{
     background: coral;
+    border-radius:5px;
+}
+.ticket:focus{
+    background: coral;
+    border-radius:5px;
+}
+.class1:active{
+    background: coral;
+    border-radius:5px; 
+}
+.ticket{
+    padding: 11px;
     border-radius:15px;
 }
 .backLogs{
-    margin-top: 8%;
     padding: 11px;
      border-radius:15px;
 }
 .missingIndustry{
-    margin-top: 8%;
      padding: 11px;
       border-radius:15px;
 }
 
 .tableFixHead {
     overflow-y: auto;
-    height: 100vh;
+    height: 200vh;
 }
 
 .tableFixHead th {
     position: sticky;
     top: 0;
     background: #677078;
+}
+.btn-design{
+    border-radius: 5px;
+    background-color: #1a8bbf;
+    border: 0px;
+    color: #fff;
+    margin-left: 5px;
 }
