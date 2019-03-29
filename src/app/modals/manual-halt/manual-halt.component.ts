@@ -23,11 +23,16 @@ export class ManualHaltComponent implements OnInit {
   startTime;
   endTime;
 
+  preselectedVehId = "";
+  preselectedVehRegNo = "";
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) { 
-
+      this.preselectedVehId =  this.common.params.vehicleId;
+      this.preselectedVehRegNo=  this.common.params.vehicleRegNo;
+      console.log(this.preselectedVehId , this.preselectedVehRegNo);
+      this.vid = this.preselectedVehId;
     }
 
   ngOnInit() {
