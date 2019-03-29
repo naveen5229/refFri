@@ -51,7 +51,8 @@
   <span>Export : 
     <!--<span title="PDF Export" (click)="exportPDF()" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>Pdf</span>-->
     <span title="PDF Export" (click)="printPDF('doc_report')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>Pdf</span>
-    <span title="CSV Export" (click)="exportCSV()" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>Csv</span>
+    <!--<span title="CSV Export" (click)="exportCSV()" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>Csv</span>-->
+    <span title="CSV Export" (click)="common.getCSVFromTableId('doc_report')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
 </span>
   <smart-table id="doc_report" *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
   <br>

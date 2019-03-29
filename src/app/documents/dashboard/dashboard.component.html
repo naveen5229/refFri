@@ -6,6 +6,7 @@
   <nb-card-body>
       <span>Export : 
           <span title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
+          <span title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
       </span>
     <smart-table *ngIf="documentData.length" [data]="table.data" [settings]="table.settings" id="tblsummary"></smart-table>
     <br>

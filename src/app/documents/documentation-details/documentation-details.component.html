@@ -66,9 +66,10 @@
         </tbody>
       </table>
     </div> -->
-    <span *ngIf="data.length" >Export : 
+    <!--<span *ngIf="data.length" >Export : 
         <span title="PDF Export" (click)="this.common.getPDFFromTableId('tblVehDocs', '', 'VEHICLE DOCUMENTS')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
-    </span>
+        <span title="CSV Export" (click)="common.getCSVFromTableId('tblVehDocs')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
+    </span>-->
     <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="tblVehDocs"></smart-table>
     <br>
   </nb-card-body>

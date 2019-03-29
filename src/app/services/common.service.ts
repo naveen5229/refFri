@@ -9,7 +9,7 @@ import { UserService } from './user.service';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 
 @Injectable({
   providedIn: 'root'
@@ -522,4 +522,78 @@ export class CommonService {
     doc.save('report.pdf');
   }
 
+  getCSVFromTableId(tblEltId) {
+    let tblelt = document.getElementById(tblEltId);
+    if(tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tblEltId + " table");
+    }
+    let info = [];
+    let hdgs = {};
+    let arr_hdgs = [];
+    let hdgCols = tblelt.querySelectorAll('th');
+    if(hdgCols.length >= 1) {
+      for(let i=0; i< hdgCols.length; i++) {
+        if(hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml  = hdgCols[i].innerHTML;
+        if(elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute('placeholder');
+          hdgs[attrval] = attrval;
+          arr_hdgs.push(attrval);
+        } else if(elthtml.indexOf('<img') > -1)  {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute('title');
+          hdgs[attrval] = attrval;
+          arr_hdgs.push(attrval);
+        } else if(elthtml.indexOf('href') > -1)  {
+          let strval = hdgCols[i].innerHTML;
+          hdgs[strval] = strval;
+          arr_hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          hdgs[plainText]=plainText;
+          arr_hdgs.push(plainText);
+        }
+      }
+    }
+    info.push(hdgs);
+    
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    if(tblrows.length >= 1) {
+      for(let i=0; i < tblrows.length; i++) {
+        if(tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for(let j=0; j< rowCols.length; j++) {
+          if(rowCols[j].classList.contains('del'))
+            continue;
+          let colhtml = rowCols[j].innerHTML;
+          if(colhtml.indexOf('input') > -1) {
+            let eltinput = rowCols[j].querySelector("input");
+            let attrval = eltinput.getAttribute('placeholder');
+            rowdata[arr_hdgs[j]]=attrval;
+          } else if(colhtml.indexOf('img') > -1)  {
+            let eltinput = rowCols[j].querySelector("img");
+            let attrval = eltinput.getAttribute('title');
+            rowdata[arr_hdgs[j]]=attrval;
+          } else if(colhtml.indexOf('href') > -1)  {
+            let strval = rowCols[j].innerHTML;
+            rowdata[arr_hdgs[j]] = strval;
+          } else if(colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match=pattern.exec(colhtml);
+            if(match!=null && match.length)
+              rowdata[arr_hdgs[j]]=match[1];
+          } else {
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            rowdata[arr_hdgs[j]]=plainText;
+          }          
+        }
+        info.push(rowdata);
+      }
+    }
+    new Angular5Csv(info, "report.csv" );
+  }
 }
