@@ -111,7 +111,7 @@ export class DocumentationDetailsComponent implements OnInit {
         documentNumber: { value: doc.document_number },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
-        verified: { value: doc.verified? 'Yes': 'No' },
+        verified: { value: doc.is_verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center del' },
         edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center del' },
