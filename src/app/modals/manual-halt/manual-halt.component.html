@@ -6,18 +6,18 @@
       </div>
     <div class="model-body" style="margin-left:20px; margin-right:20px; margin-top:10px; text-align: center">
     <div class="row" style="margin-top:10px">
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <input [(ngModel)]="startTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Entry Time"
         class="form-control" autocomplete="off" name="startTime">
       <owl-date-time #date></owl-date-time>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <input [(ngModel)]="endTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="End Time"
         class="form-control" autocomplete="off" name="endTime">
       <owl-date-time #date1></owl-date-time>
       </div>
-      <div class="col-sm-3">
-          <input type="text" class="from-control" id="place" [(ngModel)]="location.haltlocation" name="place"
+      <div class="col-sm-4">
+          <input type="text" style="width: 100%;height:30px;margin-top:-2px;padding-left: 5px;font-size: 13px; border: 2px solid darkcyan;border-radius: 4px;"class="from-control" id="place" [(ngModel)]="location.haltlocation" name="place"
           placeholder="Enter Location">
       </div>
     </div>
@@ -44,14 +44,15 @@
               <option value="701">Other Reason</option>
               <option value="901">Unknown</option>
               <option value="0">Other</option> -->
-              </select>
+            </select>
       </div>
       <div class="col-sm-6">
           <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
           placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
-    <button class="btn btn-primary" style="margin-top:10px" type="button" outline (click)="saveHalt()" id="saveDetails"
-            style="cursor: pointer;">Save</button>
+    <div style="margin-top:20px" >
+    <button class="btn btn-primary" type="button" outline (click)="saveHalt()" id="saveDetails"
+            style="cursor: pointer;">Save</button></div>
     </div>
   

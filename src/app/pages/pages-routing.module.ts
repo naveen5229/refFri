@@ -77,6 +77,10 @@ const routes: Routes = [{
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
+  {
+    path: 'vehicle-report',
+    component: VehicleReportComponent
+  },
   // {
   //   path: 'image-processing',
   //   component: ImageProcessingComponent
