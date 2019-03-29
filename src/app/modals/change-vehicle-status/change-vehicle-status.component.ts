@@ -724,6 +724,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
   mapReset(){
     this.reloadData();
   }
+
+  openManualHalt(vehicleEvent){
+    console.log("open manual halt modal");
+  }
 }
 
 
