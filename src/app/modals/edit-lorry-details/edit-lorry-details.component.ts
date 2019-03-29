@@ -19,11 +19,12 @@ export class EditLorryDetailsComponent implements OnInit {
   images = [];
   tonnage='';
   LrData = null;
+  // oldvehId = "";
   vehId = "";
   lrDate = '';
   payType='';
   isDelete=false;
-  regno = '';
+  regno = null;
   // LrData = {
   //   receiptNo: null,
   //   source: this.documents.source,
@@ -69,12 +70,15 @@ export class EditLorryDetailsComponent implements OnInit {
       console.info('Document: ', this.LrData);
       this.regno = this.LrData.regno;
 
+      this.vehId=this.LrData.vehicle_id;
+
     }
   }
 
   ngOnInit() {
   }
 
+ 
   searchVehicle(vehicleList) {
     console.log('vehiclelist: ' , vehicleList);
     this.vehId = vehicleList.id;
@@ -195,7 +199,7 @@ export class EditLorryDetailsComponent implements OnInit {
       dest: this.LrData.destination,
       destLat: this.LrData.destination_lat,
       destLng: this.LrData.destination_long,
-      vehId: this.searchVehicle(this.vehId),
+      vehId: this.vehId,
       remark: this.LrData.remark,
       id: this.LrData.id,
       receiptNo: this.LrData.receipt_no,
