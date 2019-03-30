@@ -57,9 +57,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
   },
-  {
-    title: 'Vehicle Report',
-    icon: 'fa fa-cog',
-    link:'/pages/vehicle-report'
-  }
+  
 ];
