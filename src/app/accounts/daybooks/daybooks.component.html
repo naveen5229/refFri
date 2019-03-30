@@ -2,7 +2,7 @@
   <!-- <nb-card-header>
     <h4>Day Book</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+  <nb-card-body style="min-height: 450px;">
     <div class="row">
       <div class="col-9">
         <div class="row">
@@ -28,16 +28,16 @@
             </div>
           </div>
           <div class="col-4">
-              <div class="form-group">
-                <label class="tjr-label">Starting Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
-                  id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
-                  maxlength="10">
-              </div>
+            <div class="form-group">
+              <label class="tjr-label">Starting Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
+                maxlength="10">
             </div>
+          </div>
         </div>
         <div class="row">
-         
+
           <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
@@ -47,8 +47,8 @@
           </div>
           <div class="col-4">
             <div class="form-group">
-              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDayBook()" id="submit"
-                style="cursor: pointer;margin-top: 18px;">Submit</button>
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDayBook()"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
             </div>
           </div>
         </div>
@@ -69,32 +69,9 @@
       </div>
     </div>
 
-
-    <table class="table table-bordered">
-      <!-- <tr>
-    <th>#</th>
-    <th>Date</th>
-    <th>Code</th>
-    <th>Customer Code</th>
-    <th>Particular</th>
-    <th>Amount(Debit)</th>
-    <th>Amount(Credit)</th>
-    
-  </tr>
-  <tr  *ngFor=" let dataItem of filterData(DayData); let i = index;">
-    <td *ngIf="dataItem.y_dramunt != 0">{{i + 1}}</td>
-    <td *ngIf="dataItem.y_dramunt == 0"></td>
-    <td *ngIf="dataItem.y_date != 0" >{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
-    <td *ngIf="dataItem.y_date == 0 " ></td>
-    <td>{{dataItem.y_code}}</td>
-    <td>{{dataItem.y_cust_code}}</td>
-    <td>{{dataItem.y_particulars}}</td>
-    <td *ngIf="dataItem.y_dramunt==0"></td>
-    <td *ngIf="dataItem.y_dramunt != 0">{{dataItem.y_dramunt}}</td>
-    <td *ngIf="dataItem.y_cramunt==0"></td>
-    <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cramunt}}</td>
-    
-  </tr> -->
+ 
+    <table class="table table-bordered" id="table">
+      
       <thead style="background-color:#263238;">
         <tr>
           <th>Date</th>
@@ -103,20 +80,17 @@
           <th>Vch No.</th>
           <th>Amount(Debit)</th>
           <th>Amount(Credit)</th>
-
         </tr>
       </thead>
-      <tr *ngFor=" let dataItem of filterData(DayData);" (click)="RowSelected(dataItem.y_voucherid);"
+      <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
-        [ngClass]="{'highlight' : dataItem.y_voucherid == selectedName}">
+        [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{dataItem.y_date}}</td>
         <td>{{dataItem.y_particulars}}</td>
         <td>{{dataItem.y_type}}</td>
         <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
         <td>{{dataItem.y_dramunt}}</td>
         <td>{{dataItem.y_cramunt}}</td>
-
-
       </tr>
     </table>
   </nb-card-body>

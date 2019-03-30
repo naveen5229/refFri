@@ -23,3 +23,47 @@ table{
             font-weight: bold;
         }
 }
+
+
+.tjr-label {
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 10px;
+}
+
+.tjr-input {
+    border: 1px solid #263238;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px;
+    height: auto;
+    font-size: 12px;
+}
+
+.tjr-input:focus {
+    border: 1px solid #263238;
+}
+
+.tjr-button {
+    cursor: pointer;
+    margin-top: 18px;
+    background: #263238 !important;
+    height: auto;
+    border-radius: 3px !important;
+    padding: 3px 8px !important;
+}
+
+:host ::ng-deep.TJR-auto-suggestion-container {
+    border: 1px solid #263238 !important;
+    border-radius: 3px !important;
+    height: 105px !important;
+    overflow: hidden !important;
+    max-height: 105px !important;
+}
+
+:host ::ng-deep.active-suggestion {
+    background: #263238 !important;
+    color: #fff !important;
+}
