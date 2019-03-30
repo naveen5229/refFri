@@ -57,6 +57,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
+import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -108,6 +109,8 @@ import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remappin
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
+import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -151,6 +154,7 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
     AddEscalationIssueComponent,
     DocumentReportComponent,
     DocumentHistoryComponent,
+    EmpDashboardComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -174,12 +178,12 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
     UpdateTripDetailComponent,
     ManualHaltComponent,
     ResolveMissingIndustryComponent,
-    
-    
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     VehicleReportComponent,
+    LRViewComponent
+
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -221,6 +225,7 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
     AddEscalationIssueComponent,
     DocumentReportComponent,
     DocumentHistoryComponent,
+    EmpDashboardComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -249,6 +254,7 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     VehicleReportComponent,
+    LRViewComponent
   ],
   imports: [
     BrowserModule,
