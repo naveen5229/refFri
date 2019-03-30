@@ -27,7 +27,7 @@ export class VehicleReportComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
-      this.common.handleModalSize('class', 'modal-lg', '1600');
+      this.common.handleModalSize('class', 'modal-lg', '1400');
       if(this.common.params){
         let today,start;
         this.vid=this.common.params.kpi.x_vehicle_id;
@@ -64,6 +64,8 @@ export class VehicleReportComponent implements OnInit {
               this.common.loading--;
               console.log('res: ',res['data'])
               this.report=res['data'];
+              if(!(res['data'].length))
+              this.common.showToast('record empty !!');
               this.report.forEach((d)=>{
                 this.startTime=d.start_time;
                 this.startTime=new Date(this.startTime);
