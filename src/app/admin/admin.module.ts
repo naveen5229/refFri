@@ -29,6 +29,7 @@ import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 
 
 
+
 const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
@@ -63,6 +64,7 @@ const PAGES_COMPONENTS = [
     AlertRelatedIssueComponent,
     GpsSupplierMappingComponent,
     VehiclesViewComponent,
+    
    
   
   ],

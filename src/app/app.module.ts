@@ -65,7 +65,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
-
+import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
@@ -101,12 +101,14 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
 
 import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-update/driver-attendance-update.component';
+import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -171,12 +173,15 @@ import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-upda
     VoucherdetailComponent,
     RadioSelectionComponent,
     UpdateTripDetailComponent,
+    ManualHaltComponent,
+    ResolveMissingIndustryComponent,
     
     
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     DriverAttendanceUpdateComponent,
+    VehicleReportComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -240,10 +245,13 @@ import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-upda
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
+    ManualHaltComponent,
+    ResolveMissingIndustryComponent,
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     DriverAttendanceUpdateComponent,
+    VehicleReportComponent,
   ],
   imports: [
     BrowserModule,
