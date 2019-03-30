@@ -8,7 +8,7 @@
       <tr style="background:#f2f2f2;">
         <th style="padding:5px" style="width: 40px">#</th>
         <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
-          <div class="filter-container">
+          <div class="filter-container" *ngIf="!headings[heading].isHTML">
             <div *ngIf="!headings[heading].hideSearch">
               <div class="filter-input-container">
                 <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
@@ -22,6 +22,7 @@
               <span>{{headings[heading].title}}</span>
             </div>
           </div>
+          <div *ngIf="headings[heading].isHTML" [innerHTML]="headings[heading].html"></div>
         </th>
       </tr>
     </thead>
