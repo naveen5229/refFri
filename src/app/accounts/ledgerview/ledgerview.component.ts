@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,30 +17,39 @@ export class LedgerviewComponent implements OnInit {
     endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       },
       branch :{
         name:'',
         id:''
       },
       voucherType :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       }
     
     };
   ledgerData=[];
   ledgerList=[];
-  activeId = 'branch';
+  activeId = 'voucherType';
+  selectedRow = -1;
+
+  @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event) {
+      this.keyHandler(event);
+    }
+
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
     this.getVoucherTypeList();
-    this.getBranchList();
+   // this.getBranchList();
     this.getLedgerList();
-    this.setFoucus('branch');
+    this.setFoucus('voucherType');
+    this.common.currentPage = 'Ledger View';
     }
 
   ngOnInit() {
@@ -112,6 +121,10 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerData = res['data'];
+        if (this.ledgerData.length) {
+          document.activeElement['blur']();
+          this.selectedRow = 0;
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -148,6 +161,13 @@ export class LedgerviewComponent implements OnInit {
       }else  if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
+    }
+
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerData.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.ledgerData.length - 1) this.selectedRow++;
+
     }
   }
 

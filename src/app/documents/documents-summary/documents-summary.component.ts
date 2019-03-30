@@ -239,7 +239,7 @@ export class DocumentsSummaryComponent implements OnInit {
         this.common.loading--;
         this.fodata = res['data'];
         let left_heading = this.fodata['name'];
-        let center_heading = "Vehicle Documents";
+        let center_heading = "Document Status";
         this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
       }, err => {
         this.common.loading--;
