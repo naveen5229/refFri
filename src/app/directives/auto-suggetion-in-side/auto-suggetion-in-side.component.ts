@@ -83,11 +83,12 @@ export class AutoSuggetionInSideComponent implements OnInit {
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
       if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;
-      else this.activeSuggestion = 0;
+      console.log('Active: ', this.activeSuggestion);
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'arrowup') {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
-      else this.activeSuggestion = this.suggestions.length - 1;
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
@@ -96,8 +97,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
         this.selectSuggestion(this.suggestions[0]);
       }
     }
-
-
   }
+
 
 }
