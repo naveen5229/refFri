@@ -5,7 +5,7 @@
   </button>
 </div>
     
-<div class="model-body" style="text-align:center; margin-top:10px; margin-left: 10px">
+<div class="model-body" style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px">
     <div class="row">
         <div class="col-sm-3">
          
@@ -25,14 +25,14 @@
             <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
         </div>
       </div>
-<table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px">
+<table class="table table-bordered" style="margin-top:20px">
   <thead class="thead" style="background-color:darkgrey">
     <tr *ngIf="report.length">
     <th>Id</th>
     <th>Date Time</th>
     <th>Reason</th>
-    <th>Stoppage </th>
-    <th>Place</th>
+    <th>Place </th>
+    <th>Location</th>
     <th>Start</th>
     <th>End</th>
     <th>Duration(Hours)</th>
