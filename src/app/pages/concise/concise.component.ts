@@ -17,7 +17,7 @@ import { componentRefresh } from '@angular/core/src/render3/instructions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RadioSelectionComponent } from '../../modals/radio-selection/radio-selection.component';
 import { VehiclesOnMapComponent } from '../../modals/vehicles-on-map/vehicles-on-map.component';
-
+import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
@@ -138,7 +138,8 @@ export class ConciseComponent implements OnInit {
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
-        report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
+        report: { value: `<i class="fa fa-info"></i>`, isHTML: true, action: this.vehicleReport.bind(this, kpi) },
+        issue: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
         rowActions: {
           click: 'selectRow'
         }
@@ -476,6 +477,7 @@ export class ConciseComponent implements OnInit {
           kmp: { title: 'Kmp', placeholder: 'KMP' },
           location: { title: 'Location', placeholder: 'Location' },
           report: { title: 'Report', placeholder: 'Report', hideSearch: true },
+          issue: { title: 'Issue', placeholder: 'Issue', hideSearch: true },
         },
         columns: this.getTableColumns()
       },
@@ -540,6 +542,13 @@ export class ConciseComponent implements OnInit {
   selectSubStatus(kpis) {
     this.kpis = kpis;
     this.table = this.setTable();
+  }
+
+  vehicleReport(kpi){
+    console.log('KPis: ', kpi);
+    this.common.params={kpi};
+    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+          
   }
 
 

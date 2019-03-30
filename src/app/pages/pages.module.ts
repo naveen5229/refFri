@@ -30,7 +30,7 @@ import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
-import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
+
 
 
 
@@ -68,7 +68,7 @@ const PAGES_COMPONENTS = [
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
-    VehicleReportComponent 
+    
   ],
 })
 export class PagesModule {

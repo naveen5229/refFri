@@ -9,6 +9,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
+import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 
 declare let google: any;
 
@@ -58,7 +59,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
     this.getEvents();
-    this.getLoadingUnLoading();
+    //this.getLoadingUnLoading();
     console.log("date1",this.toTime);
   }
 
@@ -188,6 +189,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }
     });
   }
+
+  showPreviousLUL(){
+    if(this.lUlBtn){
+      console.log("this.lUlBtn",this.lUlBtn);
+      this.getLoadingUnLoading();
+    }
+  }
+
 
   getLoadingUnLoading() {
     this.dataType = 'events';
@@ -726,7 +735,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   openManualHalt(vehicleEvent){
+    this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno}
     console.log("open manual halt modal");
+    const activeModal = this.modalService.open(ManualHaltComponent, { size: 'md', container: 'nb-layout' });
+   // activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
 }
 

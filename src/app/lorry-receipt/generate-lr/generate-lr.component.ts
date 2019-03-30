@@ -7,10 +7,8 @@ import { windowWhen } from 'rxjs/operators';
 import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from '../../modals/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
-import { LRViewComponent } from '../lrview/lrview.component';
 import { MapService } from '../../services/map.service';
 
-declare var google: any;
 @Component({
   selector: 'generate-lr',
   templateUrl: './generate-lr.component.html',
@@ -85,37 +83,7 @@ export class GenerateLRComponent implements OnInit {
 
   }
   ngAfterViewInit(): void {
-    setTimeout(this.autoSuggestion.bind(this, 'sourceCity'), 3000);
-    setTimeout(this.autoSuggestion.bind(this, 'destinationCity'), 3000);
-
-  }
-
-  autoSuggestion(elementId) {
-    var options = {
-      types: ['(cities)'],
-      componentRestrictions: { country: "in" }
-    };
-    let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
-    let autocomplete = new google.maps.places.Autocomplete(ref, options);
-    google.maps.event.addListener(autocomplete, 'place_changed', this.getLocation.bind(this, elementId, autocomplete));
-  }
-
-  getLocation(elementId, autocomplete) {
-    console.log('tets');
-    let place = autocomplete.getPlace();
-    let lat = place.geometry.location.lat();
-    let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
-
-    this.setLocations(elementId, place, lat, lng);
-  }
-
-  setLocations(elementId, place, lat, lng) {
-    if (elementId == 'sourceCity') {
-      this.lr.sourceCity = place;
-    } else if (elementId == 'destinationCity') {
-      this.lr.destinationCity = place;
-    }
+    this.mapService.autoSuggestion("sourceCity",(place,lat,long)=>{this.lr.sourceCity=place;})
   }
 
 

@@ -456,6 +456,7 @@ export class CommonService {
           }          
         }
         rows.push(rowdata);
+        
       }
     }
 
@@ -480,9 +481,12 @@ export class CommonService {
       let y = 40;
 
       if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+        
+
         doc.setFontSize(14);
         doc.setFont("times", "bold");
-        doc.text("elogist Solutions", x, y);
+        doc.text("elogist Solutions ", x, y);
+                
       }
       let pageWidth= parseInt(doc.internal.pageSize.width);
       if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
@@ -496,6 +500,7 @@ export class CommonService {
         x=pageWidth / 2;
         y=50;
         doc.setFontSize(14);
+        doc.setFont("times", "bold","text-center");
         doc.text(center_heading, x - 50, y);
       }      
       y= 15;
@@ -521,10 +526,13 @@ export class CommonService {
         rowPageBreak: 'avoid',
         headStyles: {
           fillColor: [98, 98, 98],
-          fontSize: 10
+          fontSize: 10,
+          halign: 'center',
+          valign: 'middle'
+          
         },
         styles: tempLineBreak,
-        columnStyles: {text: {cellWidth: 40 }},
+        columnStyles: {text: {cellWidth: 40 ,halign: 'center', valign: 'middle'}},
         
     });
     doc.save('report.pdf');

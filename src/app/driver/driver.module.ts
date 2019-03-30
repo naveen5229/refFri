@@ -10,6 +10,7 @@ import { AddDriverComponent } from './add-driver/add-driver.component';
 import { DriverListComponent } from './driver-list/driver-list.component';
 import { VehicleDriverMappingComponent } from './vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { DriverAttendanceComponent } from './driver-attendance/driver-attendance.component';
+import { DriverDocumentComponent } from './driver-document/driver-document.component';
 
 const PAGES_COMPONENTS = [
   DriverComponent,
@@ -30,6 +31,7 @@ const PAGES_COMPONENTS = [
     DriverListComponent,
     VehicleDriverMappingComponent,
     DriverAttendanceComponent,
+    DriverDocumentComponent,
     
   ],
 })
