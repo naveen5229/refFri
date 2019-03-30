@@ -45,8 +45,13 @@ export class DriverDocumentComponent implements OnInit {
         console.log(err);
       });
   }
-  formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1);
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if(pos > 0) {
+      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
   }
   getDocClasses(row) {
     let docclass = [];
