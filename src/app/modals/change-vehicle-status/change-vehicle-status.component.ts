@@ -59,7 +59,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
     this.getEvents();
-    this.getLoadingUnLoading();
+    //this.getLoadingUnLoading();
     console.log("date1",this.toTime);
   }
 
@@ -189,6 +189,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }
     });
   }
+
+  showPreviousLUL(){
+    if(this.lUlBtn){
+      console.log("this.lUlBtn",this.lUlBtn);
+      this.getLoadingUnLoading();
+    }
+  }
+
 
   getLoadingUnLoading() {
     this.dataType = 'events';
