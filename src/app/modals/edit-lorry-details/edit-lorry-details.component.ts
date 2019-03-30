@@ -25,6 +25,7 @@ export class EditLorryDetailsComponent implements OnInit {
   regno = '';
   taName = '';
   consignerName = '';
+  materialName='';
   consineeName = ''
   isUpdated = false;
   option = 'accept';
@@ -75,8 +76,8 @@ export class EditLorryDetailsComponent implements OnInit {
       this.taName = this.LrData.ta_name;
       this.consignerName = this.LrData.consigner_name;
       this.consineeName = this.LrData.consignee_name;
+      this.materialName= this.LrData.material_name;
       this.payType = this.LrData.pay_type;
-      console.info('Document: ', this.LrData);
       this.regno = this.LrData.regno;
       this.vehId=this.LrData.vehicle_id;
 
@@ -212,6 +213,7 @@ export class EditLorryDetailsComponent implements OnInit {
   searchMaterialType(MaterialList) {
     this.LrData.material = MaterialList.id;
     this.LrData.material_name = MaterialList.name;
+    return this.LrData.material;
   }
 
   insertLrDetails() {
@@ -230,7 +232,7 @@ export class EditLorryDetailsComponent implements OnInit {
       taId: this.LrData.ta_id,
       taName: this.LrData.ta_name,
       consignerId: this.LrData.consigner_id,
-      tonnage: this.tonnage,
+      tonnage: this.LrData.weight,
       consignerName: this.LrData.consigner_name,
       consigneeId: this.LrData.consignee_id,
       consigneeName: this.LrData.consignee_name,
@@ -248,12 +250,16 @@ export class EditLorryDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['msg']);
-        if (res['msg'] == "Success") {
+        if (res['success']) {
           //this.resetValues();
           this.common.showToast('Success !!');
           this.isUpdated = true;
-         this.dismiss();
+          this.dismiss();
         }
+        else  
+         this.common.showToast('Not Success !!');
+         
+        
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -353,7 +359,7 @@ export class EditLorryDetailsComponent implements OnInit {
     this.LrData.consigner_id = null;
     this.LrData.consignee_name = null;
     this.LrData.pay_type = null;
-    this.LrData.tonnage = null;
+    this.LrData.weight = null;
     this.LrData.amount = null;
     this.LrData.material = null;
     this.LrData.material_id = null;
