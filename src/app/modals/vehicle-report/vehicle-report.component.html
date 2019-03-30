@@ -1,14 +1,15 @@
-<nb-card>
-  <nb-card-header>
-      Vehicle Report
-  </nb-card-header>
-  <nb-card-body>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Vehicle Report</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
     
-<div class="model-body">
+<div class="model-body" style="text-align:center; margin-top:10px; margin-left: 10px">
     <div class="row">
         <div class="col-sm-3">
-            <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-            placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+         
+          <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control"> 
         </div>
         <div class="col-sm-3">
             <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
@@ -52,5 +53,3 @@
   </tbody>
 </table> 
 </div>
-</nb-card-body>
-</nb-card>

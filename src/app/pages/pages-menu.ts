@@ -56,5 +56,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Account',
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
-  }
+  },
+  
 ];

@@ -32,6 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 
 
+
+
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
@@ -66,6 +68,7 @@ const PAGES_COMPONENTS = [
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
+    
   ],
 })
 export class PagesModule {

@@ -1,0 +1,50 @@
+<nb-card>
+  <nb-card-header>
+    <h4>Driver Documention</h4>
+  </nb-card-header>
+  <nb-card-body style="min-height: 360px;">
+    <div class="document-dash-contnet">
+      <div class="row col-sm-12">
+        <table class="table table-bordered table-hover table-scroll" id="tbldocs">
+          <thead class="thead">
+            <tr>
+              <th style='width: 30px;'>SN</th>
+              <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
+            </tr>
+          </thead>
+
+          <tbody class="">
+            <ng-container *ngIf="total_recs">
+              <tr *ngFor="let row of data.result; let i=index;" >
+
+                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
+
+                <td *ngFor="let col of columns; " class="text-center">
+                  <span *ngIf="col== 'regno'">
+                    {{row[col]}}
+                  </span>
+
+                  <span *ngIf="row[col]!=null && col !='regno'&& col !='driver_name'">
+                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])" title="OK"></i>
+                  </span>
+                  <span *ngIf="row[col]==null && col =='driver_name'">
+                    <i class="fa fa-minus" (click)="fetchDocumentData(row, col, row[col])" title="----"></i>
+                  </span>
+                  <span *ngIf="row[col]!=null && col =='driver_name'">
+                    {{row[col]}}
+                  </span>
+
+                  <span *ngIf="row[col] == null && col !='driver_name'">
+                    <i class="fa fa-times-circle icon-red-cross" (click)="fetchDocumentData(row, col, row[col])"
+                      title="No Record"></i>
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

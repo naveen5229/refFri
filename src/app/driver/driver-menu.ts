@@ -27,6 +27,14 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/driver/driver-attendance',
         home: true,
     },
+    {
+        
+        title: 'Driver Document',
+        icon: 'fa fa-book',
+        link: '/driver/driver-document',
+        home: true,
+    },
+
 
 
 ];

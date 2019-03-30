@@ -9,17 +9,17 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
-import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
+import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 
 declare let google: any;
 
 @Component({
-  selector: 'change-vehicle-status',
-  templateUrl: './change-vehicle-status.component.html',
-  styleUrls: ['./change-vehicle-status.component.scss']
+  selector: 'resolve-missing-industry',
+  templateUrl: './resolve-missing-industry.component.html',
+  styleUrls: ['./resolve-missing-industry.component.scss']
 })
+export class ResolveMissingIndustryComponent implements OnInit {
 
-export class ChangeVehicleStatusComponent implements OnInit {
   panelOpenState = false;
   title = '';
   map: any;
@@ -30,7 +30,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     name: '',
     time: ''
   };
-  btnStatus = true;
+  btnStatus = false;
   lUlBtn = false;
   dataType = 'events';
   VehicleStatusData;
@@ -59,7 +59,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
     this.getEvents();
-    //this.getLoadingUnLoading();
+    this.getLoadingUnLoading();
     console.log("date1",this.toTime);
   }
 
@@ -180,23 +180,15 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   resetBtnStatus() {
-    this.btnStatus = true;
+    this.btnStatus = false;
     this.vehicleEvents.forEach(vehicleEventDetail => {
-      console.log("vehicleEventDetail", vehicleEventDetail)
-      if (vehicleEventDetail.color == 'ff13ec') {
-        this.btnStatus = false;
+      // console.log("vehicleEventDetail", vehicleEventDetail)
+      if (vehicleEventDetail.color == '88ff4d' || vehicleEventDetail.color == 'ff4d4d') {
+        this.btnStatus = true;
         return;
       }
     });
   }
-
-  showPreviousLUL(){
-    if(this.lUlBtn){
-      console.log("this.lUlBtn",this.lUlBtn);
-      this.getLoadingUnLoading();
-    }
-  }
-
 
   getLoadingUnLoading() {
     this.dataType = 'events';
@@ -226,13 +218,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
   ];
   bounds = null;
   Markers = [];
+  
   createMarkers(markers, changeBounds = true, drawPoly = false) {
 
     let thisMarkers = [];
     console.log("Markers", markers);
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
-
+ 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] :null ;//this.designsDefaults[2]
@@ -243,7 +236,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
       let latlng = new google.maps.LatLng(lat, lng);
       let pinImage;
-      //pin Image  
+      //pin Image
       if (design) {
         pinImage = {
           path: design,
@@ -256,9 +249,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
         };
       } else {
         if (subType == 'marker'){
-          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin|" + text + "|" + pinColor + "|000000";
-          console.log("Pin Image:",pinImage);
-          
+          pinImage = "http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin%7C" + text + "|" + pinColor + "|000000";
+          // console.log("Pin Image:",pinImage);
+ 
         }
         else //if(subType=='circle')
           pinImage = {
@@ -269,8 +262,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
             strokeWeight: 1
           };
       }
-
-
+ 
+ 
       let marker = new google.maps.Marker({
         position: latlng,
         flat: true,
@@ -281,23 +274,23 @@ export class ChangeVehicleStatusComponent implements OnInit {
       if (changeBounds&&!(''+markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
-      console.log("ThisMarker: ",thisMarkers);
-      
+      // console.log("ThisMarker: ",thisMarkers);
+ 
       this.Markers.push(marker);
-
+ 
       if (markers[index]["type"] == "site") {
         let show = markers[index]['name'] + " , " + markers[index]['typename'] + " , " + markers[index]['id'];
         marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
         marker.addListener('mouseout', this.closeInfoWindow.bind(this));
         marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
-
+ 
       }
       // else {
       //   let show = text;
       //   marker.addListener('mouseover', this.showInfoWindow.bind(this, show, marker));
       //   marker.addListener('mouseout', this.closeInfoWindow.bind(this));
       //   marker.addListener('click', this.convertSiteHalt.bind(this, markers[index]['id']));
-
+ 
       // }
       // marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
@@ -354,13 +347,20 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.common.loading++;
     let params = {
-      vehicleId: this.VehicleStatusData.vehicle_id ,
-      latchTime: this.VehicleStatusData.latch_time,
-      toTime:this.toTime,
-      status: status
+      rowId : this.VehicleStatusData.id,
+      remark:this.VehicleStatusData.remark || null,
+      status: status,
+      
     };
-    console.log(params);
-    this.api.post('HaltOperations/reviewDone?', params)
+    if(params.status==-1)
+    { 
+      this.common.loading--;
+      this.openConrirmationAlert(params);
+      // this.activeModal.close();
+      return ;
+    }
+    console.log("param:",params);  
+    this.api.post('MissingIndustry/edit', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
@@ -369,8 +369,38 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-    this.activeModal.close();
+    // this.activeModal.close();
   }
+
+  openConrirmationAlert(params) {
+          
+
+    this.common.params={remark:params.remark,title:'Reject Reason '}
+   
+    
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("reason For delete: ", data.remark);
+        params.remark = data.remark;
+        this.common.loading++;
+        this.api.post('MissingIndustry/edit', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("data", res);
+            this.activeModal.close();
+
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+
+          });
+      }
+    });
+  }
+
+
+
 
   getLastIndDetails() {
     console.log("VehicleStatusData", this.VehicleStatusData);
@@ -459,14 +489,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     }
   }
 
-  beforeLatchTime() {
-    console.log("before substracting", this.VehicleStatusData.latch_time);
-    let ltime = new Date(this.VehicleStatusData.latch_time);
-    let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
-    this.VehicleStatusData.latch_time = this.common.dateFormatter1(subtractLTime);
-    console.log("after substracting", this.VehicleStatusData.latch_time);
-    this.reloadData();
-  }
+ 
 
   reloadData() {
     if (this.dataType == 'events') {
@@ -551,16 +574,6 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   }
 
-  getDate(index) {
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.customDate = this.common.dateFormatter1(data.date).split(' ')[0];
-      console.log('Date:', this.customDate);
-      this.VehicleStatusData.latch_time = this.common.dateFormatter1(this.customDate);
-      console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
-      this.reloadData();
-    });
-  }
 
   openSmartTool(i, vehicleEvent) {
     console.log(this.onlyDrag);
@@ -695,51 +708,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.infowindow.close();
   }
 
-  addAutomaticHalt() {
-    console.log("VehicleStatusData", this.VehicleStatusData);
-    this.common.loading++;
-    let params = {
-      fromTime: this.VehicleStatusData.latch_time,
-      vehicleId: this.VehicleStatusData.vehicle_id,
-      tLat: 0.0,
-      tLong: 0.0,
-      tTime: this.toTime,
-    }
-
-    console.log("params=", params);
-
-    this.api.post('AutoHalts/addSingleVehicleAutoHalts', params)
-      .subscribe(res => {
-        this.common.loading--;
-        if (res['success']) {
-          this.reloadData();
-        } else {
-          this.common.showToast(res['msg']);
-          this.reloadData();
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+ 
 
   reportIssue(vehicleEvent){
     this.common.params= {refPage : 'vsc'};
     console.log("reportIssue",vehicleEvent);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
-  }
 
-  mapReset(){
-    this.reloadData();
-  }
-
-  openManualHalt(vehicleEvent){
-    this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno}
-    console.log("open manual halt modal");
-    const activeModal = this.modalService.open(ManualHaltComponent, { size: 'md', container: 'nb-layout' });
-   // activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
 }
-
 

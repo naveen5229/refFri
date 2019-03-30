@@ -4,6 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PendingDocumentComponent } from '../../documents/documentation-modals/pending-document/pending-document.component';
+//import jsPDF from 'jspdf';
+//import 'jspdf-autotable';
+
 
 @Component({
   selector: 'documents-summary',
@@ -16,6 +19,7 @@ export class DocumentsSummaryComponent implements OnInit {
   columns = [];
   vehicle_info = [];
   total_recs = 0;
+  fodata = [];
 
   constructor(
     public api: ApiService,
@@ -224,4 +228,23 @@ export class DocumentsSummaryComponent implements OnInit {
       });
     }    
   }
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
+      .subscribe(res => {
+        this.common.loading--;
+        this.fodata = res['data'];
+        let left_heading = this.fodata['name'];
+        let center_heading = "Document Status";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+  
 }
