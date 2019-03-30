@@ -498,7 +498,7 @@ export class CommonService {
       }
       if(center_heading != "undefined" && center_heading != null && center_heading != '') {
         x=pageWidth / 2;
-        y=55;
+        y=50;
         doc.setFontSize(14);
         doc.setFont("times", "bold","text-center");
         doc.text(center_heading, x - 50, y);
@@ -516,15 +516,14 @@ export class CommonService {
       doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
     };
     
-    let tempLineBreak={fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth : 10, cellWidth: 40 };
+    let tempLineBreak={fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth : 10, cellWidth: 40, valign: 'middle', halign: 'center' };
     doc.autoTable({
         head: hdg_coll,
         body: rows,
         theme: 'grid',
         didDrawPage: pageContent,
-        margin: {top: 90},
-        halign: 'center',
-        valign: 'middle',
+        margin: {top: 80},
+        rowPageBreak: 'avoid',
         headStyles: {
           fillColor: [98, 98, 98],
           fontSize: 10,
@@ -544,9 +543,15 @@ export class CommonService {
     if(tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
+    
+    let organization = {"elogist Solutions": "elogist Solutions"};
+    let blankline = {"":""};
+
     let info = [];
     let hdgs = {};
     let arr_hdgs = [];
+    info.push(organization);
+    info.push(blankline);
     let hdgCols = tblelt.querySelectorAll('th');
     if(hdgCols.length >= 1) {
       for(let i=0; i< hdgCols.length; i++) {
