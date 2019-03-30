@@ -109,6 +109,8 @@ import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remappin
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
+import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -176,12 +178,12 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
     UpdateTripDetailComponent,
     ManualHaltComponent,
     ResolveMissingIndustryComponent,
-    
-    
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     VehicleReportComponent,
+    LRViewComponent
+
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -252,6 +254,7 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     VehicleReportComponent,
+    LRViewComponent
   ],
   imports: [
     BrowserModule,
