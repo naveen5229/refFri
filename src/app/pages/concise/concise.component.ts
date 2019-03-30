@@ -547,10 +547,8 @@ export class ConciseComponent implements OnInit {
   vehicleReport(kpi){
     console.log('KPis: ', kpi);
     this.common.params={kpi};
-     const activeModel=this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
-           activeModel.result.then(data =>{
-                
-           }); 
+    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+          
   }
 
 

@@ -1,9 +1,9 @@
-<div class="model-header" style="margin-top:10px; margin-left:10px; margin-right:10px;">
+<div class="model-header" style="margin-top:10px; height:20px; margin-left:10px; margin-right:10px;">
   <!-- <button type="button" class="close"  background-color: white" aria-label="Close"
     (click)=dismiss(false)>
     <span aria-hidden="true">&times;</span>
   </button> -->
-  <button type="button" class="close" style="background-color:white; margin-left: 15px; margin-top:-10px"
+  <button type="button" class="close" style="background-color:white; height:30px; margin-left: 15px; margin-top:-10px"
     aria-label="Close" (click)=closeModal()>
     <span aria-hidden="true">&times;</span>
   </button>
@@ -129,10 +129,10 @@
       <div class="row" id="ton-material">
         <div class="col-sm-6" style="margin-top: 10px">
             <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
-              placeholder="Material Name" [inputId]="'material_input'" [preSelected]="null"></auto-suggestion>
+              placeholder="Material Name" [inputId]="'material_input'" [preSelected]="{name:consineeName}"></auto-suggestion>
         </div>
         <div class="col-sm-6">
-          <input type="text" name="tonnage" [(ngModel)]="tonnage" (focus)="getMaterialName()" class="form-control" placeholder="Tonnage">
+          <input type="text" name="tonnage" [(ngModel)]="LrData.weight" (focus)="getMaterialName()" class="form-control" placeholder="Tonnage">
         </div>
 
       </div>

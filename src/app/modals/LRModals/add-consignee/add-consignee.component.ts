@@ -61,7 +61,10 @@ export class AddConsigneeComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res['msg']);
+        if(res['success'])
         this.common.showToast(res['msg']);
+        else
+        this.common.showToast('Not Success!!');
         this.activeModal.close();
       }, err => {
         --this.common.loading;
