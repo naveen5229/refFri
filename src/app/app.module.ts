@@ -57,6 +57,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
+import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -65,7 +66,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UpdateTicketPropertiesComponent } from './modals/update-ticket-properties/update-ticket-properties.component';
 import { EditLorryDetailsComponent } from './modals/edit-lorry-details/edit-lorry-details.component';
 import { AddTripComponent } from './modals/add-trip/add-trip.component';
-
+import { ManualHaltComponent } from './modals/manual-halt/manual-halt.component';
 
 import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
@@ -101,7 +102,14 @@ import { RadioSelectionComponent } from './modals/radio-selection/radio-selectio
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 // import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
+import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
+
+import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
+import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
+import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
+import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
+import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -146,6 +154,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     AddEscalationIssueComponent,
     DocumentReportComponent,
     DocumentHistoryComponent,
+    EmpDashboardComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -167,8 +176,14 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VoucherdetailComponent,
     RadioSelectionComponent,
     UpdateTripDetailComponent,
-    
-    
+    ManualHaltComponent,
+    ResolveMissingIndustryComponent,
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
+    VehicleReportComponent,
+    LRViewComponent
+
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -210,6 +225,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     AddEscalationIssueComponent,
     DocumentReportComponent,
     DocumentHistoryComponent,
+    EmpDashboardComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -231,7 +247,14 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
     VehiclesOnMapComponent,
     // VehicleDriverMappingComponent 
     RadioSelectionComponent,
-    UpdateTripDetailComponent
+    UpdateTripDetailComponent,
+    ManualHaltComponent,
+    ResolveMissingIndustryComponent,
+    DriverVehicleRemappingComponent,
+    DriverStatusChangeComponent,
+    NewDriverStatusComponent,
+    VehicleReportComponent,
+    LRViewComponent
   ],
   imports: [
     BrowserModule,

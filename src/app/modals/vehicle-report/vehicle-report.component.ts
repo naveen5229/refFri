@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'vehicle-report',
   templateUrl: './vehicle-report.component.html',
@@ -18,14 +19,28 @@ export class VehicleReportComponent implements OnInit {
   resultTime:any;
   duration=[];
   vid='';
+  details=[];
   report=[];
+  vehicleRegNo;
   i:'';d:'';
   
-  constructor(public common: CommonService,
+  constructor(private activeModal: NgbActiveModal, public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
+      this.common.handleModalSize('class', 'modal-lg', '1400');
+      if(this.common.params){
+        let today,start;
+        this.vid=this.common.params.kpi.x_vehicle_id;
+        this.vehicleRegNo=this.common.params.kpi.x_showveh;
+        today = new Date();
+        this.endDate = this.common.dateFormatter(today);
+        start=new Date(today.setDate(today.getDate() - 3))
+        this.startDate=this.common.dateFormatter(start);
+        console.log('details: ',this.vid,this.vehicleRegNo,this.endDate,this.startDate);
+         this.getVehicleReport();
+        }
+      }
      
-     }
 
   ngOnInit() {
   }
@@ -49,6 +64,8 @@ export class VehicleReportComponent implements OnInit {
               this.common.loading--;
               console.log('res: ',res['data'])
               this.report=res['data'];
+              if(!(res['data'].length))
+              this.common.showToast('record empty !!');
               this.report.forEach((d)=>{
                 this.startTime=d.start_time;
                 this.startTime=new Date(this.startTime);
@@ -95,6 +112,10 @@ export class VehicleReportComponent implements OnInit {
     console.log('Location: ', location);
     this.common.params = { location, title: 'Vehicle Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  closeModal() {
+    this.activeModal.close();
   }
 
   

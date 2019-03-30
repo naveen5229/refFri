@@ -13,7 +13,6 @@ import { TicketTrailsComponent } from '../modals/ticket-trails/ticket-trails.com
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
-import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
 import { TrendsComponent } from './trends/trends.component';
 
 // import { DocumentsComponent } from '../documents/documents.components';
@@ -77,6 +76,7 @@ const routes: Routes = [{
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
+ 
   // {
   //   path: 'image-processing',
   //   component: ImageProcessingComponent

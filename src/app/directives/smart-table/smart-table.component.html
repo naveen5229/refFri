@@ -7,7 +7,7 @@
     <thead>
       <tr style="background:#f2f2f2;">
         <th style="padding:5px" style="width: 40px">#</th>
-        <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
+        <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);" [ngClass]="headings[heading].class">
           <div class="filter-container" *ngIf="!headings[heading].isHTML">
             <div *ngIf="!headings[heading].hideSearch">
               <div class="filter-input-container">
