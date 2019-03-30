@@ -214,7 +214,11 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .fas.fa-weight-hanging::before,
 .fas.fa-file-invoice-dollar:before,
 .fas.fa-ticket-alt:before,
-.fas.fa-money-check-alt:before{
+.fas.fa-money-check-alt:before,
+.fas.fa-clipboard-check::before,
+.fas.fa-receipt::before,
+.fas.fa-coins::before,
+.fas.fa-user-cog::before{
   font-family:inherit;
 }
 .nb-theme-corporate .modal-content{

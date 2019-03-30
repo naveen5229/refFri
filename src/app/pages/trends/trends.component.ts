@@ -4,10 +4,9 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NbThemeService } from '@nebular/theme';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NumberFormatStyle } from '@angular/common';
 import * as _ from 'lodash';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { getPluralCategory } from '@angular/common/src/i18n/localization';
 
 
 
@@ -17,7 +16,7 @@ import { getPluralCategory } from '@angular/common/src/i18n/localization';
   styleUrls: ['./trends.component.scss']
 })
 export class TrendsComponent implements OnInit {
- 
+
   Hours = [];
   dateDay = [];
   startDate = '';
@@ -31,14 +30,17 @@ export class TrendsComponent implements OnInit {
   trendType = '11';
   siteUnloading = [];
   vehicleUnloading = [];
-  week_number='7';
-  month_number='7';
-  period='0';
+  week_month_number = "4";
+  period = "0";
   url = '';
   flag = 'Loading';
-  bgColor='#00695C';
-  yScale='Hours';
-  onWardFlag=false;
+  bgColor = '#00695C';
+  yScale = 'Hours';
+  onWardFlag = false;
+  fromDate='';
+ // lastCategory='';
+  lastDurationCategory='';
+    
   chartObject = {
     type: '',
     data: {},
@@ -49,7 +51,7 @@ export class TrendsComponent implements OnInit {
     min: '',
     max: '',
     stepSize: ''
-    
+
   };
 
 
@@ -58,45 +60,56 @@ export class TrendsComponent implements OnInit {
     public user: UserService,
     public datepipe: DatePipe,
     public modalService: NgbModal) {
-
-      this.getDefaultTrend();
+    this.getDefaultTrend();
 
   }
 
   ngOnInit() { }
 
-  getDefaultTrend(){
-   //this.endDate=this.common.dateFormatter(new Date())
-   if(this.period=="0")
-   {
-   let today=new Date();
-   let endDay=new Date(today.setDate(today.getDate()-1))
-   this.endDate=this.common.dateFormatter(endDay);
-   let startday=new Date(today.setDate(today.getDate()-6));
-   this.startDate=this.common.dateFormatter(startday);
-   console.log('endDate',this.endDate);
-   console.log('startDate',startday, this.startDate);
-    this.getDayWiseTrends();
-   }
-   else if(this.period=="1"){
-     this.week_number='7'
-     this.getweeklyTrend();
-   }else{
-     this.month_number='7';
-     this.getMonthlyTrends();
-   }
+  getDefaultTrend() {
+
+    let today, endDay, startday;
+    today = new Date();
+    endDay = new Date(today.setDate(today.getDate() - 1))
+    this.endDate = this.common.dateFormatter(endDay);
+    //this.endDate=this.common.dateFormatter(new Date())
+    if (this.period == "0") {
+      startday = new Date(today.setDate(today.getDate() - 6));
+      this.fromDate = this.common.dateFormatter(startday);
+      console.log('endDate', this.endDate);
+      console.log('startDate', startday, this.fromDate);
+      console.log('zero period call');
+      this.getDayWiseTrends();
+    }
+    else if (this.period == "1") {
+      //  this.week_number='7'
+      startday = new Date(today.setWeek(today.getWeek() - 4));
+      this.startDate = this.common.dateFormatter(startday);
+      console.log('endDate', this.endDate);
+      console.log('startDate', startday, this.startDate);
+      this.getweeklyTrend();
+    } else {
+      //  this.month_number='7';
+      startday = new Date(today.setMonth(today.getMonth() - 4));
+      this.startDate = this.common.dateFormatter(startday);
+      console.log('endDate', this.endDate);
+      console.log('startDate', startday, this.startDate);
+      this.getMonthlyTrends();
+    }
 
   }
 
-  
+
   showChart() {
+    console.log('date:showChart', this.dateDay);
+    console.log('Hours:showChart', this.Hours);
     this.chartObject.type = 'line';
     this.chartObject.data = {
       labels: this.dateDay,
-      
+
       datasets: [
         {
-        //  label: this.flag,
+          //  label: this.flag,
           data: this.Hours,
           borderColor: this.bgColor,
           fill: false,
@@ -111,7 +124,7 @@ export class TrendsComponent implements OnInit {
       legend: {
         display: false
       },
-             
+
       yAxes: [{
         ticks: {
           min: 100,
@@ -119,14 +132,14 @@ export class TrendsComponent implements OnInit {
           stepSize: 100
         }
       }]
-     
+
     };
   }
 
   getSiteWise() {
 
     let params = {
-      startDate: this.startDate,
+      startDate: this.fromDate,
       endDate: this.endDate
     };
     console.log('params: ', params);
@@ -136,11 +149,11 @@ export class TrendsComponent implements OnInit {
         this.common.loading--;
         this.siteDetails = res['data'];
         console.log('siteDetails: ', this.siteDetails);
-        _.sortBy(this.siteDetails, ['unloading']).reverse().map(keyData => {
+        _.sortBy(this.siteDetails, ['unloading_hrs']).reverse().map(keyData => {
           this.siteUnloading.push(keyData);
           //console.log('siteUnloading: ',  this.siteUnloading);
         });
-        
+
       },
         err => {
           this.common.loading--;
@@ -152,7 +165,7 @@ export class TrendsComponent implements OnInit {
 
   getVehicleWise() {
     let params = {
-      startDate: this.startDate,
+      startDate: this.fromDate,
       endDate: this.endDate
     };
     console.log('params: ', params);
@@ -165,9 +178,9 @@ export class TrendsComponent implements OnInit {
         _.sortBy(this.vehicleDetails, ['unloading_hrs']).reverse().map(keyData => {
           this.vehicleUnloading.push(keyData);
         });
-        
-       // console.log('vehicleUnloading: ',  this.vehicleUnloading);
-       
+
+        // console.log('vehicleUnloading: ',  this.vehicleUnloading);
+
       },
         err => {
           this.common.loading--;
@@ -177,26 +190,45 @@ export class TrendsComponent implements OnInit {
   }
 
   changeTrendType() {
-   if(this.period=="0"){
-      this.getDayWiseTrends();
-   }else if(this.period=="1"){
-      this.getweeklyTrend();
-   }else{
-       this.getMonthlyTrends(); 
-   }  
-   
+    if (this.period == "0") {
+      if(this.lastDurationCategory=='DayWise'){
+        this.getCategoryDayWise();
+      }
+      else{
+        this.getDayWiseTrends();
+      }
+    } else if (this.period == "1") {
+      this.showTables=false;
+      if(this.lastDurationCategory=='WeekWise')
+      {
+        this.getCategoryWeekWise();
+      }
+      else{
+        this.getweeklyTrend();
+      }
+      
+    } else {
+      this.showTables=false;
+      if(this.lastDurationCategory=='MonthWise'){
+        this.getCategoryMonthWise();
+      }else{
+        this.getMonthlyTrends();
+      }
+    }
+
   }
 
-  getDate(type){
-
+  getDate(type) {
+     this.endDate='';
+     this.fromDate='';
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        if(type=='start')
-        this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
+        if (type == 'start')
+          this.fromDate = this.common.dateFormatter(data.date).split(' ')[0];
         else
-        this.endDate=  this.common.dateFormatter(data.date).split(' ')[0];
-        
+          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+
       }
 
     });
@@ -215,12 +247,14 @@ export class TrendsComponent implements OnInit {
   // }
 
   getDayWiseTrends() {
-    this.Hours = [];
-    this.dateDay =[];
-    this.startDate = this.common.dateFormatter(this.startDate);
+    
+    this.Details = [];
+    console.log('getDayWiseTrends call');
+    this.dateDay = [];
+    this.fromDate = this.common.dateFormatter(this.fromDate);
     this.endDate = this.common.dateFormatter(this.endDate);
     let params = {
-      startDate: this.startDate,
+      startDate: this.fromDate,
       endDate: this.endDate
     };
     console.log('params: ', params);
@@ -234,145 +268,223 @@ export class TrendsComponent implements OnInit {
           this.showdate = this.datepipe.transform(element.date_day, 'dd-MMM');
           this.dateDay.push(this.showdate);
           console.log('dateDay: ', this.showdate);
-          this.Hours.push(element.loading_hrs);
-          this.showTables = true;
-          this.flag = "Loading";
-          this.showtrend = true;
-          this.showChart();
+
 
         });
-        // this.getSiteWise();
-        // this.getVehicleWise();
+        this.getCategoryDayWise();
+
+
 
       }, err => {
         this.common.loading--;
         this.common.showError();
 
       })
-      this.getCategoryDayWise()
-      this.getSiteWise();
-      this.getVehicleWise();
+    this.getSiteWise();
+    this.getVehicleWise();
+     
   }
 
-  getCategoryDayWise(){
+  getCategoryDayWise() {
 
     this.Hours = [];
+    this.lastDurationCategory='DayWise';
     console.log('changeTrendType:', 'call');
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
-         
+         //this.lastCategory='Loading';
         this.Hours.push(element.loading_hrs);
         this.showTables = true;
         this.flag = "Loading"
-        this.bgColor='#00695C';
-        this.yScale='Hours'
-        this.onWardFlag=false;
-      
+        this.bgColor = '#00695C';
+        this.yScale = 'Hours'
+        this.onWardFlag = false;
+        console.log('Hours: ', this.Hours);
+
       } else if (this.trendType == "21") {
+       // this.lastCategory='UnLoading';
         this.Hours.push(element.unloading_hrs);
         this.showTables = true;
-        this.flag = "UnLoading"
-        this.bgColor='#E91E63';
-        this.yScale='Hours'
-        this.onWardFlag=true;
-        this.showChart();
+        this.flag = "UnLoading";
+        this.bgColor = '#E91E63';
+        this.yScale = 'Hours'
+        this.onWardFlag = false;
+        // this.showChart();
       } else if (this.trendType == "0") {
-        this.Hours.push(element.onward_per);
+       // this.lastCategory='onWard';
+        this.Hours.push(element.onward);
         this.showTables = true;
-        this.flag = "onWard"
-        this.bgColor='#4CAF50';
-        this.yScale='percent'
-        this.onWardFlag=true;
-        this.showChart();
-        
+        this.flag = "onWard";
+        this.bgColor = '#4CAF50';
+        this.yScale = 'percent'
+        this.onWardFlag = true;
+        // this.showChart();
+
       }
 
 
     });
+    this.showChart();
 
   }
 
-  getweeklyTrend(){
+  getweeklyTrend() {
+
    
-   this.getCategoryWeekWise();   
+    let today, startday;
+    this.Details = [];
+    today = new Date();
+    //endDay=new Date(today.setDate(today.getDate()-1))
+    this.endDate = this.common.dateFormatter(today);
+    let number = parseInt(this.week_month_number);
+    console.log('converted number', number);
+    startday = new Date(today.setDate(today.getDate() - number * 7));
+    this.startDate = this.common.dateFormatter(startday);
+    console.log('startDate:weekly', this.startDate);
+    let params = {
+      startDate: this.startDate,
+      endDate: this.endDate
+    };
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api.post('Trends/getTrendsWeekWise', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res:weekWise', res['data']);
+        this.Details = res['data'];
+        this.getCategoryWeekWise();
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+    // if(this.week_month_number=="4"){
+    // startday=new Date(today.setWeek(today.getWeek()-4));
+    // this.startDate=this.common.dateFormatter(startday);   
+    // }else if(this.week_month_number=="5"){
+    //   startday=new Date(today.setWeek(today.getWeek()-5));
+    // }else if(this.week_month_number=="6"){
+    //   startday=new Date(today.setWeek(today.getWeek()-4));
+    // }else if(this.week_month_number=="7"){
+    //   startday=new Date(today.setWeek(today.getWeek()-4));
+    // }
+
   }
 
-  getCategoryWeekWise(){
+  getCategoryWeekWise() {
 
+    //   this.Hours = [];
+    //   console.log('changeTrendType:', 'call');
+    this.dateDay = [];
     this.Hours = [];
-    console.log('changeTrendType:', 'call');
+    this.lastDurationCategory='WeekWise';
+    let number = parseInt(this.week_month_number);
+    for (let i = 1; i <= number; i++) {
+      this.dateDay.push(i);
+    }
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
-         
+        //this.lastCategory='Loading';
         this.Hours.push(element.loading_hrs);
-        this.showTables = true;
         this.flag = "Loading"
-        this.bgColor='#00695C';
-        this.yScale='Hours'
-      
+        this.bgColor = '#00695C';
+        this.yScale = 'Hours'
+
       } else if (this.trendType == "21") {
+        //this.lastCategory='UnLoading';
         this.Hours.push(element.unloading_hrs);
-        this.showTables = true;
-        this.flag = "UnLoading"
-        this.bgColor='#E91E63';
-        this.yScale='Hours'
-        this.showChart();
+        this.flag = "UnLoading";
+        this.bgColor = '#E91E63';
+        this.yScale = 'Hours'
+        // this.showChart();
       } else if (this.trendType == "0") {
-        this.Hours.push(element.onward_per);
-        this.showTables = false;
+        //this.lastCategory='onWard';
+        this.Hours.push(element.onward);
         this.flag = "onWard"
-        this.bgColor='#4CAF50';
-        this.yScale='percent'
-        this.showChart();
-        
+        this.bgColor = '#4CAF50';
+        this.yScale = 'percent'
+        // this.showChart();
+
       }
 
 
     });
 
-  }
-
-  getMonthlyTrends(){
-
-    this.getCategoryMonthWise();
+    this.showChart();
 
   }
 
-  getCategoryMonthWise(){
+  getMonthlyTrends() {
+    this.showTables = false;
+    this.Details = [];
+    let today, startday;
+    today = new Date();
+    //endDay=new Date(today.setDate(today.getDate()-1))
+    this.endDate = this.common.dateFormatter(today);
+    let number = parseInt(this.week_month_number);
+    console.log('converted number', number);
+    startday = new Date(today.setMonth(today.getMonth() - number));
+    this.startDate = this.common.dateFormatter(startday);
+    console.log('startDate:monthly', this.startDate);
+    let params = {
+      startDate: this.startDate,
+      endDate: this.endDate
+    };
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api.post('Trends/getTrendsMonthWise', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.Details = res['data'];
+        console.log('res:monthWise', res['data']);
+        this.getCategoryMonthWise();
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
 
+
+  }
+
+  getCategoryMonthWise() {
+    this.dateDay = [];
     this.Hours = [];
+    this.lastDurationCategory='MonthWise';
+    let number = parseInt(this.week_month_number);
+    for (let i = 1; i <= number; i++) {
+      this.dateDay.push(i);
+    }
+    console.log('dateDay:month ', this.dateDay);
     console.log('changeTrendType:', 'call');
     this.Details.forEach((element) => {
       if (this.trendType == "11") {
-         
+        //this.lastCategory='Loading';
         this.Hours.push(element.loading_hrs);
-        this.showTables = true;
         this.flag = "Loading"
-        this.bgColor='#00695C';
-        this.yScale='Hours'
-      
+        this.bgColor = '#00695C';
+        this.yScale = 'Hours'
+        console.log('loading case:', 'call');
+
       } else if (this.trendType == "21") {
+        //this.lastCategory='UnLoading';
         this.Hours.push(element.unloading_hrs);
-        this.showTables = true;
         this.flag = "UnLoading"
-        this.bgColor='#E91E63';
-        this.yScale='Hours'
-        this.showChart();
+        this.bgColor = '#E91E63';
+        this.yScale = 'Hours'
+        // this.showChart();
       } else if (this.trendType == "0") {
-        this.Hours.push(element.onward_per);
-        this.showTables = false;
+       // this.lastCategory='onWard';
+        this.Hours.push(element.onward);
         this.flag = "onWard"
-        this.bgColor='#4CAF50';
-        this.yScale='percent'
-        this.showChart();
-        
+        this.bgColor = '#4CAF50';
+        this.yScale = 'percent'
+        // this.showChart();
+
       }
-
-
     });
+    this.showChart();
 
   }
-  
+
 
 
 }

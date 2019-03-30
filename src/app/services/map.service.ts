@@ -241,27 +241,28 @@ export class MapService {
   }
 
   createPolygonPath(polygonOptions?) {
-    google.maps.event.addListener(this.map, 'click', (event) => {
-      if (this.isDrawAllow) {
-        console.log("In Here");
-        if (!this.polygonPath) {
-          const defaultPolygonOptions = {
-            strokeColor: '#000000',
-            strokeOpacity: 1,
-            strokeWeight: 3,
-            icons: [{
-              icon: this.lineSymbol,
-              offset: '100%'
-            }]
-          }
-          this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
-          this.polygonPath.setMap(this.map);
-        }
-        let path = this.polygonPath.getPath();
-        path.push(event.latLng);
-      }
-    });
+    google.maps.event.addListener(this.map, 'click',(event)=>this.createGenralPolyPath(event,polygonOptions) );
   }
+  createGenralPolyPath(event,polygonOptions?){
+    if (this.isDrawAllow) {
+      console.log("In Here");
+      if (!this.polygonPath) {
+        const defaultPolygonOptions = {
+          strokeColor: '#000000',
+          strokeOpacity: 1,
+          strokeWeight: 3,
+          icons: [{
+            icon: this.lineSymbol,
+            offset: '100%'
+          }]
+        }
+        this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+        this.polygonPath.setMap(this.map);
+      }
+      let path = this.polygonPath.getPath();
+      path.push(event.latLng);
+    }
+  }//event = {latLng:{lat:lat,lng:lng}}
 
   setBounds(latLng, reset = false) {
     if (!this.bounds) this.bounds = this.map.getBounds();
