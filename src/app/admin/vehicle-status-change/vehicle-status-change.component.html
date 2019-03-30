@@ -4,18 +4,20 @@
       <h2>Vehicle Status Changes</h2>
     </div>
     <div class="col-sm-8" style="margin-top:-86px">
-      <input type="button" style="margin-top: 8%; padding: 11px; background-color:hsl(0,50%,75%);border-radius:15px"
+      <input type="button" style="margin-top: 10%; padding: 11px; background-color:hsl(0,50%,75%);border-radius:15px"
         id="statusPending" (click)="getPendingStatusDetails()" value="Pending Alerts">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 10%; padding: 11px; margin-left:10px;  border-radius:15px" id="viewall"
         (click)="getVehicleStatusAlerts('all')" value="View All">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 10%; padding: 11px; margin-left:10px;  border-radius:15px" id="viewnew"
         (click)="getVehicleStatusAlerts('view new')" value="View New">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 10%; padding: 11px; margin-left:10px;  border-radius:15px" id="viewold"
         (click)="getVehicleStatusAlerts('view old')" value="View old">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 10%; padding: 11px; margin-left:10px;  border-radius:15px" id="refresh"
         (click)="getVehicleStatusAlerts('pending')" value="Refresh">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
+      <input type="button" style="margin-top: 10%; padding: 11px; margin-left:10px;  border-radius:15px" id="advancereview"
         (click)="getVehicleStatusAlerts('advance review')" value="Advance Review">
+        <span (click)="openAnalyticsModal()" style="margin-left:20px"><img height="50px" width="50px" src="assets/images/analytics.png"> </span>
+      
     </div>
   </nb-card-header>
   <nb-card-body>
