@@ -27,7 +27,7 @@ export class VehicleReportComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
-      this.common.handleModalSize('class', 'modal-lg', '1400');
+      this.common.handleModalSize('class', 'modal-lg', '1500');
       if(this.common.params){
         let today,start;
         this.vid=this.common.params.kpi.x_vehicle_id;

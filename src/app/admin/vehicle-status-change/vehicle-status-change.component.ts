@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EmpDashboardComponent } from '../../documents/documentation-modals/emp-dashboard/emp-dashboard.component';
 
 @Component({
   selector: 'vehicle-status-change',
@@ -131,5 +132,13 @@ export class VehicleStatusChangeComponent implements OnInit {
         console.log(err);
       });
 
+  }
+
+  openAnalyticsModal() {
+    this.common.params = {title: 'Analytics' };
+    const activeModal = this.modalService.open(EmpDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+
+    });
   }
 }
