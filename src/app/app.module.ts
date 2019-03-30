@@ -57,6 +57,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
+import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -150,6 +151,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     AddEscalationIssueComponent,
     DocumentReportComponent,
     DocumentHistoryComponent,
+    EmpDashboardComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -219,6 +221,7 @@ import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-
     AddEscalationIssueComponent,
     DocumentReportComponent,
     DocumentHistoryComponent,
+    EmpDashboardComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
