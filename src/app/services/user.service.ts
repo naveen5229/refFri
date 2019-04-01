@@ -45,7 +45,8 @@ export class UserService {
       { id: 15, route: '/admin/vscticketaudit' },
       { id: 16, route: '/admin/alert-related-issue' },
       { id: 17, route: '/admin/gps-supplier-mapping' },
-      { id: 18, route: '/admin/vehicles-view' }
+      { id: 18, route: '/admin/vehicles-view' },
+      { id: 19, route: '/admin/company-details' }
     ]
   }
   

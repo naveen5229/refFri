@@ -25,6 +25,7 @@ import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.compo
 import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-issue.component';
 import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
 import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
+import { CompanyDetailsComponent } from './company-details/company-details.component';
 
 
 
@@ -62,6 +63,7 @@ const PAGES_COMPONENTS = [
     AlertRelatedIssueComponent,
     GpsSupplierMappingComponent,
     VehiclesViewComponent,
+    CompanyDetailsComponent,
     
    
   
