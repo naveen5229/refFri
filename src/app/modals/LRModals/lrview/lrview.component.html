@@ -4,10 +4,11 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body" id="print-section">
+<div class="modal-body" id="print-section" *ngIf="lrDetails">
   <div class=col-sm-6>
-    <h2>Company Name</h2><br>
-    <Address>address</Address>
+    <h2>{{lrDetails.branch_name}}</h2>
+    <Address>{{lrDetails.branch_address}}</Address>
+    {{lrDetails.branch_gstno}}
   </div>
   <div class=col-sm-6>
     <table class="table table-bordered table-hover">
@@ -24,11 +25,11 @@
           <td><b>To : </b> {{lrDetails.destination}}</td>
         </tr>
         <tr>
-          <td><b>Driver No. : </b></td>
-          <td><b>Driver Name : </b> </td>
+          <td><b>Driver No. : </b> {{lrDetails.driver_mobile}}</td>
+          <td><b>Driver Name : </b>{{lrDetails.driver_name}} </td>
         </tr>
         <tr>
-          <td colspan="2"><b>License No. :</b></td>
+          <td colspan="2"><b>License No. :</b> {{lrDetails.driver_license}}</td>
         </tr>
       </tbody>
     </table>
@@ -65,10 +66,16 @@
             <b>Weight (Tons)</b>
           </td>
         </tr>
-        <tr *ngFor = "let of ; let i = index"></tr>
-        <td></td>
-        <td colspan="2"></td>
-        <td></td>
+        <tr *ngFor="let particular of particulars ; let i = index">
+          <td>{{particular.articles}}</td>
+          <td colspan="2">Material : {{particular.material}}<br>
+            Value : {{particular.material_value}}<br>
+            Weight : {{particular.weight}}<br>
+            Invoice :{{particular.invoice}}<br>
+            {{particular.customjsonfields}}
+          </td>
+          <td>{{particular.weight}}</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -76,19 +83,19 @@
     <table class="table table-bordered table-hover">
       <tbody>
         <tr>
-          <td><b>Payment By :</b></td>
+          <td><b>Payment By : </b>{{lrDetails.paytype}} </td>
         </tr>
         <tr>
-          <td><b>GST Paid By :</b></td>
+          <td><b>GST Paid By :</b> {{lrDetails.taxpaidby}}</td>
         </tr>
         <tr>
-          <td><b>Rate :</b></td>
+          <td><b>Rate :</b> {{lrDetails.paytype}}</td>
         </tr>
         <tr>
-          <td><b>GST Rate :</b></td>
+          <td><b>GST Rate :</b> {{lrDetails.paytype}}</td>
         </tr>
         <tr>
-          <td><b>GST Amount :</b></td>
+          <td><b>GST Amount :</b> {{lrDetails.paytype}}</td>
         </tr>
         <tr>
           <td><b>Payable Amount :</b> {{lrDetails.amount}}</td>

@@ -10,7 +10,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LRViewComponent implements OnInit {
   lrId = null;
-  lrDetails = null;
+  lrDetails =null;
+  particulars = null
   constructor(
     public common: CommonService,
     public api :ApiService,
@@ -38,9 +39,13 @@ export class LRViewComponent implements OnInit {
     this.api.post('LorryReceiptsOperation/printLR', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log("response data",res['data'][0]);
-        this.lrDetails = JSON.parse( res['data'][0].fn_printlrdetails)[0];
+        console.log("response data",JSON.parse(res['data'][0].fn_printlrdetails).result);
+        this.lrDetails = JSON.parse(res['data'][0].fn_printlrdetails).result[0];
+        this.particulars = JSON.parse(res['data'][0].fn_printlrdetails).details;
+
         console.log('this.lrDetails:', this.lrDetails);
+        console.log('this.particulars:', this.particulars[0]);
+
         // console.log("Receipt",this.receipts);
       }, err => {
         --this.common.loading;
