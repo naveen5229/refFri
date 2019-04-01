@@ -1,3 +1,31 @@
-<p>
-  company-details works!
-</p>
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Company Details</h2>
+    </div>
+
+
+
+  </nb-card-header>
+  <nb-card-body>
+
+    <div class="tableFixHead">
+      <table class="table table-bordered table-hover ">
+        <thead class="thead">
+          <tr>
+            <th>SrNo</th>
+
+            <th style="width:120px; text-align: center;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data;">
+            <td>{{row.id}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.mobile}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
