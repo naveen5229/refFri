@@ -45,11 +45,9 @@ button { background-color: #73a1ff;
 //   }
 
 .ledger-container{
-    border-radius: 0;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
     padding: 8px;
-    background-color: #e4e4e4;
-    margin-top: 20px;
-    min-height: 230px;
 }
 
 .date-modal{
@@ -79,27 +77,22 @@ button { background-color: #73a1ff;
     border-radius: 3px;
 }
 .ledger-option{
-    border: 1px solid #263238;
+    border: 1px solid #f2f2f2;
     padding: 2px 8px;
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 12px;
-    font-weight: normal;
-    background-color: #263238;
+    font-weight: 600;
     margin-bottom: 3px;
-    color: #fff;
 }
 .active-ledger{
-    background: #26a69a;
-    font-weight: normal;
-    border-color: #26a69a;
+    background: #e8f0f3;
+    font-weight: bold;
 }
 button { 
-    background-color: #263238;
+    background-color: #73a1ff;
     border-radius: 5px !important;
     text-transform: capitalize !important;
-    padding: 10px 20px !important;
-    outline: none;
-    box-shadow: none;
+    padding: 10px !important;
 }
 
 nb-card-header{
@@ -113,42 +106,5 @@ nb-card-header{
     padding: 3px 8px;
     margin: 0;
     border-radius: 3px 3px 0px 0px;
-    font-size: 12px;
-    min-width: 80px !important;
-    font-weight: normal;
+    font-size: 10px;
 }
-.ref-input{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px;
-    height: auto;
-    font-size: 12px;
-}
-.date-modal-body .ng-pristine{
-    border: 0px !important;
-    padding: 8px;
-    height: auto;
-    width: auto;
-    border-radius: 0px;
-    line-height: initial;
-}
-.form-control:focus{
-    border-color: #263238 !important;
-}
-button.btn-primary{
-    background-color: #263238 !important;
-    padding: 8px 10px !important;
-}
-table tr{
-    th{
-        padding: 5px 10px!important;
-        font-weight: normal;
-    }
-    td{
-        padding: 5px 10px!important;
-        input, select{
-            padding: 5px !important;
-            height: 30px !important;
-        }
-    }
-} 
