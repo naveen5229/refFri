@@ -26,8 +26,8 @@ export class ImportDocumentComponent implements OnInit {
     type: ''
   };
   vehicleId = '';
-  data = [];
-  docTypes = [];
+  // data = [];
+  // docTypes = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -101,7 +101,7 @@ export class ImportDocumentComponent implements OnInit {
       validate: validate,
       docTypeId: this.docType.id
     };
-    if (!params.docTypeId || !params.vehicleDocCsv) {
+    if (!params.vehicleDocCsv) {
       return this.common.showError("Select  Option");
     }
     console.log("Data :", params);
