@@ -10,11 +10,11 @@ import { AccountService } from './account.service';
 })
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
- URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   //  URL: string = 'http://192.168.0.119/booster_webservices/'; // Umang
-      //  URL: string = 'http://localhost/transtruck/booster_webservices/'; // sachin
-     UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  //  URL: string = 'http://localhost/transtruck/booster_webservices/'; // sachin
+  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
 
   constructor(private http: HttpClient,
     public router: Router,
