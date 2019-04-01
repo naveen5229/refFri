@@ -17,11 +17,3 @@
 table tr th{
     font-weight: normal;
 }
-tbody{
-    tr:nth-child(odd){
-        background-color: #fff;
-    }
-    tr:nth-child(even){
-        background-color: #e4e4e4;
-    }
-}

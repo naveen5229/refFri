@@ -269,9 +269,8 @@
     transform: translate(-50%);
 }
 .select_branch{
-    width: 220px;
+    width: 210px;
     padding: 10px 0px;
-    margin: 0px;
 }
 .select_branch label{
     margin-right:10px;
@@ -285,8 +284,4 @@
     opacity: 1;
     padding: 7px 5px !important;
     border-radius: 0px;
-}
-.select_branch select option{
-    background: #677277;
-    color: #fff;
 }

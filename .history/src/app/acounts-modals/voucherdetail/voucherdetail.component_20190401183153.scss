@@ -1,18 +1,22 @@
-.radiostockitem input[type=radio]{
+.suggestions {
+    position: relative;
     height: auto;
-    box-shadow: none;
-    width: 20px;
-    float: right;
+    z-index: 999;
+    background: #fff;
+    width: 90%;
+    margin: 3px 12px;
+    padding: 0px 8px;
+    font-size: 12px;
+    letter-spacing: .5px;
+    box-shadow: 1px 1px 3px grey;
 }
-.radiostockitem .form-group span{
-    font-weight: bold;
-    display: block;
+.suggestion {
+    padding: 8px 0px 1px 0px;
+    margin:1px 0px 3px 1px;
+    font-size:14px; 
+    list-style: none;
 }
-.radiostockitem .form-group label{
-    font-weight: normal;
-}
-button { background-color: #73a1ff;
-}
+
 
 .date-modal{
     position: absolute;
@@ -22,35 +26,35 @@ button { background-color: #73a1ff;
     z-index: 999999;
     top: 0;
     left: 0;
-}
-.date-modal-body{
+  }
+  .date-modal-body{
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
-}
-.data_model_save{
+  }
+  .data_model_save{
     padding: 20px;
     text-align: center;
     width: auto;
     max-width: 250px;
-}
-.data_model_save button{
+  }
+  .data_model_save button{
     border: none;
     padding: 10px 20px;
     color: #fff;
     border-radius: 3px;
-}
-.modal-footer{
-    button{
-      border-radius: 5px;
-    }
+  }
+  button { 
+    background-color: #73a1ff;
+    border-radius: 5px !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
   .close{
     background-color: #ccc;
     font-size: 26px;
     padding: 10px 15px;
   }
-
   .modal-header{
     padding: 10px 15px;
     background-color: #263238;
@@ -95,12 +99,4 @@ button { background-color: #73a1ff;
   .btn-primary{
     background-color: #263238;
   }
-}
-.col-6 label{
-    background: transparent !important;
-    color: #000 !important;
-    display: inline;
-}
-.col-6 input{
-    float: left !important;
 }

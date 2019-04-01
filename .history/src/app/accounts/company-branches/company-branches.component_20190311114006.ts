@@ -16,7 +16,6 @@ Branches = [];
     public user: UserService,
     public modalService: NgbModal){  
       this.GetBranchData();
-      this.common.currentPage = 'Company Branches';
     }
 
   ngOnInit() {
