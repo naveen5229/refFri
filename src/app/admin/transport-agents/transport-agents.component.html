@@ -1,0 +1,39 @@
+<nb-card>
+    <nb-card-header>
+      <div class="col-sm-4">
+        <h2>Transport Agents</h2>
+      </div>
+  
+  
+  
+    </nb-card-header>
+    <nb-card-body>
+  
+      <div class="tableFixHead">
+        <table class="table table-bordered table-hover ">
+          <thead class="thead">
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>PAN </th>
+              <th>GSTIN </th>
+              <th>City</th>
+              <th>State</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transportAgent of transportAgents;">
+              <td>{{transportAgent.id}}</td>
+              <td>{{transportAgent.name}}</td>
+              <td>{{transportAgent.pan}}</td>
+              <td>{{transportAgent.gstin}}</td>
+              <td>{{transportAgent.city}}</td>
+              <td>{{transportAgent.state}}</td>
+              <button (click)="updateTranportAgent(transportAgent)">Update</button>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </nb-card-body>
+  </nb-card>
