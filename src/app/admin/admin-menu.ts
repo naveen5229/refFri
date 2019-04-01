@@ -118,9 +118,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Company Details',
+        title: 'Companies',
         icon: 'nb-home',
         link: '/admin/company-details',
+        home: true,
+    },
+    {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
         home: true,
     }
 

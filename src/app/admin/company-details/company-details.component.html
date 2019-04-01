@@ -13,20 +13,18 @@
       <table class="table table-bordered table-hover ">
         <thead class="thead">
           <tr>
-            <th>SrNo</th>
+            <th>Id</th>
             <th>Name</th>
-            <th>Mobile No</th>
-            <th style="width:120px; text-align: center;">Action</th>
+            <th>PAN </th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of data;">
-            <td>{{row.id}}</td>
-            <td>{{row.name}}</td>
-            <td>{{row.mobile}}</td>
-            <td><span  (click)="updateDriverInfo(driver)" >
-                <i class="fas fa-user-edit" style="font-size:24px;"></i>
-            </span></td>
+          <tr *ngFor="let company of companies;">
+            <td>{{company.id}}</td>
+            <td>{{company.name}}</td>
+            <td>{{company.pan}}</td>
+            <button (click)="updateCompanyDetails(company)">Update</button>
           </tr>
         </tbody>
       </table>
