@@ -15,8 +15,8 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <label class="ref-label">Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="voucher-date"
+              <label>Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" id="voucher-date"
                 name="account-date" [(ngModel)]="voucher.date" maxlength="10" autocomplete="off"
                 (click)="lastActiveId = 'voucher-date'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
@@ -74,23 +74,23 @@
         <div class="row">
           <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">Narration</label>
-              <input type="text" class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
+              <label>Narration</label>
+              <input type="text" class="form-control" id="narration" (click)="lastActiveId = 'narration'"
                 name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">Total Debit</label>
-              <input type="text" class="form-control ref-input" name="account-name" readonly [(ngModel)]="voucher.total.debit"
-                style="background: #e4e4e4">
+              <label>Total Debit</label>
+              <input type="text" class="form-control" name="account-name" readonly [(ngModel)]="voucher.total.debit"
+                style="background: #e8f0f3">
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">Total Credit</label>
-              <input type="text" class="form-control ref-input" name="account-name" readonly [(ngModel)]="voucher.total.credit"
-                style="background: #e4e4e4">
+              <label>Total Credit</label>
+              <input type="text" class="form-control" name="account-name" readonly [(ngModel)]="voucher.total.credit"
+                style="background: #e8f0f3">
             </div>
           </div>
         </div>
