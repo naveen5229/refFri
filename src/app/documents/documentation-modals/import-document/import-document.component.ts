@@ -68,16 +68,16 @@ export class ImportDocumentComponent implements OnInit {
   //   return response;
   // }
 
-  selectDocType(documentType) {
-    this.docType = documentType;
-    console.log("Document type", this.docType.id);
-  }
+  // selectDocType(documentType) {
+  //   this.docType = documentType;
+  //   console.log("Document type", this.docType.id);
+  // }
 
   uploadCsv() {
     const params = {
-      vehicleDocCsv: this.csv,
+      driverCsv: this.csv,
     };
-    if (!params.vehicleDocCsv) {
+    if (!params.driverCsv) {
       return this.common.showError("Select  Option");
     }
     console.log("Data :", params);
@@ -86,8 +86,16 @@ export class ImportDocumentComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
-        let errorData = res['data'];
+        let errorData = res['data']['f'];
+        console.log("error: ",errorData);
         alert(res["msg"]);
+      
+        if(errorData.length)
+        {
+          this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
+          const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        
+        }
         this.closeModal(true);
       }, err => {
         this.common.loading--;
@@ -95,30 +103,30 @@ export class ImportDocumentComponent implements OnInit {
       });
   }
 
-  checkCsv(validate = null) {
-    const params = {
-      vehicleDocCsv: this.csv,
-      validate: validate,
-      docTypeId: this.docType.id
-    };
-    if (!params.vehicleDocCsv) {
-      return this.common.showError("Select  Option");
-    }
-    console.log("Data :", params);
-    this.common.loading++;
-    this.api.post('Drivers/ImportDriversCsv', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("upload result", res);
-        let errorData = res['data'];
-        this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
-        const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  // checkCsv(validate = null) {
+  //   const params = {
+  //     driverCsv: this.csv,
+  //     validate: validate,
+     
+  //   };
+  //   if (!params.driverCsv) {
+  //     return this.common.showError("Select  Option");
+  //   }
+  //   console.log("Data :", params);
+  //   this.common.loading++;
+  //   this.api.post('Drivers/ImportDriversCsv', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log("upload result", res);
+  //       let errorData = res['data'];
+  //       this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
+  //       const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 
 
   handleFileSelection(event) {
