@@ -138,8 +138,10 @@ export class ConciseComponent implements OnInit {
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
-        report: { value: `<i class="fa fa-info"></i>`, isHTML: true, action: this.vehicleReport.bind(this, kpi) },
-        issue: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
+        action: {value: '', isHTML: false, action: null, icons: [
+          {class: 'icon fa fa-info', action: this.vehicleReport.bind(this, kpi)},
+          {class: 'fa fa-question-circle', action: this.reportIssue.bind(this, kpi)}
+        ]},
         rowActions: {
           click: 'selectRow'
         }
@@ -476,8 +478,7 @@ export class ConciseComponent implements OnInit {
           trip: { title: 'Trip', placeholder: 'Trip' },
           kmp: { title: 'Kmp', placeholder: 'KMP' },
           location: { title: 'Location', placeholder: 'Location' },
-          report: { title: 'Report', placeholder: 'Report', hideSearch: true },
-          issue: { title: 'Issue', placeholder: 'Issue', hideSearch: true },
+          action: { title: 'Action', placeholder: '', hideSearch: true }
         },
         columns: this.getTableColumns()
       },
