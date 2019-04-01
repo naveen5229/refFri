@@ -11,7 +11,7 @@ import { DirectiveModule } from '../directives/directives.module';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
 import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
-import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+// import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
@@ -35,7 +35,7 @@ const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
   EscalationMatrixComponent,
-  GenerateLRComponent,
+  // GenerateLRComponent,
   GroupManagementsComponent,
   TicketPropertiesComponent,
   IssueAlertsComponent,

@@ -33,7 +33,7 @@ export class UserService {
       { id: 3, route: '/admin/issue-alerts' },
       { id: 4, route: '/admin/escalation-matrix' },
       { id: 5, route: '/admin/lrview' },
-      { id: 6, route: '/admin/generate-lr' },
+      // { id: 6, route: '/admin/generate-lr' },
       { id: 7, route: '/admin/group-managements' },
       { id: 8, route: '/admin/ticket-properties' },
       { id: 9, route: '/admin/lorry-receipt-details' },

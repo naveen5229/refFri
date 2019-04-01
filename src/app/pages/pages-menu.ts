@@ -30,6 +30,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/lorry-receipts',
   },
   {
+    title: 'Generate LR',
+    icon: 'fas fa-pencil-alt',
+    link: '/pages/generate-lr',
+  },
+
+  {
     title: 'Expenses',
     icon: 'fa fa-book',
     link: '/pages/expenses',
@@ -47,17 +53,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
-    link:'/tyres/inventory'
+    link: '/tyres/inventory'
   },
   {
     title: 'Documentation',
     icon: 'fa fa-database',
-    link:'/documents/documents-summary'
+    link: '/documents/documents-summary'
   },
   {
     title: 'Account',
     icon: 'fa fa-money',
-    link:'/accounts/dashboard'
+    link: '/accounts/dashboard'
   },
   // {
   //   title: 'Driver',
@@ -65,5 +71,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link:'/driver/dashboard',
   //   home: true,
   // },
-  
+
 ];
