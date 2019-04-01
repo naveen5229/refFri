@@ -48,8 +48,6 @@ button { background-color: #73a1ff;
     border-radius: 0;
     padding: 8px;
     background-color: #e4e4e4;
-    margin-top: 20px;
-    min-height: 230px;
 }
 
 .date-modal{
@@ -94,12 +92,10 @@ button { background-color: #73a1ff;
     border-color: #26a69a;
 }
 button { 
-    background-color: #263238;
+    background-color: #73a1ff;
     border-radius: 5px !important;
     text-transform: capitalize !important;
-    padding: 10px 20px !important;
-    outline: none;
-    box-shadow: none;
+    padding: 10px !important;
 }
 
 nb-card-header{
@@ -115,7 +111,7 @@ nb-card-header{
     border-radius: 3px 3px 0px 0px;
     font-size: 12px;
     min-width: 80px !important;
-    font-weight: normal;
+    text-align: center;
 }
 .ref-input{
     border: 1px solid #263238 !important;
@@ -133,22 +129,5 @@ nb-card-header{
     line-height: initial;
 }
 .form-control:focus{
-    border-color: #263238 !important;
+    border: 0px !important;
 }
-button.btn-primary{
-    background-color: #263238 !important;
-    padding: 8px 10px !important;
-}
-table tr{
-    th{
-        padding: 5px 10px!important;
-        font-weight: normal;
-    }
-    td{
-        padding: 5px 10px!important;
-        input, select{
-            padding: 5px !important;
-            height: 30px !important;
-        }
-    }
-} 
