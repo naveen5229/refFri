@@ -69,7 +69,6 @@
     <th>Date</th>
     <th>Code</th>
     <th>Customer Code</th>
-    <th>Ledger Type</th>
     <th>Ledger</th>
     <th>Amount(Debit)</th>
     <th>Amount(Credit)</th>
@@ -80,10 +79,9 @@
     <td>{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
-    <td>{{dataItem.y_type}}</td>
     <td>{{dataItem.y_ledger}}</td>
-    <td *ngIf="dataItem.y_dramunt != 0" >{{dataItem.y_dramunt}}</td>
-    <td *ngIf="dataItem.y_dramunt == 0" ></td>
+    <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_dramunt}}</td>
+    <td *ngIf="dataItem.y_cramunt == 0" ></td>
     <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_cramunt}}</td>
     <td *ngIf="dataItem.y_cramunt ==0" ></td>
   </tr>
