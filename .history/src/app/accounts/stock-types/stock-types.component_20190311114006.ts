@@ -20,7 +20,6 @@ export class StockTypesComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.getStockTypes();
-    this.common.currentPage = 'Stock Types';
 
   }
 
