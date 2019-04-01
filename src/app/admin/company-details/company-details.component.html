@@ -14,7 +14,8 @@
         <thead class="thead">
           <tr>
             <th>SrNo</th>
-
+            <th>Name</th>
+            <th>Mobile No</th>
             <th style="width:120px; text-align: center;">Action</th>
           </tr>
         </thead>
@@ -23,6 +24,9 @@
             <td>{{row.id}}</td>
             <td>{{row.name}}</td>
             <td>{{row.mobile}}</td>
+            <td><span  (click)="updateDriverInfo(driver)" >
+                <i class="fas fa-user-edit" style="font-size:24px;"></i>
+            </span></td>
           </tr>
         </tbody>
       </table>
