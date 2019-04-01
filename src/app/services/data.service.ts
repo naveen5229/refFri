@@ -55,11 +55,11 @@ export class DataService {
       //   icon: 'fa fa-info-circle',
       //   link: '/admin/lrview',
       // },
-      // {
-      //   title: 'Generate LR',
-      //   icon: 'fa fa-pencil',
-      //   link: '/admin/generate-lr',
-      // },
+      {
+        title: 'Generate LR',
+        icon: 'fa fa-pencil',
+        link: '/admin/generate-lr',
+      },
       {
         title: 'Group Managements',
         icon: 'fa fa-users',

@@ -69,7 +69,7 @@ const PAGES_COMPONENTS = [
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
-    GenerateLRComponent
+    // GenerateLRComponent
     
   ],
 })

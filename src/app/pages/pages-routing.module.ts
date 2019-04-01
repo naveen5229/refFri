@@ -51,10 +51,10 @@ const routes: Routes = [{
     path: 'lorry-receipts',
     component: LorryRecciptsComponent,
   },
-  {
-    path:'generate-lr',
-    component:GenerateLRComponent,
-  },
+  // {
+  //   path:'generate-lr',
+  //   component:GenerateLRComponent,
+  // },
   {
     path: 'expenses',
     component: ExpensesComponent,

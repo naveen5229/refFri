@@ -9,7 +9,7 @@ import { VehicleStatusChangeComponent } from './vehicle-status-change/vehicle-st
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
-// import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
@@ -52,10 +52,10 @@ const routes: Routes = [{
             component: EscalationMatrixComponent,
             canActivate: [RouteGuard]
         },
-        // {
-        //     path: 'generate-lr',
-        //     component: GenerateLRComponent,
-        // },
+        {
+            path: 'generate-lr',
+            component: GenerateLRComponent,
+        },
         {
             path: 'group-managements',
             component: GroupManagementsComponent,
