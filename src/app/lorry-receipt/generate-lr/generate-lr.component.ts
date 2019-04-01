@@ -83,7 +83,8 @@ export class GenerateLRComponent implements OnInit {
 
   }
   ngAfterViewInit(): void {
-    this.mapService.autoSuggestion("sourceCity",(place,lat,long)=>{this.lr.sourceCity=place;})
+    this.mapService.autoSuggestion("sourceCity",(place,lat,long)=>{this.lr.sourceCity=place;});
+    this.mapService.autoSuggestion("destinationCity",(place,lat,long)=>{this.lr.destinationCity=place;});
   }
 
 
