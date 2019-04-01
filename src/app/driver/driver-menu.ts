@@ -2,17 +2,18 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Home',
+        title: 'Home Dashboard',
+        icon: 'fa fa-home',
+        link: '/pages/dashboard',
+        home: true,
+    },
+    {
+        title: 'Driver List ',
         icon: 'nb-home',
         link: '/driver/driver-list',
         home: true,
     },
-    // {
-    //     title: 'Drivers',
-    //     icon: 'nb-home',
-    //     link: '/driver/driver-list',
-    //     home: true,
-    // },
+ 
     {
         
         title: 'Vehicle Driver Mapping',
@@ -25,6 +26,13 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         title: 'Attendace List',
         icon: 'nb-home',
         link: '/driver/driver-attendance',
+        home: true,
+    },
+    {
+        
+        title: 'Driver Document',
+        icon: 'fa fa-book',
+        link: '/driver/driver-document',
         home: true,
     },
 

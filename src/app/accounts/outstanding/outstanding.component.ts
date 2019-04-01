@@ -19,8 +19,8 @@ export class OutstandingComponent implements OnInit {
     endDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
-      name: '',
-      id: ''
+      name: 'All',
+      id: 0
     },
     branch: {
       name: '',
@@ -31,15 +31,16 @@ export class OutstandingComponent implements OnInit {
   ledgerData = [];
   voucherEntries = [];
   ledgerList=[];
-  activeId = '';
+  activeId = 'ledger';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getBranchList();
+    // this.getBranchList();
     this.getLedgerList();
-    this.setFoucus('branch');
+    this.setFoucus('ledger');
+    this.common.currentPage = 'Outstanding';
 
   }
 

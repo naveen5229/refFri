@@ -257,8 +257,10 @@ export class EditLorryDetailsComponent implements OnInit {
           this.dismiss();
         }
         else  
+        {
          this.common.showToast('Not Success !!');
-         
+         console.log('Not Success !!')
+        }
         
       }, err => {
         this.common.loading--;
