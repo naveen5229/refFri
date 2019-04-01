@@ -116,6 +116,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/vehicles-view',
         home: true,
+    },
+    {
+        title: 'Company Details',
+        icon: 'nb-home',
+        link: '/admin/company-details',
+        home: true,
     }
 
 

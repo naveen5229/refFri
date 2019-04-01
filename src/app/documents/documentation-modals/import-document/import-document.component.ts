@@ -41,7 +41,7 @@ export class ImportDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.btn3 = this.common.params.btn3 || 'Validate';
     this.vehicleId = this.common.params.vehicleId;
-    this.getDocumentsData();
+    // this.getDocumentsData();
 
   }
 
@@ -52,21 +52,21 @@ export class ImportDocumentComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  getDocumentsData() {
-    this.common.loading++;
-    let response;
-    this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("data", res);
-        this.docTypes = res['data'].document_types_info;
-        console.log("new doc type", this.docTypes);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return response;
-  }
+  // getDocumentsData() {
+  //   this.common.loading++;
+  //   let response;
+  //   this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log("data", res);
+  //       this.docTypes = res['data'].document_types_info;
+  //       console.log("new doc type", this.docTypes);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  //   return response;
+  // }
 
   selectDocType(documentType) {
     this.docType = documentType;
@@ -76,14 +76,13 @@ export class ImportDocumentComponent implements OnInit {
   uploadCsv() {
     const params = {
       vehicleDocCsv: this.csv,
-      docTypeId: this.docType.id
     };
-    if (!params.docTypeId || !params.vehicleDocCsv) {
+    if (!params.vehicleDocCsv) {
       return this.common.showError("Select  Option");
     }
     console.log("Data :", params);
     this.common.loading++;
-    this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
+    this.api.post('Drivers/ImportDriversCsv', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
@@ -107,7 +106,7 @@ export class ImportDocumentComponent implements OnInit {
     }
     console.log("Data :", params);
     this.common.loading++;
-    this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
+    this.api.post('Drivers/ImportDriversCsv', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
