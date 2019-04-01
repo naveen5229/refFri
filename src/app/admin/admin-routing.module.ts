@@ -20,7 +20,7 @@ import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-
 import { from } from 'rxjs';
 import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
 import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
-
+import { CompanyDetailsComponent } from './company-details/company-details.component';
 
 
 const routes: Routes = [{
@@ -108,6 +108,11 @@ const routes: Routes = [{
         {
             path: 'vehicles-view',
             component: VehiclesViewComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'company-details',
+            component: CompanyDetailsComponent,
             canActivate: [RouteGuard]
         },
 
