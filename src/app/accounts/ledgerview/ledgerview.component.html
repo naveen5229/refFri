@@ -12,7 +12,7 @@
        <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="ledger.branch.name"/>
     </div>
   </div> -->
-  <div class="col-4">
+  <div class="col">
       <div class="form-group">
         <label class="tjr-label">Voucher Type</label>
         <!-- <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
@@ -20,7 +20,7 @@
           <input type="text" id="voucherType" class="form-control tjr-input" name="voucherType" [(ngModel)]="ledger.voucherType.name"/>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col">
         <div class="form-group">
           <label class="tjr-label">Ledger</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
@@ -30,19 +30,19 @@
       </div>
       </div>
       <div class="row">
-      <div class="col-3">
+      <div class="col">
           <div class="form-group">
               <label class="tjr-label">Starting Date</label>
               <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startdate" autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
           </div>
         </div>
-        <div class="col-3">
+        <div class="col">
             <div class="form-group">
                 <label class="tjr-label">End Date</label>
                 <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off" maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
             </div>
           </div>
-  <div class="col-3">
+  <div class="col">
     <div class="form-group">
       <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getLedgerView()" id="submit"
         style="cursor: pointer;margin-top: 18px;">Submit</button>
