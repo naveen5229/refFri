@@ -27,6 +27,7 @@ export class RemarkModalComponent implements OnInit {
     this.title = this.common.params.title || 'Remark';
     this.placeholder = this.common.params.placeholder || 'Write your remark here...';
     this.label = this.common.params.label || 'Remark';
+    this.remark = this.common.params.remark || '';
     this.btn1 = this.common.params.btn1 || 'Submit';
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.isMandatory = this.common.params.isMandatory == false ? false : true;

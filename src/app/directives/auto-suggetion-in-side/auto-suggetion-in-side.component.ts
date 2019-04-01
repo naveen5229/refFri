@@ -24,11 +24,15 @@ export class AutoSuggetionInSideComponent implements OnInit {
 
   ngOnChanges(changes) {
     this.data = changes.data.currentValue;
-    this.display = changes.display.currentValue;
-    if (this.seperator) {
+    if (changes.display) {
+      this.display = changes.display.currentValue;
+    }
+    if (changes.seperator) {
       this.seperator = changes.seperator.currentValue;
     }
-    this.targetId = changes.targetId.currentValue;
+    if (changes.targetId) {
+      this.targetId = changes.targetId.currentValue;
+    }
     this.initialize();
   }
 
@@ -49,24 +53,22 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   handleTargetId() {
-    console.log(this.targetId);
     let ele = document.getElementById(this.targetId);
-    console.log(ele);
-    ele.oninput = () => {
-      console.log('Tts');
-      let txt = document.getElementById(this.targetId)['value'];
-      console.log(txt);
-      this.filterData(txt);
-    }
+    ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
     ele.onkeydown = this.handleKeyDown.bind(this);
-
   }
 
   filterData(searchText) {
-
+    if (!searchText) {
+      this.suggestions = this.data;
+      this.suggestions.splice(10, this.suggestions.length - 11);
+      return;
+    }
     this.suggestions = this.data.filter(suggestion => {
       return suggestion[this.display].toLowerCase().includes(searchText.toLowerCase());
-    })
+    });
+    this.suggestions.splice(10, this.suggestions.length - 11);
+    return;
   }
 
   selectSuggestion(suggestion) {
@@ -77,15 +79,16 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   handleKeyDown(event) {
-    console.log('Event:', event);
+    // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
       if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;
-      else this.activeSuggestion = 0;
+      console.log('Active: ', this.activeSuggestion);
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'arrowup') {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
-      else this.activeSuggestion = this.suggestions.length - 1;
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
@@ -94,8 +97,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
         this.selectSuggestion(this.suggestions[0]);
       }
     }
-
-
   }
+
 
 }

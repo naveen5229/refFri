@@ -16,11 +16,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Tickets',
     icon: 'nb-notifications',
     link: '/pages/tickets',
+    home: true,
   },
   {
     title: 'Tickets All',
     icon: 'nb-title',
     link: '/pages/tickets-all',
+    home: true,
   },
   {
     title: 'Lorry Receipts',
@@ -56,5 +58,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Account',
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
-  }
+  },
+  {
+    title: 'Driver',
+    icon: 'fa fa-money',
+    link:'/driver/dashboard',
+    home: true,
+  },
+  
 ];

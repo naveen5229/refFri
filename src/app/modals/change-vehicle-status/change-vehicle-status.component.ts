@@ -9,6 +9,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
+import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 
 declare let google: any;
 
@@ -58,7 +59,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
     this.getEvents();
-    this.getLoadingUnLoading();
+    //this.getLoadingUnLoading();
     console.log("date1",this.toTime);
   }
 
@@ -189,6 +190,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
     });
   }
 
+  showPreviousLUL(){
+    if(this.lUlBtn){
+      console.log("this.lUlBtn",this.lUlBtn);
+      this.getLoadingUnLoading();
+    }
+  }
+
+
   getLoadingUnLoading() {
     this.dataType = 'events';
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
@@ -221,6 +230,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
     let thisMarkers = [];
     console.log("Markers", markers);
+    this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
 
       let subType = markers[index]["subType"];
@@ -268,7 +278,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         map: this.map,
         title: title
       });
-      if (changeBounds)
+      if (changeBounds&&!(''+markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
       console.log("ThisMarker: ",thisMarkers);
@@ -691,8 +701,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       fromTime: this.VehicleStatusData.latch_time,
       vehicleId: this.VehicleStatusData.vehicle_id,
-      tLat: this.VehicleStatusData.tlat,
-      tLong: this.VehicleStatusData.tlong,
+      tLat: 0.0,
+      tLong: 0.0,
       tTime: this.toTime,
     }
 
@@ -718,7 +728,17 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("reportIssue",vehicleEvent);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
+  }
 
+  mapReset(){
+    this.reloadData();
+  }
+
+  openManualHalt(vehicleEvent){
+    this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno}
+    console.log("open manual halt modal");
+    const activeModal = this.modalService.open(ManualHaltComponent, { size: 'md', container: 'nb-layout' });
+   // activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
   }
 }
 

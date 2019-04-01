@@ -15,12 +15,12 @@ import * as _ from 'lodash';
 export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
-  ledger = {
+  outStanding = {
     endDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
-      name: '',
-      id: ''
+      name: 'All',
+      id: 0
     },
     branch: {
       name: '',
@@ -30,14 +30,17 @@ export class OutstandingComponent implements OnInit {
 
   ledgerData = [];
   voucherEntries = [];
-  activeId = '';
+  ledgerList=[];
+  activeId = 'ledger';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getBranchList();
-    this.setFoucus('branch');
+    // this.getBranchList();
+    this.getLedgerList();
+    this.setFoucus('ledger');
+    this.common.currentPage = 'Outstanding';
 
   }
 
@@ -61,14 +64,31 @@ export class OutstandingComponent implements OnInit {
       });
 
   }
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
 
   getLedgerView() {
-    console.log('Ledger:', this.ledger);
+    console.log('Ledger:', this.outStanding);
     let params = {
-      startdate: this.ledger.startDate,
-      enddate: this.ledger.endDate,
-      ledger: this.ledger.ledger.id,
-      branch: this.ledger.branch.id
+      startdate: this.outStanding.startDate,
+      enddate: this.outStanding.endDate,
+      ledger: this.outStanding.ledger.id,
+      branch: this.outStanding.branch.id
     };
 
     this.common.loading++;
@@ -87,14 +107,14 @@ export class OutstandingComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.ledger[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log(this.ledger[date]);
+      this.outStanding[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      console.log(this.outStanding[date]);
     });
   }
 
   onSelected(selectedData, type, display) {
-    this.ledger[type].name = selectedData[display];
-    this.ledger[type].id = selectedData.id;
+    this.outStanding[type].name = selectedData[display];
+    this.outStanding[type].id = selectedData.id;
     // console.log('order User: ', this.DayBook);
   }
 

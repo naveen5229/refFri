@@ -45,6 +45,12 @@ export class DataService {
         link: '/admin/escalation-matrix',
       },
       {
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
+        home: true,
+      },
+      {
         title: 'LR View',
         icon: 'fa fa-info-circle',
         link: '/admin/lrview',
@@ -103,11 +109,17 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
+      },   
+      {
+        title: 'gps-supplier-mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
       },
       {
-        title: 'Alert Related Issue',
-        icon: 'far fa-bell',
-        link: '/admin/alert-related-issue',
+        title: 'vehicles-view',
+        icon: 'nb-home',
+        link: '/admin/vehicles-view',
         home: true,
       }
     ];

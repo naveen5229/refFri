@@ -74,7 +74,7 @@ export class AddDriverCompleteComponent implements OnInit {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       photo: this.driverForm.controls.uploadPhoto.value,
-      lisenceno: this.driverForm.controls.lisenceno.value,
+      lisenceNo: this.driverForm.controls.lisenceno.value,
       licencePhoto: this.driverForm.controls.lisencephoto.value,
       aadharNo: this.driverForm.controls.aadharno.value,
       aadharPhoto: this.driverForm.controls.aadharphoto.value,
@@ -87,6 +87,7 @@ export class AddDriverCompleteComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
+        this.closeModal();
       }, err => {
         this.common.loading--;
         console.log(err);

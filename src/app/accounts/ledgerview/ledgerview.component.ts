@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,28 +17,39 @@ export class LedgerviewComponent implements OnInit {
     endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       },
       branch :{
         name:'',
         id:''
       },
       voucherType :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       }
     
     };
   ledgerData=[];
-  activeId = '';
+  ledgerList=[];
+  activeId = 'voucherType';
+  selectedRow = -1;
+
+  @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event) {
+      this.keyHandler(event);
+    }
+
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
     this.getVoucherTypeList();
-    this.getBranchList();
-    this.setFoucus('branch');
+   // this.getBranchList();
+    this.getLedgerList();
+    this.setFoucus('voucherType');
+    this.common.currentPage = 'Ledger View';
     }
 
   ngOnInit() {
@@ -77,6 +88,23 @@ export class LedgerviewComponent implements OnInit {
       }); 
 
   }
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      }); 
+
+  }
   getLedgerView() {
     console.log('Ledger:', this.ledger);
     let params = {
@@ -93,6 +121,10 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerData = res['data'];
+        if (this.ledgerData.length) {
+          document.activeElement['blur']();
+          this.selectedRow = 0;
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -119,8 +151,8 @@ export class LedgerviewComponent implements OnInit {
     console.log('Active event', event);
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
-        this.setFoucus('vouchertype');
-      }else  if (this.activeId.includes('vouchertype')) {
+        this.setFoucus('voucherType');
+      }else  if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       }else  if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
@@ -129,6 +161,13 @@ export class LedgerviewComponent implements OnInit {
       }else  if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
+    }
+
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerData.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.ledgerData.length - 1) this.selectedRow++;
+
     }
   }
 

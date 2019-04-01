@@ -36,16 +36,17 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
   openEditLorryDetailsModel(details) {
-    this.common.params = { details };
+    this.common.params = { details: Object.assign({}, details) };
     const activeModel = this.modalService.open(EditLorryDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
     this.common.handleModalSize('class', 'modal-lg', '1000');
-    activeModel.result.then(data =>{
-      if(!data.status){
-       this.exitTicket(details);
-       if(data.isDelete){
+    activeModel.result.then(data => {
+      // if(!data.status){
+      //  this.exitTicket(details);
+       if(data.isUpdated){
+        this.exitTicket(details);
        this.getPendingLr();
        }
-      }
+     // }
     });
   }
 
@@ -90,7 +91,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
         result = res
         console.log(result);
         if (!result.sucess) {
-         // alert(result.msg);
+          // alert(result.msg);
           return false;
         }
         else {
@@ -103,6 +104,6 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
   }
 
-  
+
 
 }

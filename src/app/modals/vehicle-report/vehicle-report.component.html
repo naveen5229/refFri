@@ -1,14 +1,15 @@
-<nb-card>
-  <nb-card-header>
-      Vehicle Report
-  </nb-card-header>
-  <nb-card-body>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Vehicle Report</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
     
-<div class="model-body">
+<div class="model-body" style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px">
     <div class="row">
         <div class="col-sm-3">
-            <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-            placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+         
+          <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control"> 
         </div>
         <div class="col-sm-3">
             <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
@@ -24,14 +25,14 @@
             <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
         </div>
       </div>
-<table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px">
+<table class="table table-bordered" style="margin-top:20px">
   <thead class="thead" style="background-color:darkgrey">
     <tr *ngIf="report.length">
     <th>Id</th>
     <th>Date Time</th>
     <th>Reason</th>
-    <th>Stoppage </th>
-    <th>Place</th>
+    <th>Place </th>
+    <th>Location</th>
     <th>Start</th>
     <th>End</th>
     <th>Duration(Hours)</th>
@@ -52,5 +53,3 @@
   </tbody>
 </table> 
 </div>
-</nb-card-body>
-</nb-card>
