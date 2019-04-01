@@ -10,6 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
+import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 
 declare let google: any;
 
@@ -47,6 +48,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   onlyDrag = false;
   vehicleEvent = null;
   convertSiteHaltFlag = false;
+  ref_page : null;
   toTime= this.common.dateFormatter(new Date());
   constructor(
     public modalService: NgbModal,
@@ -55,6 +57,10 @@ export class ChangeVehicleStatusComponent implements OnInit {
     private activeModal: NgbActiveModal,
   ) {
     this.VehicleStatusData = this.common.params;
+    this.ref_page = this.common.ref_page;
+    if(this.ref_page != 'vsc'){
+      this.toTime = this.VehicleStatusData.tTime
+    }
     this.common.handleModalSize('class', 'modal-lg', '1600');
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
@@ -738,7 +744,64 @@ export class ChangeVehicleStatusComponent implements OnInit {
     this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno}
     console.log("open manual halt modal");
     const activeModal = this.modalService.open(ManualHaltComponent, { size: 'md', container: 'nb-layout' });
-   // activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
+    activeModal.result.then(data => 
+      this.reloadData());
+  }
+
+  resolveTicket(status) {
+    console.log("VehicleStatusData", this.VehicleStatusData);
+    this.common.loading++;
+    let params = {
+      rowId : this.VehicleStatusData.id,
+      remark:this.VehicleStatusData.remark || null,
+      status: status,
+      
+    };
+    if(params.status==-1)
+    { 
+      this.common.loading--;
+      this.openConrirmationAlert(params);
+      // this.activeModal.close();
+      return ;
+    }
+    console.log("param:",params);  
+    this.api.post('MissingIndustry/edit', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.activeModal.close();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    // this.activeModal.close();
+  }
+
+  openConrirmationAlert(params) {
+          
+
+    this.common.params={remark:params.remark,title:'Reject Reason '}
+   
+    
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("reason For delete: ", data.remark);
+        params.remark = data.remark;
+        this.common.loading++;
+        this.api.post('MissingIndustry/edit', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("data", res);
+            this.activeModal.close();
+
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+
+          });
+      }
+    });
   }
 }
 

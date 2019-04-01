@@ -50,11 +50,11 @@ export class DataService {
         link: '/admin/alert-related-issue',
         home: true,
       },
-      {
-        title: 'LR View',
-        icon: 'fa fa-info-circle',
-        link: '/admin/lrview',
-      },
+      // {
+      //   title: 'LR View',
+      //   icon: 'fa fa-info-circle',
+      //   link: '/admin/lrview',
+      // },
       {
         title: 'Generate LR',
         icon: 'fa fa-pencil',
@@ -121,7 +121,19 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/vehicles-view',
         home: true,
-      }
+      },
+      {
+        title: 'Company Details',
+        icon: 'nb-home',
+        link: '/admin/company-details',
+        home: true,
+    },
+    {
+      title: 'Transport Agents',
+      icon: 'nb-home',
+      link: '/admin/transport-agents',
+      home: true,
+  }
     ];
   }
 }
