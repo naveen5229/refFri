@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">UpdateTrip</h4>
+    <h4 class="modal-title" id="modal-basic-title">Update Company Details</h4>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-md-8" style="margin-top:5px">
                     <input type="text" class="form-control" id="companyname" name="name" placeholder="Company"
-                    [(ngModel)]="company.name" readonly>
+                    [(ngModel)]="company.name" >
                 </div>
               </div>
     <div class="row" style="margin-top:5px">
@@ -20,7 +20,7 @@
       </div>
       <div class="col-md-8">
         <input type="text" class="form-control" id="pan" name="pan" placeholder="PAN Number"
-          [(ngModel)]="company.pan" readonly>
+          [(ngModel)]="company.pan">
       </div>
     </div>
   
@@ -31,7 +31,7 @@
         <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
       </div>
       <div class="col">
-        <button class="btn btn-primary" (click)="updateTrip();" style="cursor:pointer;">Submit</button>
+        <button class="btn btn-primary" (click)="updateCompany();" style="cursor:pointer;">Submit</button>
       </div>
     </div>
   </div>

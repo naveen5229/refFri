@@ -10,7 +10,8 @@ import { UserService } from './user.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
-
+import * as moment_ from 'moment';
+const moment = moment_;
 @Injectable({
   providedIn: 'root'
 })
@@ -67,7 +68,7 @@ ref_page = null;
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe) {
-    
+
   }
 
   showError(msg?) {
@@ -124,7 +125,7 @@ ref_page = null;
     this.router.navigate([page.page]);
   }
 
-  dateFormatter(date, type = 'YYYYMMDD', isTime = true, separator = '/') {
+  dateFormatter(date, type = 'YYYYMMDD', isTime = true, separator = '-') {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
@@ -132,7 +133,7 @@ ref_page = null;
 
     // console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return ( year + separator + month + separator +  dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
+      return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     } else {
       return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     }
@@ -320,9 +321,62 @@ ref_page = null;
     return generatedArray;
   }
 
+  dateDiffInHours(startTime,endTime) {
+    if(startTime == null || endTime == null){
+      return '0';
+    }
+    startTime = new Date(startTime);
+    endTime =new Date(endTime);
+    let resultTime = endTime - startTime;
+    let sec = resultTime / 1000;
+    let min = sec / 60;
+    let hour = min / 60;
+    let returnResult = hour.toFixed(5);
+    return returnResult;
+  }
+
+  dateDiffInHoursAndMins(startTime,endTime) {
+    if(startTime == null){
+      return '0';
+    }
+    if(endTime == null){
+      return '-1'
+    }
+    let result;
+    startTime = (new Date(startTime)).getTime();
+    endTime = (new Date(endTime)).getTime();
+    let resultTime = endTime - startTime;
+     result=moment.utc(resultTime).format('HH:mm');
+        console.log('moment',result);
+    // //console.log('begore resultTime: ' + resultTime);
+    // // if(this.resultTime>0){
+    //   let sec = (resultTime / 1000);
+    //   let hour=parseInt(''+sec/3600);
+    //   let tmin=sec%3600;
+    //   let min=parseInt(''+tmin/60);
+    //   sec=tmin%60;
+    // if (hour != 0) {
+    //   if (hour.toString().length == 1) {
+    //     result = '0' + hour + '.';
+    //     // this.resultTime=this.h;
+    //   } else
+    //      result = hour + '.';
+
+    //   if (min != 0) {
+    //     if (min.toString().length == 1) {
+    //       result += '0' + min;
+    //     } else
+    //     result += min;
+    //   } else
+    //     result += '00';
+    // }
+    // console.log(startTime,endTime,result);
+    return result;
+  }
+
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
-      return 0;
+      return "0";
     }
     else {
       let radlat1 = Math.PI * lat1 / 180;

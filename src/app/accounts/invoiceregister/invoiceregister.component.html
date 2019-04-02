@@ -14,7 +14,7 @@
     </div> -->
     <div class="col">
         <div class="form-group">
-          <label class="tjr-label">Voucher Type</label>
+          <label class="tjr-label">Type</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'orderType', 'name')" url="Suggestion/GetOrderTypeList" display="name"
             placeholder="Enter Order Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion> -->
             <input type="text" id="voucherType" class="form-control tjr-input" name="voucherType" [(ngModel)]="invoiceRegister.voucherType.name"/>
@@ -22,7 +22,8 @@
       </div>
       <div class="col">
           <div class="form-group">
-            <label class="tjr-label">Ledger</label>
+            <label class="tjr-label" *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('purchase')">Vender</label>
+            <label class="tjr-label" *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('sales')">Sales</label>
             <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
               placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="invoiceRegister.ledger.name">

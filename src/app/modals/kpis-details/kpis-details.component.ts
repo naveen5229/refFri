@@ -27,9 +27,9 @@ export class KpisDetailsComponent implements OnInit {
 
   ngOnInit() {
   }
-  getLR(kpi) {
+  getLR(lrId) {
     this.common.loading++;
-    this.api.post('FoDetails/getLorryDetails', { x_lr_id: kpi.x_lr_id })
+    this.api.post('FoDetails/getLorryDetails', { x_lr_id: lrId })
       .subscribe(res => {
         this.common.loading--;
         this.showLR(res['data'][0]);

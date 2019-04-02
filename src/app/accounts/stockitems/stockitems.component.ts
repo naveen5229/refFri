@@ -17,6 +17,7 @@ export class StockitemsComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.getStockItems();
+    this.common.currentPage = 'Stock Item';
   }
 
   ngOnInit() {

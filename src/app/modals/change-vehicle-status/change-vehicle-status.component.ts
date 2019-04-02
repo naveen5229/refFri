@@ -11,6 +11,7 @@ import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
+import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 
 declare let google: any;
 
@@ -778,11 +779,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   openConrirmationAlert(params) {
-          
-
     this.common.params={remark:params.remark,title:'Reject Reason '}
-   
-    
     const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -802,6 +799,16 @@ export class ChangeVehicleStatusComponent implements OnInit {
           });
       }
     });
+  }
+  openRouteMapper(vehicleEvent){
+    let fromTime ;
+    //this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno,fromTime:,toTime:}
+    console.log("open Route Mapper modal");
+    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data =>
+      console.log("data",data) 
+      // this.reloadData()
+      );
   }
 }
 

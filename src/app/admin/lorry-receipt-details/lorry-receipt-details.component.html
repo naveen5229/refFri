@@ -1,35 +1,35 @@
 <nb-card>
-    <nb-card-header>
-        Lorry Receipt Details
-    </nb-card-header>
-    <nb-card-body>
-<div class="model-body">
-  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px;">
-    <thead class="thead">
-      <tr>
-      <th>Id</th>
-      <th>Vehicle RegNo.</th>
-      <th>Vehicle Id</th>
-      <th>Source</th>
-      <th>Destination</th>
-      <th>User</th>
-      <th>Add Time</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of pendinglr; let i=index;">
-      <td>{{data.id}}</td>
-      <td>{{data.regno}}</td>
-      <td>{{data.vehicle_id}}</td>
-      <td>{{data.source}}</td>
-      <td>{{data.destination}}</td>
-      <td>{{data.current_user}}</td>
-      <!-- <td>{{data.weight}}</td> -->
-      <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-      <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
-    </tbody>
-  </table>
-</div>
-</nb-card-body>
+  <nb-card-header>
+    Lorry Receipt Details
+  </nb-card-header>
+  <nb-card-body>
+    <div class="model-body">
+      <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px;">
+        <thead class="thead">
+          <tr>
+            <th>Id</th>
+            <th>Vehicle RegNo.</th>
+            <th>Vehicle Id</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>User</th>
+            <th>Add Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of pendinglr; let i=index;">
+            <td>{{data.id}}</td>
+            <td>{{data.regno}}</td>
+            <td>{{data.vehicle_id}}</td>
+            <td>{{data.source}}</td>
+            <td>{{data.destination}}</td>
+            <td>{{data.current_user}}</td>
+            <!-- <td>{{data.weight}}</td> -->
+            <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
+            <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
 </nb-card>

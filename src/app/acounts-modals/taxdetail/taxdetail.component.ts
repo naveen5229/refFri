@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
+import { UserService } from '../../@core/data/users.service';
 
 @Component({
   selector: 'taxdetail',
@@ -11,28 +12,59 @@ import { CommonService } from '../../services/common.service';
 export class TaxdetailComponent implements OnInit {
   showConfirm = false;
   taxdetails = [{
-    taxledger:{
-      name:'',
-      id:'',
+    taxledger: {
+      name: '',
+      id: '',
     },
-    taxrate:'',
-    taxamount:''
+    taxrate: '',
+    taxamount: ''
 
   }];
-  constructor(private activeModal: NgbActiveModal,
-    public common: CommonService){
-      this.setFoucus('taxledger-0');
-     }
+  autoSuggestion = {
+    data: [],
+    targetId: '',
+    display: ''
+  };
 
-    allowBackspace = true;
+  constructor(public api: ApiService,
+    private activeModal: NgbActiveModal,
+    public common: CommonService) {
+    this.setFoucus('taxledger-0');
+    this.getPurchaseLedgers();
+  }
+
+  allowBackspace = true;
+
+
   ngOnInit() {
   }
 
   dismiss(response) {
     this.activeModal.close({ response: response, taxDetails: this.taxdetails });
     return this.taxdetails;
-   // console.log(this.taxdetails);
-    
+    // console.log(this.taxdetails);
+
+  }
+
+  getPurchaseLedgers() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.autoSuggestion.data = res['data'];
+        this.autoSuggestion.targetId = 'taxledger-0';
+        this.autoSuggestion.display = 'name';
+        // this.suggestions.purchaseLedgers = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
   }
 
   onSelected(selectedData, type, display, index) {
@@ -43,33 +75,36 @@ export class TaxdetailComponent implements OnInit {
 
   addAmountDetails() {
     this.taxdetails.push({
-      taxledger:{
-        name:'',
-        id:'',
+      taxledger: {
+        name: '',
+        id: '',
       },
-    taxrate:'',
-    taxamount:''
+      taxrate: '',
+      taxamount: ''
     });
 
     const activeId = document.activeElement.id;
-    let index = parseInt(activeId.split('-')[1])+1;
+    let index = parseInt(activeId.split('-')[1]) + 1;
     console.log(index);
-   // activeId.includes('taxdetailbutton');
-    this.setFoucus('taxledger-'+index);
+    // activeId.includes('taxdetailbutton');
+    this.setFoucus('taxledger-' + index);
   }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
+    if (activeId.includes('taxledger')) {
+      this.autoSuggestion.targetId = activeId;
+    }
 
     if (this.showConfirm) {
       if (key == 'enter') {
         console.log(' show taxdetails:', this.taxdetails);
         this.dismiss(true);
         this.common.showToast('Your Value Has been saved!');
-      } else   if (key == 'y') {
-         this.addAmountDetails();
+      } else if (key == 'y') {
+        this.addAmountDetails();
       }
       this.showConfirm = false;
       event.preventDefault();
@@ -78,36 +113,37 @@ export class TaxdetailComponent implements OnInit {
 
     if (key == 'enter') {
       this.allowBackspace = true;
-        // console.log('active', activeId);
-        if (activeId.includes('taxledger') || activeId.includes('taxrate')|| activeId.includes('taxamount')) {
-          let index = activeId.split('-')[1];
-          if (activeId.includes('taxledger'))  this.setFoucus('taxrate-'+index);
-          if (activeId.includes('taxrate'))  this.setFoucus('taxamount-'+index);
-          if (activeId.includes('taxamount'))   this.showConfirm = true;
+      // console.log('active', activeId);
+      if (activeId.includes('taxledger') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+        let index = activeId.split('-')[1];
+        if (activeId.includes('taxledger')) this.setFoucus('taxrate-' + index);
+        if (activeId.includes('taxrate')) this.setFoucus('taxamount-' + index);
+        if (activeId.includes('taxamount')) this.showConfirm = true;
 
-        }
-
-        
-      }else if (key == 'backspace' && this.allowBackspace) {
-        event.preventDefault();
-
-        if (activeId.includes('taxledger') || activeId.includes('taxrate')|| activeId.includes('taxamount')) {
-          let index = parseInt(activeId.split('-')[1]);
-          if(index != 0)  this.setFoucus('taxamount-'+(index - 1));
-          if (activeId.includes('taxrate'))  this.setFoucus('taxledger-'+index);
-          if (activeId.includes('taxamount'))   this.setFoucus('taxrate-'+index);
-
-        }
-      } else if (key.includes('arrow')) {
-        this.allowBackspace = false;
-      } else if (key != 'backspace') {
-        this.allowBackspace = false;
-        //event.preventDefault();
       }
-  
+
+
+    } else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+
+      if (activeId.includes('taxledger') || activeId.includes('taxrate') || activeId.includes('taxamount')) {
+        let index = parseInt(activeId.split('-')[1]);
+        if (index != 0) this.setFoucus('taxamount-' + (index - 1));
+        if (activeId.includes('taxrate')) this.setFoucus('taxledger-' + index);
+        if (activeId.includes('taxamount')) this.setFoucus('taxrate-' + index);
+
+      }
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+      //event.preventDefault();
+    }
+
   }
 
-  
+  // this.autoSuggestion.data = this.suggestions.invoiceTypes;
+
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
@@ -116,6 +152,20 @@ export class TaxdetailComponent implements OnInit {
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
+      if (id.includes('taxledger')) {
+        this.autoSuggestion.targetId = id;
+      }
     }, 100);
+  }
+
+  onSelect(suggestion, activeId) {
+    console.log('current activeId: ', activeId);
+    const index = parseInt(activeId.split('-')[1]);
+
+    this.taxdetails[index].taxledger.name = suggestion.name;
+    this.taxdetails[index].taxledger.id = suggestion.id;
+
+    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.targetId = activeId;
   }
 }

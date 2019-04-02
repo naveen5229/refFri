@@ -18,6 +18,8 @@ import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.co
 
 
 import { from } from 'rxjs';
+import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 
 const routes: Routes = [{
   path: '',
@@ -79,7 +81,10 @@ const routes: Routes = [{
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
- 
+  {
+    path: 'route-mapper',
+    component: RouteMapperComponent
+  },
   // {
   //   path: 'image-processing',
   //   component: ImageProcessingComponent

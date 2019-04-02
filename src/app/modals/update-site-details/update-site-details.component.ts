@@ -46,7 +46,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
       isStrictLoading: this.isStrictLoading,
     }
     console.log("params", params);
-    return;
+  
     ++this.common.loading;
     this.api.post('Site/updateSiteDetails', params)
       .subscribe(res => {
