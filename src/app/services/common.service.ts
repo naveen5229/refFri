@@ -66,7 +66,7 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe) {
-    
+
   }
 
   showError(msg?) {
@@ -131,7 +131,7 @@ export class CommonService {
 
     // console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return ( year + separator + month + separator +  dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
+      return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     } else {
       return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     }
@@ -314,9 +314,23 @@ export class CommonService {
     return generatedArray;
   }
 
+  dateDiffInHours(startTime,endTime) {
+    if(startTime == null || endTime == null){
+      return '0';
+    }
+    startTime = new Date(startTime);
+    endTime = new Date(endTime);
+    let resultTime = endTime - startTime;
+    let sec = resultTime / 1000;
+    let min = sec / 60;
+    let hour = min / 60;
+    let returnResult = hour.toFixed(5);
+    return returnResult;
+  }
+
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
-      return 0;
+      return "0";
     }
     else {
       let radlat1 = Math.PI * lat1 / 180;

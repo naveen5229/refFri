@@ -20,6 +20,7 @@ import { TrendsComponent } from './trends/trends.component';
 import { DriversAttendanceComponent } from './drivers-attendance/drivers-attendance.component';
 import { from } from 'rxjs';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 
 const routes: Routes = [{
   path: '',
@@ -76,6 +77,10 @@ const routes: Routes = [{
   {
     path: 'vehicle-trip',
     component: VehicleTripComponent
+  },
+  {
+    path: 'route-mapper',
+    component: RouteMapperComponent
   },
   // {
   //   path: 'image-processing',
