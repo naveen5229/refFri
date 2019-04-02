@@ -20,30 +20,31 @@ export class InvoiceregisterComponent implements OnInit {
     custCode:'',
     code:'',
     ledger :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       },
       branch :{
         name:'',
         id:''
       },
       voucherType :{
-        name:'',
-        id:''
+        name:'Purchase Order',
+        id:-1
       }
     
     };
     invoiceRegisterData=[];
     ledgerList=[];
-    activeId='branch';
+    activeId='voucherType';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
       this.getVoucherTypeList();
-      this.getBranchList();
+     // this.getBranchList();
       this.getLedgerList();
-      this.setFoucus('branch');
+      this.setFoucus('voucherType');
+      this.common.currentPage = 'Invoice Register';
     }
 
   ngOnInit() {
@@ -54,7 +55,7 @@ export class InvoiceregisterComponent implements OnInit {
       search: 123
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetVouchertypeList', params)
+    this.api.post('Suggestion/GetOrderTypeList', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

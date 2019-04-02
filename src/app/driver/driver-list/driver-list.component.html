@@ -1,7 +1,9 @@
 <nb-card>
   <nb-card-header>
     <h2>Drivers List</h2>
-    <div class="float-right">
+    <div class="col-sm-6">
+        <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit"  (click)="importDriverCsv()" name="button">Import Csv</button>
+
       <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
     </div>
   </nb-card-header>

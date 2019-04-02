@@ -11,7 +11,6 @@ import { DirectiveModule } from '../directives/directives.module';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
 import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
-import { LRViewComponent } from '../lorry-receipt/lrview/lrview.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
@@ -24,12 +23,18 @@ import { DocumentsModule } from '../documents/documents.module';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
 import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-issue.component';
+import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
+import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
+import { CompanyDetailsComponent } from './company-details/company-details.component';
+import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
+
+
+
 
 const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
   EscalationMatrixComponent,
-  LRViewComponent,
   GenerateLRComponent,
   GroupManagementsComponent,
   TicketPropertiesComponent,
@@ -38,7 +43,10 @@ const PAGES_COMPONENTS = [
   SiteFencingComponent,
   DiagnosticsComponent,
   SiteDetailsComponent, 
-  UserPreferencesComponent 
+  UserPreferencesComponent,
+  GpsSupplierMappingComponent,
+  VehiclesViewComponent
+  
 ];
 @NgModule({
   imports: [
@@ -54,6 +62,13 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     VSCTicketAuditComponent,
     AlertRelatedIssueComponent,
+    GpsSupplierMappingComponent,
+    VehiclesViewComponent,
+    CompanyDetailsComponent,
+    TransportAgentsComponent,
+    
+   
+  
   ],
 })
 export class AdminModule { }

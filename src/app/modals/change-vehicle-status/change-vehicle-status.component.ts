@@ -9,6 +9,8 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatExpansionModule } from '@angular/material/expansion';
 import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
+import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
+import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 
 declare let google: any;
 
@@ -46,6 +48,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   onlyDrag = false;
   vehicleEvent = null;
   convertSiteHaltFlag = false;
+  ref_page : null;
   toTime= this.common.dateFormatter(new Date());
   constructor(
     public modalService: NgbModal,
@@ -54,11 +57,15 @@ export class ChangeVehicleStatusComponent implements OnInit {
     private activeModal: NgbActiveModal,
   ) {
     this.VehicleStatusData = this.common.params;
+    this.ref_page = this.common.ref_page;
+    if(this.ref_page != 'vsc'){
+      this.toTime = this.VehicleStatusData.tTime
+    }
     this.common.handleModalSize('class', 'modal-lg', '1600');
     console.log("VehicleStatusData", this.VehicleStatusData);
     this.getLastIndDetails();
     this.getEvents();
-    this.getLoadingUnLoading();
+    //this.getLoadingUnLoading();
     console.log("date1",this.toTime);
   }
 
@@ -126,7 +133,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
       'vehicleId': this.VehicleStatusData.vehicle_id,
       'fromTime': this.VehicleStatusData.latch_time,
       'toTime': this.toTime,
-      'suggestId': this.VehicleStatusData.suggest
+      'suggestId': this.VehicleStatusData.suggest,
+      'status': this.VehicleStatusData.status?this.VehicleStatusData.status:10
     }
     console.log(params);
     this.api.post('VehicleStatusChange/getVehicleTrail', params)
@@ -153,16 +161,18 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   getEvents() {
+    let status = this.VehicleStatusData.status?this.VehicleStatusData.status:10;
     this.dataType = 'events';
     //this.VehicleStatusData.latch_time = '2019-02-14 13:19:13';
     this.common.loading++;
     let params = "vId=" + this.VehicleStatusData.vehicle_id +
       "&fromTime=" + this.VehicleStatusData.latch_time +
-      "&toTime=" + this.toTime;
+      "&toTime=" + this.toTime+
+      "&status=" +status;  
     console.log(params);
     this.api.get('HaltOperations/getHaltHistory?' + params)
       .subscribe(res => {
-        this.common.loading--;
+        this.common.loading--; 
         console.log(res);
         this.vehicleEvents = res['data'];
         this.clearAllMarkers();
@@ -185,6 +195,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }
     });
   }
+
+  showPreviousLUL(){
+    if(this.lUlBtn){
+      console.log("this.lUlBtn",this.lUlBtn);
+      this.getLoadingUnLoading();
+    }
+  }
+
 
   getLoadingUnLoading() {
     this.dataType = 'events';
@@ -218,11 +236,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
     let thisMarkers = [];
     console.log("Markers", markers);
+    this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < markers.length; index++) {
 
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
-        markers[index]["type"] == "subSite" ? this.designsDefaults[1] : this.designsDefaults[2];
+        markers[index]["type"] == "subSite" ? this.designsDefaults[1] :null ;//this.designsDefaults[2]
       let text = markers[index]["text"] ? markers[index]["text"] : index + 1;
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
       let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
@@ -265,7 +284,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
         map: this.map,
         title: title
       });
-      if (changeBounds)
+      if (changeBounds&&!(''+markers[index]['desc']).endsWith('LT'))
         this.setBounds(latlng);
       thisMarkers.push(marker);
       console.log("ThisMarker: ",thisMarkers);
@@ -688,8 +707,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     let params = {
       fromTime: this.VehicleStatusData.latch_time,
       vehicleId: this.VehicleStatusData.vehicle_id,
-      tLat: this.VehicleStatusData.tlat,
-      tLong: this.VehicleStatusData.tlong,
+      tLat: 0.0,
+      tLong: 0.0,
       tTime: this.toTime,
     }
 
@@ -715,7 +734,74 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("reportIssue",vehicleEvent);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
+  }
 
+  mapReset(){
+    this.reloadData();
+  }
+
+  openManualHalt(vehicleEvent){
+    this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno}
+    console.log("open manual halt modal");
+    const activeModal = this.modalService.open(ManualHaltComponent, { size: 'md', container: 'nb-layout' });
+    activeModal.result.then(data => 
+      this.reloadData());
+  }
+
+  resolveTicket(status) {
+    console.log("VehicleStatusData", this.VehicleStatusData);
+    this.common.loading++;
+    let params = {
+      rowId : this.VehicleStatusData.id,
+      remark:this.VehicleStatusData.remark || null,
+      status: status,
+      
+    };
+    if(params.status==-1)
+    { 
+      this.common.loading--;
+      this.openConrirmationAlert(params);
+      // this.activeModal.close();
+      return ;
+    }
+    console.log("param:",params);  
+    this.api.post('MissingIndustry/edit', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.activeModal.close();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    // this.activeModal.close();
+  }
+
+  openConrirmationAlert(params) {
+          
+
+    this.common.params={remark:params.remark,title:'Reject Reason '}
+   
+    
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        console.log("reason For delete: ", data.remark);
+        params.remark = data.remark;
+        this.common.loading++;
+        this.api.post('MissingIndustry/edit', params)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("data", res);
+            this.activeModal.close();
+
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+
+          });
+      }
+    });
   }
 }
 

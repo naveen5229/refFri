@@ -1,7 +1,7 @@
-<nb-card style="margin:0px;">
+<nb-card style="margin:0px; border:0px;">
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Add Ledger Account</h4>
+      <h5 class="modal-title" id="modal-basic-title">Add Ledger Account</h5>
       <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -81,7 +81,7 @@
   </div>
 
       <table class="invoice_tabel">
-        <thead style="background-color: #eeeeee;">
+        <thead style="background: #263238; color:#fff;">
             <tr>
                 <th>Salutation</th>
                 <th>Name</th>
@@ -96,7 +96,7 @@
                 <th>&nbsp;</th>
               </tr>
         </thead>
-       <tbody style="background: #e8f0f3;">
+       <tbody>
           <tr *ngFor="let Details of Accounts.accDetails; let i = index;">
               <td>
                 <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
@@ -269,7 +269,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

@@ -1,11 +1,14 @@
-<nb-card>
-  <nb-card-body>
+<nb-card style="margin:0px; border:0px;">
+  <nb-card-body style="padding:0px;">
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Voucher Detail</h4>
-      <i class="fa fa-close" style="color: #fff;" (click)="dismiss(false)"></i>
+      <h5 class="modal-title" id="modal-basic-title">Voucher Detail</h5>
+      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body" >
       <table class="table table-bordered">
+          <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>Particular</th>
           <!--th>Vch Type</th>
@@ -14,6 +17,7 @@
           <th>Amount(Credit)</th>
 
         </tr>
+        </thead>
         <tr *ngFor=" let dataItem of Detail;">
           <td>{{dataItem.y_particulars}}</td>
           <!--td>{{dataItem.y_type}}</td>

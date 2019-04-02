@@ -84,7 +84,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/daybooks'
             },
             {
-                title: 'Ledger',
+                title: 'Ledger View',
                 link: '/accounts/ledgerview'
             },
             {
