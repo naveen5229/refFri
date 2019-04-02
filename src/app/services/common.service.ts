@@ -10,7 +10,8 @@ import { UserService } from './user.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
-
+import * as moment_ from 'moment';
+const moment = moment_;
 @Injectable({
   providedIn: 'root'
 })
@@ -325,13 +326,52 @@ ref_page = null;
       return '0';
     }
     startTime = new Date(startTime);
-    endTime = new Date(endTime);
+    endTime =new Date(endTime);
     let resultTime = endTime - startTime;
     let sec = resultTime / 1000;
     let min = sec / 60;
     let hour = min / 60;
     let returnResult = hour.toFixed(5);
     return returnResult;
+  }
+
+  dateDiffInHoursAndMins(startTime,endTime) {
+    if(startTime == null){
+      return '0';
+    }
+    if(endTime == null){
+      return '-1'
+    }
+    let result;
+    startTime = (new Date(startTime)).getTime();
+    endTime = (new Date(endTime)).getTime();
+    let resultTime = endTime - startTime;
+     result=moment.utc(resultTime).format('HH:mm');
+        console.log('moment',result);
+    // //console.log('begore resultTime: ' + resultTime);
+    // // if(this.resultTime>0){
+    //   let sec = (resultTime / 1000);
+    //   let hour=parseInt(''+sec/3600);
+    //   let tmin=sec%3600;
+    //   let min=parseInt(''+tmin/60);
+    //   sec=tmin%60;
+    // if (hour != 0) {
+    //   if (hour.toString().length == 1) {
+    //     result = '0' + hour + '.';
+    //     // this.resultTime=this.h;
+    //   } else
+    //      result = hour + '.';
+
+    //   if (min != 0) {
+    //     if (min.toString().length == 1) {
+    //       result += '0' + min;
+    //     } else
+    //     result += min;
+    //   } else
+    //     result += '00';
+    // }
+    // console.log(startTime,endTime,result);
+    return result;
   }
 
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
