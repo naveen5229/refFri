@@ -68,8 +68,8 @@
         placeholder="Destination" style="margin-bottom:10px">
       <!-- <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
         placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion> -->
-        <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-       placeholder="Vehicle Number"   [preSelected]="{regno:regno}"></auto-suggestion>
+      <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+        placeholder="Vehicle Number" [preSelected]="{regno:regno}"></auto-suggestion>
 
       <input type="text" class="from-control" name="remark" [(ngModel)]="LrData.remark" placeholder="Remark"
         style="margin-bottom:10px">
@@ -111,13 +111,24 @@
             (click)="add()">Add</button>
         </div>
       </div>
-
-      <input type="text" class="form-control" [(ngModel)]="lrDate" name="date" placeholder="date" (click)="getDate()">
+      <div class="row">
+        <!-- <div class="col-sm-9" *ngIf="lrDate!=null">
+          <input type="text" class="form-control" [(ngModel)]="lrDate" name="lr-date" placeholder="">
+        </div> -->
+        <div class="col-sm-9">
+          <input type="text" class="form-control" [(ngModel)]="lrDate" name="lr-date" placeholder="DD/MM/YYYY">
+        </div>
+        <div class="col-sm-3">
+          <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="getDate()"><i
+              class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
+        </div>
+      </div>
       <!-- <input [(ngModel)]="lrDate" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date"
             class="form-control" autocomplete="off" name="date">
           <owl-date-time #date></owl-date-time> -->
       <div class="from-group" style="margin-top:10px">
-        <select [(ngModel)]="payType" class="form-control" (change)="changePayType()" style=" border: 2px solid darkcyan; font-size: 13px">
+        <select [(ngModel)]="payType" class="form-control" (change)="changePayType()"
+          style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="1">ToPay</option>
           <option value="2">Advance</option>
         </select>
@@ -128,11 +139,13 @@
 
       <div class="row" id="ton-material">
         <div class="col-sm-6" style="margin-top: 10px">
-            <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
-              placeholder="Material Name" [inputId]="'material_input'" [preSelected]="{name:consineeName}"></auto-suggestion>
+          <auto-suggestion (onSelected)="searchMaterialType($event)" url="Suggestion/GetMaterialTypes" display="name"
+            placeholder="Material Name" [inputId]="'material_input'" [preSelected]="{name:consineeName}">
+          </auto-suggestion>
         </div>
         <div class="col-sm-6">
-          <input type="text" name="tonnage" [(ngModel)]="LrData.weight" (focus)="getMaterialName()" class="form-control" placeholder="Tonnage">
+          <input type="text" name="tonnage" [(ngModel)]="LrData.weight" (focus)="getMaterialName()" class="form-control"
+            placeholder="Tonnage">
         </div>
 
       </div>
@@ -213,9 +226,9 @@
     </div>
 
     <div class="col-9">
-      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true"  >
+      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
       </app-image-viewer>
-      
+
     </div>
   </div>
 </div>

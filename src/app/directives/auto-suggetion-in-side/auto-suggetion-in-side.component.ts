@@ -54,8 +54,11 @@ export class AutoSuggetionInSideComponent implements OnInit {
 
   handleTargetId() {
     let ele = document.getElementById(this.targetId);
-    ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
-    ele.onkeydown = this.handleKeyDown.bind(this);
+    if (ele) {
+      ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
+      ele.onkeydown = this.handleKeyDown.bind(this);
+    }
+
   }
 
   filterData(searchText) {

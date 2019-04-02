@@ -6,7 +6,7 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
-import { LedgerComponent} from '../../acounts-modals/ledger/ledger.component';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 
 @Component({
@@ -21,6 +21,7 @@ export class OrdersComponent implements OnInit {
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
+  totalitem=0;
   order = {
     date: this.common.dateFormatter(new Date()).split(' ')[0],
     biltynumber: '',
@@ -57,11 +58,12 @@ export class OrdersComponent implements OnInit {
         id: ''
       },
       qty: '',
-      discountledger: { name: '', id: '' },
+      discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
       taxDetails: '',
       remarks: '',
-      lineamount: 0
+      lineamount: 0,
+      discountate:0
     }]
   };
 
@@ -69,6 +71,8 @@ export class OrdersComponent implements OnInit {
     purchaseLedgers: [],
     supplierLedgers: [],
     stockItems: [],
+    purchasestockItems:[],
+    salesstockItems:[],
     discountLedgers: [],
     warehouses: [],
     invoiceTypes: [],
@@ -79,6 +83,12 @@ export class OrdersComponent implements OnInit {
   activeId = '';
   lastActiveId = '';
 
+  autoSuggestion = {
+    data: [],
+    targetId: '',
+    display: ''
+  };
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -87,7 +97,8 @@ export class OrdersComponent implements OnInit {
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
     this.getSupplierLedgers();
-    this.getStockItems();
+    this.getStockItems('sales');
+    this.getStockItems('purchase');
     this.getWarehouses();
     this.setFoucus('ordertype');
   }
@@ -138,7 +149,8 @@ export class OrdersComponent implements OnInit {
         warehouse: { name: '', id: '' },
         taxDetails: '',
         remarks: '',
-        lineamount: 0
+        lineamount: 0,
+        discountate:0
       }]
     };
   }
@@ -159,7 +171,8 @@ export class OrdersComponent implements OnInit {
       warehouse: { name: '', id: '' },
       taxDetails: '',
       remarks: '',
-      lineamount: 0
+      lineamount: 0,
+      discountate:0
 
     });
   }
@@ -200,13 +213,14 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  getStockItems() {
+  getStockItems(type) {
     this.common.loading++;
-    this.api.get('Suggestion/GetStockItem?search=123')
+    this.api.get('Suggestion/GetStockItem?search=123&invoicetype='+type)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.suggestions.stockItems = res['data'];
+        if(type =='sales') { this.suggestions.salesstockItems = res['data']; }
+        if(type =='purchase') { this.suggestions.purchasestockItems = res['data']; } 
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -308,11 +322,11 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.order =  this.setInvoice();
+        this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
-        
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -330,16 +344,18 @@ export class OrdersComponent implements OnInit {
     });
     return total;
   }
- 
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+    this.setAutoSuggestion();
+
     // console.log('Active Id', this.activeId);
-    if ((event.altKey && key === 'c') && ( (this.activeId.includes('purchaseledger')) ||  (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
+    if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
       // console.log('alt + C pressed');
       this.openledger();
-    } 
+    }
     if ((event.altKey && key === 'c') && (this.activeId.includes('stockitem'))) {
       // console.log('alt + C pressed');
       this.openStockItemModal();
@@ -348,11 +364,10 @@ export class OrdersComponent implements OnInit {
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
       } else if (this.activeId.includes('ordertype')) {
-        if (this.suggestions.list.length) {
-          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-          this.suggestions.list = [];
-          this.suggestionIndex = -1;
-        }
+        console.log('order type',this.order.ordertype.name);
+        if(this.order.ordertype.name.toLowerCase().includes('purchase')) { this.suggestions.stockItems=this.suggestions.purchasestockItems; }
+        if(this.order.ordertype.name.toLowerCase().includes('sales')) { this.suggestions.stockItems=this.suggestions.salesstockItems; }
+        
         this.setFoucus('custcode');
       } else if (this.activeId.includes('custcode')) {
         this.handleVoucherDateOnEnter();
@@ -419,7 +434,7 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('rate' + '-' + index);
       } else if (this.activeId.includes('rate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('discountledger' + '-' + index);
+        this.setFoucus('warehouse' + '-' + index);
       } else if (this.activeId.includes('discountate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('warehouse' + '-' + index);
@@ -445,6 +460,7 @@ export class OrdersComponent implements OnInit {
   }
 
   setFoucus(id, isSetLastActive = true) {
+    console.log('Id: ', id);
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);
@@ -452,9 +468,10 @@ export class OrdersComponent implements OnInit {
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
+      this.setAutoSuggestion();
     }, 100);
   }
-  
+
   handleVoucherBiltyDateOnEnter() {
     let dateArray = [];
     let separator = '-';
@@ -473,8 +490,8 @@ export class OrdersComponent implements OnInit {
     month = month.length == 1 ? '0' + month : month;
     let year = dateArray[0];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-   // console.log('Date: ', date + separator + month + separator + year);
-    this.order.biltydate = year + separator + month + separator +  date;
+    // console.log('Date: ', date + separator + month + separator + year);
+    this.order.biltydate = year + separator + month + separator + date;
   }
 
   handleVoucherDateOnEnter() {
@@ -495,8 +512,8 @@ export class OrdersComponent implements OnInit {
     month = month.length == 1 ? '0' + month : month;
     let year = dateArray[0];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-   // console.log('Date: ', date + separator + month + separator + year);
-    this.order.date = year + separator + month + separator +  date;
+    // console.log('Date: ', date + separator + month + separator + year);
+    this.order.date = year + separator + month + separator + date;
   }
 
 
@@ -629,7 +646,7 @@ export class OrdersComponent implements OnInit {
     } else if (this.activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
-    }  else if (this.activeId.includes('stockitem')) {
+    } else if (this.activeId.includes('stockitem')) {
       const index = parseInt(this.activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
       this.order.amountDetails[index].stockitem.id = suggestion.id;
@@ -648,56 +665,56 @@ export class OrdersComponent implements OnInit {
   }
 
   openledger(ledger?) {
-    console.log('ledger123',ledger);
-      if (ledger) this.common.params = ledger;
-      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' ,keyboard :false});
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-         // console.log('ledger data',data.ledger);
-         this.addLedger(data.ledger);
-        }
-      });
-    }
+    console.log('ledger123', ledger);
+    if (ledger) this.common.params = ledger;
+    const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        this.addLedger(data.ledger);
+      }
+    });
+  }
 
-    addLedger(ledger) {
-      console.log('ledgerdata',ledger);
-     // const params ='';
-      const params = {
-          name: ledger.name,
-          alias_name: ledger.aliasname,
-          code: ledger.code,
-          foid: ledger.user.id,
-          per_rate: ledger.perrate,
-          primarygroupid: ledger.account.primarygroup_id,
-          account_id: ledger.account.id,
-          accDetails: ledger.accDetails,
-          x_id:0
-       };
-  
-       console.log('params11: ',params);
-      this.common.loading++;
-  
-      this.api.post('Accounts/InsertLedger', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log('res: ', res);
+  addLedger(ledger) {
+    console.log('ledgerdata', ledger);
+    // const params ='';
+    const params = {
+      name: ledger.name,
+      alias_name: ledger.aliasname,
+      code: ledger.code,
+      foid: ledger.user.id,
+      per_rate: ledger.perrate,
+      primarygroupid: ledger.account.primarygroup_id,
+      account_id: ledger.account.id,
+      accDetails: ledger.accDetails,
+      x_id: 0
+    };
+
+    console.log('params11: ', params);
+    this.common.loading++;
+
+    this.api.post('Accounts/InsertLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
         this.getPurchaseLedgers();
-        }, err => {
-          this.common.loading--;
-          console.log('Error: ', err);
-          this.common.showError();
-        });
-  
-    }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
 
-    
+
   openStockItemModal(stockitem?) {
     console.log('stockitem', stockitem);
     if (stockitem) {
       this.common.params = stockitem;
-    } 
+    }
     // else {
     //   this.common.params = { stockType: { name: 'Tyre', id: -1 } };
     // }
@@ -706,7 +723,7 @@ export class OrdersComponent implements OnInit {
       // console.log('Data: ', data);
       if (data.response) {
         if (stockitem) {
-         // this.updateStockItem(stockitem.id, data.stockitem);
+          // this.updateStockItem(stockitem.id, data.stockitem);
           return;
         }
         this.addStockItem(data.stockItem);
@@ -739,7 +756,8 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.getStockItems();
+        this.getStockItems('sales');
+        this.getStockItems('purchase');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -747,4 +765,82 @@ export class OrdersComponent implements OnInit {
       });
 
   }
+
+  setAutoSuggestion() {
+    let activeId = document.activeElement.id;
+    if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
+    else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
+    else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
+    else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
+    else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
+    else if (activeId.includes('warehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
+    else {
+      this.autoSuggestion.data = [];
+      this.autoSuggestion.display = '';
+      this.autoSuggestion.targetId = '';
+      return;
+    }
+
+    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.targetId = activeId;
+    console.log('Auto Suggestion: ', this.autoSuggestion);
+  }
+
+  onSelect(suggestion, activeId){
+    console.log('Suggestion: ', suggestion);
+    if (activeId == 'ordertype') {
+      this.order.ordertype.name = suggestion.name;
+      this.order.ordertype.id = suggestion.id;
+    } else if (activeId == 'ledger') {
+      this.order.ledger.name = suggestion.name;
+      this.order.ledger.id = suggestion.id;
+      this.order.billingaddress = suggestion.address;
+    } else if (activeId == 'purchaseledger') {
+      this.order.purchaseledger.name = suggestion.name;
+      this.order.purchaseledger.id = suggestion.id;
+    } else if (activeId.includes('stockitem')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.order.amountDetails[index].stockitem.name = suggestion.name;
+      this.order.amountDetails[index].stockitem.id = suggestion.id;
+      this.order.amountDetails[index].stockunit.name = suggestion.stockname;
+      this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+        this.getStockAvailability(suggestion.id);
+
+    } else if (activeId.includes('discountledger')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.order.amountDetails[index].discountledger.name = suggestion.name;
+      this.order.amountDetails[index].discountledger.id = suggestion.id;
+    } else if (activeId.includes('warehouse')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.order.amountDetails[index].warehouse.name = suggestion.name;
+      this.order.amountDetails[index].warehouse.id = suggestion.id;
+    }
+  }
+
+  findStockitem() {
+  return this.totalitem;
+  }
+
+  getStockAvailability(stockid){
+    let totalitem = 0;
+    let params = {
+      stockid: stockid
+    };
+   // this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+       // this.common.loading--;
+        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+       this.totalitem = res['data'][0].get_stockitemavailableqty;
+      //  console.log('totalitem : -',totalitem);
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+     
+  }
+
+
 }
