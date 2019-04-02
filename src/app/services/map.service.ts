@@ -163,6 +163,10 @@ export class MapService {
     });
   }
 
+  addListerner(element,event,callback){
+    google.maps.event.addListener(element, event,callback);
+  }
+
   createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {
     let thisMarkers = [];
     console.log("Markers", markers);
@@ -223,6 +227,21 @@ export class MapService {
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
     }
     return thisMarkers;
+  }
+
+  toggleBounceMF(id, evtype = 1) {
+    //console.log("Bounce marker",id);
+    //console.log("index",index);
+    //.log("test",test);
+    //console.log("item",item);
+    if (this.markers[id]) {
+      if (this.markers[id].getAnimation() == null && evtype == 1) {
+        this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
+      }
+      else if (evtype == 2 && this.markers[id].getAnimation() != null) {
+        this.markers[id].setAnimation(null);
+      }
+    }
   }
 
   clearAll(reset = true, boundsReset = true) {

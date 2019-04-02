@@ -108,12 +108,23 @@ export class RouteMapperComponent implements OnInit {
               }
               for (let index = 0; index < vehicleEvents.length; index++) {
                 const elementx = vehicleEvents[index];
+                if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                  vehicleEvents[index].subType = 'marker';
+                  vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                }
                 if (parseFloat(this.commonService.dateDiffInHours(
                   vehicleEvents[index].start_time,element.time))<0.00001
                     ) {
-                  vehicleEvents[index].position = (i / res['data'].length) * 100;
+                  vehicleEvents[index].position = (i / res['data'].length) * 97;
                   vehicleEvents[index].duration = parseFloat(this.commonService.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time)).toFixed(2)+" Hrs";
+                    elementx.start_time,elementx.end_time)).toFixed(2)+" Hrs";
+                  continue;
+                }
+                if(new Date(vehicleEvents[index].start_time) < new Date(this.startDate)){
+                  vehicleEvents[index].position = 0;
+                  vehicleEvents[index].duration = parseFloat(this.commonService.dateDiffInHours(
+                    elementx.start_time,elementx.end_time)).toFixed(2)+" Hrs";
+                  continue;
                 }
               }
               this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
@@ -129,9 +140,16 @@ export class RouteMapperComponent implements OnInit {
               offset: "0%"
             }]);
             console.log("VehicleEvents", vehicleEvents);
-
+            vehicleEvents = vehicleEvents.reverse();
             this.vehicleEvents = vehicleEvents;
             this.mapService.createMarkers(this.vehicleEvents, false, false);
+            let markerIndex = 0
+            for (const marker of this.mapService.markers) {
+              let event = this.vehicleEvents[markerIndex];
+              this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
+              this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
+              markerIndex++;
+            }
           }, err => {
             this.commonService.loading--;
             console.log(err);
@@ -167,6 +185,8 @@ export class RouteMapperComponent implements OnInit {
         icon: this.mapService.lineSymbol,
         offset: index + "%"
       }]);
+      this.slideToolTipLeft = (document.getElementById('myRange').offsetWidth / 100) * index;
+      this.zoomOnArrow(false);
       this.timelineValue = index;
       if (this.breakPrevious) {
         break;
@@ -180,8 +200,6 @@ export class RouteMapperComponent implements OnInit {
     if (isEvent || !((bound.lat1 + 0.001 <= this.timeLinePoly.lat && bound.lat2 - 0.001 >= this.timeLinePoly.lat) &&
       (bound.lng1 + 0.001 <= this.timeLinePoly.lng && bound.lng2 - 0.001 >= this.timeLinePoly.lng))) {
       this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, this.zoomLevel);
-      // console.log("Zooming");
-
     }
   }
   eventInfo = null;
@@ -200,7 +218,12 @@ export class RouteMapperComponent implements OnInit {
     );
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long)); // or evt.latLng
     this.infoWindow.open(this.mapService.map);
-    this.mapService.zoomAt(this.mapService.createLatLng(event.lat,event.long),8);
+    let bound = this.mapService.getMapBounds();
+
+    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
+    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
+    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
+    // }
   }
   unsetEventInfo() {
     this.infoWindow.close();

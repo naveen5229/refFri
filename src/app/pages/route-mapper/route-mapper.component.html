@@ -36,12 +36,13 @@
                     <th>Duration</th>
               </thead>
           <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
-            <tr cdkDrag [id]="'vehicleEvent-row-'+i"
+            <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
+                (mouseover)="mapService.toggleBounceMF(i,2)"
               [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}">
               <td>{{vehicleEvent.halt_reason}}</td>
               <td>{{vehicleEvent.loc_name}}</td>
-              <td>{{vehicleEvent.start_time}}</td>
-              <td>{{vehicleEvent.end_time}}</td>
+              <td>{{commonService.changeDateformat2(vehicleEvent.start_time)}}</td>
+              <td>{{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
               <td>{{vehicleEvent.duration}}</td>
             </tr>
 
