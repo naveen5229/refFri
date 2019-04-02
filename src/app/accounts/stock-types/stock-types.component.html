@@ -1,11 +1,11 @@
-<nb-card>
-  <nb-card-header>
+<nb-card style="margin: 0px; border:0px;">
+  <!-- <nb-card-header>
     <h4>Stock Types</h4>
-  </nb-card-header>
+  </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4" (click)="openStockTypeModal()">Add Stock Type</button>
+<button class="btn mb-4 add-button" (click)="openStockTypeModal()"><i class="fa fa-plus"></i></button>
 <table class="table table-bordered">
-  <thead style="background-color: #EEEEEE;">
+  <thead style="background-color: #263238; color:#fff;">
       <tr>
           <th>#</th>
           <th>Name</th>
@@ -22,7 +22,7 @@
           <td>{{stockType.code}}</td>
           <td>{{stockType.foid}}</td>
           <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
-          <td><button class="btn" (click)="openStockTypeModal(stockType)">Edit</button></td>
+          <td><button class="btn" (click)="openStockTypeModal(stockType)"><i class="fa fa-edit"></i></button></td>
         </tr>
   </tbody>
   

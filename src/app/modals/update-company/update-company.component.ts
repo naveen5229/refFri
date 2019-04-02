@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'update-company',
@@ -19,6 +20,8 @@ export class UpdateCompanyComponent implements OnInit {
   constructor(
     public common : CommonService,
     public api : ApiService,
+    public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
   ) {
     this.company.name = this.common.params.company.name;
     this.company.pan = this.common.params.company.pan;
@@ -29,4 +32,29 @@ export class UpdateCompanyComponent implements OnInit {
   ngOnInit() {
   }
 
+  closeModal() {
+    this.activeModal.close();
+  }
+
+  updateCompany(){
+    let params = {
+      name : this.company.name,
+      id : this.company.id,
+      pan : this.company.pan
+    }
+    console.log("params", params);
+    ++this.common.loading;
+    this.api.post('Company/updateCompanyDetails', params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log(res['msg']);
+        this.common.showToast(res['msg']);
+        this.activeModal.close();
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
 }
+  }
+
+

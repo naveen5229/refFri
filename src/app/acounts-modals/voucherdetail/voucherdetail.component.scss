@@ -1,33 +1,27 @@
-nb-card{
-    margin: 0px;
-}
-nb-card-body {
-    padding: 0
-}
-
-.modal-header {
-    background: #263238;
+.modal-header{
+    padding: 10px 15px;
+    background-color: #263238;
+  }
+  .modal-header h5{
+    color: #fff;
+  }
+  .close{
+    background: transparent;
     color: #fff !important;
-    padding: 3px 15px;
-
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+  }
+ 
+table tr th{
+    font-weight: normal;
 }
-
-.modal-header h4 {
-    color: #fff;
-    line-height: 30px;
-    font-size: 16px;
-    font-family: Exo;
-    letter-spacing: 1px;
-}
-
-.modal-header i {
-    color: #fff;
-
-    position: absolute;
-    right: 7px;
-    font-size: 20px;
-    top: 6px;
-}
-.modal-body{
-    padding: 0px;
+tbody{
+    tr:nth-child(odd){
+        background-color: #fff;
+    }
+    tr:nth-child(even){
+        background-color: #e4e4e4;
+    }
 }
