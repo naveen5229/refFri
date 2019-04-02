@@ -5,16 +5,37 @@
   </button>
 </div>
 <div class="modal-body">
-  
+  <div class="row col-sm-12">
+    <table class="table table-bordered table-hover table-scroll" id="tbldocs">
+      <thead class="thead">
+        <tr>
+          <th style='width: 40px;'>SN</th>
+          <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
+        </tr>
+      </thead>
 
-</div>
-<!-- <div class="modal-footer">
+      <tbody class="">
+        <tr *ngFor="let row of data; let i=index;">
+
+          <td style='width: 40px;'> <span>{{i + 1}}</span></td>
+
+          <td *ngFor="let col of columns; " class="text-center">
+          
+              {{row[col]}}
+            
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+<div class="modal-footer">
   <div class="row">
     <div class="col">
       <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
-    <div class="col">
-      <button class="btn btn-primary" (click)="updateTrip();" style="cursor:pointer;">Submit</button>
-    </div>
+  
   </div>
-</div> -->
+</div>
