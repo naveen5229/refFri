@@ -1,4 +1,4 @@
-<nb-card style="padding-top: 15px;">
+<nb-card style="margin-top: 26px; border: 0px;">
   <!-- <nb-card-header>
     <h4>Day Book</h4>
   </nb-card-header> -->
@@ -13,14 +13,14 @@
                 [(ngModel)]="DayBook.branch.name">
             </div>
           </div> -->
-          <div class="col">
+          <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Voucher</label>
               <input type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
                 [(ngModel)]="DayBook.vouchertype.name">
             </div>
           </div>
-          <div class="col">
+          <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger"
@@ -72,7 +72,7 @@
  
     <table class="table table-bordered" id="table">
       
-      <thead style="background-color:#263238;">
+      <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>Date</th>
           <th>Particular</th>

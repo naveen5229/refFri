@@ -16,6 +16,7 @@ Accounts =[];
     public user: UserService,
     public modalService: NgbModal) { 
     this.GetAccount();
+    this.common.currentPage = 'Account';
     }
 
   ngOnInit() {

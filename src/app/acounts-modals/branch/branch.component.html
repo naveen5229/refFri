@@ -1,7 +1,7 @@
-<nb-card style="margin: 0px;">
+<nb-card style="margin: 0px; border:0px;">
   <nb-card-body (keydown)="keyHandler($event)" style="padding: 0px;">
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add Company Branch</h4>
+    <h5 class="modal-title" id="modal-basic-title">Add Company Branch</h5>
     <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -111,11 +111,11 @@
               <div class="form-group">
                 <span>Is Active</span>
                 <div class="row">
-                <div class="col">
+                <div class="col-6">
                 <label> Yes</label>
                 <input type="radio" class="form-control" name="isactive" id="isactive" [(ngModel)]="Branches.isactive" value="true">
               </div>
-              <div class="col">
+              <div class="col-6">
                   <label>No</label> 
                 <input type="radio" class="form-control" name="isactive" [(ngModel)]="Branches.isactive" value="false">
               </div>

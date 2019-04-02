@@ -268,3 +268,25 @@
     border-radius: 0px 0px 3px 3px;
     transform: translate(-50%);
 }
+.select_branch{
+    width: 220px;
+    padding: 10px 0px;
+    margin: 0px;
+}
+.select_branch label{
+    margin-right:10px;
+}
+.select_branch select{
+    width: 100px;
+    display: inline-block;
+    background: #677277;
+    border: 0px;
+    color: #fff;
+    opacity: 1;
+    padding: 7px 5px !important;
+    border-radius: 0px;
+}
+.select_branch select option{
+    background: #677277;
+    color: #fff;
+}

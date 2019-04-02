@@ -16,6 +16,7 @@ export class StockSubtypesComponent implements OnInit {
     public modalService: NgbModal,
     public common: CommonService) { 
       this.getStockSubTypes();
+      this.common.currentPage = 'Stock Sub Types';
     }
 
   ngOnInit() {
