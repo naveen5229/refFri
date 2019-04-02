@@ -72,10 +72,11 @@ export class VehicleReportComponent implements OnInit {
         this.report.forEach((d) => {
           this.startTime = d.start_time;
           this.startTime = new Date(this.startTime);
-          this.endTime = d.end_time;
+          this.endTime = d.end_time ? d.end_time : new Date();
           this.endTime = new Date(this.endTime);
           this.resultTime = this.endTime - this.startTime;
           console.log('begore resultTime: ' + this.resultTime);
+          // if(this.resultTime>0){
           let sec = (this.resultTime / 1000);
           let min = sec / 60;
           let hour = min / 60;
@@ -98,8 +99,9 @@ export class VehicleReportComponent implements OnInit {
             } else
               result += '00';
           }
-          this.duration.push(result);
-
+         this.duration.push(result);
+         
+      //  } 
         });
         console.log('result time', this.resultTime);
         this.table = this.setTable();
@@ -162,10 +164,9 @@ export class VehicleReportComponent implements OnInit {
         Place: { value: R.site_type != null ? R.site_name + '(' + R.site_type + ')' : R.site_name },
         Location: { value: R.loc_name },
         Reason: { value: R.halt_reason, class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
-        Duration: { value: this.duration[i] },
+        Duration: { value: this.duration[i]},
         Action: { value: `<i class="fa fa-map-marker"></i>`, isHTML: true, action: this.showLocation.bind(this, R) },
       };
-
       columns.push(column);
       i++;
     });
