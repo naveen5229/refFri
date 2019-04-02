@@ -112,6 +112,7 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
 import { UpdateTransportAgentComponent } from './modals/update-transport-agent/update-transport-agent.component';
+import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-analysis.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -186,7 +187,8 @@ import { UpdateTransportAgentComponent } from './modals/update-transport-agent/u
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
-    UpdateTransportAgentComponent
+    UpdateTransportAgentComponent,
+    VehicleAnalysisComponent
 
   ],
   entryComponents: [
@@ -260,7 +262,8 @@ import { UpdateTransportAgentComponent } from './modals/update-transport-agent/u
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
-    UpdateTransportAgentComponent
+    UpdateTransportAgentComponent,
+    VehicleAnalysisComponent
   ],
   imports: [
     BrowserModule,
