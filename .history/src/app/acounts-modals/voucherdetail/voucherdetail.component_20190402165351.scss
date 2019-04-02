@@ -25,3 +25,12 @@ tbody {
     background-color: #e4e4e4;
   }
 }
+
+:host >>> parent {
+  .modal.show .modal-dialog {
+    margin: 0px !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important ;
+  }
+}
