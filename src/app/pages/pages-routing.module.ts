@@ -14,6 +14,7 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 
 
 import { from } from 'rxjs';
@@ -50,6 +51,10 @@ const routes: Routes = [{
     path: 'lorry-receipts',
     component: LorryRecciptsComponent,
   },
+  // {
+  //   path:'generate-lr',
+  //   component:GenerateLRComponent,
+  // },
   {
     path: 'expenses',
     component: ExpensesComponent,

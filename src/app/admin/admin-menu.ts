@@ -37,12 +37,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/alert-related-issue',
         home: true,
     },
-    {
-        title: 'LR View',
-        icon: 'nb-home',
-        link: '/admin/lrview',
-        home: true,
-    },
+    // {
+    //     title: 'LR View',
+    //     icon: 'nb-home',
+    //     link: '/admin/lrview',
+    //     home: true,
+    // },
     {
         title: 'Generate LR',
         icon: 'nb-home',
@@ -115,6 +115,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Vehicles View',
         icon: 'nb-home',
         link: '/admin/vehicles-view',
+        home: true,
+    },
+    {
+        title: 'Companies',
+        icon: 'nb-home',
+        link: '/admin/company-details',
+        home: true,
+    },
+    {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
         home: true,
     }
 
