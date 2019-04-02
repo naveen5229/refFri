@@ -72,6 +72,7 @@ export class VehicleStatusChangeComponent implements OnInit {
   openChangeStatusModal(VehicleStatusData) {
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
+    this.common.ref_page = 'vsc';
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
