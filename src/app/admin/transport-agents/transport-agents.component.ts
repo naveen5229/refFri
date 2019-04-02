@@ -40,7 +40,7 @@ export class TransportAgentsComponent implements OnInit {
     this.common.params = {transportAgent: transportAgent }
     const activeModal = this.modalService.open(UpdateTransportAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log('Date:', data);
+      this.getTransportAgent();
     });
   }
 }
