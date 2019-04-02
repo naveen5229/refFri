@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
+import { EmpDashboardComponent } from '../documentation-modals/emp-dashboard/emp-dashboard.component';
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -141,6 +142,7 @@ export class DashboardComponent implements OnInit {
 
   openData(docReoprt, status) {
     this.common.params = { docReoprt, status, title: 'Document Report' };
+    //const activeModal = this.modalService.open(EmpDashboardComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -156,6 +158,24 @@ export class DashboardComponent implements OnInit {
       total += data[key];
     });
     return total;
+  }
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Document Summary";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
   // totalData(status) {

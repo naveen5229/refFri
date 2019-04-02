@@ -16,7 +16,8 @@ import { ReportIssueComponent } from '../../modals/report-issue/report-issue.com
 import { componentRefresh } from '@angular/core/src/render3/instructions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RadioSelectionComponent } from '../../modals/radio-selection/radio-selection.component';
-
+import { VehiclesOnMapComponent } from '../../modals/vehicles-on-map/vehicles-on-map.component';
+import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
@@ -137,7 +138,10 @@ export class ConciseComponent implements OnInit {
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
-        report: { value: `<i class="fa fa-question-circle"></i>`, isHTML: true, action: this.reportIssue.bind(this, kpi) },
+        action: {value: '', isHTML: false, action: null, icons: [
+          {class: 'icon fa fa-info', action: this.vehicleReport.bind(this, kpi)},
+          {class: 'fa fa-question-circle', action: this.reportIssue.bind(this, kpi)}
+        ]},
         rowActions: {
           click: 'selectRow'
         }
@@ -459,6 +463,7 @@ export class ConciseComponent implements OnInit {
 
   reportIssue(kpi) {
     console.log('Kpi:', kpi);
+    this.common.params= {refPage : 'db'};
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, kpi.x_vehicle_id));
   }
@@ -473,7 +478,7 @@ export class ConciseComponent implements OnInit {
           trip: { title: 'Trip', placeholder: 'Trip' },
           kmp: { title: 'Kmp', placeholder: 'KMP' },
           location: { title: 'Location', placeholder: 'Location' },
-          report: { title: 'Report', placeholder: 'Report', hideSearch: true },
+          action: { title: 'Action', placeholder: '', hideSearch: true }
         },
         columns: this.getTableColumns()
       },
@@ -482,6 +487,18 @@ export class ConciseComponent implements OnInit {
       }
     }
   }
+   
+  // openVehicleOnMapModel(){
+
+  //   const activeModel=this.modalService.open(VehiclesOnMapComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+  //   this.common.handleModalSize('class', 'modal-lg', '1000');
+  //   activeModel.result.then(data =>{
+  //    if(!data.status){
+                
+  //    }        
+  //   });
+
+ // }
 
   choosePrimarySubStatus(primaryStatus) {
     if (primaryStatus.name == this.activePrimaryStatus) {
@@ -526,6 +543,13 @@ export class ConciseComponent implements OnInit {
   selectSubStatus(kpis) {
     this.kpis = kpis;
     this.table = this.setTable();
+  }
+
+  vehicleReport(kpi){
+    console.log('KPis: ', kpi);
+    this.common.params={kpi};
+    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+          
   }
 
 

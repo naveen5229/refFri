@@ -27,7 +27,7 @@
       <td>{{data.current_user}}</td>
       <!-- <td>{{data.weight}}</td> -->
       <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-      <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
+      <td *ngIf="data.status==0"><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
     </tbody>
   </table>
 </div>

@@ -16,17 +16,25 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Tickets',
     icon: 'nb-notifications',
     link: '/pages/tickets',
+    home: true,
   },
   {
     title: 'Tickets All',
     icon: 'nb-title',
     link: '/pages/tickets-all',
+    home: true,
   },
   {
     title: 'Lorry Receipts',
     icon: 'nb-list',
     link: '/pages/lorry-receipts',
   },
+  // {
+  //   title: 'Generate LR',
+  //   icon: 'fas fa-pencil-alt',
+  //   link: '/pages/generate-lr',
+  // },
+
   {
     title: 'Expenses',
     icon: 'fa fa-book',
@@ -45,16 +53,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
-    link:'/tyres/inventory'
+    link: '/tyres/inventory'
   },
   {
     title: 'Documentation',
     icon: 'fa fa-database',
-    link:'/documents/documents-summary'
+    link: '/documents/documents-summary'
   },
   {
     title: 'Account',
     icon: 'fa fa-money',
-    link:'/accounts/dashboard'
-  }
+    link: '/accounts/dashboard'
+  },
+  // {
+  //   title: 'Driver',
+  //   icon: 'fa fa-money',
+  //   link:'/driver/dashboard',
+  //   home: true,
+  // },
+
 ];

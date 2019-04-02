@@ -1,0 +1,28 @@
+<nb-card style="margin: 0px; border:0px;">
+    <!-- <nb-card-header>
+        <h4>Stock Item</h4>
+      </nb-card-header> -->
+  <nb-card-body>
+<button class="btn mb-4" (click)="openStockItemModal()">Add Stock Item</button>
+<table class="table table-bordered">
+  <thead style="background-color: #EEEEEE;">
+    <tr>
+        <th>#</th>
+        <th>Stock Sub Type</th>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+  </thead>
+  <tr *ngFor="let stockItem of StockItems; let i = index;">
+    <td>{{i + 1}}</td>
+    <td>{{stockItem.stoctsubtypename}}</td>
+    <td>{{stockItem.name}}</td>
+    <td>{{stockItem.code}}</td>
+    <td>{{stockItem.entry_dt | date : 'dd MMM HH:mm'}}</td>
+    <td><button class="btn" (click)="openStockItemModal(stockItem)">Edit</button></td>
+  </tr>
+</table>
+</nb-card-body>
+</nb-card>

@@ -13,7 +13,11 @@
             </select>
           </div>
 
-        <table class="table table-bordered table-hover table-scroll mt-3">
+        <!--<div class="col-sm-12" style="padding-left: 0; margin-top: 15px;">Export : 
+            <span title="PDF Export" (click)="this.common.getPDFFromTableId('tblpending', '', (this.listtype == 1)? 'ADVANCED REVIEW DOCUMENTS' : 'PENDING VEHICLE DOCUMENTS')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
+            <span title="CSV Export" (click)="common.getCSVFromTableId('tblpending')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
+        </div>-->
+        <table class="table table-bordered table-hover table-scroll mt-3" id="tblpending">
           <thead class="thead">
 
             <tr>
@@ -21,7 +25,7 @@
               <th *ngFor="let col of columns" class="text-center">
                 {{formatTitle(col)}}
               </th>
-              <th style="width:120px; text-align: center;">Action</th>
+              <th style="width:120px; text-align: center;" class="del">Action</th>
             </tr>
           </thead>
 
@@ -34,7 +38,7 @@
                   <span  style="min-width: 200px;">{{row[col]}}</span>
            
                 </td>
-                  <td class="" style="width: 120px;">
+                  <td class="del" style="width: 120px;">
                     <a href="javascript: void(0);" title="Edit Document" (click)="showDetails(row)"><i
                         class="icon ion-md-create"></i></a>&nbsp;
                     <a href="javascript: void(0);" title="Delete Document" (click)="deleteDocument(row)"><i

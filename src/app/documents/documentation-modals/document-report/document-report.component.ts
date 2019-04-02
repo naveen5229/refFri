@@ -11,21 +11,27 @@ import { normalize } from 'path';
 import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'document-report',
   templateUrl: './document-report.component.html',
   styleUrls: ['./document-report.component.scss', '../../../pages/pages.component.css'],
   providers: [DatePipe]
 })
+
+
 export class DocumentReportComponent implements OnInit {
   table = null;
   title = '';
   data = [];
+  fodata = [];
   // reportResult = [];
   reportData = {
     id: null,
     status: '',
   };
+  
+
   // currentdate = new Date;
   // nextMthDate = null;
   // exp_date = null;
@@ -43,6 +49,8 @@ export class DocumentReportComponent implements OnInit {
     this.title = this.common.params.title;
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
+    console.log("user::");
+    console.log(this.user);
     this.getReport();
     // /this.getTableColumns();
 
@@ -55,37 +63,50 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  exportCSV() {
-    console.log("doctypid:" + this.common.params.docReoprt.document_type_id + ", status:" + this.reportData.status);
-    this.api.post('Vehicles/getDocumentsStatisticsCsv', { x_status: this.reportData.status, x_document_type_id: this.common.params.docReoprt.document_type_id })
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
       .subscribe(res => {
         this.common.loading--;
-        /*
-        const blob = new Blob([res], { type: 'text/csv' });
-        const url= window.URL.createObjectURL(blob);
-        window.open(url);
-        */
+        this.fodata = res['data'];
+        let left_heading = this.fodata['name'];
+        let strstatus = this.reportData.status.toUpperCase();
+        switch(strstatus) {
+          case 'VERIFIED' : strstatus = 'VERIFIED DOCUMENTS'; break;
+          case 'UNVERIFIED' : strstatus = 'UNVERIFIED DOCUMENTS'; break;
+          case 'PENDINGIMAGE' : strstatus = 'PENDING IMAGES'; break;
+          case 'EXPIRING30DAYS' : strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
+          case 'EXPIRED' : strstatus = 'EXPIRED DOCUMENTS'; break;
+          case 'PENDINGDOC' : strstatus = 'PENDING DOCUMENTS'; break;
+          default: break;
+        }
+        let center_heading = strstatus;
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-
+  
+  
   setTable() {
     let headings = {
-      docId: { title: 'Doc Id', placeholder: 'Doc Id' },
-      vehicleNumber: { title: 'vehicle Number ', placeholder: 'vehicle Number' },
+      docId: { title: 'Document Id', placeholder: 'Document Id' },
+      vehicleNumber: { title: 'Vehicle Number ', placeholder: 'Vehicle Number' },
       docType: { title: 'Document Type', placeholder: 'Document Type' },
-      issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+      issueDate: { title: 'Issue Date', placeholder: 'Issue Date', class: 'del' },
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-      documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-      agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
-      rto: { title: 'Rto', placeholder: 'Rto' },
-      amount: { title: 'Amount', placeholder: 'Amount' },
-      verified: { title: 'Verified', placeholder: 'Verified' },
-      remark: { title: 'Remark', placeholder: 'Remak' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+      documentNumber: { title: 'Document Number', placeholder: 'Document Number' },
+      agentName: { title: 'Agent Name', placeholder: 'Agent Name', class: 'del' },
+      rto: { title: 'Rto', placeholder: 'RTO' , class: 'del'},
+      amount: { title: 'Amount', placeholder: 'Amount' , class: 'del'},
+      verified: { title: 'Verified', placeholder: 'Verified', class: 'del' },
+      remark: { title: 'Remark', placeholder: 'Remark', class: 'del' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class: 'del' },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
     };
     return {
@@ -120,16 +141,16 @@ export class DocumentReportComponent implements OnInit {
         docId: { value: doc.id },
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
-        issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
+        issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') , class: 'del'},
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
         expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: exp_date2==null ? 'default' : currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : 'green') },
         documentNumber: { value: doc.document_number },
-        agentName: { value: doc.agent },
-        rto: { value: doc.rto },
-        amount: { value: doc.amount },
-        verified: { value: doc.verified ? 'Yes': 'No' },
-        remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
+        agentName: { value: doc.agent , class: 'del'},
+        rto: { value: doc.rto , class: 'del'},
+        amount: { value: doc.amount , class: 'del'},
+        verified: { value: doc.verified ? 'Yes': 'No' , class: 'del'},
+        remark: { value: doc.remarks, class: 'del' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center del' },
         rowActions: {}
       };
       columns.push(column);
@@ -150,10 +171,6 @@ export class DocumentReportComponent implements OnInit {
   }
     
   
-
-
-
-
   getReport() {
     let params = {
       id: this.common.params.docReoprt.document_type_id,

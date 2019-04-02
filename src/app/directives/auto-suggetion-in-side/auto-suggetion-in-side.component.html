@@ -1,0 +1,6 @@
+<div class="TJR-auto-suggestion-container" id="TJR-auto-suggestion-container">
+  <div *ngFor="let suggestion of suggestions; let i = index;" class="suggestion-option"
+    [ngClass]="activeSuggestion == i ? 'active-suggestion' : ''" (click)='selectSuggestion(suggestion)'>
+    <span>{{suggestion.name}}</span>
+  </div>
+</div>

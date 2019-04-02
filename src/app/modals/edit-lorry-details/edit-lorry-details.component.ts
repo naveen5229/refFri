@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddConsigneeComponent } from '../LRModals/add-consignee/add-consignee.component';
+import { DatePipe, NumberFormatStyle } from '@angular/common';
 
 
 declare var google: any;
@@ -17,12 +18,19 @@ export class EditLorryDetailsComponent implements OnInit {
   showMain = true;
   showAgentLayout = false;
   images = [];
-  tonnage='';
+  tonnage = '';
   LrData = null;
   vehId = "";
-  lrDate = '';
-  payType='';
-  isDelete=false;
+  lrDate = null;
+  payType = "toPay";
+  regno = '';
+  taName = '';
+  consignerName = '';
+  materialName = '';
+  consineeName = ''
+  isUpdated = false;
+  option = 'accept';
+  //dateByIcon=false;
   // LrData = {
   //   receiptNo: null,
   //   source: this.documents.source,
@@ -61,11 +69,27 @@ export class EditLorryDetailsComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
+    public datepipe: DatePipe,
     private modalService: NgbModal) {
     if (this.common.params) {
       this.LrData = this.common.params.details;
-      this.payType=this.LrData.pay_type;
-      console.info('Document: ', this.LrData);
+      console.log("LrData", this.LrData);
+      this.regno = this.LrData.regno;
+      this.vehId = this.LrData.vehicle_id;
+      this.taName = this.LrData.ta_name;
+      this.consignerName = this.LrData.consigner_name;
+      this.consineeName = this.LrData.consignee_name;
+      this.materialName = this.LrData.material_name;
+      this.payType = this.LrData.pay_type;
+      this.regno = this.LrData.regno;
+      this.vehId = this.LrData.vehicle_id;
+      //this.lrDate=this.datepipe.transform(this.LrData.lr_date, 'dd/MM/yyyy');
+      if (this.LrData.lr_date != null) {
+        this.lrDate = this.LrData.lr_date;
+        this.lrDate = this.common.dateFormatter1(this.lrDate);
+        console.log('lrDate: ', this.lrDate);
+      }
+      // this.lrDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
 
     }
   }
@@ -73,9 +97,13 @@ export class EditLorryDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+
   searchVehicle(vehicleList) {
-    console.log('vehiclelist: ' + vehicleList);
+    console.log('vehiclelist: ', vehicleList);
     this.vehId = vehicleList.id;
+    console.log("id:", this.vehId);
+    return this.vehId;
+
   }
 
   loadImage(flag) {
@@ -99,8 +127,12 @@ export class EditLorryDetailsComponent implements OnInit {
     }
   }
 
-  dismiss(status) {
-    this.activeModal.close({ status: status, isDelete:this.isDelete});
+  closeModal() {
+    this.activeModal.close();
+  }
+
+  dismiss() {
+    this.activeModal.close({ isUpdated: this.isUpdated });
   }
 
   getDate() {
@@ -108,7 +140,8 @@ export class EditLorryDetailsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.lrDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        console.log('lrdate: ' + this.lrDate);
+        // this.dateByIcon=true;
+        console.log('lrdate: by getDate ' + this.lrDate);
 
       }
 
@@ -123,19 +156,25 @@ export class EditLorryDetailsComponent implements OnInit {
     this.showAgentLayout = true;
     this.common.handleModalSize('class', 'modal-lg', '1300');
   }
+
   searchName(nameList, flag) {
     if (flag == 'Consignee') {
       this.LrData.consignee_id = nameList.id;
       this.LrData.consignee_name = nameList.name;
+      return this.LrData.consignee_id;
     } else {
       this.LrData.consigner_id = nameList.id;
       this.LrData.consigner_name = nameList.name;
+      return this.LrData.consigner_id;
     }
   }
 
   searchTaName(TaList) {
+    console.log("list", TaList);
     this.LrData.ta_id = TaList.id;
     this.LrData.ta_name = TaList.name;
+    return this.LrData.ta_id;
+
   }
 
   insertAgentInfo() {
@@ -171,6 +210,11 @@ export class EditLorryDetailsComponent implements OnInit {
 
   }
 
+  changePayType() {
+    this.LrData.pay_type = this.payType;
+    console.log('paytype to change', this.LrData.pay_type);
+  }
+
   resetView() {
     this.showAgentLayout = false;
     this.common.handleModalSize('class', 'modal-lg', '1000');
@@ -180,9 +224,13 @@ export class EditLorryDetailsComponent implements OnInit {
   searchMaterialType(MaterialList) {
     this.LrData.material = MaterialList.id;
     this.LrData.material_name = MaterialList.name;
+    return this.LrData.material;
   }
 
   insertLrDetails() {
+    //if(!this.dateByIcon)
+    this.lrDate = this.common.dateFormatter(this.lrDate);
+    // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
     let params = {
       sourceLat: this.LrData.source_lat,
       sourceLng: this.LrData.source_long,
@@ -194,11 +242,11 @@ export class EditLorryDetailsComponent implements OnInit {
       remark: this.LrData.remark,
       id: this.LrData.id,
       receiptNo: this.LrData.receipt_no,
-      status: this.LrData.status,
+      status: 1,
       taId: this.LrData.ta_id,
       taName: this.LrData.ta_name,
       consignerId: this.LrData.consigner_id,
-      tonnage: this.tonnage,
+      tonnage: this.LrData.weight,
       consignerName: this.LrData.consigner_name,
       consigneeId: this.LrData.consignee_id,
       consigneeName: this.LrData.consignee_name,
@@ -216,12 +264,17 @@ export class EditLorryDetailsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['msg']);
-        if(res['msg']=="Success"){
-           this.resetValues(); 
-           this.common.showToast('Success !!');
-           this.isDelete=true;
-           this.dismiss(false);
+        if (res['success']) {
+          //this.resetValues();
+          this.common.showToast('Success !!');
+          this.isUpdated = true;
+          this.dismiss();
         }
+        else {
+          this.common.showToast('Not Success !!');
+          console.log('Not Success !!')
+        }
+
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -268,47 +321,65 @@ export class EditLorryDetailsComponent implements OnInit {
     }
   }
 
-  removeLrDetails(){
-    let params={
-      lr_id:this.LrData.id,
-      image_url:this.images[0]
+  removeLrDetails() {
+    if (this.images[0] == null) {
+      console.log('image to delete', this.images[0]);
+      this.common.showToast('Load LR To Delete !!');
+      return;
+    }
+
+    let params = {
+      lr_id: this.LrData.id,
+      image_url: this.images[0]
     };
-    console.log('params: ',params);
+    console.log('params: ', params);
     this.common.loading++;
-    this.api.post('LorryReceiptsOperation/deleteLr',params)
-            .subscribe(res =>{
-              this.common.loading--;
-              console.log('res: ',res['msg']);
-              this.isDelete=true;
-              this.dismiss(false);
-            }, err=>{
-              this.common.loading--;
-              this.common.showError();
-            })
+    this.api.post('LorryReceiptsOperation/deleteLr', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['msg']);
+        if (res['success']) {
+          this.common.showToast('Success !!');
+          this.isUpdated = true;
+          this.dismiss();
+        } else {
+          this.common.showToast('something went wrong');
+        }
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  getMaterialName() {
+    //console.log(document.getElementById('material_input')['value']);
+    this.LrData.material_name = document.getElementById('material_input')['value'];
+    console.log('getMaterialName', this.LrData.material_name);
   }
 
   resetValues() {
-    this.LrData.receipt_no=null;
-    this.LrData.source=null;
-    this.LrData.source_lat=null;
-    this.LrData.source_long=null;
-    this.LrData.destination=null;
-    this.LrData. destination_lat=null;
-    this.LrData.destination_long=null;
-    this.LrData.remark= null;
-    this.LrData.ta_name=null;
-    this.LrData.ta_id=null;
-    this.LrData.consigner_name=null;
-    this.LrData.consigner_id=null;
-    this.LrData.consignee_name=null;
-    this.LrData.pay_type=null;
-    this.LrData.tonnage=null;
-    this.LrData.amount=null;
-    this.LrData.material=null;
-    this.LrData.material_id=null;
-    this.LrData.rate=null;
-    this.vehId=null;
-    this.lrDate=null;
+    this.LrData.receipt_no = null;
+    this.LrData.source = null;
+    this.LrData.source_lat = null;
+    this.LrData.source_long = null;
+    this.LrData.destination = null;
+    this.LrData.destination_lat = null;
+    this.LrData.destination_long = null;
+    this.LrData.remark = null;
+    this.LrData.ta_name = null;
+    this.LrData.ta_id = null;
+    this.LrData.consigner_name = null;
+    this.LrData.consigner_id = null;
+    this.LrData.consignee_name = null;
+    this.LrData.pay_type = null;
+    this.LrData.weight = null;
+    this.LrData.amount = null;
+    this.LrData.material = null;
+    this.LrData.material_id = null;
+    this.LrData.rate = null;
+    this.vehId = null;
+    this.LrData.lr_date = null;
   }
 
 }

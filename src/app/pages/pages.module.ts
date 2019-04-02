@@ -30,6 +30,8 @@ import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+
 
 
 const PAGES_COMPONENTS = [
@@ -48,7 +50,8 @@ const PAGES_COMPONENTS = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ImageViewerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -66,6 +69,8 @@ const PAGES_COMPONENTS = [
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
+    // GenerateLRComponent
+    
   ],
 })
 export class PagesModule {

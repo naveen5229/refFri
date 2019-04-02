@@ -7,8 +7,9 @@ import { ApiService } from './api.service';
 import { DataService } from './data.service';
 import { UserService } from './user.service';
 
-
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class CommonService {
   refresh = null;
   passedVehicleId = null;
   changeHaltModal = null;
-
+ref_page = null;
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -56,7 +57,7 @@ export class CommonService {
     201: { title: 'KPI Details', page: 'VehicleKpiDetailsPage' }
   }
 
-
+  currentPage = '';
 
   constructor(
     public router: Router,
@@ -78,7 +79,7 @@ export class CommonService {
     const config = {
       status: type || 'success',
       destroyByClick: true,
-      duration: duration || 3000,
+      duration: duration || 5000,
       hasIcon: true,
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
       preventDuplicates: false,
@@ -152,6 +153,11 @@ export class CommonService {
   changeDateformat(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, 'dd-MMM-yyyy hh:mm a')
+  }
+
+  changeDateformat2(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, 'dd-MMM HH:mm')
   }
 
   changeDateformat1(date) {
@@ -377,5 +383,239 @@ export class CommonService {
     let status = false;
     this.user._pages.map(page => (page.route == menu.link) && (status = true));
     return status;
+  }
+  
+  getPDFFromTableId(tblEltId, left_heading, center_heading) {
+
+    //remove table cols with del class
+    let tblelt = document.getElementById(tblEltId);
+    if(tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tblEltId + " table");
+    }
+    
+    let hdg_coll = [];
+    let hdgs = [];
+    let hdgCols = tblelt.querySelectorAll('th');
+    console.log("hdgcols:");
+    console.log(hdgCols.length);
+    if(hdgCols.length >= 1) {
+      for(let i=0; i< hdgCols.length; i++) {
+        if(hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml  = hdgCols[i].innerHTML;
+        if(elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute('placeholder');
+          hdgs.push(attrval);
+        } else if(elthtml.indexOf('<img') > -1)  {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute('title');
+          hdgs.push(attrval);
+        } else if(elthtml.indexOf('href') > -1)  {
+          let strval = hdgCols[i].innerHTML;
+          hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          console.log("hdgval:" + plainText);
+          hdgs.push(plainText);
+        }
+      }
+    }
+    hdg_coll.push(hdgs);
+    let rows = [];
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    if(tblrows.length >= 1) {
+      for(let i=0; i < tblrows.length; i++) {
+        if(tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for(let j=0; j< rowCols.length; j++) {
+          if(rowCols[j].classList.contains('del'))
+            continue;
+          let colhtml = rowCols[j].innerHTML;
+          if(colhtml.indexOf('input') > -1) {
+            let eltinput = rowCols[j].querySelector("input");
+            let attrval = eltinput.getAttribute('placeholder');
+            rowdata.push(attrval);
+          } else if(colhtml.indexOf('img') > -1)  {
+            let eltinput = rowCols[j].querySelector("img");
+            let attrval = eltinput.getAttribute('title');
+            rowdata.push(attrval);
+          } else if(colhtml.indexOf('href') > -1)  {
+            let strval = rowCols[j].innerHTML;
+            rowdata.push(strval);
+          } else if(colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match=pattern.exec(colhtml);
+            if(match!=null && match.length)
+              rowdata.push(match[1]);
+          } else {
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            rowdata.push(plainText);
+          }          
+        }
+        rows.push(rowdata);
+        
+      }
+    }
+
+    let eltimg = document.createElement('img');
+    eltimg.src = "assets/images/elogist.png";
+    eltimg.alt = "logo";
+
+    
+    let pageOrientation = "Portrait";
+    if(hdgCols.length > 7) {
+      pageOrientation = "Landscape";
+    }
+    let doc = new jsPDF({
+      orientation: pageOrientation,
+      unit: 'px',
+      format: 'a4'
+    });
+    
+    var pageContent = function (data) {
+      //header
+      let x = 35;
+      let y = 40;
+
+      if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+        
+
+        doc.setFontSize(14);
+        doc.setFont("times", "bold");
+        doc.text("elogist Solutions ", x, y);
+                
+      }
+      let pageWidth= parseInt(doc.internal.pageSize.width);
+      if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+        x=pageWidth / 2;
+        let xpos=x-50;
+        y=40;
+        doc.setFont("times", "bold","text-center");
+        doc.text(left_heading, xpos, y);
+      }
+      if(center_heading != "undefined" && center_heading != null && center_heading != '') {
+        x=pageWidth / 2;
+        y=50;
+        doc.setFontSize(14);
+        doc.setFont("times", "bold","text-center");
+        doc.text(center_heading, x - 50, y);
+      }      
+      y= 15;
+      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      doc.setFontSize(12);
+
+      doc.line(20, 70, pageWidth - 20, 70);
+
+      // FOOTER
+      var str = "Page " + data.pageCount;
+      
+      doc.setFontSize(10);
+      doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+    };
+    
+    let tempLineBreak={fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth : 10, cellWidth: 40, valign: 'middle', halign: 'center' };
+    doc.autoTable({
+        head: hdg_coll,
+        body: rows,
+        theme: 'grid',
+        didDrawPage: pageContent,
+        margin: {top: 80},
+        rowPageBreak: 'avoid',
+        headStyles: {
+          fillColor: [98, 98, 98],
+          fontSize: 10,
+          halign: 'center',
+          valign: 'middle'
+          
+        },
+        styles: tempLineBreak,
+        columnStyles: {text: {cellWidth: 40 ,halign: 'center', valign: 'middle'}},
+        
+    });
+    doc.save('report.pdf');
+  }
+
+  getCSVFromTableId(tblEltId) {
+    let tblelt = document.getElementById(tblEltId);
+    if(tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tblEltId + " table");
+    }
+    
+    let organization = {"elogist Solutions": "elogist Solutions"};
+    let blankline = {"":""};
+
+    let info = [];
+    let hdgs = {};
+    let arr_hdgs = [];
+    info.push(organization);
+    info.push(blankline);
+    let hdgCols = tblelt.querySelectorAll('th');
+    if(hdgCols.length >= 1) {
+      for(let i=0; i< hdgCols.length; i++) {
+        if(hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml  = hdgCols[i].innerHTML;
+        if(elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute('placeholder');
+          hdgs[attrval] = attrval;
+          arr_hdgs.push(attrval);
+        } else if(elthtml.indexOf('<img') > -1)  {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute('title');
+          hdgs[attrval] = attrval;
+          arr_hdgs.push(attrval);
+        } else if(elthtml.indexOf('href') > -1)  {
+          let strval = hdgCols[i].innerHTML;
+          hdgs[strval] = strval;
+          arr_hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          hdgs[plainText]=plainText;
+          arr_hdgs.push(plainText);
+        }
+      }
+    }
+    info.push(hdgs);
+    
+    let tblrows = tblelt.querySelectorAll('tbody tr');
+    if(tblrows.length >= 1) {
+      for(let i=0; i < tblrows.length; i++) {
+        if(tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
+        let rowdata = [];
+        for(let j=0; j< rowCols.length; j++) {
+          if(rowCols[j].classList.contains('del'))
+            continue;
+          let colhtml = rowCols[j].innerHTML;
+          if(colhtml.indexOf('input') > -1) {
+            let eltinput = rowCols[j].querySelector("input");
+            let attrval = eltinput.getAttribute('placeholder');
+            rowdata[arr_hdgs[j]]=attrval;
+          } else if(colhtml.indexOf('img') > -1)  {
+            let eltinput = rowCols[j].querySelector("img");
+            let attrval = eltinput.getAttribute('title');
+            rowdata[arr_hdgs[j]]=attrval;
+          } else if(colhtml.indexOf('href') > -1)  {
+            let strval = rowCols[j].innerHTML;
+            rowdata[arr_hdgs[j]] = strval;
+          } else if(colhtml.indexOf('</i>') > -1) {
+            let pattern = /<i.* title="([^"]+)/g;
+            let match=pattern.exec(colhtml);
+            if(match!=null && match.length)
+              rowdata[arr_hdgs[j]]=match[1];
+          } else {
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            rowdata[arr_hdgs[j]]=plainText;
+          }          
+        }
+        info.push(rowdata);
+      }
+    }
+    new Angular5Csv(info, "report.csv" );
   }
 }

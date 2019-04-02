@@ -6,7 +6,8 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
-
+import { LedgerComponent} from '../../acounts-modals/ledger/ledger.component';
+import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 
 @Component({
   selector: 'orders',
@@ -329,12 +330,20 @@ export class OrdersComponent implements OnInit {
     });
     return total;
   }
-
+ 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active Id', this.activeId);
-
+    console.log('Active event', event);
+    // console.log('Active Id', this.activeId);
+    if ((event.altKey && key === 'c') && ( (this.activeId.includes('purchaseledger')) ||  (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
+      // console.log('alt + C pressed');
+      this.openledger();
+    } 
+    if ((event.altKey && key === 'c') && (this.activeId.includes('stockitem'))) {
+      // console.log('alt + C pressed');
+      this.openStockItemModal();
+    }
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
@@ -384,6 +393,7 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('paymentterms')) {
         this.setFoucus('biltynumber');
       } else if (this.activeId.includes('biltynumber')) {
+        this.handleVoucherBiltyDateOnEnter();
         this.setFoucus('biltydate');
       } else if (this.activeId.includes('deliveryterms')) {
         console.log(this.order.ordertype.name);
@@ -444,6 +454,28 @@ export class OrdersComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
+  
+  handleVoucherBiltyDateOnEnter() {
+    let dateArray = [];
+    let separator = '-';
+    if (this.order.date.includes('-')) {
+      dateArray = this.order.date.split('-');
+    } else if (this.order.date.includes('/')) {
+      dateArray = this.order.date.split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[2];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[0];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+   // console.log('Date: ', date + separator + month + separator + year);
+    this.order.biltydate = year + separator + month + separator +  date;
+  }
 
   handleVoucherDateOnEnter() {
     let dateArray = [];
@@ -457,14 +489,14 @@ export class OrdersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[0];
+    let date = dateArray[2];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[2];
+    let year = dateArray[0];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.order.date = date + separator + month + separator + year;
+   // console.log('Date: ', date + separator + month + separator + year);
+    this.order.date = year + separator + month + separator +  date;
   }
 
 
@@ -546,7 +578,7 @@ export class OrdersComponent implements OnInit {
   getSuggestions() {
     const element = document.getElementById(this.activeId);
     const search = element ? element['value'] ? element['value'].toLowerCase() : '' : '';
-    console.log('Search: ', search, this.activeId);
+    // console.log('Search: ', search, this.activeId);
     let suggestions = [];
     if (this.activeId == 'ordertype') {
       if (element['value']) {
@@ -612,6 +644,107 @@ export class OrdersComponent implements OnInit {
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
     }
+
+  }
+
+  openledger(ledger?) {
+    console.log('ledger123',ledger);
+      if (ledger) this.common.params = ledger;
+      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' ,keyboard :false});
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+         // console.log('ledger data',data.ledger);
+         this.addLedger(data.ledger);
+        }
+      });
+    }
+
+    addLedger(ledger) {
+      console.log('ledgerdata',ledger);
+     // const params ='';
+      const params = {
+          name: ledger.name,
+          alias_name: ledger.aliasname,
+          code: ledger.code,
+          foid: ledger.user.id,
+          per_rate: ledger.perrate,
+          primarygroupid: ledger.account.primarygroup_id,
+          account_id: ledger.account.id,
+          accDetails: ledger.accDetails,
+          x_id:0
+       };
+  
+       console.log('params11: ',params);
+      this.common.loading++;
+  
+      this.api.post('Accounts/InsertLedger', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res);
+        this.getPurchaseLedgers();
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
+  
+    }
+
+
+    
+  openStockItemModal(stockitem?) {
+    console.log('stockitem', stockitem);
+    if (stockitem) {
+      this.common.params = stockitem;
+    } 
+    // else {
+    //   this.common.params = { stockType: { name: 'Tyre', id: -1 } };
+    // }
+    const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        if (stockitem) {
+         // this.updateStockItem(stockitem.id, data.stockitem);
+          return;
+        }
+        this.addStockItem(data.stockItem);
+      }
+    });
+  }
+
+  addStockItem(stockItem) {
+    console.log(stockItem);
+    // const params ='';
+    const params = {
+      //foid: stockItem.user.id,
+      name: stockItem.name,
+      code: stockItem.code,
+      stocksubtypeid: stockItem.stockSubType.id,
+      sales: stockItem.sales,
+      purchase: stockItem.purchase,
+      minlimit: stockItem.minlimit,
+      maxlimit: stockItem.maxlimit,
+      isactive: stockItem.isactive,
+      inventary: stockItem.inventary,
+      stockunit: stockItem.unit.id
+
+    };
+
+    console.log('params: ', params);
+    this.common.loading++;
+
+    this.api.post('Stock/InsertStockItem', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        this.getStockItems();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
 
   }
 }

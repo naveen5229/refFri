@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -64,5 +65,14 @@ export class LorryRecciptsComponent implements OnInit {
     console.log("images:", images);
     this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  printLr(receipt){
+    console.log("receipts",receipt);
+    this.common.params = {lrId: receipt.lr_id }
+    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+    });
   }
 }
