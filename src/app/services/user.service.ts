@@ -42,7 +42,12 @@ export class UserService {
       { id: 12, route: '/admin/pending-documents' },
       { id: 13, route: '/admin/user-preferences' },
       { id: 14, route: '/admin/site-details' },
-      { id: 15, route: '/admin/vscticketaudit' }
+      { id: 15, route: '/admin/vscticketaudit' },
+      { id: 16, route: '/admin/alert-related-issue' },
+      { id: 17, route: '/admin/gps-supplier-mapping' },
+      { id: 18, route: '/admin/vehicles-view' },
+      { id: 19, route: '/admin/company-details' },
+      { id: 20, route: '/admin/transport-agents' }
     ]
   }
   

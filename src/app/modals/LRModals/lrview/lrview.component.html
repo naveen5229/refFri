@@ -1,0 +1,123 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">LR View</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" id="print-section">
+  <div class=col-sm-6>
+    <h2>Company Name</h2><br>
+    <Address>address</Address>
+  </div>
+  <div class=col-sm-6>
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <tr>
+          <td><b>GR NO. : </b> {{lrDetails.receipt_no}}</td>
+          <td><b>Date : </b> {{lrDetails.lr_date | date : 'dd MMM yyyy'}} </td>
+        </tr>
+        <tr>
+          <td colspan="2"><b>Truck No. :</b></td>
+        </tr>
+        <tr>
+          <td><b>From : </b> {{lrDetails.source}}</td>
+          <td><b>To : </b> {{lrDetails.destination}}</td>
+        </tr>
+        <tr>
+          <td><b>Driver No. : </b></td>
+          <td><b>Driver Name : </b> </td>
+        </tr>
+        <tr>
+          <td colspan="2"><b>License No. :</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <table class="table table-bordered table-hover">
+    <tbody>
+      <tr>
+        <td>
+          <h5>Consignor's Name & Address : </h5><br>
+          <Address> {{lrDetails.consignor}}</Address>
+        </td>
+        <td>
+          <h5>Delivery Address : </h5><br>
+
+        </td>
+        <td>
+          <h5>Consignee's Name & Address : </h5><br>
+          {{lrDetails.consignee}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class=col-sm-9>
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <tr>
+          <td>
+            <b>No. of Articles</b>
+          </td>
+          <td colspan="2">
+            <b>Particulars</b>
+          </td>
+          <td>
+            <b>Weight (Tons)</b>
+          </td>
+        </tr>
+        <tr *ngFor = "let of ; let i = index"></tr>
+        <td></td>
+        <td colspan="2"></td>
+        <td></td>
+      </tbody>
+    </table>
+  </div>
+  <div class=col-sm-3>
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <tr>
+          <td><b>Payment By :</b></td>
+        </tr>
+        <tr>
+          <td><b>GST Paid By :</b></td>
+        </tr>
+        <tr>
+          <td><b>Rate :</b></td>
+        </tr>
+        <tr>
+          <td><b>GST Rate :</b></td>
+        </tr>
+        <tr>
+          <td><b>GST Amount :</b></td>
+        </tr>
+        <tr>
+          <td><b>Payable Amount :</b> {{lrDetails.amount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-sm-12">
+    <table class="table table-bordered table-hover">
+      <tr>
+        <td>
+          <b> Conditions</b>
+        </td>
+        <td>
+          <b>Logistic Sign</b>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-12">
+    <table class="table table-bordered table-hover">
+      <tr>
+        <td>
+          <b>Footer:</b>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- <button (click)="print()">print</button> -->
+</div>

@@ -7,8 +7,8 @@
     <thead>
       <tr style="background:#f2f2f2;">
         <th style="padding:5px" style="width: 40px">#</th>
-        <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
-          <div class="filter-container">
+        <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);" [ngClass]="headings[heading].class">
+          <div class="filter-container" *ngIf="!headings[heading].isHTML">
             <div *ngIf="!headings[heading].hideSearch">
               <div class="filter-input-container">
                 <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
@@ -22,13 +22,15 @@
               <span>{{headings[heading].title}}</span>
             </div>
           </div>
+          <div *ngIf="headings[heading].isHTML" [innerHTML]="headings[heading].html"></div>
         </th>
       </tr>
     </thead>
     <tbody>
 
       <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && handleRowClick(column, i)"
-        (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()" [ngClass]="activeRow == i ? 'active-row' : ''">
+        (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()"
+        [ngClass]="activeRow == i ? 'active-row' : ''">
         <td style="width: 40px">{{i+1}}</td>
         <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
           (click)="column[heading].action && column[heading].action()"
@@ -36,8 +38,12 @@
           [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
           <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
             [innerHTML]="column[heading].value"></div>
-          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="!column[heading].isHTML">
+          <div [ngClass]="column[heading].action ? 'zoom' : ''"
+            *ngIf="!column[heading].isHTML && !column[heading].icons">
             {{column[heading].value}}
+          </div>
+          <div *ngIf="column[heading].icons">
+            <i *ngFor="let icon of column[heading].icons" [class]="icon.class" (click)="icon.action()"></i>
           </div>
           <!-- <div [ngClass]="column[heading].value?"></div> -->
         </td>

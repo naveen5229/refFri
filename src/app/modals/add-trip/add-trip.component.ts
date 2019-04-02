@@ -38,6 +38,8 @@ export class AddTripComponent implements OnInit {
     private datePipe: DatePipe,
     private modalService: NgbModal,
   ){
+    this.startTime = this.common.dateFormatter(new Date());
+    this.targetTime = this.common.dateFormatter(new Date());
     this.VehicleId = this.common.params.vehId;
     this.prevehicleId= this.VehicleId;
   }
@@ -54,9 +56,9 @@ export class AddTripComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        if(type=='startdate')
+        if(type=='start')
         this.startTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        if(type=='enddate')
+        if(type=='end')
         this.targetTime = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
         console.log('lrdate: '+this.startTime);
       }
@@ -130,6 +132,7 @@ export class AddTripComponent implements OnInit {
         console.log('Err:', err);
       });
 }
+
 
 getvehicleData(vehicle){
   console.log("vehicle",vehicle);

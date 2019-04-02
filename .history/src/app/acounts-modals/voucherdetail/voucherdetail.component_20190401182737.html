@@ -1,0 +1,39 @@
+<nb-card>
+  <nb-card-body>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Voucher Detail</h5>
+      <i class="fa fa-close" style="color: #fff;" (click)="dismiss(false)"></i>
+    </div>
+    <div class="modal-body" >
+      <table class="table table-bordered">
+          <thead style="background-color:#ddd;">
+        <tr>
+          <th>Particular</th>
+          <!--th>Vch Type</th>
+        <th>Vch No.</th-->
+          <th>Amount(Debit)</th>
+          <th>Amount(Credit)</th>
+
+        </tr>
+        </thead>
+        <tr *ngFor=" let dataItem of Detail;">
+          <td>{{dataItem.y_particulars}}</td>
+          <!--td>{{dataItem.y_type}}</td>
+          <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td-->
+          <td>{{dataItem.y_dramunt}}</td>
+          <td>{{dataItem.y_cramunt}}</td>
+
+
+        </tr>
+      </table>
+    </div>
+    <!-- <div class="modal-footer">
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+            style="cursor: pointer;">Cancel</button>
+        </div>
+      </div>
+    </div> -->
+  </nb-card-body>
+</nb-card>
