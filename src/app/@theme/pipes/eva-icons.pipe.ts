@@ -19,17 +19,17 @@ export class EvaIconsPipe implements PipeTransform {
     animationInfinity: false,
   };
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) { }
 
   transform(icon: string,
-            options: {
-              height: number;
-              width: number;
-              fill: string;
-              animationType?: string;
-              animationHover?: boolean;
-              animationInfinity?: boolean;
-            },
+    options: {
+      height: number;
+      width: number;
+      fill: string;
+      animationType?: string;
+      animationHover?: boolean;
+      animationInfinity?: boolean;
+    },
   ) {
     const mergedOptions = {
       ...this.defaultOptions,
