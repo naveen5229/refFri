@@ -6,6 +6,8 @@ import { LocationMarkerComponent } from '../../modals/location-marker/location-m
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { shimHostAttribute } from '@angular/platform-browser/src/dom/dom_renderer';
+import * as moment_ from 'moment';
+const moment = moment_;
 @Component({
   selector: 'vehicle-report',
   templateUrl: './vehicle-report.component.html',
@@ -72,37 +74,45 @@ export class VehicleReportComponent implements OnInit {
         this.report.forEach((d) => {
           this.startTime = d.start_time;
           this.startTime = new Date(this.startTime);
-          this.endTime = d.end_time ? d.end_time : new Date();
-          this.endTime = new Date(this.endTime);
-          this.resultTime = this.endTime - this.startTime;
-          console.log('begore resultTime: ' + this.resultTime);
-          // if(this.resultTime>0){
-          let sec = (this.resultTime / 1000);
-          let min = sec / 60;
-          let hour = min / 60;
-          let result='00'+':'+'00';
-          sec = Math.floor(sec) % 60;
-          min = Math.floor(min) % 60;
-          hour = Math.floor(hour) % 60;
-          if (hour != 0) {
-            if (hour.toString().length == 1) {
-              result = '0' + hour + ':';
-              // this.resultTime=this.h;
-            } else
-               result = hour + ':';
-
-            if (min != 0) {
-              if (min.toString().length == 1) {
-                result += '0' + min;
-              } else
-              result += min;
-            } else
-              result += '00';
-          }
+          this.endTime = d.end_time;
+          // let sec = (this.resultTime / 1000);
+          // let hour=sec/3600;
+          // let tmin=sec%3600;
+          // let min=tmin/60;
+          // sec=tmin%60; 
+          // console.log('hh:mm:Ss',hour,min,sec);
+         // var tempTime = moment.duration(this.resultTime);
+         // var y = tempTime.hours() +':'+ tempTime.minutes();
+       if(this.endTime!=null){
+         this.endTime = new Date(this.endTime);
+         this.resultTime = this.endTime - this.startTime;
+        console.log('begore resultTime: ' + this.resultTime);
+         var result=moment.utc(this.resultTime).format('HH:mm');
+         console.log('moment',moment.utc(this.resultTime).format('HH:mm'));
          this.duration.push(result);
-         
-      //  } 
-        });
+        }else{
+          var result='Running';
+          this.duration.push(result);
+        }
+
+        //   let result='00'+':'+'00';
+        //  if (hour != 0) {
+        //     if (hour.toString().length == 1) {
+        //       result = '0' + hour + ':';
+        //       // this.resultTime=this.h;
+        //     } else
+        //        result = hour + ':';
+
+        //     if (min != 0) {
+        //       if (min.toString().length == 1) {
+        //         result += '0' + min;
+        //       } else
+        //       result += min;
+        //     } else
+        //       result += '00';
+        //   }
+        
+         });
         console.log('result time', this.resultTime);
         this.table = this.setTable();
 
