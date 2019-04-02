@@ -1,3 +1,46 @@
-<p>
-  update-transport-agent works!
-</p>
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Transport Agents</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+              <div class="row" style="margin-top:5px" >
+                <div class="col-md-4">
+                  <label> Name</label>
+                </div>
+                <div class="col-md-8" style="margin-top:5px">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="name"
+                    [(ngModel)]="transportAgent.name" >
+                </div>
+              </div>
+    <div class="row" style="margin-top:5px">
+      <div class="col-md-4">
+        <label> PAN </label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="pan" name="pan" placeholder="PAN Number"
+          [(ngModel)]="transportAgent.pan">
+      </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label> PAN </label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="gstin" name="gstin" placeholder="GSTIN"
+            [(ngModel)]="transportAgent.gstin">
+        </div>
+      </div>
+  
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="updateTransportAgent();" style="cursor:pointer;">Submit</button>
+      </div>
+    </div>
+  </div>

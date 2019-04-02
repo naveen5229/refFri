@@ -106,6 +106,12 @@
           <td>KMPD</td>
           <td>{{vehicleInfo.kmpd}}</td>
         </tr>
+        <tr>
+            <td>LR Image</td>
+            <td><span *ngIf="vehicleInfo.lr_id" (click)="getLR(vehicleInfo.lr_id)">View</span>
+              <span *ngIf="!vehicleInfo.lr_id" (click)="getLR(206)">N.A.</span>
+            </td>
+          </tr>
       </tbody>
     </table>
   </div>
