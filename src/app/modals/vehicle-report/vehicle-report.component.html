@@ -6,7 +6,7 @@
 </div>
     
 <div class="model-body" style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px">
-    <div class="row">
+    <div class="row" style="margin-bottom:10px">
         <div class="col-sm-3">
          
           <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control"> 
@@ -25,11 +25,10 @@
             <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
         </div>
       </div>
-<table class="table table-bordered" style="margin-top:20px">
+<!-- <table class="table table-bordered" style="margin-top:20px">
   <thead class="thead" style="background-color:darkgrey">
     <tr *ngIf="report.length">
     <th>Id</th>
-    <th>Date Time</th>
     <th>Reason</th>
     <th>Place </th>
     <th>Location</th>
@@ -42,7 +41,6 @@
 <tbody>
   <tr *ngFor="let data of report; let i=index;">
     <td>{{i+1}}</td>
-    <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
     <td>{{data.halt_reason}}</td>
     <td ><ng-template *ngIf="data.site_type!=null;then showtype; else showname"></ng-template>
       <ng-template #showtype>{{data.site_name}}({{data.site_type}})</ng-template>
@@ -53,5 +51,6 @@
     <td>{{duration[i]}}</td>
     <td  (click)="showMap(data)"><i class="fa fa-map-marker"></i></td>
   </tbody>
-</table> 
+</table>  -->
+<smart-table *ngIf="report.length" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
 </div>
