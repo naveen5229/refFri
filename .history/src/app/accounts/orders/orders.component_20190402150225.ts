@@ -101,7 +101,6 @@ export class OrdersComponent implements OnInit {
     this.getStockItems('purchase');
     this.getWarehouses();
     this.setFoucus('ordertype');
-    this.common.currentPage = 'Invoice';
   }
 
   ngOnInit() {

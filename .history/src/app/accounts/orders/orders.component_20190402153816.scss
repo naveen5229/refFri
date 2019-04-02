@@ -85,14 +85,10 @@ button {
             width: 250px;
         }
         th:nth-child(2){
-          width: 100px;
+          width: 135px;
         }
-        th:nth-child(3){
-          width: 100px;
-        }
-        td:nth-child(3) input{
-          width: 100%;
-          padding: 5px;
+        th:nth-child(6){
+            width: 80px;
         }
         td{
             padding: 5px 10px !important;
@@ -118,9 +114,8 @@ button {
         }
     }
 } 
-#cancel{
-  background-color: #d61414 !important;
-}
-.btn-primary {
-  background-color: #263238 !important;
+.modal-footer{
+  button{
+    border-radius: 5px;
+  }
 }

@@ -307,7 +307,7 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let amountDetail of order.amountDetails; let i = index;">
+        <tr *ngFor="let amountDetail of order.amountDetails; let i = index;" style="background: #e8f0f3;">
           <td>
             <input type="text" [id]="'stockitem-' + i" class="form-control ref-input" name="'stockitem-' + i"
               [(ngModel)]="amountDetail.stockitem.name" required>
@@ -376,14 +376,12 @@
                 class="fa fa-trash"></i></button>
           </td>
         </tr>
-        <tr style="background: #576c77 !important; color:#fff;">
+        <tr>
           <td colspan="4">&nbsp;</td>
           <td><b>Total Amount : </b></td>
           <td><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
               [(ngModel)]="order.totalamount" [value]="calculateTotal()" readonly style="background-color: #eeeeee;">
           </td>
-          <td colspan="2">&nbsp;</td>
-          <td>&nbsp;</td>
         </tr>
       </tbody>
     </table>

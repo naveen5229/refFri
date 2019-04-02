@@ -118,9 +118,8 @@ button {
         }
     }
 } 
-#cancel{
-  background-color: #d61414 !important;
-}
-.btn-primary {
-  background-color: #263238 !important;
+.modal-footer{
+  button{
+    border-radius: 5px;
+  }
 }
