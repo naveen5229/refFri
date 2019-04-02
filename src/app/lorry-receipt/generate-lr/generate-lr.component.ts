@@ -33,7 +33,11 @@ export class GenerateLRComponent implements OnInit {
     payableAmount: 1000,
     lrNumber: null,
     sourceCity: null,
+    sourceLat: null,
+    sourceLng: null,
     destinationCity: null,
+    destinationLat:null,
+    destinationLng:null,
     remark: null,
     date: '' + new Date()
   };
@@ -83,8 +87,16 @@ export class GenerateLRComponent implements OnInit {
 
   }
   ngAfterViewInit(): void {
-    this.mapService.autoSuggestion("sourceCity",(place,lat,long)=>{this.lr.sourceCity=place;});
-    this.mapService.autoSuggestion("destinationCity",(place,lat,long)=>{this.lr.destinationCity=place;});
+    this.mapService.autoSuggestion("sourceCity",(place,lat,long)=>{
+      this.lr.sourceCity=place;
+      this.lr.sourceLat=lat;
+      this.lr.sourceLng=long;
+    });
+    this.mapService.autoSuggestion("destinationCity",(place,lat,long)=>{
+      this.lr.destinationCity=place;
+      this.lr.destinationLat=lat;
+      this.lr.destinationLng=long;
+    });
   }
 
 
@@ -214,7 +226,13 @@ export class GenerateLRComponent implements OnInit {
       travelAgentId: this.taId,
       deliveryAddress: this.lr.deliveryAddress,
       lrDetails: JSON.stringify(particulars),
-      remarks: this.lr.remark
+      remarks: this.lr.remark,
+      sourceLat:this.lr.sourceLat,
+      sourceLng:this.lr.sourceLng,
+      destinationLat:this.lr.destinationLat,
+      destinationLng:this.lr.destinationLng,
+      consigneeAddress:this.lr.consigneeAddress,
+      consignorAddress:this.lr.consignorAddress,
     }
     console.log("params", params);
 
