@@ -59,11 +59,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link:'/accounts/dashboard'
   },
-  {
-    title: 'Driver',
-    icon: 'fa fa-money',
-    link:'/driver/dashboard',
-    home: true,
-  },
+  // {
+  //   title: 'Driver',
+  //   icon: 'fa fa-money',
+  //   link:'/driver/dashboard',
+  //   home: true,
+  // },
   
 ];
