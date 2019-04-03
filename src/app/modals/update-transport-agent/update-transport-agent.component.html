@@ -36,11 +36,11 @@
         <label> GSTIN </label>
       </div>
       <div class="col-md-8">
-        <input type="text" class="form-control" id="gstin" name="gstin" placeholder="GSTIN" formControlName="gstin"
-          [(ngModel)]="transportAgent.gstin">
-          <div *ngIf="isFormSubmit && f.gstin.errors" class="invalid-feedback">
-              <div *ngIf="f.gstin.errors.required">PanNumber is Require</div>
-              <div *ngIf="f.gstin.errors.pattern"> Example : AELPU1234H</div>
+        <input type="text" class="form-control" id="gstin" name="gstin" placeholder="GSTIN" formControlName="gstin" (keyup)="checkFormatGst()"
+          [(ngModel)]="transportAgent.gstin"  [ngClass]="{ 'is-invalid': isFormSubmit && f.gstin.errors }">
+          <div *ngIf="isFormSubmit && f.gstin.errors" class="invalid-feedback"  >
+              <div *ngIf="f.gstin.errors.required">GSTIn is Require</div>
+              <div *ngIf="f.gstin.errors.pattern"> Example : 24AAACB5343E1Z7</div>
             </div>
       </div>
     </div>

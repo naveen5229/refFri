@@ -32,23 +32,28 @@ export class UpdateTransportAgentComponent implements OnInit {
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
-      name:['',Validators.required],
+      name: ['', Validators.required],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
-      gstin:['',[Validators.required, Validators.pattern("/^([0-9]{2}[a-zA-Z]{4}([a-zA-Z]{1}|[0-9]{1})[0-9]{4}[a-zA-Z]{1}([a-zA-Z]|[0-9]){3}){0,15}$/")]],
+      gstin: ['', [Validators.required, Validators.pattern("^([0][1-9]|[1-2][0-9]|[3][0-7])([A-Z]{5})([0-9]{4})([A-Z]{1}[1-9A-Z]{1})([Z]{1})([0-9A-Z]{1})+$")]],
     });
   }
   // convenience getter for easy access to form fields
   get f() { return this.Form.controls; }
-  
+
 
   closeModal() {
     this.activeModal.close();
   }
-  
-  checkFormat(){
-    this.transportAgent.pan =  (this.transportAgent.pan).toUpperCase();
- 
-   }
+
+  checkFormat() {
+    this.transportAgent.pan = (this.transportAgent.pan).toUpperCase();
+
+  }
+
+  checkFormatGst() {
+    this.transportAgent.gstin = (this.transportAgent.gstin).toUpperCase();
+
+  }
 
   updateTransportAgent() {
     let params = {

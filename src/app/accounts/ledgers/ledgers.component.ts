@@ -43,36 +43,38 @@ export class LedgersComponent implements OnInit {
   }
 
   openModal(ledger?) {
+    let data =[];
     console.log('ledger123', ledger);
     if (ledger) {
-      this.common.params = ledger;
-      let params={
-        id:ledger.id,
-        foid:ledger.foid
+      let params = {
+        id: ledger.id,
+        foid: ledger.foid
       }
       this.common.loading++;
-      this.api.post('Accounts/EditLedgerdata',params)
+      this.api.post('Accounts/EditLedgerdata', params)
         .subscribe(res => {
           this.common.loading--;
           console.log('Res:', res['data']);
-          this.common.params = res['data'];
-  
+          data = res['data'];
+          this.common.params = ledger;
+          this.common.params = { params, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+              this.addLedger(data.ledger);
+            }
+          });
+
         }, err => {
           this.common.loading--;
           console.log('Error: ', err);
           this.common.showError();
         });
-
-      console.log("hiiiii");
-      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-          this.addLedger(data.ledger);
-        }
-      });
     }
+
     else {
+      this.common.params=null;
       const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
@@ -82,6 +84,7 @@ export class LedgersComponent implements OnInit {
       });
     }
   }
+
   addLedger(ledger) {
     console.log('ledgerdata', ledger);
     // const params ='';
