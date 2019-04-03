@@ -24,19 +24,18 @@
                     {{row[col]}}
                   </span>
 
-                  <span *ngIf="row[col]!=null && col !='regno'&& col !='driver_name'">
-                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])" title="OK"></i>
+                  <span *ngIf="row[col]!=null && col !='regno' && col !='driver_name'">
+                    <i class="fa fa-check icon-green" title="OK"></i>
                   </span>
                   <span *ngIf="row[col]==null && col =='driver_name'">
-                    <i class="fa fa-minus" (click)="fetchDocumentData(row, col, row[col])" title="----"></i>
+                    <i class="fa fa-minus" title="Unassigned"></i>
                   </span>
                   <span *ngIf="row[col]!=null && col =='driver_name'">
-                    {{row[col]}}
+                    {{formatTitle(row[col])}}
                   </span>
 
                   <span *ngIf="row[col] == null && col !='driver_name'">
-                    <i class="fa fa-times-circle icon-red-cross" (click)="fetchDocumentData(row, col, row[col])"
-                      title="No Record"></i>
+                    <i class="fa fa-times-circle icon-red-cross" title="No Record"></i>
                   </span>
                 </td>
               </tr>

@@ -543,18 +543,19 @@ ref_page = null;
       let x = 35;
       let y = 40;
 
-      if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+      //if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
         
 
         doc.setFontSize(14);
         doc.setFont("times", "bold");
         doc.text("elogist Solutions ", x, y);
                 
-      }
+      //}
       let pageWidth= parseInt(doc.internal.pageSize.width);
-      if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+      if(left_heading != "undefined" &&  left_heading != null && left_heading != '') {
         x=pageWidth / 2;
-        let xpos=x-50;
+        let hdglen = left_heading.length / 2;
+        let xpos=x-hdglen-40;
         y=40;
         doc.setFont("times", "bold","text-center");
         doc.text(left_heading, xpos, y);
@@ -562,9 +563,10 @@ ref_page = null;
       if(center_heading != "undefined" && center_heading != null && center_heading != '') {
         x=pageWidth / 2;
         y=50;
+        let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold","text-center");
-        doc.text(center_heading, x - 50, y);
+        doc.text(center_heading, x - hdglen -40, y);
       }      
       y= 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
@@ -681,4 +683,13 @@ ref_page = null;
     }
     new Angular5Csv(info, "report.csv" );
   }
+
+  formatTitle(strval) {
+      let pos = strval.indexOf('_');
+      if(pos > 0) {
+        return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+      } else {
+        return strval.charAt(0).toUpperCase() + strval.substr(1);
+      }
+    }
 }
