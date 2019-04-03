@@ -32,25 +32,29 @@ export class VehicleReportComponent implements OnInit {
     private datePipe: DatePipe,
     public api: ApiService,
     private modalService: NgbModal) {
-   // this.common.handleModalSize('class', 'modal-lg', '1500');
-    // this.common.handleModalheight('class', 'modal-lg', '300');
-   // this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');
-    if (this.common.params) {
+      this.vid = this.common.params.vehicleId;
+      this.vehicleRegNo = this.common.params.vehicleRegNo;
+    if (this.common.params.ref_page =='consView' ) {
       let today, start;
-      this.vid = this.common.params.kpi.x_vehicle_id;
-      this.vehicleRegNo = this.common.params.kpi.x_showveh;
       today = new Date();
       this.endDate = this.common.dateFormatter(today);
       start = new Date(today.setDate(today.getDate() - 3))
       this.startDate = this.common.dateFormatter(start);
       console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
-      this.getVehicleReport();
+      
     }
+    else{
+      this.startDate = this.common.dateFormatter(this.common.params.fromTime);
+      this.endDate = this.common.dateFormatter(this.common.params.toTime);
+
+    }
+    this.getVehicleReport();
   }
 
 
   ngOnInit() {
   }
+  ngAfterViewInit() {}
 
   searchVehicle(vehicleList) {
     this.vid = vehicleList.id;
