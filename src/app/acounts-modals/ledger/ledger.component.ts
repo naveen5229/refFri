@@ -42,14 +42,15 @@ export class LedgerComponent implements OnInit {
       name: ''
     }]
   };
-
-
   allowBackspace = true;
+  status =0;
+
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
 
     if (this.common.params) {
+      this.status=1;
       this.Accounts = {
         name: this.common.params.name,
         aliasname: this.common.params.aliasname,
