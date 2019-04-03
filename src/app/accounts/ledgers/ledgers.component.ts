@@ -17,6 +17,7 @@ export class LedgersComponent implements OnInit {
     public modalService: NgbModal) {
 
       this.GetLedger();
+      this.common.currentPage = 'Ledger';
      }
 
   ngOnInit() {

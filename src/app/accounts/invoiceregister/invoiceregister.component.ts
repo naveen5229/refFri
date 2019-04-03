@@ -28,8 +28,8 @@ export class InvoiceregisterComponent implements OnInit {
         id:''
       },
       voucherType :{
-        name:'All',
-        id:0
+        name:'Purchase Order',
+        id:-1
       }
     
     };
@@ -55,7 +55,7 @@ export class InvoiceregisterComponent implements OnInit {
       search: 123
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetVouchertypeList', params)
+    this.api.post('Suggestion/GetOrderTypeList', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

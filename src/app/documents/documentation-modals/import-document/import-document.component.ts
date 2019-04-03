@@ -26,8 +26,8 @@ export class ImportDocumentComponent implements OnInit {
     type: ''
   };
   vehicleId = '';
-  data = [];
-  docTypes = [];
+  // data = [];
+  // docTypes = [];
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -41,7 +41,7 @@ export class ImportDocumentComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.btn3 = this.common.params.btn3 || 'Validate';
     this.vehicleId = this.common.params.vehicleId;
-    this.getDocumentsData();
+    // this.getDocumentsData();
 
   }
 
@@ -52,43 +52,50 @@ export class ImportDocumentComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  getDocumentsData() {
-    this.common.loading++;
-    let response;
-    this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("data", res);
-        this.docTypes = res['data'].document_types_info;
-        console.log("new doc type", this.docTypes);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return response;
-  }
+  // getDocumentsData() {
+  //   this.common.loading++;
+  //   let response;
+  //   this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.vehicleId })
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log("data", res);
+  //       this.docTypes = res['data'].document_types_info;
+  //       console.log("new doc type", this.docTypes);
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  //   return response;
+  // }
 
-  selectDocType(documentType) {
-    this.docType = documentType;
-    console.log("Document type", this.docType.id);
-  }
+  // selectDocType(documentType) {
+  //   this.docType = documentType;
+  //   console.log("Document type", this.docType.id);
+  // }
 
   uploadCsv() {
     const params = {
-      vehicleDocCsv: this.csv,
-      docTypeId: this.docType.id
+      driverCsv: this.csv,
     };
-    if (!params.docTypeId || !params.vehicleDocCsv) {
+    if (!params.driverCsv) {
       return this.common.showError("Select  Option");
     }
     console.log("Data :", params);
     this.common.loading++;
-    this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
+    this.api.post('Drivers/ImportDriversCsv', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
-        let errorData = res['data'];
+        let errorData = res['data']['f'];
+        console.log("error: ",errorData);
         alert(res["msg"]);
+      
+        if(errorData.length)
+        {
+          this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
+          const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        
+        }
         this.closeModal(true);
       }, err => {
         this.common.loading--;
@@ -96,30 +103,30 @@ export class ImportDocumentComponent implements OnInit {
       });
   }
 
-  checkCsv(validate = null) {
-    const params = {
-      vehicleDocCsv: this.csv,
-      validate: validate,
-      docTypeId: this.docType.id
-    };
-    if (!params.docTypeId || !params.vehicleDocCsv) {
-      return this.common.showError("Select  Option");
-    }
-    console.log("Data :", params);
-    this.common.loading++;
-    this.api.post('Vehicles/ImportVehicleDocumentCsv', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("upload result", res);
-        let errorData = res['data'];
-        this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
-        const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  // checkCsv(validate = null) {
+  //   const params = {
+  //     driverCsv: this.csv,
+  //     validate: validate,
+     
+  //   };
+  //   if (!params.driverCsv) {
+  //     return this.common.showError("Select  Option");
+  //   }
+  //   console.log("Data :", params);
+  //   this.common.loading++;
+  //   this.api.post('Drivers/ImportDriversCsv', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log("upload result", res);
+  //       let errorData = res['data'];
+  //       this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
+  //       const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log(err);
+  //     });
+  // }
 
 
   handleFileSelection(event) {

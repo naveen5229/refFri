@@ -111,6 +111,10 @@ import { DriverStatusChangeComponent } from './modals/driver-status-change/drive
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
+import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
+import { UpdateTransportAgentComponent } from './modals/update-transport-agent/update-transport-agent.component';
+import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-analysis.component';
+import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -184,7 +188,11 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     VehicleReportComponent,
-    LRViewComponent
+    LRViewComponent,
+    UpdateCompanyComponent,
+    UpdateTransportAgentComponent,
+    VehicleAnalysisComponent,
+    RouteMapperComponent
 
   ],
   entryComponents: [
@@ -257,7 +265,11 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
     VehicleReportComponent,
-    LRViewComponent
+    LRViewComponent,
+    UpdateCompanyComponent,
+    UpdateTransportAgentComponent,
+    VehicleAnalysisComponent,
+    RouteMapperComponent
   ],
   imports: [
     BrowserModule,

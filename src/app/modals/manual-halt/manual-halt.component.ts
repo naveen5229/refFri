@@ -84,11 +84,12 @@ export class ManualHaltComponent implements OnInit {
         endTime:this.endTime,
         vehicleId:this.vid,
         lat:this.location.lat,
-        long:this.location.long
+        long:this.location.long,
+        haltTypeId:this.halt_type
        };
        console.log('params to insert', params);
        this.common.loading++;
-       this.api.postToTranstrucknew('HaltOperations/insertSingleHalt',params)
+       this.api.post('HaltOperations/insertSingleHalt',params)
                .subscribe(res=>{
                  this.common.loading--; 
                   console.log('res: ',res['data']);
