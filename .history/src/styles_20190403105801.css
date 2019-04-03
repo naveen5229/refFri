@@ -262,7 +262,7 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .nb-theme-corporate nb-layout .layout .layout-container .content nb-layout-footer nav{
   background: #e8e8e8;
 }
-.modal-dialog{
-  top: 40% !important;
-  transform: translate(0%,-50%) !important;
+:host .modal-dialog{
+  top: 50%;
+  transform: translate(0%,-50%);
 }

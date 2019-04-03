@@ -229,5 +229,15 @@ export class StockitemComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
-  
+  function openModal(title, msg) {
+
+    $rootScope.modalTitle = title;
+    $rootScope.modalmsg = msg;
+
+    var notificationModal = $modal.open({
+        windowClass : "newTicket"     //THIS IS NOT WORKING
+    });
+
+}
+
 }

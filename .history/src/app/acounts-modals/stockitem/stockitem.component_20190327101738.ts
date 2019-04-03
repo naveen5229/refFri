@@ -229,5 +229,4 @@ export class StockitemComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
-  
 }

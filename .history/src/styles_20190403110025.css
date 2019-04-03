@@ -263,6 +263,6 @@ nb-menu .menu-item > .menu-items > .menu-item a{
   background: #e8e8e8;
 }
 .modal-dialog{
-  top: 40% !important;
+  top: 30% !important;
   transform: translate(0%,-50%) !important;
 }
