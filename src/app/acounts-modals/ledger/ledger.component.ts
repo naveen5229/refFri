@@ -44,14 +44,12 @@ export class LedgerComponent implements OnInit {
     }]
   };
   allowBackspace = true;
-  status =0;
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
 
     if (this.common.params) {
-      this.status=1;
       this.Accounts = {
         name: this.common.params.y_name,
         aliasname: this.common.params.y_alias_name,
@@ -62,8 +60,8 @@ export class LedgerComponent implements OnInit {
         },
         account: {
           name: this.common.params.name,
-          id: this.common.params.y_dtl_ledger_id,
-          primarygroup_id: this.common.params.y_accountgroup_id
+          id: this.common.params.y_accountgroup_id,
+          primarygroup_id: '0',
         },
         id:this.common.params.y_id,
         code: this.common.params.y_code,
@@ -77,7 +75,7 @@ export class LedgerComponent implements OnInit {
           cityId: this.common.params.y_dtl_city_id,
           address: this.common.params.y_dtl_address,
           remarks: this.common.params.y_dtl_remarks,
-          name: this.common.params.y_name
+          name: this.common.params.y_dtl_name
         }]
       }
 
