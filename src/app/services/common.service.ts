@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbThemeService } from '@nebular/theme';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, FormatWidth } from '@angular/common';
 import { ApiService } from './api.service';
 import { DataService } from './data.service';
 import { UserService } from './user.service';
@@ -289,6 +289,15 @@ ref_page = null;
       }
     }, 10);
 
+  }
+
+  handleModalHeightWidth(type, name, height, width, sizeType = 'px', position = 0) {
+    setTimeout(() => {
+      if (type == 'class') {
+        document.getElementsByClassName(name)[position]['style'].maxHeight = height + sizeType;
+        document.getElementsByClassName(name)[position]['style'].maxWidth = width + sizeType;
+      }
+    }, 10);
   }
 
   apiErrorHandler(err, hideLoading, showError, msg?) {

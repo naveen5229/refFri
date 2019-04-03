@@ -12,12 +12,12 @@
           <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control"> 
         </div>
         <div class="col-sm-3">
-            <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
+            <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
             autocomplete="off" name="date">
           <owl-date-time #date></owl-date-time>
         </div>
         <div class="col-sm-3">
-            <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time" class="form-control"
+            <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
             autocomplete="off" name="date1">
           <owl-date-time #date1></owl-date-time>
         </div>
@@ -52,5 +52,5 @@
     <td  (click)="showMap(data)"><i class="fa fa-map-marker"></i></td>
   </tbody>
 </table>  -->
-<smart-table *ngIf="report.length" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
+<smart-table style="max-height:200px" *ngIf="report.length" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
 </div>
