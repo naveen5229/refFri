@@ -19,6 +19,7 @@ import { RadioSelectionComponent } from '../../modals/radio-selection/radio-sele
 import { VehiclesOnMapComponent } from '../../modals/vehicles-on-map/vehicles-on-map.component';
 import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { TripDetailsComponent } from '../../modals/trip-details/trip-details.component';
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
@@ -143,7 +144,9 @@ export class ConciseComponent implements OnInit {
         action: {value: '', isHTML: false, action: null, icons: [
           {class: 'icon fa fa-info', action: this.vehicleReport.bind(this, kpi)},
           {class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, kpi)},
-          {class:" icon fa fa-route", action:this.openRouteMapper.bind(this, kpi)}
+          {class:" icon fa fa-route", action:this.openRouteMapper.bind(this, kpi)},
+          {class:" icon fa fa-truck", action:this.openTripDetails.bind(this, kpi)}
+
         ]},
 
 
@@ -581,5 +584,22 @@ export class ConciseComponent implements OnInit {
 
 
     }
+    openTripDetails(kpi){
+      let today,startday,fromDate
+      today= new Date();
+      startday = new Date(today.setDate(today.getMonth() - 2));
+      fromDate = this.common.dateFormatter(startday);
+      let fromTime =this.common.dateFormatter(fromDate);
+      let toTime= this.common.dateFormatter(new Date());
+      this.common.params = {vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,fromTime:fromTime,toTime:toTime}
+      console.log("open Trip Details modal", this.common.params);
+      const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data =>
+        console.log("data",data) 
+        // this.reloadData()
+        );
+  
+  
+      }
 }
 
