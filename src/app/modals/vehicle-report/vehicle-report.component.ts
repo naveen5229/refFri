@@ -32,7 +32,9 @@ export class VehicleReportComponent implements OnInit {
     private datePipe: DatePipe,
     public api: ApiService,
     private modalService: NgbModal) {
-    this.common.handleModalSize('class', 'modal-lg', '1500');
+   // this.common.handleModalSize('class', 'modal-lg', '1500');
+    // this.common.handleModalheight('class', 'modal-lg', '300');
+   // this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');
     if (this.common.params) {
       let today, start;
       this.vid = this.common.params.kpi.x_vehicle_id;
@@ -145,7 +147,7 @@ export class VehicleReportComponent implements OnInit {
       Place: { title: 'Place', placeholder: 'Place' },
       Location: { title: 'Location', placeholder: 'Location' },
       Reason: { title: 'Reason', placeholder: 'Reason' },
-      Duration: { title: 'Duration', placeholder: 'Duration' },
+      Duration: { title: 'Duration', placeholder: 'Duration'},
       Action: { title: 'Action', placeholder: 'Action' }
     };
 

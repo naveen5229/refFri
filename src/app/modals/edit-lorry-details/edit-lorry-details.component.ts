@@ -272,7 +272,10 @@ export class EditLorryDetailsComponent implements OnInit {
         }
         else {
           this.common.showToast('Not Success !!');
-          console.log('Not Success !!')
+          if (this.LrData.lr_date != null) {
+            this.lrDate = this.LrData.lr_date;
+            this.lrDate = this.common.dateFormatter1(this.lrDate);
+          }
         }
 
       }, err => {
