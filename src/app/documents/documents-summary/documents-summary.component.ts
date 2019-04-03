@@ -239,7 +239,7 @@ export class DocumentsSummaryComponent implements OnInit {
         //console.log(rowData);
         console.log(documentData);
         //this.common.params = { rowData, title: 'Document Details', canUpdate: 0 };
-        this.common.params = { documentData, title: 'Document Details', canUpdate: 0 };
+        this.common.params = { documentData, title: 'Document Details', canUpdate: 0, vehicleId: this.docdata[0].vehicle_id };
         this.common.handleModalSize('class', 'modal-lg', '1200');
         //const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
