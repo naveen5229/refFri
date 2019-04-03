@@ -22,7 +22,7 @@ export class TripDetailsComponent implements OnInit {
     private modalService: NgbModal,
     public activeModal: NgbActiveModal,
   ) { 
-    this.common.handleModalSize('class', 'modal-lg', '1600');
+   // this.common.handleModalSize('class', 'modal-lg', '1600');
     this.startDate = this.common.params.fromTime;
   this.endDate = this.common.params.toTime;
   this.vehicleId = this.common.params.vehicleId;
@@ -47,11 +47,12 @@ export class TripDetailsComponent implements OnInit {
           this.common.showError();
         });
   }
-  vehicleReport(kpi) {
-    console.log('KPis: ', kpi);
-    this.common.params = { kpi };
-    this.common.handleModalSize('class', 'modal-lg', '1600');
-    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  vehicleReport(trip) {
+    let fromTime =this.common.dateFormatter(new Date(trip.start_time));
+    let toTime= this.common.dateFormatter(new Date(trip.end_time));
+    this.common.params = {vehicleId:trip.vehicle_id,vehicleRegNo:this.vehicleRegNo,fromTime:fromTime,toTime:toTime};
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
+    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',windowClass: "mycustomModalClass" });
 
   }
 
@@ -59,9 +60,8 @@ export class TripDetailsComponent implements OnInit {
     let fromTime =this.common.dateFormatter(new Date(trip.start_time));
     let toTime= this.common.dateFormatter(new Date(trip.end_time));
     this.common.params = {vehicleId:trip.vehicle_id,vehicleRegNo:this.vehicleRegNo,fromTime:fromTime,toTime:toTime}
-    this.common.handleModalSize('class', 'modal-lg', '1600');    
-    console.log("open Route Mapper modal", this.common.params);
-    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
+    // console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout',windowClass: "mycustomModalClass" });
     activeModal.result.then(data =>
       console.log("data",data) 
       // this.reloadData()

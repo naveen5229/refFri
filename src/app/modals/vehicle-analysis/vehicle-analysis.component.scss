@@ -1,0 +1,10 @@
+.center { text-align: center;}
+.icon-img { width: 20px; height: 20px; border-radius: 50%; }
+table{
+    overflow: auto;
+    display: block;
+    th{
+        white-space: nowrap;
+        padding: 3px 5px;
+    }
+}

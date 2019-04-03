@@ -58,6 +58,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
+import { LicenceUploadComponent } from './driver/licence-upload/licence-upload.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -114,6 +115,7 @@ import { UpdateCompanyComponent } from './modals/update-company/update-company.c
 import { UpdateTransportAgentComponent } from './modals/update-transport-agent/update-transport-agent.component';
 import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-analysis.component';
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
+import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 
 @NgModule({
@@ -160,6 +162,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    //LicenceUploadComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -190,14 +193,11 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     LRViewComponent,
     UpdateCompanyComponent,
     UpdateTransportAgentComponent,
-
     RouteMapperComponent,
     TripDetailsComponent,
-
     VehicleAnalysisComponent,
-    RouteMapperComponent
-
-
+    RouteMapperComponent,
+    PendingLicenceDetailComponent
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -240,6 +240,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -259,7 +260,6 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
-    // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
     ManualHaltComponent,

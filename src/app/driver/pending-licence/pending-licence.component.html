@@ -1,0 +1,53 @@
+<nb-card>
+  <nb-card-header>
+    <h4>Pending Licences</h4>
+  </nb-card-header>
+  <nb-card-body style="min-height: 360px;">
+    <div class="container">
+        <div class="row">
+          <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
+          <div class="col-sm-3 list">
+            <select name="list" class="form-control " (change)="selectList($event.target.value)">
+              <option class="form-control" [value]="0">Pending Licence</option>
+              <option class="form-control" [value]="1">Advance Review Licence</option>
+            </select>
+          </div>
+
+        <table class="table table-bordered table-hover table-scroll mt-3" id="tbllicences">
+          <thead class="thead">
+            <tr>
+              <th>SrNo</th>
+              <th *ngFor="let col of columns" class="text-center">
+                {{common.formatTitle(col)}}
+              </th>
+              <th style="width:120px; text-align: center;" class="del">Action</th>
+            </tr>
+          </thead>
+
+          <tbody class="">
+            <ng-container *ngIf="data != 'undefined'">
+              <tr *ngFor="let row of data; let i = index" class="">
+              
+                  <td style="width:5%;">{{i + 1}}</td>
+                  <td *ngFor="let col of columns">
+                  <span  style="min-width: 200px;">{{row[col]}}</span>
+          
+                </td>
+                  <td class="del" style="width: 120px;">
+                    <a href="javascript: void(0);" title="Edit Licence" (click)="showDetails(row)"><i
+                        class="icon ion-md-create"></i></a>&nbsp;
+                    <a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
+                        class="fa fa-trash"></i></a>
+                    </td>
+                
+              </tr>
+            </ng-container>
+            <tr *ngIf="data == 'undefined' || data.length == 0">
+              <td colspan="2" style="text-align: center;">No Records found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
