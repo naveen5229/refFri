@@ -32,7 +32,6 @@ export class VehicleReportComponent implements OnInit {
     private datePipe: DatePipe,
     public api: ApiService,
     private modalService: NgbModal) {
-    this.common.handleModalSize('class', 'modal-lg', '1500');
     if (this.common.params) {
       let today, start;
       this.vid = this.common.params.kpi.x_vehicle_id;
