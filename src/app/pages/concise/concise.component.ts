@@ -557,8 +557,9 @@ export class ConciseComponent implements OnInit {
     console.log('KPis: ', kpi);
 
     this.common.params={kpi};
-    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
     this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');      
+    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+   
   }
 
   
