@@ -116,6 +116,7 @@ import { UpdateTransportAgentComponent } from './modals/update-transport-agent/u
 import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-analysis.component';
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
+import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -192,10 +193,11 @@ import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/p
     LRViewComponent,
     UpdateCompanyComponent,
     UpdateTransportAgentComponent,
+    RouteMapperComponent,
+    TripDetailsComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
     PendingLicenceDetailComponent
-
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -258,7 +260,6 @@ import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/p
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
-    // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
     ManualHaltComponent,
@@ -271,7 +272,8 @@ import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/p
     UpdateCompanyComponent,
     UpdateTransportAgentComponent,
     VehicleAnalysisComponent,
-    RouteMapperComponent
+    RouteMapperComponent,
+    TripDetailsComponent
   ],
   imports: [
     BrowserModule,
