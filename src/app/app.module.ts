@@ -113,6 +113,7 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
 import { UpdateTransportAgentComponent } from './modals/update-transport-agent/update-transport-agent.component';
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
+import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -188,7 +189,8 @@ import { RouteMapperComponent } from './modals/route-mapper/route-mapper.compone
     LRViewComponent,
     UpdateCompanyComponent,
     UpdateTransportAgentComponent,
-    RouteMapperComponent
+    RouteMapperComponent,
+    TripDetailsComponent
 
   ],
   entryComponents: [
