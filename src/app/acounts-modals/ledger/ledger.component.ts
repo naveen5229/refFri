@@ -28,6 +28,7 @@ export class LedgerComponent implements OnInit {
       id: '',
       primarygroup_id: ''
     },
+    id:'',
     code: '',
     accDetails: [{
       salutationId: '',
@@ -52,30 +53,31 @@ export class LedgerComponent implements OnInit {
     if (this.common.params) {
       this.status=1;
       this.Accounts = {
-        name: this.common.params.name,
-        aliasname: this.common.params.aliasname,
-        perrate: this.common.params.perrate,
+        name: this.common.params.y_name,
+        aliasname: this.common.params.y_alias_name,
+        perrate: this.common.params.y_per_rate,
         user: {
           name: this.common.params.name,
-          id: this.common.params.id
+          id: this.common.params.y_foid
         },
         account: {
           name: this.common.params.name,
-          id: this.common.params.id,
-          primarygroup_id: this.common.params.primarygroup_id
+          id: this.common.params.y_dtl_ledger_id,
+          primarygroup_id: this.common.params.y_accountgroup_id
         },
-        code: '',
+        id:this.common.params.y_id,
+        code: this.common.params.y_code,
         accDetails: [{
-          salutationId: this.common.params.accDetails.salutationId,
-          mobileNo: this.common.params.accDetails.mobileNo,
-          email: this.common.params.accDetails.email,
-          panNo: this.common.params.accDetails.panNo,
-          tanNo: this.common.params.accDetails.tanNo,
-          gstNo: this.common.params.accDetails.gstNo,
-          cityId: this.common.params.accDetails.cityId,
-          address: this.common.params.accDetails.address,
-          remarks: this.common.params.accDetails.remarks,
-          name: this.common.params.accDetails.name
+          salutationId: this.common.params.y_dtl_salutation_id,
+          mobileNo: this.common.params.y_dtl_mobileno,
+          email: this.common.params.y_dtl_email,
+          panNo: this.common.params.y_dtl_pan_no,
+          tanNo: this.common.params.y_dtl_tan_no,
+          gstNo: this.common.params.y_dtl_gst_no,
+          cityId: this.common.params.y_dtl_city_id,
+          address: this.common.params.y_dtl_address,
+          remarks: this.common.params.y_dtl_remarks,
+          name: this.common.params.y_name
         }]
       }
 

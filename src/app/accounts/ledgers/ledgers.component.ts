@@ -56,8 +56,8 @@ export class LedgersComponent implements OnInit {
           this.common.loading--;
           console.log('Res:', res['data']);
           data = res['data'];
-          this.common.params = ledger;
-          this.common.params = { params, title: 'Edit Ledgers Data' };
+          this.common.params = res['data'];
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
           const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
           activeModal.result.then(data => {
             // console.log('Data: ', data);
@@ -97,7 +97,7 @@ export class LedgersComponent implements OnInit {
       primarygroupid: ledger.account.primarygroup_id,
       account_id: ledger.account.id,
       accDetails: ledger.accDetails,
-      x_id: 0
+      x_id: ledger.id ? ledger.id: 0,
     };
 
     console.log('params11: ', params);
