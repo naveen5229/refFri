@@ -1,3 +1,55 @@
-<p>
-  trip-details works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Trips</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-3">
+      <label>{{vehicleRegNo}}</label>
+    </div>
+    <div class="col-sm-3">
+      <input [(ngModel)]="startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate " placeholder="Start Time"
+        class="form-control" autocomplete="off" name="s-date">
+      <owl-date-time #sDate></owl-date-time>
+    </div>
+    <div class="col-sm-3">
+      <input [(ngModel)]="endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate " placeholder="End Time"
+        class="form-control" autocomplete="off" name="e-date">
+      <owl-date-time #eDate></owl-date-time>
+    </div>
+    <div class="col-sm-3">
+      <button (click)="getTripDetails()" class="btn btn-primary form-control">OK</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered table-hover">
+          <thead>
+            <th>Start Loc</th>
+            <th>End Loc</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th>
+            </thead>
+        <tbody>
+            <!-- *ngFor="let trip of trips;let i = index;" -->
+          <tr >
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <span><i class="icon fa fa-info" (click)="vehicleReport(trip)"></i> </span>
+              <span><i class="icon fa fa-truck" (click)="openRouteMapper(trip)"></i> </span>
+            </td>
+          </tr>
+       
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -112,6 +112,7 @@ import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.c
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
 import { UpdateTransportAgentComponent } from './modals/update-transport-agent/update-transport-agent.component';
+import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-analysis.component';
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 
@@ -189,8 +190,13 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     LRViewComponent,
     UpdateCompanyComponent,
     UpdateTransportAgentComponent,
+
     RouteMapperComponent,
-    TripDetailsComponent
+    TripDetailsComponent,
+
+    VehicleAnalysisComponent,
+    RouteMapperComponent
+
 
   ],
   entryComponents: [
@@ -265,7 +271,9 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     LRViewComponent,
     UpdateCompanyComponent,
     UpdateTransportAgentComponent,
-    RouteMapperComponent
+    VehicleAnalysisComponent,
+    RouteMapperComponent,
+    TripDetailsComponent
   ],
   imports: [
     BrowserModule,

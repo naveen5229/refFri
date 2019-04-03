@@ -19,6 +19,7 @@ import { RadioSelectionComponent } from '../../modals/radio-selection/radio-sele
 import { VehiclesOnMapComponent } from '../../modals/vehicles-on-map/vehicles-on-map.component';
 import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { TripDetailsComponent } from '../../modals/trip-details/trip-details.component';
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
@@ -139,11 +140,16 @@ export class ConciseComponent implements OnInit {
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
+
         action: {value: '', isHTML: false, action: null, icons: [
           {class: 'icon fa fa-info', action: this.vehicleReport.bind(this, kpi)},
           {class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, kpi)},
-          {class:" icon fa fa-route", action:this.openRouteMapper.bind(this, kpi)}
+          {class:" icon fa fa-route", action:this.openRouteMapper.bind(this, kpi)},
+          {class:" icon fa fa-truck", action:this.openTripDetails.bind(this, kpi)}
+
         ]},
+
+
         rowActions: {
           click: 'selectRow'
         }
@@ -256,8 +262,11 @@ export class ConciseComponent implements OnInit {
         status = 'Issue';
         subStatus = '12 Hr +';
       } else if (status == 'Undetected') {
-        status = 'Issue',
-          subStatus = 'Undetected';
+        status = 'Issue';
+        subStatus = 'Undetected';
+      } else if (status == 'No GPS Data') {
+        status = 'Issue';
+        subStatus = 'No GPS Data';
       }
       this.primaryStatus.map(primaryStatus => {
         if (primaryStatus.name == status) {
@@ -465,7 +474,7 @@ export class ConciseComponent implements OnInit {
 
   reportIssue(kpi) {
     console.log('Kpi:', kpi);
-    this.common.params= {refPage : 'db'};
+    this.common.params = { refPage: 'db' };
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, kpi.x_vehicle_id));
   }
@@ -489,18 +498,18 @@ export class ConciseComponent implements OnInit {
       }
     }
   }
-   
+
   // openVehicleOnMapModel(){
 
   //   const activeModel=this.modalService.open(VehiclesOnMapComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
   //   this.common.handleModalSize('class', 'modal-lg', '1000');
   //   activeModel.result.then(data =>{
   //    if(!data.status){
-                
+
   //    }        
   //   });
 
- // }
+  // }
 
   choosePrimarySubStatus(primaryStatus) {
     if (primaryStatus.name == this.activePrimaryStatus) {
@@ -547,11 +556,11 @@ export class ConciseComponent implements OnInit {
     this.table = this.setTable();
   }
 
-  vehicleReport(kpi){
+  vehicleReport(kpi) {
     console.log('KPis: ', kpi);
-    this.common.params={kpi};
-    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
-          
+    this.common.params = { kpi };
+    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
   }
 
   openRouteMapper(kpi){
@@ -571,5 +580,22 @@ export class ConciseComponent implements OnInit {
 
 
     }
+    openTripDetails(kpi){
+      let today,startday,fromDate
+      today= new Date();
+      startday = new Date(today.setDate(today.getMonth() - 2));
+      fromDate = this.common.dateFormatter(startday);
+      let fromTime =this.common.dateFormatter(fromDate);
+      let toTime= this.common.dateFormatter(new Date());
+      this.common.params = {vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,fromTime:fromTime,toTime:toTime}
+      console.log("open Trip Details modal", this.common.params);
+      const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout' });
+      activeModal.result.then(data =>
+        console.log("data",data) 
+        // this.reloadData()
+        );
+  
+  
+      }
 }
 
