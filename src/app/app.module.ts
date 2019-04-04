@@ -276,11 +276,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     UpdateTransportAgentComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-<<<<<<< HEAD
-    TripDetailsComponent
-=======
+    TripDetailsComponent,
     PendingLicenceDetailComponent
->>>>>>> amit
   ],
   imports: [
     BrowserModule,
