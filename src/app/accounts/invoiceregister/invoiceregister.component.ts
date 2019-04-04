@@ -28,8 +28,8 @@ export class InvoiceregisterComponent implements OnInit {
         id:''
       },
       voucherType :{
-        name:'Purchase Order',
-        id:-1
+        name:'Purchase Invoice',
+        id:-2
       }
     
     };
