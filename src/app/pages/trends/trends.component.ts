@@ -219,15 +219,20 @@ export class TrendsComponent implements OnInit {
   }
 
   getDate(type) {
-     this.endDate='';
-     this.fromDate='';
+      
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        if (type == 'start')
+        if (type == 'start'){
+          this.fromDate='';
           this.fromDate = this.common.dateFormatter(data.date).split(' ')[0];
-        else
+          console.log('fromDate',this.fromDate);
+        }
+        else{
+          this.endDate='';
           this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+          console.log('endDate',this.endDate);
+        }
 
       }
 

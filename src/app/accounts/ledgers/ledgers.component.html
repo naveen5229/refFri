@@ -14,11 +14,13 @@
         <th>Alias Name</th>
         <th>Code</th>
         <th>Date</th>
-        <th>Edit</th>
+      
       </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let data of Ledgers; let i = index;">
+      <tr *ngFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
+      (dblclick)="openModal(data)" (enter)="openModal(data)"
+      [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{i + 1}}</td>
           <td>{{ data.foname}}</td>
           <td>{{ data.groupname}}</td>
@@ -26,7 +28,7 @@
           <td>{{data.alias_name}}</td>
           <td>{{data.code}}</td>
           <td>{{data.entry_dt | date : 'dd MMM HH:mm'}}</td>
-         <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td>
+         <!-- <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td> -->
         </tr>
   </tbody>
   
