@@ -137,6 +137,7 @@ export class ConciseComponent implements OnInit {
         vechile: { value: kpi.x_showveh, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         status: { value: kpi.showprim_status, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         hrs: { value: kpi.x_hrssince, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        Idle_Time: { value: (kpi.x_idle_time/60).toFixed(1), action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
@@ -486,6 +487,7 @@ export class ConciseComponent implements OnInit {
           vechile: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
           status: { title: 'Status', placeholder: 'Status' },
           hrs: { title: 'Hrs', placeholder: 'Hrs ' },
+          Idle_Time: { title: 'Idle Time', placeholder: 'Idle Time' },
           trip: { title: 'Trip', placeholder: 'Trip' },
           kmp: { title: 'Kmp', placeholder: 'KMP' },
           location: { title: 'Location', placeholder: 'Location' },
@@ -559,21 +561,22 @@ export class ConciseComponent implements OnInit {
   vehicleReport(kpi) {
     console.log('KPis: ', kpi);
 
-    this.common.params={kpi};
+    this.common.params={vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,ref_page:'consView'};
     this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');      
     this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
-   
   }
 
   
 
   openRouteMapper(kpi){
+
     let today,startday,fromDate
     today= new Date();
     startday = new Date(today.setDate(today.getDate() - 2));
     fromDate = this.common.dateFormatter(startday);
     let fromTime =this.common.dateFormatter(fromDate);
     let toTime= this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
     this.common.params = {vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,fromTime:fromTime,toTime:toTime}
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
@@ -587,12 +590,13 @@ export class ConciseComponent implements OnInit {
     openTripDetails(kpi){
       let today,startday,fromDate
       today= new Date();
-      startday = new Date(today.setDate(today.getMonth() - 2));
+      startday = new Date(today.setMonth(today.getMonth() - 2));
       fromDate = this.common.dateFormatter(startday);
       let fromTime =this.common.dateFormatter(fromDate);
       let toTime= this.common.dateFormatter(new Date());
       this.common.params = {vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,fromTime:fromTime,toTime:toTime}
       console.log("open Trip Details modal", this.common.params);
+      this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
       const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout' });
       activeModal.result.then(data =>
         console.log("data",data) 
@@ -600,6 +604,16 @@ export class ConciseComponent implements OnInit {
         );
   
   
+      }
+
+      vehicleOnMap(){
+        console.log(" open vehicle on map modal");
+        this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
+        this.common.params = {vehicles : this.kpis };
+        console.log("open Route Mapper modal", this.common.params);
+        const activeModal = this.modalService.open(VehiclesOnMapComponent, { size: 'lg', container: 'nb-layout' });
+        activeModal.result.then(data =>
+          console.log("data",data)); 
       }
 }
 

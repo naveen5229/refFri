@@ -269,3 +269,10 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .drag-box .model-drag{
   background-color:#fff;
 }
+.accountModalClass .modal-dialog{
+  top: 40% !important;
+  transform: translate(0%,-50%) !important;
+}
+.document-details .tableFixHead{
+  height: 403px !important;
+}

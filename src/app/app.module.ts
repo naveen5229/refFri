@@ -57,6 +57,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
+import { DocumentIssuesComponent } from './documents/documentation-modals/document-issues/document-issues.component';
 import { LicenceUploadComponent } from './driver/licence-upload/licence-upload.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
@@ -161,6 +162,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    DocumentIssuesComponent,
     //LicenceUploadComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
@@ -239,6 +241,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    DocumentIssuesComponent,
     //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
@@ -272,7 +275,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     UpdateTransportAgentComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-    TripDetailsComponent
+    TripDetailsComponent,
+    PendingLicenceDetailComponent
   ],
   imports: [
     BrowserModule,

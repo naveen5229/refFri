@@ -297,6 +297,7 @@ ref_page = null;
         document.getElementsByClassName(name)[position]['style'].maxHeight = height + sizeType;
         document.getElementsByClassName(name)[position]['style'].maxWidth = width + sizeType;
       }
+      
     }, 10);
   }
 

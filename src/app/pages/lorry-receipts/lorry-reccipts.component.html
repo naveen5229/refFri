@@ -16,26 +16,36 @@
         <thead class="thead">
           <tr>
             <th>#</th>
+            <th>LR Id</th>
             <th>Vehicle No</th>
-            <th>Status Name</th>
-            <th *ngIf="viewType == 'allLR'">Name</th>
-            <th>Add Time</th>
-            <th>view</th>
-            <th>Print</th>
+            <th>LR No</th>
+            <th>LR Date</th>
+            <th>Consigner</th>
+            <th>consignee</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>AddTime</th>
+            <th>Image</th>
+            <!-- <th>Print</th> -->
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let receipt of receipts; let i = index">
-            <th scope="row">{{i + 1}}</th>
+            <td>{{i + 1}}</td>
+            <td>{{receipt.lr_id}}</td>
             <td>{{receipt.regno}}</td>
-            <td>{{receipt.statusName}}</td>
-            <td *ngIf="viewType == 'allLR'">{{receipt.name}}</td>           
+            <td>{{receipt.lr_no}}</td>  
+            <td>{{receipt.lr_date | date : 'dd MMM HH:mm'}}</td>
+            <td>{{receipt.lr_consigner_name}}</td>
+            <td>{{receipt.lr_consignee_name}}</td>   
+            <td>{{receipt.lr_source}}</td>
+            <td>{{receipt.lr_destination}}</td>          
             <td>{{receipt.addtime | date : 'dd MMM HH:mm'}}</td>
             <td>
                 <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:18px;" (click)="getImage(receipt)">
                   view</span>
             </td>
-            <td><i class = "fa fa-print" (click) ="printLr(receipt)"></i> </td>
+            <!-- <td><i class = "fa fa-print" (click) ="printLr(receipt)"></i> </td> -->
           </tr>
           </tbody>
       </table>
