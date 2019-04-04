@@ -45,9 +45,7 @@ import { StateService } from '../../../@core/data/state.service';
         <nb-menu [items]="subMenu"></nb-menu>
       </nb-layout-column>
 
-      <nb-layout-footer fixed>
-        <ngx-footer></ngx-footer>
-      </nb-layout-footer>
+     
 
       <nb-sidebar class="settings-sidebar"
                    tag="settings-sidebar"
@@ -58,6 +56,10 @@ import { StateService } from '../../../@core/data/state.service';
       </nb-sidebar>
     </nb-layout>
   `,
+  //before nb-sidebar
+//   <nb-layout-footer fixed>
+//   <ngx-footer></ngx-footer>
+// </nb-layout-footer>
 })
 export class SampleLayoutComponent implements OnDestroy {
 
