@@ -112,6 +112,10 @@ table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
 .document-heading_box tbody tr td:hover{
     background-color: rgba(0, 0, 0, 0.075);
 }
+.blk-issue {
+    margin-top: 5px; margin-bottom: 5px;
+}
+.lnk-issue { color: black; text-decoration: underline; }
 nb-card-header {
     padding: 15px 20px;
     border: 1px solid #efefef;
