@@ -11,6 +11,7 @@ import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
+import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 
 declare let google: any;
 
@@ -469,7 +470,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     console.log("before substracting", this.VehicleStatusData.latch_time);
     let ltime = new Date(this.VehicleStatusData.latch_time);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 3));
-    this.VehicleStatusData.latch_time = this.common.dateFormatter1(subtractLTime);
+    console.log("after substracting", subtractLTime);
+    this.VehicleStatusData.latch_time = this.common.dateFormatter(subtractLTime);
     console.log("after substracting", this.VehicleStatusData.latch_time);
     this.reloadData();
   }
@@ -560,9 +562,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
   getDate(index) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.customDate = this.common.dateFormatter1(data.date).split(' ')[0];
+      this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
       console.log('Date:', this.customDate);
-      this.VehicleStatusData.latch_time = this.common.dateFormatter1(this.customDate);
+      this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
       console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
       this.reloadData();
     });
@@ -778,11 +780,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   openConrirmationAlert(params) {
-          
-
     this.common.params={remark:params.remark,title:'Reject Reason '}
-   
-    
     const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -802,6 +800,16 @@ export class ChangeVehicleStatusComponent implements OnInit {
           });
       }
     });
+  }
+  openRouteMapper(vehicleEvent){
+    let fromTime ;
+    //this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno,fromTime:,toTime:}
+    console.log("open Route Mapper modal");
+    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data =>
+      console.log("data",data) 
+      // this.reloadData()
+      );
   }
 }
 

@@ -40,7 +40,7 @@ issues=[];
     let latch_time = this.common.dateFormatter(subtractLTime);
     let VehicleStatusData = {
       vehicle_id : issue.referid,
-      ttime:issue.addtime,
+      tTime:issue.addtime,
       suggest:11,
       latch_time:latch_time
     }

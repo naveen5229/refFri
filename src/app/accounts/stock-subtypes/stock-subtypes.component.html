@@ -12,17 +12,19 @@
       <th>Stock Sub Type</th>
       <th>Code</th>
       <th>Date</th>
-      <th>Action</th>
+      <!-- <th>Action</th> -->
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let stockType of stockSubTypes; let i = index;">
+    <tr *ngFor="let stockType of stockSubTypes; let i = index;"  (click)="selectedRow = i"
+    (dblclick)="openStockSubTypeModal(stockType)" (enter)="openStockSubTypeModal(stockType)"
+    [ngClass]="{'highlight' : selectedRow == i}" >
         <td>{{i + 1}}</td>
         <td>{{stockType.stocktypename}}</td>
         <td>{{stockType.name}}</td>
         <td>{{stockType.code}}</td>
         <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
-        <td><button class="btn" (click)="openStockSubTypeModal(stockType)">Edit</button></td>
+        <!-- <td><button class="btn" (click)="openStockSubTypeModal(stockType)">Edit</button></td> -->
       </tr>
   </tbody>
 </table>

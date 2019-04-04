@@ -52,6 +52,7 @@ export class StockitemComponent implements OnInit {
 
   allowBackspace = true;
   stockTypeName = '';
+  stockSubType =[];
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -115,12 +116,37 @@ export class StockitemComponent implements OnInit {
 
   }
 
+  getStockSubType(stocktypeid) {
+    let params = {
+      stocktype : stocktypeid
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/GetSearchStockType', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.stockSubType= res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
   onSelected(selectedData, type, display) {
     this.stockItem[type].name = selectedData[display];
     this.stockItem[type].id = selectedData.id;
     console.log('Stock Unit: ', this.stockItem);
   }
-
+  onSubTypeSelected(selectedData, type, display) {
+    this.stockItem[type].name = selectedData[display];
+    this.stockItem[type].id = selectedData.id;
+    this.getStockSubType(selectedData.id);
+  }
+  
 
 
   dismiss(response) {

@@ -22,6 +22,7 @@ export class UpdateCompanyComponent implements OnInit {
     public api : ApiService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
+    private formBuilder: FormBuilder,
   ) {
     this.company.name = this.common.params.company.name;
     this.company.pan = this.common.params.company.pan;
@@ -30,12 +31,24 @@ export class UpdateCompanyComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.Form = this.formBuilder.group({
+      name:['',Validators.required],
+      panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
+    });
   }
+  // convenience getter for easy access to form fields
+  get f() { return this.Form.controls; }
+  
 
   closeModal() {
     this.activeModal.close();
   }
 
+
+  checkFormat(){
+    this.company.pan =  (this.company.pan).toUpperCase();
+ 
+   }
   updateCompany(){
     let params = {
       name : this.company.name,

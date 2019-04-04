@@ -6,7 +6,7 @@
       
   <div class="model-body">
       <div class="row">
-          <div class="col-sm-4" >
+          <!-- <div class="col-sm-4" >
           <label style="margin-left:30px"> 
             According To :
               <input type="radio" name="ticketAccordingTo" value="user" [(ngModel)]="ticketAccordingTo" style="margin-left:30px">
@@ -14,28 +14,29 @@
               <input type="radio" name="ticketAccordingTo" value="vehicle" [(ngModel)]="ticketAccordingTo" style="margin-left:30px">
               Vehicle
             </label>
-          </div>
-          <div class="col-sm-2" *ngIf = "ticketAccordingTo=='user'">
+          </div> -->
+          <!-- <div class="col-sm-2" *ngIf = "ticketAccordingTo=='user'">
               <auto-suggestion (onSelected)="searchUser($event)" url="suggestion/getElogistAdminList" display="employeename"
               placeholder="Admin Name" [preSelected]="null"></auto-suggestion>
-          </div>
-          <div class="col-sm-2" *ngIf = "ticketAccordingTo=='vehicle'">
+          </div> -->
+          <div class="col-sm-3">
               <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
               placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-3">
               <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
               autocomplete="off" name="date">
             <owl-date-time #date></owl-date-time>
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-3">
               <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time" class="form-control"
               autocomplete="off" name="date1">
             <owl-date-time #date1></owl-date-time>
           </div>
           <div class="col-sm-2">
-              <Button class="btn btn-primary" type="button" (click)="getAlert()">Get Report</Button>
-          </div>
+              <!-- <Button class="btn btn-primary" type="button" (click)="getAlert()">Get Report</Button> -->
+              <Button class="btn btn-primary" type="button" (click)="goToTrail()">Get Report</Button>
+            </div>
         </div>
 
    <!-- according to User -->
