@@ -150,7 +150,7 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   add() {
-    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
+    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass:"drag-box" })
   }
   addAgentName() {
     this.showMain = false;
