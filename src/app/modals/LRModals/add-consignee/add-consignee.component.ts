@@ -4,6 +4,7 @@ import { CommonService } from '../../../services/common.service';
 import { UserService } from '../../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CdkDragDrop} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'add-consignee',
@@ -71,4 +72,6 @@ export class AddConsigneeComponent implements OnInit {
         console.log('Err:', err);
       });
   }
+
+ 
 }

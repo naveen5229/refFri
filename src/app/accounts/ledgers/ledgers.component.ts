@@ -11,6 +11,7 @@ import { UserService } from '../../@core/data/users.service';
 })
 export class LedgersComponent implements OnInit {
   Ledgers = [];
+  selectedName = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -41,6 +42,7 @@ export class LedgersComponent implements OnInit {
       });
 
   }
+  selectedRow = -1;
 
   openModal(ledger?) {
     let data =[];
@@ -58,7 +60,7 @@ export class LedgersComponent implements OnInit {
           data = res['data'];
           this.common.params = res['data'];
           // this.common.params = { data, title: 'Edit Ledgers Data' };
-          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
@@ -94,8 +96,8 @@ export class LedgersComponent implements OnInit {
       code: ledger.code,
       foid: ledger.user.id,
       per_rate: ledger.perrate,
-      primarygroupid: ledger.account.primarygroup_id,
-      account_id: ledger.account.id,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
       x_id: ledger.id ? ledger.id: 0,
     };
@@ -108,6 +110,7 @@ export class LedgersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         this.GetLedger();
+        this.common.showToast('Ledger Has been saved!');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -115,5 +118,12 @@ export class LedgersComponent implements OnInit {
       });
 
   }
+
+  
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+
 
 }

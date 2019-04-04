@@ -32,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { TrendsComponent } from './trends/trends.component';
 import { ResizableModule } from 'angular-resizable-element';
 
 
@@ -72,6 +73,7 @@ const PAGES_COMPONENTS = [
     VehicleTripComponent,
     ImageProcessingComponent,
     RouteMapperComponent,
+    TrendsComponent,
   ],
 })
 export class PagesModule {

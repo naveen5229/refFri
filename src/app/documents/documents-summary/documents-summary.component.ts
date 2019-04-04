@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PendingDocumentComponent } from '../../documents/documentation-modals/pending-document/pending-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
 //import jsPDF from 'jspdf';
 //import 'jspdf-autotable';
 
@@ -272,4 +273,8 @@ export class DocumentsSummaryComponent implements OnInit {
       });
   }
   
+  showIssues() {
+    this.common.params = { title: 'Documents Issues' };
+    const activeModal = this.modalService.open(DocumentIssuesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 }
