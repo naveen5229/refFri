@@ -605,5 +605,15 @@ export class ConciseComponent implements OnInit {
   
   
       }
+
+      vehicleOnMap(){
+        console.log(" open vehicle on map modal");
+        this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
+        this.common.params = {vehicles : this.kpis };
+        console.log("open Route Mapper modal", this.common.params);
+        const activeModal = this.modalService.open(VehiclesOnMapComponent, { size: 'lg', container: 'nb-layout' });
+        activeModal.result.then(data =>
+          console.log("data",data)); 
+      }
 }
 
