@@ -7,16 +7,20 @@ import { Component, OnInit } from '@angular/core';
 import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 import { UpdateTripDetailComponent } from '../../modals/update-trip-detail/update-trip-detail.component';
-
+import { DatePipe } from '@angular/common';
+import { DocumentsComponent } from '../../documents/documents.components';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
-  styleUrls: ['./vehicle-trip.component.scss','../pages.component.css']
+  styleUrls: ['./vehicle-trip.component.scss', '../pages.component.css'],
+  providers: [DatePipe]
 })
 export class VehicleTripComponent implements OnInit {
 
   vehicleTrips = [];
+  table = null;
   constructor(
+    private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -30,11 +34,12 @@ export class VehicleTripComponent implements OnInit {
 
   getVehicleTrips() {
     ++this.common.loading;
-    this.api.post('TripsData/VehicleTrips', {  })
+    this.api.post('TripsData/VehicleTrips', {})
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res['data']);
         this.vehicleTrips = res['data'];
+        this.table = this.setTable();
       }, err => {
         --this.common.loading;
 
@@ -42,44 +47,95 @@ export class VehicleTripComponent implements OnInit {
       });
   }
 
-  getUpadte(vehicleTrip){
-    if(vehicleTrip.endTime){
+
+  setTable() {
+    let headings = {
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+      startDate: { title: 'Start Date', placeholder: 'Start Date' },
+      startName: { title: 'Start Name ', placeholder: 'Start Name' },
+      endName: { title: 'End Name ', placeholder: 'End Name ' },
+      endDate: { title: 'End Date', placeholder: 'End Date' },
+      action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
+    };
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    this.vehicleTrips.map(doc => {
+      let column = {
+        vehicleNumber: { value: doc.regno },
+        startDate: { value: this.datePipe.transform(doc.start_time, 'dd MMM hh:mm a') },
+        startName: { value: doc.start_name },
+        endName: { value: doc.end_name },
+        endDate: { value: this.datePipe.transform(doc.end_time,'dd MMM hh:mm a')},
+        action: {value: '', isHTML: false, action: null, icons: [
+          {class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, doc)},
+          {class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc)},
+          {class:" fa fa-trash remove", action:this.deleteTrip.bind(this, doc)}
+        ]},
+
+
+        rowActions: {
+          click: 'selectRow'
+        }
+      };
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
+
+
+
+
+  getUpadte(vehicleTrip) {
+    if (vehicleTrip.endTime) {
       this.common.showToast("This trip cannot be updated ");
-    }else{
-      this.common.params= vehicleTrip;
-      console.log("vehicleTrip",vehicleTrip);
+    } else {
+      this.common.params = vehicleTrip;
+      console.log("vehicleTrip", vehicleTrip);
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         console.log("data", data.respone);
-        
-          this.getVehicleTrips();
-       
+
+        this.getVehicleTrips();
+
       });
     }
   }
-  openAddTripModal(){
-    this.common.params = {vehId:-1};
+  openAddTripModal() {
+    this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
     const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
-    activeModal.result.then(data => {      
-        this.getVehicleTrips();
-     
+    activeModal.result.then(data => {
+      this.getVehicleTrips();
+
     });
   }
 
-  reportIssue(vehicleTrip){
-    this.common.params= {refPage : 'vt'};
-    console.log("reportIssue",vehicleTrip);
+  reportIssue(vehicleTrip) {
+    this.common.params = { refPage: 'vt' };
+    console.log("reportIssue", vehicleTrip);
     const activeModal = this.modalService.open(ReportIssueComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleTrip.id));
   }
-  deleteTrip(vehicleTrip){
-    console.log("deleteTrip",vehicleTrip);
+  deleteTrip(vehicleTrip) {
+    console.log("deleteTrip", vehicleTrip);
     let params = {
-      tripId : vehicleTrip.id
+      tripId: vehicleTrip.id
     }
     ++this.common.loading;
-    this.api.post('VehicleTrips/deleteVehicleTrip',params)
+    this.api.post('VehicleTrips/deleteVehicleTrip', params)
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res);
@@ -91,12 +147,12 @@ export class VehicleTripComponent implements OnInit {
       });
   }
 
-  update(vehicleTrip){
-    this.common.params = {vehicleTrip:vehicleTrip};
+  update(vehicleTrip) {
+    this.common.params = { vehicleTrip: vehicleTrip };
     const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
-    activeModal.result.then(data => {      
-        this.getVehicleTrips();
-     
+    activeModal.result.then(data => {
+      this.getVehicleTrips();
+
     });
   }
 }

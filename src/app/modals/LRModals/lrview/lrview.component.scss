@@ -1,0 +1,6 @@
+@media print{
+    .doNotPrint{display:none !important;}
+  }
+  print-section{
+    z-index: 999;
+  }

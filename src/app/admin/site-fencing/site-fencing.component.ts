@@ -19,6 +19,8 @@ export class SiteFencingComponent implements OnInit {
   selectedSite = null;
   siteName = null;
   remainingList = [];
+  siteLocLatLng = {lat:0,lng:0};
+  siteLatLng = {lat:0,lng:90};
   isUpdate = false;
   constructor(private mapService: MapService,
     private apiService: ApiService,
@@ -31,7 +33,7 @@ export class SiteFencingComponent implements OnInit {
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }));
-    this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => this.siteLoc=place);
+    this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => {this.siteLoc=place;this.siteLocLatLng={lat:lat,lng:lng}});
     this.mapService.createPolygonPath();
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
   }
@@ -73,6 +75,7 @@ export class SiteFencingComponent implements OnInit {
         console.log('Res: ', data);
         this.clearAll(false);
         this.tempData = data;
+        this.siteLatLng = {lat:parseFloat(data[0].lat),lng:parseFloat(data[0].long)};
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
@@ -98,27 +101,31 @@ export class SiteFencingComponent implements OnInit {
             }
             else if(count>1){
               let latLngsArray = [];
-              let showIndex = [];
-              let mainLatLng = null;
-              let secLatLngs =null;
+              let show = "Unknown";
+              let isMain = false;
+              let isSec = false;
               let minDis=100000;
+              let minIndex = -1;
               for (const datax in data) {
                 if (data.hasOwnProperty(datax)) {
                   const datav = data[datax];
-                  if(datax==this.selectedSite)
-                    mainLatLng = datav.latLngs;
+                  if(datax==this.selectedSite){
+                    isMain = true;
+                    isSec = false;
+                  }
                   else if(minDis>datav.dis){
                     this.mergeSiteId=datax;
-                    secLatLngs = datav.latLngs;
+                    isMain=false;
+                    isSec = false;
                     minDis=datav.dis;
+                    minIndex = latLngsArray.length;
                   }
-                  latLngsArray.push(datav.latLngs);
+                  latLngsArray.push({data:datav.latLngs,isMain:isMain,isSec:isSec,show:datax});
                   console.log("Multi",datax);
-                  showIndex.push(datax);
                 }
               }
-              
-              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs,showIndex);
+              latLngsArray[minIndex].isSec =true;
+              this.mapService.createPolygons(latLngsArray);
             }
             else{
               console.log("Else");
@@ -225,9 +232,24 @@ export class SiteFencingComponent implements OnInit {
         this.commonService.showError();
       });
   }
+
+  // getRemainingTable() {
+  //     this.commonService.loading++;
+  //     let response;
+  //     this.apiService.get('Test')
+  //       .subscribe(res => {
+  //         this.commonService.loading--;
+  //         console.log('Res:', res['data']);
+  //         // = res['data'];
+  //        // console.log('Attendance:',this.driverAttendance);
+  //       }, err => {
+  //         this.commonService.loading--;
+  //         console.log(err);
+  //       });
+  // }
   submitValidity() {
     if (this.selectedSite) {
-      if (this.siteName == 'unknown' || this.siteLoc == 'unknown' || !this.siteName || !this.siteLoc) {
+      if (this.siteName == 'unknown' || !this.siteName ) {
         return false;
       }
       return true;
@@ -254,6 +276,33 @@ export class SiteFencingComponent implements OnInit {
         console.error(err);
         this.commonService.showError();
       });
+  }
+  updateLocName(){
+    if(this.selectedSite!=null && this.siteLoc!=null){
+      let dis = this.commonService.distanceFromAToB(this.siteLatLng.lat,this.siteLatLng.lng,
+                this.siteLocLatLng.lat,this.siteLocLatLng.lng,"Mt");
+      let distance = parseInt(dis+'')==0?0:parseInt(dis+'');
+      console.log("distance:",distance,this.siteLatLng,this.siteLocLatLng);
+      
+      if(distance>20000){
+        this.commonService.showToast("site is far away from loc");
+        return;
+      }
+      let params = {
+        siteId:this.selectedSite,
+        siteLoc:this.siteLoc
+      };
+    this.commonService.loading++;
+
+      this.apiService.post('SiteFencing/updateSiteDetails', params)
+          .subscribe(res => {
+            this.commonService.loading--;
+              this.commonService.showToast(res['msg']);
+          }, err => {
+            this.commonService.loading--;
+            console.log(err);
+          });
+    }
   }
   enterTicket() {
     if (this.selectedSite) {

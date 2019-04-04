@@ -14,7 +14,8 @@ import { UserService } from '../../@core/data/users.service';
 export class StockTypesComponent implements OnInit {
 
   stockTypes = [];
-
+  selectedRow = -1;
+  activeId = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -47,18 +48,31 @@ export class StockTypesComponent implements OnInit {
   }
 
   openStockTypeModal(stockType?) {
-    if (stockType) this.common.params = {stockType};
-    const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false, windowClass : "accountModalClass" });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        if (stockType) {
-          this.updateStockType(stockType.id, data.stockType);
-          return;
+    if (stockType) {
+      console.log("data:",stockType);
+      this.common.params =  stockType ;
+      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false,  windowClass : "accountModalClass" });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          if (stockType) {
+            this.updateStockType(stockType.id, data.stockType);
+            return;
+          }
         }
-        this.addStockType(data.stockType)
-      }
-    });
+      });
+    }
+    else {
+      this.common.params = null;
+      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          this.addStockType(data.stockType)
+        }
+      });
+
+    }
   }
 
   openEditStockTypeModal(id) {
@@ -68,7 +82,7 @@ export class StockTypesComponent implements OnInit {
 
   addStockType(stockType) {
     const params = {
-      foid: stockType.user.id,
+      foid: 123,
       name: stockType.name,
       code: stockType.code
     };
@@ -79,6 +93,7 @@ export class StockTypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        this.common.showToast(res['data'][0].save_stocktype);
         this.getStockTypes();
       }, err => {
         this.common.loading--;
@@ -90,7 +105,7 @@ export class StockTypesComponent implements OnInit {
 
   updateStockType(id, stockType) {
     const params = {
-      foid: stockType.user.id,
+      foid: 123,
       name: stockType.name,
       code: stockType.code,
       id: id
@@ -102,12 +117,24 @@ export class StockTypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        this.common.showToast(res['data'][0].save_stocktype);
         this.getStockTypes();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event, this.activeId);
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.stockTypes.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.stockTypes.length - 1) this.selectedRow++;
+
+    }
   }
 
 }

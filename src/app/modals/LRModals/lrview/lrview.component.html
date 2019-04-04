@@ -1,57 +1,65 @@
-<div class="modal-header">
+<div class="modal-header doNotPrint" *ngIf="lrDetails">
   <h4 class="modal-title" id="modal-basic-title">LR View</h4>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body" id="print-section">
-  <div class=col-sm-6>
-    <h2>Company Name</h2><br>
-    <Address>address</Address>
-  </div>
-  <div class=col-sm-6>
-    <table class="table table-bordered table-hover">
-      <tbody>
-        <tr>
-          <td><b>GR NO. : </b> {{lrDetails.receipt_no}}</td>
-          <td><b>Date : </b> {{lrDetails.lr_date | date : 'dd MMM yyyy'}} </td>
-        </tr>
-        <tr>
-          <td colspan="2"><b>Truck No. :</b></td>
-        </tr>
-        <tr>
-          <td><b>From : </b> {{lrDetails.source}}</td>
-          <td><b>To : </b> {{lrDetails.destination}}</td>
-        </tr>
-        <tr>
-          <td><b>Driver No. : </b></td>
-          <td><b>Driver Name : </b> </td>
-        </tr>
-        <tr>
-          <td colspan="2"><b>License No. :</b></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="modal-body" id="print-section" *ngIf="lrDetails">
+  <table style="width:100%;">
+    <tr>
+      <td style="width:40%; vertical-align: top;">
+        <h2>{{lrDetails.branch_name}}</h2>
+        <Address id="branch_address" [innerHtml]="lrDetails.branch_address"></Address>
+      </td>
+      <td  style="width:60%; vertical-align: top;">
+        <table class="table table-bordered" style = "border-collapse: collapse" border="1" bordercolor="grey">
+          <tbody>
+            <tr>
+              <td><b>GR NO. : </b> {{lrDetails.receipt_no}}</td>
+              <td><b>Date : </b> {{lrDetails.lr_date | date : 'dd MMM yyyy'}} </td>
+            </tr>
+            <tr>
+              <td colspan="2"><b>Truck No. :</b> {{lrDetails.regno}}</td>
+            </tr>
+            <tr>
+              <td><b>From : </b> {{lrDetails.source}}</td>
+              <td><b>To : </b> {{lrDetails.destination}}</td>
+            </tr>
+            <tr>
+              <td><b>Driver Name : </b>{{lrDetails.driver_name}} </td>
+              <td><b>Driver No. : </b> {{lrDetails.driver_mobile}}</td>
+            </tr>
+            <tr>
+              <td colspan="2"><b>License No. :</b> {{lrDetails.driver_license}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </table>
   <table class="table table-bordered table-hover">
     <tbody>
       <tr>
         <td>
-          <h5>Consignor's Name & Address : </h5><br>
-          <Address> {{lrDetails.consignor}}</Address>
+          <b>Consignor's Name & Address : </b><br>
+          {{lrDetails.consignor}}
+          <address>{{lrDetails.consigner_address}}</address>
         </td>
         <td>
-          <h5>Delivery Address : </h5><br>
-
+          <b>Delivery Address : </b><br>
+          <address>{{lrDetails.delivery_address}}</address>
         </td>
         <td>
-          <h5>Consignee's Name & Address : </h5><br>
+          <b>Consignee's Name & Address : </b><br>
           {{lrDetails.consignee}}
+          <address>{{lrDetails.consignee_address}}</address>
         </td>
       </tr>
     </tbody>
   </table>
-  <div class=col-sm-9>
+ <table>
+   <tr>
+   <td style="vertical-align: top; width: 75%">
     <table class="table table-bordered table-hover">
       <tbody>
         <tr>
@@ -65,59 +73,71 @@
             <b>Weight (Tons)</b>
           </td>
         </tr>
-        <tr *ngFor = "let of ; let i = index"></tr>
-        <td></td>
-        <td colspan="2"></td>
-        <td></td>
+        <tr *ngFor="let particular of particulars ; let i = index">
+          <td>{{particular.articles}}</td>
+          <td colspan="2">
+            <span *ngIf="particular.material"><span>Material : </span> <span>{{particular.material}} </span> </span>
+            <span *ngIf="particular.material_value"><span>, Value : </span> <span>
+                {{particular.material_value}}</span></span>
+            <span *ngIf="particular.invoice"><span>, Invoice : </span><span>{{particular.invoice}}</span></span>
+            <span *ngFor="let field of findCustomFields(particular.customjsonfields)">
+              <span *ngIf="field.value"> , {{field.name}} : </span>
+              <span *ngIf="field.value">{{field.value}}</span></span>
+          </td>
+          <td>{{particular.weight}}</td>
+        </tr>
       </tbody>
     </table>
-  </div>
-  <div class=col-sm-3>
+  </td>
+  <td style="vertical-align: top; width: 25%;">
     <table class="table table-bordered table-hover">
       <tbody>
         <tr>
-          <td><b>Payment By :</b></td>
+          <td><b>Payment By : </b>{{lrDetails.paytype}} </td>
         </tr>
         <tr>
-          <td><b>GST Paid By :</b></td>
+          <td><b>GST Paid By :</b> {{lrDetails.taxpaidby}}</td>
+        </tr>
+        <!-- <tr>
+          <td><b>Rate :</b> {{lrDetails.paytype}}</td>
+        </tr> -->
+        <tr>
+          <td *ngIf="lrDetails.gstrate"><b>GST Rate :</b> {{lrDetails.gstrate}}</td>
         </tr>
         <tr>
-          <td><b>Rate :</b></td>
-        </tr>
-        <tr>
-          <td><b>GST Rate :</b></td>
-        </tr>
-        <tr>
-          <td><b>GST Amount :</b></td>
+          <td *ngIf="lrDetails.gstamount"><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
         </tr>
         <tr>
           <td><b>Payable Amount :</b> {{lrDetails.amount}}</td>
         </tr>
       </tbody>
     </table>
-  </div>
+  </td>
+  </tr>
+  </table>
 
-  <div class="col-sm-12">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" style="width: 100%">
       <tr>
-        <td>
-          <b> Conditions</b>
+        <td style="vertical-align: top; width: 75%;">
+          <b> Terms & Conditions : </b> <br>
+          {{lrDetails.lr_terms}}
         </td>
-        <td>
+        <td style="vertical-align: top; width: 25%;">
           <b>Logistic Sign</b>
         </td>
       </tr>
     </table>
-  </div>
-
-  <div class="col-sm-12">
     <table class="table table-bordered table-hover">
-      <tr>
+      <tr style="text-align:center">
         <td>
-          <b>Footer:</b>
+          <b> {{lrDetails.lr_footer}}</b>
+
         </td>
       </tr>
     </table>
-  </div>
-  <!-- <button (click)="print()">print</button> -->
+
+</div>
+<!-- <div style="text-align:center" class="col-sm-12" style="margin-bottom:15px"><button onclick="document.print()">Print</button></div> -->
+<div class="doNotPrint">
+    <button (click)="onPrint()">Print</button>
 </div>
