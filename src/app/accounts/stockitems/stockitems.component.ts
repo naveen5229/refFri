@@ -54,7 +54,7 @@ export class StockitemsComponent implements OnInit {
         if (data.response) {
           if (stockitem) {
             this.updateStockItem(stockitem.id, data.stockitem);
-            return;
+            
           }
         }
       });
