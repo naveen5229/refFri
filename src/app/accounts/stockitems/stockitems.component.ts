@@ -106,7 +106,8 @@ export class StockitemsComponent implements OnInit {
   }
 
   updateStockItem(stockItemid, stockItem) {
-    console.log(stockItem);
+    console.log("update in stock item:",stockItem);
+    console.log("update in stock id:",stockItemid);
     // const params ='';
     const params = {
       //foid: stockItem.user.id,

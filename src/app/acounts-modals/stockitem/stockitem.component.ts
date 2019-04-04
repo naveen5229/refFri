@@ -26,7 +26,7 @@ export class StockitemComponent implements OnInit {
       id: ''
     },
     stockType: {
-      // name: '',
+      name: '',
       id: ''
     },
     stockSubType: {
@@ -67,11 +67,11 @@ export class StockitemComponent implements OnInit {
         },
         stockSubType: {
           name: this.common.params.stoctsubtypename,
-          id: this.common.params.stocktypeid
+          id: this.common.params.stocksubtype_id
         },
         stockType:{
-          id:this.common.params.stocktypeid,
-
+          id:this.common.params.stocktype_id,
+          name:this.common.params.stocktype_name
         } ,
         user: {
           name: '',
