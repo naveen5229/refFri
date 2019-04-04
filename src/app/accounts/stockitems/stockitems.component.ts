@@ -49,7 +49,7 @@ export class StockitemsComponent implements OnInit {
     console.log('stockitem', stockitem);
     if (stockitem) {
       this.common.params = stockitem;
-      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass"  });
       activeModal.result.then(data => {
         if (data.response) {
           if (stockitem) {
@@ -61,7 +61,7 @@ export class StockitemsComponent implements OnInit {
     }
     else {
       this.common.params = null;
-      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass"  });
       activeModal.result.then(data => {
         if (data.response) {
           this.addStockItem(data.stockItem);
