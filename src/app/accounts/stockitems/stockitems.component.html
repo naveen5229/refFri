@@ -16,7 +16,9 @@
       </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let stockItem of StockItems; let i = index;">
+    <tr *ngFor="let stockItem of StockItems; let i = index;" (click)="selectedRow = i"
+    (dblclick)="openStockItemModal(stockItem)" (enter)="openStockItemModal(stockItem)"
+    [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
         <td>{{stockItem.stoctsubtypename}}</td>
         <td>{{stockItem.name}}</td>

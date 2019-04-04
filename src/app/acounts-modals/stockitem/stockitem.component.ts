@@ -26,7 +26,7 @@ export class StockitemComponent implements OnInit {
       id: ''
     },
     stockType: {
-      name: '',
+      // name: '',
       id: ''
     },
     stockSubType: {
@@ -52,15 +52,12 @@ export class StockitemComponent implements OnInit {
 
   allowBackspace = true;
   stockTypeName = '';
-  stockSubType =[];
+  stockSubType = [];
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-    //  console.log('stock item new',this.common.params.stockType);
+      console.log("open data model data:",this.common.params);
     if (this.common.params) {
-      //  this.stockTypeName = this.common.params.stockType;
-
-
       this.stockItem = {
         name: this.common.params.name,
         code: this.common.params.code,
@@ -72,7 +69,10 @@ export class StockitemComponent implements OnInit {
           name: this.common.params.stoctsubtypename,
           id: this.common.params.stocktypeid
         },
-        stockType: this.common.params.stockType || { name: '', id: '' },
+        stockType:{
+          id:this.common.params.stocktypeid,
+
+        } ,
         user: {
           name: '',
           id: ''
@@ -118,7 +118,7 @@ export class StockitemComponent implements OnInit {
 
   getStockSubType(stocktypeid) {
     let params = {
-      stocktype : stocktypeid
+      stocktype: stocktypeid
     };
 
     this.common.loading++;
@@ -126,7 +126,7 @@ export class StockitemComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.stockSubType= res['data'];
+        this.stockSubType = res['data'];
 
       }, err => {
         this.common.loading--;
@@ -146,7 +146,7 @@ export class StockitemComponent implements OnInit {
     this.stockItem[type].id = selectedData.id;
     this.getStockSubType(selectedData.id);
   }
-  
+
 
 
   dismiss(response) {
