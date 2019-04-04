@@ -167,6 +167,18 @@ export class MapService {
     google.maps.event.addListener(element, event,callback);
   }
 
+  getLatLngValue(markerData) {
+    let latLng = {lat:0,lng:0}
+    let keys = Object.keys(markerData);
+    latLng.lat = markerData[keys.find((element)=>{
+      return element=="lat"||element=="y_lat"||element=="x_lat"||element=="x_tlat";
+    })];
+    latLng.lng = markerData[keys.find((element)=>{
+      return element=="lng"||element=="long"||element=="x_long"||element=="x_tlong";
+    })];
+    return latLng;
+  }
+
   createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {
     let thisMarkers = [];
     console.log("Markers", markers);
@@ -177,8 +189,9 @@ export class MapService {
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
       let text = markers[index]["text"] ? markers[index]["text"] : " ";
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
-      let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
-      let lng = markers[index]["long"] ? markers[index]["long"] : 75;
+      let latLng = this.getLatLngValue(markers[index]);
+      let lat = latLng.lat;
+      let lng = latLng.lng;
       let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
       let latlng = new google.maps.LatLng(lat, lng);
       let pinImage;

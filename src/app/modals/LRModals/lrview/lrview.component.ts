@@ -74,6 +74,10 @@ export class LRViewComponent implements OnInit {
       popupWin.document.close();
   }
 
+  onPrint(){
+    window.print();
+}
+
   findCustomFields(customFields) {
     if (!customFields) return [];
     customFields = JSON.parse(customFields);
