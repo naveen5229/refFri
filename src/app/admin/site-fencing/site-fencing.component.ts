@@ -222,22 +222,34 @@ export class SiteFencingComponent implements OnInit {
     }
   }
   getRemainingTable() {
-      this.commonService.loading++;
-      let response;
-      this.apiService.get('Test')
-        .subscribe(res => {
-          this.commonService.loading--;
-          console.log('Res:', res['data']);
-          // = res['data'];
-         // console.log('Attendance:',this.driverAttendance);
-        }, err => {
-          this.commonService.loading--;
-          console.log(err);
-        });
+    this.apiService.post("SiteFencing/getRemainingSites", { type: this.typeId })
+      .subscribe(res => {
+        let data = res['data'];
+        console.log('Res: ', res['data']);
+        this.remainingList = data;
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
   }
+
+  // getRemainingTable() {
+  //     this.commonService.loading++;
+  //     let response;
+  //     this.apiService.get('Test')
+  //       .subscribe(res => {
+  //         this.commonService.loading--;
+  //         console.log('Res:', res['data']);
+  //         // = res['data'];
+  //        // console.log('Attendance:',this.driverAttendance);
+  //       }, err => {
+  //         this.commonService.loading--;
+  //         console.log(err);
+  //       });
+  // }
   submitValidity() {
     if (this.selectedSite) {
-      if (this.siteName == 'unknown' || this.siteLoc == 'unknown' || !this.siteName || !this.siteLoc) {
+      if (this.siteName == 'unknown' || !this.siteName ) {
         return false;
       }
       return true;
