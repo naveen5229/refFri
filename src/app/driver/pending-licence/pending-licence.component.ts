@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { from } from 'rxjs';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { PendingLicenceDetailComponent } from '../../modals/pending-licence-detail/pending-licence-detail.component';
 
 @Component({
   selector: 'pending-licence',
@@ -63,5 +64,30 @@ export class PendingLicenceComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  showDetails(row) {
+    let rowData = [];
+    
+    this.common.loading++;
+    this.api.post('Drivers/getPendingLicenceDetail', { x_user_id: this.user._details.id, x_driver_id: row._drvid, x_advreview: this.listtype })
+      .subscribe(res => {
+        this.common.loading--;
+        if(res['success'] && res['data'].length) {
+          rowData = res['data'][0];
+        }
+        
+        this.common.params = { rowData, title: 'License Details', canUpdate: 1};
+        this.common.handleModalSize('class', 'modal-lg', '1200');
+        const activeModal = this.modalService.open(PendingLicenceDetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+            activeModal.result.then(mdldata => {
+              console.log("response:", mdldata);
+            });
+        
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+    
   }
 }
