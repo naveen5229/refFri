@@ -109,14 +109,16 @@ export class VehicleTripUpdateComponent implements OnInit {
     if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
-      location: this.vehicleTrip.endName,
+      location: this.vehicleTrip.endName.split(',')[0],
       locationLat: this.vehicleTrip.endLat,
       locationLng: this.vehicleTrip.endLng,
       placementType: this.vehicleTrip.placementType,
       targetTime: this.vehicleTrip.targetTime,
 
     }
-    console.log("params", params);
+  
+     console.log("params", params);
+  
     ++this.common.loading;
     this.api.post('TripsOperation/vehicleTripReplacement', params)
       .subscribe(res => {

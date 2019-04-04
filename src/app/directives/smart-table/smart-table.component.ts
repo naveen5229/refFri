@@ -15,6 +15,7 @@ export class SmartTableComponent implements OnInit {
   sortType = '';
   activeRow = -1;
 
+
   constructor(private cdr: ChangeDetectorRef, ) { }
 
   ngOnInit() {

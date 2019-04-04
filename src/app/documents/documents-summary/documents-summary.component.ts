@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PendingDocumentComponent } from '../../documents/documentation-modals/pending-document/pending-document.component';
+import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
+import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
 //import jsPDF from 'jspdf';
 //import 'jspdf-autotable';
 
@@ -192,6 +194,7 @@ export class DocumentsSummaryComponent implements OnInit {
         if (this.docdata[0].expiry_date != 'undefined' && this.docdata[0].expiry_date != null)
           newdate = this.common.changeDateformat1(this.docdata[0].expiry_date).split(' ')[0];
 
+        /*
         let rowData = {
           id: this.docdata[0].id,
           vehicle_id: this.docdata[0].vehicle_id,
@@ -212,12 +215,35 @@ export class DocumentsSummaryComponent implements OnInit {
           amount: this.docdata[0].amount,
           verify: this.docdata[0].is_verified,
         };
+        */
+       let documentData = [{
+        regNumber: this.docdata[0].regno,
+        id: this.docdata[0].id,
+        vehicleId: this.docdata[0].vehicle_id,
+        documentType: this.docdata[0].type,
+        documentId: this.docdata[0].type_id,
+        issueDate: this.docdata[0].issue_date,
+        wefDate: this.docdata[0].wef_date,
+        expiryDate: newdate,
+        agentId: this.docdata[0].document_agent_id,
+        agentName: this.docdata[0].agent,
+        documentNumber: this.docdata[0].document_number,
+        docUpload: this.docdata[0].img_url,
+        docUpload2: this.docdata[0].img_url2,
+        docUpload3: this.docdata[0].img_url3,
+        remark: this.docdata[0].remarks,
+        rto: this.docdata[0].rto,
+        amount: this.docdata[0].amount,
+      }];
 
         console.log("rowdata:");
-        console.log(rowData);
-        this.common.params = { rowData, title: 'Document Details', canUpdate: 0 };
+        //console.log(rowData);
+        console.log(documentData);
+        //this.common.params = { rowData, title: 'Document Details', canUpdate: 0 };
+        this.common.params = { documentData, title: 'Document Details', canUpdate: 0, vehicleId: this.docdata[0].vehicle_id };
         this.common.handleModalSize('class', 'modal-lg', '1200');
-        const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        //const activeModal = this.modalService.open(PendingDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
         activeModal.result.then(mdldata => {
           console.log("response:", mdldata);
           // this.getDocumentMatrixData();
@@ -247,4 +273,8 @@ export class DocumentsSummaryComponent implements OnInit {
       });
   }
   
+  showIssues() {
+    this.common.params = { title: 'Documents Issues' };
+    const activeModal = this.modalService.open(DocumentIssuesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 }

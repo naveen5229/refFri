@@ -33,7 +33,7 @@
         <!-- <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion>
       -->
-      <auto-suggestion  (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+      <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
    
     </div>
@@ -50,7 +50,7 @@
         <label>Stock Sub Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" [url]="'Suggestion/GetSearchStockType?stocktype=' + stockItem.stockType.id" display="name"
-        placeholder="Enter Stock Sub Type" inputId="stockSubType" name="stockSubType" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter Stock Sub Type" inputId="stockSubType" [data] ="stockSubType"  name="stockSubType" [preSelected]="{name:stockItem.stockSubType.name}"></auto-suggestion>
       </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
@@ -64,7 +64,7 @@
       <div class="form-grpou">
         <label>Stock Unit</label>
         <auto-suggestion (onSelected)="onSelected($event, 'unit', 'name')" url="Suggestion/getUnit" display="name"
-        placeholder="Enter Unit Name" inputId="unit" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter Unit Name" inputId="unit" [preSelected]="{name:stockItem.unit.name}"></auto-suggestion>
         <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
       </div>
     </div>

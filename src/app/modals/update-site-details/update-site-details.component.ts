@@ -42,7 +42,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
     console.log("site loction:",this.siteLoc);
     let params = {
       siteId: this.siteId,
-      locationName: this.siteLoc,
+      locationName: this.siteLoc.split(',')[0],
       isStrictLoading: this.isStrictLoading,
     }
     console.log("params", params);

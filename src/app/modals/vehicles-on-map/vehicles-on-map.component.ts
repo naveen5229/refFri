@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { NumberFormatStyle } from '@angular/common';
+import { MapService } from '../../services/map.service';
 
 declare var google: any;
 
@@ -12,33 +13,55 @@ declare var google: any;
   styleUrls: ['./vehicles-on-map.component.scss']
 })
 export class VehiclesOnMapComponent implements OnInit {
-  show=false;
-  map: any;
-  count=0;
-  flag=false;
-  Lat=[];
-  Lng=[]; 
-  details=[];
-  markers=[];
-   Location = {
-    lat:0,
-    lng:0,
-    zoom: 0
-  };
- 
+  vehicles = null;
   constructor(public common: CommonService,
     private activeModal: NgbActiveModal,
     public api: ApiService,
-    private zone: NgZone) {
-   this.getVehicleInfo();
+    public mapService : MapService
+   ) {
+   this.vehicles = this.common.params.vehicles;
+   console.log("vehicles",this.vehicles);
    }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    console.log('ionViewDidLoad MarkerLocationPage');
-   // this.location = this.common.params['location'];
+    this.mapService.mapIntialize("map");
+    setTimeout(() => {
+      this.mapService.createMarkers(this.vehicles);
+      let markerIndex = 0;
+      for (const marker of this.mapService.markers) {
+        let event = this.vehicles[markerIndex];
+        this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
+        this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
+        markerIndex++;
+      }
+    }, 1000); 
+
+  }
+  //eventInfo = null;
+  infoWindow = null;
+  setEventInfo(event) {
+    this.infoWindow = this.mapService.createInfoWindow();
+    this.infoWindow.opened = false;
+    this.infoWindow.setContent(
+      `
+      <b>Vehicle:</b>${event.x_showveh} <br>
+      `
+    );
+    this.infoWindow.setPosition(this.mapService.createLatLng(event.x_tlat, event.x_tlong)); // or evt.latLng
+    this.infoWindow.open(this.mapService.map);
+    let bound = this.mapService.getMapBounds();
+
+    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
+    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
+    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
+    // }
+  }
+  unsetEventInfo() {
+    this.infoWindow.close();
+    this.infoWindow.opened = false;
   }
 
   
@@ -48,82 +71,5 @@ export class VehiclesOnMapComponent implements OnInit {
   }
 
 
-  getVehicleInfo(){
-
-    let params="vId="+27093+
-      "&fromTime=2019/01/10"+
-      "&toTime=2019/03/10";
-    
-    console.log('params to insert',params);
-    this.common.loading++;
-    this.api.get('HaltOperations/getHaltHistory?'+params)
-            .subscribe(res=>{
-              this.common.loading--;
-              console.log('res: ',res['data']);
-              this.details=res['data'];
-              this.showOnMap();  
-            }, err=>{
-              this.common.loading--;
-              this.common.showError();
-          })
-          
-           
-   }
-       showOnMap(){
-       this.Location.lat= 26.9124336,
-       this.Location.lng=75.78727090000007,
-       this.Location.zoom=8
-       
-       this.details.forEach((element) => {
-        if(!this.flag){
-        this.markers.push({
-          lat: parseFloat(element.lat),
-          long: parseFloat(element.long),
-          label: element.loc
-        })
-        this.count++;
-        console.log('count: ',this.count);
-        if(this.count==10)
-            this.flag=true;
-          }   
-              
-      });
-    
-        console.log('markers: ',this.markers);
-        
-
-       } 
-
-       onMapReady(map){
-         this.initDrawingManager(map)
-       }
-
-       initDrawingManager(map: any) {
-        const options = {
-          drawingControl: true,
-          drawingControlOptions: {
-            drawingModes: ["polygon"]
-          },
-          polygonOptions: {
-            draggable: true,
-            editable: true
-          },
-          drawingMode: google.maps.drawing.OverlayType.POLYGON
-        };
-    
-        const drawingManager = new google.maps.drawing.DrawingManager(options);
-        drawingManager.setMap(map);
-      }
-
-      showInfo(info){
-        this.show = true;
-        console.log(this.show);
-      }
-
-      hideInfo(info){
-        this.show = false;
-        console.log(this.show);
-      }
-
-      
+  
 }
