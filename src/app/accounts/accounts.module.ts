@@ -22,6 +22,7 @@ import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher
 import { OutstandingComponent } from './outstanding/outstanding.component';
 import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { ProfitlossComponent } from './profitloss/profitloss.component';
+import { StockavailableComponent } from './stockavailable/stockavailable.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -53,7 +54,8 @@ const PAGES_COMPONENTS = [
     TripVoucherExpenseComponent,
     OutstandingComponent,
     BalancesheetComponent,
-    ProfitlossComponent
+    ProfitlossComponent,
+    StockavailableComponent
     //StockSubtypeComponent
   ],
 })

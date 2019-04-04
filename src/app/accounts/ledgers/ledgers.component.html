@@ -14,6 +14,7 @@
         <th>Alias Name</th>
         <th>Code</th>
         <th>Date</th>
+        <th>Edit</th>
       </tr>
   </thead>
   <tbody>
@@ -25,7 +26,7 @@
           <td>{{data.alias_name}}</td>
           <td>{{data.code}}</td>
           <td>{{data.entry_dt | date : 'dd MMM HH:mm'}}</td>
-          <!--td><button class="btn" (click)="openModal(Accounts)">Edit</button></td-->
+         <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td>
         </tr>
   </tbody>
   

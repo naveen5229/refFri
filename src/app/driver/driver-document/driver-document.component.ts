@@ -26,7 +26,7 @@ export class DriverDocumentComponent implements OnInit {
 
   getDocumentData() {
     this.common.loading++;
-    this.api.get('Drivers/getDriverDocs?')
+    this.api.get('Drivers/getDriverDocs')
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -53,28 +53,6 @@ export class DriverDocumentComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-  getDocClasses(row) {
-    let docclass = [];
-    let strclass = "";
-    
-      for(var i=0; i< this.columns.length; i++){
-        let colval = row[this.columns[i]];
-        if(colval) {
-          if(colval.indexOf('_') > -1) {
-            let status = colval.split('_')[0];
-            docclass.push(status);
-          }
-        } else if(colval == null) {
-          docclass.push(0);
-        }
-      }
-      if(docclass.length == 0) {
-        docclass.push(0);
-      }
-      strclass = docclass.join('--');
-        
-    return strclass;
-  }
-
+  
 
 }

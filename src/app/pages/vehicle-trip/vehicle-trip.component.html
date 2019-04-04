@@ -6,7 +6,7 @@
       </div>
     </nb-card-header>
     <nb-card-body>
-      <div>
+      <!-- <div>
         <table class="table table-bordered table-hover">
           <thead class="thead">
             <tr>
@@ -35,7 +35,8 @@
             </tr>
         </table>
   
-      </div>
-  
+      </div> -->
+      <smart-table *ngIf="vehicleTrips.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+      <br>
     </nb-card-body>
   </nb-card>
