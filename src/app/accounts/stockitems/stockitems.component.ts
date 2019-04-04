@@ -12,6 +12,8 @@ import { UserService } from '../../@core/data/users.service';
 })
 export class StockitemsComponent implements OnInit {
   StockItems = [];
+  selectedRow = -1;
+  activeId = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -47,21 +49,26 @@ export class StockitemsComponent implements OnInit {
     console.log('stockitem', stockitem);
     if (stockitem) {
       this.common.params = stockitem;
-    } 
-    // else {
-    //   this.common.params = { stockType: { name: 'Tyre', id: -1 } };
-    // }
-    const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        if (stockitem) {
-          this.updateStockItem(stockitem.id, data.stockitem);
-          return;
+      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass"  });
+      activeModal.result.then(data => {
+        if (data.response) {
+          if (stockitem) {
+            this.updateStockItem(stockitem.id, data.stockitem);
+            
+          }
         }
-        this.addStockItem(data.stockItem);
-      }
-    });
+      });
+    }
+    else {
+      this.common.params = null;
+      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass"  });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.addStockItem(data.stockItem);
+        }
+      });
+    }
+
   }
 
   addStockItem(stockItem) {
@@ -99,7 +106,8 @@ export class StockitemsComponent implements OnInit {
   }
 
   updateStockItem(stockItemid, stockItem) {
-    console.log(stockItem);
+    console.log("update in stock item:",stockItem);
+    console.log("update in stock id:",stockItemid);
     // const params ='';
     const params = {
       //foid: stockItem.user.id,
@@ -130,5 +138,16 @@ export class StockitemsComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event, this.activeId);
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.StockItems.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.StockItems.length - 1) this.selectedRow++;
+
+    }
   }
 }
