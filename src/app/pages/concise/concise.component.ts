@@ -20,11 +20,15 @@ import { VehiclesOnMapComponent } from '../../modals/vehicles-on-map/vehicles-on
 import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { TripDetailsComponent } from '../../modals/trip-details/trip-details.component';
+
+import { ResizeEvent } from 'angular-resizable-element';
+import { MapService } from '../../services/map.service';
+
 @Component({
   selector: 'concise',
   templateUrl: './concise.component.html',
   styleUrls: ['./concise.component.scss', '../pages.component.css'],
-  animations: [slideToLeft(), slideToUp()],
+  // animations: [slideToLeft(), slideToUp()],
 })
 export class ConciseComponent implements OnInit {
   registerForm: FormGroup;
@@ -76,12 +80,21 @@ export class ConciseComponent implements OnInit {
   activePrimaryStatus = '';
   primarySubStatus = [];
 
+  widths = {
+    smartTable: '220px',
+    map: '50%'
+  };
+
+  isMapView = false;
+  infoWindow = null;
 
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public user: UserService, private formBuilder: FormBuilder,
-    private modalService: NgbModal) {
+    public user: UserService,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    public mapService: MapService) {
     this.getKPIS();
     this.common.refresh = this.refresh.bind(this);
 
@@ -134,21 +147,29 @@ export class ConciseComponent implements OnInit {
     let columns = [];
     this.kpis.map((kpi, i) => {
       columns.push({
-        vechile: { value: kpi.x_showveh, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        vechile: {
+          value: kpi.x_showveh, action: '', colActions: {
+            dblclick: this.showDetails.bind(this, kpi),
+            mouseover: this.mapService.toggleBounceMF.bind(this.mapService, i),
+            mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2),
+          }
+        },
         status: { value: kpi.showprim_status, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         hrs: { value: kpi.x_hrssince, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
-        Idle_Time: { value: (kpi.x_idle_time/60).toFixed(1), action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
+        Idle_Time: { value: (kpi.x_idle_time / 60).toFixed(1), action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         trip: { value: this.getTripStatusHTML(kpi), action: '', isHTML: true, colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         kmp: { value: kpi.x_kmph, action: '', colActions: { dblclick: this.showDetails.bind(this, kpi) } },
         location: { value: kpi.Address, action: this.showLocation.bind(this, kpi) },
 
-        action: {value: '', isHTML: false, action: null, icons: [
-          {class: 'icon fa fa-info', action: this.vehicleReport.bind(this, kpi)},
-          {class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, kpi)},
-          {class:" icon fa fa-route", action:this.openRouteMapper.bind(this, kpi)},
-          {class:" icon fa fa-truck", action:this.openTripDetails.bind(this, kpi)}
+        action: {
+          value: '', isHTML: false, action: null, icons: [
+            { class: 'icon fa fa-info', action: this.vehicleReport.bind(this, kpi) },
+            { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, kpi) },
+            { class: " icon fa fa-route", action: this.openRouteMapper.bind(this, kpi) },
+            { class: " icon fa fa-truck", action: this.openTripDetails.bind(this, kpi) }
 
-        ]},
+          ]
+        },
 
 
         rowActions: {
@@ -496,7 +517,11 @@ export class ConciseComponent implements OnInit {
         columns: this.getTableColumns()
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        count: {
+          icon: 'fa fa-map map-view-icon',
+          action: this.handleMapView.bind(this)
+        }
       }
     }
   }
@@ -561,49 +586,118 @@ export class ConciseComponent implements OnInit {
   vehicleReport(kpi) {
     console.log('KPis: ', kpi);
 
-    this.common.params={vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,ref_page:'consView'};
-    this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');      
-    this.modalService.open(VehicleReportComponent, {size: 'lg', container: 'nb-layout', backdrop: 'static'});
+    this.common.params = { vehicleId: kpi.x_vehicle_id, vehicleRegNo: kpi.x_showveh, ref_page: 'consView' };
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
-  
 
-  openRouteMapper(kpi){
 
-    let today,startday,fromDate
-    today= new Date();
+  openRouteMapper(kpi) {
+
+    let today, startday, fromDate
+    today = new Date();
     startday = new Date(today.setDate(today.getDate() - 2));
     fromDate = this.common.dateFormatter(startday);
-    let fromTime =this.common.dateFormatter(fromDate);
-    let toTime= this.common.dateFormatter(new Date());
-    this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
-    this.common.params = {vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,fromTime:fromTime,toTime:toTime}
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.common.params = { vehicleId: kpi.x_vehicle_id, vehicleRegNo: kpi.x_showveh, fromTime: fromTime, toTime: toTime }
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data =>
-      console.log("data",data) 
+      console.log("data", data)
       // this.reloadData()
-      );
+    );
 
 
+  }
+  openTripDetails(kpi) {
+    let today, startday, fromDate
+    today = new Date();
+    startday = new Date(today.setMonth(today.getMonth() - 2));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.params = { vehicleId: kpi.x_vehicle_id, vehicleRegNo: kpi.x_showveh, fromTime: fromTime, toTime: toTime }
+    console.log("open Trip Details modal", this.common.params);
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data =>
+      console.log("data", data)
+      // this.reloadData()
+    );
+
+
+  }
+
+  vehicleOnMap() {
+    console.log(" open vehicle on map modal");
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.common.params = { vehicles: this.kpis };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(VehiclesOnMapComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data =>
+      console.log("data", data));
+  }
+
+  onResizeEnd(event: ResizeEvent, type): void {
+    console.log('Event: ', event);
+    console.log('Element was resized', event.rectangle.width);
+    this.widths[type] = event.rectangle.width + 'px';
+  }
+
+  initialiseMap() {
+    if (!this.mapService.map || this.mapService.map.__gm.Z.id != 'concise-view-map') {
+      this.mapService.mapIntialize('concise-view-map');
+    }else{
+      console.log('Else------------------------------------');
+      this.mapService.map.__gm.Z = document.getElementById('concise-view-map');
     }
-    openTripDetails(kpi){
-      let today,startday,fromDate
-      today= new Date();
-      startday = new Date(today.setMonth(today.getMonth() - 2));
-      fromDate = this.common.dateFormatter(startday);
-      let fromTime =this.common.dateFormatter(fromDate);
-      let toTime= this.common.dateFormatter(new Date());
-      this.common.params = {vehicleId:kpi.x_vehicle_id,vehicleRegNo:kpi.x_showveh,fromTime:fromTime,toTime:toTime}
-      console.log("open Trip Details modal", this.common.params);
-      this.common.handleModalHeightWidth('class', 'modal-lg', '200','1500');   
-      const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout' });
-      activeModal.result.then(data =>
-        console.log("data",data) 
-        // this.reloadData()
-        );
-  
-  
+
+    this.mapService.clearAll();
+    setTimeout(() => {
+      this.mapService.createMarkers(this.kpis);
+      let markerIndex = 0;
+      for (const marker of this.mapService.markers) {
+        let event = this.kpis[markerIndex];
+        this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+        this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
+        markerIndex++;
       }
+    }, 1000);
+    console.log('-------------Map:', this.mapService.map);
+    console.log('-------------- Active Map Id: ', this.mapService.map.__gm.Z.id);
+  }
+
+  setEventInfo(event) {
+    this.infoWindow = this.mapService.createInfoWindow();
+    this.infoWindow.opened = false;
+    this.infoWindow.setContent(
+      `
+      <b>Vehicle:</b>${event.x_showveh} <br>
+      `
+    );
+    this.infoWindow.setPosition(this.mapService.createLatLng(event.x_tlat, event.x_tlong)); // or evt.latLng
+    this.infoWindow.open(this.mapService.map);
+    let bound = this.mapService.getMapBounds();
+
+    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
+    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
+    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
+    // }
+  }
+  unsetEventInfo() {
+    this.infoWindow.close();
+    this.infoWindow.opened = false;
+  }
+
+  handleMapView() {
+    this.isMapView = !this.isMapView;
+    setTimeout(() => {
+      this.initialiseMap();
+    }, 1000);
+  }
+
 }
 

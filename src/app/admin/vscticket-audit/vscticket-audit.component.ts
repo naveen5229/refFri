@@ -19,7 +19,7 @@ export class VSCTicketAuditComponent implements OnInit {
 
   vehicleId=null;
   adminId=null;
-  ticketAccordingTo = 'user';
+  ticketAccordingTo = 'vehicle';
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
@@ -100,5 +100,19 @@ getAlert(){
     activeModal.result.then(data => {
     });
    }
-}
 
+   goToTrail(){
+    let VehicleStatusData = {
+      vehicle_id : this.vehicleId,
+      tTime:this.common.dateFormatter(this.endDate),
+      suggest:11,
+      latch_time:this.common.dateFormatter(this.startDate)
+    }
+    console.log("VehicleStatusData", VehicleStatusData);
+   
+    this.common.params = VehicleStatusData;
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+    });
+}
+}

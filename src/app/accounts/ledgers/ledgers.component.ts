@@ -60,7 +60,7 @@ export class LedgersComponent implements OnInit {
           data = res['data'];
           this.common.params = res['data'];
           // this.common.params = { data, title: 'Edit Ledgers Data' };
-          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {

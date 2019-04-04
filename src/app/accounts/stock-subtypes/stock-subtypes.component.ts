@@ -44,7 +44,7 @@ export class StockSubtypesComponent implements OnInit {
   
   openStockSubTypeModal(stocksubType?) {
     if (stocksubType) this.common.params = stocksubType;
-    const activeModal = this.modalService.open(StockSubtypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false });
+    const activeModal = this.modalService.open(StockSubtypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false, windowClass : "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
