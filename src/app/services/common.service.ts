@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NbToastStatus } from '@nebular/theme/components/toastr/model';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbThemeService } from '@nebular/theme';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, FormatWidth } from '@angular/common';
 import { ApiService } from './api.service';
 import { DataService } from './data.service';
 import { UserService } from './user.service';
@@ -10,7 +10,8 @@ import { UserService } from './user.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
-
+import * as moment_ from 'moment';
+const moment = moment_;
 @Injectable({
   providedIn: 'root'
 })
@@ -67,7 +68,7 @@ ref_page = null;
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe) {
-    
+
   }
 
   showError(msg?) {
@@ -132,7 +133,7 @@ ref_page = null;
 
     // console.log(dat + separator + month + separator + year);
     if (type == 'ddMMYYYY') {
-      return ( year + separator + month + separator +  dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
+      return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     } else {
       return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
     }
@@ -290,6 +291,16 @@ ref_page = null;
 
   }
 
+  handleModalHeightWidth(type, name, height, width, sizeType = 'px', position = 0) {
+    setTimeout(() => {
+      if (type == 'class') {
+        document.getElementsByClassName(name)[position]['style'].maxHeight = height + sizeType;
+        document.getElementsByClassName(name)[position]['style'].maxWidth = width + sizeType;
+      }
+      
+    }, 10);
+  }
+
   apiErrorHandler(err, hideLoading, showError, msg?) {
     console.error('Api Error: ', err);
     hideLoading && this.loading--;
@@ -320,9 +331,62 @@ ref_page = null;
     return generatedArray;
   }
 
+  dateDiffInHours(startTime,endTime) {
+    if(startTime == null || endTime == null){
+      return '0';
+    }
+    startTime = new Date(startTime);
+    endTime =new Date(endTime);
+    let resultTime = endTime - startTime;
+    let sec = resultTime / 1000;
+    let min = sec / 60;
+    let hour = min / 60;
+    let returnResult = hour.toFixed(5);
+    return returnResult;
+  }
+
+  dateDiffInHoursAndMins(startTime,endTime) {
+    if(startTime == null){
+      return '0';
+    }
+    if(endTime == null){
+      return '-1'
+    }
+    let result;
+    startTime = (new Date(startTime)).getTime();
+    endTime = (new Date(endTime)).getTime();
+    let resultTime = endTime - startTime;
+     result=moment.utc(resultTime).format('HH:mm');
+        console.log('moment',result);
+    // //console.log('begore resultTime: ' + resultTime);
+    // // if(this.resultTime>0){
+    //   let sec = (resultTime / 1000);
+    //   let hour=parseInt(''+sec/3600);
+    //   let tmin=sec%3600;
+    //   let min=parseInt(''+tmin/60);
+    //   sec=tmin%60;
+    // if (hour != 0) {
+    //   if (hour.toString().length == 1) {
+    //     result = '0' + hour + '.';
+    //     // this.resultTime=this.h;
+    //   } else
+    //      result = hour + '.';
+
+    //   if (min != 0) {
+    //     if (min.toString().length == 1) {
+    //       result += '0' + min;
+    //     } else
+    //     result += min;
+    //   } else
+    //     result += '00';
+    // }
+    // console.log(startTime,endTime,result);
+    return result;
+  }
+
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
-      return 0;
+      return "0";
     }
     else {
       let radlat1 = Math.PI * lat1 / 180;
@@ -480,18 +544,19 @@ ref_page = null;
       let x = 35;
       let y = 40;
 
-      if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+      //if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
         
 
         doc.setFontSize(14);
         doc.setFont("times", "bold");
         doc.text("elogist Solutions ", x, y);
                 
-      }
+      //}
       let pageWidth= parseInt(doc.internal.pageSize.width);
-      if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
+      if(left_heading != "undefined" &&  left_heading != null && left_heading != '') {
         x=pageWidth / 2;
-        let xpos=x-50;
+        let hdglen = left_heading.length / 2;
+        let xpos=x-hdglen-40;
         y=40;
         doc.setFont("times", "bold","text-center");
         doc.text(left_heading, xpos, y);
@@ -499,9 +564,10 @@ ref_page = null;
       if(center_heading != "undefined" && center_heading != null && center_heading != '') {
         x=pageWidth / 2;
         y=50;
+        let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold","text-center");
-        doc.text(center_heading, x - 50, y);
+        doc.text(center_heading, x - hdglen -40, y);
       }      
       y= 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
@@ -618,4 +684,13 @@ ref_page = null;
     }
     new Angular5Csv(info, "report.csv" );
   }
+
+  formatTitle(strval) {
+      let pos = strval.indexOf('_');
+      if(pos > 0) {
+        return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+      } else {
+        return strval.charAt(0).toUpperCase() + strval.substr(1);
+      }
+    }
 }

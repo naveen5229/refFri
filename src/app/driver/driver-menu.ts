@@ -35,8 +35,20 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/driver/driver-document',
         home: true,
     },
-
-
+    {
+        
+        title: 'Licence Upload',
+        icon: 'fas fa-address-card',
+        link: '/driver/licence-upload',
+        home: true,
+    },
+    {
+        
+        title: 'Pending Licence',
+        icon: 'fas fa-align-justify',
+        link: '/driver/pending-licence',
+        home: true,
+    }
 ];
 
 export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [

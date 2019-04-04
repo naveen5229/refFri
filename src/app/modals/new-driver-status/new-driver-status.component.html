@@ -6,8 +6,8 @@
     </button>
   </nb-card-header>
   <nb-card-body>
-    
-     <form class="form-group">
+
+    <form class="form-group">
       <!-- <div class="row">
         <div class="col-3" *ngIf="selectedType == 901 || selectedType == 902">
           <auto-suggestion (onSelected)="getvehicle($event)" url="Vehicles/getVehicleListForFoid"
@@ -19,49 +19,48 @@
           <label> Driver Name </label>
         </div>
         <div class="col-3">
-          <auto-suggestion (onSelected)="getvehicleData($event)" url="Drivers/getFoDrivers"
-               display="empname" placeholder="Enter Driver Name" [parentForm]="driverRemapForm" style="width:60%;"></auto-suggestion>
-               </div>
-               </div>
-               <div class="row margin-top-15">
-                 <div class="col-3">
-                   <label>Driver Mobile Number</label>
-                 </div>
-                 <div class="col-3">
-                   <input type="text" class="form-control" name="driverno" id="driverno" placeholder="Driver Number" [(ngModel)]="mobileno" readonly>
-                 </div>
-               </div>
-               <div class="row margin-top-15">
-                 <div class="col-3">
-                   <label>Driver Status</label>
-                 </div>
-                 <div class="col-3">
-                  <!-- <select class="form-control" [(ngModel)] = "selectedType" (change)="common.showToast(this.selectedType)" >
+          <auto-suggestion (onSelected)="getvehicleData($event)" url="Drivers/getFoDrivers" display="empname"
+            placeholder="Enter Driver Name" [parentForm]="driverRemapForm" style="width:60%;"></auto-suggestion>
+        </div>
+      </div>
+      <div class="row margin-top-15">
+        <div class="col-3">
+          <label>Driver Mobile Number</label>
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" name="driverno" id="driverno" placeholder="Driver Number"
+            [(ngModel)]="mobileno" readonly>
+        </div>
+      </div>
+      <div class="row margin-top-15">
+        <div class="col-3">
+          <label>Driver Status</label>
+        </div>
+        <div class="col-3">
+          <!-- <select class="form-control" [(ngModel)] = "selectedType" (change)="common.showToast(this.selectedType)" >
                     <option *ngFor="let status of driverStatus" [value]="status.id">
                       {{status.description}}
         
                     </option>
                   </select> -->
 
-                  <select class="form-control" name="driver-type" [(ngModel)]="selectedType">
-                    <option *ngFor="let status of driverStatus"
-                      [value]="status.id">{{status.description}}</option>
-                  </select>
-                 </div>
-               </div>
-                 <div class="row margin-top-15"  *ngIf="selectedType == 901 || selectedType == 902">
-                   <div class="col-3">
-                     <label>Reg No</label>
-                 </div>
-        <div class="col-3" *ngIf="selectedType == 901 || selectedType == 902">
-          <auto-suggestion (onSelected)="getvehicle($event)" url="Vehicles/getVehicleListForFoid"
-          display="regno" placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null"></auto-suggestion>
+          <select class="form-control" name="driver-type" [(ngModel)]="selectedType">
+            <option *ngFor="let status of driverStatus" [value]="status.id">{{status.description}}</option>
+          </select>
         </div>
       </div>
-               <div class="col-md-12 text-center margin-top-15">
-                  <button class="btn btn-primary" id="submit" type="submit"
-                    (click)="NewStatus()">submit</button>
-                </div>
-                </form>
-                </nb-card-body>
-                </nb-card>
+      <div class="row margin-top-15" *ngIf="selectedType == 901 || selectedType == 902">
+        <div class="col-3">
+          <label>Reg No</label>
+        </div>
+        <div class="col-3" *ngIf="selectedType == 901 || selectedType == 902">
+          <auto-suggestion (onSelected)="getvehicle($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+            placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null"></auto-suggestion>
+        </div>
+      </div>
+      <div class="col-md-12 text-center margin-top-15">
+        <button class="btn btn-primary" id="submit" type="submit" (click)="NewStatus()">submit</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

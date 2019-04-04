@@ -98,27 +98,26 @@ export class SiteFencingComponent implements OnInit {
             }
             else if(count>1){
               let latLngsArray = [];
-              let showIndex = [];
-              let mainLatLng = null;
-              let secLatLngs =null;
+              let show = "Unknown";
+              let isMain = false;
+              let isSec = false;
               let minDis=100000;
               for (const datax in data) {
                 if (data.hasOwnProperty(datax)) {
                   const datav = data[datax];
                   if(datax==this.selectedSite)
-                    mainLatLng = datav.latLngs;
+                    isMain = true;
                   else if(minDis>datav.dis){
                     this.mergeSiteId=datax;
-                    secLatLngs = datav.latLngs;
+                    isSec = true;
                     minDis=datav.dis;
                   }
-                  latLngsArray.push(datav.latLngs);
+                  latLngsArray.push({data:datav.latLngs,isMain:isMain,isSec:isSec,show:datax});
                   console.log("Multi",datax);
-                  showIndex.push(datax);
                 }
               }
               
-              this.mapService.createPolygons(latLngsArray,mainLatLng,secLatLngs,showIndex);
+              this.mapService.createPolygons(latLngsArray);
             }
             else{
               console.log("Else");
@@ -215,15 +214,18 @@ export class SiteFencingComponent implements OnInit {
     }
   }
   getRemainingTable() {
-    this.apiService.post("SiteFencing/getRemainingSites", { type: this.typeId })
-      .subscribe(res => {
-        let data = res['data'];
-        console.log('Res: ', res['data']);
-        this.remainingList = data;
-      }, err => {
-        console.error(err);
-        this.commonService.showError();
-      });
+      this.commonService.loading++;
+      let response;
+      this.apiService.get('Test')
+        .subscribe(res => {
+          this.commonService.loading--;
+          console.log('Res:', res['data']);
+          // = res['data'];
+         // console.log('Attendance:',this.driverAttendance);
+        }, err => {
+          this.commonService.loading--;
+          console.log(err);
+        });
   }
   submitValidity() {
     if (this.selectedSite) {

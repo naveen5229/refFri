@@ -108,6 +108,9 @@
                     (click)="openManualHalt(vehicleEvent);">MH</span>
                   <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                       (click)="reportIssue(vehicleEvent);"></i></span>
+                  <!-- <span class="zoom-btn"><i class="fa fa-route"
+                      (click)="openRouteMapper(vehicleEvent);"></i></span> -->
+
 
                 </span></div>
             </td>
@@ -115,11 +118,11 @@
         </tbody>
       </table>
     </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf = "ref_page!='ari'">
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="ref_page!='ari'">
       <button (click)="reviewComplete(1)" style="padding:5px" *ngIf="btnStatus">Review Done</button>
       <button (click)="reviewComplete(-1)" style="padding:5px ; margin-left:20px">Advanced Review</button>
     </div>
-    <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf = "ref_page=='ari'">
+    <div style="margin-top:30px;margin-bottom:50px;text-align: center" *ngIf="ref_page=='ari'">
       <button (click)="resolveTicket(1)" style="padding:5px" *ngIf="btnStatus">Accept</button>
       <button (click)="resolveTicket(-1)" style="padding:5px ; margin-left:20px">Reject</button>
     </div>
