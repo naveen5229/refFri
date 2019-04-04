@@ -52,6 +52,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.0.0",
     "angular-tooltips": "^1.2.2",
     "angular2-chartjs": "^0.5.1",
+    "angular2-draggable": "^2.2.2",
     "angular5-csv": "^0.2.11",
     "bootstrap": "4.0.0",
     "classlist.js": "1.1.20150312",
