@@ -117,6 +117,7 @@ import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-anal
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
+import { ResizableModule } from 'angular-resizable-element';
 
 @NgModule({
   declarations: [AppComponent,
@@ -299,7 +300,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
-    })
+    }),
+    ResizableModule
   ],
 
   bootstrap: [AppComponent],
