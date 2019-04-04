@@ -6,7 +6,7 @@
           <tbody>
             <tr>
               <td>
-                <div></div>
+                <input type="text" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc" class="form-control">
               </td>
               <td>
                 <input placeholder="Old Site Id" [(ngModel)]="mergeSiteId" class="form-control">
@@ -52,7 +52,8 @@
                 <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="siteLoc" class="form-control">
               </td>
               <td>
-                <input type="text" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc" class="form-control">
+                <button (click)="updateLocName();"
+                  class="btn btn-primary">Update Loc</button>
               </td>
             </tr>
             <tr>
