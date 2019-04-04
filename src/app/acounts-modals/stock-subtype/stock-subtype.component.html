@@ -9,10 +9,9 @@
 <div class="modal-body">
 
   <div class="row">
-    <div class="col">
+    <!-- <div class="col">
       <div class="form-group">
         <label>User</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name" inputId="user" [(ngModel)]="stockSubType.user.name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
         placeholder="Enter User" inputId="user" [preSelected]="null"></auto-suggestion>
       </div>
@@ -24,37 +23,33 @@
           </li>
         </ul>
       </div>
-
-    </div>
-    <div class="col">
+    </div> -->
+    <div class="col-3">
       <div class="form-group">
         <label>Stock Type</label>
-        <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockSubType.stockType.name">
-        <!-- <input type="text" class="form-control" name="stocktype"> -->
-
-        <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
-        placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion>
+        <!-- <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
+        placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion> -->
+        <input type="text" id="stocktype" class="form-control tjr-input" name="stockType"
+        [(ngModel)]="stockSubType.stockType.name">
       </div>
-      <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockSubType.stockType.name">
-        <ul>
-          <li *ngFor="let stocktype of suggestions.stockTypes" class="suggestion" (click)="selectStockType(stocktype)">
-            {{stocktype.name}}
-          </li>
-        </ul>
-      </div-->
     </div>
-    <div class="col">
+    <div class="col-3">
       <div class="form-group">
         <label>Name</label>
         <input type="text" class="form-control" name="stock-name" id="stock-name" [(ngModel)]="stockSubType.name">
       </div>
     </div>
-    <div class="col">
+    <div class="col-3">
       <div class="form-group">
         <label>Code</label>
         <input type="text" class="form-control" name="stock-code" id="stock-code" [(ngModel)]="stockSubType.code">
       </div>
     </div>
+    <div class="col-3">
+      <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+      [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
+    </div>
+
   </div>
 
 </div>
