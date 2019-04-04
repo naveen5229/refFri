@@ -85,18 +85,18 @@
     <th>Code</th>
     <th>Customer Code</th>
     <th>Bill Amount</th>
-    <th>Discount Amount</th>
+    <!-- <th>Discount Amount</th> -->
     <th>Total Bill Amount</th>
     <th>Tax Amount</th>
     <th>Net Amount</th>
   </tr>
   </thead>
-  <tr *ngFor="let dataItem of DayData; let i = index;">
+  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
     <td>{{dataItem.y_billamount}}</td>
-    <td>{{dataItem.y_disamount}}</td>
+    <!-- <td>{{dataItem.y_disamount}}</td> -->
     <td>{{dataItem.y_totalbillamount}}</td>
     <td>{{dataItem.y_taxamount}}</td>
     <td>{{dataItem.y_netamount}}</td>

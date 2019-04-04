@@ -106,6 +106,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title:'Profit & Loass A/C',
                 link: '/accounts/profitloss'
+            },
+            {
+                title:'Stock Available',
+                link: '/accounts/stockavailable'
             }
             
         ],

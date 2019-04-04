@@ -33,7 +33,7 @@
         <!-- <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion>
       -->
-      <auto-suggestion  (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+      <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
    
     </div>
@@ -50,7 +50,7 @@
         <label>Stock Sub Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" [url]="'Suggestion/GetSearchStockType?stocktype=' + stockItem.stockType.id" display="name"
-        placeholder="Enter Stock Sub Type" inputId="stockSubType" name="stockSubType" [preSelected]="null"></auto-suggestion>
+        placeholder="Enter Stock Sub Type" inputId="stockSubType" [data] ="stockSubType"  name="stockSubType" [preSelected]="null"></auto-suggestion>
       </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>

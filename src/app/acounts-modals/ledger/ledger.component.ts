@@ -14,6 +14,7 @@ export class LedgerComponent implements OnInit {
   salutiondata=[];
   userdata=[];
   underGroupdata=[];
+  state=[];
   activeId="user";
   Accounts = {
     name: '',
@@ -86,6 +87,7 @@ export class LedgerComponent implements OnInit {
     this.GetSalution();
     this.getUserData();
     this.getUnderGroup();
+    this.GetCity(29);
   }
 
 
@@ -116,6 +118,46 @@ export class LedgerComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.salutiondata = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  GetState() {
+    let params = {
+      foid: 123
+    };
+    
+    this.common.loading++;
+    this.api.post('Suggestion/GetState', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.state = res['data'];
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+  GetCity(stateid) {
+    let params = {
+      state: stateid
+    };
+    
+    this.common.loading++;
+    this.api.post('Suggestion/GetCity', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.state = res['data'];
 
       }, err => {
         this.common.loading--;

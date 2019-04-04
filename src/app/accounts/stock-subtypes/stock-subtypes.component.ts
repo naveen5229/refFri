@@ -11,14 +11,15 @@ import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-
 })
 export class StockSubtypesComponent implements OnInit {
   stockSubTypes = [];
-
+  selectedName = '';
   constructor(public api: ApiService,
     public modalService: NgbModal,
     public common: CommonService) { 
       this.getStockSubTypes();
       this.common.currentPage = 'Stock Sub Types';
     }
-
+    selectedRow = -1;
+    activeId='';
   ngOnInit() {
   }
   getStockSubTypes() {
@@ -49,11 +50,10 @@ export class StockSubtypesComponent implements OnInit {
       if (data.response) {
        
         if (stocksubType) {
-         
           this.updateStockSubType(stocksubType.id, data.stockSubType);
           return;
         }
-       this.addStockSubType(data.stockSubType)
+       this.addStockSubType(data.stockSubType);
       }
     });
   }
@@ -62,7 +62,7 @@ export class StockSubtypesComponent implements OnInit {
     //console.log(stockSubType);
     //const params ='';
      const params = {
-        foid: stockSubType.user.id,
+      //  foid: stockSubType.user.id,
          name: stockSubType.name,
         code: stockSubType.code,
         stockid: stockSubType.stockType.id
@@ -75,6 +75,7 @@ export class StockSubtypesComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         this.getStockSubTypes();
+        this.common.showToast('Stock Sub Type Are Saved');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -86,7 +87,7 @@ export class StockSubtypesComponent implements OnInit {
            console.log('test');
           console.log(stockSubType);
     const params = {
-      foid: stockSubType.user.id,
+    //  foid: stockSubType.user.id,
       name: stockSubType.name,
       code: stockSubType.code,
       stockid: stockSubType.stockType.id,
@@ -100,10 +101,27 @@ export class StockSubtypesComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         this.getStockSubTypes();
+        this.common.showToast('Stock Sub Type Are Updated');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event, this.activeId);
+  if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.stockSubTypes.length) {
+    /************************ Handle Table Rows Selection ********************** */
+    if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+    else if (this.selectedRow != this.stockSubTypes.length - 1) this.selectedRow++;
+
+  }
+}
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
   }
 }

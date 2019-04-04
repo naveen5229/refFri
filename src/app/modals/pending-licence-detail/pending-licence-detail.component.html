@@ -1,0 +1,157 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<nb-card>
+  <nb-card-body style="overflow:inherit;padding-top: 0px;">
+    <div class="modal-body vert-mdl-pdg">
+      <form #driverForm="ngForm" id="driver-form" name="driver-form"
+        (submit)="driverForm.valid && updateDocument(0)">
+        <div class="row">
+          <div class="col-sm-4">
+
+            <div class="row form-field clear">
+              <label for="driver_id" class="col-sm-4 mgn-vert">Driver ID</label>
+
+              <div class="col-sm-8 " *ngIf="!canUpdate">
+                <label style="font-size:16px;">{{driver.id}}</label>
+                <span *ngIf="driver.verify == true" style="margin-left:20%;">
+                 <label style="font-size:16px; "> Verified </label>
+                </span>               
+              </div>
+              <div class="col-sm-8 " *ngIf="canUpdate">
+                <label style="font-size:16px;">{{driver.id}}</label>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="empname" class="col-sm-4 mgn-vert">Name</label>
+
+              <div class="col-sm-8 ">
+                <label style="font-size:16px;">{{driver.empname}}</label>               
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="licence_no" class="col-sm-4 mgn-vert">Licence No.<span class="mandatory">*</span></label>
+              <div *ngIf="!canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">{{document.licence_no}}</label>
+                
+              </div>
+
+              <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <input *ngIf="canUpdate" id="newlicence_no" name="newlicence_no" type="text" class="form-control "
+                  [(ngModel)]="driver.newLicenceno" (blur)="validateLicenceno()" />
+              </div>
+            </div>
+            
+            <div class="row form-field clear">
+              <label for="effective_date" class="col-sm-4 mgn-vert">Effective Date:</label>
+              <div *ngIf="!canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">
+                  {{getDateInDisplayFormat(driver.effective_date)| date:'dd-MM-yyyy'}}</label>
+              </div>
+              <input #effective_date *ngIf="canUpdate" id="effective_date" name="effective_date" type="text"
+                class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="driver.effective_date"
+                [value]="driver.effective_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
+              <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+                (click)="getDate('effective_date')"><i class="icon fa fa-calendar"></i></span>
+            </div>
+            <div class="row form-field clear">
+              <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
+              <div *ngIf="!canUpdate" class="col-sm-8">
+                <label style="font-size:16px;"> {{getDateInDisplayFormat(document.expiry_date)| date:'dd-MM-yyyy'}}</label>
+
+              </div>
+              <input #expirydate *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text"
+                class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="driver.expiry_date"
+                [value]="driver.expiry_date " (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
+              <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+                (click)="getDate('expiry_date')"><i class="icon fa fa-calendar"></i></span>
+            </div>
+            <div class="row form-field clear">
+              <label for="ntexpiry_date" class="col-sm-4 mgn-vert">NT Expiry Date</label>
+              <div *ngIf="!canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">
+                  {{getDateInDisplayFormat(driver.ntexpiry_date)| date:'dd-MM-yyyy'}}</label>
+              </div>
+              <input #ntexpiry_date *ngIf="canUpdate" id="ntexpiry_date" name="ntexpiry_date" type="text"
+                class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="driver.ntexpiry_date"
+                [value]="driver.ntexpiry_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
+              
+              <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+                (click)="getDate('expiry_date')"><i class="icon fa fa-calendar"></i></span>
+            </div>
+
+            <div class="row form-field clear" *ngIf="canUpdate == 0">
+              <label for="agent" class="col-sm-4 ">Agent</label>
+              <div class="col-sm-8 ">
+                <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent"
+                  class="form-control frm-fld mdl-sel-agt">
+                  <option value="">--</option>
+                  <option *ngFor="let agent of agents" [value]=agent.id>
+                    {{agent.name}}
+                  </option>
+                </select>
+                <a href="javascript: void(0);" (click)="addAgent()">Add Agent</a>
+              </div>
+            </div>
+
+            <div class=" row form-field clear" *ngIf="canUpdate == 0">
+              <label for="doc_no" class="col-sm-4 ">Document No.</label>
+              <div class="col-sm-8">
+                <input id="doc_no" name="doc_no" type="text" class=" form-control " maxlength="25"
+                  [(ngModel)]="document.doc_no" />
+              </div>
+            </div>
+
+            <div class="row form-field clear" *ngIf="canUpdate == 0">
+              <label for="amount" class="col-sm-4 ">Amount</label>
+              <div class="col-sm-8 ">
+                <input id="amount" name="amount" type="text" class="form-control frm-fld mgn-vert"
+                  [(ngModel)]="document.amount" maxlength="10" maxlength="10" placeholder="Enter Amount" />
+              </div>
+            </div>
+
+            <div class="row form-field clear" *ngIf="canUpdate == 0">
+              <label for="rto" class="col-sm-4 ">RTO</label>
+              <div class="col-sm-8 ">
+                <input type="text" id="rto" name="rto" type="text" class="form-control" [(ngModel)]="document.rto"
+                  maxlength="20" placeholder="Enter Rto">
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="remarks" class="col-sm-4 ">Remarks</label>
+              <div class="col-sm-8">
+                <textarea id="remarks" name="remarks" rows="2" class="form-control "
+                  [(ngModel)]="document.remarks"></textarea>
+              </div>
+            </div>
+
+
+
+            <div class="row" style="margin-top:20px">
+              <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 60%;">
+                <button class="btn btn-primary" type="submit" (click)="customerByUpdate()" id="submit"
+                  style="cursor: pointer;">{{btn1}}</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-8 imageView">
+            <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View
+                Document</a>
+            </div>
+            <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
+              [loadOnInit]="true" [snapView]="false"></app-image-viewer>
+            <div *ngIf="!document.img_url">No Image Exists</div>
+            <div id="imgzoom"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -68,6 +68,7 @@
     vertical-align: middle;
     color: green;
 }
+
 .exit {
     vertical-align: middle;
     margin-right: 3px;
@@ -89,4 +90,10 @@
 }
 table{
     cursor:pointer;   
+}
+.modal-dialog{
+    width: 100% !important;
+}
+.modal-lg {
+    max-width: 1200px !important;
 }
