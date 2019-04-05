@@ -9,19 +9,18 @@
 <div class="modal-body">
 
   <div class="row">
-    <div class="col">
+    <!-- <div class="col">
       <div class="form-group">
         <label>User</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
         <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
         inputId="user" name="user" placeholder="Enter User" [preSelected]="null"></auto-suggestion>
       </div>
-    </div>
+    </div> -->
     <div class="col">
       <div class="form-group">
         <label>Parent Account Name</label>
         <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
-        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:Accounts.account.name}"></auto-suggestion>
       </div>
     </div>
     <div class="col">

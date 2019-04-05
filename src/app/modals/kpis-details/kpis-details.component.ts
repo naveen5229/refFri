@@ -78,7 +78,7 @@ export class KpisDetailsComponent implements OnInit {
     // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
     
-      this.common.params= tripDetails;
+    this.common.params= {tripDetils : tripDetails, ref_page : 'kpi'};
       console.log("vehicleTrip",tripDetails);
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     

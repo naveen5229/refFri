@@ -66,6 +66,12 @@ export class StockTypeComponent implements OnInit {
     //console.log('Stock Unit: ', this.stockItem);
   }
 
+  modelCondition(){
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+   }
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
