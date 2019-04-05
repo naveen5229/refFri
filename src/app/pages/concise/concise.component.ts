@@ -81,8 +81,8 @@ export class ConciseComponent implements OnInit {
   primarySubStatus = [];
 
   widths = {
-    smartTable: '220px',
-    map: '50%'
+    smartTable: '40%',
+    map: '60%'
   };
 
   isMapView = false;
@@ -657,6 +657,7 @@ export class ConciseComponent implements OnInit {
 
     this.mapService.clearAll();
     setTimeout(() => {
+      this.mapService.setMapType(3);
       this.mapService.createMarkers(this.kpis);
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {

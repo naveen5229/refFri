@@ -276,3 +276,6 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .document-details .tableFixHead{
   height: 403px !important;
 }
+nb-card{
+  margin: 0px !important;
+}
