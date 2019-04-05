@@ -20,6 +20,7 @@ import { TripVoucherExpenseComponent } from './trip-voucher-expense/trip-voucher
 import { OutstandingComponent } from './outstanding/outstanding.component';
 import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { ProfitlossComponent}from './profitloss/profitloss.component';
+import { StockavailableComponent } from './stockavailable/stockavailable.component';
 
 const routes: Routes = [{
     path: '',
@@ -96,6 +97,10 @@ const routes: Routes = [{
         {
             path:'profitloss',
             component:ProfitlossComponent
+        },
+        {
+            path:'stockavailable',
+            component:StockavailableComponent
         }
 
         

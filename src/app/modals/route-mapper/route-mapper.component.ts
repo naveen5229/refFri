@@ -21,7 +21,6 @@ export class RouteMapperComponent implements OnInit {
     private apiService: ApiService,
     private activeModal: NgbActiveModal,
     private commonService: CommonService) {
-      this.commonService.handleModalSize('class', 'modal-lg', '1600');
   this.startDate = this.commonService.params.fromTime;
   this.endDate = this.commonService.params.toTime;
   this.vehicleSelected = this.commonService.params.vehicleId;

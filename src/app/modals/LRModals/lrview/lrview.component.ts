@@ -41,6 +41,7 @@ export class LRViewComponent implements OnInit {
         --this.common.loading;
         console.log("response data", JSON.parse(res['data'][0].fn_printlrdetails).result);
         this.lrDetails = JSON.parse(res['data'][0].fn_printlrdetails).result[0];
+        // this.lrDetails.branch_address=document.getElementById('branch_address').innerHTML;
         this.particulars = JSON.parse(res['data'][0].fn_printlrdetails).details;
 
         console.log('this.lrDetails:', this.lrDetails);
@@ -54,24 +55,28 @@ export class LRViewComponent implements OnInit {
       });
   }
 
-  //   print(): void {
-  //     let printContents, popupWin;
-  //     printContents = document.getElementById('print-section').innerHTML;
-  //     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-  //     popupWin.document.open();
-  //     popupWin.document.write(`
-  //       <html>
-  //         <head>
-  //           <title>Print tab</title>
-  //           <style>
-  //           //........Customized style.......
-  //           </style>
-  //         </head>
-  //     <body onload="window.print();window.close()">${printContents}</body>
-  //       </html>`
-  //     );
-  //     popupWin.document.close();
-  // }
+    print(): void {
+      let printContents, popupWin;
+      printContents = document.getElementById('print-section').innerHTML;
+      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin.document.open();
+      popupWin.document.write(`
+        <html>
+          <head>
+            <title>Print tab</title>
+            <style>
+            //........Customized style.......
+            </style>
+          </head>
+      <body onload="window.print();window.close()">${printContents}</body>
+        </html>`
+      );
+      popupWin.document.close();
+  }
+
+  onPrint(){
+    window.print();
+}
 
   findCustomFields(customFields) {
     if (!customFields) return [];
