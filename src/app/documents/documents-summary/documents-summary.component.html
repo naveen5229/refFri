@@ -10,8 +10,11 @@
                 <span title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>Pdf</span>
                 <span title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
             </span>
-            <div class="blk-issue">
-              <a href="javascript:void(0);" (click)="showIssues()" title="View Document Issues" class="lnk-issue">Document Issues</a>
+            <div class="" style="float:right;">
+                <button class="btn btn-primary" name="btn-issues" style="cursor:pointer;margin-bottom: 10px;" (click)="showIssues()">
+                Document Issues  
+                </button>
+              <!-- <a href="javascript:void(0);" (click)="showIssues()" title="View Document Issues" class="lnk-issue">Document Issues</a> -->
             </div>
             <table class="table table-bordered table-hover">
                 <tr>
