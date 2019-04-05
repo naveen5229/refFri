@@ -49,12 +49,12 @@ export class StockitemsComponent implements OnInit {
     console.log('stockitem', stockitem);
     if (stockitem) {
       this.common.params = stockitem;
-      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass"  });
+      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          console.log("after modal close :",data.stockItem);
+          console.log("after modal close :", data.stockItem);
           const params = {
-             foid: 123,
+            foid: 123,
             name: data.stockItem.name,
             code: data.stockItem.code,
             stocksubtypeid: data.stockItem.stockSubType.id,
@@ -65,31 +65,35 @@ export class StockitemsComponent implements OnInit {
             isactive: data.stockItem.isactive,
             inventary: data.stockItem.inventary,
             stockunit: data.stockItem.unit.id,
-            stockItemid: data.stockItem.stockType.id
+            stockItemid: stockitem.id
           };
-      
           console.log('paramsans: ', params);
           this.common.loading++;
-      
+
           this.api.post('Stock/UpdateStockItem', params)
             .subscribe(res => {
               this.common.loading--;
-              console.log('res: ', res);
+              console.log('res: ', res['data'][0].save_stockitem);
+              let result=res['data'][0].save_stockitem;
+              if(result==''){
+                this.common.showToast(" Stock item Update");
+              }
+              else{
+                this.common.showToast(result);
+              }
+
               this.getStockItems();
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);
               this.common.showError();
             });
-      
-            
-          
         }
       });
     }
     else {
       this.common.params = null;
-      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass"  });
+      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
           this.addStockItem(data.stockItem);
@@ -124,6 +128,13 @@ export class StockitemsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result=res['data'][0].save_stockitem;
+        if(result==''){
+          this.common.showToast(" Stock item Add");
+        }
+        else{
+          this.common.showToast(result);
+        }
         this.getStockItems();
       }, err => {
         this.common.loading--;
@@ -134,8 +145,8 @@ export class StockitemsComponent implements OnInit {
   }
 
   updateStockItem(stockItemid, stockItem) {
-    console.log("update in stock item:",stockItem);
-    console.log("update in stock id:",stockItemid);
+    console.log("update in stock item:", stockItem);
+    console.log("update in stock id:", stockItemid);
     // const params ='';
     // const params = {
     //   name: stockItem.name,
