@@ -8,7 +8,7 @@
   <thead style="background-color: #263238; color: #fff;">
       <tr>
         <th>#</th>
-        <th>Fo User</th>
+        <!-- <th>Fo User</th> -->
         <th>Name</th>
         <th>Date</th>
       </tr>
@@ -18,7 +18,7 @@
     (dblclick)="openAccountModal(Account)" (enter)="openAccountModal(Account)"
     [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
-        <td>{{ Account.foname}}</td>
+        <!-- <td>{{ Account.foname}}</td> -->
         <td>{{Account.name}}</td>
         <td>{{Account.entry_dt | date : 'dd MMM HH:mm'}}</td>
         <!--td><button class="btn" (click)="openAccountModal(Accounts)">Edit</button></td-->
