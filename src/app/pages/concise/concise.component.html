@@ -1,15 +1,23 @@
-<nb-card>
-  <nb-card-body>
-    <div class="row" style="margin-top:-15px">
-      <div class="col-sm-3" [@slideToUp]>
-        <!-- <div class="form-group" class="col-sm-9">
-         <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
-            <option value="showprim_status">Primary Status</option>
-            <option value="showsec_status">Secondary Status</option>
-            <option value="x_showtripstart">Trip Start</option>
-            <option value="x_showtripend">Trip End</option>
-          </select>
-        </div> -->
+<nb-card style="border: 0px; height: 100%;">
+  <nb-card-body style="padding:5px;">
+
+    <!-- <div mwlResizable [enableGhostResize]="true" style="width:50%; display: inline-block;" [ngStyle]="{width: divWidth + 'px'}"
+      [resizeEdges]="{bottom: true, right: true, top: true, left: true}" (resizeEnd)="onResizeEnd($event)">
+      <div style="border:1px solid #000">
+        <div>1</div>
+        <div>2</div>
+      </div>
+    </div>
+    <div mwlResizable [enableGhostResize]="true" style="width:48%; display: inline-block;"
+      [resizeEdges]="{bottom: true, right: true, top: true, left: true}" (resizeEnd)="onResizeEnd($event)">
+      <div style="border:1px solid #000">
+        <div>1</div>
+        <div>2</div>
+      </div>
+    </div> -->
+   
+    <div class="row m-0" >
+      <div class="col-sm-3 pl-0 pr-2" [hidden]="isMapView">
         <div style="font-size:18px;margin:0px;text-align: center;padding:10px 0px; " class="row">
           <div class="col-sm-2">
             <span (click)="changeOptions('reverse')"> <i class="icon ion-ios-rewind"></i></span>
@@ -25,7 +33,7 @@
           <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
 
-        <div class="status_box" style="height:300px;overflow:auto">
+        <div class="status_box" style="max-height:48vh;overflow:auto">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
@@ -54,11 +62,12 @@
                 <div class="col-sm-3">
                   {{status.length}}
                 </div>
-                
+
               </nb-card-body>
               <div class="select_option" *ngIf="activePrimaryStatus == status.name">
                 <ul>
-                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)"><span></span> {{option.name}}</li>
+                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)"><span></span>
+                    {{option.name}}</li>
                   <!-- <li><span></span> 12 Hr + :24</li> -->
                   <!-- <li><span></span> Undetected : 78</li> -->
                 </ul>
@@ -82,15 +91,38 @@
               </nb-card-body>
             </nb-card>
           </div>
-         
+
         </div>
         <!-- <div>
-            <button (click) = "vehicleOnMap() ">Vehicle On Map</button>
-          </div> -->
+          <button (click)="vehicleOnMap() ">Vehicle On Map</button>
+        </div> -->
         <!-- <button class="btn btn-primary" style="margin-left:50px; margin-top:10px" (click)="openVehicleOnMapModel()">Show Map</button> -->
       </div>
-      <div class="col-sm-9" *ngIf="table">
-        <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+      <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
+        <div style=" position: relative;">
+          <!-- ============================= SMART TABLE VIEW ============================= -->
+          <div mwlResizable [enableGhostResize]="true" class="map-table-container"
+            [ngStyle]="{width: isMapView ? widths.smartTable: '100%'}"
+            [resizeEdges]="{bottom: false, right: true, top: false, left: false}"
+            (resizeEnd)="onResizeEnd($event, 'smartTable')">
+            <div>
+              <smart-table style="width:100%;" [data]="table.data" [settings]="table.settings"></smart-table>
+            </div>
+          </div>
+          <!-- ============================= SMART TABLE END ============================= -->
+
+          <!-- ============================= MAP VIEW ============================= -->
+          <!-- <div [hidden]="!isMapView" mwlResizable [enableGhostResize]="true" style="display:inline-block;"
+            [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}"
+            [resizeEdges]="{bottom: false, right: false, top: false, left: true}"
+            (resizeEnd)="onResizeEnd($event, 'map')"> -->
+          <div [hidden]="!isMapView" style="padding: 0px; min-width:300px; display:inline-block;" [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}">
+            <div id="concise-view-map" style="width: 100%; height: 87vh;"></div>
+          </div>
+          <!-- </div> -->
+          <!-- ============================== MAP VIEW END =============================== -->
+        </div>
+
       </div>
     </div>
   </nb-card-body>

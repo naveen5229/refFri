@@ -94,8 +94,7 @@ table.fixed {
 }
 // Table Header
 .tableFixHead {
-    overflow-y: auto;
-    height: 70vh;
+    overflow: auto;
 }
 .tableFixHead th {
     position: sticky;

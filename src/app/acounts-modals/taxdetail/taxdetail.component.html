@@ -44,6 +44,11 @@
                           class="fa fa-trash text-primary"></i></button>
                     </td>
                   </tr>
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                    <td><input type="number" class="form-control" [name]="totalamount" [id]="totalamount"
+                      [(ngModel)]="taxdetails.totalamount"  [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
+                  </tr>
             </tbody>
             
           </table>
