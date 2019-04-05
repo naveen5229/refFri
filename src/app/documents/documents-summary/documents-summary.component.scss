@@ -121,3 +121,32 @@ nb-card-header {
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+.pdf_csv_download{
+    margin-bottom: 10px;
+}
+.pdf_csv_download span{
+    display: inline-block;
+    cursor: pointer;
+    background-color: #27ca7f;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+.pdf_csv_download span i{
+    margin-right: 5px;
+}
+.blk-issue{
+    margin-bottom: 10px;
+}
+.blk-issue a{
+    display: inline-block;
+    background-color: #324148;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-right: 10px;
+    text-decoration: none;
+}
