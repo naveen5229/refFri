@@ -93,12 +93,13 @@ export class VehicleReportComponent implements OnInit {
          this.endTime = new Date(this.endTime);
          this.resultTime = this.endTime - this.startTime;
         console.log('begore resultTime: ' + this.resultTime);
-         var result=moment.utc(this.resultTime).format('HH:mm');
+        var result=this.common.dateDiffInHoursAndMins(this.startTime, this.endTime);
+         //var result=moment.utc(this.resultTime).format('HH:mm');
          console.log('moment',moment.utc(this.resultTime).format('HH:mm'));
          this.duration.push(result);
         }else{
-          var result='Running';
-          this.duration.push(result);
+          var result1='Running';
+          this.duration.push(result1);
         }
 
         //   let result='00'+':'+'00';

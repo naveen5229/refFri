@@ -72,7 +72,7 @@ export class CommonService {
     public dataService: DataService,
     public user: UserService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   showError(msg?) {
     this.showToast(msg || "Something went wrong! try again.", "danger");
@@ -321,6 +321,7 @@ export class CommonService {
         document.getElementsByClassName(name)[position]["style"].maxWidth =
           width + sizeType;
       }
+
     }, 10);
   }
 
@@ -358,7 +359,7 @@ export class CommonService {
 
   dateDiffInHours(startTime, endTime) {
     if (startTime == null || endTime == null) {
-      return "0";
+      return '0';
     }
     startTime = new Date(startTime);
     endTime = new Date(endTime);
@@ -372,17 +373,31 @@ export class CommonService {
 
   dateDiffInHoursAndMins(startTime, endTime) {
     if (startTime == null) {
-      return "0";
+      return '0';
     }
     if (endTime == null) {
-      return "-1";
+      return '-1'
     }
     let result;
-    startTime = new Date(startTime).getTime();
-    endTime = new Date(endTime).getTime();
-    let resultTime = endTime - startTime;
-    result = moment.utc(resultTime).format("HH:mm");
-    console.log("moment", result);
+    startTime = new Date(startTime);
+    endTime = new Date(endTime);
+    let day = parseInt(moment.utc(moment(endTime, "DD/MM/YYYY HH:mm:ss").diff(moment(startTime, "DD/MM/YYYY HH:mm:ss"))).format("DD"));
+    day = day - 1;
+    let hrs = moment.utc(moment(endTime, "DD/MM/YYYY HH:mm:ss").diff(moment(startTime, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm");
+    if (day > 0) {
+      result = "" + day + "D " + hrs;
+    }
+    else {
+      result = "" + hrs;
+    }
+
+    //result = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
+
+    // outputs: "48:39:30"
+    // let resultTime = endTime - startTime;
+    //  result=moment.utc(resultTime).format('DD HH:mm');
+    // console.log('moment',startTime,endTime,result );
+
     // //console.log('begore resultTime: ' + resultTime);
     // // if(this.resultTime>0){
     //   let sec = (resultTime / 1000);
@@ -495,17 +510,18 @@ export class CommonService {
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if (hdgCols[i].classList.contains("del")) continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
         let elthtml = hdgCols[i].innerHTML;
-        if (elthtml.indexOf("<input") > -1) {
+        if (elthtml.indexOf('<input') > -1) {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs.push(attrval);
-        } else if (elthtml.indexOf("<img") > -1) {
+        } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
           hdgs.push(attrval);
-        } else if (elthtml.indexOf("href") > -1) {
+        } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs.push(strval);
         } else {
@@ -517,30 +533,33 @@ export class CommonService {
     }
     hdg_coll.push(hdgs);
     let rows = [];
-    let tblrows = tblelt.querySelectorAll("tbody tr");
+    let tblrows = tblelt.querySelectorAll('tbody tr');
     if (tblrows.length >= 1) {
       for (let i = 0; i < tblrows.length; i++) {
-        if (tblrows[i].classList.contains("cls-hide")) continue;
-        let rowCols = tblrows[i].querySelectorAll("td");
+        if (tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
         let rowdata = [];
         for (let j = 0; j < rowCols.length; j++) {
-          if (rowCols[j].classList.contains("del")) continue;
+          if (rowCols[j].classList.contains('del'))
+            continue;
           let colhtml = rowCols[j].innerHTML;
-          if (colhtml.indexOf("input") > -1) {
+          if (colhtml.indexOf('input') > -1) {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
-          } else if (colhtml.indexOf("img") > -1) {
+          } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
             rowdata.push(attrval);
-          } else if (colhtml.indexOf("href") > -1) {
+          } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
             rowdata.push(strval);
-          } else if (colhtml.indexOf("</i>") > -1) {
+          } else if (colhtml.indexOf('</i>') > -1) {
             let pattern = /<i.* title="([^"]+)/g;
             let match = pattern.exec(colhtml);
-            if (match != null && match.length) rowdata.push(match[1]);
+            if (match != null && match.length)
+              rowdata.push(match[1]);
           } else {
             let plainText = colhtml.replace(/<[^>]*>/g, "");
             rowdata.push(plainText);
@@ -564,7 +583,7 @@ export class CommonService {
       format: "a4"
     });
 
-    var pageContent = function(data) {
+    var pageContent = function (data) {
       //header
       let x = 35;
       let y = 40;
@@ -577,11 +596,7 @@ export class CommonService {
 
       //}
       let pageWidth = parseInt(doc.internal.pageSize.width);
-      if (
-        left_heading != "undefined" &&
-        left_heading != null &&
-        left_heading != ""
-      ) {
+      if (left_heading != "undefined" && left_heading != null && left_heading != '') {
         x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
         let xpos = x - hdglen - 40;
@@ -589,11 +604,7 @@ export class CommonService {
         doc.setFont("times", "bold", "text-center");
         doc.text(left_heading, xpos, y);
       }
-      if (
-        center_heading != "undefined" &&
-        center_heading != null &&
-        center_heading != ""
-      ) {
+      if (center_heading != "undefined" && center_heading != null && center_heading != '') {
         x = pageWidth / 2;
         y = 50;
         let hdglen = center_heading.length / 2;
@@ -602,17 +613,7 @@ export class CommonService {
         doc.text(center_heading, x - hdglen - 40, y);
       }
       y = 15;
-      doc.addImage(
-        eltimg,
-        "JPEG",
-        pageWidth - 110,
-        15,
-        50,
-        50,
-        "logo",
-        "NONE",
-        0
-      );
+      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -628,32 +629,25 @@ export class CommonService {
       );
     };
 
-    let tempLineBreak = {
-      fontSize: 10,
-      cellPadding: 3,
-      minCellHeight: 11,
-      minCellWidth: 10,
-      cellWidth: 40,
-      valign: "middle",
-      halign: "center"
-    };
+
+    let tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
     doc.autoTable({
       head: hdg_coll,
       body: rows,
-      theme: "grid",
+      theme: 'grid',
       didDrawPage: pageContent,
       margin: { top: 80 },
-      rowPageBreak: "avoid",
+      rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
         fontSize: 10,
-        halign: "center",
-        valign: "middle"
+        halign: 'center',
+        valign: 'middle'
+
       },
       styles: tempLineBreak,
-      columnStyles: {
-        text: { cellWidth: 40, halign: "center", valign: "middle" }
-      }
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+
     });
     doc.save("report.pdf");
   }
@@ -672,27 +666,28 @@ export class CommonService {
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
-    let hdgCols = tblelt.querySelectorAll("th");
+    let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if (hdgCols[i].classList.contains("del")) continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
         let elthtml = hdgCols[i].innerHTML;
-        if (elthtml.indexOf("<input") > -1) {
+        if (elthtml.indexOf('<input') > -1) {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs[attrval] = attrval;
           arr_hdgs.push(attrval);
-        } else if (elthtml.indexOf("<img") > -1) {
+        } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
           hdgs[attrval] = attrval;
           arr_hdgs.push(attrval);
-        } else if (elthtml.indexOf("href") > -1) {
+        } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs[strval] = strval;
           arr_hdgs.push(strval);
         } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, "");
+          let plainText = elthtml.replace(/<[^>]*>/g, '');
           hdgs[plainText] = plainText;
           arr_hdgs.push(plainText);
         }
@@ -700,32 +695,35 @@ export class CommonService {
     }
     info.push(hdgs);
 
-    let tblrows = tblelt.querySelectorAll("tbody tr");
+    let tblrows = tblelt.querySelectorAll('tbody tr');
     if (tblrows.length >= 1) {
       for (let i = 0; i < tblrows.length; i++) {
-        if (tblrows[i].classList.contains("cls-hide")) continue;
-        let rowCols = tblrows[i].querySelectorAll("td");
+        if (tblrows[i].classList.contains('cls-hide'))
+          continue;
+        let rowCols = tblrows[i].querySelectorAll('td');
         let rowdata = [];
         for (let j = 0; j < rowCols.length; j++) {
-          if (rowCols[j].classList.contains("del")) continue;
+          if (rowCols[j].classList.contains('del'))
+            continue;
           let colhtml = rowCols[j].innerHTML;
-          if (colhtml.indexOf("input") > -1) {
+          if (colhtml.indexOf('input') > -1) {
             let eltinput = rowCols[j].querySelector("input");
-            let attrval = eltinput.getAttribute("placeholder");
+            let attrval = eltinput.getAttribute('placeholder');
             rowdata[arr_hdgs[j]] = attrval;
-          } else if (colhtml.indexOf("img") > -1) {
+          } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
+            let attrval = eltinput.getAttribute('title');
             rowdata[arr_hdgs[j]] = attrval;
-          } else if (colhtml.indexOf("href") > -1) {
+          } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
             rowdata[arr_hdgs[j]] = strval;
-          } else if (colhtml.indexOf("</i>") > -1) {
+          } else if (colhtml.indexOf('</i>') > -1) {
             let pattern = /<i.* title="([^"]+)/g;
             let match = pattern.exec(colhtml);
-            if (match != null && match.length) rowdata[arr_hdgs[j]] = match[1];
+            if (match != null && match.length)
+              rowdata[arr_hdgs[j]] = match[1];
           } else {
-            let plainText = colhtml.replace(/<[^>]*>/g, "");
+            let plainText = colhtml.replace(/<[^>]*>/g, '');
             rowdata[arr_hdgs[j]] = plainText;
           }
         }
@@ -736,13 +734,9 @@ export class CommonService {
   }
 
   formatTitle(strval) {
-    let pos = strval.indexOf("_");
+    let pos = strval.indexOf('_');
     if (pos > 0) {
-      return strval
-        .toLowerCase()
-        .split("_")
-        .map(x => x[0].toUpperCase() + x.slice(1))
-        .join(" ");
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }

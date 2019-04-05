@@ -5,10 +5,9 @@
 <nb-card-body>
 <button class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
 <table class="table table-bordered">
-    <thead style="background-color: #263238; color:#fff;">
+    <thead style="background-color: #263238; color:#fff; white-space: nowrap;">
     <tr>
       <th>#</th>
-      <th>Fo User</th>
       <th>Name</th>
       <th>Code</th>
       <th>Email</th>
@@ -25,13 +24,14 @@
       <th>Tin No</th>
       <th>tollfreenumber</th>
       <th>addressline</th>
-      <th>Date</th>
+      <!-- <th>Date</th> -->
     </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let branchdata of Branches; let i = index;">
+      <tr *ngFor="let branchdata of Branches; let i = index; " (click)="selectedRow = i"
+      (dblclick)="openModal(branchdata)" (enter)="openModal(branchdata)"
+      [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{i + 1}}</td>
-          <td>{{branchdata.foid}}</td>
           <td>{{branchdata.name}}</td>
           <td>{{branchdata.code}}</td>
           <td>{{branchdata.email}}</td>
@@ -48,7 +48,7 @@
           <td>{{branchdata.tinno}}</td>
           <td>{{branchdata.tollfreenumber}}</td>
           <td>{{branchdata.addressline}}</td>
-          <td>{{branchdata.entry_dt | date : 'dd MMM HH:mm'}}</td>
+          <!-- <td>{{branchdata.entry_dt | date : 'dd MMM HH:mm'}}</td> -->
           <!--td><button class="btn" (click)="openAccountModal(branch)">Edit</button></td-->
         </tr>
   </tbody>
