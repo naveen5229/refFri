@@ -29,10 +29,10 @@ export class OrdersComponent implements OnInit {
     totalamount: 0,
     grnremarks: '',
     billingaddress: '',
-    branch: {
-      name: '',
-      id: ''
-    },
+    // branch: {
+    //   name: '',
+    //   id: ''
+    // },
     ordertype: {
       name: '',
       id: ''
@@ -117,10 +117,10 @@ export class OrdersComponent implements OnInit {
       totalamount: 0,
       grnremarks: '',
       billingaddress: '',
-      branch: {
-        name: '',
-        id: ''
-      },
+      // branch: {
+      //   name: '',
+      //   id: ''
+      // },
       ordertype: {
         name: '',
         id: ''
@@ -269,6 +269,7 @@ export class OrdersComponent implements OnInit {
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
+        this.order.amountDetails[i].lineamount += data.taxDetails[0].totalamount;
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -305,7 +306,7 @@ export class OrdersComponent implements OnInit {
       review: order.review,
       shipmentlocation: order.shipmentlocation,
       vendorbidref: order.vendorbidref,
-      branchid: order.branch.id,
+     // branchid: order.branch.id,
       ledger: order.ledger.id,
       ordertype: order.ordertype.id,
       purchaseledgerid: order.purchaseledger.id,
