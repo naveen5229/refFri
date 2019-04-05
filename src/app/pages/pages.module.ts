@@ -34,6 +34,7 @@ import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { TrendsComponent } from './trends/trends.component';
 import { ResizableModule } from 'angular-resizable-element';
+import { PlacementsComponent } from './placements/placements.component';
 
 
 
@@ -74,6 +75,7 @@ const PAGES_COMPONENTS = [
     ImageProcessingComponent,
     RouteMapperComponent,
     TrendsComponent,
+    PlacementsComponent,
   ],
 })
 export class PagesModule {

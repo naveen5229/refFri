@@ -40,17 +40,20 @@ export class VehicleTripUpdateComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     console.log(this.common.params)
-    this.vehicleTrip.endLat = this.common.params.endLat;
-    this.vehicleTrip.endLng = this.common.params.endLng;
-    this.vehicleTrip.endName = this.common.params.endName;
-    this.vehicleTrip.id = this.common.params.id;;
-    this.vehicleTrip.regno = this.common.params.regno;
-    this.vehicleTrip.vehicleId = this.common.params.vehicleId;
-    this.vehicleTrip.startLat = this.common.params.startLat;
-    this.vehicleTrip.startLng = this.common.params.startLng;
-    this.vehicleTrip.startName = this.common.params.startName;
-    this.vehicleTrip.siteId = this.common.params.siteId;
-    this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.startTime);
+    this.vehicleTrip.endLat = this.common.params.tripDetils.endLat;
+    this.vehicleTrip.endLng = this.common.params.tripDetils.endLng;
+    this.vehicleTrip.endName = this.common.params.tripDetils.endName;
+    this.vehicleTrip.id = this.common.params.tripDetilsid;;
+    this.vehicleTrip.regno = this.common.params.tripDetils.regno;
+    this.vehicleTrip.vehicleId = this.common.params.tripDetils.vehicleId;
+    this.vehicleTrip.startLat = this.common.params.tripDetils.startLat;
+    this.vehicleTrip.startLng = this.common.params.tripDetils.startLng;
+    this.vehicleTrip.startName = this.common.params.tripDetils.startName;
+    this.vehicleTrip.siteId = this.common.params.tripDetils.siteId;
+    this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.tripDetils.startTime);
+    if(this.common.params.ref_page = 'placements'){
+      this.vehicleTrip.placementType = '11';
+    }
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
   }

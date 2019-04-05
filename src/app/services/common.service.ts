@@ -26,7 +26,7 @@ export class CommonService {
   refresh = null;
   passedVehicleId = null;
   changeHaltModal = null;
-ref_page = null;
+  ref_page = null;
 
   primaryType = {
     1: { page: 'HomePage', title: 'Home' },
@@ -297,7 +297,7 @@ ref_page = null;
         document.getElementsByClassName(name)[position]['style'].maxHeight = height + sizeType;
         document.getElementsByClassName(name)[position]['style'].maxWidth = width + sizeType;
       }
-      
+
     }, 10);
   }
 
@@ -331,12 +331,12 @@ ref_page = null;
     return generatedArray;
   }
 
-  dateDiffInHours(startTime,endTime) {
-    if(startTime == null || endTime == null){
+  dateDiffInHours(startTime, endTime) {
+    if (startTime == null || endTime == null) {
       return '0';
     }
     startTime = new Date(startTime);
-    endTime =new Date(endTime);
+    endTime = new Date(endTime);
     let resultTime = endTime - startTime;
     let sec = resultTime / 1000;
     let min = sec / 60;
@@ -345,19 +345,33 @@ ref_page = null;
     return returnResult;
   }
 
-  dateDiffInHoursAndMins(startTime,endTime) {
-    if(startTime == null){
+  dateDiffInHoursAndMins(startTime, endTime) {
+    if (startTime == null) {
       return '0';
     }
-    if(endTime == null){
+    if (endTime == null) {
       return '-1'
     }
     let result;
-    startTime = (new Date(startTime)).getTime();
-    endTime = (new Date(endTime)).getTime();
-    let resultTime = endTime - startTime;
-     result=moment.utc(resultTime).format('HH:mm');
-        console.log('moment',result);
+    startTime = new Date(startTime);
+    endTime = new Date(endTime);
+    let day = parseInt(moment.utc(moment(endTime, "DD/MM/YYYY HH:mm:ss").diff(moment(startTime, "DD/MM/YYYY HH:mm:ss"))).format("DD"));
+    day = day - 1;
+    let hrs = moment.utc(moment(endTime, "DD/MM/YYYY HH:mm:ss").diff(moment(startTime, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm");
+    if(day>0){
+      result = ""+day+"D "+hrs;
+    }
+    else{
+      result = ""+hrs;
+    }
+   
+    //result = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
+
+    // outputs: "48:39:30"
+    // let resultTime = endTime - startTime;
+    //  result=moment.utc(resultTime).format('DD HH:mm');
+    // console.log('moment',startTime,endTime,result );
+
     // //console.log('begore resultTime: ' + resultTime);
     // // if(this.resultTime>0){
     //   let sec = (resultTime / 1000);
@@ -448,34 +462,34 @@ ref_page = null;
     this.user._pages.map(page => (page.route == menu.link) && (status = true));
     return status;
   }
-  
+
   getPDFFromTableId(tblEltId, left_heading, center_heading) {
 
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
-    if(tblelt.nodeName != "TABLE") {
+    if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
-    
+
     let hdg_coll = [];
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll('th');
     console.log("hdgcols:");
     console.log(hdgCols.length);
-    if(hdgCols.length >= 1) {
-      for(let i=0; i< hdgCols.length; i++) {
-        if(hdgCols[i].classList.contains('del'))
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < hdgCols.length; i++) {
+        if (hdgCols[i].classList.contains('del'))
           continue;
-        let elthtml  = hdgCols[i].innerHTML;
-        if(elthtml.indexOf('<input') > -1) {
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute('placeholder');
           hdgs.push(attrval);
-        } else if(elthtml.indexOf('<img') > -1)  {
+        } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute('title');
           hdgs.push(attrval);
-        } else if(elthtml.indexOf('href') > -1)  {
+        } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs.push(strval);
         } else {
@@ -488,39 +502,39 @@ ref_page = null;
     hdg_coll.push(hdgs);
     let rows = [];
     let tblrows = tblelt.querySelectorAll('tbody tr');
-    if(tblrows.length >= 1) {
-      for(let i=0; i < tblrows.length; i++) {
-        if(tblrows[i].classList.contains('cls-hide'))
+    if (tblrows.length >= 1) {
+      for (let i = 0; i < tblrows.length; i++) {
+        if (tblrows[i].classList.contains('cls-hide'))
           continue;
         let rowCols = tblrows[i].querySelectorAll('td');
         let rowdata = [];
-        for(let j=0; j< rowCols.length; j++) {
-          if(rowCols[j].classList.contains('del'))
+        for (let j = 0; j < rowCols.length; j++) {
+          if (rowCols[j].classList.contains('del'))
             continue;
           let colhtml = rowCols[j].innerHTML;
-          if(colhtml.indexOf('input') > -1) {
+          if (colhtml.indexOf('input') > -1) {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute('placeholder');
             rowdata.push(attrval);
-          } else if(colhtml.indexOf('img') > -1)  {
+          } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute('title');
             rowdata.push(attrval);
-          } else if(colhtml.indexOf('href') > -1)  {
+          } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
             rowdata.push(strval);
-          } else if(colhtml.indexOf('</i>') > -1) {
+          } else if (colhtml.indexOf('</i>') > -1) {
             let pattern = /<i.* title="([^"]+)/g;
-            let match=pattern.exec(colhtml);
-            if(match!=null && match.length)
+            let match = pattern.exec(colhtml);
+            if (match != null && match.length)
               rowdata.push(match[1]);
           } else {
             let plainText = colhtml.replace(/<[^>]*>/g, '');
             rowdata.push(plainText);
-          }          
+          }
         }
         rows.push(rowdata);
-        
+
       }
     }
 
@@ -528,9 +542,9 @@ ref_page = null;
     eltimg.src = "assets/images/elogist.png";
     eltimg.alt = "logo";
 
-    
+
     let pageOrientation = "Portrait";
-    if(hdgCols.length > 7) {
+    if (hdgCols.length > 7) {
       pageOrientation = "Landscape";
     }
     let doc = new jsPDF({
@@ -538,38 +552,38 @@ ref_page = null;
       unit: 'px',
       format: 'a4'
     });
-    
+
     var pageContent = function (data) {
       //header
       let x = 35;
       let y = 40;
 
       //if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
-        
 
-        doc.setFontSize(14);
-        doc.setFont("times", "bold");
-        doc.text("elogist Solutions ", x, y);
-                
+
+      doc.setFontSize(14);
+      doc.setFont("times", "bold");
+      doc.text("elogist Solutions ", x, y);
+
       //}
-      let pageWidth= parseInt(doc.internal.pageSize.width);
-      if(left_heading != "undefined" &&  left_heading != null && left_heading != '') {
-        x=pageWidth / 2;
+      let pageWidth = parseInt(doc.internal.pageSize.width);
+      if (left_heading != "undefined" && left_heading != null && left_heading != '') {
+        x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
-        let xpos=x-hdglen-40;
-        y=40;
-        doc.setFont("times", "bold","text-center");
+        let xpos = x - hdglen - 40;
+        y = 40;
+        doc.setFont("times", "bold", "text-center");
         doc.text(left_heading, xpos, y);
       }
-      if(center_heading != "undefined" && center_heading != null && center_heading != '') {
-        x=pageWidth / 2;
-        y=50;
+      if (center_heading != "undefined" && center_heading != null && center_heading != '') {
+        x = pageWidth / 2;
+        y = 50;
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
-        doc.setFont("times", "bold","text-center");
-        doc.text(center_heading, x - hdglen -40, y);
-      }      
-      y= 15;
+        doc.setFont("times", "bold", "text-center");
+        doc.text(center_heading, x - hdglen - 40, y);
+      }
+      y = 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
@@ -577,41 +591,41 @@ ref_page = null;
 
       // FOOTER
       var str = "Page " + data.pageCount;
-      
+
       doc.setFontSize(10);
       doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
     };
-    
-    let tempLineBreak={fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth : 10, cellWidth: 40, valign: 'middle', halign: 'center' };
+
+    let tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
     doc.autoTable({
-        head: hdg_coll,
-        body: rows,
-        theme: 'grid',
-        didDrawPage: pageContent,
-        margin: {top: 80},
-        rowPageBreak: 'avoid',
-        headStyles: {
-          fillColor: [98, 98, 98],
-          fontSize: 10,
-          halign: 'center',
-          valign: 'middle'
-          
-        },
-        styles: tempLineBreak,
-        columnStyles: {text: {cellWidth: 40 ,halign: 'center', valign: 'middle'}},
-        
+      head: hdg_coll,
+      body: rows,
+      theme: 'grid',
+      didDrawPage: pageContent,
+      margin: { top: 80 },
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10,
+        halign: 'center',
+        valign: 'middle'
+
+      },
+      styles: tempLineBreak,
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+
     });
     doc.save('report.pdf');
   }
 
   getCSVFromTableId(tblEltId) {
     let tblelt = document.getElementById(tblEltId);
-    if(tblelt.nodeName != "TABLE") {
+    if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
     }
-    
-    let organization = {"elogist Solutions": "elogist Solutions"};
-    let blankline = {"":""};
+
+    let organization = { "elogist Solutions": "elogist Solutions" };
+    let blankline = { "": "" };
 
     let info = [];
     let hdgs = {};
@@ -619,78 +633,78 @@ ref_page = null;
     info.push(organization);
     info.push(blankline);
     let hdgCols = tblelt.querySelectorAll('th');
-    if(hdgCols.length >= 1) {
-      for(let i=0; i< hdgCols.length; i++) {
-        if(hdgCols[i].classList.contains('del'))
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < hdgCols.length; i++) {
+        if (hdgCols[i].classList.contains('del'))
           continue;
-        let elthtml  = hdgCols[i].innerHTML;
-        if(elthtml.indexOf('<input') > -1) {
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute('placeholder');
           hdgs[attrval] = attrval;
           arr_hdgs.push(attrval);
-        } else if(elthtml.indexOf('<img') > -1)  {
+        } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute('title');
           hdgs[attrval] = attrval;
           arr_hdgs.push(attrval);
-        } else if(elthtml.indexOf('href') > -1)  {
+        } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs[strval] = strval;
           arr_hdgs.push(strval);
         } else {
           let plainText = elthtml.replace(/<[^>]*>/g, '');
-          hdgs[plainText]=plainText;
+          hdgs[plainText] = plainText;
           arr_hdgs.push(plainText);
         }
       }
     }
     info.push(hdgs);
-    
+
     let tblrows = tblelt.querySelectorAll('tbody tr');
-    if(tblrows.length >= 1) {
-      for(let i=0; i < tblrows.length; i++) {
-        if(tblrows[i].classList.contains('cls-hide'))
+    if (tblrows.length >= 1) {
+      for (let i = 0; i < tblrows.length; i++) {
+        if (tblrows[i].classList.contains('cls-hide'))
           continue;
         let rowCols = tblrows[i].querySelectorAll('td');
         let rowdata = [];
-        for(let j=0; j< rowCols.length; j++) {
-          if(rowCols[j].classList.contains('del'))
+        for (let j = 0; j < rowCols.length; j++) {
+          if (rowCols[j].classList.contains('del'))
             continue;
           let colhtml = rowCols[j].innerHTML;
-          if(colhtml.indexOf('input') > -1) {
+          if (colhtml.indexOf('input') > -1) {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute('placeholder');
-            rowdata[arr_hdgs[j]]=attrval;
-          } else if(colhtml.indexOf('img') > -1)  {
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute('title');
-            rowdata[arr_hdgs[j]]=attrval;
-          } else if(colhtml.indexOf('href') > -1)  {
+            rowdata[arr_hdgs[j]] = attrval;
+          } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
             rowdata[arr_hdgs[j]] = strval;
-          } else if(colhtml.indexOf('</i>') > -1) {
+          } else if (colhtml.indexOf('</i>') > -1) {
             let pattern = /<i.* title="([^"]+)/g;
-            let match=pattern.exec(colhtml);
-            if(match!=null && match.length)
-              rowdata[arr_hdgs[j]]=match[1];
+            let match = pattern.exec(colhtml);
+            if (match != null && match.length)
+              rowdata[arr_hdgs[j]] = match[1];
           } else {
             let plainText = colhtml.replace(/<[^>]*>/g, '');
-            rowdata[arr_hdgs[j]]=plainText;
-          }          
+            rowdata[arr_hdgs[j]] = plainText;
+          }
         }
         info.push(rowdata);
       }
     }
-    new Angular5Csv(info, "report.csv" );
+    new Angular5Csv(info, "report.csv");
   }
 
   formatTitle(strval) {
-      let pos = strval.indexOf('_');
-      if(pos > 0) {
-        return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
-      } else {
-        return strval.charAt(0).toUpperCase() + strval.substr(1);
-      }
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
 }
