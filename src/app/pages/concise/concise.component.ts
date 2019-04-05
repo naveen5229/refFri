@@ -81,8 +81,8 @@ export class ConciseComponent implements OnInit {
   primarySubStatus = [];
 
   widths = {
-    smartTable: '220px',
-    map: '50%'
+    smartTable: '40%',
+    map: '60%'
   };
 
   isMapView = false;
@@ -106,6 +106,10 @@ export class ConciseComponent implements OnInit {
       lastName: ['', Validators.required],
       search: ['', Validators.required]
     });
+  }
+
+  ngOnDestroy(){
+    this.mapService.map = null;
   }
 
   get f() { return this.registerForm.controls; }
@@ -521,7 +525,8 @@ export class ConciseComponent implements OnInit {
         count: {
           icon: 'fa fa-map map-view-icon',
           action: this.handleMapView.bind(this)
-        }
+        },
+        tableHeight: '87vh'
       }
     }
   }
@@ -588,7 +593,7 @@ export class ConciseComponent implements OnInit {
 
     this.common.params = { vehicleId: kpi.x_vehicle_id, vehicleRegNo: kpi.x_showveh, ref_page: 'consView' };
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
-    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "myCustomModalClass" });
   }
 
 
@@ -604,7 +609,7 @@ export class ConciseComponent implements OnInit {
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.common.params = { vehicleId: kpi.x_vehicle_id, vehicleRegNo: kpi.x_showveh, fromTime: fromTime, toTime: toTime }
     console.log("open Route Mapper modal", this.common.params);
-    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout', windowClass : "myCustomModalClass" });
     activeModal.result.then(data =>
       console.log("data", data)
       // this.reloadData()
@@ -622,7 +627,7 @@ export class ConciseComponent implements OnInit {
     this.common.params = { vehicleId: kpi.x_vehicle_id, vehicleRegNo: kpi.x_showveh, fromTime: fromTime, toTime: toTime }
     console.log("open Trip Details modal", this.common.params);
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
-    const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout' });
+    const activeModal = this.modalService.open(TripDetailsComponent, { size: 'lg', container: 'nb-layout',windowClass: "myCustomModalClass" });
     activeModal.result.then(data =>
       console.log("data", data)
       // this.reloadData()
@@ -657,6 +662,7 @@ export class ConciseComponent implements OnInit {
 
     this.mapService.clearAll();
     setTimeout(() => {
+      this.mapService.setMapType(3);
       this.mapService.createMarkers(this.kpis);
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {

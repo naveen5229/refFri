@@ -86,7 +86,7 @@
 <div class="custom-modal-1" *ngIf="modal.first.show" [ngClass]="modal.first.class">
   <div class="custom-modal-body">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title-first">{{modal.first.data.title}}</h5>
+      <h4 class="modal-title" id="modal-basic-title-first">{{modal.first.data.title}}</h4>
       <button type="button" class="close" aria-label="Close" (click)="closeModal(false, 'first')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -169,7 +169,7 @@
                   type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.first.data.document.wef_date" [value]="modal.first.data.document.wef_date "
                   (focusout)="checkDateFormat('first', 'wef_date')" placeholder="DD/MM/YYYY" />
-                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('wef_date', 'first')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
@@ -186,7 +186,7 @@
                   (focusout)="checkDateFormat('first', 'expiry_date')" placeholder="DD/MM/YYYY" />
                 <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
                 <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('expiry_date', 'first')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
@@ -290,7 +290,7 @@
 <div class="custom-modal-1" *ngIf="modal.second.show" [ngClass]="modal.second.class">
   <div class="custom-modal-body">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title-second">{{modal.second.data.title}}</h5>
+      <h4 class="modal-title" id="modal-basic-title-second">{{modal.second.data.title}}</h4>
       <button type="button" class="close" aria-label="Close" (click)="closeModal(false, 'second')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -374,7 +374,7 @@
                   type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.second.data.document.wef_date" [value]="modal.second.data.document.wef_date "
                   (focusout)="checkDateFormat('second', 'wef_date')" placeholder="DD/MM/YYYY" />
-                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('wef_date', 'second')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
@@ -391,7 +391,7 @@
                   (focusout)="checkDateFormat('second', 'expiry_date')" placeholder="DD/MM/YYYY" />
                 <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
                 <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('expiry_date', 'second')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
