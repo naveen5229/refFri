@@ -8,7 +8,6 @@
     <thead style="background-color: #263238; color:#fff;">
     <tr>
       <th>#</th>
-      <th>Fo User</th>
       <th>Name</th>
       <th>Code</th>
       <th>Email</th>
@@ -29,9 +28,10 @@
     </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let branchdata of Branches; let i = index;">
+      <tr *ngFor="let branchdata of Branches; let i = index; " (click)="selectedRow = i"
+      (dblclick)="openModal(branchdata)" (enter)="openModal(branchdata)"
+      [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{i + 1}}</td>
-          <td>{{branchdata.foid}}</td>
           <td>{{branchdata.name}}</td>
           <td>{{branchdata.code}}</td>
           <td>{{branchdata.email}}</td>
