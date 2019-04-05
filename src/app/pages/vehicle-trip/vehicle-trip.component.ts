@@ -63,8 +63,9 @@ export class VehicleTripComponent implements OnInit {
         columns: this.getTableColumns()
       },
       settings: {
-        hideHeader: true
+        hideHeader: true, tableHeight: '75vh'
       }
+
     }
   }
 

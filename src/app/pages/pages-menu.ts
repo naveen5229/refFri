@@ -69,6 +69,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Trends',
     icon: 'fa fa-line-chart',
     link:'/pages/trends'
+  },
+  {
+    title: 'Placements',
+    icon: 'fa fa-location-arrow',
+    link:'/pages/placements'
   }
   // {
   //   title: 'Route Mapper',
