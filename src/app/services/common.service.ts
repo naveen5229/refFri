@@ -1,22 +1,27 @@
-import { Injectable } from '@angular/core';
-import { NbToastStatus } from '@nebular/theme/components/toastr/model';
-import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbThemeService } from '@nebular/theme';
-import { Router } from '@angular/router';
-import { DatePipe, FormatWidth } from '@angular/common';
-import { ApiService } from './api.service';
-import { DataService } from './data.service';
-import { UserService } from './user.service';
+import { Injectable } from "@angular/core";
+import { NbToastStatus } from "@nebular/theme/components/toastr/model";
+import {
+  NbGlobalLogicalPosition,
+  NbGlobalPhysicalPosition,
+  NbGlobalPosition,
+  NbToastrService,
+  NbThemeService
+} from "@nebular/theme";
+import { Router } from "@angular/router";
+import { DatePipe, FormatWidth } from "@angular/common";
+import { ApiService } from "./api.service";
+import { DataService } from "./data.service";
+import { UserService } from "./user.service";
 
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
-import * as moment_ from 'moment';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import * as moment_ from "moment";
 const moment = moment_;
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CommonService {
-
   params = null;
   loading = 0;
   chartData: any;
@@ -29,36 +34,35 @@ export class CommonService {
   ref_page = null;
 
   primaryType = {
-    1: { page: 'HomePage', title: 'Home' },
-    2: { page: 'HomePage', title: 'Home' },
-    100: { page: '/ticket-details', title: 'Ticket Details' },
-    200: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
-    201: { page: 'VehicleHaltPage', title: 'Change Vehicle Halt' },
-    300: { page: '/pages/ticket-site-details', title: 'Vehicle Halt' },
-    301: { page: 'VehicleHaltPage', title: 'Change Site Halt' },
+    1: { page: "HomePage", title: "Home" },
+    2: { page: "HomePage", title: "Home" },
+    100: { page: "/ticket-details", title: "Ticket Details" },
+    200: { page: "/pages/ticket-site-details", title: "Vehicle Halt" },
+    201: { page: "VehicleHaltPage", title: "Change Vehicle Halt" },
+    300: { page: "/pages/ticket-site-details", title: "Vehicle Halt" },
+    301: { page: "VehicleHaltPage", title: "Change Site Halt" }
   };
 
   secondaryType = {
     201: {
-      page: 'VehicleHaltPage',
-      btnTxt: 'Change Halt',
-      title: 'Change Vehicle Halt'
+      page: "VehicleHaltPage",
+      btnTxt: "Change Halt",
+      title: "Change Vehicle Halt"
     },
     301: {
-      page: 'VehicleHaltPage',
-      btnTxt: 'Change Halt',
-      title: 'Change Site Halt'
-    },
+      page: "VehicleHaltPage",
+      btnTxt: "Change Halt",
+      title: "Change Site Halt"
+    }
   };
 
-
   pages = {
-    100: { title: 'Home', page: 'HomePage' },
-    200: { title: 'Vehicle KPIs', page: 'VehicleKpisPage' },
-    201: { title: 'KPI Details', page: 'VehicleKpiDetailsPage' }
-  }
+    100: { title: "Home", page: "HomePage" },
+    200: { title: "Vehicle KPIs", page: "VehicleKpisPage" },
+    201: { title: "KPI Details", page: "VehicleKpiDetailsPage" }
+  };
 
-  currentPage = '';
+  currentPage = "";
 
   constructor(
     public router: Router,
@@ -67,29 +71,25 @@ export class CommonService {
     public api: ApiService,
     public dataService: DataService,
     public user: UserService,
-    private datePipe: DatePipe) {
-
-  }
+    private datePipe: DatePipe
+  ) { }
 
   showError(msg?) {
-    this.showToast(msg || 'Something went wrong! try again.', 'danger');
+    this.showToast(msg || "Something went wrong! try again.", "danger");
   }
 
   showToast(body, type?, duration?, title?) {
     // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
     const config = {
-      status: type || 'success',
+      status: type || "success",
       destroyByClick: true,
       duration: duration || 5000,
       hasIcon: true,
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
-      preventDuplicates: false,
+      preventDuplicates: false
     };
 
-    this.toastrService.show(
-      body,
-      title || 'Alert',
-      config);
+    this.toastrService.show(body, title || "Alert", config);
   }
 
   handleApiResponce(res) {
@@ -99,78 +99,92 @@ export class CommonService {
     return true;
   }
 
-
   findRemainingTime(time) {
     if (time > 59) {
-      let minutes = Math.floor((time / 60));
-      return minutes + ' mins'
+      let minutes = Math.floor(time / 60);
+      return minutes + " mins";
     } else if (time > 44) {
-      return '45 secs'
+      return "45 secs";
     } else if (time > 29) {
-      return '30 secs'
+      return "30 secs";
     } else if (time > 14) {
-      return '15 secs'
+      return "15 secs";
     } else {
-      return '0 sec'
+      return "0 sec";
     }
-
-
   }
 
-
   renderPage(priType, secType1, secType2, data?) {
-    console.log('Data: ', data);
+    console.log("Data: ", data);
     let page = this.primaryType[priType];
-    this.params = { data: data, secType1: secType1, secType2: secType2, title: page.title };
+    this.params = {
+      data: data,
+      secType1: secType1,
+      secType2: secType2,
+      title: page.title
+    };
     this.router.navigate([page.page]);
   }
 
-  dateFormatter(date, type = 'YYYYMMDD', isTime = true, separator = '-') {
+  dateFormatter(date, type = "YYYYMMDD", isTime = true, separator = "-") {
     let d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-    let dat = d.getDate() < 9 ? '0' + d.getDate() : d.getDate();
+    let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
 
     // console.log(dat + separator + month + separator + year);
-    if (type == 'ddMMYYYY') {
-      return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
+    if (type == "ddMMYYYY") {
+      return (
+        year +
+        separator +
+        month +
+        separator +
+        dat +
+        (isTime ? " " + this.timeFormatter(date) : "")
+      );
     } else {
-      return (year + separator + month + separator + dat) + (isTime ? ' ' + this.timeFormatter(date) : '');
+      return (
+        year +
+        separator +
+        month +
+        separator +
+        dat +
+        (isTime ? " " + this.timeFormatter(date) : "")
+      );
     }
   }
 
   dateFormatter1(date) {
     let d = new Date(date);
     let year = d.getFullYear();
-    let month = d.getMonth() <= 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-    let dat = d.getDate() <= 9 ? '0' + d.getDate() : d.getDate();
+    let month = d.getMonth() <= 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
 
-    console.log(year + '-' + month + '-' + dat);
+    console.log(year + "-" + month + "-" + dat);
 
-    return (year + '-' + month + '-' + dat);
-
+    return year + "-" + month + "-" + dat;
   }
 
   changeDateformat(date) {
     let d = new Date(date);
-    return this.datePipe.transform(date, 'dd-MMM-yyyy hh:mm a')
+    return this.datePipe.transform(date, "dd-MMM-yyyy hh:mm a");
   }
 
   changeDateformat2(date) {
     let d = new Date(date);
-    return this.datePipe.transform(date, 'dd-MMM HH:mm')
+    return this.datePipe.transform(date, "dd-MMM HH:mm");
   }
 
   changeDateformat1(date) {
     let d = new Date(date);
-    return this.datePipe.transform(date, 'dd-MMM-yyyy')
+    return this.datePipe.transform(date, "dd-MMM-yyyy");
   }
 
   timeFormatter(date) {
     let d = new Date(date);
-    let hours = d.getHours() < 9 ? '0' + d.getHours() : d.getHours();
-    let minutes = d.getMinutes() < 9 ? '0' + d.getMinutes() : d.getMinutes();
-    return (hours + ':' + minutes + ':00');
+    let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();
+    let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
+    return hours + ":" + minutes + ":00";
   }
 
   getDate(days = 0, formatt?) {
@@ -181,7 +195,6 @@ export class CommonService {
     }
     return currentDate;
   }
-
 
   // pieChart(chartLabels, chartdatas, charColors) {
   //   this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
@@ -228,10 +241,12 @@ export class CommonService {
   pieChart(labels, data, colors) {
     let chartData = {
       labels: labels,
-      datasets: [{
-        data: data,
-        backgroundColor: colors
-      }],
+      datasets: [
+        {
+          data: data,
+          backgroundColor: colors
+        }
+      ]
     };
 
     let chartOptions = {
@@ -240,22 +255,22 @@ export class CommonService {
       scales: {
         xAxes: [
           {
-            display: false,
-          },
+            display: false
+          }
         ],
         yAxes: [
           {
-            display: false,
-          },
-        ],
+            display: false
+          }
+        ]
       },
-      legend: false,
+      legend: false
     };
 
     setTimeout(() => {
-      console.log(document.getElementsByTagName('canvas')[0]);
-      document.getElementsByTagName('canvas')[0].style.width = "80px";
-      document.getElementsByTagName('canvas')[0].style.height = "180px";
+      console.log(document.getElementsByTagName("canvas")[0]);
+      document.getElementsByTagName("canvas")[0].style.width = "80px";
+      document.getElementsByTagName("canvas")[0].style.height = "180px";
     }, 10);
 
     return { chartData, chartOptions };
@@ -274,35 +289,44 @@ export class CommonService {
     });
   }
 
-  handleModalSize(type, name, size, sizeType = 'px', position = 0) {
+  handleModalSize(type, name, size, sizeType = "px", position = 0) {
     setTimeout(() => {
-      if (type == 'class') {
-        document.getElementsByClassName(name)[position]['style'].maxWidth = size + sizeType;
+      if (type == "class") {
+        document.getElementsByClassName(name)[position]["style"].maxWidth =
+          size + sizeType;
       }
     }, 10);
-
   }
-  handleModalheight(type, name, size, sizeType = 'px', position = 0) {
+  handleModalheight(type, name, size, sizeType = "px", position = 0) {
     setTimeout(() => {
-      if (type == 'class') {
-        document.getElementsByClassName(name)[position]['style'].minHeight = size + sizeType;
+      if (type == "class") {
+        document.getElementsByClassName(name)[position]["style"].minHeight =
+          size + sizeType;
       }
     }, 10);
-
   }
 
-  handleModalHeightWidth(type, name, height, width, sizeType = 'px', position = 0) {
+  handleModalHeightWidth(
+    type,
+    name,
+    height,
+    width,
+    sizeType = "px",
+    position = 0
+  ) {
     setTimeout(() => {
-      if (type == 'class') {
-        document.getElementsByClassName(name)[position]['style'].maxHeight = height + sizeType;
-        document.getElementsByClassName(name)[position]['style'].maxWidth = width + sizeType;
+      if (type == "class") {
+        document.getElementsByClassName(name)[position]["style"].maxHeight =
+          height + sizeType;
+        document.getElementsByClassName(name)[position]["style"].maxWidth =
+          width + sizeType;
       }
 
     }, 10);
   }
 
   apiErrorHandler(err, hideLoading, showError, msg?) {
-    console.error('Api Error: ', err);
+    console.error("Api Error: ", err);
     hideLoading && this.loading--;
     showError && this.showError(msg);
   }
@@ -313,14 +337,16 @@ export class CommonService {
       refId: refId,
       remark: issue.remark
     };
-    console.info('Params: ', params);
+    console.info("Params: ", params);
     this.loading++;
-    this.api.post('InformationIssue/insertIssueRequest', params)
-      .subscribe(res => {
+    this.api.post("InformationIssue/insertIssueRequest", params).subscribe(
+      res => {
         this.loading--;
-        console.info('Res: ', res);
-        this.showToast(res['msg']);
-      }, err => this.apiErrorHandler(err, true, true))
+        console.info("Res: ", res);
+        this.showToast(res["msg"]);
+      },
+      err => this.apiErrorHandler(err, true, true)
+    );
   }
 
   generateArray(length) {
@@ -358,13 +384,13 @@ export class CommonService {
     let day = parseInt(moment.utc(moment(endTime, "DD/MM/YYYY HH:mm:ss").diff(moment(startTime, "DD/MM/YYYY HH:mm:ss"))).format("DD"));
     day = day - 1;
     let hrs = moment.utc(moment(endTime, "DD/MM/YYYY HH:mm:ss").diff(moment(startTime, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm");
-    if(day>0){
-      result = ""+day+"D "+hrs;
+    if (day > 0) {
+      result = "" + day + "D " + hrs;
     }
-    else{
-      result = ""+hrs;
+    else {
+      result = "" + hrs;
     }
-   
+
     //result = Math.floor(d.asHours()) + moment.utc(ms).format(":mm");
 
     // outputs: "48:39:30"
@@ -399,24 +425,31 @@ export class CommonService {
   }
 
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
-    if ((lat1 == lat2) && (lon1 == lon2)) {
+    if (lat1 == lat2 && lon1 == lon2) {
       return "0";
-    }
-    else {
-      let radlat1 = Math.PI * lat1 / 180;
-      let radlat2 = Math.PI * lat2 / 180;
+    } else {
+      let radlat1 = (Math.PI * lat1) / 180;
+      let radlat2 = (Math.PI * lat2) / 180;
       let theta = lon1 - lon2;
-      let radtheta = Math.PI * theta / 180;
-      let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      let radtheta = (Math.PI * theta) / 180;
+      let dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
       if (dist > 1) {
         dist = 1;
       }
       dist = Math.acos(dist);
-      dist = dist * 180 / Math.PI;
+      dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
-      if (unit == "K") { dist = dist * 1.609344 }
-      if (unit == "Mt") { dist = dist * 1.609344 * 1000 }
-      if (unit == "N") { dist = dist * 0.8684 }
+      if (unit == "K") {
+        dist = dist * 1.609344;
+      }
+      if (unit == "Mt") {
+        dist = dist * 1.609344 * 1000;
+      }
+      if (unit == "N") {
+        dist = dist * 0.8684;
+      }
       return dist.toFixed(0);
     }
   }
@@ -424,47 +457,46 @@ export class CommonService {
   differenceBtwT1AndT2(date1, date2) {
     if (date1 == date2) {
       return 0;
-    }
-    else {
+    } else {
       date1 = new Date(date1);
       date2 = new Date(date2);
       let difference = date1.getTime() - date2.getTime();
 
       let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
-      difference -= daysDifference * 1000 * 60 * 60 * 24
+      difference -= daysDifference * 1000 * 60 * 60 * 24;
 
       let hoursDifference = Math.floor(difference / 1000 / 60 / 60);
-      difference -= hoursDifference * 1000 * 60 * 60
+      difference -= hoursDifference * 1000 * 60 * 60;
 
       let minutesDifference = Math.floor(difference / 1000 / 60);
-      difference -= minutesDifference * 1000 * 60
+      difference -= minutesDifference * 1000 * 60;
 
       let secondsDifference = Math.floor(difference / 1000);
-      return (daysDifference + ' day ' + hoursDifference + ' hr ');
+      return daysDifference + " day " + hoursDifference + " hr ";
 
-      // return ('difference = ' + daysDifference + ' day ' + hoursDifference + ' hour/s ' + minutesDifference + ' minute/s ' + secondsDifference + ' second/s ');      
+      // return ('difference = ' + daysDifference + ' day ' + hoursDifference + ' hour/s ' + minutesDifference + ' minute/s ' + secondsDifference + ' second/s ');
     }
   }
 
   menuGenerator(menuType) {
     return this.dataService._menu[menuType].filter(menu => {
       if (menu.children && menu.children.length) {
-        menu.children = menu.children.filter(childMenu => this.checkPagePresense(childMenu));
+        menu.children = menu.children.filter(childMenu =>
+          this.checkPagePresense(childMenu)
+        );
         return true;
       }
       return this.checkPagePresense(menu);
     });
   }
 
-
   checkPagePresense(menu) {
     let status = false;
-    this.user._pages.map(page => (page.route == menu.link) && (status = true));
+    this.user._pages.map(page => page.route == menu.link && (status = true));
     return status;
   }
 
   getPDFFromTableId(tblEltId, left_heading, center_heading) {
-
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -473,7 +505,7 @@ export class CommonService {
 
     let hdg_coll = [];
     let hdgs = [];
-    let hdgCols = tblelt.querySelectorAll('th');
+    let hdgCols = tblelt.querySelectorAll("th");
     console.log("hdgcols:");
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
@@ -483,17 +515,17 @@ export class CommonService {
         let elthtml = hdgCols[i].innerHTML;
         if (elthtml.indexOf('<input') > -1) {
           let eltinput = hdgCols[i].querySelector("input");
-          let attrval = eltinput.getAttribute('placeholder');
+          let attrval = eltinput.getAttribute("placeholder");
           hdgs.push(attrval);
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
-          let attrval = eltinput.getAttribute('title');
+          let attrval = eltinput.getAttribute("title");
           hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
           hdgs.push(strval);
         } else {
-          let plainText = elthtml.replace(/<[^>]*>/g, '');
+          let plainText = elthtml.replace(/<[^>]*>/g, "");
           console.log("hdgval:" + plainText);
           hdgs.push(plainText);
         }
@@ -514,11 +546,11 @@ export class CommonService {
           let colhtml = rowCols[j].innerHTML;
           if (colhtml.indexOf('input') > -1) {
             let eltinput = rowCols[j].querySelector("input");
-            let attrval = eltinput.getAttribute('placeholder');
+            let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute('title');
+            let attrval = eltinput.getAttribute("title");
             rowdata.push(attrval);
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
@@ -529,19 +561,17 @@ export class CommonService {
             if (match != null && match.length)
               rowdata.push(match[1]);
           } else {
-            let plainText = colhtml.replace(/<[^>]*>/g, '');
+            let plainText = colhtml.replace(/<[^>]*>/g, "");
             rowdata.push(plainText);
           }
         }
         rows.push(rowdata);
-
       }
     }
 
-    let eltimg = document.createElement('img');
+    let eltimg = document.createElement("img");
     eltimg.src = "assets/images/elogist.png";
     eltimg.alt = "logo";
-
 
     let pageOrientation = "Portrait";
     if (hdgCols.length > 7) {
@@ -549,8 +579,8 @@ export class CommonService {
     }
     let doc = new jsPDF({
       orientation: pageOrientation,
-      unit: 'px',
-      format: 'a4'
+      unit: "px",
+      format: "a4"
     });
 
     var pageContent = function (data) {
@@ -559,7 +589,6 @@ export class CommonService {
       let y = 40;
 
       //if(left_heading != "undefined" &&  center_heading != null && center_heading != '') {
-
 
       doc.setFontSize(14);
       doc.setFont("times", "bold");
@@ -593,8 +622,13 @@ export class CommonService {
       var str = "Page " + data.pageCount;
 
       doc.setFontSize(10);
-      doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+      doc.text(
+        str,
+        data.settings.margin.left,
+        doc.internal.pageSize.height - 10
+      );
     };
+
 
     let tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
     doc.autoTable({
@@ -615,7 +649,7 @@ export class CommonService {
       columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
 
     });
-    doc.save('report.pdf');
+    doc.save("report.pdf");
   }
 
   getCSVFromTableId(tblEltId) {
@@ -640,12 +674,12 @@ export class CommonService {
         let elthtml = hdgCols[i].innerHTML;
         if (elthtml.indexOf('<input') > -1) {
           let eltinput = hdgCols[i].querySelector("input");
-          let attrval = eltinput.getAttribute('placeholder');
+          let attrval = eltinput.getAttribute("placeholder");
           hdgs[attrval] = attrval;
           arr_hdgs.push(attrval);
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
-          let attrval = eltinput.getAttribute('title');
+          let attrval = eltinput.getAttribute("title");
           hdgs[attrval] = attrval;
           arr_hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
@@ -706,5 +740,18 @@ export class CommonService {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  stopScroll() {
+    document.getElementsByClassName('scrollable-container')[0].className +=
+      ' stop-scroll';
+  }
+
+  continuoueScroll() {
+    document.getElementsByClassName(
+      'scrollable-container'
+    )[0].className = document
+      .getElementsByClassName('scrollable-container')[0]
+      .className.split(' ')[0];
   }
 }

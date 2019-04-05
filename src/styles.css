@@ -286,3 +286,14 @@ nb-card{
   max-width: 100%;
   margin-top: 10px;
 }
+
+@media screen and (min-device-width: 768px ) and (max-device-width: 1824px) and (orientation : landscape){
+  .stop-scroll,
+  .myCustomModalClass{
+    overflow: inherit !important;
+  }
+  .stop-scroll .status_box{
+    max-height: 46vh !important
+  }
+  
+}
