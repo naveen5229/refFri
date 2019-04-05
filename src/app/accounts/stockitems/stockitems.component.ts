@@ -65,7 +65,7 @@ export class StockitemsComponent implements OnInit {
             isactive: data.stockItem.isactive,
             inventary: data.stockItem.inventary,
             stockunit: data.stockItem.unit.id,
-            stockItemid: data.stockItem.stockType.id
+            stockItemid: stockitem.id
           };
       
           console.log('paramsans: ', params);
