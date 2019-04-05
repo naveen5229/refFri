@@ -10,7 +10,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
@@ -58,6 +57,7 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
+import { DocumentIssuesComponent } from './documents/documentation-modals/document-issues/document-issues.component';
 import { LicenceUploadComponent } from './driver/licence-upload/licence-upload.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
@@ -117,6 +117,7 @@ import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-anal
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
+import { ResizableModule } from 'angular-resizable-element';
 
 @NgModule({
   declarations: [AppComponent,
@@ -162,6 +163,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    DocumentIssuesComponent,
     //LicenceUploadComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
@@ -240,6 +242,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    DocumentIssuesComponent,
     //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
@@ -273,7 +276,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     UpdateTransportAgentComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-    TripDetailsComponent
+    TripDetailsComponent,
+    PendingLicenceDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -296,7 +300,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
-    })
+    }),
+    ResizableModule
   ],
 
   bootstrap: [AppComponent],

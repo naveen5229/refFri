@@ -2,7 +2,6 @@ table.fixed {
     table-layout: fixed;
     font-size: 12px;
 }
-
 .table>tbody>tr>td,
 .table>tbody>tr>th,
 .table>tfoot>tr>td,
@@ -12,21 +11,18 @@ table.fixed {
     padding: 4px 6px;
     overflow-wrap: break-word;
 }
-
 .filter-container {
     background: #fff; // border: 1.5px solid gray;
-    border-radius: 4px;
+    border-radius: 2px;
 }
-
 .filter-input-container {
     width: calc(100% - 20px);
     display: inline-block;
     vertical-align: middle; // border: 2px solid #c2c2c2;
     border-right: none;
-    height: 30px;
+    height: 24px;
     border-radius: 5px 0px 0px 5px;
 }
-
 .filter-input {
     border: none;
     padding: 4px 6px;
@@ -39,14 +35,11 @@ table.fixed {
     background: transparent;
     color: #000;
 }
-
-
 .filter-input::placeholder {
     color: #000;
     font-weight: 700;
     letter-spacing: 0.25px;
 }
-
 .sort-container {
     display: inline-block;
     width: 20px;
@@ -54,35 +47,29 @@ table.fixed {
     vertical-align: middle;
     text-align: center; // border: 2px solid #c2c2c2;
     border-left: none;
-    height: 30px;
+    height: 24px;
     border-radius: 0px 5px 5px 0px;
-    line-height: 24px;
+    line-height: 18px;
 }
-
 .up-icon-container,
 .down-icon-container {
     height: 13px;
 }
-
 .up-icon-container {
     margin-top: 3px;
 }
-
 .down-icon-container {
     margin-top: -6px;
 }
-
 .sort-icon-up {
     font-size: 16px;
     cursor: pointer;
 }
-
 .sort-icon-down {
     font-size: 16px;
     margin-top: -10px;
     cursor: pointer;
 }
-
 .no-record-found {
     width: 100%;
     margin: 10px auto;
@@ -93,47 +80,43 @@ table.fixed {
     line-height: 40px;
     color: orange;
 }
-
 .sort-icon {
     font-size: 14px;
     vertical-align: -webkit-baseline-middle;
     cursor: pointer;
+    color: #263238;
 }
-
 .no-search {
-    height: 28px;
+    height: 24px;
     text-align: center;
-    line-height: 28px;
+    line-height: 24px;
     font-weight: 600;
 }
-
 // Table Header
 .tableFixHead {
     overflow-y: auto;
-    height: 70vh;
+    height: 68vh;
 }
-
 .tableFixHead th {
     position: sticky;
     top: 0;
+    background: #263238;
 }
-
 /* Just common table stuff. Really. */
-
 table {
     border-collapse: collapse;
     width: 100%;
 }
-
-th,
-td {
-    padding: 8px 16px;
-}
-
-th {
-    background: #eee;
-}
-
 .active-row {
     background: yellow !important;
+}
+thead{
+    color: #fff;
+}
+tbody tr:nth-child(even){
+    background-color: #e4e4e4;
+}
+.image,
+.icon{
+    font-size: 14px;
 }

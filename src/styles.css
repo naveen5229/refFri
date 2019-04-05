@@ -262,6 +262,17 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .nb-theme-corporate nb-layout .layout .layout-container .content nb-layout-footer nav{
   background: #e8e8e8;
 }
-.mycustomModalClass .modal-dialog{
-  max-width: 100% !important;
+.drag-box .modal-content{
+  background-color: transparent;
+  box-shadow: none;
+}
+.drag-box .model-drag{
+  background-color:#fff;
+}
+.accountModalClass .modal-dialog{
+  top: 40% !important;
+  transform: translate(0%,-50%) !important;
+}
+.document-details .tableFixHead{
+  height: 403px !important;
 }

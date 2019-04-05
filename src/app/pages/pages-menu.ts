@@ -66,10 +66,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/accounts/dashboard'
   },
   {
-    title: 'Route Mapper',
-    icon: 'fal fa-map-pin',
-    link:'/pages/route-mapper'
+    title: 'Trends',
+    icon: 'fa fa-line-chart',
+    link:'/pages/trends'
   }
+  // {
+  //   title: 'Route Mapper',
+  //   icon: 'fal fa-map-pin',
+  //   link:'/pages/route-mapper'
+  // }
   // {
   //   title: 'Driver',
   //   icon: 'fa fa-money',

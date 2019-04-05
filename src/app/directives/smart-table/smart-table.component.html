@@ -6,7 +6,12 @@
     </thead>
     <thead>
       <tr style="background:#f2f2f2;">
-        <th style="padding:5px" style="width: 40px">#</th>
+        <th style="padding:5px" style="width: 40px">
+          <div *ngIf="settings.count">
+            <i [class]="settings.count.icon" (click)="settings.count.action && settings.count.action()"></i>
+          </div>
+          <span *ngIf="!settings.count">#</span>
+        </th>
         <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);" [ngClass]="headings[heading].class">
           <div class="filter-container" *ngIf="!headings[heading].isHTML">
             <div *ngIf="!headings[heading].hideSearch">
@@ -34,8 +39,8 @@
         <td style="width: 40px">{{i+1}}</td>
         <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
           (click)="column[heading].action && column[heading].action()"
-          (dblclick)="handleColDoubleClick(column, heading)"
-          [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
+          (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
+          (mouseout)="handleMouseOut(column, heading)" [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
           <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
             [innerHTML]="column[heading].value"></div>
           <div [ngClass]="column[heading].action ? 'zoom' : ''"

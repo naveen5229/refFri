@@ -16,6 +16,7 @@ export class ApiService {
   // URL: string = 'http://localhost/webservices/booster_webservices/'; // sachin
   //  URL: string = 'http://localhost/booster_webservices/';
   //URL: string = 'http://localhost/transtruck/booster_webservices/'; // sachin
+  
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
 
   constructor(private http: HttpClient,
