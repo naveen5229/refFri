@@ -50,7 +50,7 @@ export class AccountComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.updateAccount(data.Accounts,Accounts.id);
-          return
+          return;
         }
       });
     }
@@ -70,7 +70,7 @@ export class AccountComponent implements OnInit {
     console.log('accountdata', Accounts);
     const params = {
       name: Accounts.name,
-      foid: Accounts.user.id,
+      foid:123,
       parentid: Accounts.account.id,
       primarygroupid: Accounts.account.primarygroup_id,
       x_id: 0
