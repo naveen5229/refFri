@@ -81,6 +81,13 @@ export class AccountComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_secondarygroup;
+        if (result == '') {
+          this.common.showToast("Add Successfull  ");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.GetAccount();
       }, err => {
         this.common.loading--;
@@ -103,6 +110,13 @@ export class AccountComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_secondarygroup;
+        if (result == '') {
+          this.common.showToast(" Updated Sucess");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.GetAccount();
       }, err => {
         this.common.loading--;

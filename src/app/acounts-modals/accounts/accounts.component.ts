@@ -30,7 +30,7 @@ export class AccountsComponent implements OnInit {
         name: this.common.params.name,
 
         account: {
-          name:'',
+          name:this.common.params.parent_name,
           id: this.common.params.parent_id,
           primarygroup_id: this.common.params.primarygroup_id
         }

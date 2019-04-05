@@ -101,6 +101,13 @@ export class CompanyBranchesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_companybranch;
+        if (result == '') {
+          this.common.showToast(" Add Successfully");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.GetBranchData();
       }, err => {
         this.common.loading--;
@@ -139,6 +146,13 @@ export class CompanyBranchesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_companybranch;
+        if (result == '') {
+          this.common.showToast(" Update Successfully");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.GetBranchData();
       }, err => {
         this.common.loading--;

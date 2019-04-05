@@ -16,6 +16,7 @@ table{
     display: block;
     overflow: auto;
     margin-top: 30px;
+    max-height: 75vh;
     tr{
         th{
             padding: 5px 10px;
@@ -74,6 +75,7 @@ table tr.highlight {
     background-color: #576c77 !important;
     color: #ffffff;
     cursor: pointer;
+   
 }
 i{
     font-size: 14px;
