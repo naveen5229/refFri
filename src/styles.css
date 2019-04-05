@@ -279,3 +279,10 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 nb-card{
   margin: 0px !important;
 }
+.myCustomModalClass .modal-dialog{
+  margin-top: 10px;
+}
+.mycustomModalClass .modal-dialog{
+  max-width: 100%;
+  margin-top: 10px;
+}

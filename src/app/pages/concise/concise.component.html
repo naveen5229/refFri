@@ -1,5 +1,5 @@
-<nb-card>
-  <nb-card-body style="padding:5px 0px 0px 0px;">
+<nb-card style="border: 0px; height: 100%;">
+  <nb-card-body style="padding:5px;">
 
     <!-- <div mwlResizable [enableGhostResize]="true" style="width:50%; display: inline-block;" [ngStyle]="{width: divWidth + 'px'}"
       [resizeEdges]="{bottom: true, right: true, top: true, left: true}" (resizeEnd)="onResizeEnd($event)">
@@ -17,7 +17,7 @@
     </div> -->
    
     <div class="row m-0" >
-      <div class="col-sm-3" [hidden]="isMapView">
+      <div class="col-sm-3 pl-0 pr-2" [hidden]="isMapView">
         <div style="font-size:18px;margin:0px;text-align: center;padding:10px 0px; " class="row">
           <div class="col-sm-2">
             <span (click)="changeOptions('reverse')"> <i class="icon ion-ios-rewind"></i></span>
@@ -33,7 +33,7 @@
           <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
 
-        <div class="status_box" style="height:300px;overflow:auto">
+        <div class="status_box" style="max-height:48vh;overflow:auto">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
@@ -98,14 +98,14 @@
         </div> -->
         <!-- <button class="btn btn-primary" style="margin-left:50px; margin-top:10px" (click)="openVehicleOnMapModel()">Show Map</button> -->
       </div>
-      <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12' : 'col-sm-9 pl-0 pr-1'">
+      <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
         <div style=" position: relative;">
           <!-- ============================= SMART TABLE VIEW ============================= -->
           <div mwlResizable [enableGhostResize]="true" class="map-table-container"
             [ngStyle]="{width: isMapView ? widths.smartTable: '100%'}"
             [resizeEdges]="{bottom: false, right: true, top: false, left: false}"
             (resizeEnd)="onResizeEnd($event, 'smartTable')">
-            <div style="border: 1px solid #555; padding-right: 2px;">
+            <div>
               <smart-table style="width:100%;" [data]="table.data" [settings]="table.settings"></smart-table>
             </div>
           </div>
@@ -117,7 +117,7 @@
             [resizeEdges]="{bottom: false, right: false, top: false, left: true}"
             (resizeEnd)="onResizeEnd($event, 'map')"> -->
           <div [hidden]="!isMapView" style="padding: 0px; min-width:300px; display:inline-block;" [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}">
-            <div id="concise-view-map" style="width: 100%; height: 86vh;"></div>
+            <div id="concise-view-map" style="width: 100%; height: 87vh;"></div>
           </div>
           <!-- </div> -->
           <!-- ============================== MAP VIEW END =============================== -->
