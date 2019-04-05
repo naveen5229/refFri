@@ -108,6 +108,10 @@ export class ConciseComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(){
+    this.mapService.map = null;
+  }
+
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
