@@ -13,6 +13,7 @@ import { DriverAttendanceComponent } from './driver-attendance/driver-attendance
 import { DriverDocumentComponent } from './driver-document/driver-document.component';
 import { LicenceUploadComponent } from './licence-upload/licence-upload.component';
 import { PendingLicenceComponent } from './pending-licence/pending-licence.component';
+import { ImageViewerModule } from 'ng2-image-viewer';
 
 const PAGES_COMPONENTS = [
   DriverComponent,
@@ -24,7 +25,8 @@ const PAGES_COMPONENTS = [
     DriverRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    ImageViewerModule
   ],
   providers: [DatePipe],
   declarations: [

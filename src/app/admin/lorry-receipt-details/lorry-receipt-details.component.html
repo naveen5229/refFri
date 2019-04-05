@@ -6,8 +6,12 @@
     <div class="model-body">
       <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px;">
         <thead class="thead">
-          <tr>
+          <tr id="heading-row">
             <th>Id</th>
+            <th>LRNo.</th>
+            <th>LR Date</th>
+            <th>Consignor</th>
+            <th>Consignee</th>
             <th>Vehicle RegNo.</th>
             <th>Vehicle Id</th>
             <th>Source</th>
@@ -20,6 +24,10 @@
         <tbody>
           <tr *ngFor="let data of pendinglr; let i=index;">
             <td>{{data.id}}</td>
+            <td>{{data.receipt_no}}</td>
+            <th>{{data.lr_date | date : 'dd MMM'}}</th>
+            <td>{{data.consigner_name}}</td>
+            <td>{{data.consignee_name}}</td>
             <td>{{data.regno}}</td>
             <td>{{data.vehicle_id}}</td>
             <td>{{data.source}}</td>
@@ -27,7 +35,8 @@
             <td>{{data.current_user}}</td>
             <!-- <td>{{data.weight}}</td> -->
             <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-            <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
+            <td> <a href="javascript: void(0);" title="Edit LR" (click)="enterTicket(data)"><i
+              class="icon ion-md-create"></i></a></td>
         </tbody>
       </table>
     </div>

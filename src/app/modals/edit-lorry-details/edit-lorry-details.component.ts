@@ -30,6 +30,7 @@ export class EditLorryDetailsComponent implements OnInit {
   consineeName = ''
   isUpdated = false;
   option = 'accept';
+  tempDate=null;
   //dateByIcon=false;
   // LrData = {
   //   receiptNo: null,
@@ -149,7 +150,7 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   add() {
-    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
+    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass:"drag-box" })
   }
   addAgentName() {
     this.showMain = false;
@@ -229,7 +230,10 @@ export class EditLorryDetailsComponent implements OnInit {
 
   insertLrDetails() {
     //if(!this.dateByIcon)
+    
+    this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
     this.lrDate = this.common.dateFormatter(this.lrDate);
+    console.log('tempDate',this.tempDate);
     // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
     let params = {
       sourceLat: this.LrData.source_lat,
@@ -272,9 +276,10 @@ export class EditLorryDetailsComponent implements OnInit {
         }
         else {
           this.common.showToast('Not Success !!');
-          if (this.LrData.lr_date != null) {
-            this.lrDate = this.LrData.lr_date;
-            this.lrDate = this.common.dateFormatter1(this.lrDate);
+          if(this.tempDate!=null){
+            this.lrDate=this.tempDate;
+            this.lrDate=this.tempDate;
+            console.log('lrDate',this.lrDate);
           }
         }
 

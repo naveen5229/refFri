@@ -10,7 +10,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
@@ -118,6 +117,7 @@ import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-anal
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
+import { ResizableModule } from 'angular-resizable-element';
 
 @NgModule({
   declarations: [AppComponent,
@@ -300,7 +300,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
-    })
+    }),
+    ResizableModule
   ],
 
   bootstrap: [AppComponent],
