@@ -1,4 +1,4 @@
-<div [ngClass]="settings.notFixedHeader ? '' : 'tableFixHead'">
+<div [ngClass]="settings.notFixedHeader ? '' : 'tableFixHead'" [ngStyle]="{height: settings.tableHeight || '73vh'}">
   <table *ngIf="headings" class="table table-bordered fixed">
     <thead *ngIf="!settings.hideHeader">
       <th style="width: 40px">#</th>
