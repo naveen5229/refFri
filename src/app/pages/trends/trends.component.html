@@ -51,7 +51,7 @@
             <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
         </div>
         <div class="col-sm-2" *ngIf="period==0">
-            <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date" placeholder="End Date" (click)="getDate('end')">
+            <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
         </div>
         <div class="col-sm-2" *ngIf="period==0">
           <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
@@ -142,7 +142,7 @@
                 </thead>
                 <tbody *ngIf="trendType==11">
                   <ng-container *ngFor="let data of vehicleDetails; let i=index;">
-                  <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
+                  <tr *ngIf="(trendType==11 && data.loading_hrs!= 0) || (trendType==21 && data.unloading_hrs!= 0)" >
                     <td>{{data.vehicle_id}}</td>
                     <td>{{data.loading_hrs}}</td>
                     <td>{{data.ldng_count}}</td>
@@ -151,7 +151,7 @@
                 </tbody>
                 <tbody *ngIf="trendType==21">
                     <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
-                    <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
+                    <tr *ngIf="(trendType==11 && data.loading_hrs!= 0) || (trendType==21 && data.unloading_hrs!= 0)" >
                       <td>{{data.vehicle_id}}</td>
                       <td>{{data.unloading_hrs}}</td>
                       <td>{{data.unldng_count}}</td>

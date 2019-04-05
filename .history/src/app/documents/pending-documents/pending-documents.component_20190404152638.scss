@@ -27,30 +27,9 @@ a {
 label {
     font-size: 14px;
     padding-top: 10px;
-    font-weight: normal;
-    color: #4b4b4b;
+    font-weight: 600;
 }
-.modal-body input, 
-.modal-body textarea, 
-.modal-body select{
-    border: 1px solid #263238 !important;
-    border-radius: 0px 2px 2px 2px;
-    padding: 3px 5px !important;
-    height: auto;
-    font-size: 12px;
-}
-.modal-body textarea{
-    height: 100px;
-}
-.btn-primary{
-    background-color: #263238 !important;
-}
-.btn-danger {
-    background-color: #d61414 !important;
-}
-.modal-footer{
-    padding: 0px;
-}
+
 .dropdown {
     position: relative;
 }
@@ -133,21 +112,7 @@ auto-suggestion {
     overflow: auto;
     height: 100%;
 }
-.modal-header{
-    padding: 10px 15px;
-    background-color: #263238 !important;
-}
-.modal-header h5{
-    color:#fff;
-}
-.close {
-    background: transparent;
-    color: #fff !important;
-    opacity: 1;
-    padding: 10px 20px;
-    margin: -10px -1rem -1rem auto;
-    outline: none;
-}
+
 .custom-modal-body {
     background: #fff;
 }
@@ -185,9 +150,9 @@ table{
     }
 }
 .edit{
-    color: #263238 !important;
+    color: #263238;
 }
 .delete{
-    color: #D61414 !important;
+    color: #D61414;
 }
 // Modal END

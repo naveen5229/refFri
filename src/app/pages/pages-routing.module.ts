@@ -85,6 +85,10 @@ const routes: Routes = [{
     path: 'route-mapper',
     component: RouteMapperComponent
   },
+  {
+    path: 'trends',
+    component: TrendsComponent
+  },
   // {
   //   path: 'image-processing',
   //   component: ImageProcessingComponent

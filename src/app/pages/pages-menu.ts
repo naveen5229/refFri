@@ -65,6 +65,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link: '/accounts/dashboard'
   },
+  {
+    title: 'Trends',
+    icon: 'fa fa-line-chart',
+    link:'/pages/trends'
+  }
   // {
   //   title: 'Route Mapper',
   //   icon: 'fal fa-map-pin',
