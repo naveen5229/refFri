@@ -1,5 +1,5 @@
 .row{
-    height: 85vh;
+    height: 100vh;
 }
 .tbl{
     overflow: auto;
@@ -33,9 +33,7 @@
 }
 .time-line-event .time-line-circle{
     position: absolute;
-    width: 10px;
     height: 10px;
-    border-radius: 100%;
     top:50%;
     background-color: aqua;
 }
