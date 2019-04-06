@@ -291,9 +291,5 @@ nb-card{
   .stop-scroll,
   .myCustomModalClass{
     overflow: inherit !important;
-  }
-  .stop-scroll .status_box{
-    max-height: 46vh !important
-  }
-  
+  }  
 }
