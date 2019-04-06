@@ -23,6 +23,7 @@ import { TripDetailsComponent } from "../../modals/trip-details/trip-details.com
 
 import { ResizeEvent } from "angular-resizable-element";
 import { MapService } from "../../services/map.service";
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: "concise",
@@ -109,12 +110,12 @@ export class ConciseComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.common.stopScroll();    
+    // this.common.stopScroll();    
   }
 
   ngOnDestroy() {
     this.mapService.map = null;
-    this.common.continuoueScroll();
+    // this.common.continuoueScroll();
   }
 
   get f() {
@@ -198,7 +199,7 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
-        
+
 
         action: {
           value: "",
@@ -809,4 +810,51 @@ export class ConciseComponent implements OnInit {
       this.initialiseMap();
     }, 1000);
   }
+  print(id) {
+    console.log("printid =",id);
+    const printContent = document.getElementById(id);
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    
+    let data = `<!doctype html>
+    <html>
+    
+    <head>
+      <meta charset="utf-8">
+      <title>E-logist</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="favicon.png">
+      <link rel="icon" type="image/x-icon" href="favicon.ico">
+      <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+      <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+      </script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs&libraries=geometry,places,drawing">
+      </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
+    
+    
+    </head>
+    
+    <body>
+    ${printContent.innerHTML}
+    </body>
+    </html>
+    `;
+    console.log("print data=",data);
+    // WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.write(data);
+
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+  }
+ 
 }
