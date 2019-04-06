@@ -98,6 +98,7 @@ export class ConciseComponent implements OnInit {
   ) {
     this.getKPIS();
     this.common.refresh = this.refresh.bind(this);
+    this.common.currentPage = "";
   }
 
   ngOnInit() {
@@ -109,7 +110,7 @@ export class ConciseComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.common.stopScroll();    
+    this.common.stopScroll();
   }
 
   ngOnDestroy() {

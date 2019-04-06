@@ -291,7 +291,12 @@ nb-card{
   height: calc(100vh - 180px) !important;
   max-height: calc(101vh - 180px) !important;
 }
- .modal-body .TJR-auto-suggestion-container {
+#tblsummary .tableFixHead{
+  overflow: auto;
+  height: calc(104vh - 180px) !important;
+  max-height: calc(104vh - 180px) !important;
+}
+.modal-body .TJR-auto-suggestion-container {
   border: 1px solid #263238 !important;
   border-radius: 3px !important;
   height: 103px !important;
@@ -306,4 +311,12 @@ nb-card{
   .myCustomModalClass{
     overflow: inherit !important;
   }  
+}
+.home-page-tabel thead tr th:nth-child(1) div{
+  text-align: center;
+  padding: 4px !important;
+  background-color: #9180ff !important;
+  text-shadow: 2px 2px 9px #00000073;
+  border-radius: 3px;
+  cursor: pointer;
 }

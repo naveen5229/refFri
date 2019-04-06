@@ -1,20 +1,18 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<nb-card style="border: 0px;">
   <!-- <nb-card-header>
     <h4>Vehicle Documents Dashboard</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 360px;">
+  <nb-card-body style="padding-bottom: 0px; padding-top: 5px;">
     <div class="document-dash-contnet">
-      <div class="row col-sm-12 pdg-ltrt-none document-heading_box">
+      <div class="row pdg-ltrt-none document-heading_box">
         <div class="col-sm-12">
-          <span>Export :
-            <span title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i class="fa fa-file-pdf"
-                style="font-size:18px"></i>Pdf</span>
-            <span title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
-              style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"
-                style="font-size:18px"></i>CSV</span>
+          <span>
+            <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+            <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+              style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
           </span>
           <div class="" style="float:right;">
-            <button class="btn btn-primary" name="btn-issues" style="cursor:pointer;margin-bottom: 10px;"
+            <button class="btn btn-primary" name="btn-issues" style="cursor:pointer;margin-bottom: 10px; margin:0px;"
               (click)="showIssues()">
               Document Issues
             </button>
@@ -49,7 +47,7 @@
                   <span>({{statusrow.total}})</span>
                 </span>
               </td>
-              <td class="btn-all" style="position: relative;padding:14px 0px; text-align: center;"><input type='radio'
+              <td class="btn-all" style="position: relative;padding:8px 0px !important; text-align: center;"><input type='radio'
                   name='rdostatus' value='-1' (click)="showAllRecords()">Show All</td>
             </tr>
           </table>
@@ -57,11 +55,11 @@
         </div>
       </div>
 
-      <div class="row col-sm-12">
+      <div class="document-dashboard-tabel">
         <table class="table table-bordered table-hover table-scroll" id="tbldocs">
           <thead class="thead">
             <tr>
-              <th style='width: 30px;'>SN</th>
+              <th>SN</th>
               <th *ngFor="let col of columns" class="text-center">{{formatTitle(col)}}</th>
             </tr>
           </thead>

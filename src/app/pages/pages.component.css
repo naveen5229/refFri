@@ -13,9 +13,6 @@ td{
     padding:8px;
     
 }
-tr{
-    max-height: 5px;
-}
 .thead-dark{
     color: white;
     font-size: 18px;
