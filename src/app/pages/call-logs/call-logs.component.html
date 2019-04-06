@@ -1,0 +1,32 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-12">
+        <h4>Call Logs</h4>
+      </div>
+    </div>
+
+</nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-bottom:20px">
+      <div class="form-group" class="col-sm-3">
+          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
+            placeholder="Select Date" [value]="currentDay | date: 'dd MMM yyyy'" name="date" readonly>
+    
+        </div>
+    
+        <auto-suggestion (onSelected)="getFoAdmin($event)" url="Suggestion/getFoAdminList?foid=" display="employeename"
+          placeholder="" style="width:100%;" class="col-sm-3 auto-suggest"></auto-suggestion>
+    
+      <div class="col-sm-3">
+        <button (click)="getCallDetails()">Get Details</button>
+      </div>
+    </div>
+    <div>
+
+      <smart-table *ngIf="callLogs.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+      <br>
+    </div>
+
+  </nb-card-body>
+</nb-card>

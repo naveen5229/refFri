@@ -74,6 +74,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Placements',
     icon: 'fa fa-location-arrow',
     link:'/pages/placements'
+  },
+  {
+    title: 'Call Logs',
+    icon: 'fa fa-phone',
+    link:'/pages/call-logs'
   }
   // {
   //   title: 'Route Mapper',

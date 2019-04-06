@@ -104,7 +104,7 @@
             [ngStyle]="{width: isMapView ? widths.smartTable: '100%'}"
             [resizeEdges]="{bottom: false, right: true, top: false, left: false}"
             (resizeEnd)="onResizeEnd($event, 'smartTable')">
-            <div>
+            <div id="print-section">
               <smart-table style="width:100%;" [data]="table.data" [settings]="table.settings"></smart-table>
             </div>
           </div>
@@ -117,6 +117,7 @@
             (resizeEnd)="onResizeEnd($event, 'map')"> -->
           <div [hidden]="!isMapView" style="padding: 0px; min-width:300px; display:inline-block;" [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}">
             <div id="concise-view-map" style="width: 100%; height: 87vh;"></div>
+            <!-- <div><img src="./assets/images/arrow.png" alt="image"></div> -->
           </div>
           <!-- </div> -->
           <!-- ============================== MAP VIEW END =============================== -->
@@ -126,3 +127,4 @@
     </div>
   </nb-card-body>
 </nb-card>
+<!-- <button (click) = "print('print-section')">print</button>  -->
