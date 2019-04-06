@@ -19,7 +19,7 @@
                 <option value="2">Month</option>
               </select>
           </div>  
-          <div class="col-sm-3" *ngIf="period==1 || period==2">
+          <div class="col-sm-3" *ngIf="period == '1' || period == '2'">
             <select [(ngModel)]="week_month_number" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
               <option value="4">4</option>
               <option value="5">5</option>
@@ -47,13 +47,13 @@
           <div class="col-sm-3" *ngIf="period==2">
             <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
           </div>  -->
-        <div class="col-sm-2" *ngIf="period==0">
+        <div class="col-sm-2" *ngIf="period == '0'">
             <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
         </div>
-        <div class="col-sm-2" *ngIf="period==0">
+        <div class="col-sm-2" *ngIf="period == '0'">
             <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
         </div>
-        <div class="col-sm-2" *ngIf="period==0">
+        <div class="col-sm-2" *ngIf="period == '0'">
           <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
         </div>
       </div>
