@@ -110,12 +110,12 @@ export class ConciseComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // this.common.stopScroll();    
+    this.common.stopScroll();    
   }
 
   ngOnDestroy() {
     this.mapService.map = null;
-    // this.common.continuoueScroll();
+    this.common.continuoueScroll();
   }
 
   get f() {
