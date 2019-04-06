@@ -53,10 +53,6 @@ select {
     text-transform: capitalize;
     cursor: pointer !important;
 }
-.table{
-    width: 95%;
-    margin-left: 2%;
-}
 .suggestions{
     position: relative !important;
 }
@@ -178,9 +174,6 @@ select {
     letter-spacing: .3px;
     color: #000;
 }
-table{
-    cursor:pointer;   
-}
 nb-card-header {
     padding: 15px 20px;
     border: 1px solid #efefef;
@@ -188,5 +181,4 @@ nb-card-header {
 }
 smart-table .tableFixHead{
     overflow-y: auto;
-    height: 61vh;
 }
