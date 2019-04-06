@@ -118,6 +118,7 @@ import { RouteMapperComponent } from './modals/route-mapper/route-mapper.compone
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 import { ResizableModule } from 'angular-resizable-element';
+import {NgxPrintModule} from 'ngx-print';
 
 @NgModule({
   declarations: [AppComponent,
@@ -297,6 +298,7 @@ import { ResizableModule } from 'angular-resizable-element';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPrintModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
