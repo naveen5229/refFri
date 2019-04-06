@@ -57,8 +57,8 @@ export class StockTypesComponent implements OnInit {
         if (data.response) {
           const params = {
             foid: 123,
-            name: stockType.name,
-            code: stockType.code,
+            name: data.stockType.name,
+            code: data.stockType.code,
             id: stockType.id
           };
       
