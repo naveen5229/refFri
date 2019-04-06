@@ -156,12 +156,15 @@ getPlacementSuggestion(){
 }
 
 getVehiclePlacements(){
+  ++this.common.loading;
   let params = "vehId=" +this.vehicleTrip.vehicleId;
   this.api.get('VehicleTrips/vehiclePlacements?' +params)
       .subscribe(res => {
+        --this.common.loading;
         console.log('Res: ', res['data']);
         this.placements = res['data'];
       }, err => {
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });
