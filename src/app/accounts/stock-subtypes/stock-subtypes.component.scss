@@ -12,6 +12,7 @@ nb-card-header{
 }
 table{
     margin-top: 30px;
+    max-height: 75vh;
     tr{
         th{
             padding: 5px 10px;
@@ -41,6 +42,14 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+        }
+    }
+    tbody{
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
         }
     }
 } 

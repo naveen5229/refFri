@@ -1,4 +1,7 @@
 // For Smart Table
+.modal-header{
+    padding: 10px 15px;
+}
 .headings {
     background: #e2e2e2;
     font-size: 11px;
@@ -96,4 +99,18 @@ table{
 }
 .modal-lg {
     max-width: 1200px !important;
+}
+smart-table .tableFixHead{
+    height: 74vh !important;
+}
+.close{
+    font-size: 36px;
+    padding: 8px 16px;
+}
+.model-body .btn-primary{
+    border-radius: 3px;
+    border: 0px;
+    text-transform: capitalize;
+    float: left;
+    padding: 8px 15px;
 }

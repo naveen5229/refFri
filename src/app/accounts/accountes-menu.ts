@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/stockitem'
     },
     {
-        title: 'Account',
+        title: 'Account Group',
         icon: 'fa fa-university',
         link: '/accounts/account'
     },
