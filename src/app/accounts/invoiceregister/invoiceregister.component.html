@@ -91,7 +91,8 @@
     <th>Net Amount</th>
   </tr>
   </thead>
-  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;">
+  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;"  (click)="selectedRow = i"
+  [ngClass]="{'highlight' : selectedRow == i}">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
