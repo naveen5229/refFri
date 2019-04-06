@@ -56,6 +56,7 @@ const PAGES_COMPONENTS = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DocumentsModule,
+    LorryReceiptModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
