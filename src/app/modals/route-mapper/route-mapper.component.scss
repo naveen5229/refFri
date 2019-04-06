@@ -61,16 +61,18 @@ table{
     padding: 8px 10px;
     border-radius: 5px;
     outline: none !important;
-    margin-right: 15px;
 }
 .player_inner span{
     color: #868686;
+}
+.player_inner .road{
+    float:right;
+    margin-top: 5px;
 }
 .player_inner span.clock{
     display: block;
     text-align: right;
     margin-top: 0px;
-    margin-right: 3px;
 }
 .player_inner input{
     display: inline-block;

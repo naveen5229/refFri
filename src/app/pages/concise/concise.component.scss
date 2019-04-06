@@ -103,14 +103,13 @@ table {
 }
 
 .status_box {
-    nb-card:first-child {
-        border-top: 1px solid #d7dee4;
-    }
-
     nb-card {
         margin: 0px;
         border: none;
-        border-bottom: 1px solid #d7dee4;
+        border-top: 1px solid #d7dee4;
+        nb-card-body{
+            padding: 12px 10px;
+        }
     }
 
 }

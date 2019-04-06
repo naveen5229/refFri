@@ -162,6 +162,7 @@ auto-suggestion {
     z-index: 1049;
 }
 table{
+    margin: 0px;
     thead{
         background-color: #263238;
         tr{
@@ -191,3 +192,18 @@ table{
     color: #D61414 !important;
 }
 // Modal END
+.list_table{
+    width: 100%;
+    overflow: auto;
+    height: calc(80vh - 250px);
+    max-height: calc(80vh - 250px);
+}
+.work-table{
+    width: 100%;
+    overflow: auto;
+    height: calc(60vh - 250px);
+    max-height: calc(60vh - 250px);
+}
+h6{
+    margin: 15px 0px 10px;
+}
