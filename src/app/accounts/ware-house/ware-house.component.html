@@ -1,0 +1,26 @@
+<nb-card >
+
+  <nb-card-body>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label>Parent Account Name</label>
+          <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
+            inputId="account" name="account" placeholder="Search Parent Account"
+           ></auto-suggestion>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" name="account-name" id="name" >
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" (click)="addDocument()">Serach</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
