@@ -3,28 +3,29 @@
     <h4>Account</h4>
   </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4 add-button" (click)="openAccountModal()"><i class="fa fa-plus"></i></button>
-<table class="table table-bordered">
-  <thead style="background-color: #263238; color: #fff;">
-      <tr>
-        <th>#</th>
-        <!-- <th>Fo User</th> -->
-        <th>Name</th>
-        <th>Date</th>
-      </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let Account of Accounts; let i = index;" (click)="selectedRow = i"
-    (dblclick)="openAccountModal(Account)" (enter)="openAccountModal(Account)"
-    [ngClass]="{'highlight' : selectedRow == i}">
-        <td>{{i + 1}}</td>
-        <!-- <td>{{ Account.foname}}</td> -->
-        <td>{{Account.name}}</td>
-        <td>{{Account.entry_dt | date : 'dd MMM HH:mm'}}</td>
-        <!--td><button class="btn" (click)="openAccountModal(Accounts)">Edit</button></td-->
-      </tr>
-  </tbody>
-  
-</table>
-</nb-card-body>
+    <button class="btn mb-4 add-button" (click)="openAccountModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+          <tr>
+            <th>#</th>
+            <!-- <th>Fo User</th> -->
+            <th>Name</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let Account of Accounts; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openAccountModal(Account)" (enter)="openAccountModal(Account)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <!-- <td>{{ Account.foname}}</td> -->
+            <td>{{Account.name}}</td>
+            <td>{{Account.entry_dt | date : 'dd MMM HH:mm'}}</td>
+            <!--td><button class="btn" (click)="openAccountModal(Accounts)">Edit</button></td-->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
 </nb-card>
