@@ -21,41 +21,43 @@
               </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let taxdetail of taxdetails; let i = index;">
-                    <td>
-                      <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
+              <tr *ngFor="let taxdetail of taxdetails; let i = index;">
+                <td>
+                  <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
          [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                      <input type="text" [id]="'taxledger-' + i" class="form-control" name="'taxledger-' + i"
-                        [(ngModel)]="taxdetail.taxledger.name" required>
-                    </td>
-                    <td>
-                      <input type="number" class="form-control" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
-                        [(ngModel)]="taxdetail.taxrate">
-                    </td>
-                    <td>
-                      <input type="number" class="form-control" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
-                        [(ngModel)]="taxdetail.taxamount">
-                    </td>
-                    <td *ngIf="i == 0">
-                      <button class="btn btn-plus" [id]="'taxdetailbutton-'+i" (click)="addAmountDetails()"><i
-                          class="fa fa-plus text-primary"></i></button>
-                    </td>
-                    <td *ngIf="i !== 0"> <button class="btn btn-danger" (click)="taxdetails.splice(i,1)"><i
-                          class="fa fa-trash text-primary"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">&nbsp;</td>
-                    <td><input type="number" class="form-control" [name]="totalamount" [id]="totalamount"
-                      [(ngModel)]="taxdetails.totalamount"  [value]="calculateTotal()" readonly style="background-color: #eeeeee;"></td>
-                  </tr>
+                  <input type="text" [id]="'taxledger-' + i" class="form-control" [name]="'taxledger-' + i"
+                    [(ngModel)]="taxdetail.taxledger.name" required>
+                </td>
+                <td>
+                  <input type="number" class="form-control" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
+                    [(ngModel)]="taxdetail.taxrate">
+                </td>
+                <td>
+                  <input type="number" class="form-control" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
+                    [(ngModel)]="taxdetail.taxamount">
+                </td>
+                <td *ngIf="i == 0">
+                  <button class="btn btn-plus" [id]="'taxdetailbutton-'+i" (click)="addAmountDetails()"><i
+                      class="fa fa-plus text-primary"></i></button>
+                </td>
+                <td *ngIf="i !== 0"> <button class="btn btn-danger" (click)="taxdetails.splice(i,1)"><i
+                      class="fa fa-trash text-primary"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+                <td><input type="number" class="form-control" [name]="totalamount" [id]="totalamount"
+                    [(ngModel)]="taxdetails.totalamount" [value]="calculateTotal()" readonly
+                    style="background-color: #eeeeee;"></td>
+              </tr>
             </tbody>
-            
+
           </table>
         </div>
         <div class="col-3">
-          <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
-            [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
+          <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
+            [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
+            (select)="onSelect($event, autoSuggestion.targetId)">
           </auto-suggetion-in-side>
         </div>
       </div>
@@ -109,7 +111,8 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are You Want to More Tax Detail Then Press Y Otherwise Save to press Enter</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

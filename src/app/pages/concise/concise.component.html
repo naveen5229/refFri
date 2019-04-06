@@ -17,8 +17,8 @@
     </div> -->
    
     <div class="row m-0" >
-      <div class="col-sm-3 pl-0 pr-2" [hidden]="isMapView">
-        <div style="font-size:18px;margin:0px;text-align: center;padding:10px 0px; " class="row">
+      <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView">
+        <div style="font-size:18px;margin:0px;text-align: center;padding:10px 0px;height:40px; " class="row">
           <div class="col-sm-2">
             <span (click)="changeOptions('reverse')"> <i class="icon ion-ios-rewind"></i></span>
           </div>
@@ -29,11 +29,10 @@
             <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
           </div>
         </div>
-        <div style="height: 200px;margin-top:0px">
+        <div style="height: 190px;margin-top:0px">
           <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
-
-        <div class="status_box" style="max-height:48vh;overflow:auto">
+        <div class="status_box" style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">

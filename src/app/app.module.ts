@@ -75,7 +75,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
 import { 
   MatFormFieldModule,
   MatMenuModule,
