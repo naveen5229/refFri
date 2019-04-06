@@ -98,6 +98,9 @@ export class DaybooksComponent implements OnInit {
       });
 
   }
+  openinvoicemodel(){
+    console.log('welcome to invoice ');
+  }
 
   getAllLedger() {
     let params = {
