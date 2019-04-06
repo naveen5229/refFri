@@ -25,6 +25,9 @@ const PAGES_COMPONENTS = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule 
   ],
+  exports:[
+    GenerateLRComponent
+  ],
   providers: [DatePipe],
   declarations: [
     ...PAGES_COMPONENTS,
