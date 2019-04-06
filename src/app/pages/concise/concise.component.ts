@@ -173,6 +173,10 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
+        location: {
+          value: kpi.Address,
+          action: this.showLocation.bind(this, kpi)
+        },
         hrs: {
           value: kpi.x_hrssince,
           action: "",
@@ -194,10 +198,7 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
-        location: {
-          value: kpi.Address,
-          action: this.showLocation.bind(this, kpi)
-        },
+        
 
         action: {
           value: "",
@@ -575,11 +576,11 @@ export class ConciseComponent implements OnInit {
         headings: {
           vechile: { title: "Vehicle Number", placeholder: "Vehicle No" },
           status: { title: "Status", placeholder: "Status" },
+          location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
           Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
           trip: { title: "Trip", placeholder: "Trip" },
           kmp: { title: "Kmp", placeholder: "KMP" },
-          location: { title: "Location", placeholder: "Location" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
         columns: this.getTableColumns()
@@ -757,7 +758,7 @@ export class ConciseComponent implements OnInit {
 
     this.mapService.clearAll();
     setTimeout(() => {
-      this.mapService.setMapType(3);
+      this.mapService.setMapType(0);
       this.mapService.createMarkers(this.kpis);
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {
