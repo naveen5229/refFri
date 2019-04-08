@@ -1,26 +1,43 @@
-<nb-card >
-
+<nb-card style="margin: 0px; border:0px;">
   <nb-card-body>
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label>Parent Account Name</label>
-          <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
-            inputId="account" name="account" placeholder="Search Parent Account"
-           ></auto-suggestion>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" class="form-control" name="account-name" id="name" >
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary" (click)="addDocument()">Serach</button>
-        </div>
-      </div>
+    <button class="btn mb-4 add-button" (click)="openwareHouseModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+          <tr>
+            <th>#</th>
+            <th>Parent Name</th>
+            <th>Name</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let wareHouse of wareHouseData; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openwareHouseModal(wareHouse)" (enter)="openwareHouseModal(wareHouse)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{ wareHouse.parent_name}}</td>
+            <td>{{wareHouse.name}}</td>
+            <td>{{wareHouse.entry_dt | date : 'dd-MMM-yy'}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </nb-card-body>
 </nb-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

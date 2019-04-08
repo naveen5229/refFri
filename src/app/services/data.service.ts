@@ -50,11 +50,12 @@ export class DataService {
         link: '/admin/alert-related-issue',
         home: true,
       },
-      // {
-      //   title: 'LR View',
-      //   icon: 'fa fa-info-circle',
-      //   link: '/admin/lrview',
-      // },
+      {
+        title: 'Driver',
+        icon: 'nb-home',
+        link: '/admin/driver-list',
+        home: true,
+    },
       {
         title: 'Generate LR',
         icon: 'fa fa-pencil',

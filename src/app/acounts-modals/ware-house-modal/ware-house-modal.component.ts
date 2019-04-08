@@ -4,11 +4,11 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
-  selector: 'accounts',
-  templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.scss']
+  selector: 'ware-house-modal',
+  templateUrl: './ware-house-modal.component.html',
+  styleUrls: ['./ware-house-modal.component.scss']
 })
-export class AccountsComponent implements OnInit {
+export class WareHouseModalComponent implements OnInit {
   showConfirm = false;
   Accounts = {
     name: '',
