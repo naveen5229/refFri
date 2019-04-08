@@ -184,7 +184,9 @@ export class CommonService {
     let d = new Date(date);
     let hours = d.getHours() < 9 ? "0" + d.getHours() : d.getHours();
     let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
-    return hours + ":" + minutes + ":00";
+    let seconds = d.getSeconds() < 9 ? "0" + d.getSeconds() : d.getSeconds();
+
+    return hours + ":" + minutes + ":"+seconds;
   }
 
   getDate(days = 0, formatt?) {

@@ -166,7 +166,8 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: {
             dblclick: this.showDetails.bind(this, kpi),
-            mouseover: this.mapService.toggleBounceMF.bind(this.mapService, i),
+            mouseover: this.rotateBounce.bind(this, kpi, i),
+            // mouseover: this.mapService.toggleBounceMF.bind(this.mapService, i),
             mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
           }
         },
@@ -759,6 +760,19 @@ export class ConciseComponent implements OnInit {
     }
 
     this.mapService.clearAll();
+    for (let index = 0; index < this.kpis.length; index++) {
+      // (kpi.x_idle_time / 60).toFixed(1)
+      if(this.kpis[index].showprim_status == "No Data 12 Hr"|| this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data" ){
+        this.kpis[index].color = "ff0000";
+      }
+      else if((this.kpis[index].x_idle_time/60)>0){
+     
+        this.kpis[index].color = "00ff00";
+      }else{
+        this.kpis[index].color = "ffff00";
+      }
+     
+    }
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.mapService.createMarkers(this.kpis);
@@ -787,8 +801,12 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
+      <span><b>Trip:</b>${this.getTripStatusHTML(event)}</span> <br>
+      <b>Status:</b>${event.showprim_status} <br>
+      <b>Location:</b>${event.Address} <br>
       `
     );
+    this.rotateBounce(event,null,false);
     this.infoWindow.setPosition(
       this.mapService.createLatLng(event.x_tlat, event.x_tlong)
     ); // or evt.latLng
@@ -812,10 +830,10 @@ export class ConciseComponent implements OnInit {
     }, 1000);
   }
   print(id) {
-    console.log("printid =",id);
+    console.log("printid =", id);
     const printContent = document.getElementById(id);
     const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    
+
     let data = `<!doctype html>
     <html>
     
@@ -848,7 +866,7 @@ export class ConciseComponent implements OnInit {
     </body>
     </html>
     `;
-    console.log("print data=",data);
+    console.log("print data=", data);
     // WindowPrt.document.write(printContent.innerHTML);
     WindowPrt.document.write(data);
 
@@ -857,5 +875,14 @@ export class ConciseComponent implements OnInit {
     WindowPrt.print();
     WindowPrt.close();
   }
- 
+  
+  rotate = '';
+  rotateBounce(kpi, i?, isToggle=true) {
+    this.rotate = 'rotate(' + kpi.x_angle + 'deg)';
+    console.log("rotate", this.rotate);
+    if(isToggle){
+      this.mapService.toggleBounceMF(i);
+    }
+  }
+
 }
