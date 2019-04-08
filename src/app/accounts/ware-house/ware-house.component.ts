@@ -53,7 +53,7 @@ export class WareHouseComponent implements OnInit {
       const activeModal = this.modalService.open(WareHouseModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.updateWareHouse(data.Accounts,wareHouse.id);
+          this.updateWareHouse(data.wareHouse,wareHouse.id);
           return;
         }
       });
@@ -63,7 +63,7 @@ export class WareHouseComponent implements OnInit {
       const activeModal = this.modalService.open(WareHouseModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.addWareHouse(data.Accounts);
+          this.addWareHouse(data.wareHouse);
           return;
         }
       });
@@ -71,14 +71,14 @@ export class WareHouseComponent implements OnInit {
   }
 
 
-  addWareHouse(Accounts) {
-    console.log('accountdata', Accounts);
+  addWareHouse(wareHouse) {
+    console.log('wareHouse', wareHouse);
     const params = {
-      name: Accounts.name,
+      name: wareHouse.name,
       foid:123,
-      parentid: Accounts.account.id,
-      primarygroupid: Accounts.account.primarygroup_id,
-      xid: 0
+      parentid: wareHouse.account.id,
+      primarygroupid: wareHouse.account.primarygroup_id,
+      x_id: 0
     };
     console.log('params11: ', params);
     this.common.loading++;
@@ -86,7 +86,7 @@ export class WareHouseComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        let result = res['data'][0].save_secondarygroup;
+        let result = res['data'][0].save_warehouse;
         if (result == '') {
           this.common.showToast("Add Successfull  ");
         }
@@ -100,22 +100,22 @@ export class WareHouseComponent implements OnInit {
         this.common.showError();
       });
   }
-  updateWareHouse(Accounts,rowid){
-    console.log('updated data', Accounts);
+  updateWareHouse(wareHouse,rowid){
+    console.log('updated data', wareHouse);
     const params = {
-      name: Accounts.name,
+      name: wareHouse.name,
       foid:123,
-      parentid: Accounts.account.id,
-      primarygroupid: Accounts.account.primarygroup_id,
+      parentid: wareHouse.account.id,
+      primarygroupid: wareHouse.account.primarygroup_id,
       x_id: rowid
     };
     console.log('params11: ', params);
     this.common.loading++;
-    this.api.post('Accounts/InsertAccount', params)
+    this.api.post('Company/InsertWarehouse', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        let result = res['data'][0].save_secondarygroup;
+        let result = res['data'][0].save_warehouse;
         if (result == '') {
           this.common.showToast(" Updated Sucess");
         }

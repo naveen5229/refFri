@@ -13,8 +13,8 @@
     <div class="col">
       <div class="form-group">
         <label>Parent Account Name</label>
-        <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
-        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:Accounts.account.name}"></auto-suggestion>
+        <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="null" display="name" [data]="suggestions"
+        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:suggestions}"></auto-suggestion>
       </div>
     </div>
     <div class="col">
