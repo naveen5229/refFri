@@ -44,8 +44,13 @@ export class VehicleReportComponent implements OnInit {
       
     }
     else{
+      console.log(this.common.params.fromTime);
+      console.log(this.common.params.toTime);
       this.startDate = this.common.dateFormatter(this.common.params.fromTime);
-      this.endDate = this.common.dateFormatter(this.common.params.toTime);
+      this.endDate = this.common.params.toTime;
+      console.log("fromTime",this.startDate);
+      console.log("endDate",this.endDate);
+
 
     }
     this.getVehicleReport();

@@ -76,7 +76,7 @@ export class VehicleStatusChangeComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-      this.getVehicleStatusAlerts(this.viewType);
+      // this.getVehicleStatusAlerts(this.viewType);
 
       this.exitTicket(VehicleStatusData);
     });
@@ -123,6 +123,7 @@ export class VehicleStatusChangeComponent implements OnInit {
         console.log(result);
         if (!result.sucess) {
          // alert(result.msg);
+         this.getVehicleStatusAlerts(this.viewType);
           return false;
         }
         else {
