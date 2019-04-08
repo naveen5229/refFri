@@ -162,6 +162,18 @@ export class ChangeVehicleStatusComponent implements OnInit {
     }
   }
 
+  setEventInfo(event) {
+    
+    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
+    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
+    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
+    // }
+  }
+  unsetEventInfo() {
+   
+  }
+
+
   getEvents() {
     let status = this.VehicleStatusData.status?this.VehicleStatusData.status:10;
     this.dataType = 'events';

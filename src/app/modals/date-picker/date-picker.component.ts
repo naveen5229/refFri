@@ -14,7 +14,7 @@ export class DatePickerComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     protected dateService: NbDateService<Date>,
     public common: CommonService) {
-      this.ref_page = this.common.params.ref_page;
+      this.ref_page = this.common.params.ref_page?this.common.params.ref_page:'all';
   }
 
   
