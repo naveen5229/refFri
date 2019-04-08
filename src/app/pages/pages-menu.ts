@@ -76,5 +76,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link:'/driver/dashboard',
   //   home: true,
   // },
-
+	{
+    title: 'Traffic',
+    icon: 'fa fa-traffic-light',
+    link: '/pages/driver-call-suggestion'
+  }
 ];

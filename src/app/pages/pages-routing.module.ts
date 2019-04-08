@@ -15,6 +15,7 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
 
 
 import { from } from 'rxjs';
@@ -85,6 +86,10 @@ const routes: Routes = [{
     path: 'route-mapper',
     component: RouteMapperComponent
   },
+  {
+    path: 'driver-call-suggestion',
+    component: DriverCallSuggestionComponent
+  }
   // {
   //   path: 'image-processing',
   //   component: ImageProcessingComponent

@@ -32,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
 
 
 
@@ -71,6 +72,7 @@ const PAGES_COMPONENTS = [
     VehicleTripComponent,
     ImageProcessingComponent,
     RouteMapperComponent,
+    DriverCallSuggestionComponent,
   ],
 })
 export class PagesModule {
