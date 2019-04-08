@@ -27,6 +27,7 @@ export class CallLogsComponent implements OnInit {
   }
 
   getDate() {
+    this.common.params = {ref_page :'call-logs'};
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
        let nDay =  new Date(this.common.dateFormatter1(data.date).split(' ')[0]);

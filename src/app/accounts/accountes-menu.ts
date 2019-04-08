@@ -121,7 +121,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Ware House',
-        icon: 'fas fa-money-check-alt',
+        icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
     }
 
