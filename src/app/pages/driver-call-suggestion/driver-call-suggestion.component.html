@@ -9,12 +9,12 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="col-md-4">
-                      <label>Kmpd:</label>
-                      <input type="text" id="txtkmpd" name="txtkmpd" style="line-height: 1.7;" placeholder="Kmpd" [(ngModel)]= "kmpdval" value="this.kmpdval" />
+                      <label>Km per day:</label>
+                      <input type="text" id="txtkmpd" name="txtkmpd" style="line-height: 1.7; width:70px;" placeholder="Kmpd" [(ngModel)]= "kmpdval" value="this.kmpdval" />
                   </div>
                   <div class="col-md-4">
-                    <label>RunHour:</label>
-                    <input type="text" id="txtrunhour" name="txtrunhour" style="line-height: 1.7;" placeholder="RunHour"  [(ngModel)]= "runhourval" value="this.runhourval" />
+                    <label>Run Hour:</label>
+                    <input type="text" id="txtrunhour" name="txtrunhour" style="line-height: 1.7; width:70px;" placeholder="RunHour"  [(ngModel)]= "runhourval" value="this.runhourval" />
                   </div>                  
                   <div class="col-md-4" style='display: inline;'>
                     <button type="submit" class="btn btn-primary " style="cursor: pointer; line-height: 0.75;" (click) = "fetchReport()" >Submit</button>
