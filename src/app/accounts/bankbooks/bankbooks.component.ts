@@ -47,10 +47,10 @@ export class BankbooksComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getVoucherTypeList();
+    // this.getVoucherTypeList();
     this.getBranchList();
-    this.getAllLedger();
-    this.setFoucus('vouchertype');
+    this.getLedgers();
+    this.setFoucus('ledger');
     this.common.currentPage = 'Bank Book';
 
 
@@ -64,23 +64,22 @@ export class BankbooksComponent implements OnInit {
 
   }
 
-  getVoucherTypeList() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetVouchertypeList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.vouchertypedata = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
+  // getVoucherTypeList() {
+  //   let params = {
+  //     search: 123
+  //   };
+  //   this.common.loading++;
+  //   this.api.post('Suggestion/GetVouchertypeList', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log('Res:', res['data']);
+  //       this.vouchertypedata = res['data'];
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log('Error: ', err);
+  //       this.common.showError();
+  //     });
+  // }
   getBranchList() {
     let params = {
       search: 123
@@ -102,22 +101,36 @@ export class BankbooksComponent implements OnInit {
     console.log('welcome to invoice ');
   }
 
-  getAllLedger() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+  // getAllLedger() {
+  //   let params = {
+  //     search: 123
+  //   };
+  //   this.common.loading++;
+  //   this.api.post('Suggestion/GetAllLedger', params)
+  //     .subscribe(res => {
+  //       this.common.loading--;
+  //       console.log('Res:', res['data']);
+  //       this.ledgerData = res['data'];
+  //     }, err => {
+  //       this.common.loading--;
+  //       console.log('Error: ', err);
+  //       this.common.showError();
+  //     });
+
+  // }
+  getLedgers() {
+    //this.showSuggestions = true;
+    let url = 'Suggestion/GetLedger?transactionType=' +'credit'+ '&voucherId=' + (-1)+ '&search=' + 'test';
+    console.log('URL: ', url);
+    this.api.get(url)
       .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log(res);
         this.ledgerData = res['data'];
       }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
+        console.error(err);
         this.common.showError();
       });
-
+    this.setFoucus('ref-code');
   }
   getDayBook() {
     console.log('Accounts:', this.bankBook);
