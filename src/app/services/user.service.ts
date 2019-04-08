@@ -47,7 +47,8 @@ export class UserService {
       { id: 17, route: '/admin/gps-supplier-mapping' },
       { id: 18, route: '/admin/vehicles-view' },
       { id: 19, route: '/admin/company-details' },
-      { id: 20, route: '/admin/transport-agents' }
+      { id: 20, route: '/admin/transport-agents' },
+      { id: 21, route: '/admin/driver-list' }
     ]
   }
   

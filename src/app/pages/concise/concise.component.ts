@@ -23,6 +23,7 @@ import { TripDetailsComponent } from "../../modals/trip-details/trip-details.com
 
 import { ResizeEvent } from "angular-resizable-element";
 import { MapService } from "../../services/map.service";
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: "concise",
@@ -165,7 +166,8 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: {
             dblclick: this.showDetails.bind(this, kpi),
-            mouseover: this.mapService.toggleBounceMF.bind(this.mapService, i),
+            mouseover: this.rotateBounce.bind(this, kpi, i),
+            // mouseover: this.mapService.toggleBounceMF.bind(this.mapService, i),
             mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
           }
         },
@@ -173,6 +175,10 @@ export class ConciseComponent implements OnInit {
           value: kpi.showprim_status,
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
+        },
+        location: {
+          value: kpi.Address,
+          action: this.showLocation.bind(this, kpi)
         },
         hrs: {
           value: kpi.x_hrssince,
@@ -195,10 +201,7 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
-        location: {
-          value: kpi.Address,
-          action: this.showLocation.bind(this, kpi)
-        },
+
 
         action: {
           value: "",
@@ -576,11 +579,11 @@ export class ConciseComponent implements OnInit {
         headings: {
           vechile: { title: "Vehicle Number", placeholder: "Vehicle No" },
           status: { title: "Status", placeholder: "Status" },
+          location: { title: "Location", placeholder: "Location" },
           hrs: { title: "Hrs", placeholder: "Hrs " },
           Idle_Time: { title: "Idle Time", placeholder: "Idle Time" },
           trip: { title: "Trip", placeholder: "Trip" },
           kmp: { title: "Kmp", placeholder: "KMP" },
-          location: { title: "Location", placeholder: "Location" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
         columns: this.getTableColumns()
@@ -757,8 +760,21 @@ export class ConciseComponent implements OnInit {
     }
 
     this.mapService.clearAll();
+    for (let index = 0; index < this.kpis.length; index++) {
+      // (kpi.x_idle_time / 60).toFixed(1)
+      if(this.kpis[index].showprim_status == "No Data 12 Hr"|| this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data" ){
+        this.kpis[index].color = "ff0000";
+      }
+      else if((this.kpis[index].x_idle_time/60)>0){
+     
+        this.kpis[index].color = "00ff00";
+      }else{
+        this.kpis[index].color = "ffff00";
+      }
+     
+    }
     setTimeout(() => {
-      this.mapService.setMapType(3);
+      this.mapService.setMapType(0);
       this.mapService.createMarkers(this.kpis);
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {
@@ -785,8 +801,12 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
+      <span><b>Trip:</b>${this.getTripStatusHTML(event)}</span> <br>
+      <b>Status:</b>${event.showprim_status} <br>
+      <b>Location:</b>${event.Address} <br>
       `
     );
+    this.rotateBounce(event,null,false);
     this.infoWindow.setPosition(
       this.mapService.createLatLng(event.x_tlat, event.x_tlong)
     ); // or evt.latLng
@@ -809,4 +829,60 @@ export class ConciseComponent implements OnInit {
       this.initialiseMap();
     }, 1000);
   }
+  print(id) {
+    console.log("printid =", id);
+    const printContent = document.getElementById(id);
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+
+    let data = `<!doctype html>
+    <html>
+    
+    <head>
+      <meta charset="utf-8">
+      <title>E-logist</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="favicon.png">
+      <link rel="icon" type="image/x-icon" href="favicon.ico">
+      <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+      <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+      </script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs&libraries=geometry,places,drawing">
+      </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
+    
+    
+    </head>
+    
+    <body>
+    ${printContent.innerHTML}
+    </body>
+    </html>
+    `;
+    console.log("print data=", data);
+    // WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.write(data);
+
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+  }
+  
+  rotate = '';
+  rotateBounce(kpi, i?, isToggle=true) {
+    this.rotate = 'rotate(' + kpi.x_angle + 'deg)';
+    console.log("rotate", this.rotate);
+    if(isToggle){
+      this.mapService.toggleBounceMF(i);
+    }
+  }
+
 }

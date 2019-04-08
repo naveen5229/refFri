@@ -77,7 +77,7 @@
   </thead>
   <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
     <td>{{i + 1}}</td>
-    <td>{{dataItem.y_date | date : 'dd MMM yyyy'}}</td>
+    <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>
     <td>{{dataItem.y_type}}</td>

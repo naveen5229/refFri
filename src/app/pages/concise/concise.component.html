@@ -115,8 +115,9 @@
             [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}"
             [resizeEdges]="{bottom: false, right: false, top: false, left: true}"
             (resizeEnd)="onResizeEnd($event, 'map')"> -->
-          <div [hidden]="!isMapView" style="padding: 0px; min-width:300px; display:inline-block;" [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}">
+          <div [hidden]="!isMapView" style="padding: 0px; min-width:300px; display:inline-block; position: relative;" [ngStyle]="{width: 'calc(100% - '+ widths.smartTable +')'}">
             <div id="concise-view-map" style="width: 100%; height: 87vh;"></div>
+            <div class="tracker_img" [ngStyle]="{'transform':rotate}"><img src="./assets/images/arrow-top.png" alt="image"></div>
           </div>
           <!-- </div> -->
           <!-- ============================== MAP VIEW END =============================== -->
@@ -126,3 +127,4 @@
     </div>
   </nb-card-body>
 </nb-card>
+<!-- <button (click) = "print('print-section')">print</button>  -->
