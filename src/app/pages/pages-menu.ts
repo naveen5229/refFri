@@ -96,5 +96,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-traffic-light',
     link: '/pages/driver-call-suggestion'
   }
-
 ];
