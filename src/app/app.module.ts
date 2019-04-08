@@ -118,6 +118,7 @@ import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/p
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 import { ResizableModule } from 'angular-resizable-element';
 import {NgxPrintModule} from 'ngx-print';
+import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -199,7 +200,8 @@ import {NgxPrintModule} from 'ngx-print';
     TripDetailsComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-    PendingLicenceDetailComponent
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -277,7 +279,8 @@ import {NgxPrintModule} from 'ngx-print';
     VehicleAnalysisComponent,
     RouteMapperComponent,
     TripDetailsComponent,
-    PendingLicenceDetailComponent
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent
   ],
   imports: [
     BrowserModule,

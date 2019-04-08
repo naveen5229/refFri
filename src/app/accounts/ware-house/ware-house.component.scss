@@ -22,12 +22,19 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+           
         }
         th:nth-child(1){
-            width: 20px;
+            width: 10px;
         }
-        th{
-            width: 130px;
+        th:nth-child(3),
+        th:nth-child(4),
+        th:nth-child(5),
+        th:nth-child(7){
+            width: 150px;
+        }
+        th:nth-child(6){
+            width: 80px;
         }
         td{
             padding: 5px 10px !important;
@@ -45,14 +52,6 @@ table{
         }
     }
     tbody{
-        tr{
-            td:nth-child(1){
-                width: 20px;
-            }
-            td{
-                width: 130px;
-            }
-        }
         tr:nth-child(odd){
             background-color: #fff;
         }
@@ -60,8 +59,7 @@ table{
             background-color: #e4e4e4;
         }
     }
-    
-}
+} 
 .add-button{
     position: fixed;
     bottom: 10px;
@@ -72,6 +70,7 @@ table{
     box-shadow: 3px 2px 10px #989898;
     cursor: pointer !important;
 }
+
 .selected {
     background-color: #576c77
 }
@@ -84,4 +83,3 @@ i{
     font-size: 14px;
     align-content: center;
 }
-

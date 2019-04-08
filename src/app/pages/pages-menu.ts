@@ -79,7 +79,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Call Logs',
     icon: 'fa fa-phone',
     link:'/pages/call-logs'
-  }
+  },
   // {
   //   title: 'Route Mapper',
   //   icon: 'fal fa-map-pin',
@@ -91,5 +91,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link:'/driver/dashboard',
   //   home: true,
   // },
+  {
+    title: 'Traffic',
+    icon: 'fa fa-traffic-light',
+    link: '/pages/driver-call-suggestion'
+  }
 
 ];
