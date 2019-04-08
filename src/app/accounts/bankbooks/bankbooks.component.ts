@@ -7,13 +7,13 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 
 @Component({
-  selector: 'daybooks',
-  templateUrl: './daybooks.component.html',
-  styleUrls: ['./daybooks.component.scss']
+  selector: 'bankbooks',
+  templateUrl: './bankbooks.component.html',
+  styleUrls: ['./bankbooks.component.scss']
 })
-export class DaybooksComponent implements OnInit {
+export class BankbooksComponent implements OnInit {
   selectedName = '';
-  DayBook = {
+  bankBook = {
     enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
@@ -51,7 +51,7 @@ export class DaybooksComponent implements OnInit {
     this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
-    this.common.currentPage = 'Day Book';
+    this.common.currentPage = 'Bank Book';
 
 
 
@@ -120,13 +120,13 @@ export class DaybooksComponent implements OnInit {
 
   }
   getDayBook() {
-    console.log('Accounts:', this.DayBook);
+    console.log('Accounts:', this.bankBook);
     let params = {
-      startdate: this.DayBook.startdate,
-      enddate: this.DayBook.enddate,
-      ledger: this.DayBook.ledger.id,
-      branchId: this.DayBook.branch.id,
-      vouchertype: this.DayBook.vouchertype.id,
+      startdate: this.bankBook.startdate,
+      enddate: this.bankBook.enddate,
+      ledger: this.bankBook.ledger.id,
+      branchId: this.bankBook.branch.id,
+      vouchertype: this.bankBook.vouchertype.id,
     };
 
     this.common.loading++;
@@ -151,16 +151,16 @@ export class DaybooksComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.DayBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log(this.DayBook[date]);
+      this.bankBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      console.log(this.bankBook[date]);
     });
   }
 
   onSelected(selectedData, type, display) {
-    this.DayBook[type].name = selectedData[display];
-    this.DayBook[type].id = selectedData.id;
+    this.bankBook[type].name = selectedData[display];
+    this.bankBook[type].id = selectedData.id;
     console.log('Selected Data: ', selectedData, type, display);
-    console.log('order User: ', this.DayBook);
+    console.log('order User: ', this.bankBook);
   }
 
   handleVoucherDateOnEnter() {

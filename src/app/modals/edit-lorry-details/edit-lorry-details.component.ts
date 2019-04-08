@@ -390,4 +390,16 @@ export class EditLorryDetailsComponent implements OnInit {
     this.LrData.lr_date = null;
   }
 
+
+
+  checkDateFormat() {
+    let dateValue = this.lrDate;
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    this.lrDate= date + '/' + month + '/' + year;
+    console.log('Date: ', this.lrDate);
+  }
+
 }
