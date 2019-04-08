@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
 
 @Component({
   selector: 'daybooks',
@@ -98,8 +99,18 @@ export class DaybooksComponent implements OnInit {
       });
 
   }
-  openinvoicemodel(){
-    console.log('welcome to invoice ');
+  openinvoicemodel(invoiceid) {
+    // console.log('welcome to invoice ');
+    this.common.params = invoiceid;
+    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        console.log('open succesfull');
+
+        // this.addLedger(data.ledger);
+      }
+    });
   }
 
   getAllLedger() {
@@ -201,7 +212,7 @@ export class DaybooksComponent implements OnInit {
     console.log('vouher id', voucherId);
     this.common.params = voucherId;
 
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
