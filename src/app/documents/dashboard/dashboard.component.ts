@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit {
     this.getDocumentData();
     this.common.refresh = this.refresh.bind(this);
     console.log("foid:", this.user._customer.id);
+    this.common.currentPage = 'Vehicle Documents Summary';
   }
 
   ngOnInit() {

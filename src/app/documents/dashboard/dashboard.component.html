@@ -1,12 +1,12 @@
-<nb-card>
-  <nb-card-header>
+<nb-card style="border:0px;">
+  <!-- <nb-card-header>
     <h4> Vehicle Documents Summary</h4>
-  </nb-card-header>
+  </nb-card-header> -->
 
-  <nb-card-body>
-      <span>Export : 
-          <span title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
-          <span title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
+  <nb-card-body style="padding-top:0px; ">
+      <span style="margin-bottom: 10px; display: block;"> 
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
       </span>
     <smart-table *ngIf="documentData.length" [data]="table.data" [settings]="table.settings" id="tblsummary"></smart-table>
     <br>
