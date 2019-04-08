@@ -19,6 +19,8 @@ export class WareHouseComponent implements OnInit {
     public modalService: NgbModal) {
       
     this.getWareHouseData();
+    
+    this.common.currentPage = 'Ware House';
   }
 
   ngOnInit() {

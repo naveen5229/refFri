@@ -93,7 +93,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   // },
   {
     title: 'Traffic',
-    icon: 'fa fa-traffic-light',
+    icon: 'fas fa-traffic-light',
     link: '/pages/driver-call-suggestion'
   }
 
