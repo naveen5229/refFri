@@ -150,13 +150,13 @@ export class InvoiceregisterComponent implements OnInit {
       }else  if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       }else  if (this.activeId.includes('ledger')) {
-        this.setFoucus('startdate');
+        this.setFoucus('code');
       }else  if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');
       }else  if (this.activeId.includes('enddate')) {
-        this.setFoucus('code');
-      }else  if (this.activeId.includes('custcode')) {
         this.setFoucus('submit');
+      }else  if (this.activeId.includes('custcode')) {
+        this.setFoucus('startdate');
       }else  if (this.activeId.includes('code')) {
         this.setFoucus('custcode');
       }

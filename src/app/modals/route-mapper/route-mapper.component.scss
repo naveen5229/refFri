@@ -1,3 +1,6 @@
+.modal-header{
+    padding: 10px 15px !important;
+}
 table{
     margin: 0px;
 }
@@ -42,7 +45,7 @@ table{
 .slide-bar .player_inner{
     position: absolute;
     width: 100%;
-    top: 42%;
+    top: 50%;
     -webkit-transform: translate(0px, -50%);
     transform: translate(0px, -50%);
     height: auto;
@@ -54,10 +57,22 @@ table{
     background-color: #000;
     border: 0px;
     color: #fff;
-    font-size: 14px;
-    padding: 12px 16px;
+    font-size: 12px;
+    padding: 8px 10px;
     border-radius: 5px;
     outline: none !important;
+}
+.player_inner span{
+    color: #868686;
+}
+.player_inner .road{
+    float:right;
+    margin-top: 5px;
+}
+.player_inner span.clock{
+    display: block;
+    text-align: right;
+    margin-top: 0px;
 }
 .player_inner input{
     display: inline-block;
@@ -118,4 +133,12 @@ table{
   .close{
     font-size: 36px;
     padding: 8px 16px;
+    outline: none;
+  }
+  table{
+        tr{
+          th, td{
+              padding: 5px !important;
+          }
+      }
   }

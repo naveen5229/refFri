@@ -4,8 +4,8 @@
   </nb-card-header> -->
 <nb-card-body>
 <button class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
-<table class="table table-bordered">
-    <thead style="background-color: #263238; color:#fff;">
+<table class="table table-bordered ">
+    <thead style="background-color: #263238; color:#fff; white-space: nowrap;">
     <tr>
       <th>#</th>
       <th>Name</th>
@@ -13,18 +13,18 @@
       <th>Email</th>
       <th>Excise no</th>
       <th>Fax Number</th>
-      <th>Gst no</th>
+      <th>GST no</th>
       <th>importexportno</th>
       <th>mobilenumber</th>
-      <th>panno</th>
+      <th>PAN No</th>
       <th>phonenumber</th>
       <th>remarks</th>
-      <th>tanno</th>
-      <th>Tax Exemption No</th>
-      <th>Tin No</th>
+      <th>TAN No</th>
+      <th>TAX Exemption No</th>
+      <th>TIN No</th>
       <th>tollfreenumber</th>
       <th>addressline</th>
-      <th>Date</th>
+      <!-- <th>Date</th> -->
     </tr>
   </thead>
   <tbody>
@@ -48,7 +48,7 @@
           <td>{{branchdata.tinno}}</td>
           <td>{{branchdata.tollfreenumber}}</td>
           <td>{{branchdata.addressline}}</td>
-          <td>{{branchdata.entry_dt | date : 'dd MMM HH:mm'}}</td>
+          <!-- <td>{{branchdata.entry_dt | date : 'dd-MMM-yy'}}</td> -->
           <!--td><button class="btn" (click)="openAccountModal(branch)">Edit</button></td-->
         </tr>
   </tbody>

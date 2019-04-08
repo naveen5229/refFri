@@ -10,8 +10,14 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
-table{
+.main{
     margin-top: 30px;
+    max-height: 79vh;
+    overflow: auto;
+    display: block;
+}
+table{
+
     tr{
         th{
             padding: 5px 10px;

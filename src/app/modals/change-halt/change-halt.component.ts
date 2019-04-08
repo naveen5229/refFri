@@ -40,10 +40,20 @@ export class ChangeHaltComponent implements OnInit {
     this.activeModal.close();
   }
 
+  setHalt(haltType) {
+    this.HaltType = haltType;
+    this.submitModal();
+  }
+  setSite(siteType) {
+    this.SiteType = siteType;
+    this.submitModal();
+  }
+
   submitModal() {
     if (this.type == 'SiteType') {
       this.createSite();
     } else if (this.type == 'HaltType') {
+      console.log("haltType++++++++++", this.HaltType);
       this.changeHalt();
     }
   }
@@ -95,16 +105,16 @@ export class ChangeHaltComponent implements OnInit {
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-           this. changeHalt();
+          this.changeHalt();
         }
       });
     }
-    else if(data.y_type == 0){
+    else if (data.y_type == 0) {
       alert(data.y_msg);
-      this.HaltType=null;
+      this.HaltType = null;
     }
-    else if(data.y_type == -1){
-      this. changeHalt();
+    else if (data.y_type == -1) {
+      this.changeHalt();
     }
   }
 

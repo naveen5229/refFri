@@ -10,11 +10,13 @@ import { UserService } from '../../@core/data/users.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+  title = '';
   Accounts = [];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+
     this.GetAccount();
     this.common.currentPage = 'Account';
   }
@@ -50,7 +52,7 @@ export class AccountComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.updateAccount(data.Accounts,Accounts.id);
-          return
+          return;
         }
       });
     }
@@ -70,7 +72,7 @@ export class AccountComponent implements OnInit {
     console.log('accountdata', Accounts);
     const params = {
       name: Accounts.name,
-      foid: Accounts.user.id,
+      foid:123,
       parentid: Accounts.account.id,
       primarygroupid: Accounts.account.primarygroup_id,
       x_id: 0
@@ -81,6 +83,13 @@ export class AccountComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_secondarygroup;
+        if (result == '') {
+          this.common.showToast("Add Successfull  ");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.GetAccount();
       }, err => {
         this.common.loading--;
@@ -103,6 +112,13 @@ export class AccountComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_secondarygroup;
+        if (result == '') {
+          this.common.showToast(" Updated Sucess");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.GetAccount();
       }, err => {
         this.common.loading--;

@@ -24,14 +24,16 @@ export class AccountsComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
+   
+
 
     if (this.common.params) {
       this.Accounts = {
         name: this.common.params.name,
 
         account: {
-          name: this.common.params.name,
-          id: this.common.params.id,
+          name: this.common.params.parent_name,
+          id: this.common.params.parent_id,
           primarygroup_id: this.common.params.primarygroup_id
         }
       }

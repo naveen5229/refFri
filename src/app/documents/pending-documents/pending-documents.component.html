@@ -1,79 +1,85 @@
-<nb-card style="margin: 0px; border:0px; padding-top: 25px;">
+<nb-card style="margin: 0px; border:0px; padding-top: 0px;">
   <!-- <nb-card-header>
     <h4>Pending Vehicle Documents</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 360px;">
+  <nb-card-body>
     <div class="container">
+        <div class="row" style="height: 50px;">
+            <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
+            <div class="col-sm-2 list">
+              <select name="list" class="form-control " (change)="selectList($event.target.value)">
+                <option class="form-control" [value]="0">Pending</option>
+                <option class="form-control" [value]="1">Advance Review</option>
+              </select>
+            </div>
+        </div>
       <div class="row">
-          <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
-          <div class="col-sm-3 list">
-            <select name="list" class="form-control " (change)="selectList($event.target.value)">
-              <option class="form-control" [value]="0">Pending</option>
-              <option class="form-control" [value]="1">Advance Review</option>
-            </select>
-          </div>
-
-        <!--<div class="col-sm-12" style="padding-left: 0; margin-top: 15px;">Export : 
+      <!--<div class="col-sm-12" style="padding-left: 0; margin-top: 15px;">Export : 
             <span title="PDF Export" (click)="this.common.getPDFFromTableId('tblpending', '', (this.listtype == 1)? 'ADVANCED REVIEW DOCUMENTS' : 'PENDING VEHICLE DOCUMENTS')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
             <span title="CSV Export" (click)="common.getCSVFromTableId('tblpending')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
         </div>-->
-        <table class="table table-bordered table-hover table-scroll mt-3" id="tblpending">
-          <thead class="thead">
-
-            <tr>
-              <th>SrNo</th>
-              <th *ngFor="let col of columns" class="text-center">
-                {{formatTitle(col)}}
-              </th>
-              <th style="width:120px; text-align: center;" class="del">Action</th>
-            </tr>
-          </thead>
-
-          <tbody class="">
-            <ng-container *ngIf="data != 'undefined'">
-              <tr *ngFor="let row of data; let i = index" class="">
-               
-                  <td style="width:5%;">{{i + 1}}</td>
-                  <td *ngFor="let col of columns">
-                  <span  style="min-width: 200px;">{{row[col]}}</span>
-           
-                </td>
-                  <td class="del" style="width: 120px;">
-                    <a href="javascript: void(0);" class="edit" title="Edit Document" (click)="showDetails(row)"><i
-                        class="icon ion-md-create"></i></a>&nbsp;
-                    <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteDocument(row)"><i
-                        class="fa fa-trash"></i></a>
-                    </td>
-                
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
+        <div class="list_table">
+            <table class="table table-bordered table-hover table-scroll" id="tblpending">
+                <thead class="thead">
+      
+                  <tr>
+                    <th>SrNo</th>
+                    <th *ngFor="let col of columns" class="text-center">
+                      {{formatTitle(col)}}
+                    </th>
+                    <th style="width:120px; text-align: center;" class="del">Action</th>
+                  </tr>
+                </thead>
+      
+                <tbody>
+                  <ng-container *ngIf="data != 'undefined'">
+                    <tr *ngFor="let row of data; let i = index" class="">
+                     
+                        <td>{{i + 1}}</td>
+                        <td *ngFor="let col of columns">
+                        <span  style="min-width: 200px;">{{row[col]}}</span>
+                 
+                      </td>
+                        <td class="del">
+                          <a href="javascript: void(0);" class="edit" title="Edit Document" (click)="showDetails(row)"><i
+                              class="icon ion-md-create"></i></a>&nbsp;
+                          <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteDocument(row)"><i
+                              class="fa fa-trash"></i></a>
+                          </td>
+                      
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+        </div>
+        
       </div>
 
       <div class="row">
         <h6>Work List</h6>
 
-
-        <table class="table table-bordered table-hover table-scroll">
-          <thead class="thead">
-            <tr>
-              <th>SrNo</th>
-              <th *ngFor="let col of columns2">{{formatTitle(col)}}</th>
-            </tr>
-          </thead>
-
-          <tbody class="">
-            <ng-container *ngIf="userdata != 'undefined'">
-              <tr *ngFor="let row of userdata; let i = index">
-                <td style="width:5%;">{{i + 1}}</td>
-                <td *ngFor="let col of columns2">
-                <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
-              </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
+        <div class="work-table">
+            <table class="table table-bordered table-hover table-scroll">
+                <thead class="thead">
+                  <tr>
+                    <th>SrNo</th>
+                    <th *ngFor="let col of columns2">{{formatTitle(col)}}</th>
+                  </tr>
+                </thead>
+      
+                <tbody class="">
+                  <ng-container *ngIf="userdata != 'undefined'">
+                    <tr *ngFor="let row of userdata; let i = index">
+                      <td>{{i + 1}}</td>
+                      <td *ngFor="let col of columns2">
+                      <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
+                    </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+        </div>
+        
       </div>
 
 

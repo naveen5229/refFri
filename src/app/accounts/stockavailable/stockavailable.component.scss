@@ -64,11 +64,6 @@ table tr.highlight {
     max-height: 105px !important;
 }
 
-:host ::ng-deep.active-suggestion {
-    background: #263238 !important;
-    color: #fff !important;
-}
-
 
 table{
     tr{
