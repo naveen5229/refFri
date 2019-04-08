@@ -15,13 +15,8 @@ export class BranchComponent implements OnInit {
     name: '',
     user: {
       name: '',
-      id: ''
     },
-    account: {
-      name: '',
-      id: '',
-      primarygroup_id: ''
-    },
+    rowid:null,
     code: '',
     phonenumber: '',
     mobilenumber: '',
@@ -46,33 +41,30 @@ export class BranchComponent implements OnInit {
 
 
     if (this.common.params) {
+      console.log("After the modal Open:",this.common.params);
       this.Branches = {
         name: this.common.params.name,
+        rowid:this.common.params.id,
         user: {
           name: this.common.params.name,
-          id: this.common.params.id
         },
-        account: {
-          name: this.common.params.name,
-          id: this.common.params.id,
-          primarygroup_id: this.common.params.primarygroup_id
-        },
-        code: '',
-        phonenumber: '',
-        mobilenumber: '',
-        faxnumber: '',
-        tollfreenumber: '',
-        email: '',
-        exciseno: '',
-        tinno: '',
-        panno: '',
-        importexportno: '',
-        tanno: '',
-        gstno: '',
-        taxexemptionno: '',
-        isactive: '',
-        addressline: '',
-        remarks: ''
+       
+        code: this.common.params.code,
+        phonenumber: this.common.params.phonenumber,
+        mobilenumber: this.common.params.mobilenumber,
+        faxnumber: this.common.params.faxnumber,
+        tollfreenumber: this.common.params.tollfreenumber,
+        email: this.common.params.email,
+        exciseno: this.common.params.exciseno,
+        tinno: this.common.params.tinno,
+        panno: this.common.params.panno,
+        importexportno: this.common.params.importexportno,
+        tanno: this.common.params.tanno,
+        gstno: this.common.params.gstno,
+        taxexemptionno: this.common.params.taxexemptionno,
+        isactive: this.common.params.isactive,
+        addressline: this.common.params.addressline,
+        remarks: this.common.params.remarks
       }
 
       //  console.log('Accounts: ', this.Accounts);
@@ -83,7 +75,7 @@ export class BranchComponent implements OnInit {
   }
   dismiss(response) {
     console.log('Accounts:', this.Branches);
-    this.activeModal.close({ response: response, ledger: this.Branches });
+    this.activeModal.close({ response: response, Branch: this.Branches });
   }
 
   onSelected(selectedData, type, display) {

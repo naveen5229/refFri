@@ -122,20 +122,20 @@ export class RouteMapperComponent implements OnInit {
                 if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
                   vehicleEvents[index].subType = 'marker';
                   vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                  vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                }else{
+                  vehicleEvents[index].color = "00ffff";
                 }
-                if (parseFloat(this.commonService.dateDiffInHours(
-                  vehicleEvents[index].start_time,element.time))<0.00001
-                    ) {
+                if (new Date(vehicleEvents[index].start_time)>=new Date(element.time)&&res['data'][i+1]&&
+                    new Date(vehicleEvents[index].start_time)<=new Date(res['data'][i+1].time)){
                   vehicleEvents[index].position = (i / res['data'].length) * 97;
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
                     elementx.start_time,elementx.end_time);
-                  continue;
                 }
-                if(new Date(vehicleEvents[index].start_time) < new Date(this.startDate)){
-                  vehicleEvents[index].position = 0;
-                  vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
-                    elementx.start_time,elementx.end_time);
-                  continue;
+
+                if (vehicleEvents[index].end_time&&new Date(vehicleEvents[index].end_time)>=new Date(element.time)
+                    &&res['data'][i+1]&&new Date(vehicleEvents[index].end_time)<=new Date(res['data'][i+1].time)){
+                  vehicleEvents[index].eposition = (i / res['data'].length) * 97;
                 }
               }
               this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
@@ -150,6 +150,21 @@ export class RouteMapperComponent implements OnInit {
               icon: this.mapService.lineSymbol,
               offset: "0%"
             }]);
+            let finalIndex = 0;
+            for (const events of vehicleEvents) {
+              if(new Date(events.start_time) < new Date(this.startDate)){
+                events.position = 0;
+                events.duration = this.commonService.dateDiffInHoursAndMins(
+                  events.start_time,events.end_time);
+              }
+              if(new Date(events.end_time) > new Date(this.endDate)||!events.end_time){
+                events.eposition = 100;
+                events.duration = this.commonService.dateDiffInHoursAndMins(
+                  events.start_time,events.end_time);
+              }
+              vehicleEvents[finalIndex].width = events.eposition-events.position;
+              finalIndex++;
+            }
             console.log("VehicleEvents", vehicleEvents);
             vehicleEvents = vehicleEvents.reverse();
             this.vehicleEvents = vehicleEvents;

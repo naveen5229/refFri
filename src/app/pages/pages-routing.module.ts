@@ -15,13 +15,12 @@ import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-avera
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
-import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
-
-
+import { PlacementsComponent } from './placements/placements.component';
 import { from } from 'rxjs';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
-
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -87,13 +86,21 @@ const routes: Routes = [{
     component: RouteMapperComponent
   },
   {
+    path: 'trends',
+    component: TrendsComponent
+  },
+  {
+    path: 'placements',
+    component: PlacementsComponent
+  },
+  {
+    path: 'call-logs',
+    component: CallLogsComponent
+  },
+  {
     path: 'driver-call-suggestion',
     component: DriverCallSuggestionComponent
   }
-  // {
-  //   path: 'image-processing',
-  //   component: ImageProcessingComponent
-  // },
   ],
 }];
 

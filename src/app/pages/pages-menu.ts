@@ -65,6 +65,21 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link: '/accounts/dashboard'
   },
+  {
+    title: 'Trends',
+    icon: 'fa fa-line-chart',
+    link:'/pages/trends'
+  },
+  {
+    title: 'Placements',
+    icon: 'fa fa-location-arrow',
+    link:'/pages/placements'
+  },
+  {
+    title: 'Call Logs',
+    icon: 'fa fa-phone',
+    link:'/pages/call-logs'
+  },
   // {
   //   title: 'Route Mapper',
   //   icon: 'fal fa-map-pin',
@@ -76,7 +91,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link:'/driver/dashboard',
   //   home: true,
   // },
-	{
+  {
     title: 'Traffic',
     icon: 'fa fa-traffic-light',
     link: '/pages/driver-call-suggestion'

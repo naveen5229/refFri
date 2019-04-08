@@ -3,30 +3,32 @@
     <h4>Stock Types</h4>
   </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4 add-button" (click)="openStockSubTypeModal()"><i class="fa fa-plus"></i></button>
-<table class="table table-bordered">
-  <thead style="background-color: #263238; color:#fff;">
-    <tr>
-      <th>S.no</th>
-      <th>Stock Type</th>
-      <th>Stock Sub Type</th>
-      <th>Code</th>
-      <th>Date</th>
-      <!-- <th>Action</th> -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let stockType of stockSubTypes; let i = index;"  (click)="selectedRow = i"
-    (dblclick)="openStockSubTypeModal(stockType)" (enter)="openStockSubTypeModal(stockType)"
-    [ngClass]="{'highlight' : selectedRow == i}" >
-        <td>{{i + 1}}</td>
-        <td>{{stockType.stocktypename}}</td>
-        <td>{{stockType.name}}</td>
-        <td>{{stockType.code}}</td>
-        <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
-        <!-- <td><button class="btn" (click)="openStockSubTypeModal(stockType)">Edit</button></td> -->
-      </tr>
-  </tbody>
-</table>
-</nb-card-body>
+    <button class="btn mb-4 add-button" (click)="openStockSubTypeModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>S.no</th>
+            <th>Stock Type</th>
+            <th>Stock Sub Type</th>
+            <th>Code</th>
+            <th>Date</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stockType of stockSubTypes; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openStockSubTypeModal(stockType)" (enter)="openStockSubTypeModal(stockType)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{stockType.stocktypename}}</td>
+            <td>{{stockType.name}}</td>
+            <td>{{stockType.code}}</td>
+            <td>{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
+            <!-- <td><button class="btn" (click)="openStockSubTypeModal(stockType)">Edit</button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
 </nb-card>

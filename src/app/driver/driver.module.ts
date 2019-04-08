@@ -28,6 +28,9 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     ImageViewerModule
   ],
+  exports:[
+    DriverListComponent,
+  ],
   providers: [DatePipe],
   declarations: [
     ...PAGES_COMPONENTS,

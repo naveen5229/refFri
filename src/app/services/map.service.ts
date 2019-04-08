@@ -212,7 +212,7 @@ export class MapService {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 4,
+            scale: 6,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -247,6 +247,7 @@ export class MapService {
     //console.log("index",index);
     //.log("test",test);
     //console.log("item",item);
+    console.log('Evtype:', evtype);
     if (this.markers[id]) {
       if (this.markers[id].getAnimation() == null && evtype == 1) {
         this.markers[id].setAnimation(google.maps.Animation.BOUNCE);

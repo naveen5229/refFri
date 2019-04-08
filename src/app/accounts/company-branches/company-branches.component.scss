@@ -16,6 +16,7 @@ table{
     display: block;
     overflow: auto;
     margin-top: 30px;
+    max-height: 78vh;
     tr{
         th{
             padding: 5px 10px;
@@ -66,4 +67,17 @@ table{
     font-size: 20px;
     box-shadow: 3px 2px 10px #989898;
     cursor: pointer !important;
+}
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #576c77 !important;
+    color: #ffffff;
+    cursor: pointer;
+   
+}
+i{
+    font-size: 14px;
+    align-content: center;
 }

@@ -29,10 +29,10 @@ export class OrdersComponent implements OnInit {
     totalamount: 0,
     grnremarks: '',
     billingaddress: '',
-    branch: {
-      name: '',
-      id: ''
-    },
+    // branch: {
+    //   name: '',
+    //   id: ''
+    // },
     ordertype: {
       name: '',
       id: ''
@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit {
       qty: '',
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
-      taxDetails: '',
+      taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate:0
@@ -117,10 +117,10 @@ export class OrdersComponent implements OnInit {
       totalamount: 0,
       grnremarks: '',
       billingaddress: '',
-      branch: {
-        name: '',
-        id: ''
-      },
+      // branch: {
+      //   name: '',
+      //   id: ''
+      // },
       ordertype: {
         name: '',
         id: ''
@@ -148,7 +148,7 @@ export class OrdersComponent implements OnInit {
         qty: '',
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
-        taxDetails: '',
+        taxDetails: [],
         remarks: '',
         lineamount: 0,
         discountate:0
@@ -170,7 +170,7 @@ export class OrdersComponent implements OnInit {
       qty: '',
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
-      taxDetails: '',
+      taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate:0
@@ -263,12 +263,15 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
+    this.common.params = this.order.amountDetails[i].taxDetails;
+    
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass : "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
+        this.order.amountDetails[i].lineamount += data.taxDetails[0].totalamount;
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -305,7 +308,7 @@ export class OrdersComponent implements OnInit {
       review: order.review,
       shipmentlocation: order.shipmentlocation,
       vendorbidref: order.vendorbidref,
-      branchid: order.branch.id,
+     // branchid: order.branch.id,
       ledger: order.ledger.id,
       ordertype: order.ordertype.id,
       purchaseledgerid: order.purchaseledger.id,

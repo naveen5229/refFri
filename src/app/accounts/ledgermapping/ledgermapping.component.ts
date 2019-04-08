@@ -24,7 +24,7 @@ export class LedgermappingComponent implements OnInit {
     };
     ledgerMappingData=[];
     ledgerList=[];
-    activeId='';
+    activeId='secondaryname';
     selectedRow = -1;
 
     @HostListener('document:keydown', ['$event'])
@@ -76,6 +76,7 @@ export class LedgermappingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerMappingData = res['data'];
+        this.setFoucus('secondaryname');
         if (this.ledgerMappingData.length) {
           document.activeElement['blur']();
           this.selectedRow = 0;

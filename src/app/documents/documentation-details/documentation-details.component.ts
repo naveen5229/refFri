@@ -88,7 +88,8 @@ export class DocumentationDetailsComponent implements OnInit {
         columns: this.getTableColumns()
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: "auto"
       }
     }
   }

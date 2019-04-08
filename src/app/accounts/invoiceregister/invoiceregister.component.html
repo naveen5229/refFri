@@ -1,8 +1,8 @@
-<nb-card style="padding-top: 15px;">
+<nb-card style="padding-top: 25px; border: 0px;">
   <!-- <nb-card-header>
     <h4>Invoice Register</h4>
   </nb-card-header> -->
-<nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+<nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
         <div class="col-9">
           <div class="row">
@@ -31,40 +31,40 @@
         </div>
         <div class="col">
             <div class="form-group">
-                <label class="tjr-label">Starting Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" maxlength="10"
-                placeholder="Select Date" name="account-startDate" id="startdate" [(ngModel)]="invoiceRegister.startDate"x>
+                <label class="tjr-label">Code</label>
+                <input type="text" class="form-control tjr-input" placeholder="Code" id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
             </div>
           </div>
           </div>
           <div class="row">
-          <div class="col">
-              <div class="form-group">
-                  <label class="tjr-label">End Date</label>
-                  <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off" maxlength="10"
-                  placeholder="Select Date" name="account-endDate" [(ngModel)]="invoiceRegister.endDate">
-              </div>
-            </div>
             <div class="col">
                 <div class="form-group">
-                    <label class="tjr-label">Code</label>
-                    <input type="text" class="form-control tjr-input" placeholder="Code" id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
+                    <label class="tjr-label">Cust Code</label>
+                    <input type="text" class="form-control tjr-input"  placeholder="Cust Code" id="custcode" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
                 </div>
               </div>
               <div class="col">
-                  <div class="form-group">
-                      <label class="tjr-label">Cust Code</label>
-                      <input type="text" class="form-control tjr-input"  placeholder="Cust Code" id="custcode" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
-                  </div>
+                <div class="form-group">
+                    <label class="tjr-label">Starting Date</label>
+                    <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" maxlength="10"
+                    placeholder="Select Date" name="account-startDate" id="startdate" [(ngModel)]="invoiceRegister.startDate"x>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                      <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getInvoiceRegister()" id="submit"
-                        style="cursor: pointer;margin-top: 18px;">Submit</button>
-                    </div>
-                  </div>
               </div>
-            </div>
+              <div class="col">
+                <div class="form-group">
+                    <label class="tjr-label">End Date</label>
+                    <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off" maxlength="10"
+                    placeholder="Select Date" name="account-endDate" [(ngModel)]="invoiceRegister.endDate">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getInvoiceRegister()" id="submit"
+                    style="cursor: pointer;margin-top: 18px;">Submit</button>
+                </div>
+              </div>
+          </div>
+      </div>
     <div class="col-3">
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
             <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
@@ -91,7 +91,8 @@
     <th>Net Amount</th>
   </tr>
   </thead>
-  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;">
+  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;"  (click)="selectedRow = i"
+  [ngClass]="{'highlight' : selectedRow == i}">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>

@@ -1,8 +1,8 @@
-<nb-card style="padding-top: 15px;">
+<nb-card style="padding-top: 25px; border:0px;">
   <!-- <nb-card-header>
     <h4>Outstanding</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+  <nb-card-body (keydown)="keyHandler($event)">
       <div class="row">
           <div class="col-9">
             <div class="row">
@@ -67,10 +67,10 @@
       </thead>
       <tbody *ngFor="let voucherEntry of voucherEntries; let i = index;">
         <tr class="heading_second">
-          <td colspan="3">&nbsp;</td>
-          <td>{{voucherEntry.name}}</td>
-          <td style="text-align:right;">{{voucherEntry.amount.debit}}</td>
-          <td style="text-align:right;">{{voucherEntry.amount.credit}}</td>
+          <th colspan="3">&nbsp;</th>
+          <th>{{voucherEntry.name}}</th>
+          <th style="text-align:right;">{{voucherEntry.amount.debit}}</th>
+          <th style="text-align:right;">{{voucherEntry.amount.credit}}</th>
         </tr>
         <tr *ngFor="let voucher of voucherEntry.vouchers">
           <td>{{voucher.y_code}}</td>
