@@ -103,14 +103,13 @@ table {
 }
 
 .status_box {
-    nb-card:first-child {
-        border-top: 1px solid #d7dee4;
-    }
-
     nb-card {
         margin: 0px;
         border: none;
-        border-bottom: 1px solid #d7dee4;
+        border-top: 1px solid #d7dee4;
+        nb-card-body{
+            padding: 12px 10px;
+        }
     }
 
 }
@@ -217,5 +216,16 @@ mwlResizable {
 
     th:nth-child(9) {
         width: 100px;
+    }
+}
+
+.tracker_img{
+    position: absolute;
+    bottom: 10px;
+    z-index: 999;
+    width: 40px;
+    left: 12px;
+    img{
+        width: 100%;
     }
 }

@@ -26,6 +26,18 @@
           </div>
         </div>
       </div> -->
+      <div class="row">
+        <div class="col-md-6">
+          <label>Fo User</label>
+        </div>
+        <div class="col-md-6">
+          <auto-suggestion  (onSelected)="selectFoUser($event)"
+            url="Suggestion/getFoUsersList" display="name" placeholder="Fo User" 
+            [preSelected]="null" ></auto-suggestion>
+          <div class="suggestions ng-star-inserted">
+          </div>
+        </div>
+      </div>
 
       <div class="row">
         <div class="col-md-6">

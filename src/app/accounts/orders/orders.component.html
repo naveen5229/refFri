@@ -6,14 +6,14 @@
     <div class="row mb-4">
       <div class="col-9">
         <div class="row">
-          <div class="col-4">
+          <!-- <div class="col-4">
             <div class="form-group">
               <label class="ref-label">Branch</label>
               <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
                 display="name" inputId="branch" placeholder="Enter Branch" [data]="branchdata"
                 [preSelected]="{name:'All'}"></auto-suggestion>
             </div>
-          </div>
+          </div> -->
           <div class="col-4">
             <div class="form-group">
               <label class="ref-label">Invoice Type</label>
@@ -297,8 +297,8 @@
           <th>Rate</th>
           <th>Amount</th>
           <!-- <th>Dis Ledger</th>
-          <th>Dis Amount</th>
-          <th>Line Amount</th> -->
+          <th>Dis Amount</th> -->
+          <th>Line Amount</th> 
           <th>Warehouse</th>
           <th>remarks</th>
           <th></th>
@@ -311,6 +311,8 @@
           <td>
             <input type="text" [id]="'stockitem-' + i" class="form-control ref-input" name="'stockitem-' + i"
               [(ngModel)]="amountDetail.stockitem.name" required>
+              <span
+              *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].stockitem.id)) ">(<i>Available Stock Qty is </i>{{ this.totalitem }})</span>
             <!-- <auto-suggestion
                   (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
                   url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"
@@ -327,8 +329,7 @@
             <input type="number" class=" ref-input" autocomplete="off" name="account-qty" [id]="'qty-' + i"
               (input)="amountDetail.lineamount = amountDetail.amount = amountDetail.qty * amountDetail.rate;"
               [(ngModel)]="amountDetail.qty">
-              <span
-              *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].stockitem.id)) ">(<i>Available Stock Item is</i>{{ this.totalitem }})</span>
+             
               <!-- {{findStockitem(order.amountDetails[i].stockitem.id)}} -->
           </td>
           <td>
@@ -349,10 +350,10 @@
           <!-- <td> <input type="number" class="form-control" autocomplete="off" name="account-discountate"
               [(ngModel)]="amountDetail.discountate" [id]="'discountate-' + i"
               (input)="amountDetail.lineamount = amountDetail.amount - amountDetail.discountate;" [value]="0"></td> -->
-          <!-- <td>
+          <td>
             <input type="number" class="form-control" autocomplete="off" name="account-lineamount"
               [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
-          </td> -->
+          </td>
 
           <td>
             <input type="text" [id]="'warehouse-' + i" class="form-control ref-input" [name]="'warehouse-' + i"
@@ -366,7 +367,7 @@
               [(ngModel)]="amountDetail.remarks">
           </td>
           <td>
-            <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax Details</button>
+            <button (click)="TaxDetails(i)" [id]="'taxDetail-'+i" class="btn btn-taxdet">Tax</button>
           </td>
           <td *ngIf="i == 0">
             <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i

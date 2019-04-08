@@ -34,7 +34,7 @@ export class StockSubtypeComponent implements OnInit {
   };
 
   allowBackspace = true;
-  activeId ='stocktype';
+  activeId ='stockType';
   suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -58,8 +58,8 @@ export class StockSubtypeComponent implements OnInit {
 
   autoSuggestion = {
     data: [],
-    targetId: '',
-    display: ''
+    targetId: 'stockType',
+    display: 'name'
   };
 
   ngOnInit() {
@@ -83,6 +83,12 @@ export class StockSubtypeComponent implements OnInit {
       });
 
   }
+  
+  modelCondition(){
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+   }
   selectSuggestion(suggestion, id?) {
     console.log('Suggestion on select: ', suggestion);
       this.stockSubType.stockType.name = suggestion.name;
@@ -137,7 +143,7 @@ export class StockSubtypeComponent implements OnInit {
   selectStockType(stockType) {
     this.stockSubType.stockType.name = stockType.name;
     this.stockSubType.stockType.id = stockType.id;
-    this.showSuggestions.stockType = false;
+   // this.showSuggestions.stockType = false;
   }
 
   onSelected(selectedData, type, display) {
@@ -191,8 +197,8 @@ export class StockSubtypeComponent implements OnInit {
       // console.log('active', activeId);
      // console.log('Active jj: ', activeId.includes('aliasname'));
       if (activeId.includes('user')) {
-        this.setFoucus('stocktype');
-      } else if (activeId.includes('stocktype')) {
+        this.setFoucus('stockType');
+      } else if (activeId.includes('stockType')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
            this.suggestions.list = [];
@@ -209,8 +215,8 @@ export class StockSubtypeComponent implements OnInit {
     event.preventDefault();
     console.log('active 1', activeId);
     if (activeId == 'stock-code') this.setFoucus('stock-name');
-    if (activeId == 'stock-name') this.setFoucus('stocktype');
-    if (activeId == 'stocktype') this.setFoucus('user');
+    if (activeId == 'stock-name') this.setFoucus('stockType');
+    if (activeId == 'stockType') this.setFoucus('user');
   } else if (key != 'backspace') {
     this.allowBackspace = false;
     //event.preventDefault();
@@ -248,7 +254,7 @@ export class StockSubtypeComponent implements OnInit {
     // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
   }
   generateIDs() {
-    let IDs = ['stocktype'];
+    let IDs = ['stockType'];
     
     return IDs;
   }

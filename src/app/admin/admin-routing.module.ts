@@ -22,7 +22,7 @@ import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier
 import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
-
+import { DriverListComponent } from '../driver/driver-list/driver-list.component';
 
 const routes: Routes = [{
     path: '',
@@ -119,6 +119,11 @@ const routes: Routes = [{
         {
             path: 'transport-agents',
             component: TransportAgentsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'driver-list',
+            component: DriverListComponent,
             canActivate: [RouteGuard]
         },
 

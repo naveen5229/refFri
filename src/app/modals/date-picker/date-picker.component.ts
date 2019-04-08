@@ -9,10 +9,12 @@ import { CommonService } from '../../services/common.service';
 })
 export class DatePickerComponent implements OnInit {
   date = new Date();
+  timeType = "lTime";
+  ref_page = null;
   constructor(private activeModal: NgbActiveModal,
     protected dateService: NbDateService<Date>,
     public common: CommonService) {
-
+      this.ref_page = this.common.params.ref_page;
   }
 
   
@@ -43,7 +45,7 @@ export class DatePickerComponent implements OnInit {
   closeModal() {
     setTimeout(() =>{
       console.log('Date: ', this.date);
-      this.activeModal.close({ date: this.date });
+      this.activeModal.close({ date: this.date , timeType:this.timeType });
     }, 100);
   }
 

@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Route Mapper</h4>
+    <h5 class="modal-title" id="modal-basic-title">Route Tracker</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -33,7 +33,7 @@
             </tr>
             <tr>
               <td colspan="3">
-                <table class="tbl table table-bordered table-hover" style="border:1px gray solid">
+                <table class="tbl table table-bordered table-hover">
                   <thead>
                     <th style="width:40px;">Reason</th>
                     <th>Place</th>
@@ -44,7 +44,7 @@
           <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
             <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
                 (mouseover)="mapService.toggleBounceMF(i,2)"
-              [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}">
+              [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
               <td>{{vehicleEvent.halt_reason}}</td>
               <td>{{vehicleEvent.loc_name}}</td>
               <td>{{commonService.changeDateformat2(vehicleEvent.start_time)}}</td>
@@ -61,8 +61,8 @@
         </tbody>
         </table>
       </div>
-      <div class="col-7">
-        <div id="map" style="width: 100%; height: 500px">
+      <div class="col-7 pl-0">
+        <div id="map" style="width: 100%; height:68vh">
         </div>
         <div class="slide-bar" >
           <div class="row player_inner">
@@ -71,6 +71,8 @@
                   <i *ngIf="isPlay" class="fa fa-pause"></i>
                   <i *ngIf="!isPlay" class="fa fa-play"></i>
                 </button>
+                <span class="road"><i class="fa fa-road"></i></span>
+                <span class="clock"><i class="fa fa-clock"></i></span>
             </div>
             <div class="col-11 pr-0 tooltip">
                 <input (input)="setSliderPoint()" type="range" min="1" max="100" 

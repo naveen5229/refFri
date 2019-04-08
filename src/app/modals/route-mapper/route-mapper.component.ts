@@ -122,6 +122,9 @@ export class RouteMapperComponent implements OnInit {
                 if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
                   vehicleEvents[index].subType = 'marker';
                   vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                  vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                }else{
+                  vehicleEvents[index].color = "00ffff";
                 }
                 if (new Date(vehicleEvents[index].start_time)>=new Date(element.time)&&res['data'][i+1]&&
                     new Date(vehicleEvents[index].start_time)<=new Date(res['data'][i+1].time)){
