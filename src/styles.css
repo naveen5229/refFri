@@ -288,8 +288,8 @@ nb-card{
 }
 .document-details .tableFixHead{
   overflow: auto;
-  height: calc(100vh - 180px) !important;
-  max-height: calc(101vh - 180px) !important;
+  height: calc(104vh - 180px) !important;
+  max-height: calc(104vh - 180px) !important;
 }
 #tblsummary .tableFixHead{
   overflow: auto;

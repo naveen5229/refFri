@@ -160,9 +160,6 @@ td{
     font-weight: 400;
     padding-left: 38%;
 }
-:host ::ng-deep .menu-icon::before{
-    content: '';
-  }
 :host ::ng-deep .nb-home::before{
     content: '\f015';
 }
