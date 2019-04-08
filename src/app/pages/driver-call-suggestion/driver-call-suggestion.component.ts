@@ -69,6 +69,9 @@ export class DriverCallSuggestionComponent implements OnInit {
       x_runhour = this.runhourval;
     }
     let x_user_id = this.user._details.id;
+    if(this.user._loggedInBy == "admin") {
+      x_user_id = this.user._customer.id;
+    }
     if(typeof x_kmpd == "string") {
       x_kmpd = parseInt(x_kmpd);
     }
