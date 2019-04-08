@@ -46,8 +46,10 @@ export class DocumentsSummaryComponent implements OnInit {
   getDocumentMatrixData() {
     this.common.loading++;
     let user_id = this.user._details.id;
-    let user_mode = this.user._loggedInBy == 'admin' ? 1 : this.user._loggedInBy == 'partner' ? 2 : 3;
-    this.api.post('Vehicles/getDocumentMatrixDataWeb', {x_user_id: user_id, x_user_mode: user_mode})
+    if(this.user._loggedInBy == 'admin') 
+      user_id = this.user._customer.id;
+    //let user_mode = this.user._loggedInBy == 'admin' ? 1 : this.user._loggedInBy == 'partner' ? 2 : 3;
+    this.api.post('Vehicles/getDocumentMatrixDataWeb', {x_user_id: user_id})
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
