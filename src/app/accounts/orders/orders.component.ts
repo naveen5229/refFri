@@ -315,7 +315,8 @@ export class OrdersComponent implements OnInit {
       grnremarks: order.grnremarks,
       // approved: order.Approved,
       // delreview: order.delreview,
-      amountDetails: order.amountDetails
+      amountDetails: order.amountDetails,
+      x_id:0
     };
 
     console.log('params11: ', params);
