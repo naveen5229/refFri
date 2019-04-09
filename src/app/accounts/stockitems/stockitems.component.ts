@@ -149,39 +149,7 @@ export class StockitemsComponent implements OnInit {
 
   }
 
-  updateStockItem(stockItemid, stockItem) {
-    console.log("update in stock item:", stockItem);
-    console.log("update in stock id:", stockItemid);
-    // const params ='';
-    // const params = {
-    //   name: stockItem.name,
-    //   code: stockItem.code,
-    //   stocksubtypeid: stockItem.stockSubType.id,
-    //   sales: stockItem.sales,
-    //   purchase: stockItem.purchase,
-    //   minlimit: stockItem.minlimit,
-    //   maxlimit: stockItem.maxlimit,
-    //   isactive: stockItem.isactive,
-    //   inventary: stockItem.inventary,
-    //   stockunit: stockItem.unit.id,
-    //   stockItemid: stockItemid
-    // };
-
-    // console.log('paramsans: ', params);
-    // this.common.loading++;
-
-    // this.api.post('Stock/UpdateStockItem', params)
-    //   .subscribe(res => {
-    //     this.common.loading--;
-    //     console.log('res: ', res);
-    //     this.getStockItems();
-    //   }, err => {
-    //     this.common.loading--;
-    //     console.log('Error: ', err);
-    //     this.common.showError();
-    //   });
-
-  }
+ 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;

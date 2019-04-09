@@ -11,15 +11,15 @@ import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/w
 })
 export class WareHouseComponent implements OnInit {
   wareHouseData = [];
- 
+
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-      
+
     this.getWareHouseData();
-    
+
     this.common.currentPage = 'Ware House';
     this.common.refresh = this.refresh.bind(this);
 
@@ -42,7 +42,7 @@ export class WareHouseComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data'].invoice[0]);
         this.wareHouseData = res['data'].invoice;
-        console.log("after api data:",this.wareHouseData);
+        console.log("after api data:", this.wareHouseData);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -56,11 +56,11 @@ export class WareHouseComponent implements OnInit {
     if (wareHouse) {
       console.log('ware House', wareHouse);
       this.common.params = wareHouse;
-      this.common.params.title='Ware house';
+      this.common.params.title = 'Ware house';
       const activeModal = this.modalService.open(WareHouseModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.updateWareHouse(data.wareHouse,wareHouse.id);
+          this.updateWareHouse(data.wareHouse, wareHouse.id);
           return;
         }
       });
@@ -82,7 +82,7 @@ export class WareHouseComponent implements OnInit {
     console.log('wareHouse', wareHouse);
     const params = {
       name: wareHouse.name,
-      foid:123,
+      foid: 123,
       parentid: wareHouse.account.id,
       primarygroupid: wareHouse.account.primarygroup_id,
       x_id: 0
@@ -107,11 +107,11 @@ export class WareHouseComponent implements OnInit {
         this.common.showError();
       });
   }
-  updateWareHouse(wareHouse,rowid){
+  updateWareHouse(wareHouse, rowid) {
     console.log('updated data', wareHouse);
     const params = {
       name: wareHouse.name,
-      foid:123,
+      foid: 123,
       parentid: wareHouse.account.id,
       primarygroupid: wareHouse.account.primarygroup_id,
       x_id: rowid
