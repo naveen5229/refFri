@@ -15,6 +15,7 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+  showConfirm = false;
   branchdata = [];
   orderTypeData = [];
   supplier = [];

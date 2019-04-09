@@ -9,6 +9,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./ledger.component.scss']
 })
 export class LedgerComponent implements OnInit {
+  lastActiveId = '';
+
   showConfirm = false;
   showExit = false;
   salutiondata = [];

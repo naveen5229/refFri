@@ -19,7 +19,7 @@
                 <option value="2">Month</option>
               </select>
           </div>  
-          <div class="col-sm-3" *ngIf="period==1 || period==2">
+          <div class="col-sm-3" *ngIf="period=='1' || period=='2'">
             <select [(ngModel)]="week_month_number" class="form-control" (change)="changeTrendType()" style=" border: 1px solid #324148; font-size: 10px">
               <option value="4">4</option>
               <option value="5">5</option>

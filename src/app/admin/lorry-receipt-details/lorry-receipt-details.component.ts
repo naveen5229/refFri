@@ -131,6 +131,10 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
   }
 
+  getLorryDetails(){
+    
+  }
+
 
 
 }
