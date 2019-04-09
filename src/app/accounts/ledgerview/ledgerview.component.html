@@ -54,11 +54,13 @@
     <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
         <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
       </div> -->
+      <div class="auto-sugg">
       <div class="form-group" *ngIf="this.activeId.includes('voucherType')">
           <auto-suggetion-in-side [data]="vouchertypedata" targetId="voucherType" display="name" (select)="onSelected($event, 'voucherType', 'name')"></auto-suggetion-in-side>
         </div>
         <div class="form-group" *ngIf="this.activeId.includes('ledger')">
             <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name" (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+          </div>
           </div>
 </div>
 </div>
