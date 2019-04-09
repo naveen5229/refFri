@@ -37,12 +37,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/alert-related-issue',
         home: true,
     },
-    // {
-    //     title: 'LR View',
-    //     icon: 'nb-home',
-    //     link: '/admin/lrview',
-    //     home: true,
-    // },
+    {
+        title: 'Driver',
+        icon: 'nb-home',
+        link: '/admin/driver-list',
+        home: true,
+    },
     {
         title: 'Generate LR',
         icon: 'nb-home',

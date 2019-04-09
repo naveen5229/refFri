@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditLorryDetailsComponent } from '../../modals/edit-lorry-details/edit-lorry-details.component';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 @Component({
   selector: 'lorry-receipt-details',
@@ -12,6 +13,8 @@ import { EditLorryDetailsComponent } from '../../modals/edit-lorry-details/edit-
 })
 export class LorryReceiptDetailsComponent implements OnInit {
   pendinglr = [];
+  fromDate='';
+  endDate = '';
 
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
@@ -101,6 +104,30 @@ export class LorryReceiptDetailsComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+
+  }
+
+  getDate(type) {
+
+    this.common.params={ref_page:'lrDetails'};
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start'){
+          this.fromDate='';
+          this.fromDate = this.common.dateFormatter(data.date).split(' ')[0];
+          console.log('fromDate',this.fromDate);
+        }
+        else{
+          this.endDate='';
+          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+          console.log('endDate',this.endDate);
+        }
+
+      }
+
+    });
+
 
   }
 

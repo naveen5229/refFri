@@ -32,6 +32,10 @@ export class TaxdetailComponent implements OnInit {
     public common: CommonService) {
     this.setFoucus('taxledger-0');
     this.getPurchaseLedgers();
+    if(this.common.params && this.common.params.length){
+      this.taxdetails = this.common.params;
+      this.common.params = null;
+    }
   }
 
   allowBackspace = true;
@@ -43,7 +47,7 @@ export class TaxdetailComponent implements OnInit {
   dismiss(response) {
     console.log(this.taxdetails);
     this.activeModal.close({ response: response, taxDetails: this.taxdetails });
-    return this.taxdetails;
+    // return this.taxdetails;
     // console.log(this.taxdetails);
 
   }
@@ -72,7 +76,7 @@ export class TaxdetailComponent implements OnInit {
   onSelected(selectedData, type, display, index) {
     this.taxdetails[index][type].name = selectedData[display];
     this.taxdetails[index][type].id = selectedData.id;
-    console.log('tax detail User: ', this.taxdetails);
+    console.log('tax detail User: ', selectedData, type, display, index);
   }
 
   addAmountDetails() {
@@ -99,6 +103,7 @@ export class TaxdetailComponent implements OnInit {
     console.log('Active Id', activeId);
     if (activeId.includes('taxledger')) {
       this.autoSuggestion.targetId = activeId;
+      console.log('-=-----------------------------');
     }
 
     if (this.showConfirm) {
@@ -157,9 +162,22 @@ export class TaxdetailComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
       if (id.includes('taxledger')) {
         this.autoSuggestion.targetId = id;
+        console.log('==================================');
+        console.log('Target Id:', this.autoSuggestion.targetId);
+        console.log('Target Id:', this.autoSuggestion.data);
+        console.log('Target Id:', this.autoSuggestion.display);
+
+
       }
     }, 100);
   }
+
+  
+  modelCondition(){
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+   }
 
   onSelect(suggestion, activeId) {
     console.log('current activeId: ', activeId);

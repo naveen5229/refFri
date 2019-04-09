@@ -104,8 +104,8 @@
             [ngStyle]="{width: isMapView ? widths.smartTable: '100%'}"
             [resizeEdges]="{bottom: false, right: true, top: false, left: false}"
             (resizeEnd)="onResizeEnd($event, 'smartTable')">
-            <div id="print-section">
-              <smart-table style="width:100%;" [data]="table.data" [settings]="table.settings"></smart-table>
+            <div>
+              <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings"></smart-table>
             </div>
           </div>
           <!-- ============================= SMART TABLE END ============================= -->

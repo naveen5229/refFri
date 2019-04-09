@@ -4,12 +4,16 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 
 @Component({
-  selector: 'accounts',
-  templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.scss']
+  selector: 'ware-house-modal',
+  templateUrl: './ware-house-modal.component.html',
+  styleUrls: ['./ware-house-modal.component.scss']
 })
-export class AccountsComponent implements OnInit {
+export class WareHouseModalComponent implements OnInit {
   showConfirm = false;
+  suggestions: [{
+    id :'',
+    name:'',
+  }];
   Accounts = {
     name: '',
 
@@ -24,8 +28,7 @@ export class AccountsComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-   
-
+    this.getWarehouses();
 
     if (this.common.params) {
       this.Accounts = {
@@ -45,7 +48,7 @@ export class AccountsComponent implements OnInit {
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
-    this.activeModal.close({ response: response, Accounts: this.Accounts, });
+    this.activeModal.close({ response: response, wareHouse: this.Accounts, });
   }
 
   onSelected(selectedData, type, display) {
@@ -113,6 +116,20 @@ export class AccountsComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  getWarehouses() {
+    this.common.loading++;
+    this.api.get('Suggestion/GetWareHouse?search=123')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.suggestions = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 
 }

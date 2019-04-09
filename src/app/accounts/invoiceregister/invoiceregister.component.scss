@@ -62,8 +62,16 @@ table{
     overflow: hidden !important;
     max-height: 105px !important;
 }
-
-:host ::ng-deep.active-suggestion {
-    background: #263238 !important;
-    color: #fff !important;
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #576c77 !important;
+    color: #ffffff;
+    cursor: pointer;
+   
+}
+i{
+    font-size: 14px;
+    align-content: center;
 }

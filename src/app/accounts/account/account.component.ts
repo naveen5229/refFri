@@ -10,11 +10,13 @@ import { UserService } from '../../@core/data/users.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+  title = '';
   Accounts = [];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+
     this.GetAccount();
     this.common.currentPage = 'Account';
   }

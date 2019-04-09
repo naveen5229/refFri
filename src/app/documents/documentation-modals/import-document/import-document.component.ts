@@ -26,6 +26,7 @@ export class ImportDocumentComponent implements OnInit {
     type: ''
   };
   vehicleId = '';
+  foUser = '';
   // data = [];
   // docTypes = [];
 
@@ -72,12 +73,18 @@ export class ImportDocumentComponent implements OnInit {
   //   this.docType = documentType;
   //   console.log("Document type", this.docType.id);
   // }
+  selectFoUser(user){
+    this.foUser = user.id;
+      console.log("foid ", this.foUser);
+   
+  }
 
   uploadCsv() {
     const params = {
       driverCsv: this.csv,
+      foid:this.foUser
     };
-    if (!params.driverCsv) {
+    if (!params.driverCsv&&!params.foid) {
       return this.common.showError("Select  Option");
     }
     console.log("Data :", params);
