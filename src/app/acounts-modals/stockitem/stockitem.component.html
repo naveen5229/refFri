@@ -99,7 +99,7 @@
   <div class="row radiostockitem"  *ngIf="!(common.params && common.params.stockType)">
    <div class="col-3">
         <label>Is Active</label>
-        <div class="row">
+        <div class="row iaactive">
             <div class="col-4 pr-0">
                 <div class="form-group">
                     <input type="radio" class="form-control" name="isactive" id="isactive" [(ngModel)]="stockItem.isactive" [value]="true" (keydown.enter)="stockItem.sales = true;" [checked]="true"> 
@@ -116,7 +116,7 @@
     </div>
     <div class="col-3">
         <label>Sales</label>
-      <div class="row">
+      <div class="row ">
         <div class="col-4 pr-0">
             <div class="form-group">
               <input type="radio" class="form-control" name="sales" id="sales" [(ngModel)]="stockItem.sales" [value]="true" (keydown.enter)="stockItem.purchase = true;">

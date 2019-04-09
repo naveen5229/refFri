@@ -21,11 +21,16 @@ export class WareHouseComponent implements OnInit {
     this.getWareHouseData();
     
     this.common.currentPage = 'Ware House';
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
-
+  refresh() {
+    console.log('Refresh');
+    this.getWareHouseData();
+  }
   getWareHouseData() {
     let params = {
       foid: 123

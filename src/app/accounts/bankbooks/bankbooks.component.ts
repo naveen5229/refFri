@@ -24,10 +24,7 @@ export class BankbooksComponent implements OnInit {
       name: 'All',
       id: 0
     },
-    vouchertype: {
-      name: 'All',
-      id: 0
-    },
+  
     issumrise: 'true'
 
   };
@@ -54,7 +51,6 @@ export class BankbooksComponent implements OnInit {
     this.common.currentPage = 'Bank Book';
 
 
-
   }
 
   ngOnInit() {
@@ -63,6 +59,7 @@ export class BankbooksComponent implements OnInit {
   ngAfterViewInit() {
 
   }
+ 
 
   // getVoucherTypeList() {
   //   let params = {
@@ -131,18 +128,17 @@ export class BankbooksComponent implements OnInit {
       });
     this.setFoucus('ref-code');
   }
-  getDayBook() {
+  getBankBook() {
     console.log('Accounts:', this.bankBook);
     let params = {
       startdate: this.bankBook.startdate,
       enddate: this.bankBook.enddate,
       ledger: this.bankBook.ledger.id,
       branchId: this.bankBook.branch.id,
-      vouchertype: this.bankBook.vouchertype.id,
     };
 
     this.common.loading++;
-    this.api.post('Company/GetDayBook', params)
+    this.api.post('Company/GetBankBook', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
