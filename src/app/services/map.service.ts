@@ -212,7 +212,7 @@ export class MapService {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 4,
+            scale: 6,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1

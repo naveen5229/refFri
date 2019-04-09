@@ -10,24 +10,24 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
-table{
+.main{
+    display: block;
+    overflow: auto;
     margin-top: 30px;
-    max-height: 75vh;
+    max-height: 79vh;
+}
+table{
+  
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
         }
         th:nth-child(1){
-            width: 10px;
+            width: 20px;
         }
-        th:nth-child(3),
-        th:nth-child(4),
-        th:nth-child(5){
-            width: 150px;
-        }
-        th:nth-child(6){
-            width: 80px;
+        th{
+            width: 130px;
         }
         td{
             padding: 5px 10px !important;
@@ -45,6 +45,14 @@ table{
         }
     }
     tbody{
+        tr{
+            td:nth-child(1){
+                width: 20px;
+            }
+            td{
+                width: 130px;
+            }
+        }
         tr:nth-child(odd){
             background-color: #fff;
         }
@@ -76,3 +84,4 @@ i{
     font-size: 14px;
     align-content: center;
 }
+

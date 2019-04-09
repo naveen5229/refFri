@@ -218,7 +218,9 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .fas.fa-clipboard-check::before,
 .fas.fa-receipt::before,
 .fas.fa-coins::before,
-.fas.fa-user-cog::before{
+.fas.fa-user-cog::before,
+.fas.fa-warehouse::before,
+.fas.fa-traffic-light::before{
   font-family:inherit;
 }
 .nb-theme-corporate .modal-content{
@@ -273,9 +275,6 @@ nb-menu .menu-item > .menu-items > .menu-item a{
   top: 40% !important;
   transform: translate(0%,-50%) !important;
 }
-.document-details .tableFixHead{
-  height: 403px !important;
-}
 nb-card{
   margin: 0px !important;
 }
@@ -286,10 +285,40 @@ nb-card{
   max-width: 100%;
   margin-top: 10px;
 }
-
+.document-details table{
+  margin-bottom: 0px;
+}
+.document-details .tableFixHead{
+  overflow: auto;
+  height: calc(104vh - 180px) !important;
+  max-height: calc(104vh - 180px) !important;
+}
+#tblsummary .tableFixHead{
+  overflow: auto;
+  height: calc(104vh - 180px) !important;
+  max-height: calc(104vh - 180px) !important;
+}
+.modal-body .TJR-auto-suggestion-container {
+  border: 1px solid #263238 !important;
+  border-radius: 3px !important;
+  height: 103px !important;
+  overflow: auto !important;
+  max-height: 103px !important;
+}
+.modal-body .invoice_tabel{
+  margin-top: 5px;
+}
 @media screen and (min-device-width: 768px ) and (max-device-width: 1824px) and (orientation : landscape){
   .stop-scroll,
   .myCustomModalClass{
     overflow: inherit !important;
   }  
+}
+.home-page-tabel thead tr th:nth-child(1) div{
+  text-align: center;
+  padding: 4px !important;
+  background-color: #9180ff !important;
+  text-shadow: 2px 2px 9px #00000073;
+  border-radius: 3px;
+  cursor: pointer;
 }

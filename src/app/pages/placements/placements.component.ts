@@ -56,4 +56,5 @@ export class PlacementsComponent implements OnInit {
   
       });
   }
+  
 }

@@ -19,7 +19,8 @@ import { PlacementsComponent } from './placements/placements.component';
 import { from } from 'rxjs';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
-
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -92,6 +93,14 @@ const routes: Routes = [{
     path: 'placements',
     component: PlacementsComponent
   },
+  {
+    path: 'call-logs',
+    component: CallLogsComponent
+  },
+  {
+    path: 'driver-call-suggestion',
+    component: DriverCallSuggestionComponent
+  }
   ],
 }];
 

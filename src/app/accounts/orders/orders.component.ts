@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit {
       qty: '',
       discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
-      taxDetails: '',
+      taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate:0
@@ -148,7 +148,7 @@ export class OrdersComponent implements OnInit {
         qty: '',
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
-        taxDetails: '',
+        taxDetails: [],
         remarks: '',
         lineamount: 0,
         discountate:0
@@ -170,7 +170,7 @@ export class OrdersComponent implements OnInit {
       qty: '',
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
-      taxDetails: '',
+      taxDetails: [],
       remarks: '',
       lineamount: 0,
       discountate:0
@@ -263,6 +263,8 @@ export class OrdersComponent implements OnInit {
   }
 
   TaxDetails(i) {
+    this.common.params = this.order.amountDetails[i].taxDetails;
+    
     const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass : "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -313,7 +315,8 @@ export class OrdersComponent implements OnInit {
       grnremarks: order.grnremarks,
       // approved: order.Approved,
       // delreview: order.delreview,
-      amountDetails: order.amountDetails
+      amountDetails: order.amountDetails,
+      x_id:0
     };
 
     console.log('params11: ', params);

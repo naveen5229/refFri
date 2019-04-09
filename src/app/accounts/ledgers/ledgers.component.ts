@@ -77,7 +77,7 @@ export class LedgersComponent implements OnInit {
 
     else {
       this.common.params=null;
-      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {

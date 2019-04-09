@@ -27,7 +27,7 @@ import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
-
+import { DriverModule } from '../driver/driver.module';
 
 
 
@@ -56,6 +56,8 @@ const PAGES_COMPONENTS = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     DocumentsModule,
+    LorryReceiptModule,
+    DriverModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
