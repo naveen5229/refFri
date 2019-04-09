@@ -56,10 +56,6 @@
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
         </div> -->
-        <div class="form-group" *ngIf="this.activeId.includes('vouchertype')">
-          <auto-suggetion-in-side [data]="vouchertypedata" targetId="vouchertype" display="name"
-            (select)="onSelected($event, 'vouchertype', 'name')"></auto-suggetion-in-side>
-        </div>
         <div class="form-group" *ngIf="this.activeId.includes('ledger')">
           <auto-suggetion-in-side [data]="ledgerData" targetId="ledger" display="name"
             (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>

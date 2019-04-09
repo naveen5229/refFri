@@ -35,7 +35,7 @@ export class BankbooksComponent implements OnInit {
   branchdata = [];
   DayData = [];
   ledgerData = [];
-  activeId = 'vouchertype';
+  activeId = 'ledger';
   selectedRow = -1;
 
   @HostListener('document:keydown', ['$event'])
@@ -97,9 +97,7 @@ export class BankbooksComponent implements OnInit {
       });
 
   }
-  openinvoicemodel() {
-    console.log('welcome to invoice ');
-  }
+ 
 
   // getAllLedger() {
   //   let params = {
@@ -126,6 +124,7 @@ export class BankbooksComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.ledgerData = res['data'];
+        console.log('ledger data new',this.ledgerData[0].y_ledger_id);
       }, err => {
         console.error(err);
         this.common.showError();
@@ -171,7 +170,7 @@ export class BankbooksComponent implements OnInit {
 
   onSelected(selectedData, type, display) {
     this.bankBook[type].name = selectedData[display];
-    this.bankBook[type].id = selectedData.id;
+    this.bankBook[type].id = selectedData.y_ledger_id;
     console.log('Selected Data: ', selectedData, type, display);
     console.log('order User: ', this.bankBook);
   }
@@ -241,7 +240,7 @@ export class BankbooksComponent implements OnInit {
     console.log('Active event', event, this.activeId);
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
+      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
       return;
     }
     if (key == 'enter') {
