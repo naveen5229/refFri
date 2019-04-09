@@ -18,6 +18,23 @@
     width: 30px;
 }
 
+.time-line-event{
+    position: absolute;
+    width: 100%;
+}
+.time-line-event .time-line-scale{
+    position: relative;
+    width: 98%;
+    border-bottom: 1px solid black;
+    top: 4px;
+}
+.time-line-event .time-line-circle{
+    position: absolute;
+    height: 10px;
+    top:50%;
+    background-color: aqua;
+}
+
 .zoom-btn {
     display: inline-block;
     background: black;
@@ -113,7 +130,7 @@
     tbody{
         tr{
             td{
-                font-size: 10px;
+                font-size: 12px;
                 padding: 2px 5px;
             }
         }
