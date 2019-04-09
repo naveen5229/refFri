@@ -147,7 +147,9 @@ export class StockavailableComponent implements OnInit {
            this.suggestionIndex = -1;
          }
          this.setFoucus('date');
-       }  
+       }   else if (this.activeId.includes('date')) {
+        this.setFoucus('submit');
+       }
 
     } else if (key.includes('arrow')) {
       //  this.allowBackspace = false;

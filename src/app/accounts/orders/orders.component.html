@@ -273,10 +273,10 @@
 
 
       <div class="col-3" id="ledger-container">
-
+          <div class="auto-sugg">
         <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
           [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
-
+          </div>
         <!-- <div class="ledger-container">
           
           <div *ngFor="let suggestion of getSuggestions(); let i = index;" class="ledger-option"
@@ -291,6 +291,7 @@
     <table class="invoice_tabel table table-bordered">
       <thead style="background-color: #263238; color:#fff;">
         <tr>
+            <th>Warehouse</th>
           <th>Stock Item</th>
           <th>Unit</th>
           <th>Qty</th>
@@ -299,7 +300,7 @@
           <!-- <th>Dis Ledger</th>
           <th>Dis Amount</th> -->
           <th>Line Amount</th> 
-          <th>Warehouse</th>
+         
           <th>remarks</th>
           <th></th>
           <th></th>
@@ -308,11 +309,18 @@
 
       <tbody>
         <tr *ngFor="let amountDetail of order.amountDetails; let i = index;">
+            <td>
+                <input type="text" [id]="'warehouse-' + i" class="form-control ref-input" [name]="'warehouse-' + i"
+                  [(ngModel)]="amountDetail.warehouse.name">
+                <!-- <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"
+                      display="name" placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i">
+                    </auto-suggestion> -->
+              </td>
           <td>
             <input type="text" [id]="'stockitem-' + i" class="form-control ref-input" name="'stockitem-' + i"
               [(ngModel)]="amountDetail.stockitem.name" required>
               <span
-              *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].stockitem.id)) ">(<i>Available Stock Qty is </i>{{ this.totalitem }})</span>
+              *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) ">(<i>Available Stock Qty is </i>{{ this.totalitem }})</span>
             <!-- <auto-suggestion
                   (onSelected)="amountDetail.stockitem = $event.id;amountDetail.stockunit.id = $event.stockunit_id; amountDetail.stockunit.name = $event.stockname"
                   url="Suggestion/GetStockItem" display="name" [inputId]="'stockitem-' + i" placeholder="Enter Stock Item"
@@ -355,13 +363,7 @@
               [(ngModel)]="amountDetail.lineamount" readonly style="background-color: #eeeeee;">
           </td>
 
-          <td>
-            <input type="text" [id]="'warehouse-' + i" class="form-control ref-input" [name]="'warehouse-' + i"
-              [(ngModel)]="amountDetail.warehouse.name">
-            <!-- <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"
-                  display="name" placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i">
-                </auto-suggestion> -->
-          </td>
+         
           <td>
             <input type="text" class="form-control ref-input" autocomplete="off" name="account-remarks" [id]="'remarks-' + i"
               [(ngModel)]="amountDetail.remarks">

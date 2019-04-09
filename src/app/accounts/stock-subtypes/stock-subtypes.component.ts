@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
-  import { from } from 'rxjs';
+import { from } from 'rxjs';
 @Component({
   selector: 'stock-subtypes',
   templateUrl: './stock-subtypes.component.html',
@@ -12,15 +12,23 @@ import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-
 export class StockSubtypesComponent implements OnInit {
   stockSubTypes = [];
   selectedName = '';
+  selectedRow = -1;
+  activeId = '';
   constructor(public api: ApiService,
     public modalService: NgbModal,
-    public common: CommonService) { 
-      this.getStockSubTypes();
-      this.common.currentPage = 'Stock Sub Types';
-    }
-    selectedRow = -1;
-    activeId='';
+    public common: CommonService) {
+    this.getStockSubTypes();
+    this.common.currentPage = 'Stock Sub Types';
+    this.common.refresh = this.refresh.bind(this);
+
+  }
+ 
+
+
   ngOnInit() {
+  }
+  refresh(){
+    this.getStockSubTypes();
   }
   getStockSubTypes() {
     let params = {
@@ -41,19 +49,19 @@ export class StockSubtypesComponent implements OnInit {
 
   }
 
-  
+
   openStockSubTypeModal(stocksubType?) {
     if (stocksubType) this.common.params = stocksubType;
-    const activeModal = this.modalService.open(StockSubtypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static',keyboard :false, windowClass : "accountModalClass" });
+    const activeModal = this.modalService.open(StockSubtypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
-       
+
         if (stocksubType) {
           this.updateStockSubType(stocksubType.id, data.stockSubType);
           return;
         }
-       this.addStockSubType(data.stockSubType);
+        this.addStockSubType(data.stockSubType);
       }
     });
   }
@@ -61,13 +69,13 @@ export class StockSubtypesComponent implements OnInit {
   addStockSubType(stockSubType) {
     //console.log(stockSubType);
     //const params ='';
-     const params = {
+    const params = {
       //  foid: stockSubType.user.id,
-         name: stockSubType.name,
-        code: stockSubType.code,
-        stockid: stockSubType.stockType.id
-     };
-//console.log(params);
+      name: stockSubType.name,
+      code: stockSubType.code,
+      stockid: stockSubType.stockType.id
+    };
+    //console.log(params);
     this.common.loading++;
 
     this.api.post('Stock/InsertStocksubType', params)
@@ -84,10 +92,10 @@ export class StockSubtypesComponent implements OnInit {
 
   }
   updateStockSubType(id, stockSubType) {
-           console.log('test');
-          console.log(stockSubType);
+    console.log('test');
+    console.log(stockSubType);
     const params = {
-    //  foid: stockSubType.user.id,
+      //  foid: stockSubType.user.id,
       name: stockSubType.name,
       code: stockSubType.code,
       stockid: stockSubType.stockType.id,
@@ -113,13 +121,13 @@ export class StockSubtypesComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event, this.activeId);
-  if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.stockSubTypes.length) {
-    /************************ Handle Table Rows Selection ********************** */
-    if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
-    else if (this.selectedRow != this.stockSubTypes.length - 1) this.selectedRow++;
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.stockSubTypes.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.stockSubTypes.length - 1) this.selectedRow++;
 
+    }
   }
-}
   RowSelected(u: any) {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.

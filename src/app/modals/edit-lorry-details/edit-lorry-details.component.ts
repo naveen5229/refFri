@@ -404,4 +404,7 @@ export class EditLorryDetailsComponent implements OnInit {
     this.LrData.lr_date = null;
   }
 
+
+
+
 }
