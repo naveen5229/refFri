@@ -170,6 +170,7 @@ export class PendingLicenceComponent implements OnInit {
   }
 
   handleModalData(modal, params) {
+    /*
     setTimeout(() =>{
       console.log('--------------Address:', "address-" + modal);
       this.mapService.autoSuggestion("address-" + modal, (place, lat, lng) => {
@@ -183,7 +184,9 @@ export class PendingLicenceComponent implements OnInit {
         this.modal[modal].data.driver.longitude = lng;
       });
     }, 5000)
-    
+    */
+   this.modal[modal].data.driver.latitude = null;
+   this.modal[modal].data.driver.longitude = null;
 
     this.modal[modal].data.title = params.title;
     this.modal[modal].data.btn1 = params.btn1 || 'Update';
@@ -508,7 +511,7 @@ export class PendingLicenceComponent implements OnInit {
   }
 
   getDateInDisplayFormat(strdate) {
-    if (strdate)
+    if (strdate && strdate.indexOf('/') == -1)
       return strdate.split("-").reverse().join("/");
     else
       return strdate;
