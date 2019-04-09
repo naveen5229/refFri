@@ -104,14 +104,17 @@
     background-color: #263238;
   }
 }
-.col-4 label{
+.col-6 .form-group{
+  margin: 0px;
+}
+.col-6 label{
   background: transparent;
   color: #000;
   display: inline;
   vertical-align: middle;
   padding-left: 0px;
 }
-.col-4 input{
+.col-6 input{
   display: inline-block;
   float: none;
   vertical-align: middle;
