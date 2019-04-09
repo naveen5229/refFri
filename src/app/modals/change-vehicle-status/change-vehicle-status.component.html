@@ -14,29 +14,29 @@
 </div>
 <div class="modal-body">
   <div class="col-sm-6">
-      <div class="col-sm-6" *ngIf="lUlBtn">
-          <div style="height: 480px; overflow: auto; width: 100%;">
-            <table class="table table-bordered table-hover halts-show">
-              <tbody>
-                <tr>
-                  <th>Dt</th>
-                  <th>Loc</th>
-                  <th>Dist</th>
-                  <th>Days</th>
-                  <th>HT</th>
-                </tr>
-                <tr *ngFor="let lUL of loadingUnLoading;let i = index; ">
-                  <td>{{lUL.date}}</td>
-                  <td>{{lUL.loc}}</td>
-                  <td>{{lUL.distance}}</td>
-                  <td>{{lUL.days}}</td>
-                  <td>{{lUL.y_halt_desc}}</td>
-      
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+    <div class="col-sm-6" *ngIf="lUlBtn">
+      <div style="height: 480px; overflow: auto; width: 100%;">
+        <table class="table table-bordered table-hover halts-show">
+          <tbody>
+            <tr>
+              <th>Dt</th>
+              <th>Loc</th>
+              <th>Dist</th>
+              <th>Days</th>
+              <th>HT</th>
+            </tr>
+            <tr *ngFor="let lUL of loadingUnLoading;let i = index; ">
+              <td>{{lUL.date}}</td>
+              <td>{{lUL.loc}}</td>
+              <td>{{lUL.distance}}</td>
+              <td>{{lUL.days}}</td>
+              <td>{{lUL.y_halt_desc}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <div [class]=" lUlBtn?'col-sm-6':'col-sm-12'">
       <!-- <accordion>
                     <group title="First Group">this is the content</group>
@@ -91,8 +91,8 @@
                         (click)="reportIssue(vehicleEvent);"></i></span>
                     <!-- <span class="zoom-btn"><i class="fa fa-route"
                         (click)="openRouteMapper(vehicleEvent);"></i></span> -->
-  
-  
+
+
                   </span></div>
               </td>
             </tr>
@@ -129,15 +129,15 @@
   </div>
 
 
-  
+
   <!-- table div location -->
   <div [class]=" lUlBtn?' map-container col-sm-5':'map-container col-sm-6'">
 
     <div #map id="map" style="margin-left:10px"> </div>
-   
-    <!-- <div class="time-line-event">
+
+    <!-- <div class="time-line-event" style="height:50px">
         <div class="time-line-scale"></div>
-        <div *ngFor="let event of vehicleEvents; let i = index;"  class="time-line-circle"
+        <div *ngFor="let event of vehEvent; let i = index;"  class="time-line-circle"
         [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'vh'} " (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()" >
       </div>
       </div> -->
