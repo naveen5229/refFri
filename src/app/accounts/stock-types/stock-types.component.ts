@@ -49,16 +49,39 @@ export class StockTypesComponent implements OnInit {
 
   openStockTypeModal(stockType?) {
     if (stockType) {
-      console.log("data:",stockType);
-      this.common.params =  stockType ;
-      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false,  windowClass : "accountModalClass" });
+      console.log("data:", stockType);
+      this.common.params = stockType;
+      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
-          if (stockType) {
-            this.updateStockType(stockType.id, data.stockType);
-            return;
-          }
+          const params = {
+            foid: 123,
+            name: data.stockType.name,
+            code: data.stockType.code,
+            id: stockType.id
+          };
+      
+          this.common.loading++;
+      
+          this.api.post('Stock/UpdateStockType', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              let result = res['data'][0].save_stocktype;
+              if (result == '') {
+                this.common.showToast(" Stock Type Update");
+              }
+              else {
+                this.common.showToast(result);
+              }
+              this.getStockTypes();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError();
+            });       
+          
         }
       });
     }
@@ -93,7 +116,13 @@ export class StockTypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.common.showToast(res['data'][0].save_stocktype);
+        let result = res['data'][0].save_stocktype;
+        if (result == '') {
+          this.common.showToast(" Stock Type Add");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.getStockTypes();
       }, err => {
         this.common.loading--;
@@ -103,28 +132,7 @@ export class StockTypesComponent implements OnInit {
 
   }
 
-  updateStockType(id, stockType) {
-    const params = {
-      foid: 123,
-      name: stockType.name,
-      code: stockType.code,
-      id: id
-    };
-
-    this.common.loading++;
-
-    this.api.post('Stock/UpdateStockType', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res);
-        this.common.showToast(res['data'][0].save_stocktype);
-        this.getStockTypes();
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-  }
+ 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;

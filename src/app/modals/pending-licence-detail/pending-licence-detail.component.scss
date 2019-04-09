@@ -20,3 +20,35 @@ label {
     line-height: 1.25;
     color: #a4abb3;
 }
+/**/
+
+// Modal
+.custom-modal-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: transparent;
+    overflow: auto;
+    height: 100%;
+}
+
+.custom-modal-body {
+    background: #fff;
+}
+
+.custom-active-modal {
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.5);
+
+}
+
+.custom-passive-modal {
+    z-index: 1049;
+}
+
+table tbody tr td a{
+    color: #677078;
+}
+// Modal END

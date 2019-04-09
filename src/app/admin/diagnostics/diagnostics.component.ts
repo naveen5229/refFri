@@ -59,7 +59,7 @@ export class DiagnosticsComponent implements OnInit {
   calculateDistance() {
 
     let params = {
-      vehicleId: this.diagnostics.vechileno,
+      vehicleId: this.selectedVehicleId,
       fromTime: this.common.dateFormatter1(this.diagnostics.startTime),
       tTime: this.common.dateFormatter1(this.diagnostics.endDate)
     };
@@ -76,7 +76,7 @@ export class DiagnosticsComponent implements OnInit {
       })
   }
   getvehicleData(vehicle, type) {
-    console.log('Vehicle Data: ', vehicle, type);
+    console.log('Vehicle Data:+++++ ', vehicle, type);
 
     if (type == 'trails') {
       this.Trails.vechileno = vehicle.id;
@@ -88,7 +88,7 @@ export class DiagnosticsComponent implements OnInit {
   }
   getVehicleTrails() {
     let param = {
-      vehicleId: this.Trails.vechileno,
+      vehicleId: this.selectedVehicleId,
       fromTime: this.common.dateFormatter1(this.Trails.startTime),
       toTime: this.common.dateFormatter1(this.Trails.endDate),
       suggestId: 1,
@@ -113,7 +113,7 @@ export class DiagnosticsComponent implements OnInit {
   }
   getChangeVehicleStatusChange() {
     let params = {
-      vehicleId: this.VehicleStatusData.vehicle_id,
+      vehicleId: this.selectedVehicleId,
       fromTime: this.VehicleStatusData.latch_time,
       //toTime: this.VehicleStatusData.ttime,
       suggestId: 1
@@ -138,8 +138,11 @@ export class DiagnosticsComponent implements OnInit {
 
 
   selectVehicle(vehicle) {
+    console.log('Vehicle Data:+++ ', this.selectedVehicleId);
     this.selectedVehicleId = vehicle.id;
-    console.log('Vehicle Data: ', this.selectedVehicleId);
+    console.log("vehicle=",vehicle);
+
+
 
   }
   topRecord() {

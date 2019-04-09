@@ -83,7 +83,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       center: new google.maps.LatLng(lat, lng),
       zoom: 8,
       disableDefaultUI: true,
-      mapTypeControl: false,
+      mapTypeControl: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
       zoomControl: true,
@@ -94,6 +94,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
           visibility: 'on'
         }]
       }]
+      
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -160,6 +161,18 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.map.setMapTypeId('roadmap');
     }
   }
+
+  setEventInfo(event) {
+    
+    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
+    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
+    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
+    // }
+  }
+  unsetEventInfo() {
+   
+  }
+
 
   getEvents() {
     let status = this.VehicleStatusData.status?this.VehicleStatusData.status:10;
@@ -343,7 +356,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
     if (reset)
       this.Markers = [];
     if (boundsReset) {
-      this.markerZoomMF(null, 19, true);
+      this.markerZoomMF(null, 12, true);
     }
   }
   clearOtherMarker(otherMarker) {
@@ -560,12 +573,19 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   getDate(index) {
+    this.common.params.ref_page = 'cvs';
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
+      let timeType = data.timeType;
       this.customDate = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.customDate);
-      this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
-      console.log("Custom Latch Time", this.VehicleStatusData.latch_time);
+      if(timeType=="tTime"){
+        this.toTime = this.common.dateFormatter(this.customDate);
+        console.log("tTime===",this.toTime);
+      }else if(timeType=="lTime"){
+        this.VehicleStatusData.latch_time = this.common.dateFormatter(this.customDate);
+        console.log("lTime===",this.VehicleStatusData.latch_time);
+      }
+     
       this.reloadData();
     });
   }

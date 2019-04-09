@@ -33,6 +33,10 @@ import { ImageProcessingComponent } from './image-processing/image-processing.co
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { TrendsComponent } from './trends/trends.component';
+import { ResizableModule } from 'angular-resizable-element';
+import { PlacementsComponent } from './placements/placements.component';
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
 
 
 
@@ -53,7 +57,7 @@ const PAGES_COMPONENTS = [
     OwlNativeDateTimeModule,
     ImageViewerModule,
     ReactiveFormsModule,
-    
+    ResizableModule    
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -73,6 +77,9 @@ const PAGES_COMPONENTS = [
     ImageProcessingComponent,
     RouteMapperComponent,
     TrendsComponent,
+    PlacementsComponent,
+    CallLogsComponent,
+    DriverCallSuggestionComponent
   ],
 })
 export class PagesModule {

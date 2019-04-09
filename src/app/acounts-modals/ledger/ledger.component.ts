@@ -10,12 +10,12 @@ import { CommonService } from '../../services/common.service';
 })
 export class LedgerComponent implements OnInit {
   showConfirm = false;
-  showExit=false;
-  salutiondata=[];
-  userdata=[];
-  underGroupdata=[];
-  state=[];
-  activeId="user";
+  showExit = false;
+  salutiondata = [];
+  userdata = [];
+
+  state = [];
+  activeId = "user";
   Accounts = {
     name: '',
     aliasname: '',
@@ -24,85 +24,168 @@ export class LedgerComponent implements OnInit {
       name: '',
       id: ''
     },
-    account: {
+    undergroup: {
       name: '',
       id: '',
       primarygroup_id: ''
     },
-    id:'',
+    id: '',
     code: '',
     accDetails: [{
-      salutationId: '',
+      id: '',
+      salutation: {
+        name: '',
+        id: ''
+      },
       mobileNo: '',
       email: '',
       panNo: '',
       tanNo: '',
       gstNo: '',
-      cityId: '',
+      city: {
+        name: '',
+        id: ''
+      },
       address: '',
       remarks: '',
-      name: ''
+      name: '',
+      state: {
+        name: '',
+        id: ''
+      }
     }]
   };
   allowBackspace = true;
+  suggestionIndex = -1;
 
+
+  
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
+    console.log('Params: ', this.common.params);
 
     if (this.common.params) {
+      console.log('edit ledger data ', this.common.params[0]);
       this.Accounts = {
-        name: this.common.params.y_name,
-        aliasname: this.common.params.y_alias_name,
-        perrate: this.common.params.y_per_rate,
+        name: this.common.params[0].y_name,
+        aliasname: this.common.params[0].y_alias_name,
+        perrate: this.common.params[0].y_per_rate,
         user: {
           name: this.common.params.name,
           id: this.common.params.y_foid
         },
-        account: {
-          name: this.common.params.name,
-          id: this.common.params.y_accountgroup_id,
+        undergroup: {
+          name: this.common.params[0].accountgroup_name,
+          id: this.common.params[0].y_accountgroup_id,
           primarygroup_id: '0',
         },
-        id:this.common.params.y_id,
-        code: this.common.params.y_code,
-        accDetails: [{
-          salutationId: this.common.params.y_dtl_salutation_id,
-          mobileNo: this.common.params.y_dtl_mobileno,
-          email: this.common.params.y_dtl_email,
-          panNo: this.common.params.y_dtl_pan_no,
-          tanNo: this.common.params.y_dtl_tan_no,
-          gstNo: this.common.params.y_dtl_gst_no,
-          cityId: this.common.params.y_dtl_city_id,
-          address: this.common.params.y_dtl_address,
-          remarks: this.common.params.y_dtl_remarks,
-          name: this.common.params.y_dtl_name
-        }]
-      }
-
+        id: this.common.params[0].y_id,
+        code: this.common.params[0].y_code,
+        accDetails: []
+      };
       console.log('Accounts: ', this.Accounts);
+      this.common.params.map(detail => {
+        this.Accounts.accDetails.push({
+          id: detail.y_dtl_id,
+          salutation: {
+            name: detail.salutation_name,
+            id: detail.y_dtl_salutation_id
+          },
+          mobileNo: detail.y_dtl_mobileno,
+          email: detail.y_dtl_email,
+          panNo: detail.y_dtl_pan_no,
+          tanNo: detail.y_dtl_tan_no,
+          gstNo: detail.y_dtl_gst_no,
+          city: {
+            name: detail.city_name,
+            id: detail.y_dtl_city_id
+          },
+          address: detail.y_dtl_address,
+          remarks: detail.y_dtl_remarks,
+          name: detail.y_dtl_name,
+          state: {
+            name: detail.province_name,
+            id: detail.province_id
+          }
+        });
+      });
     }
 
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.GetSalution();
     this.getUserData();
     this.getUnderGroup();
-    this.GetCity(29);
+    this.GetState();
+    this.setFoucus('name');
   }
+
+  handleArrowUpDown(key) {
+    const suggestionIDs = this.generateIDs();
+    console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
+    if (suggestionIDs.indexOf(this.activeId) == -1) return;
+
+    if (key == 'arrowdown') {
+      if (this.suggestionIndex != this.suggestions.list.length - 1) this.suggestionIndex++;
+      else this.suggestionIndex = 0;
+    } else {
+      if (this.suggestionIndex != 0) this.suggestionIndex--;
+      else this.suggestionIndex = this.suggestions.list.length - 1;
+    }
+
+    // this.voucher.amountDetails[index].ledger.name = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_name;
+    // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
+  }
+
+  generateIDs() {
+    let IDs = ['undergroup'];
+    this.Accounts.accDetails.map((amountDetails, index) => {
+      IDs.push('salutation-' + index);
+      IDs.push('state-' + index);
+      IDs.push('city-' + index);
+    });
+    return IDs;
+  }
+  autoSuggestion = {
+    data: [],
+    targetId: '',
+    display: ''
+  };
+
+
+  suggestions = {
+    underGroupdata: [],
+    supplierLedgers: [],
+    state: [],
+    salutiondata: [],
+    city: [],
+    list: []
+  };
 
 
   addDetails() {
     this.Accounts.accDetails.push({
-      salutationId: '',
+      id: '',
+      salutation: {
+        name: '',
+        id: ''
+      },
       mobileNo: '',
       email: '',
       panNo: '',
       tanNo: '',
       gstNo: '',
-      cityId: '',
+      city: {
+        name: '',
+        id: ''
+      },
       address: '',
       remarks: '',
-      name: ''
+      name: '',
+      state: {
+        name: '',
+        id: ''
+      }
 
     });
   }
@@ -111,13 +194,13 @@ export class LedgerComponent implements OnInit {
     let params = {
       foid: 123
     };
-    
+
     this.common.loading++;
     this.api.post('Suggestion/GetSalutation', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.salutiondata = res['data'];
+        this.suggestions.salutiondata = res['data'];
 
       }, err => {
         this.common.loading--;
@@ -131,13 +214,13 @@ export class LedgerComponent implements OnInit {
     let params = {
       foid: 123
     };
-    
+
     this.common.loading++;
     this.api.post('Suggestion/GetState', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.state = res['data'];
+        this.suggestions.state = res['data'];
 
       }, err => {
         this.common.loading--;
@@ -151,14 +234,14 @@ export class LedgerComponent implements OnInit {
     let params = {
       state: stateid
     };
-    
+
     this.common.loading++;
     this.api.post('Suggestion/GetCity', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.state = res['data'];
-
+        this.suggestions.city = res['data'];
+        this.autoSuggestion.data = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -166,18 +249,18 @@ export class LedgerComponent implements OnInit {
       });
 
   }
-  
+
   getUnderGroup() {
     let params = {
       search: 123
     };
-    
+
     this.common.loading++;
     this.api.post('Suggestion/getAllUnderGroupData', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.underGroupdata = res['data'];
+        this.suggestions.underGroupdata = res['data'];
 
       }, err => {
         this.common.loading--;
@@ -190,7 +273,7 @@ export class LedgerComponent implements OnInit {
     let params = {
       search: 123
     };
-    
+
     this.common.loading++;
     this.api.post('Suggestion/getAllfouser', params)
       .subscribe(res => {
@@ -206,7 +289,7 @@ export class LedgerComponent implements OnInit {
 
   }
   ngOnInit() {
-    
+
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
@@ -226,33 +309,33 @@ export class LedgerComponent implements OnInit {
     this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
     console.log('Accounts Parent: ', this.Accounts);
   }
- modelCondition(){
-  this.showConfirm = false;
-  event.preventDefault();
-  return;
- }
+  modelCondition() {
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+  }
   keyHandler(event) {
     if (event.key == "Escape") {
-      this.showExit=true;
+      this.showExit = true;
     }
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
-
+    this.setAutoSuggestion();
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
-       event.preventDefault();
-       this.activeModal.close();
-       return;
-       // this.close();
-      }else   if ( key == 'n') {
+        event.preventDefault();
+        this.activeModal.close();
+        return;
+        // this.close();
+      } else if (key == 'n') {
         this.showExit = false;
         event.preventDefault();
         return;
 
       }
-      
+
     }
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
@@ -268,20 +351,26 @@ export class LedgerComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-     // console.log('Active jj: ', activeId.includes('aliasname'));
+      // console.log('Active jj: ', activeId.includes('aliasname'));
+
       if (activeId.includes('user')) {
         this.setFoucus('code');
       } else if (activeId.includes('code')) {
-        this.setFoucus('name');
+        this.setFoucus('undergroup');
       } else if (activeId == 'name') {
         this.setFoucus('aliasname');
       } else if (activeId == 'aliasname') {
-        this.setFoucus('undergroup');
+        this.setFoucus('code');
       } else if (activeId.includes('undergroup')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('perrate');
       } else if (activeId.includes('perrate')) {
-        this.setFoucus('salution-0');
-      } else if (activeId.includes('salution-')) {
+        this.setFoucus('salutation-0');
+      } else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
       } else if (activeId.includes('accountName-')) {
@@ -301,9 +390,22 @@ export class LedgerComponent implements OnInit {
         this.setFoucus('gstNo-' + index);
       } else if (activeId.includes('gstNo-')) {
         let index = activeId.split('-')[1];
+        this.setFoucus('state-' + index);
+      } else if (activeId.includes('state-')) {
+        let index = activeId.split('-')[1];
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('city-' + index);
       } else if (activeId.includes('city-')) {
         let index = activeId.split('-')[1];
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('address-' + index);
       } else if (activeId.includes('address-')) {
         let index = activeId.split('-')[1];
@@ -311,8 +413,8 @@ export class LedgerComponent implements OnInit {
       } else if (activeId.includes('remarks-')) {
         let index = activeId.split('-')[1];
         console.log(index);
-        if((this.Accounts.accDetails.length)-1 == parseInt(index)){ this.showConfirm = true; }
-        
+        if ((this.Accounts.accDetails.length) - 1 == parseInt(index)) { this.showConfirm = true; }
+
         // this.setFoucus('mobileno-'+index);
       } else {
         console.log('active--', activeId);
@@ -321,7 +423,7 @@ export class LedgerComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', activeId);
 
-      if (activeId.includes('salution-')) {
+      if (activeId.includes('salutation-')) {
         let index = parseInt(activeId.split('-')[1]);
         if (index != 0) {
           this.setFoucus('remarks-' + (index - 1));
@@ -330,7 +432,7 @@ export class LedgerComponent implements OnInit {
         }
       } else if (activeId.includes('accountName-')) {
         let index = activeId.split('-')[1];
-        this.setFoucus('salution-' + index);
+        this.setFoucus('salutation-' + index);
       } else if (activeId.includes('mobileno-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
@@ -347,6 +449,9 @@ export class LedgerComponent implements OnInit {
         let index = activeId.split('-')[1];
         this.setFoucus('tanNo-' + index);
       } else if (activeId.includes('city-')) {
+        let index = activeId.split('-')[1];
+        this.setFoucus('state-' + index);
+      } else if (activeId.includes('state-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('gstNo-' + index);
       } else if (activeId.includes('address-')) {
@@ -373,7 +478,7 @@ export class LedgerComponent implements OnInit {
       //event.preventDefault();
     }
     else if (key == 'Escape') {
-     alert('hello');
+      alert('hello');
       //event.preventDefault();
     }
   }
@@ -387,6 +492,70 @@ export class LedgerComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+    this.setAutoSuggestion();
+  }
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion: ', suggestion);
+    if (this.activeId == 'undergroup') {
+      this.Accounts.undergroup.name = suggestion.name;
+      this.Accounts.undergroup.id = suggestion.id;
+    } else if (this.activeId.includes('salutation-')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.Accounts.accDetails[index].salutation.id = suggestion.id;
+
+    } else if (this.activeId.includes('state-')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.Accounts.accDetails[index].state.id = suggestion.id;
+      this.GetCity(suggestion.id);
+    } else if (this.activeId.includes('city-')) {
+      const index = parseInt(this.activeId.split('-')[1]);
+      this.Accounts.accDetails[index].city.id = suggestion.id;
+
+    }
+
+  }
+
+
+  setAutoSuggestion() {
+    let activeId = document.activeElement.id;
+    console.log('suggestion active', activeId, this.suggestions.underGroupdata);
+    if (activeId == 'undergroup') this.autoSuggestion.data = this.suggestions.underGroupdata;
+    else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
+    else if (activeId.includes('state-')) this.autoSuggestion.data = this.suggestions.state;
+    else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
+    else {
+      this.autoSuggestion.data = [];
+      this.autoSuggestion.display = '';
+      this.autoSuggestion.targetId = '';
+      return;
+    }
+
+    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.targetId = activeId;
+    console.log('Auto Suggestion: ', this.autoSuggestion);
+  }
+
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion: ', suggestion);
+    if (activeId == 'undergroup') {
+      this.Accounts.undergroup.name = suggestion.name;
+      this.Accounts.undergroup.id = suggestion.id;
+    } else if (activeId.includes('salutation')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.Accounts.accDetails[index].salutation.name = suggestion.name;
+      this.Accounts.accDetails[index].salutation.id = suggestion.id;
+
+    } else if (activeId.includes('state')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.Accounts.accDetails[index].state.name = suggestion.name;
+      this.Accounts.accDetails[index].state.id = suggestion.id;
+      this.GetCity(suggestion.id);
+    } else if (activeId.includes('city')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.Accounts.accDetails[index].city.name = suggestion.name;
+      this.Accounts.accDetails[index].city.id = suggestion.id;
+
+    }
   }
 
 }
