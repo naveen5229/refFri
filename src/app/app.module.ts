@@ -119,6 +119,7 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
 import { ResizableModule } from 'angular-resizable-element';
 import {NgxPrintModule} from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
+import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -202,8 +203,10 @@ import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-
     RouteMapperComponent,
     PendingLicenceDetailComponent,
     WareHouseModalComponent,
+    UserCallHistoryComponent,
   ],
   entryComponents: [
+    UserCallHistoryComponent,
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
