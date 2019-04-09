@@ -25,6 +25,7 @@ import { ProfitlossComponent } from './profitloss/profitloss.component';
 import { StockavailableComponent } from './stockavailable/stockavailable.component';
 import { WareHouseComponent } from './ware-house/ware-house.component';
 import { CashbookComponent } from './cashbook/cashbook.component';
+import { BankbooksComponent } from './bankbooks/bankbooks.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -59,7 +60,8 @@ const PAGES_COMPONENTS = [
     ProfitlossComponent,
     StockavailableComponent,
     WareHouseComponent,
-    CashbookComponent
+    CashbookComponent,
+    BankbooksComponent
     //StockSubtypeComponent
   ],
 })
