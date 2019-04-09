@@ -135,20 +135,20 @@ export class CommonService {
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
       return (
-        year +
+         dat +
         separator +
         month +
         separator +
-        dat +
+        year +
         (isTime ? " " + this.timeFormatter(date) : "")
       );
     } else {
       return (
-        year +
+        dat +
         separator +
         month +
         separator +
-        dat +
+         year +
         (isTime ? " " + this.timeFormatter(date) : "")
       );
     }
@@ -162,7 +162,7 @@ export class CommonService {
 
     console.log(year + "-" + month + "-" + dat);
 
-    return year + "-" + month + "-" + dat;
+    return dat + "-" + month + "-" + year;
   }
 
   changeDateformat(date) {
