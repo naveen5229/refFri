@@ -74,6 +74,7 @@ export class CallLogsComponent implements OnInit {
       outgoing: { title: 'Outgoing', placeholder: 'Outgoing' },
       total: { title: 'Total', placeholder: 'Total' },
       unanswered: { title: 'Unanswered', placeholder: 'Unanswered' },
+      missed: { title: 'Missed', placeholder: 'Missed' },
      
     };
 
@@ -102,7 +103,7 @@ export class CallLogsComponent implements OnInit {
         outgoing: { value: data.y_outgoing },
         total: { value: data.y_total},
         unanswered: { value: data.y_unanswered },
-        
+        missed: { value: data.y_missed },  
       };
     
       columns.push(column);
