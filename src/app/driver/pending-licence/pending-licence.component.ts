@@ -516,29 +516,28 @@ export class PendingLicenceComponent implements OnInit {
 
   deleteImage(id, modal) {
     let remark;
-      let ret = confirm("Are you sure you want to delete this record?");
+      let ret = confirm("Are you sure you want to discard this image?");
       if (ret) {
-        this.common.params = { RemarkModalComponent, title: 'Delete Driver' };
+        this.common.params = { RemarkModalComponent, title: 'Discard Image' };
 
         const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
         activeModal.result.then(data => {
           if (data.response) {
-            console.log("reason For delete: ", data.remark);
+            console.log("Remarks: ", data.remark);
             remark = data.remark;
-            /*
             this.common.loading++;
             this.api.post('Drivers/deleteDriverById', { x_driver_id: id, x_remarks: remark, x_user_id: this.user._details.id, x_deldrv: 0 })
               .subscribe(res => {
                 this.common.loading--;
                 console.log("data", res);
                 this.closeModal(true, modal);
-                this.common.showToast("Success Delete");
+                this.common.showToast("Successfully Deleted");
               }, err => {
                 this.common.loading--;
                 console.log(err);
 
               });
-              */
+              
           }
         })
       }

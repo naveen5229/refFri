@@ -13,13 +13,13 @@
                 [(ngModel)]="DayBook.branch.name">
             </div>
           </div> -->
-          <div class="col-6">
+          <!-- <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Voucher</label>
               <input type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
                 [(ngModel)]="DayBook.vouchertype.name">
             </div>
-          </div>
+          </div> -->
           <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
@@ -58,13 +58,13 @@
           <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
             (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
         </div> -->
-        <div class="form-group" *ngIf="this.activeId.includes('vouchertype')">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('vouchertype')">
           <auto-suggetion-in-side [data]="vouchertypedata" targetId="vouchertype" display="name"
             (select)="onSelected($event, 'vouchertype', 'name')"></auto-suggetion-in-side>
-        </div>
-        <div class="form-group" *ngIf="this.activeId.includes('ledger')">
-          <auto-suggetion-in-side [data]="ledgerData" targetId="ledger" display="name"
-            (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+        </div> -->
+        <div class="form-group">
+          <auto-suggetion-in-side *ngIf="ledgerData.length" [data]="ledgerData" targetId="ledger" display="y_ledger_name"
+            (select)="onSelected($event, 'ledger', 'y_ledger_name')"></auto-suggetion-in-side>
         </div>
       </div>
     </div>

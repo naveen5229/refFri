@@ -48,7 +48,7 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   fetchReport() {
     if((this.kmpdval == undefined || !this.kmpdval) || (this.runhourval == undefined || !this.runhourval)) {
-      this.common.showError("Please provided Kmpd and RunHour values");
+      this.common.showError("Please provided Km per day and Run Hour values");
       return false;
     }
     this.getReport();

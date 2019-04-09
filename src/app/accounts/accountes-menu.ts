@@ -76,7 +76,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
-        title: 'Reports',
+        title: 'Account Reports',
         icon: 'fa fa-file-excel',
         children: [
             {
@@ -110,6 +110,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title:'Stock Available',
                 link: '/accounts/stockavailable'
+            },
+            {
+                title:'Cash Book',
+                link: '/accounts/cashbook'
             }
             
         ],

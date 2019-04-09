@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,11 +8,11 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 
 @Component({
-  selector: 'daybooks',
-  templateUrl: './daybooks.component.html',
-  styleUrls: ['./daybooks.component.scss']
+  selector: 'cashbook',
+  templateUrl: './cashbook.component.html',
+  styleUrls: ['./cashbook.component.scss']
 })
-export class DaybooksComponent implements OnInit {
+export class CashbookComponent implements OnInit {
   selectedName = '';
   DayBook = {
     enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
@@ -36,23 +36,21 @@ export class DaybooksComponent implements OnInit {
   branchdata = [];
   DayData = [];
   ledgerData = [];
-  activeId = 'vouchertype';
+  activeId = 'ledger';
   selectedRow = -1;
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event) {
-    this.keyHandler(event);
-  }
+  // @HostListener('document:keydown', ['$event'])
+  // handleKeyboardEvent(event) {
+  //   this.keyHandler(event);
+  // }
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getVoucherTypeList();
-    this.getBranchList();
     this.getAllLedger();
-    this.setFoucus('vouchertype');
-    this.common.currentPage = 'Day Book';
+    this.setFoucus('ledger');
+    this.common.currentPage = 'Cash Book';
 
 
 
@@ -65,40 +63,8 @@ export class DaybooksComponent implements OnInit {
 
   }
 
-  getVoucherTypeList() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetVouchertypeList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.vouchertypedata = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
 
-  }
-  getBranchList() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetBranchList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.branchdata = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
-  }
+ 
   openinvoicemodel(invoiceid) {
     // console.log('welcome to invoice ');
     this.common.params = invoiceid;
@@ -113,22 +79,22 @@ export class DaybooksComponent implements OnInit {
     });
   }
 
+ 
+
   getAllLedger() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    // this.showSuggestions = true;
+    let url = 'Suggestion/GetLedger?transactionType=' +'credit'+ '&voucherId=' + (-3)+ '&search=' + 'test';
+    console.log('URL: ', url);
+    this.api.get(url)
       .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log(res);
         this.ledgerData = res['data'];
+       // console.log('-------------------:', this.ledgerData);
       }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
+        console.error(err);
         this.common.showError();
       });
-
+    this.setFoucus('ref-code');
   }
   getDayBook() {
     console.log('Accounts:', this.DayBook);
@@ -141,7 +107,7 @@ export class DaybooksComponent implements OnInit {
     };
 
     this.common.loading++;
-    this.api.post('Company/GetDayBook', params)
+    this.api.post('Company/GetCashBook', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -169,7 +135,7 @@ export class DaybooksComponent implements OnInit {
 
   onSelected(selectedData, type, display) {
     this.DayBook[type].name = selectedData[display];
-    this.DayBook[type].id = selectedData.id;
+    this.DayBook[type].id = selectedData.y_ledger_id;
     console.log('Selected Data: ', selectedData, type, display);
     console.log('order User: ', this.DayBook);
   }
