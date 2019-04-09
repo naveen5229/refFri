@@ -116,8 +116,8 @@ export class OrderComponent implements OnInit {
     this.getWarehouses();
     this.setFoucus('ordertype');
     this.getInvoiceDetail();
-    this.common.currentPage = 'Invoice';
-    this.common.handleModalSize('class', 'modal-lg', '1050');
+   // this.common.currentPage = 'Invoice';
+    this.common.handleModalSize('class', 'modal-lg', '1150');
     // console.log("open data ",this.invoiceDetail[]);
 
   }
