@@ -60,8 +60,20 @@ export class UserCallSummaryComponent implements OnInit {
 
   getCallSummary() {
     this.common.loading++;
-    let stDate = this.fromDate.split('-').reverse().join('-');
-    let enDate = this.endDate.split('-').reverse().join('-');
+    this.data = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    //let stDate = this.fromDate.split('-').reverse().join('-');
+    let stDate = this.fromDate;
+    //let enDate = this.endDate.split('-').reverse().join('-');
+    let enDate = this.endDate;
     this.api.post('Drivers/getUserCallSummary', {x_start_date:  stDate, x_end_date:  enDate + ' 23:59:00'})
       .subscribe(res => {
         this.common.loading--;
