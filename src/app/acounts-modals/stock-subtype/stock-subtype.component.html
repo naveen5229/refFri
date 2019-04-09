@@ -29,20 +29,20 @@
         <label>Stock Type</label>
         <!-- <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
         placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion> -->
-        <input type="text" id="stockType" class="form-control tjr-input" name="stockType"
+        <input type="text" id="stockType" class="form-control tjr-input" name="stockType" placeholder="Stock Type"
         [(ngModel)]="stockSubType.stockType.name">
       </div>
     </div>
     <div class="col-3">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="stock-name" id="stock-name" [(ngModel)]="stockSubType.name">
+        <input type="text" class="form-control" name="stock-name" id="stock-name" placeholder=" Name" [(ngModel)]="stockSubType.name">
       </div>
     </div>
     <div class="col-3">
       <div class="form-group">
         <label>Code</label>
-        <input type="text" class="form-control" name="stock-code" id="stock-code" [(ngModel)]="stockSubType.code">
+        <input type="text" class="form-control" name="stock-code" placeholder="Code" id="stock-code" [(ngModel)]="stockSubType.code">
       </div>
     </div>
     <div class="col-3">
