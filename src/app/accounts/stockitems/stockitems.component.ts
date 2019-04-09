@@ -20,9 +20,14 @@ export class StockitemsComponent implements OnInit {
     public modalService: NgbModal) {
     this.getStockItems();
     this.common.currentPage = 'Stock Item';
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh(){
+    this.getStockItems();
   }
 
   getStockItems() {

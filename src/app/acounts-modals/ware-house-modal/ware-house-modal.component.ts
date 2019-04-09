@@ -18,8 +18,8 @@ export class WareHouseModalComponent implements OnInit {
     name: '',
 
     account: {
-      name: '',
-      id: -1,
+      name: 'is Primary',
+      id: 0,
       primarygroup_id: ''
     }
 
@@ -42,7 +42,7 @@ export class WareHouseModalComponent implements OnInit {
         name: this.common.params.name,
 
         account: {
-          name: this.common.params.parent_name,
+          name: this.common.params.parent_name ? this.common.params.parent_name : 'is Primary'  ,
           id: this.common.params.parent_id,
           primarygroup_id: this.common.params.primarygroup_id
         }

@@ -22,10 +22,14 @@ export class StockTypesComponent implements OnInit {
     public modalService: NgbModal) {
     this.getStockTypes();
     this.common.currentPage = 'Stock Types';
-
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getStockTypes();
   }
 
   getStockTypes() {

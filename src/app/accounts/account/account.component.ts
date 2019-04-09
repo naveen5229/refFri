@@ -19,10 +19,17 @@ export class AccountComponent implements OnInit {
 
     this.GetAccount();
     this.common.currentPage = 'Account';
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
+
+  refresh(){
+    this.GetAccount();
+  }
+
   GetAccount() {
     let params = {
       foid: 123
@@ -51,7 +58,7 @@ export class AccountComponent implements OnInit {
       const activeModal = this.modalService.open(AccountsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.updateAccount(data.Accounts,Accounts.id);
+          this.updateAccount(data.Accounts, Accounts.id);
           return;
         }
       });
@@ -72,7 +79,7 @@ export class AccountComponent implements OnInit {
     console.log('accountdata', Accounts);
     const params = {
       name: Accounts.name,
-      foid:123,
+      foid: 123,
       parentid: Accounts.account.id,
       primarygroupid: Accounts.account.primarygroup_id,
       x_id: 0
@@ -97,11 +104,11 @@ export class AccountComponent implements OnInit {
         this.common.showError();
       });
   }
-  updateAccount(Accounts,rowid){
+  updateAccount(Accounts, rowid) {
     console.log('updated data', Accounts);
     const params = {
       name: Accounts.name,
-      foid:123,
+      foid: 123,
       parentid: Accounts.account.id,
       primarygroupid: Accounts.account.primarygroup_id,
       x_id: rowid

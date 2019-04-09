@@ -17,9 +17,14 @@ export class CompanyBranchesComponent implements OnInit {
     public modalService: NgbModal) {
     this.GetBranchData();
     this.common.currentPage = 'Company Branches';
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.GetBranchData();
   }
   GetBranchData() {
     let params = {
@@ -72,7 +77,7 @@ export class CompanyBranchesComponent implements OnInit {
   addbranch(branch) {
     console.log('branch:', branch);
     const params = {
-      foid:123,
+      foid: 123,
       name: branch.name,
       code: branch.code,
       addressline: branch.addressline,
