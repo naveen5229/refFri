@@ -50,7 +50,7 @@ export class DocumentIssuesComponent implements OnInit {
 
   setTable() {
     let headings = {
-      foId: { title: 'FOID', placeholder: 'FOID' },
+      //foId: { title: 'FOID', placeholder: 'FOID' },
       regno: { title: 'Vehicle Number ', placeholder: 'Vehicle Number' },
       issue: { title: 'Issue', placeholder: 'Issue' },
     };
@@ -70,7 +70,7 @@ export class DocumentIssuesComponent implements OnInit {
     this.data.map(doc => {
 
       let column = {
-        foId: { value: doc.y_foid },
+        //foId: { value: doc.y_foid },
         regno: { value: doc.y_regno },
         issue: { value: doc.y_issue },
         rowActions: {}
@@ -89,8 +89,9 @@ export class DocumentIssuesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fodata = res['data'];
-        let left_heading = this.fodata['name'];
-        let center_heading = "Document Issues";
+        //let left_heading = this.fodata['name'];
+        let left_heading = 'Document Issues';
+        let center_heading = "";
         this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
       }, err => {
         this.common.loading--;

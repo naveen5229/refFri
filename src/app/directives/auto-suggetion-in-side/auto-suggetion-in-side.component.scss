@@ -4,6 +4,7 @@
     background-color: #e4e4e4;
     max-height: 230px;
     overflow: auto;
+    min-height: 230px;
   }
 
 .suggestion-option{
@@ -17,6 +18,6 @@
     color: #fff;
 }
 .active-suggestion{
-    background-color: #263238;
+    background-color: teal;
     font-weight: normal;
 }

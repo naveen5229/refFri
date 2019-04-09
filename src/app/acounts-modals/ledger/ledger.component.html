@@ -23,41 +23,40 @@
             <input type="text" id="user" class="form-control" name="user" [(ngModel)]="Accounts.user.name">
           </div> -->
           <div class="col-md-2 text-center">
-            <label>Code</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" name="account-code" id="code" [(ngModel)]="Accounts.code">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <div class="col-md-2 text-center">
             <label>Name</label>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" id="name"
               (input)="Accounts.aliasname=Accounts.name" [value]="Accounts.name |titlecase">
           </div>
           <div class="col-md-2 text-center">
             <label>Alias Name</label>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <input type="text" class="form-control" name="account-aliasname" id="aliasname"
               [(ngModel)]="Accounts.aliasname">
           </div>
+          <div class="col-md-2 text-center">
+            <label>Code</label>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" name="code" id="code" [(ngModel)]="Accounts.code">
+          </div>
         </div>
       </div>
+     
       <div class="row">
         <div class="form-group">
           <div class="col-md-2 text-center">
             <label>Under Group</label>
           </div>
           <div class="col-md-4">
-            <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount"
-              display="name" inputId="undergroup" [data]="underGroupdata" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+            <!-- <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount"
+              display="name" inputId="undergroup" [data]="underGroupdata" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion> -->
               <!-- <input type="text" id="undergroup" class="form-control" name="undergroup" [(ngModel)]="Accounts.account.name"> -->
-          </div>
+              <input type="text" class="form-control" id="undergroup" name="undergroup" [(ngModel)]="Accounts.undergroup.name"
+              (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+            </div>
           <div class="col-md-2 text-center">
             <label>Per Rate</label>
           </div>
@@ -69,12 +68,17 @@
       </div>
     </div>
     <div class="col-3">
-      <div class="form-group" *ngIf="this.activeId.includes('user')">
+      <!-- <div class="form-group" *ngIf="this.activeId.includes('user')">
         <auto-suggetion-in-side [data]="userdata" targetId="user" display="name" (select)="onSelected($event, 'user', 'name')"></auto-suggetion-in-side>
-      </div>
+      </div> -->  
+
+      <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+          [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
+
       <!-- <div class="form-group" *ngIf="this.activeId.includes('undergroup')">
         <auto-suggetion-in-side [data]="underGroupdata" targetId="undergroup" display="name" (select)="onParent($event, 'account', 'name')"></auto-suggetion-in-side>
       </div> -->
+      
       
      
     </div>
@@ -90,6 +94,7 @@
                 <th>Pan No.</th>
                 <th>Tan No.</th>
                 <th>Gst No.</th>
+                <th>State</th>
                 <th>City</th>
                 <th>Address</th>
                 <th>Remarks</th>
@@ -99,9 +104,11 @@
        <tbody>
           <tr *ngFor="let Details of Accounts.accDetails; let i = index;">
               <td>
-                <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
+                <!-- <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
                   display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="{name:' '}">
-                </auto-suggestion>
+                </auto-suggestion> -->  
+                <input type="text" class="form-control" [id]="'salutation-'+i" name="'salutation-'+i" [(ngModel)]="Details.salutation.name"
+              (click)="lastActiveId = 'salutation-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </td>
               <td>
                 <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.name"
@@ -125,9 +132,16 @@
                 <input type="text" class="form-control" name="account-name" [id]="'gstNo-' + i" [(ngModel)]="Details.gstNo">
               </td>
               <td>
-                <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name"
+                <input type="text" class="form-control" [id]="'state-'+i" name="'state-'+i" [(ngModel)]="Details.state.name"
+                (click)="lastActiveId = 'state-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+              </td>
+              <td>
+                  <input type="text" class="form-control" [id]="'city-'+i" name="'city-'+i" [(ngModel)]="Details.city.name"
+                  (click)="lastActiveId = 'city-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+
+                <!-- <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name"
                   [inputId]="'city-' + i" [name]="'city-' + i"  placeholder="Enter City" [preSelected]="null">
-                </auto-suggestion>
+                </auto-suggestion> -->
               </td>
               <td>
                 <input type="text" class="form-control" name="account-name" [id]="'address-' + i"

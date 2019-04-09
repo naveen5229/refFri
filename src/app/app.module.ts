@@ -75,7 +75,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
 import { 
   MatFormFieldModule,
   MatMenuModule,
@@ -117,6 +116,9 @@ import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-anal
 import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
+import { ResizableModule } from 'angular-resizable-element';
+import {NgxPrintModule} from 'ngx-print';
+import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -198,7 +200,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     TripDetailsComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-    PendingLicenceDetailComponent
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
   ],
   entryComponents: [
     KpisDetailsComponent,
@@ -276,7 +279,8 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     VehicleAnalysisComponent,
     RouteMapperComponent,
     TripDetailsComponent,
-    PendingLicenceDetailComponent
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent
   ],
   imports: [
     BrowserModule,
@@ -296,10 +300,12 @@ import { TripDetailsComponent } from './modals/trip-details/trip-details.compone
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPrintModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
-    })
+    }),
+    ResizableModule
   ],
 
   bootstrap: [AppComponent],

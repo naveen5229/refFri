@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Trips</h4>
+  <h5 class="modal-title" id="modal-basic-title">Trips</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -20,13 +20,13 @@
         class="form-control" autocomplete="off" name="e-date">
       <owl-date-time #eDate></owl-date-time>
     </div>
-    <div class="col-sm-3">
-      <button (click)="getTripDetails()" class="btn btn-primary form-control">OK</button>
+    <div class="col-sm-1">
+      <button (click)="getTripDetails()" class="btn btn-primary form-control" style="margin:0px;border:0px;">OK</button>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-12" style="height: 72vh; overflow: auto; padding-left: 0px; margin-top: 10px;">
       <table class="table table-bordered table-hover">
           <thead>
             <th>Start Loc</th>

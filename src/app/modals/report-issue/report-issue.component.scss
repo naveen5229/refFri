@@ -1,13 +1,9 @@
 .modal-header{
-    padding: 10px 15px;
-    h4{
-        font-size: 20px;
-    }
-    .close{
-        font-size: 30px;
-        padding: 12px 15px;
-        outline: none;
-    }
+    padding: 10px 15px !important;
+}
+.close{
+    font-size: 36px;
+    padding: 8px 16px;
 }
 .modal-footer{
     align-items: inherit;

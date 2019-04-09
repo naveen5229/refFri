@@ -12,12 +12,12 @@
      <!-- <div class="col">
       <div class="form-group">
         <label>User</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name" [(ngModel)]="stockItem.user.name"-->
+        input type="text" class="form-control" (input)="searchUser()" name="user-name" [(ngModel)]="stockItem.user.name"-->
         <!--auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
         placeholder="Enter User" inputId="user" [preSelected]="null"></auto-suggestion>
       </div>
 
-      <!--div class="suggestions" *ngIf="showSuggestions.user && suggestions.users.length && stockItem.user.name">
+      div class="suggestions" *ngIf="showSuggestions.user && suggestions.users.length && stockItem.user.name">
         <ul>
           <li *ngFor="let user of suggestions.users" class="suggestion" (click)="selectUser(user)">
             {{user.name}}
@@ -187,7 +187,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button > <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

@@ -21,6 +21,7 @@ import { OutstandingComponent } from './outstanding/outstanding.component';
 import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { ProfitlossComponent}from './profitloss/profitloss.component';
 import { StockavailableComponent } from './stockavailable/stockavailable.component';
+import { WareHouseComponent } from './ware-house/ware-house.component';
 
 const routes: Routes = [{
     path: '',
@@ -101,6 +102,10 @@ const routes: Routes = [{
         {
             path:'stockavailable',
             component:StockavailableComponent
+        },
+        {
+            path:'ware-house',
+            component:WareHouseComponent
         }
 
         

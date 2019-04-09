@@ -58,11 +58,6 @@ table tr.highlight {
     max-height: 105px !important;
 }
 
-:host ::ng-deep.active-suggestion {
-    background: #263238 !important;
-    color: #fff !important;
-}
-
 table{
     tr{
         th{
@@ -84,12 +79,12 @@ table{
             }
         }
     }
-    tbody{
-        tr:nth-child(odd){
-            background-color: #fff;
-        }
-        tr:nth-child(even){
-            background-color: #e4e4e4;
-        }
-    }
 } 
+.heading_second{
+    background-color: #639db9 !important;
+    color: #fff;
+}
+table tr.highlight {
+    background-color: #576c77 !important;
+    color: #ffffff;
+}

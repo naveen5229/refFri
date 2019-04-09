@@ -23,7 +23,10 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    this.data = changes.data.currentValue;
+    console.log("--------------------+++++++++", changes);
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+    }
     if (changes.display) {
       this.display = changes.display.currentValue;
     }
@@ -63,7 +66,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
 
   filterData(searchText) {
     if (!searchText) {
-      this.suggestions = this.data;
+      this.suggestions = JSON.parse(JSON.stringify(this.data));
       this.suggestions.splice(10, this.suggestions.length - 11);
       return;
     }

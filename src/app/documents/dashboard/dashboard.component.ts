@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit {
     this.getDocumentData();
     this.common.refresh = this.refresh.bind(this);
     console.log("foid:", this.user._customer.id);
+    this.common.currentPage = 'Vehicle Documents Summary';
   }
 
   ngOnInit() {
@@ -62,7 +63,10 @@ export class DashboardComponent implements OnInit {
 
   getDocumentData() {
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatisticsnew', {})
+    let user_id = this.user._details.id;
+    if(this.user._loggedInBy == 'admin') 
+      user_id = this.user._customer.id;
+    this.api.post('Vehicles/getDocumentsStatisticsnew', {x_user_id: user_id})
       .subscribe(res => {
         this.common.loading--;
         this.documentData = res['data'];

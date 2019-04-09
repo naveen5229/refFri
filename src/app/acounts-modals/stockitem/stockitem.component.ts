@@ -14,9 +14,9 @@ export class StockitemComponent implements OnInit {
   StockTypeItemsdata = [];
   stockItem = {
     name: '',
-    code: '',
-    maxlimit: '',
-    minlimit: '',
+    code: null,
+    maxlimit: null,
+    minlimit: null,
     isactive: true,
     sales: false,
     purchase: false,
@@ -77,7 +77,7 @@ export class StockitemComponent implements OnInit {
           name: '',
           id: ''
         },
-        maxlimit: common.params.min_limit,
+        maxlimit: common.params.max_limit,
         minlimit: common.params.min_limit,
         isactive: common.params.is_active,
         sales: common.params.for_sales,
@@ -155,7 +155,11 @@ export class StockitemComponent implements OnInit {
   }
 
 
-
+  modelCondition(){
+    this.showConfirm = false;
+    event.preventDefault();
+    return;
+   }
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
