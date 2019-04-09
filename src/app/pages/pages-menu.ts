@@ -75,11 +75,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-location-arrow',
     link:'/pages/placements'
   },
-  {
-    title: 'Call Logs',
-    icon: 'fa fa-phone',
-    link:'/pages/call-logs'
-  },
+  //{
+  //  title: 'Call Logs',
+  //  icon: 'fa fa-phone',
+  //  link:'/pages/call-logs'
+  //},
   // {
   //   title: 'Route Mapper',
   //   icon: 'fal fa-map-pin',
@@ -94,6 +94,25 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
-    link: '/pages/driver-call-suggestion'
+    children : [
+      {
+        title: 'Driver Call Suggestion',
+        icon: 'fas fa-traffic-light',
+        link: '/pages/driver-call-suggestion',
+        home: true,
+      },
+      {
+        title: 'Call Logs',
+        icon: 'fa fa-phone',
+        link: '/pages/call-logs',
+        home: true,
+      },
+	  {
+        title: 'User Call Summary',
+        icon: 'fas fa-list',
+        link: '/pages/user-call-summary',
+        home: true,
+      }
+    ]
   }
 ];
