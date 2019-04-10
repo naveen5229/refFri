@@ -304,6 +304,7 @@ nb-card{
   height: 103px !important;
   overflow: auto !important;
   max-height: 103px !important;
+  padding: 5px;
 }
 .modal-body .invoice_tabel{
   margin-top: 5px;
