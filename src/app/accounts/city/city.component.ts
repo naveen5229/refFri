@@ -20,7 +20,7 @@ export class CityComponent implements OnInit {
 
     this.getcityData();
 
-    this.common.currentPage = 'city;
+    this.common.currentPage = 'city';
     this.common.refresh = this.refresh.bind(this);
 
   }
