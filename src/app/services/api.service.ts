@@ -19,103 +19,101 @@ export class ApiService {
 
   constructor(private http: HttpClient,
     public router: Router,
-  public accountService: AccountService,
+    public accountService: AccountService,
     public user: UserService) {
   }
 
 
-post(subURL: string, body: any, options?) {
+  post(subURL: string, body: any, options?) {
     if (this.user._customer.id) {
-  body['foAdminId'] = this.user._customer.id;
-  // console.log(body['foAdminId']);
+      body['foAdminId'] = this.user._customer.id;
+      // console.log(body['foAdminId']);
       console.log("foAdminId", body);
     }
- 
-  if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
-    
-      console.log('BODY: ', body);
-      re
-    turn this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
-    } 
-  
-  ge
-t(subURL: string, params?: any) {
+
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
+
+    console.log('BODY: ', body);
+    return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
+  }
+
+  get(subURL: string, params?: any) {
     if (this.user._customer.id) {
-  if (subURL.includes('?')) {
-    subURL += '&foAdminId=' + this.user._customer.id;
-  } else {
-  subURL += '?foAdminId=' + this.user._customer.id;
-}
+      if (subURL.includes('?')) {
+        subURL += '&foAdminId=' + this.user._customer.id;
+      } else {
+        subURL += '?foAdminId=' + this.user._customer.id;
+      }
     }
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
       if (subURL.includes('?')) {
-    subURL += '&branch=' + this.accountService.selected.branch;
+        subURL += '&branch=' + this.accountService.selected.branch;
       } else {
         subURL += '?branch=' + this.accountService.selected.branch;
-    } 
-  };
-  
-  
-  return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
-}
+      }
+    };
 
-postToTranstrucknew(subURL: string, body: any, options?) {
-console.log('Test::::');
-// if (this.user._customer.id) {
-//   body['foAdminId'] = this.user._customer.id;
-// console.log(body['foAdminId']);
-  //   console.log("foAdminId", body);
-  // }
-  console.log('Test::::');
-  console.log('BODY: ', body);
-const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+
+    return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
+  }
+
+  postToTranstrucknew(subURL: string, body: any, options?) {
     console.log('Test::::');
-let headers = new HttpHeaders({
+    // if (this.user._customer.id) {
+    //   body['foAdminId'] = this.user._customer.id;
+    // console.log(body['foAdminId']);
+    //   console.log("foAdminId", body);
+    // }
+    console.log('Test::::');
+    console.log('BODY: ', body);
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    console.log('Test::::');
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-    'entrymode': entryMode, 
-    'authkey': this.user._token || ''
-  });
-  
-  return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: headers })
-}
+      'entrymode': entryMode,
+      'authkey': this.user._token || ''
+    });
 
-getToTranstruckNew(subURL: string, params?: any) {
-// if (this.user._customer.id) {
-//   if (subURL.includes('?')) {
-//     subURL += '&foAdminId=' + this.user._customer.id;
-  //   } else {
-  subURL += '?' + params;
-  //   }
-  // }
-const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
+    return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: headers })
+  }
+
+  getToTranstruckNew(subURL: string, params?: any) {
+    // if (this.user._customer.id) {
+    //   if (subURL.includes('?')) {
+    //     subURL += '&foAdminId=' + this.user._customer.id;
+    //   } else {
+    subURL += '?' + params;
+    //   }
+    // }
+    const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
     console.log('Test::::');
-let headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
-    'entrymode': entryMode,
-    'authkey': this.user._token || ''
-  });
+      'entrymode': entryMode,
+      'authkey': this.user._token || ''
+    });
 
-  retu rn this.http.get(this.UrlTranstruckNew + subURL, { headers: headers })
-}
+    return this.http.get(this.UrlTranstruckNew + subURL, { headers: headers })
+  }
 
   put(subURL: string, body: any) {
-  return this.http.put(this.URL + subURL, body, { headers: this.setHeaders() })
-}
+    return this.http.put(this.URL + subURL, body, { headers: this.setHeaders() })
+  }
 
   delete(subURL: string, ) {
-  return this.http.delete(this.URL + subURL, { headers: this.setHeaders() })
-}
+    return this.http.delete(this.URL + subURL, { headers: this.setHeaders() })
+  }
 
   patch(subURL: string, body: any, ) {
-  return this.http.patch(this.URL + subURL, body, { headers: this.setHeaders() })
-}
-  
+    return this.http.patch(this.URL + subURL, body, { headers: this.setHeaders() })
+  }
+
   setHeaders() {
     const entryMode = this.user._loggedInBy == 'admin' ? '1' : this.user._loggedInBy == 'partner' ? '2' : '3';
-let headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': '1.0',
       'entrymode': entryMode,

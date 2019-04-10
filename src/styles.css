@@ -323,15 +323,6 @@ nb-card{
   border-radius: 3px;
   cursor: pointer;
 }
-.auto-sugg{
-  border-radius: 0;
-  padding: 8px;
-  background-color: #e4e4e4;
-  /* max-height: 224px; */
-  overflow: auto;
-  /* min-height: 224px; */
-  margin-bottom:8px;
-}
 .auto-sugg .form-group{
   margin: 0px;
 }
