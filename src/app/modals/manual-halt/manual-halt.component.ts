@@ -107,6 +107,10 @@ export class ManualHaltComponent implements OnInit {
     closeModal() {
       this.activeModal.close();
     }
+
+    haltTypeChange(type){
+      
+    }
   }
 
 

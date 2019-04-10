@@ -9,7 +9,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./voucherdetail.component.scss']
 })
 export class VoucherdetailComponent implements OnInit {
-  Detail =[];
+  title = '';
+  Detail = [];
   constructor(
     private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -18,27 +19,27 @@ export class VoucherdetailComponent implements OnInit {
   }
   ngOnInit() {
   }
-  
-  getDayBookDetailList(){
+
+  getDayBookDetailList() {
     let params = {
       voucherId: this.common.params
     };
- console.log('vcid',this.common.params);
+    console.log('vcid', this.common.params);
 
- this.api.post('Company/GetVoucherDetailList', params)
- .subscribe(res => {
-  // this.common.loading--;
-   console.log('Res:', res['data']);
-   this.Detail = res['data'];
- }, err => {
-   this.common.loading--;
-   console.log('Error: ', err);
-   this.common.showError();
- });
+    this.api.post('Company/GetVoucherDetailList', params)
+      .subscribe(res => {
+        // this.common.loading--;
+        console.log('Res:', res['data']);
+        this.Detail = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
   dismiss(response) {
     //console.log('Accounts:', this.Branches);
-    this.activeModal.close({ response: response,test:this.Detail});
+    this.activeModal.close({ response: response, test: this.Detail });
   }
 
 }

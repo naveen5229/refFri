@@ -20,7 +20,7 @@
         </div>
         <div class="col-3">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Drivers/getFoDrivers" display="empname"
-            placeholder="Enter Driver Name" [parentForm]="driverRemapForm" style="width:60%;"></auto-suggestion>
+            placeholder="Enter Driver Name" style="width:60%;"></auto-suggestion>
         </div>
       </div>
       <div class="row margin-top-15">
@@ -49,7 +49,7 @@
           </select>
         </div>
       </div>
-      <div class="row margin-top-15" *ngIf="selectedType == 901 || selectedType == 902">
+      <div class="row margin-top-15" *ngIf="selectedType == '901' || selectedType == '902'">
         <div class="col-3">
           <label>Reg No</label>
         </div>

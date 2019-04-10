@@ -2,93 +2,101 @@
   <!-- <nb-card-header>
     <h4>Ledger View</h4>
   </nb-card-header> -->
-    <nb-card-body (keydown)="keyHandler($event)">
+  <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row">
+      <div class="col-9">
         <div class="row">
-            <div class="col-9">
-      <div class="row">
-  <!-- <div class="col">
+          <!-- <div class="col">
     <div class="form-group">
       <label>Branch</label>
        <input type="text" id="branch" class="form-control" name="branch" [(ngModel)]="ledger.branch.name"/>
     </div>
   </div> -->
-  <div class="col">
-      <div class="form-group">
-        <label class="tjr-label">Voucher Type</label>
-        <!-- <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
-          placeholder="Enter Voucher Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion> -->
-          <input type="text" id="voucherType" class="form-control tjr-input" name="voucherType" [(ngModel)]="ledger.voucherType.name"/>
-      </div>
-    </div>
-    <div class="col">
-        <div class="form-group">
-          <label class="tjr-label">Ledger</label>
-          <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
-            placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
-            <input type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="ledger.ledger.name">
-        </div>
-      </div>
-      </div>
-      <div class="row"> 
-      <div class="col">
-          <div class="form-group">
-              <label class="tjr-label">Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startdate" autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
-          </div>
-        </div>
-        <div class="col">
+          <div class="col">
             <div class="form-group">
-                <label class="tjr-label">End Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off" maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
+              <label class="tjr-label">Voucher Type</label>
+              <!-- <auto-suggestion (onSelected)="onSelected($event, 'voucherType', 'name')" url="Suggestion/GetVouchertypeList" display="name"
+          placeholder="Enter Voucher Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion> -->
+              <input type="text" id="voucherType" class="form-control tjr-input" name="voucherType"
+                [(ngModel)]="ledger.voucherType.name" />
             </div>
           </div>
-  <div class="col">
-    <div class="form-group">
-      <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getLedgerView()" id="submit"
-        style="cursor: pointer;margin-top: 18px;">Submit</button>
-    </div>
-  </div>
-</div>
-  </div>
-<div class="col-3">
-    <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Ledger</label>
+              <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
+            placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
+              <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"
+                [(ngModel)]="ledger.ledger.name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Starting Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startdate"
+                autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">End Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
+                maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getLedgerView()"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
         <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
       </div> -->
-      <div class="auto-sugg">
-      <div class="form-group" *ngIf="this.activeId.includes('voucherType')">
-          <auto-suggetion-in-side [data]="vouchertypedata" targetId="voucherType" display="name" (select)="onSelected($event, 'voucherType', 'name')"></auto-suggetion-in-side>
+        <div class="auto-sugg">
+          <div class="form-group" *ngIf="this.activeId.includes('voucherType')">
+            <auto-suggetion-in-side [data]="vouchertypedata" targetId="voucherType" display="name"
+              (select)="onSelected($event, 'voucherType', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="this.activeId.includes('ledger')">
+            <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name"
+              (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+          </div>
         </div>
-        <div class="form-group" *ngIf="this.activeId.includes('ledger')">
-            <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name" (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
-          </div>
-          </div>
-</div>
-</div>
-<table class="table table-bordered">
-  <thead style="background-color:#263238; color:#fff;">
-  <tr>
-    <th>#</th>
-    <th>Date</th>
-    <th>Code</th>
-    <th>Customer Code</th>
-    <th>Ledger Type</th>
-    <th>Ledger</th>
-    <th>Amount(Debit)</th>
-    <th>Amount(Credit)</th>
-  </tr>
-  </thead>
-  <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
-    <td>{{i + 1}}</td>
-    <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>
-    <td>{{dataItem.y_code}}</td>
-    <td>{{dataItem.y_cust_code}}</td>
-    <td>{{dataItem.y_type}}</td>
-    <td>{{dataItem.y_ledger}}</td>
-    <td *ngIf="dataItem.y_dramunt != 0" >{{dataItem.y_dramunt}}</td>
-    <td *ngIf="dataItem.y_dramunt == 0" ></td>
-    <td *ngIf="dataItem.y_cramunt != 0" >{{dataItem.y_cramunt}}</td>
-    <td *ngIf="dataItem.y_cramunt ==0" ></td>
-  </tr>
-</table>
-</nb-card-body>
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <thead style="background-color:#263238; color:#fff;">
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Code</th>
+          <th>Customer Code</th>
+          <th>Ledger Type</th>
+          <th>Ledger</th>
+          <th>Amount(Debit)</th>
+          <th>Amount(Credit)</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let dataItem of ledgerData; let i = index;" (click)="selectedRow = i"
+        (dblclick)="(dataItem.y_type.length != '') ? getBookDetail(dataItem.y_voucherid) : '' "
+        (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+        <td>{{i + 1}}</td>
+        <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>
+        <td>{{dataItem.y_code}}</td>
+        <td>{{dataItem.y_cust_code}}</td>
+        <td>{{dataItem.y_type}}</td>
+        <td>{{dataItem.y_ledger}}</td>
+        <td *ngIf="dataItem.y_dramunt != 0">{{dataItem.y_dramunt}}</td>
+        <td *ngIf="dataItem.y_dramunt == 0"></td>
+        <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cramunt}}</td>
+        <td *ngIf="dataItem.y_cramunt ==0"></td>
+      </tr>
+    </table>
+  </nb-card-body>
 </nb-card>

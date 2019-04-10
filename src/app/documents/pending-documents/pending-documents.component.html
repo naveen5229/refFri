@@ -32,7 +32,7 @@
                 </thead>
       
                 <tbody>
-                  <ng-container *ngIf="data != 'undefined'">
+                  <ng-container *ngIf="data.length">
                     <tr *ngFor="let row of data; let i = index" class="">
                      
                         <td>{{i + 1}}</td>
@@ -68,7 +68,7 @@
                 </thead>
       
                 <tbody class="">
-                  <ng-container *ngIf="userdata != 'undefined'">
+                  <ng-container *ngIf="userdata.length">
                     <tr *ngFor="let row of userdata; let i = index">
                       <td>{{i + 1}}</td>
                       <td *ngFor="let col of columns2">

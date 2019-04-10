@@ -175,6 +175,10 @@ export class DiagnosticsComponent implements OnInit {
 
   }
 
+  ChangeVehicleStatusChange(){
+    
+  }
+
 
 }
 

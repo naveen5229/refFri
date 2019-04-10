@@ -44,7 +44,11 @@ export class StockitemComponent implements OnInit {
     user: false,
     stockType: false
   };
-
+  autoSuggestion = {
+    data: [],
+    targetId: '',
+    display: ''
+  };
   suggestions = {
     users: [],
     stockTypes: []
