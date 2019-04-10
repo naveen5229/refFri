@@ -142,6 +142,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
+    },  {
+        title: 'city',
+        icon: 'fas fa-city',
+        link: '/accounts/city'
     },
   
   
