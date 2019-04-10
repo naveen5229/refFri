@@ -30,14 +30,14 @@ export class OutstandingComponent implements OnInit {
 
   ledgerData = [];
   voucherEntries = [];
-  ledgerList=[];
+  ledgerList = [];
   activeId = 'ledger';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    // this.getBranchList();
+    this.common.refresh = this.refresh.bind(this);
     this.getLedgerList();
     this.setFoucus('ledger');
     this.common.currentPage = 'Outstanding';
@@ -45,6 +45,10 @@ export class OutstandingComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getLedgerList();
+    this.setFoucus('ledger');
   }
 
   getBranchList() {
@@ -78,7 +82,7 @@ export class OutstandingComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
 
@@ -158,11 +162,11 @@ export class OutstandingComponent implements OnInit {
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('ledger');
-      }else  if (this.activeId.includes('ledger')) {
+      } else if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
-      }else  if (this.activeId.includes('startdate')) {
+      } else if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');
-      }else  if (this.activeId.includes('enddate')) {
+      } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
     }

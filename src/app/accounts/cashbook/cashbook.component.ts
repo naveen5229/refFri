@@ -48,6 +48,8 @@ export class CashbookComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+
     this.getAllLedger();
     this.setFoucus('ledger');
     this.common.currentPage = 'Cash Book';
@@ -62,9 +64,13 @@ export class CashbookComponent implements OnInit {
   ngAfterViewInit() {
 
   }
+  refresh() {
+    this.getAllLedger();
+    this.setFoucus('ledger');
+  }
 
 
- 
+
   openinvoicemodel(invoiceid) {
     // console.log('welcome to invoice ');
     this.common.params = invoiceid;
@@ -79,17 +85,17 @@ export class CashbookComponent implements OnInit {
     });
   }
 
- 
+
 
   getAllLedger() {
     // this.showSuggestions = true;
-    let url = 'Suggestion/GetLedger?transactionType=' +'credit'+ '&voucherId=' + (-3)+ '&search=' + 'test';
+    let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-3) + '&search=' + 'test';
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
         console.log(res);
         this.ledgerData = res['data'];
-       // console.log('-------------------:', this.ledgerData);
+        // console.log('-------------------:', this.ledgerData);
       }, err => {
         console.error(err);
         this.common.showError();
