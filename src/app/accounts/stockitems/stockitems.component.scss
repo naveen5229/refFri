@@ -34,10 +34,7 @@ table{
         }
         th:nth-child(3),
         th:nth-child(4){
-            width: 150px;
-        }
-        th:nth-child(5){
-            width: 150px;
+            width: 200px;
         }
         td{
             padding: 5px 10px !important;
@@ -60,8 +57,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        height: calc(112vh - 250px);
-        max-height: calc(112vh - 250px);
+        max-height: calc(100vh - 172px);
         tr{
             display: table;
             table-layout: fixed;
@@ -70,14 +66,11 @@ table{
                 width: 35px;
             }
             td:nth-child(2){
-                width: 450px;
+                width: 440px;
             }
             td:nth-child(3),
             td:nth-child(4){
-                width: 152px;
-            }
-            td:nth-child(5){
-                width: 150px;
+                width: 200px;
             }
         }
         tr:nth-child(odd){

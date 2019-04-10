@@ -55,7 +55,7 @@
               display="name" inputId="undergroup" [data]="underGroupdata" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion> -->
               <!-- <input type="text" id="undergroup" class="form-control" name="undergroup" [(ngModel)]="Accounts.account.name"> -->
               <input type="text" class="form-control" id="undergroup" name="undergroup" [(ngModel)]="Accounts.undergroup.name"
-              (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+              (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           <div class="col-md-2 text-center">
             <label>Per Rate</label>
