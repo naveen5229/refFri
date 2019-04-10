@@ -13,7 +13,7 @@ export class StockavailableComponent implements OnInit {
  // stockItemsData= [];
   stockAvailableData = [];
   stockAvailable = {
-    date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     stocktype: {
       name: '',
       id: 0

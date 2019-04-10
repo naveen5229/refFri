@@ -15,8 +15,8 @@ export class InvoiceregisterComponent implements OnInit {
   vouchertypedata=[];
   branchdata=[];
   invoiceRegister = {
-    endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    endDate:this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate:this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     custCode:'',
     code:'',
     ledger :{
@@ -129,7 +129,7 @@ export class InvoiceregisterComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.invoiceRegister[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.invoiceRegister[date] = this.common.dateFormatternew(data.date).split(' ')[0];
         console.log(this.invoiceRegister[date]);
     });
   }
