@@ -162,7 +162,8 @@ export class CommonService {
 
     console.log(year + "-" + month + "-" + dat);
 
-    return dat + "-" + month + "-" + year;
+    //return dat + "-" + month + "-" + year;
+    return year + "-" + month + "-" + dat;
   }
 
   changeDateformat(date) {

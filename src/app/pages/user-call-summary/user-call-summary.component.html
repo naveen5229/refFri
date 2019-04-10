@@ -11,11 +11,11 @@
     <div class="row" style="margin-bottom:20px">
       <div class="form-group" class="col-sm-3">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('startdate')"
-            placeholder="Select Start Date" [value]="fromDate " name="startdate" readonly>    
+            placeholder="Select Start Date" [value]="fromDate | date: 'dd MMM yyyy'" name="startdate" readonly>    
         </div>
         <div class="form-group" class="col-sm-3">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('enddate')"
-            placeholder="Select End Date" [value]="endDate " name="enddate" readonly>    
+            placeholder="Select End Date" [value]="endDate | date: 'dd MMM yyyy' " name="enddate" readonly>    
         </div>
         <div class="form-group" class="col-sm-3">
           <button type="submit" class="btn btn-primary " style=" cursor: pointer;" (click) = "getCallSummary()" >Submit</button>
