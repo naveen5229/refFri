@@ -134,11 +134,7 @@ export class StockSubtypeComponent implements OnInit {
       });
   }
 
-  // selectUser(user) {
-  //   this.stockSubType.user.name = user.name;
-  //   this.stockSubType.user.id = user.id;
-  //   this.showSuggestions.user = false;
-  // }
+
 
   selectStockType(stockType) {
     this.stockSubType.stockType.name = stockType.name;
@@ -185,7 +181,7 @@ export class StockSubtypeComponent implements OnInit {
       if (key == 'y' || key == 'enter') {
         console.log('Ledgers show stockType:', this.stockSubType);
         this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
+        // this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();

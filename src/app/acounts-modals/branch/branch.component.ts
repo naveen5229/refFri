@@ -111,7 +111,6 @@ export class BranchComponent implements OnInit {
       if (key == 'y' || key == 'enter') {
         console.log('Accounts show confirm:', this.Branches);
         this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();
