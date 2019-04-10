@@ -24,6 +24,7 @@ import { StockavailableComponent } from './stockavailable/stockavailable.compone
 import { WareHouseComponent } from './ware-house/ware-house.component';
 import { CashbookComponent } from './cashbook/cashbook.component';
 import { BankbooksComponent } from './bankbooks/bankbooks.component';
+import { CityComponent } from './city/city.component';
 
 const routes: Routes = [{
     path: '',
@@ -116,6 +117,10 @@ const routes: Routes = [{
         {
             path:'bank-books',
             component:BankbooksComponent,
+        },
+        {
+            path:'city',
+            component:CityComponent
         }
 
         

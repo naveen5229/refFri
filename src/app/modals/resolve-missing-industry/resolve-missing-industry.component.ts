@@ -717,5 +717,9 @@ export class ResolveMissingIndustryComponent implements OnInit {
     activeModal.result.then(data => data.status && this.common.reportAnIssue(data.issue, vehicleEvent.haltId));
 
   }
+
+  addAutomaticHalt(){
+    
+  }
 }
 

@@ -1,0 +1,43 @@
+<!-- <nb-card style="margin: 0px; border:0px;">
+  <nb-card-body>
+    <button class="btn mb-4 add-button" (click)="openwareHouseModal()"><i class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
+          <tr>
+            <th>#</th>
+            <th>Parent Name</th>
+            <th>Name</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let wareHouse of wareHouseData; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openwareHouseModal(wareHouse)" (enter)="openwareHouseModal(wareHouse)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{i + 1}}</td>
+            <td>{{ wareHouse.parent_name}}</td>
+            <td>{{wareHouse.name}}</td>
+            <td>{{wareHouse.entry_dt | date : 'dd-MMM-yy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -->
