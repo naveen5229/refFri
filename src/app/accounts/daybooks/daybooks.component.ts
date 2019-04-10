@@ -15,8 +15,8 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 export class DaybooksComponent implements OnInit {
   selectedName = '';
   DayBook = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -48,6 +48,7 @@ export class DaybooksComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
     this.getBranchList();
     this.getAllLedger();
@@ -59,6 +60,12 @@ export class DaybooksComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVoucherTypeList();
+    this.getBranchList();
+    this.getAllLedger();
+    this.setFoucus('vouchertype');
   }
 
   ngAfterViewInit() {
@@ -162,7 +169,7 @@ export class DaybooksComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.DayBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.DayBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.DayBook[date]);
     });
   }

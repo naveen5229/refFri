@@ -74,6 +74,7 @@
           <th>Particular</th>
           <th>Vch Type</th>
           <th>Vch No.</th>
+          <th>Ref No.</th>
           <th>Amount(Debit)</th>
           <th>Amount(Credit)</th>
         </tr>
@@ -86,9 +87,10 @@
         (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel() : getBookDetail(dataItem.y_voucherid)"
         (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
-        <td>{{dataItem.y_particulars}}</td>
+        <td>{{dataItem.y_ledger}}</td>
         <td>{{dataItem.y_type}}</td>
-        <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+        <td>{{dataItem.y_code}}</td>
+        <td>{{dataItem.y_cust_code}}</td>
         <td>{{dataItem.y_dramunt}}</td>
         <td>{{dataItem.y_cramunt}}</td>
       </tr>

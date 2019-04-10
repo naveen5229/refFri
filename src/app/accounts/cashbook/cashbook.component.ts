@@ -15,8 +15,8 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 export class CashbookComponent implements OnInit {
   selectedName = '';
   DayBook = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -48,6 +48,8 @@ export class CashbookComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+
     this.getAllLedger();
     this.setFoucus('ledger');
     this.common.currentPage = 'Cash Book';
@@ -62,9 +64,13 @@ export class CashbookComponent implements OnInit {
   ngAfterViewInit() {
 
   }
+  refresh() {
+    this.getAllLedger();
+    this.setFoucus('ledger');
+  }
 
 
- 
+
   openinvoicemodel(invoiceid) {
     // console.log('welcome to invoice ');
     this.common.params = invoiceid;
@@ -79,17 +85,17 @@ export class CashbookComponent implements OnInit {
     });
   }
 
- 
+
 
   getAllLedger() {
     // this.showSuggestions = true;
-    let url = 'Suggestion/GetLedger?transactionType=' +'credit'+ '&voucherId=' + (-3)+ '&search=' + 'test';
+    let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-3) + '&search=' + 'test';
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
         console.log(res);
         this.ledgerData = res['data'];
-       // console.log('-------------------:', this.ledgerData);
+        // console.log('-------------------:', this.ledgerData);
       }, err => {
         console.error(err);
         this.common.showError();
@@ -128,7 +134,7 @@ export class CashbookComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.DayBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.DayBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.DayBook[date]);
     });
   }
@@ -209,11 +215,7 @@ export class CashbookComponent implements OnInit {
       return;
     }
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('vouchertype');
-      } else if (this.activeId.includes('vouchertype')) {
-        this.setFoucus('ledger');
-      } else if (this.activeId.includes('ledger')) {
+      if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');

@@ -74,4 +74,8 @@ export class DriverStatusChangeComponent implements OnInit {
   closeModal() {
     this.activeModal.close({response:true});
   }
+
+  addNewStatus(){
+    
+  }
 }

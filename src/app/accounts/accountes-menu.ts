@@ -46,6 +46,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/company-branches'
     },
     {
+        title: 'Ware House',
+        icon: 'fas fa-warehouse',
+        link: '/accounts/ware-house'
+    },
+    {
         title: 'Voucher',
         icon: 'fas fa-ticket-alt',
         children: [
@@ -127,11 +132,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
     },
-    {
-        title: 'Ware House',
-        icon: 'fas fa-warehouse',
-        link: '/accounts/ware-house'
-    },
+  
   
 
 

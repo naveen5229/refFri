@@ -26,7 +26,8 @@ export class AddDriverCompleteComponent implements OnInit {
     adharPhoto: null,
     salary: null,
     guranter: null,
-    guranterMobileNo: null
+    guranterMobileNo: null,
+    doj: null
   };
 
   constructor(public common: CommonService,
@@ -92,6 +93,10 @@ export class AddDriverCompleteComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  handleFileSelection(event, type){
+
   }
 
 }
