@@ -114,7 +114,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title:'Cash Book',
                 link: '/accounts/cashbook'
-            }
+            },
+            {
+                title: 'Bank Book',
+                link: '/accounts/bank-books'
+            },
             
         ],
     },
@@ -127,6 +131,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Ware House',
         icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
-    }
+    },
+  
+
 
 ];

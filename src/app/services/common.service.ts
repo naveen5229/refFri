@@ -131,7 +131,7 @@ export class CommonService {
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
-
+ 
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
       return (
@@ -162,6 +162,7 @@ export class CommonService {
 
     console.log(year + "-" + month + "-" + dat);
 
+    //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
   }
 

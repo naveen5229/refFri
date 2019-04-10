@@ -20,6 +20,7 @@ import { from } from 'rxjs';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { CallLogsComponent } from './call-logs/call-logs.component';
+import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
 const routes: Routes = [{
   path: '',
@@ -100,6 +101,10 @@ const routes: Routes = [{
   {
     path: 'driver-call-suggestion',
     component: DriverCallSuggestionComponent
+  },
+  {
+    path: 'user-call-summary',
+    component: UserCallSummaryComponent
   }
   ],
 }];
