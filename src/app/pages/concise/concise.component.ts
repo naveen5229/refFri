@@ -240,9 +240,10 @@ export class ConciseComponent implements OnInit {
     if (kpi.trip_status_type == 0) {
       html += `
       <!-- Heading -->
-        <i class="fa fa-arrow-circle-right complete"></i>
-        <span class="circle">${kpi.x_showtripstart}</span>
-        <i class="icon ion-md-arrow-round-forward"></i>
+        <span>${kpi.x_showtripstart}</span>
+        <i class="icon ion-md-arrow-round-forward mr-0"></i>
+        <i class="ion-md-arrow-round-forward" style="margin-left:-1px;"></i>
+
         <span>${kpi.x_showtripend}</span>
       `;
     } else if (kpi.trip_status_type == 1) {

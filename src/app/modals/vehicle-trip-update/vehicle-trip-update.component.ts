@@ -32,6 +32,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   };
   placements = null;
   placementSuggestion = null;
+  ref_page = null ;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -51,8 +52,12 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.startName = this.common.params.tripDetils.startName;
     this.vehicleTrip.siteId = this.common.params.tripDetils.siteId;
     this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.tripDetils.startTime);
-    if(this.common.params.ref_page = 'placements'){
+    this.ref_page = this.common.params.ref_page;
+    console.log("ref_page",this.ref_page);
+    if(this.ref_page == 'placements'){
       this.vehicleTrip.placementType = '11';
+    }else{
+      this.vehicleTrip.placementType = '0';
     }
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
