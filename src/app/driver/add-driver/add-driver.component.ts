@@ -26,8 +26,8 @@ export class AddDriverComponent implements OnInit {
     aadharphoto: null,
     Salary: null,
     guranter: null,
-    guranterno: null
-
+    guranterno: null,
+    doj: null
   }
   constructor(
     public common: CommonService,

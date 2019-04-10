@@ -48,6 +48,7 @@ export class DaybooksComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
     this.getBranchList();
     this.getAllLedger();
@@ -59,6 +60,12 @@ export class DaybooksComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVoucherTypeList();
+    this.getBranchList();
+    this.getAllLedger();
+    this.setFoucus('vouchertype');
   }
 
   ngAfterViewInit() {

@@ -11,6 +11,7 @@ import { DatePickerComponent } from '../date-picker/date-picker.component';
   styleUrls: ['./update-trip-detail.component.scss']
 })
 export class UpdateTripDetailComponent implements OnInit {
+  prevehicleId = '';
   vehicleTrip = {
     targetTime:null,
     startTime:null,

@@ -36,6 +36,7 @@ export class LedgermappingComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
+      this.common.refresh = this.refresh.bind(this);  
       this.getSecondaryData();
       this.getLedgerList();
       this.setFoucus('secondaryname');
@@ -44,6 +45,12 @@ export class LedgermappingComponent implements OnInit {
 
 
   ngOnInit() {
+  }
+   
+  refresh(){
+    this.getSecondaryData();
+    this.getLedgerList();
+    this.setFoucus('secondaryname');
   }
 
   getSecondaryData() {

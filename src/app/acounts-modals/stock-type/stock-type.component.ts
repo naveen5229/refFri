@@ -99,7 +99,7 @@ export class StockTypeComponent implements OnInit {
       if (key == 'y' || key == 'enter') {
         console.log('Ledgers show stockType:', this.stockType);
         this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
+        // this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();

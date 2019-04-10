@@ -22,7 +22,7 @@ export class SiteFencingComponent implements OnInit {
   siteLocLatLng = {lat:0,lng:0};
   siteLatLng = {lat:0,lng:90};
   isUpdate = false;
-  constructor(private mapService: MapService,
+  constructor(public mapService: MapService,
     private apiService: ApiService,
     private commonService: CommonService) { }
 
