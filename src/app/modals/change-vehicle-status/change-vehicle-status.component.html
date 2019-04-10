@@ -60,7 +60,8 @@
               (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
               [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
               (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
-              <td (click)="openSmartTool(i,vehicleEvent);">{{i+1}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b>{{i+1}}</b></td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1">{{i+1}}</td>              
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc}}</td>

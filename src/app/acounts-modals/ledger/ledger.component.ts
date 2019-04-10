@@ -362,7 +362,7 @@ export class LedgerComponent implements OnInit {
       } else if (activeId == 'name') {
         this.setFoucus('aliasname');
       } else if (activeId == 'aliasname') {
-        this.setFoucus('code');
+        this.setFoucus('undergroup');
       } else if (activeId.includes('undergroup')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);

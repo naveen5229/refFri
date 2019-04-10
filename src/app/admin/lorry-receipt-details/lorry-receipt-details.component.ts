@@ -19,6 +19,11 @@ export class LorryReceiptDetailsComponent implements OnInit {
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+      let today;
+      today = new Date();
+      this.endDate = this.common.dateFormatter(today);
+      this.fromDate=this.common.dateFormatter(new Date(today.setDate(today.getDate() - 6)));
+      console.log('dates start and end',this.endDate,this.fromDate);
     this.getPendingLr();
   }
 
@@ -26,8 +31,13 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
   getPendingLr() {
+   
+    let params={
+      startDate:this.fromDate,
+      endDate:this.endDate
+    };
     this.common.loading++;
-    this.api.post('LorryReceiptsOperation/getPendingLr', {})
+    this.api.post('LorryReceiptsOperation/getPendingLr', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data']);

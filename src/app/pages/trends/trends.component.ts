@@ -219,7 +219,8 @@ export class TrendsComponent implements OnInit {
   }
 
   getDate(type) {
-      
+
+    this.common.params={ref_page:'trends'}       
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {

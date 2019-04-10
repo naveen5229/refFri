@@ -12,22 +12,32 @@ nb-card-header{
 }
 .main{
     display: block;
-    overflow: auto;
-    margin-top: 30px;
-    max-height: 79vh;
+    margin-top: 20px;
+    
 }
 table{
-  
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
         }
         th:nth-child(1){
-            width: 20px;
+            width: 35px;
         }
-        th{
-            width: 130px;
+        th:nth-child(2){
+            width: 440px;
+        }
+        th:nth-child(3),
+        th:nth-child(4){
+            width: 150px;
+        }
+        th:nth-child(5){
+            width: 150px;
         }
         td{
             padding: 5px 10px !important;
@@ -45,12 +55,29 @@ table{
         }
     }
     tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        height: calc(112vh - 250px);
+        max-height: calc(112vh - 250px);
         tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
             td:nth-child(1){
-                width: 20px;
+                width: 35px;
             }
-            td{
-                width: 130px;
+            td:nth-child(2){
+                width: 450px;
+            }
+            td:nth-child(3),
+            td:nth-child(4){
+                width: 152px;
+            }
+            td:nth-child(5){
+                width: 150px;
             }
         }
         tr:nth-child(odd){
@@ -60,7 +87,6 @@ table{
             background-color: #e4e4e4;
         }
     }
-    
 }
 .add-button{
     position: fixed;

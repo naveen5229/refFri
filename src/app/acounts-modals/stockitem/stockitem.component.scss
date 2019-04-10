@@ -15,6 +15,13 @@
 .radiostockitem .form-group label{
     font-weight: normal;
 }
+.iaactive{
+  border: 1px solid black;
+  width: auto;
+  max-height: 30px;
+  margin: 0px;
+  padding: 3px 0px;
+}
 
 
 .date-modal{
@@ -97,18 +104,18 @@
     background-color: #263238;
   }
 }
-.col-4 label{
+.col-6 .form-group{
+  margin: 0px;
+}
+.col-6 label{
   background: transparent;
   color: #000;
   display: inline;
   vertical-align: middle;
   padding-left: 0px;
 }
-.col-4 input{
+.col-6 input{
   display: inline-block;
   float: none;
   vertical-align: middle;
-}
-.col-3 .row {
-  margin-top: 10px;
 }
