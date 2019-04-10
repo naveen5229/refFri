@@ -3,7 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { DriverDistanceComponent } from '../../modals/driver-distance/driver-distance.component';
+import { RouteMapperComponent } from "../../modals/route-mapper/route-mapper.component";
 
 @Component({
   selector: 'driver-call-suggestion',
@@ -15,6 +16,9 @@ export class DriverCallSuggestionComponent implements OnInit {
   headings = [];
   kmpdval = 300;
   runhourval = 10;
+  distance = 0;
+  strcurdate = '';
+  stryesterday= '';
   
   table = {
     data: {
@@ -31,7 +35,11 @@ export class DriverCallSuggestionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) { 
-    this.getReport();
+      let today = new Date();
+      this.strcurdate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      today.setDate(today.getDate() - 1);
+      this.stryesterday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      this.getReport();
   }
 
   ngOnInit() {
@@ -53,6 +61,52 @@ export class DriverCallSuggestionComponent implements OnInit {
       return false;
     }
     this.getReport();
+  }
+
+  openDistanceprev(distObj) {
+    this.common.params = { distObj, title: 'Distance Report' };
+    const activeModal = this.modalService.open(DriverDistanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        //window.location.reload();
+      }
+    });
+  }
+
+  openDistance(vehid, vehicleRegNo) {
+    this.common.loading++;
+    let today = new Date();
+    let strcurdate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    today.setDate(today.getDate() - 1);
+    let stryesterday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    this.api.post('Vehicles/getVehDistanceBwTime', {vehicleId: vehid, fromTime : stryesterday, tTime : strcurdate})
+      .subscribe(res => {
+        this.common.loading--;
+        let data = res['data'];
+        if(data > 0)
+          this.distance = Math.round((data/1000) * 100)/100;
+        this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+        this.common.params = {
+          vehicleId: vehid,
+          vehicleRegNo: vehicleRegNo,
+          fromTime: stryesterday,
+          toTime: strcurdate,           
+          title: "Distance: " + this.distance + " Kms"
+        };
+        const activeModal = this.modalService.open(RouteMapperComponent, {
+          size: "lg",
+          container: "nb-layout",
+          windowClass: "myCustomModalClass"
+        });
+        activeModal.result.then(
+          data => console.log("data", data)
+          // this.reloadData()
+        );
+      }, err => {
+
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
   getReport() {
@@ -128,18 +182,34 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.driverData.map(drvrec => {
+    
+    for(let i=0; i<this.driverData.length; i++) {
       let valobj = {};
-      for(var i = 0; i < this.headings.length; i++) {
-        let val = drvrec[this.headings[i]];
-        let status = '';
-        
-        valobj[this.headings[i]] = { value: val, class: 'black', action: '' };       
-
+      for(let j=0; j<this.headings.length; j++) {
+        let val = this.driverData[i][this.headings[j]];        
+        if(this.headings[j].toUpperCase() == "LAST 24HR KM") {
+          let vid = this.driverData[i]['_vehicleid'];
+          let vehicleRegNo = this.driverData[i]['Vehicle'];
+          this.api.post('Vehicles/getVehDistanceBwTime', {vehicleId: vid, fromTime : this.stryesterday, tTime : this.strcurdate})
+            .subscribe(resdist => {
+              let distance = 0;
+              if(resdist['data'] > 0) {
+                distance = Math.round(resdist['data']/1000); 
+              }
+              valobj[this.headings[j]] = { value: distance, class: 'blue', action: this.openDistance.bind(this, vid, vehicleRegNo) };  
+              console.log("valobj:" + j, valobj[this.headings[j]]);
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+            });
+        } else {
+          valobj[this.headings[j]] = { value: val, class: 'black', action: '' };
+        }
       }
-     
-      columns.push(valobj);     
-    });
+      columns.push(valobj);
+    }
+    console.log("datalength:");
+    console.log(this.driverData.length);
     return columns;
   }
 }
