@@ -38,7 +38,10 @@
       -->
       <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
-   
+
+      <!-- <input type="text" class="form-control" id="stockType" name="stockType" [(ngModel)]="stockItem.stockType.name"
+      (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
+    -->
     </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
