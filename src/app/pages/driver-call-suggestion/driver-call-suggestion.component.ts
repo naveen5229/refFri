@@ -47,8 +47,9 @@ export class DriverCallSuggestionComponent implements OnInit {
   }
 
   fetchReport() {
-    if((this.kmpdval == undefined || !this.kmpdval) || (this.runhourval == undefined || !this.runhourval)) {
-      this.common.showError("Please provided Km per day and Run Hour values");
+    //if((this.kmpdval == undefined || !this.kmpdval) || (this.runhourval == undefined || !this.runhourval)) {
+    if(this.kmpdval == undefined || !this.kmpdval) {
+      this.common.showError("Please provide Km per day");
       return false;
     }
     this.getReport();
@@ -75,10 +76,13 @@ export class DriverCallSuggestionComponent implements OnInit {
     if(typeof x_kmpd == "string") {
       x_kmpd = parseInt(x_kmpd);
     }
+    /*
     if(typeof x_runhour == "string") {
       x_runhour = parseInt(x_runhour);
     }
-    this.api.post('Drivers/getDriverCallSuggestion', {x_user_id: x_user_id, x_kmpd: x_kmpd, x_runhour: x_runhour })
+    */
+    //this.api.post('Drivers/getDriverCallSuggestion', {x_user_id: x_user_id, x_kmpd: x_kmpd, x_runhour: x_runhour })
+    this.api.post('Drivers/getDriverCallSuggestion', {x_user_id: x_user_id, x_kmpd: x_kmpd })
       .subscribe(res => {
         this.common.loading--;
         this.resetDisplayTable();

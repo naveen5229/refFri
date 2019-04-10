@@ -18,13 +18,20 @@ export class WareHouseModalComponent implements OnInit {
     name: '',
 
     account: {
-      name: '',
-      id: '',
+      name: 'is Primary',
+      id: 0,
       primarygroup_id: ''
     }
 
   };
   allowBackspace = true;
+  autoSuggestion = {
+    data: [],
+    targetId: 'account',
+    display: 'name'
+  };
+  activeId ='account';
+  suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -35,7 +42,7 @@ export class WareHouseModalComponent implements OnInit {
         name: this.common.params.name,
 
         account: {
-          name: this.common.params.parent_name,
+          name: this.common.params.parent_name ? this.common.params.parent_name : 'is Primary'  ,
           id: this.common.params.parent_id,
           primarygroup_id: this.common.params.primarygroup_id
         }
@@ -124,12 +131,25 @@ export class WareHouseModalComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.suggestions = res['data'];
+        this.autoSuggestion.data  = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion on select: ', suggestion);
+      this.Accounts.account.name = suggestion.name;
+      this.Accounts.account.id = suggestion.id;
+    
+  }
+
+  onSelect(suggestion, activeId){
+    console.log('Suggestion: ', suggestion);
+      this.Accounts.account.name = suggestion.name;
+      this.Accounts.account.id = suggestion.id;
+      this.Accounts.account.primarygroup_id =suggestion.primarygroup_id;
   }
 
 }

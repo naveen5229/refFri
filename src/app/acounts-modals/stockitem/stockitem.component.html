@@ -99,14 +99,14 @@
   <div class="row radiostockitem"  *ngIf="!(common.params && common.params.stockType)">
    <div class="col-3">
         <label>Is Active</label>
-        <div class="row">
-            <div class="col-4 pr-0">
+        <div class="row iaactive">
+            <div class="col-6 pr-0">
                 <div class="form-group">
                     <input type="radio" class="form-control" name="isactive" id="isactive" [(ngModel)]="stockItem.isactive" [value]="true" (keydown.enter)="stockItem.sales = true;" [checked]="true"> 
                     <label>Yes</label>
                   </div>
             </div>
-            <div class="col-4 pl-0">
+            <div class="col-6 pl-0">
                 <div class="form-group">
                   <input type="radio" class="form-control" name="isactive" [(ngModel)]="stockItem.isactive" id="notisactive" [value]="false" (keydown.enter)="stockItem.sales = true;">
                   <label>No</label>
@@ -116,14 +116,14 @@
     </div>
     <div class="col-3">
         <label>Sales</label>
-      <div class="row">
-        <div class="col-4 pr-0">
+      <div class="row iaactive ">
+        <div class="col-6 pr-0">
             <div class="form-group">
               <input type="radio" class="form-control" name="sales" id="sales" [(ngModel)]="stockItem.sales" [value]="true" (keydown.enter)="stockItem.purchase = true;">
               <label>Yes</label>
             </div>
         </div>
-        <div class="col-4 pl-0">
+        <div class="col-6 pl-0">
             <div class="form-group">
               <input type="radio" class="form-control" name="sales" [(ngModel)]="stockItem.sales" id="notsales" [value]="false" (keydown.enter)="stockItem.purchase = true;">
               <label>No</label>
@@ -133,14 +133,14 @@
     </div>
     <div class="col-3">
         <label>Purchase</label>
-        <div class="row">
-          <div class="col-4 pr-0">
+        <div class="row iaactive">
+          <div class="col-6 pr-0">
               <div class="form-group">
                   <input type="radio" class="form-control" name="purchase" id="purchase" [(ngModel)]="stockItem.purchase" [value]="true" (keydown.enter)="stockItem.inventary = true;">
                   <label>Yes</label>
                 </div>
           </div>
-          <div class="col-4 pl-0">
+          <div class="col-6 pl-0">
               <div class="form-group">
                 <input type="radio" class="form-control" name="purchase" [(ngModel)]="stockItem.purchase" id="notpurchase" [value]="false" (keydown.enter)="stockItem.inventary = true;">
                 <label>No</label>
@@ -150,14 +150,14 @@
     </div>
     <div class="col-3">
         <label>Inventary</label>
-        <div class="row">
-          <div class="col-4 pr-0">
+        <div class="row iaactive">
+          <div class="col-6 pr-0">
               <div class="form-group">
                   <input type="radio" class="form-control" name="inventary" id="inventary" [(ngModel)]="stockItem.inventary" [value]="true">
                   <label>Yes</label>
                 </div>
           </div>
-          <div class="col-4 pl-0">
+          <div class="col-6 pl-0">
               <div class="form-group">
                 <input type="radio" class="form-control" name="inventary" id="notinventary" [(ngModel)]="stockItem.inventary" [value]="false">
                 <label>No</label>

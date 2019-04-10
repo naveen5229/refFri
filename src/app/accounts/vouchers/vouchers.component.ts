@@ -450,14 +450,14 @@ export class VouchersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[2];
+    let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[0];
+    let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
     console.log('Date: ', year + separator + month + separator + date);
-    this.voucher.date = year + separator + month + separator + date;
+    this.voucher.date = date + separator + month + separator + year;
   }
 
   handleArrowUpDown(key, activeId) {

@@ -55,13 +55,13 @@ table{
     padding: 3px 8px !important;
 }
 
-:host ::ng-deep.TJR-auto-suggestion-container {
-    border: 1px solid #263238 !important;
-    border-radius: 3px !important;
-    height: 105px !important;
-    overflow: hidden !important;
-    max-height: 105px !important;
-}
+// :host ::ng-deep.TJR-auto-suggestion-container {
+//     border: 1px solid #263238 !important;
+//     border-radius: 3px !important;
+//     height: 105px !important;
+//     overflow: hidden !important;
+//     max-height: 105px !important;
+// }
 .selected {
     background-color: #576c77
 }
