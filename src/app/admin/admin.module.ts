@@ -28,6 +28,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { DriverModule } from '../driver/driver.module';
+import { SubSitesComponent } from './sub-sites/sub-sites.component';
 
 
 
@@ -67,6 +68,7 @@ const PAGES_COMPONENTS = [
     VehiclesViewComponent,
     CompanyDetailsComponent,
     TransportAgentsComponent,
+    SubSitesComponent,
   ],
 })
 export class AdminModule { }
