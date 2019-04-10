@@ -10,9 +10,9 @@ import { CommonService } from '../../services/common.service';
 })
 export class StockSubtypeComponent implements OnInit {
   showConfirm = false;
-  showExit=false;
+  showExit = false;
   stockSubType = {
-    id :0,
+    id: 0,
     stockType: {
       name: '',
       id: -1
@@ -34,16 +34,16 @@ export class StockSubtypeComponent implements OnInit {
   };
 
   allowBackspace = true;
-  activeId ='stockType';
+  activeId = 'stockType';
   suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
+    console.log('common params', this.common.params);
 
-    if (this.common.params && this.common.params.code) {
-      console.log('common params',this.common.params);
+    if (this.common.params) {
       this.stockSubType = {
-      id: this.common.params.id,
+        id: this.common.params.id,
         stockType: {
           name: this.common.params.stocktypename,
           id: this.common.params.stocktype_id
@@ -83,23 +83,23 @@ export class StockSubtypeComponent implements OnInit {
       });
 
   }
-  
-  modelCondition(){
+
+  modelCondition() {
     this.showConfirm = false;
     event.preventDefault();
     return;
-   }
+  }
   selectSuggestion(suggestion, id?) {
     console.log('Suggestion on select: ', suggestion);
-      this.stockSubType.stockType.name = suggestion.name;
-      this.stockSubType.stockType.id = suggestion.id;
-    
+    this.stockSubType.stockType.name = suggestion.name;
+    this.stockSubType.stockType.id = suggestion.id;
+
   }
 
-  onSelect(suggestion, activeId){
+  onSelect(suggestion, activeId) {
     console.log('Suggestion: ', suggestion);
-      this.stockSubType.stockType.name = suggestion.name;
-      this.stockSubType.stockType.id = suggestion.id;
+    this.stockSubType.stockType.name = suggestion.name;
+    this.stockSubType.stockType.id = suggestion.id;
   }
 
 
@@ -139,7 +139,7 @@ export class StockSubtypeComponent implements OnInit {
   selectStockType(stockType) {
     this.stockSubType.stockType.name = stockType.name;
     this.stockSubType.stockType.id = stockType.id;
-   // this.showSuggestions.stockType = false;
+    // this.showSuggestions.stockType = false;
   }
 
   onSelected(selectedData, type, display) {
@@ -153,30 +153,30 @@ export class StockSubtypeComponent implements OnInit {
   }
 
 
-  
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
-   
+
     if (event.key == "Escape") {
-      this.showExit=true;
+      this.showExit = true;
     }
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
-       event.preventDefault();
-       this.activeModal.close();
-       return;
-       // this.close();
-      }else   if ( key == 'n') {
+        event.preventDefault();
+        this.activeModal.close();
+        return;
+        // this.close();
+      } else if (key == 'n') {
         this.showExit = false;
         event.preventDefault();
         return;
 
       }
-      
+
     }
-      
+
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         console.log('Ledgers show stockType:', this.stockSubType);
@@ -191,43 +191,43 @@ export class StockSubtypeComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-     // console.log('Active jj: ', activeId.includes('aliasname'));
+      // console.log('Active jj: ', activeId.includes('aliasname'));
       if (activeId.includes('user')) {
         this.setFoucus('stockType');
       } else if (activeId.includes('stockType')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-           this.suggestions.list = [];
-           this.suggestionIndex = -1;
-         }
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('stock-name');
       } else if (activeId == 'stock-name') {
         this.setFoucus('stock-code');
       } else if (activeId == 'stock-code') {
-       // this.setFoucus('stock-name');
-       this.showConfirm = true;
+        // this.setFoucus('stock-name');
+        this.showConfirm = true;
       }
-  } else if (key == 'backspace' && this.allowBackspace) {
-    event.preventDefault();
-    console.log('active 1', activeId);
-    if (activeId == 'stock-code') this.setFoucus('stock-name');
-    if (activeId == 'stock-name') this.setFoucus('stockType');
-    if (activeId == 'stockType') this.setFoucus('user');
-  } else if (key != 'backspace') {
-    this.allowBackspace = false;
-    //event.preventDefault();
-  }
-  // console.log('Active Id', activeId);
-   if (key.includes('arrow')) {
-  
-     this.allowBackspace = false;
-    if (key.includes('arrowup') || key.includes('arrowdown')) {
-    
-      this.handleArrowUpDown(key);
+    } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
+      console.log('active 1', activeId);
+      if (activeId == 'stock-code') this.setFoucus('stock-name');
+      if (activeId == 'stock-name') this.setFoucus('stockType');
+      if (activeId == 'stockType') this.setFoucus('user');
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+      //event.preventDefault();
     }
-  }
-  
+    // console.log('Active Id', activeId);
+    if (key.includes('arrow')) {
+
+      this.allowBackspace = false;
+      if (key.includes('arrowup') || key.includes('arrowdown')) {
+
+        this.handleArrowUpDown(key);
+        event.preventDefault();
+      }
+    }
+
 
 
   }
@@ -235,7 +235,7 @@ export class StockSubtypeComponent implements OnInit {
 
   handleArrowUpDown(key) {
     const suggestionIDs = this.generateIDs();
-   // console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
+    // console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
     if (suggestionIDs.indexOf(this.activeId) == -1) return;
     console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
     if (key == 'arrowdown') {
@@ -251,10 +251,10 @@ export class StockSubtypeComponent implements OnInit {
   }
   generateIDs() {
     let IDs = ['stockType'];
-    
+
     return IDs;
   }
-  
+
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

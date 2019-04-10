@@ -11,43 +11,49 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./invoiceregister.component.scss']
 })
 export class InvoiceregisterComponent implements OnInit {
-  
-  vouchertypedata=[];
-  branchdata=[];
+
+  vouchertypedata = [];
+  branchdata = [];
   invoiceRegister = {
-    endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    custCode:'',
-    code:'',
-    ledger :{
-        name:'All',
-        id:0
-      },
-      branch :{
-        name:'',
-        id:''
-      },
-      voucherType :{
-        name:'Purchase Invoice',
-        id:-2
-      }
-    
-    };
-    invoiceRegisterData=[];
-    ledgerList=[];
-    activeId='voucherType';
+    endDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    custCode: '',
+    code: '',
+    ledger: {
+      name: 'All',
+      id: 0
+    },
+    branch: {
+      name: '',
+      id: ''
+    },
+    voucherType: {
+      name: 'Purchase Invoice',
+      id: -2
+    }
+
+  };
+  invoiceRegisterData = [];
+  ledgerList = [];
+  activeId = 'voucherType';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
-      this.getVoucherTypeList();
-     // this.getBranchList();
-      this.getLedgerList();
-      this.setFoucus('voucherType');
-      this.common.currentPage = 'Invoice Register';
-    }
+    public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+
+    this.getVoucherTypeList();
+    this.getLedgerList();
+    this.setFoucus('voucherType');
+    this.common.currentPage = 'Invoice Register';
+  }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVoucherTypeList();
+    this.getLedgerList();
+    this.setFoucus('voucherType');
   }
 
   getVoucherTypeList() {
@@ -64,7 +70,7 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getLedgerList() {
@@ -81,7 +87,7 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getBranchList() {
@@ -98,7 +104,7 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getInvoiceRegister() {
@@ -112,7 +118,7 @@ export class InvoiceregisterComponent implements OnInit {
       custCode: this.invoiceRegister.custCode,
       orderType: this.invoiceRegister.voucherType.id,
     };
-    
+
     this.common.loading++;
     this.api.post('Accounts/getInvoiceRegister', params)
       .subscribe(res => {
@@ -123,17 +129,17 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.invoiceRegister[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log(this.invoiceRegister[date]);
+      console.log(this.invoiceRegister[date]);
     });
   }
-  
+
   onSelected(selectedData, type, display) {
     this.invoiceRegister[type].name = selectedData[display];
     this.invoiceRegister[type].id = selectedData.id;
@@ -147,17 +153,17 @@ export class InvoiceregisterComponent implements OnInit {
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('voucherType');
-      }else  if (this.activeId.includes('voucherType')) {
+      } else if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
-      }else  if (this.activeId.includes('ledger')) {
+      } else if (this.activeId.includes('ledger')) {
         this.setFoucus('code');
-      }else  if (this.activeId.includes('startdate')) {
+      } else if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');
-      }else  if (this.activeId.includes('enddate')) {
+      } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
-      }else  if (this.activeId.includes('custcode')) {
+      } else if (this.activeId.includes('custcode')) {
         this.setFoucus('startdate');
-      }else  if (this.activeId.includes('code')) {
+      } else if (this.activeId.includes('code')) {
         this.setFoucus('custcode');
       }
     }
