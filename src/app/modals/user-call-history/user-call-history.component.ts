@@ -2,20 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'driver-call-suggestion',
-  templateUrl: './driver-call-suggestion.component.html',
-  styleUrls: ['./driver-call-suggestion.component.scss']
+  selector: 'user-call-history',
+  templateUrl: './user-call-history.component.html',
+  styleUrls: ['./user-call-history.component.scss']
 })
-export class DriverCallSuggestionComponent implements OnInit {
-  driverData = [];
+export class UserCallHistoryComponent implements OnInit {
+  callHistory = [];
   headings = [];
-  kmpdval = 300;
-  runhourval = 10;
-  
+callData = null;
   table = {
     data: {
       headings: {        
@@ -26,13 +23,17 @@ export class DriverCallSuggestionComponent implements OnInit {
       hideHeader: true
     }
   };
-  
-  constructor(public api: ApiService,
+
+  constructor(
+    public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) { 
+    private activeModal : NgbActiveModal
+  ) {
+    this.callData = this.common.params.callData;
+    console.log("call data",this.callData)
     this.getReport();
-  }
+   }
 
   ngOnInit() {
   }
@@ -46,55 +47,34 @@ export class DriverCallSuggestionComponent implements OnInit {
     }
   }
 
-  fetchReport() {
-    //if((this.kmpdval == undefined || !this.kmpdval) || (this.runhourval == undefined || !this.runhourval)) {
-    if(this.kmpdval == undefined || !this.kmpdval) {
-      this.common.showError("Please provide Km per day");
-      return false;
-    }
-    this.getReport();
-  }
+ 
 
   getReport() {
     this.common.loading++;
     this.headings = [];
-    let x_kmpd, x_runhour;
-    if(this.kmpdval == 0 || this.kmpdval == undefined) {
-      x_kmpd = null;
-    } else {
-      x_kmpd = this.kmpdval;
-    }
-    if(this.runhourval == 0 || this.runhourval == undefined) {
-      x_runhour = null;
-    } else {
-      x_runhour = this.runhourval;
-    }
-    let x_user_id = this.user._details.id;
-    if(this.user._loggedInBy == "admin") {
-      x_user_id = this.user._customer.id;
-    }
-    if(typeof x_kmpd == "string") {
-      x_kmpd = parseInt(x_kmpd);
-    }
-    /*
-    if(typeof x_runhour == "string") {
-      x_runhour = parseInt(x_runhour);
-    }
-    */
-    //this.api.post('Drivers/getDriverCallSuggestion', {x_user_id: x_user_id, x_kmpd: x_kmpd, x_runhour: x_runhour })
-    this.api.post('Drivers/getDriverCallSuggestion', {x_user_id: x_user_id, x_kmpd: x_kmpd })
+    let params = {
+      vehicleId :this.callData.vehicleId,
+      foAdminUserId : this.callData.foAdminUserId,
+      currentDay : this.common.dateFormatter1(this.callData.currentDay),
+      nextDay : this.common.dateFormatter1(this.callData.nextDay)    
+    };
+
+    console.log("params",params);
+    this.api.post('FoDetails/userCallHistoryLogs',params)
       .subscribe(res => {
         this.common.loading--;
         this.resetDisplayTable();
-        this.driverData = res['data'];
-        if(this.driverData == null || res['data'] == null) {
-          console.log("resetting table");
-          this.driverData = [];
+        this.callHistory = JSON.parse(res['data'][0].get_callslog_hist);
+        if(this.callHistory == null || res['data'] == null) {
+          console.log("callHistory",this.callHistory);
+          this.callHistory = [];
           this.resetDisplayTable();
         }
-        console.info("driver Data", this.driverData);
-        let first_rec = this.driverData[0];
+        console.info("callHistory Data", this.callHistory);
+
+        let first_rec = this.callHistory[0];
         this.table.data.headings = {};
+        console.log("first_rec",first_rec);
         for(var key in first_rec) {
           if(key.charAt(0) != "_") {
             this.headings.push(key);
@@ -102,9 +82,9 @@ export class DriverCallSuggestionComponent implements OnInit {
             this.table.data.headings[key] = hdgobj;
           }
         }
-        console.log("hdgs:");
-        console.log(this.headings);
-        console.log(this.table.data.headings);
+        console.log("this.headings",this.headings);
+
+     
 
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -128,7 +108,7 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.driverData.map(drvrec => {
+    this.callHistory.map(drvrec => {
       let valobj = {};
       for(var i = 0; i < this.headings.length; i++) {
         let val = drvrec[this.headings[i]];
@@ -142,4 +122,10 @@ export class DriverCallSuggestionComponent implements OnInit {
     });
     return columns;
   }
+
+  closeModal() {
+    this.activeModal.close();
+  }
+  
+
 }

@@ -15,12 +15,20 @@ export class AccountsComponent implements OnInit {
 
     account: {
       name: '',
-      id: '',
+      id: -1,
       primarygroup_id: ''
     }
 
   };
   allowBackspace = true;
+  
+  autoSuggestion = {
+    data: [],
+    targetId: 'account',
+    display: 'name'
+  };
+  activeId ='account';
+  suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -39,6 +47,7 @@ export class AccountsComponent implements OnInit {
       }
       console.log('Accounts: ', this.Accounts);
     }
+    this.getAccountData();
   }
 
   ngOnInit() {
@@ -114,5 +123,39 @@ export class AccountsComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
+
+
+  getAccountData() {
+    let params = {
+      search: 123
+    };
+
+    this.common.loading++;
+    this.api.post('Suggestion/getAllUnderGroupData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.autoSuggestion.data = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion on select: ', suggestion);
+      this.Accounts.account.name = suggestion.name;
+      this.Accounts.account.id = suggestion.id;
+    
+  }
+
+  onSelect(suggestion, activeId){
+    console.log('Suggestion: ', suggestion);
+      this.Accounts.account.name = suggestion.name;
+      this.Accounts.account.id = suggestion.id;
+      this.Accounts.account.primarygroup_id =suggestion.primarygroup_id;
+  }
+
 
 }

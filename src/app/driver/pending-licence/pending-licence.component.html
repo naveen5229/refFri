@@ -36,8 +36,8 @@
                   <td class="del" style="width: 120px;">
                     <a href="javascript: void(0);" title="Edit Licence" (click)="showDetails(row)"><i
                         class="icon ion-md-create"></i></a>&nbsp;
-                    <a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
-                        class="fa fa-trash"></i></a>
+                    <!--<a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
+                        class="fa fa-trash"></i></a>-->
                     </td>
                 
               </tr>
@@ -193,10 +193,13 @@
             <div class="row form-field clear">
               <label for="address-first" class="col-sm-4">Address</label>
               <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
-                <input #address_first *ngIf="modal.first.data.canUpdate" id="address-first"
+                <textarea id="address-first" name="address-first" rows="2" class="form-control "
+                  [(ngModel)]="modal.first.data.driver.address"
+                  [value]="modal.first.data.driver.address"></textarea>
+                <!--<input #address_first *ngIf="modal.first.data.canUpdate" id="address-first"
                   name="address-first" style="max-width: 100%" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.first.data.driver.address" [value]="modal.first.data.driver.address"
-                  placeholder="Address" />
+                  placeholder="Address" />-->
               </div>
             </div>
 
@@ -397,10 +400,13 @@
             <div class="row form-field clear">
               <label for="address-second" class="col-sm-4">Address</label>
               <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
-                <input #address_second *ngIf="modal.second.data.canUpdate" id="address-second"
+                <textarea id="address-second" name="address-second" rows="2" class="form-control "
+                  [(ngModel)]="modal.second.data.driver.address"
+                  [value]="modal.second.data.driver.address"></textarea>
+                <!--<input #address_second *ngIf="modal.second.data.canUpdate" id="address-second"
                   name="address-second" style="max-width: 100%" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.second.data.driver.address" [value]="modal.second.data.driver.address"
-                  placeholder="Address" />
+                  placeholder="Address" />-->
               </div>
             </div>
 
