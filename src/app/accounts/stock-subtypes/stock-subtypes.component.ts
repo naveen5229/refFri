@@ -82,8 +82,14 @@ export class StockSubtypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_stocksubtype;
+        if (result == '') {
+          this.common.showToast(" Stock SubType Add");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.getStockSubTypes();
-        this.common.showToast('Stock Sub Type Are Saved');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -108,8 +114,14 @@ export class StockSubtypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_stocksubtype;
+        if (result == '') {
+          this.common.showToast(" Stock SubType Update");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.getStockSubTypes();
-        this.common.showToast('Stock Sub Type Are Updated');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
