@@ -18,7 +18,7 @@
           <label class="tjr-label">Ledger</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
             display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
-            <input type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="outStanding.ledger.name">
+            <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="outStanding.ledger.name">
           </div>
       </div>
       <div class="col">

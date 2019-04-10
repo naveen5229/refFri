@@ -96,10 +96,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger Mapping',
                 link: '/accounts/ledgermapping'
             },
-            {
-                title: 'Invoice Register',
-                link: '/accounts/invoiceregister'
-            },
+         
             {
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
@@ -113,10 +110,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/profitloss'
             },
             {
-                title:'Stock Available',
-                link: '/accounts/stockavailable'
-            },
-            {
                 title:'Cash Book',
                 link: '/accounts/cashbook'
             },
@@ -124,6 +117,24 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Bank Book',
                 link: '/accounts/bank-books'
             },
+            
+        ],
+    },
+    {
+        title: 'Inventry  Reports',
+        icon: 'fa fa-file-excel',
+        children: [
+           
+            {
+                title: 'Invoice Register',
+                link: '/accounts/invoiceregister'
+            },
+       
+            {
+                title:'Stock Available',
+                link: '/accounts/stockavailable'
+            },
+          
             
         ],
     },
