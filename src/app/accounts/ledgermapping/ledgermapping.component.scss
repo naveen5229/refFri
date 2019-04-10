@@ -57,12 +57,26 @@ table tr.highlight {
 //     overflow: hidden !important;
 //     max-height: 105px !important;
 // }
-
+.auto-sugg{
+    max-height: 128px;
+    min-height: 128px;
+}
 table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
+        }
+        th:nth-child(1){
+            width: 50px;
+        }
+        th:nth-child(2){
+            width: 500px;
         }
         td{
             padding: 5px 10px !important;
@@ -80,6 +94,23 @@ table{
         }
     }
     tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 312px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 50px;
+            }
+            td:nth-child(2){
+                width: 500px;
+            }
+        }
         tr:nth-child(odd){
             background-color: #fff;
         }
