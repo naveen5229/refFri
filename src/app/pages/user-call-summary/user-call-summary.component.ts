@@ -48,10 +48,10 @@ export class UserCallSummaryComponent implements OnInit {
         console.log("data date:");
         console.log(data.date);
         if(date == 'startdate') {
-          this.fromDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+          this.fromDate = this.common.dateFormatter1(data.date).split(' ')[0];
           console.log('Date:', this.fromDate);
         } else {
-          this.endDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
           console.log('Date:', this.endDate);
         }
       }
@@ -60,7 +60,21 @@ export class UserCallSummaryComponent implements OnInit {
 
   getCallSummary() {
     this.common.loading++;
-    this.api.post('Drivers/getUserCallSummary', {x_start_date:  this.fromDate, x_end_date:  this.endDate + ' 23:59:00'})
+    this.data = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    //let stDate = this.fromDate.split('-').reverse().join('-');
+    let stDate = this.fromDate;
+    //let enDate = this.endDate.split('-').reverse().join('-');
+    let enDate = this.endDate;
+    this.api.post('Drivers/getUserCallSummary', {x_start_date:  stDate, x_end_date:  enDate + ' 23:59:00'})
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
