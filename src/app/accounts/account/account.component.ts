@@ -121,7 +121,7 @@ export class AccountComponent implements OnInit {
         console.log('res: ', res);
         let result = res['data'][0].save_secondarygroup;
         if (result == '') {
-          this.common.showToast(" Updated Sucess");
+          this.common.showToast(" Updated Successfull");
         }
         else {
           this.common.showToast(result);
