@@ -23,6 +23,7 @@ import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { DriverListComponent } from '../driver/driver-list/driver-list.component';
+import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 
 const routes: Routes = [{
     path: '',
@@ -126,7 +127,16 @@ const routes: Routes = [{
             component: DriverListComponent,
             canActivate: [RouteGuard]
         },
-
+        //{
+        //    path: 'gps-trails',
+        //    component: GpsTrailsComponent,
+        //    canActivate: [RouteGuard]
+        //},
+        {
+            path: 'fuel-fillings',
+            component: FuelFillingsComponent,
+            canActivate: [RouteGuard]
+        }
     ],
 }];
 

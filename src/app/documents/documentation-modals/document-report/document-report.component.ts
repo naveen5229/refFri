@@ -180,8 +180,8 @@ export class DocumentReportComponent implements OnInit {
     let userid = this.user._customer.id;
     if(this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    //this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id, x_user_id: userid })
-    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
+    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id, x_user_id: userid })
+    //this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];

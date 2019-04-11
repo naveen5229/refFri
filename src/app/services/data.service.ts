@@ -134,7 +134,13 @@ export class DataService {
       icon: 'nb-home',
       link: '/admin/transport-agents',
       home: true,
-  }
+  },
+  {
+    title: 'GPS Trails',
+    icon: 'nb-home',
+    link: '/admin/gps-trails',
+    home: true,
+}
     ];
   }
 }

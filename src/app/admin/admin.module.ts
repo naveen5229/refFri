@@ -28,6 +28,8 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { DriverModule } from '../driver/driver.module';
+import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
+import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 
 
 
@@ -67,6 +69,8 @@ const PAGES_COMPONENTS = [
     VehiclesViewComponent,
     CompanyDetailsComponent,
     TransportAgentsComponent,
+    GpsTrailsComponent,
+    FuelFillingsComponent,
   ],
 })
 export class AdminModule { }
