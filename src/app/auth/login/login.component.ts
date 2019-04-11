@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
     console.log('All Tags: ', allTags);
     if(this.user._loggedInBy=="customer"){
       let nbCard = document.getElementsByTagName('nb-card')[0];
+      // nbCard['style']['backgroundColor'] = "#000";
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/app-login-bg.jpg')";
       nbCard['style']['backgroundSize'] = 'cover';
       nbCard['style']['backgroundRepeat'] = 'no-repeat';
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
 
     if(this.user._loggedInBy=="admin"){
       let nbCard = document.getElementsByTagName('nb-card')[0];
+      // nbCard['style']['backgroundColor'] = "#000";
       nbCard['style']['backgroundImage'] = "url('http://elogist.in./images/login-admin.jpg')";
       nbCard['style']['backgroundSize'] = 'cover';
       nbCard['style']['backgroundRepeat'] = 'no-repeat';
