@@ -137,8 +137,8 @@ export class CityComponent implements OnInit {
     if (city) {
       console.log('city', city);
       this.common.params = {
-        title: 'Confirmation ',
-        description: 'Are Sure to Delete  ' + city.city_name + ' City',
+        title: 'Delete City ',
+        description: 'Are Sure to Delete ' +`<b>&nbsp;`+ city.city_name+`<b>`+ ' City',
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
