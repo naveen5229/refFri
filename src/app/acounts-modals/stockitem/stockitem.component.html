@@ -38,7 +38,10 @@
       -->
       <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
-   
+
+      <!-- <input type="text" class="form-control" id="stockType" name="stockType" [(ngModel)]="stockItem.stockType.name"
+      (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
+    -->
     </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
@@ -103,7 +106,7 @@
    <div class="col-3">
         <label>Is Active</label>
         <div class="row iaactive">
-            <div class="col-6 pr-0">
+            <div class="col-6 pr-0 pl-1">
                 <div class="form-group">
                     <input type="radio" class="form-control" name="isactive" id="isactive" [(ngModel)]="stockItem.isactive" [value]="true" (keydown.enter)="stockItem.sales = true;" [checked]="true"> 
                     <label>Yes</label>
@@ -120,7 +123,7 @@
     <div class="col-3">
         <label>Sales</label>
       <div class="row iaactive ">
-        <div class="col-6 pr-0">
+        <div class="col-6 pr-0 pl-1">
             <div class="form-group">
               <input type="radio" class="form-control" name="sales" id="sales" [(ngModel)]="stockItem.sales" [value]="true" (keydown.enter)="stockItem.purchase = true;">
               <label>Yes</label>
@@ -137,7 +140,7 @@
     <div class="col-3">
         <label>Purchase</label>
         <div class="row iaactive">
-          <div class="col-6 pr-0">
+          <div class="col-6 pr-0 pl-1">
               <div class="form-group">
                   <input type="radio" class="form-control" name="purchase" id="purchase" [(ngModel)]="stockItem.purchase" [value]="true" (keydown.enter)="stockItem.inventary = true;">
                   <label>Yes</label>
@@ -154,7 +157,7 @@
     <div class="col-3">
         <label>Inventary</label>
         <div class="row iaactive">
-          <div class="col-6 pr-0">
+          <div class="col-6 pr-0 pl-1">
               <div class="form-group">
                   <input type="radio" class="form-control" name="inventary" id="inventary" [(ngModel)]="stockItem.inventary" [value]="true">
                   <label>Yes</label>

@@ -33,6 +33,10 @@ export class LedgerComponent implements OnInit {
     },
     id: '',
     code: '',
+    branchname:'',
+    branchcode:'',
+    accnumber:0,
+    creditdays:0,
     accDetails: [{
       id: '',
       salutation: {
@@ -46,7 +50,7 @@ export class LedgerComponent implements OnInit {
       gstNo: '',
       city: {
         name: '',
-        id: ''
+        id: -1
       },
       address: '',
       remarks: '',
@@ -84,6 +88,10 @@ export class LedgerComponent implements OnInit {
         },
         id: this.common.params[0].y_id,
         code: this.common.params[0].y_code,
+        branchname:  this.common.params[0].branch_name,
+        branchcode:  this.common.params[0].branch_code,
+        accnumber:   this.common.params[0].ac_no,
+        creditdays:  this.common.params[0].credit_days,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -99,6 +107,7 @@ export class LedgerComponent implements OnInit {
           panNo: detail.y_dtl_pan_no,
           tanNo: detail.y_dtl_tan_no,
           gstNo: detail.y_dtl_gst_no,
+         
           city: {
             name: detail.city_name,
             id: detail.y_dtl_city_id
@@ -179,7 +188,7 @@ export class LedgerComponent implements OnInit {
       gstNo: '',
       city: {
         name: '',
-        id: ''
+        id: -1
       },
       address: '',
       remarks: '',

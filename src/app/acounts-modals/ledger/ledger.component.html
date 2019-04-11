@@ -12,16 +12,6 @@
 
       <div class="row">
         <div class="form-group">
-          <!-- <div class="col-md-2 text-center">
-            <label>User</label>
-          </div>
-          <div class="col-md-4">
-            input type="text" class="form-control" (input)="searchUser()" name="user-name"
-             <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList"
-              display="name" inputId="user" placeholder="Enter User" [preSelected]="null" class="suggestion-containerbox">
-            </auto-suggestion> 
-            <input type="text" id="user" class="form-control" name="user" [(ngModel)]="Accounts.user.name">
-          </div> -->
           <div class="col-md-2 text-center">
             <label>Name</label>
           </div>
@@ -36,12 +26,6 @@
             <input autocomplete="off" type="text" class="form-control" name="account-aliasname" id="aliasname"
               [(ngModel)]="Accounts.aliasname">
           </div>
-          <!-- <div class="col-md-2 text-center">
-            <label>Code</label>
-          </div>
-          <div class="col-md-2">
-            <input autocomplete="off" type="text" class="form-control" name="code" id="code" [(ngModel)]="Accounts.code">
-          </div> -->
         </div>
       </div>
      
@@ -63,6 +47,42 @@
           <div class="col-md-4">
             <input autocomplete="off" type="number" class="form-control" name="account-perrate" id="perrate"
               [(ngModel)]="Accounts.perrate">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Branch Name</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="branchname" [(ngModel)]="Accounts.branchname" id="branchname"
+             >
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Branch Code</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="branchcode" id="branchcode"
+              [(ngModel)]="Accounts.branchcode">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Credit Days</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="creditdays" [(ngModel)]="Accounts.creditdays" id="creditdays"
+            >
+          </div>
+          <div class="col-md-2 text-center">
+            <label>A/c Number</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="accnumber" id="accnumber"
+              [(ngModel)]="Accounts.accnumber">
           </div>
         </div>
       </div>
