@@ -25,15 +25,15 @@
                 <td>
                   <!-- <auto-suggestion (onSelected)="onSelected($event, 'taxledger', 'name',i)" url="Suggestion/GetPurchaseLedger"  display="name"
          [inputId]="'taxledger-'+i" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
-                  <input type="text" [id]="'taxledger-' + i" class="form-control" [name]="'taxledger-' + i"
+                  <input type="text" [id]="'taxledger-' + i" autocomplete="off" class="form-control" [name]="'taxledger-' + i"
                     [(ngModel)]="taxdetail.taxledger.name" required>
                 </td>
                 <td>
-                  <input type="number" class="form-control" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
+                  <input type="number" class="form-control" autocomplete="off" [name]="'taxrate-' + i" [id]="'taxrate-' + i"
                     [(ngModel)]="taxdetail.taxrate">
                 </td>
                 <td>
-                  <input type="number" class="form-control" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
+                  <input type="number" class="form-control" autocomplete="off" [name]="'taxamount-' + i" [id]="'taxamount-' + i"
                     [(ngModel)]="taxdetail.taxamount">
                 </td>
                 <td *ngIf="i == 0">
