@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { AddCityComponent } from '../../acounts-modals/add-city/add-city.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
 @Component({
   selector: 'city',
@@ -11,9 +12,8 @@ import { from } from 'rxjs';
   styleUrls: ['./city.component.scss']
 })
 export class CityComponent implements OnInit {
-
   data = [];
-
+  showConfirm = false;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -37,7 +37,7 @@ export class CityComponent implements OnInit {
     };
 
     this.common.loading++;
-    this.api.post(' accounts/GetState', params)
+    this.api.post('accounts/GetState', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -50,17 +50,16 @@ export class CityComponent implements OnInit {
       });
 
   }
-  
+
   openModal(city?) {
 
     if (city) {
       console.log('city', city);
       this.common.params = city;
-      this.common.params.title = 'Ware house';
       const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.updateWareHouse(data.wareHouse, city.id);
+          this.updateCity(data.city, city.id);
           return;
         }
       });
@@ -70,7 +69,7 @@ export class CityComponent implements OnInit {
       const activeModal = this.modalService.open(AddCityComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          this.addWareHouse(data.city);
+          this.addCity(data.city);
           return;
         }
       });
@@ -78,27 +77,22 @@ export class CityComponent implements OnInit {
   }
 
 
-  addWareHouse(city) {
-    console.log('wareHouse', city);
+  addCity(city) {
+    console.log('city', city);
     const params = {
-      name: city.name,
-      foid: 123,
-      x_id: 0
+      cityname: city.city,
+      stateid: city.state.id,
+      pincode: city.pincode
     };
-    console.log('params11: ', params);
-    return;
+    console.log('params: ', params);
     this.common.loading++;
-    this.api.post('Company/InsertWarehouse', params)
+    this.api.post('Accounts/InsertCity', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        let result = res['data'][0].save_warehouse;
-        if (result == '') {
-          this.common.showToast("Add Successfull  ");
-        }
-        else {
-          this.common.showToast(result);
-        }
+        this.common.showToast(res['msg']);
+
+
         this.getpageData();
       }, err => {
         this.common.loading--;
@@ -106,28 +100,24 @@ export class CityComponent implements OnInit {
         this.common.showError();
       });
   }
-  updateWareHouse(wareHouse, rowid) {
-    console.log('updated data', wareHouse);
+  updateCity(city, rowid) {
+    console.log('updated data', city);
     const params = {
-      name: wareHouse.name,
-      foid: 123,
-      parentid: wareHouse.account.id,
-      primarygroupid: wareHouse.account.primarygroup_id,
-      x_id: rowid
+      cityname: city.city,
+      stateid: city.state.id,
+      pincode: city.pincode,
+      id: rowid
     };
-    console.log('params11: ', params);
+    console.log('params: ', params);
     this.common.loading++;
-    this.api.post('Company/InsertWarehouse', params)
+    this.api.post('Accounts/InsertCity', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        let result = res['data'][0].save_warehouse;
-        if (result == '') {
-          this.common.showToast(" Updated Sucess");
+        if (res['msg']) {
+          this.common.showToast("Update SuccessFull");
         }
-        else {
-          this.common.showToast(result);
-        }
+
         this.getpageData();
       }, err => {
         this.common.loading--;
@@ -135,6 +125,42 @@ export class CityComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+  deleteCity(city) {
+    console.log('city data', city);
+    const params = {
+      id: city.id
+    };
+    console.log('params: ', params);
+
+    if (city) {
+      console.log('city', city);
+      this.common.params = {
+        title: 'Confirmation ',
+        description: 'Are Sure to Delete  ' + city.city_name + ' City',
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Accounts/DeleteCity', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              this.getpageData();
+              this.common.showToast(" Delete Record");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError();
+            });
+        }
+
+
+      });
+    }
   }
 }
 

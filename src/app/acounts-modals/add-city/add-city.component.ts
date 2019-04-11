@@ -13,7 +13,7 @@ export class AddCityComponent implements OnInit {
     id: '',
     name: '',
   }];
-  Accounts = {
+  data = {
     city: '',
     pincode: '',
     state: {
@@ -26,10 +26,10 @@ export class AddCityComponent implements OnInit {
   allowBackspace = true;
   autoSuggestion = {
     data: [],
-    targetId: 'account',
+    targetId: 'state',
     display: 'name'
   };
-  activeId = 'account';
+  activeId = 'state';
   suggestionIndex = -1;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -37,36 +37,31 @@ export class AddCityComponent implements OnInit {
     this.getStates();
 
     if (this.common.params) {
-      this.Accounts = {
-        city: this.common.params.name,
+      this.data = {
+        city: this.common.params.city_name,
         pincode:this.common.params.pincode,
         state: {
-          name: this.common.params.parent_name ? this.common.params.parent_name : 'is Primary',
-          id: this.common.params.parent_id,
+          name: this.common.params.statename ? this.common.params.statename : '',
+          id: this.common.params.province_id,
         }
       }
-      console.log('Accounts: ', this.Accounts);
+      console.log('data: ', this.data);
     }
   }
 
   ngOnInit() {
   }
   dismiss(response) {
-    console.log('Accounts:', this.Accounts);
-    this.activeModal.close({ response: response, city: this.Accounts, });
+    console.log('data:', this.data);
+    this.activeModal.close({ response: response, city: this.data });
   }
 
   onSelected(selectedData, type, display) {
-    this.Accounts[type].name = selectedData[display];
-    this.Accounts[type].id = selectedData.id;
-    console.log('Accounts User: ', this.Accounts);
+    this.data[type].name = selectedData[display];
+    this.data[type].id = selectedData.id;
+    console.log('State Data: ', this.data);
   }
-  onParent(selectedData, type, display) {
-    this.Accounts[type].name = selectedData[display];
-    this.Accounts[type].id = selectedData.id;
-    this.Accounts[type].primarygroup_id = selectedData.primarygroup_id;
-    console.log('Accounts Parent: ', this.Accounts);
-  }
+  
 
 
 
@@ -77,9 +72,8 @@ export class AddCityComponent implements OnInit {
 
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
-        console.log('Accounts show confirm:', this.Accounts);
+        console.log('data show confirm:', this.data);
         this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();
@@ -90,10 +84,10 @@ export class AddCityComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspace = true;
       if (activeId.includes('user')) {
-        this.setFoucus('account');
-      } else if (activeId.includes('account')) {
-        this.setFoucus('name');
-      } else if (activeId.includes('name')) {
+        this.setFoucus('state');
+      } else if (activeId.includes('state')) {
+        this.setFoucus('city');
+      } else if (activeId.includes('city')) {
         this.setFoucus('pincode');
       } else if (activeId.includes('pincode')) {
         this.showConfirm = true;
@@ -101,9 +95,9 @@ export class AddCityComponent implements OnInit {
     } else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       if (activeId.includes('pincode')) {
-        this.setFoucus('name');
-      } else if (activeId.includes('name')) {
-        this.setFoucus('account');
+        this.setFoucus('city');
+      } else if (activeId.includes('city')) {
+        this.setFoucus('state');
       }
      
     } else if (key.includes('arrow')) {
@@ -145,15 +139,15 @@ export class AddCityComponent implements OnInit {
   }
   selectSuggestion(suggestion, id?) {
     console.log('Suggestion on select: ', suggestion);
-    this.Accounts.state.name = suggestion.name;
-    this.Accounts.state.id = suggestion.id;
+    this.data.state.name = suggestion.name;
+    this.data.state.id = suggestion.id;
 
   }
 
   onSelect(suggestion, activeId) {
     console.log('Suggestion: ', suggestion);
-    this.Accounts.state.name = suggestion.name;
-    this.Accounts.state.id = suggestion.id;
+    this.data.state.name = suggestion.name;
+    this.data.state.id = suggestion.id;
   }
 
 }
