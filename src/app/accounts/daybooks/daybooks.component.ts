@@ -38,6 +38,7 @@ export class DaybooksComponent implements OnInit {
   ledgerData = [];
   activeId = 'vouchertype';
   selectedRow = -1;
+  allowBackspace = true;
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
@@ -250,6 +251,7 @@ export class DaybooksComponent implements OnInit {
       return;
     }
     if (key == 'enter') {
+      this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
         this.setFoucus('vouchertype');
       } else if (this.activeId.includes('vouchertype')) {
@@ -261,7 +263,19 @@ export class DaybooksComponent implements OnInit {
       } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
-    } else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('vouchertype');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;

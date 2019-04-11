@@ -34,6 +34,7 @@ export class LedgerviewComponent implements OnInit {
   ledgerList = [];
   activeId = 'voucherType';
   selectedRow = -1;
+  allowBackspace = true;
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
@@ -161,9 +162,8 @@ export class LedgerviewComponent implements OnInit {
       return;
     }
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('voucherType');
-      } else if (this.activeId.includes('voucherType')) {
+      this.allowBackspace = true;
+       if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       } else if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
@@ -172,6 +172,17 @@ export class LedgerviewComponent implements OnInit {
       } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('voucherType');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
     }
 
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerData.length) {
