@@ -63,8 +63,8 @@
       <div class="col-md-8">
        <select  [(ngModel)]="vehicleTrip.placementType" class="form-control" style="height:44px">
         <option value="11" selected>Loading</option>
-        <option value="21">UnLoading</option>
-        <option value="0">Others</option>
+        <option value="21" *ngIf = "ref_page!='placements'">UnLoading</option>
+        <option value="0" *ngIf = "ref_page!='placements'">Others</option>
        </select>
       </div>
     </div>
