@@ -15,14 +15,14 @@
         <label>Parent Account Name</label>
         <!-- <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="null" display="name" [data]="suggestions"
         inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:Accounts.account.name}"></auto-suggestion> -->
-        <input type="text" id="account" class="form-control tjr-input" name="account"
+        <input autocomplete="off" type="text" id="account" class="form-control tjr-input" name="account"
         [(ngModel)]="Accounts.account.name">
       </div>
     </div>
     <div class="col-4">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
+        <input autocomplete="off" type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
       </div>
     </div>
     <div class="col-4">

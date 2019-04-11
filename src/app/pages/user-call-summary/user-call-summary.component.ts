@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { UserCallHistoryComponent } from '../../modals/user-call-history/user-call-history.component';
 
 @Component({
   selector: 'user-call-summary',
@@ -11,8 +12,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./user-call-summary.component.scss']
 })
 export class UserCallSummaryComponent implements OnInit {
-  fromDate = '';
-  endDate = '';
+  fromDate = this.common.dateFormatter1(new Date());
+  endDate = this.common.dateFormatter1(new Date());;
   title = '';
   data = [];
   headings = [];
@@ -106,8 +107,18 @@ export class UserCallSummaryComponent implements OnInit {
     for(var i= 0; i<this.data.length; i++) {
       this.valobj = {};
       for(let j=0; j<this.headings.length; j++) {j
-        this.valobj[this.headings[j]] = {value: this.data[i][this.headings[j]], class: 'black', action:  ''};
+        if(this.headings[j]=='Total Call (Duration)'){
+          this.valobj[this.headings[j]] = {
+            // value: this.data[i][this.headings[j]],
+            value : `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]]|| '-'}</span></div>`,
+            action: this.openHistoryModel.bind(this, this.data[i]), isHTML: true,
+          }
+        }else{
+          this.valobj[this.headings[j]] = {value: this.data[i][this.headings[j]], class: 'black', action:  ''};
+
+        }
       }
+      
       columns.push(this.valobj);
     }
     return columns;
@@ -120,6 +131,29 @@ export class UserCallSummaryComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  
+  openHistoryModel(data) {
+    console.log("data------------------/",data);
+    let callData = {
+      vehicleId: 0,
+      foAdminUserId: data._foadmusr_id,
+      currentDay: this.common.dateFormatter1(this.fromDate),
+      nextDay: this.common.dateFormatter1(this.endDate)
+
+    }
+    this.common.params = { callData: callData };
+    console.log("calldata =",this.common.params.callData );
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    const activeModal = this.modalService.open(UserCallHistoryComponent, {
+      size: "lg",
+      container: "nb-layout",
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
   }
 
 }

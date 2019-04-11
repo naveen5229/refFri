@@ -39,6 +39,7 @@ export class StockitemComponent implements OnInit {
     }
 
   };
+  activeId='stockType';
 
   showSuggestions = {
     user: false,
@@ -94,10 +95,34 @@ export class StockitemComponent implements OnInit {
     console.log('testing purpose', this.stockTypeName);
     this.getStockType();
     this.setFoucus('stockType');
+    this.setAutoSuggestion();
   }
 
 
   ngOnInit() {
+  }
+
+  // handleArrowUpDown(key) {
+  //   const suggestionIDs = this.generateIDs();
+  //   console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
+  //   if (suggestionIDs.indexOf(this.activeId) == -1) return;
+
+  //   if (key == 'arrowdown') {
+  //     if (this.suggestionIndex != this.suggestions.list.length - 1) this.suggestionIndex++;
+  //     else this.suggestionIndex = 0;
+  //   } else {
+  //     if (this.suggestionIndex != 0) this.suggestionIndex--;
+  //     else this.suggestionIndex = this.suggestions.list.length - 1;
+  //   }
+
+  //   // this.voucher.amountDetails[index].ledger.name = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_name;
+  //   // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
+  // }
+
+  generateIDs() {
+    let IDs = ['stockType'];
+   
+    return IDs;
   }
 
   getStockType() {
@@ -150,7 +175,13 @@ export class StockitemComponent implements OnInit {
     this.stockItem[type].id = selectedData.id;
     this.getStockSubType(selectedData.id);
   }
-
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion: ', suggestion);
+    if (activeId == 'stockType') {
+      this.stockItem.stockType.name = suggestion.name;
+      this.stockItem.stockType.id = suggestion.id;
+    } 
+  }
 
 
   dismiss(response) {
@@ -264,4 +295,36 @@ export class StockitemComponent implements OnInit {
     }, 100);
   }
   
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion: ', suggestion);
+    if (this.activeId == 'stockType') {
+      this.stockItem.stockType.name = suggestion.name;
+      this.stockItem.stockType.id = suggestion.id;
+    } 
+
+  }
+
+  setAutoSuggestion() {
+   // let activeId = document.activeElement.id;
+  //  console.log('suggestion active', activeId, this.suggestions.underGroupdata);
+    if (this.activeId == 'stockType') { 
+      this.autoSuggestion.data = this.StockTypeItemsdata; 
+    
+    }
+    // else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
+    // else if (activeId.includes('state-')) this.autoSuggestion.data = this.suggestions.state;
+    // else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
+    else {
+      this.autoSuggestion.data = [];
+      this.autoSuggestion.display = '';
+      this.autoSuggestion.targetId = '';
+      return;
+    }
+
+    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.targetId = this.activeId;
+    console.log('Auto Suggestion: ', this.autoSuggestion);
+  }
+
+
 }
