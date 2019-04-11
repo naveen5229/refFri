@@ -56,8 +56,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        height: calc(112vh - 250px);
-        max-height: calc(112vh - 250px);
+        max-height: calc(100vh - 172px);
         tr{
             display: table;
             table-layout: fixed;

@@ -27,7 +27,7 @@ export class UpdateSiteDetailsComponent implements OnInit {
     public common: CommonService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-    private mapService: MapService,
+    public mapService: MapService,
   ) {
     this.s_name = this.common.params.site.site_name;
     this.siteId = this.common.params.site.site_id;

@@ -55,7 +55,7 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/driver-list',
         home: true,
-    },
+      },
       {
         title: 'Generate LR',
         icon: 'fa fa-pencil',
@@ -110,7 +110,7 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      },   
+      },
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -128,19 +128,19 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/company-details',
         home: true,
-    },
-    {
-      title: 'Transport Agents',
-      icon: 'nb-home',
-      link: '/admin/transport-agents',
-      home: true,
-  },
-  {
-    title: 'GPS Trails',
-    icon: 'nb-home',
-    link: '/admin/gps-trails',
-    home: true,
-}
+      },
+      {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+      },
+      {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+      }
     ];
   }
 }

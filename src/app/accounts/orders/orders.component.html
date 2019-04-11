@@ -1,4 +1,4 @@
-<nb-card style="margin: 0px; border:0px; padding-top: 25px;">
+<nb-card style="border:0px;">
   <!-- <nb-card-header>
     <h4>Invoice</h4>
   </nb-card-header> -->
@@ -32,7 +32,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Invoice No.</label>
-                <input type="text" class="form-control ref-input" id="custcode" name="account-custcode"
+                <input autocomplete="off" type="text" class="form-control ref-input" id="custcode" name="account-custcode"
                   [(ngModel)]="order.custcode">
               </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Supplier Ledger</label>
-                <input type="text" class="form-control ref-input" id="ledger" name="ledger" [(ngModel)]="order.ledger.name"
+                <input autocomplete="off" type="text" class="form-control ref-input" id="ledger" name="ledger" [(ngModel)]="order.ledger.name"
                   require>
                 <!-- <auto-suggestion (onSelected)="onSelectedaddress($event, 'ledger', 'name')"
                   url="Suggestion/GetPurchaseLedger" display="name" placeholder="Enter Ledger" inputId="ledger"
@@ -68,14 +68,14 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Supplier Ref.No</label>
-                <input type="text" class="form-control ref-input" name="account-vendorbidref" id="vendorbidref"
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-vendorbidref" id="vendorbidref"
                   [(ngModel)]="order.vendorbidref" placeholder="Vender Bid Reference">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">P.O.No.</label>
-                <input type="text" class="form-control ref-input" name="account-qutationrefrence" id="qutationrefrence"
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-qutationrefrence" id="qutationrefrence"
                   [(ngModel)]="order.qutationrefrence" placeholder="Quatation Reference">
               </div>
             </div>
@@ -84,7 +84,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
-                <input type="text" class="form-control ref-input" name="account-shipmentlocation" id="shipmentlocation"
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-shipmentlocation" id="shipmentlocation"
                   [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location">
               </div>
             </div>
@@ -94,14 +94,14 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Payment Terms</label>
-                <input type="text" class="form-control ref-input" name="account-paymentterms" id="paymentterms"
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-paymentterms" id="paymentterms"
                   [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Bilty Number</label>
-                <input type="text" class="form-control ref-input" name="account-biltynumber" id="biltynumber"
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-biltynumber" id="biltynumber"
                   [(ngModel)]="order.biltynumber" placeholder="Bilty Number">
               </div>
             </div>
@@ -119,7 +119,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Dilivery Terms</label>
-                <input type="text" class="form-control ref-input" name="account-deliveryterms" id="deliveryterms"
+                <input autocomplete="off" type="text" class="form-control ref-input" name="account-deliveryterms" id="deliveryterms"
                   [(ngModel)]="order.deliveryterms" placeholder="Delivery Terms">
               </div>
             </div>

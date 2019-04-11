@@ -24,6 +24,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { DriverListComponent } from '../driver/driver-list/driver-list.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
+import { SubSitesComponent } from './sub-sites/sub-sites.component';
 
 const routes: Routes = [{
     path: '',
@@ -136,7 +137,13 @@ const routes: Routes = [{
             path: 'fuel-fillings',
             component: FuelFillingsComponent,
             canActivate: [RouteGuard]
-        }
+        },
+        {
+            path: 'sub-sites',
+            component: SubSitesComponent,
+            canActivate: [RouteGuard]
+        },
+
     ],
 }];
 

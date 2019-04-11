@@ -15,8 +15,8 @@ import * as _ from 'lodash';
 export class BalancesheetComponent implements OnInit {
 
   balanceData = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
 
     // branch: {
     //   name: '',

@@ -30,6 +30,7 @@ import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { DriverModule } from '../driver/driver.module';
 import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
+import { SubSitesComponent } from './sub-sites/sub-sites.component';
 
 
 
@@ -71,6 +72,7 @@ const PAGES_COMPONENTS = [
     TransportAgentsComponent,
     GpsTrailsComponent,
     FuelFillingsComponent,
+    SubSitesComponent,
   ],
 })
 export class AdminModule { }

@@ -89,7 +89,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
       if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;
-      console.log('Active: ', this.activeSuggestion);
+      console.log('Active: ', this.activeSuggestion, (this.activeSuggestion - 3) * 25);
       document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'arrowup') {
