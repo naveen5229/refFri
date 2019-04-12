@@ -106,7 +106,7 @@ export class DocumentReportComponent implements OnInit {
       amount: { title: 'Amount', placeholder: 'Amount' , class: 'del'},
       verified: { title: 'Verified', placeholder: 'Verified', class: 'del' },
       remark: { title: 'Remark', placeholder: 'Remark', class: 'del' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class: 'del' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class:'tag' },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
     };
     return {
