@@ -28,9 +28,12 @@ export class VehicleTripUpdateComponent implements OnInit {
     startTime: null,
     placementType:null,
     vehicleId:null,
-    siteId:null
+    siteId:null,
+    locationType:'city'
+    
   };
   placements = null;
+  placementSite = 0;
   placementSuggestion = null;
   ref_page = null ;
   constructor(public api: ApiService,
@@ -65,9 +68,13 @@ export class VehicleTripUpdateComponent implements OnInit {
 
   ngOnInit() {
   }
+  selecteCity(){
+    console.log("city selected");
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
+  }
 
   ngAfterViewInit(): void {
-    //setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);
+    //setTimeout(this.map, 3000);
     setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
 
   }
@@ -114,14 +121,15 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
-    if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
+    if((this.vehicleTrip.endLat||this.placementSite)&&this.vehicleTrip.placementType){
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
-      location: this.vehicleTrip.endName.split(',')[0],
+      location: this.vehicleTrip.endName?this.vehicleTrip.endName.split(',')[0]:'',
       locationLat: this.vehicleTrip.endLat,
       locationLng: this.vehicleTrip.endLng,
       placementType: this.vehicleTrip.placementType,
       targetTime: this.vehicleTrip.targetTime,
+      siteId: this.vehicleTrip.endLat?0:this.placementSite,
 
     }
   
