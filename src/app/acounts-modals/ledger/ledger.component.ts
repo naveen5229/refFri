@@ -38,6 +38,8 @@ export class LedgerComponent implements OnInit {
     accnumber:0,
     creditdays:0,
     isbank:0,
+    openingisdr:1,
+    openingbalance:0,
     accDetails: [{
       id: '',
       salutation: {
@@ -94,6 +96,8 @@ export class LedgerComponent implements OnInit {
         accnumber:   this.common.params[0].ac_no,
         creditdays:  this.common.params[0].credit_days,
         isbank : (this.common.params[0].branch_code) ? 1:0,
+        openingisdr: (this.common.params[0].opening_bal_isdr == true) ? 1:0,
+        openingbalance:this.common.params[0].opening_balance,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -384,8 +388,12 @@ export class LedgerComponent implements OnInit {
       } else if (activeId.includes('undergroup')) {
         this.setFoucus('perrate');
       } else if (activeId.includes('perrate')) {
+        this.setFoucus('openingbalance');
+      }   else if (activeId.includes('openingbalance')) {
+        this.setFoucus('openingisdr');
+      } else if (activeId.includes('openingisdr')) {
         this.setFoucus('accnumber');
-      }  else if (activeId.includes('branchname')) {
+      }else if (activeId.includes('branchname')) {
         this.setFoucus('branchcode');
       }else if ( activeId.includes('accnumber')){
         this.setFoucus('isbank');

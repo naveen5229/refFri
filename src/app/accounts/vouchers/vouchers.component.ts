@@ -451,12 +451,19 @@ export class VouchersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[0];
-    date = date.length == 1 ? '0' + date : date;
+  
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    date = (date>31) ? 31: date;
+    date = ((month == ('04' || '06' || '09'||'11')) && (date >30) ) ? 30: date;
+    date  = ((date >27) && (month == '02')) ? 28 : date ;
+    date  = (((date >28) && (month == '02'))&&  ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date ;
+   
+
     console.log('Date: ', year + separator + month + separator + date);
     this.voucher.date = date + separator + month + separator + year;
   }
