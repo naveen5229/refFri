@@ -24,14 +24,14 @@
     <div class="col">
       <div class="form-group">
         <label>Ref</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="voucher.code">
+        <input autocomplete="off" type="text" class="form-control" name="account-name" [(ngModel)]="voucher.code">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Date</label>
         <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
+        <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
           placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="voucher.date" readonly>
       </div>
     </div>

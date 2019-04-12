@@ -9,6 +9,9 @@
 <div class="modal-body">
 
   <div class="row">
+    <div class="col-9"> 
+        <div class="row">
+    
      <!-- <div class="col">
       <div class="form-group">
         <label>User</label>
@@ -33,8 +36,11 @@
         <!-- <auto-suggestion *ngIf= "this.stockTypeName == null" (onSelected)="onSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="null"></auto-suggestion>
       -->
-      <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
-      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion>
+      <!-- <auto-suggestion  (onSelected)="onSubTypeSelected($event, 'stockType', 'name')" url="Suggestion/GetTypeOfStock" display="name"
+      placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion> -->
+
+      <input type="text" class="form-control" id="stockType" autocomplete="off" name="stockType" [(ngModel)]="stockItem.stockType.name"
+      (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
    
     </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
@@ -49,8 +55,12 @@
       <div class="form-group">
         <label>Stock Sub Type</label>
         <!--input type="text" class="form-control" (input)="searchStock()" name="stocktype" [(ngModel)]="stockItem.stockType.name"-->
-        <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" [url]="'Suggestion/GetSearchStockType?stocktype=' + stockItem.stockType.id" display="name"
+        <!-- <auto-suggestion (onSelected)="onSelected($event, 'stockSubType', 'name')" [url]="'Suggestion/GetSearchStockType?stocktype=' + stockItem.stockType.id" display="name"
         placeholder="Enter Stock Sub Type" inputId="stockSubType" [data] ="stockSubType"  name="stockSubType" [preSelected]="{name:stockItem.stockSubType.name}"></auto-suggestion>
+       -->
+       <input type="text" class="form-control" id="stockSubType" autocomplete="off" name="stockSubType" [(ngModel)]="stockItem.stockSubType.name"
+      (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
+   
       </div>
       <!--div class="suggestions" *ngIf="showSuggestions.stockType && suggestions.stockTypes.length && stockItem.stockType.name">
         <ul>
@@ -63,9 +73,13 @@
     <div class="col">
       <div class="form-grpou">
         <label>Stock Unit</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'unit', 'name')" url="Suggestion/getUnit" display="name"
-        placeholder="Enter Unit Name" inputId="unit" [preSelected]="{name:stockItem.unit.name}"></auto-suggestion>
+        <!-- <auto-suggestion (onSelected)="onSelected($event, 'unit', 'name')" url="Suggestion/getUnit" display="name"
+        placeholder="Enter Unit Name" inputId="unit" [preSelected]="{name:stockItem.unit.name}"></auto-suggestion> -->
         <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
+
+        <input type="text" class="form-control" id="unit" autocomplete="off" name="unit" [(ngModel)]="stockItem.unit.name"
+        (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
+     
       </div>
     </div>
   </div>
@@ -73,25 +87,25 @@
     <div class="col">
       <div class="form-group">
         <label>Code</label>
-        <input type="text" class="form-control" name="stock-code" id="code" [(ngModel)]="stockItem.code">
+        <input type="text" class="form-control" autocomplete="off" name="stock-code" id="code" [(ngModel)]="stockItem.code">
       </div>
     </div>
     <div class="col">
       <div class="form-grpou">
         <label>Name</label>
-        <input type="text" class="form-control" id="name" name="stock-name" [(ngModel)]="stockItem.name">
+        <input type="text" class="form-control" id="name" autocomplete="off" name="stock-name" [(ngModel)]="stockItem.name">
       </div>
     </div>
     <div class="col" *ngIf="!(common.params && common.params.stockType)">
       <div class="form-group">
         <label>Max Limit</label>
-        <input type="text" class="form-control" name="maxlimit" id="maxlimit" [(ngModel)]="stockItem.maxlimit">
+        <input type="text" class="form-control" name="maxlimit" autocomplete="off" id="maxlimit" [(ngModel)]="stockItem.maxlimit">
       </div>
     </div>
     <div class="col" *ngIf="!(common.params && common.params.stockType)">
       <div class="form-group">
         <label>Min Limit</label>
-        <input type="text" class="form-control" name="minlimit" id="minlimit" [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
+        <input type="text" class="form-control" name="minlimit" id="minlimit" autocomplete="off" [(ngModel)]="stockItem.minlimit" (keydown.enter)="stockItem.isactive = true;">
       </div>
     </div>
   </div>
@@ -100,7 +114,7 @@
    <div class="col-3">
         <label>Is Active</label>
         <div class="row iaactive">
-            <div class="col-6 pr-0">
+            <div class="col-6 pr-0 pl-1">
                 <div class="form-group">
                     <input type="radio" class="form-control" name="isactive" id="isactive" [(ngModel)]="stockItem.isactive" [value]="true" (keydown.enter)="stockItem.sales = true;" [checked]="true"> 
                     <label>Yes</label>
@@ -117,7 +131,7 @@
     <div class="col-3">
         <label>Sales</label>
       <div class="row iaactive ">
-        <div class="col-6 pr-0">
+        <div class="col-6 pr-0 pl-1">
             <div class="form-group">
               <input type="radio" class="form-control" name="sales" id="sales" [(ngModel)]="stockItem.sales" [value]="true" (keydown.enter)="stockItem.purchase = true;">
               <label>Yes</label>
@@ -134,7 +148,7 @@
     <div class="col-3">
         <label>Purchase</label>
         <div class="row iaactive">
-          <div class="col-6 pr-0">
+          <div class="col-6 pr-0 pl-1">
               <div class="form-group">
                   <input type="radio" class="form-control" name="purchase" id="purchase" [(ngModel)]="stockItem.purchase" [value]="true" (keydown.enter)="stockItem.inventary = true;">
                   <label>Yes</label>
@@ -151,7 +165,7 @@
     <div class="col-3">
         <label>Inventary</label>
         <div class="row iaactive">
-          <div class="col-6 pr-0">
+          <div class="col-6 pr-0 pl-1">
               <div class="form-group">
                   <input type="radio" class="form-control" name="inventary" id="inventary" [(ngModel)]="stockItem.inventary" [value]="true">
                   <label>Yes</label>
@@ -166,6 +180,14 @@
         </div>
       
     </div>
+  </div>
+</div>
+  <div class="col-3">
+      <div class="auto-sugg">
+          <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+            [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
+            </div>
+  </div>
   </div>
 
 </div>

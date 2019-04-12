@@ -43,11 +43,34 @@
       <div class="col-md-4">
         <label>Next Location</label>
       </div>
+      <div *ngIf="ref_page =='placements'">
+        <label>
+          <input type="radio" [(ngModel)]="vehicleTrip.locationType" value ="site" name="locationType"> Site
+        </label>
+        <label>
+            <input type="radio"[(ngModel)]="vehicleTrip.locationType" (change)="selecteCity()" value ="city" name="locationType"> City
+        </label>
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px" *ngIf="vehicleTrip.locationType=='site'">
+      <div class="col-md-4">
+        <label>Enter Site</label>
+      </div>
+      <div class="col-md-8">
+          <auto-suggestion (onSelected)="placementSite = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+          placeholder="Search site" [preSelected]="null"></auto-suggestion>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:10px" *ngIf="vehicleTrip.locationType!='site'">
+      <div class="col-md-4">
+        <label>Enter City</label>
+      </div>
       <div class="col-md-8">
         <button class="btn" *ngFor = "let placementSuggestion of placementSuggestion; let i = index" (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:15px">
           {{placementSuggestion.loc_name}}
         </button>
-        <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End Name"
+        <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
           [(ngModel)]="vehicleTrip.endName">
         <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left" placeholder="End lat"
           type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
@@ -63,8 +86,8 @@
       <div class="col-md-8">
        <select  [(ngModel)]="vehicleTrip.placementType" class="form-control" style="height:44px">
         <option value="11" selected>Loading</option>
-        <option value="21">UnLoading</option>
-        <option value="0">Others</option>
+        <option value="21" *ngIf = "ref_page!='placements'">UnLoading</option>
+        <option value="0" *ngIf = "ref_page!='placements'">Others</option>
        </select>
       </div>
     </div>
@@ -73,10 +96,9 @@
         <div class="col-md-4">
           <label>Target Time</label>
         </div>
+        
         <div class="col-md-8">
-            <!-- <input [(ngModel)]="vehicleTrip.targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time" class="form-control"
-            autocomplete="off" name="date">
-          <owl-date-time #date></owl-date-time> -->
+            
           <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime" [(ngModel)]="vehicleTrip.targetTime"
             placeholder="Exit Time" autocomplete="off" (click)="openReminderModal()">
         </div>

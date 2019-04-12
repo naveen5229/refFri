@@ -14,8 +14,8 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 export class BankbooksComponent implements OnInit {
   selectedName = '';
   bankBook = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -24,7 +24,7 @@ export class BankbooksComponent implements OnInit {
       name: 'All',
       id: 0
     },
-  
+
     issumrise: 'true'
 
   };
@@ -34,6 +34,7 @@ export class BankbooksComponent implements OnInit {
   ledgerData = [];
   activeId = 'ledger';
   selectedRow = -1;
+  allowBackspace = true;
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
@@ -45,6 +46,8 @@ export class BankbooksComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     // this.getVoucherTypeList();
+    this.common.refresh = this.refresh.bind(this);
+
     this.getBranchList();
     this.getLedgers();
     this.setFoucus('ledger');
@@ -59,7 +62,13 @@ export class BankbooksComponent implements OnInit {
   ngAfterViewInit() {
 
   }
- 
+  refresh() {
+
+    this.getBranchList();
+    this.getLedgers();
+    this.setFoucus('ledger');
+  }
+
 
   // getVoucherTypeList() {
   //   let params = {
@@ -94,7 +103,7 @@ export class BankbooksComponent implements OnInit {
       });
 
   }
- 
+
 
   // getAllLedger() {
   //   let params = {
@@ -115,13 +124,13 @@ export class BankbooksComponent implements OnInit {
   // }
   getLedgers() {
     //this.showSuggestions = true;
-    let url = 'Suggestion/GetLedger?transactionType=' +'credit'+ '&voucherId=' + (-1)+ '&search=' + 'test';
+    let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-1) + '&search=' + 'test';
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
         console.log(res);
         this.ledgerData = res['data'];
-        console.log('ledger data new',this.ledgerData[0].y_ledger_id);
+        console.log('ledger data new', this.ledgerData[0].y_ledger_id);
       }, err => {
         console.error(err);
         this.common.showError();
@@ -159,7 +168,7 @@ export class BankbooksComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.bankBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.bankBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.bankBook[date]);
     });
   }
@@ -240,18 +249,26 @@ export class BankbooksComponent implements OnInit {
       return;
     }
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('vouchertype');
-      } else if (this.activeId.includes('vouchertype')) {
-        this.setFoucus('ledger');
-      } else if (this.activeId.includes('ledger')) {
+      this.allowBackspace=true;
+    if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
-    } else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('ledger');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;

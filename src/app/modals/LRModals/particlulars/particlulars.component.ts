@@ -9,6 +9,7 @@ import { CommonService } from '../../../services/common.service';
   styleUrls: ['./particlulars.component.scss']
 })
 export class ParticlularsComponent implements OnInit {
+  title = '';
   particulars = [
  {
     articleNo:null,    

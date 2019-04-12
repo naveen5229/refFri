@@ -10,13 +10,13 @@ import { CommonService } from '../../services/common.service';
 })
 export class BranchComponent implements OnInit {
   showConfirm = false;
-  showExit=false;
+  showExit = false;
   Branches = {
     name: '',
     user: {
       name: '',
     },
-    rowid:null,
+    rowid: null,
     code: '',
     phonenumber: '',
     mobilenumber: '',
@@ -41,14 +41,14 @@ export class BranchComponent implements OnInit {
 
 
     if (this.common.params) {
-      console.log("After the modal Open:",this.common.params);
+      console.log("After the modal Open:", this.common.params);
       this.Branches = {
         name: this.common.params.name,
-        rowid:this.common.params.id,
+        rowid: this.common.params.id,
         user: {
           name: this.common.params.name,
         },
-       
+
         code: this.common.params.code,
         phonenumber: this.common.params.phonenumber,
         mobilenumber: this.common.params.mobilenumber,
@@ -87,31 +87,30 @@ export class BranchComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
-    console.log('event',event);
+    console.log('event', event);
     if (event.key == "Escape") {
-      this.showExit=true;
+      this.showExit = true;
     }
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
-       event.preventDefault();
-       this.activeModal.close();
-       return;
-       // this.close();
-      }else   if ( key == 'n') {
+        event.preventDefault();
+        this.activeModal.close();
+        return;
+        // this.close();
+      } else if (key == 'n') {
         this.showExit = false;
         event.preventDefault();
         return;
 
       }
-      
+
     }
 
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         console.log('Accounts show confirm:', this.Branches);
-       this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
+        this.dismiss(true);
       }
       this.showConfirm = false;
       event.preventDefault();
@@ -121,103 +120,103 @@ export class BranchComponent implements OnInit {
 
     if (key == 'enter') {
       this.allowBackspace = true;
-      console.log('active',activeId);
+      console.log('active', activeId);
       if (activeId.includes('user')) {
         this.setFoucus('name');
-      }else  if (activeId.includes('name')) {
+      } else if (activeId.includes('name')) {
         this.setFoucus('code');
-      }else  if (activeId.includes('code')) {
+      } else if (activeId.includes('code')) {
         this.setFoucus('phonenumber');
-      }else  if (activeId.includes('phonenumber')) {
+      } else if (activeId.includes('phonenumber')) {
         this.setFoucus('mobilenumber');
-      }else  if (activeId.includes('mobilenumber')) {
+      } else if (activeId.includes('mobilenumber')) {
         this.setFoucus('faxnumber');
-      }else  if (activeId.includes('faxnumber')) {
+      } else if (activeId.includes('faxnumber')) {
         this.setFoucus('tollfreenumber');
-      }else  if (activeId.includes('tollfreenumber')) {
+      } else if (activeId.includes('tollfreenumber')) {
         this.setFoucus('email');
-      }else  if (activeId.includes('email')) {
+      } else if (activeId.includes('email')) {
         this.setFoucus('exciseno');
-      }else  if (activeId.includes('exciseno')) {
+      } else if (activeId.includes('exciseno')) {
         this.setFoucus('tinno');
-      }else  if (activeId.includes('tinno')) {
+      } else if (activeId.includes('tinno')) {
         this.setFoucus('panno');
-      }else  if (activeId.includes('panno')) {
+      } else if (activeId.includes('panno')) {
         this.setFoucus('importexportno');
-      }else  if (activeId.includes('importexportno')) {
+      } else if (activeId.includes('importexportno')) {
         this.setFoucus('tanno');
-      }else  if (activeId.includes('tanno')) {
+      } else if (activeId.includes('tanno')) {
         this.setFoucus('gstno');
-      }else  if (activeId.includes('gstno')) {
+      } else if (activeId.includes('gstno')) {
         this.setFoucus('taxexemptionno');
-      }else  if (activeId.includes('taxexemptionno')) {
+      } else if (activeId.includes('taxexemptionno')) {
         this.setFoucus('isactive');
-      }else  if (activeId.includes('isactive')) {
+      } else if (activeId.includes('isactive')) {
         this.setFoucus('addressline');
-      }else  if (activeId.includes('addressline')) {
+      } else if (activeId.includes('addressline')) {
         this.setFoucus('remarks');
-      }else  if (activeId.includes('remarks')) {
+      } else if (activeId.includes('remarks')) {
         this.showConfirm = true;
-       // this.setFoucus('submit');
+        // this.setFoucus('submit');
       }
-  } else  if (key == 'backspace' && this.allowBackspace) {
-    event.preventDefault();
+    } else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
       if (activeId.includes('name')) {
-      this.setFoucus('user');
-    }else  if (activeId.includes('code')) {
-      this.setFoucus('name');
-    }else  if (activeId.includes('phonenumber')) {
-      this.setFoucus('code');
-    }else  if (activeId.includes('mobilenumber')) {
-      this.setFoucus('phonenumber');
-    }else  if (activeId.includes('faxnumber')) {
-      this.setFoucus('mobilenumber');
-    }else  if (activeId.includes('tollfreenumber')) {
-      this.setFoucus('faxnumber');
-    }else  if (activeId.includes('email')) {
-      this.setFoucus('tollfreenumber');
-    }else  if (activeId.includes('exciseno')) {
-      this.setFoucus('email');
-    }else  if (activeId.includes('tinno')) {
-      this.setFoucus('exciseno');
-    }else  if (activeId.includes('panno')) {
-      this.setFoucus('tinno');
-    }else  if (activeId.includes('importexportno')) {
-      this.setFoucus('panno');
-    }else  if (activeId.includes('tanno')) {
-      this.setFoucus('importexportno');
-    }else  if (activeId.includes('gstno')) {
-      this.setFoucus('tanno');
-    }else  if (activeId.includes('taxexemptionno')) {
-      this.setFoucus('gstno');
-    }else  if (activeId.includes('isactive')) {
-      this.setFoucus('taxexemptionno');
-    }else  if (activeId.includes('addressline')) {
-      this.setFoucus('isactive');
-    }else  if (activeId.includes('remarks')) {
-      this.setFoucus('addressline');
+        this.setFoucus('user');
+      } else if (activeId.includes('code')) {
+        this.setFoucus('name');
+      } else if (activeId.includes('phonenumber')) {
+        this.setFoucus('code');
+      } else if (activeId.includes('mobilenumber')) {
+        this.setFoucus('phonenumber');
+      } else if (activeId.includes('faxnumber')) {
+        this.setFoucus('mobilenumber');
+      } else if (activeId.includes('tollfreenumber')) {
+        this.setFoucus('faxnumber');
+      } else if (activeId.includes('email')) {
+        this.setFoucus('tollfreenumber');
+      } else if (activeId.includes('exciseno')) {
+        this.setFoucus('email');
+      } else if (activeId.includes('tinno')) {
+        this.setFoucus('exciseno');
+      } else if (activeId.includes('panno')) {
+        this.setFoucus('tinno');
+      } else if (activeId.includes('importexportno')) {
+        this.setFoucus('panno');
+      } else if (activeId.includes('tanno')) {
+        this.setFoucus('importexportno');
+      } else if (activeId.includes('gstno')) {
+        this.setFoucus('tanno');
+      } else if (activeId.includes('taxexemptionno')) {
+        this.setFoucus('gstno');
+      } else if (activeId.includes('isactive')) {
+        this.setFoucus('taxexemptionno');
+      } else if (activeId.includes('addressline')) {
+        this.setFoucus('isactive');
+      } else if (activeId.includes('remarks')) {
+        this.setFoucus('addressline');
+      }
+
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+      //event.preventDefault();
     }
 
-  } else if (key.includes('arrow')) {
-    this.allowBackspace = false;
-  } else if (key != 'backspace') {
-    this.allowBackspace = false;
-    //event.preventDefault();
+
+
   }
 
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
+  }
 
-
-}
-
-setFoucus(id, isSetLastActive = true) {
-  setTimeout(() => {
-    let element = document.getElementById(id);
-    element.focus();
-    // this.moveCursor(element, 0, element['value'].length);
-    // if (isSetLastActive) this.lastActiveId = id;
-    // console.log('last active id: ', this.lastActiveId);
-  }, 100);
-}
-  
 
 }

@@ -16,12 +16,15 @@ export class LedgersComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-
+    this.common.refresh = this.refresh.bind(this);
     this.GetLedger();
     this.common.currentPage = 'Ledger';
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.GetLedger();
   }
   GetLedger() {
     let params = {
@@ -45,7 +48,7 @@ export class LedgersComponent implements OnInit {
   selectedRow = -1;
 
   openModal(ledger?) {
-    let data =[];
+    let data = [];
     console.log('ledger123', ledger);
     if (ledger) {
       let params = {
@@ -60,7 +63,7 @@ export class LedgersComponent implements OnInit {
           data = res['data'];
           this.common.params = res['data'];
           // this.common.params = { data, title: 'Edit Ledgers Data' };
-          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
           activeModal.result.then(data => {
             // console.log('Data: ', data);
             if (data.response) {
@@ -76,8 +79,8 @@ export class LedgersComponent implements OnInit {
     }
 
     else {
-      this.common.params=null;
-      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
+      this.common.params = null;
+      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
@@ -99,7 +102,11 @@ export class LedgersComponent implements OnInit {
       primarygroupid: ledger.undergroup.primarygroup_id,
       account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
-      x_id: ledger.id ? ledger.id: 0,
+      branchname :ledger.branchname,
+      branchcode:  ledger.branchcode,
+      accnumber:   ledger.accnumber,
+      creditdays:  ledger.creditdays,
+      x_id: ledger.id ? ledger.id : 0,
     };
 
     console.log('params11: ', params);
@@ -119,7 +126,7 @@ export class LedgersComponent implements OnInit {
 
   }
 
-  
+
   RowSelected(u: any) {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
