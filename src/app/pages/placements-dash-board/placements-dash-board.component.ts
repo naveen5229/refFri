@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
+import { SiteTripDetailsComponent } from '../../modals/site-trip-details/site-trip-details.component';
 
 @Component({
   selector: 'placements-dash-board',
@@ -103,14 +104,29 @@ export class PlacementsDashBoardComponent implements OnInit {
     });
   }
 
+  siteTripModal(placement,status) {
+    console.log("siteTripModal", placement);
+    let dataForView = {
+      userId :placement.r_uid,
+      siteId : placement.r_siteid,
+      status : status=='site'?'null':status,
+    };
+    this.common.params = { dataForView: dataForView, ref_page: 'placements' };
+    console.log("dataForView", dataForView);
+    const activeModal = this.modalService.open(SiteTripDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      //console.log("data", data.respone);
+     // this.getVehiclePlacement();
 
+    });
+  }
 
   setTable() {
     let headings = {
       siteName: { title: 'Site Name', placeholder: 'Site Name' },
-      onward: { title: 'Omnward', placeholder: 'Onward' },
+      onward: { title: 'Onward 24 Hrs', placeholder: 'Onward 24 Hrs' },
       loading: { title: 'At Loading', placeholder: 'At Loading' },
-      intrasit: { title: 'At Intransit', placeholder: 'At Intrasit' },
+      intrasit: { title: 'In Transit', placeholder: 'In Transit' },
       waiting: { title: 'Waiting Time', placeholder: 'Waiting Time' },
 
     };
@@ -130,11 +146,11 @@ export class PlacementsDashBoardComponent implements OnInit {
     let columns = [];
     this.placements.map(placement => {
       let column = {
-        siteName: { value: placement.r_sitename },
-        onward: { value: placement.r_todayonwards },
-        loading: { value: placement.r_loadings },
-        intrasit: { value: placement.r_intransits },
-        waiting: { value: placement.r_waitingtime },
+        siteName: { value: placement.r_sitename,action: this.siteTripModal.bind(this, placement,'site') },
+        onward: { value: placement.r_todayonwards,action: this.siteTripModal.bind(this, placement,'onward') },
+        loading: { value: placement.r_loadings,action: this.siteTripModal.bind(this, placement,'loading') },
+        intrasit: { value: placement.r_intransits,action: this.siteTripModal.bind(this, placement,'intrasit') },
+        waiting: { value: placement.r_waitingtime, },
       };
 
       columns.push(column);
@@ -176,7 +192,6 @@ export class PlacementsDashBoardComponent implements OnInit {
         status: { value: vehiclePlacement.r_status },
         placement: { value: vehiclePlacement.r_placement_name },
          action: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.openPlacementModal.bind(this, vehiclePlacement), class: 'icon text-center del' },
-
       };
 
       columns1.push(column1);

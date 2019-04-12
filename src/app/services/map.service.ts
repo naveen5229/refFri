@@ -52,7 +52,7 @@ export class MapService {
 
   zoomAt(latLng, level = 18) {
     this.map.setCenter(latLng);
-    this.map.setZoom(level);
+    this.zoomMap(level);
   }
 
   zoomMap(zoomValue) {
