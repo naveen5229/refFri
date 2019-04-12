@@ -185,6 +185,7 @@ export class VouchersComponent implements OnInit {
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
           this.setFoucus('ref-code');
+          this.voucher.date=params.date;
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);

@@ -186,7 +186,7 @@ export class ConciseComponent implements OnInit {
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         Idle_Time: {
-          value: (kpi.x_idle_time / 60).toFixed(1),
+          value: parseFloat((kpi.x_idle_time / 60).toFixed(1)),
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
@@ -275,7 +275,17 @@ export class ConciseComponent implements OnInit {
         <span>${kpi.x_showtripend}</span>
         <i class="fa fa-check-circle complete"></i>
       `;
-    } else {
+    } 
+    // else if (kpi.trip_status_type == 5) {
+    //   html += `
+    //   <!-- Complete -->
+    //     <span>${kpi.x_showtripstart}</span>
+    //     <i class="icon ion-md-arrow-round-forward mr-0"></i>
+    //     <i class="ion-md-arrow-round-forward" style="margin-left:-1px;"></i>
+    //     <span>${kpi.x_showtripend}</span>
+    //   `;
+    // } 
+    else {
       html += `
       <!-- Ambigous -->
         <span>${kpi.x_showtripstart}</span>

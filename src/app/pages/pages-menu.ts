@@ -71,10 +71,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link:'/pages/trends'
   },
   {
-    title: 'Placements',
-    icon: 'fa fa-location-arrow',
-    link:'/pages/placements'
+    title: 'Placements DashBoard',
+    icon: 'fas fa-list',
+    link: '/pages/placements-dash-board',
+    home: true,
   },
+  // {
+  //   title: 'Placements',
+  //   icon: 'fa fa-location-arrow',
+  //   link:'/pages/placements'
+  // },
   //{
   //  title: 'Call Logs',
   //  icon: 'fa fa-phone',
