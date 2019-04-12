@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 
 @Component({
   selector: 'emp-dashboard',
@@ -16,6 +17,8 @@ export class EmpDashboardComponent implements OnInit {
   data = [];
   headings = [];
   valobj = {};
+  startDay = '';
+  currentDay = '';
   table = {
     data: {
       headings: {},
@@ -33,6 +36,11 @@ export class EmpDashboardComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
       this.title = this.common.params.title;
+      let nDay = new Date(this.common.dateFormatter1(new Date()).split(' ')[0]);
+      console.log("nday:" , nDay);
+      this.currentDay = this.common.dateFormatter1(nDay);
+      this.startDay = this.common.dateFormatter1(new Date(nDay.setDate(nDay.getDate() - 4))).split(' ')[0];
+      console.log('currentDay:', this.currentDay, this.startDay);
       this.getEmpDashboard();
      }
 
@@ -40,6 +48,28 @@ export class EmpDashboardComponent implements OnInit {
       this.activeModal.close({ response: response });
     }
   ngOnInit() {
+  }
+
+  getDetails() {
+    this.getEmpDashboard();
+  }
+
+  getDate(date) {
+    this.common.params = {ref_page :'user-call-summary'};
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        console.log("data date:");
+        console.log(data.date);
+        if(date == 'stdate') {
+          this.startDay = this.common.dateFormatter1(data.date).split(' ')[0];
+          console.log('Date:', this.startDay);
+        } else {
+          this.currentDay = this.common.dateFormatter1(data.date).split(' ')[0];
+          console.log('Date:', this.currentDay);
+        }
+      }
+    });
   }
 
   formatTitle(strval) {
@@ -52,9 +82,19 @@ export class EmpDashboardComponent implements OnInit {
   }
   getEmpDashboard() {
     this.common.loading++;
-    this.api.get('Admin/empDashboard', { })
+    this.api.post('Admin/empDashboard', { x_start_date: this.startDay, x_end_date: this.currentDay})
       .subscribe(res => {
         this.common.loading--;
+        this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
         this.data = res['data'];
         console.log("data:");
         console.log(this.data);
