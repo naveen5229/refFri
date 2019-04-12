@@ -117,8 +117,10 @@ export class BalancesheetComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('startdate')) {
+        this.balanceData.startdate = this.common.handleDateOnEnterNew(this.balanceData.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.balanceData.enddate = this.common.handleDateOnEnterNew(this.balanceData.enddate);
         this.setFoucus('submit');
       }
     }
