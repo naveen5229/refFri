@@ -16,6 +16,17 @@ data ={
 
 };
 distance =[];
+table = {
+  data: {
+    headings: {},
+    columns: []
+  },
+  settings: {
+    hideHeader: true
+  }
+};
+headings = [];
+valobj = {};
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -43,11 +54,38 @@ distance =[];
         this.common.loading--;
         console.log('Res:', res['data']);
         this.distance = res['data'];
+        let first_rec = this.distance[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.distance.map(dis => {
+      this.valobj = {};
+      for(let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:",dis[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: dis[this.headings[i]], class: 'black', action : ''};        
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
+  
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
 }
