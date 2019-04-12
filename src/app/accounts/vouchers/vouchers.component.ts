@@ -36,7 +36,7 @@ export class VouchersComponent implements OnInit {
   lastActiveId = '';
   allowBackspace = true;
   showDateModal = false;
-  date = this.common.dateFormatter(new Date());
+  date = this.common.dateFormatternew(new Date());
 
   activeLedgerIndex = -1;
 
@@ -70,7 +70,7 @@ export class VouchersComponent implements OnInit {
   setVoucher() {
     return {
       name: '',
-      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
       foid: '',
       user: {
         name: '',
@@ -185,6 +185,7 @@ export class VouchersComponent implements OnInit {
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
           this.setFoucus('ref-code');
+          this.voucher.date=params.date;
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);
@@ -207,7 +208,7 @@ export class VouchersComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.voucher.date = this.common.dateFormatter(data.date).split(' ')[0];
+      this.voucher.date = this.common.dateFormatternew(data.date).split(' ')[0];
       //  console.log('Date:', this.date);
     });
   }

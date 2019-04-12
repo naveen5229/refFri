@@ -76,4 +76,8 @@ export class PendingLicenceDetailComponent implements OnInit {
     let strval = elt.target.value;
     elt.target.value = (strval.replace(" ", "")).toUpperCase();
   }
+
+  updateDocument(type){
+
+  }
 }

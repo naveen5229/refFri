@@ -39,20 +39,26 @@ export class StockitemComponent implements OnInit {
     }
 
   };
-
+  activeId='stockType';
+  suggestionIndex = -1;
   showSuggestions = {
     user: false,
     stockType: false
   };
-
-  suggestions = {
-    users: [],
-    stockTypes: []
+  autoSuggestion = {
+    data: [],
+    targetId: '',
+    display: ''
   };
+  // suggestions = {
+  //   users: [],
+  //   stockTypes: []
+  // };
 
   allowBackspace = true;
   stockTypeName = '';
   stockSubType = [];
+  unitData =[];
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
@@ -90,10 +96,42 @@ export class StockitemComponent implements OnInit {
     console.log('testing purpose', this.stockTypeName);
     this.getStockType();
     this.setFoucus('stockType');
+    this.setAutoSuggestion();
+    this.getUnit();
   }
 
 
   ngOnInit() {
+  }
+
+  // handleArrowUpDown(key) {
+  //   const suggestionIDs = this.generateIDs();
+  //   console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
+  //   if (suggestionIDs.indexOf(this.activeId) == -1) return;
+
+  //   if (key == 'arrowdown') {
+  //     if (this.suggestionIndex != this.suggestions.list.length - 1) this.suggestionIndex++;
+  //     else this.suggestionIndex = 0;
+  //   } else {
+  //     if (this.suggestionIndex != 0) this.suggestionIndex--;
+  //     else this.suggestionIndex = this.suggestions.list.length - 1;
+  //   }
+
+  //   // this.voucher.amountDetails[index].ledger.name = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_name;
+  //   // this.voucher.amountDetails[index].ledger.id = this.ledgers.suggestions[this.activeLedgerIndex].y_ledger_id;
+  // }
+  suggestions = {
+    underGroupdata: [],
+    supplierLedgers: [],
+    state: [],
+    salutiondata: [],
+    city: [],
+    list: []
+  };
+  generateIDs() {
+    let IDs = ['stockType'];
+   
+    return IDs;
   }
 
   getStockType() {
@@ -107,7 +145,7 @@ export class StockitemComponent implements OnInit {
         this.common.loading--;
         console.log('StockTypeItemsdata 22:', res['data']);
         this.StockTypeItemsdata = res['data'];
-
+        
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -115,7 +153,26 @@ export class StockitemComponent implements OnInit {
       });
 
   }
+  getUnit() {
+    let params = {
+      search: 123
+    };
 
+    this.common.loading++;
+    this.api.post('Suggestion/getUnit', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('StockTypeItemsdata 22:', res['data']);
+        this.unitData = res['data'];
+        
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+  
   getStockSubType(stocktypeid) {
     let params = {
       stocktype: stocktypeid
@@ -127,6 +184,7 @@ export class StockitemComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.stockSubType = res['data'];
+        this.autoSuggestion.data= res['data'];
 
       }, err => {
         this.common.loading--;
@@ -136,6 +194,8 @@ export class StockitemComponent implements OnInit {
 
   }
 
+
+  
   onSelected(selectedData, type, display) {
     this.stockItem[type].name = selectedData[display];
     this.stockItem[type].id = selectedData.id;
@@ -146,7 +206,20 @@ export class StockitemComponent implements OnInit {
     this.stockItem[type].id = selectedData.id;
     this.getStockSubType(selectedData.id);
   }
-
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion: ', suggestion);
+    if (activeId == 'stockType') {
+      this.stockItem.stockType.name = suggestion.name;
+      this.stockItem.stockType.id = suggestion.id;
+      this.getStockSubType(suggestion.id);   
+    } else  if (activeId == 'stockSubType') {
+      this.stockItem.stockSubType.name = suggestion.name;
+      this.stockItem.stockSubType.id = suggestion.id;
+    } else  if (activeId == 'unit') {
+      this.stockItem.unit.name = suggestion.name;
+      this.stockItem.unit.id = suggestion.id;
+    } 
+  }
 
 
   dismiss(response) {
@@ -164,7 +237,7 @@ export class StockitemComponent implements OnInit {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
-
+    this.setAutoSuggestion();
     if (event.key == "Escape") {
       this.showExit = true;
     }
@@ -200,8 +273,19 @@ export class StockitemComponent implements OnInit {
       // console.log('active', activeId);
       // console.log('Active jj: ', activeId.includes('aliasname'));
       if (activeId.includes('stockType')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
         this.setFoucus('stockSubType');
       } else if (activeId.includes('stockSubType')) {
+        if (this.suggestions.list.length) {
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        
         this.setFoucus('unit');
       } else if (activeId == 'unit') {
         this.setFoucus('code');
@@ -258,6 +342,51 @@ export class StockitemComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+    this.setAutoSuggestion();
   }
   
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion: activeId : ', this.activeId);
+    if (this.activeId == 'stockType') {
+      this.stockItem.stockType.name = suggestion.name;
+      this.stockItem.stockType.id = suggestion.id;
+      this.getStockSubType(suggestion.id);
+    } else  if (this.activeId == 'stockSubType') {
+      this.stockItem.stockSubType.name = suggestion.name;
+      this.stockItem.stockSubType.id = suggestion.id;
+    } 
+
+  }
+
+  setAutoSuggestion() {
+    let activeId = document.activeElement.id;
+  //  console.log('suggestion active', activeId, this.suggestions.underGroupdata);
+    if (activeId == 'stockType') { 
+      this.autoSuggestion.data = this.StockTypeItemsdata; 
+    } else if (activeId == 'stockSubType') { 
+     // console.log('hello',activeId);
+      this.autoSuggestion.data = this.stockSubType; 
+    } else if (activeId == 'unit') { 
+      // console.log('hello',activeId);
+      this.autoSuggestion.data = this.unitData; 
+    }
+
+
+    
+    // else if (activeId.includes('salutation-')) this.autoSuggestion.data = this.suggestions.salutiondata;
+    // else if (activeId.includes('state-')) this.autoSuggestion.data = this.suggestions.state;
+    // else if (activeId.includes('city-')) this.autoSuggestion.data = this.suggestions.city;
+    else {
+      this.autoSuggestion.data = [];
+      this.autoSuggestion.display = '';
+      this.autoSuggestion.targetId = '';
+      return;
+    }
+
+    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.targetId = activeId;
+    console.log('Auto Suggestion: ', this.autoSuggestion);
+  }
+
+
 }

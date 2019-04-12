@@ -120,6 +120,8 @@ import { ResizableModule } from 'angular-resizable-element';
 import {NgxPrintModule} from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
+import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -204,6 +206,8 @@ import { UserCallHistoryComponent } from './modals/user-call-history/user-call-h
     PendingLicenceDetailComponent,
     WareHouseModalComponent,
     UserCallHistoryComponent,
+    DriverDistanceComponent,
+    AddCityComponent,
   ],
   entryComponents: [
     UserCallHistoryComponent,
@@ -248,6 +252,7 @@ import { UserCallHistoryComponent } from './modals/user-call-history/user-call-h
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
+    DriverDistanceComponent,
     //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
@@ -283,7 +288,8 @@ import { UserCallHistoryComponent } from './modals/user-call-history/user-call-h
     RouteMapperComponent,
     TripDetailsComponent,
     PendingLicenceDetailComponent,
-    WareHouseModalComponent
+    WareHouseModalComponent,
+    AddCityComponent
   ],
   imports: [
     BrowserModule,

@@ -14,8 +14,8 @@ import * as _ from 'lodash';
 export class ProfitlossComponent implements OnInit {
 
   plData = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     // branch: {
     //   name: '',
     //   id: 0
@@ -29,6 +29,7 @@ export class ProfitlossComponent implements OnInit {
   
   liabilities = [];
   assets = [];
+  allowBackspace = true;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -133,12 +134,23 @@ export class ProfitlossComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
+      this.allowBackspace= true;
         if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');
       }else  if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
     }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    
   }
 
   setFoucus(id, isSetLastActive = true) {

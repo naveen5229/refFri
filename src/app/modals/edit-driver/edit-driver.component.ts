@@ -24,7 +24,8 @@ export class EditDriverComponent implements OnInit {
     aadharphoto: null,
     Salary: null,
     guranter: null,
-    guranterno: null
+    guranterno: null,
+    doj: null
 
   }
   constructor(

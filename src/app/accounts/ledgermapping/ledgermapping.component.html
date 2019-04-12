@@ -9,7 +9,7 @@
           <label class="tjr-label">Secondary Goup</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" display="name"
             placeholder="Enter Secondary Group" [data]="secondaryData" inputId="secondaryname" [preSelected]="{name:'All'}"></auto-suggestion> -->
-            <input type="text" id="secondaryname" class="form-control tjr-input" name="secondaryname" [(ngModel)]="ledgerMapping.group.name">
+            <input autocomplete="off" type="text" id="secondaryname" class="form-control tjr-input" name="secondaryname" [(ngModel)]="ledgerMapping.group.name">
           </div>
       </div>
       <div class="col-3">
@@ -17,7 +17,7 @@
           <label class="tjr-label">Ledger</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
             display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="null"></auto-suggestion> -->
-            <input type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="ledgerMapping.ledger.name">
+            <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="ledgerMapping.ledger.name">
         </div>
       </div>
 

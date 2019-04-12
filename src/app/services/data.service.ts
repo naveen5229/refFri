@@ -55,7 +55,7 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/driver-list',
         home: true,
-    },
+      },
       {
         title: 'Generate LR',
         icon: 'fa fa-pencil',
@@ -133,13 +133,19 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/company-details',
         home: true,
-    },
-    {
-      title: 'Transport Agents',
-      icon: 'nb-home',
-      link: '/admin/transport-agents',
-      home: true,
-  }
+      },
+      {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+      },
+      {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+      }
     ];
   }
 }

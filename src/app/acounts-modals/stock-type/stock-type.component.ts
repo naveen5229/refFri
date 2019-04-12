@@ -10,7 +10,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class StockTypeComponent implements OnInit {
   showConfirm = false;
-  showExit=false;
+  showExit = false;
   stockType = {
     name: '',
     code: '',
@@ -22,13 +22,13 @@ export class StockTypeComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-      console.log("data in model :",this.common.params);
-      if(this.common.params){      
-         this.stockType.name= this.common.params.name;
-          this.stockType.code= this.common.params.code;
-    
-      }
-     }
+    console.log("data in model :", this.common.params);
+    if (this.common.params) {
+      this.stockType.name = this.common.params.name;
+      this.stockType.code = this.common.params.code;
+
+    }
+  }
 
   ngOnInit() {
   }
@@ -62,44 +62,44 @@ export class StockTypeComponent implements OnInit {
 
   onSelected(selectedData, type, display) {
     this.stockType[type].name = selectedData[display];
-    this.stockType  [type].id = selectedData.id;
+    this.stockType[type].id = selectedData.id;
     //console.log('Stock Unit: ', this.stockItem);
   }
 
-  modelCondition(){
+  modelCondition() {
     this.showConfirm = false;
     event.preventDefault();
     return;
-   }
+  }
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
     if (event.key == "Escape") {
-      this.showExit=true;
+      this.showExit = true;
     }
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
-       event.preventDefault();
-       this.activeModal.close();
-       return;
-       // this.close();
-      }else   if ( key == 'n') {
+        event.preventDefault();
+        this.activeModal.close();
+        return;
+        // this.close();
+      } else if (key == 'n') {
         this.showExit = false;
         event.preventDefault();
         return;
 
       }
-      
+
     }
 
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {
         console.log('Ledgers show stockType:', this.stockType);
         this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
+        // this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();
@@ -108,31 +108,30 @@ export class StockTypeComponent implements OnInit {
     if (key == 'enter') {
       this.allowBackspace = true;
       // console.log('active', activeId);
-     // console.log('Active jj: ', activeId.includes('aliasname'));
+      // console.log('Active jj: ', activeId.includes('aliasname'));
       if (activeId.includes('user')) {
         this.setFoucus('name');
       } else if (activeId.includes('name')) {
         this.setFoucus('code');
       } else if (activeId == 'code') {
-       // this.setFoucus('aliasname');
-       this.showConfirm = true;
+        // this.setFoucus('aliasname');
+        this.showConfirm = true;
       }
-  } else if (key == 'backspace' && this.allowBackspace) {
-    event.preventDefault();
-    console.log('active 1', activeId);
-    if (activeId == 'code') this.setFoucus('name');
-    if (activeId == 'name') this.setFoucus('user');
-  }  else if (key.includes('arrow')) {
-    this.allowBackspace = false;
-  } else if (key != 'backspace') {
-    this.allowBackspace = false;
-    //event.preventDefault();
+    } else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', activeId);
+      if (activeId == 'code') this.setFoucus('name');
+      if (activeId == 'name') this.setFoucus('user');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+
+
   }
 
 
-}
-
-  
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

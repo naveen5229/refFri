@@ -10,6 +10,9 @@
   <nb-card-body>
     <div class="row" style="margin-bottom:20px">
       <div class="form-group" class="col-sm-3">
+              <!-- <input [(ngModel)]="currentDay" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
+              placeholder="Start Time" class="form-control" autocomplete="off" name="s-date" [attr.value]="currentDay | date: 'yyyy-MM-dd'" >
+            <owl-date-time #sDate pickerType = "calendar"></owl-date-time> -->
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
             placeholder="Select Date" [value]="currentDay | date: 'dd MMM yyyy'" name="date" readonly>
     
