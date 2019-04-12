@@ -53,14 +53,32 @@
       <div class="row">
         <div class="form-group">
           <div class="col-md-2 text-center">
-            <label>Branch Name</label>
+            <label>A/c Number</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="accnumber" id="accnumber"
+              [(ngModel)]="Accounts.accnumber">
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Is Bank</label>
+          </div>
+          <div class="col-md-4 text-left">
+            <input type="checkbox" class="form-control checktype" name="isbank" id="isbank"
+              [(ngModel)]="Accounts.isbank" [value]=0 (ngModelChange)="changeevent(this.value)">
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="Accounts.isbank == 1">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Bank Branch Name</label>
           </div>
           <div class="col-md-4">
             <input type="text" class="form-control" name="branchname" [(ngModel)]="Accounts.branchname" id="branchname"
              >
           </div>
           <div class="col-md-2 text-center">
-            <label>Branch Code</label>
+            <label>Bank Branch Code</label>
           </div>
           <div class="col-md-4">
             <input type="text" class="form-control" name="branchcode" id="branchcode"
@@ -68,22 +86,16 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="Accounts.isbank == 1">
         <div class="form-group">
           <div class="col-md-2 text-center">
             <label>Credit Days</label>
           </div>
           <div class="col-md-4">
-            <input type="text" class="form-control" name="creditdays" [(ngModel)]="Accounts.creditdays" id="creditdays"
+            <input type="number" class="form-control" name="creditdays" ng-maxlength="3"  [(ngModel)]="Accounts.creditdays" id="creditdays"
             >
           </div>
-          <div class="col-md-2 text-center">
-            <label>A/c Number</label>
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control" name="accnumber" id="accnumber"
-              [(ngModel)]="Accounts.accnumber">
-          </div>
+          
         </div>
       </div>
     </div>
@@ -143,13 +155,13 @@
                   [(ngModel)]="Details.email">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'panNo-' + i" [(ngModel)]="Details.panNo">
+                <input type="text" class="form-control" name="account-name" [id]="'panNo-' + i" ng-maxlength="10" [(ngModel)]="Details.panNo">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'tanNo-' + i" [(ngModel)]="Details.tanNo">
+                <input type="text" class="form-control" name="account-name" [id]="'tanNo-' + i" ng-maxlength="15" [(ngModel)]="Details.tanNo">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'gstNo-' + i" [(ngModel)]="Details.gstNo">
+                <input type="text" class="form-control" name="account-name" [id]="'gstNo-' + i" ng-maxlength="15" [(ngModel)]="Details.gstNo">
               </td>
               <td>
                 <input type="text" class="form-control" [id]="'state-'+i" name="'state-'+i" [(ngModel)]="Details.state.name"
