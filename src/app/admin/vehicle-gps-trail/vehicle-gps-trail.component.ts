@@ -44,12 +44,12 @@ export class VehicleGpsTrailComponent implements OnInit {
 
     let params = {
       vehicleId: this.vId,
-      startDate: this.startDate,
-      endDate: this.endDate
+      startTime: this.startDate,
+      toTime: this.endDate
     };
     console.log('params: ', params);
     this.common.loading++;
-    this.api.post('HaltOperations/getVehicleEvents', params)
+    this.api.post('VehicleTrail/getVehicleTrailAll', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
