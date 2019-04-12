@@ -121,7 +121,7 @@ export class PlacementsDashBoardComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "76vh"
+        tableHeight: "auto"
       },
     }
   }
@@ -161,7 +161,7 @@ export class PlacementsDashBoardComponent implements OnInit {
       },
       settings1: {
         hideHeader: true,
-        tableHeight: "76vh"
+        tableHeight: "auto"
       },
     }
   }
