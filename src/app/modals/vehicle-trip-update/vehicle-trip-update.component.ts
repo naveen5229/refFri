@@ -34,7 +34,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   };
   placements = null;
   placementSite = 0;
-  placementSuggestion = null;
+  placementSuggestion = [];
   ref_page = null ;
   cLT = 'city';
   constructor(public api: ApiService,
