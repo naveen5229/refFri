@@ -28,6 +28,9 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { DriverModule } from '../driver/driver.module';
+import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
+import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
+import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 
 
@@ -45,7 +48,8 @@ const PAGES_COMPONENTS = [
   SiteDetailsComponent, 
   UserPreferencesComponent,
   GpsSupplierMappingComponent,
-  VehiclesViewComponent
+  VehiclesViewComponent,
+  VehicleGpsTrailComponent
   
 ];
 @NgModule({
@@ -68,6 +72,9 @@ const PAGES_COMPONENTS = [
     VehiclesViewComponent,
     CompanyDetailsComponent,
     TransportAgentsComponent,
+    VehicleGpsTrailComponent,
+    GpsTrailsComponent,
+    FuelFillingsComponent,
     SubSitesComponent,
   ],
 })

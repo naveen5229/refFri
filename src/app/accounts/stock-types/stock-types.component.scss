@@ -35,6 +35,9 @@ table{
         th:nth-child(3){
             width: 300px;
         }
+        th:nth-child(4){
+            width: 150px;
+        }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
@@ -70,6 +73,9 @@ table{
             td:nth-child(3){
                 width: 300px;
             }
+            td:nth-child(4){
+                width: 150px;
+            }
         }
         tr:nth-child(odd){
             background-color: #fff;
@@ -101,4 +107,9 @@ table tr.highlight {
 i{
     font-size: 14px;
     align-content: center;
+}
+.delete{
+    color: #D61414 !important;
+    padding: 2%;
+    margin: 40%;
 }

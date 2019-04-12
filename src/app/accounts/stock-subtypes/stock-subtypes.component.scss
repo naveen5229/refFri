@@ -29,11 +29,15 @@ table{
             width: 50px;
         }
         th:nth-child(2){
-            width: 440px;
+            width: 300px;
         }
         th:nth-child(3),
-        th:nth-child(4){
+        th:nth-child(4),
+        th:nth-child(5){
             width: 200px;
+        }
+        th:nth-child(6){
+            width: 168px;
         }
         td{
             padding: 5px 10px !important;
@@ -65,10 +69,11 @@ table{
                 width: 50px;
             }
             td:nth-child(2){
-                width: 440px;
+                width: 300px;
             }
             td:nth-child(3),
-            td:nth-child(4){
+            td:nth-child(4),
+            td:nth-child(5){
                 width: 200px;
             }
         }
@@ -101,4 +106,9 @@ table tr.highlight {
 i{
     font-size: 14px;
     text-align: center;
+}
+.delete{
+    color: #D61414 !important;
+    padding: 2%;
+    margin: 40%;
 }

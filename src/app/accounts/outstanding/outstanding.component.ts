@@ -32,6 +32,7 @@ export class OutstandingComponent implements OnInit {
   voucherEntries = [];
   ledgerList = [];
   activeId = 'ledger';
+  allowBackspace = true;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -160,15 +161,24 @@ export class OutstandingComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('ledger');
-      } else if (this.activeId.includes('ledger')) {
+      this.allowBackspace = true;
+      if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('ledger');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
     }
   }
 

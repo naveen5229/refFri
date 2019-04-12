@@ -102,6 +102,12 @@ export class LedgersComponent implements OnInit {
       primarygroupid: ledger.undergroup.primarygroup_id,
       account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
+      branchname :ledger.branchname,
+      branchcode:  ledger.branchcode,
+      accnumber:   ledger.accnumber,
+      creditdays:  ledger.creditdays,
+      openingbalance:  ledger.openingbalance,
+      isdr:  ledger.openingisdr,
       x_id: ledger.id ? ledger.id : 0,
     };
 

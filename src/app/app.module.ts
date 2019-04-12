@@ -121,6 +121,7 @@ import {NgxPrintModule} from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 
 @NgModule({
@@ -207,6 +208,7 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     WareHouseModalComponent,
     UserCallHistoryComponent,
     DriverDistanceComponent,
+    AddCityComponent,
     SiteTripDetailsComponent,
   ],
   entryComponents: [
@@ -289,7 +291,8 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     RouteMapperComponent,
     TripDetailsComponent,
     PendingLicenceDetailComponent,
-    WareHouseModalComponent
+    WareHouseModalComponent,
+    AddCityComponent
   ],
   imports: [
     BrowserModule,

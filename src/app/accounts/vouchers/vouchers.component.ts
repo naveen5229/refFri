@@ -78,7 +78,7 @@ export class VouchersComponent implements OnInit {
       },
       vouchertypeid: '',
       amountDetails: [{
-        transactionType: (this.voucherId == '-3' || this.voucherId == '-1') ? 'credit' : 'debit',
+        transactionType: (this.voucherId == '-4' || this.voucherId == '-2') ? 'credit' : 'debit',
         ledger: {
           name: '',
           id: ''
@@ -185,6 +185,7 @@ export class VouchersComponent implements OnInit {
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
           this.setFoucus('ref-code');
+          this.voucher.date=params.date;
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);
@@ -450,12 +451,25 @@ export class VouchersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[0];
-    date = date.length == 1 ? '0' + date : date;
+  
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
+    month = (month >12) ?12 :month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    date = (date>31) ? 31: date;
+    date = (((month == '04') || (month == '06') || (month == '09')||(month == '11'))&& (date >30) ) ? 30: date;
+    date  = ((date == 28) && (month == '02')) ? 28 : date ;
+    if(year % 4==0 && (month =='02')){
+    date  = (((date >28) && (month == '02'))&&  ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date ;
+   
+     }
+     else if(year % 4 !=0 && (month =='02')){
+          date = 28;
+     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
+
     console.log('Date: ', year + separator + month + separator + date);
     this.voucher.date = date + separator + month + separator + year;
   }
