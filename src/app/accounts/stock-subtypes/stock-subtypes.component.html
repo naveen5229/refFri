@@ -13,7 +13,7 @@
             <th>Stock Sub Type</th>
             <th>Code</th>
             <th>Date</th>
-            <!-- <th>Action</th> -->
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -25,7 +25,10 @@
             <td>{{stockType.name}}</td>
             <td>{{stockType.code}}</td>
             <td>{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
-            <!-- <td><button class="btn" (click)="openStockSubTypeModal(stockType)">Edit</button></td> -->
+            <td class="del">
+              <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockType.id)"><i
+                  class="fa fa-trash"></i></a>
+            </td>
           </tr>
         </tbody>
       </table>

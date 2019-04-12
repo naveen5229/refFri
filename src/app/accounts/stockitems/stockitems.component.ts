@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { UserService } from '../../@core/data/users.service';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'stockitems',
@@ -26,7 +27,7 @@ export class StockitemsComponent implements OnInit {
 
   ngOnInit() {
   }
-  refresh(){
+  refresh() {
     this.getStockItems();
   }
 
@@ -79,11 +80,11 @@ export class StockitemsComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               console.log('res: ', res['data'][0].save_stockitem);
-              let result=res['data'][0].save_stockitem;
-              if(result==''){
+              let result = res['data'][0].save_stockitem;
+              if (result == '') {
                 this.common.showToast(" Stock item Update");
               }
-              else{
+              else {
                 this.common.showToast(result);
               }
 
@@ -133,11 +134,11 @@ export class StockitemsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        let result=res['data'][0].save_stockitem;
-        if(result==''){
+        let result = res['data'][0].save_stockitem;
+        if (result == '') {
           this.common.showToast(" Stock item Add");
         }
-        else{
+        else {
           this.common.showToast(result);
         }
         this.getStockItems();
@@ -149,7 +150,7 @@ export class StockitemsComponent implements OnInit {
 
   }
 
- 
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
@@ -163,24 +164,36 @@ export class StockitemsComponent implements OnInit {
   }
 
 
-  delete(tblid){
+  delete(tblid) {
     let params = {
       id: tblid,
-      tblidname:'id',
-      tblname  :'stockitem'
+      tblidname: 'id',
+      tblname: 'stockitem'
     };
-
-    this.common.loading++;
-    this.api.post('Stock/deletetable', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.common.showToast('This Value Has been Deleted!');
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError('This Value has been used another entry!');
-        // this.common.showError();
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are Sure to Delete' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              this.getStockItems();
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
       });
+    }
   }
 }
