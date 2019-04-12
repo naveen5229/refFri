@@ -121,6 +121,7 @@ import {NgxPrintModule} from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -206,6 +207,7 @@ import { DriverDistanceComponent } from './modals/driver-distance/driver-distanc
     WareHouseModalComponent,
     UserCallHistoryComponent,
     DriverDistanceComponent,
+    AddCityComponent,
   ],
   entryComponents: [
     UserCallHistoryComponent,
@@ -286,7 +288,8 @@ import { DriverDistanceComponent } from './modals/driver-distance/driver-distanc
     RouteMapperComponent,
     TripDetailsComponent,
     PendingLicenceDetailComponent,
-    WareHouseModalComponent
+    WareHouseModalComponent,
+    AddCityComponent
   ],
   imports: [
     BrowserModule,
