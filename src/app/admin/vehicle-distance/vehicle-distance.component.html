@@ -1,0 +1,54 @@
+<nb-card style=" margin:0px; padding-top: 0px; border: 0px;">
+  <nb-card-header>
+    <h4>Vehicle Distance</h4>
+  </nb-card-header>
+  <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+    <div class="container">
+      <div class="row">
+        <form class="w-100">
+          <div class="row">
+            <div class="col-md-2 pr-0">
+              <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
+                placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
+            </div>
+            <div class="col-md-2 pr-0">
+              <input [(ngModel)]="data.startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
+                placeholder="Start Time" class="form-control" autocomplete="off" name="s-date">
+              <owl-date-time #sDate></owl-date-time>
+            </div>
+            <div class="col-md-2 pr-0">
+              <input [(ngModel)]="data.endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate "
+                placeholder="End Time" class="form-control" autocomplete="off" name="e-date">
+              <owl-date-time #eDate></owl-date-time>
+            </div>
+            <div class="col-md-2 offset-md-08">
+              <button type="submit" class="btn btn-primary" (click)="getDistance()">Submit</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="row" *ngIf="distance.length">
+        <table class="tbl table table-bordered table-hover">
+          <thead class="thead">
+            <tr>
+              <th style="width:40px;">S.No</th>
+              <th>Regno</th>
+              <th>Distance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dis of distance;let i = index;">
+              <td style="width:40px;">{{i+1}}</td>
+              <td style="width:40px;">{{dis.regno}}</td>
+              <td>{{dis.distance}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- <smart-table class="document-details" *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="tblVehDocs"></smart-table>
+        <br> -->
+  </nb-card-body>
+</nb-card>
