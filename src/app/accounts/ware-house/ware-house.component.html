@@ -9,6 +9,7 @@
             <th>Parent Name</th>
             <th>Name</th>
             <th>Date</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -19,6 +20,10 @@
             <td>{{ wareHouse.parent_name}}</td>
             <td>{{wareHouse.name}}</td>
             <td>{{wareHouse.entry_dt | date : 'dd-MMM-yy'}}</td>
+            <td class="del">
+              <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(wareHouse.id)"><i
+                  class="fa fa-trash"></i></a>
+            </td>
           </tr>
         </tbody>
       </table>

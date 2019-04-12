@@ -777,6 +777,42 @@ export class CommonService {
       ' stop-scroll';
   }
 
+
+  handleDateOnEnterNew(datedate) {
+    let dateArray = [];
+    let separator = '-';
+    if (datedate.includes('-')) {
+      dateArray = datedate.split('-');
+    } else if (datedate.includes('/')) {
+      dateArray = datedate.split('/');
+      separator = '/';
+    } else {
+      this.showError('Invalid Date Format!');
+      return;
+    }
+  
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    month = (month >12) ?12 :month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    date = (date>31) ? 31: date;
+    date = (((month == '04') || (month == '06') || (month == '09')||(month == '11'))&& (date >30) ) ? 30: date;
+    date  = ((date == 28) && (month == '02')) ? 28 : date ;
+    if(year % 4==0 && (month =='02')){
+    date  = (((date >28) && (month == '02'))&&  ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date ;
+   
+     }
+     else if(year % 4 !=0 && (month =='02')){
+          date = 28;
+     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
+
+    console.log('Date: ', year + separator + month + separator + date);
+   return date + separator + month + separator + year;
+  }
+
   continuoueScroll() {
     document.getElementsByClassName(
       'scrollable-container'

@@ -1,5 +1,5 @@
-<nb-card>
-    <nb-card-header>
+<nb-card style="border:0px;">
+    <nb-card-header style="padding-bottom:0px;">
       <div class="row">
         <div class="col-sm-6">
           <h4>Placements DashBoard</h4>
@@ -13,8 +13,9 @@
         </div>
       </div>
     </nb-card-header>
-    <nb-card-body>
-      <div class="col-sm-6">
+    <nb-card-body style="padding-bottom: 0px; padding-top: 10px;">
+      <div class="row">
+        <div class="col-sm-6 pr-0">
           <smart-table  *ngIf="placements.length" [data]="table.placements" [settings]="table.settings" id="tblVehDocs"></smart-table>
           <br>
         <!-- <table class="table table-bordered table-hover">
@@ -75,5 +76,7 @@
               No Data available !
           </div> -->
         </div>
+      </div>
+      
     </nb-card-body>
   </nb-card>

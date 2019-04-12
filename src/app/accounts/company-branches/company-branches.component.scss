@@ -18,13 +18,6 @@ nb-card-header{
     overflow: auto;
 }
 table{
-    margin: 0px;
-    overflow-y: auto;
-    display: block;
-    width: 100%;
-    table-layout: fixed;
-    overflow: auto;
-    max-height: calc(100vh - 124px);
     thead{
         display: table;
         width: 100%;
@@ -51,6 +44,9 @@ table{
         th:nth-child(14),
         th:nth-child(16),
         th:nth-child(17){
+            width: 100px;
+        }
+        th:last-child{
             width: 100px;
         }
         th:nth-child(7){
@@ -80,6 +76,11 @@ table{
         }
     }
     tbody{
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 124px);
         tr{
             display: table;
             table-layout: fixed;
@@ -100,6 +101,9 @@ table{
             td:nth-child(14),
             td:nth-child(16),
             td:nth-child(17){
+                width: 100px;
+            }
+            td:last-child{
                 width: 100px;
             }
             td:nth-child(4){
@@ -144,4 +148,9 @@ table tr.highlight {
 i{
     font-size: 14px;
     align-content: center;
+}
+.delete{
+    color: #D61414 !important;
+    padding: 2%;
+
 }

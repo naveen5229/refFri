@@ -13,6 +13,7 @@
         <th>Name</th>
         <th>Code</th>
         <th>Date</th>
+        <th>Action</th>
       </tr>
   </thead>
   <tbody>
@@ -24,7 +25,10 @@
         <td>{{stockItem.name}}</td>
         <td>{{stockItem.code}}</td>
         <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
-        <!-- <td><button class="btn" (click)="openStockItemModal(stockItem)"><i class="fa fa-edit"></i></button></td> -->
+        <td class="del">
+          <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
+              class="fa fa-trash"></i></a>
+        </td>
       </tr>
   </tbody>
   
