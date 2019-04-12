@@ -161,4 +161,26 @@ export class StockitemsComponent implements OnInit {
 
     }
   }
+
+
+  delete(tblid){
+    let params = {
+      id: tblid,
+      tblidname:'id',
+      tblname  :'stockitem'
+    };
+
+    this.common.loading++;
+    this.api.post('Stock/deletetable', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.common.showToast('This Value Has been Deleted!');
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+        // this.common.showError();
+      });
+  }
 }
