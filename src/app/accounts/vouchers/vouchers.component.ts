@@ -78,7 +78,7 @@ export class VouchersComponent implements OnInit {
       },
       vouchertypeid: '',
       amountDetails: [{
-        transactionType: (this.voucherId == '-3' || this.voucherId == '-1') ? 'credit' : 'debit',
+        transactionType: (this.voucherId == '-4' || this.voucherId == '-2') ? 'credit' : 'debit',
         ledger: {
           name: '',
           id: ''
