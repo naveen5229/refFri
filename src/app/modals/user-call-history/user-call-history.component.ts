@@ -55,8 +55,8 @@ callData = null;
     let params = {
       vehicleId :this.callData.vehicleId,
       foAdminUserId : this.callData.foAdminUserId,
-      currentDay : this.common.dateFormatter1(this.callData.currentDay),
-      nextDay : this.common.dateFormatter1(this.callData.nextDay)    
+      currentDay : this.callData.currentDay,
+      nextDay : this.callData.nextDay  
     };
 
     console.log("params",params);
