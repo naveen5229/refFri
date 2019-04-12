@@ -154,6 +154,9 @@ nb-card-header {
 .btn-primary{
     background-color: #324148 !important;
 }
+.document-dashboard-tabel{
+    overflow: auto;
+}
 table.table-scroll{
     thead{
         background-color: #263238;
@@ -161,26 +164,31 @@ table.table-scroll{
             th:nth-child(1){
                 width: 40px !important;
             }
+            th:last-child{
+                width: 128px !important;
+            }
             th{
-                width: 115px !important;
+                width: 115px;
                 padding: 5px 10px;
                 font-weight: normal;
             }
         }
     }
     tbody{
-        max-height: 600px;
         overflow-y: auto;
         display: block;
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        height: calc(102vh - 250px);
-        max-height: calc(102vh - 250px);
+        max-height: calc(100vh - 250px);
         tr{
             td{
+                width: 115px;
                 padding: 5px 10px !important;
                 font-size: 12px;
+            }
+            td:last-child{
+                width: 115px;
             }
         }
         tr:nth-child(odd){

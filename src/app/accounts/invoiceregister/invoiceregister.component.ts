@@ -15,27 +15,29 @@ export class InvoiceregisterComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   invoiceRegister = {
-    endDate:this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startDate:this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    custCode:'',
-    code:'',
-    ledger :{
-        name:'All',
-        id:0
-      },
-      branch :{
-        name:'',
-        id:''
-      },
-      voucherType :{
-        name:'Purchase Invoice',
-        id:-2
-      }
-    
-    };
-    invoiceRegisterData=[];
-    ledgerList=[];
-    activeId='voucherType';
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    custCode: '',
+    code: '',
+    ledger: {
+      name: 'All',
+      id: 0
+    },
+    branch: {
+      name: '',
+      id: ''
+    },
+    voucherType: {
+      name: 'Purchase Invoice',
+      id: -2
+    }
+
+  };
+  invoiceRegisterData = [];
+  ledgerList = [];
+  activeId = 'voucherType';
+  allowBackspace = true;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -136,7 +138,7 @@ export class InvoiceregisterComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.invoiceRegister[date] = this.common.dateFormatternew(data.date).split(' ')[0];
-        console.log(this.invoiceRegister[date]);
+      console.log(this.invoiceRegister[date]);
     });
   }
 
@@ -151,9 +153,8 @@ export class InvoiceregisterComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('voucherType');
-      } else if (this.activeId.includes('voucherType')) {
+      this.allowBackspace = true;
+      if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       } else if (this.activeId.includes('ledger')) {
         this.setFoucus('code');
@@ -167,6 +168,20 @@ export class InvoiceregisterComponent implements OnInit {
         this.setFoucus('custcode');
       }
     }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('custcode');
+      if (this.activeId == 'custcode') this.setFoucus('code');
+      if (this.activeId == 'code') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('voucherType');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+
   }
 
   setFoucus(id, isSetLastActive = true) {

@@ -284,5 +284,26 @@ export class RouteMapperComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
+  
+  openSmartTool(i, vehicleEvent) {
+    this.vehicleEvents.forEach(vEvent => {
+      if (vEvent != vehicleEvent)
+        vEvent.isOpen = false;
+    });
+      vehicleEvent.isOpen = !vehicleEvent.isOpen;
+      this.zoomFunctionality(i, vehicleEvent);
+  }
+  zoomFunctionality(i, vehicleEvent) {
+    console.log("vehicleEvent", vehicleEvent);
+    let latLng=this.mapService.getLatLngValue(vehicleEvent);
+    let googleLatLng=this.mapService.createLatLng(latLng.lat,latLng.lng);
+    console.log("latlngggg",googleLatLng);
+    this.mapService.zoomAt(googleLatLng);
+  }
+
+  setZoom(zoom) {
+    this.mapService.zoomMap(zoom);
+  }
+
 
 }

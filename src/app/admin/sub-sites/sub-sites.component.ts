@@ -21,6 +21,7 @@ export class SubSitesComponent implements OnInit {
   }
 
   getSubSites(){
+   // this.getFencing();
     let params = "siteId="+this.siteId;
     this.common.loading++;
     this.api.get('SubSiteOperation/getSubSites?'+params)
@@ -34,6 +35,22 @@ export class SubSitesComponent implements OnInit {
               this.common.showError();
             });
   }
+
+  getFencing(){
+    let params = "siteId="+this.siteId;
+    this.common.loading++;
+  this.api.post("SiteFencing/getSiteFences", params)
+  .subscribe(res => {
+    this.common.loading--;
+    let data = res['data'];
+    let count = Object.keys(data).length;
+    console.log('Res: ', res['data']);
+    
+  }, err =>{
+    this.common.loading--;
+    this.common.showError();
+  });
+}
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
