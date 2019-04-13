@@ -145,7 +145,13 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/sub-sites',
         home: true,
-      }
+      },
+      {
+        title: 'Vechile Dstance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    }
     ];
   }
 }

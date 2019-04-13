@@ -60,7 +60,7 @@
   <div class="row">
 
     <div class="col-3" *ngIf="showMain">
-      <input type="text" class="form-control" [(ngModel)]="LrData.receipt_no" name="RNo." placeholder="Receipt No.">
+      <input type="text" class="form-control" [(ngModel)]="LrData.receipt_no" name="RNo." placeholder="Receipt No." autocomplete="off">
       <input type="text" class="from-control" id="source" [(ngModel)]="LrData.source" name="source"
         placeholder="Source">
       <input type="text" class="from-control" id="destination" name="destination" [(ngModel)]="LrData.destination"

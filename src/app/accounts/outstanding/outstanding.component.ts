@@ -26,6 +26,7 @@ export class OutstandingComponent implements OnInit {
       name: '',
       id: ''
     },
+    trantype:0
   };
 
   ledgerData = [];
@@ -93,7 +94,8 @@ export class OutstandingComponent implements OnInit {
       startdate: this.outStanding.startDate,
       enddate: this.outStanding.endDate,
       ledger: this.outStanding.ledger.id,
-      branch: this.outStanding.branch.id
+      branch: this.outStanding.branch.id,
+      trantype:this.outStanding.trantype
     };
 
     this.common.loading++;
@@ -165,8 +167,10 @@ export class OutstandingComponent implements OnInit {
       if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
+        this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
     }
