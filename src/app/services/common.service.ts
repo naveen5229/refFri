@@ -387,18 +387,14 @@ export class CommonService {
     return generatedArray;
   }
 
-  dateDiffInHours(startTime, endTime) {
-    if (startTime == null || endTime == null) {
-      return '0';
+  dateDiffInHours(startTime, endTime,fromNow = false) {
+    if (!startTime || (!endTime && !fromNow)) {
+      return 0;
     }
     startTime = new Date(startTime);
-    endTime = new Date(endTime);
-    let resultTime = endTime - startTime;
-    let sec = resultTime / 1000;
-    let min = sec / 60;
-    let hour = min / 60;
-    let returnResult = hour.toFixed(5);
-    return returnResult;
+    endTime = (fromNow && !endTime)?new Date(new Date().toUTCString()):new Date(endTime);
+    let hours = Math.abs(endTime - startTime) / 36e5;
+    return hours;
   }
 
   dateDiffInHoursAndMins(startTime, endTime) {
