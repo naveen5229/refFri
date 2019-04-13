@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
@@ -7,6 +7,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -27,8 +28,10 @@ export class LorryRecciptsComponent implements OnInit {
     public common: CommonService,
     private datePipe: DatePipe,
     public user: UserService,
-    private modalService: NgbModal) {
-
+    public route: ActivatedRoute,
+    private modalService: NgbModal,
+    public renderer: Renderer) {
+      
       let today;
       today = new Date();
       this.endDate = this.common.dateFormatter(today);
@@ -87,11 +90,14 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   printLr(receipt){
+    
+
     console.log("receipts",receipt);
     this.common.params = {lrId: receipt.lr_id }
-    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
+
     });
   }
    
