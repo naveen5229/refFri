@@ -2,7 +2,7 @@
   <nb-card-header>
     <h4>Vehicle Distance</h4>
   </nb-card-header>
-  <nb-card-body style="padding-bottom: 0px; max-height: 350px;">
+  <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
     <div class="container">
       <div class="row">
         <form class="w-100">
@@ -30,8 +30,8 @@
       </div>
   
     </div> 
-    <div style="padding:10px;">
+    
     <smart-table  *ngIf="result.length" [data]="table.data" [settings]="table.settings" ></smart-table>
-  </div>
+  
   </nb-card-body>
 </nb-card>

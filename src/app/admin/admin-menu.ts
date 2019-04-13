@@ -112,6 +112,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Vechile Dstance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    },
+    {
         title: 'Vehicles View',
         icon: 'nb-home',
         link: '/admin/vehicles-view',
@@ -135,12 +141,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/sub-sites',
         home: true,
     },
-    {
-        title: 'Vechile Dstance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
-        home: true,
-    }
+  
 
 
 ];
