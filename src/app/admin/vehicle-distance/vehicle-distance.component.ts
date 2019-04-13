@@ -15,7 +15,7 @@ export class VehicleDistanceComponent implements OnInit {
     endDate: null,
 
   };
-  distance = [];
+  result = [];
   table = null;
 
   constructor(public api: ApiService,
@@ -44,7 +44,7 @@ export class VehicleDistanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.distance = res['data'];
+        this.result = res['data'];
         this.table = this.setTable();
       }, err => {
         this.common.loading--;
@@ -57,16 +57,16 @@ export class VehicleDistanceComponent implements OnInit {
     let headings = {
       regno: { title: 'Regno Number', placeholder: 'Regno No' },
       dist: { title: 'Distance ', placeholder: 'Distance' },
-
     };
     return {
-      distance: {
+      data: {
         headings: headings,
         columns: this.getTableColumns()
       },
       settings: {
         hideHeader: true,
         tableHeight: "74vh"
+        
       }
     }
   }
@@ -74,14 +74,12 @@ export class VehicleDistanceComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.distance.map(data => {
+    this.result.map(row => {
       let column = {
-        regno: { value: data.regno },
-        dist: { value: data.distance },
+        regno: { value: row.regno },
+        dist: { value: row.distance },
 
       };
-
-
       columns.push(column);
     });
     return columns;
