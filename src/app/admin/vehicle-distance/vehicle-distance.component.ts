@@ -22,8 +22,6 @@ export class VehicleDistanceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.data.startDate = this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-");
-    this.data.endDate = this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-");
   }
 
   ngOnInit() {

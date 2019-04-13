@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Generate LR',
-    icon: 'fas fa-pencil-alt',
+    icon: 'fa fa-pencil',
     link: '/pages/generate-lr',
   },
 
