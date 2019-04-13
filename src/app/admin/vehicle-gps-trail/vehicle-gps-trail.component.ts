@@ -9,7 +9,7 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 @Component({
   selector: 'vehicle-gps-trail',
   templateUrl: './vehicle-gps-trail.component.html',
-  styleUrls: ['./vehicle-gps-trail.component.scss']
+  styleUrls: ['./vehicle-gps-trail.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleGpsTrailComponent implements OnInit {
 
