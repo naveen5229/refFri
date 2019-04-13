@@ -106,6 +106,8 @@ export class LedgersComponent implements OnInit {
       branchcode:  ledger.branchcode,
       accnumber:   ledger.accnumber,
       creditdays:  ledger.creditdays,
+      openingbalance:  ledger.openingbalance,
+      isdr:  ledger.openingisdr,
       x_id: ledger.id ? ledger.id : 0,
     };
 

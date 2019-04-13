@@ -122,6 +122,7 @@ import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
 import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
+import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -208,8 +209,10 @@ import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
     UserCallHistoryComponent,
     DriverDistanceComponent,
     AddCityComponent,
+    SiteTripDetailsComponent,
   ],
   entryComponents: [
+    SiteTripDetailsComponent,
     UserCallHistoryComponent,
     KpisDetailsComponent,
     LocationMarkerComponent,

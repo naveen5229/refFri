@@ -49,6 +49,35 @@
               [(ngModel)]="Accounts.perrate">
           </div>
         </div>
+      </div><div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Opening Balance</label>
+          </div>
+          <div class="col-md-4">
+            <input autocomplete="off" type="text" class="form-control" name="openingbalance" [(ngModel)]="Accounts.openingbalance" id="openingbalance"
+             >
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Opening Balance</label>
+          </div>
+          <div class="col-md-4 text-center">
+            <div class="debit_box">
+              <div class="debit">
+                  <span>Debit</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="openingisdr" id="openingisdr"
+                    [(ngModel)]="Accounts.openingisdr" [value]=1>
+              </div>
+                <div class="credit">
+                    <span>Credit</span>
+                    <input autocomplete="off" type="radio" class="form-control" name="openingisdr" id="openingiscr"
+                      [(ngModel)]="Accounts.openingisdr" [value]=0>
+                </div>
+            </div>
+         
+           
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="form-group">

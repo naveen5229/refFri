@@ -4,7 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.component';
 import { UserService } from '../../@core/data/users.service';
-
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'stock-types',
@@ -146,6 +146,38 @@ export class StockTypesComponent implements OnInit {
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.stockTypes.length - 1) this.selectedRow++;
 
+    }
+  }
+  delete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'stocktype'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              this.getStockTypes();
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
     }
   }
 

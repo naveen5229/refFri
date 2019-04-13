@@ -220,8 +220,10 @@ export class CashbookComponent implements OnInit {
        if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
+        this.DayBook.startdate=  this.common.handleDateOnEnterNew(this.DayBook.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.DayBook.enddate=  this.common.handleDateOnEnterNew(this.DayBook.enddate);
         this.setFoucus('submit');
       }
     }

@@ -46,6 +46,9 @@ table{
         th:nth-child(17){
             width: 100px;
         }
+        th:last-child{
+            width: 100px;
+        }
         th:nth-child(7){
             width: 120px;
         }
@@ -100,6 +103,9 @@ table{
             td:nth-child(17){
                 width: 100px;
             }
+            td:last-child{
+                width: 100px;
+            }
             td:nth-child(4){
                 width: 200px;
             }
@@ -142,4 +148,9 @@ table tr.highlight {
 i{
     font-size: 14px;
     align-content: center;
+}
+.delete{
+    color: #D61414 !important;
+    padding: 2%;
+
 }
