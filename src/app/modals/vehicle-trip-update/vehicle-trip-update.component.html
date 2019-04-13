@@ -16,7 +16,7 @@
           class="form-control" [(ngModel)]="vehicleTrip.regno" readonly>
       </div>
     </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Last Location </label>
       </div>
@@ -29,7 +29,7 @@
           placeholder="Start lng" type="hidden" readonly [(ngModel)]="vehicleTrip.startLng">
       </div>
     </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label> Last Loc Time </label>
       </div>
@@ -39,21 +39,21 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px" *ngIf="ref_page =='placements'">
       <div class="col-md-4">
-        <label>Next Location</label>
+        <label>Choose Location</label>
       </div>
-      <div *ngIf="ref_page =='placements'">
+      <div  style="margin-left:15px">
         <label>
           <input type="radio" [(ngModel)]="vehicleTrip.locationType" value="site" name="locationType"> Site
         </label>
-        <label>
+        <label class="radio2">
           <input type="radio" [(ngModel)]="vehicleTrip.locationType" (change)="selecteCity()" value="city"
             name="locationType"> City
         </label>
       </div>
     </div>
-    <div class="row" style="margin-top:10px" *ngIf="vehicleTrip.locationType=='site'">
+    <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType=='site'">
       <div class="col-md-4">
         <label>Enter Site</label>
       </div>
@@ -63,15 +63,18 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:10px" *ngIf="vehicleTrip.locationType!='site'">
+    <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType!='site'">
       <div class="col-md-4">
         <label>Enter City</label>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-8" *ngIf="placementSuggestion.length>0">
         <button class="btn" *ngFor="let placementSuggestion of placementSuggestion; let i = index"
           (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:15px">
           {{placementSuggestion.loc_name}}
         </button>
+      </div>
+      <div class="col-md-4" *ngIf="placementSuggestion.length>0"></div>
+      <div class="col-md-4">
         <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
           [(ngModel)]="vehicleTrip.endName">
         <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left"
@@ -79,17 +82,25 @@
         <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left"
           placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
       </div>
-      <!-- <div class="col-md-3">
-          <label>
-              <input type="radio" [(ngModel)] = "cLT" (change)="changeLocationType(false)" value="city" name="changeLocationType"> City
-            </label>
-           <label>
-            <input type="radio" [(ngModel)] = "cLT" (change)="changeLocationType(true)" value="locality" name="changeLocationType"> Locality
-            </label>
-      </div> -->
+      <div class="col-md-4">
+        <label>
+          <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(false)" value="city"
+            name="changeLocationType"> City
+        </label>
+        <label class="radio2">
+          <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(true)" value="locality"
+            name="changeLocationType"> Locality
+        </label>
+      </div>
     </div>
 
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
+      <div class="col-md-4"></div>
+
+    </div>
+
+
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Purpose </label>
       </div>
@@ -102,7 +113,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Target Time</label>
       </div>
@@ -113,39 +124,41 @@
           [(ngModel)]="vehicleTrip.targetTime" placeholder="Exit Time" autocomplete="off" (click)="openReminderModal()">
       </div>
     </div>
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="updateTrip();"
+          style="cursor:pointer;background-color:#6ac8ff;">Update</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="modal-footer">
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
-    </div>
-    <div class="col">
-      <button class="btn btn-primary" (click)="updateTrip();"
-        style="cursor:pointer;background-color:#6ac8ff;">Update</button>
-    </div>
-  </div>
-</div>
-<table class="table table-bordered table-hover">
-  <thead class="thead">
-    <tr>
-      <th>#</th>
-      <th>Location</th>
-      <th>Purpose</th>
-      <th>Target Time</th>
-      <th>Add Time</th>
-      <th>Delete</th>
-    </tr>
 
-  </thead>
-  <tbody>
-    <tr *ngFor="let placement of placements">
-      <td>{{placement.id}}</td>
-      <td>{{placement.location}}</td>
-      <td>{{placement.purpose}}</td>
-      <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-      <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-      <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table table-bordered table-hover">
+    <thead class="thead">
+      <tr>
+        <th>#</th>
+        <th>Location</th>
+        <th>Purpose</th>
+        <th>Target Time</th>
+        <th>Add Time</th>
+        <th>Delete</th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let placement of placements">
+        <td>{{placement.id}}</td>
+        <td>{{placement.location}}</td>
+        <td>{{placement.purpose}}</td>
+        <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
