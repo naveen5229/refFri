@@ -65,7 +65,7 @@ export class VehicleDistanceComponent implements OnInit {
       },
       settings: {
         hideHeader: true,
-        tableHeight: "74vh"
+        tableHeight: "72vh"
         
       }
     }
