@@ -36,6 +36,7 @@ export class UserCallSummaryComponent implements OnInit {
       //this.endDate = new Date().toISOString().slice(0,10) + ' 23:59:00';
       console.log(this.fromDate);
       console.log(this.endDate);
+      this.getCallSummary();
     }
 
   ngOnInit() {
@@ -135,16 +136,17 @@ export class UserCallSummaryComponent implements OnInit {
 
   
   openHistoryModel(data) {
-    console.log("data------------------/",data);
+    let endDate=this.endDate+ ' 23:59:00';
+    console.log("data------------------/",endDate);
+
     let callData = {
       vehicleId: 0,
       foAdminUserId: data._foadmusr_id,
       currentDay: this.common.dateFormatter1(this.fromDate),
-      nextDay: this.common.dateFormatter1(this.endDate)
-
+      nextDay: this.common.dateFormatter(endDate)
     }
     this.common.params = { callData: callData };
-    console.log("calldata =",this.common.params.callData );
+    console.log("calldatas =",this.common.params.callData );
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     const activeModal = this.modalService.open(UserCallHistoryComponent, {
       size: "lg",

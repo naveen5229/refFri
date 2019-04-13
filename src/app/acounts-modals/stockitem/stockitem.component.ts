@@ -14,7 +14,6 @@ export class StockitemComponent implements OnInit {
   StockTypeItemsdata = [];
   stockItem = {
     name: '',
-    code: null,
     maxlimit: null,
     minlimit: null,
     isactive: true,
@@ -66,7 +65,6 @@ export class StockitemComponent implements OnInit {
     if (this.common.params) {
       this.stockItem = {
         name: this.common.params.name,
-        code: this.common.params.code,
         unit: {
           name: this.common.params.stockunitname,
           id: this.common.params.stockunit_id

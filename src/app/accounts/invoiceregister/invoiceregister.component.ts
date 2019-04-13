@@ -159,8 +159,10 @@ export class InvoiceregisterComponent implements OnInit {
       } else if (this.activeId.includes('ledger')) {
         this.setFoucus('code');
       } else if (this.activeId.includes('startdate')) {
+        this.invoiceRegister.startDate = this.common.handleDateOnEnterNew(this.invoiceRegister.startDate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.invoiceRegister.endDate = this.common.handleDateOnEnterNew(this.invoiceRegister.endDate);
         this.setFoucus('submit');
       } else if (this.activeId.includes('custcode')) {
         this.setFoucus('startdate');

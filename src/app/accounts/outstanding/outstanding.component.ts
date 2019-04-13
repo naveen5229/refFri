@@ -167,8 +167,10 @@ export class OutstandingComponent implements OnInit {
       if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
+        this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
     }
