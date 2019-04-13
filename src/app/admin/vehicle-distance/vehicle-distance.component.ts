@@ -31,6 +31,7 @@ export class VehicleDistanceComponent implements OnInit {
     this.data.foid = user.id;
   }
   getDistance() {
+    
     this.data.startDate = this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-");
     this.data.endDate = this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-");
     console.log("Data:", this.data);
@@ -39,7 +40,7 @@ export class VehicleDistanceComponent implements OnInit {
       fromTime: this.data.startDate,
       tTime: this.data.endDate,
     };
-    this.common.loading++;
+   
     this.api.post('vehicles/foVehicleDistance', params)
       .subscribe(res => {
         this.common.loading--;
