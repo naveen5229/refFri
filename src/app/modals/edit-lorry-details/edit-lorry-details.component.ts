@@ -377,7 +377,6 @@ export class EditLorryDetailsComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
     this.lrDate= year + '-' + month + '-' + date;
-
     console.log('Date: ', this.lrDate);
   }
 
