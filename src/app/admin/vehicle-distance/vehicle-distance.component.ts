@@ -11,8 +11,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class VehicleDistanceComponent implements OnInit {
 data ={
   foid:'',
-  startDate : '',
-  endDate : '',
+  startDate : null,
+  endDate : null,
 
 };
 distance =[];
