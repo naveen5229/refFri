@@ -331,3 +331,9 @@ nb-card{
   top: 40%;
   transform: translate(0%,-50%) !important;
 }
+/* .print-lr {
+  background-color: #fff;
+} */
+.test .layout{
+  display: none !important;
+}
