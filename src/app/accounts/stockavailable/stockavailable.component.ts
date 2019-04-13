@@ -151,6 +151,7 @@ export class StockavailableComponent implements OnInit {
         }
         this.setFoucus('date');
       } else if (this.activeId.includes('date')) {
+        this.stockAvailable.date = this.common.handleDateOnEnterNew(this.stockAvailable.date);
         this.setFoucus('submit');
       }
 

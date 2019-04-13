@@ -253,8 +253,10 @@ export class BankbooksComponent implements OnInit {
     if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
+        this.bankBook.startdate = this.common.handleDateOnEnterNew(this.bankBook.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.bankBook.enddate = this.common.handleDateOnEnterNew(this.bankBook.enddate);
         this.setFoucus('submit');
       }
     }
