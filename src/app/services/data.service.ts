@@ -154,7 +154,12 @@ export class DataService {
         link: '/admin/sub-sites',
         home: true,
       },
-
+      {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+        home: true,
+      }
     ];
   }
 }
