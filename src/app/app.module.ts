@@ -121,6 +121,9 @@ import {NgxPrintModule} from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { EditFillingComponent } from './modals/edit-filling/edit-filling.component';
+import { AddPumpComponent } from './modals/add-pump/add-pump.component';
+import { ImportFillingsComponent } from './modals/import-fillings/import-fillings.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -206,6 +209,9 @@ import { DriverDistanceComponent } from './modals/driver-distance/driver-distanc
     WareHouseModalComponent,
     UserCallHistoryComponent,
     DriverDistanceComponent,
+    EditFillingComponent,
+    AddPumpComponent,
+    ImportFillingsComponent,
   ],
   entryComponents: [
     UserCallHistoryComponent,
@@ -251,7 +257,8 @@ import { DriverDistanceComponent } from './modals/driver-distance/driver-distanc
     EmpDashboardComponent,
     DocumentIssuesComponent,
     DriverDistanceComponent,
-    //LicenceUploadComponent,
+	AddPumpComponent,
+	//LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -284,9 +291,8 @@ import { DriverDistanceComponent } from './modals/driver-distance/driver-distanc
     UpdateTransportAgentComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-    TripDetailsComponent,
-    PendingLicenceDetailComponent,
-    WareHouseModalComponent
+	EditFillingComponent,
+	ImportFillingsComponent
   ],
   imports: [
     BrowserModule,

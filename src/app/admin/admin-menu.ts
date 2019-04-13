@@ -134,6 +134,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/sub-sites',
         home: true,
+    },
+    {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+        home: true,
     }
 
 

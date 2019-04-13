@@ -1,3 +1,14 @@
-<p>
-  fuel-fillings works!
-</p>
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h4>Fuel Fillings</h4>
+  </nb-card-header>
+
+  <nb-card-body style="padding-top:0px; ">
+      
+    <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()" style="margin-bottom:15px; margin-right: 10px; cursor: pointer;">Add Fuel</button>
+    <button id="import-csv" name="import-csv" class="btn btn-primary" (click)="addCsv()" style="margin-bottom:15px; margin-right: 10px; cursor: pointer;">Import CSV</button>
+    
+    <smart-table *ngIf="fillingData.length" [data]="table.data" [settings]="table.settings" id="tblfillings"></smart-table>
+    <br>
+  </nb-card-body>
+</nb-card>
