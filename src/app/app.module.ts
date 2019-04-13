@@ -124,6 +124,7 @@ import { DriverDistanceComponent } from './modals/driver-distance/driver-distanc
 import { EditFillingComponent } from './modals/edit-filling/edit-filling.component';
 import { AddPumpComponent } from './modals/add-pump/add-pump.component';
 import { ImportFillingsComponent } from './modals/import-fillings/import-fillings.component';
+import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -212,6 +213,7 @@ import { ImportFillingsComponent } from './modals/import-fillings/import-filling
     EditFillingComponent,
     AddPumpComponent,
     ImportFillingsComponent,
+    AddCityComponent,
   ],
   entryComponents: [
     UserCallHistoryComponent,
@@ -292,7 +294,11 @@ import { ImportFillingsComponent } from './modals/import-fillings/import-filling
     VehicleAnalysisComponent,
     RouteMapperComponent,
 	EditFillingComponent,
-	ImportFillingsComponent
+	ImportFillingsComponent,
+    TripDetailsComponent,
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
+    AddCityComponent
   ],
   imports: [
     BrowserModule,
