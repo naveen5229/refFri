@@ -73,20 +73,20 @@
               <owl-date-time #date1></owl-date-time>
               </div>
               <div class="col-md-2 offset-md-08">
-                <button type="submit" class="btn btn-primary" (click)="VehicleGpsTrail()">VehicleGpsTrail</button>
+                <button type="submit" class="btn btn-primary" (click)="result(1)">VehicleGpsTrail</button>
               </div>
               <div class="col-md-2 offset-md-08">
-                <button type="submit" class="btn btn-primary" (click)="VehicleTrail()">VehicleTrail</button>
+                <button type="submit" class="btn btn-primary" (click)="result(2)">VehicleTrail</button>
               </div>
               <div class="col-md-2 offset-md-08">
-                <button type="submit" class="btn btn-primary" (click)="VehicleHalts()">VehicleHalts</button>
+                <button type="submit" class="btn btn-primary" (click)="result(3)">VehicleHalts</button>
               </div>
             </div>
           </form>
         </div>
       </div> 
       
-      <!-- <smart-table  *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings" ></smart-table> -->
+      <smart-table  *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings" ></smart-table>
     
     </nb-card-body>
   </nb-card>
