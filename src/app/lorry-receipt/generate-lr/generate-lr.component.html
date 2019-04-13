@@ -197,10 +197,10 @@
                 <td>
                   <input type="text" class="form-control" [(ngModel)]="particular.material_value">
                 </td>
-                <td *ngIf="i == particulars.length-1"><button
+                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary"
                     (click)="particular.customField = true; particular.customButton = false"
                     *ngIf="particular.customButton">Add Fields</button></td>
-                <td *ngIf="i == particulars.length-1"><button (click)="addMore()">Add Materials</button></td>
+                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary" (click)="addMore()">Add Materials</button></td>
                 <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
               </tr>
     
