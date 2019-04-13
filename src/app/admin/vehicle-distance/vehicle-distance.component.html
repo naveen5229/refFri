@@ -2,7 +2,7 @@
   <nb-card-header>
     <h4>Vehicle Distance</h4>
   </nb-card-header>
-  <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+  <nb-card-body style="padding-bottom: 0px; min-height: 420px;">
     <div class="container">
       <div class="row">
         <form class="w-100">
@@ -12,12 +12,12 @@
                 placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
             </div>
             <div class="col-md-2 pr-0">
-              <input [(ngModel)]="data.startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
+              <input [(ngModel)]="data.startDate" [value]="data.startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
                 placeholder="Start Time" class="form-control" autocomplete="off" name="s-date">
               <owl-date-time #sDate></owl-date-time>
             </div>
             <div class="col-md-2 pr-0">
-              <input [(ngModel)]="data.endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate "
+              <input [(ngModel)]="data.endDate" [value]="data.endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate "
                 placeholder="End Time" class="form-control" autocomplete="off" name="e-date">
               <owl-date-time #eDate></owl-date-time>
             </div>
@@ -28,7 +28,7 @@
           </div>
         </form>
       </div>
-      <div class="row" *ngIf="distance.length">
+      <!-- <div class="row" *ngIf="distance.length">
         <table class="tbl table table-bordered table-hover">
           <thead class="thead">
             <tr>
@@ -45,8 +45,8 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+      </div>-->
+    </div> 
 
     <smart-table  *ngIf="distance.length" [data]="table.distance" [settings]="table.settings" ></smart-table>
         <br>
