@@ -13,23 +13,23 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 })
 export class VehicleGpsTrailComponent implements OnInit {
 
-  startDate='';
-  endDate='';
-  vId='';
-  gpsTrail=[];
+  startDate = '';
+  endDate = '';
+  vId = '';
+  gpsTrail = [];
 
   constructor(public api: ApiService, public common: CommonService,
     private theme: NbThemeService,
     public user: UserService,
     public datepipe: DatePipe,
-    public modalService: NgbModal) { 
-      let today;
-      today = new Date();
-      this.endDate = this.common.dateFormatter(today);
-      this.startDate=this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
-      console.log('dates ',this.endDate,this.startDate)
-      this.getVehicleGpsTrail();
-    }
+    public modalService: NgbModal) {
+    let today;
+    today = new Date();
+    this.endDate = this.common.dateFormatter(today);
+    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
+    console.log('dates ', this.endDate, this.startDate)
+    this.VehicleGpsTrail();
+  }
 
   ngOnInit() {
   }
@@ -38,7 +38,7 @@ export class VehicleGpsTrailComponent implements OnInit {
     this.vId = vehicleList.id;
   }
 
-  getVehicleGpsTrail(){
+  VehicleGpsTrail() {
     this.startDate = this.common.dateFormatter(this.startDate);
     this.endDate = this.common.dateFormatter(this.endDate);
 
@@ -54,10 +54,10 @@ export class VehicleGpsTrailComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res['data'])
         this.gpsTrail = res['data'];
-        console.log('gpstrail',this.gpsTrail);
+        console.log('gpstrail', this.gpsTrail);
         if (!(res['data'].length))
           this.common.showToast('record empty !!');
-              
+
       }, err => {
         this.common.loading--;
         this.common.showError();
