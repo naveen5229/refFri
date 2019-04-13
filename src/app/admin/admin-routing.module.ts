@@ -23,8 +23,10 @@ import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { DriverListComponent } from '../driver/driver-list/driver-list.component';
+import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
+import { VehicleDistanceComponent} from './vehicle-distance/vehicle-distance.component';
 
 const routes: Routes = [{
     path: '',
@@ -128,11 +130,11 @@ const routes: Routes = [{
             component: DriverListComponent,
             canActivate: [RouteGuard]
         },
-        //{
-        //    path: 'gps-trails',
-        //    component: GpsTrailsComponent,
-        //    canActivate: [RouteGuard]
-        //},
+        {
+            path: 'vehicle-gps-trail',
+            component: VehicleGpsTrailComponent,
+            canActivate: [RouteGuard]
+        },
         {
             path: 'fuel-fillings',
             component: FuelFillingsComponent,
@@ -141,6 +143,11 @@ const routes: Routes = [{
         {
             path: 'sub-sites',
             component: SubSitesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicle-distance',
+            component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
 

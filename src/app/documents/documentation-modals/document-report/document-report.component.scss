@@ -13,6 +13,10 @@
     background: cornsilk;
     // display: none;
 }
+:host ::ng-deep .tag .no-search span {
+    color: black;
+
+}
 :host ::ng-deep.red {
     background: red;
     color: #fff;

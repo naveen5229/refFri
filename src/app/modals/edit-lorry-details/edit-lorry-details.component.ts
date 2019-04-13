@@ -234,7 +234,7 @@ export class EditLorryDetailsComponent implements OnInit {
     //if(!this.dateByIcon)
     
     this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
-    this.lrDate = this.common.dateFormatter(this.lrDate);
+    this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
     console.log('tempDate',this.tempDate);
     // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
     let params = {
@@ -375,7 +375,8 @@ export class EditLorryDetailsComponent implements OnInit {
     let date = dateValue[0] + dateValue[1];
     let month = dateValue[2] + dateValue[3];
     let year = dateValue.substring(4, 8);
-    this.lrDate= date + '/' + month + '/' + year;
+    // this.lrDate= date + '/' + month + '/' + year;
+    this.lrDate= year + '-' + month + '-' + date;
     console.log('Date: ', this.lrDate);
   }
 

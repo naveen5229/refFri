@@ -9,9 +9,9 @@
   <thead style="background-color: #263238; color:#fff;">
     <tr>
         <th>#</th>
+        <th>Stock Type</th>
         <th>Stock Sub Type</th>
         <th>Name</th>
-        <th>Code</th>
         <th>Date</th>
         <th>Action</th>
       </tr>
@@ -21,11 +21,14 @@
     (dblclick)="openStockItemModal(stockItem)" (enter)="openStockItemModal(stockItem)"
     [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
+        <td>{{stockItem.stocktype_name}}</td>
         <td>{{stockItem.stoctsubtypename}}</td>
         <td>{{stockItem.name}}</td>
-        <td>{{stockItem.code}}</td>
         <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
-       <td><button class="btn" (click)="delete(stockItem.id)"><i class="fa fa-trash"></i></button></td>
+        <td class="del">
+          <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
+              class="fa fa-trash"></i></a>
+        </td>
       </tr>
   </tbody>
   

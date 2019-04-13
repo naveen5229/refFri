@@ -5,14 +5,14 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'user-call-history',
-  templateUrl: './user-call-history.component.html',
-  styleUrls: ['./user-call-history.component.scss']
+  selector: 'site-trip-details',
+  templateUrl: './site-trip-details.component.html',
+  styleUrls: ['./site-trip-details.component.scss']
 })
-export class UserCallHistoryComponent implements OnInit {
-  callHistory = [];
+export class SiteTripDetailsComponent implements OnInit {
+  siteTripData = [];
   headings = [];
-callData = null;
+dataForView = null;
   table = {
     data: {
       headings: {        
@@ -30,8 +30,9 @@ callData = null;
     public user: UserService,
     private activeModal : NgbActiveModal
   ) {
-    this.callData = this.common.params.callData;
-    console.log("call data",this.callData)
+    this.common.handleModalSize('class', 'modal-lg', '1400');
+    this.dataForView = this.common.params.dataForView;
+    console.log("dataForView",this.dataForView)
     this.getReport();
    }
 
@@ -53,29 +54,29 @@ callData = null;
     this.common.loading++;
     this.headings = [];
     let params = {
-      vehicleId :this.callData.vehicleId,
-      foAdminUserId : this.callData.foAdminUserId,
-      currentDay : this.callData.currentDay,
-      nextDay : this.callData.nextDay  
+      userId :this.dataForView.userId,
+      siteId : this.dataForView.siteId,
+      status : this.dataForView.status,
     };
 
     console.log("params",params);
-    this.api.post('FoDetails/userCallHistoryLogs',params)
+    this.api.post('TripsOperation/tripDetailsSiteWise',params)
       .subscribe(res => {
         this.common.loading--;
         this.resetDisplayTable();
-        this.callHistory = JSON.parse(res['data'][0].get_callslog_hist);
-        if(this.callHistory == null || res['data'] == null) {
-          console.log("callHistory",this.callHistory);
-          this.callHistory = [];
+        console.log("siteTripData",res['data']);
+       this.siteTripData = JSON.parse(res['data'][0].fn_site_tripdetails);
+        if(this.siteTripData == null || res['data'] == null) {
+          console.log("siteTripData",this.siteTripData);
+          this.siteTripData = [];
           this.resetDisplayTable();
         }
-        console.info("callHistory Data", this.callHistory);
+        console.info("siteTripData Data", this.siteTripData);
 
-        let first_rec = this.callHistory[0];
+        let first_record = this.siteTripData[0];
         this.table.data.headings = {};
-        console.log("first_rec",first_rec);
-        for(var key in first_rec) {
+        console.log("first_record",first_record);
+        for(var key in first_record) {
           if(key.charAt(0) != "_") {
             this.headings.push(key);
             let hdgobj = {title: this.formatTitle(key), placeholder: this.formatTitle(key)};
@@ -108,10 +109,10 @@ callData = null;
 
   getTableColumns() {
     let columns = [];
-    this.callHistory.map(drvrec => {
+    this.siteTripData.map(std => {
       let valobj = {};
       for(var i = 0; i < this.headings.length; i++) {
-        let val = drvrec[this.headings[i]];
+        let val = std[this.headings[i]];
         let status = '';
         
         valobj[this.headings[i]] = { value: val, class: 'black', action: '' };       

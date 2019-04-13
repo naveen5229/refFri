@@ -157,8 +157,6 @@ export class CityComponent implements OnInit {
               this.common.showError();
             });
         }
-
-
       });
     }
   }
