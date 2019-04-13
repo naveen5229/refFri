@@ -337,3 +337,15 @@ nb-card{
 .test .layout{
   display: none !important;
 }
+.gerrate_tabel auto-suggestion input,
+.material_details auto-suggestion input{
+  border: 1px solid #000 !important;
+  box-shadow: none !important;
+  padding: 3px 5px !important;
+  height: auto !important;
+}
+.gerrate_tabel auto-suggestion{
+  width: 96% !important;
+  max-width: 96%;
+  padding-right: 0px;
+}
