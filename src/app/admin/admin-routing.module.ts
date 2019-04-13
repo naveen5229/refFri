@@ -151,11 +151,7 @@ const routes: Routes = [{
             component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
-        {
-            path: 'trail-holds',
-            component: TrailHoldsComponent,
-            canActivate: [RouteGuard]
-        },
+      
         
 
     ],

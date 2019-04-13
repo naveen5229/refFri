@@ -123,12 +123,7 @@ export class DataService {
         link: '/admin/vehicle-distance',
         home: true,
       },
-      {
-        title: 'Trail & Holds ',
-        icon: 'fas fa-route',
-        link: '/admin/trail-holds',
-        home: true,
-      },
+     
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',

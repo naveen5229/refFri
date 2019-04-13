@@ -117,12 +117,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/vehicle-distance',
         home: true,
     },
-    {
-        title: 'Trail & Holds ',
-        icon: 'fas fa-route',
-        link: '/admin/trail-holds',
-        home: true,
-    },
+ 
     {
         title: 'Vehicles View',
         icon: 'nb-home',

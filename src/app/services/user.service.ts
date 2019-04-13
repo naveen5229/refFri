@@ -52,7 +52,7 @@ export class UserService {
       { id: 22, route: '/admin/vehicle-gps-trail' },
       { id: 23, route: '/admin/sub-sites' },
       { id: 24, route: '/admin/vehicle-distance' },
-      { id: 25, route: '/admin/trail-holds' },
+  
     ]
   }
   
