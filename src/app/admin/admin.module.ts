@@ -33,6 +33,7 @@ import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TrailHoldsComponent } from './trail-holds/trail-holds.component';
 
 
 
@@ -78,6 +79,7 @@ const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     SubSitesComponent,
     VehicleDistanceComponent,
+    TrailHoldsComponent,
   ],
 })
 export class AdminModule { }

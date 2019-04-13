@@ -27,6 +27,7 @@ import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { VehicleDistanceComponent} from './vehicle-distance/vehicle-distance.component';
+import { TrailHoldsComponent } from './trail-holds/trail-holds.component';
 
 const routes: Routes = [{
     path: '',
@@ -150,6 +151,12 @@ const routes: Routes = [{
             component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'trail-holds',
+            component: TrailHoldsComponent,
+            canActivate: [RouteGuard]
+        },
+        
 
     ],
 }];

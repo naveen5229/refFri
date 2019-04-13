@@ -118,9 +118,15 @@ export class DataService {
         home: true,
       },
       {
-        title: 'Vechile Dstance',
+        title: 'Vechile Distance',
         icon: 'fas fa-route',
         link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trail & Holds ',
+        icon: 'fas fa-route',
+        link: '/admin/trail-holds',
         home: true,
       },
       {
