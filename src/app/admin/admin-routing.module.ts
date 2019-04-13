@@ -150,6 +150,8 @@ const routes: Routes = [{
             component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
+      
+        
 
     ],
 }];

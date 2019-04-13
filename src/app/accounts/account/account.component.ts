@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountsComponent } from '../../acounts-modals/accounts/accounts.component';
 import { UserService } from '../../@core/data/users.service';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 @Component({
   selector: 'account',
   templateUrl: './account.component.html',
@@ -133,6 +134,39 @@ export class AccountComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+  delete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'secondary_group'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              this.GetAccount();
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
+    }
   }
 
 }
