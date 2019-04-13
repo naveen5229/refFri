@@ -1,8 +1,8 @@
-<nb-card style="padding-top: 15px;">
+<nb-card style="padding-top: 25px; border: 0px;">
   <!-- <nb-card-header>
     <h4>Invoice Register</h4>
   </nb-card-header> -->
-<nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
+<nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
         <div class="col-9">
           <div class="row">
@@ -17,7 +17,7 @@
           <label class="tjr-label">Type</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'orderType', 'name')" url="Suggestion/GetOrderTypeList" display="name"
             placeholder="Enter Order Type" [data]="vouchertypedata" inputId="vouchertype" [preSelected]="{name:'All'}"></auto-suggestion> -->
-            <input type="text" id="voucherType" class="form-control tjr-input" name="voucherType" [(ngModel)]="invoiceRegister.voucherType.name"/>
+            <input autocomplete="off" type="text" id="voucherType" class="form-control tjr-input" name="voucherType" [(ngModel)]="invoiceRegister.voucherType.name"/>
         </div>
       </div>
       <div class="col">
@@ -26,13 +26,13 @@
             <label class="tjr-label" *ngIf="invoiceRegister.voucherType.name.toLowerCase().includes('sales')">Sales</label>
             <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger" display="name"
               placeholder="Enter Ledger" inputId="ledger" [preSelected]="{name:'All'}"></auto-suggestion> -->
-              <input type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="invoiceRegister.ledger.name">
+              <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="invoiceRegister.ledger.name">
           </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label class="tjr-label">Code</label>
-                <input type="text" class="form-control tjr-input" placeholder="Code" id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
+                <input autocomplete="off" autocomplete="off" type="text" class="form-control tjr-input" placeholder="Code" id="code" name="account-code" [(ngModel)]="invoiceRegister.code">
             </div>
           </div>
           </div>
@@ -40,7 +40,7 @@
             <div class="col">
                 <div class="form-group">
                     <label class="tjr-label">Cust Code</label>
-                    <input type="text" class="form-control tjr-input"  placeholder="Cust Code" id="custcode" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
+                    <input autocomplete="off" autocomplete="off" type="text" class="form-control tjr-input"  placeholder="Cust Code" id="custcode" name="account-custCode" [(ngModel)]="invoiceRegister.custCode">
                 </div>
               </div>
               <div class="col">
@@ -69,17 +69,18 @@
         <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
             <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name" (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
           </div> -->
+          <div class="auto-sugg">
           <div class="form-group" *ngIf="this.activeId.includes('voucherType')">
               <auto-suggetion-in-side [data]="vouchertypedata" targetId="voucherType" display="name" (select)="onSelected($event, 'voucherType', 'name')"></auto-suggetion-in-side>
             </div>
             <div class="form-group" *ngIf="this.activeId.includes('ledger')">
                 <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name" (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
               </div>
-    
+              </div>
       </div>
 </div>
 <table class="table table-bordered">
-    <thead style="background-color:#090c0e;">
+    <thead style="background-color:#263238; color:#fff;">
   <tr>
     <th>#</th>
     <th>Code</th>
@@ -91,7 +92,8 @@
     <th>Net Amount</th>
   </tr>
   </thead>
-  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;">
+  <tr *ngFor="let dataItem of invoiceRegisterData; let i = index;"  (click)="selectedRow = i"
+  [ngClass]="{'highlight' : selectedRow == i}">
     <td>{{i + 1}}</td>
     <td>{{dataItem.y_code}}</td>
     <td>{{dataItem.y_cust_code}}</td>

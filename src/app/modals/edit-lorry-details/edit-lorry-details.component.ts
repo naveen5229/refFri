@@ -84,6 +84,7 @@ export class EditLorryDetailsComponent implements OnInit {
       this.payType = this.LrData.pay_type;
       this.regno = this.LrData.regno;
       this.vehId = this.LrData.vehicle_id;
+      this.images[0]=this.LrData.lr_image;
       //this.lrDate=this.datepipe.transform(this.LrData.lr_date, 'dd/MM/yyyy');
       if (this.LrData.lr_date != null) {
         this.lrDate = this.LrData.lr_date;
@@ -137,6 +138,7 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   getDate() {
+    this.common.params={ref_page:'lrDetails'};
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -232,7 +234,7 @@ export class EditLorryDetailsComponent implements OnInit {
     //if(!this.dateByIcon)
     
     this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
-    this.lrDate = this.common.dateFormatter(this.lrDate);
+    this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
     console.log('tempDate',this.tempDate);
     // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
     let params = {
@@ -366,6 +368,20 @@ export class EditLorryDetailsComponent implements OnInit {
     console.log('getMaterialName', this.LrData.material_name);
   }
 
+  checkDateFormat() {
+    let dateValue = this.lrDate;
+    console.log('this.lrdate',this.lrDate);
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    // this.lrDate= date + '/' + month + '/' + year;
+    this.lrDate= year + '-' + month + '-' + date;
+
+    console.log('Date: ', this.lrDate);
+  }
+
+
   resetValues() {
     this.LrData.receipt_no = null;
     this.LrData.source = null;
@@ -389,5 +405,8 @@ export class EditLorryDetailsComponent implements OnInit {
     this.vehId = null;
     this.LrData.lr_date = null;
   }
+
+
+
 
 }

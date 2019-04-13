@@ -4,14 +4,15 @@
   </nb-card-header> -->
   <nb-card-body>
 <button class="btn mb-4 add-button" (click)="openStockTypeModal()"><i class="fa fa-plus"></i></button>
-<table class="table table-bordered">
+<div class="main">
+<table class="table table-bordered stocktype_tabel">
   <thead style="background-color: #263238; color:#fff;">
       <tr>
           <th>#</th>
           <th>Name</th>
           <th>Code</th>
           <th>Date</th>
-          <!-- <th>Action</th> -->
+          <th>Action</th>
         </tr>
   </thead>
   <tbody>
@@ -21,11 +22,15 @@
           <td>{{i + 1}}</td>
           <td>{{stockType.name}}</td>
           <td>{{stockType.code}}</td>
-          <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
-          <!-- <td><button class="btn" (click)="openStockTypeModal(stockType)"><i class="fa fa-edit"></i></button></td> -->
+          <td>{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
+          <td class="del">
+            <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockType.id)"><i
+                class="fa fa-trash"></i></a>
+          </td>
         </tr>
   </tbody>
   
 </table>
+</div>
 </nb-card-body>
 </nb-card>

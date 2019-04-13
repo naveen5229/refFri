@@ -9,27 +9,26 @@
 <div class="modal-body">
 
   <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label>User</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
-        <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-        inputId="user" name="user" placeholder="Enter User" [preSelected]="null"></auto-suggestion>
-      </div>
-    </div>
-    <div class="col">
+  
+    <div class="col-4">
       <div class="form-group">
         <label>Parent Account Name</label>
-        <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
-        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion>
+        <!-- <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount" display="name"
+        inputId="account" name="account" placeholder="Search Parent Account" [preSelected]="{name:Accounts.account.name}"></auto-suggestion> -->
+        <input autocomplete="off" type="text" id="account" class="form-control tjr-input" name="account"
+        [(ngModel)]="Accounts.account.name">
       </div>
     </div>
-    <div class="col">
+    <div class="col-4">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
+        <input autocomplete="off" type="text" class="form-control" name="account-name" id="name" [(ngModel)]="Accounts.name">
       </div>
     </div>
+    <div class="col-4">
+        <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+        [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
+      </div>
   </div>
 
 </div>

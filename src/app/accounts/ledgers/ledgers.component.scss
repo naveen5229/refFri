@@ -11,24 +11,30 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+.main{
+    display: block;
+    margin-top: 20px;
+}
 table{
-    margin-top: 30px;
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
         }
         th:nth-child(1){
-            width: 10px;
+            width: 35px;
+        }
+        th:nth-child(2){
+            width: 440px;
         }
         th:nth-child(3),
-        th:nth-child(4),
-        th:nth-child(5),
-        th:nth-child(7){
-            width: 150px;
-        }
-        th:nth-child(6){
-            width: 80px;
+        th:nth-child(4){
+            width: 200px;
         }
         td{
             padding: 5px 10px !important;
@@ -46,6 +52,27 @@ table{
         }
     }
     tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 172px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 35px;
+            }
+            td:nth-child(2){
+                width: 440px;
+            }
+            td:nth-child(3),
+            td:nth-child(4){
+                width: 200px;
+            }
+        }
         tr:nth-child(odd){
             background-color: #fff;
         }
@@ -53,7 +80,7 @@ table{
             background-color: #e4e4e4;
         }
     }
-} 
+}
 .add-button{
     position: fixed;
     bottom: 10px;

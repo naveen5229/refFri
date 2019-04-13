@@ -25,7 +25,7 @@
           </thead>
 
           <tbody class="">
-            <ng-container *ngIf="data != 'undefined'">
+            <ng-container *ngIf="data.length">
               <tr *ngFor="let row of data; let i = index" class="">
               
                   <td style="width:5%;">{{i + 1}}</td>
@@ -36,13 +36,13 @@
                   <td class="del" style="width: 120px;">
                     <a href="javascript: void(0);" title="Edit Licence" (click)="showDetails(row)"><i
                         class="icon ion-md-create"></i></a>&nbsp;
-                    <a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
-                        class="fa fa-trash"></i></a>
+                    <!--<a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
+                        class="fa fa-trash"></i></a>-->
                     </td>
                 
               </tr>
             </ng-container>
-            <tr *ngIf="data == 'undefined' || data.length == 0">
+            <tr *ngIf="!data.length">
               <td colspan="2" style="text-align: center;">No Records found</td>
             </tr>
           </tbody>
@@ -85,8 +85,12 @@
             <div class="row form-field clear mgn-vert">
               <label for="empname" class="col-sm-4 mgn-vert">Name</label>
 
-              <div class="col-sm-8 ">
+              <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8" style="padding-left: 0px;">
                 <label style="font-size:16px;">{{modal.first.data.driver.empname}}</label>               
+              </div>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
+                <input *ngIf="modal.first.data.canUpdate" id="newempname-first" name="newempname-first" type="text" class="form-control "
+                  [(ngModel)]="modal.first.data.driver.newempname" />
               </div>
             </div>
 
@@ -98,7 +102,7 @@
 
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
                 <input *ngIf="modal.first.data.canUpdate" id="newlicence_no-first" name="newlicence_no-first" type="text" class="form-control "
-                  [(ngModel)]="modal.first.data.driver.newlicenceno" (keyup)="this.validateLicenceno($event)" />
+                  [(ngModel)]="modal.first.data.driver.newlicenceno" (keyup)="this.validateLicenceno($event)"  (focusout)="openNextModal('second')" />
               </div>
             </div>
 
@@ -184,6 +188,19 @@
                 class="form-control chk-dl" type="checkbox" [(ngModel)]="modal.first.data.driver.hcv"
                 [value]="modal.first.data.driver.hcv" />HCV</div>
               </div>              
+            </div>
+
+            <div class="row form-field clear">
+              <label for="address-first" class="col-sm-4">Address</label>
+              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
+                <textarea id="address-first" name="address-first" rows="2" class="form-control "
+                  [(ngModel)]="modal.first.data.driver.address"
+                  [value]="modal.first.data.driver.address"></textarea>
+                <!--<input #address_first *ngIf="modal.first.data.canUpdate" id="address-first"
+                  name="address-first" style="max-width: 100%" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
+                  [(ngModel)]="modal.first.data.driver.address" [value]="modal.first.data.driver.address"
+                  placeholder="Address" />-->
+              </div>
             </div>
 
             <div class="row form-field clear">
@@ -275,8 +292,12 @@
             <div class="row form-field clear mgn-vert">
               <label for="empname" class="col-sm-4 mgn-vert">Name</label>
 
-              <div class="col-sm-8 ">
+              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8" style="padding-left: 0px;">
                 <label style="font-size:16px;">{{modal.second.data.driver.empname}}</label>               
+              </div>
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
+                <input *ngIf="modal.second.data.canUpdate" id="newempname-second" name="newempname-second" type="text" class="form-control "
+                  [(ngModel)]="modal.second.data.driver.newempname" />
               </div>
             </div>
 
@@ -288,7 +309,7 @@
 
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
                 <input *ngIf="modal.second.data.canUpdate" id="newlicence_no-second" name="newlicence_no-second" type="text" class="form-control "
-                  [(ngModel)]="modal.second.data.driver.newlicenceno" (keyup)="this.validateLicenceno($event)" />
+                  [(ngModel)]="modal.second.data.driver.newlicenceno" (keyup)="this.validateLicenceno($event)"   (focusout)="openNextModal('first')"  />
               </div>
             </div>
 
@@ -374,6 +395,19 @@
                 class="form-control chk-dl" type="checkbox" [(ngModel)]="modal.second.data.driver.hcv"
                 [value]="modal.second.data.driver.hcv" />HCV</div>
               </div>              
+            </div>
+
+            <div class="row form-field clear">
+              <label for="address-second" class="col-sm-4">Address</label>
+              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
+                <textarea id="address-second" name="address-second" rows="2" class="form-control "
+                  [(ngModel)]="modal.second.data.driver.address"
+                  [value]="modal.second.data.driver.address"></textarea>
+                <!--<input #address_second *ngIf="modal.second.data.canUpdate" id="address-second"
+                  name="address-second" style="max-width: 100%" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
+                  [(ngModel)]="modal.second.data.driver.address" [value]="modal.second.data.driver.address"
+                  placeholder="Address" />-->
+              </div>
             </div>
 
             <div class="row form-field clear">

@@ -37,12 +37,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/alert-related-issue',
         home: true,
     },
-    // {
-    //     title: 'LR View',
-    //     icon: 'nb-home',
-    //     link: '/admin/lrview',
-    //     home: true,
-    // },
+    {
+        title: 'Driver',
+        icon: 'nb-home',
+        link: '/admin/driver-list',
+        home: true,
+    },
     {
         title: 'Generate LR',
         icon: 'nb-home',
@@ -127,6 +127,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Transport Agents',
         icon: 'nb-home',
         link: '/admin/transport-agents',
+        home: true,
+    },
+    {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+    },
+    {
+        title: 'Vechile Dstance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
         home: true,
     }
 

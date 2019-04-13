@@ -75,7 +75,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
 import { 
   MatFormFieldModule,
   MatMenuModule,
@@ -118,6 +117,12 @@ import { RouteMapperComponent } from './modals/route-mapper/route-mapper.compone
 import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
 import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
 import { ResizableModule } from 'angular-resizable-element';
+import {NgxPrintModule} from 'ngx-print';
+import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
+import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
+import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
+import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -199,9 +204,16 @@ import { ResizableModule } from 'angular-resizable-element';
     TripDetailsComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
-    PendingLicenceDetailComponent
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
+    UserCallHistoryComponent,
+    DriverDistanceComponent,
+    AddCityComponent,
+    SiteTripDetailsComponent,
   ],
   entryComponents: [
+    SiteTripDetailsComponent,
+    UserCallHistoryComponent,
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
@@ -243,6 +255,7 @@ import { ResizableModule } from 'angular-resizable-element';
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
+    DriverDistanceComponent,
     //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
@@ -277,7 +290,9 @@ import { ResizableModule } from 'angular-resizable-element';
     VehicleAnalysisComponent,
     RouteMapperComponent,
     TripDetailsComponent,
-    PendingLicenceDetailComponent
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
+    AddCityComponent
   ],
   imports: [
     BrowserModule,
@@ -297,6 +312,7 @@ import { ResizableModule } from 'angular-resizable-element';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPrintModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']

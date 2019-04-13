@@ -4,7 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockTypeComponent } from '../../acounts-modals/stock-type/stock-type.component';
 import { UserService } from '../../@core/data/users.service';
-
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'stock-types',
@@ -22,10 +22,14 @@ export class StockTypesComponent implements OnInit {
     public modalService: NgbModal) {
     this.getStockTypes();
     this.common.currentPage = 'Stock Types';
-
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    console.log('Refresh');
+    this.getStockTypes();
   }
 
   getStockTypes() {
@@ -49,22 +53,45 @@ export class StockTypesComponent implements OnInit {
 
   openStockTypeModal(stockType?) {
     if (stockType) {
-      console.log("data:",stockType);
-      this.common.params =  stockType ;
-      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false,  windowClass : "accountModalClass" });
+      console.log("data:", stockType);
+      this.common.params = stockType;
+      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
-          if (stockType) {
-            this.updateStockType(stockType.id, data.stockType);
-            return;
-          }
+          const params = {
+            foid: 123,
+            name: data.stockType.name,
+            code: data.stockType.code,
+            id: stockType.id
+          };
+      
+          this.common.loading++;
+      
+          this.api.post('Stock/UpdateStockType', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              let result = res['data'][0].save_stocktype;
+              if (result == '') {
+                this.common.showToast(" Stock Type Update");
+              }
+              else {
+                this.common.showToast(result);
+              }
+              this.getStockTypes();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError();
+            });       
+          
         }
       });
     }
     else {
       this.common.params = null;
-      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      const activeModal = this.modalService.open(StockTypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         if (data.response) {
@@ -93,7 +120,13 @@ export class StockTypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.common.showToast(res['data'][0].save_stocktype);
+        let result = res['data'][0].save_stocktype;
+        if (result == '') {
+          this.common.showToast(" Stock Type Add");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.getStockTypes();
       }, err => {
         this.common.loading--;
@@ -103,28 +136,7 @@ export class StockTypesComponent implements OnInit {
 
   }
 
-  updateStockType(id, stockType) {
-    const params = {
-      foid: 123,
-      name: stockType.name,
-      code: stockType.code,
-      id: id
-    };
-
-    this.common.loading++;
-
-    this.api.post('Stock/UpdateStockType', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res);
-        this.common.showToast(res['data'][0].save_stocktype);
-        this.getStockTypes();
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-  }
+ 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
@@ -134,6 +146,38 @@ export class StockTypesComponent implements OnInit {
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.stockTypes.length - 1) this.selectedRow++;
 
+    }
+  }
+  delete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'stocktype'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              this.getStockTypes();
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
     }
   }
 

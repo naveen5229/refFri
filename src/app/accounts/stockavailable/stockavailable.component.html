@@ -1,4 +1,4 @@
-<nb-card style="margin-top: 26px; border: 0px;">
+<nb-card style="border: 0px; padding-top: 25px;">
   <!-- <nb-card-header>
     <h4>Day Book</h4>
   </nb-card-header> -->
@@ -9,14 +9,14 @@
           <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Stock Type</label>
-              <input type="text" id="stocktype" class="form-control tjr-input" name="stocktype"
+              <input autocomplete="off" type="text" id="stocktype" class="form-control tjr-input" name="stocktype"
                 [(ngModel)]="stockAvailable.stocktype.name">
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
               <label class="tjr-label">Stock Sub Type</label>
-              <input type="text" id="stocksubtype" class="form-control tjr-input" name="stocksubtype"
+              <input autocomplete="off" type="text" id="stocksubtype" class="form-control tjr-input" name="stocksubtype"
                 [(ngModel)]="stockAvailable.stocksubtype.name">
             </div>
           </div>
@@ -25,7 +25,7 @@
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">Stock Item</label>
-              <input type="text" id="stockitem" class="form-control tjr-input" name="stockitem"
+              <input autocomplete="off" type="text" id="stockitem" class="form-control tjr-input" name="stockitem"
                 [(ngModel)]="stockAvailable.stockitem.name">
             </div>
           </div>
@@ -45,8 +45,10 @@
         </div>
       </div>
       <div class="col-3">
+          <div class="auto-sugg">
         <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
         [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
+      </div>
       </div>
     </div>
 

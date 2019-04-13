@@ -50,11 +50,12 @@ export class DataService {
         link: '/admin/alert-related-issue',
         home: true,
       },
-      // {
-      //   title: 'LR View',
-      //   icon: 'fa fa-info-circle',
-      //   link: '/admin/lrview',
-      // },
+      {
+        title: 'Driver',
+        icon: 'nb-home',
+        link: '/admin/driver-list',
+        home: true,
+      },
       {
         title: 'Generate LR',
         icon: 'fa fa-pencil',
@@ -109,7 +110,12 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      },   
+      }, 
+      {
+        title: 'Vehicle Gps Trail',
+        icon: 'fas fa-receipt',
+        link: '/admin/vehicle-gps-trail',
+      },  
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -127,13 +133,25 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/company-details',
         home: true,
-    },
-    {
-      title: 'Transport Agents',
-      icon: 'nb-home',
-      link: '/admin/transport-agents',
-      home: true,
-  }
+      },
+      {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+      },
+      {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+      },
+      {
+        title: 'Vechile Dstance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    }
     ];
   }
 }

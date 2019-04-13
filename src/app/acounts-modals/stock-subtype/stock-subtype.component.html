@@ -29,24 +29,24 @@
         <label>Stock Type</label>
         <!-- <auto-suggestion (onSelected)="onSelected($event, 'stocktype', 'name')" url="Suggestion/getStocktype" display="name"
         placeholder="Enter User" inputId="stocktype" name="stocktype" [preSelected]="null"></auto-suggestion> -->
-        <input type="text" id="stocktype" class="form-control tjr-input" name="stockType"
+        <input autocomplete="off" type="text" id="stockType" class="form-control tjr-input" name="stockType" placeholder="Stock Type"
         [(ngModel)]="stockSubType.stockType.name">
       </div>
     </div>
     <div class="col-3">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="stock-name" id="stock-name" [(ngModel)]="stockSubType.name">
+        <input autocomplete="off" type="text" class="form-control" name="stock-name" id="stock-name" placeholder=" Name" [(ngModel)]="stockSubType.name">
       </div>
     </div>
     <div class="col-3">
       <div class="form-group">
         <label>Code</label>
-        <input type="text" class="form-control" name="stock-code" id="stock-code" [(ngModel)]="stockSubType.code">
+        <input autocomplete="off" type="text" class="form-control" name="stock-code" placeholder="Code" id="stock-code" [(ngModel)]="stockSubType.code">
       </div>
     </div>
     <div class="col-3">
-      <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+      <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
       [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
     </div>
 
@@ -73,7 +73,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button  (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>
@@ -81,7 +81,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you sure want to close ?</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

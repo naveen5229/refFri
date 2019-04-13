@@ -23,6 +23,10 @@ import { OutstandingComponent } from './outstanding/outstanding.component';
 import { BalancesheetComponent } from './balancesheet/balancesheet.component';
 import { ProfitlossComponent } from './profitloss/profitloss.component';
 import { StockavailableComponent } from './stockavailable/stockavailable.component';
+import { WareHouseComponent } from './ware-house/ware-house.component';
+import { CashbookComponent } from './cashbook/cashbook.component';
+import { BankbooksComponent } from './bankbooks/bankbooks.component';
+import { CityComponent } from './city/city.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -55,7 +59,11 @@ const PAGES_COMPONENTS = [
     OutstandingComponent,
     BalancesheetComponent,
     ProfitlossComponent,
-    StockavailableComponent
+    StockavailableComponent,
+    WareHouseComponent,
+    CashbookComponent,
+    BankbooksComponent,
+    CityComponent
     //StockSubtypeComponent
   ],
 })

@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
 
   openChangeModal() {
     console.log("open change modal");
-    this.modalService.open(CustomerSelectionComponent, { size: 'md', container: 'nb-layout' });
+    this.modalService.open(CustomerSelectionComponent, { size: 'md', container: 'nb-layout', windowClass: 'admin-popup' });
   }
 
   backTOHome() {

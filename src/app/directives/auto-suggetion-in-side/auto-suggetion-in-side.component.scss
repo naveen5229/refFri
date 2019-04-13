@@ -1,11 +1,3 @@
-.TJR-auto-suggestion-container{
-    border-radius: 0;
-    padding: 8px;
-    background-color: #e4e4e4;
-    max-height: 230px;
-    overflow: auto;
-  }
-
 .suggestion-option{
     border: 1px solid #263238;
     padding: 2px 8px;
@@ -17,6 +9,12 @@
     color: #fff;
 }
 .active-suggestion{
-    background-color: #263238;
+    background-color: teal;
     font-weight: normal;
+}
+.TJR-auto-suggestion-container{
+    height: 125px;
+    overflow: auto;
+    background-color:#ccc;
+    padding:5px;
 }

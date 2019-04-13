@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/stockitem'
     },
     {
-        title: 'Account',
+        title: 'Account Group',
         icon: 'fa fa-university',
         link: '/accounts/account'
     },
@@ -44,6 +44,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Company-Branches',
         icon: 'fa fa-building-o',
         link: '/accounts/company-branches'
+    },
+    {
+        title: 'Ware House',
+        icon: 'fas fa-warehouse',
+        link: '/accounts/ware-house'
     },
     {
         title: 'Voucher',
@@ -76,7 +81,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
-        title: 'Reports',
+        title: 'Account Reports',
         icon: 'fa fa-file-excel',
         children: [
             {
@@ -91,10 +96,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger Mapping',
                 link: '/accounts/ledgermapping'
             },
-            {
-                title: 'Invoice Register',
-                link: '/accounts/invoiceregister'
-            },
+         
             {
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
@@ -108,9 +110,31 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/profitloss'
             },
             {
+                title:'Cash Book',
+                link: '/accounts/cashbook'
+            },
+            {
+                title: 'Bank Book',
+                link: '/accounts/bank-books'
+            },
+            
+        ],
+    },
+    {
+        title: 'Inventry  Reports',
+        icon: 'fa fa-file-excel',
+        children: [
+           
+            {
+                title: 'Invoice Register',
+                link: '/accounts/invoiceregister'
+            },
+       
+            {
                 title:'Stock Available',
                 link: '/accounts/stockavailable'
-            }
+            },
+          
             
         ],
     },
@@ -118,6 +142,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
-    }
+    },  {
+        title: 'City',
+        icon: 'fas fa-city',
+        link: '/accounts/city'
+    },
+  
+  
+
 
 ];

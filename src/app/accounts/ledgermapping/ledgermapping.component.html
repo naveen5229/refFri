@@ -1,15 +1,15 @@
-<nb-card style="padding-top: 15px;">
+<nb-card style="padding-top: 25px; border: 0px;">
   <!-- <nb-card-header>
     <h4>Ledger Mapping</h4>
   </nb-card-header> -->
-  <nb-card-body style="min-height: 450px;"  (keydown)="keyHandler($event)">
+  <nb-card-body  (keydown)="keyHandler($event)">
     <div class="row">
       <div class="col-3">
         <div class="form-group">
           <label class="tjr-label">Secondary Goup</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'group', 'name')" display="name"
             placeholder="Enter Secondary Group" [data]="secondaryData" inputId="secondaryname" [preSelected]="{name:'All'}"></auto-suggestion> -->
-            <input type="text" id="secondaryname" class="form-control tjr-input" name="secondaryname" [(ngModel)]="ledgerMapping.group.name">
+            <input autocomplete="off" type="text" id="secondaryname" class="form-control tjr-input" name="secondaryname" [(ngModel)]="ledgerMapping.group.name">
           </div>
       </div>
       <div class="col-3">
@@ -17,7 +17,7 @@
           <label class="tjr-label">Ledger</label>
           <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetReportLedger"
             display="name" placeholder="Enter Ledger" inputId="ledger" [preSelected]="null"></auto-suggestion> -->
-            <input type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="ledgerMapping.ledger.name">
+            <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger" [(ngModel)]="ledgerMapping.ledger.name">
         </div>
       </div>
 
@@ -29,13 +29,14 @@
       </div>
 
       <div class="col-3">
+          <div class="auto-sugg">
             <div class="form-group" *ngIf="this.activeId.includes('secondaryname')">
                 <auto-suggetion-in-side [data]="secondaryData" targetId="secondaryname" display="name" (select)="onSelected($event, 'group', 'name')"></auto-suggetion-in-side>
               </div>
               <div class="form-group" *ngIf="this.activeId.includes('ledger')">
                   <auto-suggetion-in-side [data]="ledgerList" targetId="ledger" display="name" (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
                 </div>
-      
+                </div>
         </div>
     </div>
     

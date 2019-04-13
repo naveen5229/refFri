@@ -10,10 +10,10 @@ import { UserService } from '../../@core/data/users.service';
   styleUrls: ['./stockavailable.component.scss']
 })
 export class StockavailableComponent implements OnInit {
- // stockItemsData= [];
+  // stockItemsData= [];
   stockAvailableData = [];
   stockAvailable = {
-    date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     stocktype: {
       name: '',
       id: 0
@@ -40,21 +40,23 @@ export class StockavailableComponent implements OnInit {
     stockTypeData: [],
     stockSubTypeData: [],
     stockItems: [],
-    purchasestockItems:[],
-    salesstockItems:[],
+    purchasestockItems: [],
+    salesstockItems: [],
     discountLedgers: [],
     warehouses: [],
     invoiceTypes: [],
     list: []
   };
   suggestionIndex = -1;
+  allowBackspace = true;
+
   constructor(public api: ApiService,
     public common: CommonService,
-    public user: UserService) { 
-      this.getStockType();
-      this.common.currentPage = 'Stock Available';
-      this.setFoucus('stocktype');
-    }
+    public user: UserService) {
+    this.getStockType();
+    this.common.currentPage = 'Stock Available';
+    this.setFoucus('stocktype');
+  }
 
   ngOnInit() {
   }
@@ -79,7 +81,7 @@ export class StockavailableComponent implements OnInit {
   }
   getStockSubType(stocktypeid) {
     let params = {
-      stocktype : stocktypeid
+      stocktype: stocktypeid
     };
 
     this.common.loading++;
@@ -88,7 +90,7 @@ export class StockavailableComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.suggestions.stockSubTypeData = res['data'];
-         this.autoSuggestion.data = this.suggestions.stockSubTypeData;
+        this.autoSuggestion.data = this.suggestions.stockSubTypeData;
 
       }, err => {
         this.common.loading--;
@@ -99,7 +101,7 @@ export class StockavailableComponent implements OnInit {
   }
   getStockItem(stocksybtypeid) {
     let params = {
-      stocksubtype : stocksybtypeid
+      stocksubtype: stocksybtypeid
     };
 
     this.common.loading++;
@@ -108,7 +110,7 @@ export class StockavailableComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.suggestions.stockItems = res['data'];
-         this.autoSuggestion.data = this.suggestions.stockItems;
+        this.autoSuggestion.data = this.suggestions.stockItems;
 
       }, err => {
         this.common.loading--;
@@ -123,33 +125,50 @@ export class StockavailableComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     this.setAutoSuggestion();
-    
+
     if (key == 'enter') {
-     if (this.activeId.includes('stocktype')) {
+      this.allowBackspace=true;
+      if (this.activeId.includes('stocktype')) {
         if (this.suggestions.list.length) {
-         this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
+          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         this.setFoucus('stocksubtype');
-      } 
-     else if (this.activeId.includes('stocksubtype')) {
-         if (this.suggestions.list.length) {
+      }
+      else if (this.activeId.includes('stocksubtype')) {
+        if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-           this.suggestions.list = [];
-           this.suggestionIndex = -1;
-         }
-         this.setFoucus('stockitem');
-       }   else if (this.activeId.includes('stockitem')) {
-         if (this.suggestions.list.length) {
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        this.setFoucus('stockitem');
+      } else if (this.activeId.includes('stockitem')) {
+        if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-           this.suggestions.list = [];
-           this.suggestionIndex = -1;
-         }
-         this.setFoucus('date');
-       }  
+          this.suggestions.list = [];
+          this.suggestionIndex = -1;
+        }
+        this.setFoucus('date');
+      } else if (this.activeId.includes('date')) {
+        this.stockAvailable.date = this.common.handleDateOnEnterNew(this.stockAvailable.date);
+        this.setFoucus('submit');
+      }
 
+    } 
+    
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'date') this.setFoucus('stockitem');
+      if (this.activeId == 'stockitem') this.setFoucus('stocksubtype');
+      if (this.activeId == 'stocksubtype') this.setFoucus('stocktype');
     } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    else if (key.includes('arrow')) {
       //  this.allowBackspace = false;
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
@@ -160,7 +179,7 @@ export class StockavailableComponent implements OnInit {
 
   selectSuggestion(suggestion, id?) {
     console.log('Suggestion on select: ', suggestion);
-   if (this.activeId == 'stocktype') {
+    if (this.activeId == 'stocktype') {
       this.stockAvailable.stocktype.name = suggestion.name;
       this.stockAvailable.stocktype.id = suggestion.id;
     }
@@ -178,13 +197,13 @@ export class StockavailableComponent implements OnInit {
     }, 100);
   }
 
-  onSelect(suggestion, activeId){
+  onSelect(suggestion, activeId) {
     console.log('Suggestion: ', suggestion);
     if (activeId == 'stocktype') {
       this.stockAvailable.stocktype.name = suggestion.name;
       this.stockAvailable.stocktype.id = suggestion.id;
       this.getStockSubType(this.stockAvailable.stocktype.id);
-    }else if (activeId == 'stocksubtype') {
+    } else if (activeId == 'stocksubtype') {
       this.stockAvailable.stocksubtype.name = suggestion.name;
       this.stockAvailable.stocksubtype.id = suggestion.id;
       this.getStockItem(suggestion.id);
@@ -194,7 +213,7 @@ export class StockavailableComponent implements OnInit {
     }
   }
 
-  
+
   handleArrowUpDown(key) {
     const suggestionIDs = this.generateIDs();
     console.log('Key:', key, suggestionIDs, suggestionIDs.indexOf(this.activeId));
@@ -248,7 +267,7 @@ export class StockavailableComponent implements OnInit {
   }
 
 
-  getStockAvailable(stockAvailable){
+  getStockAvailable(stockAvailable) {
     const params = {
       stocktypeid: stockAvailable.stocktype.id,
       stocksubtypeid: stockAvailable.stocksubtype.id,
@@ -265,8 +284,8 @@ export class StockavailableComponent implements OnInit {
         console.log('res: ', res);
         //this.GetLedger();
         this.stockAvailableData = res['data'];
-       // this.setFoucus('ordertype');
-       // this.common.showToast('Invoice Are Saved');
+        // this.setFoucus('ordertype');
+        // this.common.showToast('Invoice Are Saved');
         return;
 
       }, err => {

@@ -16,6 +16,7 @@ export class RouteMapperComponent implements OnInit {
 
   slideToolTipLeft = 0;
   vehicleRegNo = null;
+  title = 'Route Tracker';
   constructor(private modalService: NgbModal,
     private mapService: MapService,
     private apiService: ApiService,
@@ -25,6 +26,11 @@ export class RouteMapperComponent implements OnInit {
   this.endDate = this.commonService.params.toTime;
   this.vehicleSelected = this.commonService.params.vehicleId;
   this.vehicleRegNo = this.commonService.params.vehicleRegNo;
+  console.log("common params:");
+  console.log(this.commonService.params);
+  if(this.commonService.params.title != undefined )
+      this.title = this.commonService.params.title;
+  console.log("title:" + this.commonService.params.title);
   console.log("this.startDate",this.startDate);
   console.log("this.endDate",this.endDate);
   console.log("this.vehicleSelected",this.vehicleSelected,this.vehicleRegNo);
@@ -93,90 +99,110 @@ export class RouteMapperComponent implements OnInit {
         }
         this.commonService.loading++;
         console.log(params);
-        this.apiService.post('VehicleTrail/getVehicleTrailAll', params)
-          .subscribe(res => {
+        this.apiService.post('Vehicles/getVehDistanceBwTime', {'vehicleId': this.vehicleSelected, fromTime : params['startTime'], tTime : params['toTime']})
+          .subscribe(resdist => {
             this.commonService.loading--;
-            this.mapService.clearAll();
-            let i = 0;
-            let prevElement = null;
-            let total = 0;
-            for (const element of res['data']) {
-
-              if (i != 0) {
-                let disS = this.commonService.distanceFromAToB
-                  (element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
-                let dis = parseFloat(disS);
-                total += dis;
-                this.polypath.push({
-                  lat: element.lat, lng: element.long,
-                  odo: total, time: element.time
-                }
-                );
-
-              } else {
-                this.polypath = [];
-                this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
-              }
-              for (let index = 0; index < vehicleEvents.length; index++) {
-                const elementx = vehicleEvents[index];
-                if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
-                  vehicleEvents[index].subType = 'marker';
-                  vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                }
-                if (new Date(vehicleEvents[index].start_time)>=new Date(element.time)&&res['data'][i+1]&&
-                    new Date(vehicleEvents[index].start_time)<=new Date(res['data'][i+1].time)){
-                  vehicleEvents[index].position = (i / res['data'].length) * 97;
-                  vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
-                    elementx.start_time,elementx.end_time);
-                }
-
-                if (vehicleEvents[index].end_time&&new Date(vehicleEvents[index].end_time)>=new Date(element.time)
-                    &&res['data'][i+1]&&new Date(vehicleEvents[index].end_time)<=new Date(res['data'][i+1].time)){
-                  vehicleEvents[index].eposition = (i / res['data'].length) * 97;
-                }
-              }
-              this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
-              this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
-              prevElement = element;
-              i++;
+            let distance = resdist['data'];
+            if(distance > 0) {
+              distance = Math.round((distance/1000) * 100/100);
+            } else {
+              distance = 0;
             }
-            this.maxOdo = total;
-            console.log("PolyLine", this.polypath);
+            this.title = "Distance: " + distance + " Kms";
+            this.commonService.loading++;
+            this.apiService.post('VehicleTrail/getVehicleTrailAll', params)
+              .subscribe(res => {
+                this.commonService.loading--;
+                this.mapService.clearAll();
+                let i = 0;
+                let prevElement = null;
+                let total = 0;
+                for (const element of res['data']) {
 
-            this.mapService.polygonPath.set('icons', [{
-              icon: this.mapService.lineSymbol,
-              offset: "0%"
-            }]);
-            let finalIndex = 0;
-            for (const events of vehicleEvents) {
-              if(new Date(events.start_time) < new Date(this.startDate)){
-                events.position = 0;
-                events.duration = this.commonService.dateDiffInHoursAndMins(
-                  events.start_time,events.end_time);
-              }
-              if(new Date(events.end_time) > new Date(this.endDate)||!events.end_time){
-                events.eposition = 100;
-                events.duration = this.commonService.dateDiffInHoursAndMins(
-                  events.start_time,events.end_time);
-              }
-              vehicleEvents[finalIndex].width = events.eposition-events.position;
-              finalIndex++;
-            }
-            console.log("VehicleEvents", vehicleEvents);
-            vehicleEvents = vehicleEvents.reverse();
-            this.vehicleEvents = vehicleEvents;
-            this.mapService.createMarkers(this.vehicleEvents, false, false);
-            let markerIndex = 0
-            for (const marker of this.mapService.markers) {
-              let event = this.vehicleEvents[markerIndex];
-              this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
-              this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
-              markerIndex++;
-            }
+                  if (i != 0) {
+                    let disS = this.commonService.distanceFromAToB
+                      (element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
+                    let dis = parseFloat(disS);
+                    total += dis;
+                    this.polypath.push({
+                      lat: element.lat, lng: element.long,
+                      odo: total, time: element.time
+                    }
+                    );
+
+                  } else {
+                    this.polypath = [];
+                    this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
+                  }
+                  for (let index = 0; index < vehicleEvents.length; index++) {
+                    const elementx = vehicleEvents[index];
+                    if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                      vehicleEvents[index].subType = 'marker';
+                      vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                      vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                    }else{
+                      vehicleEvents[index].color = "00ffff";
+                    }
+                    if (new Date(vehicleEvents[index].start_time)>=new Date(element.time)&&res['data'][i+1]&&
+                        new Date(vehicleEvents[index].start_time)<=new Date(res['data'][i+1].time)){
+                      vehicleEvents[index].position = (i / res['data'].length) * 97;
+                      vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
+                        elementx.start_time,elementx.end_time);
+                    }
+
+                    if (vehicleEvents[index].end_time&&new Date(vehicleEvents[index].end_time)>=new Date(element.time)
+                        &&res['data'][i+1]&&new Date(vehicleEvents[index].end_time)<=new Date(res['data'][i+1].time)){
+                      vehicleEvents[index].eposition = (i / res['data'].length) * 97;
+                    }
+                  }
+                  this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
+                  this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
+                  prevElement = element;
+                  i++;
+                }
+                this.maxOdo = total;
+                console.log("PolyLine", this.polypath);
+
+                this.mapService.polygonPath.set('icons', [{
+                  icon: this.mapService.lineSymbol,
+                  offset: "0%"
+                }]);
+                let finalIndex = 0;
+                for (const events of vehicleEvents) {
+                  if(new Date(events.start_time) < new Date(this.startDate)){
+                    events.position = 0;
+                    events.duration = this.commonService.dateDiffInHoursAndMins(
+                      events.start_time,events.end_time);
+                  }
+                  if(new Date(events.end_time) > new Date(this.endDate)||!events.end_time){
+                    events.eposition = 100;
+                    events.duration = this.commonService.dateDiffInHoursAndMins(
+                      events.start_time,events.end_time);
+                  }
+                  vehicleEvents[finalIndex].width = events.eposition-events.position;
+                  finalIndex++;
+                }
+                console.log("VehicleEvents", vehicleEvents);
+                vehicleEvents = vehicleEvents.reverse();
+                this.vehicleEvents = vehicleEvents;
+                this.mapService.createMarkers(this.vehicleEvents, false, false);
+                let markerIndex = 0
+                for (const marker of this.mapService.markers) {
+                  let event = this.vehicleEvents[markerIndex];
+                  this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
+                  this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
+                  markerIndex++;
+                }
+              }, err => {
+                this.commonService.loading--;
+                console.log(err); ////
+              });
+
           }, err => {
             this.commonService.loading--;
-            console.log(err);
+            console.log(err); ////
           });
+
 
       }, err => {
         this.commonService.loading--;
@@ -258,5 +284,26 @@ export class RouteMapperComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
+  
+  openSmartTool(i, vehicleEvent) {
+    this.vehicleEvents.forEach(vEvent => {
+      if (vEvent != vehicleEvent)
+        vEvent.isOpen = false;
+    });
+      vehicleEvent.isOpen = !vehicleEvent.isOpen;
+      this.zoomFunctionality(i, vehicleEvent);
+  }
+  zoomFunctionality(i, vehicleEvent) {
+    console.log("vehicleEvent", vehicleEvent);
+    let latLng=this.mapService.getLatLngValue(vehicleEvent);
+    let googleLatLng=this.mapService.createLatLng(latLng.lat,latLng.lng);
+    console.log("latlngggg",googleLatLng);
+    this.mapService.zoomAt(googleLatLng);
+  }
+
+  setZoom(zoom) {
+    this.mapService.zoomMap(zoom);
+  }
+
 
 }

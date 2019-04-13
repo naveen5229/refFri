@@ -11,7 +11,6 @@ import { DirectiveModule } from '../directives/directives.module';
 import { GroupManagementsComponent } from './group-managements/group-managements.component';
 import { TicketPropertiesComponent } from './ticket-properties/ticket-properties.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
-import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { IssueAlertsComponent } from './issue-alerts/issue-alerts.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
@@ -27,7 +26,13 @@ import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier
 import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
-
+import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
+import { DriverModule } from '../driver/driver.module';
+import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
+import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
+import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
+import { SubSitesComponent } from './sub-sites/sub-sites.component';
+import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
 
 
 
@@ -35,7 +40,6 @@ const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
   EscalationMatrixComponent,
-  GenerateLRComponent,
   GroupManagementsComponent,
   TicketPropertiesComponent,
   IssueAlertsComponent,
@@ -45,7 +49,8 @@ const PAGES_COMPONENTS = [
   SiteDetailsComponent, 
   UserPreferencesComponent,
   GpsSupplierMappingComponent,
-  VehiclesViewComponent
+  VehiclesViewComponent,
+  VehicleGpsTrailComponent
   
 ];
 @NgModule({
@@ -56,7 +61,9 @@ const PAGES_COMPONENTS = [
     DirectiveModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    DocumentsModule
+    DocumentsModule,
+    LorryReceiptModule,
+    DriverModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -66,9 +73,11 @@ const PAGES_COMPONENTS = [
     VehiclesViewComponent,
     CompanyDetailsComponent,
     TransportAgentsComponent,
-    
-   
-  
+    VehicleGpsTrailComponent,
+    GpsTrailsComponent,
+    FuelFillingsComponent,
+    SubSitesComponent,
+    VehicleDistanceComponent,
   ],
 })
 export class AdminModule { }

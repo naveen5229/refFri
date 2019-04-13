@@ -69,7 +69,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Trends',
     icon: 'fa fa-line-chart',
     link:'/pages/trends'
-  }
+  },
+  {
+    title: 'Placements DashBoard',
+    icon: 'fas fa-list',
+    link: '/pages/placements-dash-board',
+    home: true,
+  },
+  // {
+  //   title: 'Placements',
+  //   icon: 'fa fa-location-arrow',
+  //   link:'/pages/placements'
+  // },
+  //{
+  //  title: 'Call Logs',
+  //  icon: 'fa fa-phone',
+  //  link:'/pages/call-logs'
+  //},
   // {
   //   title: 'Route Mapper',
   //   icon: 'fal fa-map-pin',
@@ -81,5 +97,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link:'/driver/dashboard',
   //   home: true,
   // },
-
+  {
+    title: 'Traffic',
+    icon: 'fas fa-traffic-light',
+    children : [
+      {
+        title: 'Driver Call Suggestion',
+        icon: 'fas fa-traffic-light',
+        link: '/pages/driver-call-suggestion',
+        home: true,
+      },
+      {
+        title: 'Call Logs',
+        icon: 'fa fa-phone',
+        link: '/pages/call-logs',
+        home: true,
+      },
+	  {
+        title: 'User Call Summary',
+        icon: 'fas fa-list',
+        link: '/pages/user-call-summary',
+        home: true,
+      }
+    ]
+  }
 ];

@@ -9,6 +9,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./ledger.component.scss']
 })
 export class LedgerComponent implements OnInit {
+  lastActiveId = '';
+
   showConfirm = false;
   showExit = false;
   salutiondata = [];
@@ -31,11 +33,18 @@ export class LedgerComponent implements OnInit {
     },
     id: '',
     code: '',
+    branchname:'',
+    branchcode:'',
+    accnumber:0,
+    creditdays:0,
+    isbank:0,
+    openingisdr:1,
+    openingbalance:0,
     accDetails: [{
       id: '',
       salutation: {
-        name: '',
-        id: ''
+        name: 'Not Applicable',
+        id: '-1'
       },
       mobileNo: '',
       email: '',
@@ -44,7 +53,7 @@ export class LedgerComponent implements OnInit {
       gstNo: '',
       city: {
         name: '',
-        id: ''
+        id: -1
       },
       address: '',
       remarks: '',
@@ -82,6 +91,13 @@ export class LedgerComponent implements OnInit {
         },
         id: this.common.params[0].y_id,
         code: this.common.params[0].y_code,
+        branchname:  this.common.params[0].branch_name,
+        branchcode:  this.common.params[0].branch_code,
+        accnumber:   this.common.params[0].ac_no,
+        creditdays:  this.common.params[0].credit_days,
+        isbank : (this.common.params[0].branch_code) ? 1:0,
+        openingisdr: (this.common.params[0].opening_bal_isdr == true) ? 1:0,
+        openingbalance:this.common.params[0].opening_balance,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -97,6 +113,7 @@ export class LedgerComponent implements OnInit {
           panNo: detail.y_dtl_pan_no,
           tanNo: detail.y_dtl_tan_no,
           gstNo: detail.y_dtl_gst_no,
+         
           city: {
             name: detail.city_name,
             id: detail.y_dtl_city_id
@@ -167,8 +184,8 @@ export class LedgerComponent implements OnInit {
     this.Accounts.accDetails.push({
       id: '',
       salutation: {
-        name: '',
-        id: ''
+        name: 'Not Applicable',
+        id: '-1'
       },
       mobileNo: '',
       email: '',
@@ -177,7 +194,7 @@ export class LedgerComponent implements OnInit {
       gstNo: '',
       city: {
         name: '',
-        id: ''
+        id: -1
       },
       address: '',
       remarks: '',
@@ -314,10 +331,19 @@ export class LedgerComponent implements OnInit {
     event.preventDefault();
     return;
   }
+  changeevent(value){
+    console.log('vlue ',value);
+    this.setFoucus('branchname');
+  }
+
   keyHandler(event) {
     if (event.key == "Escape") {
       this.showExit = true;
     }
+    console.log(event);
+    // else if (activeId.includes('isbank') && (activeId.includes('isbank').checked)){ 
+    //   this.setFoucus('branchname');
+    // }
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
@@ -353,22 +379,34 @@ export class LedgerComponent implements OnInit {
       // console.log('active', activeId);
       // console.log('Active jj: ', activeId.includes('aliasname'));
 
-      if (activeId.includes('user')) {
-        this.setFoucus('code');
-      } else if (activeId.includes('code')) {
-        this.setFoucus('undergroup');
+      if (activeId.includes('branchcode')) {
+        this.setFoucus('creditdays');
       } else if (activeId == 'name') {
         this.setFoucus('aliasname');
       } else if (activeId == 'aliasname') {
-        this.setFoucus('code');
+        this.setFoucus('undergroup');
       } else if (activeId.includes('undergroup')) {
+        this.setFoucus('perrate');
+      } else if (activeId.includes('perrate')) {
+        this.setFoucus('openingbalance');
+      }   else if (activeId.includes('openingbalance')) {
+        this.setFoucus('openingisdr');
+      } else if (activeId.includes('openingisdr')) {
+        this.setFoucus('accnumber');
+      }else if (activeId.includes('branchname')) {
+        this.setFoucus('branchcode');
+      }else if ( activeId.includes('accnumber')){
+        this.setFoucus('isbank');
+      } else if ( activeId.includes('isbank') && (this.Accounts.isbank == 1)){
+        this.setFoucus('branchname');
+      }else if ( activeId.includes('isbank') && (this.Accounts.isbank == 1)){
+        this.setFoucus('branchname');
+      } else if (activeId.includes('creditdays')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
-        this.setFoucus('perrate');
-      } else if (activeId.includes('perrate')) {
         this.setFoucus('salutation-0');
       } else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
@@ -428,7 +466,7 @@ export class LedgerComponent implements OnInit {
         if (index != 0) {
           this.setFoucus('remarks-' + (index - 1));
         } else {
-          this.setFoucus('perrate');
+          this.setFoucus('creditdays');
         }
       } else if (activeId.includes('accountName-')) {
         let index = activeId.split('-')[1];
@@ -462,7 +500,11 @@ export class LedgerComponent implements OnInit {
         this.setFoucus('address-' + index);
       }
       console.log('active 2', activeId);
-
+      
+      if (activeId == 'accnumber') this.setFoucus('perrate');
+      if (activeId == 'creditdays') this.setFoucus('branchcode');
+      if (activeId == 'branchcode') this.setFoucus('branchname');
+      if (activeId == 'branchname') this.setFoucus('accnumber');
       if (activeId == 'perrate') this.setFoucus('undergroup');
       if (activeId == 'undergroup') this.setFoucus('aliasname');
       if (activeId == 'aliasname') this.setFoucus('name');

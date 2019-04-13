@@ -50,20 +50,36 @@ table tr.highlight {
     padding: 3px 8px !important;
 }
 
-:host ::ng-deep.TJR-auto-suggestion-container {
-    border: 1px solid #263238 !important;
-    border-radius: 3px !important;
-    height: 105px !important;
-    overflow: hidden !important;
-    max-height: 105px !important;
+// :host ::ng-deep.TJR-auto-suggestion-container {
+//     border: 1px solid #263238 !important;
+//     border-radius: 3px !important;
+//     height: 105px !important;
+//     overflow: hidden !important;
+//     max-height: 105px !important;
+// }
+.auto-sugg{
+    max-height: 128px;
+    min-height: 128px;
 }
-
-:host ::ng-deep.active-suggestion {
-    background: #263238 !important;
-    color: #fff !important;
-}
-
 table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        tr{
+            th:nth-child(1){
+                width: 150px;
+            }
+            th:nth-child(2),
+            th:nth-child(3){
+                width: 180px;
+            }
+            th:nth-child(4),
+            th:nth-child(4){
+                width: 200px;
+            }
+        }
+    }
     tr{
         th{
             padding: 5px 10px;
@@ -82,6 +98,47 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+        }
+    }
+    .tbody-section{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 312px);
+    }
+    tbody{
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            th:nth-child(1){
+                width: 510px;
+            }
+            th:nth-child(2){
+                width: 200px;
+            }
+            th:nth-child(3){
+                width: 203px;
+            }
+            td:nth-child(1){
+                width: 150px;
+            }
+            td:nth-child(2),
+            td:nth-child(3){
+                width: 180px;
+            }
+            td:nth-child(4),
+            td:nth-child(4){
+                width: 200px;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
         }
     }
 } 

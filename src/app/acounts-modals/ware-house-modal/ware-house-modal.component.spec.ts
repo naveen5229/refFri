@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DatePicker2Component } from './date-picker2.component';
+import { WareHouseModalComponent } from './ware-house-modal.component';
 
-describe('DatePicker2Component', () => {
-  let component: DatePicker2Component;
-  let fixture: ComponentFixture<DatePicker2Component>;
+describe('WareHouseModalComponent', () => {
+  let component: WareHouseModalComponent;
+  let fixture: ComponentFixture<WareHouseModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DatePicker2Component ]
+      declarations: [ WareHouseModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DatePicker2Component);
+    fixture = TestBed.createComponent(WareHouseModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -162,6 +162,8 @@ auto-suggestion {
     z-index: 1049;
 }
 table{
+    margin: 0px;
+    border: 0px;
     thead{
         background-color: #263238;
         tr{
@@ -190,4 +192,77 @@ table{
 .delete{
     color: #D61414 !important;
 }
-// Modal END
+
+.list_table table tbody {
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height: calc(100vh - 450px);
+}
+.list_table table thead tr th:nth-child(1){
+    width: 45px;
+}
+.list_table table thead tr th:nth-child(2),
+.list_table table thead tr th:nth-child(3){
+    width: 110px;
+}
+
+.list_table table thead tr th:nth-child(4),
+.list_table table thead tr th:nth-child(6),
+.list_table table thead tr th:nth-child(7){
+    width: 150px;
+}
+.list_table table thead tr th:nth-child(5){
+    width: 130px;
+}
+.list_table table tbody tr td:nth-child(1){
+    width: 45px;
+}
+.list_table table tbody tr td:nth-child(2),
+.list_table table tbody tr td:nth-child(3),
+.list_table table tbody tr td:nth-child(9){
+    width: 110px;
+}
+
+.list_table table tbody tr td:nth-child(4),
+.list_table table tbody tr td:nth-child(6),
+.list_table table tbody tr td:nth-child(7){
+    width: 150px;
+}
+.list_table table tbody tr td:nth-child(5){
+    width: 130px;
+}
+.work-table table tbody{
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height: calc(100vh - 480px);
+}
+.work-table table thead tr th:nth-child(1),
+.work-table table tbody tr td:nth-child(1){
+    width: 50px;
+}
+.work-table table thead tr th:nth-child(2),
+.work-table table tbody tr td:nth-child(2),
+.work-table table thead tr th:nth-child(3),
+.work-table table tbody tr td:nth-child(3){
+    width: 350px;
+}
+h6{
+    margin: 15px 0px 10px;
+}
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.table-scroll tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+

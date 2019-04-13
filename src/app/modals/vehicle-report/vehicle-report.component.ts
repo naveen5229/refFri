@@ -18,6 +18,7 @@ export class VehicleReportComponent implements OnInit {
   startDate = '';
   element = '';
   endDate = '';
+  placeName='';
   startTime: any;
   endTime: any;
   resultTime: any;
@@ -44,8 +45,13 @@ export class VehicleReportComponent implements OnInit {
       
     }
     else{
+      console.log(this.common.params.fromTime);
+      console.log(this.common.params.toTime);
       this.startDate = this.common.dateFormatter(this.common.params.fromTime);
-      this.endDate = this.common.dateFormatter(this.common.params.toTime);
+      this.endDate = this.common.params.toTime;
+      console.log("fromTime",this.startDate);
+      console.log("endDate",this.endDate);
+
 
     }
     this.getVehicleReport();
@@ -93,12 +99,13 @@ export class VehicleReportComponent implements OnInit {
          this.endTime = new Date(this.endTime);
          this.resultTime = this.endTime - this.startTime;
         console.log('begore resultTime: ' + this.resultTime);
-         var result=moment.utc(this.resultTime).format('HH:mm');
+        var result=this.common.dateDiffInHoursAndMins(this.startTime, this.endTime);
+         //var result=moment.utc(this.resultTime).format('HH:mm');
          console.log('moment',moment.utc(this.resultTime).format('HH:mm'));
          this.duration.push(result);
         }else{
-          var result='Running';
-          this.duration.push(result);
+          var result1='Running';
+          this.duration.push(result1);
         }
 
         //   let result='00'+':'+'00';
@@ -150,7 +157,7 @@ export class VehicleReportComponent implements OnInit {
       End: { title: 'End', placeholder: 'End' },
       Place: { title: 'Place', placeholder: 'Place' },
       Location: { title: 'Location', placeholder: 'Location' },
-      Reason: { title: 'Reason', placeholder: 'Reason' },
+      // Reason: { title: 'Reason', placeholder: 'Reason' },
       Duration: { title: 'Duration', placeholder: 'Duration'},
       Action: { title: 'Action', placeholder: 'Action' }
     };
@@ -177,18 +184,58 @@ export class VehicleReportComponent implements OnInit {
       let column = {
         Start: { value: this.datePipe.transform(R.start_time, 'dd MMM HH:mm ') },
         End: { value: this.datePipe.transform(R.end_time, 'dd MMM HH:mm') },
-        Place: { value: R.site_type != null ? R.site_name + '(' + R.site_type + ')' : R.site_name },
+        Place: { value: this.getPlaceName(R), class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
         Location: { value: R.loc_name },
-        Reason: { value: R.halt_reason, class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
+        // Reason: { value: R.halt_reason, class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
         Duration: { value: this.duration[i]},
         Action: { value: `<i class="fa fa-map-marker"></i>`, isHTML: true, action: this.showLocation.bind(this, R) },
       };
+
       columns.push(column);
       i++;
     });
     return columns;
   }
 
+  getPlaceName(R){
+    let str_site_name,str_halt_reason;
+  if(R.site_name!=null){
+     str_site_name=R.site_name.toUpperCase();
+    console.log('str_site_name',str_site_name)
+  }
+  if(R.halt_reason!=null){
+     str_halt_reason=R.halt_reason.toUpperCase();
+    console.log('str_halt_reason',str_halt_reason)
+  }
+ 
+  
+  if((str_site_name=="UNKNOWN") || (R.site_name==null)){
+     if(R.site_type!=null){
+       if((str_halt_reason != "UNKNOWN")){
+         this.placeName= R.site_type+'_'+R.halt_reason;
+         console.log('place:1 ',this.placeName);
+       }else{
+         this.placeName= R.site_type;
+         console.log('place:2 ',this.placeName);
+       }
+     }else if((str_halt_reason != "UNKNOWN")){
+       this.placeName=R.halt_reason;
+       console.log('place:3 ',this.placeName);
+     }else{
+       this.placeName='Halt';
+       console.log('place:4 ',this.placeName);
+     }
+   }else if((str_halt_reason != "UNKNOWN")){
+      this.placeName= R.site_name+'_'+R.halt_reason;
+      console.log('place:5 ',this.placeName);
+   }else{
+      this.placeName=R.site_name;
+      console.log('place:6 ',this.placeName);
+   }
+
+   return this.placeName;
+
+  }
   closeModal() {
     this.activeModal.close();
   }

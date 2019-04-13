@@ -29,13 +29,13 @@
     <div class="col">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="stock-name" id="name" [(ngModel)]="stockType.name">
+        <input autocomplete="off" type="text" class="form-control" name="stock-name" id="name" placeholder="Name" [(ngModel)]="stockType.name">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Code</label>
-        <input type="text" class="form-control" name="stock-code" id="code" [(ngModel)]="stockType.code">
+        <input autocomplete="off" type="text" class="form-control" name="stock-code" id="code" placeholder="Code" [(ngModel)]="stockType.code">
       </div>
     </div>
   </div>
@@ -61,7 +61,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>
@@ -70,7 +70,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you sure want to close ?</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

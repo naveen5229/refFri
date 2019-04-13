@@ -34,6 +34,11 @@ import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { TrendsComponent } from './trends/trends.component';
 import { ResizableModule } from 'angular-resizable-element';
+import { PlacementsComponent } from './placements/placements.component';
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
+import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
+import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
 
 
 
@@ -74,6 +79,11 @@ const PAGES_COMPONENTS = [
     ImageProcessingComponent,
     RouteMapperComponent,
     TrendsComponent,
+    PlacementsComponent,
+    CallLogsComponent,
+    DriverCallSuggestionComponent,
+    UserCallSummaryComponent,
+    PlacementsDashBoardComponent
   ],
 })
 export class PagesModule {

@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
 
 @Component({
   selector: 'daybooks',
@@ -14,8 +15,8 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 export class DaybooksComponent implements OnInit {
   selectedName = '';
   DayBook = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
@@ -37,6 +38,7 @@ export class DaybooksComponent implements OnInit {
   ledgerData = [];
   activeId = 'vouchertype';
   selectedRow = -1;
+  allowBackspace = true;
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
@@ -47,6 +49,7 @@ export class DaybooksComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
     this.getBranchList();
     this.getAllLedger();
@@ -58,6 +61,12 @@ export class DaybooksComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVoucherTypeList();
+    this.getBranchList();
+    this.getAllLedger();
+    this.setFoucus('vouchertype');
   }
 
   ngAfterViewInit() {
@@ -97,6 +106,19 @@ export class DaybooksComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+  openinvoicemodel(invoiceid) {
+    // console.log('welcome to invoice ');
+    this.common.params = invoiceid;
+    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        console.log('open succesfull');
+
+        // this.addLedger(data.ledger);
+      }
+    });
   }
 
   getAllLedger() {
@@ -148,7 +170,7 @@ export class DaybooksComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.DayBook[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.DayBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.DayBook[date]);
     });
   }
@@ -198,7 +220,7 @@ export class DaybooksComponent implements OnInit {
     console.log('vouher id', voucherId);
     this.common.params = voucherId;
 
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass : "accountModalClass" });
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
@@ -229,6 +251,7 @@ export class DaybooksComponent implements OnInit {
       return;
     }
     if (key == 'enter') {
+      this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
         this.setFoucus('vouchertype');
       } else if (this.activeId.includes('vouchertype')) {
@@ -240,7 +263,19 @@ export class DaybooksComponent implements OnInit {
       } else if (this.activeId.includes('enddate')) {
         this.setFoucus('submit');
       }
-    } else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('vouchertype');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
