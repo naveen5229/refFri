@@ -1,3 +1,44 @@
-<p>
-  trip-site-rule works!
-</p>
+<nb-card style=" margin:0px; padding-top: 0px; border: 0px;">
+  <nb-card-header>
+    <h4>Trip Site Rule</h4>
+  </nb-card-header>
+  <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+    <div class="container">
+      <div class="row">
+            <div class="col-md-2 offset-md-08">
+              <button type="submit" class="btn btn-primary" name="add" (click)="addsite()">Add Rule</button>
+            </div>
+          </div>
+   
+    </div> 
+    <table class="table table-bordered table-hover">
+        <thead class="thead">
+          <tr>
+            <th>Sr No</th>
+            <th>Fo Name</th>
+            <th>Pre Site Name  </th>
+            <th>Current Site Name</th>
+            <th>Material Name</th>
+            <th>Body Type</th>
+            <th>Rule type</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let doc of data; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{doc.f_name}}</td>
+            <td>{{doc.pre_site_name}}</td>
+            <td>{{doc.curr_site_name}}</td>
+            <td>{{doc.mt_name}}</td>
+            <td>{{doc.bodyName}}</td>
+            <td>{{doc.ruleName}}</td>
+          
+          </tr>
+        </tbody>
+      </table>
+    
+    <!-- <smart-table  *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings" ></smart-table> -->
+  
+  </nb-card-body>
+</nb-card>

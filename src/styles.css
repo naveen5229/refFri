@@ -222,7 +222,7 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .fas.fa-traffic-light::before,
 .fas.fa-city::before,
 .fas.fa-route::before,
-.fas.fa-file-signature{
+.fas.fa-file-signature::before{
   font-family:inherit;
 }
 .nb-theme-corporate .modal-content{
