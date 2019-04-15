@@ -53,8 +53,8 @@ export class UserService {
       { id: 23, route: '/admin/sub-sites' },
       { id: 24, route: '/admin/vehicle-distance' },
       { id: 25, route: '/admin/sub-sites' },
-      { id: 26, route: '/admin/fuel-fillings' }
-
+      { id: 26, route: '/admin/fuel-fillings' },
+      { id: 27, route: '/admin/trip-site-rule' }
     ]
   }
   

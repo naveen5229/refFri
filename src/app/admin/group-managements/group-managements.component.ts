@@ -31,8 +31,10 @@ export class GroupManagementsComponent implements OnInit {
   };
   addVehicleGroupAss = {
     grpid: "",
-    vid: ""
+    vid: null,
+    csv:null
   };
+  selectOption='single';
 
   constructor(private modalService: NgbModal, public api: ApiService,
     public common: CommonService,
@@ -140,14 +142,17 @@ export class GroupManagementsComponent implements OnInit {
   addVehicleGroup(){
     let params = {
       vid: this.addVehicleGroupAss.vid,
-      grpid: this.addVehicleGroupAss.grpid
-
+      grpid: this.addVehicleGroupAss.grpid,
+      csv:this.addVehicleGroupAss.csv
     };
+    console.log("result:",params);
     this.common.loading++;
     this.api.post('GroupManagment/insertGroupVehicleAssoc', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data']);
+        let msg = res['msg'].split(":")[1];
+        this.common.showToast(msg?msg:res['msg']);
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -221,6 +226,31 @@ export class GroupManagementsComponent implements OnInit {
                 this.common.showError();
               })
     }
+  }
+  // csv base 64 convert
+  handleFileSelection(event) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+
+
+        let file = event.target.files[0];
+        console.log("Type", file.type);
+        if (file.type == "application/vnd.ms-excel") {
+        }
+        else {
+          alert("valid Format Are : csv");
+          return false;
+        }
+
+        res = res.toString().replace('vnd.ms-excel', 'csv');
+        console.log('Base 64: ', res);
+        this.addVehicleGroupAss.csv = res;
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
   }
 
 

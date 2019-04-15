@@ -117,6 +117,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/vehicle-distance',
         home: true,
     },
+    {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+    },
  
     {
         title: 'Vehicles View',
