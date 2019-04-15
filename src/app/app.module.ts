@@ -121,6 +121,9 @@ import {NgxPrintModule} from 'ngx-print';
 import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
 import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { EditFillingComponent } from './modals/edit-filling/edit-filling.component';
+import { AddPumpComponent } from './modals/add-pump/add-pump.component';
+import { ImportFillingsComponent } from './modals/import-fillings/import-fillings.component';
 import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 
@@ -208,6 +211,9 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     WareHouseModalComponent,
     UserCallHistoryComponent,
     DriverDistanceComponent,
+    EditFillingComponent,
+    AddPumpComponent,
+    ImportFillingsComponent,
     AddCityComponent,
     SiteTripDetailsComponent,
   ],
@@ -256,7 +262,8 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     EmpDashboardComponent,
     DocumentIssuesComponent,
     DriverDistanceComponent,
-    //LicenceUploadComponent,
+	AddPumpComponent,
+	//LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -289,6 +296,8 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     UpdateTransportAgentComponent,
     VehicleAnalysisComponent,
     RouteMapperComponent,
+	EditFillingComponent,
+	ImportFillingsComponent,
     TripDetailsComponent,
     PendingLicenceDetailComponent,
     WareHouseModalComponent,

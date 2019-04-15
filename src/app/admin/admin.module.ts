@@ -34,6 +34,7 @@ import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
 
 
 
@@ -82,6 +83,8 @@ const PAGES_COMPONENTS = [
     SubSitesComponent,
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
+    VehicleDistanceComponent,
+   
   ],
 })
 export class AdminModule { }

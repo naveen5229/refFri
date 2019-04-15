@@ -26,7 +26,7 @@ export class UserService {
 
 
 
-    
+
     this._pages = [
       { id: 1, route: '/admin/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
@@ -51,11 +51,14 @@ export class UserService {
       { id: 21, route: '/admin/driver-list' },
       { id: 22, route: '/admin/vehicle-gps-trail' },
       { id: 23, route: '/admin/sub-sites' },
-      {id: 24, route: '/admin/activity-summary' },
-      {id: 25, route: '/admin/vehicle-gps-detail' }
+      { id: 24, route: '/admin/activity-summary' },
+      { id: 25, route: '/admin/vehicle-gps-detail' },
+      { id: 26, route: '/admin/vehicle-distance' },
+      { id: 27, route: '/admin/sub-sites' },
+      { id: 28, route: '/admin/fuel-fillings' }
 
     ]
   }
-  
+
 
 }

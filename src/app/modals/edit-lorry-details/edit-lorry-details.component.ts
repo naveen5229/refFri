@@ -389,8 +389,6 @@ export class EditLorryDetailsComponent implements OnInit {
       this.common.showToast('Incorrect Date !!');
     }
 
-
-
     console.log('Date: ', this.lrDate);
   }
 

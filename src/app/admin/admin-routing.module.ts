@@ -28,6 +28,7 @@ import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleDistanceComponent} from './vehicle-distance/vehicle-distance.component';
 
 const routes: Routes = [{
     path: '',
@@ -136,19 +137,14 @@ const routes: Routes = [{
             component: VehicleGpsTrailComponent,
             canActivate: [RouteGuard]
         },
-        //{
-        //    path: 'gps-trails',
-        //    component: GpsTrailsComponent,
-        //    canActivate: [RouteGuard]
-        //},
-        {
-            path: 'fuel-fillings',
-            component: FuelFillingsComponent,
-            canActivate: [RouteGuard]
-        },
         {
             path: 'sub-sites',
             component: SubSitesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicle-distance',
+            component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -163,6 +159,11 @@ const routes: Routes = [{
         },
 
 
+		{
+            path: 'fuel-fillings',
+            component: FuelFillingsComponent,
+            canActivate: [RouteGuard]
+        }
     ],
 }];
 

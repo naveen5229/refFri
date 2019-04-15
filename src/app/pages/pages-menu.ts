@@ -29,11 +29,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-list',
     link: '/pages/lorry-receipts',
   },
-  // {
-  //   title: 'Generate LR',
-  //   icon: 'fas fa-pencil-alt',
-  //   link: '/pages/generate-lr',
-  // },
+  {
+    title: 'Generate LR',
+    icon: 'fa fa-pencil',
+    link: '/pages/generate-lr',
+  },
 
   {
     title: 'Expenses',

@@ -168,8 +168,10 @@ export class LedgerviewComponent implements OnInit {
       } else if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
+        this.ledger.startDate=  this.common.handleDateOnEnterNew(this.ledger.startDate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.ledger.endDate=  this.common.handleDateOnEnterNew(this.ledger.endDate);
         this.setFoucus('submit');
       }
     }

@@ -107,16 +107,15 @@ export class SiteFencingComponent implements OnInit {
               let minDis=100000;
               let minIndex = -1;
               for (const datax in data) {
+                isMain= false;
                 if (data.hasOwnProperty(datax)) {
                   const datav = data[datax];
                   if(datax==this.selectedSite){
                     isMain = true;
-                    isSec = false;
                   }
                   else if(minDis>datav.dis){
                     this.mergeSiteId=datax;
                     isMain=false;
-                    isSec = false;
                     minDis=datav.dis;
                     minIndex = latLngsArray.length;
                   }
@@ -124,7 +123,8 @@ export class SiteFencingComponent implements OnInit {
                   console.log("Multi",datax);
                 }
               }
-              latLngsArray[minIndex].isSec =true;
+              if(minIndex != -1)
+                latLngsArray[minIndex].isSec =true;
               this.mapService.createPolygons(latLngsArray);
             }
             else{
