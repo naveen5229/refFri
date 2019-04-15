@@ -6,6 +6,7 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 
 @Component({
   selector: 'daybooks',
@@ -282,6 +283,20 @@ export class DaybooksComponent implements OnInit {
 
     }
   }
+
+
+  openVoucherEdit(voucherId) {
+    console.log('ledger123', voucherId);
+    if (voucherId) this.common.params = voucherId;
+    const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      this.getDayBook();
+      this.common.showToast('Voucher updated');
+
+    });
+  }
+
 
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {

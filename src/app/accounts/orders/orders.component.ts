@@ -94,7 +94,7 @@ export class OrdersComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getBranchList();
+    // this.getBranchList();
     this.getInvoiceTypes();
     this.getPurchaseLedgers();
     this.getSupplierLedgers();
@@ -710,10 +710,19 @@ export class OrdersComponent implements OnInit {
       code: ledger.code,
       foid: ledger.user.id,
       per_rate: ledger.perrate,
-      primarygroupid: ledger.account.primarygroup_id,
-      account_id: ledger.account.id,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
-      x_id: 0
+      branchname :ledger.branchname,
+      branchcode:  ledger.branchcode,
+      accnumber:   ledger.accnumber,
+      creditdays:  ledger.creditdays,
+      openingbalance:  ledger.openingbalance,
+      isdr:  ledger.openingisdr,
+      approved:  ledger.approved,
+      deleteview:  ledger.deleteview,
+      delete:  ledger.delete,
+      x_id: ledger.id ? ledger.id : 0,
     };
 
     console.log('params11: ', params);
@@ -723,7 +732,9 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        this.common.showToast('Ledger Are Saved');
         this.getPurchaseLedgers();
+        this.getSupplierLedgers();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -759,7 +770,7 @@ export class OrdersComponent implements OnInit {
     console.log(stockItem);
     // const params ='';
     const params = {
-      //foid: stockItem.user.id,
+      foid: 123,
       name: stockItem.name,
       code: stockItem.code,
       stocksubtypeid: stockItem.stockSubType.id,
@@ -782,6 +793,7 @@ export class OrdersComponent implements OnInit {
         console.log('res: ', res);
         this.getStockItems('sales');
         this.getStockItems('purchase');
+        this.common.showToast(" Stock item Saved");
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

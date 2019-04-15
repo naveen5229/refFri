@@ -123,6 +123,7 @@ import { UserCallHistoryComponent } from './modals/user-call-history/user-call-h
 import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
 import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
+import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -210,6 +211,7 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     DriverDistanceComponent,
     AddCityComponent,
     SiteTripDetailsComponent,
+    StorerequisitionComponent,
   ],
   entryComponents: [
     SiteTripDetailsComponent,
@@ -292,7 +294,8 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
     TripDetailsComponent,
     PendingLicenceDetailComponent,
     WareHouseModalComponent,
-    AddCityComponent
+    AddCityComponent,
+    StorerequisitionComponent
   ],
   imports: [
     BrowserModule,
