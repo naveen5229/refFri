@@ -40,6 +40,9 @@ export class LedgerComponent implements OnInit {
     isbank:0,
     openingisdr:1,
     openingbalance:0,
+    approved: 1,
+    deleteview: 0,
+    delete : 0,
     accDetails: [{
       id: '',
       salutation: {
@@ -98,6 +101,9 @@ export class LedgerComponent implements OnInit {
         isbank : (this.common.params[0].branch_code) ? 1:0,
         openingisdr: (this.common.params[0].opening_bal_isdr == true) ? 1:0,
         openingbalance:this.common.params[0].opening_balance,
+        approved: (this.common.params[0].y_for_approved == true) ? 1:0,
+        deleteview: (this.common.params[0].y_del_review == true) ? 1:0,
+        delete : (this.common.params[0].y_deleted == true) ? 1:0,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -131,7 +137,7 @@ export class LedgerComponent implements OnInit {
 
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.GetSalution();
-    this.getUserData();
+   // this.getUserData();
     this.getUnderGroup();
     this.GetState();
     this.setFoucus('name');
