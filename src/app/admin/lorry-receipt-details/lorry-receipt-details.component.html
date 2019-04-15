@@ -46,8 +46,9 @@
             <td>{{data.current_user}}</td>
             <!-- <td>{{data.weight}}</td> -->
             <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-            <td> <a href="javascript: void(0);" title="Edit LR" (click)="enterTicket(data)"><i
-              class="icon ion-md-create"></i></a></td>
+            <td>
+             <button class="btn btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button>
+              <button class="btn btn-primary" (click)="revertLrDetails(data)">Revert</button></td>
         </tbody>
       </table>
     </div>
