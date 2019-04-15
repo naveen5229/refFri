@@ -26,6 +26,8 @@ import { DriverListComponent } from '../driver/driver-list/driver-list.component
 import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
+import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 
 const routes: Routes = [{
     path: '',
@@ -149,6 +151,17 @@ const routes: Routes = [{
             component: SubSitesComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'activity-summary',
+            component: ActivitySummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicle-gps-detail',
+            component: VehicleGpsDetailComponent,
+            canActivate: [RouteGuard]
+        },
+
 
     ],
 }];

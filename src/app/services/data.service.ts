@@ -145,6 +145,18 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/sub-sites',
         home: true,
+      },
+      {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+      },
+      {
+        title: 'Vehicle Gps Detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+        home: true,
       }
     ];
   }

@@ -23,12 +23,12 @@ export class VehicleGpsTrailComponent implements OnInit {
     public user: UserService,
     public datepipe: DatePipe,
     public modalService: NgbModal) { 
-      let today;
-      today = new Date();
-      this.endDate = this.common.dateFormatter(today);
-      this.startDate=this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
-      console.log('dates ',this.endDate,this.startDate)
-      this.getVehicleGpsTrail();
+      // let today;
+      // today = new Date();
+      // this.endDate = this.common.dateFormatter(today);
+      // this.startDate=this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
+      // console.log('dates ',this.endDate,this.startDate)
+      // this.getVehicleGpsTrail();
     }
 
   ngOnInit() {

@@ -50,7 +50,9 @@ export class UserService {
       { id: 20, route: '/admin/transport-agents' },
       { id: 21, route: '/admin/driver-list' },
       { id: 22, route: '/admin/vehicle-gps-trail' },
-      { id: 23, route: '/admin/sub-sites' }
+      { id: 23, route: '/admin/sub-sites' },
+      {id: 24, route: '/admin/activity-summary' },
+      {id: 25, route: '/admin/vehicle-gps-detail' }
 
     ]
   }

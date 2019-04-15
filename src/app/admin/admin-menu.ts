@@ -106,6 +106,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+    },
+    {
+        title: 'vehicle-gps-detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+        home: true,
+    },
+    {
         title: 'Gps Supplier Mapping',
         icon: 'nb-home',
         link: '/admin/gps-supplier-mapping',
