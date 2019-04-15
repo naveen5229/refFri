@@ -110,12 +110,20 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      }, 
+      },
       {
         title: 'Vehicle Gps Trail',
         icon: 'fas fa-receipt',
         link: '/admin/vehicle-gps-trail',
-      },  
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+     
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -147,11 +155,11 @@ export class DataService {
         home: true,
       },
       {
-        title: 'Vechile Dstance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
         home: true,
-    }
+      }
     ];
   }
 }

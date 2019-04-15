@@ -108,6 +108,9 @@ export class LedgersComponent implements OnInit {
       creditdays:  ledger.creditdays,
       openingbalance:  ledger.openingbalance,
       isdr:  ledger.openingisdr,
+      approved:  ledger.approved,
+      deleteview:  ledger.deleteview,
+      delete:  ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
     };
 

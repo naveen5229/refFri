@@ -136,11 +136,6 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
-            path: 'fuel-fillings',
-            component: FuelFillingsComponent,
-            canActivate: [RouteGuard]
-        },
-        {
             path: 'sub-sites',
             component: SubSitesComponent,
             canActivate: [RouteGuard]
@@ -150,7 +145,11 @@ const routes: Routes = [{
             component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
-
+		{
+            path: 'fuel-fillings',
+            component: FuelFillingsComponent,
+            canActivate: [RouteGuard]
+        }
     ],
 }];
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ export class LRViewComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
+    public renderer:Renderer
   ) {
 
     this.lrId = this.common.params.lrId;
@@ -28,6 +29,7 @@ export class LRViewComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+    this.renderer.setElementClass(document.body, 'test', false);
   }
 
   printLR() {
@@ -55,27 +57,13 @@ export class LRViewComponent implements OnInit {
       });
   }
 
-    print(): void {
-      let printContents, popupWin;
-      printContents = document.getElementById('print-section').innerHTML;
-      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-      popupWin.document.open();
-      popupWin.document.write(`
-        <html>
-          <head>
-            <title>Print tab</title>
-            <style>
-            //........Customized style.......
-            </style>
-          </head>
-      <body onload="window.print();window.close()">${printContents}</body>
-        </html>`
-      );
-      popupWin.document.close();
-  }
 
   onPrint(){
+    this.renderer.setElementClass(document.body, 'test', true);
     window.print();
+    this.renderer.setElementClass(document.body, 'test', false);
+
+
 }
 
   findCustomFields(customFields) {
@@ -91,3 +79,5 @@ export class LRViewComponent implements OnInit {
     return formattedFields;
   }
 }
+
+

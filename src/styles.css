@@ -331,6 +331,12 @@ nb-card{
   top: 40%;
   transform: translate(0%,-50%) !important;
 }
+/* .print-lr {
+  background-color: #fff;
+} */
+.test .layout{
+  display: none !important;
+}
 .gerrate_tabel auto-suggestion input,
 .material_details auto-suggestion input{
   border: 1px solid #000 !important;

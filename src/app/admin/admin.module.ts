@@ -78,6 +78,7 @@ const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     SubSitesComponent,
     VehicleDistanceComponent,
+   
   ],
 })
 export class AdminModule { }

@@ -183,15 +183,21 @@ input[type=radio]{
   margin-left: 5px;
   border: 0px !important;
 }
-.debit_box{
+.debit_box,
+.true_false{
   border: 1px solid #000;
   padding: 3px;
   text-align: left;
 }
-.debit{
+.debit,
+.true{
   display: inline-block;
 }
 .credit{
   display: inline-block;
   margin-left: 30px;
+}
+.false{
+  display: inline-block;
+  margin-left: 10px;
 }
