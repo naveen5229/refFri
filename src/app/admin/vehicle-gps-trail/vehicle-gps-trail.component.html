@@ -1,0 +1,92 @@
+<!-- <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Vehicle Gps Trail</h5>
+    
+  </div>
+      
+  <div class="model-body" style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
+      <div class="row" style="margin-bottom:10px; margin-left:5px">
+          <div class="col-sm-3">
+              <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+              placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+          </div>
+          <div class="col-sm-3">
+              <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
+              autocomplete="off" name="date">
+            <owl-date-time #date></owl-date-time>
+          </div>
+          <div class="col-sm-3">
+              <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
+              autocomplete="off" name="date1">
+            <owl-date-time #date1></owl-date-time>
+          </div>
+          <div class="col-sm-3">
+              <Button class="btn btn-primary" type="button" (click)="getVehicleGpsTrail()">Submit</Button>
+          </div>
+        </div>
+  <table class="table table-bordered" style="margin-top:20px">
+    <thead class="thead" style="background-color:darkgrey; color:black">
+      <tr *ngIf="gpsTrail.length">
+      <th>Id</th>
+      <th>Lat</th>
+      <th>Long </th>
+      <th>Time</th>
+      <th>Speed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of gpsTrail; let i=index;" style="color:darkcyan">
+      <td>{{i+1}}</td>
+      <td>{{data.lat}}</td>
+      <td>{{data.long}}</td>
+      <td>{{data.time | date : 'dd MMM HH:mm'}}</td>
+      <td>{{data.speed}}</td>
+      
+    </tbody>
+  </table> 
+  </div>
+ -->
+
+
+
+  
+  <nb-card style=" margin:0px; padding-top: 0px; border: 0px;">
+    <nb-card-header>
+      <h4>Vehicle Gps Trail</h4>
+    </nb-card-header>
+    <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+      <div class="container">
+        <div class="row">
+          <form class="w-100">
+            <div class="row">
+              <div class="col-md-2 pr-0">
+                <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+                placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+              </div>
+              <div class="col-md-2 pr-0">
+                <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
+                autocomplete="off" name="date">
+              <owl-date-time #date></owl-date-time>
+              </div>
+              <div class="col-md-2 pr-0">
+                <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
+                autocomplete="off" name="date1">
+              <owl-date-time #date1></owl-date-time>
+              </div>
+              <div class="col-md-2 offset-md-08">
+                <button type="submit" class="btn btn-primary" (click)="result(1)">VehicleGpsTrail</button>
+              </div>
+              <div class="col-md-2 offset-md-08">
+                <button type="submit" class="btn btn-primary" (click)="result(2)">VehicleTrail</button>
+              </div>
+              <div class="col-md-2 offset-md-08">
+                <button type="submit" class="btn btn-primary" (click)="result(3)">VehicleHalts</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div> 
+      
+      <smart-table  *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+    
+    </nb-card-body>
+  </nb-card>

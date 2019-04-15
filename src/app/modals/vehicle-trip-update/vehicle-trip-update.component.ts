@@ -28,10 +28,15 @@ export class VehicleTripUpdateComponent implements OnInit {
     startTime: null,
     placementType:null,
     vehicleId:null,
-    siteId:null
+    siteId:null,
+    locationType:'city'
+    
   };
   placements = null;
-  placementSuggestion = null;
+  placementSite = 0;
+  placementSuggestion = [];
+  ref_page = null ;
+  cLT = 'city';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -51,8 +56,12 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.startName = this.common.params.tripDetils.startName;
     this.vehicleTrip.siteId = this.common.params.tripDetils.siteId;
     this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.tripDetils.startTime);
-    if(this.common.params.ref_page = 'placements'){
+    this.ref_page = this.common.params.ref_page;
+    console.log("ref_page",this.ref_page);
+    if(this.ref_page == 'placements'){
       this.vehicleTrip.placementType = '11';
+    }else{
+      this.vehicleTrip.placementType = '0';
     }
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
@@ -60,11 +69,18 @@ export class VehicleTripUpdateComponent implements OnInit {
 
   ngOnInit() {
   }
+  selecteCity(){
+    console.log("city selected");
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',false), 3000);
+  }
 
   ngAfterViewInit(): void {
-    //setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
+    //setTimeout(this.map, 3000);
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',false), 1000);
 
+  }
+  changeLocationType(clt){
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',clt), 1000);
   }
   openReminderModal(){
     this.common.params.returnData = true;
@@ -78,11 +94,21 @@ export class VehicleTripUpdateComponent implements OnInit {
     });
   }
 
-  autoSuggestion(elementId) {
-    var options = {
-      types: ['(cities)'],
-      componentRestrictions: { country: "in" }
-    };
+  autoSuggestion(elementId,locType) {
+    console.log("locType",locType);
+    var options;
+    if(locType){
+      options = {
+        //types: ['(address)'],
+        componentRestrictions: { country: "in" }
+      };
+    }
+    else{
+      options = {
+        types: ['(cities)'],
+        componentRestrictions: { country: "in" }
+      };
+    }
     let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
     let autocomplete = new google.maps.places.Autocomplete(ref, options);
     google.maps.event.addListener(autocomplete, 'place_changed', this.updateLocation.bind(this,elementId, autocomplete));
@@ -109,14 +135,15 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
-    if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
+    if((this.vehicleTrip.endLat||this.placementSite)&&this.vehicleTrip.placementType){
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
-      location: this.vehicleTrip.endName.split(',')[0],
+      location: this.vehicleTrip.endName?this.vehicleTrip.endName.split(',')[0]:'',
       locationLat: this.vehicleTrip.endLat,
       locationLng: this.vehicleTrip.endLng,
       placementType: this.vehicleTrip.placementType,
       targetTime: this.vehicleTrip.targetTime,
+      siteId: this.vehicleTrip.endLat?0:this.placementSite,
 
     }
   

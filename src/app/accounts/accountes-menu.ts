@@ -46,6 +46,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/company-branches'
     },
     {
+        title: 'Ware House',
+        icon: 'fas fa-warehouse',
+        link: '/accounts/ware-house'
+    },
+    {
         title: 'Voucher',
         icon: 'fas fa-ticket-alt',
         children: [
@@ -91,10 +96,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger Mapping',
                 link: '/accounts/ledgermapping'
             },
-            {
-                title: 'Invoice Register',
-                link: '/accounts/invoiceregister'
-            },
+         
             {
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
@@ -108,10 +110,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/profitloss'
             },
             {
-                title:'Stock Available',
-                link: '/accounts/stockavailable'
-            },
-            {
                 title:'Cash Book',
                 link: '/accounts/cashbook'
             },
@@ -123,15 +121,33 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
+        title: 'Inventry  Reports',
+        icon: 'fa fa-file-excel',
+        children: [
+           
+            {
+                title: 'Invoice Register',
+                link: '/accounts/invoiceregister'
+            },
+       
+            {
+                title:'Stock Available',
+                link: '/accounts/stockavailable'
+            },
+          
+            
+        ],
+    },
+    {
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
+    },  {
+        title: 'City',
+        icon: 'fas fa-city',
+        link: '/accounts/city'
     },
-    {
-        title: 'Ware House',
-        icon: 'fas fa-warehouse',
-        link: '/accounts/ware-house'
-    },
+  
   
 
 

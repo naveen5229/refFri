@@ -29,11 +29,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-list',
     link: '/pages/lorry-receipts',
   },
-  // {
-  //   title: 'Generate LR',
-  //   icon: 'fas fa-pencil-alt',
-  //   link: '/pages/generate-lr',
-  // },
+  {
+    title: 'Generate LR',
+    icon: 'fa fa-pencil',
+    link: '/pages/generate-lr',
+  },
 
   {
     title: 'Expenses',
@@ -71,10 +71,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link:'/pages/trends'
   },
   {
-    title: 'Placements',
-    icon: 'fa fa-location-arrow',
-    link:'/pages/placements'
+    title: 'Placements DashBoard',
+    icon: 'fas fa-list',
+    link: '/pages/placements-dash-board',
+    home: true,
   },
+  // {
+  //   title: 'Placements',
+  //   icon: 'fa fa-location-arrow',
+  //   link:'/pages/placements'
+  // },
   //{
   //  title: 'Call Logs',
   //  icon: 'fa fa-phone',

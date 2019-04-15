@@ -32,7 +32,6 @@ export class CommonService {
   passedVehicleId = null;
   changeHaltModal = null;
   ref_page = null;
-
   primaryType = {
     1: { page: "HomePage", title: "Home" },
     2: { page: "HomePage", title: "Home" },
@@ -150,6 +149,33 @@ export class CommonService {
         separator +
         dat +
         (isTime ? " " + this.timeFormatter(date) : "")
+      );
+    }
+  }
+  dateFormatternew(date, type = "YYYYMMDD", isTime = true, separator = "-") {
+    let d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
+ 
+    // console.log(dat + separator + month + separator + year);
+    if (type == "ddMMYYYY") {
+      return (
+        dat +
+        separator +
+        month +
+        separator +
+         year 
+       
+      );
+    } else {
+      return (
+        dat +
+        separator +
+        month +
+        separator +
+        year 
+       
       );
     }
   }
@@ -360,18 +386,14 @@ export class CommonService {
     return generatedArray;
   }
 
-  dateDiffInHours(startTime, endTime) {
-    if (startTime == null || endTime == null) {
-      return '0';
+  dateDiffInHours(startTime, endTime,fromNow = false) {
+    if (!startTime || (!endTime && !fromNow)) {
+      return 0;
     }
     startTime = new Date(startTime);
-    endTime = new Date(endTime);
-    let resultTime = endTime - startTime;
-    let sec = resultTime / 1000;
-    let min = sec / 60;
-    let hour = min / 60;
-    let returnResult = hour.toFixed(5);
-    return returnResult;
+    endTime = (fromNow && !endTime)?new Date(new Date().toUTCString()):new Date(endTime);
+    let hours = Math.abs(endTime - startTime) / 36e5;
+    return hours;
   }
 
   dateDiffInHoursAndMins(startTime, endTime) {
@@ -748,6 +770,42 @@ export class CommonService {
   stopScroll() {
     document.getElementsByClassName('scrollable-container')[0].className +=
       ' stop-scroll';
+  }
+
+
+  handleDateOnEnterNew(datedate) {
+    let dateArray = [];
+    let separator = '-';
+    if (datedate.includes('-')) {
+      dateArray = datedate.split('-');
+    } else if (datedate.includes('/')) {
+      dateArray = datedate.split('/');
+      separator = '/';
+    } else {
+      this.showError('Invalid Date Format!');
+      return;
+    }
+  
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    month = (month >12) ?12 :month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    date = (date>31) ? 31: date;
+    date = (((month == '04') || (month == '06') || (month == '09')||(month == '11'))&& (date >30) ) ? 30: date;
+    date  = ((date == 28) && (month == '02')) ? 28 : date ;
+    if(year % 4==0 && (month =='02')){
+    date  = (((date >28) && (month == '02'))&&  ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date ;
+   
+     }
+     else if(year % 4 !=0 && (month =='02')){
+          date = 28;
+     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
+
+    console.log('Date: ', year + separator + month + separator + date);
+   return date + separator + month + separator + year;
   }
 
   continuoueScroll() {

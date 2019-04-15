@@ -27,9 +27,9 @@ export class OrderComponent implements OnInit {
   invoiceDetail = [];
   taxDetailData = [];
   order = {
-    date: this.common.dateFormatter(new Date()).split(' ')[0],
+    date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: null,
-    biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
+    biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
     totalamount: 0,
     grnremarks: '',
     billingaddress: '',
@@ -144,8 +144,8 @@ export class OrderComponent implements OnInit {
         console.log('Tax Detail', this.taxDetailData);
         this.order.orderid =this.common.params;
         this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
-        this.order.date = this.invoiceDetail[0].y_orderdate;
-        this.order.biltydate = this.invoiceDetail[0].y_biltydatestamp;
+        this.order.date =this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
+        this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
         this.order.billingaddress = this.invoiceDetail[0].y_vendorbillingaddress;
         this.order.ordertype.id = this.invoiceDetail[0].y_ordertype_id;
@@ -252,9 +252,9 @@ export class OrderComponent implements OnInit {
   }
   setInvoice() {
     return {
-      date: this.common.dateFormatter(new Date()).split(' ')[0],
+      date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
-      biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
+      biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
       totalamount: 0,
       grnremarks: '',
       billingaddress: '',
@@ -413,7 +413,7 @@ export class OrderComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.order[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.order[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.order[date]);
     });
   }

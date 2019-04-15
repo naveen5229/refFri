@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { from } from 'rxjs';
 @Component({
   selector: 'stock-subtypes',
@@ -82,8 +83,14 @@ export class StockSubtypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_stocksubtype;
+        if (result == '') {
+          this.common.showToast(" Stock SubType Add");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.getStockSubTypes();
-        this.common.showToast('Stock Sub Type Are Saved');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -108,8 +115,14 @@ export class StockSubtypesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
+        let result = res['data'][0].save_stocksubtype;
+        if (result == '') {
+          this.common.showToast(" Stock SubType Update");
+        }
+        else {
+          this.common.showToast(result);
+        }
         this.getStockSubTypes();
-        this.common.showToast('Stock Sub Type Are Updated');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -131,5 +144,38 @@ export class StockSubtypesComponent implements OnInit {
   RowSelected(u: any) {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
+  }
+
+  delete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'stocksubtype'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              this.getStockSubTypes();
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
+    }
   }
 }

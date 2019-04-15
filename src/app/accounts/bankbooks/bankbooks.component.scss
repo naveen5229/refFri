@@ -55,13 +55,21 @@ table tr.highlight {
     border-radius: 3px !important;
     padding: 3px 8px !important;
 }
-
-
+.auto-sugg{
+    max-height: 128px;
+    min-height: 128px;
+}
 table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: 15%;
         }
         td{
             padding: 5px 10px !important;
@@ -79,6 +87,23 @@ table{
         }
     }
     tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 312px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td{
+                width: 15%;
+            }
+            td:last-child{
+                width: 14.5%
+            }
+        }
         tr:nth-child(odd){
             background-color: #fff;
         }

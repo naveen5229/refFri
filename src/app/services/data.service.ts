@@ -55,7 +55,7 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/driver-list',
         home: true,
-    },
+      },
       {
         title: 'Generate LR',
         icon: 'fa fa-pencil',
@@ -110,7 +110,20 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      },   
+      },
+      {
+        title: 'Vehicle Gps Trail',
+        icon: 'fas fa-receipt',
+        link: '/admin/vehicle-gps-trail',
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+     
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -128,13 +141,25 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/company-details',
         home: true,
-    },
-    {
-      title: 'Transport Agents',
-      icon: 'nb-home',
-      link: '/admin/transport-agents',
-      home: true,
-  }
+      },
+      {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+      },
+      {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+      },
+      {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+        home: true,
+      }
     ];
   }
 }

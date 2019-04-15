@@ -56,8 +56,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        height: calc(112vh - 250px);
-        max-height: calc(112vh - 250px);
+        max-height: calc(100vh - 172px);
         tr{
             display: table;
             table-layout: fixed;
@@ -102,4 +101,9 @@ table tr.highlight {
 i{
     font-size: 14px;
     align-content: center;
+}
+.delete{
+    color: #D61414 !important;
+    padding: 2%;
+    margin: 40%;
 }

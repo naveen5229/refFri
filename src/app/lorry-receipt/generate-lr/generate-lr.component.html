@@ -1,11 +1,9 @@
-<nb-card>
+<nb-card style="border: 0px;">
   <nb-card-header>
-    <div class="col-sm-4">
-      <h2>Generate LR </h2>
-    </div>
+    <h5>Generate LR </h5>
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-bordered">
+    <table class="table table-bordered gerrate_tabel">
       <tbody>
         <!-- <tr>
           <td><label>Branch</label></td>
@@ -47,7 +45,7 @@
           <td><span>
               <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
                 placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
-              <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()"></i> </div>
+              <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addDriver()"></i> </div>
             </span> </td>
           <td><label>Driver Name : </label>
             {{driver.name}}
@@ -77,7 +75,7 @@
           <td> <span>
               <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
                 placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i
-                class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()"></i>
+                class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
             </span></td>
           <td><label>Consignor Address</label></td>
           <td>
@@ -91,7 +89,7 @@
           <td> <span>
               <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
                 placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
-              <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()"></i>
+              <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
               </div>
             </span></td>
           <td><label>Consignee Address</label></td>
@@ -103,11 +101,11 @@
         </tr>
         <tr>
 
+          <td><label>Delivery Address </label> </td>
           <td>
-            <label>Delivery Address </label> </td>
-          <td><input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
-            &nbsp;&nbsp;&nbsp; Same as Consignee Address &nbsp;&nbsp;&nbsp;
-          <td><input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off"></td>
+            <input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
+            Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off">
+          </td>
         </tr>
 
 
@@ -128,7 +126,7 @@
           <td><label>Payable Amount</label></td>
           <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>
           <td><label>Payment Term</label></td>
-          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol" style="width: 150px; height: 31px;">
+          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
               <option value="1">ToPay</option>
               <option value="2">Advance</option>
             </select></td>
@@ -166,114 +164,112 @@
         </tr>
       </tbody>
     </table>
-    <div>
-      <label>Material Details</label>
-      <table class="table table-bordered">
-        <tbody *ngFor="let particular of particulars; let i = index;">
-          <tr>
-            <td>
-              <label> Material </label>
-            </td>
-            <td>
-              <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
-                display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i"
-                ></auto-suggestion>
-              <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
-              <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
-            </td>
-            <td>
-              <label>Number Of Articles </label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
-            </td>
-            <td>
-              <label>Weight (In Tons)</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.weight">
-            </td>
-            <td>
-              <label>Material Value</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.material_value">
-            </td>
-            <td *ngIf="i == particulars.length-1"><button
-                (click)="particular.customField = true; particular.customButton = false"
-                *ngIf="particular.customButton">Add Fields</button></td>
-            <td *ngIf="i == particulars.length-1"><button (click)="addMore()">Add Materials</button></td>
-            <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
-          </tr>
-
-          <tr *ngIf="particular.customField ">
-            <td>
-              <label> Invoice </label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.invoice">
-            </td>
-            <td>
-              <label>container No </label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.customfields.containerno">
-            </td>
-            <td>
-              <label>Seal No</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.customfields.sealno">
-            </td>
-            <td>
-              <label>DCPI No</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
-            </td>
-
-          </tr>
-
-          <tr *ngIf="particular.customField ">
-            <td>
-              <input type="text" placeholder="Name" class="form-control"
-                [(ngModel)]="particular.customfields.customDetail[0]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Value"
-                [(ngModel)]="particular.customfields.customDetail[1]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Name"
-                [(ngModel)]="particular.customfields.customDetail[2]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Value"
-                [(ngModel)]="particular.customfields.customDetail[3]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Name"
-                [(ngModel)]="particular.customfields.customDetail[4]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Value"
-                [(ngModel)]="particular.customfields.customDetail[5]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Name"
-                [(ngModel)]="particular.customfields.customDetail[6]">
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="Value"
-                [(ngModel)]="particular.customfields.customDetail[7]">
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-
+    <div class="material_details">
+          <h5>Material Details</h5>
+          <table class="table table-bordered">
+            <tbody *ngFor="let particular of particulars; let i = index;">
+              <tr>
+                <td>
+                  <label> Material </label>
+                </td>
+                <td>
+                  <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
+                    display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i"
+                    ></auto-suggestion>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
+                  <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
+                </td>
+                <td>
+                  <label>Number Of Articles </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
+                </td>
+                <td>
+                  <label>Weight (In Tons)</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.weight">
+                </td>
+                <td>
+                  <label>Material Value</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.material_value">
+                </td>
+                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary"
+                    (click)="particular.customField = true; particular.customButton = false"
+                    *ngIf="particular.customButton">Add Fields</button></td>
+                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary" (click)="addMore()">Add Materials</button></td>
+                <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
+              </tr>
+    
+              <tr *ngIf="particular.customField ">
+                <td>
+                  <label> Invoice </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.invoice">
+                </td>
+                <td>
+                  <label>container No </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.containerno">
+                </td>
+                <td>
+                  <label>Seal No</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.sealno">
+                </td>
+                <td>
+                  <label>DCPI No</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
+                </td>
+    
+              </tr>
+    
+              <tr *ngIf="particular.customField ">
+                <td>
+                  <input type="text" placeholder="Name" class="form-control"
+                    [(ngModel)]="particular.customfields.customDetail[0]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[1]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Name"
+                    [(ngModel)]="particular.customfields.customDetail[2]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[3]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Name"
+                    [(ngModel)]="particular.customfields.customDetail[4]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[5]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Name"
+                    [(ngModel)]="particular.customfields.customDetail[6]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[7]">
+                </td>
+              </tr>
+    
+            </tbody>
+    
+          </table>
       <!-- <input type="date"> -->
       <div><button class="btn btn-primary" (click)=saveDetails()>Save</button></div>
     </div>

@@ -12,36 +12,20 @@
 
       <div class="row">
         <div class="form-group">
-          <!-- <div class="col-md-2 text-center">
-            <label>User</label>
-          </div>
-          <div class="col-md-4">
-            input type="text" class="form-control" (input)="searchUser()" name="user-name"
-             <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList"
-              display="name" inputId="user" placeholder="Enter User" [preSelected]="null" class="suggestion-containerbox">
-            </auto-suggestion> 
-            <input type="text" id="user" class="form-control" name="user" [(ngModel)]="Accounts.user.name">
-          </div> -->
           <div class="col-md-2 text-center">
             <label>Name</label>
           </div>
           <div class="col-md-4">
-            <input type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" id="name"
+            <input autocomplete="off" type="text" class="form-control" name="account-name" [(ngModel)]="Accounts.name" id="name"
               (input)="Accounts.aliasname=Accounts.name" [value]="Accounts.name |titlecase">
           </div>
           <div class="col-md-2 text-center">
             <label>Alias Name</label>
           </div>
           <div class="col-md-4">
-            <input type="text" class="form-control" name="account-aliasname" id="aliasname"
+            <input autocomplete="off" type="text" class="form-control" name="account-aliasname" id="aliasname"
               [(ngModel)]="Accounts.aliasname">
           </div>
-          <!-- <div class="col-md-2 text-center">
-            <label>Code</label>
-          </div>
-          <div class="col-md-2">
-            <input type="text" class="form-control" name="code" id="code" [(ngModel)]="Accounts.code">
-          </div> -->
         </div>
       </div>
      
@@ -53,17 +37,145 @@
           <div class="col-md-4">
             <!-- <auto-suggestion (onSelected)="onParent($event, 'account', 'name')" url="Suggestion/GetAccount"
               display="name" inputId="undergroup" [data]="underGroupdata" name="undergroup" placeholder="Search Parent Account" [preSelected]="null"></auto-suggestion> -->
-              <!-- <input type="text" id="undergroup" class="form-control" name="undergroup" [(ngModel)]="Accounts.account.name"> -->
-              <input type="text" class="form-control" id="undergroup" name="undergroup" [(ngModel)]="Accounts.undergroup.name"
+              <!-- <input autocomplete="off" type="text" id="undergroup" class="form-control" name="undergroup" [(ngModel)]="Accounts.account.name"> -->
+              <input autocomplete="off" type="text" class="form-control" id="undergroup" name="undergroup" [(ngModel)]="Accounts.undergroup.name"
               (click)="lastActiveId = 'ledger-'; allowBackspace = false;" (input)="allowBackspace = false;">
             </div>
           <div class="col-md-2 text-center">
             <label>Per Rate</label>
           </div>
           <div class="col-md-4">
-            <input type="number" class="form-control" name="account-perrate" id="perrate"
+            <input autocomplete="off" type="number" class="form-control" name="account-perrate" id="perrate"
               [(ngModel)]="Accounts.perrate">
           </div>
+        </div>
+      </div><div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Opening Balance</label>
+          </div>
+          <div class="col-md-4">
+            <input autocomplete="off" type="text" class="form-control" name="openingbalance" [(ngModel)]="Accounts.openingbalance" id="openingbalance"
+             >
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Opening Balance</label>
+          </div>
+          <div class="col-md-4 text-center">
+            <div class="debit_box">
+              <div class="debit">
+                  <span>Debit</span>
+                  <input autocomplete="off" type="radio" class="form-control" name="openingisdr" id="openingisdr"
+                    [(ngModel)]="Accounts.openingisdr" [value]=1>
+              </div>
+                <div class="credit">
+                    <span>Credit</span>
+                    <input autocomplete="off" type="radio" class="form-control" name="openingisdr" id="openingiscr"
+                      [(ngModel)]="Accounts.openingisdr" [value]=0>
+                </div>
+            </div>
+         
+           
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>A/c Number</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" name="accnumber" id="accnumber"
+              [(ngModel)]="Accounts.accnumber">
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Is Bank</label>
+          </div>
+          <div class="col-md-4 text-left">
+            <input type="checkbox" class="form-control checktype" name="isbank" id="isbank"
+              [(ngModel)]="Accounts.isbank" [value]=0 (ngModelChange)="changeevent(this.value)">
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="Accounts.isbank == 1">
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>Bank Branch Name</label>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" name="branchname" [(ngModel)]="Accounts.branchname" id="branchname"
+             >
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Bank Branch Code</label>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" name="branchcode" id="branchcode"
+              [(ngModel)]="Accounts.branchcode">
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Credit Days</label>
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control" name="creditdays" ng-maxlength="3"  [(ngModel)]="Accounts.creditdays" id="creditdays"
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="(this.common.params)"> 
+        <div class="form-group">
+          <div class="col-md-2 text-center">
+            <label>For Approved</label>
+          </div>
+          <div class="col-md-2">
+            <div class="true_false">
+                <div class="true">
+                    <span>True</span>
+                    <input type="radio" class="form-control" name="approved" [(ngModel)]="Accounts.approved" id="approvedtrue"
+                    [value]=1 > 
+                  </div>
+                  <div class="false">
+                      <span>False</span>
+                    <input type="radio" class="form-control" name="approved" [(ngModel)]="Accounts.approved" id="approvedfalse"
+                    [value]=0 >
+                  </div>
+            </div>
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Delete View</label>
+          </div>
+          <div class="col-md-2">
+            <div class="true_false">
+              <div class="true">
+              <span>True</span>
+              <input type="radio" class="form-control" name="deleteview" [(ngModel)]="Accounts.deleteview" id="deleteviewtrue"
+              [value]=1 >
+              </div>
+              <div class="false">
+                  <span>False</span>
+                  <input type="radio" class="form-control" name="deleteview" [(ngModel)]="Accounts.deleteview" id="deleteviewfalse"
+                  [value]=0 >
+                </div>
+            </div>
+          </div>
+          <div class="col-md-2 text-center">
+            <label>Delete</label>
+          </div>
+          <div class="col-md-2">
+            <div class="true_false">
+              <div class="true">
+                <span>True</span>
+                <input type="radio" class="form-control" name="delete" [(ngModel)]="Accounts.delete" id="deletetrue"
+            [value]=1 >
+              </div>
+              <div class="false">
+                <span>False</span>
+                <input type="radio" class="form-control" name="delete" [(ngModel)]="Accounts.delete" id="deletefalse"
+            [value]=0 >
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -107,36 +219,36 @@
                 <!-- <auto-suggestion (onSelected)="Details.salutationId = $event.id;" url="Suggestion/GetSalutation"
                   display="name" [inputId]="'salution-' + i" [data]="salutiondata" placeholder="Enter Salutation" [preSelected]="{name:' '}">
                 </auto-suggestion> -->  
-                <input type="text" class="form-control" [id]="'salutation-'+i" name="'salutation-'+i" [(ngModel)]="Details.salutation.name"
+                <input type="text" class="form-control" autocomplete="off" [id]="'salutation-'+i" name="'salutation-'+i" [(ngModel)]="Details.salutation.name"
               (click)="lastActiveId = 'salutation-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [(ngModel)]="Details.name"
+                <input type="text" class="form-control" autocomplete="off" name="account-name" [(ngModel)]="Details.name"
                   [id]="'accountName-' + i" [value]="Accounts.name" >
               </td>
               <td>
-                <input type="number" class="form-control" name="account-mobileno" [id]="'mobileno-' + i"
-                  [(ngModel)]="Details.mobileNo">
+                <input type="number" class="form-control" autocomplete="off" name="account-mobileno" [id]="'mobileno-' + i"
+                  [(ngModel)]="Details.mobileNo" minlength="10" maxlength="10">
               </td>
               <td>
-                <input type="email" class="form-control" name="account-email" [id]="'email-' + i"
+                <input type="email" class="form-control" autocomplete="off" name="account-email" [id]="'email-' + i"
                   [(ngModel)]="Details.email">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'panNo-' + i" [(ngModel)]="Details.panNo">
+                <input type="text" class="form-control" autocomplete="off" name="account-name" [id]="'panNo-' + i" ng-maxlength="10" [(ngModel)]="Details.panNo">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'tanNo-' + i" [(ngModel)]="Details.tanNo">
+                <input type="text" class="form-control" autocomplete="off" name="account-name" [id]="'tanNo-' + i" ng-maxlength="15" [(ngModel)]="Details.tanNo">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'gstNo-' + i" [(ngModel)]="Details.gstNo">
+                <input type="text" class="form-control" autocomplete="off" name="account-name" [id]="'gstNo-' + i" ng-maxlength="15" [(ngModel)]="Details.gstNo">
               </td>
               <td>
-                <input type="text" class="form-control" [id]="'state-'+i" name="'state-'+i" [(ngModel)]="Details.state.name"
+                <input type="text" class="form-control" autocomplete="off" [id]="'state-'+i" name="'state-'+i" [(ngModel)]="Details.state.name"
                 (click)="lastActiveId = 'state-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </td>
               <td>
-                  <input type="text" class="form-control" [id]="'city-'+i" name="'city-'+i" [(ngModel)]="Details.city.name"
+                  <input type="text" class="form-control" autocomplete="off" [id]="'city-'+i" name="'city-'+i" [(ngModel)]="Details.city.name"
                   (click)="lastActiveId = 'city-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
 
                 <!-- <auto-suggestion (onSelected)="Details.cityId = $event.id;" url="Suggestion/GetCity" display="name"
@@ -144,11 +256,11 @@
                 </auto-suggestion> -->
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'address-' + i"
+                <input type="text" class="form-control" autocomplete="off" name="account-name" [id]="'address-' + i"
                   [(ngModel)]="Details.address">
               </td>
               <td>
-                <input type="text" class="form-control" name="account-name" [id]="'remarks-' + i"
+                <input type="text" class="form-control" autocomplete="off" name="account-name" [id]="'remarks-' + i"
                   [(ngModel)]="Details.remarks">
               </td>
               <td *ngIf="i == 0">

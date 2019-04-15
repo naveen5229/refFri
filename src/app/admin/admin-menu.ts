@@ -112,6 +112,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    },
+ 
+    {
         title: 'Vehicles View',
         icon: 'nb-home',
         link: '/admin/vehicles-view',
@@ -127,6 +134,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Transport Agents',
         icon: 'nb-home',
         link: '/admin/transport-agents',
+        home: true,
+    },
+    {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+    },
+    {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
         home: true,
     }
 
