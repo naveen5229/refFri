@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
+import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 @Component({
   selector: 'voucher-summary',
   templateUrl: './voucher-summary.component.html',
@@ -14,13 +15,18 @@ export class VoucherSummaryComponent implements OnInit {
 
   tripVoucher;
   trips;
+  ledgers = [];
   checkedTrips = [];
   fuelFilings = [];
   tripHeads = [];
   VehicleId;
   VoucherId;
-  
+  DriverId;
+  DriverName;
+  creditLedger = 0;
+
   constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
+    this.getAllLedgers();
     this.trips = this.common.params.tripDetails;
     this.VehicleId = this.common.params.vehId;
     this.tripVoucher = this.common.params.tripVoucher;
@@ -38,6 +44,26 @@ export class VoucherSummaryComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
+  getAllLedgers() {
+    const params = {
+      search: ""
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.ledgers = res['data'];
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+
   checkedAllSelected() {
     this.checkedTrips = [];
     for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
@@ -186,6 +212,52 @@ export class VoucherSummaryComponent implements OnInit {
   }
 
   addVoucher() {
+
+    // let amountDetails = [
+    //   { transactionType: "debit", ledger: "6506", amount: { debit: 121, credit: 0 } },
+    //   { transactionType: "credit", ledger: "6506", amount: { debit: 0, credit: 121 } }
+    // ];
+    let amountDetails = [];
+    let totalAmount = 0;
+    this.tripHeads.map(tripHead => {
+      let data = {
+        transactionType: "debit",
+        ledger: tripHead.id,
+        amount: tripHead.totalX
+      };
+      totalAmount += tripHead.total;
+      amountDetails.push(data);
+    });
+
+    amountDetails.push({
+      transactionType: "credit",
+      ledger: this.creditLedger,
+      amount: totalAmount
+    });
+
+    let params = {
+      customercode: this.VehicleId,
+      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      foid: '',
+      remarks: "test",
+      vouchertypeid: '-9',
+      amountDetails: amountDetails,
+      xid: 0,
+      y_code: ''
+    };
+    console.log('Params: ', params);
+    this.api.post('Voucher/InsertVoucher', params)
+      .subscribe(res => {
+        console.log('Res: ', res);
+      }, err => {
+        console.log(err);
+        this.common.showError;
+      })
+
+    if (params) return;
+
+
+
     console.log('Trips: ', this.tripHeads);
     console.log('VoucherId: ', this.VoucherId);
     if (this.VoucherId) {
@@ -233,9 +305,9 @@ export class VoucherSummaryComponent implements OnInit {
   dismiss(status) {
     this.activeModal.close({ status: status });
   }
-  addTrip(){
-    let vehId=this.VehicleId; 
-    this.common.params = {vehId};
+  addTrip() {
+    let vehId = this.VehicleId;
+    this.common.params = { vehId };
     const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -244,15 +316,33 @@ export class VoucherSummaryComponent implements OnInit {
       }
     });
   }
-  addFuelFilling(){
-    let vehId=this.VehicleId; 
-    this.common.params = {vehId};
+  addFuelFilling() {
+    let vehId = this.VehicleId;
+    this.common.params = { vehId };
     const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
         //this.addLedger(data.ledger);
       }
+    });
+  }
+  setDriverName(driverList) {
+    if (driverList.id == null) {
+      console.log(driverList.empname);
+    }
+    this.DriverId = driverList.id;
+    this.DriverName = driverList.empname;
+  }
+  setLedgerName(ledgerList) {
+    this.DriverId = ledgerList.id;
+    this.DriverName = ledgerList.name;
+  }
+  addDriver() {
+    console.log("open material modal")
+    const activeModal = this.modalService.open(AddDriverComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
     });
   }
 

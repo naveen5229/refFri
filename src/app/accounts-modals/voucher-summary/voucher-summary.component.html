@@ -1,5 +1,17 @@
 <nb-card>
   <nb-card-body>
+      <div class="col-md-4">
+          <auto-suggestion (onSelected)="setDriverName($event)" url="Suggestion/getElogistDriverList" display="empname"
+          placeholder="Driver Name" [preSelected]="null"></auto-suggestion>
+      </div>
+      <i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()" ></i>
+      <!-- <div class="col-md-4">
+          <auto-suggestion (onSelected)="setLedgerName($event)" url="Suggestion/GetAllLedger" display="name"
+          placeholder="Ledger Name" [preSelected]="null"></auto-suggestion>
+      </div> -->
+      <select name="credit-ledger" class="form-control" [(ngModel)]="creditLedger" >
+          <option *ngFor="let ledger of ledgers" [value]="ledger.id">{{ledger.name}}</option>
+      </select>
     <button style="margin-bottom:10px;" (click)="addTrip()">Add New Trip </button>
       <button type="button" class="close" style="margin-top : 10px"  aria-label="Close" (click)=dismiss(false)>
           <span aria-hidden="true">&times;</span>

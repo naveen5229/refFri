@@ -189,7 +189,6 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
     AddTripComponent,
     DatePicker2Component,
     AddFuelFillingComponent,
-    AddDriverComponent,
     UpdateSiteDetailsComponent
 
   ],
