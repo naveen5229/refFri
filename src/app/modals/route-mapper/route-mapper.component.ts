@@ -162,9 +162,9 @@ export class RouteMapperComponent implements OnInit {
                     vehicleEvents[index].color = "00ffff";
                   }
                   vehicleEvents[index].position = (this.commonService.dateDiffInHours(
-                    vehicleEvents[0].start_time,vehicleEvents[index].start_time)/totalHourDiff)*97.9;
+                    vehicleEvents[0].start_time,vehicleEvents[index].start_time)/totalHourDiff)*98;
                   vehicleEvents[index].width = (this.commonService.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*109.8;
+                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
                   console.log("Width",vehicleEvents[index].width);
                    
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
