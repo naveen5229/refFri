@@ -24,7 +24,7 @@
           <label>PreSit Name</label>
         </div>
         <div class="col-md-6">
-            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1" seperator="-"  [display]="['name','sd_loc_name']"
             placeholder="Search Presite" [preSelected]="null"></auto-suggestion>
          
           <div class="suggestions ng-star-inserted">
@@ -37,7 +37,7 @@
           <label>CurrentSite Name<span>*</span></label>
         </div>
         <div class="col-md-6">
-            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1" seperator="-"  [display]="['name','sd_loc_name']"
             placeholder="Search CurrentSite" [preSelected]="null"></auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
