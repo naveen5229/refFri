@@ -38,3 +38,7 @@ nb-card-body{
     margin: 2%;
     padding: 2%;
 }
+:host ::ng-deep .tableFixHead{
+    overflow: auto;
+    max-height: calc(100vh - 162px);
+}
