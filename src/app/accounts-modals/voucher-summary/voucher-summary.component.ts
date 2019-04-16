@@ -21,6 +21,7 @@ export class VoucherSummaryComponent implements OnInit {
   tripHeads = [];
   VehicleId;
   VoucherId;
+  FinanceVoucherId;
   DriverId;
   DriverName;
   creditLedger = 0;
@@ -35,6 +36,7 @@ export class VoucherSummaryComponent implements OnInit {
     console.log(this.common.params.tripVoucher);
     if (this.tripVoucher) {
       this.VoucherId = this.tripVoucher.id;
+      this.FinanceVoucherId=this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.trips;
       this.trips.map(trip => trip.isChecked = true);
       this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
@@ -211,19 +213,62 @@ export class VoucherSummaryComponent implements OnInit {
     });
   }
 
-  addVoucher() {
+  hanldeExpenseVoucher() {
+    if (this.VoucherId) {
+      this.updateTripExpenseVoucher();
+    } else {
+      this.InsertTripExpenseVoucher();
+    }
+  }
 
-    // let amountDetails = [
-    //   { transactionType: "debit", ledger: "6506", amount: { debit: 121, credit: 0 } },
-    //   { transactionType: "credit", ledger: "6506", amount: { debit: 0, credit: 121 } }
-    // ];
+  InsertTripExpenseVoucher() {
+    const params = {
+      vehId: this.VehicleId,
+      voucher_details: this.tripHeads
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/InsertTripExpenseVoucher', params)
+      .subscribe(res => {
+        console.log('Res: ', res);
+        this.common.loading--;
+        this.addVoucher(res['data']);
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError;
+      });
+  }
+
+  updateTripExpenseVoucher() {
+    const params = {
+      vehId: this.VehicleId,
+      voucher_details: this.tripHeads,
+      voucherId: this.VoucherId
+    };
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/updateTripExpenseVoucher', params)
+      .subscribe(res => {
+        console.log('Res: ', res);
+        this.common.loading--;
+        this.addVoucher(this.VoucherId,this.FinanceVoucherId);
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError;
+      });
+  }
+
+  addVoucher(tvId, xId = 0) {
     let amountDetails = [];
     let totalAmount = 0;
     this.tripHeads.map(tripHead => {
       let data = {
         transactionType: "debit",
-        ledger: tripHead.id,
-        amount: tripHead.totalX
+        ledger: {
+          name: '',
+          id: tripHead.id
+        },
+        amount: tripHead.total
       };
       totalAmount += tripHead.total;
       amountDetails.push(data);
@@ -231,7 +276,10 @@ export class VoucherSummaryComponent implements OnInit {
 
     amountDetails.push({
       transactionType: "credit",
-      ledger: this.creditLedger,
+      ledger: {
+        name: '',
+        id: this.creditLedger
+      },
       amount: totalAmount
     });
 
@@ -242,57 +290,36 @@ export class VoucherSummaryComponent implements OnInit {
       remarks: "test",
       vouchertypeid: '-9',
       amountDetails: amountDetails,
-      xid: 0,
+      xid: xId,
       y_code: ''
     };
     console.log('Params: ', params);
+    this.common.loading++;
     this.api.post('Voucher/InsertVoucher', params)
       .subscribe(res => {
         console.log('Res: ', res);
+        this.common.loading--;
+        this.updateFinanceVoucherId(res['data'][0].save_voucher, tvId);
       }, err => {
         console.log(err);
+        this.common.loading--;
         this.common.showError;
       })
 
-    if (params) return;
-
-
-
-    console.log('Trips: ', this.tripHeads);
-    console.log('VoucherId: ', this.VoucherId);
-    if (this.VoucherId) {
-      const params = {
-        vehId: this.VehicleId,
-        voucher_details: this.tripHeads,
-        voucherId: this.VoucherId
-      };
-      this.common.loading++;
-      this.api.post('TripExpenseVoucher/updateTripExpenseVoucher', params)
-        .subscribe(res => {
-          console.log('Res: ', res);
-          this.common.loading--;
-        }, err => {
-          console.log(err);
-          this.common.loading--;
-          this.common.showError;
-        })
-    } else {
-      const params = {
-        vehId: this.VehicleId,
-        voucher_details: this.tripHeads
-      };
-      this.common.loading++;
-      this.api.post('TripExpenseVoucher/InsertTripExpenseVoucher', params)
-        .subscribe(res => {
-          console.log('Res: ', res);
-          this.common.loading--;
-        }, err => {
-          console.log(err);
-          this.common.loading--;
-          this.common.showError;
-        })
-    }
   }
+
+  updateFinanceVoucherId(fvId, tvId) {
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/updateVoucherFId', { fv_id: fvId, tv_id: tvId })
+      .subscribe(res => {
+        console.log('Res:', res);
+        this.common.loading--;
+      }, err => {
+        console.log('Error:', err);
+        this.common.loading--;
+      });
+  }
+
 
   calculateTripHeadTotal(index) {
     console.log('Index: ', index)
