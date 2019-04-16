@@ -1,350 +1,279 @@
-<nb-card>
+<nb-card style="border: 0px;">
   <nb-card-header>
-    <div class="col-sm-4">
-      <h2>Generate LR </h2>
-    </div>
+    <h5>Generate LR </h5>
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-bordered">
+    <table class="table table-bordered gerrate_tabel">
       <tbody>
-        <tr>
+        <!-- <tr>
           <td><label>Branch</label></td>
           <td> <select [(ngModel)]=lr.branch (change)="getBranchDetails()" class="form-conrol" style="width: 150px;
                   height: 31px;" placeholder="select branch">
               <option *ngFor="let branch of branches" [value]="branch">{{branch}}</option>
             </select> </td>
-        </tr>
+        </tr> -->
         <tr>
-            <td><label>Vehicle No</label></td>
-            <td>
-              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-                placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-            </td>
-            <td><label>LR No</label></td>
-            <td>
-              {{lr.lrNumber}}
-              <!-- <input type="text" readonly [(ngModel)]=lr.lrNumber class="form-control"> -->
-             </td>
-            
-          </tr>
+          <td><label>Vehicle No</label></td>
+          <td>
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+          </td>
+          <td><label>LR No</label></td>
+          <td>
+            <!-- {{lr.lrNumber}} -->
+            <input type="text" [(ngModel)]=lr.lrNumber class="form-control" placeholder="Enter LR Number">
+          </td>
+        </tr>
         <tr>
           <td><label>Date</label></td>
-          <td>   
-              <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " 
-              class="form-control" autocomplete="off" name="date">
+          <td>
+            <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " class="form-control"
+              autocomplete="off" name="date" placeholder="Enter Date">
             <owl-date-time #date></owl-date-time>
-            
+
             <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
           </td>
-          <td><label>Driver Mob NO </label></td>
+          <td><label>T.A. Name</label></td>
 
-          <td><span><auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-              placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion> <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()" ></i> </div></span> </td>
+          <td>
+            <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
+              placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
+          </td>
         </tr>
         <tr>
-            <td><label>Driver Name</label></td>
-            <td> 
-              {{driver.name}}
-              <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
-            </td>
-            <td><label>License No </label></td>
-            <td>
-              {{driver.licenseNo}}
-              <!-- <input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly>  -->
-            </td>
-          </tr>
-       
+          <td><label>Driver Mob NO </label></td>
+          <td><span>
+              <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
+                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
+              <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addDriver()"></i> </div>
+            </span> </td>
+          <td><label>Driver Name : </label>
+            {{driver.name}}
+            <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
+          </td>
+          <td><label>License No : </label>
+            {{driver.licenseNo}}
+            <!-- <input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly>  -->
+          </td>
+        </tr>
+
         <tr>
-          <td><label>Source City</label></td> 
-          <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td>
+          <td><label>Source City</label></td>
+          <td>
+              <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control">
+          </td>
+          <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
           <td><label>Destination City </label></td>
-          <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td>
+          <td>
+              <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="lr.destinationCity" class="form-control">
+
+            <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
+          <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
         </tr>
         <tr>
           <td><label>Consignor Name</label></td>
-          <td> <span><auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
-            placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()" ></i></span></td>
+          <td> <span>
+              <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
+                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i
+                class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
+            </span></td>
           <td><label>Consignor Address</label></td>
           <td>
-            {{lr.consignorAddress}}
-            <!-- <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off"> -->
-           </td>
+            <!-- {{lr.consignorAddress}} -->
+            <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off">
+          </td>
 
         </tr>
         <tr>
           <td><label>Consignee Name</label></td>
-          <td> <span><auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
-            placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()" ></i> </div> </span></td>
+          <td> <span>
+              <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
+                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
+              <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
+              </div>
+            </span></td>
           <td><label>Consignee Address</label></td>
           <td>
-              {{lr.consigneeAddress}}
-            <!-- <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control" > -->
-           </td>
-          
+            <!-- {{lr.consigneeAddress}} -->
+            <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control" >
+          </td>
+
         </tr>
         <tr>
-           
-            <td>
-              <label>Delivery Address </label> </td>
-              <td><input type="checkbox" [(ngModel)]=lr.sameAsDelivery
-                  (change)="fillConsigneeAddress();"> &nbsp;&nbsp;&nbsp; Same as Consignee Address &nbsp;&nbsp;&nbsp;
-            <td><input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off"></td>
-          </tr>
+
+          <td><label>Delivery Address </label> </td>
+          <td>
+            <input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
+            Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off">
+          </td>
+        </tr>
+
+
+        <!-- <tr>
+              <td><label>T.A. Name</label></td>
+              <td>
+                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent"
+                  display="name" placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
+              </td>
+              <td><label>T.A. Id</label></td>
+              <td>
+                {{taId}}
+               </td>          
+            </tr> -->
+
+
         <tr>
           <td><label>Payable Amount</label></td>
           <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>
           <td><label>Payment Term</label></td>
-          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol" style="width: 150px; height: 31px;">
-              <option value="ToPay">To Pay</option>
-              <option value="ToBeFilled">To Be Filled</option>
+          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
+              <option value="1">ToPay</option>
+              <option value="2">Advance</option>
             </select></td>
         </tr>
         <tr>
           <td>
             <label>Tax Paid By : </label>
           </td>
-          <td colspan="3">
+          <td>
             <span>
               <label class="radio-btn">
                 <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="Consignor">Consignor
+                  value="1">Consignor
               </label>
               <label class="radio-btn">
                 <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="Consignee">Consignee
+                  value="2">Consignee
               </label>
               <label class="radio-btn">
                 <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="GTA">GTA
+                  value="3">GTA
               </label>
               <label class="radio-btn">
                 <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="Exempt">Exempt
+                  value="4">Exempt
               </label>
             </span>
           </td>
+          <td>
+            <label>Remark</label>
+          </td>
+          <td>
+            <input type="text" class="form-control" placeholder="Any Other Remark" [(ngModel)]="lr.remark">
+          </td>
         </tr>
       </tbody>
     </table>
-    <div>
-      <label>MaterialDetail</label>
-      <table class="table table-bordered">
-        <tbody *ngFor="let particular of particulars; let i = index;">
-          <tr>
-            <td>
-              <label> Material </label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material">
-            </td>
-            <td>
-              <label>Number Of Articles </label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.articleNo">
-            </td>
-            <td>
-              <label>Weight (In Tons)</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.weight">
-            </td>
-            <td>
-              <label>Material Value</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.materialValue">
-            </td>
-            <td *ngIf="i == particulars.length-1"><button (click)= "particular.customField = true; particular.customButton = false" *ngIf= "particular.customButton" >Add Fields</button></td>   
-           <td *ngIf="i == particulars.length-1"><button (click)="addMore()" >Add Materials</button></td>
-            <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
-          </tr>
-          
-          <tr  *ngIf = "particular.customField ">
-              <td>
-                <label> Invoice </label>
-              </td>
-              <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.invoice">
-              </td>
-              <td>
-                <label>container No </label>
-              </td>
-              <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.containerNo">
-              </td>
-              <td>
-                <label>Seal No</label>
-              </td>
-              <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.sealNo">
-              </td>
-              <td>
-                <label>DCPI No</label>
-              </td>
-              <td>
-                <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.dcpiNo">
-              </td>
-             
-            </tr>
-            
-          <tr  *ngIf = "particular.customField ">
-              <td>
-                  <input type="text" placeholder="Name" class="form-control" [(ngModel)]="particular.otherDetail.customDetail[0]">          
-              </td>
-              <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[1]">
-              </td>
-              <td>
-                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.otherDetail.customDetail[2]">          
-              </td>
-              <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[3]">
-              </td>
-              <td>
-                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.otherDetail.customDetail[4]">         
-              </td>
-              <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[5]">
-              </td>
-              <td>
-                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="particular.otherDetail.customDetail[6]">
-              </td>
-              <td>
-                <input type="text" class="form-control" placeholder="Value" [(ngModel)]="particular.otherDetail.customDetail[7]">
-              </td>
-            </tr>
-         
-        </tbody>
-        
-      </table>
-     
+    <div class="material_details">
+          <h5>Material Details</h5>
+          <table class="table table-bordered">
+            <tbody *ngFor="let particular of particulars; let i = index;">
+              <tr>
+                <td>
+                  <label> Material </label>
+                </td>
+                <td>
+                  <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
+                    display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i"
+                    ></auto-suggestion>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
+                  <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
+                </td>
+                <td>
+                  <label>Number Of Articles </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
+                </td>
+                <td>
+                  <label>Weight (In Tons)</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.weight">
+                </td>
+                <td>
+                  <label>Material Value</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.material_value">
+                </td>
+                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary"
+                    (click)="particular.customField = true; particular.customButton = false"
+                    *ngIf="particular.customButton">Add Fields</button></td>
+                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary" (click)="addMore()">Add Materials</button></td>
+                <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
+              </tr>
+    
+              <tr *ngIf="particular.customField ">
+                <td>
+                  <label> Invoice </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.invoice">
+                </td>
+                <td>
+                  <label>container No </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.containerno">
+                </td>
+                <td>
+                  <label>Seal No</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.sealno">
+                </td>
+                <td>
+                  <label>DCPI No</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
+                </td>
+    
+              </tr>
+    
+              <tr *ngIf="particular.customField ">
+                <td>
+                  <input type="text" placeholder="Name" class="form-control"
+                    [(ngModel)]="particular.customfields.customDetail[0]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[1]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Name"
+                    [(ngModel)]="particular.customfields.customDetail[2]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[3]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Name"
+                    [(ngModel)]="particular.customfields.customDetail[4]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[5]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Name"
+                    [(ngModel)]="particular.customfields.customDetail[6]">
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Value"
+                    [(ngModel)]="particular.customfields.customDetail[7]">
+                </td>
+              </tr>
+    
+            </tbody>
+    
+          </table>
       <!-- <input type="date"> -->
-      <div><button class="btn btn-primary" (click) = saveDetails()>Save</button></div>
+      <div><button class="btn btn-primary" (click)=saveDetails()>Save</button></div>
     </div>
   </nb-card-body>
 
-  <!-- <nb-card-body>
 
-    <div class="row" style="margin-bottom:20px">
-      <div class="col-md-4">
-        <select [(ngModel)]=lr.branch (change)="getBranchDetails()" class="form-conrol" style="width: 150px;
-              height: 31px;" placeholder="select branch">
-          <option *ngFor="let branch of branches" [value]="branch">{{branch}}</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <div class="col-md-6">
-          <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-            placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="col-md-6">
-          <label>LR Number:</label>
-        </div>
-        <div class="col-md-6">
-          <label>AD-5366</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" style="margin-bottom:20px;margin-left:10px">
-      <span>
-        <label>Tax Paid By : </label>
-        <label class="radio-btn">
-          <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-            value="Consignor">Consignor
-        </label>
-        <label class="radio-btn">
-          <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-            value="Consignee">Consignee
-        </label>
-        <label class="radio-btn">
-          <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-            value="GTA">GTA
-        </label>
-        <label class="radio-btn">
-          <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-            value="Exempt">Exempt
-        </label>
-      </span>
-    </div>
-    <table class="table table-bordered table-hover">
-
-      <tbody>
-        <tr>
-          <td colspan="2">
-            <h2>Company Name</h2><br>
-            <Address>address</Address>
-          </td>
-          <td>GR NO.</td>
-          <td>Date</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <h5>Consignor's Name & Address : </h5><br>
-            <textarea [(ngModel)]="lr.consignorAddress" class="form-control"></textarea>
-          </td>
-          <td>
-            <h5>Delivery Address : </h5><br>
-            <textarea [(ngModel)]="lr.deliveryAddress" class="form-control"></textarea>
-          </td>
-          <td>
-            <h5>Consignee's Name & Address : </h5> <input type="checkbox" [(ngModel)]=lr.sameAsDelivery
-              (change)="fillConsigneeAddress();">same as Delivery Address<br>
-            <textarea [(ngModel)]="lr.consigneeAddress" class="form-control"> </textarea>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div>
-      <button (click)="openParticularsModal()" *ngIf="!materialDetails">Add Materials</button>
-    </div>
-
-    <div class="col-md-9">
-      <table *ngIf="materialDetails" class="table table-bordered table-hover">
-        <tr>
-          <td>
-            <h5>No. of Articles</h5>
-          </td>
-          <td>
-            <h5>Particlars</h5>
-          </td>
-          <td>
-            <h5>Weight (Tons)</h5>
-          </td>
-        </tr>
-        <tr *ngFor="let material of materialDetails; let i= index ">
-          <td>{{material.articleNo}}</td>
-          <td>{{material.otherDetail | json}}</td>
-          <td>{{material.weight}}</td>
-        </tr>
-      </table>
-    </div>
-    <div class="col-md-3">
-      <table class="table table-bordered table-hover">
-        <tr>
-         <td> <h6>Payable Amount</h6></td>
-         <input type="text" [(ngModel)] = "lr.payableAmount" class="form-control">
-        </tr>
-        <tr>
-            <td> <h6>Payment Term</h6></td>
-            <select [(ngModel)]="lr.paymentTerm" class="form-conrol" style="width: 150px;
-            height: 31px;">
-        <option  value="ToPay">To Pay</option>
-        <option  value="ToBeFilled">To Be Filled</option>
-
-      </select>
-          </tr>
-      </table>
-    </div>
-    <table class="table table-bordered table-hover">
-      <tr>
-        <td colspan="3">{{lr.conditions}}</td>
-        <td>sign</td>
-      </tr>
-    </table>
-    <div class="footer" style="text-align:center">{{lr.footer}}</div>
-  </nb-card-body> -->
 </nb-card>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LedgerComponent} from '../../acounts-modals/ledger/ledger.component';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { UserService } from '../../@core/data/users.service';
 @Component({
   selector: 'ledgers',
@@ -10,22 +10,27 @@ import { UserService } from '../../@core/data/users.service';
   styleUrls: ['./ledgers.component.scss']
 })
 export class LedgersComponent implements OnInit {
-  Ledgers =[];
+  Ledgers = [];
+  selectedName = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-
-      this.GetLedger();
-     }
+    this.common.refresh = this.refresh.bind(this);
+    this.GetLedger();
+    this.common.currentPage = 'Ledger';
+  }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.GetLedger();
   }
   GetLedger() {
     let params = {
       foid: 123
     };
-    
+
     this.common.loading++;
     this.api.post('Accounts/GetLedgerdata', params)
       .subscribe(res => {
@@ -40,47 +45,97 @@ export class LedgersComponent implements OnInit {
       });
 
   }
+  selectedRow = -1;
 
-  openModal (ledger?) {
-     console.log('ledger123',ledger);
-       if (ledger) this.common.params = ledger;
-       const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-       activeModal.result.then(data => {
-         // console.log('Data: ', data);
-         if (data.response) {
-          this.addLedger(data.ledger);
-         }
-       });
-     }
-     addLedger(ledger) {
-      console.log('ledgerdata',ledger);
-     // const params ='';
-      const params = {
-          name: ledger.name,
-          alias_name: ledger.aliasname,
-          code: ledger.code,
-          foid: ledger.user.id,
-          per_rate: ledger.perrate,
-          primarygroupid: ledger.account.primarygroup_id,
-          account_id: ledger.account.id,
-          accDetails: ledger.accDetails,
-          x_id:0
-       };
-  
-       console.log('params11: ',params);
+  openModal(ledger?) {
+    let data = [];
+    console.log('ledger123', ledger);
+    if (ledger) {
+      let params = {
+        id: ledger.id,
+        foid: ledger.foid
+      }
       this.common.loading++;
-  
-      this.api.post('Accounts/InsertLedger', params)
+      this.api.post('Accounts/EditLedgerdata', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log('res: ', res);
-          this.GetLedger();
+          console.log('Res:', res['data']);
+          data = res['data'];
+          this.common.params = res['data'];
+          // this.common.params = { data, title: 'Edit Ledgers Data' };
+          const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+          activeModal.result.then(data => {
+            // console.log('Data: ', data);
+            if (data.response) {
+              this.addLedger(data.ledger);
+            }
+          });
+
         }, err => {
           this.common.loading--;
           console.log('Error: ', err);
           this.common.showError();
         });
-  
     }
+
+    else {
+      this.common.params = null;
+      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          this.addLedger(data.ledger);
+        }
+      });
+    }
+  }
+
+  addLedger(ledger) {
+    console.log('ledgerdata', ledger);
+    // const params ='';
+    const params = {
+      name: ledger.name,
+      alias_name: ledger.aliasname,
+      code: ledger.code,
+      foid: ledger.user.id,
+      per_rate: ledger.perrate,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
+      accDetails: ledger.accDetails,
+      branchname :ledger.branchname,
+      branchcode:  ledger.branchcode,
+      accnumber:   ledger.accnumber,
+      creditdays:  ledger.creditdays,
+      openingbalance:  ledger.openingbalance,
+      isdr:  ledger.openingisdr,
+      approved:  ledger.approved,
+      deleteview:  ledger.deleteview,
+      delete:  ledger.delete,
+      x_id: ledger.id ? ledger.id : 0,
+    };
+
+    console.log('params11: ', params);
+    this.common.loading++;
+
+    this.api.post('Accounts/InsertLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        this.GetLedger();
+        this.common.showToast('Ledger Has been saved!');
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+
 
 }

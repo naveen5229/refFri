@@ -11,6 +11,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class SiteFencingComponent implements OnInit {
 
+  mergeSiteId= null;
   typeIds = [];
   typeId = 1;
   moveLoc = '';
@@ -18,8 +19,10 @@ export class SiteFencingComponent implements OnInit {
   selectedSite = null;
   siteName = null;
   remainingList = [];
+  siteLocLatLng = {lat:0,lng:0};
+  siteLatLng = {lat:0,lng:90};
   isUpdate = false;
-  constructor(private mapService: MapService,
+  constructor(public mapService: MapService,
     private apiService: ApiService,
     private commonService: CommonService) { }
 
@@ -30,9 +33,27 @@ export class SiteFencingComponent implements OnInit {
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }));
-    this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => this.siteLoc=place);
+    this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => {this.siteLoc=place;this.siteLocLatLng={lat:lat,lng:lng}});
     this.mapService.createPolygonPath();
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
+  }
+  mergeSite() {
+    if(!this.mergeSiteId){
+      this.commonService.showToast("Select Old Site!!");
+      return;
+    }
+    if(!this.selectedSite){
+      this.commonService.showToast("Select New Site!!");
+      return;
+    }
+    this.apiService.post("SiteFencing/mergeSite", {oldId:this.mergeSiteId,newId:this.selectedSite})
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.commonService.showToast(res['msg']);
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
   }
   getTypeIds() {
     this.apiService.post("SiteFencing/getSiteTypes", {})
@@ -44,6 +65,7 @@ export class SiteFencingComponent implements OnInit {
         this.commonService.showError();
       });
   }
+  tempData = [];
   gotoSingle() {
     this.commonService.loading++;
     let site = this.selectedSite;
@@ -51,26 +73,69 @@ export class SiteFencingComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', data);
-        this.clearAll();
-        this.mapService.createMarkers(data);
+        this.clearAll(false);
+        this.tempData = data;
+        this.siteLatLng = {lat:parseFloat(data[0].lat),lng:parseFloat(data[0].long)};
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
         this.siteName = data[0].name;
         this.selectedSite = site;
+        this.getRemainingTable();
         this.apiService.post("SiteFencing/getSiteFences", { siteId: this.selectedSite })
           .subscribe(res => {
+            this.commonService.loading++;
             let data = res['data'];
+            let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if(data['siteId']){
-              this.mapService.createPolygon(data.latLngs);
+            if(data[this.selectedSite]){
+              this.tempData[0]['color'] = 'f00';
               this.isUpdate=true;
             }
             else
-             this.isUpdate=false;
+              this.isUpdate=false;
+            this.mapService.createMarkers(this.tempData);
+            if(count==1){
+              this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
+              console.log("Single",data[Object.keys(data)[0]]);
+            }
+            else if(count>1){
+              let latLngsArray = [];
+              let show = "Unknown";
+              let isMain = false;
+              let isSec = false;
+              let minDis=100000;
+              let minIndex = -1;
+              for (const datax in data) {
+                isMain= false;
+                if (data.hasOwnProperty(datax)) {
+                  const datav = data[datax];
+                  if(datax==this.selectedSite){
+                    isMain = true;
+                  }
+                  else if(minDis>datav.dis){
+                    this.mergeSiteId=datax;
+                    isMain=false;
+                    minDis=datav.dis;
+                    minIndex = latLngsArray.length;
+                  }
+                  latLngsArray.push({data:datav.latLngs,isMain:isMain,isSec:isSec,show:datax});
+                  console.log("Multi",datax);
+                }
+              }
+              if(minIndex != -1)
+                latLngsArray[minIndex].isSec =true;
+              this.mapService.createPolygons(latLngsArray);
+            }
+            else{
+              console.log("Else");
+            }
+            this.mapService.zoomMap(18.5);
+            this.commonService.loading--;
           }, err => {
             console.error(err);
             this.commonService.showError();
+            this.commonService.loading--;
           });
       }, err => {
         console.error(err);
@@ -79,14 +144,16 @@ export class SiteFencingComponent implements OnInit {
 
     this.commonService.loading--;
   }
-  clearAll() {
+  clearAll(loadTable = true) {
     this.exitTicket();
     this.mapService.isDrawAllow = false;
     this.siteName = null;
     this.siteLoc = null;
-    this.typeId = 1;
     this.selectedSite = null;
-    this.getRemainingTable();
+    if(loadTable){
+      this.typeId = 1;
+      this.getRemainingTable();
+    }
     this.mapService.clearAll();
   }
   submitPolygon() {
@@ -122,7 +189,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast("Created");
               this.gotoSingle();
               this.getRemainingTable();
-              this.clearAll();
+              this.clearAll(false);
             }, err => {
               console.error(err);
               this.commonService.showError();
@@ -137,7 +204,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast("Updated");
               this.getRemainingTable();
               this.gotoSingle();
-              this.clearAll();
+              this.clearAll(false);
             }, err => {
               console.error(err);
               this.commonService.showError();
@@ -165,9 +232,24 @@ export class SiteFencingComponent implements OnInit {
         this.commonService.showError();
       });
   }
+
+  // getRemainingTable() {
+  //     this.commonService.loading++;
+  //     let response;
+  //     this.apiService.get('Test')
+  //       .subscribe(res => {
+  //         this.commonService.loading--;
+  //         console.log('Res:', res['data']);
+  //         // = res['data'];
+  //        // console.log('Attendance:',this.driverAttendance);
+  //       }, err => {
+  //         this.commonService.loading--;
+  //         console.log(err);
+  //       });
+  // }
   submitValidity() {
     if (this.selectedSite) {
-      if (this.siteName == 'unknown' || this.siteLoc == 'unknown' || !this.siteName || !this.siteLoc) {
+      if (this.siteName == 'unknown' || !this.siteName ) {
         return false;
       }
       return true;
@@ -194,6 +276,33 @@ export class SiteFencingComponent implements OnInit {
         console.error(err);
         this.commonService.showError();
       });
+  }
+  updateLocName(){
+    if(this.selectedSite!=null && this.siteLoc!=null){
+      let dis = this.commonService.distanceFromAToB(this.siteLatLng.lat,this.siteLatLng.lng,
+                this.siteLocLatLng.lat,this.siteLocLatLng.lng,"Mt");
+      let distance = parseInt(dis+'')==0?0:parseInt(dis+'');
+      console.log("distance:",distance,this.siteLatLng,this.siteLocLatLng);
+      
+      if(distance>20000){
+        this.commonService.showToast("site is far away from loc");
+        return;
+      }
+      let params = {
+        siteId:this.selectedSite,
+        siteLoc:this.siteLoc
+      };
+    this.commonService.loading++;
+
+      this.apiService.post('SiteFencing/updateSiteDetails', params)
+          .subscribe(res => {
+            this.commonService.loading--;
+              this.commonService.showToast(res['msg']);
+          }, err => {
+            this.commonService.loading--;
+            console.log(err);
+          });
+    }
   }
   enterTicket() {
     if (this.selectedSite) {

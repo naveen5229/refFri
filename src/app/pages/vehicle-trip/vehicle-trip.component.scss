@@ -1,0 +1,40 @@
+nb-card-header{
+    padding: 10px 15px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.tabset{
+    padding: 0px !important;
+    margin-bottom: 20px!important;
+}
+nb-card-body{
+    padding: 0px 15px;
+}
+.alert-danger{
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 12px !important;
+    font-size: 18px !important;
+}
+:host ::ng-deep.remove{
+    font-size: 14px;
+    color: #ef2c2c;
+    margin: 2%;
+    padding: 2%;
+}
+:host ::ng-deep.report-btn{
+    font-size: 14px;
+    color: yellowgreen;
+    margin: 2%;
+    padding: 2%;
+}
+:host ::ng-deep .edit-btn{
+    font-size: 14px;
+    color: rgb(81, 5, 131);
+    margin: 2%;
+    padding: 2%;
+}

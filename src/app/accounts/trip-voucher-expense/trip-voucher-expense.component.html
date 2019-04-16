@@ -1,14 +1,18 @@
 <nb-card>
+  <nb-card-header>
+    <h4>Trip Voucher Expense</h4>
+  </nb-card-header>
   <nb-card-body>
-
-    <div class="col-sm-3" style="margin-bottom :10px">
-      <auto-suggestion (onSelected)="getTripSummary($event)" url="Suggestion/getVehicleList" display="regno"
-      placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
+    <div class="row">
+      <div class="col-sm-3" style="margin-bottom :10px">
+          <auto-suggestion (onSelected)="getTripSummary($event)" url="Suggestion/getVehicleList" display="regno"
+          placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
+        </div>
+        <div class="col-sm-6" style="text-align :right">
+            <button (click)="getPendingTrips()" class="btn btn-primary">ADD New Voucher</button>
+          </div>
     </div>
-    <div class="col-sm-6" style="text-align :right">
-      <button (click)="getPendingTrips()">ADD New Voucher</button>
-    </div>
-    <div>
+    <div class="mt-4">
       <table class="table table-bordered">
         <thead>
           <th>SN</th>

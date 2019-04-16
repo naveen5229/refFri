@@ -1,0 +1,30 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-8">
+          <h5>Driver Call Suggestion</h5>
+      </div>
+      <div class="col-4">
+          <form>
+              <div class="row">
+                  <div class="col-md-3">
+                    <label style="margin-top:8px">KM/Day:</label>
+                  </div>
+                  <div class="col-md-5">
+                    <input type="text" class="form-control" id="txtkmpd" name="txtkmpd"
+                      placeholder="Kmpd" [(ngModel)]="kmpdval" value="this.kmpdval"
+                      maxlength=3 />
+                  </div>
+                  <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary " style="cursor: pointer;" (click)="fetchReport()">Submit</button>
+                  </div>
+              </div>
+            </form>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <smart-table *ngIf="driverData.length" [data]="table.data" [settings]="table.settings" id="tblsuggestions">
+    </smart-table>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,118 @@
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.tabset{
+    padding: 0px !important;
+    margin-bottom: 20px!important;
+}
+nb-card-body{
+    padding: 0px 20px 15px;
+}
+.alert-danger{
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 12px !important;
+    font-size: 18px !important;
+}
+:host ::ng-deep .tabset{
+    border-bottom: 2px solid #26a69a !important;
+    margin-bottom: 15px !important;
+    li{
+        a{
+            background-color:#26a69a;
+            color: #fff !important;
+            font-weight: normal !important;
+            border-radius: 5px 5px 0px 0px;
+            margin-right: 8px;
+            border: 2px solid #26a69a;
+            padding: 5px 10px !important;
+            position: relative;
+            font-size: 14px;
+        }
+        a:before{
+            content: none !important;
+            display: none !important;
+        }
+    }
+    .active a{
+        background-color: #fff;
+        color: #26a69a !important;
+    }
+    .active a:after{
+        content: '' !important;
+        position: absolute;
+        background:#fff;
+        width: 100%;
+        height: 6px;
+        bottom: -5px;
+        left: 0;
+        border-radius: 0px;
+    }
+}
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 15%;
+        }
+        th:nth-child(1){
+            width: 2%;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 250px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 15%;
+            }
+            td{
+                width: 15%;
+            }
+            td:last-child{
+                width: 14.5%
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

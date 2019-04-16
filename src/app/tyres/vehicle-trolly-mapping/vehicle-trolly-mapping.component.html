@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <h2>Vehicle Trolly Mapping</h2>
+    <h4>Vehicle Trolly Mapping</h4>
   </nb-card-header>
 
   <nb-card-body>
@@ -21,11 +21,11 @@
           <th>{{vehTrollyMapping.trolleyno}} </th>
           <th>{{vehTrollyMapping.vehname}}</th>
           <th>{{vehTrollyMapping.attachdate | date : 'dd-MMM-yyyy hh:mm a'}}</th>
-          <th><button (click)="vehicleChange(vehTrollyMapping.trolleyid,vehTrollyMapping.vehicleid,vehTrollyMapping.vehname)">Edit</button></th>
+          <th><button class="btn btn-primary" (click)="vehicleChange(vehTrollyMapping.trolleyid,vehTrollyMapping.vehicleid,vehTrollyMapping.vehname)">Edit</button></th>
         </tr>
       </tbody>
     </table>
-  <div class="no-data" *ngIf="!vehTrollyMappings.length">
+  <div class="no-data alert-danger" *ngIf="!vehTrollyMappings.length">
     No Data available !
   </div>
   </nb-card-body>

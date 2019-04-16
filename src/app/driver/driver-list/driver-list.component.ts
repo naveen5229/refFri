@@ -3,9 +3,11 @@ import { Driver } from 'selenium-webdriver/edge';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router'
-import { AddDriverComponent } from '../../modals/DriverModals/add-driver/add-driver.component';
-import { updateBinding } from '@angular/core/src/render3/instructions';
+import {UserService} from '../../services/user.service';
+import { Router } from '@angular/router';
+import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
+import {EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
+import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -17,7 +19,8 @@ export class DriverListComponent implements OnInit {
   constructor(public api: ApiService,
     public router: Router,
     private modalService: NgbModal,
-    public common: CommonService, ) {
+    public common: CommonService,
+    public user: UserService  ) {
     this.getdriverLists();
 
   }
@@ -27,19 +30,38 @@ export class DriverListComponent implements OnInit {
 
   addDriver() {
     // this.router.navigate(['/driver/add-driver']);
-    this.modalService.open(AddDriverComponent, { size: 'lg', container: 'nb-layout' });
+    // const activeModal =
+     const activeModal = this.modalService.open(AddDriverCompleteComponent, { size: 'lg', container: 'nb-layout' });
+     activeModal.result.then(data=>{
+       if (data.response){
+         this.getdriverLists();
+       }
+     })
+    // activeModal.result.then(data => {
+      // if (data.response) {
+        // this.getdriverLists();
+      // }
+    // });
+
   }
 
   updateDriverInfo(driver) {
     this.common.params = { driver };
-    this.modalService.open(AddDriverComponent, { size: 'lg', container: 'nb-layout' });
+   // const activeModal =
+     const activeModal= this.modalService.open(EditDriverComponent, { size: 'lg', container: 'nb-layout' });
+     activeModal.result.then(data => {
+       if (data.response) {
+      // closeModal(true);
+        this.getdriverLists();
+      }
+    });
   }
 
 
   getdriverLists() {
     this.common.loading++;
     let response;
-    this.api.get('/booster/getDriversAccordingFo')
+    this.api.get('/Drivers/index')
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -50,5 +72,11 @@ export class DriverListComponent implements OnInit {
       });
     return response;
 
-  };
+  }
+ 
+
+  importDriverCsv() {
+    this.common.params = { title: 'Bulk Import Driver', };
+    const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+  }
 }

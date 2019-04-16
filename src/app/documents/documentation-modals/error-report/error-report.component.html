@@ -6,21 +6,33 @@
 </div>
 <div class="table">
   <table class="table table-bordered table-hover">
-    <thead class="thead">
-      <tr>
-        <th>Sr No</th>
-        <th>Vehicle Number</th>
-        <th>Reason</th>
-        <th>Document Number</th>
-        <th>Agent Name</th>
-        <th>Issue Date</th>
-        <th>Wef Date</th>
-        <th>Expiry Date</th>
-        <th>Amount</th>
-        <th>Remark</th>
-      </tr>
-    </thead>
-    <tbody *ngIf="errors">
+      <thead class="thead">
+
+          <tr>
+            <th>SrNo</th>
+            <th *ngFor="let col of columns" class="text-center">
+              {{formatTitle(col)}}
+            </th>
+            
+          </tr>
+        </thead>
+
+        <tbody class="">
+              <tr *ngFor="let row of errors; let i=index;" >
+
+                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
+
+                <td *ngFor="let col of columns; " class="text-center">
+                
+                    {{row[col]}}
+              
+                </td>
+              </tr>
+
+          </tbody>
+
+   
+    <!-- <tbody *ngIf="errors">
       <tr *ngFor="let error of errors;">
         <th>{{error.Sno}}</th>
         <th
@@ -49,7 +61,7 @@
           {{error.Amount.name}}</th>
         <th>{{error.Remarks.name}}</th>
       </tr>
-    </tbody>
+    </tbody> -->
   </table>
 </div>
 <div class="modal-footer">

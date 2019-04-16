@@ -51,6 +51,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
   }
 
   getDate(date) {
+    this.common.params={ref_page:'fuel-avg'};
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {

@@ -13,6 +13,7 @@ export class ErrorReportComponent implements OnInit {
   title = '';
   btn = '';
   errors = [];
+  columns = [];
   reason = null;
   bgColor(bgColor) {
 
@@ -33,6 +34,7 @@ export class ErrorReportComponent implements OnInit {
     this.errors = this.common.params.errorData;
     this.reason = this.common.params.Reason;
     console.log("error data", this.errors);
+    this.columnSperate();
 
   }
 
@@ -41,5 +43,24 @@ export class ErrorReportComponent implements OnInit {
 
   closeModal(response) {
     this.activeModal.close({ response: response });
+  }
+
+  columnSperate(){
+    if (this.errors.length) {
+      for (var key in this.errors[0]) {
+        if (key.charAt(0) != "_")
+          this.columns.push(key);
+      }
+      console.log("columns");
+      console.log(this.columns);
+    }
+  }
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if(pos > 0) {
+      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
   }
 }

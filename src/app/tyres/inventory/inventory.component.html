@@ -1,11 +1,12 @@
 <nb-card>
   <nb-card-header>
-    <h2>Tyre Inventory</h2>
+    <div class="col-sm-6"><h4>Tyre Inventory</h4></div>
+    <div class="col-sm-6 text-right"><button (click)=openStockItemModal() class="btn btn-primary m-0">Add Modals</button></div>
   </nb-card-header>
 
   <nb-card-body>
 
-    <div style="margin-top:20px">
+    <div>
       <table class="table table-bordered table-hover" *ngIf="inventories">
         <thead class="thead">
           <tr>
@@ -18,6 +19,7 @@
             <th>NSD-2</th>
             <th>NSD-3</th>
             <th>PSI</th>
+            <th>&nbsp;</th>
 
           </tr>
 
@@ -62,9 +64,9 @@
                 [(ngModel)]="inventory.psi" [readOnly] = "!inventory.is_health">
             </td>
             <td *ngIf="i == 0">
-                <i class="fa fa-plus  add" (click)="addMore()" ></i></td>
+                <button class="btn btn-primary add" (click)="addMore()"><i class="fa fa-plus" ></i></button></td>
         <td *ngIf="i !== 0">
-                <i class="fa fa-trash remove" (click)="inventories.splice(i,1)"></i>
+          <button class="btn btn-danger remove" (click)="inventories.splice(i,1)"><i class="fa fa-trash"></i></button>
         </td>
           </tr>
         </tbody>
@@ -80,13 +82,9 @@
       </div>
     </div> -->
     <div class="row row-width">
-      <div class="col-sm-1"> </div>
-      <div class="col-sm-2"> </div>
-
-      <div class="col-sm-3">
+      <div class="col-12 text-left">
         <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
       </div>
-      <div class="col-sm-5"></div>
 
     </div>
   </nb-card-body>
@@ -121,7 +119,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="no-data" *ngIf="!searchedTyreDetails.length">
+    <div class="no-data alert-danger" *ngIf="!searchedTyreDetails.length">
       No Data available !
     </div>
   </nb-card-body>

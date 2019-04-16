@@ -19,15 +19,15 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/documents/pending-documents',
         home: true,
     },
-    {
-        title: 'Change History',
-        icon: 'fa fa-history',
-        link: '/documents/change-history',
-        home: true,
-    },
+    // {
+    //     title: 'Change History',
+    //     icon: 'fa fa-history',
+    //     link: '/documents/change-history',
+    //     home: true,
+    // },
     {
         title: 'Customer Dashboard',
-        icon: 'nb-home',
+        icon: 'fa fa-user',
         children: [
             {
                 title: 'Document Dashboard',

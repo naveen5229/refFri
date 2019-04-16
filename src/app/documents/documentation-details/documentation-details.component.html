@@ -1,31 +1,25 @@
-<nb-card>
-  <nb-card-header>
-    Vehicle Documents Input 
-  </nb-card-header>
-
-  <nb-card-body style="min-height: 360px;">
-    <div class="container">
-      <form>
-        <div class="row">
-          <div class="col-md-3">
-            <label>Vehicle Number:</label>
-            <div class="col-md-12">
-              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
-                display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-            </div>
+<nb-card style=" margin:0px; padding-top: 0px; border: 0px;">
+  <!-- <nb-card-header>
+    <h4>Vehicle Documents Input</h4> 
+  </nb-card-header> -->
+  <nb-card-body style="padding-bottom: 0px;">
+    <div class="container" style="height: 50px;">
+      <div class="row">
+          <form class="w-100">
+              <div class="row">
+                <div class="col-md-2 pr-0">
+                  <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+                      display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+                </div>
+                <div class="col-md-2 offset-md-08">
+                  <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
+                    Document</button>
+                </div>
+                <!-- <div class="col-md-02 offset-md-08" *ngIf="this.user._loggedInBy=='admin'">
+                  <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
+                </div> -->
           </div>
-
-          <div class="col-md-2 offset-md-08">
-            <button type="submit" class="btn btn-primary" (click)="addDocument()">Add
-              Document</button>
-          </div>
-          <!-- <div class="col-md-02 offset-md-08" *ngIf="this.user._loggedInBy=='admin'">
-            <button type="submit" class="btn btn-primary" (click)="importVehicleDocument()">Import Document</button>
-          </div> -->
-        </div>
-      </form>
-
-      <div class="row" *ngIf="loginid==1">
+        </form>
       </div>
     </div>
     <!-- 
@@ -68,7 +62,11 @@
         </tbody>
       </table>
     </div> -->
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <!--<span *ngIf="data.length" >Export : 
+        <span title="PDF Export" (click)="this.common.getPDFFromTableId('tblVehDocs', '', 'VEHICLE DOCUMENTS')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
+        <span title="CSV Export" (click)="common.getCSVFromTableId('tblVehDocs')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
+    </span>-->
+    <smart-table class="document-details" *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="tblVehDocs"></smart-table>
     <br>
   </nb-card-body>
 </nb-card>

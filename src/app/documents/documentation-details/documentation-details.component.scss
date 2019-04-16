@@ -1,5 +1,4 @@
 .row{
-    padding-top: 1%;
     padding-bottom: 1%
 }
 #vehicleNo{
@@ -22,10 +21,15 @@ select {
     margin-left: 0% !important;
     margin-top: 0px !important;
 }
-label{
-    font-size: 16px;
-    margin-left: 6%;
-    font-weight: 700;
+.ref-label {
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 12px;
+    min-width: 80px !important;
+    font-weight: normal;
 }
 
 .upload-btn-wrapper {
@@ -33,12 +37,6 @@ label{
     overflow: hidden;
     display: inline-block;
   }
-  
-  .btn {
-    border: 2px solid gray;
-    padding: 0px 10px;
-  }
-  
   .upload-btn-wrapper input[type=file] {
     font-size: 100px;
     position: absolute;
@@ -47,13 +45,13 @@ label{
     opacity: 0;
   }
 .btn.btn-primary{
-    // margin-left: -20%;
-    margin-top: 30px;
+    margin:0px;
     position: relative;
-}
-.table{
-    width: 95%;
-    margin-left: 2%;
+    background-color: #263238 !important;
+    padding: 5px 10px;
+    font-weight: normal;
+    text-transform: capitalize;
+    cursor: pointer !important;
 }
 .suggestions{
     position: relative !important;
@@ -125,6 +123,12 @@ label{
     background: #0bff0b;
     color:black;
 }
+
+:host ::ng-deep.default
+{
+    background: transparent;
+    border: transparent;
+}
 :host ::ng-deep.icon{
     color: #0e0e3a;
     font-size: 18px;
@@ -135,6 +139,7 @@ label{
     font-size: 18px;
  
 }
+
 
 :host ::ng-deep .circle {
     border: 1px solid gray;
@@ -169,14 +174,11 @@ label{
     letter-spacing: .3px;
     color: #000;
 }
-table{
-    cursor:pointer;   
+nb-card-header {
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
 }
-
-nb-card{
-    padding-left: 4% !important;
-}
-
-ngx-footer {
-    padding-left: 10% !important;   
+smart-table .tableFixHead{
+    overflow-y: auto;
 }

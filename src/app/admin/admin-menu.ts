@@ -14,6 +14,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'VSC Ticket Audit',
+        icon: 'nb-home',
+        link: '/admin/vscticketaudit',
+        home: true,
+    },
+    {
         title: 'Issue Alerts',
         icon: 'nb-home',
         link: '/admin/issue-alerts',
@@ -26,9 +32,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'LR View',
+        title: 'Alert Related Issue',
+        icon: 'far fa-bell',
+        link: '/admin/alert-related-issue',
+        home: true,
+    },
+    {
+        title: 'Driver',
         icon: 'nb-home',
-        link: '/admin/lrview',
+        link: '/admin/driver-list',
         home: true,
     },
     {
@@ -38,12 +50,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Group Mmanagements',
+        title: 'Group Managements',
         icon: 'nb-home',
         link: '/admin/group-managements',
         home: true,
     },
-   
+
     {
         title: 'Ticket Properties',
         icon: 'nb-home',
@@ -66,5 +78,94 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/diagnostics',
         home: true,
+    },
+    {
+        title: 'Document',
+        icon: 'nb-home',
+        children: [
+            {
+                title: 'Pending Details',
+                icon: 'fa fa-pencil-square-o',
+                link: '/admin/pending-documents',
+                home: true,
+            },
+
+        ]
+    },
+
+    {
+        title: 'User Prefrence',
+        icon: 'nb-home',
+        link: '/admin/user-preferences',
+        home: true,
+    },
+    {
+        title: 'Site Details',
+        icon: 'nb-home',
+        link: '/admin/site-details',
+        home: true,
+    },
+    {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+    },
+    {
+        title: 'vehicle-gps-detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+        home: true,
+    },
+    {
+        title: 'Gps Supplier Mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
+    },
+    {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    },
+    {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+    },
+ 
+    {
+        title: 'Vehicles View',
+        icon: 'nb-home',
+        link: '/admin/vehicles-view',
+        home: true,
+    },
+    {
+        title: 'Companies',
+        icon: 'nb-home',
+        link: '/admin/company-details',
+        home: true,
+    },
+    {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+    },
+    {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+    },
+    {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+        home: true,
     }
+
+
 ];

@@ -29,6 +29,18 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.component';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { RouteMapperComponent } from './route-mapper/route-mapper.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { TrendsComponent } from './trends/trends.component';
+import { ResizableModule } from 'angular-resizable-element';
+import { PlacementsComponent } from './placements/placements.component';
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
+import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
+import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
+import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
+
 
 
 const PAGES_COMPONENTS = [
@@ -47,7 +59,9 @@ const PAGES_COMPONENTS = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ImageViewerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ResizableModule  ,
+    LorryReceiptModule  
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -64,6 +78,15 @@ const PAGES_COMPONENTS = [
     ConciseComponent,
     FuelAverageAnalysisComponent,
     VehicleTripComponent,
+    ImageProcessingComponent,
+    RouteMapperComponent,
+    TrendsComponent,
+    PlacementsComponent,
+    CallLogsComponent,
+    DriverCallSuggestionComponent,
+    UserCallSummaryComponent,
+    PlacementsDashBoardComponent,
+    
   ],
 })
 export class PagesModule {

@@ -15,6 +15,7 @@ export class SmartTableComponent implements OnInit {
   sortType = '';
   activeRow = -1;
 
+
   constructor(private cdr: ChangeDetectorRef, ) { }
 
   ngOnInit() {
@@ -93,6 +94,20 @@ export class SmartTableComponent implements OnInit {
     console.log('Column :', column);
     if (column[heading].colActions && column[heading].colActions.dblclick) {
       column[heading].colActions.dblclick()
+    }
+  }
+
+  handleMouseHover(column, heading) {
+    console.log('Mouseover');
+    if (column[heading].colActions && column[heading].colActions.mouseover) {
+      column[heading].colActions.mouseover()
+    }
+  }
+
+  handleMouseOut(column, heading) {
+    console.log('MouseOut');
+    if (column[heading].colActions && column[heading].colActions.mouseout) {
+      column[heading].colActions.mouseout()
     }
   }
 

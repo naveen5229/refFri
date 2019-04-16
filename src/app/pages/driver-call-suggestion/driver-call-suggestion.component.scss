@@ -1,0 +1,25 @@
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+nb-card-header{
+    padding: 10px 15px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.btn.btn-primary {
+    padding: 8px 15px;
+    text-transform: capitalize;
+    border-radius: 5px;
+    border: 0px;
+    width: 100%;
+}
+:host ::ng-deep .tableFixHead{
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height: calc(100vh - 172px);
+    height: auto !important;
+}

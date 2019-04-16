@@ -102,41 +102,41 @@
     font-size: 16px;
 }
 
-.hour-row-1 {
-    width: 20px;
-    padding: 0px;
-    font-size: 10px;
-    height: 20px;
-    line-height: 20px;
-}
-
-.hour-row-2 {
-    width: 35px;
-    padding: 0px;
-    font-size: 10px;
-}
-
-.hour-row-3 {
-    width: 35px;
-    padding: 0px;
-    font-size: 10px;
-}
-
+.hour-row-1,
+.hour-row-2,
+.hour-row-3,
 .hour-row-4 {
-    width: 20px;
+    width: 22px;
     padding: 0px;
     font-size: 10px;
-    height: 20px;
+    height: 22px;
     line-height: 20px;
 }
 
 .back-btn {
-    position: absolute;
-    left: 10px;
-    font-size: 13px;
-    margin-top: 3px;
+    margin-top: -3px;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px !important;
 }
 
 .back-btn * {
     vertical-align: middle;
+    margin-right: 5px;
 }
+.modal-footer{
+    justify-content:center;
+}
+.modal-footer button{
+    font-size: 10px;
+    margin: 0px;
+}
+.close {
+    background: transparent;
+    color: #263238 !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+    font-size: 30px;
+  }

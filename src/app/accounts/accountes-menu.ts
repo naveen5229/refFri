@@ -10,44 +10,54 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Invoice',
-        icon: 'nb-home',
+        icon: 'fas fa-file-invoice',
         link: '/accounts/orders'
     },
 
     {
         title: 'Stock Types',
-        icon: 'nb-home',
+        icon: 'fas fa-weight-hanging',
         link: '/accounts/stock-types'
     },
     {
         title: 'Stock Sub Types',
-        icon: 'nb-home',
+        icon: 'fas fa-weight-hanging',
         link: '/accounts/stock-subtypes'
     }
     ,
     {
         title: 'Stock Item',
-        icon: 'nb-home',
+        icon: 'fa fa-list',
         link: '/accounts/stockitem'
     },
     {
-        title: 'Account',
-        icon: 'nb-home',
+        title: 'Account Group',
+        icon: 'fa fa-university',
         link: '/accounts/account'
     },
     {
         title: 'Ledger',
-        icon: 'nb-home',
+        icon: 'fas fa-file-invoice-dollar',
         link: '/accounts/ledgers'
     },
     {
         title: 'Company-Branches',
-        icon: 'nb-home',
+        icon: 'fa fa-building-o',
         link: '/accounts/company-branches'
     },
     {
+        title: 'Ware House',
+        icon: 'fas fa-warehouse',
+        link: '/accounts/ware-house'
+    },
+    // {
+    //     title:'Store Requisition',
+    //     icon :'fa fa-building-o',
+    //     link: '/accounts/storerequisitions'
+    // },
+    {
         title: 'Voucher',
-        icon: 'nb-star',
+        icon: 'fas fa-ticket-alt',
         children: [
             {
                 title: 'Journal Voucher',
@@ -76,31 +86,74 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
-        title: 'Reports',
-        icon: 'nb-bar-chart',
+        title: 'Account Reports',
+        icon: 'fa fa-file-excel',
         children: [
             {
                 title: 'Day Book',
                 link: '/accounts/daybooks'
             },
             {
-                title: 'Ledger',
+                title: 'Ledger View',
                 link: '/accounts/ledgerview'
             },
             {
                 title: 'Ledger Mapping',
                 link: '/accounts/ledgermapping'
             },
+         
+            {
+                title: 'OutStanding',
+                link: '/accounts/outstanding'
+            },
+            {
+                title: 'Balance Sheet',
+                link: '/accounts/balancesheet'
+            },
+            {
+                title:'Profit & Loass A/C',
+                link: '/accounts/profitloss'
+            },
+            {
+                title:'Cash Book',
+                link: '/accounts/cashbook'
+            },
+            {
+                title: 'Bank Book',
+                link: '/accounts/bank-books'
+            },
+            
+        ],
+    },
+    {
+        title: 'Inventry  Reports',
+        icon: 'fa fa-file-excel',
+        children: [
+           
             {
                 title: 'Invoice Register',
                 link: '/accounts/invoiceregister'
-            }
+            },
+       
+            {
+                title:'Stock Available',
+                link: '/accounts/stockavailable'
+            },
+          
+            
         ],
     },
     {
         title: 'Trip Voucher Expense',
-        icon: 'nb-home',
+        icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
-    }
+    },  {
+        title: 'City',
+        icon: 'fas fa-city',
+        link: '/accounts/city'
+    },
+  
+  
+
 
 ];

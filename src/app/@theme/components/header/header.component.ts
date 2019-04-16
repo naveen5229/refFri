@@ -8,6 +8,7 @@ import { ApiService } from '../../../services/api.service';
 import { CommonService } from '../../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerSelectionComponent } from '../../../modals/customer-selection/customer-selection.component';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'ngx-header',
@@ -22,9 +23,20 @@ export class HeaderComponent implements OnInit {
   showSuggestions = false;
   suggestions = [];
   searchString = "";
+  branches = [
+    {
+      "id": 0,
+      "name": "All"
+    },
+    {
+      "id": 5,
+      "name": "test2322"
+    }
+  ];
 
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
+    public accountService: AccountService,
     public router: Router,
     public user: UserService,
     private analyticsService: AnalyticsService,
@@ -67,7 +79,7 @@ export class HeaderComponent implements OnInit {
 
   openChangeModal() {
     console.log("open change modal");
-    this.modalService.open(CustomerSelectionComponent, { size: 'md', container: 'nb-layout' });
+    this.modalService.open(CustomerSelectionComponent, { size: 'md', container: 'nb-layout', windowClass: 'admin-popup' });
   }
 
   backTOHome() {

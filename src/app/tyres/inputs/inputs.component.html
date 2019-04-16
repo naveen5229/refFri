@@ -1,15 +1,12 @@
 <nb-card>
-  <!-- <nb-card-header>
-    <h2>Tyre Inputs</h2>
-  </nb-card-header> -->
-
+  <nb-card-header>
+    <h4>Tyre Inputs</h4>
+  </nb-card-header>
   <nb-card-body>
     <div class="col-sm-8">
-      <h2>Tyre Inputs</h2>
-      <div class="row" style="margin-top:30px">
-        <div class="col-sm-1"> </div>
+      <div class="row">
         <div class="col-sm-2"><label class="label1"><b>Vehicle Type</b></label></div>
-        <div class="col-sm-3 ">
+        <div class="col-sm-4 ">
           <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
             <option value="truck">Truck</option>
             <option value="trolly">Trolly</option>
@@ -18,9 +15,8 @@
         </div>
       </div>
       <div class="row row-width">
-        <div class="col-sm-1"> </div>
         <div class="col-sm-2"> <label class="label1"><b>Vehicle No. </b></label></div>
-        <div class="col-sm-3 ">
+        <div class="col-sm-4 ">
           <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
             autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
           <div>
@@ -31,11 +27,8 @@
             </ul>
           </div>
         </div>
-
-
-        <div class="col-sm-1"> </div>
-        <div class="col-sm-"><label><b>Tyre No.</b></label></div>
-        <div class="col-sm-3 ">
+        <div class="col-sm-2"><label><b>Tyre No.</b></label></div>
+        <div class="col-sm-4 ">
           <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
             autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
           <div>
@@ -48,14 +41,12 @@
         </div>
       </div>
       <div class="row row-width">
-        <div class="col-sm-1"> </div>
         <div class="col-sm-2"><label class="label1"><b>Details </b> </label> </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
         </div>
-        <div class="col-sm-1"> </div>
-        <div class="col-sm-"><label> <b>Date</b></label> </div>
-        <div class="col-sm-3" style="margin-left:25px">
+        <div class="col-sm-2"><label> <b>Date</b></label> </div>
+        <div class="col-sm-4">
           <input [(ngModel)]="date1" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
             class="form-control" autocomplete="off" name="date">
           <owl-date-time #date></owl-date-time>
@@ -65,13 +56,10 @@
         </div>
       </div>
       <div class="row row-width">
-        <div class="col-sm-1"> </div>
-        <div class="col-sm-2"> </div>
-
-        <div class="col-sm-3">
+        <div class="col-12">
           <!-- <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button> -->
           <button class="btn btn-primary" type="button" outline (click)="getTyreCurrentStatus()" id="saveDetails"
-            style="cursor: pointer; margin-left:15px">Save</button>
+            style="cursor: pointer;">Save</button>
         </div>
       </div>
       <!-- <div class="row " style="margin-top:40px">
@@ -170,13 +158,6 @@
       </table>
     </div>
 
-
-  </nb-card-body>
-</nb-card>
-
-<!-- table to display search data -->
-<nb-card>
-  <nb-card-body>
 
   </nb-card-body>
 </nb-card>

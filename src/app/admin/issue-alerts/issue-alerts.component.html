@@ -14,6 +14,7 @@
             <th>Add User</th>
             <th>Add Time</th>
             <th>Remark</th>
+            <th>Go To Trail</th>
             <th>Action</th>
           </tr>
   
@@ -22,10 +23,12 @@
           <tr *ngFor="let issue of issues;let i= index">
             <td>{{i+1}}</td>
             <td>{{issue.issuetype}}</td>
-            <td>{{issue.vehicleno}}</td>
+            <td *ngIf="issue.ref_page!='vsc'">{{issue.vehicleno}}</td>
+            <td *ngIf="issue.ref_page=='vsc'">{{issue.site_id}}</td>
             <td>{{issue.foadminuser}} : {{issue.fouser}} </td>
             <td>{{issue.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
             <td>{{issue.remark}}</td>
+            <td (click)="goToTrail(issue)"><i class="fa fa-question-circle" ></i></td>
             <td><button (click)="issueComplete(issue)">Done</button></td>
           </tr>
         </tbody>

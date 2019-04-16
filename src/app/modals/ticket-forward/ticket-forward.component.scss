@@ -1,12 +1,9 @@
 .container{
-
  width: 100%;
 }
-
 .modal-body{
     height:auto;
 }
-
 span{
     font-size: 36px;
     font-stretch: normal;
@@ -14,43 +11,43 @@ span{
 label {
     display: inline-block;
     margin-bottom: 0.5rem;
-    margin-left: 22px;
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: 500;
+    font-size: 14px;
  }
 .input-group
 {
-    width: 80%;
+    width: 100%;
 }
-
 .custom-modal-footer{
     padding-top: 25px;
-
 }
-.col{
-    margin-left: 30px;
-}
-
 .suggestions {
-    position: relative;
-    height: auto;
+    position: absolute;
     z-index: 999;
     background: #fff;
-    width: 90%;
-    margin: 3px 12px;
-    padding: 0px 8px;
+    width: 100%;
     font-size: 12px;
-    letter-spacing: .5px;
+    -webkit-box-shadow: 1px 1px 3px grey;
     box-shadow: 1px 1px 3px grey;
+    max-height: 120px;
+    overflow: auto;
+    top: 35px;
+    ul{
+        padding: 0px;
+        margin: 0px;
+    }
 }
 .suggestion {
-    padding: 8px 0px 1px 0px;
-    margin:1px 0px 3px 1px;
-    font-size:14px; 
     list-style: none;
+    padding: 8px 10px;
+    cursor: pointer;
 }
-.input-group {
-    padding: 5px 10px;
+.suggestion + .suggestion{
+    border-top: 1px solid #ccc;
+}
+.suggestion:hover{
+    background-color:#26A69A;
+    color:#fff;
 }
 .input-group label {
     font-size: 12px;
@@ -65,6 +62,17 @@ label {
     font-size: 12px;
     padding: 5px 5px;
     min-height: 35px;
-    margin-left:12px;
     height: 65px;
+}
+.close {
+    background: transparent;
+    color: #263238 !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+    font-size: 30px;
+  }
+.modal-footer{
+    padding: 10px 15px;
 }

@@ -1,6 +1,6 @@
-<nb-card>
+<nb-card style="border:0px;">
     <nb-card-header>
-        <h2>All Tickets</h2>
+        <h5>All Tickets</h5>
     </nb-card-header>
 
     <nb-card-body>
@@ -29,7 +29,7 @@
                                 <td (click)="showTrailList(ticket)" style="text-decoration:underline; color: blue;cursor: pointer;">show</td>
                             </tr>
                     </table>
-                    <div class="no-data" *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
+                    <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
                         No Data available !
                     </div>
 
@@ -60,7 +60,7 @@
                                 <td (click)="showTrailList(ticket)" style="text-decoration:underline; color: blue;cursor: pointer;">show</td>
                             </tr>
                     </table>
-                    <div class="no-data" *ngIf="status == 0 && !allClaimDrivers.length && showMsg">
+                    <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !allClaimDrivers.length && showMsg">
                         No Data available !
                     </div>
                 </div>
