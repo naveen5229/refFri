@@ -14,10 +14,10 @@ export class DropDownListComponent implements OnInit {
   btn2 = '';
   reason = [
     {
-      id: -1,
-      name: ""
+      name: "",
     }
   ];
+  data=[];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -27,26 +27,24 @@ export class DropDownListComponent implements OnInit {
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.reason = [
       {
-        id: 11,
         name: "Private Vehicle"
       },
       {
-        id: 21,
         name: "Not Applicable on Vehicle Type"
       },
       {
-        id: 31,
         name: "Intra State Trip Only"
       }
     ];
     console.log("data:", this.common.params.ignoreData);
+    this.data=this.common.params.ignoreData;
   }
 
   ngOnInit() {
   }
 
   closeModal(response) {
-    this.activeModal.close({ response: this.reason });
+    this.activeModal.close({ response: this.reason, record:this.data});
   }
 
   addReason() {
