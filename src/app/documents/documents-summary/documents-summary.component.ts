@@ -286,7 +286,8 @@ export class DocumentsSummaryComponent implements OnInit {
   noRecordDocumentData(norecordData, col, colval){
     console.log("row:",norecordData);
     console.log("col:",col);
-    console.log("colval:",colval);
+    console.log("colval:",colval.split("_")[2]);
+    colval = colval.split("_")[2];
     this.common.params = { norecordData,col,colval };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }

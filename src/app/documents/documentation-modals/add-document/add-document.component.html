@@ -16,16 +16,6 @@
       </div>
     </div>
 
-    <!-- <div class="row" *ngIf="ignore==1">
-      <div class="col-md-4">
-        <label> Vehicle Number </label>
-      </div>
-      <div class="col-md-8">
-        <label style="font-size:16px;">{{regno}}</label>
-      </div>
-    </div> -->
-
-
     <div class="row" *ngIf="updateimage==1">
       <div class="col-md-4">
         <label> Vehicle Number </label>
@@ -44,28 +34,29 @@
       </div>
 
       <div class="col-md-8">
-        <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
-          placeholder="Enter doctype" [data]="docTypes" [preSelected]="null" class="documentType" required>
+        <auto-suggestion *ngIf="docTypes.length && ignore != 1" (onSelected)="selectDocType($event)" url=""
+          display="document_type" placeholder="Enter doctype" [data]="docTypes" [preSelected]="null"
+          class="documentType" required>
         </auto-suggestion>
         <div class="suggestions ng-star-inserted">
         </div>
       </div>
 
 
-      <!-- <div class="col-md-8">
+      <div class="col-md-8">
         <auto-suggestion *ngIf="ignore==1" (onSelected)="selectDocType($event)" url="" display="document_type"
           placeholder="Enter doctype" [data]="docTypes" [preSelected]="{document_type:docType}" class="documentType"
           required>
         </auto-suggestion>
         <div class="suggestions ng-star-inserted">
         </div>
-      </div> -->
+      </div>
 
     </div>
     <div class="row">
       <div class="col-md-4">
         <label>Document Upload </label>
-        <button type="submit" class="btn btn-dark bg-dark text-white" name="ignore" id="ignore" (click)="ignoreDoc()"
+        <button type="button" class="btn btn-dark bg-dark text-white" name="ignore" id="ignore" (click)="ignoreDoc()"
           style="margin-top: 50px; text-transform: capitalize;">Ignore Document</button>
       </div>
       <div class="col-md-8 upload_img_btn ">

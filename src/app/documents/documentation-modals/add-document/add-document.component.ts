@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 import { from } from 'rxjs';
+import { DropDownListComponent } from '../drop-down-list/drop-down-list.component';
 @Component({
   selector: 'add-document',
   templateUrl: './add-document.component.html',
@@ -64,7 +65,7 @@ export class AddDocumentComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.title = this.common.params.title;
+    this.title = this.common.params.title || 'Add Document';
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
 
@@ -82,8 +83,9 @@ export class AddDocumentComponent implements OnInit {
       this.ignore = 1;
       this.regno = this.common.params.norecordData.vehicle;
       // this.vehicleid = this.common.params.norecordData._vid;
-      this.vehicleId=this.common.params.norecordData._vid;
+      this.vehicleId = this.common.params.norecordData._vid;
       this.docType = this.common.params.col;
+      this.docTypeid = this.common.params.colval;
     }
 
     if (this.document.dates.issue)
@@ -346,7 +348,19 @@ export class AddDocumentComponent implements OnInit {
     console.log('Date: ', this.document.dates[dateType]);
   }
 
-  ignoreDoc(){
-    
+  ignoreDoc() {
+    if (this.docTypeid || this.document.type.id ) {
+      this.common.params = { title: 'ignore Reason' };
+      const activeModal = this.modalService.open(DropDownListComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.closeModal(true);
+        }
+      });
+    }
+    else{
+      this.common.showToast("select Document Type");
+    }
   }
 }
