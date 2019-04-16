@@ -19,10 +19,10 @@ export class AddDocumentComponent implements OnInit {
   btn2 = '';
   vehicleId = '';
   spnexpdt = 0;
-// for report model
+  // for report model
   updateimage = 0;
-  docId= null;
-  vehicleid= null;
+  docId = null;
+  vehicleid = null;
   docTypeid = null;
   docType = null;
   regno = null;
@@ -56,6 +56,7 @@ export class AddDocumentComponent implements OnInit {
   docTypes = [];
   vehicle = null;
   isFormSubmit = false;
+  ignore = 0;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -75,6 +76,14 @@ export class AddDocumentComponent implements OnInit {
       this.vehicleid = this.common.params.row.vehicle_id;
       this.docType = this.common.params.row.document_type;
       this.docTypeid = this.common.params.row.document_type_id;
+    }
+
+    if (this.common.params.norecordData) {
+      this.ignore = 1;
+      this.regno = this.common.params.norecordData.vehicle;
+      // this.vehicleid = this.common.params.norecordData._vid;
+      this.vehicleId=this.common.params.norecordData._vid;
+      this.docType = this.common.params.col;
     }
 
     if (this.document.dates.issue)
@@ -160,7 +169,7 @@ export class AddDocumentComponent implements OnInit {
 
       //Getting base64 string; 
       //this.images[index].base64 = canvas.toDataURL('image/jpeg').split(",")[1];      
-      this.document['image' + index] = canvas.toDataURL('image/jpeg');      
+      this.document['image' + index] = canvas.toDataURL('image/jpeg');
       console.log('Image Compressed !');
       console.log(this.document['image' + index]);
     }
@@ -207,85 +216,85 @@ export class AddDocumentComponent implements OnInit {
     return 1;
   }
 
-  addDocument() { 
+  addDocument() {
 
-    if(this.docId){
+    if (this.docId) {
       const params = {
-       x_entryby: this.user._details.id,
-       x_document_id: this.docId,
-       x_vehicle_id: this.vehicleid,
-       x_document_type_id: this.docTypeid,
-       x_document_type : this.docType,
-       x_base64img: this.document.image1,
-       x_base64img2: this.document.image2,
-       x_base64img3: this.document.image3,
+        x_entryby: this.user._details.id,
+        x_document_id: this.docId,
+        x_vehicle_id: this.vehicleid,
+        x_document_type_id: this.docTypeid,
+        x_document_type: this.docType,
+        x_base64img: this.document.image1,
+        x_base64img2: this.document.image2,
+        x_base64img3: this.document.image3,
       };
-    
-     // if (!this.document.type.id) {
-     //   return this.common.showError("Select Document Type");
-     // }
-     if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
-       return this.common.showError("Select Document Image/File");
-     }
-     console.log('Params: ', params);
-     this.common.loading++;
-     this.api.post('Vehicles/addVehicleDocumentWeb', params)
-       .subscribe(res => {
-         this.common.loading--;
-         console.log("api result", res);
-         let result = res["msg"];
-         if (result == "success") {
-           this.common.showToast("Success");
-           this.closeModal(true);
-         }
-         else {
-           alert(result);
- 
-         }
- 
-       }, err => {
-         this.common.loading--;
-         console.log(err);
-       });
-   }
-     else{
-       const params = {
-         x_entryby: this.user._details.id,
-         x_vehicle_id: this.vehicle.id,
-         x_document_type_id: this.document.type.id,
-         x_document_type: this.findDocumentType(this.document.type.id),
-         // x_issue_date: this.document.dates.issue,
-         // x_wef_date: this.document.dates.wef,
-         // x_expiry_date: this.document.dates.expiry,
-         x_base64img: this.document.image1,
-         x_base64img2: this.document.image2,
-         x_base64img3: this.document.image3,
-       };
-       if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
-         return this.common.showError("Select Document Image/File");
-       }
-       console.log('Params: ', params);
-       this.common.loading++;
-       this.api.post('Vehicles/addVehicleDocumentWeb', params)
-         .subscribe(res => {
-           this.common.loading--;
-           console.log("api result", res);
-           let result = res["msg"];
-           if (result == "success") {
-             this.common.showToast("Success");
-             this.closeModal(true);
-           }
-           else {
-             alert(result);
-   
-           }
-   
-         }, err => {
-           this.common.loading--;
-           console.log(err);
-         });
+
+      // if (!this.document.type.id) {
+      //   return this.common.showError("Select Document Type");
+      // }
+      if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
+        return this.common.showError("Select Document Image/File");
       }
-   }
+      console.log('Params: ', params);
+      this.common.loading++;
+      this.api.post('Vehicles/addVehicleDocumentWeb', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("api result", res);
+          let result = res["msg"];
+          if (result == "success") {
+            this.common.showToast("Success");
+            this.closeModal(true);
+          }
+          else {
+            alert(result);
+
+          }
+
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+    else {
+      const params = {
+        x_entryby: this.user._details.id,
+        x_vehicle_id: this.vehicle.id,
+        x_document_type_id: this.document.type.id,
+        x_document_type: this.findDocumentType(this.document.type.id),
+        // x_issue_date: this.document.dates.issue,
+        // x_wef_date: this.document.dates.wef,
+        // x_expiry_date: this.document.dates.expiry,
+        x_base64img: this.document.image1,
+        x_base64img2: this.document.image2,
+        x_base64img3: this.document.image3,
+      };
+      if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
+        return this.common.showError("Select Document Image/File");
+      }
+      console.log('Params: ', params);
+      this.common.loading++;
+      this.api.post('Vehicles/addVehicleDocumentWeb', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("api result", res);
+          let result = res["msg"];
+          if (result == "success") {
+            this.common.showToast("Success");
+            this.closeModal(true);
+          }
+          else {
+            alert(result);
+
+          }
+
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+  }
 
 
   getDate(date) {
@@ -335,5 +344,9 @@ export class AddDocumentComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     this.document.dates[dateType] = date + '/' + month + '/' + year;
     console.log('Date: ', this.document.dates[dateType]);
+  }
+
+  ignoreDoc(){
+    
   }
 }

@@ -39,6 +39,7 @@ export class TripSiteRuleComponent implements OnInit {
       name:"6axle"
     }
   ];
+  materialType="";
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -76,6 +77,9 @@ export class TripSiteRuleComponent implements OnInit {
             return element.id = this.data[index].ruletype_id;
           });
           this.data[index].ruleName = ruleName?ruleName.name:'N.A';
+
+          this.data[index].preSiteType = data.pre_site_name?data.pre_site_name:'N.A';
+          this.data[index].materialType = data.mt_name?data.mt_name:'N.A';
           index++;
         }
        
