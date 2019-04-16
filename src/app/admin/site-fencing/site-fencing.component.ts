@@ -119,7 +119,13 @@ export class SiteFencingComponent implements OnInit {
                     minDis=datav.dis;
                     minIndex = latLngsArray.length;
                   }
-                  latLngsArray.push({data:datav.latLngs,isMain:isMain,isSec:isSec,show:datax});
+                  latLngsArray.push({data:datav.latLngs,isMain:isMain,isSec:isSec,show:
+                  `
+                  Id: ${datax}<br>
+                  Name:${datav.name}<br>
+                  Location:${datav.loc_name}<br>
+                  `
+                  });
                   console.log("Multi",datax);
                 }
               }
