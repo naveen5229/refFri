@@ -221,7 +221,8 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .fas.fa-warehouse::before,
 .fas.fa-traffic-light::before,
 .fas.fa-city::before,
-.fas.fa-route::before{
+.fas.fa-route::before,
+.fas.fa-file-signature::before{
   font-family:inherit;
 }
 .nb-theme-corporate .modal-content{
@@ -330,4 +331,22 @@ nb-card{
 .admin-popup .modal-dialog{
   top: 40%;
   transform: translate(0%,-50%) !important;
+}
+/* .print-lr {
+  background-color: #fff;
+} */
+.test .layout{
+  display: none !important;
+}
+.gerrate_tabel auto-suggestion input,
+.material_details auto-suggestion input{
+  border: 1px solid #000 !important;
+  box-shadow: none !important;
+  padding: 3px 5px !important;
+  height: auto !important;
+}
+.gerrate_tabel auto-suggestion{
+  width: 96% !important;
+  max-width: 96%;
+  padding-right: 0px;
 }

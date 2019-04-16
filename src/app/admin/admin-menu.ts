@@ -106,11 +106,36 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+    },
+    {
+        title: 'vehicle-gps-detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+        home: true,
+    },
+    {
         title: 'Gps Supplier Mapping',
         icon: 'nb-home',
         link: '/admin/gps-supplier-mapping',
         home: true,
     },
+    {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    },
+    {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+    },
+ 
     {
         title: 'Vehicles View',
         icon: 'nb-home',
@@ -136,9 +161,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Vechile Dstance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
         home: true,
     }
 

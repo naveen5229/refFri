@@ -143,6 +143,11 @@ export class EditLorryDetailsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.lrDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        if(this.lrDate<=this.common.dateFormatter(new Date())){
+          return;
+        }else{
+          this.common.showToast('Incorrect Date !!')
+        }
         // this.dateByIcon=true;
         console.log('lrdate: by getDate ' + this.lrDate);
 
@@ -377,6 +382,12 @@ export class EditLorryDetailsComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
     this.lrDate= year + '-' + month + '-' + date;
+    if(this.lrDate<=this.common.dateFormatter(new Date()))
+    {
+      return;
+    }else{
+      this.common.showToast('Incorrect Date !!');
+    }
 
     console.log('Date: ', this.lrDate);
   }
