@@ -55,7 +55,7 @@ export class WareHouseModalComponent implements OnInit {
   }
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
-    this.activeModal.close({ response: response, wareHouse: this.Accounts, });
+    this.activeModal.close({ response: response, wareHouse: this.Accounts});
   }
 
   onSelected(selectedData, type, display) {

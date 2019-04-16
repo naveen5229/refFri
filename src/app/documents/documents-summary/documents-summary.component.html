@@ -108,7 +108,7 @@
                   <span *ngIf="getDocumentType(row[col]) > 5 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
                     {{row[col]}}
                   </span>
-                  <span *ngIf="row[col] == null && col.toUpperCase() != 'VEHICLE'">
+                  <span  *ngIf="row[col].startsWith('0_0') && col.toUpperCase() != 'VEHICLE'">
                     <i class="fa fa-times-circle icon-red-cross" (click)="noRecordDocumentData(row, col, row[col])"
                       title="No Record"></i>
                   </span>

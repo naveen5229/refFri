@@ -10,8 +10,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddSiteRuleComponent implements OnInit {
   addSite = {
-    preSiteId:0,
-    currSiteId:0,
+    preSiteId:null,
+    currSiteId:null,
     foid: null,
     materialId:null,
     materialName:null,
@@ -87,6 +87,15 @@ export class AddSiteRuleComponent implements OnInit {
 
   addSiteRule(){
     console.log("data:",this.addSite);
+    if (!this.addSite.foid ) {
+      return this.common.showError("Please Fill foUser");
+    }
+    if (!this.addSite.currSiteId ) {
+      return this.common.showError("Please Fill Current Site");
+    }
+    if (!this.addSite.ruleTypeId ) {
+      return this.common.showError("Please Fill ruleTypeId");
+    }
     let params = {
       foid:this.addSite.foid,
       pre_site_name:this.addSite.preSiteId,
@@ -104,7 +113,7 @@ export class AddSiteRuleComponent implements OnInit {
         console.log("data:");
         console.log(this.result);
         this.common.showToast(res['msg']);
-        this.activeModal.close();
+        this.activeModal.close({ response: this.result });
         
       }, err => {
 

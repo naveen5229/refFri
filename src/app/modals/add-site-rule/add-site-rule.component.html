@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Add Site Rule</h4>
+  <h5 class="modal-title" id="modal-basic-title">Add Site Rule</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,7 +9,7 @@
     <form enctype="multipart/form-data" #myForm="ngForm" id="site-form" name="site-form">
       <div class="row">
         <div class="col-md-6">
-          <label>Fo User</label>
+          <label>Fo User<span>*</span></label>
         </div>
         <div class="col-md-6">
           <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
@@ -24,7 +24,7 @@
           <label>PreSit Name</label>
         </div>
         <div class="col-md-6">
-            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1" seperator="-"  [display]="['name','sd_loc_name']"
             placeholder="Search Presite" [preSelected]="null"></auto-suggestion>
          
           <div class="suggestions ng-star-inserted">
@@ -34,10 +34,10 @@
 
       <div class="row">
         <div class="col-md-6">
-          <label>CurrentSite Name</label>
+          <label>CurrentSite Name<span>*</span></label>
         </div>
         <div class="col-md-6">
-            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1" seperator="-"  [display]="['name','sd_loc_name']"
             placeholder="Search CurrentSite" [preSelected]="null"></auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
@@ -71,7 +71,7 @@
 
       <div class="row">
         <div class="col-md-6">
-          <label>Rule Type</label>
+          <label>Rule Type<span>*</span></label>
         </div>
         <div class="col-md-6">
           <select name="rule" class="form-control " [(ngModel)]="addSite.ruleTypeId" (ngModel)="selectRule($event)">

@@ -283,11 +283,12 @@ export class DocumentsSummaryComponent implements OnInit {
     this.common.params = { title: 'Documents Issues' };
     const activeModal = this.modalService.open(DocumentIssuesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-  noRecordDocumentData(row, col, colval){
-    console.log("row:",row);
+  noRecordDocumentData(norecordData, col, colval){
+    console.log("row:",norecordData);
     console.log("col:",col);
-    console.log("colval:",colval);
-    this.common.params = { row,col,colval };
+    console.log("colval:",colval.split("_")[2]);
+    colval = colval.split("_")[2];
+    this.common.params = { norecordData,col,colval };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 }
