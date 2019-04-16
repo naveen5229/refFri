@@ -54,7 +54,7 @@ export class TripSiteRuleComponent implements OnInit {
     const activeModal = this.modalService.open(AddSiteRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        // this.documentUpdate();
+        this.getSiteData();
       }
     });
   }
@@ -78,6 +78,7 @@ export class TripSiteRuleComponent implements OnInit {
           this.data[index].ruleName = ruleName?ruleName.name:'N.A';
           index++;
         }
+       
 
       }, err => {
         this.common.loading--;

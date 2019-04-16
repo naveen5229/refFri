@@ -11,7 +11,7 @@
           </div>
    
     </div> 
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" *ngIf="data.length"  style="margin:7px;">
         <thead class="thead">
           <tr>
             <th>Sr No</th>
@@ -32,8 +32,7 @@
             <td>{{doc.curr_site_name}}</td>
             <td>{{doc.mt_name}}</td>
             <td>{{doc.bodyName}}</td>
-            <td>{{doc.ruleName}}</td>
-          
+            <td>{{doc.ruleName}}</td>   
           </tr>
         </tbody>
       </table>
