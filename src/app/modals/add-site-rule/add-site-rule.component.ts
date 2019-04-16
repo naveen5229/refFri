@@ -87,6 +87,9 @@ export class AddSiteRuleComponent implements OnInit {
 
   addSiteRule(){
     console.log("data:",this.addSite);
+    if (!this.addSite.foid && !this.addSite.currSiteId && !this.addSite.ruleTypeId) {
+      return this.common.showError("Please Fill All Require Field");
+    }
     let params = {
       foid:this.addSite.foid,
       pre_site_name:this.addSite.preSiteId,
