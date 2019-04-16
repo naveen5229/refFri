@@ -123,7 +123,12 @@ export class DataService {
         link: '/admin/vehicle-distance',
         home: true,
       },
-
+      {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+      },
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',

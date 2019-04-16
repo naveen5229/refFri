@@ -54,9 +54,8 @@ export class UserService {
       { id: 24, route: '/admin/activity-summary' },
       { id: 25, route: '/admin/vehicle-gps-detail' },
       { id: 26, route: '/admin/vehicle-distance' },
-      { id: 27, route: '/admin/sub-sites' },
-      { id: 28, route: '/admin/fuel-fillings' }
-
+      { id: 27, route: '/admin/fuel-fillings' },
+      { id: 28, route: '/admin/trip-site-rule' }
     ]
   }
 
