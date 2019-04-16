@@ -7,15 +7,13 @@
 
 <div class="modal-body">
   <div class="container">
-    <form enctype="multipart/form-data" #myForm="ngForm" id="dropDown-form" name="dropDown-form">
-      
-
+    <form enctype="multipart/form-data" #myForm="ngForm" id="dropDown-form" name="dropDown-form">      
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label>Reason<span></span></label>
         </div>
-        <div class="col-md-6">
-          <select name="rule" class="form-control "  >
+        <div class="col-md-8">
+          <select name="reason" class="form-control" [(ngModel)]="reason.id">
             <option class="form-control" *ngFor="let rule of reason" [value]="rule.id">{{rule.name}}</option>
             
           </select>
@@ -33,7 +31,7 @@
         style="cursor: pointer;">{{btn2}}</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="submit"  id="submit"
+      <button class="btn btn-primary" type="submit"  id="submit" (click)="closeModal(true)"
         style="cursor: pointer;">{{btn1}}</button>
     </div>
   </div>

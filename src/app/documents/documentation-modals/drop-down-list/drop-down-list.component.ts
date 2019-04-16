@@ -6,7 +6,7 @@ import { UserService } from '../../../services/user.service';
 @Component({
   selector: 'drop-down-list',
   templateUrl: './drop-down-list.component.html',
-  styleUrls: ['./drop-down-list.component.scss']
+  styleUrls: ['./drop-down-list.component.scss', '../../../pages/pages.component.css']
 })
 export class DropDownListComponent implements OnInit {
   title = '';
@@ -22,30 +22,34 @@ export class DropDownListComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private activeModal: NgbActiveModal) {
-    this.title = this.common.params.title || 'ignore';
+    this.title = this.common.params.title || 'Ignore';
     this.btn1 = this.common.params.btn1 || 'Submit';
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.reason = [
       {
         id: 11,
-        name: "Norecord"
+        name: "Private Vehicle"
       },
       {
         id: 21,
-        name: "Undefine"
+        name: "Not Applicable on Vehicle Type"
       },
       {
         id: 31,
-        name: "DataNotavailable"
+        name: "Intra State Trip Only"
       }
     ];
+    console.log("data:", this.common.params.ignoreData);
   }
 
   ngOnInit() {
   }
 
   closeModal(response) {
-    this.activeModal.close({ response: response });
+    this.activeModal.close({ response: this.reason });
   }
 
+  addReason() {
+
+  }
 }

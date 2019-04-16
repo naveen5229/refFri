@@ -350,12 +350,21 @@ export class AddDocumentComponent implements OnInit {
 
   ignoreDoc() {
     if (this.docTypeid || this.document.type.id ) {
-      this.common.params = { title: 'ignore Reason' };
+      const ignoreData = {
+        x_entryby: this.user._details.id,
+        x_document_id: this.docId,
+        x_vehicle_id: this.vehicleid,
+        x_document_type_id: this.docTypeid,
+        x_document_type: this.docType,
+       
+      };
+      this.common.params = { title: 'ignore Reason' ,ignoreData};
       const activeModal = this.modalService.open(DropDownListComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
       activeModal.result.then(data => {
         if (data.response) {
-          this.closeModal(true);
+          console.log("return data",data.response);
+          // this.closeModal(true);
         }
       });
     }
