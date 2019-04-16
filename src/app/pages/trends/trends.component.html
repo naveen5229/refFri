@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body style="padding:15px 15px 0px;">
     <div class="model-body">
-      <div class="row" style="margin-left:30px;">
+      <div class="row">
           <div class="col-sm-3">
               <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()" style=" border: 1px solid #324148; font-size: 10px">
                 <option value="11">Loading</option>
@@ -88,8 +88,8 @@
 
         </div> -->
       </div>
-      <div class="row"  style="margin: 10px" *ngIf="showTables">
-        <div class="col-sm-6 pr-0" style="height:43vh;overflow:auto;" *ngIf="!onWardFlag">
+      <div class="row"  style="margin-top: 10px" *ngIf="showTables">
+        <div class="col-sm-6 pr-0" *ngIf="!onWardFlag">
             <table class="table table-bordered">
                 <thead class="thead">
                   <tr>
@@ -129,7 +129,7 @@
                 </tbody>
               </table>
         </div>
-        <div class="col-sm-6 pr-0" style="height:43vh;overflow:auto;" *ngIf="!onWardFlag">
+        <div class="col-sm-6" *ngIf="!onWardFlag">
             <table class="table table-bordered">
                 <thead class="thead">
                   <tr>

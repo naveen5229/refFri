@@ -112,7 +112,7 @@ export class GenerateLRComponent implements OnInit {
 
   addConsignee() {
     console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'md', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Date:', data);
     });

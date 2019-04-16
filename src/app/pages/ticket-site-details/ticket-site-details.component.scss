@@ -68,3 +68,12 @@ tbody tr td{
     letter-spacing: 0.5px;
     cursor: pointer;
 }
+.ticket_site_details nb-card-header{
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
+}
+:host ::ng-deep ticket-actions .section{
+    font-size: 1.25rem;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
+}

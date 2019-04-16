@@ -160,6 +160,17 @@ export class DataService {
         home: true,
       },
       {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+      },
+      {
+        title: 'Vehicle Gps Detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+      },
+      {
         title: 'Fuel Fillings',
         icon: 'nb-home',
         link: '/admin/fuel-fillings',

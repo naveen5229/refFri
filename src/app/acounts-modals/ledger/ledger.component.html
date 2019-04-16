@@ -142,7 +142,7 @@
             </div>
           </div>
           <div class="col-md-2 text-center">
-            <label>Delete View</label>
+            <label>For Review</label>
           </div>
           <div class="col-md-2">
             <div class="true_false">
@@ -158,10 +158,10 @@
                 </div>
             </div>
           </div>
-          <div class="col-md-2 text-center">
+          <!-- <div class="col-md-2 text-center">
             <label>Delete</label>
-          </div>
-          <div class="col-md-2">
+          </div> -->
+          <!-- <div class="col-md-2">
             <div class="true_false">
               <div class="true">
                 <span>True</span>
@@ -174,7 +174,7 @@
             [value]=0 >
               </div>
             </div>
-          </div>
+          </div> -->
           
         </div>
       </div>
@@ -376,10 +376,14 @@
 
     <div class="modal-footer">
       <div class="row">
-        <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
-            style="cursor: pointer;">Cancel</button>
+        <div class="col"  *ngIf="(this.common.params)">
+          <button class="btn btn-danger" type="button" outline (click)="delete(this.Accounts.id)" id="delete"
+            style="cursor: pointer;">Delete</button>
         </div>
+        <div class="col">
+            <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
+              style="cursor: pointer;">Cancel</button>
+          </div>
         <div class="col text-right">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit

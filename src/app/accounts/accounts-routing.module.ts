@@ -25,6 +25,7 @@ import { WareHouseComponent } from './ware-house/ware-house.component';
 import { CashbookComponent } from './cashbook/cashbook.component';
 import { BankbooksComponent } from './bankbooks/bankbooks.component';
 import { CityComponent } from './city/city.component';
+import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
 
 const routes: Routes = [{
     path: '',
@@ -121,6 +122,10 @@ const routes: Routes = [{
         {
             path:'city',
             component:CityComponent
+        },
+        {
+            path :'storerequisitions',
+            component:StorerequisitionsComponent
         }
 
         
