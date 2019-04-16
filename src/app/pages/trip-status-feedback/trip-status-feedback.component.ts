@@ -92,4 +92,5 @@ export class TripStatusFeedbackComponent implements OnInit {
         console.log(err);
       });
   }
+  
 }

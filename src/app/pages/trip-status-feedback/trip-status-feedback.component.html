@@ -3,12 +3,15 @@
     <div class="row">
       <div class="col-sm-8">
         <h4>Trip Status FeedBack</h4>
+        <!-- <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span> -->
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
     <div>
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover" id="tbldocs">
         <thead class="thead">
           <tr style="text-align:center">
             <th>#</th>
