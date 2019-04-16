@@ -39,6 +39,7 @@ import { CallLogsComponent } from './call-logs/call-logs.component';
 import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
 import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
 import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
+import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
 
 
 
@@ -83,7 +84,8 @@ const PAGES_COMPONENTS = [
     CallLogsComponent,
     DriverCallSuggestionComponent,
     UserCallSummaryComponent,
-    PlacementsDashBoardComponent
+    PlacementsDashBoardComponent,
+    TripStatusFeedbackComponent
   ],
 })
 export class PagesModule {
