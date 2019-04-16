@@ -127,6 +127,7 @@ import { ImportFillingsComponent } from './modals/import-fillings/import-filling
 import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.component';
+import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -218,6 +219,7 @@ import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.compo
     AddCityComponent,
     SiteTripDetailsComponent,
     AddSiteRuleComponent,
+    StorerequisitionComponent,
   ],
   entryComponents: [
     SiteTripDetailsComponent,
@@ -304,7 +306,8 @@ import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.compo
     PendingLicenceDetailComponent,
     WareHouseModalComponent,
     AddCityComponent,
-    AddSiteRuleComponent
+    AddSiteRuleComponent,
+    StorerequisitionComponent
   ],
   imports: [
     BrowserModule,
