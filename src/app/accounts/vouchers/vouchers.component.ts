@@ -170,7 +170,9 @@ export class VouchersComponent implements OnInit {
       remarks: this.voucher.remarks,
       date: this.voucher.date,
       amountDetails: this.voucher.amountDetails,
-      vouchertypeid: this.voucherId
+      vouchertypeid: this.voucherId,
+      y_code: '',
+      xid:0
     };
 
     console.log('params 1 : ', params);
@@ -585,10 +587,19 @@ export class VouchersComponent implements OnInit {
       code: ledger.code,
       foid: ledger.user.id,
       per_rate: ledger.perrate,
-      primarygroupid: ledger.account.primarygroup_id,
-      account_id: ledger.account.id,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
-      x_id: 0
+      branchname :ledger.branchname,
+      branchcode:  ledger.branchcode,
+      accnumber:   ledger.accnumber,
+      creditdays:  ledger.creditdays,
+      openingbalance:  ledger.openingbalance,
+      isdr:  ledger.openingisdr,
+      approved:  ledger.approved,
+      deleteview:  ledger.deleteview,
+      delete:  ledger.delete,
+      x_id: ledger.id ? ledger.id : 0,
     };
 
     console.log('params11: ', params);
@@ -600,6 +611,7 @@ export class VouchersComponent implements OnInit {
         console.log('res: ', res);
         this.getLedgers('debit');
         this.getLedgers('credit');
+        this.common.showToast('Ledger Are Saved');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

@@ -50,6 +50,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
     },
+    // {
+    //     title:'Store Requisition',
+    //     icon :'fa fa-building-o',
+    //     link: '/accounts/storerequisitions'
+    // },
     {
         title: 'Voucher',
         icon: 'fas fa-ticket-alt',

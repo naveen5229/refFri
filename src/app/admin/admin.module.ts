@@ -32,7 +32,10 @@ import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.
 import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
+import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 
 
 
@@ -50,7 +53,9 @@ const PAGES_COMPONENTS = [
   UserPreferencesComponent,
   GpsSupplierMappingComponent,
   VehiclesViewComponent,
-  VehicleGpsTrailComponent
+  VehicleGpsTrailComponent,
+  ActivitySummaryComponent,
+  VehicleGpsDetailComponent
   
 ];
 @NgModule({
@@ -77,7 +82,10 @@ const PAGES_COMPONENTS = [
     GpsTrailsComponent,
     FuelFillingsComponent,
     SubSitesComponent,
+    ActivitySummaryComponent,
+    VehicleGpsDetailComponent,
     VehicleDistanceComponent,
+    TripSiteRuleComponent,
    
   ],
 })
