@@ -68,7 +68,7 @@ export class AlertRelatedIssueComponent implements OnInit {
       foname: { title: 'Fo Name', placeholder: 'Fo Name' },
       holdBy: { title: 'Hold By', placeholder: 'Hold By' },
       remark: { title: 'Remark', placeholder: 'Remark' },
-      action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'del' },
+      action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'text-dark' },
     };
 
     
