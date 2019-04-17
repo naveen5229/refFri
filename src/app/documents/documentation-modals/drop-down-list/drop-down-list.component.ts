@@ -15,8 +15,8 @@ export class DropDownListComponent implements OnInit {
   reason = [
     {
       name: "",
-    }
-  ];
+    }];
+ 
   data=[];
   constructor(public api: ApiService,
     public common: CommonService,
@@ -26,6 +26,7 @@ export class DropDownListComponent implements OnInit {
     this.btn1 = this.common.params.btn1 || 'Submit';
     this.btn2 = this.common.params.btn2 || 'Cancel';
     this.reason = [
+   
       {
         name: "Private Vehicle"
       },
@@ -47,7 +48,5 @@ export class DropDownListComponent implements OnInit {
     this.activeModal.close({ response: this.reason, record:this.data});
   }
 
-  addReason() {
-
-  }
+ 
 }

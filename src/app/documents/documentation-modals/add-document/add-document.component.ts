@@ -352,7 +352,7 @@ export class AddDocumentComponent implements OnInit {
     if (this.docTypeid || this.document.type.id ) {
       const ignoreData = {
         x_entryby: this.user._details.id,
-        x_vehicle_id: this.vehicleid,
+        x_vehicle_id: this.vehicleId,
         x_document_type_id: this.docTypeid,
         x_document_type: this.docType,
        
@@ -372,13 +372,15 @@ export class AddDocumentComponent implements OnInit {
   }
 
 
-  returnIgnoreData(ignoreDoc,record){
-      console.log('ignore', ignoreDoc);
-      console.log('record', record);
+  returnIgnoreData(ignoreReason,record){
+    
       const params = {
-        name: ignoreDoc.name,
-       
+        x_remarks: ignoreReason.name,
+        x_vehicle_id:record.x_vehicle_id,
+        x_document_type_id:record.x_document_type_id,
+
       };
+      console.log("Params:",params);
   
       // this.common.loading++;
       // this.api.post('Company/InsertWarehouse', params)

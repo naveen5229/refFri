@@ -50,8 +50,6 @@ export class TripSiteRuleComponent implements OnInit {
   ngOnInit() {
   }
   addsite() {
-
-    // this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
     const activeModal = this.modalService.open(AddSiteRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -89,6 +87,19 @@ export class TripSiteRuleComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+
+  editRule(row){
+    console.log("row",row);
+    // this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
+    const activeModal = this.modalService.open(AddSiteRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getSiteData();
+      }
+    });
+
   }
 
 }
