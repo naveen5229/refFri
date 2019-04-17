@@ -52,16 +52,12 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
           let today = new Date(data.date);
           console.log('fromDate',this.startDate);
           this.endDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() + 1)))).split(' ')[0];
-
         }
-        else{
-          
+        else{    
           this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
           console.log('endDate',this.endDate);
         }
-
       }
-
     });
 
 
