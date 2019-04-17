@@ -45,7 +45,8 @@
                   <span *ngIf="statusrow.status == 9"><i class="fa fa-minus-circle i-yellow"></i><input type='radio'
                     name='rdostatus' value="9" (click)="filterRows(statusrow.status)"> ignore
                   <span>({{statusrow.total}})</span></span>
-                <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 5)">
+
+                <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 9)">
                   <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)"> Other
                   <span>({{statusrow.total}})</span>
                 </span>
@@ -105,7 +106,7 @@
                     <i class="fa fa-minus-circle i-yellow" (click)="fetchDocumentData(row, col, row[col])"
                       title="ignore"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) > 5 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
+                  <span *ngIf="getDocumentType(row[col]) > 9 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
                     {{row[col]}}
                   </span>
                   <span  *ngIf="row[col].startsWith('0_0') && col.toUpperCase() != 'VEHICLE'">
