@@ -18,6 +18,7 @@
 
 :host ::ng-deep.icon {
     margin-right: 5px;
+    cursor: pointer;
 }
 
 :host ::ng-deep.blue {
@@ -228,4 +229,8 @@ mwlResizable {
     img{
         width: 100%;
     }
+}
+:host ::ng-deep.tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 80px);
 }
