@@ -56,7 +56,6 @@ export class UserService {
       { id: 26, route: '/admin/vehicle-distance' },
       { id: 27, route: '/admin/fuel-fillings' },
       { id: 28, route: '/admin/trip-site-rule' },
-      { id: 29, route: '/admin/vehicle-distance' },
       { id: 30, route: '/admin/trip-status-feedback-logs' },
 
     ]
