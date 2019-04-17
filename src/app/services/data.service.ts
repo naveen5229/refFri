@@ -175,7 +175,19 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/fuel-fillings',
         home: true,
-      }
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
     ];
   }
 }

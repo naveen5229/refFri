@@ -150,3 +150,7 @@ input[type=text] {
 .display-block{
     display: block;
 }
+:host ::ng-deep .tableFixHead{
+    max-height: calc(100vh - 202px);
+    height: auto !important;
+}

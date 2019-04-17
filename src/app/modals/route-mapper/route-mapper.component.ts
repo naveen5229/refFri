@@ -147,9 +147,15 @@ export class RouteMapperComponent implements OnInit {
                   icon: this.mapService.lineSymbol,
                   offset: "0%"
                 }]);
+                let realStart = new Date(vehicleEvents[0].start_time)<new Date(this.startDate)?
+                vehicleEvents[0].start_time:this.startDate;
+                let realEnd = null;
+                if(vehicleEvents[0].end_time)
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].end_time)>new Date(this.endDate)?
+                  vehicleEvents[vehicleEvents.length-1].end_time:this.endDate;
                 let totalHourDiff = 0;
                 if(vehicleEvents.length!=0){
-                  totalHourDiff = this.commonService.dateDiffInHours(vehicleEvents[0].start_time,vehicleEvents[vehicleEvents.length-1].end_time,true);
+                  totalHourDiff = this.commonService.dateDiffInHours(realStart,realEnd,true);
                   console.log("Total Diff",totalHourDiff);
                 }
                 
@@ -162,9 +168,9 @@ export class RouteMapperComponent implements OnInit {
                     vehicleEvents[index].color = "00ffff";
                   }
                   vehicleEvents[index].position = (this.commonService.dateDiffInHours(
-                    vehicleEvents[0].start_time,vehicleEvents[index].start_time)/totalHourDiff)*97.9;
+                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*98;
                   vehicleEvents[index].width = (this.commonService.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*109.8;
+                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
                   console.log("Width",vehicleEvents[index].width);
                    
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(

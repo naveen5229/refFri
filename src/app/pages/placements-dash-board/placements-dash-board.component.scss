@@ -1,3 +1,8 @@
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
 .tabs_style{
     width: 100%;
     margin: 0px;
@@ -30,9 +35,10 @@
         border-radius: 5px 5px 0px 0px;
         font-size: 12px;
         font-weight: normal;
+        cursor: pointer;
     }
 }
 :host ::ng-deep .tableFixHead{
     overflow: auto;
-    max-height: calc(100vh - 152px);
+    max-height: calc(100vh - 162px);
 }

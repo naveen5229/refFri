@@ -128,7 +128,7 @@ import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.component';
 import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
-
+import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -220,6 +220,8 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     SiteTripDetailsComponent,
     AddSiteRuleComponent,
     StorerequisitionComponent,
+    DropDownListComponent,
+
   ],
   entryComponents: [
     SiteTripDetailsComponent,
@@ -307,7 +309,9 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     WareHouseModalComponent,
     AddCityComponent,
     AddSiteRuleComponent,
-    StorerequisitionComponent
+    StorerequisitionComponent,
+    DropDownListComponent,
+
   ],
   imports: [
     BrowserModule,
