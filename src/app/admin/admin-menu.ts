@@ -136,11 +136,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Vechile Dstance',
+        title: 'Vechile Distance',
         icon: 'fas fa-route',
         link: '/admin/vehicle-distance',
         home: true,
-    }
+    }, {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+    },
 
 
 ];

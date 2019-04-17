@@ -110,12 +110,12 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      }, 
+      },
       {
         title: 'Vehicle Gps Trail',
         icon: 'fas fa-receipt',
         link: '/admin/vehicle-gps-trail',
-      },  
+      },
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -147,11 +147,17 @@ export class DataService {
         home: true,
       },
       {
-        title: 'Vechile Dstance',
+        title: 'Vechile Distance',
         icon: 'fas fa-route',
         link: '/admin/vehicle-distance',
         home: true,
-    }
+      },
+      {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
     ];
   }
 }

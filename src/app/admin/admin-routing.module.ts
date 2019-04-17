@@ -26,7 +26,8 @@ import { DriverListComponent } from '../driver/driver-list/driver-list.component
 import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
-import { VehicleDistanceComponent} from './vehicle-distance/vehicle-distance.component';
+import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 
 const routes: Routes = [{
     path: '',
@@ -150,6 +151,12 @@ const routes: Routes = [{
             component: VehicleDistanceComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'trip-status-feedback-logs',
+            component: TripStatusFeedbackLogsComponent,
+            canActivate: [RouteGuard]
+        },
+
 
     ],
 }];

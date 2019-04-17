@@ -525,7 +525,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading, center_heading) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?) {
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -642,7 +642,7 @@ export class CommonService {
         doc.text(center_heading, x - hdglen - 40, y);
       }
       y = 15;
-      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      //doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -819,21 +819,5 @@ export class CommonService {
       .getElementsByClassName('scrollable-container')[0]
       .className.split(' ')[0];
   }
-  //   printPDF(tblEltId) {
-  //   this.common.loading++;
-  //   let userid = this.user._customer.id;
-  //   if(this.user._loggedInBy == "customer")
-  //     userid = this.user._details.id;
-  //   this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       this.fodata = res['data'];
-  //       let left_heading = this.fodata['name'];
-  //       let center_heading = "Document Status";
-  //       this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-  // }
+  
 }
