@@ -50,9 +50,13 @@ export class CustomerSelectionComponent implements OnInit {
     this.user._customer.name = this.searchString;
     this.user._customer.id = user.foaid;
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
-    if (window.location.href.includes('pages')) {
+ 
+    if (window.location.href.endsWith('admin')||window.location.href.endsWith('pages')) {
       window.location.reload();
-    } else {
+    }
+    else if (window.location.href.includes('admin')) {
+      this.router.navigate(['/admin']);
+    } else if  (window.location.href.includes('pages')){
       this.router.navigate(['/pages']);
     }
     this.dismiss();

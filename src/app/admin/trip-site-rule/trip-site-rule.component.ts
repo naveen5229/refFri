@@ -11,47 +11,51 @@ import { AddSiteRuleComponent } from '../../modals/add-site-rule/add-site-rule.c
 })
 export class TripSiteRuleComponent implements OnInit {
   data = [];
-  ruleType=[
+  ruleType = [
     {
-      id:11,
-      name:"Loading"
+      id: 11,
+      name: "Loading"
     },
     {
-      id:21,
-      name:"UnLoading"
+      id: 21,
+      name: "UnLoading"
     },
     {
-      id:31,
-      name:"Loading & Unloading"
+      id: 31,
+      name: "Loading & Unloading"
     }
   ];
-  bodyType=[
+  bodyType = [
     {
-      id:11,
-      name:"3axle"
+      id: 11,
+      name: "3axle"
     },
     {
-      id:21,
-      name:"4axle"
+      id: 21,
+      name: "4axle"
     },
     {
-      id:31,
-      name:"6axle"
+      id: 31,
+      name: "6axle"
     }
   ];
-  materialType="";
+  materialType = "";
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getSiteData();
   }
 
   ngOnInit() {
   }
-  addsite() {
 
-    // this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
+  refresh() {
+    this.getSiteData();
+  }
+  addsite() {
+    this.common.params = {};
     const activeModal = this.modalService.open(AddSiteRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
@@ -67,28 +71,66 @@ export class TripSiteRuleComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-        let index = 0 ;
+        let index = 0;
         for (const data of this.data) {
-          let bodyName = this.bodyType.find((element)=>{
-            return element.id = this.data[index].bodytype_id;
+          let bodyName = this.bodyType.find((element) => {
+            return element.id == this.data[index].bodytype_id;
           });
-          this.data[index].bodyName = bodyName?bodyName.name:'N.A';
-          let ruleName=this.ruleType.find((element)=>{
-            return element.id = this.data[index].ruletype_id;
+          this.data[index].bodyName = bodyName ? bodyName.name : 'N.A';
+          let ruleName = this.ruleType.find((element) => {
+            return element.id == this.data[index].ruletype_id;
           });
-          this.data[index].ruleName = ruleName?ruleName.name:'N.A';
+          this.data[index].ruleName = ruleName ? ruleName.name : 'N.A';
 
-          this.data[index].preSiteType = data.pre_site_name?data.pre_site_name:'N.A';
-          this.data[index].materialType = data.mt_name?data.mt_name:'N.A';
+          this.data[index].preSiteType = data.pre_site_name ? data.pre_site_name : 'N.A';
+          this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
           index++;
         }
-       
+
 
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+
+  editRule(row) {
+    console.log("row", row);
+    this.common.params = { title: 'Edit Site Rule', row };
+    const activeModal = this.modalService.open(AddSiteRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getSiteData();
+      }
+    });
+
+  }
+
+  deleteRule(doc) {
+    alert("Are You Want Delete Record");{
+    const params = {
+      foid: doc.foid,
+      currSiteId: doc.current_siteid,
+      preSiteId: doc.pre_siteid
+    }
+    this.common.loading++;
+    this.api.post('TripSiteRule/delete', params)
+      .subscribe(res => {
+        this.common.loading--;
+        let output = res['data'];
+        console.log("data:");
+        console.log(output);
+        this.common.showToast(res['msg']);
+        this.getSiteData();
+
+      }, err => {
+
+        this.common.loading--;
+        console.log(err);
+      });
+    }
   }
 
 }
