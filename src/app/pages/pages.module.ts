@@ -39,6 +39,7 @@ import { CallLogsComponent } from './call-logs/call-logs.component';
 import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
 import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
 import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
+import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
 
 
@@ -60,7 +61,8 @@ const PAGES_COMPONENTS = [
     OwlNativeDateTimeModule,
     ImageViewerModule,
     ReactiveFormsModule,
-    ResizableModule    
+    ResizableModule  ,
+    LorryReceiptModule  
   ],
   declarations: [
     ...PAGES_COMPONENTS,

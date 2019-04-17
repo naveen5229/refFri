@@ -23,7 +23,6 @@ import { CallLogsComponent } from './call-logs/call-logs.component';
 import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
 import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
 import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
-
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
 const routes: Routes = [{
   path: '',
@@ -57,10 +56,10 @@ const routes: Routes = [{
     path: 'lorry-receipts',
     component: LorryRecciptsComponent,
   },
-  // {
-  //   path:'generate-lr',
-  //   component:GenerateLRComponent,
-  // },
+  {
+    path:'generate-lr',
+    component:GenerateLRComponent,
+  },
   {
     path: 'expenses',
     component: ExpensesComponent,

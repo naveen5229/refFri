@@ -12,12 +12,12 @@
                 placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
             </div>
             <div class="col-md-2 pr-0">
-              <input [(ngModel)]="data.startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
+              <input [(ngModel)]="data.startDate" [value]="data.startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
                 placeholder="Start Time" class="form-control" autocomplete="off" name="s-date">
               <owl-date-time #sDate></owl-date-time>
             </div>
             <div class="col-md-2 pr-0">
-              <input [(ngModel)]="data.endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate "
+              <input [(ngModel)]="data.endDate"  [value]="data.endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate "
                 placeholder="End Time" class="form-control" autocomplete="off" name="e-date">
               <owl-date-time #eDate></owl-date-time>
             </div>
@@ -28,27 +28,10 @@
           </div>
         </form>
       </div>
-      <div class="row" *ngIf="distance.length">
-        <table class="tbl table table-bordered table-hover">
-          <thead class="thead">
-            <tr>
-              <th style="width:40px;">S.No</th>
-              <th>Regno</th>
-              <th>Distance</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let dis of distance;let i = index;">
-              <td style="width:40px;">{{i+1}}</td>
-              <td style="width:40px;">{{dis.regno}}</td>
-              <td>{{dis.distance}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <smart-table  *ngIf="distance.length" [data]="table.distance" [settings]="table.settings" ></smart-table>
-        <br>
+  
+    </div> 
+    
+    <smart-table  *ngIf="result.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+  
   </nb-card-body>
 </nb-card>

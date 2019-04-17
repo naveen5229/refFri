@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ledger',
@@ -40,6 +42,9 @@ export class LedgerComponent implements OnInit {
     isbank:0,
     openingisdr:1,
     openingbalance:0,
+    approved: 1,
+    deleteview: 0,
+    delete : 0,
     accDetails: [{
       id: '',
       salutation: {
@@ -71,6 +76,7 @@ export class LedgerComponent implements OnInit {
   
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
+    public modalService: NgbModal,
     public api: ApiService) {
     console.log('Params: ', this.common.params);
 
@@ -98,6 +104,9 @@ export class LedgerComponent implements OnInit {
         isbank : (this.common.params[0].branch_code) ? 1:0,
         openingisdr: (this.common.params[0].opening_bal_isdr == true) ? 1:0,
         openingbalance:this.common.params[0].opening_balance,
+        approved: (this.common.params[0].y_for_approved == true) ? 1:0,
+        deleteview: (this.common.params[0].y_del_review == true) ? 1:0,
+        delete : (this.common.params[0].y_deleted == true) ? 1:0,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -131,7 +140,7 @@ export class LedgerComponent implements OnInit {
 
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.GetSalution();
-    this.getUserData();
+   // this.getUserData();
     this.getUnderGroup();
     this.GetState();
     this.setFoucus('name');
@@ -597,6 +606,29 @@ export class LedgerComponent implements OnInit {
       this.Accounts.accDetails[index].city.name = suggestion.name;
       this.Accounts.accDetails[index].city.id = suggestion.id;
 
+    }
+  }
+
+  delete(tblid) {
+    let params = {
+      id: tblid     
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Ledger ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.Accounts.delete=1;
+          this.activeModal.close({ response: true, ledger: this.Accounts });
+          this.common.loading++;
+         
+        }
+      });
     }
   }
 

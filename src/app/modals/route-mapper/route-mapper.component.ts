@@ -91,7 +91,7 @@ export class RouteMapperComponent implements OnInit {
       .subscribe(res => {
         this.commonService.loading--;
         console.log(res);
-        let vehicleEvents = res['data'];
+        let vehicleEvents = res['data'].reverse();
         let params = {
           'vehicleId': this.vehicleSelected,
           'startTime': this.commonService.dateFormatter(this.startDate, 'YYYYMMDD', true, "-"),
@@ -134,27 +134,7 @@ export class RouteMapperComponent implements OnInit {
                     this.polypath = [];
                     this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
                   }
-                  for (let index = 0; index < vehicleEvents.length; index++) {
-                    const elementx = vehicleEvents[index];
-                    if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
-                      vehicleEvents[index].subType = 'marker';
-                      vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                      vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                    }else{
-                      vehicleEvents[index].color = "00ffff";
-                    }
-                    if (new Date(vehicleEvents[index].start_time)>=new Date(element.time)&&res['data'][i+1]&&
-                        new Date(vehicleEvents[index].start_time)<=new Date(res['data'][i+1].time)){
-                      vehicleEvents[index].position = (i / res['data'].length) * 97;
-                      vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
-                        elementx.start_time,elementx.end_time);
-                    }
-
-                    if (vehicleEvents[index].end_time&&new Date(vehicleEvents[index].end_time)>=new Date(element.time)
-                        &&res['data'][i+1]&&new Date(vehicleEvents[index].end_time)<=new Date(res['data'][i+1].time)){
-                      vehicleEvents[index].eposition = (i / res['data'].length) * 97;
-                    }
-                  }
+                  
                   this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
                   this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
                   prevElement = element;
@@ -167,23 +147,30 @@ export class RouteMapperComponent implements OnInit {
                   icon: this.mapService.lineSymbol,
                   offset: "0%"
                 }]);
-                let finalIndex = 0;
-                for (const events of vehicleEvents) {
-                  if(new Date(events.start_time) < new Date(this.startDate)){
-                    events.position = 0;
-                    events.duration = this.commonService.dateDiffInHoursAndMins(
-                      events.start_time,events.end_time);
+                let totalHourDiff = 0;
+                if(vehicleEvents.length!=0){
+                  totalHourDiff = this.commonService.dateDiffInHours(vehicleEvents[0].start_time,vehicleEvents[vehicleEvents.length-1].end_time,true);
+                  console.log("Total Diff",totalHourDiff);
+                }
+                
+                for (let index = 0; index < vehicleEvents.length; index++) {
+                  if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                    vehicleEvents[index].subType = 'marker';
+                    vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                  }else{
+                    vehicleEvents[index].color = "00ffff";
                   }
-                  if(new Date(events.end_time) > new Date(this.endDate)||!events.end_time){
-                    events.eposition = 100;
-                    events.duration = this.commonService.dateDiffInHoursAndMins(
-                      events.start_time,events.end_time);
-                  }
-                  vehicleEvents[finalIndex].width = events.eposition-events.position;
-                  finalIndex++;
+                  vehicleEvents[index].position = (this.commonService.dateDiffInHours(
+                    vehicleEvents[0].start_time,vehicleEvents[index].start_time)/totalHourDiff)*98;
+                  vehicleEvents[index].width = (this.commonService.dateDiffInHours(
+                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
+                  console.log("Width",vehicleEvents[index].width);
+                   
+                  vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
+                    vehicleEvents[index].start_time,vehicleEvents[index].end_time);
                 }
                 console.log("VehicleEvents", vehicleEvents);
-                vehicleEvents = vehicleEvents.reverse();
                 this.vehicleEvents = vehicleEvents;
                 this.mapService.createMarkers(this.vehicleEvents, false, false);
                 let markerIndex = 0
@@ -248,7 +235,7 @@ export class RouteMapperComponent implements OnInit {
 
     if (isEvent || !((bound.lat1 + 0.001 <= this.timeLinePoly.lat && bound.lat2 - 0.001 >= this.timeLinePoly.lat) &&
       (bound.lng1 + 0.001 <= this.timeLinePoly.lng && bound.lng2 - 0.001 >= this.timeLinePoly.lng))) {
-      this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, this.zoomLevel);
+      this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, isEvent?this.zoomLevel:this.mapService.map.getZoom());
     }
   }
   eventInfo = null;
@@ -299,10 +286,6 @@ export class RouteMapperComponent implements OnInit {
     let googleLatLng=this.mapService.createLatLng(latLng.lat,latLng.lng);
     console.log("latlngggg",googleLatLng);
     this.mapService.zoomAt(googleLatLng);
-  }
-
-  setZoom(zoom) {
-    this.mapService.zoomMap(zoom);
   }
 
 

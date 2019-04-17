@@ -14,6 +14,7 @@ export class MapService {
   polygon = null;
   polygons = [];
   isMapLoaded = false;
+  mapLoadDiv = null;
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
@@ -42,7 +43,6 @@ export class MapService {
   }
 
   updateLocation(elementId, autocomplete, setLocation?) {
-    console.log('tets');
     let place = autocomplete.getPlace();
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
@@ -51,8 +51,9 @@ export class MapService {
   }
 
   zoomAt(latLng, level = 18) {
-    this.map.setCenter(latLng);
-    this.zoomMap(level);
+    this.map.panTo(latLng);
+    if(level != this.map.getZoom())
+      this.zoomMap(level);
   }
 
   zoomMap(zoomValue) {
@@ -66,16 +67,19 @@ export class MapService {
   }
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
-    // if (this.isMapLoaded) {
-    //   return;
-    // }
+    if (this.isMapLoaded) {
+      // document.getElementById(div).innerHTML="";
+      // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
+      // this.setMapType(0);
+      // return;
+    }
     this.mapDiv = document.getElementById(div);
     let latlng = new google.maps.LatLng(lat, long);
     let opt =
     {
       center: latlng,
       zoom: zoom,
-      mapTypeId: google.maps.MapTypeId.HYBRID,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
       styles: [{
         featureType: 'all',
@@ -87,6 +91,8 @@ export class MapService {
     };
     //$("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
+
+    this.mapLoadDiv = this.map.getDiv();
 
     this.bounds = new google.maps.LatLngBounds();
 
@@ -229,7 +235,7 @@ export class MapService {
       });
       if (dropPoly)
         this.drawPolyMF(latlng);
-      if (changeBounds)
+      if (changeBounds&&(lat&&lng))
         this.setBounds(latlng);
       thisMarkers.push(marker);
       this.markers.push(marker);

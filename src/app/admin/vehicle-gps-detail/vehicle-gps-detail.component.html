@@ -1,0 +1,33 @@
+<nb-card>
+  <nb-card-header>
+    Vehicle Gps Detail
+  </nb-card-header>
+  <nb-card-body>
+    <div class="model-body">
+      <div class="row" style="margin-left:10px">
+        <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
+        placeholder="Search" [preSelected]="null"></auto-suggestion> 
+      </div>
+      <table class="table table-bordered" style="margin-left: 5px; margin-top:10px; margin-right: 5px;">
+        <thead class="thead">
+          <tr id="heading-row">
+            <th>Id</th>
+            <th>Vehicle RegNo.</th>
+            <th>Api Provider</th>
+            <th>Last Call</th>
+            <th>Date Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of gpsDtails; let i=index;">
+            <td>{{i+1}}</td>
+            <td>{{data.regno}}</td>
+            <td>{{data.apiprovider}}</td>
+            <th>{{data.lastcalldt | date : 'dd MMM HH:mm'}}</th>
+            <td>{{data.dttime | date : 'dd MMM HH:mm'}}</td>
+                  
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>

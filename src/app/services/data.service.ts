@@ -115,6 +115,19 @@ export class DataService {
         title: 'Vehicle Gps Trail',
         icon: 'fas fa-receipt',
         link: '/admin/vehicle-gps-trail',
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
       },
       {
         title: 'gps-supplier-mapping',
@@ -144,6 +157,23 @@ export class DataService {
         title: 'Sub Sites',
         icon: 'nb-home',
         link: '/admin/sub-sites',
+        home: true,
+      },
+      {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+      },
+      {
+        title: 'Vehicle Gps Detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+      },
+      {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
         home: true,
       },
       {

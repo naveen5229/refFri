@@ -9,60 +9,44 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./vehicle-distance.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleDistanceComponent implements OnInit {
-data ={
-  foid:'',
-  startDate : '',
-  endDate : '',
+  data = {
+    foid: '',
+    startDate: null,
+    endDate: null,
 
-};
-distance =[];
-table = {
-  data: {
-    headings: {},
-    columns: []
-  },
-  settings: {
-    hideHeader: true
-  }
-};
-headings = [];
-valobj = {};
+  };
+  result = [];
+  table = null;
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) {
+  }
 
   ngOnInit() {
   }
   getFoList(user) {
-    console.log("user",user);
+    console.log("user", user);
     this.data.foid = user.id;
   }
-  getDistance(){
+  getDistance() {
+    
     this.data.startDate = this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-");
-    this.data.endDate = this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"),
-    console.log("Data:",this.data);
+    this.data.endDate = this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-");
+    console.log("Data:", this.data);
     let params = {
-      foid:this.data.foid,
-      fromTime:this.data.startDate,
-      tTime:this.data.endDate,
+      foid: this.data.foid,
+      fromTime: this.data.startDate,
+      tTime: this.data.endDate,
     };
-    this.common.loading++;
+   
     this.api.post('vehicles/foVehicleDistance', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.distance = res['data'];
-        let first_rec = this.distance[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
-          }
-        }
-        this.table.data.columns = this.getTableColumns();
+        this.result = res['data'];
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -70,20 +54,40 @@ valobj = {};
       });
   }
 
+  setTable() {
+    let headings = {
+      regno: { title: 'Regno Number', placeholder: 'Regno No' },
+      dist: { title: 'Distance ', placeholder: 'Distance' },
+    };
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "72vh"
+        
+      }
+    }
+  }
+
+
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.data);
-    this.distance.map(dis => {
-      this.valobj = {};
-      for(let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:",dis[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: dis[this.headings[i]], class: 'black', action : ''};        
-      }
-      columns.push(this.valobj);
+    this.result.map(row => {
+      let column = {
+        regno: { value: row.regno },
+        dist: { value: row.distance },
+
+      };
+      columns.push(column);
     });
     return columns;
   }
-  
+
+
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
