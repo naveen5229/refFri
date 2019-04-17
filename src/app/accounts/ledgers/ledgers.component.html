@@ -3,7 +3,7 @@
     <h4>Account</h4>
   </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
+<button  *ngIf="this.deletedId== 0"  class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
 <div class="main">
   <table class="table table-bordered">
     <thead style="background-color: #263238; color:#fff;">

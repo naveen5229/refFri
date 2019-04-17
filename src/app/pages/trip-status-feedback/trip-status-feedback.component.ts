@@ -81,8 +81,8 @@ export class TripStatusFeedbackComponent implements OnInit {
         console.log("response", res['data'][0].rtn_id);
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("Successfully Verified");
-         // this.trips.splice(i,1);
-          this.getTrips();
+          this.trips.splice(i,1);
+         // this.getTrips();
         }
         else {
           this.common.showError(res['data'][0].rtn_msg);

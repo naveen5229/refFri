@@ -60,6 +60,10 @@ const routes: Routes = [{
             component: LedgersComponent
         },
         {
+            path: 'ledgers/:id',
+            component: LedgersComponent
+        },
+        {
             path: 'company-branches',
             component: CompanyBranchesComponent
         },
@@ -73,6 +77,10 @@ const routes: Routes = [{
         },
         {
             path: 'daybooks',
+            component: DaybooksComponent
+        },
+        {
+            path: 'daybooks/:id',
             component: DaybooksComponent
         },
         {
@@ -127,10 +135,9 @@ const routes: Routes = [{
             path :'storerequisitions',
             component:StorerequisitionsComponent
         }
-
-        
-    ]
-}];
+    ],
+    
+}] ;
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
