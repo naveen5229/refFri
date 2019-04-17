@@ -170,8 +170,15 @@ currSite={
 
 
   editSiteRule(){
-    console.log("data:", this.addSite);
-  
+    if (!this.addSite.foid) {
+      return this.common.showError("Please Fill foUser");
+    }
+    if (!this.addSite.currSiteId) {
+      return this.common.showError("Please Fill Current Site");
+    }
+    if (!this.addSite.ruleTypeId) {
+      return this.common.showError("Please Fill ruleTypeId");
+    }
     let params = {
       foid: this.addSite.foid,
       pre_site_name: this.addSite.preSiteId,

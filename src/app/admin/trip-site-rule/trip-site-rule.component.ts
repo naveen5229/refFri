@@ -108,4 +108,29 @@ export class TripSiteRuleComponent implements OnInit {
 
   }
 
+  deleteRule(doc) {
+    alert("Are You Want Delete Record");{
+    const params = {
+      foid: doc.foid,
+      currSiteId: doc.current_siteid,
+      preSiteId: doc.pre_siteid
+    }
+    this.common.loading++;
+    this.api.post('TripSiteRule/delete', params)
+      .subscribe(res => {
+        this.common.loading--;
+        let output = res['data'];
+        console.log("data:");
+        console.log(output);
+        this.common.showToast(res['msg']);
+        this.getSiteData();
+
+      }, err => {
+
+        this.common.loading--;
+        console.log(err);
+      });
+    }
+  }
+
 }
