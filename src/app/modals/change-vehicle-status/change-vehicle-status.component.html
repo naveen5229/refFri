@@ -5,7 +5,9 @@
     <span><b>VehicleNo : </b> {{VehicleStatusData.regno}}</span> &nbsp;&nbsp;
     <span><b>VehicleId : </b> {{VehicleStatusData.vehicle_id}}</span> &nbsp;&nbsp;
     <span><b>Last Ind Type : </b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp; {{timeDiff}}</span>
-
+    <span><b>Last Ind Type : </b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp; {{timeDiff}}</span>
+     <span class="zoom-btn"><i class="fa fa-route"
+                        (click)="openRouteMapper();"></i></span>
   </div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
@@ -60,8 +62,8 @@
               (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
               [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
               (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
-              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b>{{i+1}}</b></td>
-              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1">{{i+1}}</td>              
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b><span *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</b></td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>              
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc}}</td>
@@ -90,8 +92,7 @@
                       (click)="openManualHalt(vehicleEvent);">MH</span>
                     <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                         (click)="reportIssue(vehicleEvent);"></i></span>
-                    <!-- <span class="zoom-btn"><i class="fa fa-route"
-                        (click)="openRouteMapper(vehicleEvent);"></i></span> -->
+                   
 
 
                   </span></div>
@@ -134,7 +135,7 @@
   <!-- table div location -->
   <div [class]=" lUlBtn?' map-container col-sm-5':'map-container col-sm-6'">
 
-    <div #map id="map" style="margin-left:10px"> </div>
+    <div #map1 id="map1" style="margin-left:10px"> </div>
 
     <!-- <div class="time-line-event" style="height:50px">
         <div class="time-line-scale"></div>
