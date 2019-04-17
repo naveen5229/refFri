@@ -362,7 +362,7 @@ export class AddDocumentComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.returnIgnoreData(data.response,data.record);
-          // this.closeModal(true);
+          this.closeModal(true);
         }
       });
     }
@@ -381,24 +381,19 @@ export class AddDocumentComponent implements OnInit {
 
       };
       console.log("Params:",params);
-  
-      // this.common.loading++;
-      // this.api.post('Company/InsertWarehouse', params)
-      //   .subscribe(res => {
-      //     this.common.loading--;
-      //     console.log('res: ', res);
-      //     let result = res['data'][0].save_warehouse;
-      //     if (result == '') {
-      //       this.common.showToast("Add Successfull  ");
-      //     }
-      //     else {
-      //       this.common.showToast(result);
-      //     }
-      //     this.getWareHouseData();
-      //   }, err => {
-      //     this.common.loading--;
-      //     console.log('Error: ', err);
-      //     this.common.showError();
-      //   });
+      this.common.loading++;
+      this.api.post('vehicles/saveIgnoreVehicleDocument', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res);
+          if (res['msg']) {
+            this.common.showToast(res['msg']);
+          }
+          
+        }, err => {
+          this.common.loading--;
+          console.log('Error: ', err);
+          this.common.showError();
+        });
     }
 }
