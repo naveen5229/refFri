@@ -96,6 +96,7 @@ export class StockitemComponent implements OnInit {
     this.setFoucus('stockType');
     this.setAutoSuggestion();
     this.getUnit();
+    this.common.handleModalSize('class', 'modal-lg', '1050');
   }
 
 
@@ -259,7 +260,7 @@ export class StockitemComponent implements OnInit {
       if (key == 'y' || key == 'enter') {
         console.log('Ledgers show stockType:', this.stockItem);
         this.dismiss(true);
-        this.common.showToast('Your Value Has been saved!');
+      //  this.common.showToast('Your Value Has been saved!');
       }
       this.showConfirm = false;
       event.preventDefault();
@@ -286,7 +287,7 @@ export class StockitemComponent implements OnInit {
         
         this.setFoucus('unit');
       } else if (activeId == 'unit') {
-        this.setFoucus('code');
+        this.setFoucus('name');
       } else if (activeId == 'code') {
         this.setFoucus('name');
       } else if (activeId == 'name') {

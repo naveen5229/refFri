@@ -129,7 +129,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/vehicle-distance',
         home: true,
     },
- 
+    {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+    },
+
     {
         title: 'Vehicles View',
         icon: 'nb-home',
@@ -158,8 +164,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Fuel Fillings',
         icon: 'nb-home',
         link: '/admin/fuel-fillings',
+    },
+    {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
         home: true,
-    }
+    },
+    {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+    },
 
 
 ];

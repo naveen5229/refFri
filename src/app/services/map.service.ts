@@ -68,10 +68,10 @@ export class MapService {
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
     if (this.isMapLoaded) {
-      document.getElementById(div).innerHTML="";
-      document.getElementById(div).append(this.mapLoadDiv);
-      this.setMapType(0);
-      return;
+      // document.getElementById(div).innerHTML="";
+      // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
+      // this.setMapType(0);
+      // return;
     }
     this.mapDiv = document.getElementById(div);
     let latlng = new google.maps.LatLng(lat, long);
@@ -92,7 +92,7 @@ export class MapService {
     //$("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
 
-    this.mapLoadDiv = this.map.getDiv().innerHtml();
+    this.mapLoadDiv = this.map.getDiv();
 
     this.bounds = new google.maps.LatLngBounds();
 
@@ -235,7 +235,7 @@ export class MapService {
       });
       if (dropPoly)
         this.drawPolyMF(latlng);
-      if (changeBounds)
+      if (changeBounds&&(lat&&lng))
         this.setBounds(latlng);
       thisMarkers.push(marker);
       this.markers.push(marker);

@@ -25,7 +25,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   panelOpenState = false;
   title = '';
   map: any;
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map1') mapElement: ElementRef;
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,
@@ -838,16 +838,25 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }
     });
   }
-  openRouteMapper(vehicleEvent) {
-    let fromTime;
-    //this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno,fromTime:,toTime:}
-    console.log("open Route Mapper modal");
-    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data =>
-      console.log("data", data)
+
+  openRouteMapper() {
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = { 
+      vehicleId: this.VehicleStatusData.vehicle_id?this.VehicleStatusData.vehicle_id:null,
+      vehicleRegNo:this.VehicleStatusData.regno,
+      fromTime: this.VehicleStatusData.latch_time,
+      toTime: this.toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout"
+      ,windowClass: "mycustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
       // this.reloadData()
     );
-  }
 }
-
+}
 

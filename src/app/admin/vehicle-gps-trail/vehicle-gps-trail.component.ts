@@ -48,26 +48,26 @@ export class VehicleGpsTrailComponent implements OnInit {
   searchVehicle(vehicleList) {
     this.vId = vehicleList.id;
   }
- 
+
 
 
   result(button) {
     this.startDate = this.common.dateFormatter(this.startDate);
     this.endDate = this.common.dateFormatter(this.endDate);
-    let selectapi ='';
+    let selectapi = '';
     let params = {
       vehicleId: this.vId,
       startTime: this.startDate,
       toTime: this.endDate
     };
-    if(button==1){
-      selectapi='VehicleTrail/getVehicleTrailAll';
+    if (button == 1) {
+      selectapi = 'VehicleTrail/getVehicleTrailAll';
     }
-    else if(button==2){
-       selectapi='VehicleTrail/showVehicleTrail';
+    else if (button == 2) {
+      selectapi = 'VehicleTrail/showVehicleTrail';
     }
-    else if(button==3){
-       selectapi='AutoHalts/getSingleVehicleHalts';
+    else if (button == 3) {
+      selectapi = 'AutoHalts/getSingleVehicleHalts';
     }
     console.log('params: ', params);
     this.common.loading++;
@@ -83,11 +83,11 @@ export class VehicleGpsTrailComponent implements OnInit {
             hideHeader: true
           }
         };
-       this.headings = [];
+        this.headings = [];
         console.log('res: ', res['data'])
         this.gpsTrail = res['data'];
-        console.log('Length',res['data'].length);
-   
+        console.log('Length', res['data'].length);
+
         let first_rec = this.gpsTrail[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
@@ -106,18 +106,16 @@ export class VehicleGpsTrailComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
-  
+
   getTableColumns() {
     let columns = [];
     console.log("Data=", this.gpsTrail);
     this.gpsTrail.map(doc => {
       this.valobj = {};
-      for(let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:",doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};        
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-
-     
       columns.push(this.valobj);
     });
     return columns;

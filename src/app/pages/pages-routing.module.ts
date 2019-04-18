@@ -22,6 +22,9 @@ import { RouteMapperComponent } from './route-mapper/route-mapper.component';
 import { CallLogsComponent } from './call-logs/call-logs.component';
 import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
 import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
+import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
+import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
+
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
 const routes: Routes = [{
   path: '',
@@ -110,6 +113,14 @@ const routes: Routes = [{
   {
     path: 'placements-dash-board',
     component: PlacementsDashBoardComponent
+  },
+  {
+    path: 'trip-status-feedback',
+    component: TripStatusFeedbackComponent
+  },
+  {
+    path: 'user-activity-status',
+    component: UserActivityStatusComponent
   }
   ],
 }];

@@ -82,8 +82,8 @@ td{
  }
  
  nb-card-body ::-webkit-scrollbar {
-    width: 14px;
-    height: 14px;
+    width: 5px;
+    height: 5px;
  }
  .nb-theme-corporate nb-card ::-webkit-scrollbar {
     width: 5px;
@@ -148,11 +148,6 @@ td{
         linear-gradient(150deg, #696969 40%, rgba(0, 0, 0, 0) 41%),
         linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
-}
-.modal-header{
-    text-align: center;
-    background-color:   #e0e0e0;
-    
 }
 .no-data {
     font-size: 24px;

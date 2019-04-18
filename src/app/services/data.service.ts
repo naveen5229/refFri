@@ -123,7 +123,12 @@ export class DataService {
         link: '/admin/vehicle-distance',
         home: true,
       },
-
+      {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+      },
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -170,7 +175,19 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/fuel-fillings',
         home: true,
-      }
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
     ];
   }
 }

@@ -6,6 +6,8 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
+import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'daybooks',
@@ -39,7 +41,7 @@ export class DaybooksComponent implements OnInit {
   activeId = 'vouchertype';
   selectedRow = -1;
   allowBackspace = true;
-
+  deletedId =0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -47,16 +49,25 @@ export class DaybooksComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
+    private route: ActivatedRoute,
     public user: UserService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,    
+    public router: Router) {
     this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
-    this.getBranchList();
+  //  this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
     this.common.currentPage = 'Day Book';
 
-
+    this.route.params.subscribe(params => {
+      console.log('Params1: ', params);
+      if (params.id) {
+        this.deletedId = parseInt(params.id);
+       // this.GetLedger();
+      }
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    });
 
   }
 
@@ -109,7 +120,11 @@ export class DaybooksComponent implements OnInit {
   }
   openinvoicemodel(invoiceid) {
     // console.log('welcome to invoice ');
-    this.common.params = invoiceid;
+  //  this.common.params = invoiceid;
+    this.common.params = {
+      invoiceid : invoiceid,
+      delete:this.deletedId
+    };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -146,6 +161,7 @@ export class DaybooksComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
+      delete:this.deletedId
     };
 
     this.common.loading++;
@@ -282,6 +298,25 @@ export class DaybooksComponent implements OnInit {
 
     }
   }
+
+
+  openVoucherEdit(voucherId) {
+    console.log('ledger123', voucherId);
+    if (voucherId) {
+    this.common.params = {
+      voucherId : voucherId,
+      delete:this.deletedId
+    };
+    const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      this.getDayBook();
+      this.common.showToast('Voucher updated');
+
+    });
+  }
+  }
+
 
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {

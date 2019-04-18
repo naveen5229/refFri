@@ -28,7 +28,9 @@ import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
-import { VehicleDistanceComponent} from './vehicle-distance/vehicle-distance.component';
+import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
+import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 
 const routes: Routes = [{
     path: '',
@@ -155,15 +157,26 @@ const routes: Routes = [{
         {
             path: 'vehicle-gps-detail',
             component: VehicleGpsDetailComponent,
+        },
+         {
+
+
+            path: 'trip-status-feedback-logs',
+            component: TripStatusFeedbackLogsComponent,
             canActivate: [RouteGuard]
         },
 
 
-		{
+        {
             path: 'fuel-fillings',
             component: FuelFillingsComponent,
             canActivate: [RouteGuard]
-        }
+        },
+        {
+            path: 'trip-site-rule',
+            component: TripSiteRuleComponent,
+            canActivate: [RouteGuard]
+        },
     ],
 }];
 

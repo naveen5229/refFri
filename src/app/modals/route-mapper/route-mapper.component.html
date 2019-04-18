@@ -96,7 +96,7 @@
                   <div class="time-line-event">
                       <div class="time-line-scale"></div>
                       <div *ngFor="let event of vehicleEvents; let i = index;"  class="time-line-circle"
-                      [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'vh'} " (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()" >
+                      [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} " (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()" >
                     </div>
                     </div>
             </div>

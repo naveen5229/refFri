@@ -50,7 +50,15 @@ export class AutoSuggestionComponent implements OnInit {
     console.log('URL:', this.display);
     if (this.preSelected) {
       this.selectedSuggestion = this.preSelected;
-      this.searchText = this.preSelected[this.display];
+      if(typeof(this.display)!='object')
+        this.searchText = this.preSelected[this.display];
+      else{
+        let index = 0;
+        for (const dis of this.display) {
+            this.searchText += (index!=0? (" " + this.seperator + " "):" ") + this.preSelected[dis];
+          index++;
+        }
+      }
     }
 
     console.log('Is Array:', Array.isArray(this.display));
