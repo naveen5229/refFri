@@ -1,12 +1,12 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Vechile gps trail</h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+  <h5 class="modal-title" id="modal-basic-title">Vechile lr</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <div class="container">
-    <div class="row">
+   
 
       <div class="row">
         <div class="col-md-2 pr-0">
@@ -27,19 +27,34 @@
           <button type="submit" class="btn btn-primary" (click)="ViewLr()">Submit</button>
         </div>
 
-      </div>
-
     </div>
   </div>
-  <!-- <smart-table  *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings" ></smart-table>
-       -->
+  <table class="table table-bordered" style="margin-top:20px">
+  <thead class="thead" style="background-color:black">
+    <tr>
+    <th>Sr No</th>
+    <th>Add Time</th>
+    <th>Lr Date </th>
+    <th>Action</th> 
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let data of lrData; let i=index;">
+    <td>{{i+1}}</td>
+    <td>{{data.addtime | date : 'dd MMM yyyy'}}</td>
+    <td>{{data.lr_date | date : 'dd MMM yyyy'}}</td>
+    <td  (click)="getImage(data)"><i class="fa fa-picture-o"></i></td>
+  </tbody>
+</table> 
+
 
 </div>
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" (click)="closeModal(false)" style="cursor:pointer;">Cancel</button>
+      <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
+
 
   </div>
 </div>
