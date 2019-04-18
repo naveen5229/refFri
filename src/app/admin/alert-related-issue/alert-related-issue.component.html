@@ -4,54 +4,24 @@
       <h2>Alert Related Issues</h2>
     </div>
     <div class="col-sm-8 text-right">
-
     </div>
-
 
   </nb-card-header>
   <nb-card-body>
+    <div class="row">
+      <div class="col-3">
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+          placeholder="Fo User" [preSelected]="null"></auto-suggestion>
+        <div class="suggestions ng-star-inserted">
+        </div>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-dark" (click)="foid=null;ticket()" >All</button>
+      </div>
+    </div>
     <div class="col-1 pl-0 pt-2">{{ticketsData.length}} Records</div>
-    <smart-table  *ngIf="ticketsData.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+    <smart-table *ngIf="ticketsData.length" [data]="table.data" [settings]="table.settings"></smart-table>
     <br>
-
-    <!-- <div class="tableFixHead">
-      <table class="table table-bordered table-hover">
-        <thead class="thead">
-          <tr>
-            <th>id</th>
-            <th>Vehicle Id</th>
-            <th>Regno </th>
-            <th>Ltime</th>
-            <th>Ttime</th>
-            <th>Disa </th>
-            <th>Dis</th>
-            <th>Ratio</th>
-            <th>Fo Name </th>
-            <th>Hold By</th>
-            <th>status</th>
-            <th>Remark </th>
-            <th>Action </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let ticket of ticketsData;">
-            <td>{{ticket.id}}</td>
-            <td>{{ticket.vehicle_id}}</td>
-            <td>{{ticket.regno}}</td>
-            <td>{{ticket.ltime | date:'dd MMM HH:mm' }}</td>
-            <td>{{ticket.ttime | date:'dd MMM HH:mm'}}</td>
-            <td>{{ticket.disa }}</td>
-            <td>{{ticket.dis}}</td>
-            <td>{{ticket.ratio}}</td>
-            <td>{{ticket.fo_name}}</td>
-            <td>{{ticket.hold_by}}</td>
-            <td>{{ticket.status==0  ?'pending' :(ticket.status==1 ?'accept':' reject')  }}</td>
-            <td>{{ticket.remark}}</td>
-            <td><button (click)="enterTicket(ticket)">Take Action</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
 
   </nb-card-body>
 </nb-card>
