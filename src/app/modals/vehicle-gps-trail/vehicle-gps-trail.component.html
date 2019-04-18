@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Vechile gps trail</h5>
+  <h5 class="modal-title" id="modal-basic-title">Vechile GPS Trail</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,28 +9,29 @@
         <div class="row">
          
             <div class="row">
-              <div class="col-md-2 pr-0">
-                <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
-                placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+              <div class="col-md-4 pr-0">
+                  Vehicle : {{vehicleNo}}
+                <!-- <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+                placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion> -->
               </div>
-              <div class="col-md-2 pr-0">
-                <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
-                autocomplete="off" name="date">
-              <owl-date-time #date></owl-date-time>
+              <div class="col-md-3 pr-0">
+                  <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="startDate"
+                  placeholder="Start Date" (click)="getDate('start')">
               </div>
-              <div class="col-md-2 pr-0">
-                <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
-                autocomplete="off" name="date1">
-              <owl-date-time #date1></owl-date-time>
+              <div class="col-md-3 pr-0">
+                  <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="endDate"
+                  placeholder="End Date" (click)="getDate('end')">
               </div>
-              <div class="col-md-2 offset-md-08">
-                <button type="submit" class="btn btn-primary" (click)="result(1)">VehicleGpsTrail</button>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary" (click)="result(1)">Gps Trail</button>
               </div>
-              <div class="col-md-2 offset-md-08">
-                <button type="submit" class="btn btn-primary" (click)="result(2)">VehicleTrail</button>
+              <div class="col-md-5 ">
+                <button type="submit" class="btn btn-primary" (click)="result(2)">Vehicle Trail</button>
               </div>
-              <div class="col-md-2 offset-md-08">
-                <button type="submit" class="btn btn-primary" (click)="result(3)">VehicleHalts</button>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary" (click)="result(3)">Halts</button>
               </div>
             </div>
         

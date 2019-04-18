@@ -5,7 +5,8 @@
         <h4>Trip Status FeedBack</h4>
       </div>
       <div class="col-sm-4" style="text-align:right">
-        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
       </div>
@@ -21,8 +22,9 @@
             <th>Driver</th>
             <th>Origin</th>
             <th>Destination</th>
+            <th>Location</th>
             <th>Trip Status</th>
-            <th>Trip Start Date</th>
+            <th>Trip_Start Date</th>
             <th>Verification</th>
           </tr>
         </thead>
@@ -34,12 +36,15 @@
             <td>{{trip.r_driver}}</td>
             <td>{{trip.r_origin}}</td>
             <td>{{trip.r_destination}}</td>
-            <td>{{trip.r_tripstatus}}</td>
+            <td>{{trip.r_location}}</td>
+            <td>{{trip.r_tripstatus}}
+              <button class="btn btn-success" (click)="tripVerified(trip,'true',i)">Verified</button>
+            </td>
             <td>{{trip.r_tripstartdate}}</td>
-                <td><span style="display:inline-flex"> 
-              <button class="btn btn-success" (click)="tripVerified(trip,'true',i)">Verified</button>OR 
-              <input type="text" [(ngModel)] = "trip.origin" class="form-control"placeholder="Origin" >
-                <input type="text" [(ngModel)] = "trip.destination" class="form-control" placeholder="Destination">
+            <td><span style="display:inline-flex">
+                <input type="text" [(ngModel)]="trip.origin" class="form-control" placeholder="Origin">
+                <input type="text" [(ngModel)]="trip.destination" class="form-control" placeholder="Destination">
+
                 <select [(ngModel)]="trip.status" class="form-control" [name]="'trip-status-' + i">
                   <option value="" selected>Select Status</option>
                   <option value="11">Loading</option>
@@ -47,6 +52,9 @@
                   <option value="51">Onward</option>
                   <option value="21">Available</option>
                 </select>
+              </span>
+              <span style="display:inline-flex">
+                <input type="remark" [(ngModel)]="trip.remark" class="form-control" placeholder="Remark">
                 <button class="btn btn-primary" (click)="tripVerified(trip,'false',i)">Change</button>
               </span>
             </td>
@@ -55,7 +63,7 @@
       </table>
       <div class="no-data alert alert-danger" role="alert" *ngIf="trips.length==0">
         No Data available !
-    </div>
+      </div>
     </div>
 
   </nb-card-body>

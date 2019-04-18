@@ -14,6 +14,7 @@ export class VehicleLrComponent implements OnInit {
   startDate = null;
   endDate = null;
   vId = null;
+  vehicleNo = null;
   lrData = [];
 
   constructor(public api: ApiService,
@@ -21,6 +22,12 @@ export class VehicleLrComponent implements OnInit {
     public user: UserService,
     private activeModal: NgbActiveModal,
     public modalService: NgbModal, ) {
+    console.log("common params", this.common.params);
+    this.startDate = this.common.params.vehicleData.startDate;
+    this.endDate = this.common.params.vehicleData.endDate;
+    this.vId = this.common.params.vehicleData.vehicleId;
+    this.vehicleNo = this.common.params.vehicleData.vehicleRegNo;
+    this.ViewLr();
   }
 
   ngOnInit() {
@@ -60,9 +67,10 @@ export class VehicleLrComponent implements OnInit {
   ViewLr() {
     const params = {
       vehicleId: this.vId,
-      startDate: this.common.dateFormatter1(this.startDate),
-      endDate: this.common.dateFormatter1(this.endDate)
+      startDate: this.common.dateFormatter(this.startDate).split(' ')[0],
+      endDate: this.common.dateFormatter(this.endDate).split(' ')[0]
     }
+  
     console.log('params:', params);
 
     this.common.loading++;
@@ -78,7 +86,7 @@ export class VehicleLrComponent implements OnInit {
       });
 
   }
-  
+
   getImage(lr) {
     console.log(lr);
     let images = [{
