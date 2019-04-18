@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">Activity Summary</h5>
+  <h5>Activity Summary</h5>
 </div>
 <nb-card-body style="padding:15px 15px 0px;">
   <div class="model-body">
@@ -15,4 +15,8 @@
     </div>
   </div>
 </div>
+<div>
+    <smart-table *ngIf = "activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
+  </div>
 </nb-card-body>
