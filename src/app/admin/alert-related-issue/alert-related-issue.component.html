@@ -4,121 +4,54 @@
       <h2>Alert Related Issues</h2>
     </div>
     <div class="col-sm-8 text-right">
-      <!-- <input type="button" id="missingIndustry" class="missingIndustry btn-design" (click)="missingIndustry()"
-        value="Missing Industry"> -->
-      <!-- <input type="button" id="backLogs" class="backLogs btn-design" ng-class="backLogs==1 || tickets==0 ? 'class1': class2" (click)="backLogs()" value="Missing History">
-      <input type="button" id="ticket" class="ticket btn-design" ng-class="tickets==1 || backLogs==0 ? 'class1': class2" (click)="ticket()" value="Ticket"> -->
 
     </div>
 
-    <!-- <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
-      <label>Distance</label>
-      <select name="distance" class="form-control "  [(ngModel)]="distance" (change)="missingIndustry()">
-        <option class="form-control" [value]="1">Low</option>
-        <option class="form-control" [value]="2">Modrate</option>
-        <option class="form-control" [value]="3">High</option>
-      </select>
-    </div>
-    <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
-      <label>Ratio</label>
-      <select name="ratio" class="form-control " [(ngModel)]="ratio" (change)="missingIndustry()">
-        <option class="form-control" [value]="1">Low</option>
-        <option class="form-control" [value]="2">Modrate</option>
-        <option class="form-control" [value]="3">High</option>
-      </select>
-    </div>
-    <div class="col-1 pl-0 pt-2" *ngIf="missing==1 || backLogs==0">{{missingIndusrtyData.length}} Records</div> -->
+
   </nb-card-header>
   <nb-card-body>
-      <!-- <div class="col-1 pl-0 pt-2" *ngIf="backLogs ==1 || tickets==0">{{backlogData.length}} Records</div>  -->
-      <div class="col-1 pl-0 pt-2">{{ticketsData.length}} Records</div> 
+    <div class="col-1 pl-0 pt-2">{{ticketsData.length}} Records</div>
+    <smart-table  *ngIf="ticketsData.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+    <br>
 
-    <div class="tableFixHead">
-      <!-- <table class="table table-bordered table-hover " *ngIf="missing==1 || backLogs==0 ">
+    <!-- <div class="tableFixHead">
+      <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
-            <th>SrNo</th>
-            <th *ngFor="let col of header" class="text-center">
-              {{formatTitle(col)}}
-            </th>
-            <th style="width:120px; text-align: center;">Action</th>
+            <th>id</th>
+            <th>Vehicle Id</th>
+            <th>Regno </th>
+            <th>Ltime</th>
+            <th>Ttime</th>
+            <th>Disa </th>
+            <th>Dis</th>
+            <th>Ratio</th>
+            <th>Fo Name </th>
+            <th>Hold By</th>
+            <th>status</th>
+            <th>Remark </th>
+            <th>Action </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let alert of missingIndusrtyData; let i = index">
-            <td style="width:5%;">{{i + 1}}</td>
-            <td *ngFor="let col of columns">
-              <span
-                style="min-width: 200px;">{{(col=='y_curr_start'||col=='y_outside_start')? ( common.changeDateformat2(alert[col])):alert[col]}}</span>
-            </td>
-            <td><button (click)="missingIssue(alert)">Take Action</button></td>
+          <tr *ngFor="let ticket of ticketsData;">
+            <td>{{ticket.id}}</td>
+            <td>{{ticket.vehicle_id}}</td>
+            <td>{{ticket.regno}}</td>
+            <td>{{ticket.ltime | date:'dd MMM HH:mm' }}</td>
+            <td>{{ticket.ttime | date:'dd MMM HH:mm'}}</td>
+            <td>{{ticket.disa }}</td>
+            <td>{{ticket.dis}}</td>
+            <td>{{ticket.ratio}}</td>
+            <td>{{ticket.fo_name}}</td>
+            <td>{{ticket.hold_by}}</td>
+            <td>{{ticket.status==0  ?'pending' :(ticket.status==1 ?'accept':' reject')  }}</td>
+            <td>{{ticket.remark}}</td>
+            <td><button (click)="enterTicket(ticket)">Take Action</button></td>
           </tr>
         </tbody>
       </table>
-      <div class="no-data" *ngIf=" missingIndusrtyData.length==null">
-          No Data available !
-        </div> -->
-        <table class="table table-bordered table-hover">
-            <thead class="thead">
-              <tr>
-                <th>id</th>
-                <th>Vehicle Id</th>
-                <th>Regno </th>
-                <th>Ltime</th>
-                <th>Ttime</th>
-                <th>Disa </th>
-                <th>Dis</th>
-                <th>Ratio</th>
-                <th>Fo Name </th>
-                <th>Hold By</th>
-                <th>status</th>
-                <th>Remark </th>
-                <th>Action </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ticket of ticketsData;">
-                <td>{{ticket.id}}</td>
-                <td>{{ticket.vehicle_id}}</td>
-                <td>{{ticket.regno}}</td>
-                <td>{{ticket.ltime | date:'dd MMM HH:mm' }}</td>
-                <td>{{ticket.ttime | date:'dd MMM HH:mm'}}</td>
-                <td>{{ticket.disa }}</td>
-                <td>{{ticket.dis}}</td>
-                <td>{{ticket.ratio}}</td>
-                <td>{{ticket.fo_name}}</td>
-                <td>{{ticket.hold_by}}</td>
-                <td>{{ticket.status==0  ?'pending' :(ticket.status==1 ?'accept':' reject')  }}</td>
-                <td>{{ticket.remark}}</td>
-                <td><button (click)="enterTicket(ticket)">Take Action</button></td>
-              </tr>
-            </tbody>
-          </table>
-<!-- 
-      <table class="table table-bordered table-hover" *ngIf="backLogs== 1 || tickets ==0 ">
-        <thead class="thead" >
-          <tr *ngIf="backLogs== 1 || tickets == 0">
-            <th>SrNo</th>
-            <th *ngFor="let col of header2" class="text-center">
-              {{formatTitle(col)}}
-            </th>
-            <th style="width:120px; text-align: center;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let alert of backlogData; let i = index">
-            <td style="width:5%;">{{i + 1}}</td>
-            <td *ngFor="let col of columns2">
-              <span
-                style="min-width: 200px;">{{(col=='y_sec_start_time'||col=='y_start_time')? ( common.changeDateformat2(alert[col])):alert[col]}}</span>
-            </td>
-            <td><button (click)="backlogsIssue(alert)">Take Action</button></td>
-          </tr>
-        </tbody>
-      </table> -->
-
-    
-    </div>
+    </div> -->
 
   </nb-card-body>
 </nb-card>

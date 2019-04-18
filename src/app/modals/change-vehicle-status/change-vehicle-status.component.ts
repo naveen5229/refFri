@@ -12,6 +12,8 @@ import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
+import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 
 declare let google: any;
 
@@ -206,8 +208,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
         //   finalIndex++;
         // }
         // console.log("vehEvent", vehEvent);
-       // vehEvent = vehEvent.reverse();
-      //  this.vehEvent = vehEvent;
+        // vehEvent = vehEvent.reverse();
+        //  this.vehEvent = vehEvent;
 
         //-----------------S
 
@@ -841,9 +843,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
 
   openRouteMapper() {
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
-    this.common.params = { 
-      vehicleId: this.VehicleStatusData.vehicle_id?this.VehicleStatusData.vehicle_id:null,
-      vehicleRegNo:this.VehicleStatusData.regno,
+    this.common.params = {
+      vehicleId: this.VehicleStatusData.vehicle_id ? this.VehicleStatusData.vehicle_id : null,
+      vehicleRegNo: this.VehicleStatusData.regno,
       fromTime: this.VehicleStatusData.latch_time,
       toTime: this.toTime
     };
@@ -851,12 +853,25 @@ export class ChangeVehicleStatusComponent implements OnInit {
     const activeModal = this.modalService.open(RouteMapperComponent, {
       size: "lg",
       container: "nb-layout"
-      ,windowClass: "mycustomModalClass"
+      , windowClass: "mycustomModalClass"
     });
     activeModal.result.then(
       data => console.log("data", data)
       // this.reloadData()
     );
-}
+  }
+
+
+  gps() {
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+    const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
+
+  }
+
+  vehicleLr(){
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
+
+  }
 }
 

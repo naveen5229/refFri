@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit {
   }
 
   backTOHome() {
-    this.user._customer = { name: '', id: '' };
+    // this.user._customer = { name: '', id: '' };
     this.router.navigate(['/admin']);
   }
 

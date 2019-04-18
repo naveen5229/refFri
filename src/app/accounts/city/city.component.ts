@@ -13,13 +13,29 @@ import { from } from 'rxjs';
 })
 export class CityComponent implements OnInit {
   data = [];
+  statedata=[];
   showConfirm = false;
+  autoSuggestion = {
+    data: [],
+    targetId: 'state',
+    display: 'name'
+  };
 
+  getstatedata = {
+    state: {
+      name: 'Rajasthan',
+      id: 29,
+
+    }
+  };
+  activeId = 'state';
+  suggestionIndex = -1;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
     this.getpageData();
+    this.getStates();
     this.common.currentPage = 'city';
     this.common.refresh = this.refresh.bind(this);
 
@@ -31,9 +47,28 @@ export class CityComponent implements OnInit {
     console.log('Refresh');
     this.getpageData();
   }
+  getStates() {
+    const params = {
+      foid: 123
+    };
+    this.common.loading++;
+
+    this.api.post('Suggestion/GetState', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.autoSuggestion.data = res['data'];
+        this.statedata = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
   getpageData() {
     let params = {
-      foid: 123
+      foid: 123,
+      stateid:this.getstatedata.state.id
     };
 
     this.common.loading++;
@@ -159,6 +194,19 @@ export class CityComponent implements OnInit {
         }
       });
     }
+  }
+
+  selectSuggestion(suggestion, id?) {
+    console.log('Suggestion on select: ', suggestion);
+    this.getstatedata.state.name = suggestion.name;
+    this.getstatedata.state.id = suggestion.id;
+
+  }
+
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion: ', suggestion);
+    this.getstatedata.state.name = suggestion.name;
+    this.getstatedata.state.id = suggestion.id;
   }
 }
 
