@@ -31,29 +31,7 @@ export class EditLorryDetailsComponent implements OnInit {
   isUpdated = false;
   option = 'accept';
   tempDate=null;
-  //dateByIcon=false;
-  // LrData = {
-  //   receiptNo: null,
-  //   source: this.documents.source,
-  //   sourceLat: null,
-  //   sourceLng: null,
-  //   dest: this.documents.destination,
-  //   destLat: null,
-  //   destLng: null,
-  //   remark: this.documents.remark,
-  //   taName: this.documents.ta_name,
-  //   taId: null,
-  //   consignerName: this.documents.consigner_name,
-  //   consignerId: null,
-  //   consigneeId: null,
-  //   consigneeName: this.documents.consignee_name,
-  //   payType: this.documents.pay_type,
-  //   tonnage: null,
-  //   amount: this.documents.amount,
-  //   material: this.documents.material,
-  //   materialId: null,
-  //   rate: this.documents.rate
-  // };
+  status=1;
   transportAgentDetails = {
     gstin: '',
     name: '',
@@ -253,7 +231,7 @@ export class EditLorryDetailsComponent implements OnInit {
       remark: this.LrData.remark,
       id: this.LrData.id,
       receiptNo: this.LrData.receipt_no,
-      status: 1,
+      status: this.status,
       taId: this.LrData.ta_id,
       taName: this.LrData.ta_name,
       consignerId: this.LrData.consigner_id,
@@ -284,7 +262,6 @@ export class EditLorryDetailsComponent implements OnInit {
         else {
           this.common.showToast('Not Success !!');
           if(this.tempDate!=null){
-            this.lrDate=this.tempDate;
             this.lrDate=this.tempDate;
             console.log('lrDate',this.lrDate);
           }
@@ -415,6 +392,14 @@ export class EditLorryDetailsComponent implements OnInit {
     this.LrData.rate = null;
     this.vehId = null;
     this.LrData.lr_date = null;
+  }
+
+  changeStatusType(){
+    if(this.option=="reject"){
+      this.status=-1;
+    }else{
+      this.status=1;
+    }
   }
 
 
