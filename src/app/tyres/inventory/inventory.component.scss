@@ -1,17 +1,17 @@
-td {
-    background-color:  #ffffff;
-}
 table tr td button{
     padding: 0px;
-    width: 40px;
-    height: 35px;
-    line-height: 35px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
     margin: 0px;
+     cursor: pointer !important;
+}
+.btn-primary{
+    text-transform: capitalize;
 }
 nb-card-header{
-    padding: 15px 20px;
+    padding: 10px 15px;
     border: 1px solid #efefef;
-    margin-bottom: 10px;
 }
 .tabset{
     padding: 0px !important;
@@ -27,3 +27,34 @@ nb-card-header{
     padding: 12px !important;
     font-size: 18px !important;
 }
+table{
+    thead{
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            input{
+                padding: 5px;
+                height: 28px;
+                font-weight: normal;
+                outline: none;
+                font-size: 12px;
+            }
+        }
+    }
+    tbody{
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

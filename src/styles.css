@@ -300,8 +300,8 @@ nb-card{
 }
 #tblsummary .tableFixHead{
   overflow: auto;
-  height: calc(104vh - 180px) !important;
-  max-height: calc(104vh - 180px) !important;
+  height: calc(100vh - 150px) !important;
+  max-height: calc(100vh - 150px) !important;
 }
 .modal-body .TJR-auto-suggestion-container {
   border: 1px solid #263238 !important;
@@ -396,4 +396,13 @@ nb-card{
 }
 .add-consige-veiw  .model-drag{
   background-color: #fff;
+}
+nb-card{
+  border: 0px !important;
+}
+.dashboard_chart canvas{
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
 }
