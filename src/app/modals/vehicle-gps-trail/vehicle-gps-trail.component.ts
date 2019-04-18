@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { ApiService } from '../../services/api.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NbThemeService } from '@nebular/theme';
-import { DatePipe, NumberFormatStyle } from '@angular/common';
-
 @Component({
   selector: 'vehicle-gps-trail',
   templateUrl: './vehicle-gps-trail.component.html',
-  styleUrls: ['./vehicle-gps-trail.component.scss', '../../pages/pages.component.css']
+  styleUrls: ['./vehicle-gps-trail.component.scss','../../pages/pages.component.css']
 })
 export class VehicleGpsTrailComponent implements OnInit {
-
   startDate = '';
   endDate = '';
   vId = '';
@@ -29,22 +25,23 @@ export class VehicleGpsTrailComponent implements OnInit {
   headings = [];
   valobj = {};
 
-  constructor(public api: ApiService, public common: CommonService,
-    private theme: NbThemeService,
+  constructor(public api: ApiService,
+    public common: CommonService,
     public user: UserService,
-    public datepipe: DatePipe,
-    public modalService: NgbModal) {
-    let today;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
-    console.log('dates ', this.endDate, this.startDate);
-    // this.result();
-  }
+    private activeModal: NgbActiveModal) {
+      this.common.handleModalSize('class', 'modal-lg', '1600');
+      let today;
+      today = new Date();
+      this.endDate = this.common.dateFormatter(today);
+      this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
+      console.log('dates ', this.endDate, this.startDate);
+     }
 
   ngOnInit() {
   }
-
+  closeModal(response) {
+    this.activeModal.close({ response: response });
+  }
   searchVehicle(vehicleList) {
     this.vId = vehicleList.id;
   }
@@ -120,5 +117,4 @@ export class VehicleGpsTrailComponent implements OnInit {
     });
     return columns;
   }
-
 }
