@@ -24,7 +24,7 @@
   <div class="row" style="margin-top:20px; margin-bottom:20px">
     <div class="col-1"></div>
     <div class="col-3" style="text-align: center">
-      <auto-suggestion (onSelected)="searchGroupId($event)" url="Suggestion/getFoAdminList" display="employeename"
+      <auto-suggestion (onSelected)="searchGroupId($event)" seperator='-' url="Suggestion/getAllFoAdminListwithCustomer" [display]="['foaname','foname']"
         placeholder="user ID" [preSelected]="null"></auto-suggestion>
     </div>
     <div class="col-2"></div>
@@ -46,21 +46,22 @@
       Users</button>
   </div>
   <div class="row">
-    <div class="col-6" *ngIf="groupFlag">
-      <table class="table show-group">
+    <div class="col-6" >
+      <table class="table show-group" *ngIf="groupFlag">
         <tr>
           <th>S.No.</th>
           <th>gId</th>
           <th>gName</th>
-          <!-- <th>action</th> -->
+          <th>action</th>
+          <th><i class="fa fa-hand-o-left" style="cursor:pointer" (click)="groupFlag=false"></i></th>
+
         </tr>
         <tr *ngFor="let groupList of getUserGroups; let i=index;">
           <td>{{i+1}}</td>
           <td>{{groupList.gid}}</td>
           <td>{{groupList.gname}}</td>
-          <!-- <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
-              <span aria-hidden="true">&times;</span>
-            </button></td> -->
+          <td><i class="fa fa-trash" aria-label="Delete" (click)="removeField('groupFlag',groupList.gid,'gid')">
+          </i></td>
 
         </tr>
       </table>
@@ -72,14 +73,15 @@
           <th>fId</th>
           <th>fName</th>
           <th>action</th>
+          <th><i class="fa fa-hand-o-left" style="cursor:pointer" (click)="userFlag=false"></i></th>
+
         </tr>
         <tr *ngFor="let userList of getGroupUsers; let i=index;">
           <td>{{i+1}}</td>
           <td>{{userList.fid}}</td>
           <td>{{userList.fname}}</td>
-          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField('groupFlag')">
-              <span aria-hidden="true">&times;</span>
-            </button></td>
+          <td><i class="fa fa-trash" aria-label="Delete" (click)="removeField('groupFlag',userList.fid,'fid')">
+          </i></td>
         </tr>
       </table>
     </div>
@@ -120,21 +122,22 @@
       Groups</button>
   </div>
   <div class="row">
-    <div class="col-6" *ngIf="vehicleFlag">
-      <table class="table show-group">
+    <div class="col-6" >
+      <table class="table show-group" *ngIf="vehicleFlag">
         <tr>
           <th>S.No.</th>
           <th>vId</th>
           <th>vRegNo.</th>
           <th>action</th>
+          <th><i class="fa fa-hand-o-left" style="cursor:pointer" (click)="vehicleFlag=false"></i></th>
         </tr>
         <tr *ngFor="let vehicleList of getVehicles; let i=index;">
           <td>{{i+1}}</td>
           <td>{{vehicleList.vid}}</td>
           <td>{{vehicleList.vregno}}</td>
-          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField('vehicleFlag')">
-              <span aria-hidden="true">&times;</span>
-            </button></td>
+          <td><i class="fa fa-trash" aria-label="Delete"  (click)="removeField('vehicleFlag',vehicleList.vid,'vid')">
+           
+          </i></td>
         </tr>
       </table>
     </div>
@@ -145,14 +148,16 @@
           <th>gId</th>
           <th>gName</th>
           <th>action</th>
+          <th><i class="fa fa-hand-o-left" style="cursor:pointer" (click)="vehicleGroupFlag=false"></i></th>
+
         </tr>
         <tr *ngFor="let vGroupList of getVehicleGroups; let i=index;">
           <td>{{i+1}}</td>
           <td>{{vGroupList.gid}}</td>
           <td>{{vGroupList.gname}}</td>
-          <td><button type="button" class="remove" aria-label="Delete" (click)="removeField(details)">
-              <span aria-hidden="true">&times;</span>
-            </button></td>
+          <td><i class="fa fa-trash" aria-label="Delete" (click)="removeField('vehicleFlag',vGroupList.gid,'gid')">
+              
+          </i></td>
         </tr>
       </table>
     </div>

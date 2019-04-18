@@ -4,3 +4,19 @@
   print-section{
     z-index: 999;
   }
+  .close{
+    background: transparent;
+    color: #263238 !important;
+    opacity: 1;
+    padding: 8px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+    font-size: 30px;
+}
+.btn.doNotPrint{
+  padding: 5px 10px;
+  text-transform: capitalize;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer !important;
+}

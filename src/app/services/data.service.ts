@@ -52,7 +52,7 @@ export class DataService {
       },
       {
         title: 'Driver',
-        icon: 'nb-home',
+        icon: 'fa fa-male',
         link: '/admin/driver-list',
         home: true,
       },
