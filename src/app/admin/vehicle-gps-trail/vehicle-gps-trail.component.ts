@@ -60,15 +60,27 @@ export class VehicleGpsTrailComponent implements OnInit {
       startTime: this.startDate,
       toTime: this.endDate
     };
-    if (button == 1) {
-      selectapi = 'VehicleTrail/getVehicleTrailAll';
+    switch (button) {
+      case 1: selectapi = 'VehicleTrail/getVehicleTrailAll';
+        break;
+
+      case 2: selectapi = 'VehicleTrail/getVehicleTrailAll';
+        break;
+      case 3: selectapi = 'AutoHalts/getSingleVehicleHalts';
+        break;
+
+      default:
+        break;
     }
-    else if (button == 2) {
-      selectapi = 'VehicleTrail/showVehicleTrail';
-    }
-    else if (button == 3) {
-      selectapi = 'AutoHalts/getSingleVehicleHalts';
-    }
+    // if (button == 1) {
+    //   selectapi = 'VehicleTrail/getVehicleTrailAll';
+    // }
+    // else if (button == 2) {
+    //   selectapi = 'VehicleTrail/showVehicleTrail';
+    // }
+    // else if (button == 3) {
+    //   selectapi = 'AutoHalts/getSingleVehicleHalts';
+    // }
     console.log('params: ', params);
     this.common.loading++;
     this.api.post(selectapi, params)
