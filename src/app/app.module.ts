@@ -100,7 +100,6 @@ import { UserService } from './@core/data/users.service';
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
@@ -129,6 +128,8 @@ import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-d
 import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.component';
 import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
 import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
+import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -174,7 +175,6 @@ import {DropDownListComponent } from './documents/documentation-modals/drop-down
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
-    //LicenceUploadComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -191,7 +191,6 @@ import {DropDownListComponent } from './documents/documentation-modals/drop-down
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     EditDriverComponent,
-    // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
     VoucherdetailComponent,
     RadioSelectionComponent,
@@ -221,6 +220,8 @@ import {DropDownListComponent } from './documents/documentation-modals/drop-down
     AddSiteRuleComponent,
     StorerequisitionComponent,
     DropDownListComponent,
+    VehicleGpsTrailComponent,
+    VehicleLrComponent,
 
   ],
   entryComponents: [
@@ -269,7 +270,6 @@ import {DropDownListComponent } from './documents/documentation-modals/drop-down
     DocumentIssuesComponent,
     DriverDistanceComponent,
     AddPumpComponent,
-    //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -311,6 +311,8 @@ import {DropDownListComponent } from './documents/documentation-modals/drop-down
     AddSiteRuleComponent,
     StorerequisitionComponent,
     DropDownListComponent,
+    VehicleGpsTrailComponent,
+    VehicleLrComponent
 
   ],
   imports: [

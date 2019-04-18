@@ -73,7 +73,7 @@ export class GroupManagementsComponent implements OnInit {
   }
 
   searchGroupId(userList) {
-    this.addUserGroupAss.fid = userList.id;
+    this.addUserGroupAss.fid = userList.foaid;
   }
   searchGroup(groupList) {
     this.addUserGroupAss.grpid = groupList.id;
@@ -191,14 +191,22 @@ export class GroupManagementsComponent implements OnInit {
       })
   }
     
-  removeField(selectFlag){
+  removeField(selectFlag,id,type){
     console.log('selectFlag',selectFlag);
+    let params;
     if(selectFlag=='groupFlag'){
-      let params={
-        gId:this.addUserGroupAss.grpid,
-        uId:this.addUserGroupAss.fid
-      };
+      if(type=='gid')
+        params={
+          gId:id,
+          uId:this.addUserGroupAss.fid
+        };
+      else
+        params={
+          gId:this.addUserGroupAss.grpid,
+          uId:id
+        };
       console.log('params: ',params);
+  
       this.common.loading++;
       this.api.post('GroupManagment/deleteGroupsUsers',params)
               .subscribe(res =>{
@@ -210,11 +218,18 @@ export class GroupManagementsComponent implements OnInit {
                 this.common.showError();
               })
     }if(selectFlag=='vehicleFlag'){
-      let params={
+      if(type=='gid')
+      params={
+        gId:id,
         vId:this.addVehicleGroupAss.vid,
-        gId:this.addVehicleGroupAss.grpid
+      };
+    else
+      params={
+        gId:this.addVehicleGroupAss.grpid,
+        vId:id,
       };
       console.log('params: ',params);
+  
       this.common.loading++;
       this.api.post('GroupManagment/deleteGroupsVehicles',params)
               .subscribe(res =>{
@@ -252,6 +267,6 @@ export class GroupManagementsComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
-
+ 
 
 }

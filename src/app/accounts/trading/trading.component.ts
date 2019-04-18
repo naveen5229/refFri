@@ -6,13 +6,12 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
 
-
 @Component({
-  selector: 'balancesheet',
-  templateUrl: './balancesheet.component.html',
-  styleUrls: ['./balancesheet.component.scss']
+  selector: 'trading',
+  templateUrl: './trading.component.html',
+  styleUrls: ['./trading.component.scss']
 })
-export class BalancesheetComponent implements OnInit {
+export class TradingComponent implements OnInit {
 
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -37,7 +36,7 @@ export class BalancesheetComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     this.setFoucus('startdate');
-    this.common.currentPage = 'Balance Sheet';
+    this.common.currentPage = 'Trading Account';
   }
 
   ngOnInit() {
@@ -50,7 +49,7 @@ export class BalancesheetComponent implements OnInit {
     };
 
     this.common.loading++;
-    this.api.post('Company/GetBalanceData', params)
+    this.api.post('Company/GetTradingData', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -65,7 +64,7 @@ export class BalancesheetComponent implements OnInit {
   }
 
   formattData() {
-    let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_assets');
+    let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
 
@@ -73,7 +72,9 @@ export class BalancesheetComponent implements OnInit {
     console.log('B:', firstGroup);
     console.log('C:', secondGroup);
     this.liabilities = [];
+
     for (let key in firstGroup) {
+
       let total = 0;
       firstGroup[key].map(value => {
         if (value.y_amount) total += parseInt(value.y_amount);
@@ -84,6 +85,7 @@ export class BalancesheetComponent implements OnInit {
         amount: total,
         balanceSheets: firstGroup[key].filter(balanceSheet => { return balanceSheet.y_ledger_name; })
       })
+
     }
 
     this.assets = [];

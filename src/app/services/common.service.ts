@@ -130,7 +130,7 @@ export class CommonService {
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
- 
+
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
       return (
@@ -157,7 +157,7 @@ export class CommonService {
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
- 
+
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
       return (
@@ -165,8 +165,8 @@ export class CommonService {
         separator +
         month +
         separator +
-         year 
-       
+        year
+
       );
     } else {
       return (
@@ -174,8 +174,8 @@ export class CommonService {
         separator +
         month +
         separator +
-        year 
-       
+        year
+
       );
     }
   }
@@ -213,7 +213,7 @@ export class CommonService {
     let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
     let seconds = d.getSeconds() < 9 ? "0" + d.getSeconds() : d.getSeconds();
 
-    return hours + ":" + minutes + ":"+seconds;
+    return hours + ":" + minutes + ":" + seconds;
   }
 
   getDate(days = 0, formatt?) {
@@ -386,12 +386,12 @@ export class CommonService {
     return generatedArray;
   }
 
-  dateDiffInHours(startTime, endTime,fromNow = false) {
+  dateDiffInHours(startTime, endTime, fromNow = false) {
     if (!startTime || (!endTime && !fromNow)) {
       return 0;
     }
     startTime = new Date(startTime);
-    endTime = (fromNow && !endTime)?new Date(new Date().toUTCString()):new Date(endTime);
+    endTime = (fromNow && !endTime) ? new Date(new Date().toUTCString()) : new Date(endTime);
     let hours = Math.abs(endTime - startTime) / 36e5;
     return hours;
   }
@@ -785,27 +785,27 @@ export class CommonService {
       this.showError('Invalid Date Format!');
       return;
     }
-  
+
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    month = (month >12) ?12 :month;
+    month = (month > 12) ? 12 : month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
     let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
-    date = (date>31) ? 31: date;
-    date = (((month == '04') || (month == '06') || (month == '09')||(month == '11'))&& (date >30) ) ? 30: date;
-    date  = ((date == 28) && (month == '02')) ? 28 : date ;
-    if(year % 4==0 && (month =='02')){
-    date  = (((date >28) && (month == '02'))&&  ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date ;
-   
-     }
-     else if(year % 4 !=0 && (month =='02')){
-          date = 28;
-     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
+    date = (date > 31) ? 31 : date;
+    date = (((month == '04') || (month == '06') || (month == '09') || (month == '11')) && (date > 30)) ? 30 : date;
+    date = ((date == 28) && (month == '02')) ? 28 : date;
+    if (year % 4 == 0 && (month == '02')) {
+      date = (((date > 28) && (month == '02')) && ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date;
+
+    }
+    else if (year % 4 != 0 && (month == '02')) {
+      date = 28;
+    } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
 
     console.log('Date: ', year + separator + month + separator + date);
-   return date + separator + month + separator + year;
+    return date + separator + month + separator + year;
   }
 
   continuoueScroll() {
@@ -815,5 +815,5 @@ export class CommonService {
       .getElementsByClassName('scrollable-container')[0]
       .className.split(' ')[0];
   }
-  
+
 }

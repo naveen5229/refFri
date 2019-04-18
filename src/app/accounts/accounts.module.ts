@@ -28,6 +28,7 @@ import { CashbookComponent } from './cashbook/cashbook.component';
 import { BankbooksComponent } from './bankbooks/bankbooks.component';
 import { CityComponent } from './city/city.component';
 import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
+import { TradingComponent } from './trading/trading.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -65,7 +66,8 @@ const PAGES_COMPONENTS = [
     CashbookComponent,
     BankbooksComponent,
     CityComponent,
-    StorerequisitionsComponent
+    StorerequisitionsComponent,
+    TradingComponent
     //StockSubtypeComponent
   ],
 })
