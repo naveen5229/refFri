@@ -13,6 +13,7 @@ import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 
 declare let google: any;
 
@@ -864,6 +865,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
   gps() {
     this.common.handleModalSize('class', 'modal-lg', '1600');
     const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
+
+  }
+
+  vehicleLr(){
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
 
   }
 }

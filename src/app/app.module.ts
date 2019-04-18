@@ -129,6 +129,7 @@ import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.compo
 import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
 import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
 import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -220,6 +221,7 @@ import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps
     StorerequisitionComponent,
     DropDownListComponent,
     VehicleGpsTrailComponent,
+    VehicleLrComponent,
 
   ],
   entryComponents: [
@@ -309,7 +311,8 @@ import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps
     AddSiteRuleComponent,
     StorerequisitionComponent,
     DropDownListComponent,
-    VehicleGpsTrailComponent
+    VehicleGpsTrailComponent,
+    VehicleLrComponent
 
   ],
   imports: [
