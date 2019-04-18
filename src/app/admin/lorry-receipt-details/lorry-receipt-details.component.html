@@ -47,8 +47,12 @@
             <!-- <td>{{data.weight}}</td> -->
             <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
             <td>
-             <button class="btn btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button>
-              <button class="btn btn-primary" (click)="revertLrDetails(data)">Revert</button></td>
+                <ng-template *ngIf="data.status==0 then showEdit;"></ng-template>
+                <button class="btn" (click)="revertLrDetails(data)">Revert</button>
+                <ng-template #showEdit><button class="btn" (click)="openEditLorryDetailsModel(data)">Edit</button></ng-template>
+             </td>   
+             <!-- <button class="btn btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button>
+              <button class="btn btn-primary" (click)="revertLrDetails(data)">Revert</button></td> -->
         </tbody>
       </table>
     </div>

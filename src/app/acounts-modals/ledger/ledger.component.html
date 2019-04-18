@@ -1,7 +1,7 @@
 <nb-card style="margin:0px; border:0px;">
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title">Add Ledger Account</h5>
+      <h5 class="modal-title" id="modal-basic-title">{{this.currentPage}}</h5>
       <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -376,19 +376,29 @@
 
     <div class="modal-footer">
       <div class="row">
-        <div class="col"  *ngIf="(this.common.params)">
+        <div class="col"  *ngIf="(this.common.params && (this.deletedid == 0))">
           <button class="btn btn-danger" type="button" outline (click)="delete(this.Accounts.id)" id="delete"
             style="cursor: pointer;">Delete</button>
+        </div>
+        <div class="col"  *ngIf="(this.common.params && (this.deletedid == 1))">
+          <button class="btn btn-danger" type="button" outline (click)="permantdelete(this.Accounts.id)" id="delete"
+            style="cursor: pointer;">Permanent Delete</button>
+        </div>
+       
+        <div class="col text-right" *ngIf="(this.deletedid == 0)">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit
+          </button>
+        </div>
+        <div class="col text-right" *ngIf="(this.common.params && (this.deletedid == 1))">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Restore
+          </button>
         </div>
         <div class="col">
             <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel"
               style="cursor: pointer;">Cancel</button>
           </div>
-        <div class="col text-right">
-          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
-            style="cursor: pointer;">Submit
-          </button>
-        </div>
       </div>
     </div>
   </nb-card-body>

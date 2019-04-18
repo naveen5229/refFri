@@ -5,22 +5,24 @@
   <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
     <div class="container">
       <div class="row">
-            <div class="col-md-2 offset-md-08">
-              <button type="submit" class="btn btn-primary" name="add" (click)="addsite()">Add Rule</button>
-            </div>
-          </div>
-   
-    </div> 
-    <table class="table table-bordered table-hover" *ngIf="data.length"  style="margin:7px;">
+        <div class="col-md-2 offset-md-08">
+          <button type="submit" class="btn btn-primary" name="add" (click)="addsite()">Add Rule</button>
+        </div>
+      </div>
+
+    </div>
+    <div>
+      <table class="table table-bordered table-hover" style="margin:7px;">
         <thead class="thead">
           <tr>
             <th>Sr No</th>
             <th>Fo Name</th>
-            <th>Pre Site Name  </th>
+            <th>Pre Site Name </th>
             <th>Current Site Name</th>
             <th>Material Name</th>
             <th>Body Type</th>
-            <th>Rule type</th>
+            <th>Rule Type</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -28,16 +30,26 @@
           <tr *ngFor="let doc of data; let i = index">
             <th scope="row">{{i + 1}}</th>
             <td>{{doc.f_name}}</td>
-            <td>{{doc.pre_site_name}}</td>
+            <td>{{doc.preSiteType}}</td>
             <td>{{doc.curr_site_name}}</td>
-            <td>{{doc.mt_name}}</td>
+            <td>{{doc.materialType}}</td>
             <td>{{doc.bodyName}}</td>
-            <td>{{doc.ruleName}}</td>   
+            <td>{{doc.ruleName}}</td>
+            <td class="del">
+              <a href="javascript: void(0);" class="edit" title="Edit " (click)="editRule(doc)"><i
+                  class="icon ion-md-create"></i></a>
+              <a href="javascript: void(0);" class="delete" title="Delete " (click)="deleteRule(doc)"><i
+                  class="fa fa-trash"></i></a>
+            </td>
           </tr>
         </tbody>
       </table>
-    
+      <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div>
+    </div>
+
     <!-- <smart-table  *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings" ></smart-table> -->
-  
+
   </nb-card-body>
 </nb-card>

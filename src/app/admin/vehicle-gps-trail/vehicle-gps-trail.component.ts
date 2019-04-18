@@ -38,7 +38,7 @@ export class VehicleGpsTrailComponent implements OnInit {
     today = new Date();
     this.endDate = this.common.dateFormatter(today);
     this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
-    console.log('dates ', this.endDate, this.startDate)
+    console.log('dates ', this.endDate, this.startDate);
     // this.result();
   }
 
@@ -60,15 +60,27 @@ export class VehicleGpsTrailComponent implements OnInit {
       startTime: this.startDate,
       toTime: this.endDate
     };
-    if (button == 1) {
-      selectapi = 'VehicleTrail/getVehicleTrailAll';
+    switch (button) {
+      case 1: selectapi = 'VehicleTrail/getVehicleTrailAll';
+        break;
+
+      case 2: selectapi = 'VehicleTrail/getVehicleTrailAll';
+        break;
+      case 3: selectapi = 'AutoHalts/getSingleVehicleHalts';
+        break;
+
+      default:
+        break;
     }
-    else if (button == 2) {
-      selectapi = 'VehicleTrail/showVehicleTrail';
-    }
-    else if (button == 3) {
-      selectapi = 'AutoHalts/getSingleVehicleHalts';
-    }
+    // if (button == 1) {
+    //   selectapi = 'VehicleTrail/getVehicleTrailAll';
+    // }
+    // else if (button == 2) {
+    //   selectapi = 'VehicleTrail/showVehicleTrail';
+    // }
+    // else if (button == 3) {
+    //   selectapi = 'AutoHalts/getSingleVehicleHalts';
+    // }
     console.log('params: ', params);
     this.common.loading++;
     this.api.post(selectapi, params)
