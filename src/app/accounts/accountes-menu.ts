@@ -50,6 +50,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
     },
+    {
+        title: 'Trading Account',
+        icon: 'fas fa-warehouse',
+        link: '/accounts/trading'
+    },
     // {
     //     title:'Store Requisition',
     //     icon :'fa fa-building-o',
@@ -144,15 +149,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
-        title: 'Deleted Bin',
+        title: 'Accounts Bin',
         icon: 'fas fa-trash',
         children: [
             {
-                title: 'ledger',
+                title: 'Ledger Deleted',
                 link: '/accounts/ledgers/1'
             }, 
             {
-                title: 'Voucher & Invoice',
+                title: 'Voucher & Invoice Deleted',
                 link: '/accounts/daybooks/1'
             } 
         ]
