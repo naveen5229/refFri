@@ -1,20 +1,28 @@
 <nb-card>
   <nb-card-header>
-    <h4>Add Trolly</h4>
-  </nb-card-header>
-  <nb-card-body>
     <div class="row">
-     <div class="col-sm-1"><label><b>Trolly No.</b></label></div>
-      <div class="col-sm-2 ">
-        <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" autocomplete="off" class="form-control"
-          [(ngModel)]="trollyNo">
+      <div class="col-6">
+          <h5>Add Trolly</h5>
       </div>
-      <div class="col-sm-1">
-        <button class="btn btn-primary mt-0" type="button" outline (click)="saveTrollyDetails()" id="reminder" style="cursor: pointer;">Save</button>
+      <div class="col-6">
+        <div class="row">
+        <div class="col-sm-2 pr-0"><label><b>Trolly No.</b></label></div>
+          <div class="col-sm-7 ">
+            <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" autocomplete="off" class="form-control"
+              [(ngModel)]="trollyNo">
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-primary mt-0" type="button" outline (click)="saveTrollyDetails()" id="reminder" style="cursor: pointer;">Save</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div style="margin-top:20px">
-      <table class="table table-bordered table-hover" *ngIf="trollys">
+    
+  </nb-card-header>
+  <nb-card-body>
+    
+    <div>
+      <table class="table table-bordered table-hover mb-0" *ngIf="trollys">
         <thead class="thead">
           <tr>
             <th># </th>
@@ -25,13 +33,13 @@
         <tbody>
           <tr *ngFor="let trolly of trollys; let i = index;">
             <td>{{i+1}}</td>
-            <th>{{trolly.regno}} </th>
-            <th>{{trolly.entry_dt | date : 'dd-MMM-yyyy hh:mm a'}}</th>
+            <td>{{trolly.regno}} </td>
+            <td>{{trolly.entry_dt | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="no-data alert-danger" *ngIf="!trollys.length">
+    <div class="no-data alert-danger mt-3" *ngIf="!trollys.length">
       No Data available !
     </div>
   </nb-card-body>

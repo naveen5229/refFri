@@ -397,3 +397,12 @@ nb-card{
 .add-consige-veiw  .model-drag{
   background-color: #fff;
 }
+nb-card{
+  border: 0px !important;
+}
+.dashboard_chart canvas{
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}

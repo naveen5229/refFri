@@ -234,3 +234,6 @@ mwlResizable {
     height: auto !important;
     max-height: calc(100vh - 80px);
 }
+:host ::ng-deep .no-search{
+    color: #000;
+}
