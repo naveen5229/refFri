@@ -38,22 +38,25 @@ export class TripStatusFeedbackComponent implements OnInit {
       });
   }
 
-  tripVerified(trip, action,i) {
+  tripVerified(trip, action, i) {
+
     console.log("action", action);
     if (action == "true") {
-      this.common.params = {
-        title: "Trip Verification",
-        description: " Do you really want to verify it ?"
-      }
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        if (data.response) {
-          this.changeVerification(trip, action,i);
-        }
-      });
+      this.changeVerification(trip, action, i);
+
+      // this.common.params = {
+      //   title: "Trip Verification",
+      //   description: " Do you really want to verify it ?"
+      // }
+      // const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      // activeModal.result.then(data => {
+      //   if (data.response) {
+      //     this.changeVerification(trip, action,i);
+      //   }
+      // });
     }
-    else if ((action == 'false') && ((trip.status>0) || (trip.origin) || (trip.destination))) {
-      this.changeVerification(trip, action,i);
+    else if ((action == 'false') && ((trip.status > 0) || (trip.origin) || (trip.destination))) {
+      this.changeVerification(trip, action, i);
 
     }
     else {
@@ -62,7 +65,7 @@ export class TripStatusFeedbackComponent implements OnInit {
 
   }
 
-  changeVerification(trip, action,i?) {
+  changeVerification(trip, action, i?) {
     let params = {
       vehicleId: trip.r_vid,
       verifyFlag: action,
@@ -74,23 +77,23 @@ export class TripStatusFeedbackComponent implements OnInit {
       newState: trip.status
     }
     console.log("params", params);
-    this.common.loading++;
+    this.trips.splice(i, 1);
+    //this.common.loading++;
     this.api.post('TripsOperation/tripVerification', params)
       .subscribe(res => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log("response", res['data'][0].rtn_id);
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("Successfully Verified");
-          this.trips.splice(i,1);
-         // this.getTrips();
+          // this.getTrips();
         }
         else {
           this.common.showError(res['data'][0].rtn_msg);
         }
       }, err => {
-        this.common.loading--;
+        // this.common.loading--;
         console.log(err);
       });
   }
-  
+
 }
