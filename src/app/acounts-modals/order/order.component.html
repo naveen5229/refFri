@@ -408,10 +408,7 @@
           <button class="btn btn-danger" type="button" outline (click)="permantdelete(order.orderid)" id="delete"
             style="cursor: pointer;">Permanent Delete</button>
         </div>
-        <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
-            style="cursor: pointer;">Cancel</button>
-        </div>
+        
         <div class="col text-right" *ngIf="(this.deletedId == 0)">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
@@ -422,6 +419,10 @@
             style="cursor: pointer;">Restore
           </button>
         </div>
+        <div class="col">
+            <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+              style="cursor: pointer;">Cancel</button>
+          </div>
       </div>
     </div>
   </nb-card-body>
