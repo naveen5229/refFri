@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 @Component({
   selector: 'vehicle-gps-trail',
   templateUrl: './vehicle-gps-trail.component.html',
   styleUrls: ['./vehicle-gps-trail.component.scss','../../pages/pages.component.css']
 })
 export class VehicleGpsTrailComponent implements OnInit {
-  startDate = '';
-  endDate = '';
-  vId = '';
+  startDate = null;
+  endDate = null;
+  vId = null;
+  vehicleNo = null
   gpsTrail = [];
   table = {
     data: {
@@ -28,13 +30,14 @@ export class VehicleGpsTrailComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-      this.common.handleModalSize('class', 'modal-lg', '1600');
-      let today;
-      today = new Date();
-      this.endDate = this.common.dateFormatter(today);
-      this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
-      console.log('dates ', this.endDate, this.startDate);
+      console.log("common params", this.common.params);
+    this.startDate = this.common.params.vehicleData.startDate;
+    this.endDate = this.common.params.vehicleData.endDate;
+    this.vId = this.common.params.vehicleData.vehicleId;
+    this.vehicleNo = this.common.params.vehicleData.vehicleRegNo;
+    this.result(1);
      }
 
   ngOnInit() {
@@ -46,6 +49,26 @@ export class VehicleGpsTrailComponent implements OnInit {
     this.vId = vehicleList.id;
   }
 
+  getDate(type) {
+
+    this.common.params = { ref_page: 'trip status feedback' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+
+          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
+          console.log("start date:", this.startDate);
+        }
+        else {
+          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+
+      }
+
+    });
+  }
 
 
   result(button) {

@@ -74,7 +74,9 @@ export class TripStatusFeedbackComponent implements OnInit {
       oldState: trip.r_state_id,
       newOrigin: trip.origin ? trip.origin : '',
       newDestination: trip.destination ? trip.destination : '',
-      newState: trip.status
+      newState: trip.status,
+      location: trip.r_location,
+      remark:trip.remark
     }
     console.log("params", params);
     this.trips.splice(i, 1);
