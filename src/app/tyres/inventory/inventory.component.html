@@ -1,11 +1,11 @@
-<nb-card>
+<nb-card style="border: 0px;">
   <nb-card-header>
-    <div class="col-sm-6"><h4>Tyre Inventory</h4></div>
-    <div class="col-sm-6 text-right"><button (click)=openStockItemModal() class="btn btn-primary m-0">Add Modals</button></div>
+    <div class="row">
+        <div class="col-sm-6"><h5>Tyre Inventory</h5></div>
+        <div class="col-sm-6 text-right"><button (click)=openStockItemModal() class="btn btn-primary m-0">Add Modals</button></div>
+    </div>
   </nb-card-header>
-
   <nb-card-body>
-
     <div>
       <table class="table table-bordered table-hover" *ngIf="inventories">
         <thead class="thead">
@@ -20,9 +20,7 @@
             <th>NSD-3</th>
             <th>PSI</th>
             <th>&nbsp;</th>
-
           </tr>
-
         </thead>
         <tbody>
           <tr *ngFor="let inventory of inventories; let i = index;">
@@ -49,7 +47,7 @@
               <owl-date-time #date></owl-date-time> -->
             </td>
             <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.is_health" style="height: 25px;margin-top: 10px;"  (change)="valueReset(i)">
+                [(ngModel)]="inventory.is_health"  (change)="valueReset(i)">
             </td>
             <td><input id="nsd1" name="nsd1" type="text" placeholder="Enter nsd1" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.nsd1" [readOnly] = "!inventory.is_health">
@@ -81,9 +79,9 @@
         <button class="btn btn-danger" type="button" outline (click)="remove()" id="remove" style="cursor: pointer;">-</button>
       </div>
     </div> -->
-    <div class="row row-width">
-      <div class="col-12 text-left">
-        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails" style="cursor: pointer; margin-left:15px">Save</button>
+    <div class="row-width clearfix">
+      <div class="text-left">
+        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails" style="cursor: pointer;">Save</button>
       </div>
 
     </div>

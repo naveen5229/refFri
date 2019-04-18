@@ -77,6 +77,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
+    title: 'User Activity Statistics',
+    icon: 'fas fa-list',
+    link: '/pages/user-activity-status',
+    home: true,
+  },
+  {
     title: 'Trip Status FeedBack',
     icon: 'fas fa-list',
     link: '/pages/trip-status-feedback',

@@ -1,19 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NbThemeService } from '@nebular/theme';
-import { DatePipe, NumberFormatStyle } from '@angular/common';
-import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 @Component({
-  selector: 'activity-summary',
-  templateUrl: './activity-summary.component.html',
-  styleUrls: ['./activity-summary.component.scss']
+  selector: 'user-activity-status',
+  templateUrl: './user-activity-status.component.html',
+  styleUrls: ['./user-activity-status.component.scss']
 })
-export class ActivitySummaryComponent implements OnInit {
-
+export class UserActivityStatusComponent implements OnInit {
   startDate='';
   endDate='';
   activitySummary=[];
@@ -29,10 +25,8 @@ export class ActivitySummaryComponent implements OnInit {
     }
   };
 
-  constructor(public api: ApiService, public common: CommonService,
-    private theme: NbThemeService,
-    public user: UserService,
-    public datepipe: DatePipe,
+  constructor(public api: ApiService,
+     public common: CommonService,
     public modalService: NgbModal) {
     let today;
     today = new Date();
@@ -79,7 +73,7 @@ export class ActivitySummaryComponent implements OnInit {
     "&endDate="+this.endDate+" 23:59:59";
     console.log('params: ', params);
     this.common.loading++;
-    this.api.get('FoDetails/getFoActivitySummary?'+params)
+    this.api.get('FoDetails/getFoUserActivitySummary?'+params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
@@ -129,6 +123,5 @@ export class ActivitySummaryComponent implements OnInit {
   }
 
 
-  
 
 }

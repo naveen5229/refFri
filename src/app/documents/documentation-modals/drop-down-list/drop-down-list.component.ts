@@ -47,6 +47,10 @@ export class DropDownListComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: this.reason, record:this.data});
   }
+  dismiss(){
+    this.activeModal.close();
+ 
+  }
 
  
 }
