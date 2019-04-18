@@ -94,7 +94,7 @@ export class VehicleLrComponent implements OnInit {
       image: lr.other_image
     }];
     console.log("images:", images);
-    this.common.params = { images, title: 'LR Details' };
+    this.common.params = { images, title: 'LR Image' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 }
