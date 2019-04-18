@@ -203,7 +203,6 @@ export class ConciseComponent implements OnInit {
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
 
-
         action: {
           value: "",
           isHTML: false,
