@@ -78,7 +78,7 @@
       <div class="col-6">
         <div class="form-group">
             <label>Date of Joining</label>
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()" placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="date" readonly />
+            <input type="text" style="cursor: pointer;" [value]="driver.doj | date : 'dd MMM yyyy'" class="form-control" autocomplete="off" (click)="getDate()" placeholder="Select Date"  formControlName="date" readonly />
         </div>
       </div>
       <div class="col-6">
@@ -106,5 +106,5 @@
   </form>
 </div>
 <div class="modal-footer">
-    <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="submitted = true">ADD</button>
+    <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="addNewdriver()">ADD</button>
 </div>

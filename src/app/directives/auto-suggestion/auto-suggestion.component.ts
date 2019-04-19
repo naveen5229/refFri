@@ -48,18 +48,7 @@ export class AutoSuggestionComponent implements OnInit {
   ngAfterViewInit() {
     console.log('URL:', this.url);
     console.log('URL:', this.display);
-    if (this.preSelected) {
-      this.selectedSuggestion = this.preSelected;
-      if(typeof(this.display)!='object')
-        this.searchText = this.preSelected[this.display];
-      else{
-        let index = 0;
-        for (const dis of this.display) {
-            this.searchText += (index!=0? (" " + this.seperator + " "):" ") + this.preSelected[dis];
-          index++;
-        }
-      }
-    }
+    if (this.preSelected) this.handlePreSelection();
 
     console.log('Is Array:', Array.isArray(this.display));
     if (Array.isArray(this.display)) {
@@ -72,6 +61,28 @@ export class AutoSuggestionComponent implements OnInit {
     }
     this.cdr.detectChanges();
 
+  }
+
+  ngOnChanges(changes) {
+    console.log("--------------------+++++++++", changes);
+    if (changes.preSelected) {
+      this.preSelected = changes.preSelected.currentValue;
+      this.handlePreSelection();
+    }
+    
+  }
+
+  handlePreSelection(){
+    this.selectedSuggestion = this.preSelected;
+    if(typeof(this.display)!='object')
+      this.searchText = this.preSelected[this.display];
+    else{
+      let index = 0;
+      for (const dis of this.display) {
+          this.searchText += (index!=0? (" " + this.seperator + " "):" ") + this.preSelected[dis];
+        index++;
+      }
+    }
   }
 
   getSuggestions() {

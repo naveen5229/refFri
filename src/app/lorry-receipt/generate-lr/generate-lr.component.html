@@ -32,14 +32,15 @@
             <owl-date-time #date></owl-date-time> -->
             <div class="row">
               <div class="col-sm-10">
-            <input type="text" style="width:280px" class="form-control"  autocomplete="off" [(ngModel)]="lr.date" name="date" (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
-            <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
-            </div>
-            <div class="col-sm-2" style="margin-top:-8px">
-            <span style='cursor:pointer; font-size: 23px;' (click)="getDate()"><i
-              class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
+                <input type="text" style="width:280px" class="form-control" autocomplete="off" [(ngModel)]="lr.date"
+                  name="date" (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
+                <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
               </div>
-             </div> 
+              <div class="col-sm-2" style="margin-top:-8px">
+                <span style='cursor:pointer; font-size: 23px;' (click)="getDate()"><i class="icon fa fa-calendar"
+                    style="margin-top:10px; margin-left:-5px"></i></span>
+              </div>
+            </div>
           </td>
           <td><label>T.A. Name</label></td>
 
@@ -50,11 +51,20 @@
         </tr>
         <tr>
           <td><label>Driver Mob NO </label></td>
-          <td><span>
-              <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
+          <td>
+            <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
+                <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
+                <ng-template #showSuggestion> -->
+            <span>
+              <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers"
+                display="mobileno" placeholder="Select Driver" style="width:100%;" class="col-md-10 auto-suggest"
+                [preSelected]="preSelectedDriver"></auto-suggestion>
               <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addDriver()"></i> </div>
-            </span> </td>
+            </span>
+            <!-- </ng-template> -->
+
+          </td>
+
           <td><label>Driver Name : </label>
             {{driver.name}}
             <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
@@ -68,15 +78,16 @@
         <tr>
           <td><label>Source City</label></td>
           <td>
-              <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control">
+            <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control">
           </td>
           <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
           <td><label>Destination City </label></td>
           <td>
-              <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="lr.destinationCity" class="form-control">
+            <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="lr.destinationCity"
+              class="form-control">
 
             <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
-          <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
+            <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
         </tr>
         <tr>
           <td><label>Consignor Name</label></td>
@@ -103,7 +114,7 @@
           <td><label>Consignee Address</label></td>
           <td>
             <!-- {{lr.consigneeAddress}} -->
-            <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control" >
+            <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control">
           </td>
 
         </tr>
@@ -112,7 +123,8 @@
           <td><label>Delivery Address </label> </td>
           <td>
             <input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
-            Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off">
+            Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control"
+              autocomplete="off">
           </td>
         </tr>
 
@@ -173,111 +185,112 @@
       </tbody>
     </table>
     <div class="material_details">
-          <h5>Material Details</h5>
-          <table class="table table-bordered">
-            <tbody *ngFor="let particular of particulars; let i = index;">
-              <tr>
-                <td>
-                  <label> Material </label>
-                </td>
-                <td>
-                  <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
-                    display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i"
-                    ></auto-suggestion>
-                  <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
-                  <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
-                </td>
-                <td>
-                  <label>Number Of Articles </label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
-                </td>
-                <td>
-                  <label>Weight (In Tons)</label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.weight">
-                </td>
-                <td>
-                  <label>Material Value</label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.material_value">
-                </td>
-                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary"
-                    (click)="particular.customField = true; particular.customButton = false"
-                    *ngIf="particular.customButton">Add Fields</button></td>
-                <td *ngIf="i == particulars.length-1"><button class="btn btn-primary" (click)="addMore()">Add Materials</button></td>
-                <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
-              </tr>
-    
-              <tr *ngIf="particular.customField ">
-                <td>
-                  <label> Invoice </label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.invoice">
-                </td>
-                <td>
-                  <label>container No </label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.containerno">
-                </td>
-                <td>
-                  <label>Seal No</label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.sealno">
-                </td>
-                <td>
-                  <label>DCPI No</label>
-                </td>
-                <td>
-                  <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
-                </td>
-    
-              </tr>
-    
-              <tr *ngIf="particular.customField ">
-                <td>
-                  <input type="text" placeholder="Name" class="form-control"
-                    [(ngModel)]="particular.customfields.customDetail[0]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Value"
-                    [(ngModel)]="particular.customfields.customDetail[1]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Name"
-                    [(ngModel)]="particular.customfields.customDetail[2]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Value"
-                    [(ngModel)]="particular.customfields.customDetail[3]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Name"
-                    [(ngModel)]="particular.customfields.customDetail[4]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Value"
-                    [(ngModel)]="particular.customfields.customDetail[5]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Name"
-                    [(ngModel)]="particular.customfields.customDetail[6]">
-                </td>
-                <td>
-                  <input type="text" class="form-control" placeholder="Value"
-                    [(ngModel)]="particular.customfields.customDetail[7]">
-                </td>
-              </tr>
-    
-            </tbody>
-    
-          </table>
+      <h5>Material Details</h5>
+      <table class="table table-bordered">
+        <tbody *ngFor="let particular of particulars; let i = index;">
+          <tr>
+            <td>
+              <label> Material </label>
+            </td>
+            <td>
+              <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
+                display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i">
+              </auto-suggestion>
+              <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
+              <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
+            </td>
+            <td>
+              <label>Number Of Articles </label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
+            </td>
+            <td>
+              <label>Weight (In Tons)</label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.weight">
+            </td>
+            <td>
+              <label>Material Value</label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.material_value">
+            </td>
+            <td *ngIf="i == particulars.length-1"><button class="btn btn-primary"
+                (click)="particular.customField = true; particular.customButton = false"
+                *ngIf="particular.customButton">Add Fields</button></td>
+            <td *ngIf="i == particulars.length-1"><button class="btn btn-primary" (click)="addMore()">Add
+                Materials</button></td>
+            <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
+          </tr>
+
+          <tr *ngIf="particular.customField ">
+            <td>
+              <label> Invoice </label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.invoice">
+            </td>
+            <td>
+              <label>container No </label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.customfields.containerno">
+            </td>
+            <td>
+              <label>Seal No</label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.customfields.sealno">
+            </td>
+            <td>
+              <label>DCPI No</label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
+            </td>
+
+          </tr>
+
+          <tr *ngIf="particular.customField ">
+            <td>
+              <input type="text" placeholder="Name" class="form-control"
+                [(ngModel)]="particular.customfields.customDetail[0]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Value"
+                [(ngModel)]="particular.customfields.customDetail[1]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Name"
+                [(ngModel)]="particular.customfields.customDetail[2]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Value"
+                [(ngModel)]="particular.customfields.customDetail[3]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Name"
+                [(ngModel)]="particular.customfields.customDetail[4]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Value"
+                [(ngModel)]="particular.customfields.customDetail[5]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Name"
+                [(ngModel)]="particular.customfields.customDetail[6]">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Value"
+                [(ngModel)]="particular.customfields.customDetail[7]">
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
       <!-- <input type="date"> -->
       <div><button class="btn btn-primary" (click)=saveDetails()>Save</button></div>
     </div>
