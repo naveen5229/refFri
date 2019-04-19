@@ -2,7 +2,9 @@ import { Component, OnInit, Renderer } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
+import html2canvas from 'html2canvas';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 @Component({
   selector: 'lrview',
   templateUrl: './lrview.component.html',
@@ -78,6 +80,22 @@ export class LRViewComponent implements OnInit {
     console.log('Formatted :', formattedFields);
     return formattedFields;
   }
+
+  downloadPdf(divId) {
+    console.log("div id",divId);
+    //document.getElementById('print-section2')
+      var pdf = new jsPDF('p', 'pt', [50, 100]);
+      let data = document.getElementById('print-section').innerText;
+      console.log("data",data)
+      pdf.text(data,10,10);
+      pdf.save('converteddoc.pdf');
+
+  }
+    // let doc = new jsPDF();
+    // doc.addHTML(document.getElementById(divId), function() {
+    //    doc.save("Lorry Recipts.pdf");
+    // });
 }
+
 
 

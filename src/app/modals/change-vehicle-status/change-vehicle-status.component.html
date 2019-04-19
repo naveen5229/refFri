@@ -67,7 +67,8 @@
               <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>              
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
-              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent); " *ngIf ="vehicleEvent.y_site_type_id==1" >{{vehicleEvent.site_name}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf ="vehicleEvent.y_site_type_id!=1">{{vehicleEvent.loc}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}</td>

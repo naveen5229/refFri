@@ -184,6 +184,7 @@ mwlResizable {
 
 .map-table-container {
     display: inline-block;
+    vertical-align: top;
 }
 
 :host ::ng-deep {
