@@ -139,7 +139,7 @@
             </tr>
             <tr *ngFor=" let balanceSheet of liability.profitLossData " style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: right;">{{balanceSheet.y_amount}}</td>
+              <td style="text-align: left;"><p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p></td>
             </tr>
           </tbody>
         </table>
@@ -159,7 +159,7 @@
             </tr>
             <tr *ngFor=" let balanceSheet of asset.profitLossData " style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: right;">{{balanceSheet.y_amount}}</td>
+              <td style="text-align: left;"><p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p></td>
             </tr>
           </tbody>
         </table>

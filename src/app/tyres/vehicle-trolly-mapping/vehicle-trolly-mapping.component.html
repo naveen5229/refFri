@@ -1,10 +1,10 @@
 <nb-card>
   <nb-card-header>
-    <h4>Vehicle Trolly Mapping</h4>
+    <h5>Vehicle Trolly Mapping</h5>
   </nb-card-header>
 
   <nb-card-body>
-    <table class="table table-bordered table-hover" *ngIf="vehTrollyMappings">
+    <table class="table table-bordered table-hover mb-0" *ngIf="vehTrollyMappings">
       <thead class="thead">
         <tr>
           <th># </th>
@@ -18,14 +18,14 @@
       <tbody>
         <tr *ngFor="let vehTrollyMapping of vehTrollyMappings; let i = index;">
           <td>{{i+1}}</td>
-          <th>{{vehTrollyMapping.trolleyno}} </th>
-          <th>{{vehTrollyMapping.vehname}}</th>
-          <th>{{vehTrollyMapping.attachdate | date : 'dd-MMM-yyyy hh:mm a'}}</th>
-          <th><button class="btn btn-primary" (click)="vehicleChange(vehTrollyMapping.trolleyid,vehTrollyMapping.vehicleid,vehTrollyMapping.vehname)">Edit</button></th>
+          <td>{{vehTrollyMapping.trolleyno}} </td>
+          <td>{{vehTrollyMapping.vehname}}</td>
+          <td>{{vehTrollyMapping.attachdate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+          <td><button class="text-primary" (click)="vehicleChange(vehTrollyMapping.trolleyid,vehTrollyMapping.vehicleid,vehTrollyMapping.vehname)"><i class="fas fa-pencil-alt"></i></button></td>
         </tr>
       </tbody>
     </table>
-  <div class="no-data alert-danger" *ngIf="!vehTrollyMappings.length">
+  <div class="no-data alert-danger mt-3" *ngIf="!vehTrollyMappings.length">
     No Data available !
   </div>
   </nb-card-body>

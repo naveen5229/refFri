@@ -141,7 +141,25 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
   }
 
-  getLorryDetails(){
+
+  revertLrDetails(details){
+
+    let params={
+      lr_id:details.id
+    };
+    this.common.loading++;
+    this.api.post('LorryReceiptsOperation/revertLrDetails', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['data']);
+        this.common.showToast(res['msg']);
+        if(res['msg']=="Success"){
+          this.getPendingLr();
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
     
   }
 

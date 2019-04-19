@@ -37,7 +37,7 @@
     </div>
     <div class="col-sm-3" *ngIf="showMain">
       <div class="from-group">
-        <select [(ngModel)]="option" class="form-control" style="border: 2px solid darkcyan; font-size: 13px">
+        <select [(ngModel)]="option" class="form-control" (change)="changeStatusType()"  style="border: 2px solid darkcyan; font-size: 13px">
           <option value="accept">Accept</option>
           <option value="reject">Reject</option>
         </select>

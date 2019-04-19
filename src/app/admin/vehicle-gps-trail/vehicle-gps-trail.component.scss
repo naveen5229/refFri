@@ -10,3 +10,7 @@ input[type=text] {
 .h5{
     color:darkcyan
 }
+:host ::ng-deep.black {
+    color: black;
+ 
+}

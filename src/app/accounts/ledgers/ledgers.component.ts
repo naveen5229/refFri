@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { UserService } from '../../@core/data/users.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'ledgers',
   templateUrl: './ledgers.component.html',
@@ -12,13 +13,24 @@ import { UserService } from '../../@core/data/users.service';
 export class LedgersComponent implements OnInit {
   Ledgers = [];
   selectedName = '';
+  deletedId=0;
   constructor(public api: ApiService,
     public common: CommonService,
+    private route: ActivatedRoute,
     public user: UserService,
+    public router: Router,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
-    this.GetLedger();
+   
     this.common.currentPage = 'Ledger';
+    this.route.params.subscribe(params => {
+      console.log('Params1: ', params);
+      if (params.id) {
+        this.deletedId = parseInt(params.id);
+        this.GetLedger();
+      }
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    });
   }
 
   ngOnInit() {
@@ -28,7 +40,8 @@ export class LedgersComponent implements OnInit {
   }
   GetLedger() {
     let params = {
-      foid: 123
+      foid: 123,
+      deleted:this.deletedId 
     };
 
     this.common.loading++;
@@ -53,7 +66,8 @@ export class LedgersComponent implements OnInit {
     if (ledger) {
       let params = {
         id: ledger.id,
-        foid: ledger.foid
+        foid: ledger.foid,
+        
       }
       this.common.loading++;
       this.api.post('Accounts/EditLedgerdata', params)
@@ -61,7 +75,10 @@ export class LedgersComponent implements OnInit {
           this.common.loading--;
           console.log('Res:', res['data']);
           data = res['data'];
-          this.common.params = res['data'];
+          this.common.params = {
+          ledgerdata:  res['data'],
+            deleted:this.deletedId 
+          }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
           const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
           activeModal.result.then(data => {
@@ -108,6 +125,9 @@ export class LedgersComponent implements OnInit {
       creditdays:  ledger.creditdays,
       openingbalance:  ledger.openingbalance,
       isdr:  ledger.openingisdr,
+      approved:  ledger.approved,
+      deleteview:  ledger.deleteview,
+      delete:  ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
     };
 

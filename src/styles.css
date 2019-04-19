@@ -221,14 +221,18 @@ nb-menu .menu-item > .menu-items > .menu-item a{
 .fas.fa-warehouse::before,
 .fas.fa-traffic-light::before,
 .fas.fa-city::before,
-.fas.fa-route::before{
+.fas.fa-route::before,
+.fas.fa-file-signature::before{
   font-family:inherit;
 }
 .nb-theme-corporate .modal-content{
   border: 0px;
 }
 .modal-header{
-  padding: 10px 15px;
+  padding: 10px 15px !important;
+}
+.modal-footer{
+  padding: 10px 15px !important;     
 }
 
 .tjr-label {
@@ -296,8 +300,8 @@ nb-card{
 }
 #tblsummary .tableFixHead{
   overflow: auto;
-  height: calc(104vh - 180px) !important;
-  max-height: calc(104vh - 180px) !important;
+  height: calc(100vh - 150px) !important;
+  max-height: calc(100vh - 150px) !important;
 }
 .modal-body .TJR-auto-suggestion-container {
   border: 1px solid #263238 !important;
@@ -330,4 +334,75 @@ nb-card{
 .admin-popup .modal-dialog{
   top: 40%;
   transform: translate(0%,-50%) !important;
+}
+/* .print-lr {
+  background-color: #fff;
+} */
+.test .layout{
+  display: none !important;
+}
+.gerrate_tabel auto-suggestion input,
+.material_details auto-suggestion input{
+  border: 1px solid #000 !important;
+  box-shadow: none !important;
+  padding: 3px 5px !important;
+  height: auto !important;
+}
+.gerrate_tabel auto-suggestion{
+  width: 96% !important;
+  max-width: 96%;
+  padding-right: 0px;
+}
+.nb-theme-corporate nb-sidebar.compacted{
+  width: 3.9rem;
+}
+
+.tabset{
+  border-bottom: 2px solid #26a69a !important;
+  margin-bottom: 15px !important;
+}
+.tabset  li a{
+    background-color:#26a69a;
+    color: #fff !important;
+    font-weight: normal !important;
+    border-radius: 5px 5px 0px 0px;
+    margin-right: 8px;
+    border: 2px solid #26a69a;
+    padding: 5px 20px !important;
+    position: relative;
+    font-size: 14px;
+}
+.tabset  li a:before{
+    content: none !important;
+    display: none !important;
+}
+.tabset .active a{
+    background-color: #fff;
+    color: #26a69a !important;
+}
+.tabset .active a:after{
+    content: '' !important;
+    position: absolute;
+    background:#fff;
+    width: 100%;
+    height: 6px;
+    bottom: -5px;
+    left: 0;
+    border-radius: 0px;
+}
+.add-consige-veiw .modal-content{
+  background-color: transparent;
+  box-shadow: none;
+}
+.add-consige-veiw  .model-drag{
+  background-color: #fff;
+}
+nb-card{
+  border: 0px !important;
+}
+.dashboard_chart canvas{
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
 }

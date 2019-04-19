@@ -38,7 +38,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Ledger',
         icon: 'fas fa-file-invoice-dollar',
-        link: '/accounts/ledgers'
+        link: '/accounts/ledgers/0'
     },
     {
         title: 'Company-Branches',
@@ -50,6 +50,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
     },
+    {
+        title: 'Trading Account',
+        icon: 'fas fa-warehouse',
+        link: '/accounts/trading'
+    },
+    // {
+    //     title:'Store Requisition',
+    //     icon :'fa fa-building-o',
+    //     link: '/accounts/storerequisitions'
+    // },
     {
         title: 'Voucher',
         icon: 'fas fa-ticket-alt',
@@ -86,7 +96,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         children: [
             {
                 title: 'Day Book',
-                link: '/accounts/daybooks'
+                link: '/accounts/daybooks/0'
             },
             {
                 title: 'Ledger View',
@@ -137,6 +147,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
           
             
         ],
+    },
+    {
+        title: 'Accounts Bin',
+        icon: 'fas fa-trash',
+        children: [
+            {
+                title: 'Ledger Deleted',
+                link: '/accounts/ledgers/1'
+            }, 
+            {
+                title: 'Voucher & Invoice Deleted',
+                link: '/accounts/daybooks/1'
+            } 
+        ]
     },
     {
         title: 'Trip Voucher Expense',
