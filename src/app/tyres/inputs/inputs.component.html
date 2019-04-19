@@ -1,37 +1,37 @@
 <nb-card>
   <nb-card-header>
-    <h4>Tyre Inputs</h4>
+    <h5>Tyre Inputs</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="col-sm-8">
       <div class="row">
-        <div class="col-sm-2"><label class="label1"><b>Vehicle Type</b></label></div>
-        <div class="col-sm-4 ">
-          <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
-            <option value="truck">Truck</option>
-            <option value="trolly">Trolly</option>
-            <option value="warehouse">Warehouse</option>
-          </select>
-        </div>
-      </div>
-      <div class="row row-width">
-        <div class="col-sm-2"> <label class="label1"><b>Vehicle No. </b></label></div>
-        <div class="col-sm-4 ">
-          <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
-            autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
-          <div>
-            <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
-              <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
-                {{ vehicle.regno}}
-              </li>
-            </ul>
+        <div class="col-4">
+          <div class="form-group">
+              <label class="label1"><b>Vehicle Type</b></label>
+              <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
+                  <option value="truck">Truck</option>
+                  <option value="trolly">Trolly</option>
+                  <option value="warehouse">Warehouse</option>
+                </select>
           </div>
         </div>
-        <div class="col-sm-2"><label><b>Tyre No.</b></label></div>
-        <div class="col-sm-4 ">
-          <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
+        <div class="col-4">
+            <div class="form-group">
+                <label class="label1"><b>Vehicle No. </b></label>
+                <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
+            autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+            <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
+                <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+                  {{ vehicle.regno}}
+                </li>
+              </ul>
+            </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+              <label><b>Tyre No.</b></label>
+              <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
             autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
-          <div>
             <ul *ngIf=" (tyreSuggestion)&&(tyres.length >  0)">
               <li *ngFor="let tyre of tyres;" (click)="selectTyres(tyre)">
                 {{ tyre.tyrenum}}
@@ -40,58 +40,30 @@
           </div>
         </div>
       </div>
-      <div class="row row-width">
-        <div class="col-sm-2"><label class="label1"><b>Details </b> </label> </div>
-        <div class="col-sm-4">
-          <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+              <label class="label1"><b>Details</b></label>
+              <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
+          </div>
         </div>
-        <div class="col-sm-2"><label> <b>Date</b></label> </div>
-        <div class="col-sm-4">
-          <input [(ngModel)]="date1" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
-            class="form-control" autocomplete="off" name="date">
-          <owl-date-time #date></owl-date-time>
-          <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')" placeholder="Select Date"
-              [value]="date | date: 'dd MMM yyyy'" name="date" readonly > -->
-          <!-- <input id="otherDetails" name="date" type="text" placeholder="date" autocomplete="off" class="form-control"  [(ngModel)]="date"> -->
+        <div class="col-4">
+          <div class="form-group">
+              <label> <b>Date</b></label>
+              <input [(ngModel)]="date1" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
+                class="form-control" autocomplete="off" name="date">
+              <owl-date-time #date></owl-date-time>
+          </div>
         </div>
-      </div>
-      <div class="row row-width">
-        <div class="col-12">
-          <!-- <button class="btn btn-primary" type="button" outline (click)="searchData()" id="reminder" style="cursor: pointer;">Search</button> -->
-          <button class="btn btn-primary" type="button" outline (click)="getTyreCurrentStatus()" id="saveDetails"
-            style="cursor: pointer;">Save</button>
+        <div class="col-4">
+            <button class="btn btn-primary" type="button" outline (click)="getTyreCurrentStatus()" id="saveDetails"
+            style="cursor: pointer;margin-top:38px;">Save</button>
         </div>
       </div>
-      <!-- <div class="row " style="margin-top:40px">
-        <table class="table table-bordered table-hover" *ngIf="searchedTyreDetails">
-          <thead class="thead">
-            <tr>
-              <th># </th>
-              <th>Tyre No </th>
-              <th>Tyre Position </th>
-              <th>Date </th>
-
-            </tr>
-
-          </thead>
-          <tbody>
-            <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
-              <td>{{i+1}}</td>
-              <td>{{tyreDetail.tyrenum}}</td>
-              <td>{{tyreDetail.tyrepos}}</td>
-              <td>{{tyreDetail.dttime | date : 'dd-MMM-yyyy hh:mm a' }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="no-data" *ngIf="!searchedTyreDetails.length">
-          No Data available !
-        </div>
-      </div> -->
-
     </div>
     <div class="col-sm-4" style="text-align:center"
       *ngIf="(vehicleType!='warehouse') && (vehicleTyreDetails.length>=1)">
-      <b style="font-size:20px">Vehicle Front</b>
+      <h5>Vehicle Front</h5>
       <table class="table table-bordered table-hover tbl-background"
         *ngFor="let vehicleTyreDetail of vehicleTyreDetails; let i = index">
         <thead class="thead">

@@ -12,6 +12,8 @@ import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
 import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
+import { VehicleGpsTrailComponent } from '../../modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from '../vehicle-lr/vehicle-lr.component';
 
 declare let google: any;
 
@@ -25,7 +27,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   panelOpenState = false;
   title = '';
   map: any;
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map1') mapElement: ElementRef;
   location = {
     lat: 26.9124336,
     lng: 75.78727090000007,
@@ -206,8 +208,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
         //   finalIndex++;
         // }
         // console.log("vehEvent", vehEvent);
-       // vehEvent = vehEvent.reverse();
-      //  this.vehEvent = vehEvent;
+        // vehEvent = vehEvent.reverse();
+        //  this.vehEvent = vehEvent;
 
         //-----------------S
 
@@ -838,16 +840,64 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }
     });
   }
-  openRouteMapper(vehicleEvent) {
-    let fromTime;
-    //this.common.params = {vehicleId:this.VehicleStatusData.vehicle_id,vehicleRegNo:this.VehicleStatusData.regno,fromTime:,toTime:}
-    console.log("open Route Mapper modal");
-    const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data =>
-      console.log("data", data)
+
+  openRouteMapper() {
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: this.VehicleStatusData.vehicle_id ? this.VehicleStatusData.vehicle_id : null,
+      vehicleRegNo: this.VehicleStatusData.regno,
+      fromTime: this.VehicleStatusData.latch_time,
+      toTime: this.toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout"
+      , windowClass: "mycustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
       // this.reloadData()
     );
   }
-}
 
+
+  gps() {
+    let today = new Date(this.toTime);
+    let endDate = (this.common.dateFormatter(today)).split(' ')[0];
+    let startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() -1 )))).split(' ')[0];
+
+    let vehicleData = {
+      
+      vehicleId:this.VehicleStatusData.vehicle_id, 
+      vehicleRegNo:this.VehicleStatusData.regno,
+      startDate:startDate,
+      endDate: endDate,
+    }
+    this.common.params = {refPage:"cvs"};
+    this.common.params = {vehicleData:vehicleData};
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+    const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
+
+  }
+
+  vehicleLr(){
+    let today = new Date(this.toTime);
+    let endDate = (this.common.dateFormatter(today)).split(' ')[0];
+    let startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() -1 )))).split(' ')[0];
+
+    let vehicleData = {
+      
+      vehicleId:this.VehicleStatusData.vehicle_id, 
+      vehicleRegNo:this.VehicleStatusData.regno,
+      startDate:startDate,
+      endDate: endDate,
+    }
+    this.common.params = {refPage:"cvs"};
+    this.common.params = {vehicleData:vehicleData};
+    this.common.handleModalSize('class', 'modal-lg', '1600');
+    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
+
+  }
+}
 

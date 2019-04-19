@@ -10,3 +10,18 @@
     width: 24px;
     height: 24px;
   }
+  .modal-footer button{
+    text-transform: capitalize;
+    padding: 8px 20px;
+    border: 0px;
+    border-radius: 5px;
+  }
+  .close {
+    background: transparent;
+    color: #263238 !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+    font-size: 30px;
+  }

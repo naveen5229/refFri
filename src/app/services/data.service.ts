@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/admin/dashboard',
+        link: '/pages',
       },
       {
         title: 'Vehicle Status Change',
@@ -52,7 +52,7 @@ export class DataService {
       },
       {
         title: 'Driver',
-        icon: 'nb-home',
+        icon: 'fa fa-male',
         link: '/admin/driver-list',
         home: true,
       },
@@ -110,12 +110,25 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      }, 
+      },
       {
         title: 'Vehicle Gps Trail',
         icon: 'fas fa-receipt',
         link: '/admin/vehicle-gps-trail',
-      },  
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+      },
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -147,11 +160,34 @@ export class DataService {
         home: true,
       },
       {
-        title: 'Vechile Dstance',
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+      },
+      {
+        title: 'Vehicle Gps Detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+      },
+      {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
         icon: 'fas fa-route',
         link: '/admin/vehicle-distance',
         home: true,
-    }
+      },
+      {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
     ];
   }
 }

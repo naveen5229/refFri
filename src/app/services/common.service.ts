@@ -32,7 +32,6 @@ export class CommonService {
   passedVehicleId = null;
   changeHaltModal = null;
   ref_page = null;
-
   primaryType = {
     1: { page: "HomePage", title: "Home" },
     2: { page: "HomePage", title: "Home" },
@@ -131,7 +130,7 @@ export class CommonService {
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
- 
+
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
       return (
@@ -158,7 +157,7 @@ export class CommonService {
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? "0" + d.getDate() : d.getDate();
- 
+
     // console.log(dat + separator + month + separator + year);
     if (type == "ddMMYYYY") {
       return (
@@ -166,8 +165,8 @@ export class CommonService {
         separator +
         month +
         separator +
-         year 
-       
+        year
+
       );
     } else {
       return (
@@ -175,8 +174,8 @@ export class CommonService {
         separator +
         month +
         separator +
-        year 
-       
+        year
+
       );
     }
   }
@@ -214,7 +213,7 @@ export class CommonService {
     let minutes = d.getMinutes() < 9 ? "0" + d.getMinutes() : d.getMinutes();
     let seconds = d.getSeconds() < 9 ? "0" + d.getSeconds() : d.getSeconds();
 
-    return hours + ":" + minutes + ":"+seconds;
+    return hours + ":" + minutes + ":" + seconds;
   }
 
   getDate(days = 0, formatt?) {
@@ -387,12 +386,12 @@ export class CommonService {
     return generatedArray;
   }
 
-  dateDiffInHours(startTime, endTime,fromNow = false) {
+  dateDiffInHours(startTime, endTime, fromNow = false) {
     if (!startTime || (!endTime && !fromNow)) {
       return 0;
     }
     startTime = new Date(startTime);
-    endTime = (fromNow && !endTime)?new Date(new Date().toUTCString()):new Date(endTime);
+    endTime = (fromNow && !endTime) ? new Date(new Date().toUTCString()) : new Date(endTime);
     let hours = Math.abs(endTime - startTime) / 36e5;
     return hours;
   }
@@ -522,7 +521,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading, center_heading) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?) {
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -639,7 +638,7 @@ export class CommonService {
         doc.text(center_heading, x - hdglen - 40, y);
       }
       y = 15;
-      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      //doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -786,27 +785,27 @@ export class CommonService {
       this.showError('Invalid Date Format!');
       return;
     }
-  
+
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    month = (month >12) ?12 :month;
+    month = (month > 12) ? 12 : month;
     let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
     let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
-    date = (date>31) ? 31: date;
-    date = (((month == '04') || (month == '06') || (month == '09')||(month == '11'))&& (date >30) ) ? 30: date;
-    date  = ((date == 28) && (month == '02')) ? 28 : date ;
-    if(year % 4==0 && (month =='02')){
-    date  = (((date >28) && (month == '02'))&&  ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date ;
-   
-     }
-     else if(year % 4 !=0 && (month =='02')){
-          date = 28;
-     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
+    date = (date > 31) ? 31 : date;
+    date = (((month == '04') || (month == '06') || (month == '09') || (month == '11')) && (date > 30)) ? 30 : date;
+    date = ((date == 28) && (month == '02')) ? 28 : date;
+    if (year % 4 == 0 && (month == '02')) {
+      date = (((date > 28) && (month == '02')) && ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date;
+
+    }
+    else if (year % 4 != 0 && (month == '02')) {
+      date = 28;
+    } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
 
     console.log('Date: ', year + separator + month + separator + date);
-   return date + separator + month + separator + year;
+    return date + separator + month + separator + year;
   }
 
   continuoueScroll() {
@@ -816,50 +815,5 @@ export class CommonService {
       .getElementsByClassName('scrollable-container')[0]
       .className.split(' ')[0];
   }
-  print(id) {
-    console.log("printid =",id);
-    const printContent = document.getElementById(id);
-    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    
-    let data = `<!doctype html>
-    <html>
-    
-    <head>
-      <meta charset="utf-8">
-      <title>E-logist</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="icon" type="image/png" href="favicon.png">
-      <link rel="icon" type="image/x-icon" href="favicon.ico">
-      <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
-      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-      <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
-      <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-      </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs&libraries=geometry,places,drawing">
-      </script>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
-    
-    
-    </head>
-    
-    <body>
-    ${printContent.innerHTML}
-    </body>
-    </html>
-    `;
-    console.log("print data=",data);
-    // WindowPrt.document.write(printContent.innerHTML);
-    WindowPrt.document.write(data);
 
-    WindowPrt.document.close();
-    WindowPrt.focus();
-    WindowPrt.print();
-    WindowPrt.close();
-  }
 }

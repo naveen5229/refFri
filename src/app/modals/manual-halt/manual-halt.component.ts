@@ -19,6 +19,8 @@ export class ManualHaltComponent implements OnInit {
     lat:'',
     long:''
   };
+  locationType='city';
+  haltSite=null;
   vid='';
   startTime;
   endTime;
@@ -40,6 +42,11 @@ export class ManualHaltComponent implements OnInit {
 
   searchVehicle(vehicleList){
    this.vid=vehicleList.id;
+  }
+
+  selecteCity(){
+    console.log("city selected");
+    setTimeout(this.autoSuggestion.bind(this, 'place',false), 3000);
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +92,8 @@ export class ManualHaltComponent implements OnInit {
         vehicleId:this.vid,
         lat:this.location.lat,
         long:this.location.long,
-        haltTypeId:this.halt_type
+        haltTypeId:this.halt_type,
+        siteId:this.haltSite
        };
        console.log('params to insert', params);
        this.common.loading++;

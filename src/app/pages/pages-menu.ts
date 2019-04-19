@@ -29,11 +29,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-list',
     link: '/pages/lorry-receipts',
   },
-  // {
-  //   title: 'Generate LR',
-  //   icon: 'fas fa-pencil-alt',
-  //   link: '/pages/generate-lr',
-  // },
+  {
+    title: 'Generate LR',
+    icon: 'fa fa-pencil',
+    link: '/pages/generate-lr',
+  },
 
   {
     title: 'Expenses',
@@ -74,6 +74,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Placements DashBoard',
     icon: 'fas fa-list',
     link: '/pages/placements-dash-board',
+    home: true,
+  },
+  {
+    title: 'User Activity Statistics',
+    icon: 'fas fa-list',
+    link: '/pages/user-activity-status',
+    home: true,
+  },
+  {
+    title: 'Trip Status FeedBack',
+    icon: 'fas fa-list',
+    link: '/pages/trip-status-feedback',
     home: true,
   },
   // {
