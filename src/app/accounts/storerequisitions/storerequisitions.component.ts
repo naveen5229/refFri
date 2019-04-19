@@ -13,12 +13,14 @@ import { StorerequisitionComponent } from '../../acounts-modals/storerequisition
 })
 export class StorerequisitionsComponent implements OnInit {
 
+  StockItems = [];
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
-      this.common.currentPage = 'Store Requisitions';
-    }
+    public modalService: NgbModal) {
+    this.common.currentPage = 'Store Requisitions';
+  }
 
   ngOnInit() {
   }
@@ -26,10 +28,10 @@ export class StorerequisitionsComponent implements OnInit {
 
 
   openStoreRequisitions() {
-      const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-      activeModal.result.then(data => {
+    const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
 
-      });
-    
+    });
+
   }
 }
