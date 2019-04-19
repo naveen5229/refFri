@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ParticlularsComponent } from '../../modals/LRModals/particlulars/particlulars.component';
 import { windowWhen } from 'rxjs/operators';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from '../../modals/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
@@ -76,7 +77,8 @@ export class GenerateLRComponent implements OnInit {
     public mapService: MapService) {
 
     // this.branches = ['Jaipur',"Mumbai", "delhi"];
-    this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+    // this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+    this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
     console.log("new Date()", new Date(), this.lr.date);
 
 
@@ -249,5 +251,30 @@ export class GenerateLRComponent implements OnInit {
         --this.common.loading;
         console.log('Error: ', err);
       });
+  }
+
+  checkDateFormat() {
+    let dateValue = this.lr.date;
+    console.log('this.lrdate',this.lr.date);
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    // this.lrDate= date + '/' + month + '/' + year;
+    this.lr.date= year + '-' + month + '-' + date;
+  }
+
+  getDate() {
+    this.common.params={ref_page:'generate-lr'};
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.lr.date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+         // this.dateByIcon=true;
+        console.log('lrdate: by getDate ' + this.lr.date);
+
+      }
+
+    });
   }
 }
