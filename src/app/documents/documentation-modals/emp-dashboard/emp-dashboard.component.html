@@ -1,11 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-      <div class="row" style="margin-bottom:5px">
+      <div class="row" style="margin-bottom:10px">
         <div class="form-group" class="col-sm-3">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('stdate')"
             placeholder="Select Date" [value]="startDay | date: 'dd MMM yyyy'" name="stdate" readonly>    

@@ -39,7 +39,7 @@
       placeholder="Enter Stock Type" inputId="stockType" name="stockType" [data]="StockTypeItemsdata" [preSelected]="stockItem.stockType"></auto-suggestion> -->
 
                 <input type="text" class="form-control" id="stockType" autocomplete="off" name="stockType"
-                  [(ngModel)]="stockItem.stockType.name" (click)="lastActiveId = 'ledger-'; allowBackspace = false;"
+                  [(ngModel)]="stockItem.stockType.name" (click)="allowBackspace = false;"
                   (input)="allowBackspace = false;">
 
               </div>
@@ -59,7 +59,7 @@
         placeholder="Enter Stock Sub Type" inputId="stockSubType" [data] ="stockSubType"  name="stockSubType" [preSelected]="{name:stockItem.stockSubType.name}"></auto-suggestion>
        -->
                 <input type="text" class="form-control" id="stockSubType" autocomplete="off" name="stockSubType"
-                  [(ngModel)]="stockItem.stockSubType.name" (click)="lastActiveId = 'ledger-'; allowBackspace = false;"
+                  [(ngModel)]="stockItem.stockSubType.name" (click)="allowBackspace = false;"
                   (input)="allowBackspace = false;">
 
               </div>
@@ -79,7 +79,7 @@
                 <!--input type="text" class="form-control" name="stockunit" [(ngModel)]="stockItem.stockunit"-->
 
                 <input type="text" class="form-control" id="unit" autocomplete="off" name="unit"
-                  [(ngModel)]="stockItem.unit.name" (click)="lastActiveId = 'ledger-'; allowBackspace = false;"
+                  [(ngModel)]="stockItem.unit.name" (click)="allowBackspace = false;"
                   (input)="allowBackspace = false;">
 
               </div>

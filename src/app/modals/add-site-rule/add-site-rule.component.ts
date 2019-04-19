@@ -208,5 +208,13 @@ currSite={
 
   }
 
+  selectBody(){
+
+  }
+
+  selectRule(){
+    
+  }
+
 
 }

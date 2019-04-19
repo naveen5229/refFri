@@ -31,7 +31,7 @@ nb-card-header{
             }
             tr:nth-child(1){
                 background-color: #D6D6D6;
-                color: #277092;
+                color: #fff;
                 font-weight: bold;
                 td{
                     padding-left: 10px;
@@ -44,7 +44,9 @@ nb-card-header{
     }
 }
 .tanding_total{
-    background-color: #b1c6ec;
+    background-color: #324148;
+    color: #fff;
+    font-weight: bold;
     padding: 10px;
     .total_name{
         float: left;

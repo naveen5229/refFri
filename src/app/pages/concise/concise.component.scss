@@ -108,7 +108,8 @@ table {
         margin: 0px;
         border: none;
         border-top: 1px solid #d7dee4;
-        nb-card-body{
+
+        nb-card-body {
             padding: 12px 10px;
         }
     }
@@ -185,6 +186,7 @@ mwlResizable {
 .map-table-container {
     display: inline-block;
     vertical-align: top;
+    border-right: 5px solid #fff;
 }
 
 :host ::ng-deep {
@@ -221,20 +223,23 @@ mwlResizable {
     }
 }
 
-.tracker_img{
+.tracker_img {
     position: absolute;
     bottom: 10px;
     z-index: 999;
     width: 40px;
     left: 12px;
-    img{
+
+    img {
         width: 100%;
     }
 }
-:host ::ng-deep.tableFixHead{
+
+:host ::ng-deep.tableFixHead {
     height: auto !important;
     max-height: calc(100vh - 80px);
 }
-:host ::ng-deep .no-search{
+
+:host ::ng-deep .no-search {
     color: #000;
 }
