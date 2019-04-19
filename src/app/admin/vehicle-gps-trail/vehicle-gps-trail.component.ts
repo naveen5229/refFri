@@ -64,7 +64,7 @@ export class VehicleGpsTrailComponent implements OnInit {
       case 1: selectapi = 'VehicleTrail/getVehicleTrailAll';
         break;
 
-      case 2: selectapi = 'VehicleTrail/getVehicleTrailAll';
+      case 2: selectapi = 'VehicleTrail/showVehicleTrail';
         break;
       case 3: selectapi = 'AutoHalts/getSingleVehicleHalts';
         break;

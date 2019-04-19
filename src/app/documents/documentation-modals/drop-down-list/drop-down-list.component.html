@@ -10,8 +10,8 @@
     <form enctype="multipart/form-data" #myForm="ngForm" id="dropDown-form" name="dropDown-form">      
       <div class="form-group">
           <label>Reason<span></span></label>
-          <select name="reason" class="form-control" [(ngModel)]="reason.name">
-              <option class="form-control" *ngFor="let rule of reason" [value]="rule.name">{{rule.name}}</option>              
+          <select name="reason" class="form-control" [(ngModel)]="reasonName">
+              <option class="form-control" *ngFor="let rule of rules" [value]="rule.name">{{rule.name}}</option>              
             </select>
       </div>
     </form>

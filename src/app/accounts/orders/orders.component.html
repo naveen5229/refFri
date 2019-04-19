@@ -17,7 +17,7 @@
           <div class="col-4">
             <div class="form-group">
               <label class="ref-label">Invoice Type</label>
-              <input type="text" class="form-control ref-input" id="ordertype" name="ordertype" [(ngModel)]="order.ordertype.name"
+              <input type="text" autocomplete="off" class="form-control ref-input" id="ordertype" name="ordertype" [(ngModel)]="order.ordertype.name"
                 required>
               <!-- <auto-suggestion (onSelected)="onSelected($event, 'ordertype', 'name')" url="Suggestion/GetOrderTypeList"
                 display="name" inputId="ordertype" placeholder="Enter Order Type" [data]="orderTypeData"
@@ -32,14 +32,14 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Invoice No.</label>
-                <input autocomplete="off" type="text" class="form-control ref-input" id="custcode" name="account-custcode"
+                <input autocomplete="off" autocomplete="off" type="text" class="form-control ref-input" id="custcode" name="account-custcode"
                   [(ngModel)]="order.custcode">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Invoice Date</label>
-                <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="date"
+                <input type="text" autocomplete="off" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="date"
                   name="account-date" [(ngModel)]="order.date" maxlength="10"
                   (click)="lastActiveId = 'account-date'; allowBackspace = false;" (input)="allowBackspace = false;">
 
@@ -48,7 +48,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Purchase Ledger</label>
-                <input type="text" class="form-control  ref-input" id="purchaseledger" name="purchaseledger"
+                <input type="text" autocomplete="off" class="form-control  ref-input" id="purchaseledger" name="purchaseledger"
                   [(ngModel)]="order.purchaseledger.name"
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
@@ -150,7 +150,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Invoice No.</label>
-                <input type="text" class="form-control ref-input" name="account-custcode" id="custcode"
+                <input type="text" autocomplete="off" class="form-control ref-input" name="account-custcode" id="custcode"
                   [(ngModel)]="order.custcode">
               </div>
             </div>
@@ -170,7 +170,7 @@
                   url="Suggestion/GetPurchaseLedger" display="name" inputId="purchaseledger"
                   placeholder="Enter Sales Ledger" [preSelected]="null">
                 </auto-suggestion> -->
-                <input type="text" class="form-control ref-input" id="purchaseledger" name="purchaseledger"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="purchaseledger" name="purchaseledger"
                   [(ngModel)]="order.purchaseledger.name"
                   (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
               </div>
@@ -182,7 +182,7 @@
                 <label class="ref-label">Party Name</label>
                 <!-- <auto-suggestion (onSelected)="onSelected($event, 'ledger', 'name')" url="Suggestion/GetPurchaseLedger"
                   display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
-                <input type="text" class="form-control ref-input" id="ledger" name="ledger" [(ngModel)]="order.ledger.name"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger" [(ngModel)]="order.ledger.name"
                   require>
 
               </div>
@@ -190,14 +190,14 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Order No</label>
-                <input type="text" class="form-control ref-input" id="vendorbidref" name="account-vendorbidref"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="vendorbidref" name="account-vendorbidref"
                   [(ngModel)]="order.vendorbidref" placeholder="Order No">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Other Reference</label>
-                <input type="text" class="form-control ref-input" id="qutationrefrence" name="account-qutationrefrence"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="qutationrefrence" name="account-qutationrefrence"
                   [(ngModel)]="order.qutationrefrence" placeholder="Other Reference">
               </div>
             </div>
@@ -206,7 +206,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Shipment Location</label>
-                <input type="text" class="form-control ref-input" id="shipmentlocation" name="account-shipmentlocation"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="shipmentlocation" name="account-shipmentlocation"
                   [(ngModel)]="order.shipmentlocation" placeholder="Shipment Location">
               </div>
             </div>
@@ -216,14 +216,14 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Payment Terms</label>
-                <input type="text" class="form-control ref-input" id="paymentterms" name="account-paymentterms"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="paymentterms" name="account-paymentterms"
                   [(ngModel)]="order.paymentterms" placeholder="Payment Terms">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Eway Bill Number</label>
-                <input type="text" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
+                <input type="text" autocomplete="off" class="form-control ref-input" id="biltynumber" name="account-biltynumber"
                   [(ngModel)]="order.biltynumber" placeholder="Eway Bill Number">
               </div>
             </div>
@@ -240,7 +240,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="ref-label">Delivery Terms</label>
-                <input type="text" class="form-control ref-input" id="deliveryterms" name="account-deliveryterms"
+                <input type="text" autocomplete="off"  class="form-control ref-input" id="deliveryterms" name="account-deliveryterms"
                   [(ngModel)]="order.deliveryterms" placeholder="Delivery Terms">
               </div>
             </div>
@@ -249,13 +249,13 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <textarea class="form-control ref-input" name="account-billingaddress" id="billingaddress"
+                <textarea class="form-control ref-input" autocomplete="off" name="account-billingaddress" id="billingaddress"
                   [(ngModel)]="order.billingaddress" placeholder="Party Billing Address"></textarea>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
-                <textarea class="form-control ref-input" name="account-grnremarks" id="grnremarks" [(ngModel)]="order.grnremarks"
+                <textarea class="form-control ref-input" autocomplete="off" name="account-grnremarks" id="grnremarks" [(ngModel)]="order.grnremarks"
                   placeholder="Consignee Address"></textarea>
               </div>
             </div>
@@ -263,7 +263,7 @@
 
             <div class="col">
               <div class="form-group">
-                <textarea class="form-control ref-input" name="account-orderremarks" id="orderremarks"
+                <textarea class="form-control ref-input" autocomplete="off" name="account-orderremarks" id="orderremarks"
                   [(ngModel)]="order.orderremarks" placeholder="Invoice Remarks"></textarea>
               </div>
             </div>
@@ -274,7 +274,7 @@
 
       <div class="col-3" id="ledger-container">
           <div class="auto-sugg">
-        <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+        <auto-suggetion-in-side [data]="autoSuggestion.data"  [targetId]="autoSuggestion.targetId"
           [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
           </div>
         <!-- <div class="ledger-container">
@@ -310,14 +310,14 @@
       <tbody>
         <tr *ngFor="let amountDetail of order.amountDetails; let i = index;">
             <td>
-                <input type="text" [id]="'warehouse-' + i" class="form-control ref-input" [name]="'warehouse-' + i"
+                <input type="text" [id]="'warehouse-' + i" autocomplete="off" class="form-control ref-input" [name]="'warehouse-' + i"
                   [(ngModel)]="amountDetail.warehouse.name">
                 <!-- <auto-suggestion (onSelected)="amountDetail.warehouse = $event.id" url="Suggestion/GetWareHouse"
                       display="name" placeholder="Enter Warehouse" [preSelected]="null" [inputId]="'warehouse-' + i">
                     </auto-suggestion> -->
               </td>
           <td>
-            <input type="text" [id]="'stockitem-' + i" class="form-control ref-input" name="'stockitem-' + i"
+            <input type="text" [id]="'stockitem-' + i" autocomplete="off" class="form-control ref-input" name="'stockitem-' + i"
               [(ngModel)]="amountDetail.stockitem.name" required>
               <span
               *ngIf="((order.ordertype.name.toLowerCase().includes('sales')) && (order.amountDetails[i].warehouse.id)) ">(<i>Available Stock Qty is </i>{{ this.totalitem }})</span>
