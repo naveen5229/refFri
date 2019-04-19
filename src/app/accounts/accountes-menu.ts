@@ -144,7 +144,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title:'Stock Available',
                 link: '/accounts/stockavailable'
             },
-          
+            {
+                title:'Opening Stock',
+                link: '/accounts/openingstock'
+            },
             
         ],
     },
