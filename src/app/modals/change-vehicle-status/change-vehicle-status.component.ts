@@ -865,38 +865,38 @@ export class ChangeVehicleStatusComponent implements OnInit {
   gps() {
     let today = new Date(this.toTime);
     let endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    let startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() -1 )))).split(' ')[0];
+    let startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
 
     let vehicleData = {
-      
-      vehicleId:this.VehicleStatusData.vehicle_id, 
-      vehicleRegNo:this.VehicleStatusData.regno,
-      startDate:startDate,
+
+      vehicleId: this.VehicleStatusData.vehicle_id,
+      vehicleRegNo: this.VehicleStatusData.regno,
+      startDate: startDate,
       endDate: endDate,
     }
-    this.common.params = {refPage:"cvs"};
-    this.common.params = {vehicleData:vehicleData};
+    this.common.params = { refPage: "cvs" };
+    this.common.params = { vehicleData: vehicleData };
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
+    const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'gps-trail' });
 
   }
 
-  vehicleLr(){
+  vehicleLr() {
     let today = new Date(this.toTime);
     let endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    let startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() -1 )))).split(' ')[0];
+    let startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
 
     let vehicleData = {
-      
-      vehicleId:this.VehicleStatusData.vehicle_id, 
-      vehicleRegNo:this.VehicleStatusData.regno,
-      startDate:startDate,
+
+      vehicleId: this.VehicleStatusData.vehicle_id,
+      vehicleRegNo: this.VehicleStatusData.regno,
+      startDate: startDate,
       endDate: endDate,
     }
-    this.common.params = {refPage:"cvs"};
-    this.common.params = {vehicleData:vehicleData};
+    this.common.params = { refPage: "cvs" };
+    this.common.params = { vehicleData: vehicleData };
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
+    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 }
