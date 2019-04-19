@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-pages',
+  styleUrls: ['./admin.scss'],
   template: `
     <ngx-sample-layout>
       <nb-menu [items]="menu"></nb-menu>
