@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/admin/dashboard',
+        link: '/pages',
       },
       {
         title: 'Vehicle Status Change',
@@ -52,7 +52,7 @@ export class DataService {
       },
       {
         title: 'Driver',
-        icon: 'nb-home',
+        icon: 'fa fa-male',
         link: '/admin/driver-list',
         home: true,
       },
