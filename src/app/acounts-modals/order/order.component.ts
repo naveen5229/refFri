@@ -7,6 +7,7 @@ import { TaxdetailComponent } from '../taxdetail/taxdetail.component';
 import { UserService } from '../../@core/data/users.service';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
 })
 export class OrderComponent implements OnInit {
   showConfirm = false;
-  
+  deletedId=0;
   branchdata = [];
   orderTypeData = [];
   supplier = [];
@@ -41,6 +42,7 @@ export class OrderComponent implements OnInit {
     orderremarks: '',
     shipmentlocation: '',
     orderid:0,
+    delete:0,
     // branch: {
     //   name: '',
     //   id: ''
@@ -130,7 +132,7 @@ export class OrderComponent implements OnInit {
 
   getInvoiceDetail() {
     let params = {
-      invoiceId: this.common.params
+      invoiceId: this.common.params.invoiceid
     };
     console.log('vcid', this.common.params);
 
@@ -142,7 +144,8 @@ export class OrderComponent implements OnInit {
         this.taxDetailData = res['data']['taxdetail'];
         console.log('Invoice detail', this.invoiceDetail[0]['y_biltynumber']);
         console.log('Tax Detail', this.taxDetailData);
-        this.order.orderid =this.common.params;
+        this.deletedId= this.common.params.delete;
+        this.order.orderid =this.common.params.invoiceid;
         this.order.biltynumber = this.invoiceDetail[0].y_biltynumber;
         this.order.date =this.common.dateFormatternew(this.invoiceDetail[0].y_orderdate.split(' ')[0]);
         this.order.biltydate = this.common.dateFormatternew(this.invoiceDetail[0].y_biltydatestamp.split(' ')[0]);
@@ -162,6 +165,7 @@ export class OrderComponent implements OnInit {
         this.order.ledger.name = this.invoiceDetail[0].vendorledger_name;
         this.order.shipmentlocation = this.invoiceDetail[0].y_shipmentlocation;
         this.order.grnremarks = this.invoiceDetail[0].y_grn_remarks;
+        this.order.delete=0;
 
         this.invoiceDetail.map((invoiceDetail, index) => {
           if (!this.order.amountDetails[index]) {
@@ -266,6 +270,7 @@ export class OrderComponent implements OnInit {
       orderremarks: '',
       shipmentlocation: '',
       orderid:0,
+      delete:0,
       // branch: {
       //   name: '',
       //   id: ''
@@ -409,6 +414,17 @@ export class OrderComponent implements OnInit {
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
   }
+  
+  restore(response) {
+    // console.log('Order:', this.order);
+    if (response) {
+      //console.log('Order new:', this.order);
+      // return;
+      this.order.delete=0;
+      this.addOrder(this.order);
+    }
+    // this.activeModal.close({ response: response, Voucher: this.order });
+  }
 
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -472,7 +488,8 @@ export class OrderComponent implements OnInit {
       // approved: order.Approved,
       // delreview: order.delreview,
       amountDetails: order.amountDetails,
-      x_id : order.orderid
+      x_id : order.orderid,
+      delete:order.delete
     };
 
     console.log('params11: ', params);
@@ -983,6 +1000,30 @@ export class OrderComponent implements OnInit {
     return this.totalitem;
   }
 
+  delete(tblid) {
+    let params = {
+      id: tblid     
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Ledger ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete ? ' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        this.common.loading++;
+        if (data.response) {
+          console.log("data", data);
+          this.order.delete=1;
+          this.addOrder(this.order);
+          this.activeModal.close({ response: true, ledger: this.order });
+          this.common.loading--;
+        }
+      });
+    }
+  }
+
   getStockAvailability(stockid) {
     let totalitem = 0;
     let params = {
@@ -1002,6 +1043,41 @@ export class OrderComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+
+  permantdelete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'invoice'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete permanently ?' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              //this.getStockItems();
+              this.activeModal.close({ response: true, ledger: this.order });
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
+    }
   }
 
 }

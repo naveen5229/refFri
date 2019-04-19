@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ledger',
@@ -10,12 +12,12 @@ import { CommonService } from '../../services/common.service';
 })
 export class LedgerComponent implements OnInit {
   lastActiveId = '';
-
+  deletedid=0;
   showConfirm = false;
   showExit = false;
   salutiondata = [];
   userdata = [];
-
+  currentPage = 'Add Ledger';
   state = [];
   activeId = "user";
   Accounts = {
@@ -74,40 +76,43 @@ export class LedgerComponent implements OnInit {
   
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
+    public modalService: NgbModal,
     public api: ApiService) {
-    console.log('Params: ', this.common.params);
-
+     console.log('Params requst: ', this.common.params);
     if (this.common.params) {
-      console.log('edit ledger data ', this.common.params[0]);
+      this.currentPage ="Edit Ledger";
+      this.deletedid =this.common.params.deleted;
+      // console.log('deleted id',this.deletedid);
+      // console.log('edit ledger data ', this.common.params.ledgerdata[0]);
       this.Accounts = {
-        name: this.common.params[0].y_name,
-        aliasname: this.common.params[0].y_alias_name,
-        perrate: this.common.params[0].y_per_rate,
+        name: this.common.params.ledgerdata[0].y_name,
+        aliasname: this.common.params.ledgerdata[0].y_alias_name,
+        perrate: this.common.params.ledgerdata[0].y_per_rate,
         user: {
           name: this.common.params.name,
           id: this.common.params.y_foid
         },
         undergroup: {
-          name: this.common.params[0].accountgroup_name,
-          id: this.common.params[0].y_accountgroup_id,
+          name: this.common.params.ledgerdata[0].accountgroup_name,
+          id: this.common.params.ledgerdata[0].y_accountgroup_id,
           primarygroup_id: '0',
         },
-        id: this.common.params[0].y_id,
-        code: this.common.params[0].y_code,
-        branchname:  this.common.params[0].branch_name,
-        branchcode:  this.common.params[0].branch_code,
-        accnumber:   this.common.params[0].ac_no,
-        creditdays:  this.common.params[0].credit_days,
-        isbank : (this.common.params[0].branch_code) ? 1:0,
-        openingisdr: (this.common.params[0].opening_bal_isdr == true) ? 1:0,
-        openingbalance:this.common.params[0].opening_balance,
-        approved: (this.common.params[0].y_for_approved == true) ? 1:0,
-        deleteview: (this.common.params[0].y_del_review == true) ? 1:0,
-        delete : (this.common.params[0].y_deleted == true) ? 1:0,
+        id: this.common.params.ledgerdata[0].y_id,
+        code: this.common.params.ledgerdata[0].y_code,
+        branchname:  this.common.params.ledgerdata[0].branch_name,
+        branchcode:  this.common.params.ledgerdata[0].branch_code,
+        accnumber:   this.common.params.ledgerdata[0].ac_no,
+        creditdays:  this.common.params.ledgerdata[0].credit_days,
+        isbank : (this.common.params.ledgerdata[0].branch_code) ? 1:0,
+        openingisdr: (this.common.params.ledgerdata[0].opening_bal_isdr == true) ? 1:0,
+        openingbalance:this.common.params.ledgerdata[0].opening_balance,
+        approved: (this.common.params.ledgerdata[0].y_for_approved == true) ? 1:0,
+        deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1:0,
+        delete : 0,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
-      this.common.params.map(detail => {
+      this.common.params.ledgerdata.map(detail => {
         this.Accounts.accDetails.push({
           id: detail.y_dtl_id,
           salutation: {
@@ -603,6 +608,64 @@ export class LedgerComponent implements OnInit {
       this.Accounts.accDetails[index].city.name = suggestion.name;
       this.Accounts.accDetails[index].city.id = suggestion.id;
 
+    }
+  }
+
+  delete(tblid) {
+    let params = {
+      id: tblid     
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Ledger ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete ? ' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        this.common.loading++;
+        if (data.response) {
+          console.log("data", data);
+          this.Accounts.delete=1;
+          this.activeModal.close({ response: true, ledger: this.Accounts });
+          this.common.loading--;
+         
+        }
+      });
+    }
+  }
+
+  permantdelete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'ledger'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete permanently ?' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              //this.getStockItems();
+              this.activeModal.close({ response: true, ledger: this.Accounts });
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
     }
   }
 

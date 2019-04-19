@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Update Placements</h4>
+  <h5 class="modal-title" id="modal-basic-title">Update Placements</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:5px" *ngIf="ref_page =='placements'">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Choose Location</label>
       </div>
@@ -68,8 +68,8 @@
         <label>Enter City</label>
       </div>
       <div class="col-md-8" *ngIf="placementSuggestion.length>0">
-        <button class="btn" *ngFor="let placementSuggestion of placementSuggestion; let i = index"
-          (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:15px">
+        <button class="btn btn-primary" *ngFor="let placementSuggestion of placementSuggestion; let i = index"
+          (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:5px">
           {{placementSuggestion.loc_name}}
         </button>
       </div>
@@ -125,13 +125,13 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-2">
       <div class="col">
         <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
       </div>
-      <div class="col">
+      <div class="col text-right">
         <button class="btn btn-primary" (click)="updateTrip();"
-          style="cursor:pointer;background-color:#6ac8ff;">Update</button>
+          style="cursor:pointer;">Update</button>
       </div>
     </div>
   </div>

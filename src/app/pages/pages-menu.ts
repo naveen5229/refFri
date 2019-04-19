@@ -76,6 +76,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/placements-dash-board',
     home: true,
   },
+  {
+    title: 'User Activity Statistics',
+    icon: 'fas fa-list',
+    link: '/pages/user-activity-status',
+    home: true,
+  },
+  {
+    title: 'Trip Status FeedBack',
+    icon: 'fas fa-list',
+    link: '/pages/trip-status-feedback',
+    home: true,
+  },
   // {
   //   title: 'Placements',
   //   icon: 'fa fa-location-arrow',

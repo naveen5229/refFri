@@ -15,7 +15,7 @@ export class ProfitlossComponent implements OnInit {
 
   plData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate:this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
     // branch: {
     //   name: '',
     //   id: 0
@@ -85,9 +85,9 @@ export class ProfitlossComponent implements OnInit {
   }
 
   formattData() {
-    let assetsGroup = _.groupBy(this.profitLossData, 'y_is_assets');
-    let firstGroup = _.groupBy(assetsGroup['0'], 'y_name');
-    let secondGroup = _.groupBy(assetsGroup['1'], 'y_name');
+    let assetsGroup = _.groupBy(this.profitLossData, 'y_is_income');
+    let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
+    let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
