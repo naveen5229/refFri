@@ -25,6 +25,7 @@ import { ResizeEvent } from "angular-resizable-element";
 import { MapService } from "../../services/map.service";
 import { NgxPrintModule } from 'ngx-print';
 import { VehicleTripUpdateComponent } from "../../modals/vehicle-trip-update/vehicle-trip-update.component";
+import { ChangeVehicleStatusComponent } from "../../modals/change-vehicle-status/change-vehicle-status.component";
 
 @Component({
   selector: "concise",
@@ -207,24 +208,7 @@ export class ConciseComponent implements OnInit {
           value: "",
           isHTML: false,
           action: null,
-          icons: [
-            {
-              class: "icon fa fa-info",
-              action: this.vehicleReport.bind(this, kpi)
-            },
-            {
-              class: "icon fa fa-question-circle",
-              action: this.reportIssue.bind(this, kpi)
-            },
-            {
-              class: " icon fa fa-route",
-              action: this.openRouteMapper.bind(this, kpi)
-            },
-            {
-              class: " icon fa fa-truck",
-              action: this.openTripDetails.bind(this, kpi)
-            }
-          ]
+          icons: this.actionIcons(kpi)
         },
 
         rowActions: {
@@ -873,5 +857,61 @@ export class ConciseComponent implements OnInit {
     
   }
 
+  actionIcons(kpi){
+   let icons= [
+      {
+        class: "icon fa fa-info",
+        action: this.vehicleReport.bind(this, kpi)
+      },
+      {
+        class: "icon fa fa-question-circle",
+        action: this.reportIssue.bind(this, kpi)
+      },
+      {
+        class: " icon fa fa-route",
+        action: this.openRouteMapper.bind(this, kpi)
+      },
+      {
+        class: " icon fa fa-truck",
+        action: this.openTripDetails.bind(this, kpi)
+      },
+     
+    ]
+    console.log("this.user._loggedInBy",this.user._loggedInBy);
+    if(this.user._loggedInBy=="admin"){
+      icons.push( {
+        class: " icon fa fa-camera",
+        action: this.openChangeStatusModal.bind(this, kpi)
+      });
+    }
+    return icons;
+  }
 
+  openChangeStatusModal(trip) {
+    console.log("kpiiiiiis",trip);
+    let ltime = new Date();
+    let tTime = this.common.dateFormatter(new Date());
+    let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
+    let latch_time = this.common.dateFormatter(subtractLTime);
+
+    let VehicleStatusData = {
+      id: trip.id,
+      vehicle_id: trip.x_vehicle_id,
+      tTime: tTime,
+      suggest: null,
+      latch_time: latch_time,
+      status: 2,
+      remark: trip.remark
+    };
+    this.common.ref_page = 'tsfl';
+
+    this.common.params = VehicleStatusData;
+    console.log("missing open data --", this.common.params);
+
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      console.log("after data chnage ");
+    
+      });
+    }
 }

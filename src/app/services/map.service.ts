@@ -46,7 +46,7 @@ export class MapService {
     let place = autocomplete.getPlace();
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
+    place = autocomplete.getPlace().formatted_address.split(',')[0];
     setLocation && setLocation(place, lat, lng);
   }
 
