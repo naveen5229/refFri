@@ -19,6 +19,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   tripVouchers = [];
   selectedVehicle;
   vehicles=[];
+  flag=false;
   constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal) {
 
   }
@@ -26,8 +27,17 @@ export class TripVoucherExpenseComponent implements OnInit {
   ngOnInit() {
   }
 
+  getVehicle(vehicle){
+    this.selectedVehicle = vehicle;
+    this.flag=true;
+    this.getTripSummary();
+  }
+
   getPendingTrips() {
-    const params = {
+    if(this.flag==false){
+      this.common.showToast('please enter registration number !!')
+    }else{
+      const params = {
       vehId: this.selectedVehicle.id
     };
     this.common.loading++;
@@ -36,12 +46,14 @@ export class TripVoucherExpenseComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.showTripSummary(res['data']);
+        //this.flag=false;
         //this.trips = res['data'];
       }, err => {
         console.log(err);
         this.common.loading--;
         this.common.showError();
       });
+    }
   }
   showTripSummary(tripDetails){ 
     let vehId=this.selectedVehicle.id;
@@ -175,11 +187,10 @@ export class TripVoucherExpenseComponent implements OnInit {
     });
     console.log('Total: ', this.tripHeads[index].total);
   }
-  getTripSummary(vehicle) {
-    this.selectedVehicle = vehicle;
-    console.log(vehicle);
+  getTripSummary() {
+  
     const params = {
-      vehId: vehicle.id
+      vehId: this.selectedVehicle.id
     };
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getTripExpenseVouchers', params)
@@ -222,6 +233,27 @@ export class TripVoucherExpenseComponent implements OnInit {
         //this.addLedger(data.ledger);
       }
     });
+  }
+
+  deleteVoucherEntry(tripVoucher){
+    let params={
+      voucherId:tripVoucher.id
+    };
+    console.log('params',params);
+    this.common.loading++;
+    this.api.post('TripExpenseVoucher/deleteTripExpenseVouchers',params)
+            .subscribe(res=>{
+              this.common.loading--;
+              console.log('res',res['data']);
+              if(res['success'])
+              {
+                this.common.showToast('Success!!')
+                this.getTripSummary();
+              }
+            }, err=>{
+              this.common.loading--;
+              this.common.showError();
+            })
   }
 
 

@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ParticlularsComponent } from '../../modals/LRModals/particlulars/particlulars.component';
 import { windowWhen } from 'rxjs/operators';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from '../../modals/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
@@ -18,6 +19,8 @@ export class GenerateLRComponent implements OnInit {
   materialDetails = null;
   branches = null;
   vehicleId = null;
+  mobileno;
+  flag = false;
   lr = {
     //branch:"Jaipur",
     taxPaidBy: null,
@@ -36,8 +39,8 @@ export class GenerateLRComponent implements OnInit {
     sourceLat: null,
     sourceLng: null,
     destinationCity: null,
-    destinationLat:null,
-    destinationLng:null,
+    destinationLat: null,
+    destinationLng: null,
     remark: null,
     date: '' + new Date()
   };
@@ -68,7 +71,7 @@ export class GenerateLRComponent implements OnInit {
 
   taName = null;
   taId = null;
-
+  preSelectedDriver = null;
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public accountService: AccountService,
@@ -76,7 +79,8 @@ export class GenerateLRComponent implements OnInit {
     public mapService: MapService) {
 
     // this.branches = ['Jaipur',"Mumbai", "delhi"];
-    this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+    // this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+    this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
     console.log("new Date()", new Date(), this.lr.date);
 
 
@@ -87,15 +91,15 @@ export class GenerateLRComponent implements OnInit {
 
   }
   ngAfterViewInit(): void {
-    this.mapService.autoSuggestion("sourceCity",(place,lat,long)=>{
-      this.lr.sourceCity=place;
-      this.lr.sourceLat=lat;
-      this.lr.sourceLng=long;
+    this.mapService.autoSuggestion("sourceCity", (place, lat, long) => {
+      this.lr.sourceCity = place;
+      this.lr.sourceLat = lat;
+      this.lr.sourceLng = long;
     });
-    this.mapService.autoSuggestion("destinationCity",(place,lat,long)=>{
-      this.lr.destinationCity=place;
-      this.lr.destinationLat=lat;
-      this.lr.destinationLng=long;
+    this.mapService.autoSuggestion("destinationCity", (place, lat, long) => {
+      this.lr.destinationCity = place;
+      this.lr.destinationLat = lat;
+      this.lr.destinationLng = long;
     });
   }
 
@@ -128,6 +132,31 @@ export class GenerateLRComponent implements OnInit {
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.vehicleId = vehicle.id;
+    let params = {
+      vid: this.vehicleId
+    };
+    this.common.loading++;
+    this.api.post('Drivers/getDriverInfo', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['data'].length > 0) {
+          this.driver.name = res['data'][0].empname;
+          this.driver.id = res['data'][0].driver_id;
+          this.mobileno = res['data'][0].mobileno;
+          this.preSelectedDriver = { mobileno: res['data'][0].mobileno };
+          console.log('------------------:', this.preSelectedDriver);
+          //this.flag=true;
+          console.log('name,id,number', this.driver.name, this.driver.id, this.mobileno);
+        } else
+          this.flag = false;
+
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
 
   }
   getDriverData(driver) {
@@ -135,6 +164,7 @@ export class GenerateLRComponent implements OnInit {
     this.driver.name = driver.empname;
     this.driver.licenseNo = driver.licence_no;
     this.driver.id = driver.id
+    return this.driver.id;
   }
   getConsignorDetail(consignor) {
     console.log("consignor", consignor);
@@ -202,7 +232,8 @@ export class GenerateLRComponent implements OnInit {
       delete particular.customfields.customDetail;
     });
 
-    this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
+    this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
+    console.log('params lrdate',this.lr.date);
     // let params1 = {
     //   lrDetails: this.lr,
     //   particulars: particulars
@@ -227,12 +258,12 @@ export class GenerateLRComponent implements OnInit {
       deliveryAddress: this.lr.deliveryAddress,
       lrDetails: JSON.stringify(particulars),
       remarks: this.lr.remark,
-      sourceLat:this.lr.sourceLat,
-      sourceLng:this.lr.sourceLng,
-      destinationLat:this.lr.destinationLat,
-      destinationLng:this.lr.destinationLng,
-      consigneeAddress:this.lr.consigneeAddress,
-      consignorAddress:this.lr.consignorAddress,
+      sourceLat: this.lr.sourceLat,
+      sourceLng: this.lr.sourceLng,
+      destinationLat: this.lr.destinationLat,
+      destinationLng: this.lr.destinationLng,
+      consigneeAddress: this.lr.consigneeAddress,
+      consignorAddress: this.lr.consignorAddress,
     }
     console.log("params", params);
 
@@ -249,5 +280,31 @@ export class GenerateLRComponent implements OnInit {
         --this.common.loading;
         console.log('Error: ', err);
       });
+  }
+
+  checkDateFormat() {
+    let dateValue = this.lr.date;
+    console.log('this.lrdate', this.lr.date);
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    // this.lrDate= date + '/' + month + '/' + year;
+    this.lr.date = year + '-' + month + '-' + date;
+    console.log('checkDateFormat',this.lr.date);
+  }
+
+  getDate() {
+    this.common.params = { ref_page: 'generate-lr' };
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.lr.date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        // this.dateByIcon=true;
+        console.log('lrdate: by getDate ' + this.lr.date);
+
+      }
+
+    });
   }
 }

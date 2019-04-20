@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
+import { ChoosePeriodsComponent } from '../choose-periods/choose-periods.component';
 
 
 declare var google: any;
@@ -29,8 +30,8 @@ export class VehicleTripUpdateComponent implements OnInit {
     placementType:null,
     vehicleId:null,
     siteId:null,
-    locationType:'city'
-    
+    locationType:'city',
+    allowedHaltHours:null
   };
   placements = null;
   placementSite = 0;
@@ -93,6 +94,17 @@ export class VehicleTripUpdateComponent implements OnInit {
       console.log('Date:', this.vehicleTrip.targetTime);
     });
   }
+  
+  openTimePeriodModal(){
+    this.common.params = {refPage:'placements',title :"Allowed Halt Hours"};
+    const activeModal = this.modalService.open(ChoosePeriodsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data",data);
+      this.vehicleTrip.allowedHaltHours = data.duration;
+      //this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
+      console.log('allowedHaltHours:', this.vehicleTrip.allowedHaltHours);
+    });
+  }
 
   autoSuggestion(elementId,locType) {
     console.log("locType",locType);
@@ -143,6 +155,7 @@ export class VehicleTripUpdateComponent implements OnInit {
       locationLng: this.vehicleTrip.endLng,
       placementType: this.vehicleTrip.placementType,
       targetTime: this.vehicleTrip.targetTime,
+      allowedHaltHours:this.vehicleTrip.allowedHaltHours,
       siteId: this.vehicleTrip.endLat?0:this.placementSite,
 
     }

@@ -5,16 +5,19 @@
 
     <div class="col-sm-6 text-right">
       <button (click)="onPrint()" class="btn doNotPrint btn-primary"><i class="fa fa-print"></i></button>
+      <!-- <button (click)="downloadPdf('print-section')"><i class="fa fa-pdf"></i></button> -->
+
     </div>
   </div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
-
+</div>
+<div id="print-section2">
+  hello 
 </div>
 <div class="modal-body" id="print-section" *ngIf="lrDetails">
-   
-  <table style="width:100%;">
+  <table style="width:100%;" >
     <tr>
       <td style="width:40%; vertical-align: top;">
         <h2>{{lrDetails.branch_name}}</h2>
