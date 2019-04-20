@@ -32,7 +32,8 @@ export class TransportAreaComponent implements OnInit {
       this.mapService.zoomAt({lat:lat,lng:lng},10);
       this.clearAll();
       this.locLatLng={lat:lat,lng:lng};
-      this.locName=place;
+      let placeT = place.split(",");
+      this.locName=placeT[0]+"("+placeT[1].substr(0,3)+")";
       this.gotoSingle(false);
       this.commonService.loading--;
     });
@@ -105,6 +106,8 @@ export class TransportAreaComponent implements OnInit {
     this.clearAll();
     this.isUpdate= true;
     this.locName = search.loc_name;
+    search.lat = parseFloat(search.lat);
+    search.long = parseFloat(search.long);
     this.locLatLng = {lat:search.lat,lng:search.long};
     this.mapService.zoomAt(this.locLatLng,10);
     this.gotoSingle(false);
@@ -221,7 +224,7 @@ export class TransportAreaComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.clearAll();
+        this.mapService.clearAll(true,true,{marker:true,polygons:false,polypath:false});
         this.mapService.createMarkers(data);
       }, err => {
         console.error(err);
