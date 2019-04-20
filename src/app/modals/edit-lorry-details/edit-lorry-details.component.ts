@@ -100,7 +100,7 @@ export class EditLorryDetailsComponent implements OnInit {
 
     } else if (flag == 'Other') {
 
-      if (this.LrData.invoice_image) {
+      if (this.LrData.other) {
         this.images[0] = this.LrData.other;
         console.log('Invoice', this.images[0]);
       } else { this.common.showError('Image not present!!') }
@@ -215,12 +215,42 @@ export class EditLorryDetailsComponent implements OnInit {
 
   insertLrDetails() {
     //if(!this.dateByIcon)
-    
+    let params;
+    if(this.option=='reject'){
+      this.tempDate=null;
+       params = {
+        sourceLat: this.LrData.source_lat ? this.LrData.source_lat : '',
+        sourceLng: this.LrData.source_long ? this.LrData.source_long : '',
+        source: this.LrData.source ? this.LrData.source : '',
+        dest: this.LrData.destination ? this.LrData.destination : '',
+        destLat: this.LrData.destination_lat ? this.LrData.destination_lat : '',
+        destLng: this.LrData.destination_long ? this.LrData.destination_long : '',
+        vehId: this.vehId ? this.LrData.vehId : '',
+        remark: this.LrData.remark ? this.LrData.source_long : '',
+        id: this.LrData.id ? this.LrData.id : '',
+        receiptNo: this.LrData.receipt_no ? this.LrData.receipt_no : '',
+        status: this.status,
+        taId: this.LrData.ta_id ? this.LrData.ta_id : '',
+        taName: this.LrData.ta_name ? this.LrData.ta_name : '',
+        consignerId: this.LrData.consigner_id ? this.LrData.consigner_id : '',
+        tonnage: this.LrData.weight ? this.LrData.weight : '',
+        consignerName: this.LrData.consigner_name ? this.LrData.consigner_name : '',
+        consigneeId: this.LrData.consignee_id ? this.LrData.consignee_id : '',
+        consigneeName: this.LrData.consignee_name ? this.LrData.consignee_name : '',
+        lrDate: this.lrDate ? this.LrData.lrDate : '',
+        payType: this.LrData.pay_type ? this.LrData.pay_type : '',
+        rate: this.LrData.rate ? this.LrData.rate : '',
+        amount: this.LrData.amount ? this.LrData.amount : '',
+        material: this.LrData.material_name ? this.LrData.material_name : '',
+        materialId: this.LrData.material ? this.LrData.material : ''
+  
+      };
+    } else{
     this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
     this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
     console.log('tempDate',this.tempDate);
     // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
-    let params = {
+     params = {
       sourceLat: this.LrData.source_lat,
       sourceLng: this.LrData.source_long,
       source: this.LrData.source,
@@ -247,6 +277,7 @@ export class EditLorryDetailsComponent implements OnInit {
       materialId: this.LrData.material
 
     };
+  }
     console.log('params to Insert: ', params);
     this.common.loading++;
     this.api.post('LorryReceiptsOperation/updateLorryReceiptsDetails', params)
@@ -295,8 +326,7 @@ export class EditLorryDetailsComponent implements OnInit {
     let place = autocomplete.getPlace();
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
-
+    place = autocomplete.getPlace().formatted_address.split(',')[0];
     this.setLocations(elementId, place, lat, lng);
   }
 

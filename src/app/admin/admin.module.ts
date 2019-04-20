@@ -35,6 +35,7 @@ import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 
@@ -86,6 +87,7 @@ const PAGES_COMPONENTS = [
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
     VehicleDistanceComponent,
+    TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
   ],
