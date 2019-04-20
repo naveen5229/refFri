@@ -6,9 +6,9 @@
     <span><b>VehicleId : </b> {{VehicleStatusData.vehicle_id}}</span> &nbsp;&nbsp;
     <span><b>Last Ind Type : </b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp; {{timeDiff}}</span>
     <span><b>Last Ind Type : </b> {{lastIndType}} &nbsp;&nbsp; {{distDiff}}&nbsp;&nbsp; {{timeDiff}}</span>
-     <span class="zoom-btn"><i class="fa fa-route" (click)="openRouteMapper();"></i></span>
-      <span class="zoom-btn" (click)="gps()">Trail</span>
-      <span class="zoom-btn" (click)="vehicleLr()">LR</span>
+    <span class="zoom-btn"><i class="fa fa-route" (click)="openRouteMapper();"></i></span>
+    <span class="zoom-btn" (click)="gps()">Trail</span>
+    <span class="zoom-btn" (click)="vehicleLr()">LR</span>
   </div>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
@@ -63,11 +63,16 @@
               (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
               [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
               (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
-              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b><span *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</b></td>
-              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>              
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b><span
+                    *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</b></td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
+                  *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
-              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
+                {{vehicleEvent.site_name}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">{{vehicleEvent.loc}}
+              </td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}</td>
@@ -93,7 +98,7 @@
                       (click)="openManualHalt(vehicleEvent);">MH</span>
                     <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                         (click)="reportIssue(vehicleEvent);"></i></span>
-                   
+
 
 
                   </span></div>

@@ -38,6 +38,7 @@ export class CityComponent implements OnInit {
     this.getStates();
     this.common.currentPage = 'city';
     this.common.refresh = this.refresh.bind(this);
+    this.setFoucus('submit');
 
   }
 
@@ -72,7 +73,7 @@ export class CityComponent implements OnInit {
     };
 
     this.common.loading++;
-    this.api.post('accounts/GetState', params)
+    this.api.post('Accounts/GetCity', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -207,6 +208,25 @@ export class CityComponent implements OnInit {
     console.log('Suggestion: ', suggestion);
     this.getstatedata.state.name = suggestion.name;
     this.getstatedata.state.id = suggestion.id;
+  }
+  onSelected(selectedData, type, display) {
+    this.getstatedata.state.name = selectedData[display];
+    this.getstatedata.state.id = selectedData.id;
+  //  console.log('Selected Data: ', selectedData, type, display);
+    console.log('order User: ', this.getstatedata);
+    this.setFoucus('submit');
+  }
+
+  
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }
 
