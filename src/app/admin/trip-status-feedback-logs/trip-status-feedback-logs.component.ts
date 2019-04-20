@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 
 @Component({
   selector: 'trip-status-feedback-logs',
@@ -110,6 +111,9 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     for(var i= 0; i<this.tripLogs.length; i++) {
       this.valobj = {};
       for(let j=0; j<this.headings.length; j++) {j 
+        if(this.headings[j]=='Vehicle'){
+          this.valobj[this.headings[j]] = {value: this.tripLogs[i][this.headings[j]], class: 'black', action:  this.openChangeStatusModal.bind(this, 'test')};
+        }else
           this.valobj[this.headings[j]] = {value: this.tripLogs[i][this.headings[j]], class: 'black', action:  ''};
       }
       columns.push(this.valobj);
@@ -126,4 +130,30 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     }
   }
 
+
+  openChangeStatusModal(issue) {
+
+    let ltime = new Date(issue.addtime);
+    let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
+    let latch_time = this.common.dateFormatter(subtractLTime);
+
+    let VehicleStatusData = {
+      id: issue.id,
+      vehicle_id: issue.vehicle_id,
+      tTime: issue.ttime,
+      suggest: null,
+      latch_time: issue.ltime,
+      status: 2,
+      remark: issue.remark
+    };
+     console.log("missing open data ", VehicleStatusData);
+    this.common.ref_page = 'ari';
+
+    this.common.params = VehicleStatusData;
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      console.log("after data chnage ");
+    
+      });
+    }
 }
