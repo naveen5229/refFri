@@ -100,7 +100,7 @@ export class EditLorryDetailsComponent implements OnInit {
 
     } else if (flag == 'Other') {
 
-      if (this.LrData.invoice_image) {
+      if (this.LrData.other) {
         this.images[0] = this.LrData.other;
         console.log('Invoice', this.images[0]);
       } else { this.common.showError('Image not present!!') }
