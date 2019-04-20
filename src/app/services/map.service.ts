@@ -264,7 +264,14 @@ export class MapService {
     }
   }
 
-  clearAll(reset = true, boundsReset = true) {
+  clearAll(reset = true, boundsReset = true,resetParams = {marker:true,polygons:true,polypath:true}) {
+    
+    resetParams.marker && this.resetMarker(reset,boundsReset);
+    resetParams.polygons && this.resetPolygons();
+    resetParams.polypath && this.resetPolyPath();
+  }
+
+  resetMarker(reset=true,boundsReset=true){
     for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
@@ -273,6 +280,8 @@ export class MapService {
     if (boundsReset) {
       this.bounds = new google.maps.LatLngBounds();
     }
+  }
+  resetPolygons(){
     if (this.polygon) {
       this.polygon.setMap(null);
       this.polygon = null;
@@ -283,6 +292,8 @@ export class MapService {
       });
       this.polygons = [];
     }
+  }
+  resetPolyPath(){
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
       this.polygonPath = null;
