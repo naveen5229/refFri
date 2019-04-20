@@ -192,7 +192,7 @@ mwlResizable {
 
 :host ::ng-deep {
     th:nth-child(1) {
-        width: 30px;
+        width: 30px !important;
     }
     th:nth-child(2) {
         width: 70px;
