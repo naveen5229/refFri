@@ -24,6 +24,7 @@ import { TripDetailsComponent } from "../../modals/trip-details/trip-details.com
 import { ResizeEvent } from "angular-resizable-element";
 import { MapService } from "../../services/map.service";
 import { NgxPrintModule } from 'ngx-print';
+import { VehicleTripUpdateComponent } from "../../modals/vehicle-trip-update/vehicle-trip-update.component";
 
 @Component({
   selector: "concise",
@@ -192,7 +193,7 @@ export class ConciseComponent implements OnInit {
         },
         trip: {
           value: this.getTripStatusHTML(kpi),
-          action: "",
+          action: this.getUpadte.bind(this, kpi),
           isHTML: true,
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
@@ -201,7 +202,6 @@ export class ConciseComponent implements OnInit {
           action: "",
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
-
 
         action: {
           value: "",
@@ -849,5 +849,29 @@ export class ConciseComponent implements OnInit {
       this.mapService.toggleBounceMF(i);
     }
   }
+
+  getUpadte(kpi){
+    console.log("kpi",kpi);
+    let tripDetails ={
+      id : kpi.x_trip_id,
+      endName : kpi.x_showtripend,
+      startName : kpi.x_showtripstart,
+      startTime : kpi.x_showstarttime,
+      endTime : kpi.x_showendtime,
+      regno : kpi.x_showveh,
+      vehicleId:kpi.x_vehicle_id,
+      siteId:kpi.x_hl_site_id
+      
+    }
+    // this.common.params= tripDetails;
+    // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+
+    
+    this.common.params= {tripDetils : tripDetails, ref_page : 'kpi'};
+      console.log("vehicleTrip",tripDetails);
+      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    
+  }
+
 
 }

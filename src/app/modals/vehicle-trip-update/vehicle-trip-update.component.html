@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="row" style="margin-top:5px" *ngIf="ref_page =='placements'">
+    <div class="row" style="margin-top:5px">
       <div class="col-md-4">
         <label>Choose Location</label>
       </div>
@@ -125,6 +125,18 @@
       </div>
     </div>
 
+    <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Allowed Halts</label>
+        </div>
+  
+        <div class="col-md-8">
+  
+          <input type="text" id="allowedHaltHours" class="form-control" name="allowedHaltHours"
+            [(ngModel)]="vehicleTrip.allowedHaltHours" placeholder="Allowed Halt Hours" autocomplete="off" (click)="openTimePeriodModal()">
+        </div>
+      </div>
+
     <div class="row mt-2">
       <div class="col">
         <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
@@ -145,17 +157,19 @@
         <th>Location</th>
         <th>Purpose</th>
         <th>Target Time</th>
+        <th>Allowe_Halt (Hr)</th>
         <th>Add Time</th>
         <th>Delete</th>
       </tr>
 
     </thead>
     <tbody>
-      <tr *ngFor="let placement of placements">
+      <tr *ngFor="let placement of placements" style="text-align:center">
         <td>{{placement.id}}</td>
         <td>{{placement.location}}</td>
         <td>{{placement.purpose}}</td>
         <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+        <td>{{placement.allowed_halt_hours}}</td>
         <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
         <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
       </tr>

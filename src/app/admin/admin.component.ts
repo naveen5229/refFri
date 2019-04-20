@@ -11,10 +11,11 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-pages',
+  styleUrls: ['./admin.scss'],
   template: `
-    <ngx-sample-layout>
+    <ngx-sample-layout class="admin">
       <nb-menu [items]="menu"></nb-menu>
-      <router-outlet></router-outlet>
+      <router-outlet class="admin-dot"></router-outlet>
     </ngx-sample-layout>
   `,
 })

@@ -68,15 +68,13 @@ table{
         table-layout: fixed;
         tr{
             th:nth-child(1){
-                width: 150px;
+                width: 15%;
             }
             th:nth-child(2),
-            th:nth-child(3){
-                width: 180px;
-            }
+            th:nth-child(3),
             th:nth-child(4),
-            th:nth-child(4){
-                width: 200px;
+            th:nth-child(5){
+                width: 15%;
             }
         }
     }
@@ -84,10 +82,12 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: 15%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 15%;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -114,24 +114,22 @@ table{
             table-layout: fixed;
             width: 100%;
             th:nth-child(1){
-                width: 510px;
+                width: 59.5%;
             }
             th:nth-child(2){
-                width: 200px;
+                width: 20%;
             }
             th:nth-child(3){
-                width: 203px;
+                width: 24%;
             }
             td:nth-child(1){
-                width: 150px;
+                width: 15%;
             }
             td:nth-child(2),
-            td:nth-child(3){
-                width: 180px;
-            }
+            td:nth-child(3),
             td:nth-child(4),
-            td:nth-child(4){
-                width: 200px;
+            td:nth-child(5){
+                width: 15%;
             }
         }
         tr:nth-child(odd){
@@ -143,14 +141,13 @@ table{
     }
 } 
 .heading_second{
-    background-color: #639db9 !important;
+    background-color: #184154 !important;
     color: #fff;
 }
 table tr.highlight {
     background-color: #576c77 !important;
     color: #ffffff;
 }
-
 input[type=radio]{
     width: auto;
     display: inline-block;
@@ -158,6 +155,7 @@ input[type=radio]{
     margin: 0px;
     margin-left: 5px;
     border: 0px !important;
+    height: auto;
   }
   .debit_box{
     border: 1px solid #000;

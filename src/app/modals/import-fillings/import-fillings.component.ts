@@ -18,6 +18,8 @@ export class ImportFillingsComponent implements OnInit {
   title= '';
   fillingcsv = {};
 
+  isfull = false;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -64,5 +66,9 @@ export class ImportFillingsComponent implements OnInit {
         this.common.loading--;
         console.error('Base Err: ', err);
       })
+  }
+
+  submitFillingData(){
+    
   }
 }

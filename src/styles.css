@@ -406,3 +406,10 @@ nb-card{
   min-width: 100% !important;
   max-width: 100% !important;
 }
+.btn-primary{
+  background-color: #04a9f5 !important;
+  color: #fff;
+}
+.btn-primary:hover{
+  background-color: #0898db !important;
+}

@@ -677,6 +677,8 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
+  
+
   getCSVFromTableId(tblEltId) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
