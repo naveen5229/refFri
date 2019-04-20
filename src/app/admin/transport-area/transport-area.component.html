@@ -6,31 +6,17 @@
           <tbody>
             <tr>
               <td>
-                <input type="text" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc" class="form-control">
+                  <auto-suggestion name="selected-area" (onSelected)="selectArea($event)" url="Suggestion/getTransArea" display="loc_name"
+                  placeholder="Location Name..." [preSelected]="null"></auto-suggestion>
               </td>
               <td>
-                <input placeholder="Old Site Id" [(ngModel)]="mergeSiteId" class="form-control">
+                <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="locName" class="form-control">
               </td>
               <td>
-                <button (click)="mergeSite()" class="btn btn-primary">Merge</button>
+                <button (click)="enterTicket();"
+                class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
               </td>
-
-            </tr>
-            <tr>
-              <td>
-                <select class="form-control" [(ngModel)]="typeId" (change)="getRemainingTable()">
-                  <option *ngFor="let typeIdx of typeIds;" 
-                    [value]="typeIdx.id">{{typeIdx.description}}</option>
-                </select>
-              </td>
-              <td>
-                <input (keydown.enter)="gotoSingle()" placeholder="Site Id" [(ngModel)]="selectedSite"
-                  class="form-control">
-              </td>
-              <td>
-                <button (click)="ignoreSite()" class="btn btn-primary">Ignore</button>
-              </td>
-
+              
             </tr>
             <tr>
               <td>
@@ -40,20 +26,8 @@
                 <button (click)="loadMarkers()" class="btn btn-primary">Load Marker</button>
               </td>
               <td>
-                <button (click)="enterTicket();"
-                  class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input placeholder="Site Name.." [(ngModel)]="siteName" class="form-control">
-              </td>
-              <td>
-                <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="siteLoc" class="form-control">
-              </td>
-              <td>
-                <button (click)="updateLocName();"
-                  class="btn btn-primary">Update Loc</button>
+                <button (click)="DeleteArea();"
+                  class="btn btn-primary">Delete Loc</button>
               </td>
             </tr>
             <tr>
@@ -71,7 +45,7 @@
             </tr>
           </tbody>
         </table>
-        <table class="tbl table table-bordered table-hover">
+        <!-- <table class="tbl table table-bordered table-hover">
           <thead class="thead">
             <tr>
               <th style="width:40px;">S.No</th>
@@ -90,7 +64,7 @@
               <td (click)="selectedSite = remainingElement.id;gotoSingle();">Action</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
       <div id="map" class="map col-6">
       </div>
