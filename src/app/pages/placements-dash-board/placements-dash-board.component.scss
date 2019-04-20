@@ -42,3 +42,9 @@ nb-card-header{
     overflow: auto;
     max-height: calc(100vh - 162px);
 }
+:host ::ng-deep td i.fa-pencil-alt{
+    background-color: #04A9F5;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+}

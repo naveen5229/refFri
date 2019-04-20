@@ -107,7 +107,11 @@ table {
     width: 100%;
 }
 .active-row {
-    background: yellow !important;
+    background: #324148 !important;
+    color: #fff;
+}
+.active-row a{
+    color: #fff;
 }
 thead{
     color: #fff;

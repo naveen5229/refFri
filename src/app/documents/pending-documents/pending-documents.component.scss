@@ -3,10 +3,6 @@ nb-card-header {
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
-a {
-    font-size: 14px;
-    padding: 8px 15px;
-}
 .rc-image{
     margin-left: 0px;
     padding: 10%;
@@ -183,14 +179,24 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            .edit{
+                background-color: #1DE9B6;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 3px;
+                display: inline-block;
+                font-size: 12px;
+            }
+            .delete{
+                background-color: #F44236;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 3px;
+                display: inline-block;
+                font-size: 12px;
+            }
         }
     }
-}
-.edit{
-    color: #263238 !important;
-}
-.delete{
-    color: #D61414 !important;
 }
 
 .list_table table tbody {
