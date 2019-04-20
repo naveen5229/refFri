@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/admin/dashboard',
+        link: '/pages',
       },
       {
         title: 'Vehicle Status Change',
@@ -52,7 +52,7 @@ export class DataService {
       },
       {
         title: 'Driver',
-        icon: 'nb-home',
+        icon: 'fa fa-male',
         link: '/admin/driver-list',
         home: true,
       },
@@ -81,6 +81,11 @@ export class DataService {
         title: 'Site Fencing',
         icon: 'fas fa-coins',
         link: '/admin/site-fencing',
+      },
+      {
+        title: 'Transport Area Fencing',
+        icon: 'fas fa-coins',
+        link: '/admin/transport-area',
       },
       {
         title: 'Diagnostics',
@@ -175,7 +180,19 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/fuel-fillings',
         home: true,
-      }
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
     ];
   }
 }

@@ -16,7 +16,7 @@ export class BalancesheetComponent implements OnInit {
 
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
 
     // branch: {
     //   name: '',
@@ -66,8 +66,8 @@ export class BalancesheetComponent implements OnInit {
 
   formattData() {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_assets');
-    let firstGroup = _.groupBy(assetsGroup['0'], 'y_name');
-    let secondGroup = _.groupBy(assetsGroup['1'], 'y_name');
+    let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
+    let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);

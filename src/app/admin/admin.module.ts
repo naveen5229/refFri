@@ -17,7 +17,7 @@ import { SiteFencingComponent } from './site-fencing/site-fencing.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { UpdateSiteDetailsComponent } from '../modals/update-site-details/update-site-details.component';
-  import { from } from 'rxjs';
+import { from } from 'rxjs';
 import { DocumentsModule } from '../documents/documents.module';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 import { VSCTicketAuditComponent } from './vscticket-audit/vscticket-audit.component';
@@ -35,7 +35,9 @@ import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
+import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 
 
 
@@ -49,14 +51,14 @@ const PAGES_COMPONENTS = [
   LorryReceiptDetailsComponent,
   SiteFencingComponent,
   DiagnosticsComponent,
-  SiteDetailsComponent, 
+  SiteDetailsComponent,
   UserPreferencesComponent,
   GpsSupplierMappingComponent,
   VehiclesViewComponent,
   VehicleGpsTrailComponent,
   ActivitySummaryComponent,
   VehicleGpsDetailComponent
-  
+
 ];
 @NgModule({
   imports: [
@@ -85,8 +87,9 @@ const PAGES_COMPONENTS = [
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
     VehicleDistanceComponent,
+    TransportAreaComponent,
     TripSiteRuleComponent,
-   
+    TripStatusFeedbackLogsComponent,
   ],
 })
 export class AdminModule { }

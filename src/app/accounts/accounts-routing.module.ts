@@ -26,6 +26,8 @@ import { CashbookComponent } from './cashbook/cashbook.component';
 import { BankbooksComponent } from './bankbooks/bankbooks.component';
 import { CityComponent } from './city/city.component';
 import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
+import { TradingComponent } from './trading/trading.component';
+import { OpeningstockComponent } from './openingstock/openingstock.component';
 
 const routes: Routes = [{
     path: '',
@@ -60,6 +62,10 @@ const routes: Routes = [{
             component: LedgersComponent
         },
         {
+            path: 'ledgers/:id',
+            component: LedgersComponent
+        },
+        {
             path: 'company-branches',
             component: CompanyBranchesComponent
         },
@@ -73,6 +79,10 @@ const routes: Routes = [{
         },
         {
             path: 'daybooks',
+            component: DaybooksComponent
+        },
+        {
+            path: 'daybooks/:id',
             component: DaybooksComponent
         },
         {
@@ -126,11 +136,18 @@ const routes: Routes = [{
         {
             path :'storerequisitions',
             component:StorerequisitionsComponent
+        },
+        {
+            path:'trading',
+            component:TradingComponent
+        },
+        {
+            path:'openingstock',
+            component:OpeningstockComponent
         }
-
-        
-    ]
-}];
+    ],
+    
+}] ;
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

@@ -11,6 +11,7 @@ import { isUndefined } from 'util';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'voucher',
@@ -23,6 +24,7 @@ export class VoucherComponent implements OnInit {
   voucherName = '';
   voucher = null;
   vchId=0;
+  deleteId=0;
   ledgers = {
     credit: [],
     debit: [],
@@ -38,7 +40,7 @@ export class VoucherComponent implements OnInit {
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatternew(new Date());
-
+ 
   activeLedgerIndex = -1;
 
   constructor(public api: ApiService,
@@ -98,22 +100,23 @@ export class VoucherComponent implements OnInit {
         credit: 0
       },
       Y_code:'',
-      xId:0
+      xId:0,
+      delete:0
     };
   }
 
 
   voucherEditDetail() {
     let params = {
-      vchId: this.common.params
+      vchId: this.common.params.voucherId
     };
     console.log('vcid', this.common.params);
-
+      this.deleteId =this.common.params.delete;
     this.api.post('Voucher/getVoucherDetail', params)
       .subscribe(res => {
 
         console.log('Voucher Edit Details:', res);
-
+          this.voucherId=res['data'][0].y_vouchertype_id;
         this.voucher = {
           code: res['data'][0].y_cust_code,
           date: this.common.dateFormatternew(res['data'][0].y_date, 'ddMMYYYY', false, '-'),
@@ -201,6 +204,8 @@ export class VoucherComponent implements OnInit {
     // });
   }
 
+
+  
   dismiss(response) {
     console.log('Voucher:', this.voucher);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
@@ -238,7 +243,8 @@ export class VoucherComponent implements OnInit {
       amountDetails: this.voucher.amountDetails,
       vouchertypeid: this.voucher.vouchertypeid,
       y_code: this.voucher.y_code,
-      xid: this.voucher.xId
+      xid: this.voucher.xId,
+      delete:this.voucher.delete
     };
 
     console.log('params 1 : ', params);
@@ -689,5 +695,64 @@ export class VoucherComponent implements OnInit {
   }
 
 
+
+  delete(tblid) {
+    let params = {
+      id: tblid     
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Voucher ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete ? ' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+     //  this.common.loading++;
+        if (data.response) {
+          console.log("data", data);
+          this.voucher.delete=1;
+         // this.addOrder(this.order);
+         this.dismiss(true);
+          // this.activeModal.close({ response: true, ledger: this.voucher });
+          // this.common.loading--;
+        }
+      });
+    }
+  }
+
+  permantdelete(tblid) {
+    let params = {
+      id: tblid,
+      tblidname: 'id',
+      tblname: 'voucher'
+    };
+    if (tblid) {
+      console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete City ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete permanently ?' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Stock/deletetable', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              //this.getStockItems();
+              this.activeModal.close({ response: true, ledger: this.voucher });
+              this.common.showToast(" This Value Has been Deleted!");
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('This Value has been used another entry!');
+            });
+        }
+      });
+    }
+  }
 
 }

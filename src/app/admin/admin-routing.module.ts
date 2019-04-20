@@ -11,6 +11,7 @@ import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
+import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
@@ -28,8 +29,9 @@ import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
 import { SubSitesComponent } from './sub-sites/sub-sites.component';
 import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
-import { VehicleDistanceComponent} from './vehicle-distance/vehicle-distance.component';
+import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
+import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 
 const routes: Routes = [{
     path: '',
@@ -81,6 +83,11 @@ const routes: Routes = [{
         {
             path: 'site-fencing',
             component: SiteFencingComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'transport-area',
+            component: TransportAreaComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -156,11 +163,17 @@ const routes: Routes = [{
         {
             path: 'vehicle-gps-detail',
             component: VehicleGpsDetailComponent,
+        },
+         {
+
+
+            path: 'trip-status-feedback-logs',
+            component: TripStatusFeedbackLogsComponent,
             canActivate: [RouteGuard]
         },
 
 
-		{
+        {
             path: 'fuel-fillings',
             component: FuelFillingsComponent,
             canActivate: [RouteGuard]

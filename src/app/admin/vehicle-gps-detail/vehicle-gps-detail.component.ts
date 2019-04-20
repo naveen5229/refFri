@@ -11,28 +11,32 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class VehicleGpsDetailComponent implements OnInit {
 
-  gpsDtails=[];
+  gpsDtails = [];
   foid;
 
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    
-   }
+    this.common.refresh = this.refresh.bind(this);
+
+  }
 
   ngOnInit() {
   }
-
-  getFoList(list){
-   this.foid=list.id;
-   console.log('foid: ',this.foid);
-   this.getVehicleGpsDetail();
-   
+  refresh(){
+    this.getVehicleGpsDetail();
   }
 
-  getVehicleGpsDetail(){
+  getFoList(list) {
+    this.foid = list.id;
+    console.log('foid: ', this.foid);
+    this.getVehicleGpsDetail();
+
+  }
+
+  getVehicleGpsDetail() {
     this.common.loading++;
-    const params = "foid="+this.foid;
+    const params = "foid=" + this.foid;
     //console.log('params',params);
     this.api.get('GpsData/getVehicleGpsDetail?' + params)
       .subscribe(res => {

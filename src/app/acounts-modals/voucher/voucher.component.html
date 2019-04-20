@@ -118,13 +118,25 @@
 
     <div class="modal-footer">
       <div class="row">
-        <div class="col">
-          <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel" style="cursor: pointer;">Cancel</button>
+        <div class="col" *ngIf="(this.deleteId == 0)">
+          <button class="btn btn-danger" type="button" outline (click)="delete(1)" id="delete" style="cursor: pointer;">Delete</button>
         </div>
-        <div class="col text-right">
+        <div class="col"  *ngIf="(this.deleteId == 1)">
+          <button class="btn btn-danger" type="button" outline (click)="permantdelete(voucher.xId)" id="permanentdelete"
+            style="cursor: pointer;">Permanent Delete</button>
+        </div>
+     
+        <div class="col text-right"  *ngIf="(this.deleteId == 0)">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
           </button>
         </div>
+        <div class="col text-right"  *ngIf="(this.deleteId == 1)">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="restore" style="cursor: pointer;">Reatore
+          </button>
+        </div>
+        <div class="col">
+            <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel" style="cursor: pointer;">Cancel</button>
+          </div>
       </div>
     </div>
 

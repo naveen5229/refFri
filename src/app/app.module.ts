@@ -100,7 +100,6 @@ import { UserService } from './@core/data/users.service';
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
@@ -128,7 +127,10 @@ import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.component';
 import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
-
+import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
+import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
+import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -174,7 +176,6 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     DocumentHistoryComponent,
     EmpDashboardComponent,
     DocumentIssuesComponent,
-    //LicenceUploadComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -191,7 +192,6 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     EditDriverComponent,
-    // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
     VoucherdetailComponent,
     RadioSelectionComponent,
@@ -220,6 +220,11 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     SiteTripDetailsComponent,
     AddSiteRuleComponent,
     StorerequisitionComponent,
+    DropDownListComponent,
+    VehicleGpsTrailComponent,
+    VehicleLrComponent,
+    ChoosePeriodsComponent,
+
   ],
   entryComponents: [
     SiteTripDetailsComponent,
@@ -267,7 +272,6 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     DocumentIssuesComponent,
     DriverDistanceComponent,
     AddPumpComponent,
-    //LicenceUploadComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -307,7 +311,11 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
     WareHouseModalComponent,
     AddCityComponent,
     AddSiteRuleComponent,
-    StorerequisitionComponent
+    StorerequisitionComponent,
+    DropDownListComponent,
+    VehicleGpsTrailComponent,
+    VehicleLrComponent,
+    ChoosePeriodsComponent,
   ],
   imports: [
     BrowserModule,

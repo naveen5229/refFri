@@ -95,12 +95,18 @@ export class OrdersComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal) {
     // this.getBranchList();
-    this.getInvoiceTypes();
-    this.getPurchaseLedgers();
-    this.getSupplierLedgers();
-    this.getStockItems('sales');
-    this.getStockItems('purchase');
-    this.getWarehouses();
+
+    this.common.refresh = () => {
+      this.getInvoiceTypes();
+      this.getPurchaseLedgers();
+      this.getSupplierLedgers();
+      this.getStockItems('sales');
+      this.getStockItems('purchase');
+      this.getWarehouses();
+    };
+
+    this.common.refresh();
+
     this.setFoucus('ordertype');
     this.common.currentPage = 'Invoice';
   }
@@ -371,7 +377,7 @@ export class OrdersComponent implements OnInit {
       let index = parseInt(this.activeId.split('-')[1]);
       console.log('available item', (this.order.amountDetails[index].qty));
       setTimeout(() => {
-        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])){
+        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
           alert('Quantity is lower then available quantity');
           this.order.amountDetails[index].qty = 0;
         }
@@ -479,7 +485,7 @@ export class OrdersComponent implements OnInit {
         event.preventDefault();
       }
     }
-   
+
 
   }
 
@@ -713,15 +719,15 @@ export class OrdersComponent implements OnInit {
       primarygroupid: ledger.undergroup.primarygroup_id,
       account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
-      branchname :ledger.branchname,
-      branchcode:  ledger.branchcode,
-      accnumber:   ledger.accnumber,
-      creditdays:  ledger.creditdays,
-      openingbalance:  ledger.openingbalance,
-      isdr:  ledger.openingisdr,
-      approved:  ledger.approved,
-      deleteview:  ledger.deleteview,
-      delete:  ledger.delete,
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
     };
 
@@ -803,7 +809,9 @@ export class OrdersComponent implements OnInit {
   }
 
   setAutoSuggestion() {
+    console.log('-----------------------:', this.suggestions.stockItems, 'ww:', this.suggestions.warehouses);
     let activeId = document.activeElement.id;
+    console.log('Last Active Id:', )
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
