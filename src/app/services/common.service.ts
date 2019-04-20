@@ -13,6 +13,7 @@ import { ApiService } from "./api.service";
 import { DataService } from "./data.service";
 import { UserService } from "./user.service";
 
+import html2canvas from 'html2canvas';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
@@ -677,7 +678,24 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
-  
+  downloadPdf(divId)
+    {  
+      var data = document.getElementById('print-section');  
+     // console.log("data",data);
+      html2canvas(data).then(canvas => {  
+        // Few necessary setting options  
+        var imgWidth = 208;   
+        var pageHeight = 295;    
+        var imgHeight = canvas.height * imgWidth / canvas.width;  
+        var heightLeft = imgHeight;  
+    
+        const contentDataURL = canvas.toDataURL('image/png')  
+        let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
+        var position = 0;  
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+        pdf.save('MYPdf.pdf'); // Generated PDF   
+      });  
+    }  
 
   getCSVFromTableId(tblEltId) {
     let tblelt = document.getElementById(tblEltId);
