@@ -14,7 +14,7 @@
           </div>
           <div class="col-sm-6">
               <auto-suggestion (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
-              display="name" placeholder="Enter Fuel Station" [preSelected]="{name: fuel_station}"  class="fstn-name" style="width:60%;" >
+              display="name" placeholder="Enter Fuel Station" [preSelected]="{name: ''}"  class="fstn-name" style="width:60%;" >
               </auto-suggestion>
           </div>        
         </div>
@@ -24,7 +24,7 @@
                </div>
                <div class="col-sm-6">
                    <auto-suggestion (onSelected)="getFoData($event)" url="Suggestion/getFoUsersList"
-                   display="name" placeholder="Enter FO Name" [preSelected]="{name: foname}"  class="fstn-name" style="width:60%;" >
+                   display="name" placeholder="Enter FO Name" [preSelected]="{name: ''}"  class="fstn-name" style="width:60%;" >
                    </auto-suggestion>
                </div>
         </div>

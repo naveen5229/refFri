@@ -1,0 +1,25 @@
+.close{
+    background: transparent;
+    color: #263238 !important;
+    opacity: 1;
+    padding: 8px 15px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+    font-size: 30px;
+}
+.btn-primary{
+    outline: none;
+    padding: 8px 15px;
+    margin: 0px;
+    text-transform: capitalize;
+    border-radius: 5px;
+    border: 0px;
+    cursor: pointer;
+}
+:host ::ng-deep .tableFixHead{
+    max-height: calc(100vh - 200px);
+    height:  auto !important;
+}
+.modal-body{
+    padding: 10px 15px;
+}

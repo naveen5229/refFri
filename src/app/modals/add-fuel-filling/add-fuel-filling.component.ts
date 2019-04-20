@@ -81,7 +81,7 @@ export class AddFuelFillingComponent implements OnInit {
   }
 
   closeModal(){
-
+    this.activeModal.close();
   }
 
 }
