@@ -1,17 +1,34 @@
 <nb-card>
   <nb-card-header>
+    <div class="row" style="margin-left:10px">
+     <div class="col-sm-6">
     Lorry Receipt Details
+    </div>
+    <div class="col-sm-3">
+    <select [(ngModel)]="lrType" class="form-control" (change)="getPendingLr()"
+          style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="0">Pending</option>
+          <option value="1">Complete</option>
+          <option value="-1">Rejected</option>
+        </select>
+        </div>
+      </div>
   </nb-card-header>
+  
   <nb-card-body>
     <div class="model-body">
       <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-3">
+              <auto-suggestion (onSelected)="getFolist($event)" url="suggestion/getFoUsersList" display="name"
+              placeholder="Search" [preSelected]="null"></auto-suggestion>
+          </div>
+          <div class="col-sm-3">
               <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
               <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <button class="btn btn-primary" (click)="getPendingLr()">submit</button>
           </div>
       </div>
@@ -34,7 +51,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of pendinglr; let i=index;">
-            <td>{{data.id}}</td>
+            <td (click)="getImage(data)">{{data.id}}</td>
             <td>{{data.receipt_no}}</td>
             <th>{{data.lr_date | date : 'dd MMM'}}</th>
             <td>{{data.consigner_name}}</td>
