@@ -103,6 +103,19 @@ table{
             }
             td{
                 width: 15%;
+                .btn{
+                    padding: 10px 15px;
+                    height: auto;
+                    color: #fff;
+                    text-transform: capitalize;
+                    margin: 0px;
+                    border-radius: 3px;
+                    border: 0px;
+                    box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+                    cursor: pointer;
+                    font-weight: normal;
+                    font-size: 12px;
+                }
             }
             td:last-child{
                 width: 15%
