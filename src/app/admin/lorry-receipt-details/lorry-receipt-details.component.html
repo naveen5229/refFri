@@ -65,7 +65,8 @@
             <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
             <td>
                 <ng-template *ngIf="data.status==0 then showEdit;"></ng-template>
-                <button class="btn" (click)="revertLrDetails(data)">Revert</button>
+                <ng-template *ngIf="data.status==1 then showRevert;"></ng-template>
+                <ng-template #showRevert><button class="btn" (click)="revertLrDetails(data)">Revert</button></ng-template>
                 <ng-template #showEdit><button class="btn" (click)="openEditLorryDetailsModel(data)">Edit</button></ng-template>
              </td>   
              <!-- <button class="btn btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button>
