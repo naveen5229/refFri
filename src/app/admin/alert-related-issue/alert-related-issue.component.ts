@@ -26,6 +26,7 @@ export class AlertRelatedIssueComponent implements OnInit {
     public common: CommonService,
     private modalService: NgbModal, ) {
     this.common.refresh = this.refresh.bind(this);
+    this.ticket();
   }
 
   ngOnInit() {
