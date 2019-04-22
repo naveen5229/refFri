@@ -74,6 +74,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/site-fencing',
     },
     {
+        title: 'Transport Area Fencing',
+        icon: 'nb-home',
+        link: '/admin/transport-area',
+    },
+    {
         title: 'Diagnostics',
         icon: 'nb-home',
         link: '/admin/diagnostics',

@@ -51,12 +51,14 @@ export class UserService {
       { id: 21, route: '/admin/driver-list' },
       { id: 22, route: '/admin/vehicle-gps-trail' },
       { id: 23, route: '/admin/sub-sites' },
+      { id: 23, route: '/admin/vehicle-distance' },
       { id: 24, route: '/admin/activity-summary' },
       { id: 25, route: '/admin/vehicle-gps-detail' },
       { id: 26, route: '/admin/vehicle-distance' },
       { id: 27, route: '/admin/fuel-fillings' },
       { id: 28, route: '/admin/trip-site-rule' },
       { id: 30, route: '/admin/trip-status-feedback-logs' },
+      { id: 31, route: '/admin/transport-area' },
 
     ]
   }

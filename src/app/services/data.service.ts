@@ -83,6 +83,11 @@ export class DataService {
         link: '/admin/site-fencing',
       },
       {
+        title: 'Transport Area Fencing',
+        icon: 'fas fa-coins',
+        link: '/admin/transport-area',
+      },
+      {
         title: 'Diagnostics',
         icon: 'fa fa-stethoscope',
         link: '/admin/diagnostics',

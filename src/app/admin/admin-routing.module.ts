@@ -11,6 +11,7 @@ import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
+import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
@@ -82,6 +83,11 @@ const routes: Routes = [{
         {
             path: 'site-fencing',
             component: SiteFencingComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'transport-area',
+            component: TransportAreaComponent,
             canActivate: [RouteGuard]
         },
         {

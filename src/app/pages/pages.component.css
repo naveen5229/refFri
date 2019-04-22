@@ -5,7 +5,7 @@ tr:nth-child(even) {
 .thead{
     color: white;
     font-size: 12px;
-    background-color: #677078;
+    background-color: #263238;
   }
 td{
     font-size: 12px;
@@ -16,7 +16,7 @@ td{
 .thead-dark{
     color: white;
     font-size: 18px;
-    background-color: #677078;
+    background-color: #263238;
   }
   .arrow{
     font-size: 18px;

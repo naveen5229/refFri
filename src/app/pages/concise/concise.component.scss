@@ -105,9 +105,9 @@ table {
 
 .status_box {
     nb-card {
-        margin: 0px;
-        border: none;
-        border-top: 1px solid #d7dee4;
+        margin: 0px !important;
+        border: none !important;
+        border-top: 1px solid #d7dee4 !important;
 
         nb-card-body {
             padding: 12px 10px;
@@ -134,10 +134,11 @@ table {
         li span {
             width: 16px;
             height: 16px;
-            border-radius: 5px;
+            border-radius: 100%;
             margin-right: 5px;
             display: inline-block;
             vertical-align: middle;
+            box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
         }
 
         li:nth-child(1) span {
@@ -190,36 +191,61 @@ mwlResizable {
 }
 
 :host ::ng-deep {
+    th:nth-child(1) {
+        width: 30px !important;
+    }
     th:nth-child(2) {
-        width: 85px;
-    }
-
-    th:nth-child(3) {
-        width: 80px;
-    }
-
-    th:nth-child(4) {
-        width: 65px;
-    }
-
-    th:nth-child(5) {
-        width: 65px;
-    }
-
-    th:nth-child(6) {
-        width: 100px;
-    }
-
-    th:nth-child(7) {
         width: 70px;
     }
 
+    th:nth-child(3) {
+        width: 70px;
+    }
+
+    th:nth-child(4) {
+        width: 70px;
+    }
+
+    th:nth-child(5) {
+        width: 42px;
+    }
+
+    th:nth-child(6) {
+        width: 42px;
+    }
+
+    th:nth-child(7) {
+        width: 110px;
+    }
+
     th:nth-child(8) {
-        width: 95px;
+        width: 44px;
     }
 
     th:nth-child(9) {
-        width: 100px;
+        width: 54px;
+    }
+    th{
+        .sort-container{
+            width: 15px;
+        }
+        .filter-input-container{
+            width: calc(100% - 17px);
+        }
+    }
+    td{
+        .icon.fa-info{
+            color: #04a9f5;
+        }
+        .icon.fa-question-circle{
+            color: #ff8091;
+        }
+        .icon.fa-route{
+            color: #0072ff;
+        }
+        .icon.fa-truck{
+            color: #5CD050;
+        }
     }
 }
 
