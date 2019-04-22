@@ -27,12 +27,14 @@ export class TransportAreaComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
-    this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => {
+    this.mapService.autoSuggestion("siteLoc", (place, lat, lng,placeF) => {
       this.commonService.loading++;
       this.mapService.zoomAt({lat:lat,lng:lng},10);
       this.clearAll();
       this.locLatLng={lat:lat,lng:lng};
-      let placeT = place.split(",");
+      let placeT = placeF.split(",");
+      console.log("PlaceT",placeT,"pLACE",placeF);
+      
       this.locName=placeT[0]+"("+placeT[1].substr(0,3)+")";
       this.gotoSingle(false);
       this.commonService.loading--;

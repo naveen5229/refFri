@@ -132,5 +132,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       }
     ]
-  }
+  },
+  {
+    title: 'Placement Delay Faults',
+    icon: 'fas fa-list',
+    link: '/pages/placement-delay-faults',
+    home: true,
+  },
 ];

@@ -43,11 +43,11 @@ export class MapService {
   }
 
   updateLocation(elementId, autocomplete, setLocation?) {
-    let place = autocomplete.getPlace();
-    let lat = place.geometry.location.lat();
-    let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
-    setLocation && setLocation(place, lat, lng);
+    let placeFull = autocomplete.getPlace();
+    let lat = placeFull.geometry.location.lat();
+    let lng = placeFull.geometry.location.lng();
+    let place = placeFull.formatted_address.split(',')[0];
+    setLocation && setLocation(place, lat, lng, placeFull.formatted_address);
   }
 
   zoomAt(latLng, level = 18) {

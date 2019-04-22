@@ -14,6 +14,7 @@ import { EmpDashboardComponent } from '../../documents/documentation-modals/emp-
 })
 export class VehicleStatusChangeComponent implements OnInit {
   viewType = "all";
+  dis = "old";
   VehicleStatusAlerts = [];
   status = {
     1:'Accept',

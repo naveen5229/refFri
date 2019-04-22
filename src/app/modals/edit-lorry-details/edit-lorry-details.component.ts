@@ -218,6 +218,7 @@ export class EditLorryDetailsComponent implements OnInit {
     let params;
     if(this.option=='reject'){
       this.tempDate=null;
+      console.log('if block');
        params = {
         sourceLat: this.LrData.source_lat ? this.LrData.source_lat : '',
         sourceLng: this.LrData.source_long ? this.LrData.source_long : '',
@@ -225,7 +226,7 @@ export class EditLorryDetailsComponent implements OnInit {
         dest: this.LrData.destination ? this.LrData.destination : '',
         destLat: this.LrData.destination_lat ? this.LrData.destination_lat : '',
         destLng: this.LrData.destination_long ? this.LrData.destination_long : '',
-        vehId: this.vehId ? this.LrData.vehId : '',
+        vehId: this.vehId ? this.vehId : '',
         remark: this.LrData.remark ? this.LrData.source_long : '',
         id: this.LrData.id ? this.LrData.id : '',
         receiptNo: this.LrData.receipt_no ? this.LrData.receipt_no : '',
@@ -246,6 +247,7 @@ export class EditLorryDetailsComponent implements OnInit {
   
       };
     } else{
+      console.log('else block');
     this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
     this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
     console.log('tempDate',this.tempDate);
