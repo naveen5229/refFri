@@ -121,11 +121,11 @@ export class EditLorryDetailsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.lrDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        if(this.lrDate<=this.common.dateFormatter(new Date())){
-          return;
-        }else{
-          this.common.showToast('Incorrect Date !!')
-        }
+        // if(this.lrDate<=this.common.dateFormatter(new Date())){
+        //   return;
+        // }else{
+        //   this.common.showToast('Incorrect Date !!')
+        // }
         // this.dateByIcon=true;
         console.log('lrdate: by getDate ' + this.lrDate);
 
@@ -227,7 +227,7 @@ export class EditLorryDetailsComponent implements OnInit {
         destLat: this.LrData.destination_lat ? this.LrData.destination_lat : '',
         destLng: this.LrData.destination_long ? this.LrData.destination_long : '',
         vehId: this.vehId ? this.vehId : '',
-        remark: this.LrData.remark ? this.LrData.source_long : '',
+        remark: this.LrData.remark ? this.LrData.remark : '',
         id: this.LrData.id ? this.LrData.id : '',
         receiptNo: this.LrData.receipt_no ? this.LrData.receipt_no : '',
         status: this.status,
@@ -238,12 +238,12 @@ export class EditLorryDetailsComponent implements OnInit {
         consignerName: this.LrData.consigner_name ? this.LrData.consigner_name : '',
         consigneeId: this.LrData.consignee_id ? this.LrData.consignee_id : '',
         consigneeName: this.LrData.consignee_name ? this.LrData.consignee_name : '',
-        lrDate: this.lrDate ? this.LrData.lrDate : '',
+        lrDate: this.lrDate ? this.lrDate : '',
         payType: this.LrData.pay_type ? this.LrData.pay_type : '',
         rate: this.LrData.rate ? this.LrData.rate : '',
         amount: this.LrData.amount ? this.LrData.amount : '',
         material: this.LrData.material_name ? this.LrData.material_name : '',
-        materialId: this.LrData.material ? this.LrData.material : ''
+        materialId: this.LrData.material ? this.LrData.material: ''
   
       };
     } else{
@@ -391,12 +391,12 @@ export class EditLorryDetailsComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
     this.lrDate= year + '-' + month + '-' + date;
-    if(this.lrDate<=this.common.dateFormatter(new Date()))
-    {
-      return;
-    }else{
-      this.common.showToast('Incorrect Date !!');
-    }
+    // if(this.lrDate<=this.common.dateFormatter(new Date()))
+    // {
+    //   return;
+    // }else{
+    //   this.common.showToast('Incorrect Date !!');
+    // }
 
     console.log('Date: ', this.lrDate);
   }
