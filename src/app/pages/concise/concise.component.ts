@@ -232,7 +232,7 @@ export class ConciseComponent implements OnInit {
     } else if (kpi.trip_status_type == 1) {
       html += `
       <!-- Loading -->
-        <span class="circle">${kpi.x_showtripstart}</span>
+        ${this.handleCircle(kpi.x_showtripstart)}
         <i class="icon ion-md-arrow-round-forward"></i>
         <span>${kpi.x_showtripend}</span>
       `;
@@ -248,7 +248,7 @@ export class ConciseComponent implements OnInit {
         <!-- Unloading -->
           <span>${kpi.x_showtripstart}</span>
           <i class="icon ion-md-arrow-round-forward"></i>
-          <span class="circle">${kpi.x_showtripend}</span>
+          ${this.handleCircle(kpi.x_showtripstart)}
         `;
     } else if (kpi.trip_status_type == 4) {
       html += `
@@ -923,4 +923,22 @@ export class ConciseComponent implements OnInit {
     
       });
     }
+
+
+
+handleCircle(location) {
+   let locationArray = location.split('-');
+   if (locationArray.length == 1) {
+     return `<span class="circle">${location}</span>`;
+   }
+   let html = ``;
+   for (let i = 0; i < locationArray.length; i++) {
+     if (i == locationArray.length - 1) {
+       html += `<span class="circle">${locationArray[i]}</span>`;
+     } else {
+       html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
+     }
+   }
+   return html;
+ }
 }
