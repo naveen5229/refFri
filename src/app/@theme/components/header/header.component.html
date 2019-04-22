@@ -20,9 +20,9 @@
     {{this.user._details.name}}</h4>
 </div>
 
-<div class="form-group select_branch" *ngIf="router.url.includes('accounts') ||router.url.includes('admin/generate-lr') ">
+<div class="form-group select_branch" *ngIf="router.url.includes('accounts') ||router.url.includes('admin/generate-lr') ||router.url.includes('pages/generate-lr')">
   <label>Branch:</label>
-  <select class="form-control" [(ngModel)]="accountService.selected.branch">
+  <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="common.refresh()">
     <option value="">Select Branch</option>
     <option *ngFor="let branch of accountService.branches" [value]="branch.id">{{branch.name}}</option>
   </select>
