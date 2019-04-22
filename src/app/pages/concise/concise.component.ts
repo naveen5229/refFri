@@ -50,7 +50,6 @@ export class ConciseComponent implements OnInit {
 
   chartData = null;
   chartOptions = null;
-
   chartColors = [];
   textColor = [];
   viewIndex = 0;
@@ -165,7 +164,7 @@ export class ConciseComponent implements OnInit {
       columns.push({
         vechile: {
           value: kpi.x_showveh,
-          action: "",
+          action: this.getZoom.bind(this, kpi),
           colActions: {
             dblclick: this.showDetails.bind(this, kpi),
             mouseover: this.rotateBounce.bind(this, kpi, i),
@@ -855,6 +854,16 @@ export class ConciseComponent implements OnInit {
       console.log("vehicleTrip",tripDetails);
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     
+  }
+
+  getZoom(kpi){
+    if(this.isMapView,kpi){
+      console.log("isMapView------",this.isMapView,kpi);
+      let latLng = this.mapService.getLatLngValue(kpi);
+      console.log("latLng",latLng);
+      let latLong = this.mapService.createLatLng(latLng.lat,latLng.lng)
+      this.mapService.zoomAt(latLong);
+    }
   }
 
   actionIcons(kpi){
