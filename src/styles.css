@@ -8,6 +8,16 @@ h5 {
 p, a, label, input, select, textarea{
   font-family: 'Poppins', sans-serif !important;
 }
+input, select, textarea{
+  padding: 6px !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+  height: auto !important;
+}
+input::placeholder{
+  font-size: 12px !important;
+  line-height: 20px !important;
+}
 .tooltip {
   opacity: 1 !important;
 }
@@ -322,13 +332,6 @@ nb-card {
 } */
 .test .layout {
   display: none !important;
-}
-.gerrate_tabel auto-suggestion input,
-.material_details auto-suggestion input {
-  border: 1px solid #000 !important;
-  box-shadow: none !important;
-  padding: 3px 5px !important;
-  height: auto !important;
 }
 .gerrate_tabel auto-suggestion {
   width: 96% !important;
