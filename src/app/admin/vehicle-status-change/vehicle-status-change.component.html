@@ -14,43 +14,43 @@
   <nb-card-body style="padding:10px 15px;">
     <div class="vehicle_status_tabs clearfix mb-3">
       <ul class="tabset">
-        <li class="tab active">
+        <li [ngClass]="dis=='all'?'tab active':'tab'" >
           <input
             type="button"
             id="viewall"
-            (click)="getVehicleStatusAlerts('all')"
+            (click)="getVehicleStatusAlerts('all');dis='all'"
             value="View All"
           />
         </li>
-        <li class="tab">
+        <li [ngClass]="dis=='new'?'tab active':'tab'">
           <input
             type="button"
             id="viewnew"
-            (click)="getVehicleStatusAlerts('view new')"
+            (click)="getVehicleStatusAlerts('view new');dis='new'"
             value="View New"
           />
         </li>
-        <li class="tab">
+        <li [ngClass]="dis=='old'?'tab active':'tab'">
           <input
             type="button"
             id="viewold"
-            (click)="getVehicleStatusAlerts('view old')"
+            (click)="getVehicleStatusAlerts('view old');dis='old'"
             value="View old"
           />
         </li>
-        <li class="tab">
+        <li [ngClass]="dis=='refresh'?'tab active':'tab'" >
           <input
             type="button"
             id="refresh"
-            (click)="getVehicleStatusAlerts('pending')"
+            (click)="getVehicleStatusAlerts('pending');dis='refresh'"
             value="Refresh"
           />
         </li>
-        <li class="tab">
+        <li [ngClass]="dis=='adrw'?'tab active':'tab'">
           <input
             type="button"
             id="advancereview"
-            (click)="getVehicleStatusAlerts('advance review')"
+            (click)="getVehicleStatusAlerts('advance review');dis='adrw'"
             value="Advance Review"
           />
         </li>
