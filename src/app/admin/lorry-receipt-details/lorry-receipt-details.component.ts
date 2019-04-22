@@ -56,7 +56,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
   openEditLorryDetailsModel(details) {
     this.common.params = { details: Object.assign({}, details) };
     const activeModel = this.modalService.open(EditLorryDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
-    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.handleModalSize('class', 'modal-lg', '1500');
     activeModel.result.then(data => {
       // if(!data.status){
       //  this.exitTicket(details);
