@@ -10,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class PlacementDelayFaultsComponent implements OnInit {
 
+  showTable=false;
+
   delayFaults=[];
   headings = [];
   valobj = {};
@@ -51,6 +53,8 @@ export class PlacementDelayFaultsComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res['data'])
         this.delayFaults =JSON.parse(res['data'][0].fn_placements_getfaults);
+        if(this.delayFaults!=null)
+        {
         console.log('delayFaults',this.delayFaults);
         let first_rec = this.delayFaults[0];
         console.log("first_Rec", first_rec);
@@ -61,11 +65,16 @@ export class PlacementDelayFaultsComponent implements OnInit {
             let headerObj = { title: key, placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
           }
+
         }
 
         this.table.data.columns = this.getTableColumns();
         console.log("table:");
         console.log(this.table);
+        this.showTable=true;
+      }else{
+        this.common.showToast('No Record Found !!');
+      }
 
               
       }, err => {
