@@ -32,6 +32,7 @@ export class EditLorryDetailsComponent implements OnInit {
   option = 'accept';
   tempDate=null;
   status=1;
+  
   transportAgentDetails = {
     gstin: '',
     name: '',
@@ -290,7 +291,7 @@ export class EditLorryDetailsComponent implements OnInit {
           //this.resetValues();
           this.common.showToast('Success !!');
           this.isUpdated = true;
-          this.dismiss();
+           this.dismiss();
         }
         else {
           this.common.showToast('Not Success !!');

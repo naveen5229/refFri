@@ -62,7 +62,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
       //  this.exitTicket(details);
        if(data.isUpdated){
         this.exitTicket(details);
-       this.getPendingLr();
+        this.getPendingLr();
        }
      // }
     });
