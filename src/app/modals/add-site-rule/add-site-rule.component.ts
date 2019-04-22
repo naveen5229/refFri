@@ -215,6 +215,12 @@ currSite={
       });
 
   }
+  selectBody(){
+
+  }
+  selectRule(){
+    
+  }
 
   
   selectList(id){
