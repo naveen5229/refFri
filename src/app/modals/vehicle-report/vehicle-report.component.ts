@@ -87,15 +87,8 @@ export class VehicleReportComponent implements OnInit {
           this.startTime = d.start_time;
           this.startTime = new Date(this.startTime);
           this.endTime = d.end_time;
-          // let sec = (this.resultTime / 1000);
-          // let hour=sec/3600;
-          // let tmin=sec%3600;
-          // let min=tmin/60;
-          // sec=tmin%60; 
-          // console.log('hh:mm:Ss',hour,min,sec);
-         // var tempTime = moment.duration(this.resultTime);
-         // var y = tempTime.hours() +':'+ tempTime.minutes();
-       if(this.endTime!=null){
+
+        if(this.endTime!=null){
          this.endTime = new Date(this.endTime);
          this.resultTime = this.endTime - this.startTime;
         console.log('begore resultTime: ' + this.resultTime);
@@ -108,23 +101,7 @@ export class VehicleReportComponent implements OnInit {
           this.duration.push(result1);
         }
 
-        //   let result='00'+':'+'00';
-        //  if (hour != 0) {
-        //     if (hour.toString().length == 1) {
-        //       result = '0' + hour + ':';
-        //       // this.resultTime=this.h;
-        //     } else
-        //        result = hour + ':';
-
-        //     if (min != 0) {
-        //       if (min.toString().length == 1) {
-        //         result += '0' + min;
-        //       } else
-        //       result += min;
-        //     } else
-        //       result += '00';
-        //   }
-        
+                
          });
         console.log('result time', this.resultTime);
         this.table = this.setTable();

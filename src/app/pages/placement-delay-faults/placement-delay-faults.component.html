@@ -9,8 +9,9 @@
 
 <nb-card-body>
   <div class="model-body">
-    <smart-table *ngIf = "delayFaults.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <smart-table *ngIf='showTable'  [data]="table.data" [settings]="table.settings"></smart-table>
     <br>
+      
 </div>
 
 </nb-card-body>

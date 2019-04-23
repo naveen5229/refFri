@@ -16,6 +16,7 @@ export class EmpDashboardComponent implements OnInit {
   title = '';
   data = [];
   headings = [];
+  analyticsType = "Employee Wise";
   valobj = {};
   startDay = '';
   currentDay = '';
@@ -82,7 +83,7 @@ export class EmpDashboardComponent implements OnInit {
   }
   getEmpDashboard() {
     this.common.loading++;
-    this.api.post('Admin/empDashboard', { x_start_date: this.startDay, x_end_date: this.currentDay})
+    this.api.post('Admin/empDashboard', { x_start_date: this.startDay, x_end_date: this.currentDay, analyticsType:this.analyticsType})
       .subscribe(res => {
         this.common.loading--;
         this.data = [];
