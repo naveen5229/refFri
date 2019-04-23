@@ -44,7 +44,9 @@ export class DocumentationDetailsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    this.getTableColumns();
+    // this.getTableColumns();
+    this.selectedVehicle && this.getvehicleData({ id: this.selectedVehicle });
+
   }
 
   getvehicleData(vehicle) {
@@ -63,9 +65,9 @@ export class DocumentationDetailsComponent implements OnInit {
 
   setTable() {
     let headings = {
-      docId:{title :'DocId',placeholder:'DocId'},
+      docId: { title: 'DocId', placeholder: 'DocId' },
       vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
-      docType: { title: 'Document Type', placeholder: 'Document Type'  },
+      docType: { title: 'Document Type', placeholder: 'Document Type' },
       agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
       issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
@@ -75,7 +77,7 @@ export class DocumentationDetailsComponent implements OnInit {
       amount: { title: 'Amount', placeholder: 'Amount' },
       verified: { title: 'Verified', placeholder: 'Verified' },
       remark: { title: 'Remark', placeholder: 'Remark' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class: 'del'  },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class: 'del' },
       edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true, class: 'del' },
     };
 
@@ -95,29 +97,32 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   getTableColumns() {
+    // this.common.loading++;
+    console.log("expiry date:22222");
     let columns = [];
+    console.log("Data:", this.data);
     this.data.map(doc => {
-
+      console.log("expiry date:22222");
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       console.log("expiry date:", exp_date);
       let column = {
-        docId:{value: doc.id, class: this.user._loggedInBy == 'admin'? 'blue': 'black', action:this.openHistory.bind(this, doc.id)},
+        docId: { value: doc.id, class: this.user._loggedInBy == 'admin' ? 'blue' : 'black', action: this.openHistory.bind(this, doc.id) },
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         agentName: { value: doc.agent },
         issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
-        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class:exp_date==null && curr >= exp_date  ? 'red' : (exp_date==null && exp_date < nextMthDate ? 'pink' : ( doc.expiry_date == null ? 'default' : 'green')) },
+        expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: exp_date == null && curr >= exp_date ? 'red' : (exp_date == null && exp_date < nextMthDate ? 'pink' : (doc.expiry_date == null ? 'default' : 'green')) },
         documentNumber: { value: doc.document_number },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
-        verified: { value: doc.is_verified? 'Yes': 'No' },
+        verified: { value: doc.is_verified ? 'Yes' : 'No' },
         remark: { value: doc.remarks },
         image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center del' },
         edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center del' },
-        rowActions: { class : 'del'}
+        rowActions: { class: 'del' }
       };
       if (this.user._loggedInBy == 'admin') {
         column['delete'] = { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' };
@@ -125,6 +130,7 @@ export class DocumentationDetailsComponent implements OnInit {
 
       columns.push(column);
     });
+
     return columns;
   }
 
@@ -255,7 +261,7 @@ export class DocumentationDetailsComponent implements OnInit {
           console.log("reason For delete: ", data.remark);
           remark = data.remark;
           this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark, x_user_id: this.user._details.id,x_deldoc :1 })
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: doc.id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
             .subscribe(res => {
               this.common.loading--;
               console.log("data", res);
@@ -280,7 +286,7 @@ export class DocumentationDetailsComponent implements OnInit {
 
 
 
-  
+
 
 
 
