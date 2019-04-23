@@ -40,6 +40,12 @@ export class TripSiteRuleComponent implements OnInit {
     }
   ];
   materialType = "";
+  siteId = null;
+  vehicle = {
+    id: null,
+    regno: null,
+  };
+  table = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -53,6 +59,8 @@ export class TripSiteRuleComponent implements OnInit {
 
   refresh() {
     this.getSiteData();
+    this.vehicle.id= null;
+    this.siteId=null;
   }
   addsite() {
     this.common.params = {};
@@ -71,6 +79,7 @@ export class TripSiteRuleComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
+       
         let index = 0;
         for (const data of this.data) {
           let bodyName = this.bodyType.find((element) => {
@@ -86,13 +95,55 @@ export class TripSiteRuleComponent implements OnInit {
           this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
           index++;
         }
-
-
+        this.table = this.setTable();
+       
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+  setTable() {
+    let headings = {
+      foName: { title: 'Fo Name', placeholder: 'Fo Name' },
+      preSiteName: { title: 'Pre Site Name ', placeholder: 'Pre Site Name' },
+      currentSiteName: { title: 'Current Site Name ', placeholder: 'Current Site Name' },
+      materialName: { title: 'Material Name ', placeholder: 'Material Name' },
+      bodyType: { title: 'Body Type ', placeholder: 'Body Type' },
+      ruleType: { title: 'Rule Type', placeholder: 'Rule Type' },
+      edit: { title: 'Edit ', placeholder: 'Edit',hideSearch: true, class:'tag' },
+      delete: { title: 'delete ', placeholder: 'delete',hideSearch: true, class:'tag' },
+    };
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "72vh"
+        
+      }
+    }
+  }
+  getTableColumns() {
+    let columns = [];
+    this.data.map(doc => {
+      let column = {
+        foName: { value: doc.f_name },
+        preSiteName: { value: doc.preSiteType },
+        currentSiteName: { value: doc.curr_site_name },
+        materialName: { value: doc.materialType },
+        bodyType: { value: doc.bodyName },
+        ruleType: { value: doc.ruleName },
+        edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editRule.bind(this, doc), class: 'icon text-center del',},
+        delete: { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteRule.bind(this, doc), class: 'icon text-center del',},
+
+      };
+      columns.push(column);
+    });
+    return columns;
   }
 
 
@@ -109,28 +160,71 @@ export class TripSiteRuleComponent implements OnInit {
   }
 
   deleteRule(doc) {
-    alert("Are You Want Delete Record");{
-    const params = {
-      foid: doc.foid,
-      currSiteId: doc.current_siteid,
-      preSiteId: doc.pre_siteid
-    }
-    this.common.loading++;
-    this.api.post('TripSiteRule/delete', params)
-      .subscribe(res => {
-        this.common.loading--;
-        let output = res['data'];
-        console.log("data:");
-        console.log(output);
-        this.common.showToast(res['msg']);
-        this.getSiteData();
+    alert("Are You Want Delete Record"); {
+      const params = {
+        foid: doc.foid,
+        currSiteId: doc.current_siteid,
+        preSiteId: doc.pre_siteid
+      }
+      this.common.loading++;
+      this.api.post('TripSiteRule/delete', params)
+        .subscribe(res => {
+          this.common.loading--;
+          let output = res['data'];
+          console.log("data:");
+          console.log(output);
+          this.common.showToast(res['msg']);
+          this.getSiteData();
 
-      }, err => {
+        }, err => {
 
-        this.common.loading--;
-        console.log(err);
-      });
+          this.common.loading--;
+          console.log(err);
+        });
     }
   }
+  getAllSiteData(){
+    this.common.loading++;
+    this.api.get('TripSiteRule?vehicleId='+this.vehicle.id+'&siteId=' + this.siteId)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.data = res['data'];
+    
+        let index = 0;
+        for (const data of this.data) {
+          let bodyName = this.bodyType.find((element) => {
+            return element.id == this.data[index].bodytype_id;
+          });
+          this.data[index].bodyName = bodyName ? bodyName.name : 'N.A';
+          let ruleName = this.ruleType.find((element) => {
+            return element.id == this.data[index].ruletype_id;
+          });
+          this.data[index].ruleName = ruleName ? ruleName.name : 'N.A';
+
+          this.data[index].preSiteType = data.pre_site_name ? data.pre_site_name : 'N.A';
+          this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
+          index++;
+        }
+        this.table =null;
+        this.table = this.setTable();
+
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+  selectVehicle(vehicle){
+    this.vehicle.id=vehicle.id;
+  }
+  selectSite(site){
+    this.siteId=site.id;
+
+  }
+
+
 
 }
