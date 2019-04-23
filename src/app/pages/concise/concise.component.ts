@@ -89,6 +89,7 @@ export class ConciseComponent implements OnInit {
 
   isMapView = false;
   infoWindow = null;
+  isZoomed = false;
 
   constructor(
     public api: ApiService,
@@ -258,7 +259,7 @@ export class ConciseComponent implements OnInit {
         <span>${kpi.x_showtripend}</span>
         <i class="fa fa-check-circle complete"></i>
       `;
-    } 
+    }
     // else if (kpi.trip_status_type == 5) {
     //   html += `
     //   <!-- Complete -->
@@ -756,16 +757,16 @@ export class ConciseComponent implements OnInit {
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
       // (kpi.x_idle_time / 60).toFixed(1)
-      if(this.kpis[index].showprim_status == "No Data 12 Hr"|| this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data" ){
+      if (this.kpis[index].showprim_status == "No Data 12 Hr" || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
         this.kpis[index].color = "ff0000";
       }
-      else if((this.kpis[index].x_idle_time/60)>0){
-     
+      else if ((this.kpis[index].x_idle_time / 60) > 0) {
+
         this.kpis[index].color = "00ff00";
-      }else{
+      } else {
         this.kpis[index].color = "ffff00";
       }
-     
+
     }
     setTimeout(() => {
       this.mapService.setMapType(0);
@@ -800,7 +801,7 @@ export class ConciseComponent implements OnInit {
       <b>Location:</b>${event.Address} <br>
       `
     );
-    this.rotateBounce(event,null,false);
+    this.rotateBounce(event, null, false);
     this.infoWindow.setPosition(
       this.mapService.createLatLng(event.x_tlat, event.x_tlong)
     ); // or evt.latLng
@@ -818,56 +819,62 @@ export class ConciseComponent implements OnInit {
   }
 
   handleMapView() {
+    if (this.isZoomed) {
+      this.isZoomed = false;
+      this.mapService.zoomMap(6);
+      return;
+    }
     this.isMapView = !this.isMapView;
     setTimeout(() => {
       this.initialiseMap();
     }, 1000);
   }
- 
+
   rotate = '';
-  rotateBounce(kpi, i?, isToggle=true) {
+  rotateBounce(kpi, i?, isToggle = true) {
     this.rotate = 'rotate(' + kpi.x_angle + 'deg)';
     console.log("rotate", this.rotate);
-    if(isToggle){
+    if (isToggle) {
       this.mapService.toggleBounceMF(i);
     }
   }
 
-  getUpadte(kpi){
-    console.log("kpi",kpi);
-    let tripDetails ={
-      id : kpi.x_trip_id,
-      endName : kpi.x_showtripend,
-      startName : kpi.x_showtripstart,
-      startTime : kpi.x_showstarttime,
-      endTime : kpi.x_showendtime,
-      regno : kpi.x_showveh,
-      vehicleId:kpi.x_vehicle_id,
-      siteId:kpi.x_hl_site_id
-      
+  getUpadte(kpi) {
+    console.log("kpi", kpi);
+    let tripDetails = {
+      id: kpi.x_trip_id,
+      endName: kpi.x_showtripend,
+      startName: kpi.x_showtripstart,
+      startTime: kpi.x_showstarttime,
+      endTime: kpi.x_showendtime,
+      regno: kpi.x_showveh,
+      vehicleId: kpi.x_vehicle_id,
+      siteId: kpi.x_hl_site_id
+
     }
     // this.common.params= tripDetails;
     // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
-    
-    this.common.params= {tripDetils : tripDetails, ref_page : 'kpi'};
-      console.log("vehicleTrip",tripDetails);
-      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    
+
+    this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
+    console.log("vehicleTrip", tripDetails);
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+
   }
 
-  getZoom(kpi){
-    if(this.isMapView,kpi){
-      console.log("isMapView------",this.isMapView,kpi);
+  getZoom(kpi) {
+    if (this.isMapView, kpi) {
+      console.log("isMapView------", this.isMapView, kpi);
       let latLng = this.mapService.getLatLngValue(kpi);
-      console.log("latLng",latLng);
-      let latLong = this.mapService.createLatLng(latLng.lat,latLng.lng)
+      console.log("latLng", latLng);
+      let latLong = this.mapService.createLatLng(latLng.lat, latLng.lng)
       this.mapService.zoomAt(latLong);
+      this.isZoomed = true;
     }
   }
 
-  actionIcons(kpi){
-   let icons= [
+  actionIcons(kpi) {
+    let icons = [
       {
         class: "icon fa fa-info",
         action: this.vehicleReport.bind(this, kpi)
@@ -884,11 +891,11 @@ export class ConciseComponent implements OnInit {
         class: " icon fa fa-truck",
         action: this.openTripDetails.bind(this, kpi)
       },
-     
+
     ]
-    console.log("this.user._loggedInBy",this.user._loggedInBy);
-    if(this.user._loggedInBy=="admin"){
-      icons.push( {
+    console.log("this.user._loggedInBy", this.user._loggedInBy);
+    if (this.user._loggedInBy == "admin") {
+      icons.push({
         class: " icon fa fa-camera",
         action: this.openChangeStatusModal.bind(this, kpi)
       });
@@ -897,7 +904,7 @@ export class ConciseComponent implements OnInit {
   }
 
   openChangeStatusModal(trip) {
-    console.log("kpiiiiiis",trip);
+    console.log("kpiiiiiis", trip);
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -920,25 +927,25 @@ export class ConciseComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       console.log("after data chnage ");
-    
-      });
+
+    });
+  }
+
+
+
+  handleCircle(location) {
+    let locationArray = location.split('-');
+    if (locationArray.length == 1) {
+      return `<span class="circle">${location}</span>`;
     }
-
-
-
-handleCircle(location) {
-   let locationArray = location.split('-');
-   if (locationArray.length == 1) {
-     return `<span class="circle">${location}</span>`;
-   }
-   let html = ``;
-   for (let i = 0; i < locationArray.length; i++) {
-     if (i == locationArray.length - 1) {
-       html += `<span class="circle">${locationArray[i]}</span>`;
-     } else {
-       html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
-     }
-   }
-   return html;
- }
+    let html = ``;
+    for (let i = 0; i < locationArray.length; i++) {
+      if (i == locationArray.length - 1) {
+        html += `<span class="circle">${locationArray[i]}</span>`;
+      } else {
+        html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
+      }
+    }
+    return html;
+  }
 }
