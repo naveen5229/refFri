@@ -8,6 +8,7 @@ import { DatePipe, NumberFormatStyle } from '@angular/common';
 import * as _ from 'lodash';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 
 
 
@@ -493,18 +494,29 @@ export class TrendsComponent implements OnInit {
   }
 
 
-  getPendingStatusDetails() {
+  getPendingStatusDetails(details) {
+    let params={
+      siteId:details.siteid,
+      startDate:this.fromDate,
+      endDate:this.endDate
+    };
     this.common.loading++;
-    this.api.get('HaltOperations/getPendingAlertDetails?')
+    this.api.post('Trends/getSiteWiseVehicleList',params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
         let data = [];
         res['data'].map((vehicles, index) => {
-          data.push([index, vehicles.regno, vehicles.cnt, vehicles.actct, vehicles.wuct, this.common.changeDateformat(vehicles.time)]);
+        if(this.trendType=='11'){
+          if(vehicles.halttypid==11)
+          data.push([index,vehicles.vehicleid, vehicles.regno, vehicles.halttypid, vehicles.category, vehicles.countevent]);
+        }else{
+           if(vehicles.halttypid==21)
+          data.push([index,vehicles.vehicleid, vehicles.regno, vehicles.halttypid, vehicles.category, vehicles.countevent]);
+        }
         });
         console.log(data);
-        this.common.params = { title: 'Vehicles On Site:', headings: ["#", "Vehicle RegNo", "Count", "Since Updated (In Minutes)", "Working User (In Last 10 Minutes)", "Clear Tickets (In Last 10 Minutes)"], data };
+        this.common.params = { title: 'SiteWise Vehicle List:', headings: ["#", "Vehicle Id", "Vehicle RegNo.", "Halt Type Id", "Category", "Count Event"], data };
         this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
       }, err => {
         this.common.loading--;
@@ -512,6 +524,22 @@ export class TrendsComponent implements OnInit {
       });
 
 
+  }
+
+  locationOnMap(latlng){
+   if (!latlng.lat) {
+      this.common.showToast('Vehicle location not available!');
+      return;
+    }
+    const location = {
+      lat: latlng.lat,
+      lng: latlng.long,
+      name: '',
+      time: ''
+    };
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Location' };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
   }
 
 
