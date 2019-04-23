@@ -136,16 +136,13 @@ export class AddDriverComponent implements OnInit {
   }
 
   toggle() {
-   
     this.show = !this.show;
-
+    console.log(this.show);
     // CHANGE THE NAME OF THE BUTTON.
     if(this.show)  
       this.detailsBtn = "Hide";
     else
       this.detailsBtn = "More Details";
-  
-
   }
 
 }
