@@ -63,12 +63,12 @@ export class AddFuelFillingComponent implements OnInit {
       });
   }
 
-  searchStationName(stationList){
+  searchStationName(stationList, type?){
      this.fuelEntries.stationName=stationList.name;
      this.fuelEntries.stationId=stationList.id;
   }
 
-  getDate(){
+  getDate(type?){
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -78,6 +78,10 @@ export class AddFuelFillingComponent implements OnInit {
       }
 
     });
+  }
+
+  closeModal(){
+    this.activeModal.close();
   }
 
 }

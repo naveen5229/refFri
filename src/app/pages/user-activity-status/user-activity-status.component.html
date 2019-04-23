@@ -1,0 +1,39 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h5>User Activity Statistics</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row mb-3">
+      <div class="col-sm-4">
+        <input
+          type="text"
+          class="form-control"
+          [value]="startDate | date: 'dd MMM yyyy'"
+          name="date"
+          placeholder="Start Date"
+          (click)="getDate('start')"
+        />
+      </div>
+      <div class="col-sm-4">
+        <input
+          type="text"
+          class="form-control"
+          [value]="endDate | date: 'dd MMM yyyy'"
+          name="date1"
+          placeholder="End Date"
+          (click)="getDate('end')"
+        />
+      </div>
+      <div class="col-sm-4">
+        <button class="btn btn-primary" (click)="getSummary()">submit</button>
+      </div>
+    </div>
+    <div>
+      <smart-table
+        *ngIf="activitySummary.length"
+        [data]="table.data"
+        [settings]="table.settings"
+      ></smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>

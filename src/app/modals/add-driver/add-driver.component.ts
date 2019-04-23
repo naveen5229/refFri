@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'add-driver',
@@ -23,8 +24,8 @@ export class AddDriverComponent implements OnInit {
     aadharphoto: null,
     Salary: null,
     guranter: null,
-    guranterno: null
-
+    guranterno: null,
+    doj: null
   
   }
   
@@ -86,9 +87,7 @@ export class AddDriverComponent implements OnInit {
   get f() { return this.driverForm.controls; }
   
     addNewdriver() {
-     
-     
-      this.common.loading++;
+      console.log('addNewdriver call')      
       let response;
       //this.submitted = true;
       let params = {
@@ -99,21 +98,43 @@ export class AddDriverComponent implements OnInit {
         licencePhoto: this.driverForm.controls.lisencephoto.value,
         aadharNo: this.driverForm.controls.aadharno.value,
         aadharPhoto: this.driverForm.controls.aadharphoto.value,
-        guarantorName: this.driverForm.controls.guranter,
-        guarantorMobile: this.driverForm.controls.guranterno,
+        guarantorName: this.driverForm.controls.guranter.value,
+        guarantorMobile: this.driverForm.controls.guranterno.value,
       };
-      this.api.post('Drivers/add', { params })
+      this.common.loading++;
+      this.api.post('Drivers/add',params)
         .subscribe(res => {
           this.common.loading--;
           console.log('Res:', res['data']);
+          if (res['success']) {
+            //this.resetValues();
+            this.common.showToast('Success !!');
+            }else 
+              this.common.showToast('Not Success !!');
           
         }, err => {
           this.common.loading--;
-          console.log(err);
-        });
-      return response;
+          this.common.showError();
+        })
+    
   
-    };
+    }
 
+    getDate(){
+
+      this.common.params={ref_page:'generate-lr'};
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.driver.doj = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+         // this.dateByIcon=true;
+        console.log('DOJ: by getDate ' + this.driver.doj);
+
+      }
+
+    });
+
+            
+    }
 
 }

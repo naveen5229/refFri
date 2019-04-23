@@ -1,0 +1,50 @@
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.tabs_style{
+    width: 100%;
+    margin: 0px;
+    border-bottom: 2px solid #26A69A;
+    margin-bottom: 10px;
+    padding-left: 10px !important;
+    li.active{
+    background-color: #fff;
+    color: #26A69A;
+    position: relative;
+    }
+    li.active:after{
+        content: '';
+        display: block;
+        background-color: #fff;
+        height: 10px;
+        width: 100%;
+        position: absolute;
+        left: 0px;
+    }
+    li{
+        padding: 5px 20px;
+        list-style: none;
+        margin-right: 5px;
+        background-color: #26A69A;
+        border: 2px solid #26A69A;
+        color: #fff;
+        border-bottom: 0px;
+        display: inline-block;
+        border-radius: 5px 5px 0px 0px;
+        font-size: 12px;
+        font-weight: normal;
+        cursor: pointer;
+    }
+}
+:host ::ng-deep .tableFixHead{
+    overflow: auto;
+    max-height: calc(100vh - 162px);
+}
+:host ::ng-deep td i.fa-pencil-alt{
+    background-color: #04A9F5;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+}

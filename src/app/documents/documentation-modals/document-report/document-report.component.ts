@@ -11,8 +11,6 @@ import { normalize } from 'path';
 import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { DatePipe } from '@angular/common';
-import jsPDF from 'jspdf';
-import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 
 @Component({
   selector: 'document-report',
@@ -20,6 +18,8 @@ import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
   styleUrls: ['./document-report.component.scss', '../../../pages/pages.component.css'],
   providers: [DatePipe]
 })
+
+
 export class DocumentReportComponent implements OnInit {
   table = null;
   title = '';
@@ -30,6 +30,8 @@ export class DocumentReportComponent implements OnInit {
     id: null,
     status: '',
   };
+  
+
   // currentdate = new Date;
   // nextMthDate = null;
   // exp_date = null;
@@ -47,6 +49,8 @@ export class DocumentReportComponent implements OnInit {
     this.title = this.common.params.title;
     this.reportData.status = this.common.params.status;
     console.info("report data", this.reportData);
+    console.log("user::");
+    console.log(this.user);
     this.getReport();
     // /this.getTableColumns();
 
@@ -59,135 +63,50 @@ export class DocumentReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  exportPDF() {
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
       .subscribe(res => {
-        this.fodata = res['data'];
         this.common.loading--;
-        let doc = new jsPDF({
-          orientation: 'landscape',
-          unit: 'px',
-          format: 'a4'
-        });
-        let strcontent = document.getElementById("doc_report").innerHTML;
-        let hdg_html = "<tr><th>#</th><th>DocID</th><th>Vehicle</th><th>Document</th><th>Issue Date</th><th>Wef Date</th><th>Expiry Date</th><th>Doc No.</th><th>RTO</th><th>Amount</th><th>Verified</th><th>Remark</th></tr>";
-        let content = this.getTableColumns();
-        
-        console.log("content::");
-        console.log(content);
-        let tbl_html = "<table>" + hdg_html + "</table>";
-        console.log("content:");
-        console.log(strcontent);
-        doc.addImage(document.getElementById('img-logo'), 'JPEG', 15, 15, 50, 50, 'logo', 'NONE', 0);
-        doc.text(this.fodata['name'], 200, 25);
-        doc.text('Phone: ' + this.fodata['mobileno'], 200, 40)
-        doc.text(this.reportData.status, 200, 55);
-        doc.fromHTML(tbl_html, 15, 70, {
-          'width': 350,
-              'elementHandlers': this.specialElementHandlers
-          });
-        doc.fromHTML(strcontent, 15, 100, {
-          'width': 350,
-              'elementHandlers': this.specialElementHandlers
-          });
-        doc.save('report.pdf');
-        
-        
+        this.fodata = res['data'];
+        let left_heading = this.fodata['name'];
+        let strstatus = this.reportData.status.toUpperCase();
+        switch(strstatus) {
+          case 'VERIFIED' : strstatus = 'VERIFIED DOCUMENTS'; break;
+          case 'UNVERIFIED' : strstatus = 'UNVERIFIED DOCUMENTS'; break;
+          case 'PENDINGIMAGE' : strstatus = 'PENDING IMAGES'; break;
+          case 'EXPIRING30DAYS' : strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
+          case 'EXPIRED' : strstatus = 'EXPIRED DOCUMENTS'; break;
+          case 'PENDINGDOC' : strstatus = 'PENDING DOCUMENTS'; break;
+          default: break;
+        }
+        let center_heading = strstatus;
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
       }, err => {
         this.common.loading--;
         console.log(err);
-      });    
-      
+      });
   }
-
-  specialElementHandlers() {
-
-  }
-
-  exportCSV() {
-    
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: this.user._customer.id})
-      .subscribe(res => {
-        this.fodata = res['data'];
-        //this.common.loading--;
-        
-        let info = [];
-        let client = {"Customer" : "Name: " + this.fodata['name'].toUpperCase()};
-        let mobileno = {"Mobile" : "Mobile: " + this.fodata['mobileno']};
-        let status = {"Status" : "Status: " + this.reportData.status.toUpperCase()};
-        let organization = {"elogist Solutions  Pvt. Ltd.": "elogist Solutions  Pvt. Ltd."}; 
-        let website = {"Website: www.walle8.com" : "Website: www.walle8.com"}; 
-        let address = {"Address: 605-21 ": "Address: 605-21", " Jaipur Electronic Market ": " Jaipur Electronic Market "};
-        let address_sec = {"Riddhi Siddhi Circle": "Riddhi Siddhi Circle", " Gopalpura Bypass " : " Gopalpura Bypass ", " Jaipur ": " Jaipur ", " Rajasthan - 302018 ": " Rajasthan - 302018 " }; 
-        let support = {"Support:  8081604455": "Support:  8081604455"};
-        let temp = {
-          "SN" : "SN",
-          "DocumentID": "DocumentID",
-          "VehicleNo": "VehicleNo",
-          "IssueDate": "IssueDate",
-          "WefDate": "WefDate",
-          "ExpiryDate": "ExpiryDate",
-          "DocumentNo": "DocumentNo",
-          "RTO": "RTO",
-          "Amount": "Amount",
-          "Verified": "Verified",
-          "Remark": "Remark"
-        };
-        info.push(organization);
-        info.push(website);
-        info.push(address);
-        info.push(address_sec);
-        info.push(support);
-        
-        info.push(client);
-        info.push(mobileno);
-        info.push(status);
-        
-        info.push(temp);
-        
-        this.data.map((doc, index) => {
-          let docdata = {
-            "SN": (index + 1),
-            "DocumentID": doc.id,
-            "VehicleNo": doc.regno,
-            "IssueDate": doc.issue_date == null? '': doc.issue_date,
-            "WefDate": doc.wef_date == null? '': doc.wef_date,
-            "ExpiryDate": doc.expiry_date == null? '': doc.expiry_date,
-            "DocumentNo": doc.document_number == null? '': doc.document_number,
-            "RTO": doc.rto == null? '': doc.rto,
-            "Amount": doc.amount == null? '': doc.amount,
-            "Verified": doc.verified? 'Yes': 'No',
-            "Remark": doc.remarks == null? '': doc.remarks
-          };
-          info.push(docdata);
-        });
-        console.log(info);
-        let date=(new Date()).getTime() ;
-        console.log("Date :",date);
-        new Angular5Csv(info,(this.fodata['name'].toUpperCase()) );
-            
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });    
   
-  }
-
+  
   setTable() {
     let headings = {
-      docId: { title: 'Doc Id', placeholder: 'Doc Id' },
-      vehicleNumber: { title: 'vehicle Number ', placeholder: 'vehicle Number' },
+      docId: { title: 'Document Id', placeholder: 'Document Id' },
+      vehicleNumber: { title: 'Vehicle Number ', placeholder: 'Vehicle Number' },
       docType: { title: 'Document Type', placeholder: 'Document Type' },
-      issueDate: { title: 'Issue Date', placeholder: 'Issue Date' },
+      issueDate: { title: 'Issue Date', placeholder: 'Issue Date', class: 'del' },
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-      documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-      agentName: { title: 'Agent Name', placeholder: 'Agent Name' },
-      rto: { title: 'Rto', placeholder: 'Rto' },
-      amount: { title: 'Amount', placeholder: 'Amount' },
-      verified: { title: 'Verified', placeholder: 'Verified' },
-      remark: { title: 'Remark', placeholder: 'Remak' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true },
+      documentNumber: { title: 'Document Number', placeholder: 'Document Number' },
+      agentName: { title: 'Agent Name', placeholder: 'Agent Name', class: 'del' },
+      rto: { title: 'Rto', placeholder: 'RTO' , class: 'del'},
+      amount: { title: 'Amount', placeholder: 'Amount' , class: 'del'},
+      verified: { title: 'Verified', placeholder: 'Verified', class: 'del' },
+      remark: { title: 'Remark', placeholder: 'Remark', class: 'del' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class:'tag' },
       // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
     };
     return {
@@ -222,16 +141,16 @@ export class DocumentReportComponent implements OnInit {
         docId: { value: doc.id },
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
-        issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') },
+        issueDate: { value: this.datePipe.transform(doc.issue_date, 'dd MMM yyyy') , class: 'del'},
         wefDate: { value: this.datePipe.transform(doc.wef_date, 'dd MMM yyyy') },
         expiryDate: { value: this.datePipe.transform(doc.expiry_date, 'dd MMM yyyy'), class: exp_date2==null ? 'default' : currdt2 >= exp_date2 ? 'red' : (exp_date2 <= nxtmth2 && exp_date2 > currdt2 ? 'pink' : 'green') },
         documentNumber: { value: doc.document_number },
-        agentName: { value: doc.agent },
-        rto: { value: doc.rto },
-        amount: { value: doc.amount },
-        verified: { value: doc.verified ? 'Yes': 'No' },
-        remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center' },
+        agentName: { value: doc.agent , class: 'del'},
+        rto: { value: doc.rto , class: 'del'},
+        amount: { value: doc.amount , class: 'del'},
+        verified: { value: doc.verified ? 'Yes': 'No' , class: 'del'},
+        remark: { value: doc.remarks, class: 'del' },
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center del' },
         rowActions: {}
       };
       columns.push(column);
@@ -252,17 +171,17 @@ export class DocumentReportComponent implements OnInit {
   }
     
   
-
-
-
-
   getReport() {
     let params = {
       id: this.common.params.docReoprt.document_type_id,
       status: this.reportData.status
     };
     this.common.loading++;
-    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
+    let userid = this.user._customer.id;
+    if(this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id, x_user_id: userid })
+    // this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];

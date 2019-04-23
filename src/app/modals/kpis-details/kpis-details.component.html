@@ -29,119 +29,130 @@
     </tbody>
   </table>
 </div>
-<div class="modal-body">
+<div class="modal-body clearfix">
+  <div style="margin: 0px -15px;">
+    <div class="col-sm-4">
+        <table class="table table-bordered table-hover">
+          <thead class="thead" style="text-align:center">
+            <th colspan="2">Generic Info</th>
+          </thead>
+          <tbody *ngIf="vehicleInfo">
+            <tr>
+              <td>Driver Name </td>
+              <td>{{vehicleInfo.d_name ? vehicleInfo.d_name : 'Null'}}</td>
+            </tr>
+            <tr>
+              <td>Driver Contact No </td>
+              <td>{{vehicleInfo.d_mobile}}</td>
+            </tr>
+            <tr>
+              <td>GPS Status </td>
+              <td>{{vehicleInfo.gps_stat}}</td>
+            </tr>
+            <tr>
+              <td>GPS Provider </td>
+              <td>{{vehicleInfo.gps_prov}}</td>
+            </tr>
+            <tr>
+              <td>Current Location </td>
+              <td>{{vehicleInfo.current_loc}}</td>
+            </tr>
+            <tr>
+              <td>Current Location Time</td>
+              <td>{{vehicleInfo.cur_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-4">
+          <table class="table table-bordered table-hover">
+            <thead class="thead" style="text-align:center">
+              <th colspan="2">Trip Information</th>
+            </thead>
+            <tbody *ngIf="vehicleInfo">
+              <tr>
+                <td>Distance From Source </td>
+                <td>{{vehicleInfo.srckm}}</td>
+              </tr>
+              <tr>
+                <td>Distance To Destination</td>
+                <td>{{vehicleInfo.dstkm}}</td>
+              </tr>
+              <tr>
+                <td>Trip Start Time</td>
+                <td>{{vehicleInfo.trp_srt_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+              </tr>
+              <tr>
+                <td>Trip End Time </td>
+                <td>{{vehicleInfo.trp_end_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+              </tr>
+              <tr>
+                <td>ETOA / Delay </td>
+                <td>{{vehicleInfo.etahr}}</td>
+              </tr>
+              <tr>
+                <td>Total KM</td>
+                <td>{{vehicleInfo.totalkm}}</td>
+              </tr>
+              <!-- <tr>
+                <td>EL Rating</td>
+                <td>{{vehicleInfo.el_rate}}</td>
+              </tr> -->
+              <tr>
+                <td>% Movement time (Trip) </td>
+                <td>{{vehicleInfo.mvttime}}</td>
+              </tr>
+              <tr>
+                <td>KMPD</td>
+                <td>{{vehicleInfo.kmpd}}</td>
+              </tr>
+              <tr>
+                  <td>LR Image</td>
+                  <td><span *ngIf="vehicleInfo.lr_id" (click)="getLR(vehicleInfo.lr_id)">View</span>
+                    <span *ngIf="!vehicleInfo.lr_id">N.A.</span> 
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-4">
+            <table class="table table-bordered table-hover">
+              <thead class="thead" style="text-align:center">
+                <th colspan="2">Performance Indicator</th>
+              </thead>
+              <tbody *ngIf="vehicleInfo">
+                <tr>
+                  <td>Today's KM </td>
+                  <td>{{vehicleInfo.kmtoday}}</td>
+                </tr>
+                <tr>
+                  <td>Yesterday's KM </td>
+                  <td>{{vehicleInfo.kmyesterday}}</td>
+                </tr>
+                <tr>
+                  <td>KM Travelled (Month) </td>
+                  <td>{{vehicleInfo.kmmonth}}</td>
+                </tr>
+                <tr>
+                  <td>Loaded % KM (Month) </td>
+                  <td>{{vehicleInfo.lkmmonth}}</td>
+                </tr>
+                <tr>
+                  <td>% Movement Time (Month)</td>
+                  <td>{{vehicleInfo.mvttimemonth}}</td>
+                </tr>
+                <!-- <tr>
+                  <td>Vehicle Utility Rating (Percentile)</td>
+                  <td>{{vehicleInfo.vutilrt}}</td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+  </div>
 
-  <div class="col-sm-4">
-    <table class="table table-bordered table-hover">
-      <thead class="thead" style="text-align:center">
-        <th colspan="2">Generic Info</th>
-      </thead>
-      <tbody *ngIf="vehicleInfo">
-        <tr>
-          <td>Driver Name </td>
-          <td>{{vehicleInfo.d_name ? vehicleInfo.d_name : 'Null'}}</td>
-        </tr>
-        <tr>
-          <td>Driver Contact No </td>
-          <td>{{vehicleInfo.d_mobile}}</td>
-        </tr>
-        <tr>
-          <td>GPS Status </td>
-          <td>{{vehicleInfo.gps_stat}}</td>
-        </tr>
-        <tr>
-          <td>GPS Provider </td>
-          <td>{{vehicleInfo.gps_prov}}</td>
-        </tr>
-        <tr>
-          <td>Current Location </td>
-          <td>{{vehicleInfo.current_loc}}</td>
-        </tr>
-        <tr>
-          <td>Current Location Time</td>
-          <td>{{vehicleInfo.cur_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-sm-4">
-    <table class="table table-bordered table-hover">
-      <thead class="thead" style="text-align:center">
-        <th colspan="2">Trip Information</th>
-      </thead>
-      <tbody *ngIf="vehicleInfo">
-        <tr>
-          <td>Distance From Source </td>
-          <td>{{vehicleInfo.srckm}}</td>
-        </tr>
-        <tr>
-          <td>Distance To Destination</td>
-          <td>{{vehicleInfo.dstkm}}</td>
-        </tr>
-        <tr>
-          <td>Trip Start Time</td>
-          <td>{{vehicleInfo.trp_srt_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-        </tr>
-        <tr>
-          <td>Trip End Time </td>
-          <td>{{vehicleInfo.trp_end_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-        </tr>
-        <tr>
-          <td>ETOA / Delay </td>
-          <td>{{vehicleInfo.etahr}}</td>
-        </tr>
-        <tr>
-          <td>Total KM</td>
-          <td>{{vehicleInfo.totalkm}}</td>
-        </tr>
-        <tr>
-          <td>EL Rating</td>
-          <td>{{vehicleInfo.el_rate}}</td>
-        </tr>
-        <tr>
-          <td>% Movement time (Trip) </td>
-          <td>{{vehicleInfo.mvmtper}}</td>
-        </tr>
-        <tr>
-          <td>KMPD</td>
-          <td>{{vehicleInfo.kmpd}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-sm-4">
-    <table class="table table-bordered table-hover">
-      <thead class="thead" style="text-align:center">
-        <th colspan="2">Performance Indicator</th>
-      </thead>
-      <tbody *ngIf="vehicleInfo">
-        <tr>
-          <td>Today's KM </td>
-          <td>{{vehicleInfo.kmtoday}}</td>
-        </tr>
-        <tr>
-          <td>Yesterday's KM </td>
-          <td>{{vehicleInfo.kmyesterday}}</td>
-        </tr>
-        <tr>
-          <td>KM Travelled (Month) </td>
-          <td>{{vehicleInfo.kmmonth}}</td>
-        </tr>
-        <tr>
-          <td>Loaded % KM (Month) </td>
-          <td>{{vehicleInfo.lkmmonth}}</td>
-        </tr>
-        <tr>
-          <td>% Movement Time (Month)</td>
-          <td>{{vehicleInfo.mvttime}}</td>
-        </tr>
-        <tr>
-          <td>Vehicle Utility Rating (Percentile)</td>
-          <td>{{vehicleInfo.vutilrt}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  
+  
+  
 
   <!--
   <table>

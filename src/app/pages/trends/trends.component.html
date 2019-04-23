@@ -1,46 +1,68 @@
-<nb-card>
-  <nb-card-header>
+<nb-card style="border:0px;">
+  <!-- <nb-card-header>
     Trends
-  </nb-card-header>
-  <nb-card-body>
+  </nb-card-header> -->
+  <nb-card-body style="padding:15px 15px 0px;">
     <div class="model-body">
-      <div class="row" style="margin-left:30px;">
+      <div class="row">
           <div class="col-sm-3">
-              <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
+              <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()" style=" border: 1px solid #324148; font-size: 10px">
                 <option value="11">Loading</option>
                 <option value="21">Unloading</option>
                 <option value="0">Onward</option>
               </select>
             </div>
          <div class="col-sm-3">
-              <select [(ngModel)]="period" class="form-control" (change)="changeTrendType()" style=" border: 2px solid darkcyan; font-size: 10px">
+              <select [(ngModel)]="period" class="form-control" (change)="changeTrendType()" style=" border: 1px solid #324148; font-size: 10px">
                 <option value="0">Day</option>
                 <option value="1">Week</option>
                 <option value="2">Month</option>
               </select>
           </div>  
-          <div class="col-sm-3" *ngIf="period==1">
+          <div class="col-sm-3" *ngIf="period=='1' || period=='2'">
+            <select [(ngModel)]="week_month_number" class="form-control" (change)="changeTrendType()" style=" border: 1px solid #324148; font-size: 10px">
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+        </div>
+        <!-- <div class="col-sm-3" *ngIf="period==2">
+          <select [(ngModel)]="month_number" class="form-control" (change)="changeWeekValue()" style=" border: 2px solid darkcyan; font-size: 10px">
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+      </div> -->
+          <!-- <div class="col-sm-3" *ngIf="period==1">
             <input type="text" class="form-control" [(ngModel)]="week_number" name="weekNo." placeholder="Number of Week"> 
           </div> 
           <div class="col-sm-3" *ngIf="period==2">
             <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
-          </div> 
-        <div class="col-sm-2" *ngIf="period==0">
-            <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
+          </div>  -->
+        <div class="col-sm-2" *ngIf="period == '0'">
+            <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
         </div>
-        <div class="col-sm-2" *ngIf="period==0">
-            <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date" placeholder="End Date" (click)="getDate('end')">
+        <div class="col-sm-2" *ngIf="period == '0'">
+            <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" *ngIf="period == '0'">
           <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
         </div>
       </div>
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
-      <div class="row" *ngIf="showtrend">
-        <div class="col-sm-1" style="padding-top:50px">
+      <div class="row">
+        <div class="col-sm-1 pr-0 text-right" style="padding-top:50px">
             <label>{{yScale}}</label>
         </div>    
-        <div class="col-sm-11" style="margin-left:-40px">    
+        <div class="col-sm-11">    
           <chart [type]="chartObject.type" [data]="chartObject.data" style="margin-right:5px;min-height: 200px;" [options]="chartObject.options"></chart>
         </div>
         <!-- <div class="col-sm-3">
@@ -66,10 +88,10 @@
 
         </div> -->
       </div>
-      <div class="row"  style="margin: 10px" *ngIf="showTables">
-        <div class="col-sm-6" style="height:300px;overflow:auto;" *ngIf="!onWardFlag">
+      <div class="row"  style="margin-top: 10px" *ngIf="showTables">
+        <div class="col-sm-6 pr-0" *ngIf="!onWardFlag">
             <table class="table table-bordered">
-                <thead class="thead" style="background-color:darkgrey">
+                <thead class="thead">
                   <tr>
                     <th>Site Name</th>
                     <th *ngIf="trendType==11">Loading Hours</th>
@@ -78,35 +100,38 @@
                         
                   </tr>
                 </thead>
+                <!-- {{siteDetails[0].loading}} -->
                 <tbody *ngIf="trendType==11">
                     <ng-container *ngFor="let data of siteDetails; let i=index;">
-                  <tr *ngIf="(trendType==11 && data.loading!= null) || (trendType==21 && data.unloading!= null)">
-                    <td><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
-                        <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
+                  <tr *ngIf="trendType==11 && data.loading_hrs!= 0">
+                    <td *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                        <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td>{{data.loading}}</td>
+                    <td *ngIf="data.sitename==null">No Site</td>
+                    <td>{{data.loading_hrs}}</td>
                     <td>{{data.loading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>
                 <tbody *ngIf="trendType==21">
                     <ng-container *ngFor="let data of siteUnloading; let i=index;">
-                  <tr *ngIf="(trendType==11 && data.loading!= null) || (trendType==21 && data.unloading!= null)">
-                    <td><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
-                        <ng-template #showid>{{data.sitename}}_{{data.site_id}}</ng-template>
+                  <tr *ngIf="trendType==21 && data.unloading_hrs!= 0">
+                    <td *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                        <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td>{{data.unloading}}</td>
+                    <td *ngIf="data.sitename==null">No Site</td>
+                    <td>{{data.unloading_hrs}}</td>
                     <td>{{data.unloading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>
               </table>
         </div>
-        <div class="col-sm-6" style="height:300px;overflow:auto;" *ngIf="!onWardFlag">
+        <div class="col-sm-6" *ngIf="!onWardFlag">
             <table class="table table-bordered">
-                <thead class="thead" style="background-color:darkgrey">
+                <thead class="thead">
                   <tr>
                     <th>Vehicle Name</th>
                     <th *ngIf="trendType==11">Loading Hours</th>
@@ -117,19 +142,19 @@
                 </thead>
                 <tbody *ngIf="trendType==11">
                   <ng-container *ngFor="let data of vehicleDetails; let i=index;">
-                  <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
-                    <td>{{data.vehicle_name}}</td>
+                  <tr *ngIf="(trendType==11 && data.loading_hrs!= 0) || (trendType==21 && data.unloading_hrs!= 0)" >
+                    <td>{{data.vehicle_id}}</td>
                     <td>{{data.loading_hrs}}</td>
-                    <td>{{data.loading_count}}</td>
+                    <td>{{data.ldng_count}}</td>
                   </tr>
                   </ng-container>  
                 </tbody>
                 <tbody *ngIf="trendType==21">
                     <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
-                    <tr *ngIf="(trendType==11 && data.loading_hrs!= null) || (trendType==21 && data.unloading_hrs!= null)" >
-                      <td>{{data.vehicle_name}}</td>
+                    <tr *ngIf="(trendType==11 && data.loading_hrs!= 0) || (trendType==21 && data.unloading_hrs!= 0)" >
+                      <td>{{data.vehicle_id}}</td>
                       <td>{{data.unloading_hrs}}</td>
-                      <td>{{data.unloading_count}}</td>
+                      <td>{{data.unldng_count}}</td>
                     </tr>
                     </ng-container>  
                   </tbody>
@@ -148,14 +173,13 @@
               <tbody>
                 
                 <tr *ngFor="let data of vehicleDetails; let i=index;" >
-                  <td>{{data.vehicle_name}}</td>
-                  <td>{{data.onward_per}}</td>
+                  <td>{{data.vehicle_id}}</td>
+                  <td>{{data.onward}}</td>
                   <td></td>
                 </tr>
                
               </tbody> 
             </table>  
-
           </div>
       </div>
     </div>

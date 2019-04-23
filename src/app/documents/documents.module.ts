@@ -13,6 +13,8 @@ import { PendingDocumentsComponent } from './pending-documents/pending-documents
 import { DatePipe } from '@angular/common';
 import { ChangeHistoryComponent } from './change-history/change-history.component';
 import { ImageViewerModule } from 'ng2-image-viewer';
+//import { DocumentIssuesComponent } from './documentation-modals/document-issues/document-issues.component';
+//import { EmpDashboardComponent } from './documentation-modals/emp-dashboard/emp-dashboard.component';
 //import { DocumentHistoryComponent } from './documentation-modals/document-history/document-history.component';
 
 const PAGES_COMPONENTS = [
@@ -36,6 +38,7 @@ const PAGES_COMPONENTS = [
     DocumentsSummaryComponent,
     PendingDocumentsComponent,
     ChangeHistoryComponent,
+    //EmpDashboardComponent,
     //DocumentHistoryComponent,
   ],
 })

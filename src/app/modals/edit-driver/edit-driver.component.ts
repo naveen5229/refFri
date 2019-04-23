@@ -24,7 +24,8 @@ export class EditDriverComponent implements OnInit {
     aadharphoto: null,
     Salary: null,
     guranter: null,
-    guranterno: null
+    guranterno: null,
+    doj: null
 
   }
   constructor(
@@ -42,15 +43,16 @@ export class EditDriverComponent implements OnInit {
       name: [this.common.params.driver.empname],
       mobileno: [this.common.params.driver.mobileno, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       guranterno: [this.common.params.driver.guarantor_mobileno],
-      lisenceno: [''],
-      uploadPhoto: [''],
-      lisencephoto: [''],
-      aadharno: [''],
-      aadharphoto: [''],
+      lisenceno: [this.common.params.driver.licence_no],
+      uploadPhoto: [this.common.params.driver.photo],
+      lisencephoto: [this.common.params.driver.licence_photo],
+      aadharno: [this.common.params.driver.aadhar_no],
+      aadharphoto: [this.common.params.driver.aadhar_photo],
       Salary: [''],
       guranter: [this.common.params.driver.guarantor_name],
       date: ['']
     });
+    console.log("driverForm",this.driverForm);
     if (this.common.params.driver) {
       //  console.log(this.common.params.driver);
       // this.driverForm.setValue({
@@ -100,6 +102,7 @@ export class EditDriverComponent implements OnInit {
       })
   }
   closeModal(){
+
     this.activeModal.close({ response: true });
     
   }
@@ -113,7 +116,7 @@ export class EditDriverComponent implements OnInit {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       photo: this.driverForm.controls.uploadPhoto.value,
-      lisenceno: this.driverForm.controls.lisenceno.value,
+      licenceNo: this.driverForm.controls.lisenceno.value,
       licencePhoto: this.driverForm.controls.lisencephoto.value,
       aadharNo: this.driverForm.controls.aadharno.value,
       aadharPhoto: this.driverForm.controls.aadharphoto.value,
@@ -126,6 +129,7 @@ export class EditDriverComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.common.showToast(res['msg']);
+        this.closeModal();
 
       }, err => {
         this.common.loading--;

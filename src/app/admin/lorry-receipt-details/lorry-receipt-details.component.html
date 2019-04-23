@@ -1,35 +1,78 @@
 <nb-card>
-    <nb-card-header>
-        Lorry Receipt Details
-    </nb-card-header>
-    <nb-card-body>
-<div class="model-body">
-  <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px;">
-    <thead class="thead">
-      <tr>
-      <th>Id</th>
-      <th>Vehicle RegNo.</th>
-      <th>Vehicle Id</th>
-      <th>Source</th>
-      <th>Destination</th>
-      <th>User</th>
-      <th>Add Time</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of pendinglr; let i=index;">
-      <td>{{data.id}}</td>
-      <td>{{data.regno}}</td>
-      <td>{{data.vehicle_id}}</td>
-      <td>{{data.source}}</td>
-      <td>{{data.destination}}</td>
-      <td>{{data.current_user}}</td>
-      <!-- <td>{{data.weight}}</td> -->
-      <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
-      <td><button class="btn-primary" (click)="enterTicket(data)">Edit</button></td>
-    </tbody>
-  </table>
-</div>
-</nb-card-body>
+  <nb-card-header>
+    <div class="row" style="margin-left:10px">
+     <div class="col-sm-6">
+    Lorry Receipt Details
+    </div>
+    <div class="col-sm-3">
+    <select [(ngModel)]="lrType" class="form-control" (change)="getPendingLr()"
+          style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="0">Pending</option>
+          <option value="1">Complete</option>
+          <option value="-1">Rejected</option>
+        </select>
+        </div>
+      </div>
+  </nb-card-header>
+  
+  <nb-card-body>
+    <div class="model-body">
+      <div class="row">
+          <div class="col-sm-3">
+              <auto-suggestion (onSelected)="getFolist($event)" url="suggestion/getFoUsersList" display="name"
+              placeholder="Search" [preSelected]="null"></auto-suggestion>
+          </div>
+          <div class="col-sm-3">
+              <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
+          </div>
+          <div class="col-sm-3">
+              <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-primary" (click)="getPendingLr()">submit</button>
+          </div>
+      </div>
+      <table class="table table-bordered" style="margin-left: 5px; margin-top:10px; margin-right: 5px;">
+        <thead class="thead">
+          <tr id="heading-row">
+            <th>Id</th>
+            <th>LRNo.</th>
+            <th>LR Date</th>
+            <th>Consignor</th>
+            <th>Consignee</th>
+            <th>Vehicle RegNo.</th>
+            <th>Vehicle Id</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>User</th>
+            <th>Add Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of pendinglr; let i=index;">
+            <td (click)="getImage(data)">{{data.id}}</td>
+            <td>{{data.receipt_no}}</td>
+            <th>{{data.lr_date | date : 'dd MMM'}}</th>
+            <td>{{data.consigner_name}}</td>
+            <td>{{data.consignee_name}}</td>
+            <td>{{data.regno}}</td>
+            <td>{{data.vehicle_id}}</td>
+            <td>{{data.source}}</td>
+            <td>{{data.destination}}</td>
+            <td>{{data.current_user}}</td>
+            <!-- <td>{{data.weight}}</td> -->
+            <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
+            <td>
+                <ng-template *ngIf="data.status==0 then showEdit;"></ng-template>
+                <ng-template *ngIf="data.status==1 then showRevert;"></ng-template>
+                <ng-template #showRevert><button class="btn" (click)="revertLrDetails(data)">Revert</button></ng-template>
+                <ng-template #showEdit><button class="btn" (click)="openEditLorryDetailsModel(data)">Edit</button></ng-template>
+             </td>   
+             <!-- <button class="btn btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button>
+              <button class="btn btn-primary" (click)="revertLrDetails(data)">Revert</button></td> -->
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
 </nb-card>

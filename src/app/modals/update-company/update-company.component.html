@@ -1,0 +1,44 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Update Company Details</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="Form" name="company-form" id="company-form" (submit)="Form.valid && updateCompany()">
+
+    <div class="row" style="margin-top:5px">
+      <div class="col-md-4">
+        <label>Company Name</label>
+      </div>
+      <div class="col-md-8" style="margin-top:5px">
+        <input type="text" class="form-control" id="companyname" formControlName="name" name="name" placeholder="Company"
+          [(ngModel)]="company.name">
+      </div>
+    </div>
+    <div class="row" style="margin-top:5px">
+      <div class="col-md-4">
+        <label> PAN </label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" formControlName="panNo" id="pan" name="pan" placeholder="PAN Number" (keyup)="checkFormat()" 
+        [ngClass]="{ 'is-invalid': isFormSubmit && f.panNo.errors }" [(ngModel)]="company.pan">
+        <div *ngIf="isFormSubmit && f.panNo.errors" class="invalid-feedback">
+            <div *ngIf="f.panNo.errors.required">PanNumber is Require</div>
+            <div *ngIf="f.panNo.errors.pattern"> Example : AELPU5278H</div>
+          </div>
+      </div>
+    </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" form="company-form" (click)="isFormSubmit=true"  style="cursor:pointer;">Submit</button>
+    </div>
+  </div>
+</div>

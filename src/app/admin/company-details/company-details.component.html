@@ -1,0 +1,29 @@
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Company Details</h2>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="tableFixHead">
+      <table class="table table-bordered table-hover" >
+        <thead class="thead">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>PAN </th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of companies;">
+            <td>{{company.id}}</td>
+            <td>{{company.name}}</td>
+            <td>{{company.pan}}</td>
+            <button (click)="updateCompanyDetails(company)">Update</button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -27,9 +27,9 @@ export class KpisDetailsComponent implements OnInit {
 
   ngOnInit() {
   }
-  getLR(kpi) {
+  getLR(lrId) {
     this.common.loading++;
-    this.api.post('FoDetails/getLorryDetails', { x_lr_id: kpi.x_lr_id })
+    this.api.post('FoDetails/getLorryDetails', { x_lr_id: lrId })
       .subscribe(res => {
         this.common.loading--;
         this.showLR(res['data'][0]);
@@ -78,7 +78,7 @@ export class KpisDetailsComponent implements OnInit {
     // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
     
-      this.common.params= tripDetails;
+    this.common.params= {tripDetils : tripDetails, ref_page : 'kpi'};
       console.log("vehicleTrip",tripDetails);
       const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     

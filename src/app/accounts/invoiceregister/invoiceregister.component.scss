@@ -10,16 +10,125 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+.auto-sugg{
+    max-height: 128px;
+    min-height: 128px;
+}
 table{
     thead{
-        color: #fff;
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        th:nth-child(1){
+            width: 35px;
+        }
+        th:nth-child(2),
+        th:nth-child(3),
+        th:nth-child(4),
+        th:nth-child(5),
+        th:nth-child(6){
+            width: 180px;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
     }
     tbody{
-        background-color: #eeeeee;
-    }
-    .heading_second{
-            background-color:#d7d7d7;
-            color: #447586;
-            font-weight: bold;
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 312px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 35px;
+            }
+            td:nth-child(2),
+            td:nth-child(3),
+            td:nth-child(4),
+            td:nth-child(5),
+            td:nth-child(6){
+                width: 180px;
+            }
         }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+}
+
+
+.tjr-label {
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 10px;
+}
+
+.tjr-input {
+    border: 1px solid #263238;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px;
+    height: auto;
+    font-size: 12px;
+}
+
+.tjr-input:focus {
+    border: 1px solid #263238;
+}
+
+.tjr-button {
+    cursor: pointer;
+    margin-top: 18px;
+    background: #263238 !important;
+    height: auto;
+    border-radius: 3px !important;
+    padding: 3px 8px !important;
+}
+
+// :host ::ng-deep.TJR-auto-suggestion-container {
+//     border: 1px solid #263238 !important;
+//     border-radius: 3px !important;
+//     height: 105px !important;
+//     overflow: hidden !important;
+//     max-height: 105px !important;
+// }
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #576c77 !important;
+    color: #ffffff;
+    cursor: pointer;
+   
+}
+i{
+    font-size: 14px;
+    align-content: center;
 }

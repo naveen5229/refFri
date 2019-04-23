@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h5>Activity Summary</h5>
+</div>
+<nb-card-body style="padding:15px 15px 0px;">
+  <div class="model-body">
+    <div class="row" style="margin-left:30px;">
+      <div class="col-sm-4">
+        <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
+    </div>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
+    </div>
+    <div class="col-sm-4">
+      <button class="btn btn-primary" (click)="getSummary()">submit</button>
+    </div>
+  </div>
+</div>
+<div>
+    <smart-table *ngIf = "activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
+  </div>
+</nb-card-body>

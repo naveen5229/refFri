@@ -15,33 +15,42 @@ import * as _ from 'lodash';
 export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
-  ledger = {
-    endDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+  outStanding = {
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
-      name: '',
-      id: ''
+      name: 'All',
+      id: 0
     },
     branch: {
       name: '',
       id: ''
     },
+    trantype:0
   };
 
   ledgerData = [];
   voucherEntries = [];
-  activeId = '';
+  ledgerList = [];
+  activeId = 'ledger';
+  allowBackspace = true;
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getBranchList();
-    this.setFoucus('branch');
+    this.common.refresh = this.refresh.bind(this);
+    this.getLedgerList();
+    this.setFoucus('ledger');
+    this.common.currentPage = 'Outstanding';
 
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getLedgerList();
+    this.setFoucus('ledger');
   }
 
   getBranchList() {
@@ -61,14 +70,32 @@ export class OutstandingComponent implements OnInit {
       });
 
   }
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
   getLedgerView() {
-    console.log('Ledger:', this.ledger);
+    console.log('Ledger:', this.outStanding);
     let params = {
-      startdate: this.ledger.startDate,
-      enddate: this.ledger.endDate,
-      ledger: this.ledger.ledger.id,
-      branch: this.ledger.branch.id
+      startdate: this.outStanding.startDate,
+      enddate: this.outStanding.endDate,
+      ledger: this.outStanding.ledger.id,
+      branch: this.outStanding.branch.id,
+      trantype:this.outStanding.trantype
     };
 
     this.common.loading++;
@@ -87,14 +114,14 @@ export class OutstandingComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.ledger[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log(this.ledger[date]);
+      this.outStanding[date] = this.common.dateFormatternew(data.date).split(' ')[0];
+      console.log(this.outStanding[date]);
     });
   }
 
   onSelected(selectedData, type, display) {
-    this.ledger[type].name = selectedData[display];
-    this.ledger[type].id = selectedData.id;
+    this.outStanding[type].name = selectedData[display];
+    this.outStanding[type].id = selectedData.id;
     // console.log('order User: ', this.DayBook);
   }
 
@@ -136,15 +163,26 @@ export class OutstandingComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('ledger');
-      }else  if (this.activeId.includes('ledger')) {
+      this.allowBackspace = true;
+      if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
-      }else  if (this.activeId.includes('startdate')) {
+      } else if (this.activeId.includes('startdate')) {
+        this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
         this.setFoucus('enddate');
-      }else  if (this.activeId.includes('enddate')) {
+      } else if (this.activeId.includes('enddate')) {
+        this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'startdate') this.setFoucus('ledger');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
     }
   }
 

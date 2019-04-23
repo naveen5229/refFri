@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { ResolveMissingIndustryComponent } from '../../modals/resolve-missing-industry/resolve-missing-industry.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -15,26 +14,44 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AlertRelatedIssueComponent implements OnInit {
   missingIndusrtyData = [];
+  ticketsData = [];
   missing = 0;
   backlog = 0;
-  backlogData = [];
+  tickets = 1;
+  table = null;
+  foid = null;
+
+
   constructor(public api: ApiService,
     public common: CommonService,
-    private modalService: NgbModal, ) { }
+    private modalService: NgbModal, ) {
+    this.common.refresh = this.refresh.bind(this);
+    this.ticket();
+  }
 
   ngOnInit() {
   }
+  refresh() {
+    console.log('Refresh');
+    this.ticket();
+  }
+  selectFoUser(user) {
+    console.log("user", user);
+    this.foid = user.id;
+    this.ticket();
+  }
 
-  missingIndustry() {
+  ticket() {
     this.common.loading++;
-    this.api.get('HaltOperations/getMissingIndustries')
+    this.api.get('MissingIndustry' + (this.foid? ('?foid=' + this.foid) : ''))
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        this.missingIndusrtyData = res['data'];
-        console.log("data:", this.missingIndusrtyData);
-        if (this.missingIndusrtyData) {
-          this.missing = 1;
+        this.ticketsData = res['data'];
+        this.table = this.setTable();
+        console.log("data:", this.ticketsData);
+        if (this.ticketsData) {
+          this.tickets = 1;
           this.backlog = 0;
         }
 
@@ -42,63 +59,155 @@ export class AlertRelatedIssueComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+
   }
 
-  backLogs() {
+  setTable() {
+    let headings = {
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+      regno: { title: 'Regno ', placeholder: 'Regno ' },
+      ltime: { title: 'Ltime', placeholder: 'Ltime' },
+      ttime: { title: 'Ttime', placeholder: 'Ttime' },
+      disa: { title: 'Disa', placeholder: 'Disa' },
+      dis: { title: 'Dis', placeholder: 'Dis' },
+      ratio: { title: 'Ratio', placeholder: 'Ratio' },
+      foname: { title: 'Fo Name', placeholder: 'Fo Name' },
+      holdBy: { title: 'Hold By', placeholder: 'Hold By' },
+      remark: { title: 'Remark', placeholder: 'Remark' },
+      action: { title: 'Action', placeholder: 'Action', hideSearch: true, class: 'text-dark' },
+    };
+
+
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "auto"
+      }
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    this.ticketsData.map(ticket => {
+
+      let column = {
+        vehicleNumber: { value: ticket.vehicle_id },
+        regno: { value: ticket.regno },
+        ltime: { value: ticket.ltime, date: 'dd MMM HH:mm' },
+        ttime: { value: ticket.ttime, date: 'dd MMM HH:mm' },
+        disa: { value: ticket.disa },
+        dis: { value: ticket.dis },
+        ratio: { value: ticket.ratio },
+        foname: { value: ticket.fo_name },
+        holdBy: { value: ticket.hold_by },
+        remark: { value: ticket.remark },
+        action: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.enterTicket.bind(this, ticket), class: 'icon text-center del' },
+      };
+
+
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
+
+  enterTicket(issue) {
+    console.log("Issue :",issue);
+    let result;
+    let params = {
+      tblRefId: 7,
+      tblRowId: issue.vehicle_id
+    };
+    console.log("params", params);
     this.common.loading++;
-    this.api.get('HaltOperations/getBacklogs')
+    this.api.post('TicketActivityManagment/insertTicketActivity', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
-        this.backlogData = res['data'];
-        console.log("data:", this.backlogData);
-        if (this.backlogData) {
-          this.backlog = 1;
-          this.missing = 0;
+        result = res;
+        console.log(result);
+        if (!result['success']) {
+          // alert(result.msg);
+          this.common.showToast(res['msg']);
+          return false;
         }
-
+        else {
+          this.openChangeStatusModal(issue);
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-  missingIssue(issue){
-    let ltime =  new Date(issue.addtime);
+
+
+  openChangeStatusModal(issue) {
+
+    let ltime = new Date(issue.addtime);
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
     let latch_time = this.common.dateFormatter(subtractLTime);
-    console.log("issue:",issue);
+
     let VehicleStatusData = {
-      vehicle_id : issue.y_vehicle_id,
-      ttime:issue.y_curr_start,
-      suggest:null,
-      latch_time:issue.y_outside_start
+      id: issue.id,
+      vehicle_id: issue.vehicle_id,
+      tTime: issue.ttime,
+      suggest: null,
+      latch_time: issue.ltime,
+      status: 2,
+      remark: issue.remark
     }
-    console.log("VehicleStatusData", VehicleStatusData);
-   
+    console.log("missing open data ", VehicleStatusData);
+    this.common.ref_page = 'ari';
+
     this.common.params = VehicleStatusData;
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
+      console.log("after data chnage ");
+      if(!this.foid){
+       this.ticket();
+      }
+      let newData = [];
+      for (const ticket of this.ticketsData) {
+        if(ticket.id != issue.id){
+          newData.push(ticket);
+        }
+      }
+      this.ticketsData = newData;
+      this.table = null;
+      this.table= this.setTable();
+      this.exitTicket(VehicleStatusData);
     });
 
   }
-  backlogsIssue(backlogsIssue){
-    let ltime =  new Date(backlogsIssue.addtime);
-    let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
-    let latch_time = this.common.dateFormatter(subtractLTime);
-    console.log("issue:",backlogsIssue);
-    let VehicleStatusData = {
-      vehicle_id : backlogsIssue.x_vehicle_id,
-      ttime:backlogsIssue.y_sec_start_time,
-      suggest:null,
-      latch_time:backlogsIssue.y_start_time
-    }
-    console.log("VehicleStatusData", VehicleStatusData);
-   
-    this.common.params = VehicleStatusData;
-    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
-    activeModal.result.then(data => {
-    });
+  exitTicket(missingIssue) {
+    let result;
+    var params = {
+      tblRefId: 7,
+      tblRowId: missingIssue.vehicle_id
+    };
+    console.log("params", params);
+    this.api.post('TicketActivityManagment/updateActivityEndTime', params)
+      .subscribe(res => {
+        result = res
+        console.log(result);
+        if (!result.sucess) {
+          //  alert(result.msg);
+          return false;
+        }
+        else {
+          return true;
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
 
   }
+
+
 
 }

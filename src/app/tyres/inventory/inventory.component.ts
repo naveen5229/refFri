@@ -19,11 +19,12 @@ export class InventoryComponent implements OnInit {
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
     searchModelString: null,
-    is_health: true,
+    is_health: false,
     nsd1: null,
     nsd2: null,
     nsd3: null,
-    psi: null
+    psi: null,
+    tyreSize:null
   },
   {
     modelName: null,
@@ -32,11 +33,12 @@ export class InventoryComponent implements OnInit {
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
     searchModelString: null,
-    is_health: true,
+    is_health: false,
     nsd1: null,
     nsd2: null,
     nsd3: null,
-    psi: null
+    psi: null,
+    tyreSize:null
   },
   {
     modelName: null,
@@ -45,16 +47,18 @@ export class InventoryComponent implements OnInit {
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
     searchModelString: null,
-    is_health: true,
+    is_health:false,
     nsd1: null,
     nsd2: null,
     nsd3: null,
-    psi: null
+    psi: null,
+    tyreSize:null
   }];
 
   activeRow = -1;
   modelSuggestion = false;
   models = [];
+  sizeSuggestion = [];
   searchedTyreDetails = [];
   constructor(private modalService: NgbModal,
     public common: CommonService,
@@ -134,8 +138,16 @@ export class InventoryComponent implements OnInit {
     });
   }
 
+  size(i) {
+    console.log('size-' + i);
+    this.inventories[i].tyreSize = document.getElementById('size-' + i)['value'];
+  }
+
+  getTyreSize(tsize,i){
+    this.inventories[i].tyreSize = tsize.size;
+  }
+
   saveDetails() {
-   
     this.common.loading++;
     let params = { inventories: JSON.stringify(this.inventories) };//JSON.stringify(this.inventories) ;
     console.log('Params:', params);
@@ -178,11 +190,12 @@ export class InventoryComponent implements OnInit {
       modelBrand: null,
       tyreNo: null,
       date1: this.common.dateFormatter(new Date()),
-      searchModelString: null, is_health: true,
+      searchModelString: null, is_health: false,
       nsd1: null,
       nsd2: null,
       nsd3: null,
-      psi: null
+      psi: null,
+     tyreSize:null
     });
   }
 

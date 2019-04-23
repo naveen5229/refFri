@@ -1,0 +1,59 @@
+.icon{
+    margin-left:10px;
+}
+.modal-header{
+    padding: 10px 15px !important;
+}
+.close{
+    font-size: 36px;
+    padding: 8px 16px;
+    outline: none;
+}
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 15%;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 240px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 15%;
+            }
+            td{
+                width: 15%;
+            }
+            td:last-child{
+                width: 15%
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

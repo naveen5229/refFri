@@ -1,0 +1,18 @@
+<nb-card>
+    <nb-card-header>
+  <div class="row">
+    <div class="col-sm-4">
+       <h5>Placement Delay Faults</h5>
+      </div>
+  </div>
+  </nb-card-header>
+
+<nb-card-body>
+  <div class="model-body">
+    <smart-table *ngIf='showTable'  [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
+      
+</div>
+
+</nb-card-body>
+</nb-card>

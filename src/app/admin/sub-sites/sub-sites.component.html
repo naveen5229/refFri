@@ -1,0 +1,37 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-6">
+        <table>
+          <tr>
+            <td>
+            <input type="text" class="form-control" [(ngModel)]="siteId" placeholder="Site Id">
+            </td>
+            <td>
+              <button class="btn" (click)="getSubSites()">Get SubSites</button>
+            </td>
+          </tr>
+        </table>
+        <table class="tbl table table-bordered table-hover" *ngIf = "subSites">
+          <thead class="thead">
+            <tr>
+              <th style="width:40px;">S.No</th>
+              <th style="width:40px;">Id</th>
+              <th>SubSite Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let subSite of subSites;let i = index;" (mouseover)="rotateBounce(i,1)" (mouseout)= "rotateBounce(i,2)" >
+              <td style="width:40px;">{{i+1}}</td>
+              <td style="width:40px;">{{subSite.id}}</td>
+              <td>{{subSite.subsite_type}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="map" class="map col-6">
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

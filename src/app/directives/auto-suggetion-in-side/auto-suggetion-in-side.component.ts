@@ -23,12 +23,19 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    this.data = changes.data.currentValue;
-    this.display = changes.display.currentValue;
-    if (this.seperator) {
+    console.log("--------------------+++++++++", changes);
+    if (changes.data) {
+      this.data = changes.data.currentValue;
+    }
+    if (changes.display) {
+      this.display = changes.display.currentValue;
+    }
+    if (changes.seperator) {
       this.seperator = changes.seperator.currentValue;
     }
-    this.targetId = changes.targetId.currentValue;
+    if (changes.targetId) {
+      this.targetId = changes.targetId.currentValue;
+    }
     this.initialize();
   }
 
@@ -50,13 +57,16 @@ export class AutoSuggetionInSideComponent implements OnInit {
 
   handleTargetId() {
     let ele = document.getElementById(this.targetId);
-    ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
-    ele.onkeydown = this.handleKeyDown.bind(this);
+    if (ele) {
+      ele.oninput = () => this.filterData(document.getElementById(this.targetId)['value']);
+      ele.onkeydown = this.handleKeyDown.bind(this);
+    }
+
   }
 
   filterData(searchText) {
     if (!searchText) {
-      this.suggestions = this.data;
+      this.suggestions = JSON.parse(JSON.stringify(this.data));
       this.suggestions.splice(10, this.suggestions.length - 11);
       return;
     }
@@ -75,15 +85,16 @@ export class AutoSuggetionInSideComponent implements OnInit {
   }
 
   handleKeyDown(event) {
-    console.log('Event:', event);
+    // console.log('Event:', event);
     const key = event.key.toLowerCase();
     if (key == 'arrowdown') {
       if (this.activeSuggestion != this.suggestions.length - 1) this.activeSuggestion++;
-      else this.activeSuggestion = 0;
+      console.log('Active: ', this.activeSuggestion, (this.activeSuggestion - 3) * 25);
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'arrowup') {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
-      else this.activeSuggestion = this.suggestions.length - 1;
+      document.getElementById('TJR-auto-suggestion-container').scroll(0, (this.activeSuggestion - 3) * 25);
       event.preventDefault();
     } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
@@ -92,8 +103,7 @@ export class AutoSuggetionInSideComponent implements OnInit {
         this.selectSuggestion(this.suggestions[0]);
       }
     }
-
-
   }
+
 
 }

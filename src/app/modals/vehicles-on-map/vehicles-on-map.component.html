@@ -1,3 +1,33 @@
-<p>
-  vehicles-on-map works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Vehicle On Map</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="model-body" style="min-height:550px; min-width: 500px;">
+  <div class="row">
+    <div class="col-5" style="margin-left:25px"  class="tableFixHead">
+      <table class="table table-bordered table-hover" style="border:1px gray solid;">
+        <thead style=" background-color: gray;text-align: center" >
+          <th style="width:40px;">#</th>
+          <th>Vehicle No</th>
+          <th>Location</th>
+        </thead>
+        <tbody *ngFor="let vehicle of vehicles;let i = index;" >
+          <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
+            (mouseover)="mapService.toggleBounceMF(i,2)"
+           >
+           <td>{{i}}</td>
+            <td>{{vehicle.x_showveh}}</td>
+            <td>{{vehicle.Address}}</td>
+           
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-7">
+      <div id="map" style="width: 100%; height: 80vh">
+      </div>
+    </div>
+  </div>
+</div>
