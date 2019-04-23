@@ -223,7 +223,7 @@ mwlResizable {
     }
 
     th:nth-child(9) {
-        width: 54px;
+        width: 70px;
     }
     th{
         .sort-container{
@@ -245,6 +245,9 @@ mwlResizable {
         }
         .icon.fa-truck{
             color: #5CD050;
+        }
+        .icon.fa-camera{
+            color: #b150d0;
         }
     }
 }
