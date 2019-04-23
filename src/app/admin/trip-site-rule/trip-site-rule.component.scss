@@ -46,3 +46,7 @@ table{
     color: #D61414 !important;
     font-size: 14px;
 }
+:host ::ng-deep .tag .no-search span {
+    color: black;
+
+}
