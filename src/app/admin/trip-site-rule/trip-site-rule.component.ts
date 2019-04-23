@@ -59,7 +59,7 @@ export class TripSiteRuleComponent implements OnInit {
 
   refresh() {
     this.getSiteData();
-    this.vehicle= null;
+    this.vehicle.id= null;
     this.siteId=null;
   }
   addsite() {
@@ -96,8 +96,7 @@ export class TripSiteRuleComponent implements OnInit {
           index++;
         }
         this.table = this.setTable();
-
-
+       
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -207,7 +206,7 @@ export class TripSiteRuleComponent implements OnInit {
           this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
           index++;
         }
-        
+        this.table =null;
         this.table = this.setTable();
 
 
@@ -216,6 +215,13 @@ export class TripSiteRuleComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+
+  }
+  selectVehicle(vehicle){
+    this.vehicle.id=vehicle.id;
+  }
+  selectSite(site){
+    this.siteId=site.id;
 
   }
 
