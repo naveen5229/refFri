@@ -1,0 +1,19 @@
+<div class="date">
+  Enter Your Date = <input   placeholder="Enter Your Date" [(ngModel)]= "dateEntered">
+Select Your Date Format
+<select class="date-control"   [(ngModel)]= "dateType">
+  <option value="YYYYMMDD">yyyy-mm-dd</option>
+  <option value="DDMMYYYY">dd-mm-yyyy</option>
+  <option value="DDMMYY">dd-mm-yy</option>
+  <option value="DDMM">dd-mm</option>
+</select>
+<span>Your Date Seperator = <select   [(ngModel)]= "dateSeperator">
+  <option value="-"> - (hyphen)</option>
+  <option value="/">/ (Slash)</option>
+  <option value=".">. (Dot)</option>
+ 
+</select></span>
+<button type="button" (click)="dateFormatSetter()"  >Submit</button>
+<br>
+Your Specified Format is Here =  <p> {{formattedDate}} </p>
+</div>

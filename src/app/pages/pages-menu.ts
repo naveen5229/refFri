@@ -30,6 +30,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/lorry-receipts',
   },
   {
+    title: 'Date Service Tester',
+    icon: 'nb-list',
+    link: '/pages/date-service-tester',
+  },
+  {
     title: 'Generate LR',
     icon: 'fa fa-pencil',
     link: '/pages/generate-lr',

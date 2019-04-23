@@ -26,6 +26,7 @@ import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
 import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
+import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -61,6 +62,10 @@ const routes: Routes = [{
   {
     path:'generate-lr',
     component:GenerateLRComponent,
+  },
+  {
+    path: 'date-service-tester',
+    component: DateServiceTesterComponent,
   },
   {
     path: 'expenses',
