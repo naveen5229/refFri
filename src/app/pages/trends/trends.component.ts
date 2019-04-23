@@ -7,6 +7,7 @@ import { NbThemeService } from '@nebular/theme';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 import * as _ from 'lodash';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { ViewListComponent } from '../../modals/view-list/view-list.component';
 
 
 
@@ -491,6 +492,27 @@ export class TrendsComponent implements OnInit {
 
   }
 
+
+  getPendingStatusDetails() {
+    this.common.loading++;
+    this.api.get('HaltOperations/getPendingAlertDetails?')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        let data = [];
+        res['data'].map((vehicles, index) => {
+          data.push([index, vehicles.regno, vehicles.cnt, vehicles.actct, vehicles.wuct, this.common.changeDateformat(vehicles.time)]);
+        });
+        console.log(data);
+        this.common.params = { title: 'Vehicles On Site:', headings: ["#", "Vehicle RegNo", "Count", "Since Updated (In Minutes)", "Working User (In Last 10 Minutes)", "Clear Tickets (In Last 10 Minutes)"], data };
+        this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
 
 
 }
