@@ -294,14 +294,20 @@ export class GenerateLRComponent implements OnInit {
 
   checkDateFormat() {
     let dateValue = this.lr.date;
+    let datereg= /^\d{4}[-]\d{2}[-]\d{2}$/;
     console.log('this.lrdate', this.lr.date);
     if (dateValue.length < 8) return;
+    
+    if(dateValue.match(datereg))
+     return;
+    else{
     let date = dateValue[0] + dateValue[1];
     let month = dateValue[2] + dateValue[3];
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
     this.lr.date = year + '-' + month + '-' + date;
     console.log('checkDateFormat',this.lr.date);
+    }
   }
 
   getDate() {

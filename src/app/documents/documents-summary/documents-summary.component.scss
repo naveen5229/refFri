@@ -26,7 +26,7 @@ table{
     color: green; font-size: 18px; cursor:pointer;
 }
 .icon-yellow {
-    color: yellow; font-size: 18px; cursor:pointer;
+    color: #ff9800; font-size: 18px; cursor:pointer;
 }
 .icon-red-cross {
     color: red; font-size: 18px; cursor:arrow;
@@ -41,7 +41,7 @@ table{
     color: green; font-size: 18px;
 }
 .i-yellow {
-    color: yellow; font-size: 18px;
+    color: #ff9800; font-size: 18px;
  }
 .i-red-cross {
     color: red; font-size: 18px;
@@ -91,7 +91,7 @@ table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
 .document-heading_box tr td input{
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     top: 0px;
     margin: 0px;
     left: 0px;
@@ -175,11 +175,10 @@ table.table-scroll{
         }
     }
     tbody{
-        overflow-y: auto;
+        overflow-y: scroll;
         display: block;
         width: 100%;
         table-layout: fixed;
-        overflow: auto;
         max-height: calc(100vh - 250px);
         tr{
             td{

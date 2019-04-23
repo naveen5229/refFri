@@ -113,15 +113,15 @@ table {
             padding: 12px 10px;
         }
     }
-
 }
 
 .select_option {
-    background-color: #f5f5f5;
+    background-color: #f1f1f1;
     padding: 10px;
-    margin-left: 15px;
+    margin-left: 10px;
     margin-bottom: 10px;
-
+    margin-right: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 10px 0px;
     h5 {
         font-size: 14px;
     }
@@ -223,7 +223,7 @@ mwlResizable {
     }
 
     th:nth-child(9) {
-        width: 54px;
+        width: 70px;
     }
     th{
         .sort-container{
@@ -245,6 +245,9 @@ mwlResizable {
         }
         .icon.fa-truck{
             color: #5CD050;
+        }
+        .icon.fa-camera{
+            color: #b150d0;
         }
     }
 }
