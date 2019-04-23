@@ -8,7 +8,7 @@ nb-card-header{
     margin-bottom: 20px!important;
 }
 nb-card-body{
-    padding: 0px 20px 15px;
+    padding: 0px 20px 5px;
 }
 .alert-danger{
     color: #721c24 !important;
@@ -93,7 +93,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 250px);
+        max-height: calc(100vh - 218px);
         tr{
             display: table;
             table-layout: fixed;
