@@ -4,11 +4,12 @@
       <div class="col-sm-8">
         <h4>Trip FeedBack Logs</h4>
       </div>
-      <!-- <div class="col-sm-4" style="text-align:right">
-          <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-          <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
-            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-        </div> -->
+      <div class="col-sm-4" style="text-align:right">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+      </div>
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -66,7 +67,7 @@
       </div> -->
     <div>
 
-      <smart-table *ngIf = "tripLogs.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf = "tripLogs.length" [data]="table.data" [settings]="table.settings" id='tbldocs'></smart-table>
       <br>
     </div>
   </nb-card-body>

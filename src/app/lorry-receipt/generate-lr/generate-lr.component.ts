@@ -34,7 +34,7 @@ export class GenerateLRComponent implements OnInit {
     consignorId: null,
     sameAsDelivery: false,
     paymentTerm: "1",
-    payableAmount: 1000,
+    payableAmount: null,
     lrNumber: null,
     sourceCity: null,
     sourceLat: null,
@@ -223,7 +223,10 @@ export class GenerateLRComponent implements OnInit {
   }
 
   saveDetails() {
-    ++this.common.loading;
+    if((!this.lr.sourceLat)||(!this.lr.destinationLat)){
+      this.common.showError("Source and Destination Location selection are required");
+    }else{
+     ++this.common.loading;
     let particulars = JSON.parse(JSON.stringify(this.particulars));
     particulars.map(particular => {
       for (let i = 0; i < particular.customfields.customDetail.length; i += 2) {
@@ -235,13 +238,7 @@ export class GenerateLRComponent implements OnInit {
 
     this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
     console.log('params lrdate',this.lr.date);
-    // let params1 = {
-    //   lrDetails: this.lr,
-    //   particulars: particulars
-    // }
-    // console.log("params1", params1);
-    // console.log("Branch Id",this.accountService.selected.branch);
-    //this.particulars.
+  
     let params = {
       branchId: this.accountService.selected.branch,
       vehicleId: this.vehicleId,
@@ -283,6 +280,7 @@ export class GenerateLRComponent implements OnInit {
         this.common.showError(err);
         console.log('Error: ', err);
       });
+    }
   }
 
   lrView(lrId){
@@ -296,14 +294,20 @@ export class GenerateLRComponent implements OnInit {
 
   checkDateFormat() {
     let dateValue = this.lr.date;
+    let datereg= /^\d{4}[-]\d{2}[-]\d{2}$/;
     console.log('this.lrdate', this.lr.date);
     if (dateValue.length < 8) return;
+    
+    if(dateValue.match(datereg))
+     return;
+    else{
     let date = dateValue[0] + dateValue[1];
     let month = dateValue[2] + dateValue[3];
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
     this.lr.date = year + '-' + month + '-' + date;
     console.log('checkDateFormat',this.lr.date);
+    }
   }
 
   getDate() {

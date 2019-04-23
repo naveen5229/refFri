@@ -139,4 +139,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/placement-delay-faults',
     home: true,
   },
+  {
+    title: 'Vehicle Gps Detail',
+    icon: 'fas fa-list',
+    link: '/pages/vehicle-gps-detail',
+    home: true,
+  },
 ];

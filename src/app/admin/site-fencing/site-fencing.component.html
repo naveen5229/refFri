@@ -19,8 +19,7 @@
             <tr>
               <td>
                 <select class="form-control" [(ngModel)]="typeId" (change)="getRemainingTable()">
-                  <option *ngFor="let typeIdx of typeIds;" 
-                    [value]="typeIdx.id">{{typeIdx.description}}</option>
+                  <option *ngFor="let typeIdx of typeIds;" [value]="typeIdx.id">{{typeIdx.description}}</option>
                 </select>
               </td>
               <td>
@@ -35,9 +34,13 @@
             <tr>
               <td>
                 <button (click)="clearAll()" class="btn btn-primary">Clear All</button>
+               
               </td>
               <td>
-                <button (click)="loadMarkers()" class="btn btn-primary">Load Marker</button>
+                <button (click)="loadMarkers()" class="btn btn-primary"  style="display: inline-block; margin-right: 5px;  ">Load Marker</button>
+                <button (click)="updateSiteName();" 
+                class="btn btn-primary">U.S</button>
+                
               </td>
               <td>
                 <button (click)="enterTicket();"
@@ -52,8 +55,7 @@
                 <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="siteLoc" class="form-control">
               </td>
               <td>
-                <button (click)="updateLocName();"
-                  class="btn btn-primary">Update Loc</button>
+                <button (click)="updateLocName(); " class="btn btn-primary">Update Loction</button>
               </td>
             </tr>
             <tr>

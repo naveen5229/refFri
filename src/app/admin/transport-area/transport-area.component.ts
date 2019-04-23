@@ -63,7 +63,8 @@ export class TransportAreaComponent implements OnInit {
       if(count==1){
         if(isClear)
           this.clearAll();
-        this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
+          let datay = [{data:data[Object.keys(data)[0]].latLngs,isMain:this.isUpdate,isSec:!this.isUpdate,show:Object.keys(data)[0]}];
+        this.mapService.createPolygons(datay);
         console.log("Single",data[Object.keys(data)[0]]);
       }
       else if(count>1){
@@ -142,14 +143,15 @@ export class TransportAreaComponent implements OnInit {
         path += latLngs[0].lat() + " " + latLngs[0].lng() + ",";
         path = path.substr(0, path.length - 1);
         path += ")";
-        let params = {
-          polygon: path,
-          locName: this.locName,
-          lat:this.locLatLng.lat,
-          long:this.locLatLng.lng
-        };
+        
         //  console.log("Poly",this.mapService.polygon);
         if (!this.isUpdate) {
+          let params = {
+            polygon: path,
+            locName: this.locName,
+            lat:this.locLatLng.lat,
+            long:this.locLatLng.lng
+          };
           this.apiService.post("SiteFencing/insertTransportAreaFence", params)
             .subscribe(res => {
               let data = res['data'];
@@ -163,12 +165,18 @@ export class TransportAreaComponent implements OnInit {
             });
         }
         else {
-          this.apiService.post("SiteFencing/updateSiteFence", params)
+          let params = {
+            polygon: path,
+            locName: this.selectedArea.loc_name,
+            lat:this.selectedArea.lat,
+            long:this.selectedArea.long
+          };
+          this.apiService.post("SiteFencing/updateTA", params)
             .subscribe(res => {
               let data = res['data'];
               console.log('Res: ', res['data']);
               this.commonService.showToast("Updated");
-              this.clearAll();
+              this.gotoSingle();
             }, err => {
               console.error(err);
               this.commonService.showError();
