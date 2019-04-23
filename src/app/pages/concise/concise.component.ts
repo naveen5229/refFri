@@ -821,7 +821,8 @@ export class ConciseComponent implements OnInit {
   handleMapView() {
     if (this.isZoomed) {
       this.isZoomed = false;
-      this.mapService.zoomMap(7);
+      this.mapService.setMapType(0);
+      this.mapService.resetBounds();
       return;
     }
     this.isMapView = !this.isMapView;
