@@ -54,7 +54,10 @@ table{
     color: black;
 
 }
-.i{
-    font-size: 14px;
+:host ::ng-deep .edit-btn{
+
+    font-size: 20px;
     margin: 5px;
 }
+
+  
