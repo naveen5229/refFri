@@ -7,6 +7,8 @@ import { PendingDocumentComponent } from '../../documents/documentation-modals/p
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
 import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
+import { DocumentRef } from '@agm/core/utils/browser-globals';
+import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
 //import jsPDF from 'jspdf';
 //import 'jspdf-autotable';
 
@@ -278,8 +280,8 @@ export class DocumentsSummaryComponent implements OnInit {
   }
 
   showIssues() {
-    this.common.params = { title: 'Documents Issues' };
-    const activeModal = this.modalService.open(DocumentIssuesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    this.common.params = { title: 'Documents Issues', status: 'pendingAll',docReoprt:{document_type_id:0} };
+    const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
   noRecordDocumentData(norecordData, col, colval) {
     console.log("row:", norecordData);

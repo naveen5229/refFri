@@ -249,7 +249,7 @@ export class ConciseComponent implements OnInit {
         <!-- Unloading -->
           <span>${kpi.x_showtripstart}</span>
           <i class="icon ion-md-arrow-round-forward"></i>
-          ${this.handleCircle(kpi.x_showtripstart)}
+          ${this.handleCircle(kpi.x_showtripend)}
         `;
     } else if (kpi.trip_status_type == 4) {
       html += `
