@@ -1,8 +1,9 @@
 .map-container {
     width: 100%;
-    height: calc(100vh - 210px);
+    height: calc(100vh - 240px);
     position: relative;
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 #map1 {
     height: 100%;
@@ -19,10 +20,11 @@
 .time-line-event{
     position: absolute;
     width: 100%;
+    bottom: -10px;
 }
 .time-line-event .time-line-scale{
     position: relative;
-    width: 98%;
+    width: 100%;
     border-bottom: 1px solid black;
     top: 4px;
 }
@@ -147,15 +149,6 @@
         }
     }
 }
-.close{
-    background: transparent;
-    color: #263238 !important;
-    opacity: 1;
-    padding: 8px 15px;
-    margin: -10px -1rem -1rem auto;
-    outline: none;
-    font-size: 30px;
-}
 .modal-body{
     padding: 10px 15px;
 }
@@ -170,7 +163,7 @@
     outline: none;
 }
 .status_buttons button{
-    padding: 5px 8px;
+    padding: 5px 6px;
     border-radius: 5px;
     font-size: 10px;
 }
