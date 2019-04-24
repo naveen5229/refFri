@@ -286,41 +286,51 @@ export class ConciseComponent implements OnInit {
       case 0:
         html = `
             <!-- At Origin -->
-            <span class="circle loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            ${this.handleCircle(kpi.x_showtripstart, 'loading')}
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend}</span>
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 1:
         html = `
             <!-- At Destination -->
             <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="circle unloading">${kpi.x_showtripend}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              ${this.handleCircle(kpi.x_showtripend, 'unloading')}
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 2:
         html = `
             <!-- Onward -->
             <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend}</span>
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 3:
         html = `
             <!-- Available (Done) -->
             <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend}</span>
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             <i class="fa fa-check-circle complete"></i>`;
         break;
       case 4:
         html = `
             <!-- Available (Next) -->
             <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend}</span>
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 5:
@@ -353,9 +363,9 @@ export class ConciseComponent implements OnInit {
     };
 
     placements.map((placement, index) => {
-      html += `<span class="${colors[placement.type]}">${placement.name}</span>`
+      html += `<span class="${colors[placement.type]}">${placement.name.trim()}</span>`
       if (index != placements.length - 1) {
-        html += `<span>-</span>`;
+        html += `<span> - </span>`;
       }
     });
     console.log('Html:', html);
@@ -1016,10 +1026,10 @@ export class ConciseComponent implements OnInit {
 
 
 
-  handleCircle(location) {
+  handleCircle(location, className = 'loading') {
     let locationArray = location.split('-');
     if (locationArray.length == 1) {
-      return `<span class="circle">${location}</span>`;
+      return `<span class="circle ${className}">${location}</span>`;
     }
     let html = ``;
     for (let i = 0; i < locationArray.length; i++) {
