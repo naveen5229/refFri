@@ -878,7 +878,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.getTripStatusHTML(event)}</span> <br>
+      <span><b>Trip:</b>${this.getTripStatusHTMLNew(event)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
