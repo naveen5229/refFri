@@ -15,7 +15,9 @@ export class UpdateCompanyComponent implements OnInit {
   company = {
     name: null,
     pan: null,
-    id:null
+    id:null,
+    address:'',
+    mobileNo:''
   };
   constructor(
     public common : CommonService,
@@ -26,6 +28,8 @@ export class UpdateCompanyComponent implements OnInit {
   ) {
     this.company.name = this.common.params.company.name;
     this.company.pan = this.common.params.company.pan;
+    this.company.address = this.common.params.company.address?this.common.params.company.address:'';
+
     this.company.id = this.common.params.company.id;
 
    }
@@ -34,6 +38,8 @@ export class UpdateCompanyComponent implements OnInit {
     this.Form = this.formBuilder.group({
       name:['',Validators.required],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
+      address:['',Validators.required],
+      mobileNo:['',Validators.required]
     });
   }
   // convenience getter for easy access to form fields
@@ -53,7 +59,9 @@ export class UpdateCompanyComponent implements OnInit {
     let params = {
       name : this.company.name,
       id : this.company.id,
-      pan : this.company.pan
+      pan : this.company.pan,
+      address : this.company.address,
+      mobileNo : this.company.mobileNo
     }
     console.log("params", params);
     ++this.common.loading;
