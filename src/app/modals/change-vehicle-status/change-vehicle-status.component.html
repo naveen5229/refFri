@@ -91,8 +91,8 @@
                     <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
                     <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
                       *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
-                    <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
-                        class="fa fa-trash"></i></span>
+                    <!-- <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
+                        class="fa fa-trash"></i></span> -->
                     <span class="zoom-btn" *ngIf="vehicleEvent.haltTypeId == -1"
                       (click)="openManualHalt(vehicleEvent);">MH</span>
                     <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
@@ -120,19 +120,12 @@
     <button (click)="lUlBtn=!lUlBtn;showPreviousLUL()">Previous L/UL</button>
     <button (click)="showHalt()" style="margin-left:3px">Show Halt</button>
     <button (click)="showTrail()" style="margin-left:3px">Show Trail</button>
-    <!-- <button (click)="showHide()" style="margin-left:10px">{{showHideSite}}</button> -->
     <button (click)="beforeLatchTime()" style="margin-left:3px">Before ltime</button>
     <input type="text" style="cursor: pointer;margin-left:3px;" autocomplete="off" (click)="getDate('date')"
       placeholder="Custom LTime" [value]="customDate | date: 'dd MMM yyyy'" name="date" readonly>
     <button id="addAutomaticHalt" (click)="addAutomaticHalt()" style="margin-left:3px">Add Auto Halt </button>
     <button id="addManualHalt" (click)="openManualHalt('vehicleEvent')" style="margin-left:3px">Manual Halt </button>
-    <!-- <span style="margin-left:150px">
-      <span class="zoom-btn" (click)="setZoom(6)">1</span>
-      <span class="zoom-btn" (click)="setZoom(9)">2</span>
-      <span class="zoom-btn" (click)="setZoom(12)">3</span>
-      <span class="zoom-btn" (click)="setZoom(15)">4</span>
-      <span class="zoom-btn" (click)="setZoom(18)">5</span>
-    </span> -->
+
   </div>
 
 
@@ -142,21 +135,14 @@
 
     <div #map1 id="map1" style="margin-left:10px"> </div>
 
-    <!-- <div class="time-line-event" style="height:50px">
-        <div class="time-line-scale"></div>
-        <div *ngFor="let event of vehEvent; let i = index;"  class="time-line-circle"
-        [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'vh'} " (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()" >
+
+    <div class="time-line-event">
+      <div class="time-line-scale"></div>
+      <div *ngFor="let event of vehicleEventsR; let i = index;" class="time-line-circle"
+        [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
+        (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()">
       </div>
-      </div> -->
-      <div class="time-line-event">
-          <div class="time-line-scale"></div>
-          <div *ngFor="let event of vehicleEventsR; let i = index;"  class="time-line-circle"
-          [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} " (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()" >
-        </div>
-        </div>
+    </div>
   </div>
-  <!-- <accordion>
-      <title>test</title>
-      <details>test1</details>
-    </accordion> -->
+
 </div>
