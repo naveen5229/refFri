@@ -160,7 +160,7 @@ export class InventoryComponent implements OnInit {
         } else {
           this.common.showToast(res['data'][0].rtn_msg);
         }
-        this.searchData();
+        //this.searchData();
       }, err => {
         this.common.loading--;
         console.error(err);
