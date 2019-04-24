@@ -55,9 +55,12 @@ table{
 
 }
 :host ::ng-deep .edit-btn{
-
     font-size: 20px;
     margin: 5px;
+}
+:host ::ng-deep .remove{ 
+    font-size: 20px;
+    margin-left: 30%;
 }
 
   

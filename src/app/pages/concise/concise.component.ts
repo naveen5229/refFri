@@ -248,7 +248,7 @@ export class ConciseComponent implements OnInit {
         <!-- Unloading -->
           <span>${kpi.x_showtripstart}</span>
           <i class="icon ion-md-arrow-round-forward"></i>
-          ${this.handleCircle(kpi.x_showtripstart)}
+          ${this.handleCircle(kpi.x_showtripend)}
         `;
     } else if (kpi.trip_status_type == 4) {
       html += `
@@ -878,7 +878,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.getTripStatusHTML(event)}</span> <br>
+      <span><b>Trip:</b>${this.getTripStatusHTMLNew(event)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
