@@ -20,7 +20,7 @@ import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on
 import { VehicleReportComponent } from "../../modals/vehicle-report/vehicle-report.component";
 import { RouteMapperComponent } from "../../modals/route-mapper/route-mapper.component";
 import { TripDetailsComponent } from "../../modals/trip-details/trip-details.component";
-
+import { VehicleStatesComponent } from "../../modals/vehicle-states/vehicle-states.component";
 import { ResizeEvent } from "angular-resizable-element";
 import { MapService } from "../../services/map.service";
 import { NgxPrintModule } from 'ngx-print';
@@ -974,7 +974,6 @@ export class ConciseComponent implements OnInit {
         class: " icon fa fa-truck",
         action: this.openTripDetails.bind(this, kpi)
       },
-
     ]
     console.log("this.user._loggedInBy", this.user._loggedInBy);
     if (this.user._loggedInBy == "admin") {

@@ -100,7 +100,7 @@ export class VehicleReportComponent implements OnInit {
           var result1='Running';
           this.duration.push(result1);
         }
-
+            
                 
          });
         console.log('result time', this.resultTime);

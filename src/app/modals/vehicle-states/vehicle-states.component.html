@@ -1,0 +1,131 @@
+<nb-card>
+  <nb-card-header>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Vehicle Event</h5>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="model-body"
+      style="text-align:center; margin-top:5px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
+      <div class="row" style="margin-bottom:20px">
+              <div class="col-sm-3">
+              <label>Trip States:</label>
+            </div>
+          <div class="col-sm-4">
+          
+            <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
+              style=" border: 1px solid #324148; font-size: 10px">
+              <option value="11">Loading</option>
+              <option value="12">Unloading</option>
+              <option value="13">Onward, Nearby Origin</option>
+              <option value="14">Onward, Nearby Destination</option>
+              <option value="15">Available, Nearby Origin</option>
+              <option value="20">Available, Nearby Destination</option>
+              <option value="21">Available, Unauthorised Movement</option>
+              <option value="22">Available, Empty Movement</option>
+              <option value="23">Available, Empty Movement</option>
+              <option value="51">Onward</option>
+              <option value="52">Onward</option>
+              <option value="301">Accident</option>
+              <option value="321">Maintenance</option>
+              <option value="311">Break Down</option>
+              
+            </select>
+          </div>
+        </div>
+      <div class="row" style="margin-bottom:20px">
+       
+        <div class="col-sm-9">
+         
+          <div class="row">
+            <div class="col-sm-4">
+              <input type="radio" name="halt" value="halts" [(ngModel)]="changeCategory" (change)="changeType('halts')"> Halts
+            </div>
+            <div class="col-sm-4">
+              <input type="radio" name="sites" value="sites" [(ngModel)]="changeCategory" (change)="changeType('sites')"> Sites
+            </div>
+            <div class="col-sm-4">
+              <input type="radio" name="location" value="location" [(ngModel)]="changeCategory" (change)="changeType('location')"> Location
+            </div>
+          </div>
+          <div class="row" *ngIf="flag=='halts'" style="margin-top:10px">
+            <div class="col-sm-4" style="margin-top:15px">
+              <label>Location Name:</label>
+            </div>
+             <div class="col-sm-4">
+              <input type="text" class="form-control" [(ngModel)]="haltLocation" name="haltLocation"
+                placeholder="Location Name">
+            </div>
+          </div>
+          <div class="row" *ngIf="flag=='sites'" style="margin-top:15px">
+              <div class="col-sm-1" style="margin-top:10px">
+               <label>Site: </label>
+                </div>
+            <div class="col-sm-4" style="margin-top:10px">
+                <auto-suggestion (onSelected)="siteid = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+                placeholder="Search site" [preSelected]="null"></auto-suggestion>
+            </div>
+            <div class="col-sm-1" style="margin-top:10px">
+                <label>Date: </label>
+                 </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [(ngModel)]="date" name="date" (click)="getDate()"
+                placeholder="">
+            </div>
+          </div>
+          <div class="row" *ngIf="flag=='location'" style="margin-top:15px">
+              <div class="col-sm-2" style="margin-top:10px">
+                <label>Location: </label>
+                </div>
+            <div class="col-sm-4">
+              <input type="text" class="from-control" id="location" [(ngModel)]="location1" name="location"
+                placeholder="location">
+            </div>
+            <div class="col-sm-1" style="margin-top:10px">
+                <label>Date: </label>
+                </div>
+            
+            <div class="col-sm-4">
+              <input type="text" class="form-control" [(ngModel)]="date" name="date" (click)="getDate()"
+                placeholder="">
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-primary" (click)=saveDetails()>Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Last 10 Halts: </label>
+        </div>
+        <div class="col-sm-6">
+            <label>Time: </label>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-6">
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+              <input type="radio" name="one" value="one"> One<br>
+          </div>
+
+          <div class="col-sm-6">
+              
+            </div>
+          
+        </div>
+    </div>
+  </nb-card-body>
+</nb-card>
