@@ -43,7 +43,7 @@
               </thead>
           <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
             <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
-                (mouseover)="mapService.toggleBounceMF(i,2)"
+                (mouseout)="mapService.toggleBounceMF(i,2)"
               [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>

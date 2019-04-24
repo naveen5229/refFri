@@ -235,9 +235,9 @@ export class ChangeVehicleStatusComponent implements OnInit {
                   vehicleEvents[index].mIndex = startIndex;
                   startIndex++;
                   vehicleEvents[index].position = (this.common.dateDiffInHours(
-                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*98;
+                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*100;
                   vehicleEvents[index].width = (this.common.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
+                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*100;
                   console.log("Width",vehicleEvents[index].width);
                 }
                 console.log("VehicleEvents", vehicleEvents);
