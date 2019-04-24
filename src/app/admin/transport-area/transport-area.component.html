@@ -1,0 +1,74 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-6 table">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                  <auto-suggestion name="selected-area" (onSelected)="selectArea($event)" url="Suggestion/getTransArea" display="loc_name"
+                  placeholder="Location Name..." [preSelected]="null"></auto-suggestion>
+              </td>
+              <td>
+                <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="locName" class="form-control">
+              </td>
+              <td>
+                <button (click)="enterTicket();"
+                class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
+              </td>
+              
+            </tr>
+            <tr>
+              <td>
+                <button (click)="clearAll(true)" class="btn btn-primary">Clear All</button>
+              </td>
+              <td>
+                <button (click)="loadMarkers()" class="btn btn-primary">Load Marker</button>
+              </td>
+              <td>
+                <button (click)="DeleteArea();"
+                  class="btn btn-primary">Delete Loc</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <div style="text-align:center">
+                  <span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <table class="tbl table table-bordered table-hover">
+          <thead class="thead">
+            <tr>
+              <th style="width:40px;">S.No</th>
+              <th style="width:40px;">Id</th>
+              <th>Name</th>
+              <th>Hot Count</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let remainingElement of remainingList;let i = index;">
+              <td style="width:40px;">{{i+1}}</td>
+              <td style="width:40px;">{{remainingElement.id}}</td>
+              <td>{{remainingElement.name}}</td>
+              <td>{{remainingElement.hotcnt || '0'}}</td>
+              <td (click)="selectedSite = remainingElement.id;gotoSingle();">Action</td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+      <div id="map" class="map col-6">
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

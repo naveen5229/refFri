@@ -27,18 +27,47 @@
           <label>PreSit Name</label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
-          <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1" seperator="-"
-            [display]="['name','sd_loc_name']" placeholder="Search Presite" [preSelected]="null"></auto-suggestion>
+          <select name="list" class="form-control" (change)="selectList($event.target.value)" [(ngModel)]="refTypePre">
+            <option class="form-control" [value]="1">Site</option>
+            <option class="form-control" [value]="2">TransArea</option>
+          </select>
 
-          <div class="suggestions ng-star-inserted">
-          </div>
-        </div>
-        <div class="col-md-6" *ngIf="status==1">
-            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1" seperator="-"
-              [display]="['name','sd_loc_name']" placeholder="Search " [preSelected]="{name:preSite.preSiteName,sd_loc_name:preSite.preStieLocName}"></auto-suggestion>
+          <div *ngIf="refTypePre==1; else TransArea">
+            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1"
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Presite" [preSelected]="null">
+            </auto-suggestion>
             <div class="suggestions ng-star-inserted">
             </div>
           </div>
+          <ng-template #TransArea>
+            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
+              display="loc_name" placeholder="Search Presite" [preSelected]="null">
+            </auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div>
+          </ng-template>
+
+        </div>
+        <div class="col-md-6" *ngIf="status==1">
+          <div *ngIf="refTypePre==1;">
+            <label>Site</label>
+            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getSites?typeId=1"
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search pre..."
+              [preSelected]="{name:preSite.preSiteName,sd_loc_name:preSite.preStieLocName}"></auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div>
+          </div>
+
+          <div *ngIf="refTypePre==2;">
+            <label>TransArea</label>
+            <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
+              display="loc_name" placeholder="Search 123"
+              [preSelected]="{loc_name:preSite.preSiteName}"></auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <div class="row">
@@ -46,19 +75,52 @@
           <label>CurrentSite Name<span>*</span></label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
-          <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1"
-            seperator="-" [display]="['name','sd_loc_name']" placeholder="Search CurrentSite"  [preSelected]="" >
-          </auto-suggestion>
-          <div class="suggestions ng-star-inserted">
-          </div>
-        </div>
-        <div class="col-md-6" *ngIf="status==1">
+          <select name="listType" class="form-control" (change)="selectListType($event.target.value)"
+            [(ngModel)]="refTypeCur">
+            <option class="form-control" [value]="1">Site</option>
+            <option class="form-control" [value]="2">TransArea</option>
+          </select>
+
+          <div *ngIf="refTypeCur==1; else CurrentTransArea">
             <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1"
-              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search CurrentSite" [preSelected]="{name:currSite.currSiteName,sd_loc_name:currSite.currStieLocName}">
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search CurrentSite" [preSelected]="">
             </auto-suggestion>
             <div class="suggestions ng-star-inserted">
             </div>
           </div>
+
+          <ng-template #CurrentTransArea>
+            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
+              display="loc_name" placeholder="Search CurrentSite" [preSelected]="null">
+            </auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div>
+          </ng-template>
+
+        </div>
+        <div class="col-md-6" *ngIf="status==1">
+          <div *ngIf="refTypeCur==1;">
+            <label>Site</label>
+            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getSites?typeId=1"
+              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search ."
+              [preSelected]="{name:currSite.currSiteName,sd_loc_name:currSite.currStieLocName}">
+            </auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div>
+          </div>
+
+          <div *ngIf="refTypeCur==2;">
+            <label>TransArea</label>
+          <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
+            display="loc_name" placeholder="Search .."
+            [preSelected]="{loc_name:currSite.currSiteName}">
+          </auto-suggestion>
+          <div class="suggestions ng-star-inserted">
+          </div>
+        </div>
+
+
+        </div>
       </div>
 
       <div class="row">
@@ -79,8 +141,7 @@
           <label>Body Type</label>
         </div>
         <div class="col-md-6">
-          <select name="body" class="form-control " [(ngModel)]="addSite.selectedBodyTypeId"
-            (ngModel)="selectBody($event)">
+          <select name="body" class="form-control " [(ngModel)]="addSite.selectedBodyTypeId" (ngModel)="selectBody()">
             <option class="form-control" *ngFor="let body of bodyType" [value]="body.id">{{body.name}}</option>
 
           </select>
@@ -92,7 +153,7 @@
           <label>Rule Type<span>*</span></label>
         </div>
         <div class="col-md-6">
-          <select name="rule" class="form-control " [(ngModel)]="addSite.ruleTypeId" (ngModel)="selectRule($event)">
+          <select name="rule" class="form-control " [(ngModel)]="addSite.ruleTypeId" (ngModel)="selectRule()">
             <option class="form-control" *ngFor="let rule of ruleType" [value]="rule.id">{{rule.name}}</option>
 
           </select>
@@ -113,6 +174,6 @@
       <button class="btn btn-primary" form="site-form" type="submit" outline (click)="submit()" id="submit"
         style="cursor: pointer;">Submit</button>
     </div>
-    
+
   </div>
 </div>

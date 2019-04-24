@@ -12,12 +12,10 @@ export class DropDownListComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
-  reason = [
-    {
-      name: "",
-    }];
- 
-  data=[];
+  reasonName = '';
+  rules = [];
+
+  data = [];
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -25,8 +23,7 @@ export class DropDownListComponent implements OnInit {
     this.title = this.common.params.title || 'Ignore';
     this.btn1 = this.common.params.btn1 || 'Submit';
     this.btn2 = this.common.params.btn2 || 'Cancel';
-    this.reason = [
-   
+    this.rules = [
       {
         name: "Private Vehicle"
       },
@@ -38,19 +35,19 @@ export class DropDownListComponent implements OnInit {
       }
     ];
     console.log("data:", this.common.params.ignoreData);
-    this.data=this.common.params.ignoreData;
+    this.data = this.common.params.ignoreData;
   }
 
   ngOnInit() {
   }
 
   closeModal(response) {
-    this.activeModal.close({ response: this.reason, record:this.data});
+    this.activeModal.close({ response: { name: this.reasonName }, record: this.data });
   }
-  dismiss(){
+  dismiss() {
     this.activeModal.close();
- 
+
   }
 
- 
+
 }

@@ -182,3 +182,21 @@ nb-card-header {
 smart-table .tableFixHead{
     overflow-y: auto;
 }
+:host ::ng-deep td.image i.fa-image{
+    background-color: #04A9F5;
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 3px;
+}
+:host ::ng-deep td i.fa-pencil-alt{
+    background-color: #1DE9B6;
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 3px;
+}
+:host ::ng-deep td i.fa-trash{
+    background-color: #F44236;
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 3px;
+}

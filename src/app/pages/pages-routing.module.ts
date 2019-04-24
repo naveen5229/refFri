@@ -24,8 +24,9 @@ import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.
 import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
 import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
-
+import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -121,6 +122,14 @@ const routes: Routes = [{
   {
     path: 'user-activity-status',
     component: UserActivityStatusComponent
+  },
+  {
+    path: 'placement-delay-faults',
+    component: PlacementDelayFaultsComponent
+  },
+  {
+    path: 'vehicle-gps-detail',
+    component: VehicleGpsDetailComponent
   }
   ],
 }];

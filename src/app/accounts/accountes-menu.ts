@@ -50,11 +50,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
     },
-    {
-        title: 'Trading Account',
-        icon: 'fas fa-warehouse',
-        link: '/accounts/trading'
-    },
+   
     // {
     //     title:'Store Requisition',
     //     icon :'fa fa-building-o',
@@ -127,6 +123,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Bank Book',
                 link: '/accounts/bank-books'
             },
+            {
+                title: 'Trading Account',
+                link: '/accounts/trading'
+            },
             
         ],
     },
@@ -144,7 +144,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title:'Stock Available',
                 link: '/accounts/stockavailable'
             },
-          
+            {
+                title:'Opening Stock',
+                link: '/accounts/openingstock'
+            },
             
         ],
     },

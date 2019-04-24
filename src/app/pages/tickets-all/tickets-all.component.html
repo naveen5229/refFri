@@ -26,7 +26,7 @@
                                 <!-- <td>{{ticket.ticket_id}}</td> -->
                                 <td>{{ticket.msg}}</td>
                                 <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
-                                <td (click)="showTrailList(ticket)" style="text-decoration:underline; color: blue;cursor: pointer;">show</td>
+                                <td (click)="showTrailList(ticket)"><span class="btn btn-success">show</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -58,7 +58,7 @@
                                 <!-- <td>{{ticket.ticket_id}}</td> -->
                                 <td>{{ticket.msg}}</td>
                                 <td>{{ticket.addtime}}</td>
-                                <td (click)="showTrailList(ticket)" style="text-decoration:underline; color: blue;cursor: pointer;">show</td>
+                                <td (click)="showTrailList(ticket)"><span class="btn btn-success">show</span></td>
                             </tr>
                         </tbody>
                     </table>

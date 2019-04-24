@@ -104,26 +104,26 @@
                 <tbody *ngIf="trendType==11">
                     <ng-container *ngFor="let data of siteDetails; let i=index;">
                   <tr *ngIf="trendType==11 && data.loading_hrs!= 0">
-                    <td *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                    <td style="color:#00695C;" (click)="locationOnMap(data)" *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
                         <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td *ngIf="data.sitename==null">No Site</td>
+                    <td style="color:#00695C;" *ngIf="data.sitename==null">No Site</td>
                     <td>{{data.loading_hrs}}</td>
-                    <td>{{data.loading_count}}</td>
+                    <td style="color:#00695C;" (click)="getPendingStatusDetails(data)">{{data.loading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>
                 <tbody *ngIf="trendType==21">
                     <ng-container *ngFor="let data of siteUnloading; let i=index;">
                   <tr *ngIf="trendType==21 && data.unloading_hrs!= 0">
-                    <td *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
+                    <td style="color:#E91E63;" (click)="locationOnMap(data)" *ngIf="data.sitename!=null && data.siteid!=null"><ng-template *ngIf="data.sitename.toLowerCase()=='unknown';then showid; else showname"></ng-template>
                         <ng-template #showid>{{data.sitename}}_{{data.siteid}}</ng-template>
                         <ng-template #showname>{{data.sitename}}</ng-template>
                     </td>
-                    <td *ngIf="data.sitename==null">No Site</td>
+                    <td style="color:#E91E63;" *ngIf="data.sitename==null">No Site</td>
                     <td>{{data.unloading_hrs}}</td>
-                    <td>{{data.unloading_count}}</td>
+                    <td style="color:#E91E63;" (click)="getPendingStatusDetails(data)">{{data.unloading_count}}</td>
                   </tr>
                   </ng-container>
                 </tbody>

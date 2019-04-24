@@ -47,6 +47,8 @@ currSite={
     id: -1,
     name: ''
   }];
+  refTypePre=1;
+  refTypeCur=1;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -97,9 +99,10 @@ currSite={
       this.addSite.materialId= this.common.params.row.materialtype_id;
       this.addSite.selectedBodyTypeId = this.common.params.row.bodytype_id;
       this.addSite.ruleTypeId= this.common.params.row.ruletype_id;
-
       this.currSite.currSiteId = this.common.params.row.current_siteid;
       this.preSite.preSiteId = this.common.params.row.pre_siteid;
+      this.refTypePre= this.common.params.row.ref_type_pre;
+      this.refTypeCur = this.common.params.row.ref_type_cur;
     }
 
   }
@@ -148,8 +151,13 @@ currSite={
       preSiteId: this.addSite.preSiteId,
       materialId: this.addSite.materialId,
       bodyTypeId: this.addSite.selectedBodyTypeId,
-      ruleTypeId: this.addSite.ruleTypeId
+      ruleTypeId: this.addSite.ruleTypeId,
+      refTypePre:this.refTypePre,
+      refTypeCur:this.refTypeCur,
+
     }
+    console.log("params:",params);
+  
     this.common.loading++;
     this.api.post('TripSiteRule/add', params)
       .subscribe(res => {
@@ -207,6 +215,22 @@ currSite={
       });
 
   }
+  selectBody(){
 
+  }
+  selectRule(){
+    
+  }
+
+  
+  selectList(id){
+    this.refTypePre=parseInt(id);
+    console.log("type:",this.refTypePre);
+
+  }
+  selectListType(typeid){
+    this.refTypeCur=parseInt(typeid);
+    console.log("type2:",this.refTypeCur);
+  }
 
 }

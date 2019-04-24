@@ -20,25 +20,27 @@ nb-card-body{
     padding: 12px !important;
     font-size: 18px !important;
 }
-:host ::ng-deep.remove{
-    font-size: 14px;
-    color: #ef2c2c;
-    margin: 2%;
-    padding: 2%;
-}
-:host ::ng-deep.report-btn{
-    font-size: 14px;
-    color: yellowgreen;
-    margin: 2%;
-    padding: 2%;
-}
-:host ::ng-deep .edit-btn{
-    font-size: 14px;
-    color: rgb(81, 5, 131);
-    margin: 2%;
-    padding: 2%;
-}
 :host ::ng-deep .tableFixHead{
     overflow: auto;
     max-height: calc(100vh - 162px);
+}
+:host ::ng-deep td i.fa-pencil-square-o{
+    background-color: #04A9F5;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+}
+:host ::ng-deep td i.fa-question-circle{
+    background-color: #1DE9B6;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+:host ::ng-deep td i.fa-trash{
+    background-color: #F44236;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
 }

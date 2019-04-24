@@ -5,6 +5,7 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditLorryDetailsComponent } from '../../modals/edit-lorry-details/edit-lorry-details.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 @Component({
   selector: 'lorry-receipt-details',
@@ -15,6 +16,8 @@ export class LorryReceiptDetailsComponent implements OnInit {
   pendinglr = [];
   fromDate='';
   endDate = '';
+  foid;
+  lrType="0";
 
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
@@ -34,7 +37,9 @@ export class LorryReceiptDetailsComponent implements OnInit {
    
     let params={
       startDate:this.fromDate,
-      endDate:this.endDate
+      endDate:this.endDate,
+      foId:this.foid,
+      status:this.lrType
     };
     this.common.loading++;
     this.api.post('LorryReceiptsOperation/getPendingLr', params)
@@ -51,13 +56,13 @@ export class LorryReceiptDetailsComponent implements OnInit {
   openEditLorryDetailsModel(details) {
     this.common.params = { details: Object.assign({}, details) };
     const activeModel = this.modalService.open(EditLorryDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
-    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.common.handleModalSize('class', 'modal-lg', '1500');
     activeModel.result.then(data => {
       // if(!data.status){
       //  this.exitTicket(details);
        if(data.isUpdated){
         this.exitTicket(details);
-       this.getPendingLr();
+        this.getPendingLr();
        }
      // }
     });
@@ -161,6 +166,29 @@ export class LorryReceiptDetailsComponent implements OnInit {
         this.common.showError();
       })
     
+  }
+
+  getFolist(list){
+   this.foid=list.id;
+  }
+
+  getImage(lrDetails) {
+    console.log(lrDetails);
+    let images = [{
+      name: "LR",
+      image: lrDetails.lr_image
+    },
+    {
+      name: "Invoice",
+      image: lrDetails.invoice_image
+    },
+    {
+      name: "Other Image",
+      image: lrDetails.other_image
+    }];
+    console.log("images:", images);
+    this.common.params = { images, title: 'LR Details' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
 

@@ -42,6 +42,8 @@ import { PlacementsDashBoardComponent } from './placements-dash-board/placements
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
+import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 
 
 
@@ -89,7 +91,9 @@ const PAGES_COMPONENTS = [
     UserCallSummaryComponent,
     PlacementsDashBoardComponent,
     TripStatusFeedbackComponent,
-    UserActivityStatusComponent
+    UserActivityStatusComponent,
+    PlacementDelayFaultsComponent,
+    VehicleGpsDetailComponent
   ],
 })
 export class PagesModule {

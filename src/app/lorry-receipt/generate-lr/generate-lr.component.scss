@@ -11,9 +11,11 @@ textarea{
     height: 100px;
 }
 .remove{
-    font-size: 14px;
-    color: #D61414;
-    padding: 6px 0px;
+    font-size: 12px;
+    background-color: #F44236;
+    color: #fff;
+    padding: 7px 8px;
+    border-radius: 3px;
 }
 .auto-suggest{
     margin-left: -15px;
@@ -29,25 +31,19 @@ table.gerrate_tabel{
             border: 0px;
             padding: 5px 10px;
             input{
-                border: 1px solid #000;
                 box-shadow: none;
-                padding: 3px 5px !important;
-                height: auto !important;
             }
             select{
-                border: 1px solid #000;
                 box-shadow: none;
-                padding: 3px 5px !important;
-                height: auto !important;
                 width: 100%;
             }
             .add{
                 font-size: 14px;
                 color: #fff;
-                background: #73A1FF;
+                background: linear-gradient(-135deg, #1de9b6 0, #1dc4e9 100%);
                 width: 28px;
                 float: right;
-                padding: 6px 0px;
+                padding: 8px 0px;
                 text-align: center;
                 border-radius: 3px;
             }
@@ -81,13 +77,11 @@ table.gerrate_tabel{
                 border: 0px;
                 padding: 5px;
                 input{
-                    border: 1px solid #000;
                     box-shadow: none;
                     padding: 3px 5px !important;
                     height: auto !important;
                 }
                 select{
-                    border: 1px solid #000;
                     box-shadow: none;
                     padding: 3px 5px !important;
                     height: auto !important;
