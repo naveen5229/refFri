@@ -193,7 +193,7 @@ export class ConciseComponent implements OnInit {
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         trip: {
-          value: this.getTripStatusHTML(kpi),
+          value: this.getTripStatusHTMLNew(kpi),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
@@ -227,7 +227,6 @@ export class ConciseComponent implements OnInit {
         <span>${kpi.x_showtripstart}</span>
         <i class="icon ion-md-arrow-round-forward mr-0"></i>
         <i class="ion-md-arrow-round-forward" style="margin-left:-1px;"></i>
-
         <span>${kpi.x_showtripend}</span>
       `;
     } else if (kpi.trip_status_type == 1) {
@@ -278,6 +277,89 @@ export class ConciseComponent implements OnInit {
       `;
     }
     return html + "</div>";
+  }
+
+  getTripStatusHTMLNew(kpi) {
+    const colors = ['green', 'red', 'teal'];
+    let html = '';
+    switch (kpi.trip_status_type) {
+      case 0:
+        html = `
+            <!-- At Origin -->
+            <span class="circle loading">${kpi.x_showtripstart}</span>
+            <span>-</span>
+            <span class="unloading">${kpi.x_showtripend}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 1:
+        html = `
+            <!-- At Destination -->
+            <span class="loading">${kpi.x_showtripstart}</span>
+            <span>-</span>
+            <span class="circle unloading">${kpi.x_showtripend}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 2:
+        html = `
+            <!-- Onward -->
+            <span class="loading">${kpi.x_showtripstart}</span>
+            <span>-</span>
+            <span class="unloading">${kpi.x_showtripend}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 3:
+        html = `
+            <!-- Available (Done) -->
+            <span class="loading">${kpi.x_showtripstart}</span>
+            <span>-</span>
+            <span class="unloading">${kpi.x_showtripend}</span>
+            <i class="fa fa-check-circle complete"></i>`;
+        break;
+      case 4:
+        html = `
+            <!-- Available (Next) -->
+            <span class="loading">${kpi.x_showtripstart}</span>
+            <span>-</span>
+            <span class="unloading">${kpi.x_showtripend}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 5:
+        html = `
+            <!-- Available (Moved) -->
+            <span class="unloading">${kpi.x_showtripstart}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      default:
+        html = `
+            <!-- Ambiguous -->
+            <span class="loading">${kpi.x_showtripstart}</span>
+            <span>-</span>
+            <span class="unloading">${kpi.x_showtripend}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+    }
+    // console.log('HTML:', html);
+    return html;
+  }
+
+  formatPacement(placements) {
+    console.log('--------------------:', placements);
+    if (!placements.length) return '';
+    let html = `<i class="icon ion-md-arrow-round-forward"></i>`;
+    const colors = {
+      11: 'loading', // Loading
+      21: 'unloading', // unloading
+      0: 'others' // others
+    };
+
+    placements.map((placement, index) => {
+      html += `<span class="${colors[placement.type]}">${placement.name}</span>`
+      if (index != placements.length - 1) {
+        html += `<span>-</span>`;
+      }
+    });
+    console.log('Html:', html);
+    return html;
   }
 
   getViewType() {
@@ -796,7 +878,7 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.getTripStatusHTML(event)}</span> <br>
+      <span><b>Trip:</b>${this.getTripStatusHTMLNew(event)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
