@@ -281,6 +281,14 @@ export class MapService {
       this.bounds = new google.maps.LatLngBounds();
     }
   }
+  resetBounds(){
+    this.bounds = new google.maps.LatLngBounds();
+    for (let index = 0; index < this.markers.length; index++) {
+      let pos = this.markers[index].position;
+      if(pos.lat()!=0)
+          this.setBounds(pos);
+    }
+  }
   resetPolygons(){
     if (this.polygon) {
       this.polygon.setMap(null);

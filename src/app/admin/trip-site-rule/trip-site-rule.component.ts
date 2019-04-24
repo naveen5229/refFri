@@ -59,8 +59,8 @@ export class TripSiteRuleComponent implements OnInit {
 
   refresh() {
     this.getSiteData();
-    this.vehicle.id= null;
-    this.siteId=null;
+    this.vehicle.id = null;
+    this.siteId = null;
   }
   addsite() {
     this.common.params = {};
@@ -79,7 +79,7 @@ export class TripSiteRuleComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-       
+
         let index = 0;
         for (const data of this.data) {
           let bodyName = this.bodyType.find((element) => {
@@ -96,7 +96,7 @@ export class TripSiteRuleComponent implements OnInit {
           index++;
         }
         this.table = this.setTable();
-       
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -112,8 +112,7 @@ export class TripSiteRuleComponent implements OnInit {
       materialName: { title: 'Material Name ', placeholder: 'Material Name' },
       bodyType: { title: 'Body Type ', placeholder: 'Body Type' },
       ruleType: { title: 'Rule Type', placeholder: 'Rule Type' },
-      edit: { title: 'Edit ', placeholder: 'Edit',hideSearch: true, class:'tag' },
-      delete: { title: 'delete ', placeholder: 'delete',hideSearch: true, class:'tag' },
+      action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
     return {
       data: {
@@ -123,7 +122,7 @@ export class TripSiteRuleComponent implements OnInit {
       settings: {
         hideHeader: true,
         tableHeight: "72vh"
-        
+
       }
     }
   }
@@ -137,8 +136,15 @@ export class TripSiteRuleComponent implements OnInit {
         materialName: { value: doc.materialType },
         bodyType: { value: doc.bodyName },
         ruleType: { value: doc.ruleName },
-        edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editRule.bind(this, doc), class: 'icon text-center del',},
-        delete: { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteRule.bind(this, doc), class: 'icon text-center del',},
+        action: {
+          value: '', isHTML: false, action: null, icons: [
+            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editRule.bind(this, doc) },
+            { class: " fa fa-trash remove", action: this.deleteRule.bind(this, doc) }
+          ]
+        },
+        rowActions: {
+          click: 'selectRow'
+        }
 
       };
       columns.push(column);
@@ -183,14 +189,14 @@ export class TripSiteRuleComponent implements OnInit {
         });
     }
   }
-  getAllSiteData(){
+  getAllSiteData() {
     this.common.loading++;
-    this.api.get('TripSiteRule?vehicleId='+this.vehicle.id+'&siteId=' + this.siteId)
+    this.api.get('TripSiteRule?vehicleId=' + this.vehicle.id + '&siteId=' + this.siteId)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-    
+
         let index = 0;
         for (const data of this.data) {
           let bodyName = this.bodyType.find((element) => {
@@ -206,7 +212,7 @@ export class TripSiteRuleComponent implements OnInit {
           this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
           index++;
         }
-        this.table =null;
+        this.table = null;
         this.table = this.setTable();
 
 
@@ -217,11 +223,11 @@ export class TripSiteRuleComponent implements OnInit {
       });
 
   }
-  selectVehicle(vehicle){
-    this.vehicle.id=vehicle.id;
+  selectVehicle(vehicle) {
+    this.vehicle.id = vehicle.id;
   }
-  selectSite(site){
-    this.siteId=site.id;
+  selectSite(site) {
+    this.siteId = site.id;
 
   }
 

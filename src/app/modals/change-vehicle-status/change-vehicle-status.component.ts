@@ -39,6 +39,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   dataType = 'events';
   VehicleStatusData;
   vehicleEvents = [];
+  vehicleEventsR = [];
   vehEvent = [];
   marker: any;
   lastIndType = null;
@@ -164,16 +165,14 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.map.setMapTypeId('roadmap');
     }
   }
-
+  infoWindow = null;
   setEventInfo(event) {
-
-    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
-    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
-    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
-    // }
+    console.log(event);
+    this.markerZoomMF(event.mIndex);
+    
   }
   unsetEventInfo() {
-
+    
   }
 
 
@@ -195,7 +194,58 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.clearAllMarkers();
         this.createMarkers(res['data']);
         this.resetBtnStatus();
-
+        let startElement = this.vehicleEvents.find((element) => {
+          return !(element.desc+"").includes('LT');
+        });
+        let start = startElement.time;
+        let startIndex = this.vehicleEvents.indexOf(startElement);
+        let end = this.vehicleEvents[this.vehicleEvents.length-1].time;
+        let paramy = {
+          vehicleId:this.VehicleStatusData.vehicle_id,
+          startDate:this.common.dateFormatter(start),
+          endDate:end?this.common.dateFormatter(end):this.common.dateFormatter(new Date())
+        }
+        console.log(paramy);
+    this.common.loading++;
+    this.api.post('HaltOperations/getVehicleEvents', paramy)
+          .subscribe(res => {
+            this.common.loading--;
+            console.log(res);
+            let vehicleEvents = res['data'].reverse();
+            let realStart = new Date(vehicleEvents[0].start_time)<new Date(start)?
+                vehicleEvents[0].start_time:start;
+                let realEnd = null;
+                if(vehicleEvents[0].end_time)
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].end_time)>new Date(end)?
+                  vehicleEvents[vehicleEvents.length-1].end_time:end;
+                let totalHourDiff = 0;
+                if(vehicleEvents.length!=0){
+                  totalHourDiff = this.common.dateDiffInHours(realStart,realEnd,true);
+                  console.log("Total Diff",totalHourDiff);
+                }
+                
+                for (let index = 0; index < vehicleEvents.length; index++) {
+                  if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                    vehicleEvents[index].subType = 'marker';
+                    vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                  }else{
+                    vehicleEvents[index].color = "00ffff";
+                  }
+                  vehicleEvents[index].mIndex = startIndex;
+                  startIndex++;
+                  vehicleEvents[index].position = (this.common.dateDiffInHours(
+                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*98;
+                  vehicleEvents[index].width = (this.common.dateDiffInHours(
+                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
+                  console.log("Width",vehicleEvents[index].width);
+                }
+                console.log("VehicleEvents", vehicleEvents);
+                this.vehicleEventsR = vehicleEvents;
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+          })
         //bottom bar
         // let vehEvent = this.vehicleEvents;
         // let finalIndex = 0;
@@ -216,7 +266,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
-      });
+      })
   }
 
   resetBtnStatus() {
