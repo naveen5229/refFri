@@ -72,11 +72,11 @@ export class AddDocumentComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
     if (this.common.params.row) {
       this.updateimage = 1;
-      this.regno = this.common.params.row.regno;
-      this.docId = this.common.params.row.id;
-      this.vehicleid = this.common.params.row.vehicle_id;
+      this.regno = this.common.params.row.Vehicle;
+      this.docId = this.common.params.row._docid;
+      this.vehicleid = this.common.params.row._vid;
       this.docType = this.common.params.row.document_type;
-      this.docTypeid = this.common.params.row.document_type_id;
+      this.docTypeid = this.common.params.row._doctypeid;
     }
 
     if (this.common.params.norecordData) {

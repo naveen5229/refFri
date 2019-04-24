@@ -33,7 +33,7 @@ export class DocumentReportComponent implements OnInit {
   selectedVehicle = null;
   table = {
     data: {
-      headings: {},
+      headings: {  image: { title: 'Image', placeholder: 'Image', hideSearch: true, class:'tag' },},
       columns: []
     },
     settings: {
@@ -97,33 +97,33 @@ export class DocumentReportComponent implements OnInit {
   }
   
   
-  setTable() {
-    let headings = {
-      docId: { title: 'Document Id', placeholder: 'Document Id' },
-      vehicleNumber: { title: 'Vehicle Number ', placeholder: 'Vehicle Number' },
-      docType: { title: 'Document Type', placeholder: 'Document Type' },
-      issueDate: { title: 'Issue Date', placeholder: 'Issue Date', class: 'del' },
-      wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
-      expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
-      documentNumber: { title: 'Document Number', placeholder: 'Document Number' },
-      agentName: { title: 'Agent Name', placeholder: 'Agent Name', class: 'del' },
-      rto: { title: 'Rto', placeholder: 'RTO' , class: 'del'},
-      amount: { title: 'Amount', placeholder: 'Amount' , class: 'del'},
-      verified: { title: 'Verified', placeholder: 'Verified', class: 'del' },
-      remark: { title: 'Remark', placeholder: 'Remark', class: 'del' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class:'tag' },
-      // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
-    };
-    return {
-      data: {
-        headings: headings,
-        columns: this.getTableColumns()
-      },
-      settings: {
-        hideHeader: true
-      }
-    }
-  }
+  // setTable() {
+  //   let headings = {
+  //     docId: { title: 'Document Id', placeholder: 'Document Id' },
+  //     vehicleNumber: { title: 'Vehicle Number ', placeholder: 'Vehicle Number' },
+  //     docType: { title: 'Document Type', placeholder: 'Document Type' },
+  //     issueDate: { title: 'Issue Date', placeholder: 'Issue Date', class: 'del' },
+  //     wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
+  //     expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
+  //     documentNumber: { title: 'Document Number', placeholder: 'Document Number' },
+  //     agentName: { title: 'Agent Name', placeholder: 'Agent Name', class: 'del' },
+  //     rto: { title: 'Rto', placeholder: 'RTO' , class: 'del'},
+  //     amount: { title: 'Amount', placeholder: 'Amount' , class: 'del'},
+  //     verified: { title: 'Verified', placeholder: 'Verified', class: 'del' },
+  //     remark: { title: 'Remark', placeholder: 'Remark', class: 'del' },
+  //     image: { title: 'Image', placeholder: 'Image', hideSearch: true, class:'tag' },
+  //     // edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+  //   };
+  //   return {
+  //     data: {
+  //       headings: headings,
+  //       columns: this.getTableColumns()
+  //     },
+  //     settings: {
+  //       hideHeader: true
+  //     }
+  //   }
+  // }
 
 
   // getTableColumns() {
@@ -167,11 +167,22 @@ export class DocumentReportComponent implements OnInit {
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
+      console.log("Doc Data:",doc);
       this.valobj = {};
       for(let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:",doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};        
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};
+        // if(doc._imgurl1){
+          this.valobj['image']={ value: `${doc._imgurl1 ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc._imgurl1 ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center del' }
+        // }
+        // else{
+          // this.valobj['image']={ value: `${doc._imgurl1 ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc._imgurl1 ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center del' }
+ 
+        // }        
+
       }
+    
+      
       columns.push(this.valobj);
     });
     return columns;
@@ -214,7 +225,8 @@ export class DocumentReportComponent implements OnInit {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-          }
+          }         
+          
         }
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -232,15 +244,15 @@ export class DocumentReportComponent implements OnInit {
     console.log("image data", doc);
     let images = [{
       name: "image",
-      image: doc.img_url
+      image: doc._imgurl1
     },
      {
       name: "image",
-      image: doc.img_url2
+      image: doc._imgurl2
     },
      {
       name: "image",
-      image: doc.img_url3
+      image: doc._imgurl3
     }
     ];
     console.log("images:", images);

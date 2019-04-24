@@ -98,7 +98,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleMouseHover(column, heading) {
-    console.log('Mouseover');
+    // console.log('Mouseover');
     if (column[heading].colActions && column[heading].colActions.mouseover) {
       column[heading].colActions.mouseover()
     }
