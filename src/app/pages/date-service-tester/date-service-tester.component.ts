@@ -13,9 +13,10 @@ export class DateServiceTesterComponent implements OnInit {
   dateType: string = "";
   dateEntered: string = "";
   dateSeperator: string = "";
-  formattedDate: string ="";
+  formattedDate: string = "";
 
-
+  formattedTime: string="";
+  timeType: string = "";
 
   constructor(
     public dateService: DateService,
@@ -31,7 +32,9 @@ export class DateServiceTesterComponent implements OnInit {
     console.log("dateType=", this.dateType);
     console.log("dateEntered=", this.dateEntered);
     console.log("dateSeperator=", this.dateSeperator);
-   this.formattedDate = this.dateService.dateFormatter(this.dateEntered, this.dateType, this.dateSeperator);
+    console.log("timeType=",this.timeType);
+    this.formattedDate = this.dateService.dateFormatter(this.dateEntered, this.dateType, this.dateSeperator);
+    this.formattedTime = this.dateService.timeFormatter(this.dateEntered, this.timeType);
   }
 
 }

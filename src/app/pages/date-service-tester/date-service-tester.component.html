@@ -1,19 +1,29 @@
-<div class="date">
-  Enter Your Date = <input   placeholder="Enter Your Date" [(ngModel)]= "dateEntered">
-Select Your Date Format
+<div class="dateTime">
+ <div class="date"> Enter Your Date & Time = <input class="dateinput"  placeholder="Enter Your Date & Time" [(ngModel)]= "dateEntered"></div>
+<div class="dateformat">Select Your Date Format
 <select class="date-control"   [(ngModel)]= "dateType">
   <option value="YYYYMMDD">yyyy-mm-dd</option>
   <option value="DDMMYYYY">dd-mm-yyyy</option>
   <option value="DDMMYY">dd-mm-yy</option>
   <option value="DDMM">dd-mm</option>
+</select></div>
+<div class="timeformat"> Select Your Time Format
+<select class="time-control"   [(ngModel)]= "timeType">
+  <option value="HH:MM">12 Hours Format</option>
+  <option value="HHMM">24 Hours Format</option>
+  
 </select>
-<span>Your Date Seperator = <select   [(ngModel)]= "dateSeperator">
+</div>
+<div class="dateseperator">
+<span>Your Date Seperator = <select  class="date-seprator-control" [(ngModel)]= "dateSeperator">
   <option value="-"> - (hyphen)</option>
   <option value="/">/ (Slash)</option>
   <option value=".">. (Dot)</option>
  
 </select></span>
-<button type="button" (click)="dateFormatSetter()"  >Submit</button>
+</div>
+
+<button  class = " button btn btn-primary" type="button" (click)="dateFormatSetter()"  >Submit</button>
 <br>
-Your Specified Format is Here =  <p> {{formattedDate}} </p>
+Your Specified Format is Here =  <span><p> {{formattedDate }} {{formattedTime}} </p></span>
 </div>
