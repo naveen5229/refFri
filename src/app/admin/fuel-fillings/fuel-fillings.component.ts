@@ -110,7 +110,6 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   addCsv() {
-    this.common.params = { title: 'CSV Import' };
     const activeModal = this.modalService.open(ImportFillingsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
