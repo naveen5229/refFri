@@ -1,64 +1,3 @@
-<!-- <div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">Csv Import
-  </h5>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body" style="min-height: 250px; ">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="row form-field row-mgn-vert clear" style="margin-bottom: 15px;">
-        <div class="col-sm-4">
-          <label class="fill-elt">Fuel Station:</label>
-        </div>
-        <div class="col-sm-6">
-          <auto-suggestion name ="fuelStation"(onSelected)="getStnData($event)" url="Suggestion/GetFuelStation" display="name"
-            placeholder="Enter Fuel Station" preSelected="null" class="fstn-name" style="width:60%;">
-          </auto-suggestion>
-        </div>
-      </div>
-      <div class="row form-field row-mgn-vert clear" style="margin-bottom: 15px;">
-        <div class="col-sm-4">
-          <label class="fill-elt">FO Name:</label>
-        </div>
-        <div class="col-sm-6">
-          <auto-suggestion name="foname" (onSelected)="getFoData($event)" url="Suggestion/getFoUsersList" display="name"
-            placeholder="Enter FO Name" preSelected="null" class="fstn-name" style="width:60%;">
-          </auto-suggestion>
-        </div>
-      </div>
-
-      <div class="row form-field clear">
-        <button class="btn btn-primary" (click)="submitFillingData()"
-          style="margin-left:15px; cursor: pointer;">Submit</button>
-
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="row form-field row-mgn-vert clear">
-        <div class="col-sm-4">
-          <label class="fill-elt">CSV File:</label>
-        </div>
-        <div class="col-sm-6">
-          <input type="file" name="fillingCsv" [(ngModel)]="fillingcsv" (change)="handleFileSelection($event)">
-        </div>
-      </div>
-
-      <div class="row form-field row-mgn-vert clear">
-        <div class="col-sm-4">
-          <label class="fill-elt">Is Full?</label>
-        </div>
-        <div class="col-sm-6">
-          <input class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [(ngModel)]="isfull" />
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div> -->
-
 
 
 
@@ -121,7 +60,7 @@
         </div>
       </div>
 
-      <!-- <div class="row">
+      <div class="row">
         <div class="col-md-6">
           <label class="fill-elt">Is Full?</label>
         </div>
@@ -129,7 +68,7 @@
           <input class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [(ngModel)]="isfull" />
 
         </div>
-      </div> -->
+      </div>
 
       <div class="row">
         <div class="col-md-12 offset-md-08">
@@ -150,7 +89,7 @@
     </div>
 
     <div class="col text-right">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="fillingcsv()" id="submit"
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="submitFillingData()" id="submit"
         style="cursor: pointer;">Add</button>
     </div>
   </div>
