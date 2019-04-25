@@ -48,11 +48,13 @@ export class LorryRecciptsComponent implements OnInit {
 
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
+     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0],);
+    //  enddate.setDate( enddate.getDate() + 1 );
     let params = {
-      startDate: this.startDate,
-      endDate: this.endDate,
+      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      endDate:  this.common.dateFormatter1( enddate.setDate( enddate.getDate() + 1 )).split(' ')[0],
       type: this.viewType
-    };
+    }; 
     
     ++this.common.loading;
     this.api.post('FoDetails/getLorryStatus', params)
@@ -162,12 +164,13 @@ export class LorryRecciptsComponent implements OnInit {
       if (data.date) {
         if (type == 'start'){
           this.startDate='';
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
+          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
           console.log('fromDate',this.startDate);
         }
         else{
-          
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+         
+          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
+          // return this.endDate = date.setDate( date.getDate() + 1 )
           console.log('endDate',this.endDate);
         }
 

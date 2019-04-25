@@ -286,65 +286,65 @@ export class ConciseComponent implements OnInit {
       case 0:
         html = `
             <!-- At Origin -->
-            ${this.handleCircle(kpi.x_showtripstart, 'loading')}
+            ${this.handleCircle(kpi.x_showtripstart.trim(), 'loading')}
             ${kpi.x_showtripend ? `
               <span>-</span>
-              <span class="unloading">${kpi.x_showtripend}</span>
-            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 1:
         html = `
             <!-- At Destination -->
-            <span class="loading">${kpi.x_showtripstart}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
             ${kpi.x_showtripend ? `
               <span>-</span>
-              ${this.handleCircle(kpi.x_showtripend, 'unloading')}
+              ${this.handleCircle(kpi.x_showtripend.trim(), 'unloading')}
             ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 2:
         html = `
             <!-- Onward -->
-            <span class="loading">${kpi.x_showtripstart}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
             ${kpi.x_showtripend ? `
               <span>-</span>
-              <span class="unloading">${kpi.x_showtripend}</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
             ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 3:
         html = `
             <!-- Available (Done) -->
-            <span class="loading">${kpi.x_showtripstart}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
             ${kpi.x_showtripend ? `
               <span>-</span>
-              <span class="unloading">${kpi.x_showtripend}</span>
-            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
             <i class="fa fa-check-circle complete"></i>`;
         break;
       case 4:
         html = `
             <!-- Available (Next) -->
-            <span class="loading">${kpi.x_showtripstart}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
             ${kpi.x_showtripend ? `
               <span>-</span>
-              <span class="unloading">${kpi.x_showtripend}</span>
-            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 5:
         html = `
             <!-- Available (Moved) -->
-            <span class="unloading">${kpi.x_showtripstart}</span>
+            <span class="unloading">${kpi.x_showtripstart.trim()}</span>
             ${this.formatPacement(kpi.placements)}`;
         break;
       default:
         html = `
             <!-- Ambiguous -->
-            <span class="loading">${kpi.x_showtripstart}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
             <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            <span class="unloading">${kpi.x_showtripend.trim()}</span>
             ${this.formatPacement(kpi.placements)}`;
         break;
     }
@@ -355,7 +355,7 @@ export class ConciseComponent implements OnInit {
   formatPacement(placements) {
     console.log('--------------------:', placements);
     if (!placements.length) return '';
-    let html = `<i class="icon ion-md-arrow-round-forward"></i>`;
+    let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
     const colors = {
       11: 'loading', // Loading
       21: 'unloading', // unloading
@@ -1033,7 +1033,7 @@ export class ConciseComponent implements OnInit {
     let html = ``;
     for (let i = 0; i < locationArray.length; i++) {
       if (i == locationArray.length - 1) {
-        html += `<span class="circle">${locationArray[i]}</span>`;
+        html += `<span class="circle ${className}">${locationArray[i]}</span>`;
       } else {
         html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
       }
