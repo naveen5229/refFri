@@ -38,8 +38,8 @@ export class UpdateCompanyComponent implements OnInit {
     this.Form = this.formBuilder.group({
       name:['',Validators.required],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
-      address:['',Validators.required],
-      mobileNo:['',Validators.required]
+      address:[null,Validators.required],
+      mobileNo:[null,Validators.required]
     });
   }
   // convenience getter for easy access to form fields

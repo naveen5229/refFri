@@ -48,25 +48,29 @@
           <thead>
             <th>#</th>
             <th>Date</th>
-            <th>Time</th>
+            <th>Start</th>
+            <th>Duration</th>
+            <th>End</th>
             <th>Location</th>
             <th>Dist</th>
             <th>KM/h</th>
-            <th>AdUserId</th>
-            <th>CS</th>
-            <th>CHT <span style="margin-left:15px"><i class="fa fa-refresh report-btn" (click)="mapReset();"></i></span>
-            </th>
+            <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn" (click)="mapReset();"></i></span></th>
           </thead>
           <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
-            <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
-              (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
+              <tr [id]="'vehicleEvent-row-'+i" 
               [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
               (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
+            <!-- <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
+              (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
+              [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
+              (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)"> -->
               <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b><span
                     *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</b></td>
               <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
                   *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
               <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
                 {{vehicleEvent.site_name}}</td>
@@ -75,10 +79,7 @@
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}</td>
-              <td><button (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
-                  *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i class="fa fa-plus"></i></button></td>
-              <td><button (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
-                  *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button></td>
+            
             </tr>
             <tr *ngIf="vehicleEvent.isOpen">
               <td colspan="9">
@@ -97,9 +98,10 @@
                       (click)="openManualHalt(vehicleEvent);">MH</span>
                     <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
                         (click)="reportIssue(vehicleEvent);"></i></span>
-
-
-
+                    <span class="zoom-btn" (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
+                          *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i class="fa fa-plus"></i></span>
+                    <button style="background-color:#1de9b6;margin-left:5px;padding: 5px" (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
+                          *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button>
                   </span></div>
               </td>
             </tr>
