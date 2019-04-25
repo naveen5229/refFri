@@ -80,7 +80,7 @@ export class ImportFillingsComponent implements OnInit {
     };
 
     if (!params.fuelCsv) {
-      return this.common.showError("Select  Option");
+      return this.common.showError("Select csv");
     }
     console.log("Data :", params);
     return;
