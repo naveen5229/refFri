@@ -131,6 +131,8 @@ import {DropDownListComponent } from './documents/documentation-modals/drop-down
 import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
 import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
 import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.component';
+import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -224,7 +226,8 @@ import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.c
     VehicleGpsTrailComponent,
     VehicleLrComponent,
     ChoosePeriodsComponent,
-
+    VehicleStatesComponent,
+   
   ],
   entryComponents: [
     SiteTripDetailsComponent,
@@ -316,6 +319,8 @@ import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.c
     VehicleGpsTrailComponent,
     VehicleLrComponent,
     ChoosePeriodsComponent,
+    VehicleStatesComponent
+    
   ],
   imports: [
     BrowserModule,
