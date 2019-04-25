@@ -65,6 +65,7 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
+        this.fillingData=this.fillingData.slice(0, 99);
         console.info("filling Data", this.fillingData);
         console.log("hdgs:");
         console.log(this.headings);
@@ -110,7 +111,7 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   addCsv() {
-    const activeModal = this.modalService.open(ImportFillingsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportFillingsComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         window.location.reload();
