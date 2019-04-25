@@ -32,13 +32,16 @@ export class TipFeedbackLogsComponent implements OnInit {
     today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
-    console.log('dates ', this.endDate, this.startDate)
-
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
 
+  refresh(){
+    this.vehicleId=null;
+    this.getFeedbackLogs();
+  }
   getDate(type) {
     this.common.params = { ref_page: 'trip feedback logs' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -84,10 +87,11 @@ export class TipFeedbackLogsComponent implements OnInit {
     }
 
     console.log("params:", params);
-    return;
+    const data = "startDate="+params.startDate+
+    "&endDate="+params.endDate+"&vehicleId="+params.vehicleId;
     this.common.loading++;
   
-    this.api.post('tripsOperation/tripFeedbackLogs', params)
+    this.api.get('tripsOperation/tripFeedbackLogs?'+ data)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
@@ -97,11 +101,11 @@ export class TipFeedbackLogsComponent implements OnInit {
         console.log("first_Rec", first_rec);
 
         for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
+         
             this.headings.push(key);
             let headerObj = { title: key, placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-          }
+          
         }
 
         this.table.data.columns = this.getTableColumns();
