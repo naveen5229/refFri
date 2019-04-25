@@ -42,8 +42,8 @@
                 <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio'
                     name='rdostatus' value='5' (click)="filterRows(statusrow.status)"> Near Expiring
                   <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 9"><i class="fa fa-minus-circle i-yellow"></i><input type='radio'
-                    name='rdostatus' value="9" (click)="filterRows(statusrow.status)"> ignore
+                  <span *ngIf="statusrow.status == 9"><i class="fa fa-minus"></i><input type='radio'
+                    name='rdostatus' value="9" (click)="filterRows(statusrow.status)"> Ignore
                   <span>({{statusrow.total}})</span></span>
 
                 <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 9)">
@@ -103,7 +103,7 @@
                   </span>
                   <span *ngIf="getDocumentType(row[col]) == 9 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-minus-circle i-yellow" (click)="fetchDocumentData(row, col, row[col])"
+                    <i class="fa fa-minus" (click)="fetchDocumentData(row, col, row[col])"
                       title="ignore"></i>
                   </span>
                   <span *ngIf="getDocumentType(row[col]) > 9 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">

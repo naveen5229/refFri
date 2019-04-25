@@ -93,7 +93,8 @@ export class TrendsComponent implements OnInit {
     } else {
       //  this.month_number='7';
       startday = new Date(today.setMonth(today.getMonth() - 4));
-      this.startDate = this.common.dateFormatter(startday);
+       this.startDate = this.common.dateFormatter(startday);
+      // this.startDate=(this.common.dateFormatter(startday)).split('')[0];
       console.log('endDate', this.endDate);
       console.log('startDate', startday, this.startDate);
       this.getMonthlyTrends();
@@ -141,8 +142,8 @@ export class TrendsComponent implements OnInit {
   getSiteWise() {
 
     let params = {
-      startDate: this.fromDate,
-      endDate: this.endDate
+      startDate: this.common.dateFormatter(this.fromDate).split(' ')[0],
+      endDate: this.common.dateFormatter(this.endDate).split(' ')[0]
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -151,7 +152,9 @@ export class TrendsComponent implements OnInit {
         this.common.loading--;
         this.siteDetails = res['data'];
         console.log('siteDetails: ', this.siteDetails);
+           this.siteUnloading=[];
         _.sortBy(this.siteDetails, ['unloading_hrs']).reverse().map(keyData => {
+          console.log('keydata',keyData);
           this.siteUnloading.push(keyData);
           //console.log('siteUnloading: ',  this.siteUnloading);
         });
@@ -167,8 +170,8 @@ export class TrendsComponent implements OnInit {
 
   getVehicleWise() {
     let params = {
-      startDate: this.fromDate,
-      endDate: this.endDate
+      startDate: this.common.dateFormatter(this.fromDate).split(' ')[0],
+      endDate: this.common.dateFormatter(this.endDate).split(' ')[0],
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -177,6 +180,7 @@ export class TrendsComponent implements OnInit {
         this.common.loading--;
         this.vehicleDetails = res['data'];
         console.log('vehicleDetails: ', this.vehicleDetails);
+          this.vehicleUnloading=[];
         _.sortBy(this.vehicleDetails, ['unloading_hrs']).reverse().map(keyData => {
           this.vehicleUnloading.push(keyData);
         });
@@ -259,8 +263,9 @@ export class TrendsComponent implements OnInit {
     this.Details = [];
     console.log('getDayWiseTrends call');
     this.dateDay = [];
-    this.fromDate = this.common.dateFormatter(this.fromDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
+    this.fromDate = this.common.dateFormatter(this.fromDate).split(' ')[0]
+    // this.fromDate=(this.common.dateFormatter(this.fromDate)).split('')[0];
+    this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0]
     let params = {
       startDate: this.fromDate,
       endDate: this.endDate
@@ -343,11 +348,11 @@ export class TrendsComponent implements OnInit {
     this.Details = [];
     today = new Date();
     //endDay=new Date(today.setDate(today.getDate()-1))
-    this.endDate = this.common.dateFormatter(today);
+    this.endDate = this.common.dateFormatter(today).split(' ')[0];
     let number = parseInt(this.week_month_number);
     console.log('converted number', number);
     startday = new Date(today.setDate(today.getDate() - number * 7));
-    this.startDate = this.common.dateFormatter(startday);
+    this.startDate = this.common.dateFormatter(startday).split(' ')[0];
     console.log('startDate:weekly', this.startDate);
     let params = {
       startDate: this.startDate,
@@ -427,11 +432,11 @@ export class TrendsComponent implements OnInit {
     let today, startday;
     today = new Date();
     //endDay=new Date(today.setDate(today.getDate()-1))
-    this.endDate = this.common.dateFormatter(today);
+    this.endDate = this.common.dateFormatter(today).split(' ')[0];
     let number = parseInt(this.week_month_number);
     console.log('converted number', number);
     startday = new Date(today.setMonth(today.getMonth() - number));
-    this.startDate = this.common.dateFormatter(startday);
+    this.startDate = this.common.dateFormatter(startday).split(' ')[0];
     console.log('startDate:monthly', this.startDate);
     let params = {
       startDate: this.startDate,
@@ -509,15 +514,15 @@ export class TrendsComponent implements OnInit {
         res['data'].map((vehicles, index) => {
         if(this.trendType=='11'){
           if(vehicles.halttypid==11)
-          data.push([index,vehicles.vehicleid, vehicles.regno, vehicles.halttypid, vehicles.category, vehicles.countevent]);
+          data.push([ vehicles.regno, vehicles.countevent]);
         }else{
            if(vehicles.halttypid==21)
-          data.push([index,vehicles.vehicleid, vehicles.regno, vehicles.halttypid, vehicles.category, vehicles.countevent]);
+          data.push([ vehicles.regno, vehicles.countevent]);
         }
         });
         console.log(data);
-        this.common.params = { title: 'SiteWise Vehicle List:', headings: ["#", "Vehicle Id", "Vehicle RegNo.", "Halt Type Id", "Category", "Count Event"], data };
-        this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
+        this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
+        this.modalService.open(ViewListComponent, { size: 'md', container: 'nb-layout' });
       }, err => {
         this.common.loading--;
         console.log(err);

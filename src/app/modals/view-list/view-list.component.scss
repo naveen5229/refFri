@@ -13,10 +13,6 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 15%;
-        }
-        th:nth-child(1){
-            width: 3%;
         }
         td{
             padding: 5px 10px !important;
@@ -44,15 +40,6 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
-                width: 3%;
-            }
-            td{
-                width: 15%;
-            }
-            td:last-child{
-                width: 15%
-            }
         }
         tr:nth-child(odd){
             background-color: #fff;
