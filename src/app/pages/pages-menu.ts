@@ -7,11 +7,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
     home: true,
   },
-  // {
-  //   title: 'Vehicle KPIs',
-  //   icon: 'nb-tables',
-  //   link: '/pages/vehicle-kpis',
-  // },
   {
     title: 'Tickets',
     icon: 'nb-notifications',
@@ -86,6 +81,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Trip Status FeedBack',
     icon: 'fas fa-list',
     link: '/pages/trip-status-feedback',
+    home: true,
+  },
+  {
+    title: 'Trip FeedBack logs',
+    icon: 'fas fa-list',
+    link: '/pages/tip-feedback-logs',
     home: true,
   },
   // {
