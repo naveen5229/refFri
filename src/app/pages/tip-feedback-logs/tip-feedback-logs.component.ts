@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./tip-feedback-logs.component.scss', '../pages.component.css']
 })
 export class TipFeedbackLogsComponent implements OnInit {
-  selectedVehicle = null;
+  vehicleId = null;
   startDate = '';
   endDate = '';
   activitySummary = [];
@@ -33,7 +33,7 @@ export class TipFeedbackLogsComponent implements OnInit {
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
     console.log('dates ', this.endDate, this.startDate)
- 
+
   }
 
   ngOnInit() {
@@ -58,12 +58,10 @@ export class TipFeedbackLogsComponent implements OnInit {
 
   }
 
-
-  
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
-    this.selectedVehicle = vehicle.id;
- 
+    this.vehicleId = vehicle.id;
+
   }
 
   getFeedbackLogs() {
@@ -77,11 +75,19 @@ export class TipFeedbackLogsComponent implements OnInit {
         hideHeader: true
       }
     };
-    const params = "startDate=" + this.startDate +
-      "&endDate=" + this.endDate ;
-    console.log('params: ', params);
+
+    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
+    const params = {
+      vehicleId: this.vehicleId ? this.vehicleId : -1,
+      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+    }
+
+    console.log("params:", params);
+    return;
     this.common.loading++;
-    this.api.get('FoDetails/getFoUserActivitySummary?' + params)
+  
+    this.api.post('tripsOperation/tripFeedbackLogs', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])

@@ -49,7 +49,6 @@ export class LorryRecciptsComponent implements OnInit {
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
      var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0],);
-    //  enddate.setDate( enddate.getDate() + 1 );
     let params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
       endDate:  this.common.dateFormatter1( enddate.setDate( enddate.getDate() + 1 )).split(' ')[0],
