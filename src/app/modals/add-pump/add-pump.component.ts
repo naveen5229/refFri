@@ -16,7 +16,11 @@ export class AddPumpComponent implements OnInit {
   fuel_company = 0;
   location = '';
   name = '';
+  siteId = null;
   title = '';
+
+  marker = [];
+
 
   constructor(
     public api: ApiService,
@@ -26,23 +30,74 @@ export class AddPumpComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private mapService: MapService) {
     this.title = this.common.params.title;
+    this.common.handleModalHeightWidth('class', 'modal-lg', '1200', '1200');
     setTimeout(() => {
       console.log('--------------location:', "location");
       this.mapService.autoSuggestion("location", (place, lat, lng) => {
-        //console.log('Lat: ', lat);
-        ///console.log('Lng: ', lng);
+        console.log('Lat: ', lat);
+        console.log('Lng: ', lng);
         console.log('Place: ', place);
         this.location = place;
+        this.getmapData(lat, lng);
       });
     }, 5000)
+
 
   }
 
   ngOnInit() {
+
+  }
+
+
+  ngAfterViewInit() {
+    this.mapService.mapIntialize("map");
+    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.mapService.zoomAt({ lat: lat, lng: lng });
+      this.getmapData(lat, lng);
+    });
+    // this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => { this.siteLoc = place; this.siteLocLatLng = { lat: lat, lng: lng } });
   }
 
   closeModal(response) {
     this.activeModal.close({ response: response });
+  }
+
+  getmapData(lat, lng) {
+    const params = "lat=" + lat +
+      "&long=" + lng;
+    this.common.loading++;
+    this.api.get('fuel/getAllSiteWrtFuelStation?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("result");
+        console.log(res['data']);
+        this.marker = res['data'];
+        this.mapService.createMarkers(this.marker);
+
+
+        console.log("marker", this.marker);
+        let markerIndex = 0
+        for (const marker of this.mapService.markers) {
+          let event = this.marker[markerIndex];
+          this.mapService.addListerner(marker, 'click', () => this.setEventInfo(event));
+          this.mapService.addListerner(marker, 'click', () => this.unsetEventInfo());
+        }
+      }, err => {
+        this.common.showError("Error occurred");
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  setEventInfo(event) {
+    console.log("Event Data:", event);
+    this.siteId = event.id;
+  }
+
+  unsetEventInfo() {
+
   }
 
   selectCompany(id) {
@@ -53,7 +108,7 @@ export class AddPumpComponent implements OnInit {
     let params = {
       petrolPumplocation: this.location,
       petrolPumpName: this.name,
-      siteId: '',
+      siteId: this.siteId,
       fuelCompany: this.fuel_company
     };
     console.log("params", params);

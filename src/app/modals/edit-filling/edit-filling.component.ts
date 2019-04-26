@@ -131,6 +131,7 @@ export class EditFillingComponent implements OnInit {
 
   showAddPump() {
     this.common.params = { title: 'Petrol Pump' };
+    this.common.handleModalHeightWidth('class', 'modal-lg', '1200', '1200');
     const activeModal = this.modalService.open(AddPumpComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
