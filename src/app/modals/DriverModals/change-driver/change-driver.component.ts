@@ -6,10 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./change-driver.component.scss']
 })
 export class ChangeDriverComponent implements OnInit {
-
+  driverName: '';
   constructor() { }
 
   ngOnInit() {
+  }
+  changDriver() {
+
+  }
+  closeModal() {
+
+  }
+  searchVehicle(driver) {
+
   }
 
 }
