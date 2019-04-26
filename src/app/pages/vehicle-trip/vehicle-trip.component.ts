@@ -9,6 +9,7 @@ import { ReportIssueComponent } from '../../modals/report-issue/report-issue.com
 import { UpdateTripDetailComponent } from '../../modals/update-trip-detail/update-trip-detail.component';
 import { DatePipe } from '@angular/common';
 import { DocumentsComponent } from '../../documents/documents.components';
+import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -82,6 +83,7 @@ export class VehicleTripComponent implements OnInit {
           {class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, doc)},
           {class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc)},
           {class:" fa fa-trash remove", action:this.deleteTrip.bind(this, doc)}
+          // .{class: 'fa fa-pencil-square-o  edit-btn', action: this.openChangeDriverModal.bind(this, doc)}
         ]},
 
 
@@ -93,10 +95,6 @@ export class VehicleTripComponent implements OnInit {
     });
     return columns;
   }
-
-
-
-
 
 
   getUpadte(vehicleTrip) {
@@ -114,6 +112,8 @@ export class VehicleTripComponent implements OnInit {
       });
     }
   }
+
+
   openAddTripModal() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
@@ -155,5 +155,16 @@ export class VehicleTripComponent implements OnInit {
       this.getVehicleTrips();
 
     });
+  }
+
+  openChangeDriverModal(vehicleTrip) {
+      console.log("vehicleTrip", vehicleTrip);
+      const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        console.log("data", data.respone);
+
+        this.getVehicleTrips();
+
+      });
   }
 }

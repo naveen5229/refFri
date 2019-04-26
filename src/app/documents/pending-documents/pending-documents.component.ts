@@ -712,7 +712,7 @@ export class PendingDocumentsComponent implements OnInit {
 
     getUserWorkList() {
       this.common.loading++;
-      this.api.post('Vehicles/getUserWorkSummary ', {})
+      this.api.post('Vehicles/getUserWorkSummary', {})
         .subscribe(res => {
           this.common.loading--;
           console.log("data", res);

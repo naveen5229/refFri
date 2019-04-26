@@ -34,7 +34,7 @@
             <tr>
               <td colspan="3">
                 <table class="tbl table table-bordered table-hover">
-                  <thead>
+                  <thead class="thead">
                     <th style="width:40px;">Reason</th>
                     <th>Place</th>
                     <th>Start</th>
@@ -54,11 +54,11 @@
             <tr *ngIf="vehicleEvent.isOpen">
                 <td colspan="9">
                   <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                      <span class="zoom-btn" (click)="setZoom(6)">1</span>
-                      <span class="zoom-btn" (click)="setZoom(9)">2</span>
-                      <span class="zoom-btn" (click)="setZoom(12)">3</span>
-                      <span class="zoom-btn" (click)="setZoom(15)">4</span>
-                      <span class="zoom-btn" (click)="setZoom(18)">5</span>
+                      <span class="zoom-btn" (click)="setZoom(10,vehicleEvent)">1</span>
+                      <span class="zoom-btn" (click)="setZoom(12,vehicleEvent)">2</span>
+                      <span class="zoom-btn" (click)="setZoom(14,vehicleEvent)">3</span>
+                      <span class="zoom-btn" (click)="setZoom(16,vehicleEvent)">4</span>
+                      <span class="zoom-btn" (click)="setZoom(18,vehicleEvent)">5</span>
                    
                     </span></div>
                 </td>
