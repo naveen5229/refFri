@@ -1,0 +1,14 @@
+:host ::ng-deep td i.fa-plus{
+    background-color: #1DE9B6;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+:host ::ng-deep td i.fa-trash{
+    background-color: #F44236;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}

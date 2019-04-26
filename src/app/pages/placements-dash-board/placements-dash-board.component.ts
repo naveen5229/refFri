@@ -84,19 +84,12 @@ export class PlacementsDashBoardComponent implements OnInit {
   openPlacementModal(placement) {
     console.log("openPlacementModal", placement);
     let tripDetails = {
-      id: placement.r_trip_id,
-      // endName : placement.x_showtripend,
-      startName: placement.r_source,
-      startTime: placement.r_showstarttime,
-      //endTime : placement.x_showendtime,
-      regno: placement.r_regno,
       vehicleId: placement.r_vid,
       siteId: placement.r_hl_site_id
-
     }
     this.common.params = { tripDetils: tripDetails, ref_page: 'placements' };
     console.log("vehicleTrip", tripDetails);
-    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
       this.getVehiclePlacement();
