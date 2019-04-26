@@ -39,7 +39,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
       endTime: this.dates.end,
       foId: null,
     };
-    this.api.post('FuelDetails/getFillingsByDateAndFoid', params)
+    this.api.post('FuelDetails/getFuelFillingsAverage', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
@@ -51,7 +51,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
   }
 
   getDate(date) {
-    this.common.params={ref_page:'fuel-avg'};
+    this.common.params = { ref_page: 'fuel-avg' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -87,12 +87,12 @@ export class FuelAverageAnalysisComponent implements OnInit {
   //       this.common.loading--;
   //       console.log(err);
   //     });
-      
+
 
   // }
-  getDetails(fuelAvgDetail){
-  this.common.params =fuelAvgDetail;
-  const activeModal = this.modalService.open(FuelEntriesComponent, { size: 'lg', container: 'nb-layout' });
-  
+  getDetails(fuelAvgDetail) {
+    this.common.params = fuelAvgDetail;
+    const activeModal = this.modalService.open(FuelEntriesComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }
