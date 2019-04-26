@@ -11,49 +11,98 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="vehicle_status clearfix">
-    <span
-      ><b><i class="fa fa-user"></i> </b> {{ VehicleStatusData.fo_name }}</span
-    >
-    <span
-      ><b><i class="fa fa-truck"></i> </b> {{ VehicleStatusData.regno }}</span
-    >
-    <span><b><i class="fa fa-address-card"></i> : </b> {{ VehicleStatusData.vehicle_id }}</span>
-    <span
-      ><b><i class="fa fa-industry"></i> : </b> {{ lastIndType }} {{ distDiff }}
-      {{ timeDiff }}</span
-    >
-    <span class="zoom-btn"
-      ><i class="fa fa-route" (click)="openRouteMapper()"></i
-    ></span>
-    <span class="zoom-btn" (click)="gps()">Trail</span>
-    <span class="zoom-btn" (click)="vehicleLr()">LR</span>
-  </div>
+  <div class="col-sm-6">
+    <div class="col-sm-6" *ngIf="lUlBtn">
+      <div style="height: 480px; overflow: auto; width: 100%;">
+        <table class="table table-bordered table-hover halts-show">
+          <tbody>
+            <tr>
+              <th>Dt</th>
+              <th>Loc</th>
+              <th>Dist</th>
+              <th>Days</th>
+              <th>HT</th>
+            </tr>
+            <tr *ngFor="let lUL of loadingUnLoading;let i = index; ">
+              <td>{{lUL.date}}</td>
+              <td>{{lUL.loc}}</td>
+              <td>{{lUL.distance}}</td>
+              <td>{{lUL.days}}</td>
+              <td>{{lUL.y_halt_desc}}</td>
 
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="row">
-      <div class="col-sm-6" *ngIf="lUlBtn">
-        <div style="height: 480px; overflow: auto; width: 100%;">
-          <table class="table table-bordered table-hover halts-show">
-            <tbody>
-              <tr>
-                <th>Dt</th>
-                <th>Loc</th>
-                <th>Dist</th>
-                <th>Days</th>
-                <th>HT</th>
-              </tr>
-              <tr *ngFor="let lUL of loadingUnLoading; let i = index">
-                <td>{{ lUL.date }}</td>
-                <td>{{ lUL.loc }}</td>
-                <td>{{ lUL.distance }}</td>
-                <td>{{ lUL.days }}</td>
-                <td>{{ lUL.y_halt_desc }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div [class]=" lUlBtn?'col-sm-6':'col-sm-12'">
+      <!-- <accordion>
+                    <group title="First Group">this is the content</group>
+                  </accordion> -->
+      <div class="tableFixHead">
+        <table class="table table-bordered table-hover halts-show" style="border:1px gray solid">
+          <thead>
+            <th>#</th>
+            <th>Date</th>
+            <th>Start</th>
+            <th>Duration</th>
+            <th>End</th>
+            <th>Location</th>
+            <th>Dist</th>
+            <th>KM/h</th>
+            <th>AdUserId <span style="margin-left:15px"><i class="fa fa-refresh report-btn" (click)="mapReset();"></i></span></th>
+          </thead>
+          <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
+              <tr [id]="'vehicleEvent-row-'+i" 
+              [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
+              (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)">
+            <!-- <tr cdkDrag [id]="'vehicleEvent-row-'+i" (cdkDragStarted)="this.onlyDrag = true;"
+              (cdkDragEnded)="onDragEnded($event, i, vehicleEvent)" cdkDragLockAxis="y"
+              [ngStyle]="{'border':  vehicleEvent.y_place_id ? '4px dashed red' : 'none', 'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.color :'#fff'}"
+              (mouseover)="toggleBounceMF(i)" (mouseout)="toggleBounceMF(i,2)"> -->
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode!=-1"><b><span
+                    *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</b></td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
+                  *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.startTimeShort}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.endTimeShort}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
+                {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">{{vehicleEvent.loc}}
+              </td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}</td>
+            
+            </tr>
+            <tr *ngIf="vehicleEvent.isOpen">
+              <td colspan="9">
+                <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
+                    <span class="zoom-btn" (click)="setZoom(6)">1</span>
+                    <span class="zoom-btn" (click)="setZoom(9)">2</span>
+                    <span class="zoom-btn" (click)="setZoom(12)">3</span>
+                    <span class="zoom-btn" (click)="setZoom(15)">4</span>
+                    <span class="zoom-btn" (click)="setZoom(18)">5</span>
+                    <span class="zoom-btn" (click)="showHide()">{{showHideSite}}</span>
+                    <span class="zoom-btn" (click)="setSiteHalt(vehicleEvent,true)"
+                      *ngIf="!vehicleEvent.y_site_id && vehicleEvent.haltTypeId">CSH</span>
+                    <!-- <span class="zoom-btn" (click)="deleteHalt(vehicleEvent)" *ngIf="vehicleEvent.y_is_delete"><i
+                        class="fa fa-trash"></i></span> -->
+                    <span class="zoom-btn" *ngIf="vehicleEvent.haltTypeId == -1"
+                      (click)="openManualHalt(vehicleEvent);">MH</span>
+                    <span class="zoom-btn"><i class="fa fa-question-circle report-btn"
+                        (click)="reportIssue(vehicleEvent);"></i></span>
+                    <span class="zoom-btn" (click)="openChangeHaltModal(vehicleEvent,'SiteType')"
+                          *ngIf="vehicleEvent.desc!='Trails'&& !vehicleEvent.y_site_id"><i class="fa fa-plus"></i></span>
+                    <button style="background-color:#1de9b6;margin-left:5px;padding: 5px" (click)="openChangeHaltModal(vehicleEvent,'HaltType')"
+                          *ngIf="vehicleEvent.desc!='Trails'">{{vehicleEvent.y_halt_desc}}</button>
+                  </span></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div [class]="lUlBtn ? 'col-sm-6' : 'col-sm-12'">
         <!-- <accordion>

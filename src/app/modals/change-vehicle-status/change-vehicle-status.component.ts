@@ -186,7 +186,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       "&toTime=" + this.toTime +
       "&status=" + status;
     console.log(params);
-    this.api.get('HaltOperations/getHaltHistory?' + params)
+    this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);

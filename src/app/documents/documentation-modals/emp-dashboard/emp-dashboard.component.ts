@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 import { ViewListComponent } from '../../../modals/view-list/view-list.component';
+import { LocationMarkerComponent } from '../../../modals/location-marker/location-marker.component';
 
 @Component({
   selector: 'emp-dashboard',
@@ -38,10 +39,10 @@ export class EmpDashboardComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.title = this.common.params.title;
-    let nDay = new Date(this.common.dateFormatter1(new Date()).split(' ')[0]);
+    let nDay = new Date();
     console.log("nday:", nDay);
-    this.currentDay = this.common.dateFormatter1(nDay);
-    this.startDay = this.common.dateFormatter1(new Date(nDay.setDate(nDay.getDate() - 4))).split(' ')[0];
+    this.startDay = this.common.dateFormatter(nDay);
+    this.currentDay = this.startDay
     console.log('currentDay:', this.currentDay, this.startDay);
     this.getEmpDashboard();
   }
@@ -61,14 +62,14 @@ export class EmpDashboardComponent implements OnInit {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        console.log("data date:");
         console.log(data.date);
         if (date == 'stdate') {
-          this.startDay = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('Date:', this.startDay);
+          this.startDay = this.common.dateFormatter(data.date);
+          console.log('stDate:', this.startDay);
+
         } else {
-          this.currentDay = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('Date:', this.currentDay);
+          this.currentDay = this.common.dateFormatter(data.date);
+          console.log('cuDate:', this.currentDay);
         }
       }
     });
@@ -83,8 +84,12 @@ export class EmpDashboardComponent implements OnInit {
     }
   }
   getEmpDashboard() {
+    let startDay = new Date(this.startDay);
+    let x_start_date = this.common.dateFormatter(new Date(startDay)).split(' ')[0]
+    let currentDay = new Date(this.currentDay);
+    let x_end_date = this.common.dateFormatter(new Date(currentDay.setDate(currentDay.getDate() + 1))).split(' ')[0]
     this.common.loading++;
-    this.api.post('Admin/empDashboard', { x_start_date: this.startDay, x_end_date: this.currentDay, analyticsType: this.analyticsType })
+    this.api.post('Admin/empDashboard', { x_start_date: x_start_date, x_end_date: x_end_date, analyticsType: this.analyticsType })
       .subscribe(res => {
         this.common.loading--;
         this.data = [];
@@ -138,20 +143,16 @@ export class EmpDashboardComponent implements OnInit {
     return columns;
   }
 
-  openDetailsModal(wrongEntries) {
-        let data = [];
-        wrongEntries.map((wrongEntry, index) => {
-          data.push([index, wrongEntry.regno, wrongEntry.cnt, wrongEntry.actct, wrongEntry.wuct]);
-        });
-        console.log(data);
-        this.common.params = { title: 'Wrong Entries:', headings: ["#", "Vehicle RegNo", "Count", "Since Updated (In Minutes)", "Working User (In Last 10 Minutes)"], data };
-        this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
-      }
-  
+
   getData(details) {
+    let startDay = new Date(this.startDay);
+    let startDate = this.common.dateFormatter(new Date(startDay)).split(' ')[0]
+    let currentDay = new Date(this.currentDay);
+    let endDate = this.common.dateFormatter(new Date(currentDay.setDate(currentDay.getDate() + 1))).split(' ')[0]
+
     let params = {
-      startDate: this.startDay,
-      endDate: this.currentDay,
+      startDate: startDate,
+      endDate: endDate,
       aduserId: details.aduserid,
       haltTypeId: details.halt_type_id
     };
@@ -171,4 +172,40 @@ export class EmpDashboardComponent implements OnInit {
         })
   }
 
+  openDetailsModal(wrongEntries) {
+    let data = [];
+    let actionParams = {
+      'Site Name': []
+    };
+    wrongEntries.map((wrongEntry, index) => {
+      data.push([index, wrongEntry.id, wrongEntry.fo_name, wrongEntry.site_name, wrongEntry.halt_type,wrongEntry.wrong_by,wrongEntry.corrected_by, wrongEntry.cleartime]);
+      actionParams['Site Name'].push(wrongEntry);
+    });
+    console.log(data);
+    let actions = {
+      'Site Name': this.openLocationModal.bind(this)
+    };
+
+    this.common.params = { title: 'Wrong Entries:', actions, actionParams, headings: ["#", "Halt Id", "Fo Name", "Site Name", "Halt Type", "Wrong BY", "Correct By", "Clear Time"], data };
+    this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  openLocationModal(site) {
+    if (!site.lat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: site.lat,
+      lng: site.long,
+      name: "",
+      time: ""
+    };
+    console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+  }
 }
