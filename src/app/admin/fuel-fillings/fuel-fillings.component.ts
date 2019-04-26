@@ -16,11 +16,13 @@ import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
+  showcolumns = [];
   headings = [];
   table = {
     data: {
       headings: {
         id: { title: 'ID', placeholder: 'ID' },
+        pump:{title:'Pump',placeholder:'Pump'},
         date: { title: 'Date', placeholder: 'Date' },
         regno: { title: 'Regno', placeholder: 'Regno' },
         litres: { title: 'Litres', placeholder: 'Litres' },
@@ -70,12 +72,9 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
-        this.fillingData = this.fillingData.slice(1, 100);
+        // this.fillingData = this.fillingData.slice(1, 100);
         console.info("filling Data", this.fillingData);
-        console.log("hdgs:");
-        console.log(this.headings);
         console.log(this.table.data.headings);
-
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -129,6 +128,7 @@ export class FuelFillingsComponent implements OnInit {
       //valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
       let column = {
         id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
+        pump:{value:frec.pp},
         date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy') },
         regno: { value: frec.regno },
         litres: { value: frec.litres },
