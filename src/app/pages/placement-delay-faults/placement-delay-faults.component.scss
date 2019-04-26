@@ -3,3 +3,7 @@ nb-card-header {
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
