@@ -36,10 +36,10 @@ export class UpdateCompanyComponent implements OnInit {
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
-      name:['',Validators.required],
+      name:['',],
       panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
-      address:['',Validators.required],
-      mobileNo:['',Validators.required]
+      address:[''],
+      mobileNo:['']
     });
   }
   // convenience getter for easy access to form fields

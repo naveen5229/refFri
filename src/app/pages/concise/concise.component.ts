@@ -286,55 +286,65 @@ export class ConciseComponent implements OnInit {
       case 0:
         html = `
             <!-- At Origin -->
-            <span class="circle loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            ${this.handleCircle(kpi.x_showtripstart.trim(), 'loading')}
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 1:
         html = `
             <!-- At Destination -->
-            <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="circle unloading">${kpi.x_showtripend}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              ${this.handleCircle(kpi.x_showtripend.trim(), 'unloading')}
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 2:
         html = `
             <!-- Onward -->
-            <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 3:
         html = `
             <!-- Available (Done) -->
-            <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
             <i class="fa fa-check-circle complete"></i>`;
         break;
       case 4:
         html = `
             <!-- Available (Next) -->
-            <span class="loading">${kpi.x_showtripstart}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatPacement(kpi.placements)}`;
         break;
       case 5:
         html = `
             <!-- Available (Moved) -->
-            <span class="unloading">${kpi.x_showtripstart}</span>
+            <span class="unloading">${kpi.x_showtripstart.trim()}</span>
             ${this.formatPacement(kpi.placements)}`;
         break;
       default:
         html = `
             <!-- Ambiguous -->
-            <span class="loading">${kpi.x_showtripstart}</span>
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
             <span>-</span>
-            <span class="unloading">${kpi.x_showtripend}</span>
+            <span class="unloading">${kpi.x_showtripend.trim()}</span>
             ${this.formatPacement(kpi.placements)}`;
         break;
     }
@@ -345,7 +355,7 @@ export class ConciseComponent implements OnInit {
   formatPacement(placements) {
     console.log('--------------------:', placements);
     if (!placements.length) return '';
-    let html = `<i class="icon ion-md-arrow-round-forward"></i>`;
+    let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
     const colors = {
       11: 'loading', // Loading
       21: 'unloading', // unloading
@@ -353,9 +363,9 @@ export class ConciseComponent implements OnInit {
     };
 
     placements.map((placement, index) => {
-      html += `<span class="${colors[placement.type]}">${placement.name}</span>`
+      html += `<span class="${colors[placement.type]}">${placement.name.trim()}</span>`
       if (index != placements.length - 1) {
-        html += `<span>-</span>`;
+        html += `<span> - </span>`;
       }
     });
     console.log('Html:', html);
@@ -925,12 +935,6 @@ export class ConciseComponent implements OnInit {
   getUpadte(kpi) {
     console.log("kpi", kpi);
     let tripDetails = {
-      id: kpi.x_trip_id,
-      endName: kpi.x_showtripend,
-      startName: kpi.x_showtripstart,
-      startTime: kpi.x_showstarttime,
-      endTime: kpi.x_showendtime,
-      regno: kpi.x_showveh,
       vehicleId: kpi.x_vehicle_id,
       siteId: kpi.x_hl_site_id
 
@@ -941,7 +945,7 @@ export class ConciseComponent implements OnInit {
 
     this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
     console.log("vehicleTrip", tripDetails);
-    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 
@@ -978,7 +982,7 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-bars",
         action: this.openVehicleStates.bind(this, kpi)
       },
-     
+
     ]
     console.log("this.user._loggedInBy", this.user._loggedInBy);
     if (this.user._loggedInBy == "admin") {
@@ -1019,30 +1023,32 @@ export class ConciseComponent implements OnInit {
   }
 
 
-handleCircle(location) {
-   let locationArray = location.split('-');
-   if (locationArray.length == 1) {
-     return `<span class="circle">${location}</span>`;
-   }
-   let html = ``;
-   for (let i = 0; i < locationArray.length; i++) {
-     if (i == locationArray.length - 1) {
-       html += `<span class="circle">${locationArray[i]}</span>`;
-     } else {
-       html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
-     }
-   }
-   return html;
- }
- openVehicleStates(vlaues){
-  this.common.params = {
-    vehicleId: vlaues.x_vehicle_id,
-    vehicleRegNo: vlaues.x_showveh
-    
-  };
-  const activeModal = this.modalService.open(VehicleStatesComponent, {
-    size: "lg",
-    container: "nb-layout"
-  });
- }
+
+  handleCircle(location, className = 'loading') {
+    let locationArray = location.split('-');
+    if (locationArray.length == 1) {
+      return `<span class="circle ${className}">${location}</span>`;
+    }
+    let html = ``;
+    for (let i = 0; i < locationArray.length; i++) {
+      if (i == locationArray.length - 1) {
+        html += `<span class="circle ${className}">${locationArray[i]}</span>`;
+      } else {
+        html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
+      }
+    }
+    return html;
+  }
+
+  openVehicleStates(vlaues) {
+    this.common.params = {
+      vehicleId: vlaues.x_vehicle_id,
+      vehicleRegNo: vlaues.x_showveh
+
+    };
+    const activeModal = this.modalService.open(VehicleStatesComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+  }
 }

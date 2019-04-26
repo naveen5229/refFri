@@ -27,7 +27,7 @@
           <label>PreSit Name</label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
-          <select name="list" class="form-control" (change)="selectList($event.target.value)" [(ngModel)]="refTypePre">
+          <select name="list" class="form-control mb-2" (change)="selectList($event.target.value)" [(ngModel)]="refTypePre">
             <option class="form-control" [value]="1">Site</option>
             <option class="form-control" [value]="2">TransArea</option>
           </select>
@@ -75,7 +75,7 @@
           <label>CurrentSite Name<span>*</span></label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
-          <select name="listType" class="form-control" (change)="selectListType($event.target.value)"
+          <select name="listType" class="form-control mb-2" (change)="selectListType($event.target.value)"
             [(ngModel)]="refTypeCur">
             <option class="form-control" [value]="1">Site</option>
             <option class="form-control" [value]="2">TransArea</option>

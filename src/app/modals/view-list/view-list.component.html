@@ -12,8 +12,8 @@
           </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of datas;">
-          <td *ngFor="let info of data">{{info}}</td>
+        <tr *ngFor="let data of datas; let i = index;">
+          <td *ngFor="let info of data; let j = index;" (click)="handleAction(i, j)">{{info}}</td>
         </tr>
       </tbody>
   
