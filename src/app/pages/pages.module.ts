@@ -44,6 +44,7 @@ import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
 import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 
 
 
@@ -93,7 +94,8 @@ const PAGES_COMPONENTS = [
     TripStatusFeedbackComponent,
     UserActivityStatusComponent,
     PlacementDelayFaultsComponent,
-    VehicleGpsDetailComponent
+    VehicleGpsDetailComponent,
+    VehicleCoveredDistanceComponent
   ],
 })
 export class PagesModule {

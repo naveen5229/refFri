@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
 @Component({
   selector: 'placement-delay-faults',
@@ -88,10 +89,15 @@ export class PlacementDelayFaultsComponent implements OnInit {
     for (var i = 0; i < this.delayFaults.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if (this.headings[j] == "startpt") {
+        if (this.headings[j] == "endpt") {
           console.log("headings[j]", this.headings[j]);
-          this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'black', action: this.openPlacementModal.bind(this, this.delayFaults[i]) };
-        } else {
+          this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openPlacementModal.bind(this, this.delayFaults[i]) };
+        }
+        else if (this.headings[j] == "%Dist") {
+          console.log("headings[j]", this.headings[j]);
+          this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.delayFaults[i]) };
+        }
+        else {
           this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'black', action: '' };
         }
 
@@ -117,7 +123,7 @@ export class PlacementDelayFaultsComponent implements OnInit {
     console.log("openPlacementModal", placement);
     let tripDetails = {
       vehicleId: placement._vid,
-      siteId: placement._site_id
+      siteId: placement._site_id ? placement._site_id : -1
     }
     this.common.params = { tripDetils: tripDetails, ref_page: 'placements' };
     console.log("vehicleTrip", tripDetails);
@@ -126,5 +132,28 @@ export class PlacementDelayFaultsComponent implements OnInit {
       //console.log("data", data.respone);
 
     });
+  }
+
+  openRouteMapper(defaultFault) {
+    console.log("defaultFault", defaultFault);
+    let fromTime = this.common.dateFormatter(defaultFault._start_time);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: defaultFault._vid,
+      vehicleRegNo: defaultFault.vehicle,
+      fromTime: fromTime,
+      toTime: toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
   }
 }
