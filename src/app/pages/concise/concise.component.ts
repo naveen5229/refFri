@@ -935,12 +935,6 @@ export class ConciseComponent implements OnInit {
   getUpadte(kpi) {
     console.log("kpi", kpi);
     let tripDetails = {
-      id: kpi.x_trip_id,
-      endName: kpi.x_showtripend,
-      startName: kpi.x_showtripstart,
-      startTime: kpi.x_showstarttime,
-      endTime: kpi.x_showendtime,
-      regno: kpi.x_showveh,
       vehicleId: kpi.x_vehicle_id,
       siteId: kpi.x_hl_site_id
 
@@ -951,7 +945,7 @@ export class ConciseComponent implements OnInit {
 
     this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
     console.log("vehicleTrip", tripDetails);
-    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 
@@ -984,6 +978,11 @@ export class ConciseComponent implements OnInit {
         class: " icon fa fa-truck",
         action: this.openTripDetails.bind(this, kpi)
       },
+      {
+        class: "icon fa fa-bars",
+        action: this.openVehicleStates.bind(this, kpi)
+      },
+
     ]
     console.log("this.user._loggedInBy", this.user._loggedInBy);
     if (this.user._loggedInBy == "admin") {
@@ -1039,5 +1038,17 @@ export class ConciseComponent implements OnInit {
       }
     }
     return html;
+  }
+
+  openVehicleStates(vlaues) {
+    this.common.params = {
+      vehicleId: vlaues.x_vehicle_id,
+      vehicleRegNo: vlaues.x_showveh
+
+    };
+    const activeModal = this.modalService.open(VehicleStatesComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 }
