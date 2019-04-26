@@ -132,10 +132,28 @@ table{
     padding: 8px 16px;
     outline: none;
   }
-  table{
-        tr{
-          th, td{
-              padding: 5px !important;
-          }
-      }
+table {
+  thead {
+    background-color: #263238;
+    color: #fff;
+    display: table;
+    width: 100%;
   }
+  tr {
+    th {
+      padding: 5px 10px;
+      font-weight: normal;
+      width: 150px !important;
+    }
+    td {
+      padding: 5px 10px !important;
+      font-size: 12px;
+      width: 150px !important;
+      word-break: break-all;
+    }
+  }
+  tbody {
+    display: table;
+    width: 100%;
+  }
+}
