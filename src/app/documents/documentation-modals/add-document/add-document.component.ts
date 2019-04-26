@@ -75,7 +75,7 @@ export class AddDocumentComponent implements OnInit {
       this.regno = this.common.params.row.Vehicle;
       this.docId = this.common.params.row._docid;
       this.vehicleid = this.common.params.row._vid;
-      this.docType = this.common.params.row.document_type;
+      this.docType = this.common.params.row._docname;
       this.docTypeid = this.common.params.row._doctypeid;
     }
 

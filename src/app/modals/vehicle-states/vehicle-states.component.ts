@@ -235,6 +235,9 @@ export class VehicleStatesComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
+  saveDetails(){
+    
+  }
 
 
 }

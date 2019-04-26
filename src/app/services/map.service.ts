@@ -58,9 +58,9 @@ export class MapService {
 
   zoomMap(zoomValue) {
     this.map.setZoom(zoomValue);
-    if (zoomValue == 10 || zoomValue == 12 || zoomValue == 14) {
+    if (zoomValue <= 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    } else if (zoomValue == 16 || zoomValue == 18) {
+    } else if (zoomValue> 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }

@@ -5,8 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../../modals/image-view/image-view.component';
-import { AddDocumentComponent} from '../add-document/add-document.component';
-import { EditDocumentComponent } from '../../documentation-modals/edit-document/edit-document.component';
+import { AddDocumentComponent } from '../add-document/add-document.component';
 import { normalize } from 'path';
 import { from } from 'rxjs';
 import { NgIf } from '@angular/common';
@@ -33,7 +32,7 @@ export class DocumentReportComponent implements OnInit {
   selectedVehicle = null;
   table = {
     data: {
-      headings: {  image: { title: 'Image', placeholder: 'Image', hideSearch: true, class:'tag' },},
+      headings: {},
       columns: []
     },
     settings: {
@@ -71,21 +70,21 @@ export class DocumentReportComponent implements OnInit {
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;
-    if(this.user._loggedInBy == "customer")
+    if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe(res => {
         this.common.loading--;
         this.fodata = res['data'];
         let left_heading = this.fodata['name'];
         let strstatus = this.reportData.status.toUpperCase();
-        switch(strstatus) {
-          case 'VERIFIED' : strstatus = 'VERIFIED DOCUMENTS'; break;
-          case 'UNVERIFIED' : strstatus = 'UNVERIFIED DOCUMENTS'; break;
-          case 'PENDINGIMAGE' : strstatus = 'PENDING IMAGES'; break;
-          case 'EXPIRING30DAYS' : strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
-          case 'EXPIRED' : strstatus = 'EXPIRED DOCUMENTS'; break;
-          case 'PENDINGDOC' : strstatus = 'PENDING DOCUMENTS'; break;
+        switch (strstatus) {
+          case 'VERIFIED': strstatus = 'VERIFIED DOCUMENTS'; break;
+          case 'UNVERIFIED': strstatus = 'UNVERIFIED DOCUMENTS'; break;
+          case 'PENDINGIMAGE': strstatus = 'PENDING IMAGES'; break;
+          case 'EXPIRING30DAYS': strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
+          case 'EXPIRED': strstatus = 'EXPIRED DOCUMENTS'; break;
+          case 'PENDINGDOC': strstatus = 'PENDING DOCUMENTS'; break;
           default: break;
         }
         let center_heading = strstatus;
@@ -95,8 +94,8 @@ export class DocumentReportComponent implements OnInit {
         console.log(err);
       });
   }
-  
-  
+
+
   // setTable() {
   //   let headings = {
   //     docId: { title: 'Document Id', placeholder: 'Document Id' },
@@ -137,7 +136,7 @@ export class DocumentReportComponent implements OnInit {
   //     // for comapring
   //     let exp_date2 = new Date(exp_date.split('/').join('-'));
   //     exp_date2 = exp_date2.getFullYear()==1970?null:exp_date2;
-      
+
   //     let nxtmth2 = new Date(this.common.dateFormatter1(nextMthDate).split(' ')[0]);
   //     let currdt2 = new Date(curr);
 
@@ -167,22 +166,18 @@ export class DocumentReportComponent implements OnInit {
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
-      console.log("Doc Data:",doc);
+      console.log("Doc Data:", doc);
       this.valobj = {};
-      for(let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:",doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action : ''};
-        // if(doc._imgurl1){
-          this.valobj['image']={ value: `${doc._imgurl1 ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc._imgurl1 ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center del' }
-        // }
-        // else{
-          // this.valobj['image']={ value: `${doc._imgurl1 ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc._imgurl1 ? this.imageView.bind(this, doc) : this.add.bind(this, doc,), class: 'image text-center del' }
- 
-        // }        
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+        this.valobj['image'] = { value: `${doc._imgurl1 ? '<i class="fa fa-image"></i>' : '<i class="fa fa-pencil-square"></i>'}`, isHTML: true, action: doc._imgurl1 ? this.imageView.bind(this, doc) : this.add.bind(this, doc), class: 'image text-center del' }
+
 
       }
-    
-      
+
+
       columns.push(this.valobj);
     });
     return columns;
@@ -191,20 +186,20 @@ export class DocumentReportComponent implements OnInit {
 
 
 
-  add(row){
-    console.log("row Data:",row);
+  add(row) {
+    console.log("row Data:", row);
     this.common.params = { row, title: 'Upload Image' };
     const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-          if (data.response) {
-            this.closeModal(true);
-            this.getReport();
-        
-          }
-        });
+      if (data.response) {
+        this.closeModal(true);
+        this.getReport();
+
+      }
+    });
   }
-    
-  
+
+
   getReport() {
     let params = {
       id: this.common.params.docReoprt.document_type_id,
@@ -212,21 +207,25 @@ export class DocumentReportComponent implements OnInit {
     };
     this.common.loading++;
     let userid = this.user._customer.id;
-    if(this.user._loggedInBy == "customer")
+    if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
     this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id, x_user_id: userid })
-    // this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
+      // this.api.post('Vehicles/getDocumentsStatisticsnew', { x_status: params.status, x_document_type_id: params.id })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
+         
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-          }         
-          
+            let image = { title: this.formatTitle('Image'), placeholder: this.formatTitle('Image') };
+            this.table.data.headings['image'] = image;
+          }
+
+
         }
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -238,7 +237,7 @@ export class DocumentReportComponent implements OnInit {
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
- 
+
 
   imageView(doc) {
     console.log("image data", doc);
@@ -246,11 +245,11 @@ export class DocumentReportComponent implements OnInit {
       name: "image",
       image: doc._imgurl1
     },
-     {
+    {
       name: "image",
       image: doc._imgurl2
     },
-     {
+    {
       name: "image",
       image: doc._imgurl3
     }
@@ -268,7 +267,7 @@ export class DocumentReportComponent implements OnInit {
     var split = imgUrl.split(".");
     return split[split.length - 1] == 'pdf' ? true : false;
   }
-  
+
 
   // editData(doc) {
   //   let documentData = [{

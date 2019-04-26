@@ -8,25 +8,28 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'import-fillings',
   templateUrl: './import-fillings.component.html',
-  styleUrls: ['./import-fillings.component.scss']
+  styleUrls: ['./import-fillings.component.scss', '../../pages/pages.component.css']
 })
 export class ImportFillingsComponent implements OnInit {
-  fuel_station_id= 0;
+  fuel_station_id = 0;
   fuel_station_name = '';
   foid = 0;
   fo_name = '';
-  title= '';
-  fillingcsv = {};
+
+  fillingcsv = null;
 
   isfull = false;
+
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
-    private activeModal: NgbActiveModal) { 
-      this.title = this.common.params.title;
-    }
+    private activeModal: NgbActiveModal) {
+    this.common.handleModalSize('class', 'modal-m', '500');
+
+
+  }
 
   ngOnInit() {
   }
@@ -68,7 +71,38 @@ export class ImportFillingsComponent implements OnInit {
       })
   }
 
-  submitFillingData(){
-    
+  submitFillingData() {
+    const params = {
+      fuelCsv: this.fillingcsv,
+      foid: this.foid,
+      stationId: this.fuel_station_id,
+      isFull: this.isfull
+    };
+
+    if (!params.fuelCsv) {
+      return this.common.showError("Select csv");
+    }
+    console.log("Data :", params);
+
+    this.common.loading++;
+    this.api.post('FuelDetails/ImportFuelFilingsCsv', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("upload result", res);
+        let errorData = res['data']['f'];
+        console.log("error: ", errorData);
+        alert(res["msg"]);
+
+
+        // this.closeModal(true);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+  sampleCsv() {
+
   }
 }

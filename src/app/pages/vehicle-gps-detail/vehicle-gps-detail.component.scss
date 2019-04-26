@@ -1,0 +1,12 @@
+nb-card-header{
+    padding: 10px 15px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+nb-card-body{
+    padding: 10px 15px
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 145px);
+}

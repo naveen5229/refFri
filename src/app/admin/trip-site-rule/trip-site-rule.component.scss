@@ -10,36 +10,7 @@
 }
 nb-card-header{
     padding:10px 15px;
-    border-bottom: 1px solid #ccc;
-}
-
-table{
-    margin: 0px;
-    border: 0px;
-    thead{
-        background-color: #263238;
-        tr{
-            th{
-                padding: 5px 10px;
-                font-weight: normal;
-            }
-        }
-    }
-    tbody{
-        tr:nth-child(odd){
-            background-color:#fff;
-        }
-        tr:nth-child(even){
-            background-color:#e4e4e4;
-        }
-        td{
-            padding: 5px 10px !important;
-            font-size: 12px;
-        }
-        .del a{
-            margin-right: 20px;
-        }
-    }
+    background-color: #F5F5F5;
 }
 
 .edit{
@@ -50,17 +21,36 @@ table{
     color: #D61414 !important;
     font-size: 14px;
 }
+:host ::ng-deep .tableFixHead{
+    height:  auto !important;
+    max-height: calc(100vh - 186px);
+}
 :host ::ng-deep .tag .no-search span {
     color: black;
 
 }
 :host ::ng-deep .edit-btn{
-    font-size: 20px;
-    margin: 5px;
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: #3c6ac7;
+    color: #fff;
+    border-color: #73a1ff;
+    padding: 8px 10px;
+    border-radius: 3px;
 }
-:host ::ng-deep .remove{ 
-    font-size: 20px;
-    margin-left: 30%;
+:host ::ng-deep .edit-btn:hover{
+    background-color: #0054ff;
 }
-
-  
+:host ::ng-deep .remove{
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: #fd397a;
+    color: #fff;
+    border-color: #fd397a;
+    padding: 8px 10px;
+    border-radius: 3px;
+}
+:host ::ng-deep .remove:hover{
+    background-color: #fd1361;
+    border-color: #fc0758;
+}

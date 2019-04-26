@@ -105,7 +105,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleMouseOut(column, heading) {
-    console.log('MouseOut');
+    // console.log('MouseOut');
     if (column[heading].colActions && column[heading].colActions.mouseout) {
       column[heading].colActions.mouseout()
     }
