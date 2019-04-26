@@ -69,11 +69,11 @@
               <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.inflexCode==-1"><span
                   *ngIf="vehicleEvent.y_is_manual">*</span>{{i+1}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.date}}</td>
-              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
-              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
-              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.timeShort}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.startTimeShort}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
+              <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.endTimeShort}}</td>
               <td (click)="openSmartTool(i,vehicleEvent); " *ngIf="vehicleEvent.y_site_type_id==1">
-                {{vehicleEvent.site_name}}</td>
+                {{vehicleEvent.site_name}},{{vehicleEvent.loc}}</td>
               <td (click)="openSmartTool(i,vehicleEvent);" *ngIf="vehicleEvent.y_site_type_id!=1">{{vehicleEvent.loc}}
               </td>
               <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
