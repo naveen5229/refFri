@@ -884,10 +884,10 @@ export class ConciseComponent implements OnInit {
         class: " icon fa fa-truck",
         action: this.openTripDetails.bind(this, kpi)
       },
-      // {
-      //   class: "icon fa fa-question-circle",
-      //   action: this.openVehicleStates.bind(this, kpi)
-      // },
+      {
+        class: "icon fa fa-bars",
+        action: this.openVehicleStates.bind(this, kpi)
+      },
      
     ]
     console.log("this.user._loggedInBy",this.user._loggedInBy);
@@ -945,15 +945,15 @@ handleCircle(location) {
    }
    return html;
  }
-//  openVehicleStates(vlaues){
-//   this.common.params = {
-//     vehicleId: vlaues.x_vehicle_id,
-//     vehicleRegNo: vlaues.x_showveh,
-   
-//   };
-//   const activeModal = this.modalService.open(VehicleStatesComponent, {
-//     size: "lg",
-//     container: "nb-layout"
-//   });
-//  }
+ openVehicleStates(vlaues){
+  this.common.params = {
+    vehicleId: vlaues.x_vehicle_id,
+    vehicleRegNo: vlaues.x_showveh
+    
+  };
+  const activeModal = this.modalService.open(VehicleStatesComponent, {
+    size: "lg",
+    container: "nb-layout"
+  });
+ }
 }
