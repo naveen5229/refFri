@@ -41,7 +41,10 @@ companies = null;
     this.common.params = {company: company }
     const activeModal = this.modalService.open(UpdateCompanyComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.getCompanies();
+     
+        this.getCompanies();
+      
+     
     });
   }
 

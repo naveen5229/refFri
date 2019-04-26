@@ -168,10 +168,12 @@ export class ChangeVehicleStatusComponent implements OnInit {
   infoWindow = null;
   setEventInfo(event) {
     console.log(event);
-    this.markerZoomMF(event.mIndex);
+    this.toggleBounceMF(event.mIndex);
     
   }
-  unsetEventInfo() {
+  unsetEventInfo(event) {
+    console.log(event);
+    this.toggleBounceMF(event.mIndex,2);
     
   }
 
@@ -197,55 +199,35 @@ export class ChangeVehicleStatusComponent implements OnInit {
         let startElement = this.vehicleEvents.find((element) => {
           return !(element.desc+"").includes('LT');
         });
-        let start = startElement.time;
+        // Route Mapper Code (Authored by UJ)
+        let start = startElement.startTime;
         let startIndex = this.vehicleEvents.indexOf(startElement);
-        let end = this.vehicleEvents[this.vehicleEvents.length-1].time;
-        let paramy = {
-          vehicleId:this.VehicleStatusData.vehicle_id,
-          startDate:this.common.dateFormatter(start),
-          endDate:end?this.common.dateFormatter(end):this.common.dateFormatter(new Date())
-        }
-        console.log(paramy);
-    this.common.loading++;
-    this.api.post('HaltOperations/getVehicleEvents', paramy)
-          .subscribe(res => {
-            this.common.loading--;
+        let end = this.vehicleEvents[this.vehicleEvents.length-1].endTime;
             console.log(res);
-            let vehicleEvents = res['data'].reverse();
-            let realStart = new Date(vehicleEvents[0].start_time)<new Date(start)?
-                vehicleEvents[0].start_time:start;
+            let vehicleEvents = res['data'];
+            let realStart = new Date(vehicleEvents[startIndex].startTime)<new Date(start)?
+                vehicleEvents[startIndex].startTime:start;
                 let realEnd = null;
-                if(vehicleEvents[0].end_time)
-                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].end_time)>new Date(end)?
-                  vehicleEvents[vehicleEvents.length-1].end_time:end;
+                if(vehicleEvents[0].endTime)
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].endTime)>new Date(end)?
+                  vehicleEvents[vehicleEvents.length-1].endTime:end;
                 let totalHourDiff = 0;
                 if(vehicleEvents.length!=0){
                   totalHourDiff = this.common.dateDiffInHours(realStart,realEnd,true);
                   console.log("Total Diff",totalHourDiff);
                 }
-                
-                for (let index = 0; index < vehicleEvents.length; index++) {
-                  if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
-                    vehicleEvents[index].subType = 'marker';
-                    vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                  }else{
-                    vehicleEvents[index].color = "00ffff";
-                  }
-                  vehicleEvents[index].mIndex = startIndex;
+                this.vehicleEventsR=[];
+                for (let index = startIndex; index < vehicleEvents.length; index++) {
+                  vehicleEvents[index].mIndex = index;
                   startIndex++;
                   vehicleEvents[index].position = (this.common.dateDiffInHours(
-                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*98;
+                    realStart,vehicleEvents[index].startTime)/totalHourDiff)*98;
                   vehicleEvents[index].width = (this.common.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
+                    vehicleEvents[index].startTime,vehicleEvents[index].endTime,true)/totalHourDiff)*98;
                   console.log("Width",vehicleEvents[index].width);
+                  this.vehicleEventsR.push(vehicleEvents[index]);
                 }
-                console.log("VehicleEvents", vehicleEvents);
-                this.vehicleEventsR = vehicleEvents;
-          }, err => {
-            this.common.loading--;
-            console.log(err);
-          })
+                console.log("VehicleEvents", this.vehicleEventsR);
         //bottom bar
         // let vehEvent = this.vehicleEvents;
         // let finalIndex = 0;

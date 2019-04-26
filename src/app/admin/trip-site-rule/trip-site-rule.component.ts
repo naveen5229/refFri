@@ -172,6 +172,8 @@ export class TripSiteRuleComponent implements OnInit {
         currSiteId: doc.current_siteid,
         preSiteId: doc.pre_siteid
       }
+    
+    
       this.common.loading++;
       this.api.post('TripSiteRule/delete', params)
         .subscribe(res => {
@@ -187,7 +189,7 @@ export class TripSiteRuleComponent implements OnInit {
           this.common.loading--;
           console.log(err);
         });
-    }
+      }
   }
   getAllSiteData() {
     this.common.loading++;
