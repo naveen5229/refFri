@@ -8,6 +8,10 @@
     padding: 12px !important;
     font-size: 18px !important;
 }
+nb-card-header{
+    padding:10px 15px;
+    border-bottom: 1px solid #ccc;
+}
 
 table{
     margin: 0px;
@@ -46,3 +50,17 @@ table{
     color: #D61414 !important;
     font-size: 14px;
 }
+:host ::ng-deep .tag .no-search span {
+    color: black;
+
+}
+:host ::ng-deep .edit-btn{
+    font-size: 20px;
+    margin: 5px;
+}
+:host ::ng-deep .remove{ 
+    font-size: 20px;
+    margin-left: 30%;
+}
+
+  
