@@ -139,7 +139,9 @@
             </tr>
             <tr *ngFor=" let balanceSheet of liability.profitLossData " style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: left;"><p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p></td>
+              <td style="text-align: left;">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -159,7 +161,9 @@
             </tr>
             <tr *ngFor=" let balanceSheet of asset.profitLossData " style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: left;"><p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p></td>
+              <td style="text-align: left;">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -167,3 +171,13 @@
     </div>
   </nb-card-body>
 </nb-card>
+
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="plData[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

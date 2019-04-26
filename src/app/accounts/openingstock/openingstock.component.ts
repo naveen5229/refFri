@@ -11,7 +11,7 @@ import { UserService } from '../../@core/data/users.service';
 })
 export class OpeningstockComponent implements OnInit {
   openingStocks = [];
-  stockdata=[];
+  stockdata = [];
   selectedRow = -1;
   selectedName = '';
   openingstock = {
@@ -22,6 +22,13 @@ export class OpeningstockComponent implements OnInit {
   activeId = 'date';
 
   allowBackspace = true;
+
+
+
+  showDateModal = false;
+  f2Date = 'date';
+  activedateid = '';
+  lastActiveId = '';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -36,7 +43,25 @@ export class OpeningstockComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
 
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('date')) {
@@ -49,8 +74,33 @@ export class OpeningstockComponent implements OnInit {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.openingStocks.length - 1) this.selectedRow++;
-  
+
     }
+  }
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'date') ? 'date' : 'date';
+    if (this.openingstock[datestring].includes('-')) {
+      dateArray = this.openingstock[datestring].split('-');
+    } else if (this.openingstock[datestring].includes('/')) {
+      dateArray = this.openingstock[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.openingstock[datestring] = date + separator + month + separator + year;
   }
   setFoucus(id, isSetLastActive = true) {
     console.log('Id: ', id);
@@ -105,5 +155,5 @@ export class OpeningstockComponent implements OnInit {
 
 
 
- 
+
 }

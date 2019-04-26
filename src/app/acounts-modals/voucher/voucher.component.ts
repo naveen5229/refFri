@@ -23,8 +23,8 @@ export class VoucherComponent implements OnInit {
   voucherId = '';
   voucherName = '';
   voucher = null;
-  vchId=0;
-  deleteId=0;
+  vchId = 0;
+  deleteId = 0;
   ledgers = {
     credit: [],
     debit: [],
@@ -40,7 +40,7 @@ export class VoucherComponent implements OnInit {
   allowBackspace = true;
   showDateModal = false;
   date = this.common.dateFormatternew(new Date());
- 
+
   activeLedgerIndex = -1;
 
   constructor(public api: ApiService,
@@ -99,9 +99,9 @@ export class VoucherComponent implements OnInit {
         debit: 0,
         credit: 0
       },
-      Y_code:'',
-      xId:0,
-      delete:0
+      Y_code: '',
+      xId: 0,
+      delete: 0
     };
   }
 
@@ -111,19 +111,19 @@ export class VoucherComponent implements OnInit {
       vchId: this.common.params.voucherId
     };
     console.log('vcid', this.common.params);
-      this.deleteId =this.common.params.delete;
+    this.deleteId = this.common.params.delete;
     this.api.post('Voucher/getVoucherDetail', params)
       .subscribe(res => {
 
         console.log('Voucher Edit Details:', res);
-          this.voucherId=res['data'][0].y_vouchertype_id;
+        this.voucherId = res['data'][0].y_vouchertype_id;
         this.voucher = {
           code: res['data'][0].y_cust_code,
           date: this.common.dateFormatternew(res['data'][0].y_date, 'ddMMYYYY', false, '-'),
           vouchertypeid: res['data'][0].y_vouchertype_id,
           amountDetails: [],
           remarks: res['data'][0].y_remarks,
-          xId:res['data'][0].y_id,
+          xId: res['data'][0].y_id,
           total: {
             debit: 0,
             credit: 0
@@ -162,7 +162,7 @@ export class VoucherComponent implements OnInit {
     this.showConfirm = false;
     this.activeModal.close();
   }
-  modelConditionsure(){
+  modelConditionsure() {
     this.showConfirm = false;
     event.preventDefault();
     return;
@@ -205,7 +205,7 @@ export class VoucherComponent implements OnInit {
   }
 
 
-  
+
   dismiss(response) {
     console.log('Voucher:', this.voucher);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
@@ -244,7 +244,7 @@ export class VoucherComponent implements OnInit {
       vouchertypeid: this.voucher.vouchertypeid,
       y_code: this.voucher.y_code,
       xid: this.voucher.xId,
-      delete:this.voucher.delete
+      delete: this.voucher.delete
     };
 
     console.log('params 1 : ', params);
@@ -257,8 +257,8 @@ export class VoucherComponent implements OnInit {
         if (res['success']) {
           this.voucher = this.setVoucher();
           this.getVouchers();
-       //  this.common.showToast('Your Code :' + res['data'].code);
-        //  this.common.showToast('Voucher Updated Succesfully');
+          //  this.common.showToast('Your Code :' + res['data'].code);
+          //  this.common.showToast('Voucher Updated Succesfully');
           this.setFoucus('ref-code');
           this.voucher.date = params.date;
           this.activeModal.close();
@@ -698,7 +698,7 @@ export class VoucherComponent implements OnInit {
 
   delete(tblid) {
     let params = {
-      id: tblid     
+      id: tblid
     };
     if (tblid) {
       console.log('city', tblid);
@@ -708,12 +708,12 @@ export class VoucherComponent implements OnInit {
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
-     //  this.common.loading++;
+        //  this.common.loading++;
         if (data.response) {
           console.log("data", data);
-          this.voucher.delete=1;
-         // this.addOrder(this.order);
-         this.dismiss(true);
+          this.voucher.delete = 1;
+          // this.addOrder(this.order);
+          this.dismiss(true);
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }

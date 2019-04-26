@@ -144,7 +144,11 @@ const routes: Routes = [{
         {
             path:'openingstock',
             component:OpeningstockComponent
-        }
+        },
+        {
+            path: 'storerequisitions/:id',
+            component: StorerequisitionsComponent
+        },
     ],
     
 }] ;
