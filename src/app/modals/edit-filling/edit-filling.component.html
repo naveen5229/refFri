@@ -20,9 +20,35 @@
         <input name="litres" id="litres" [(ngModel)]="litres" class="fill-elt form-control" (blur)="updateAmount()" />
       </div>
     </div>
-  </div>
-
-  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label class="fill-elt">Regno:</label>
+        <auto-suggestion (onSelected)="getVehData($event)" url="Suggestion/GetVehicleList" display="regno"
+          placeholder="Enter Vehicle Number" [preSelected]="{regno: regno}" class="fstn-name w-100" style="width:60%;">
+        </auto-suggestion>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label class="fill-elt">Rate:</label>
+        <input class="fill-elt form-control" name="rate" id="rate" [(ngModel)]="rate" (blur)="updateAmount()" />
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label class="fill-elt">Amount:</label>
+        <input class="fill-elt form-control" name="amount" id="amount" [(ngModel)]="amount"
+          style="background-color: #cecece;" readonly />
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label class="fill-elt">Pump:</label>
+        <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
+          placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
+        </auto-suggestion>
+      </div>
+    </div>
     <div class="col-6">
       <div class="form-group">
         <label class="fill-elt">Is Fuel Tank Full?</label>
@@ -34,48 +60,13 @@
     </div>
     <div class="col-6">
       <div class="form-group">
-        <label class="fill-elt">Regno:</label>
-        <auto-suggestion (onSelected)="getVehData($event)" url="Suggestion/GetVehicleList" display="regno"
-          placeholder="Enter Vehicle Number" [preSelected]="{regno: regno}" class="fstn-name" style="width:60%;">
-        </auto-suggestion>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Rate:</label>
-        <input class="fill-elt" name="rate" id="rate" [(ngModel)]="rate" (blur)="updateAmount()" />
-
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Amount:</label>
-        <input class="fill-elt" name="amount" id="amount" readonly [(ngModel)]="amount"
-          style="background-color: #cecece;" readonly />
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="form-group">
-        <label class="fill-elt">Pump:</label>
-        <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
-          placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
-        </auto-suggestion>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="form-group">
         <div class="blue add-pp-lnk" (click)="showAddPump()">
           Add Pump
         </div>
       </div>
     </div>
   </div>
+
 </div>
 
 

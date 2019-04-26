@@ -10,7 +10,7 @@ import { MapService } from '../../services/map.service';
 @Component({
   selector: 'add-pump',
   templateUrl: './add-pump.component.html',
-  styleUrls: ['./add-pump.component.scss']
+  styleUrls: ['./add-pump.component.scss', '../../pages/pages.component.css']
 })
 export class AddPumpComponent implements OnInit {
   fuel_company = 0;
@@ -25,18 +25,18 @@ export class AddPumpComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private mapService: MapService) {
-      this.title = this.common.params.title;
-      setTimeout(() =>{
-        console.log('--------------location:', "location");
-        this.mapService.autoSuggestion("location", (place, lat, lng) => {
-          //console.log('Lat: ', lat);
-          ///console.log('Lng: ', lng);
-          console.log('Place: ', place);
-          this.location = place;
-        });
-      }, 5000)
+    this.title = this.common.params.title;
+    setTimeout(() => {
+      console.log('--------------location:', "location");
+      this.mapService.autoSuggestion("location", (place, lat, lng) => {
+        //console.log('Lat: ', lat);
+        ///console.log('Lng: ', lng);
+        console.log('Place: ', place);
+        this.location = place;
+      });
+    }, 5000)
 
-     }
+  }
 
   ngOnInit() {
   }
@@ -51,7 +51,7 @@ export class AddPumpComponent implements OnInit {
 
   submitPumpData() {
     let params = {
-      petrolPumplocation : this.location,
+      petrolPumplocation: this.location,
       petrolPumpName: this.name,
       siteId: '',
       fuelCompany: this.fuel_company
