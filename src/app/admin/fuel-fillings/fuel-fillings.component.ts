@@ -82,7 +82,7 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
-        // this.fillingData = this.fillingData.slice(1, 100);
+        this.fillingData = this.fillingData.slice(1, 100);
         console.info("filling Data", this.fillingData);
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
@@ -94,7 +94,7 @@ export class FuelFillingsComponent implements OnInit {
 
   openData(rowfilling) {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 
     });
@@ -114,7 +114,7 @@ export class FuelFillingsComponent implements OnInit {
       id: null
     };
     this.common.params = { rowfilling, title: 'Add Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         window.location.reload();
