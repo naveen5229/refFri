@@ -83,7 +83,7 @@ export class ImportFillingsComponent implements OnInit {
       return this.common.showError("Select csv");
     }
     console.log("Data :", params);
-    return;
+    
     this.common.loading++;
     this.api.post('FuelDetails/ImportFuelFilingsCsv', params)
       .subscribe(res => {
@@ -94,7 +94,7 @@ export class ImportFillingsComponent implements OnInit {
         alert(res["msg"]);
 
 
-        this.closeModal(true);
+        // this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);
