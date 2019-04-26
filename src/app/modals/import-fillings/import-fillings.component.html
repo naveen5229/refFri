@@ -1,60 +1,96 @@
-<div class="modal-header">
-    <h5 class="modal-title" id="modal-basic-title">{{title}} 
-    </h5>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" style="min-height: 250px; ">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="row form-field row-mgn-vert clear" style="margin-bottom: 15px;">
-          <div class="col-sm-4">
-           <label  class="fill-elt" >Fuel Station:</label>
-          </div>
-          <div class="col-sm-6">
-              <auto-suggestion (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
-              display="name" placeholder="Enter Fuel Station" [preSelected]="{name: ''}"  class="fstn-name" style="width:60%;" >
-              </auto-suggestion>
-          </div>        
-        </div>
-        <div class="row form-field row-mgn-vert clear" style="margin-bottom: 15px;">
-            <div class="col-sm-4">
-                <label  class="fill-elt" >FO Name:</label>
-               </div>
-               <div class="col-sm-6">
-                   <auto-suggestion (onSelected)="getFoData($event)" url="Suggestion/getFoUsersList"
-                   display="name" placeholder="Enter FO Name" [preSelected]="{name: ''}"  class="fstn-name" style="width:60%;" >
-                   </auto-suggestion>
-               </div>
-        </div>
-        
-        <div class="row form-field clear">
-          <button class="btn btn-primary" (click)="submitFillingData()" style="margin-left:15px; cursor: pointer;">Submit</button>
-          
-        </div>
-      </div>
-  
-      <div class="col-sm-6">
-        <div class="row form-field row-mgn-vert clear">
-            <div class="col-sm-4">
-              <label  class="fill-elt">CSV File:</label>
-            </div>
-            <div class="col-sm-6">
-                <input type="file" name="fillingCsv" [(ngModel)]="fillingcsv" (change)="handleFileSelection($event)"
-              >
-            </div>
-        </div>
-        
-        <div class="row form-field row-mgn-vert clear">
-            <div class="col-sm-4">
-              <label  class="fill-elt">Is Full?</label>
-            </div>
-          <div class="col-sm-6">
-            <input class="fill-elt chkbx"  type="checkbox" name="isFull" id="isFull" [(ngModel)]="isfull" />
-          </div>
-        </div>
 
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Csv Import</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <form enctype="multipart/form-data" #myForm="ngForm" name="uploadcsvForm" id="document-form" name="document-form">
+
+      <div class="row">
+        <div class="col-md-6">
+          <label class="fill-elt">Fuel Station:</label>
+        </div>
+        <div class="col-md-6">
+          <auto-suggestion name="fuelStation" (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
+            display="name" placeholder="Enter Fuel Station" preSelected="null" class="fstn-name" style="width:60%;">
+          </auto-suggestion>
+          <div class="suggestions ng-star-inserted">
+          </div>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <label class="fill-elt">FO Name:</label>
+        </div>
+        <div class="col-md-6">
+          <auto-suggestion name="foname" (onSelected)="getFoData($event)" url="Suggestion/getFoUsersList" display="name"
+            placeholder="Enter FO Name" preSelected="null" class="fstn-name" style="width:60%;">
+          </auto-suggestion>
+          <div class="suggestions ng-star-inserted">
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <label>CSV File </label>
+        </div>
+        <div class="col-md-6">
+          <div class="upload-btn-wrapper">
+            <input type="file" name="fillingCsv" (change)="handleFileSelection($event)"
+              style="margin:4%;">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <label class="fill-elt">Is Full?</label>
+        </div>
+        <div class="col-md-6">
+          <input class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [(ngModel)]="isfull" />
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 offset-md-08">
+          <label style="text-decoration: underline;color: blue; cursor: pointer;" (click)="sampleCsv()">Sample Csv
+            Download </label>
+          <i class="icon ion-md-cloud-download" style="cursor:pointer" (click)="sampleCsv()"></i>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">Cancel</button>
+    </div>
+
+    <div class="col text-right">
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="submitFillingData()" id="submit"
+        style="cursor: pointer;">Add</button>
     </div>
   </div>
+</div>
