@@ -1,3 +1,156 @@
-<p>
-  storerequisition works!
-</p>
+<nb-card style="margin: 0px; border:0px; padding-top: 0px;">
+  <!-- <nb-card-header>
+    <h4>Invoice</h4>
+  </nb-card-header> -->
+  <nb-card-body  (keydown)="keyHandler($event)" style="padding: 0px;">
+      <div class="modal-header mb-3">
+          <h5 class="modal-title" id="modal-basic-title">Store Requestion</h5>
+          <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    <div class="modal-body row m-0 p-0 mb-4">
+      <div class="col-9">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="ref-label">Request Type</label>
+              <input autocomplete="off" type="text" class="form-control ref-input" id="requesttype" name="requesttype" [(ngModel)]="storeQuestion.requesttype.name"
+                required>
+            </div>
+          </div>
+        </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">From Branch</label>
+                <input autocomplete="off" type="text" class="form-control ref-input" id="frombranch" name="frombranch" [(ngModel)]="storeQuestion.frombranch.name"
+                  require>
+              </div>
+            </div>
+           
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">To Branch</label>
+                <input autocomplete="off" type="text" class="form-control  ref-input" id="tobranch" name="tobranch" [(ngModel)]="storeQuestion.tobranch.name" (input)="allowBackspace = false;">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">Request Date</label>
+                <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="requestdate" name="requestdate" [(ngModel)]="storeQuestion.requestdate" maxlength="10" (click)="lastActiveId = 'requestdate'; allowBackspace = false;" (input)="allowBackspace = false;">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">Issue Date</label>
+                <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="issuedate"name="issuedate" [(ngModel)]="storeQuestion.issuedate" maxlength="10"
+                (click)="lastActiveId = 'issuedate'; allowBackspace = false;" (input)="allowBackspace = false;">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">Code</label>
+                <input autocomplete="off" type="text" class="form-control ref-input" name="code" id="code"
+                  [(ngModel)]="storeQuestion.code" placeholder="Code">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="ref-label">Cust Code</label>
+                <input autocomplete="off" type="text" class="form-control ref-input" name="custcode" id="custcode"
+                  [(ngModel)]="storeQuestion.custcode" placeholder="Cust Code">
+              </div>
+            </div>
+      </div>
+      </div>
+
+
+      <div class="col-3" id="ledger-container">
+        <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+          [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
+      </div>
+      </div>
+    <table class="invoice_tabel table table-bordered">
+      <thead style="background-color: #263238; color:#fff;">
+        <tr>
+          
+          <th>Warehouse</th>
+          <th>Stock Item</th>
+          <th>Unit</th>
+          <th>Issue Warehouse</th>
+          <th>Qty</th>
+          <th>Issue Qty</th>
+          <th>Issue Rate</th>
+          <th>Issue Amount</th>
+          <th>remarks</th>
+          <th>Issue remarks</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let detail of storeQuestion.details; let i = index;">
+          <td>
+            <input type="text" [id]="'warehouse-' + i" class="form-control ref-input" autocomplete="off" [name]="'warehouse-' + i"
+              [(ngModel)]="detail.warehouse.name">
+          </td>
+          <td>
+            <input type="text" [id]="'stockitem-' + i" class="form-control ref-input" autocomplete="off" name="'stockitem-' + i" [(ngModel)]="detail.stockitem.name" required>
+             </td>
+          <td>
+            <input type="text"  [id]="'stockunit-' + i"  class="form-control ref-input" autocomplete="off" name="account-stockunit" placeholder="Enter Stock Unit" [(ngModel)]="detail.stockunit.name">
+          </td>
+          <td>
+            <input type="text" [id]="'issuewarehouse-' + i" class="form-control ref-input" [name]="'issuewarehouse-' + i" autocomplete="off" [(ngModel)]="detail.issuewarehouse.name">
+          </td>
+          <td>
+            <input type="number" class="form-control ref-input" autocomplete="off" name="qty" [id]="'qty-' + i"
+              [(ngModel)]="detail.qty">
+          </td>
+          <td>
+            <input type="number" class="form-control ref-input" autocomplete="off" name="issueqty" [id]="'issueqty-' + i" (input)="detail.issueamount = detail.issueqty * detail.issuerate;" 
+              [(ngModel)]="detail.issueqty">
+          </td>
+          <td>
+            <input type="number" class="form-control ref-input" autocomplete="off" name="issuerate" [id]="'issuerate-' + i"  (input)="detail.issueamount = detail.issueqty * detail.issuerate;"  [(ngModel)]="detail.issuerate">
+          </td>
+          <td>
+            <input type="number" class="form-control ref-input" autocomplete="off" name="issueamount"  [id]="'issueamount-' + i" [(ngModel)]="detail.issueamount" >
+          </td>
+          <td>
+            <input type="text" class="form-control ref-input" autocomplete="off" name="remarks" [id]="'remarks-' + i" [(ngModel)]="detail.remarks">
+          </td>
+          <td>
+            <input type="text" class="form-control ref-input" autocomplete="off" name="issueremarks" [id]="'issueremarks-' + i" [(ngModel)]="detail.issueremarks">
+          </td>
+          <td *ngIf="i == 0">
+            <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
+                class="fa fa-plus"></i></button></td>
+          <td *ngIf="i !== 0">
+            <button (click)="storeQuestion.details.splice(i,1)" class="btn btn-danger"><i
+                class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col text-right">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit
+          </button>
+        </div>
+        <div class="col">
+            <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel"
+              style="cursor: pointer;">Cancel</button>
+          </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
