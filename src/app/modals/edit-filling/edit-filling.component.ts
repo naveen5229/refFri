@@ -11,7 +11,7 @@ import { AddPumpComponent } from '../add-pump/add-pump.component';
 @Component({
   selector: 'edit-filling',
   templateUrl: './edit-filling.component.html',
-  styleUrls: ['./edit-filling.component.scss']
+  styleUrls: ['./edit-filling.component.scss', '../../pages/pages.component.css']
 })
 export class EditFillingComponent implements OnInit {
   title = '';
@@ -23,29 +23,29 @@ export class EditFillingComponent implements OnInit {
   amount = 0.0;
   pump = '';
   pump_id = 0;
-  vehicle_id=0;
-  filling_id=0;
+  vehicle_id = 0;
+  filling_id = 0;
 
   constructor(private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
-    private activeModal: NgbActiveModal) { 
-      this.title = this.common.params.title;
-      console.log("params", this.common.params);
-      let rec = this.common.params.rowfilling;
-      this.filldate = rec.fdate;
-      this.litres = rec.litres;
-      this.isfull = rec.is_full;
-      this.regno = rec.regno;
-      this.rate = rec.rate;
-      this.amount = rec.amount;
-      this.pump = rec.pp;
-      this.pump_id = rec.fuel_station_id;
-      this.vehicle_id = rec.vehicle_id;
-      this.filling_id=rec.id;
-    }
+    private activeModal: NgbActiveModal) {
+    this.title = this.common.params.title;
+    console.log("params", this.common.params);
+    let rec = this.common.params.rowfilling;
+    this.filldate = rec.fdate;
+    this.litres = rec.litres;
+    this.isfull = rec.is_full;
+    this.regno = rec.regno;
+    this.rate = rec.rate;
+    this.amount = rec.amount;
+    this.pump = rec.pp;
+    this.pump_id = rec.fuel_station_id;
+    this.vehicle_id = rec.vehicle_id;
+    this.filling_id = rec.id;
+  }
 
   ngOnInit() {
   }
@@ -55,14 +55,14 @@ export class EditFillingComponent implements OnInit {
   }
 
   getDate() {
-    this.common.params = {ref_page :'user-call-summary'};
+    this.common.params = { ref_page: 'user-call-summary' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
         console.log("data date:");
         console.log(data.date);
         this.filldate = data.date;
-        
+
       }
     });
   }
@@ -79,8 +79,8 @@ export class EditFillingComponent implements OnInit {
     //this.amount = (Math.round(calcamt)/ 100 * 100);
     this.amount = Math.round(calcamt);
   }
-  
-  getVehData(veh){
+
+  getVehData(veh) {
     console.log("sel:", veh);
     this.vehicle_id = veh.id;
     this.regno = veh.regno;
@@ -91,7 +91,7 @@ export class EditFillingComponent implements OnInit {
     let fmtdate = this.common.dateFormatter1(this.filldate).split(' ')[0];
     console.log("date::", fmtdate);
     let params = {
-      vehId : this.vehicle_id,
+      vehId: this.vehicle_id,
       siteId: this.pump_id,
       litres: this.litres,
       rate: this.rate,
@@ -107,12 +107,12 @@ export class EditFillingComponent implements OnInit {
     console.log("rowdata", this.common.params.rowfilling);
     console.log("newparams", params);
     let apiurl = '';
-    if(this.filling_id) {
+    if (this.filling_id) {
       apiurl = 'FuelDetails/updateFuelDetails';
     } else {
       apiurl = 'FuelDetails/insertFuelDetails';
     }
-    
+
     this.common.loading++;
     this.api.post(apiurl, params)
       .subscribe(res => {
@@ -126,10 +126,10 @@ export class EditFillingComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-      
+
   }
 
-  showAddPump(){
+  showAddPump() {
     this.common.params = { title: 'Petrol Pump' };
     const activeModal = this.modalService.open(AddPumpComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

@@ -10,7 +10,7 @@ import { ImportFillingsComponent } from '../../../app/modals/import-fillings/imp
 @Component({
   selector: 'fuel-fillings',
   templateUrl: './fuel-fillings.component.html',
-  styleUrls: ['./fuel-fillings.component.scss'],
+  styleUrls: ['./fuel-fillings.component.scss', '../../pages/pages.component.css']
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
@@ -37,12 +37,21 @@ export class FuelFillingsComponent implements OnInit {
   };
 
 
+  startDate = '';
+  endDate = '';
+
+
   constructor(public api: ApiService,
     private datePipe: DatePipe,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    let today;
+    today = new Date();
+    this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
+    this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
 
+    console.log('dates ', this.endDate, this.startDate);
     this.getFillingData();
   }
 
@@ -59,12 +68,17 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   getFillingData() {
+    const params = {
+      startTime: this.startDate,
+      endTime: this.endDate,
+    }
+
     this.common.loading++;
     let user_id = this.user._details.id;
     if (this.user._loggedInBy == 'admin')
       user_id = this.user._customer.id;
     this.fillingData = [];
-    this.api.post('FuelDetails/getFuelFillingEntries', {})
+    this.api.post('FuelDetails/getFuelFillingEntries', params)
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
