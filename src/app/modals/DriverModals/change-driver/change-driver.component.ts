@@ -14,5 +14,11 @@ export class ChangeDriverComponent implements OnInit {
   changDriver() {
 
   }
+  closeModal() {
+
+  }
+  searchVehicle(driver) {
+
+  }
 
 }
