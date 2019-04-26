@@ -27,6 +27,7 @@ export class VehicleReportComponent implements OnInit {
   details = [];
   report = [];
   vehicleRegNo;
+  limit;
   table = null;
   i: ''; d: '';
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
@@ -42,8 +43,7 @@ export class VehicleReportComponent implements OnInit {
       start = new Date(today.setDate(today.getDate() - 3))
       this.startDate = this.common.dateFormatter(start);
       console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
-      
-    }
+     }
     else{
       console.log(this.common.params.fromTime);
       console.log(this.common.params.toTime);
@@ -72,7 +72,8 @@ export class VehicleReportComponent implements OnInit {
     let params = {
       vehicleId: this.vid,
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate,
+     
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -100,7 +101,7 @@ export class VehicleReportComponent implements OnInit {
           var result1='Running';
           this.duration.push(result1);
         }
-
+            
                 
          });
         console.log('result time', this.resultTime);

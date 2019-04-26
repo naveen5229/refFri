@@ -27,6 +27,10 @@ export class ChangeDriverComponent implements OnInit {
   ngOnInit() {
   }
 
+  searchVehicle(driver) {
+
+  }
+
   searchDriver(driver) {
     console.log("driver", driver)
     this.driver.name = driver.empname;

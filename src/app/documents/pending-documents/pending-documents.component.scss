@@ -205,7 +205,8 @@ table{
     width: 100%;
     table-layout: fixed;
     overflow: auto;
-    max-height: calc(100vh - 450px);
+    max-height: 320px;
+    min-height: 320px;
 }
 .list_table table thead tr th:nth-child(1){
     width: 45px;
@@ -246,7 +247,8 @@ table{
     width: 100%;
     table-layout: fixed;
     overflow: auto;
-    max-height: calc(100vh - 480px);
+    max-height: 70px;
+    min-height: 70px;
 }
 .work-table table thead tr th:nth-child(1),
 .work-table table tbody tr td:nth-child(1){

@@ -7,11 +7,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
     home: true,
   },
-  // {
-  //   title: 'Vehicle KPIs',
-  //   icon: 'nb-tables',
-  //   link: '/pages/vehicle-kpis',
-  // },
   {
     title: 'Tickets',
     icon: 'nb-notifications',
@@ -92,6 +87,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Vehicle Covered Distance',
     icon: 'fas fa-list',
     link: '/pages/vehicle-covered-distance',
+    home: true,
+  }, {
+    title: 'Trip FeedBack logs',
+    icon: 'fas fa-list',
+    link: '/pages/tip-feedback-logs',
     home: true,
   },
   // {

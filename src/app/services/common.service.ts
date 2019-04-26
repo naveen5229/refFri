@@ -532,10 +532,12 @@ export class CommonService {
     let hdg_coll = [];
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
-    console.log("hdgcols:");
+    console.log("hdgcols:",hdgCols);
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        if(hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
         if (hdgCols[i].classList.contains('del'))
           continue;
         let elthtml = hdgCols[i].innerHTML;
@@ -714,6 +716,8 @@ export class CommonService {
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        if(hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+        continue;
         if (hdgCols[i].classList.contains('del'))
           continue;
         let elthtml = hdgCols[i].innerHTML;
