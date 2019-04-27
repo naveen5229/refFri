@@ -37,7 +37,8 @@
     </div>
     <div class="col-sm-3" *ngIf="showMain">
       <div class="from-group">
-        <select [(ngModel)]="option" class="form-control" (change)="changeStatusType()"  style="border: 2px solid darkcyan; font-size: 13px">
+        <select [(ngModel)]="option" class="form-control" (change)="changeStatusType()"
+          style="border: 2px solid darkcyan; font-size: 13px">
           <option value="accept">Accept</option>
           <option value="reject">Reject</option>
         </select>
@@ -60,7 +61,8 @@
   <div class="row">
 
     <div class="col-3" *ngIf="showMain">
-      <input type="text" class="form-control" [(ngModel)]="LrData.receipt_no" name="RNo." placeholder="Receipt No." autocomplete="off">
+      <input type="text" class="form-control" [(ngModel)]="LrData.receipt_no" name="RNo." placeholder="Receipt No."
+        autocomplete="off">
       <input type="text" class="from-control" id="source" [(ngModel)]="LrData.source" name="source"
         placeholder="Source">
       <input type="text" class="from-control" id="destination" name="destination" [(ngModel)]="LrData.destination"
@@ -115,7 +117,8 @@
           <input type="text" class="form-control" [(ngModel)]="lrDate" name="lr-date" placeholder="">
         </div> -->
         <div class="col-sm-9">
-          <input type="text" class="form-control" [(ngModel)]="lrDate" name="lr-date" (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
+          <input type="text" class="form-control" [(ngModel)]="lrDate" name="lr-date" (focusout)="checkDateFormat()"
+            placeholder="DD/MM/YYYY">
         </div>
         <div class="col-sm-3">
           <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="getDate()"><i

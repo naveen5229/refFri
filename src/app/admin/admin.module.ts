@@ -38,6 +38,7 @@ import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.co
 import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
+import { ImageViewerModule } from 'ng2-image-viewer';
 
 
 
@@ -71,6 +72,7 @@ const PAGES_COMPONENTS = [
     DocumentsModule,
     LorryReceiptModule,
     DriverModule,
+    ImageViewerModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
