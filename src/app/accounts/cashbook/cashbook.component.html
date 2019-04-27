@@ -63,11 +63,11 @@
             (select)="onSelected($event, 'vouchertype', 'name')"></auto-suggetion-in-side>
         </div> -->
         <div class="form-group">
-            <div class="auto-sugg">
-          <auto-suggetion-in-side *ngIf="ledgerData.length" [data]="ledgerData" targetId="ledger" display="y_ledger_name"
-            (select)="onSelected($event, 'ledger', 'y_ledger_name')"></auto-suggetion-in-side>
+          <div class="auto-sugg">
+            <auto-suggetion-in-side *ngIf="ledgerData.length" [data]="ledgerData" targetId="ledger"
+              display="y_ledger_name" (select)="onSelected($event, 'ledger', 'y_ledger_name')"></auto-suggetion-in-side>
+          </div>
         </div>
-      </div>
       </div>
     </div>
 
@@ -103,3 +103,13 @@
     </table>
   </nb-card-body>
 </nb-card>
+
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="DayBook[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

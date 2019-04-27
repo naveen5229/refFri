@@ -51,11 +51,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/ware-house'
     },
    
-    // {
-    //     title:'Store Requisition',
-    //     icon :'fa fa-building-o',
-    //     link: '/accounts/storerequisitions'
-    // },
+    {
+        title:'Store Requisition',
+        icon :'fa fa-building-o',
+       
+        children: [
+           
+            {
+                title: 'Store Request',
+                link: '/accounts/storerequisitions/-2'
+            },
+       
+            {
+                title:'Stock Issue',
+                link: '/accounts/storerequisitions/-3'
+            },
+            {
+                title:'Stock Transfer',
+                link: '/accounts/storerequisitions/-1'
+            },
+            
+        ],
+    },
     {
         title: 'Voucher',
         icon: 'fas fa-ticket-alt',
