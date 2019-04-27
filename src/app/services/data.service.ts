@@ -24,6 +24,7 @@ export class DataService {
         icon: 'fa fa-home',
         link: '/pages',
       },
+
       {
         title: 'Vehicle Status Change',
         icon: 'fas fa-clipboard-check',
@@ -103,6 +104,11 @@ export class DataService {
           },
 
         ]
+      },
+      {
+        title: 'Account',
+        icon: 'fa fa-money',
+        link: '/accounts/dashboard'
       },
 
       {
@@ -192,6 +198,11 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/trip-status-feedback-logs',
         home: true,
+      },
+      {
+        title: 'Fuel Average Analysis',
+        icon: 'fa fa-signal',
+        link: '/admin/fuel-average-analysis',
       },
     ];
   }

@@ -51,6 +51,7 @@ import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.
 
 const PAGES_COMPONENTS = [
   PagesComponent,
+
 ];
 
 @NgModule({
