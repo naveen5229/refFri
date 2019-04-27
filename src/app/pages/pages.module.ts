@@ -100,6 +100,9 @@ const PAGES_COMPONENTS = [
     VehicleCoveredDistanceComponent,
     TipFeedbackLogsComponent
   ],
+  exports: [
+    FuelAverageAnalysisComponent
+  ],
 })
 export class PagesModule {
 }

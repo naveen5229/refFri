@@ -187,12 +187,7 @@ export class DataService {
         link: '/admin/fuel-fillings',
         home: true,
       },
-      {
-        title: 'Vechile Distance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
-        home: true,
-      },
+
       {
         title: 'Trip Feedback Logs',
         icon: 'nb-home',
@@ -203,6 +198,7 @@ export class DataService {
         title: 'Fuel Average Analysis',
         icon: 'fa fa-signal',
         link: '/admin/fuel-average-analysis',
+        home: true,
       },
     ];
   }
