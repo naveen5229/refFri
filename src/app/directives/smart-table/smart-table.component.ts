@@ -42,7 +42,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   filterData(key) {
-    let search = this.headings[key].value.toLowerCase().replace(/ /g, '');
+    let search = this.headings[key].value.toLowerCase();
     this.columns = this.data.columns.filter(column => {
       if (!search.length) return true;
       let value = column[key].value;
