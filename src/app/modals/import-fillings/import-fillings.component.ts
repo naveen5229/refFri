@@ -19,16 +19,16 @@ export class ImportFillingsComponent implements OnInit {
   fillingcsv = null;
 
   isfull = false;
- 
+
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-      this.common.handleModalSize('class', 'modal-m', '500');
-   
-   
+    this.common.handleModalSize('class', 'modal-m', '500');
+
+
   }
 
   ngOnInit() {
@@ -83,7 +83,7 @@ export class ImportFillingsComponent implements OnInit {
       return this.common.showError("Select csv");
     }
     console.log("Data :", params);
-    
+
     this.common.loading++;
     this.api.post('FuelDetails/ImportFuelFilingsCsv', params)
       .subscribe(res => {
@@ -99,6 +99,10 @@ export class ImportFillingsComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+
+  }
+
+  sampleCsv() {
 
   }
 }

@@ -50,6 +50,12 @@ export class StockavailableComponent implements OnInit {
   suggestionIndex = -1;
   allowBackspace = true;
 
+
+  showDateModal = false;
+  f2Date = 'date';
+  activedateid = '';
+  lastActiveId = '';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService) {
@@ -126,8 +132,29 @@ export class StockavailableComponent implements OnInit {
     console.log('Active event', event);
     this.setAutoSuggestion();
 
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
+
     if (key == 'enter') {
-      this.allowBackspace=true;
+      this.allowBackspace = true;
       if (this.activeId.includes('stocktype')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -155,8 +182,8 @@ export class StockavailableComponent implements OnInit {
         this.setFoucus('submit');
       }
 
-    } 
-    
+    }
+
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
@@ -175,6 +202,32 @@ export class StockavailableComponent implements OnInit {
         event.preventDefault();
       }
     }
+  }
+
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'date') ? 'date' : 'date';
+    if (this.stockAvailable[datestring].includes('-')) {
+      dateArray = this.stockAvailable[datestring].split('-');
+    } else if (this.stockAvailable[datestring].includes('/')) {
+      dateArray = this.stockAvailable[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.stockAvailable[datestring] = date + separator + month + separator + year;
   }
 
   selectSuggestion(suggestion, id?) {

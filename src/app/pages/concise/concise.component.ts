@@ -978,6 +978,11 @@ export class ConciseComponent implements OnInit {
         class: " icon fa fa-truck",
         action: this.openTripDetails.bind(this, kpi)
       },
+      {
+        class: "icon fa fa-bars",
+        action: this.openVehicleStates.bind(this, kpi)
+      },
+
     ]
     console.log("this.user._loggedInBy", this.user._loggedInBy);
     if (this.user._loggedInBy == "admin") {
@@ -1033,5 +1038,17 @@ export class ConciseComponent implements OnInit {
       }
     }
     return html;
+  }
+
+  openVehicleStates(vlaues) {
+    this.common.params = {
+      vehicleId: vlaues.x_vehicle_id,
+      vehicleRegNo: vlaues.x_showveh
+
+    };
+    const activeModal = this.modalService.open(VehicleStatesComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 }
