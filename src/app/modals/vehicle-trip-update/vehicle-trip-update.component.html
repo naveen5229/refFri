@@ -6,173 +6,179 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
-    <div class="row">
-      <div class="col-md-4">
-        <label> Vehicle Regno </label>
-      </div>
-      <div class="col-md-8">
-        <input id="vehicleTripRegNo" name="vehRegNo" type="text" placeholder="Vehicle Reg No" autocomplete="off"
-          class="form-control" [(ngModel)]="vehicleTrip.regno" readonly>
-      </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label> Last Location </label>
-      </div>
-      <div class="col-md-8">
-        <input type="text" class="form-control" id="vehicleTrip_starttrip" name="startTrip" placeholder="Start Name"
-          [(ngModel)]="vehicleTrip.startName" readonly>
-        <input id="vehicleTrip_start_lat" name="startLat" class="form-control" style="text-align: left"
-          placeholder="Start lat" type="hidden" readonly [(ngModel)]="vehicleTrip.startLat">
-        <input id="vehicleTrip_start_long" name="startLong" class="form-control" style="text-align: left"
-          placeholder="Start lng" type="hidden" readonly [(ngModel)]="vehicleTrip.startLng">
-      </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label> Last Loc Time </label>
-      </div>
-      <div class="col-md-8">
-        <input type="text" id="vehicleTripstarttime" class="form-control" [(ngModel)]="vehicleTrip.startTime"
-          name="startTime" placeholder="Entry Time" autocomplete="off" readonly>
-      </div>
-    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered">
+        <thead class="thead">
+          <tr>
+            <th>Vehicle No.</th>
+            <th>Trip Details</th>
+            <th>Last Location Time</th>
+            <!-- <th>Placement</th>
+            <th>Placement Type</th> -->
+          </tr>
 
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label>Choose Location</label>
-      </div>
-      <div  style="margin-left:15px">
-        <label>
-          <input type="radio" [(ngModel)]="vehicleTrip.locationType" value="site" name="locationType"> Site
-        </label>
-        <label class="radio2">
-          <input type="radio" [(ngModel)]="vehicleTrip.locationType" (change)="selecteCity()" value="city"
-            name="locationType"> City
-        </label>
-      </div>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{vehicleStatus.regno}}</td>
+            <td><span><span style="color:green">{{vehicleStatus.loading_point}}</span><span style="color:red"
+                  *ngIf="vehicleStatus.unloading_point"> - {{vehicleStatus.unloading_point}}</span></span></td>
+            <td>{{vehicleStatus.last_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <!-- <td>{{vehicleStatus.placement}}</td>
+            <td>{{vehicleStatus.placement_type}}</td> -->
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType=='site'">
-      <div class="col-md-4">
-        <label>Enter Site</label>
-      </div>
-      <div class="col-md-8">
-        <auto-suggestion (onSelected)="placementSite = $event.id" url="Suggestion/getSites?typeId=1" display="name"
-          placeholder="Search site" [preSelected]="null"></auto-suggestion>
-      </div>
-    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered table-hover">
+        <thead class="thead">
+          <tr>
+            <th>#</th>
+            <th>Location</th>
+            <th>Purpose</th>
+            <th>Target Time</th>
+            <th>Allowe_Halt (Hr)</th>
+            <th>Add Time</th>
+            <th>Delete</th>
+          </tr>
 
-    <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType!='site'">
-      <div class="col-md-4">
-        <label>Enter City</label>
-      </div>
-      <div class="col-md-8" *ngIf="placementSuggestion.length>0">
-        <button class="btn btn-primary" *ngFor="let placementSuggestion of placementSuggestion; let i = index"
-          (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:5px">
-          {{placementSuggestion.loc_name}}
-        </button>
-      </div>
-      <div class="col-md-4" *ngIf="placementSuggestion.length>0"></div>
-      <div class="col-md-4">
-        <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
-          [(ngModel)]="vehicleTrip.endName">
-        <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left"
-          placeholder="End lat" type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
-        <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left"
-          placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
-      </div>
-      <div class="col-md-4">
-        <label>
-          <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(false)" value="city"
-            name="changeLocationType"> City
-        </label>
-        <label class="radio2">
-          <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(true)" value="locality"
-            name="changeLocationType"> Locality
-        </label>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4"></div>
-
+        </thead>
+        <tbody>
+          <tr *ngFor="let placement of placements" style="text-align:center">
+            <td>{{placement.id}}</td>
+            <td>{{placement.location}}</td>
+            <td><span *ngIf="placement.placement_type==11" style="color:green">{{placement.purpose}}</span>
+              <span *ngIf="(placement.placement_type!=11)&&(placement.placement_type!=21)">{{placement.purpose}}</span>
+              <span *ngIf="placement.placement_type==21" style="color:red">{{placement.purpose}}</span></td>
+            <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <td>{{placement.allowed_halt_hours}}</td>
+            <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
 
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label>Purpose </label>
-      </div>
-      <div class="col-md-8">
-        <select [(ngModel)]="vehicleTrip.placementType" class="form-control" style="height:44px">
-          <option value="11" selected>Loading</option>
-          <option value="21" *ngIf="ref_page!='placements'">UnLoading</option>
-          <option value="0" *ngIf="ref_page!='placements'">Others</option>
-        </select>
-      </div>
-    </div>
+    <div class="col-sm-12">
+      <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
 
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label>Target Time</label>
+
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Choose Location</label>
+        </div>
+        <div style="margin-left:15px">
+          <label>
+            <input type="radio" [(ngModel)]="vehicleTrip.locationType" value="site" name="locationType"> Site
+          </label>
+          <label class="radio2">
+            <input type="radio" [(ngModel)]="vehicleTrip.locationType" (change)="selecteCity()" value="city"
+              name="locationType"> City
+          </label>
+        </div>
+      </div>
+      <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType=='site'">
+        <div class="col-md-4">
+          <label>Enter Site</label>
+        </div>
+        <div class="col-md-8">
+          <auto-suggestion (onSelected)="placementSite = $event.id" url="Suggestion/getSites?typeId=1" display="name"
+            placeholder="Search site" [preSelected]="null"></auto-suggestion>
+        </div>
       </div>
 
-      <div class="col-md-8">
-
-        <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime"
-          [(ngModel)]="vehicleTrip.targetTime" placeholder="Exit Time" autocomplete="off" (click)="openReminderModal()">
+      <div class="row" style="margin-top:5px" *ngIf="vehicleTrip.locationType!='site'">
+        <div class="col-md-4">
+          <label>Enter City</label>
+        </div>
+        <div class="col-md-8" *ngIf="placementSuggestion.length>0">
+          <span *ngFor="let placementSuggestion of placementSuggestion; let i = index">
+            <button class="btn btn-primary" (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:5px"
+              *ngIf="placementSuggestion.y_loc_name">
+              {{placementSuggestion.y_loc_name}}
+            </button>
+          </span>
+        </div>
+        <div class="col-md-4" *ngIf="placementSuggestion.length>0"></div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
+            [(ngModel)]="vehicleTrip.endName">
+          <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left"
+            placeholder="End lat" type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
+          <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left"
+            placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
+        </div>
+        <div class="col-md-4">
+          <label>
+            <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(false)" value="city"
+              name="changeLocationType"> City
+          </label>
+          <label class="radio2">
+            <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(true)" value="locality"
+              name="changeLocationType"> Local
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-top:5px">
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4"></div>
+
+      </div>
+
+
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Purpose </label>
+        </div>
+        <div class="col-md-8">
+          <select [(ngModel)]="vehicleTrip.placementType" class="form-control" style="height:44px">
+            <option value="11" selected>Loading</option>
+            <option value="21" *ngIf="ref_page!='placements'">UnLoading</option>
+            <option value="0" *ngIf="ref_page!='placements'">Others</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Target Time</label>
+        </div>
+
+        <div class="col-md-8">
+
+          <input type="text" id="vehicleTripTargetTime" class="form-control" name="targetTime"
+            [(ngModel)]="vehicleTrip.targetTime" placeholder="Exit Time" autocomplete="off"
+            (click)="openReminderModal()">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:5px">
         <div class="col-md-4">
           <label>Allowed Halts</label>
         </div>
-  
+
         <div class="col-md-8">
-  
+
           <input type="text" id="allowedHaltHours" class="form-control" name="allowedHaltHours"
-            [(ngModel)]="vehicleTrip.allowedHaltHours" placeholder="Allowed Halt Hours" autocomplete="off" (click)="openTimePeriodModal()">
+            [(ngModel)]="vehicleTrip.allowedHaltHours" placeholder="Allowed Halt Hours" autocomplete="off"
+            (click)="openTimePeriodModal()">
         </div>
       </div>
 
-    <div class="row mt-2">
-      <div class="col">
-        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
-      </div>
-      <div class="col text-right">
-        <button class="btn btn-primary" (click)="updateTrip();"
-          style="cursor:pointer;">Update</button>
+      <div class="row mt-2">
+        <div class="col">
+          <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+        </div>
+        <div class="col text-right">
+          <button class="btn btn-primary" (click)="updateTrip();" style="cursor:pointer;">Update</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
 
-  <table class="table table-bordered table-hover">
-    <thead class="thead">
-      <tr>
-        <th>#</th>
-        <th>Location</th>
-        <th>Purpose</th>
-        <th>Target Time</th>
-        <th>Allowe_Halt (Hr)</th>
-        <th>Add Time</th>
-        <th>Delete</th>
-      </tr>
 
-    </thead>
-    <tbody>
-      <tr *ngFor="let placement of placements" style="text-align:center">
-        <td>{{placement.id}}</td>
-        <td>{{placement.location}}</td>
-        <td>{{placement.purpose}}</td>
-        <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-        <td>{{placement.allowed_halt_hours}}</td>
-        <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-        <td><i class="fa fa-window-close remove" (click)="delete(placement)" aria-hidden="true"></i></td>
-      </tr>
-    </tbody>
-  </table>
 </div>

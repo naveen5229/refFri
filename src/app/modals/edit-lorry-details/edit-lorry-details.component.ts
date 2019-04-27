@@ -30,8 +30,9 @@ export class EditLorryDetailsComponent implements OnInit {
   consineeName = ''
   isUpdated = false;
   option = 'accept';
-  tempDate=null;
-  status=1;
+  tempDate = null;
+  status = 1;
+
   transportAgentDetails = {
     gstin: '',
     name: '',
@@ -62,7 +63,7 @@ export class EditLorryDetailsComponent implements OnInit {
       this.payType = this.LrData.pay_type;
       this.regno = this.LrData.regno;
       this.vehId = this.LrData.vehicle_id;
-      this.images[0]=this.LrData.lr_image;
+      this.images[0] = this.LrData.lr_image;
       //this.lrDate=this.datepipe.transform(this.LrData.lr_date, 'dd/MM/yyyy');
       if (this.LrData.lr_date != null) {
         this.lrDate = this.LrData.lr_date;
@@ -116,16 +117,16 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   getDate() {
-    this.common.params={ref_page:'lrDetails'};
+    this.common.params = { ref_page: 'lrDetails' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
         this.lrDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        if(this.lrDate<=this.common.dateFormatter(new Date())){
-          return;
-        }else{
-          this.common.showToast('Incorrect Date !!')
-        }
+        // if(this.lrDate<=this.common.dateFormatter(new Date())){
+        //   return;
+        // }else{
+        //   this.common.showToast('Incorrect Date !!')
+        // }
         // this.dateByIcon=true;
         console.log('lrdate: by getDate ' + this.lrDate);
 
@@ -135,7 +136,7 @@ export class EditLorryDetailsComponent implements OnInit {
   }
 
   add() {
-    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass:"drag-box" })
+    this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: "drag-box" })
   }
   addAgentName() {
     this.showMain = false;
@@ -216,10 +217,10 @@ export class EditLorryDetailsComponent implements OnInit {
   insertLrDetails() {
     //if(!this.dateByIcon)
     let params;
-    if(this.option=='reject'){
-      this.tempDate=null;
+    if (this.option == 'reject') {
+      this.tempDate = null;
       console.log('if block');
-       params = {
+      params = {
         sourceLat: this.LrData.source_lat ? this.LrData.source_lat : '',
         sourceLng: this.LrData.source_long ? this.LrData.source_long : '',
         source: this.LrData.source ? this.LrData.source : '',
@@ -227,7 +228,7 @@ export class EditLorryDetailsComponent implements OnInit {
         destLat: this.LrData.destination_lat ? this.LrData.destination_lat : '',
         destLng: this.LrData.destination_long ? this.LrData.destination_long : '',
         vehId: this.vehId ? this.vehId : '',
-        remark: this.LrData.remark ? this.LrData.source_long : '',
+        remark: this.LrData.remark ? this.LrData.remark : '',
         id: this.LrData.id ? this.LrData.id : '',
         receiptNo: this.LrData.receipt_no ? this.LrData.receipt_no : '',
         status: this.status,
@@ -238,48 +239,48 @@ export class EditLorryDetailsComponent implements OnInit {
         consignerName: this.LrData.consigner_name ? this.LrData.consigner_name : '',
         consigneeId: this.LrData.consignee_id ? this.LrData.consignee_id : '',
         consigneeName: this.LrData.consignee_name ? this.LrData.consignee_name : '',
-        lrDate: this.lrDate ? this.LrData.lrDate : '',
+        lrDate: this.lrDate ? this.lrDate : '',
         payType: this.LrData.pay_type ? this.LrData.pay_type : '',
         rate: this.LrData.rate ? this.LrData.rate : '',
         amount: this.LrData.amount ? this.LrData.amount : '',
         material: this.LrData.material_name ? this.LrData.material_name : '',
         materialId: this.LrData.material ? this.LrData.material : ''
-  
-      };
-    } else{
-      console.log('else block');
-    this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
-    this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
-    console.log('tempDate',this.tempDate);
-    // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
-     params = {
-      sourceLat: this.LrData.source_lat,
-      sourceLng: this.LrData.source_long,
-      source: this.LrData.source,
-      dest: this.LrData.destination,
-      destLat: this.LrData.destination_lat,
-      destLng: this.LrData.destination_long,
-      vehId: this.vehId,
-      remark: this.LrData.remark,
-      id: this.LrData.id,
-      receiptNo: this.LrData.receipt_no,
-      status: this.status,
-      taId: this.LrData.ta_id,
-      taName: this.LrData.ta_name,
-      consignerId: this.LrData.consigner_id,
-      tonnage: this.LrData.weight,
-      consignerName: this.LrData.consigner_name,
-      consigneeId: this.LrData.consignee_id,
-      consigneeName: this.LrData.consignee_name,
-      lrDate: this.lrDate,
-      payType: this.LrData.pay_type,
-      rate: this.LrData.rate,
-      amount: this.LrData.amount,
-      material: this.LrData.material_name,
-      materialId: this.LrData.material
 
-    };
-  }
+      };
+    } else {
+      console.log('else block');
+      this.tempDate = this.common.dateFormatter(this.lrDate, 'ddMMYYYY', false, '/');
+      this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
+      console.log('tempDate', this.tempDate);
+      // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
+      params = {
+        sourceLat: this.LrData.source_lat,
+        sourceLng: this.LrData.source_long,
+        source: this.LrData.source,
+        dest: this.LrData.destination,
+        destLat: this.LrData.destination_lat,
+        destLng: this.LrData.destination_long,
+        vehId: this.vehId,
+        remark: this.LrData.remark,
+        id: this.LrData.id,
+        receiptNo: this.LrData.receipt_no,
+        status: this.status,
+        taId: this.LrData.ta_id,
+        taName: this.LrData.ta_name,
+        consignerId: this.LrData.consigner_id,
+        tonnage: this.LrData.weight,
+        consignerName: this.LrData.consigner_name,
+        consigneeId: this.LrData.consignee_id,
+        consigneeName: this.LrData.consignee_name,
+        lrDate: this.lrDate,
+        payType: this.LrData.pay_type,
+        rate: this.LrData.rate,
+        amount: this.LrData.amount,
+        material: this.LrData.material_name,
+        materialId: this.LrData.material
+
+      };
+    }
     console.log('params to Insert: ', params);
     this.common.loading++;
     this.api.post('LorryReceiptsOperation/updateLorryReceiptsDetails', params)
@@ -294,9 +295,9 @@ export class EditLorryDetailsComponent implements OnInit {
         }
         else {
           this.common.showToast('Not Success !!');
-          if(this.tempDate!=null){
-            this.lrDate=this.tempDate;
-            console.log('lrDate',this.lrDate);
+          if (this.tempDate != null) {
+            this.lrDate = this.tempDate;
+            console.log('lrDate', this.lrDate);
           }
         }
 
@@ -384,19 +385,19 @@ export class EditLorryDetailsComponent implements OnInit {
 
   checkDateFormat() {
     let dateValue = this.lrDate;
-    console.log('this.lrdate',this.lrDate);
+    console.log('this.lrdate', this.lrDate);
     if (dateValue.length < 8) return;
     let date = dateValue[0] + dateValue[1];
     let month = dateValue[2] + dateValue[3];
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
-    this.lrDate= year + '-' + month + '-' + date;
-    if(this.lrDate<=this.common.dateFormatter(new Date()))
-    {
-      return;
-    }else{
-      this.common.showToast('Incorrect Date !!');
-    }
+    this.lrDate = year + '-' + month + '-' + date;
+    // if(this.lrDate<=this.common.dateFormatter(new Date()))
+    // {
+    //   return;
+    // }else{
+    //   this.common.showToast('Incorrect Date !!');
+    // }
 
     console.log('Date: ', this.lrDate);
   }
@@ -426,11 +427,11 @@ export class EditLorryDetailsComponent implements OnInit {
     this.LrData.lr_date = null;
   }
 
-  changeStatusType(){
-    if(this.option=="reject"){
-      this.status=-1;
-    }else{
-      this.status=1;
+  changeStatusType() {
+    if (this.option == "reject") {
+      this.status = -1;
+    } else {
+      this.status = 1;
     }
   }
 

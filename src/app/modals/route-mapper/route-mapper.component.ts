@@ -294,5 +294,7 @@ export class RouteMapperComponent implements OnInit {
     this.mapService.zoomAt(googleLatLng);
   }
 
-
+  setZoom(zoom,vehicleEvent) {
+    this.mapService.zoomMap(zoom);
+  }
 }

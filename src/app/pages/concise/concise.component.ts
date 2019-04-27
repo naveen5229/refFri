@@ -20,7 +20,7 @@ import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on
 import { VehicleReportComponent } from "../../modals/vehicle-report/vehicle-report.component";
 import { RouteMapperComponent } from "../../modals/route-mapper/route-mapper.component";
 import { TripDetailsComponent } from "../../modals/trip-details/trip-details.component";
-
+import { VehicleStatesComponent } from "../../modals/vehicle-states/vehicle-states.component";
 import { ResizeEvent } from "angular-resizable-element";
 import { MapService } from "../../services/map.service";
 import { NgxPrintModule } from 'ngx-print';
@@ -89,6 +89,7 @@ export class ConciseComponent implements OnInit {
 
   isMapView = false;
   infoWindow = null;
+  isZoomed = false;
 
   constructor(
     public api: ApiService,
@@ -192,7 +193,7 @@ export class ConciseComponent implements OnInit {
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         trip: {
-          value: this.getTripStatusHTML(kpi),
+          value: this.getTripStatusHTMLNew(kpi),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
@@ -226,13 +227,12 @@ export class ConciseComponent implements OnInit {
         <span>${kpi.x_showtripstart}</span>
         <i class="icon ion-md-arrow-round-forward mr-0"></i>
         <i class="ion-md-arrow-round-forward" style="margin-left:-1px;"></i>
-
         <span>${kpi.x_showtripend}</span>
       `;
     } else if (kpi.trip_status_type == 1) {
       html += `
       <!-- Loading -->
-        <span class="circle">${kpi.x_showtripstart}</span>
+        ${this.handleCircle(kpi.x_showtripstart)}
         <i class="icon ion-md-arrow-round-forward"></i>
         <span>${kpi.x_showtripend}</span>
       `;
@@ -248,7 +248,7 @@ export class ConciseComponent implements OnInit {
         <!-- Unloading -->
           <span>${kpi.x_showtripstart}</span>
           <i class="icon ion-md-arrow-round-forward"></i>
-          <span class="circle">${kpi.x_showtripend}</span>
+          ${this.handleCircle(kpi.x_showtripend)}
         `;
     } else if (kpi.trip_status_type == 4) {
       html += `
@@ -258,7 +258,7 @@ export class ConciseComponent implements OnInit {
         <span>${kpi.x_showtripend}</span>
         <i class="fa fa-check-circle complete"></i>
       `;
-    } 
+    }
     // else if (kpi.trip_status_type == 5) {
     //   html += `
     //   <!-- Complete -->
@@ -277,6 +277,99 @@ export class ConciseComponent implements OnInit {
       `;
     }
     return html + "</div>";
+  }
+
+  getTripStatusHTMLNew(kpi) {
+    const colors = ['green', 'red', 'teal'];
+    let html = '';
+    switch (kpi.trip_status_type) {
+      case 0:
+        html = `
+            <!-- At Origin -->
+            ${this.handleCircle(kpi.x_showtripstart.trim(), 'loading')}
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 1:
+        html = `
+            <!-- At Destination -->
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              ${this.handleCircle(kpi.x_showtripend.trim(), 'unloading')}
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 2:
+        html = `
+            <!-- Onward -->
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 3:
+        html = `
+            <!-- Available (Done) -->
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            <i class="fa fa-check-circle complete"></i>`;
+        break;
+      case 4:
+        html = `
+            <!-- Available (Next) -->
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            ${kpi.x_showtripend ? `
+              <span>-</span>
+              <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      case 5:
+        html = `
+            <!-- Available (Moved) -->
+            <span class="unloading">${kpi.x_showtripstart.trim()}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+      default:
+        html = `
+            <!-- Ambiguous -->
+            <span class="loading">${kpi.x_showtripstart.trim()}</span>
+            <span>-</span>
+            <span class="unloading">${kpi.x_showtripend.trim()}</span>
+            ${this.formatPacement(kpi.placements)}`;
+        break;
+    }
+    // console.log('HTML:', html);
+    return html;
+  }
+
+  formatPacement(placements) {
+    console.log('--------------------:', placements);
+    if (!placements.length) return '';
+    let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
+    const colors = {
+      11: 'loading', // Loading
+      21: 'unloading', // unloading
+      0: 'others' // others
+    };
+
+    placements.map((placement, index) => {
+      html += `<span class="${colors[placement.type]}">${placement.name.trim()}</span>`
+      if (index != placements.length - 1) {
+        html += `<span> - </span>`;
+      }
+    });
+    console.log('Html:', html);
+    return html;
   }
 
   getViewType() {
@@ -756,16 +849,16 @@ export class ConciseComponent implements OnInit {
     this.mapService.clearAll();
     for (let index = 0; index < this.kpis.length; index++) {
       // (kpi.x_idle_time / 60).toFixed(1)
-      if(this.kpis[index].showprim_status == "No Data 12 Hr"|| this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data" ){
+      if (this.kpis[index].showprim_status == "No Data 12 Hr" || this.kpis[index].showprim_status == "Undetected" || this.kpis[index].showprim_status == "No GPS Data") {
         this.kpis[index].color = "ff0000";
       }
-      else if((this.kpis[index].x_idle_time/60)>0){
-     
+      else if ((this.kpis[index].x_idle_time / 60) > 0) {
+
         this.kpis[index].color = "00ff00";
-      }else{
+      } else {
         this.kpis[index].color = "ffff00";
       }
-     
+
     }
     setTimeout(() => {
       this.mapService.setMapType(0);
@@ -795,12 +888,12 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.getTripStatusHTML(event)}</span> <br>
+      <span><b>Trip:</b>${this.getTripStatusHTMLNew(event)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
     );
-    this.rotateBounce(event,null,false);
+    this.rotateBounce(event, null, false);
     this.infoWindow.setPosition(
       this.mapService.createLatLng(event.x_tlat, event.x_tlong)
     ); // or evt.latLng
@@ -818,56 +911,57 @@ export class ConciseComponent implements OnInit {
   }
 
   handleMapView() {
+    if (this.isZoomed) {
+      this.isZoomed = false;
+      this.mapService.setMapType(0);
+      this.mapService.resetBounds();
+      return;
+    }
     this.isMapView = !this.isMapView;
     setTimeout(() => {
       this.initialiseMap();
     }, 1000);
   }
- 
+
   rotate = '';
-  rotateBounce(kpi, i?, isToggle=true) {
+  rotateBounce(kpi, i?, isToggle = true) {
     this.rotate = 'rotate(' + kpi.x_angle + 'deg)';
     console.log("rotate", this.rotate);
-    if(isToggle){
+    if (isToggle) {
       this.mapService.toggleBounceMF(i);
     }
   }
 
-  getUpadte(kpi){
-    console.log("kpi",kpi);
-    let tripDetails ={
-      id : kpi.x_trip_id,
-      endName : kpi.x_showtripend,
-      startName : kpi.x_showtripstart,
-      startTime : kpi.x_showstarttime,
-      endTime : kpi.x_showendtime,
-      regno : kpi.x_showveh,
-      vehicleId:kpi.x_vehicle_id,
-      siteId:kpi.x_hl_site_id
-      
+  getUpadte(kpi) {
+    console.log("kpi", kpi);
+    let tripDetails = {
+      vehicleId: kpi.x_vehicle_id,
+      siteId: kpi.x_hl_site_id
+
     }
     // this.common.params= tripDetails;
     // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
-    
-    this.common.params= {tripDetils : tripDetails, ref_page : 'kpi'};
-      console.log("vehicleTrip",tripDetails);
-      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    
+
+    this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
+    console.log("vehicleTrip", tripDetails);
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
   }
 
-  getZoom(kpi){
-    if(this.isMapView,kpi){
-      console.log("isMapView------",this.isMapView,kpi);
+  getZoom(kpi) {
+    if (this.isMapView, kpi) {
+      console.log("isMapView------", this.isMapView, kpi);
       let latLng = this.mapService.getLatLngValue(kpi);
-      console.log("latLng",latLng);
-      let latLong = this.mapService.createLatLng(latLng.lat,latLng.lng)
+      console.log("latLng", latLng);
+      let latLong = this.mapService.createLatLng(latLng.lat, latLng.lng)
       this.mapService.zoomAt(latLong);
+      this.isZoomed = true;
     }
   }
 
-  actionIcons(kpi){
-   let icons= [
+  actionIcons(kpi) {
+    let icons = [
       {
         class: "icon fa fa-info",
         action: this.vehicleReport.bind(this, kpi)
@@ -884,11 +978,15 @@ export class ConciseComponent implements OnInit {
         class: " icon fa fa-truck",
         action: this.openTripDetails.bind(this, kpi)
       },
-     
+      {
+        class: "icon fa fa-bars",
+        action: this.openVehicleStates.bind(this, kpi)
+      },
+
     ]
-    console.log("this.user._loggedInBy",this.user._loggedInBy);
-    if(this.user._loggedInBy=="admin"){
-      icons.push( {
+    console.log("this.user._loggedInBy", this.user._loggedInBy);
+    if (this.user._loggedInBy == "admin") {
+      icons.push({
         class: " icon fa fa-camera",
         action: this.openChangeStatusModal.bind(this, kpi)
       });
@@ -897,7 +995,7 @@ export class ConciseComponent implements OnInit {
   }
 
   openChangeStatusModal(trip) {
-    console.log("kpiiiiiis",trip);
+    console.log("kpiiiiiis", trip);
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -920,7 +1018,37 @@ export class ConciseComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       console.log("after data chnage ");
-    
-      });
+
+    });
+  }
+
+
+
+  handleCircle(location, className = 'loading') {
+    let locationArray = location.split('-');
+    if (locationArray.length == 1) {
+      return `<span class="circle ${className}">${location}</span>`;
     }
+    let html = ``;
+    for (let i = 0; i < locationArray.length; i++) {
+      if (i == locationArray.length - 1) {
+        html += `<span class="circle ${className}">${locationArray[i]}</span>`;
+      } else {
+        html += `<span class="${className}">${locationArray[i]}</span><span class="location-seperator">-</span>`
+      }
+    }
+    return html;
+  }
+
+  openVehicleStates(vlaues) {
+    this.common.params = {
+      vehicleId: vlaues.x_vehicle_id,
+      vehicleRegNo: vlaues.x_showveh
+
+    };
+    const activeModal = this.modalService.open(VehicleStatesComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+  }
 }

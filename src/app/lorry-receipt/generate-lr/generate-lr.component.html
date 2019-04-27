@@ -5,40 +5,32 @@
   <nb-card-body>
     <table class="table table-bordered gerrate_tabel">
       <tbody>
-        <!-- <tr>
-          <td><label>Branch</label></td>
-          <td> <select [(ngModel)]=lr.branch (change)="getBranchDetails()" class="form-conrol" style="width: 150px;
-                  height: 31px;" placeholder="select branch">
-              <option *ngFor="let branch of branches" [value]="branch">{{branch}}</option>
-            </select> </td>
-        </tr> -->
         <tr>
-          <td><label>Vehicle No</label></td>
+          <td><label>Vehicle No*</label></td>
           <td>
             <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
               placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
           </td>
-          <td><label>LR No</label></td>
+          <td><label>LR No*</label></td>
           <td>
             <!-- {{lr.lrNumber}} -->
             <input type="text" [(ngModel)]=lr.lrNumber class="form-control" placeholder="Enter LR Number">
           </td>
         </tr>
         <tr>
-          <td><label>Date</label></td>
+          <td><label>Date*</label></td>
           <td>
             <!-- <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " class="form-control"
               autocomplete="off" name="date" placeholder="Enter Date">
             <owl-date-time #date></owl-date-time> -->
             <div class="row">
-              <div class="col-sm-10">
-                <input type="text" style="width:280px" class="form-control" autocomplete="off" [(ngModel)]="lr.date"
+              <div class="col-sm-11">
+                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date"
                   name="date" (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
                 <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
               </div>
-              <div class="col-sm-2" style="margin-top:-8px">
-                <span style='cursor:pointer; font-size: 23px;' (click)="getDate()"><i class="icon fa fa-calendar"
-                    style="margin-top:10px; margin-left:-5px"></i></span>
+              <div class="col-sm-1 pl-0">
+                <span style='cursor:pointer;' (click)="getDate()"><i class="icon fa fa-calendar add"></i></span>
               </div>
             </div>
           </td>
@@ -50,7 +42,7 @@
           </td>
         </tr>
         <tr>
-          <td><label>Driver Mob NO </label></td>
+          <td><label>Driver Mob NO* </label></td>
           <td>
             <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
                 <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
@@ -76,12 +68,12 @@
         </tr>
 
         <tr>
-          <td><label>Source City</label></td>
+          <td><label>Source City*</label></td>
           <td>
             <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control">
           </td>
           <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
-          <td><label>Destination City </label></td>
+          <td><label>Destination City* </label></td>
           <td>
             <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="lr.destinationCity"
               class="form-control">

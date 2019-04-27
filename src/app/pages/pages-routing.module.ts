@@ -26,6 +26,9 @@ import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
 import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
+import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -59,8 +62,8 @@ const routes: Routes = [{
     component: LorryRecciptsComponent,
   },
   {
-    path:'generate-lr',
-    component:GenerateLRComponent,
+    path: 'generate-lr',
+    component: GenerateLRComponent,
   },
   {
     path: 'expenses',
@@ -125,6 +128,18 @@ const routes: Routes = [{
   {
     path: 'placement-delay-faults',
     component: PlacementDelayFaultsComponent
+  },
+  {
+    path: 'vehicle-covered-distance',
+    component: VehicleCoveredDistanceComponent
+  },
+  {
+    path: 'vehicle-gps-detail',
+    component: VehicleGpsDetailComponent
+  },
+  {
+    path: 'tip-feedback-logs',
+    component: TipFeedbackLogsComponent,
   }
   ],
 }];

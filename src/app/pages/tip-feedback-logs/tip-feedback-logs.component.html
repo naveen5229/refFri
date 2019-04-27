@@ -1,0 +1,37 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-5">
+        <h5>Trip feedback Logs</h5>
+      </div>
+      <div class="col-7">
+        <div class="row">
+          <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
+              placeholder="Start Date" (click)="getDate('start')" />
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
+              placeholder="End Date" (click)="getDate('end')" />
+          </div>
+          <div class="col-sm-3">
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+            display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-primary" (click)="getFeedbackLogs()">submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+
+    <div>
+      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+    <!-- <div class="no-data alert alert-danger" role="alert" *ngIf="activitySummary.length==0">
+      No Data available !
+    </div> -->
+  </nb-card-body>
+</nb-card>

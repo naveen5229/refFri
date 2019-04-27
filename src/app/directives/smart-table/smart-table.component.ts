@@ -42,7 +42,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   filterData(key) {
-    let search = this.headings[key].value.toLowerCase().replace(/ /g, '');
+    let search = this.headings[key].value.toLowerCase();
     this.columns = this.data.columns.filter(column => {
       if (!search.length) return true;
       let value = column[key].value;
@@ -98,14 +98,14 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleMouseHover(column, heading) {
-    console.log('Mouseover');
+    // console.log('Mouseover');
     if (column[heading].colActions && column[heading].colActions.mouseover) {
       column[heading].colActions.mouseover()
     }
   }
 
   handleMouseOut(column, heading) {
-    console.log('MouseOut');
+    // console.log('MouseOut');
     if (column[heading].colActions && column[heading].colActions.mouseout) {
       column[heading].colActions.mouseout()
     }

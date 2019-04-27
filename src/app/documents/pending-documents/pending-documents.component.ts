@@ -72,9 +72,9 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log("data", res);
           this.data = res['data'];
-          if(this.data.length) {
-            for(var key in this.data[0]) {
-              if(key.charAt(0) != "_")
+          if (this.data.length) {
+            for (var key in this.data[0]) {
+              if (key.charAt(0) != "_")
                 this.columns.push(key);
             }
             console.log("columns");
@@ -84,16 +84,16 @@ export class PendingDocumentsComponent implements OnInit {
           this.common.loading--;
           console.log(err);
         });
-    } 
+    }
     else {
       this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
         .subscribe(res => {
           this.common.loading--;
           console.log("data", res);
           this.data = res['data'];
-          if(this.data.length) {
-            for(var key in this.data[0]) {
-              if(key.charAt(0) != "_")
+          if (this.data.length) {
+            for (var key in this.data[0]) {
+              if (key.charAt(0) != "_")
                 this.columns.push(key);
             }
             console.log("columns");
@@ -227,7 +227,7 @@ export class PendingDocumentsComponent implements OnInit {
       });
 
   }
-  
+
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
@@ -273,9 +273,9 @@ export class PendingDocumentsComponent implements OnInit {
         console.log("data", res);
         this.data = res['data'];
         this.columns = [];
-        if(this.data.length) {
-          for(var key in this.data[0]) {
-            if(key.charAt(0) != "_")
+        if (this.data.length) {
+          for (var key in this.data[0]) {
+            if (key.charAt(0) != "_")
               this.columns.push(key);
           }
           console.log("columns");
@@ -377,10 +377,10 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   updateDocument(modal, status?, confirm?) {
-    
-   
+
+
     console.log('Test');
-    if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1 ) {
+    if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
       let document = this.modal[modal].data.document;
       const params = {
         x_vehicleno: document.newRegno,
@@ -491,14 +491,14 @@ export class PendingDocumentsComponent implements OnInit {
             alert("Success");
             this.closeModal(true, modal);
           }
-          else if(res['code']!=-2) {
+          else if (res['code'] != -2) {
 
             alert(result);
 
           }
           if (res['code'] == -2) {
-            this.openConrirmationAlert(res,params.x_advreview);
-            
+            this.openConrirmationAlert(res, params.x_advreview);
+
             console.log("res Data", res['code']);
           }
         }, err => {
@@ -509,227 +509,226 @@ export class PendingDocumentsComponent implements OnInit {
     }
   }
 
-  openConrirmationAlert(data,review) {
-   console.log("Data ",data);
-   console.log("params :",review);
-      this.common.params = {
-        title: 'Confirmation ',
-        description: data['msg'],
-      }   
-      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        if (data.response) {
-          let confirm = 1;
-          console.log("modal active:",this.modal.active);
-    
-          this.updateDocument(this.modal.active,review,confirm);
-          
-          //  console.log("cofirm data response:",data.response);
-        }
-      });
+  openConrirmationAlert(data, review) {
+    console.log("Data ", data);
+    console.log("params :", review);
+    this.common.params = {
+      title: 'Confirmation ',
+      description: data['msg'],
     }
-  
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        let confirm = 1;
+        console.log("modal active:", this.modal.active);
 
+        this.updateDocument(this.modal.active, review, confirm);
 
-    getDate(date, modal) {
-      const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        if (data.date) {
-          this.modal[modal].data.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-          console.log('Date:', this.modal[modal].data.document[date]);
-        }
-      });
-    }
-
-    setDate(date, modal) {
-      console.log("fetch Date", date);
-      this.modal[modal].data.document[date] = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
-      console.log('Date:', this.modal[modal].data.document[date]);
-    }
-
-    checkExpiryDateValidityByValue(flddate, expdate, modal) {
-      let strdt1 = flddate.split("/").reverse().join("-");
-      let strdt2 = expdate.split("/").reverse().join("-");
-      flddate = this.common.dateFormatter(strdt1).split(' ')[0];
-      expdate = this.common.dateFormatter(strdt2).split(' ')[0];
-      console.log("comparing " + flddate + "-" + expdate);
-      let d1 = new Date(flddate);
-      let d2 = new Date(expdate);
-      if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
-        this.common.showError("Invalid Date. Date formats should be dd/mm/yyyy");
-        return 0;
+        //  console.log("cofirm data response:",data.response);
       }
-      if (d1 > d2) {
-        this.modal[modal].data.spnexpdt = 1;
-        return 0;
+    });
+  }
+
+
+
+  getDate(date, modal) {
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.modal[modal].data.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        console.log('Date:', this.modal[modal].data.document[date]);
       }
-      return 1;
+    });
+  }
+
+  setDate(date, modal) {
+    console.log("fetch Date", date);
+    this.modal[modal].data.document[date] = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
+    console.log('Date:', this.modal[modal].data.document[date]);
+  }
+
+  checkExpiryDateValidityByValue(flddate, expdate, modal) {
+    let strdt1 = flddate.split("/").reverse().join("-");
+    let strdt2 = expdate.split("/").reverse().join("-");
+    flddate = this.common.dateFormatter(strdt1).split(' ')[0];
+    expdate = this.common.dateFormatter(strdt2).split(' ')[0];
+    console.log("comparing " + flddate + "-" + expdate);
+    let d1 = new Date(flddate);
+    let d2 = new Date(expdate);
+    if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
+      this.common.showError("Invalid Date. Date formats should be dd/mm/yyyy");
+      return 0;
     }
-
-    addAgent(modal) {
-      this.common.params = { title: 'Add Agent' };
-      const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(agtdata => {
-        if (agtdata.response) {
-          console.log("agtdata:");
-          console.log(agtdata.response);
-          this.common.loading++;
-          this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.modal[modal].data.vehicleId })
-            .subscribe(res => {
-              this.common.loading--;
-              console.log("data", res);
-              this.modal.first.data.agents = res['data'].document_agents_info;
-              this.modal.second.data.agents = res['data'].document_agents_info;
-              if (this.modal[modal].data.agents.length) {
-                this.modal[modal].document.agent_id = this.modal[modal].agents[this.modal[modal].agents.length - 1].id;
-                this.modal[modal].document.agent = this.modal[modal].agents[this.modal[modal].agents.length - 1].name;
-              }
-
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-            });
-        }
-      });
-
+    if (d1 > d2) {
+      this.modal[modal].data.spnexpdt = 1;
+      return 0;
     }
+    return 1;
+  }
 
-    findDocumentType(id, modal) {
-      for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
-        console.log("val:" + this.modal[modal].data.docTypes[i]);
-        if (this.modal[modal].data.docTypes[i].id == id) {
-          return this.modal[modal].data.docTypes[i].document_type;
-        }
-      }
-
-    }
-
-    selectDocType(docType, modal) {
-      this.modal[modal].data.document.document_type_id = docType.id;
-      console.log('Doc id: ', docType.id);
-      console.log("doc var", this.modal[modal].data.document.document_type_id);
-    }
-
-
-    isValidDocument(event, modal) {
-      let selected_doctype = event.target.value;
-      if (selected_doctype == "") {
-        this.modal[modal].data.document.document_type = "";
-        this.modal[modal].data.document.document_type_id = "";
-      }
-    }
-
-    getDateInDisplayFormat(strdate) {
-      if (strdate)
-        return strdate.split("-").reverse().join("/");
-      else
-        return strdate;
-    }
-
-    deleteImage(id, modal) {
-      let remark;
-      let ret = confirm("Are you sure you want to delete this Document?");
-      if (ret) {
-        this.common.params = { RemarkModalComponent, title: 'Delete Document' };
-
-        const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-        activeModal.result.then(data => {
-          if (data.response) {
-            console.log("reason For delete: ", data.remark);
-            remark = data.remark;
-            this.common.loading++;
-            this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 0 })
-              .subscribe(res => {
-                this.common.loading--;
-                console.log("data", res);
-                this.closeModal(true, modal);
-                this.common.showToast("Success Delete");
-              }, err => {
-                this.common.loading--;
-                console.log(err);
-
-              });
-          }
-        })
-      }
-    }
-
-    setModalData() {
-      return {
-        title: '',
-        btn1: '',
-        btn2: '',
-        imageViewerId: (new Date()).getTime(),
-        agents: [],
-        docTypes: [],
-        vehicleId: 0,
-        agentId: '',
-        canUpdate: 1,
-        canreadonly: false,
-        spnexpdt: 0,
-        current_date: new Date(),
-        images: [],
-        imgs: [],
-        doc_not_img: 0,
-        document: {
-          agent: null,
-          agent_id: null,
-          amount: null,
-          doc_no: null,
-          document_type: null,
-          document_type_id: null,
-          expiry_date: null,
-          issue_date: null,
-          id: null,
-          img_url: null,
-          regno: null,
-          newRegno: null,
-          remarks: null,
-          rto: null,
-          vehicle_id: null,
-          wef_date: null,
-          img_url2: null,
-          img_url3: null
-        },
-      }
-    }
-
-    openNextModal(modal) {
-      this.showDetails({ _docid: 0, vehicle_id: 0 });
-
-    }
-
-    checkDateFormat(modal, dateType) {
-      let dateValue = this.modal[modal].data.document[dateType];
-      if (dateValue.length < 8) return;
-      let date = dateValue[0] + dateValue[1];
-      let month = dateValue[2] + dateValue[3];
-      let year = dateValue.substring(4, 8);
-      this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
-      console.log('Date: ', this.modal[modal].data.document[dateType]);
-    }
-
-
-    getUserWorkList() {
-      this.common.loading++;
-      this.api.post('Vehicles/getUserWorkSummary ', {})
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.userdata = res['data'];
-          if(this.userdata.length) {
-            for(var key in this.userdata[0]) {
-              if(key.charAt(0) != "_")
-                this.columns2.push(key);
+  addAgent(modal) {
+    this.common.params = { title: 'Add Agent' };
+    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(agtdata => {
+      if (agtdata.response) {
+        console.log("agtdata:");
+        console.log(agtdata.response);
+        this.common.loading++;
+        this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.modal[modal].data.vehicleId })
+          .subscribe(res => {
+            this.common.loading--;
+            console.log("data", res);
+            this.modal.first.data.agents = res['data'].document_agents_info;
+            this.modal.second.data.agents = res['data'].document_agents_info;
+            if (this.modal[modal].data.agents.length) {
+              this.modal[modal].document.agent_id = this.modal[modal].agents[this.modal[modal].agents.length - 1].id;
+              this.modal[modal].document.agent = this.modal[modal].agents[this.modal[modal].agents.length - 1].name;
             }
-            console.log("columns");
-            console.log(this.columns2);
-          }
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-        });
 
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+          });
+      }
+    });
+
+  }
+
+  findDocumentType(id, modal) {
+    for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
+      console.log("val:" + this.modal[modal].data.docTypes[i]);
+      if (this.modal[modal].data.docTypes[i].id == id) {
+        return this.modal[modal].data.docTypes[i].document_type;
+      }
     }
 
   }
+
+  selectDocType(docType, modal) {
+    this.modal[modal].data.document.document_type_id = docType.id;
+    console.log('Doc id: ', docType.id);
+    console.log("doc var", this.modal[modal].data.document.document_type_id);
+  }
+
+
+  isValidDocument(event, modal) {
+    let selected_doctype = event.target.value;
+    if (selected_doctype == "") {
+      this.modal[modal].data.document.document_type = "";
+      this.modal[modal].data.document.document_type_id = "";
+    }
+  }
+
+  getDateInDisplayFormat(strdate) {
+    if (strdate)
+      return strdate.split("-").reverse().join("/");
+    else
+      return strdate;
+  }
+
+  deleteImage(id, modal) {
+    let remark;
+    let ret = confirm("Are you sure you want to delete this Document?");
+    if (ret) {
+      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
+
+      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("reason For delete: ", data.remark);
+          remark = data.remark;
+          this.common.loading++;
+          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 0 })
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("data", res);
+              this.closeModal(true, modal);
+              this.common.showToast("Success Delete");
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+
+            });
+        }
+      })
+    }
+  }
+
+  setModalData() {
+    return {
+      title: '',
+      btn1: '',
+      btn2: '',
+      imageViewerId: (new Date()).getTime(),
+      agents: [],
+      docTypes: [],
+      vehicleId: 0,
+      agentId: '',
+      canUpdate: 1,
+      canreadonly: false,
+      spnexpdt: 0,
+      current_date: new Date(),
+      images: [],
+      imgs: [],
+      doc_not_img: 0,
+      document: {
+        agent: null,
+        agent_id: null,
+        amount: null,
+        doc_no: null,
+        document_type: null,
+        document_type_id: null,
+        expiry_date: null,
+        issue_date: null,
+        id: null,
+        img_url: null,
+        regno: null,
+        newRegno: null,
+        remarks: null,
+        rto: null,
+        vehicle_id: null,
+        wef_date: null,
+        img_url2: null,
+        img_url3: null
+      },
+    }
+  }
+
+  openNextModal(modal) {
+    this.showDetails({ _docid: 0, vehicle_id: 0 });
+  }
+
+  checkDateFormat(modal, dateType) {
+    let dateValue = this.modal[modal].data.document[dateType];
+    if (dateValue.length < 8) return;
+    let date = dateValue[0] + dateValue[1];
+    let month = dateValue[2] + dateValue[3];
+    let year = dateValue.substring(4, 8);
+    this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
+    console.log('Date: ', this.modal[modal].data.document[dateType]);
+  }
+
+
+  getUserWorkList() {
+    this.common.loading++;
+    this.api.post('Vehicles/getUserWorkSummary', {})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.userdata = res['data'];
+        if (this.userdata.length) {
+          for (var key in this.userdata[0]) {
+            if (key.charAt(0) != "_")
+              this.columns2.push(key);
+          }
+          console.log("columns");
+          console.log(this.columns2);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+}

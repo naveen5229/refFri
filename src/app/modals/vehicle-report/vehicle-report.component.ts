@@ -27,6 +27,7 @@ export class VehicleReportComponent implements OnInit {
   details = [];
   report = [];
   vehicleRegNo;
+  limit;
   table = null;
   i: ''; d: '';
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
@@ -42,8 +43,7 @@ export class VehicleReportComponent implements OnInit {
       start = new Date(today.setDate(today.getDate() - 3))
       this.startDate = this.common.dateFormatter(start);
       console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
-      
-    }
+     }
     else{
       console.log(this.common.params.fromTime);
       console.log(this.common.params.toTime);
@@ -72,7 +72,8 @@ export class VehicleReportComponent implements OnInit {
     let params = {
       vehicleId: this.vid,
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate,
+     
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -87,15 +88,8 @@ export class VehicleReportComponent implements OnInit {
           this.startTime = d.start_time;
           this.startTime = new Date(this.startTime);
           this.endTime = d.end_time;
-          // let sec = (this.resultTime / 1000);
-          // let hour=sec/3600;
-          // let tmin=sec%3600;
-          // let min=tmin/60;
-          // sec=tmin%60; 
-          // console.log('hh:mm:Ss',hour,min,sec);
-         // var tempTime = moment.duration(this.resultTime);
-         // var y = tempTime.hours() +':'+ tempTime.minutes();
-       if(this.endTime!=null){
+
+        if(this.endTime!=null){
          this.endTime = new Date(this.endTime);
          this.resultTime = this.endTime - this.startTime;
         console.log('begore resultTime: ' + this.resultTime);
@@ -107,24 +101,8 @@ export class VehicleReportComponent implements OnInit {
           var result1='Running';
           this.duration.push(result1);
         }
-
-        //   let result='00'+':'+'00';
-        //  if (hour != 0) {
-        //     if (hour.toString().length == 1) {
-        //       result = '0' + hour + ':';
-        //       // this.resultTime=this.h;
-        //     } else
-        //        result = hour + ':';
-
-        //     if (min != 0) {
-        //       if (min.toString().length == 1) {
-        //         result += '0' + min;
-        //       } else
-        //       result += min;
-        //     } else
-        //       result += '00';
-        //   }
-        
+            
+                
          });
         console.log('result time', this.resultTime);
         this.table = this.setTable();

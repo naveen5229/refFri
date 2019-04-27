@@ -58,9 +58,9 @@ export class MapService {
 
   zoomMap(zoomValue) {
     this.map.setZoom(zoomValue);
-    if (zoomValue == 10 || zoomValue == 12 || zoomValue == 14) {
+    if (zoomValue <= 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    } else if (zoomValue == 16 || zoomValue == 18) {
+    } else if (zoomValue> 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
@@ -279,6 +279,14 @@ export class MapService {
       this.markers = [];
     if (boundsReset) {
       this.bounds = new google.maps.LatLngBounds();
+    }
+  }
+  resetBounds(){
+    this.bounds = new google.maps.LatLngBounds();
+    for (let index = 0; index < this.markers.length; index++) {
+      let pos = this.markers[index].position;
+      if(pos.lat()!=0)
+          this.setBounds(pos);
     }
   }
   resetPolygons(){
