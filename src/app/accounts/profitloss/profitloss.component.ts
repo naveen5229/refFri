@@ -15,7 +15,7 @@ export class ProfitlossComponent implements OnInit {
 
   plData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate:this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
     // branch: {
     //   name: '',
     //   id: 0
@@ -30,6 +30,11 @@ export class ProfitlossComponent implements OnInit {
   liabilities = [];
   assets = [];
   allowBackspace = true;
+
+  f2Date = 'startdate';
+  lastActiveId = '';
+  showDateModal = false;
+  activedateid = '';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -133,6 +138,27 @@ export class ProfitlossComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      return;
+    }
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('startdate')) {
@@ -153,6 +179,31 @@ export class ProfitlossComponent implements OnInit {
       this.allowBackspace = false;
     }
 
+  }
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
+    if (this.plData[datestring].includes('-')) {
+      dateArray = this.plData[datestring].split('-');
+    } else if (this.plData[datestring].includes('/')) {
+      dateArray = this.plData[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.plData[datestring] = date + separator + month + separator + year;
   }
 
   setFoucus(id, isSetLastActive = true) {

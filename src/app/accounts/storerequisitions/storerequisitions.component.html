@@ -9,24 +9,23 @@
   <thead style="background-color: #263238; color:#fff;">
     <tr>
         <th>#</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Action</th>
+        <th>Code</th>
+        <th>Cust Code</th>
+        <th>Request Date</th>
       </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let stockItem of StockItems; let i = index;" (click)="selectedRow = i"
-    (dblclick)="openStockItemModal(stockItem)" (enter)="openStockItemModal(stockItem)"
+    <tr *ngFor="let StockQuestion of StockQuestions; let i = index;" (click)="selectedRow = i"
+    (dblclick)="openStoreRequisitions(StockQuestion.id,StockQuestion.to_fobranch_id)" (enter)="openStoreRequisitions(StockQuestion.id,StockQuestion.to_fobranch_id)"
     [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
-        <td>{{stockItem.stocktype_name}}</td>
-        <td>{{stockItem.stoctsubtypename}}</td>
-        <td>{{stockItem.name}}</td>
-        <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
-        <td class="del">
+        <td>{{StockQuestion.code}}</td>
+        <td>{{StockQuestion.cust_code}}</td>
+        <td>{{StockQuestion.req_date | date : 'dd-MMM-yy'}}</td>
+        <!-- <td class="del">
           <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
               class="fa fa-trash"></i></a>
-        </td>
+        </td> -->
       </tr>
   </tbody>
   
