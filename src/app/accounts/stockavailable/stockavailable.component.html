@@ -45,16 +45,17 @@
         </div>
       </div>
       <div class="col-3">
-          <div class="auto-sugg">
-        <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
-        [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
-      </div>
+        <div class="auto-sugg">
+          <auto-suggetion-in-side [data]="autoSuggestion.data" [targetId]="autoSuggestion.targetId"
+            [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
+          </auto-suggetion-in-side>
+        </div>
       </div>
     </div>
 
- 
+
     <table class="table table-bordered" id="table">
-      
+
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>Stock Item Type</th>
@@ -63,7 +64,8 @@
           <th>Quantity</th>
         </tr>
       </thead>
-      <tr *ngFor=" let dataItem of stockAvailableData; let i = index;" (click)="selectedRow = i"[ngClass]="{'highlight' : selectedRow == i}">
+      <tr *ngFor=" let dataItem of stockAvailableData; let i = index;" (click)="selectedRow = i"
+        [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{dataItem.y_stockitemtype}}</td>
         <td>{{dataItem.y_stockitemsubtype}}</td>
         <td>{{dataItem.y_stockitem}}</td>
@@ -72,3 +74,12 @@
     </table>
   </nb-card-body>
 </nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="stockAvailable[f2Date]" maxlength="10">
+    </div>
+  </div>
+</div>

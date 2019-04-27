@@ -1,0 +1,22 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-8">
+        <h5>Vehicle Distance Covered</h5>
+      </div>
+      <div class="col-sm-4" style="text-align:right">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="model-body">
+      <smart-table *ngIf="distanceData.length" [data]="table.data" [settings]="table.settings" id="tbldocs">
+      </smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>

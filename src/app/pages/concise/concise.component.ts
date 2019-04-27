@@ -1034,7 +1034,7 @@ export class ConciseComponent implements OnInit {
       if (i == locationArray.length - 1) {
         html += `<span class="circle ${className}">${locationArray[i]}</span>`;
       } else {
-        html += `<span>${locationArray[i]}</span><span class="location-seperator">-</span>`
+        html += `<span class="${className}">${locationArray[i]}</span><span class="location-seperator">-</span>`
       }
     }
     return html;
