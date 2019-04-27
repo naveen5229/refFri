@@ -134,6 +134,7 @@ import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.c
 import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.component';
 import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
 import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-report.component';
+import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -230,6 +231,7 @@ import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-rep
     VehicleStatesComponent,
     ChangeDriverComponent,
     CsvErrorReportComponent,
+    AddShortTargetComponent,
 
   ],
   entryComponents: [
@@ -324,7 +326,9 @@ import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-rep
     VehicleLrComponent,
     ChoosePeriodsComponent,
     VehicleStatesComponent,
-    CsvErrorReportComponent
+    CsvErrorReportComponent,
+    AddShortTargetComponent
+
   ],
   imports: [
     BrowserModule,
