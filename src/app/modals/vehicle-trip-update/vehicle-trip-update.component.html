@@ -23,15 +23,15 @@
             <td>{{vehicleStatus.regno}}</td>
             <td><span><span style="color:green">{{vehicleStatus.loading_point}}</span><span style="color:red"
                   *ngIf="vehicleStatus.unloading_point"> - {{vehicleStatus.unloading_point}}</span></span></td>
-                  <td>{{vehicleStatus.last_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            <td>{{vehicleStatus.last_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
             <!-- <td>{{vehicleStatus.placement}}</td>
             <td>{{vehicleStatus.placement_type}}</td> -->
           </tr>
         </tbody>
       </table>
     </div>
-<div class="col-md-12">
-    <table class="table table-bordered table-hover">
+    <div class="col-md-12">
+      <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
             <th>#</th>
@@ -42,15 +42,15 @@
             <th>Add Time</th>
             <th>Delete</th>
           </tr>
-    
+
         </thead>
         <tbody>
           <tr *ngFor="let placement of placements" style="text-align:center">
             <td>{{placement.id}}</td>
             <td>{{placement.location}}</td>
-            <td><span *ngIf = "placement.placement_type==11" style="color:green">{{placement.purpose}}</span>
-              <span *ngIf = "(placement.placement_type!=11)&&(placement.placement_type!=21)" >{{placement.purpose}}</span>            
-              <span *ngIf = "placement.placement_type==21" style="color:red">{{placement.purpose}}</span></td>
+            <td><span *ngIf="placement.placement_type==11" style="color:green">{{placement.purpose}}</span>
+              <span *ngIf="(placement.placement_type!=11)&&(placement.placement_type!=21)">{{placement.purpose}}</span>
+              <span *ngIf="placement.placement_type==21" style="color:red">{{placement.purpose}}</span></td>
             <td>{{placement.target_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
             <td>{{placement.allowed_halt_hours}}</td>
             <td>{{placement.addtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
@@ -58,7 +58,7 @@
           </tr>
         </tbody>
       </table>
-</div>
+    </div>
 
 
     <div class="col-sm-12">
@@ -94,10 +94,12 @@
           <label>Enter City</label>
         </div>
         <div class="col-md-8" *ngIf="placementSuggestion.length>0">
-          <button class="btn btn-primary" *ngFor="let placementSuggestion of placementSuggestion; let i = index"
-            (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:5px">
-            {{placementSuggestion.y_loc_name}}
-          </button>
+          <span *ngFor="let placementSuggestion of placementSuggestion; let i = index">
+            <button class="btn btn-primary" (click)="setPlacementDetail(placementSuggestion)" style="margin-bottom:5px"
+              *ngIf="placementSuggestion.y_loc_name">
+              {{placementSuggestion.y_loc_name}}
+            </button>
+          </span>
         </div>
         <div class="col-md-4" *ngIf="placementSuggestion.length>0"></div>
         <div class="col-md-4">
@@ -178,5 +180,5 @@
 </div>
 <div class="modal-footer">
 
-  
+
 </div>

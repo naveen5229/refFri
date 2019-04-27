@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DaybooksComponent implements OnInit {
   selectedName = '';
+  activedateid = '';
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -34,6 +35,8 @@ export class DaybooksComponent implements OnInit {
     issumrise: 'true'
 
   };
+  lastActiveId = '';
+  showDateModal = false;
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
@@ -41,7 +44,8 @@ export class DaybooksComponent implements OnInit {
   activeId = 'vouchertype';
   selectedRow = -1;
   allowBackspace = true;
-  deletedId =0;
+  deletedId = 0;
+  f2Date = 'startdate';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -51,11 +55,11 @@ export class DaybooksComponent implements OnInit {
     public common: CommonService,
     private route: ActivatedRoute,
     public user: UserService,
-    public modalService: NgbModal,    
+    public modalService: NgbModal,
     public router: Router) {
     this.common.refresh = this.refresh.bind(this);
     this.getVoucherTypeList();
-  //  this.getBranchList();
+    //  this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
     this.common.currentPage = 'Day Book';
@@ -64,7 +68,7 @@ export class DaybooksComponent implements OnInit {
       console.log('Params1: ', params);
       if (params.id) {
         this.deletedId = parseInt(params.id);
-       // this.GetLedger();
+        // this.GetLedger();
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
@@ -120,10 +124,10 @@ export class DaybooksComponent implements OnInit {
   }
   openinvoicemodel(invoiceid) {
     // console.log('welcome to invoice ');
-  //  this.common.params = invoiceid;
+    //  this.common.params = invoiceid;
     this.common.params = {
-      invoiceid : invoiceid,
-      delete:this.deletedId
+      invoiceid: invoiceid,
+      delete: this.deletedId
     };
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -161,7 +165,7 @@ export class DaybooksComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-      delete:this.deletedId
+      delete: this.deletedId
     };
 
     this.common.loading++;
@@ -198,28 +202,29 @@ export class DaybooksComponent implements OnInit {
     console.log('order User: ', this.DayBook);
   }
 
-  handleVoucherDateOnEnter() {
+  handleVoucherDateOnEnter(iddate) {
     let dateArray = [];
     let separator = '-';
-    /* if (this.voucher.date.includes('-')) {
-       dateArray = this.voucher.date.split('-');
-     } else if (this.voucher.date.includes('/')) {
-       dateArray = this.voucher.date.split('/');
-       separator = '/';
-     } else {
-       this.common.showError('Invalid Date Format!');
-       return;
-     }
-     let date = dateArray[0];
-     date = date.length == 1 ? '0' + date : date;
-     let month = dateArray[1];
-     month = month.length == 1 ? '0' + month : month;
-     let year = dateArray[2];
-     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-     console.log('Date: ', date + separator + month + separator + year);
-     this.voucher.date = date + separator + month + separator + year;
-    */
 
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
+    if (this.DayBook[datestring].includes('-')) {
+      dateArray = this.DayBook[datestring].split('-');
+    } else if (this.DayBook[datestring].includes('/')) {
+      dateArray = this.DayBook[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.DayBook[datestring] = date + separator + month + separator + year;
   }
 
   filterData() {
@@ -266,6 +271,27 @@ export class DaybooksComponent implements OnInit {
       this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
       return;
     }
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      return;
+    }
+
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('branch')) {
@@ -303,18 +329,18 @@ export class DaybooksComponent implements OnInit {
   openVoucherEdit(voucherId) {
     console.log('ledger123', voucherId);
     if (voucherId) {
-    this.common.params = {
-      voucherId : voucherId,
-      delete:this.deletedId
-    };
-    const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      this.getDayBook();
-      this.common.showToast('Voucher updated');
+      this.common.params = {
+        voucherId: voucherId,
+        delete: this.deletedId
+      };
+      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        this.getDayBook();
+        this.common.showToast('Voucher updated');
 
-    });
-  }
+      });
+    }
   }
 
 

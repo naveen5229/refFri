@@ -78,13 +78,15 @@ export class VehicleTripComponent implements OnInit {
         startDate: { value: this.datePipe.transform(doc.start_time, 'dd MMM hh:mm a') },
         startName: { value: doc.start_name },
         endName: { value: doc.end_name },
-        endDate: { value: this.datePipe.transform(doc.end_time,'dd MMM hh:mm a')},
-        action: {value: '', isHTML: false, action: null, icons: [
-          {class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, doc)},
-          {class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc)},
-          {class:" fa fa-trash remove", action:this.deleteTrip.bind(this, doc)}
-          // .{class: 'fa fa-pencil-square-o  edit-btn', action: this.openChangeDriverModal.bind(this, doc)}
-        ]},
+        endDate: { value: this.datePipe.transform(doc.end_time, 'dd MMM hh:mm a') },
+        action: {
+          value: '', isHTML: false, action: null, icons: [
+            { class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, doc) },
+            { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc) },
+            { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, doc) },
+            // { class: 'fa fa-pencil-square-o  edit-btn', action: this.openChangeDriverModal.bind(this, doc) }
+          ]
+        },
 
 
         rowActions: {
@@ -158,13 +160,13 @@ export class VehicleTripComponent implements OnInit {
   }
 
   openChangeDriverModal(vehicleTrip) {
-      console.log("vehicleTrip", vehicleTrip);
-      const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        console.log("data", data.respone);
+    this.common.params = { vehicleId: vehicleTrip.vehicle_id, vehicleRegNo: vehicleTrip.regno };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
 
-        this.getVehicleTrips();
+      // this.getVehicleTrips();
 
-      });
+    });
   }
 }

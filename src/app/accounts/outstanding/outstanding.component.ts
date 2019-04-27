@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
+  activedateid = '';
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -26,7 +27,7 @@ export class OutstandingComponent implements OnInit {
       name: '',
       id: ''
     },
-    trantype:0
+    trantype: 0
   };
 
   ledgerData = [];
@@ -34,6 +35,9 @@ export class OutstandingComponent implements OnInit {
   ledgerList = [];
   activeId = 'ledger';
   allowBackspace = true;
+  showDateModal = false;
+  f2Date = 'startDate';
+  lastActiveId = '';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -95,7 +99,7 @@ export class OutstandingComponent implements OnInit {
       enddate: this.outStanding.endDate,
       ledger: this.outStanding.ledger.id,
       branch: this.outStanding.branch.id,
-      trantype:this.outStanding.trantype
+      trantype: this.outStanding.trantype
     };
 
     this.common.loading++;
@@ -162,14 +166,35 @@ export class OutstandingComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('ledger')) {
-        this.setFoucus('startdate');
-      } else if (this.activeId.includes('startdate')) {
+        this.setFoucus('startDate');
+      } else if (this.activeId.includes('startDate')) {
         this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
-        this.setFoucus('enddate');
-      } else if (this.activeId.includes('enddate')) {
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
         this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
         this.setFoucus('submit');
       }
@@ -177,8 +202,8 @@ export class OutstandingComponent implements OnInit {
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
-      if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('ledger');
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('ledger');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
@@ -186,6 +211,30 @@ export class OutstandingComponent implements OnInit {
     }
   }
 
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.outStanding[datestring].includes('-')) {
+      dateArray = this.outStanding[datestring].split('-');
+    } else if (this.outStanding[datestring].includes('/')) {
+      dateArray = this.outStanding[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.outStanding[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
