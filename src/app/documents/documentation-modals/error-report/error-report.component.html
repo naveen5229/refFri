@@ -6,62 +6,31 @@
 </div>
 <div class="table">
   <table class="table table-bordered table-hover">
-      <thead class="thead">
+    <thead class="thead">
 
-          <tr>
-            <th>SrNo</th>
-            <th *ngFor="let col of columns" class="text-center">
-              {{formatTitle(col)}}
-            </th>
-            
-          </tr>
-        </thead>
+      <tr>
+        <th>SrNo</th>
+        <th *ngFor="let col of columns" class="text-center">
+          {{formatTitle(col)}}
+        </th>
 
-        <tbody class="">
-              <tr *ngFor="let row of errors; let i=index;" >
-
-                <td style='width: 40px;'> <span>{{i + 1}}</span></td>
-
-                <td *ngFor="let col of columns; " class="text-center">
-                
-                    {{row[col]}}
-              
-                </td>
-              </tr>
-
-          </tbody>
-
-   
-    <!-- <tbody *ngIf="errors">
-      <tr *ngFor="let error of errors;">
-        <th>{{error.Sno}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error.Regno['bg-color']), 'color':textColor(error.Regno['text-color']) }">
-          {{error.Regno.name}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error.Reason['bg-color']), 'color':textColor(error.Reason['text-color']) }">
-          {{error.Reason}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error['Document No']['bg-color']), 'color':textColor(error['Document No']['text-color']) }">
-          {{error['Document No'].name}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error['Agent Name']['bg-color']), 'color':textColor(error['Agent Name']['text-color']) }">
-          {{error['Agent Name'].name}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error['Issue Date']['bg-color']), 'color':textColor(error['Issue Date']['text-color']) }">
-          {{error['Issue Date'].name}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error['Wef Date']['bg-color']), 'color':textColor(error['Wef Date']['text-color']) }">
-          {{error['Wef Date'].name}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error['Expiry Date']['bg-color']), 'color':textColor(error['Expiry Date']['text-color']) }">
-          {{error['Expiry Date'].name}}</th>
-        <th
-          [ngStyle]="{'background-color':bgColor(error.Amount['bg-color']), 'color':textColor(error.Amount['text-color']) }">
-          {{error.Amount.name}}</th>
-        <th>{{error.Remarks.name}}</th>
       </tr>
-    </tbody> -->
+    </thead>
+
+    <tbody class="">
+      <tr *ngFor="let row of errors; let i=index;">
+
+        <td style='width: 40px;'> <span>{{i + 1}}</span></td>
+
+        <td *ngFor="let col of columns; " class="text-center">
+
+          {{row[col]}}
+
+        </td>
+      </tr>
+
+    </tbody>
+
   </table>
 </div>
 <div class="modal-footer">

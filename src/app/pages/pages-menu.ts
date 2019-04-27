@@ -94,27 +94,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/tip-feedback-logs',
     home: true,
   },
-  // {
-  //   title: 'Placements',
-  //   icon: 'fa fa-location-arrow',
-  //   link:'/pages/placements'
-  // },
-  //{
-  //  title: 'Call Logs',
-  //  icon: 'fa fa-phone',
-  //  link:'/pages/call-logs'
-  //},
-  // {
-  //   title: 'Route Mapper',
-  //   icon: 'fal fa-map-pin',
-  //   link:'/pages/route-mapper'
-  // }
-  // {
-  //   title: 'Driver',
-  //   icon: 'fa fa-money',
-  //   link:'/driver/dashboard',
-  //   home: true,
-  // },
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
