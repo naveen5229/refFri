@@ -435,7 +435,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
 
 
-  nsertAgentInfo(modalType) {
+  insertAgentInfo(modalType) {
     let modalRef = this.modal[modalType].data;
     let params = {
       gstin: modalRef.transportAgentDetails.gstin,

@@ -21,7 +21,7 @@ export class VehicleStatesComponent implements OnInit {
   startDate;
   endDate;
   vid;
-  remark='';
+  remark = '';
   vehicleEvent = [];
   halt = {
     time: '',
@@ -30,7 +30,7 @@ export class VehicleStatesComponent implements OnInit {
     long: ''
   };
   site = {
-    siteid:0,
+    siteid: 0,
     site_date: '',
     lat: '',
     long: '',
@@ -102,23 +102,23 @@ export class VehicleStatesComponent implements OnInit {
   }
 
 
-  getDate(flag) {
-    this.common.params = { ref_page: 'vehicle states' };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (flag == 'site') {
-          this.site.site_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-          console.log('site date ' + this.site.site_date);
-        } else {
-          this.location.loc_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-          console.log('loc_date ' + this.location.loc_date);
-        }
+  // getDate(flag) {
+  //   this.common.params = { ref_page: 'vehicle states' };
+  //   const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+  //   activeModal.result.then(data => {
+  //     if (data.date) {
+  //       if (flag == 'site') {
+  //         this.site.site_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+  //         console.log('site date ' + this.site.site_date);
+  //       } else {
+  //         this.location.loc_date = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+  //         console.log('loc_date ' + this.location.loc_date);
+  //       }
 
-      }
+  //     }
 
-    });
-  }
+  //   });
+  // }
 
   getVehicleEvent() {
 
@@ -158,7 +158,7 @@ export class VehicleStatesComponent implements OnInit {
 
   getSite(details) {
     console.log('site on select', details);
-    this.site.siteid=details.id;
+    this.site.siteid = details.id;
     this.site.lat = details.lat;
     this.site.long = details.long;
     this.site.location = details.sd_loc_name;
@@ -179,20 +179,22 @@ export class VehicleStatesComponent implements OnInit {
           lat: this.halt.lat,
           long: this.halt.long,
           datetime: this.halt.time,
-          remark:this.remark
+          remark: this.remark
         };
       } else if (this.changeCategory == 'sites') {
+        this.site.site_date = this.common.dateFormatter(this.site.site_date);
         params = {
           vid: this.vid,
           state_id: this.stateType,
-          siteid:this.site.siteid,
+          siteid: this.site.siteid,
           loc_name: this.site.location,
           lat: this.site.lat,
           long: this.site.long,
           datetime: this.site.site_date,
-          remark:this.remark
+          remark: this.remark
         };
       } else {
+        this.location.loc_date = this.common.dateFormatter(this.location.loc_date);
         params = {
           vid: this.vid,
           state_id: this.stateType,
@@ -200,7 +202,7 @@ export class VehicleStatesComponent implements OnInit {
           lat: this.location.lat,
           long: this.location.long,
           datetime: this.location.loc_date,
-          remark:this.remark
+          remark: this.remark
         };
       }
 
@@ -223,20 +225,20 @@ export class VehicleStatesComponent implements OnInit {
     }
   }
 
-  getCategory(){
-    if(this.changeCategory=='halts'){
-      document.getElementById('foo').className='col-sm-8';
-    }else{
-      document.getElementById('foo').className='col-sm-12';
+  getCategory() {
+    if (this.changeCategory == 'halts') {
+      document.getElementById('foo').className = 'col-sm-8';
+    } else {
+      document.getElementById('foo').className = 'col-sm-12';
     }
-    console.log('getCategory call:',this.changeCategory);
+    console.log('getCategory call:', this.changeCategory);
   }
 
   closeModal() {
     this.activeModal.close();
   }
-  saveDetails(){
-    
+  saveDetails() {
+
   }
 
 
