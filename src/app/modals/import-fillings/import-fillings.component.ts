@@ -106,7 +106,8 @@ export class ImportFillingsComponent implements OnInit {
 
   }
 
-  // sampleCsv() {
 
-  // }
+  sampleCsv() {
+    window.open("http://13.126.215.102/sample/csv/sample_fuelFilling.csv");
+  }
 }
