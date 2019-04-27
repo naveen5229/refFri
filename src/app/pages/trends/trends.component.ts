@@ -196,7 +196,7 @@ export class TrendsComponent implements OnInit {
         })
   }
 
-  changeTrendType(flag) {
+  changeTrendType(flag?) {
 
     if (flag == 'week_month') {
       if (this.period == '1') {

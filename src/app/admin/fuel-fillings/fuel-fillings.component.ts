@@ -10,7 +10,7 @@ import { ImportFillingsComponent } from '../../../app/modals/import-fillings/imp
 @Component({
   selector: 'fuel-fillings',
   templateUrl: './fuel-fillings.component.html',
-  styleUrls: ['./fuel-fillings.component.scss'],
+  styleUrls: ['./fuel-fillings.component.scss', '../../pages/pages.component.css']
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
@@ -37,12 +37,21 @@ export class FuelFillingsComponent implements OnInit {
   };
 
 
+  startDate = '';
+  endDate = '';
+
+
   constructor(public api: ApiService,
     private datePipe: DatePipe,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
+    let today;
+    today = new Date();
+    this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
+    this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
 
+    console.log('dates ', this.endDate, this.startDate);
     this.getFillingData();
   }
 
@@ -59,16 +68,21 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   getFillingData() {
+    const params = {
+      startTime: this.startDate,
+      endTime: this.endDate,
+    }
+
     this.common.loading++;
     let user_id = this.user._details.id;
     if (this.user._loggedInBy == 'admin')
       user_id = this.user._customer.id;
     this.fillingData = [];
-    this.api.post('FuelDetails/getFuelFillingEntries', {})
+    this.api.post('FuelDetails/getFuelFillingEntries', params)
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
-        // this.fillingData = this.fillingData.slice(1, 100);
+        this.fillingData = this.fillingData.slice(1, 100);
         console.info("filling Data", this.fillingData);
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
@@ -80,7 +94,7 @@ export class FuelFillingsComponent implements OnInit {
 
   openData(rowfilling) {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 
     });
@@ -100,7 +114,7 @@ export class FuelFillingsComponent implements OnInit {
       id: null
     };
     this.common.params = { rowfilling, title: 'Add Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         window.location.reload();
