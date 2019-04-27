@@ -101,12 +101,13 @@ const PAGES_COMPONENTS = [
     VehicleGpsDetailComponent,
     VehicleCoveredDistanceComponent,
     TipFeedbackLogsComponent,
-TripOnwardDelayComponent
+    TripOnwardDelayComponent,
+    ShortTargetComponent
   ],
-exports: [
-  FuelAverageAnalysisComponent,
-  ShortTargetComponent,
-],
+  exports: [
+    FuelAverageAnalysisComponent,
+
+  ],
 })
 export class PagesModule {
 }
