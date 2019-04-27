@@ -1,58 +1,70 @@
-import { Component, OnInit ,HostListener} from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-
+import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 @Component({
   selector: 'ledgerview',
   templateUrl: './ledgerview.component.html',
   styleUrls: ['./ledgerview.component.scss']
 })
 export class LedgerviewComponent implements OnInit {
-  vouchertypedata=[];
-  branchdata=[];
+  vouchertypedata = [];
+  branchdata = [];
+
   ledger = {
-    endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    ledger :{
-        name:'All',
-        id:0
-      },
-      branch :{
-        name:'',
-        id:''
-      },
-      voucherType :{
-        name:'All',
-        id:0
-      }
-    
-    };
-  ledgerData=[];
-  ledgerList=[];
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    ledger: {
+      name: 'All',
+      id: 0
+    },
+    branch: {
+      name: '',
+      id: ''
+    },
+    voucherType: {
+      name: 'All',
+      id: 0
+    }
+
+  };
+
+  ledgerData = [];
+  ledgerList = [];
   activeId = 'voucherType';
   selectedRow = -1;
-
+  allowBackspace = true;
+  showDateModal = false;
+  f2Date = 'startDate';
+  activedateid = '';
+  lastActiveId = '';
   @HostListener('document:keydown', ['$event'])
-    handleKeyboardEvent(event) {
-      this.keyHandler(event);
-    }
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
 
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
+    public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+
     this.getVoucherTypeList();
-   // this.getBranchList();
     this.getLedgerList();
     this.setFoucus('voucherType');
     this.common.currentPage = 'Ledger View';
-    }
+  }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVoucherTypeList();
+    this.getLedgerList();
+    this.setFoucus('voucherType');
   }
   getVoucherTypeList() {
     let params = {
@@ -68,7 +80,7 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getBranchList() {
@@ -85,7 +97,7 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getLedgerList() {
@@ -102,7 +114,7 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getLedgerView() {
@@ -114,7 +126,7 @@ export class LedgerviewComponent implements OnInit {
       branch: this.ledger.branch.id,
       vouchertype: this.ledger.voucherType.id,
     };
-    
+
     this.common.loading++;
     this.api.post('Accounts/getLedgerView', params)
       .subscribe(res => {
@@ -129,16 +141,16 @@ export class LedgerviewComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.ledger[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log(this.ledger[date]);
+      this.ledger[date] = this.common.dateFormatternew(data.date).split(' ')[0];
+      console.log(this.ledger[date]);
     });
   }
-  
+
   onSelected(selectedData, type, display) {
     this.ledger[type].name = selectedData[display];
     this.ledger[type].id = selectedData.id;
@@ -149,18 +161,55 @@ export class LedgerviewComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+    if (key == 'enter' && !this.activeId && this.ledgerData.length && this.selectedRow != -1) {
+      /***************************** Handle Row Enter ******************* */
+      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id);
+      return;
+    }
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('voucherType');
-      }else  if (this.activeId.includes('voucherType')) {
+      this.allowBackspace = true;
+      if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
-      }else  if (this.activeId.includes('ledger')) {
-        this.setFoucus('startdate');
-      }else  if (this.activeId.includes('startdate')) {
-        this.setFoucus('enddate');
-      }else  if (this.activeId.includes('enddate')) {
+      } else if (this.activeId.includes('ledger')) {
+        this.setFoucus('startDate');
+      } else if (this.activeId.includes('startDate')) {
+        this.ledger.startDate = this.common.handleDateOnEnterNew(this.ledger.startDate);
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
+        this.ledger.endDate = this.common.handleDateOnEnterNew(this.ledger.endDate);
         this.setFoucus('submit');
       }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('voucherType');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
     }
 
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerData.length) {
@@ -171,6 +220,31 @@ export class LedgerviewComponent implements OnInit {
     }
   }
 
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.ledger[datestring].includes('-')) {
+      dateArray = this.ledger[datestring].split('-');
+    } else if (this.ledger[datestring].includes('/')) {
+      dateArray = this.ledger[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.ledger[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
@@ -180,5 +254,25 @@ export class LedgerviewComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+
+  getBookDetail(voucherId) {
+    console.log('vouher id', voucherId);
+    this.common.params = voucherId;
+
+    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        return;
+        //   if (stocksubType) {
+
+        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
+        //     return;
+        //   }
+        //  this.addStockSubType(data.stockSubType)
+      }
+    });
   }
 }

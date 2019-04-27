@@ -6,7 +6,7 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
-import { LedgerComponent} from '../../acounts-modals/ledger/ledger.component';
+import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 
 @Component({
@@ -15,23 +15,25 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+  showConfirm = false;
   branchdata = [];
   orderTypeData = [];
   supplier = [];
   ledgers = { all: [], suggestions: [] };
   showSuggestions = false;
   activeLedgerIndex = -1;
+  totalitem = 0;
   order = {
-    date: this.common.dateFormatter(new Date()).split(' ')[0],
+    date: this.common.dateFormatternew(new Date()).split(' ')[0],
     biltynumber: '',
-    biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
+    biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
     totalamount: 0,
     grnremarks: '',
     billingaddress: '',
-    branch: {
-      name: '',
-      id: ''
-    },
+    // branch: {
+    //   name: '',
+    //   id: ''
+    // },
     ordertype: {
       name: '',
       id: ''
@@ -56,19 +58,27 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: '',
-      discountledger: { name: '', id: '' },
+      qty: 0,
+      discountledger: { name: '', id: '0' },
       warehouse: { name: '', id: '' },
-      taxDetails: '',
+      taxDetails: [],
       remarks: '',
-      lineamount: 0
+      lineamount: 0,
+      discountate: 0
     }]
   };
+
+
+  showDateModal = false;
+  f2Date = 'startDate';
+  activedateid = '';
 
   suggestions = {
     purchaseLedgers: [],
     supplierLedgers: [],
     stockItems: [],
+    purchasestockItems: [],
+    salesstockItems: [],
     discountLedgers: [],
     warehouses: [],
     invoiceTypes: [],
@@ -76,20 +86,34 @@ export class OrdersComponent implements OnInit {
   };
   suggestionIndex = -1;
 
-  activeId = '';
+  activeId = 'ordertype';
   lastActiveId = '';
+
+  autoSuggestion = {
+    data: [],
+    targetId: '',
+    display: ''
+  };
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getBranchList();
-    this.getInvoiceTypes();
-    this.getPurchaseLedgers();
-    this.getSupplierLedgers();
-    this.getStockItems();
-    this.getWarehouses();
+    // this.getBranchList();
+
+    this.common.refresh = () => {
+      this.getInvoiceTypes();
+      this.getPurchaseLedgers();
+      this.getSupplierLedgers();
+      this.getStockItems('sales');
+      this.getStockItems('purchase');
+      this.getWarehouses();
+    };
+
+    this.common.refresh();
+
     this.setFoucus('ordertype');
+    this.common.currentPage = 'Invoice';
   }
 
   ngOnInit() {
@@ -99,16 +123,16 @@ export class OrdersComponent implements OnInit {
 
   setInvoice() {
     return {
-      date: this.common.dateFormatter(new Date()).split(' ')[0],
+      date: this.common.dateFormatternew(new Date()).split(' ')[0],
       biltynumber: '',
-      biltydate: this.common.dateFormatter(new Date()).split(' ')[0],
+      biltydate: this.common.dateFormatternew(new Date()).split(' ')[0],
       totalamount: 0,
       grnremarks: '',
       billingaddress: '',
-      branch: {
-        name: '',
-        id: ''
-      },
+      // branch: {
+      //   name: '',
+      //   id: ''
+      // },
       ordertype: {
         name: '',
         id: ''
@@ -133,12 +157,13 @@ export class OrdersComponent implements OnInit {
           name: '',
           id: ''
         },
-        qty: '',
+        qty: 0,
         discountledger: { name: '', id: '' },
         warehouse: { name: '', id: '' },
-        taxDetails: '',
+        taxDetails: [],
         remarks: '',
-        lineamount: 0
+        lineamount: 0,
+        discountate: 0
       }]
     };
   }
@@ -154,12 +179,13 @@ export class OrdersComponent implements OnInit {
         name: '',
         id: ''
       },
-      qty: '',
+      qty: 0,
       discountledger: { name: '', id: '' },
       warehouse: { name: '', id: '' },
-      taxDetails: '',
+      taxDetails: [],
       remarks: '',
-      lineamount: 0
+      lineamount: 0,
+      discountate: 0
 
     });
   }
@@ -200,13 +226,14 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  getStockItems() {
+  getStockItems(type) {
     this.common.loading++;
-    this.api.get('Suggestion/GetStockItem?search=123')
+    this.api.get('Suggestion/GetStockItem?search=123&invoicetype=' + type)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.suggestions.stockItems = res['data'];
+        if (type == 'sales') { this.suggestions.salesstockItems = res['data']; }
+        if (type == 'purchase') { this.suggestions.purchasestockItems = res['data']; }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -242,18 +269,21 @@ export class OrdersComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.order[date] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.order[date] = this.common.dateFormatternew(data.date).split(' ')[0];
       console.log(this.order[date]);
     });
   }
 
   TaxDetails(i) {
-    const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    this.common.params = this.order.amountDetails[i].taxDetails;
+
+    const activeModal = this.modalService.open(TaxdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
         console.log(data.taxDetails);
         this.order.amountDetails[i].taxDetails = data.taxDetails;
+        this.order.amountDetails[i].lineamount += data.taxDetails[0].totalamount;
         this.setFoucus('plustransparent');
         // this.addLedger(data.ledger);
       }
@@ -290,14 +320,15 @@ export class OrdersComponent implements OnInit {
       review: order.review,
       shipmentlocation: order.shipmentlocation,
       vendorbidref: order.vendorbidref,
-      branchid: order.branch.id,
+      // branchid: order.branch.id,
       ledger: order.ledger.id,
       ordertype: order.ordertype.id,
       purchaseledgerid: order.purchaseledger.id,
       grnremarks: order.grnremarks,
       // approved: order.Approved,
       // delreview: order.delreview,
-      amountDetails: order.amountDetails
+      amountDetails: order.amountDetails,
+      x_id: 0
     };
 
     console.log('params11: ', params);
@@ -308,11 +339,11 @@ export class OrdersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         //this.GetLedger();
-        this.order =  this.setInvoice();
+        this.order = this.setInvoice();
         this.setFoucus('ordertype');
         this.common.showToast('Invoice Are Saved');
         return;
-        
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -330,29 +361,67 @@ export class OrdersComponent implements OnInit {
     });
     return total;
   }
- 
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
+    //console.log('-------------:', document.getElementById(this.activeId)['value']);
     console.log('Active event', event);
+    this.setAutoSuggestion();
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date') || this.activeId.includes('biltydate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleOrderDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
+
+
     // console.log('Active Id', this.activeId);
-    if ((event.altKey && key === 'c') && ( (this.activeId.includes('purchaseledger')) ||  (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
+    if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
       // console.log('alt + C pressed');
       this.openledger();
-    } 
+    }
     if ((event.altKey && key === 'c') && (this.activeId.includes('stockitem'))) {
       // console.log('alt + C pressed');
       this.openStockItemModal();
+    }
+    if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
+      let index = parseInt(this.activeId.split('-')[1]);
+      console.log('available item', (this.order.amountDetails[index].qty));
+      setTimeout(() => {
+        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
+          alert('Quantity is lower then available quantity');
+          this.order.amountDetails[index].qty = 0;
+        }
+      }, 50);
+      // if ((this.totalitem) < parseInt(this.order.amountDetails[index].qty)) {
+      //   console.log('Quantity is lower then available quantity');
+      //   // this.order.amountDetails[index].qty = 0;
+      // }
     }
     if (key == 'enter') {
       if (this.activeId.includes('branch')) {
         this.setFoucus('ordertype');
       } else if (this.activeId.includes('ordertype')) {
-        if (this.suggestions.list.length) {
-          this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
-          this.suggestions.list = [];
-          this.suggestionIndex = -1;
-        }
+        console.log('order type', this.order.ordertype.name);
+        if (this.order.ordertype.name.toLowerCase().includes('purchase')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
+        if (this.order.ordertype.name.toLowerCase().includes('sales')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
+
         this.setFoucus('custcode');
       } else if (this.activeId.includes('custcode')) {
         this.handleVoucherDateOnEnter();
@@ -405,7 +474,7 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('orderremarks')) {
         //let index = activeId.split('-')[1];
         // console.log('stockitem'+'-'+index);
-        this.setFoucus('stockitem' + '-' + 0);
+        this.setFoucus('warehouse' + '-' + 0);
       } else if (this.activeId.includes('stockitem')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -419,18 +488,19 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('rate' + '-' + index);
       } else if (this.activeId.includes('rate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('discountledger' + '-' + index);
+        this.setFoucus('remarks' + '-' + index);
       } else if (this.activeId.includes('discountate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('warehouse' + '-' + index);
       } else if (this.activeId.includes('warehouse')) {
+        console.log("hello", this.activeId);
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('remarks' + '-' + index);
+        this.setFoucus('stockitem' + '-' + index);
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
@@ -442,9 +512,38 @@ export class OrdersComponent implements OnInit {
         event.preventDefault();
       }
     }
+
+
   }
 
+  handleOrderDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'date') ? 'date' : 'biltydate';
+    if (this.order[datestring].includes('-')) {
+      dateArray = this.order[datestring].split('-');
+    } else if (this.order[datestring].includes('/')) {
+      dateArray = this.order[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.order[datestring] = date + separator + month + separator + year;
+  }
+
+
   setFoucus(id, isSetLastActive = true) {
+    console.log('Id: ', id);
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);
@@ -452,9 +551,10 @@ export class OrdersComponent implements OnInit {
       // this.moveCursor(element, 0, element['value'].length);
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
+      this.setAutoSuggestion();
     }, 100);
   }
-  
+
   handleVoucherBiltyDateOnEnter() {
     let dateArray = [];
     let separator = '-';
@@ -467,14 +567,14 @@ export class OrdersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[2];
+    let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[0];
+    let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-   // console.log('Date: ', date + separator + month + separator + year);
-    this.order.biltydate = year + separator + month + separator +  date;
+    // console.log('Date: ', date + separator + month + separator + year);
+    this.order.biltydate = date + separator + month + separator + year;
   }
 
   handleVoucherDateOnEnter() {
@@ -489,14 +589,14 @@ export class OrdersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[2];
+    let date = dateArray[0];
     date = date.length == 1 ? '0' + date : date;
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[0];
+    let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-   // console.log('Date: ', date + separator + month + separator + year);
-    this.order.date = year + separator + month + separator +  date;
+    // console.log('Date: ', date + separator + month + separator + year);
+    this.order.date = date + separator + month + separator + year;
   }
 
 
@@ -629,7 +729,7 @@ export class OrdersComponent implements OnInit {
     } else if (this.activeId == 'purchaseledger') {
       this.order.purchaseledger.name = suggestion.name;
       this.order.purchaseledger.id = suggestion.id;
-    }  else if (this.activeId.includes('stockitem')) {
+    } else if (this.activeId.includes('stockitem')) {
       const index = parseInt(this.activeId.split('-')[1]);
       this.order.amountDetails[index].stockitem.name = suggestion.name;
       this.order.amountDetails[index].stockitem.id = suggestion.id;
@@ -648,56 +748,67 @@ export class OrdersComponent implements OnInit {
   }
 
   openledger(ledger?) {
-    console.log('ledger123',ledger);
-      if (ledger) this.common.params = ledger;
-      const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' ,keyboard :false});
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-         // console.log('ledger data',data.ledger);
-         this.addLedger(data.ledger);
-        }
-      });
-    }
+    console.log('ledger123', ledger);
+    if (ledger) this.common.params = ledger;
+    const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        this.addLedger(data.ledger);
+      }
+    });
+  }
 
-    addLedger(ledger) {
-      console.log('ledgerdata',ledger);
-     // const params ='';
-      const params = {
-          name: ledger.name,
-          alias_name: ledger.aliasname,
-          code: ledger.code,
-          foid: ledger.user.id,
-          per_rate: ledger.perrate,
-          primarygroupid: ledger.account.primarygroup_id,
-          account_id: ledger.account.id,
-          accDetails: ledger.accDetails,
-          x_id:0
-       };
-  
-       console.log('params11: ',params);
-      this.common.loading++;
-  
-      this.api.post('Accounts/InsertLedger', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log('res: ', res);
+  addLedger(ledger) {
+    console.log('ledgerdata', ledger);
+    // const params ='';
+    const params = {
+      name: ledger.name,
+      alias_name: ledger.aliasname,
+      code: ledger.code,
+      foid: ledger.user.id,
+      per_rate: ledger.perrate,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
+      accDetails: ledger.accDetails,
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
+      x_id: ledger.id ? ledger.id : 0,
+    };
+
+    console.log('params11: ', params);
+    this.common.loading++;
+
+    this.api.post('Accounts/InsertLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        this.common.showToast('Ledger Are Saved');
         this.getPurchaseLedgers();
-        }, err => {
-          this.common.loading--;
-          console.log('Error: ', err);
-          this.common.showError();
-        });
-  
-    }
+        this.getSupplierLedgers();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
 
-    
+
   openStockItemModal(stockitem?) {
     console.log('stockitem', stockitem);
     if (stockitem) {
       this.common.params = stockitem;
-    } 
+    }
     // else {
     //   this.common.params = { stockType: { name: 'Tyre', id: -1 } };
     // }
@@ -706,7 +817,7 @@ export class OrdersComponent implements OnInit {
       // console.log('Data: ', data);
       if (data.response) {
         if (stockitem) {
-         // this.updateStockItem(stockitem.id, data.stockitem);
+          // this.updateStockItem(stockitem.id, data.stockitem);
           return;
         }
         this.addStockItem(data.stockItem);
@@ -718,7 +829,7 @@ export class OrdersComponent implements OnInit {
     console.log(stockItem);
     // const params ='';
     const params = {
-      //foid: stockItem.user.id,
+      foid: 123,
       name: stockItem.name,
       code: stockItem.code,
       stocksubtypeid: stockItem.stockSubType.id,
@@ -739,7 +850,9 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.getStockItems();
+        this.getStockItems('sales');
+        this.getStockItems('purchase');
+        this.common.showToast(" Stock item Saved");
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -747,4 +860,85 @@ export class OrdersComponent implements OnInit {
       });
 
   }
+
+  setAutoSuggestion() {
+    console.log('-----------------------:', this.suggestions.stockItems, 'ww:', this.suggestions.warehouses);
+    let activeId = document.activeElement.id;
+    console.log('Last Active Id:')
+    if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
+    else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
+    else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
+    else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
+    else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
+    else if (activeId.includes('warehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
+    else {
+      this.autoSuggestion.data = [];
+      this.autoSuggestion.display = '';
+      this.autoSuggestion.targetId = '';
+      return;
+    }
+
+    this.autoSuggestion.display = 'name';
+    this.autoSuggestion.targetId = activeId;
+    console.log('Auto Suggestion: ', this.autoSuggestion);
+  }
+
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion: ', suggestion);
+    if (activeId == 'ordertype') {
+      this.order.ordertype.name = suggestion.name;
+      this.order.ordertype.id = suggestion.id;
+    } else if (activeId == 'ledger') {
+      this.order.ledger.name = suggestion.name;
+      this.order.ledger.id = suggestion.id;
+      this.order.billingaddress = suggestion.address;
+    } else if (activeId == 'purchaseledger') {
+      this.order.purchaseledger.name = suggestion.name;
+      this.order.purchaseledger.id = suggestion.id;
+    } else if (activeId.includes('stockitem')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.order.amountDetails[index].stockitem.name = suggestion.name;
+      this.order.amountDetails[index].stockitem.id = suggestion.id;
+      this.order.amountDetails[index].stockunit.name = suggestion.stockname;
+      this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
+
+
+    } else if (activeId.includes('discountledger')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.order.amountDetails[index].discountledger.name = suggestion.name;
+      this.order.amountDetails[index].discountledger.id = suggestion.id;
+    } else if (activeId.includes('warehouse')) {
+      const index = parseInt(activeId.split('-')[1]);
+      this.order.amountDetails[index].warehouse.name = suggestion.name;
+      this.order.amountDetails[index].warehouse.id = suggestion.id;
+      this.getStockAvailability(suggestion.id);
+    }
+  }
+
+  findStockitem() {
+    return this.totalitem;
+  }
+
+  getStockAvailability(stockid) {
+    let totalitem = 0;
+    let params = {
+      stockid: stockid
+    };
+    // this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+        // this.common.loading--;
+        console.log('Res:', res['data'][0].get_stockitemavailableqty);
+        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        //  console.log('totalitem : -',totalitem);
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+
 }

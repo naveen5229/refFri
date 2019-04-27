@@ -11,6 +11,7 @@ import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
 import { LorryReceiptDetailsComponent } from './lorry-receipt-details/lorry-receipt-details.component';
 import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
 import { SiteFencingComponent } from './site-fencing/site-fencing.component';
+import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { SiteDetailsComponent } from './site-details/site-details.component';
 import { PendingDocumentsComponent } from '../documents/pending-documents/pending-documents.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
@@ -20,8 +21,17 @@ import { AlertRelatedIssueComponent } from './alert-related-issue/alert-related-
 import { from } from 'rxjs';
 import { GpsSupplierMappingComponent } from './gps-supplier-mapping/gps-supplier-mapping.component';
 import { VehiclesViewComponent } from './vehicles-view/vehicles-view.component';
-
-
+import { CompanyDetailsComponent } from './company-details/company-details.component';
+import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
+import { DriverListComponent } from '../driver/driver-list/driver-list.component';
+import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
+import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
+import { SubSitesComponent } from './sub-sites/sub-sites.component';
+import { ActivitySummaryComponent } from './activity-summary/activity-summary.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
+import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
+import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 
 const routes: Routes = [{
     path: '',
@@ -76,6 +86,11 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'transport-area',
+            component: TransportAreaComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'diagnostics',
             component: DiagnosticsComponent,
             canActivate: [RouteGuard]
@@ -110,7 +125,64 @@ const routes: Routes = [{
             component: VehiclesViewComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'company-details',
+            component: CompanyDetailsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'transport-agents',
+            component: TransportAgentsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'driver-list',
+            component: DriverListComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicle-gps-trail',
+            component: VehicleGpsTrailComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'sub-sites',
+            component: SubSitesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicle-distance',
+            component: VehicleDistanceComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'activity-summary',
+            component: ActivitySummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehicle-gps-detail',
+            component: VehicleGpsDetailComponent,
+        },
+         {
 
+
+            path: 'trip-status-feedback-logs',
+            component: TripStatusFeedbackLogsComponent,
+            canActivate: [RouteGuard]
+        },
+
+
+        {
+            path: 'fuel-fillings',
+            component: FuelFillingsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'trip-site-rule',
+            component: TripSiteRuleComponent,
+            canActivate: [RouteGuard]
+        },
     ],
 }];
 

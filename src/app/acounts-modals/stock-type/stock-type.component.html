@@ -1,7 +1,7 @@
-<nb-card style="margin:0px;">
+<nb-card style="margin:0px; border:0px;">
   <nb-card-body (keydown)="keyHandler($event)" style="padding:0px;">
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Stock Type</h4>
+  <h5 class="modal-title" id="modal-basic-title">Stock Type</h5>
   <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,10 +9,10 @@
 <div class="modal-body">
 
   <div class="row">
-    <div class="col">
+    <!-- <div class="col">
       <div class="form-group">
         <label>User</label>
-        <!--input type="text" class="form-control" (input)="searchUser()" name="user-name"-->
+        input type="text" class="form-control" (input)="searchUser()" name="user-name"
         <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
         placeholder="Enter User" inputId="user" [preSelected]="null"></auto-suggestion>
       </div>
@@ -25,17 +25,17 @@
         </ul>
       </div>
 
-    </div>
+    </div> -->
     <div class="col">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="stock-name" id="name" [(ngModel)]="stockType.name">
+        <input autocomplete="off" type="text" class="form-control" name="stock-name" id="name" placeholder="Name" [(ngModel)]="stockType.name">
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label>Code</label>
-        <input type="text" class="form-control" name="stock-code" id="code" [(ngModel)]="stockType.code">
+        <input autocomplete="off" type="text" class="form-control" name="stock-code" id="code" placeholder="Code" [(ngModel)]="stockType.code">
       </div>
     </div>
   </div>
@@ -61,7 +61,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you want to save ?</p>
-      <button>Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button>No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>
@@ -70,7 +70,7 @@
   <div class="date-modal-body data_model_save">
     <div>
       <p>Are you sure want to close ?</p>
-      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="dismiss(false)">No</button>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelCondition()">No</button>
     </div>
   </div>
 </div>

@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/admin/dashboard',
+        link: '/pages',
       },
       {
         title: 'Vehicle Status Change',
@@ -51,9 +51,10 @@ export class DataService {
         home: true,
       },
       {
-        title: 'LR View',
-        icon: 'fa fa-info-circle',
-        link: '/admin/lrview',
+        title: 'Driver',
+        icon: 'fa fa-male',
+        link: '/admin/driver-list',
+        home: true,
       },
       {
         title: 'Generate LR',
@@ -80,6 +81,11 @@ export class DataService {
         title: 'Site Fencing',
         icon: 'fas fa-coins',
         link: '/admin/site-fencing',
+      },
+      {
+        title: 'Transport Area Fencing',
+        icon: 'fas fa-coins',
+        link: '/admin/transport-area',
       },
       {
         title: 'Diagnostics',
@@ -109,7 +115,25 @@ export class DataService {
         icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
-      },   
+      },
+      {
+        title: 'Vehicle Gps Trail',
+        icon: 'fas fa-receipt',
+        link: '/admin/vehicle-gps-trail',
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+      },
       {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
@@ -121,7 +145,54 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/vehicles-view',
         home: true,
-      }
+      },
+      {
+        title: 'Company Details',
+        icon: 'nb-home',
+        link: '/admin/company-details',
+        home: true,
+      },
+      {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+      },
+      {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+      },
+      {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+      },
+      {
+        title: 'Vehicle Gps Detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+      },
+      {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+        home: true,
+      },
+      {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
     ];
   }
 }

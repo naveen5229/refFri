@@ -38,9 +38,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'LR View',
+        title: 'Driver',
         icon: 'nb-home',
-        link: '/admin/lrview',
+        link: '/admin/driver-list',
         home: true,
     },
     {
@@ -72,6 +72,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Site Fencing',
         icon: 'nb-home',
         link: '/admin/site-fencing',
+    },
+    {
+        title: 'Transport Area Fencing',
+        icon: 'nb-home',
+        link: '/admin/transport-area',
     },
     {
         title: 'Diagnostics',
@@ -106,17 +111,77 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Activity Summary',
+        icon: 'nb-home',
+        link: '/admin/activity-summary',
+        home: true,
+    },
+    {
+        title: 'vehicle-gps-detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+        home: true,
+    },
+    {
         title: 'Gps Supplier Mapping',
         icon: 'nb-home',
         link: '/admin/gps-supplier-mapping',
         home: true,
     },
     {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    },
+    {
+        title: 'Trip Site Rule',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-site-rule',
+        home: true,
+    },
+
+    {
         title: 'Vehicles View',
         icon: 'nb-home',
         link: '/admin/vehicles-view',
         home: true,
-    }
+    },
+    {
+        title: 'Companies',
+        icon: 'nb-home',
+        link: '/admin/company-details',
+        home: true,
+    },
+    {
+        title: 'Transport Agents',
+        icon: 'nb-home',
+        link: '/admin/transport-agents',
+        home: true,
+    },
+    {
+        title: 'Sub Sites',
+        icon: 'nb-home',
+        link: '/admin/sub-sites',
+        home: true,
+    },
+    {
+        title: 'Fuel Fillings',
+        icon: 'nb-home',
+        link: '/admin/fuel-fillings',
+    },
+    {
+        title: 'Vechile Distance',
+        icon: 'fas fa-route',
+        link: '/admin/vehicle-distance',
+        home: true,
+    },
+    {
+        title: 'Trip Feedback Logs',
+        icon: 'nb-home',
+        link: '/admin/trip-status-feedback-logs',
+        home: true,
+    },
 
 
 ];

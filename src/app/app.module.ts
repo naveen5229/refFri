@@ -10,7 +10,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
@@ -58,6 +57,8 @@ import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/vouch
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
+import { DocumentIssuesComponent } from './documents/documentation-modals/document-issues/document-issues.component';
+import { LicenceUploadComponent } from './driver/licence-upload/licence-upload.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -74,8 +75,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
-import { DatePicker2Component } from './modals/date-picker2/date-picker2.component';
-import { 
+import {
   MatFormFieldModule,
   MatMenuModule,
   MatCheckboxModule,
@@ -92,7 +92,7 @@ import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map
 
 
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
-import { AddDriverCompleteComponent} from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
+import { AddDriverCompleteComponent } from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
 import { AccountService } from './services/account.service';
 import { ApiService } from './services/api.service';
 import { CommonService } from './services/common.service';
@@ -100,18 +100,40 @@ import { UserService } from './@core/data/users.service';
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
-// import { VehicleDriverMappingComponent} from './driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
 
 
-import { DriverVehicleRemappingComponent} from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
+import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
 import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-update/driver-attendance-update.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
-
+import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
+import { UpdateTransportAgentComponent } from './modals/update-transport-agent/update-transport-agent.component';
+import { VehicleAnalysisComponent } from './modals/vehicle-analysis/vehicle-analysis.component';
+import { RouteMapperComponent } from './modals/route-mapper/route-mapper.component';
+import { PendingLicenceDetailComponent } from './modals/pending-licence-detail/pending-licence-detail.component';
+import { TripDetailsComponent } from './modals/trip-details/trip-details.component';
+import { ResizableModule } from 'angular-resizable-element';
+import { NgxPrintModule } from 'ngx-print';
+import { WareHouseModalComponent } from './acounts-modals/ware-house-modal/ware-house-modal.component';
+import { UserCallHistoryComponent } from './modals/user-call-history/user-call-history.component';
+import { DriverDistanceComponent } from './modals/driver-distance/driver-distance.component';
+import { EditFillingComponent } from './modals/edit-filling/edit-filling.component';
+import { AddPumpComponent } from './modals/add-pump/add-pump.component';
+import { ImportFillingsComponent } from './modals/import-fillings/import-fillings.component';
+import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
+import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
+import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.component';
+import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
+import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
+import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
+import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
+import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.component';
+import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.component';
+import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -156,6 +178,7 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    DocumentIssuesComponent,
     UpdateTicketPropertiesComponent,
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
@@ -172,7 +195,6 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     AddDriverCompleteComponent,
     UpdateSiteDetailsComponent,
     EditDriverComponent,
-    // VehicleDriverMappingComponent
     VehiclesOnMapComponent,
     VoucherdetailComponent,
     RadioSelectionComponent,
@@ -184,10 +206,36 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     NewDriverStatusComponent,
     DriverAttendanceUpdateComponent,
     VehicleReportComponent,
-    LRViewComponent
+    LRViewComponent,
+    UpdateCompanyComponent,
+    UpdateTransportAgentComponent,
+    RouteMapperComponent,
+    TripDetailsComponent,
+    VehicleAnalysisComponent,
+    RouteMapperComponent,
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
+    UserCallHistoryComponent,
+    DriverDistanceComponent,
+    EditFillingComponent,
+    AddPumpComponent,
+    ImportFillingsComponent,
+    AddCityComponent,
+    SiteTripDetailsComponent,
+    AddSiteRuleComponent,
+    StorerequisitionComponent,
+    DropDownListComponent,
+    VehicleGpsTrailComponent,
+    VehicleLrComponent,
+    ChoosePeriodsComponent,
+    VehicleStatesComponent,
+    ChangeDriverComponent,
 
   ],
   entryComponents: [
+    ChangeDriverComponent,
+    SiteTripDetailsComponent,
+    UserCallHistoryComponent,
     KpisDetailsComponent,
     LocationMarkerComponent,
     ImageViewComponent,
@@ -228,6 +276,9 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     DocumentReportComponent,
     DocumentHistoryComponent,
     EmpDashboardComponent,
+    DocumentIssuesComponent,
+    DriverDistanceComponent,
+    AddPumpComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
     VoucherSummaryComponent,
@@ -247,7 +298,6 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     EditDriverComponent,
     VoucherdetailComponent,
     VehiclesOnMapComponent,
-    // VehicleDriverMappingComponent 
     RadioSelectionComponent,
     UpdateTripDetailComponent,
     ManualHaltComponent,
@@ -257,7 +307,25 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     NewDriverStatusComponent,
     DriverAttendanceUpdateComponent,
     VehicleReportComponent,
-    LRViewComponent
+    LRViewComponent,
+    UpdateCompanyComponent,
+    UpdateTransportAgentComponent,
+    VehicleAnalysisComponent,
+    RouteMapperComponent,
+    EditFillingComponent,
+    ImportFillingsComponent,
+    TripDetailsComponent,
+    PendingLicenceDetailComponent,
+    WareHouseModalComponent,
+    AddCityComponent,
+    AddSiteRuleComponent,
+    StorerequisitionComponent,
+    DropDownListComponent,
+    VehicleGpsTrailComponent,
+    VehicleLrComponent,
+    ChoosePeriodsComponent,
+    VehicleStatesComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -277,10 +345,12 @@ import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPrintModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
-    })
+    }),
+    ResizableModule
   ],
 
   bootstrap: [AppComponent],

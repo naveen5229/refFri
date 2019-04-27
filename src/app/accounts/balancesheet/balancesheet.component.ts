@@ -15,8 +15,8 @@ import * as _ from 'lodash';
 export class BalancesheetComponent implements OnInit {
 
   balanceData = {
-    enddate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
 
     // branch: {
     //   name: '',
@@ -30,6 +30,11 @@ export class BalancesheetComponent implements OnInit {
 
   liabilities = [];
   assets = [];
+  allowBackspace = true;
+  f2Date = 'startdate';
+  lastActiveId = '';
+  showDateModal = false;
+  activedateid = '';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -65,8 +70,8 @@ export class BalancesheetComponent implements OnInit {
 
   formattData() {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_assets');
-    let firstGroup = _.groupBy(assetsGroup['0'], 'y_name');
-    let secondGroup = _.groupBy(assetsGroup['1'], 'y_name');
+    let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
+    let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
@@ -113,15 +118,75 @@ export class BalancesheetComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      return;
+    }
+
     if (key == 'enter') {
+      this.allowBackspace = true;
       if (this.activeId.includes('startdate')) {
+        this.balanceData.startdate = this.common.handleDateOnEnterNew(this.balanceData.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
+        this.balanceData.enddate = this.common.handleDateOnEnterNew(this.balanceData.enddate);
         this.setFoucus('submit');
       }
     }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'enddate') this.setFoucus('startdate');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+
   }
 
+
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
+    if (this.balanceData[datestring].includes('-')) {
+      dateArray = this.balanceData[datestring].split('-');
+    } else if (this.balanceData[datestring].includes('/')) {
+      dateArray = this.balanceData[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.balanceData[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

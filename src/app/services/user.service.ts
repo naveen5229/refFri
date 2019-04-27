@@ -26,9 +26,9 @@ export class UserService {
 
 
 
-    
+
     this._pages = [
-      { id: 1, route: '/admin/dashboard' },
+      { id: 1, route: '/pages' },
       { id: 2, route: '/admin/vehiclestatuschange' },
       { id: 3, route: '/admin/issue-alerts' },
       { id: 4, route: '/admin/escalation-matrix' },
@@ -45,9 +45,23 @@ export class UserService {
       { id: 15, route: '/admin/vscticketaudit' },
       { id: 16, route: '/admin/alert-related-issue' },
       { id: 17, route: '/admin/gps-supplier-mapping' },
-      { id: 18, route: '/admin/vehicles-view' }
+      { id: 18, route: '/admin/vehicles-view' },
+      { id: 19, route: '/admin/company-details' },
+      { id: 20, route: '/admin/transport-agents' },
+      { id: 21, route: '/admin/driver-list' },
+      { id: 22, route: '/admin/vehicle-gps-trail' },
+      { id: 23, route: '/admin/sub-sites' },
+      { id: 23, route: '/admin/vehicle-distance' },
+      { id: 24, route: '/admin/activity-summary' },
+      { id: 25, route: '/admin/vehicle-gps-detail' },
+      { id: 26, route: '/admin/vehicle-distance' },
+      { id: 27, route: '/admin/fuel-fillings' },
+      { id: 28, route: '/admin/trip-site-rule' },
+      { id: 30, route: '/admin/trip-status-feedback-logs' },
+      { id: 31, route: '/admin/transport-area' },
+
     ]
   }
-  
+
 
 }

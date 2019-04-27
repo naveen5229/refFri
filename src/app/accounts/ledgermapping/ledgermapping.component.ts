@@ -24,8 +24,9 @@ export class LedgermappingComponent implements OnInit {
     };
     ledgerMappingData=[];
     ledgerList=[];
-    activeId='';
+    activeId='secondaryname';
     selectedRow = -1;
+    allowBackspace = true;
 
     @HostListener('document:keydown', ['$event'])
     handleKeyboardEvent(event) {
@@ -36,6 +37,7 @@ export class LedgermappingComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
+      this.common.refresh = this.refresh.bind(this);  
       this.getSecondaryData();
       this.getLedgerList();
       this.setFoucus('secondaryname');
@@ -44,6 +46,12 @@ export class LedgermappingComponent implements OnInit {
 
 
   ngOnInit() {
+  }
+   
+  refresh(){
+    this.getSecondaryData();
+    this.getLedgerList();
+    this.setFoucus('secondaryname');
   }
 
   getSecondaryData() {
@@ -76,6 +84,7 @@ export class LedgermappingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerMappingData = res['data'];
+        this.setFoucus('secondaryname');
         if (this.ledgerMappingData.length) {
           document.activeElement['blur']();
           this.selectedRow = 0;
@@ -118,12 +127,23 @@ export class LedgermappingComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
+      this.allowBackspace = true;
        if (this.activeId.includes('secondaryname')) {
         this.setFoucus('ledger');
       }else  if (this.activeId.includes('ledger')) {
         this.setFoucus('submit');
       }
-    } else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerMappingData.length) {
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'ledger') this.setFoucus('secondaryname');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerMappingData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.ledgerMappingData.length - 1) this.selectedRow++;

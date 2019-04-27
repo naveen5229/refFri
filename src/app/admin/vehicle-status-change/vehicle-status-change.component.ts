@@ -14,6 +14,7 @@ import { EmpDashboardComponent } from '../../documents/documentation-modals/emp-
 })
 export class VehicleStatusChangeComponent implements OnInit {
   viewType = "all";
+  dis = "old";
   VehicleStatusAlerts = [];
   status = {
     1:'Accept',
@@ -72,10 +73,11 @@ export class VehicleStatusChangeComponent implements OnInit {
   openChangeStatusModal(VehicleStatusData) {
     console.log("VehicleStatusData", VehicleStatusData);
     this.common.params = VehicleStatusData;
+    this.common.ref_page = 'vsc';
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       //console.log("data", data.respone);
-      this.getVehicleStatusAlerts(this.viewType);
+      // this.getVehicleStatusAlerts(this.viewType);
 
       this.exitTicket(VehicleStatusData);
     });
@@ -122,6 +124,7 @@ export class VehicleStatusChangeComponent implements OnInit {
         console.log(result);
         if (!result.sucess) {
          // alert(result.msg);
+         this.getVehicleStatusAlerts(this.viewType);
           return false;
         }
         else {

@@ -1,10 +1,35 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
+      <div class="row" style="margin-bottom:10px">
+        <div class="form-group" class="col-sm-3">
+          <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('stdate')"
+            placeholder="Select Date" [value]="startDay | date: 'dd MMM yyyy'" name="stdate" readonly>    
+        </div>
+        <div class="form-group" class="col-sm-3">
+            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('curdate')"
+              placeholder="Select Date" [value]="currentDay | date: 'dd MMM yyyy'" name="curdate" readonly>      
+          </div>
+          <div class="form-group" class="col-sm-3" >
+           <select [(ngModel)] = "analyticsType" class="form-control">
+             <option value = "Employee Wise">Employee Wise</option>
+             <option value = "Halt Wise">Halt Wise</option>
+             <option value = "Date Wise">Date Wise</option>
+             <option value = "Shift Wise">Shift Wise</option>
+             <option value = "Fo Wise">FO Wise</option>
+             <option value = "Fo Wise L/UL">FO Wise L/UL</option>
+
+
+           </select>
+          </div>
+        <div class="col-sm-3">
+          <button (click)="getDetails()" class="btn btn-primary">Get Details</button>
+        </div>
+      </div>
     <smart-table id="emp_dashboard" *ngIf="headings.length" [data]="table.data" [settings]="table.settings"></smart-table>
     <br>
   </div>

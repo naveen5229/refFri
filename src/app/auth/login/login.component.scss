@@ -2,7 +2,7 @@
 .main {
     width: 350px;
     margin: auto;
-    background: rgba(0, 0, 0, .25);
+    background: rgba(0, 0, 0, 0.25);
     padding: 20px;
     height: auto;
     border-radius: 5px;
@@ -100,4 +100,17 @@ span{
 //     50%{    color: transparent; }
 //     99%{    color:transparent;  }
 //     100%{   color: red;    }
+// }
+// video{
+//     position: absolute;
+//     left: 0px;
+//     top: 0px;
+//     width: 100%;
+//     opacity: 0.4;
+//     height: 100%;
+//     object-fit: cover;
+// }
+// .main{
+//     position: relative;
+//     z-index: 99;
 // }

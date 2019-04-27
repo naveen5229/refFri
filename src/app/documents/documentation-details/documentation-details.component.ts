@@ -36,6 +36,7 @@ export class DocumentationDetailsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
+    this.common.currentPage = 'Vehicle Documents Input';
   }
 
   ngOnInit() {
@@ -87,7 +88,8 @@ export class DocumentationDetailsComponent implements OnInit {
         columns: this.getTableColumns()
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: "auto"
       }
     }
   }

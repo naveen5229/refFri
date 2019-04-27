@@ -30,4 +30,12 @@ export class GpsSupplierMappingComponent implements OnInit {
     const activeModel = this.modalService.open(ManualHaltComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
   }
 
+  getFoList(fo){
+
+  }
+
+  getSupplierList(supplier){
+    
+  }
+
 }

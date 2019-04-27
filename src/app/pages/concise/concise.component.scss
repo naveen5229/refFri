@@ -16,6 +16,11 @@
     border-left: 1px solid #f2f2f2;
 }
 
+:host ::ng-deep.icon {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
 :host ::ng-deep.blue {
     color: blue;
     font-weight: 700;
@@ -85,6 +90,7 @@
     color: #000;
 }
 
+
 table {
     cursor: pointer; // background: aliceblue;
 }
@@ -96,63 +102,194 @@ table {
     font-size: 80%;
     color: #dc3545;
 }
-.status_box{
-    nb-card:first-child{
-        border-top: 1px solid #d7dee4;
+
+.status_box {
+    nb-card {
+        margin: 0px !important;
+        border: none !important;
+        border-top: 1px solid #d7dee4 !important;
+
+        nb-card-body {
+            padding: 12px 10px;
+        }
     }
-    nb-card{
-        margin: 0px;
-        border: none;
-        border-bottom: 1px solid #d7dee4;
-    }
-    
 }
-.select_option{
-    background-color: #f5f5f5;
+
+.select_option {
+    background-color: #f1f1f1;
     padding: 10px;
-    margin-left: 15px;
+    margin-left: 10px;
     margin-bottom: 10px;
-    h5{
+    margin-right: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 10px 0px;
+
+    h5 {
         font-size: 14px;
     }
-    ul{
+
+    ul {
         list-style: none;
         padding: 0px;
         margin: 0px;
-        li span{
+
+        li span {
             width: 16px;
             height: 16px;
-            border-radius: 5px;
+            border-radius: 100%;
             margin-right: 5px;
             display: inline-block;
             vertical-align: middle;
+            box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .2);
         }
-        li:nth-child(1) span{
+
+        li:nth-child(1) span {
             background-color: #96ec11;
         }
-        li:nth-child(2) span{
+
+        li:nth-child(2) span {
             background-color: #dc3545;
         }
-        li:nth-child(3) span{
+
+        li:nth-child(3) span {
             background-color: #ff5200;
         }
-        li:nth-child(4) span{
+
+        li:nth-child(4) span {
             background-color: #2196F3;
         }
-        li:nth-child(5) span{
+
+        li:nth-child(5) span {
             background-color: #009688;
         }
-        li:nth-child(6) span{
+
+        li:nth-child(6) span {
             background-color: #607D8B;
         }
-        li:nth-child(7) span{
+
+        li:nth-child(7) span {
             background-color: #9C27B0;
         }
-        li + li{
+
+        li+li {
             margin-top: 10px;
         }
-        li{
+
+        li {
             cursor: pointer;
         }
     }
+}
+
+mwlResizable {
+    box-sizing: border-box; // required for the enableGhostResize option to work
+}
+
+
+.map-table-container {
+    display: inline-block;
+    vertical-align: top;
+    border-right: 5px solid #fff;
+}
+
+:host ::ng-deep {
+    th:nth-child(1) {
+        width: 30px !important;
+    }
+
+    th:nth-child(2) {
+        width: 70px;
+    }
+
+    th:nth-child(3) {
+        width: 70px;
+    }
+
+    th:nth-child(4) {
+        width: 70px;
+    }
+
+    th:nth-child(5) {
+        width: 42px;
+    }
+
+    th:nth-child(6) {
+        width: 42px;
+    }
+
+    th:nth-child(7) {
+        width: 110px;
+    }
+
+    th:nth-child(8) {
+        width: 44px;
+    }
+
+    th:nth-child(9) {
+        width: 70px;
+    }
+
+    th {
+        .sort-container {
+            width: 15px;
+        }
+
+        .filter-input-container {
+            width: calc(100% - 17px);
+        }
+    }
+
+    td {
+        .icon.fa-info {
+            color: #04a9f5;
+        }
+
+        .icon.fa-question-circle {
+            color: #ff8091;
+        }
+
+        .icon.fa-route {
+            color: #0072ff;
+        }
+
+        .icon.fa-truck {
+            color: #5CD050;
+        }
+
+        .icon.fa-camera {
+            color: #b150d0;
+        }
+    }
+
+    .loading {
+        color: green;
+    }
+
+    .unloading {
+        color: red;
+    }
+
+    .others {
+        color: teal;
+    }
+}
+
+.tracker_img {
+    position: absolute;
+    bottom: 10px;
+    z-index: 999;
+    width: 40px;
+    left: 12px;
+
+    img {
+        width: 100%;
+    }
+}
+
+:host ::ng-deep.tableFixHead {
+    height: auto !important;
+    max-height: calc(100vh - 80px);
+}
+
+:host ::ng-deep .no-search {
+    color: #000;
 }

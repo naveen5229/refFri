@@ -1,94 +1,161 @@
-<nb-card>
-  <nb-card-body>
-    <div class="row" style="margin-top:-15px">
-      <div class="col-sm-3" [@slideToUp]>
-        <!-- <div class="form-group" class="col-sm-9">
-         <select class="form-control" (change)="getViewType()" name="viewType" [(ngModel)]="viewType">
-            <option value="showprim_status">Primary Status</option>
-            <option value="showsec_status">Secondary Status</option>
-            <option value="x_showtripstart">Trip Start</option>
-            <option value="x_showtripend">Trip End</option>
-          </select>
-        </div> -->
-        <div style="font-size:18px;margin:0px;text-align: center;padding:10px 0px; " class="row">
+<nb-card style="border: 0px; height: 100%;">
+  <nb-card-body style="padding:5px 5px 0px;">
+    <div class="row m-0">
+      <div
+        class="col-sm-3 pl-0 pr-2"
+        style="height: 90vh; overflow: hidden;"
+        [hidden]="isMapView"
+      >
+        <div
+          style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
+          class="row"
+        >
           <div class="col-sm-2">
-            <span (click)="changeOptions('reverse')"> <i class="icon ion-ios-rewind"></i></span>
+            <span (click)="changeOptions('reverse')">
+              <i class="icon ion-ios-rewind"></i
+            ></span>
           </div>
           <div class="col-sm-8">
-            <span>{{viewName}}</span>
+            <span>{{ viewName }}</span>
           </div>
           <div class="col-sm-2">
-            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
+            <span (click)="changeOptions('forward')"
+              ><i class="icon ion-ios-fastforward"></i
+            ></span>
           </div>
         </div>
-        <div style="height: 200px;margin-top:0px">
-          <chart type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
+        <div style="height: 160px;margin-top:0px">
+          <chart
+            class="dashboard_chart"
+            type="pie"
+            [data]="chartData"
+            [options]="chartOptions"
+            id="chart"
+          ></chart>
         </div>
-
-        <div class="status_box" style="height:300px;overflow:auto">
+        <div
+          class="status_box"
+          style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);"
+        >
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
-                <div style="background-color:grey;color: white; width: 20px;height: 20px;border-radius: 3px;">
-                </div>
+                <div
+                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;"
+                ></div>
               </div>
               <div class="col-sm-8">
                 All Data
               </div>
               <div class="col-sm-3">
-                {{allKpis.length}}
+                {{ allKpis.length }}
               </div>
             </nb-card-body>
           </nb-card>
           <div *ngIf="viewType == 'showprim_status'">
-            <nb-card *ngFor="let status of primaryStatus; let i = index;">
-              <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
+            <nb-card *ngFor="let status of primaryStatus; let i = index">
+              <nb-card-body
+                (click)="choosePrimarySubStatus(status)"
+                style="cursor: pointer;"
+              >
                 <div class="col-sm-1 p-0">
-                  <div style="width: 20px;height: 20px;border-radius: 3px;"
-                    [ngStyle]="{'background-color':status.bgColor}">
-                  </div>
+                  <div
+                    style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                    [ngStyle]="{ 'background-color': status.bgColor }"
+                  ></div>
                 </div>
                 <div class="col-sm-8">
-                  {{status.name | titlecase}}
+                  {{ status.name | titlecase }}
                 </div>
                 <div class="col-sm-3">
-                  {{status.length}}
+                  {{ status.length }}
                 </div>
-                
               </nb-card-body>
-              <div class="select_option" *ngIf="activePrimaryStatus == status.name">
+              <div
+                class="select_option"
+                *ngIf="activePrimaryStatus == status.name"
+              >
                 <ul>
-                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)"><span></span> {{option.name}}</li>
-                  <!-- <li><span></span> 12 Hr + :24</li> -->
-                  <!-- <li><span></span> Undetected : 78</li> -->
+                  <li
+                    *ngFor="let option of primarySubStatus"
+                    (click)="selectSubStatus(option.kpis)"
+                  >
+                    <span></span> {{ option.name }}
+                  </li>
                 </ul>
               </div>
             </nb-card>
           </div>
           <div *ngIf="viewType !== 'showprim_status'">
-            <nb-card *ngFor="let group of kpiGroupsKeys; let i = index;">
-              <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
+            <nb-card *ngFor="let group of kpiGroupsKeys; let i = index">
+              <nb-card-body
+                (click)="filterData(group.name)"
+                style="cursor: pointer;"
+              >
                 <div class="col-sm-1 p-0">
-                  <div style="width: 20px;height: 20px;border-radius: 3px;"
-                    [ngStyle]="{'background-color':group.bgColor}">
-                  </div>
+                  <div
+                    style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                    [ngStyle]="{ 'background-color': group.bgColor }"
+                  ></div>
                 </div>
                 <div class="col-sm-8">
-                  {{group.name | titlecase}}
+                  {{ group.name | titlecase }}
                 </div>
                 <div class="col-sm-3">
-                  {{kpiGroups[group.name].length}}
+                  {{ kpiGroups[group.name].length }}
                 </div>
               </nb-card-body>
             </nb-card>
           </div>
-
         </div>
-        <!-- <button class="btn btn-primary" style="margin-left:50px; margin-top:10px" (click)="openVehicleOnMapModel()">Show Map</button> -->
       </div>
-      <div class="col-sm-9" *ngIf="table">
-        <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+      <div
+        class=""
+        *ngIf="table"
+        [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'"
+      >
+        <div style=" position: relative;">
+          <!-- ============================= SMART TABLE VIEW ============================= -->
+          <div
+            mwlResizable
+            [enableGhostResize]="true"
+            class="map-table-container"
+            [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }"
+            [resizeEdges]="{
+              bottom: false,
+              right: true,
+              top: false,
+              left: false
+            }"
+            (resizeEnd)="onResizeEnd($event, 'smartTable')"
+          >
+            <div>
+              <smart-table
+                class="home-page-tabel"
+                style="width:100%;"
+                [data]="table.data"
+                [settings]="table.settings"
+              ></smart-table>
+            </div>
+          </div>
+          <!-- ============================= SMART TABLE END ============================= -->
+
+          <!-- ============================= MAP VIEW ============================= -->
+          <div
+            [hidden]="!isMapView"
+            style="padding: 0px; min-width:300px; display:inline-block; position: relative;"
+            [ngStyle]="{ width: 'calc(100% - ' + widths.smartTable + ')' }"
+          >
+            <div id="concise-view-map" style="width: 100%; height: 87vh;"></div>
+            <div class="tracker_img" [ngStyle]="{ transform: rotate }">
+              <img src="./assets/images/arrow-top.png" alt="image" />
+            </div>
+          </div>
+          <!-- </div> -->
+          <!-- ============================== MAP VIEW END =============================== -->
+        </div>
       </div>
     </div>
   </nb-card-body>
 </nb-card>
+<!-- <button (click) = "print('print-section')">print</button>  -->

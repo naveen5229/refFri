@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
+import { ChoosePeriodsComponent } from '../choose-periods/choose-periods.component';
 
 
 declare var google: any;
@@ -15,6 +16,7 @@ declare var google: any;
   styleUrls: ['./vehicle-trip-update.component.scss','../../pages/pages.component.css']
 })
 export class VehicleTripUpdateComponent implements OnInit {
+  vehicleStatus = null;
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -22,16 +24,20 @@ export class VehicleTripUpdateComponent implements OnInit {
     targetTime: null,
     id: null,
     regno: null,
-    startLat: null,
-    startLng: null,
+    
     startName: null,
-    startTime: null,
+
     placementType:null,
     vehicleId:null,
-    siteId:null
+    siteId:null,
+    locationType:'city',
+    allowedHaltHours:null
   };
   placements = null;
-  placementSuggestion = null;
+  placementSite = 0;
+  placementSuggestion = [];
+  ref_page = null ;
+  cLT = 'city';
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -40,28 +46,35 @@ export class VehicleTripUpdateComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     console.log(this.common.params)
-    this.vehicleTrip.endLat = this.common.params.endLat;
-    this.vehicleTrip.endLng = this.common.params.endLng;
-    this.vehicleTrip.endName = this.common.params.endName;
-    this.vehicleTrip.id = this.common.params.id;;
-    this.vehicleTrip.regno = this.common.params.regno;
-    this.vehicleTrip.vehicleId = this.common.params.vehicleId;
-    this.vehicleTrip.startLat = this.common.params.startLat;
-    this.vehicleTrip.startLng = this.common.params.startLng;
-    this.vehicleTrip.startName = this.common.params.startName;
-    this.vehicleTrip.siteId = this.common.params.siteId;
-    this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.startTime);
+   
+    this.vehicleTrip.vehicleId = this.common.params.tripDetils.vehicleId;
+    this.vehicleTrip.siteId = this.common.params.tripDetils.siteId;
+    this.ref_page = this.common.params.ref_page;
+    console.log("ref_page",this.ref_page);
+    if(this.ref_page == 'placements'){
+      this.vehicleTrip.placementType = '11';
+    }else{
+      this.vehicleTrip.placementType = '0';
+    }
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
+    this.getVehicleCurrentStatus();
   }
 
   ngOnInit() {
   }
+  selecteCity(){
+    console.log("city selected");
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',false), 3000);
+  }
 
   ngAfterViewInit(): void {
-    //setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_starttrip'), 3000);
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip'), 3000);
+    //setTimeout(this.map, 3000);
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',false), 1000);
 
+  }
+  changeLocationType(clt){
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',clt), 1000);
   }
   openReminderModal(){
     this.common.params.returnData = true;
@@ -74,12 +87,33 @@ export class VehicleTripUpdateComponent implements OnInit {
       console.log('Date:', this.vehicleTrip.targetTime);
     });
   }
+  
+  openTimePeriodModal(){
+    this.common.params = {refPage:'placements',title :"Allowed Halt Hours"};
+    const activeModal = this.modalService.open(ChoosePeriodsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data",data);
+      this.vehicleTrip.allowedHaltHours = data.duration;
+      //this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
+      console.log('allowedHaltHours:', this.vehicleTrip.allowedHaltHours);
+    });
+  }
 
-  autoSuggestion(elementId) {
-    var options = {
-      types: ['(cities)'],
-      componentRestrictions: { country: "in" }
-    };
+  autoSuggestion(elementId,locType) {
+    console.log("locType",locType);
+    var options;
+    if(locType){
+      options = {
+        //types: ['(address)'],
+        componentRestrictions: { country: "in" }
+      };
+    }
+    else{
+      options = {
+        types: ['(cities)'],
+        componentRestrictions: { country: "in" }
+      };
+    }
     let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
     let autocomplete = new google.maps.places.Autocomplete(ref, options);
     google.maps.event.addListener(autocomplete, 'place_changed', this.updateLocation.bind(this,elementId, autocomplete));
@@ -106,17 +140,21 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
-    if(this.vehicleTrip.endName&&this.vehicleTrip.placementType){
+    if((this.vehicleTrip.endLat||this.placementSite)&&this.vehicleTrip.placementType){
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
-      location: this.vehicleTrip.endName,
+      location: this.vehicleTrip.endName?this.vehicleTrip.endName.split(',')[0]:'',
       locationLat: this.vehicleTrip.endLat,
       locationLng: this.vehicleTrip.endLng,
       placementType: this.vehicleTrip.placementType,
       targetTime: this.vehicleTrip.targetTime,
+      allowedHaltHours:this.vehicleTrip.allowedHaltHours,
+      siteId: this.vehicleTrip.endLat?0:this.placementSite,
 
     }
-    console.log("params", params);
+  
+     console.log("params", params);
+  
     ++this.common.loading;
     this.api.post('TripsOperation/vehicleTripReplacement', params)
       .subscribe(res => {
@@ -132,6 +170,21 @@ export class VehicleTripUpdateComponent implements OnInit {
   }else{
     alert("Next Location And Purpose is Mandatory");
    }
+}
+
+getVehicleCurrentStatus(){
+  let params ={
+    vehicleId: this.vehicleTrip.vehicleId,
+  } 
+ 
+  this.api.post('Placement/getVehicleCurrentStatus' ,params)
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.vehicleStatus = res['data'][0];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
 }
 
 getPlacementSuggestion(){
@@ -151,12 +204,15 @@ getPlacementSuggestion(){
 }
 
 getVehiclePlacements(){
+  ++this.common.loading;
   let params = "vehId=" +this.vehicleTrip.vehicleId;
   this.api.get('VehicleTrips/vehiclePlacements?' +params)
       .subscribe(res => {
+        --this.common.loading;
         console.log('Res: ', res['data']);
         this.placements = res['data'];
       }, err => {
+        --this.common.loading;
         console.error(err);
         this.common.showError();
       });
@@ -182,8 +238,8 @@ delete(placement) {
   
 setPlacementDetail(placementSuggestion){
   console.log("placementSuggestion",placementSuggestion);
-  this.vehicleTrip.endName = placementSuggestion.loc_name;
-  this.vehicleTrip.endLat = placementSuggestion.lat;
-  this.vehicleTrip.endLng = placementSuggestion.long;
+  this.vehicleTrip.endName = placementSuggestion.y_loc_name;
+  this.vehicleTrip.endLat = placementSuggestion.y_lat;
+  this.vehicleTrip.endLng = placementSuggestion.y_long;
 }
 }

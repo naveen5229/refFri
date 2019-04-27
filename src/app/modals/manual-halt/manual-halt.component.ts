@@ -13,13 +13,15 @@ declare var google: any;
 })
 export class ManualHaltComponent implements OnInit {
 
-  halt_type="11";
-  location={
-    haltlocation:'',
-    lat:'',
-    long:''
+  halt_type = "11";
+  location = {
+    haltlocation: '',
+    lat: '',
+    long: ''
   };
-  vid='';
+  locationType = 'city';
+  haltSite = null;
+  vid = '';
   startTime;
   endTime;
 
@@ -28,24 +30,30 @@ export class ManualHaltComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
-    private modalService: NgbModal) { 
-      this.preselectedVehId =  this.common.params.vehicleId;
-      this.preselectedVehRegNo=  this.common.params.vehicleRegNo;
-      console.log(this.preselectedVehId , this.preselectedVehRegNo);
-      this.vid = this.preselectedVehId;
-    }
+    private modalService: NgbModal) {
+    this.preselectedVehId = this.common.params.vehicleId;
+    this.preselectedVehRegNo = this.common.params.vehicleRegNo;
+    console.log(this.preselectedVehId, this.preselectedVehRegNo);
+    this.vid = this.preselectedVehId;
+  }
 
   ngOnInit() {
   }
 
-  searchVehicle(vehicleList){
-   this.vid=vehicleList.id;
+  searchVehicle(vehicleList) {
+    this.vid = vehicleList.id;
+  }
+
+  selecteCity() {
+    console.log("city selected");
+    this.haltSite = null;
+    setTimeout(this.autoSuggestion.bind(this, 'place', false), 3000);
   }
 
   ngAfterViewInit(): void {
     setTimeout(this.autoSuggestion.bind(this, 'place'), 3000);
-    
-  } 
+
+  }
 
   autoSuggestion(elementId) {
     var options = {
@@ -70,42 +78,58 @@ export class ManualHaltComponent implements OnInit {
   setLocations(elementId, place, lat, lng) {
     console.log("elementId", elementId, "place", place, "lat", lat, "lng", lng);
     if (elementId == 'place') {
-      this.location.haltlocation=place;
+      this.location.haltlocation = place;
       this.location.lat = lat;
       this.location.long = lng;
-    } 
-    }
-
-    saveHalt(){
-      this.startTime=this.common.dateFormatter(this.startTime);
-      this.endTime=this.common.dateFormatter(this.endTime);
-      let params={
-        startTime:this.startTime,
-        endTime:this.endTime,
-        vehicleId:this.vid,
-        lat:this.location.lat,
-        long:this.location.long
-       };
-       console.log('params to insert', params);
-       this.common.loading++;
-       this.api.postToTranstrucknew('HaltOperations/insertSingleHalt',params)
-               .subscribe(res=>{
-                 this.common.loading--; 
-                  console.log('res: ',res['data']);
-                  if(res['code']=='1')
-                  this.common.showToast('Success!!');
-                  else
-                   this.common.showToast('Not Success!!');
-                  
-               },err=>{
-                 this.common.loading--;
-                 this.common.showError();
-               })  
-    }
-
-    closeModal() {
-      this.activeModal.close();
     }
   }
+
+  resetLatLng(){
+    this.location.haltlocation = null;
+    this.location.lat = null;
+    this.location.long = null;
+  }
+
+  saveHalt() {
+    this.startTime = this.common.dateFormatter(this.startTime);
+    this.endTime = this.common.dateFormatter(this.endTime);
+    if (!this.location.lat && !this.location.long && !this.haltSite) {
+      this.common.showError("please select location");
+    } else {
+      let params = {
+        startTime: this.startTime,
+        endTime: this.endTime,
+        vehicleId: this.vid,
+        lat: this.location.lat ? this.location.lat : '',
+        long: this.location.long ? this.location.long : '',
+        haltTypeId: this.halt_type,
+        siteId: this.haltSite ? this.haltSite : ''
+      };
+       console.log('params to insert', params);
+      this.common.loading++;
+      this.api.post('HaltOperations/insertSingleHalt', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log('res: ', res['data']);
+          if (res['code'] == '1')
+            this.common.showToast('Success!!');
+          else
+            this.common.showToast('Not Success!!');
+
+        }, err => {
+          this.common.loading--;
+          this.common.showError();
+        })
+    }
+  }
+
+  closeModal() {
+    this.activeModal.close();
+  }
+
+  haltTypeChange(type) {
+
+  }
+}
 
 

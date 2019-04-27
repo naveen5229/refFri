@@ -14,10 +14,21 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
 import { FuelAverageAnalysisComponent } from './fuel-average-analysis/fuel-average-analysis.component';
 import { VehicleTripComponent } from './vehicle-trip/vehicle-trip.component';
 import { TrendsComponent } from './trends/trends.component';
-
-
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { PlacementsComponent } from './placements/placements.component';
 import { from } from 'rxjs';
-
+import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { RouteMapperComponent } from './route-mapper/route-mapper.component';
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
+import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
+import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
+import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
+import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
+import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
+import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -51,6 +62,10 @@ const routes: Routes = [{
     component: LorryRecciptsComponent,
   },
   {
+    path: 'generate-lr',
+    component: GenerateLRComponent,
+  },
+  {
     path: 'expenses',
     component: ExpensesComponent,
   },
@@ -74,11 +89,58 @@ const routes: Routes = [{
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
- 
-  // {
-  //   path: 'image-processing',
-  //   component: ImageProcessingComponent
-  // },
+  {
+    path: 'route-mapper',
+    component: RouteMapperComponent
+  },
+  {
+    path: 'trends',
+    component: TrendsComponent
+  },
+  {
+    path: 'placements',
+    component: PlacementsComponent
+  },
+  {
+    path: 'call-logs',
+    component: CallLogsComponent
+  },
+  {
+    path: 'driver-call-suggestion',
+    component: DriverCallSuggestionComponent
+  },
+  {
+    path: 'user-call-summary',
+    component: UserCallSummaryComponent
+  },
+  {
+    path: 'placements-dash-board',
+    component: PlacementsDashBoardComponent
+  },
+  {
+    path: 'trip-status-feedback',
+    component: TripStatusFeedbackComponent
+  },
+  {
+    path: 'user-activity-status',
+    component: UserActivityStatusComponent
+  },
+  {
+    path: 'placement-delay-faults',
+    component: PlacementDelayFaultsComponent
+  },
+  {
+    path: 'vehicle-covered-distance',
+    component: VehicleCoveredDistanceComponent
+  },
+  {
+    path: 'vehicle-gps-detail',
+    component: VehicleGpsDetailComponent
+  },
+  {
+    path: 'tip-feedback-logs',
+    component: TipFeedbackLogsComponent,
+  }
   ],
 }];
 

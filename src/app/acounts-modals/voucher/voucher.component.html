@@ -1,148 +1,162 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Add Voucher ({{voucherName}})</h4>
-  <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
+<nb-card style="padding: 0px; border: 0px;">
 
-  <div class="row" style="margin-bottom: 30px;">
-    <!--div class="col">
-      <div class="form-group">
-        <label>User</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'user', 'name')" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Enter Fo User" [preSelected]="null"></auto-suggestion>
-      </div>
+  <nb-card-body (keydown)="keyHandler($event)" style="padding: 0px;">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Edit Voucher</h5>
+      <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <div class="col">
-      <div class="form-group">
-        <label>Voucher Type</label>
-        <auto-suggestion (onSelected)="onSelected($event, 'voucher', 'name')" url="Suggestion/GetVouchertypeList"
-          display="name" placeholder="Enter Voucher Type" [preSelected]="null"></auto-suggestion>
-      </div>
-    </div -->
-    <div class="col">
-      <div class="form-group">
-        <label>Ref</label>
-        <input type="text" class="form-control" name="account-name" [(ngModel)]="voucher.code">
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label>Date</label>
-        <!--input type="text" class="form-control" name="account-name" [(ngModel)]="Voucher.date"-->
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
-          placeholder="Select Date" [value]="date | date: 'dd MMM yyyy'" name="account-date" [(ngModel)]="voucher.date" readonly>
-      </div>
-    </div>
-
-  </div>
-<div class="row"></div>
-<div class="row">
-<table style="width: 789px;">
-  <tr style="background: #e8f0f3;">
-    <th >Transaction </th>
-    <th>Ledger</th>
-    <th>Debit Amount</th>
-    <th>Credit Amount</th>&nbsp;
-    <th>&nbsp;</th>
-  </tr>
-  <tr *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
-<td>
-    <select class="form-control transaction" (change)="amountDetail.amount.debit = 0; amountDetail.amount.credit = 0;" [name]="'transaction-type-' + i" [(ngModel)]="amountDetail.transactionType">
-        <option value="debit">Debit</option>
-        <option value="credit">Credit</option>
-      </select>
-</td>
-<td>
-    <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id" [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"  display="y_ledger_name"
-    placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
-</td>
-<td>
-    <input type="number" class="form-control" [name]="'debit-amount-' + i" [(ngModel)]="amountDetail.amount.debit" [readonly]="amountDetail.transactionType == 'credit'"  >
-</td>
-<td>
-    <input type="number" class="form-control" [name]="'credit-amount-' + i" [(ngModel)]="amountDetail.amount.credit" [readonly]="amountDetail.transactionType == 'debit'" >
-     
-</td>
-<td *ngIf="i == 0"  >
-    <i class="fa fa-plus text-primary" (click)="addAmountDetails()" style="font-size: 40px;"></i>
-</td>
-  <td *ngIf="i !== 0"> 
-    <i class="fa fa-trash text-primary" (click)="voucher.amountDetails.splice(i,1)"></i>
-  </td>
-</tr>
-</table>
-</div>
-  <!-- Amount Details -->
-  <!--div class="row" *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e8f0f3;">
-    <div class="col-3">
-      <div class="form-group">
-        <label>Transaction Type</label>
-        <select class="form-control transaction" (change)="amountDetail.amount.debit = 0; amountDetail.amount.credit = 0;" [name]="'transaction-type-' + i" [(ngModel)]="amountDetail.transactionType">
-          <option value="debit">Debit</option>
-          <option value="credit">Credit</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="col-3">
-      <div class="form-group">
-        <label>Ledger</label>
-        <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id" [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"  display="y_ledger_name"
-          placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="form-group">
-        <label>Debit Amount</label>
-        <input type="number" class="form-control" [name]="'debit-amount-' + i" [(ngModel)]="amountDetail.amount.debit" [readonly]="amountDetail.transactionType == 'credit'"  >
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="form-group">
-        <label>Credit Amount</label>
-        <input type="number" class="form-control" [name]="'credit-amount-' + i" [(ngModel)]="amountDetail.amount.credit" [readonly]="amountDetail.transactionType == 'debit'" >
-      </div>
-    </div>
-    <div class="col-1" *ngIf="i == 0">
-      <i class="fa fa-plus text-primary" (click)="addAmountDetails()"></i>
-    </div>
-    <div class="col-1" *ngIf="i !== 0">
-      <i class="fa fa-trash text-primary" (click)="voucher.amountDetails.splice(i,1)"></i>
-    </div>
-  </div-->
-  <!-- End Amount Details -->
-  <div class="row">
-      <div class="col-6">
-          <div class="form-group">
-              <label>Remarks</label>
-              <input type="textarea" class="form-control"  name="account-name" [(ngModel)]="voucher.remarks">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-9">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label class="ref-label">Ref</label>
+                <input type="text" id="ref-code" class="form-control ref-input" (click)="lastActiveId = 'ref-code'"
+                  name="account-name" [(ngModel)]="voucher.code" autofocus autocomplete="doNotAutoComplete">
+              </div>
             </div>
-      </div>
-  <div class="col-2">
-      <div class="form-group">
-        <label>Total Debit</label>
-        <input type="text" class="form-control" name="account-name" readonly [value]="calculateTotal('debit')" style="background: #e8f0f3">
-      </div>
-    </div>
-    <div class="col-2">
-        <div class="form-group">
-          <label>Total Credit</label>
-          <input type="text" class="form-control" name="account-name" readonly [value]="calculateTotal('credit')" style="background: #e8f0f3">
+            <div class="col-6">
+              <div class="form-group">
+                <label class="ref-label">Date</label>
+                <input type="text" style="cursor: pointer;" class="form-control ref-input" autocomplete="off" id="voucher-date"
+                  name="account-date" [(ngModel)]="voucher.date" maxlength="10" autocomplete="off" (click)="lastActiveId = 'voucher-date'; allowBackspace = false;"
+                  (input)="allowBackspace = false;">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr style="background: #263238; color: #fff;">
+                      <th>Transaction </th>
+                      <th>Ledger</th>
+                      <th>Amount</th>
+                      <!-- <th>&nbsp;</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let amountDetail of voucher.amountDetails; let i = index;" style="background: #e4e4e4;">
+                        <td>
+                          <select class="form-control" [id]="'transaction-type-' + i" [name]="'transaction-type-' + i"
+                            [(ngModel)]="amountDetail.transactionType" style="padding: 4px 8px;height:auto;" (change)="calculateTotal()"
+                            (click)="lastActiveId = 'transaction-type-' + i">
+                            <option value="debit">Debit</option>
+                            <option value="credit">Credit</option>
+                          </select>
+                        </td>
+                        <td>
+                          <!-- <auto-suggestion (onSelected)="amountDetail.ledger = $event.y_ledger_id"
+                      [url]="'Suggestion/GetLedger?transactionType=' + amountDetail.transactionType +'&voucherId=' + voucherId"
+                      display="y_ledger_name" placeholder="Enter Ledger" [preSelected]="null"></auto-suggestion> -->
+                          <input type="text" class="form-control" [id]="'ledger-' + i" [name]="'ledger-' + i" [(ngModel)]="amountDetail.ledger.name"
+                            autocomplete="off" (click)="lastActiveId = 'ledger-' + i; allowBackspace = false;" (input)="allowBackspace = false;">
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" [id]="'amount-' + i" [name]="'amount-' + i" (click)="lastActiveId = 'amount-' + i"
+                            (input)="calculateTotal(i); allowBackspace = false;" autocomplete="off" [(ngModel)]="amountDetail.amount">
+                          <span *ngIf="((this.voucherId == '-1' ||  this.voucherId =='-3') && (this.voucher.amountDetails[i].transactionType == 'credit'))">(<i>Current
+                              Available Balance is</i>
+                            {{findBalance(i)}})</span>
+                        </td>
+                        <!-- <td *ngIf="i == 0">
+                    <button class="plustransparent" (click)="addAmountDetails()"> <i class="fa fa-plus text-primary"
+                        style="font-size: 40px;"></i></button>
+                  </td>
+                  <td *ngIf="i !== 0">
+                    <i class="fa fa-trash text-primary" (click)="voucher.amountDetails.splice(i,1)"></i>
+                  </td> -->
+                      </tr>
+                </tbody>
+                
+              </table>
+            </div>
+          </div>
+
+          <!-- End Amount Details -->
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label class="ref-label">Narration</label>
+                <input type="text" class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
+                  name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label class="ref-label">Total Debit</label>
+                <input type="text" class="form-control ref-input" name="account-name" readonly [(ngModel)]="voucher.total.debit"
+                  style="background: #e4e4e4">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label class="ref-label">Total Credit</label>
+                <input type="text" class="form-control ref-input" name="account-name" readonly [(ngModel)]="voucher.total.credit"
+                  style="background: #e4e4e4">
+              </div>
+            </div>
+          </div>
+          <!-- Submit -->
+
+        </div>
+        <div class="col-3">
+          <div class="ledger-container" id="ledger-container">
+            <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option" [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''"
+              (click)='selectLedger(ledger)'>
+              <span>{{ledger.y_ledger_name}}</span>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+
+
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col" *ngIf="(this.deleteId == 0)">
+          <button class="btn btn-danger" type="button" outline (click)="delete(1)" id="delete" style="cursor: pointer;">Delete</button>
+        </div>
+        <div class="col"  *ngIf="(this.deleteId == 1)">
+          <button class="btn btn-danger" type="button" outline (click)="permantdelete(voucher.xId)" id="permanentdelete"
+            style="cursor: pointer;">Permanent Delete</button>
+        </div>
+     
+        <div class="col text-right"  *ngIf="(this.deleteId == 0)">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
+          </button>
+        </div>
+        <div class="col text-right"  *ngIf="(this.deleteId == 1)">
+          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="restore" style="cursor: pointer;">Reatore
+          </button>
+        </div>
+        <div class="col">
+            <button class="btn btn-danger" type="button" outline (click)="modelCondition()" id="cancel" style="cursor: pointer;">Cancel</button>
+          </div>
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="voucher.date"
+        maxlength="10">
+    </div>
   </div>
 </div>
 
-<div class="modal-footer">
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cancel" style="cursor: pointer;">Cancel</button>
-    </div>
-    <div class="col text-right">
-      <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit" style="cursor: pointer;">Submit
-      </button>
+<div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you want to save ?</p>
+      <button (click)="dismiss(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button (click)="modelConditionsure()">No</button>
     </div>
   </div>
 </div>

@@ -1,31 +1,36 @@
-<nb-card>
-  <nb-card-header>
+<nb-card style="margin: 0px; border:0px;">
+  <!-- <nb-card-header>
     <h4>Stock Types</h4>
-  </nb-card-header>
+  </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4" (click)="openStockTypeModal()">Add Stock Type</button>
-<table class="table table-bordered">
-  <thead style="background-color: #EEEEEE;">
+<button class="btn mb-4 add-button" (click)="openStockTypeModal()"><i class="fa fa-plus"></i></button>
+<div class="main">
+<table class="table table-bordered stocktype_tabel">
+  <thead style="background-color: #263238; color:#fff;">
       <tr>
           <th>#</th>
           <th>Name</th>
           <th>Code</th>
-          <th>Foid</th>
           <th>Date</th>
           <th>Action</th>
         </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let stockType of stockTypes; let i = index;">
+      <tr *ngFor="let stockType of stockTypes; let i = index;" (click)="selectedRow = i"
+      (dblclick)="openStockTypeModal(stockType)" (enter)="openStockTypeModal(stockType)"
+      [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{i + 1}}</td>
           <td>{{stockType.name}}</td>
           <td>{{stockType.code}}</td>
-          <td>{{stockType.foid}}</td>
-          <td>{{stockType.entry_dt | date : 'dd MMM HH:mm'}}</td>
-          <td><button class="btn" (click)="openStockTypeModal(stockType)">Edit</button></td>
+          <td>{{stockType.entry_dt | date : 'dd-MMM-yy'}}</td>
+          <td class="del">
+            <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockType.id)"><i
+                class="fa fa-trash"></i></a>
+          </td>
         </tr>
   </tbody>
   
 </table>
+</div>
 </nb-card-body>
 </nb-card>

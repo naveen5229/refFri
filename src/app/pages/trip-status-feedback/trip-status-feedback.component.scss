@@ -1,0 +1,131 @@
+.exel-icon{
+    font-size: 24px;
+    color: #217346;
+}
+.pdf-icon{
+    font-size: 24px;
+    color: #9F0001;
+}
+nb-card-header{
+    padding: 10px 15px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+        tr{
+            th:nth-child(1){
+                width: 2%;
+            }
+            th:nth-child(2){
+                width: 4%;
+            }
+            th:nth-child(3){
+                width: 5%;
+            }
+            th:nth-child(4){
+                width: 5%;
+            }
+            th:nth-child(5){
+                width: 5%;
+            }
+            th:nth-child(6){
+                width: 8%;
+            }
+            th:nth-child(7){
+                width: 5%;
+            }
+            th:nth-child(8){
+                width: 6%;
+            }
+            th:nth-child(9){
+                width: 15%;
+            }
+
+        }
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        td{
+            .btn-success{
+                font-size: 12px;
+                text-transform: capitalize;
+                padding: 7px 6px;
+                height: auto;
+            }
+            
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 200px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 2%;
+            }
+            td:nth-child(2){
+                width: 4%;
+            }
+            td:nth-child(3){
+                width: 5%;
+            }
+            td:nth-child(4){
+                width: 5%;
+            }
+            td:nth-child(5){
+                width: 5%;
+            }
+            td:nth-child(6){
+                width: 8%;
+            }
+            td:nth-child(7){
+                width: 5%;
+                text-align: center;
+            }
+            td:nth-child(8){
+                width: 6%;
+            }
+            td:nth-child(9){
+                width: 14.7%;
+            }
+            td{
+                span{
+                    input{
+                        margin-right: 5px;
+                        margin-bottom: 5px;
+                    }
+                    select{
+                        height: 30px !important;
+                        padding: 3px !important;
+                    }
+                    button{
+                        margin-top: 2px;
+                        text-transform: capitalize;
+                    }
+                }
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

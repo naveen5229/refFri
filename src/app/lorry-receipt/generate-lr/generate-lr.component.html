@@ -1,39 +1,38 @@
-<nb-card>
+<nb-card style="border: 0px;">
   <nb-card-header>
-    <div class="col-sm-4">
-      <h2>Generate LR </h2>
-    </div>
+    <h5>Generate LR </h5>
   </nb-card-header>
   <nb-card-body>
-    <table class="table table-bordered">
+    <table class="table table-bordered gerrate_tabel">
       <tbody>
-        <!-- <tr>
-          <td><label>Branch</label></td>
-          <td> <select [(ngModel)]=lr.branch (change)="getBranchDetails()" class="form-conrol" style="width: 150px;
-                  height: 31px;" placeholder="select branch">
-              <option *ngFor="let branch of branches" [value]="branch">{{branch}}</option>
-            </select> </td>
-        </tr> -->
         <tr>
-          <td><label>Vehicle No</label></td>
+          <td><label>Vehicle No*</label></td>
           <td>
             <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
               placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
           </td>
-          <td><label>LR No</label></td>
+          <td><label>LR No*</label></td>
           <td>
             <!-- {{lr.lrNumber}} -->
             <input type="text" [(ngModel)]=lr.lrNumber class="form-control" placeholder="Enter LR Number">
           </td>
         </tr>
         <tr>
-          <td><label>Date</label></td>
+          <td><label>Date*</label></td>
           <td>
-            <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " class="form-control"
+            <!-- <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " class="form-control"
               autocomplete="off" name="date" placeholder="Enter Date">
-            <owl-date-time #date></owl-date-time>
-
-            <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
+            <owl-date-time #date></owl-date-time> -->
+            <div class="row">
+              <div class="col-sm-11">
+                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date"
+                  name="date" (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
+                <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
+              </div>
+              <div class="col-sm-1 pl-0">
+                <span style='cursor:pointer;' (click)="getDate()"><i class="icon fa fa-calendar add"></i></span>
+              </div>
+            </div>
           </td>
           <td><label>T.A. Name</label></td>
 
@@ -43,12 +42,21 @@
           </td>
         </tr>
         <tr>
-          <td><label>Driver Mob NO </label></td>
-          <td><span>
-              <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-                placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
-              <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addDriver()"></i> </div>
-            </span> </td>
+          <td><label>Driver Mob NO* </label></td>
+          <td>
+            <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
+                <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
+                <ng-template #showSuggestion> -->
+            <span>
+              <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers"
+                display="mobileno" placeholder="Select Driver" style="width:100%;" class="col-md-10 auto-suggest"
+                [preSelected]="preSelectedDriver"></auto-suggestion>
+              <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addDriver()"></i> </div>
+            </span>
+            <!-- </ng-template> -->
+
+          </td>
+
           <td><label>Driver Name : </label>
             {{driver.name}}
             <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
@@ -60,29 +68,30 @@
         </tr>
 
         <tr>
-          <td><label>Source City</label></td>
+          <td><label>Source City*</label></td>
           <td>
-              <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control">
+            <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control">
           </td>
           <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
-          <td><label>Destination City </label></td>
+          <td><label>Destination City* </label></td>
           <td>
-              <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="lr.destinationCity" class="form-control">
+            <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="lr.destinationCity"
+              class="form-control">
 
             <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
-          <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
+            <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
         </tr>
         <tr>
           <td><label>Consignor Name</label></td>
           <td> <span>
               <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
                 placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion><i
-                class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()"></i>
+                class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
             </span></td>
           <td><label>Consignor Address</label></td>
           <td>
-            {{lr.consignorAddress}}
-            <!-- <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off"> -->
+            <!-- {{lr.consignorAddress}} -->
+            <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off">
           </td>
 
         </tr>
@@ -91,23 +100,24 @@
           <td> <span>
               <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
                 placeholder="" style="width:100%;" class="col-md-10 auto-suggest"></auto-suggestion>
-              <div col-md-2><i class="fa fa-plus  add col-md-2" style="margin-top:8px" (click)="addConsignee()"></i>
+              <div col-md-2><i class="fa fa-plus  add col-md-2" (click)="addConsignee()"></i>
               </div>
             </span></td>
           <td><label>Consignee Address</label></td>
           <td>
-            {{lr.consigneeAddress}}
-            <!-- <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control" > -->
+            <!-- {{lr.consigneeAddress}} -->
+            <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control">
           </td>
 
         </tr>
         <tr>
 
+          <td><label>Delivery Address </label> </td>
           <td>
-            <label>Delivery Address </label> </td>
-          <td><input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
-            &nbsp;&nbsp;&nbsp; Same as Consignee Address &nbsp;&nbsp;&nbsp;
-          <td><input type="text" [(ngModel)]=lr.deliveryAddress class="form-control" autocomplete="off"></td>
+            <input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
+            Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control"
+              autocomplete="off">
+          </td>
         </tr>
 
 
@@ -128,7 +138,7 @@
           <td><label>Payable Amount</label></td>
           <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>
           <td><label>Payment Term</label></td>
-          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol" style="width: 150px; height: 31px;">
+          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
               <option value="1">ToPay</option>
               <option value="2">Advance</option>
             </select></td>
@@ -166,8 +176,8 @@
         </tr>
       </tbody>
     </table>
-    <div>
-      <label>Material Details</label>
+    <div class="material_details">
+      <h5>Material Details</h5>
       <table class="table table-bordered">
         <tbody *ngFor="let particular of particulars; let i = index;">
           <tr>
@@ -176,8 +186,8 @@
             </td>
             <td>
               <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
-                display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i"
-                ></auto-suggestion>
+                display="name" placeholder="Material Name" [preSelected]="null" [inputId]="'material-' + i">
+              </auto-suggestion>
               <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
               <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
             </td>
@@ -199,10 +209,11 @@
             <td>
               <input type="text" class="form-control" [(ngModel)]="particular.material_value">
             </td>
-            <td *ngIf="i == particulars.length-1"><button
+            <td *ngIf="i == particulars.length-1"><button class="btn btn-primary"
                 (click)="particular.customField = true; particular.customButton = false"
                 *ngIf="particular.customButton">Add Fields</button></td>
-            <td *ngIf="i == particulars.length-1"><button (click)="addMore()">Add Materials</button></td>
+            <td *ngIf="i == particulars.length-1"><button class="btn btn-primary" (click)="addMore()">Add
+                Materials</button></td>
             <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
           </tr>
 
@@ -272,8 +283,6 @@
         </tbody>
 
       </table>
-
-
       <!-- <input type="date"> -->
       <div><button class="btn btn-primary" (click)=saveDetails()>Save</button></div>
     </div>
