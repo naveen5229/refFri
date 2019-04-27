@@ -148,8 +148,9 @@
       <div class="row">
 
         <div class="col-3" *ngIf="modal.first.data.showMain">
-          <input type="text" class="form-control" [(ngModel)]="modal.first.data.LrData.receipt_no" name="first-RNo."
-            placeholder="Receipt No." autocomplete="off">
+          <input type="text" class="form-control" (focusout)="openNextModal()"
+            [(ngModel)]="modal.first.data.LrData.receipt_no" name="first-RNo." placeholder="Receipt No."
+            autocomplete="off">
           <input type="text" class="from-control" id="first-source" [(ngModel)]="modal.first.data.LrData.source"
             name="first-source" placeholder="Source">
           <input type="text" class="from-control" id="first-destination" name="first-destination"
@@ -204,7 +205,7 @@
                 (focusout)="checkDateFormat('first')" placeholder="DD/MM/YYYY">
             </div>
             <div class="col-sm-3">
-              <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="getDate('first')"><i
+              <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="selectDate('first')"><i
                   class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
             </div>
           </div>
@@ -393,8 +394,8 @@
         <div class="col-3" *ngIf="modal.second.data.showMain">
           <input type="text" class="form-control" [(ngModel)]="modal.second.data.LrData.receipt_no" name="second-RNo."
             placeholder="Receipt No." autocomplete="off">
-          <input type="text" class="from-control" id="second-source" [(ngModel)]="modal.second.data.LrData.source"
-            name="second-source" placeholder="Source">
+          <input type="text" class="from-control" (focusout)="openNextModal()" id="second-source"
+            [(ngModel)]="modal.second.data.LrData.source" name="second-source" placeholder="Source">
           <input type="text" class="from-control" id="second-destination" name="second-destination"
             [(ngModel)]="modal.second.data.LrData.destination" placeholder="Destination" style="margin-bottom:10px">
           <auto-suggestion (onSelected)="searchVehicle($event, 'second')" url="suggestion/getVehicleList"
@@ -446,7 +447,7 @@
                 (focusout)="checkDateFormat('second')" placeholder="DD/MM/YYYY">
             </div>
             <div class="col-sm-3">
-              <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="getDate('second')"><i
+              <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="selectDate('second')"><i
                   class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
             </div>
           </div>
