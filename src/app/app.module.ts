@@ -130,6 +130,9 @@ import { StorerequisitionComponent } from './acounts-modals/storerequisition/sto
 import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
 import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
 import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
+import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.component';
+import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.component';
+import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -222,9 +225,13 @@ import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
     DropDownListComponent,
     VehicleGpsTrailComponent,
     VehicleLrComponent,
+    ChoosePeriodsComponent,
+    VehicleStatesComponent,
+    ChangeDriverComponent,
 
   ],
   entryComponents: [
+    ChangeDriverComponent,
     SiteTripDetailsComponent,
     UserCallHistoryComponent,
     KpisDetailsComponent,
@@ -312,8 +319,10 @@ import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
     StorerequisitionComponent,
     DropDownListComponent,
     VehicleGpsTrailComponent,
-    VehicleLrComponent
-
+    VehicleLrComponent,
+    ChoosePeriodsComponent,
+    VehicleStatesComponent
+    
   ],
   imports: [
     BrowserModule,

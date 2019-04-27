@@ -1,7 +1,4 @@
 <nb-card style="padding-top: 25px; border:0px;">
-  <!-- <nb-card-header>
-    <h4>Outstanding</h4>
-  </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
       <div class="col-9">
@@ -97,22 +94,28 @@
           </tr>
         </thead>
         <div class="tbody-section">
-          <tbody *ngFor="let voucherEntry of voucherEntries; let i = index;">
+          <tbody *ngFor="let voucherEntry of voucherEntries; let i = index">
             <tr class="heading_second">
               <th colspan="3">&nbsp;</th>
-              <th>{{voucherEntry.name}}</th>
-              <th style="text-align:right;">{{voucherEntry.amount.debit}}</th>
-              <th style="text-align:right;">{{voucherEntry.amount.credit}}</th>
+              <th>{{ voucherEntry.name }}</th>
+              <th style="text-align:right;">{{ voucherEntry.amount.debit }}</th>
+              <th style="text-align:right;">
+                {{ voucherEntry.amount.credit }}
+              </th>
             </tr>
             <tr *ngFor="let voucher of voucherEntry.vouchers">
-              <td>{{voucher.y_code}}</td>
-              <td>{{voucher.y_cust_code}}</td>
-              <td>{{voucher.y_type}}</td>
+              <td>{{ voucher.y_code }}</td>
+              <td>{{ voucher.y_cust_code }}</td>
+              <td>{{ voucher.y_type }}</td>
               <td>&nbsp;</td>
-              <td *ngIf="voucher.y_dramunt != 0" style="text-align:right;">{{voucher.y_dramunt}}</td>
+              <td *ngIf="voucher.y_dramunt != 0" style="text-align:right;">
+                {{ voucher.y_dramunt }}
+              </td>
               <td *ngIf="voucher.y_dramunt == 0"></td>
-              <td *ngIf="voucher.y_cramunt != 0" style="text-align:right;">{{voucher.y_cramunt}}</td>
-              <td *ngIf="voucher.y_cramunt ==0"></td>
+              <td *ngIf="voucher.y_cramunt != 0" style="text-align:right;">
+                {{ voucher.y_cramunt }}
+              </td>
+              <td *ngIf="voucher.y_cramunt == 0"></td>
             </tr>
           </tbody>
         </div>

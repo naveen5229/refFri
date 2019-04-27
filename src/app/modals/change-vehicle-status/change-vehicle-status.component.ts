@@ -39,6 +39,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   dataType = 'events';
   VehicleStatusData;
   vehicleEvents = [];
+  vehicleEventsR = [];
   vehEvent = [];
   marker: any;
   lastIndType = null;
@@ -164,16 +165,16 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.map.setMapTypeId('roadmap');
     }
   }
-
+  infoWindow = null;
   setEventInfo(event) {
-
-    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
-    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
-    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
-    // }
+    console.log(event);
+    this.toggleBounceMF(event.mIndex);
+    
   }
-  unsetEventInfo() {
-
+  unsetEventInfo(event) {
+    console.log(event);
+    this.toggleBounceMF(event.mIndex,2);
+    
   }
 
 
@@ -187,7 +188,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       "&toTime=" + this.toTime +
       "&status=" + status;
     console.log(params);
-    this.api.get('HaltOperations/getHaltHistory?' + params)
+    this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
@@ -195,7 +196,38 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.clearAllMarkers();
         this.createMarkers(res['data']);
         this.resetBtnStatus();
-
+        let startElement = this.vehicleEvents.find((element) => {
+          return !(element.desc+"").includes('LT');
+        });
+        // Route Mapper Code (Authored by UJ)
+        let start = startElement.startTime;
+        let startIndex = this.vehicleEvents.indexOf(startElement);
+        let end = this.vehicleEvents[this.vehicleEvents.length-1].endTime;
+            console.log(res);
+            let vehicleEvents = res['data'];
+            let realStart = new Date(vehicleEvents[startIndex].startTime)<new Date(start)?
+                vehicleEvents[startIndex].startTime:start;
+                let realEnd = null;
+                if(vehicleEvents[0].endTime)
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].endTime)>new Date(end)?
+                  vehicleEvents[vehicleEvents.length-1].endTime:end;
+                let totalHourDiff = 0;
+                if(vehicleEvents.length!=0){
+                  totalHourDiff = this.common.dateDiffInHours(realStart,realEnd,true);
+                  console.log("Total Diff",totalHourDiff);
+                }
+                this.vehicleEventsR=[];
+                for (let index = startIndex; index < vehicleEvents.length; index++) {
+                  vehicleEvents[index].mIndex = index;
+                  startIndex++;
+                  vehicleEvents[index].position = (this.common.dateDiffInHours(
+                    realStart,vehicleEvents[index].startTime)/totalHourDiff)*98;
+                  vehicleEvents[index].width = (this.common.dateDiffInHours(
+                    vehicleEvents[index].startTime,vehicleEvents[index].endTime,true)/totalHourDiff)*98;
+                  console.log("Width",vehicleEvents[index].width);
+                  this.vehicleEventsR.push(vehicleEvents[index]);
+                }
+                console.log("VehicleEvents", this.vehicleEventsR);
         //bottom bar
         // let vehEvent = this.vehicleEvents;
         // let finalIndex = 0;
@@ -216,7 +248,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
-      });
+      })
   }
 
   resetBtnStatus() {
@@ -865,38 +897,38 @@ export class ChangeVehicleStatusComponent implements OnInit {
   gps() {
     let today = new Date(this.toTime);
     let endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    let startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() -1 )))).split(' ')[0];
+    let startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
 
     let vehicleData = {
-      
-      vehicleId:this.VehicleStatusData.vehicle_id, 
-      vehicleRegNo:this.VehicleStatusData.regno,
-      startDate:startDate,
+
+      vehicleId: this.VehicleStatusData.vehicle_id,
+      vehicleRegNo: this.VehicleStatusData.regno,
+      startDate: startDate,
       endDate: endDate,
     }
-    this.common.params = {refPage:"cvs"};
-    this.common.params = {vehicleData:vehicleData};
+    this.common.params = { refPage: "cvs" };
+    this.common.params = { vehicleData: vehicleData };
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass:'gps-trail' });
+    const activeModal = this.modalService.open(VehicleGpsTrailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'gps-trail' });
 
   }
 
-  vehicleLr(){
+  vehicleLr() {
     let today = new Date(this.toTime);
     let endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    let startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() -1 )))).split(' ')[0];
+    let startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
 
     let vehicleData = {
-      
-      vehicleId:this.VehicleStatusData.vehicle_id, 
-      vehicleRegNo:this.VehicleStatusData.regno,
-      startDate:startDate,
+
+      vehicleId: this.VehicleStatusData.vehicle_id,
+      vehicleRegNo: this.VehicleStatusData.regno,
+      startDate: startDate,
       endDate: endDate,
     }
-    this.common.params = {refPage:"cvs"};
-    this.common.params = {vehicleData:vehicleData};
+    this.common.params = { refPage: "cvs" };
+    this.common.params = { vehicleData: vehicleData };
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static'});
+    const activeModal = this.modalService.open(VehicleLrComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 }

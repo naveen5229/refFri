@@ -7,11 +7,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
     home: true,
   },
-  // {
-  //   title: 'Vehicle KPIs',
-  //   icon: 'nb-tables',
-  //   link: '/pages/vehicle-kpis',
-  // },
   {
     title: 'Tickets',
     icon: 'nb-notifications',
@@ -68,7 +63,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Trends',
     icon: 'fa fa-line-chart',
-    link:'/pages/trends'
+    link: '/pages/trends'
   },
   {
     title: 'Placements DashBoard',
@@ -86,6 +81,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Trip Status FeedBack',
     icon: 'fas fa-list',
     link: '/pages/trip-status-feedback',
+    home: true,
+  },
+  {
+    title: 'Vehicle Covered Distance',
+    icon: 'fas fa-list',
+    link: '/pages/vehicle-covered-distance',
+    home: true,
+  }, {
+    title: 'Trip FeedBack logs',
+    icon: 'fas fa-list',
+    link: '/pages/tip-feedback-logs',
     home: true,
   },
   // {
@@ -112,7 +118,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
-    children : [
+    children: [
       {
         title: 'Driver Call Suggestion',
         icon: 'fas fa-traffic-light',
@@ -125,12 +131,24 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/call-logs',
         home: true,
       },
-	  {
+      {
         title: 'User Call Summary',
         icon: 'fas fa-list',
         link: '/pages/user-call-summary',
         home: true,
       }
     ]
-  }
+  },
+  {
+    title: 'Placement Delay Faults',
+    icon: 'fas fa-list',
+    link: '/pages/placement-delay-faults',
+    home: true,
+  },
+  {
+    title: 'Vehicle Gps Detail',
+    icon: 'fas fa-list',
+    link: '/pages/vehicle-gps-detail',
+    home: true,
+  },
 ];

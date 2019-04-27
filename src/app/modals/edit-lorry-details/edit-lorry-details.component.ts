@@ -32,6 +32,7 @@ export class EditLorryDetailsComponent implements OnInit {
   option = 'accept';
   tempDate=null;
   status=1;
+  
   transportAgentDetails = {
     gstin: '',
     name: '',
@@ -100,7 +101,7 @@ export class EditLorryDetailsComponent implements OnInit {
 
     } else if (flag == 'Other') {
 
-      if (this.LrData.invoice_image) {
+      if (this.LrData.other) {
         this.images[0] = this.LrData.other;
         console.log('Invoice', this.images[0]);
       } else { this.common.showError('Image not present!!') }
@@ -121,11 +122,11 @@ export class EditLorryDetailsComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.lrDate = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
-        if(this.lrDate<=this.common.dateFormatter(new Date())){
-          return;
-        }else{
-          this.common.showToast('Incorrect Date !!')
-        }
+        // if(this.lrDate<=this.common.dateFormatter(new Date())){
+        //   return;
+        // }else{
+        //   this.common.showToast('Incorrect Date !!')
+        // }
         // this.dateByIcon=true;
         console.log('lrdate: by getDate ' + this.lrDate);
 
@@ -215,12 +216,44 @@ export class EditLorryDetailsComponent implements OnInit {
 
   insertLrDetails() {
     //if(!this.dateByIcon)
-    
+    let params;
+    if(this.option=='reject'){
+      this.tempDate=null;
+      console.log('if block');
+       params = {
+        sourceLat: this.LrData.source_lat ? this.LrData.source_lat : '',
+        sourceLng: this.LrData.source_long ? this.LrData.source_long : '',
+        source: this.LrData.source ? this.LrData.source : '',
+        dest: this.LrData.destination ? this.LrData.destination : '',
+        destLat: this.LrData.destination_lat ? this.LrData.destination_lat : '',
+        destLng: this.LrData.destination_long ? this.LrData.destination_long : '',
+        vehId: this.vehId ? this.vehId : '',
+        remark: this.LrData.remark ? this.LrData.remark : '',
+        id: this.LrData.id ? this.LrData.id : '',
+        receiptNo: this.LrData.receipt_no ? this.LrData.receipt_no : '',
+        status: this.status,
+        taId: this.LrData.ta_id ? this.LrData.ta_id : '',
+        taName: this.LrData.ta_name ? this.LrData.ta_name : '',
+        consignerId: this.LrData.consigner_id ? this.LrData.consigner_id : '',
+        tonnage: this.LrData.weight ? this.LrData.weight : '',
+        consignerName: this.LrData.consigner_name ? this.LrData.consigner_name : '',
+        consigneeId: this.LrData.consignee_id ? this.LrData.consignee_id : '',
+        consigneeName: this.LrData.consignee_name ? this.LrData.consignee_name : '',
+        lrDate: this.lrDate ? this.lrDate : '',
+        payType: this.LrData.pay_type ? this.LrData.pay_type : '',
+        rate: this.LrData.rate ? this.LrData.rate : '',
+        amount: this.LrData.amount ? this.LrData.amount : '',
+        material: this.LrData.material_name ? this.LrData.material_name : '',
+        materialId: this.LrData.material ? this.LrData.material: ''
+  
+      };
+    } else{
+      console.log('else block');
     this.tempDate=this.common.dateFormatter(this.lrDate,'ddMMYYYY',false,'/');
     this.lrDate = this.common.dateFormatter1(new Date(this.lrDate));
     console.log('tempDate',this.tempDate);
     // this.lrDate=this.datepipe.transform(this.lrDate, 'yyyy/MM/dd');
-    let params = {
+     params = {
       sourceLat: this.LrData.source_lat,
       sourceLng: this.LrData.source_long,
       source: this.LrData.source,
@@ -247,6 +280,7 @@ export class EditLorryDetailsComponent implements OnInit {
       materialId: this.LrData.material
 
     };
+  }
     console.log('params to Insert: ', params);
     this.common.loading++;
     this.api.post('LorryReceiptsOperation/updateLorryReceiptsDetails', params)
@@ -257,7 +291,7 @@ export class EditLorryDetailsComponent implements OnInit {
           //this.resetValues();
           this.common.showToast('Success !!');
           this.isUpdated = true;
-          this.dismiss();
+           this.dismiss();
         }
         else {
           this.common.showToast('Not Success !!');
@@ -295,8 +329,7 @@ export class EditLorryDetailsComponent implements OnInit {
     let place = autocomplete.getPlace();
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
-
+    place = autocomplete.getPlace().formatted_address.split(',')[0];
     this.setLocations(elementId, place, lat, lng);
   }
 
@@ -359,12 +392,12 @@ export class EditLorryDetailsComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     // this.lrDate= date + '/' + month + '/' + year;
     this.lrDate= year + '-' + month + '-' + date;
-    if(this.lrDate<=this.common.dateFormatter(new Date()))
-    {
-      return;
-    }else{
-      this.common.showToast('Incorrect Date !!');
-    }
+    // if(this.lrDate<=this.common.dateFormatter(new Date()))
+    // {
+    //   return;
+    // }else{
+    //   this.common.showToast('Incorrect Date !!');
+    // }
 
     console.log('Date: ', this.lrDate);
   }

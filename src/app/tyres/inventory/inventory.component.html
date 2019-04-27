@@ -1,33 +1,38 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-        <div class="col-sm-6"><h5>Tyre Inventory</h5></div>
-        <div class="col-sm-6 text-right"><button (click)=openStockItemModal() class="btn btn-primary m-0">Add Modals</button></div>
+      <div class="col-sm-6">
+        <h5>Tyre Inventory</h5>
+      </div>
+      <div class="col-sm-6 text-right"><button (click)=openStockItemModal() class="btn btn-primary m-0">Add
+          Modals</button></div>
     </div>
   </nb-card-header>
   <nb-card-body>
     <div>
       <table class="table table-bordered table-hover" *ngIf="inventories">
         <thead class="thead">
-          <tr>
+          <tr style="text-align:center">
             <th># </th>
             <th>Tyre Model</th>
+            <th>Size</th>
             <th>Tyre No </th>
-            <th>Purchase Date</th>
-            <th>Is Health Details</th>
+            <th>Purchase_Date</th>
+            <!-- <th>Is_Health Details</th>
             <th>NSD-1</th>
             <th>NSD-2</th>
             <th>NSD-3</th>
-            <th>PSI</th>
+            <th>PSI</th> -->
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let inventory of inventories; let i = index;">
             <td>{{i+1}}</td>
-            <td>
-              <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No" (input)="searchModels(inventory.searchModelString, i)"
-                autocomplete="off" class="form-control" [(ngModel)]="inventory.searchModelString" style="width : 175px">
+            <td width="35%">
+              <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
+                (input)="searchModels(inventory.searchModelString, i)" autocomplete="off" class="form-control"
+                [(ngModel)]="inventory.searchModelString" >
               <div *ngIf="activeRow == i">
                 <ul *ngIf="(modelSuggestion) && (models.length >  0)">
                   <li *ngFor="let model of models;" (click)="selectModel(model,i)">
@@ -36,71 +41,72 @@
                 </ul>
               </div>
             </td>
-            <td><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.tyreNo"  style="width : 175px">
+            <td width="15%">
+                <auto-suggestion (onSelected)="getTyreSize($event,i)"  url="Suggestion/getTyreSize"
+                display="size" placeholder="Size" [inputId]="'size-' + i" ></auto-suggestion>
+
+              <!-- <input id="Tyresize" name="Tyresize" type="text" placeholder="Size" autocomplete="off"
+                class="form-control" [(ngModel)]="inventory.tyreSize" style="width : 175px"> -->
             </td>
-            <td>
-                <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)" placeholder="Select Date"
-                [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly >
+            <td width="20%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off"
+                class="form-control" [(ngModel)]="inventory.tyreNo" (focus)="size(i)">
+            </td>
+            <td width="20%"> 
+              <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)"
+                placeholder="Select Date" [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly>
               <!-- <input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
                 class="form-control" autocomplete="off" name="date" style="width : 175px" >
               <owl-date-time #date></owl-date-time> -->
             </td>
-            <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.is_health"  (change)="valueReset(i)">
+            <!-- <td><input id="is_health" name="is_health" type="checkbox" autocomplete="off" class="form-control"
+                [(ngModel)]="inventory.is_health" (change)="valueReset(i)">
             </td>
-            <td><input id="nsd1" name="nsd1" type="text" placeholder="Enter nsd1" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.nsd1" [readOnly] = "!inventory.is_health">
+            <td><input id="nsd1" name="nsd1" type="text" placeholder="nsd1" autocomplete="off"
+                class="form-control" [(ngModel)]="inventory.nsd1" [readOnly]="!inventory.is_health">
             </td>
-            <td><input id="nsd2" name="nsd2" type="text" placeholder="Enter nsd2" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.nsd2" [readOnly] = "!inventory.is_health">
+            <td><input id="nsd2" name="nsd2" type="text" placeholder="nsd2" autocomplete="off"
+                class="form-control" [(ngModel)]="inventory.nsd2" [readOnly]="!inventory.is_health">
             </td>
-            <td><input id="nsd3" name="nsd3" type="text" placeholder="Enter nsd3" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.nsd3" [readOnly] = "!inventory.is_health">
+            <td><input id="nsd3" name="nsd3" type="text" placeholder="nsd3" autocomplete="off"
+                class="form-control" [(ngModel)]="inventory.nsd3" [readOnly]="!inventory.is_health">
             </td>
-            <td><input id="psi" name="psi" type="text" placeholder="Enter psi" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.psi" [readOnly] = "!inventory.is_health">
-            </td>
+            <td><input id="psi" name="psi" type="text" placeholder="psi" autocomplete="off" class="form-control"
+                [(ngModel)]="inventory.psi" [readOnly]="!inventory.is_health">
+            </td> -->
             <td *ngIf="i == 0">
-                <button class="btn btn-primary add" (click)="addMore()"><i class="fa fa-plus" ></i></button></td>
-        <td *ngIf="i !== 0">
-          <button class="btn btn-danger remove" (click)="inventories.splice(i,1)"><i class="fa fa-trash"></i></button>
-        </td>
+              <button class="btn btn-primary add" (click)="addMore()"><i class="fa fa-plus"></i></button></td>
+            <td *ngIf="i !== 0">
+              <button class="btn btn-danger remove" (click)="inventories.splice(i,1)"><i
+                  class="fa fa-trash"></i></button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- <div class="row row-width">
-      <div class="col-sm-9"> </div>
-
-      <div class="col-sm-3">
-        <button class="btn " type="button" outline (click)="addMore()" id="addmore" style="cursor: pointer;">+</button>
-        <button class="btn btn-danger" type="button" outline (click)="remove()" id="remove" style="cursor: pointer;">-</button>
-      </div>
-    </div> -->
+  
     <div class="row-width clearfix">
       <div class="text-left">
-        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails" style="cursor: pointer;">Save</button>
+        <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails"
+          style="cursor: pointer;">Save</button>
       </div>
 
     </div>
   </nb-card-body>
 </nb-card>
 
-<!-- table to display search data -->
-<nb-card>
+<!-- <nb-card>
   <nb-card-body>
     <table class="table table-bordered table-hover" *ngIf="searchedTyreDetails">
       <thead class="thead">
         <tr>
           <th># </th>
           <th>Model </th>
+          <th>Size </th>
           <th>Tyre No </th>
           <th>Entry Date </th>
           <th>Enter By </th>
           <th>Date </th>
-          <!-- <th>Details</th> -->
 
         </tr>
 
@@ -109,11 +115,11 @@
         <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
           <td>{{i+1}}</td>
           <td>{{tyreDetail.brand}} - {{tyreDetail.model}} </td>
+          <td>{{tyreDetail.size}}</td>
           <td>{{tyreDetail.tyreno}}</td>
           <td>{{tyreDetail.entrydate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
           <td>{{tyreDetail.entryby}}</td>
           <td>{{tyreDetail.date | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-          <!-- <td>{{tyreDetail.details}}</td> -->
         </tr>
       </tbody>
     </table>
@@ -121,4 +127,4 @@
       No Data available !
     </div>
   </nb-card-body>
-</nb-card>
+</nb-card> -->

@@ -46,7 +46,7 @@
             </tr>
           </thead>
           <tbody *ngFor="let liability of liabilities; let i = index;">
-            <tr style="background: #b1c6ec;" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+            <tr style="background: #184154;" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
               <td>{{liability.name}}</td>
               <td style="text-align: right;">{{liability.amount}}</td>
             </tr>
@@ -68,7 +68,7 @@
             </tr>
           </thead>
           <tbody *ngFor="let asset of assets; let i = index;">
-            <tr style="background: #b1c6ec;" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
+            <tr style="background: #184154;" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
               <td>{{asset.name}}</td>
               <td style="text-align: right;">{{asset.amount}}</td>
             </tr>

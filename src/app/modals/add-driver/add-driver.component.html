@@ -5,28 +5,27 @@
   </button>
 </div>
 <div class="modal-body">
-  <form
-    [formGroup]="driverForm"
-    name="addDriver-form"
-    id="addDriver-form"
-    (submit)="driverForm.valid && addNewdriver()"
-  > 
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" minlength="3" maxlength="64" placeholder="Driver Name" required />
-              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">Driver Name is required</div>
-              </div>
-            </div>
-          </div>
-    </div>
+  <form [formGroup]="driverForm" name="addDriver-form" id="addDriver-form"
+    (submit)="driverForm.valid && addNewdriver()">
     <div class="row">
       <div class="col-6">
         <div class="form-group">
-            <label>Contact Number</label>
-            <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO." formControlName="mobileno" minlength="10" required maxlength="10" [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" required />
+          <label>Name</label>
+          <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" minlength="3" maxlength="64"
+            placeholder="Driver Name" required />
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Driver Name is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
+            formControlName="mobileno" minlength="10" required maxlength="10"
+            [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" required />
           <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
             <div *ngIf="f.mobileno.errors.required">mobileNumber is required</div>
             <div *ngIf="f.mobileno.errors.minlength">
@@ -36,75 +35,82 @@
               mobile Number maxlength 10
             </div>
           </div>
-        </div>  
-      </div>
-      <div class="col-6">
-          <div class="form-group">
-            <label>Upload photo</label>  
-            <input type="file" class="file-control" id="upload-photo" formControlName="uploadPhoto" (change)="handleFileSelection($event, 1)"/>
-          </div>
-        </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-          <div class="form-group">
-              <label>Lisence Number</label>
-              <input type="text" class="form-control" id="lisence-number" autocomplete="off" formControlName="lisenceno" placeholder="Lisence No." />
-          </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-            <label>Lisence photo</label>
-            <input type="file" class="file-control" id="lisence-photo" formControlName="lisencephoto" (change)="handleFileSelection($event, 2)" />
-        </div>        
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <div class="form-group">
-            <label>Aadhar Number</label>
-            <input type="text" class="form-control" id="Aadhar-number" autocomplete="off" formControlName="aadharno" placeholder="Aadhar_No." />
         </div>
       </div>
-      <div class="col-6">
-          <div class="form-group">
-              <label>Aadhar photo</label>
-              <input type="file" class="file-control" id="aadhar-photo" formControlName="aadharphoto" (change)="handleFileSelection($event, 3)" /> 
-          </div>
-        </div>
-    </div>
-
-    <div class="row">
-      <div class="col-6">
-        <div class="form-group">
-            <label>Date of Joining</label>
-            <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()" placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="date" readonly />
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-            <label>Salary</label>
-            <input type="text" class="form-control" id="Salary" autocomplete="off" formControlName="Salary" placeholder="Salary" />
-        </div>
+      <div class="col-12 text-right">
+        <button class="btn btn-primary" (click)="toggle()" id="btn">{{detailsBtn}}</button>
       </div>
     </div>
 
-    <div class="row">
+    <div *ngIf="show">
+    <div class="row mt-3">
       <div class="col-6">
         <div class="form-group">
-            <label>Gauranter</label>
-            <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter" placeholder="guranter" />
-        </div>        
+          <label>Lisence Number</label>
+          <input type="text" class="form-control" id="lisence-number" autocomplete="off" formControlName="lisenceno"
+            placeholder="Lisence No." />
+        </div>
       </div>
       <div class="col-6">
         <div class="form-group">
-            <label>Guranter Mobile No.</label>
-            <input type="text" class="form-control" autocomplete="off" minlength="10" maxlength="10" id="guranter-no." placeholder="Guranter mobile No." formControlName="guranterno"/>
+          <label>Licence photo</label>
+          <input type="file" class="file-control" id="lisence-photo" formControlName="lisencephoto"
+            (change)="handleFileSelection($event, 2)" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Aadhar Number</label>
+          <input type="text" class="form-control" id="Aadhar-number" autocomplete="off" formControlName="aadharno"
+            placeholder="Aadhar_No." />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Aadhar photo</label>
+          <input type="file" class="file-control" id="aadhar-photo" formControlName="aadharphoto"
+            (change)="handleFileSelection($event, 3)" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Date of Joining</label>
+          <input type="text" style="cursor: pointer;" [value]="driver.doj | date : 'dd MMM yyyy'" class="form-control"
+            autocomplete="off" (click)="getDate()" placeholder="Select Date" formControlName="date" readonly />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Salary</label>
+          <input type="text" class="form-control" id="Salary" autocomplete="off" formControlName="Salary"
+            placeholder="Salary" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Gauranter</label>
+          <input type="text" class="form-control" id="Gauranter" autocomplete="off" formControlName="guranter"
+            placeholder="guranter" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Guranter Mobile No.</label>
+          <input type="text" class="form-control" autocomplete="off" minlength="10" maxlength="10" id="guranter-no."
+            placeholder="Guranter mobile No." formControlName="guranterno" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Upload photo</label>
+          <input type="file" class="file-control" id="upload-photo" formControlName="uploadPhoto"
+            (change)="handleFileSelection($event, 1)" />
         </div>
       </div>
     </div>
+  </div>
   </form>
 </div>
 <div class="modal-footer">
-    <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="submitted = true">ADD</button>
+  <button type="submit" id="submit" class="btn btn-primary" form="addDriver-form" (click)="addNewdriver()">ADD</button>
 </div>

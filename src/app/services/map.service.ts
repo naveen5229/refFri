@@ -43,11 +43,11 @@ export class MapService {
   }
 
   updateLocation(elementId, autocomplete, setLocation?) {
-    let place = autocomplete.getPlace();
-    let lat = place.geometry.location.lat();
-    let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
-    setLocation && setLocation(place, lat, lng);
+    let placeFull = autocomplete.getPlace();
+    let lat = placeFull.geometry.location.lat();
+    let lng = placeFull.geometry.location.lng();
+    let place = placeFull.formatted_address.split(',')[0];
+    setLocation && setLocation(place, lat, lng, placeFull.formatted_address);
   }
 
   zoomAt(latLng, level = 18) {
@@ -58,9 +58,9 @@ export class MapService {
 
   zoomMap(zoomValue) {
     this.map.setZoom(zoomValue);
-    if (zoomValue == 10 || zoomValue == 12 || zoomValue == 14) {
+    if (zoomValue <= 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    } else if (zoomValue == 16 || zoomValue == 18) {
+    } else if (zoomValue> 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
@@ -264,7 +264,14 @@ export class MapService {
     }
   }
 
-  clearAll(reset = true, boundsReset = true) {
+  clearAll(reset = true, boundsReset = true,resetParams = {marker:true,polygons:true,polypath:true}) {
+    
+    resetParams.marker && this.resetMarker(reset,boundsReset);
+    resetParams.polygons && this.resetPolygons();
+    resetParams.polypath && this.resetPolyPath();
+  }
+
+  resetMarker(reset=true,boundsReset=true){
     for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
@@ -273,6 +280,16 @@ export class MapService {
     if (boundsReset) {
       this.bounds = new google.maps.LatLngBounds();
     }
+  }
+  resetBounds(){
+    this.bounds = new google.maps.LatLngBounds();
+    for (let index = 0; index < this.markers.length; index++) {
+      let pos = this.markers[index].position;
+      if(pos.lat()!=0)
+          this.setBounds(pos);
+    }
+  }
+  resetPolygons(){
     if (this.polygon) {
       this.polygon.setMap(null);
       this.polygon = null;
@@ -283,6 +300,8 @@ export class MapService {
       });
       this.polygons = [];
     }
+  }
+  resetPolyPath(){
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
       this.polygonPath = null;

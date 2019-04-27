@@ -2,8 +2,11 @@
     z-index: 9999 !important;
 }
 label{
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 5px;
+}
+label input{
+    vertical-align: bottom;
 }
 .modal-header{
     padding: 10px 15px;
@@ -11,14 +14,5 @@ label{
     justify-content: left
 }
 .radio2{
-    margin-left:20px;
+    margin-left:12px;
 }
-.close {
-    background: transparent;
-    color: #263238 !important;
-    opacity: 1;
-    padding: 8px 20px;
-    margin: -10px -1rem -1rem auto;
-    outline: none;
-    font-size: 30px;
-  }

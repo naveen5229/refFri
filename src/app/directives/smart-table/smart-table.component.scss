@@ -25,7 +25,7 @@ table.fixed {
 }
 .filter-input {
     border: none;
-    padding: 4px 6px;
+    padding: 4px 6px !important;
     outline: none;
     width: 100%; // border: 1px solid #e2e2e2;
     margin: 0;
@@ -107,7 +107,11 @@ table {
     width: 100%;
 }
 .active-row {
-    background: yellow !important;
+    background: #324148 !important;
+    color: #fff;
+}
+.active-row a{
+    color: #fff;
 }
 thead{
     color: #fff;

@@ -12,7 +12,7 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
 export class TyreModalsComponent implements OnInit {
 public modals =[];
 public items = [];
-public selectedModal = null;
+public selectedModal="0";
   constructor(
     public api:ApiService,
     public common:CommonService,
@@ -31,8 +31,8 @@ public selectedModal = null;
     this.api.get('Stock/getModals?'+ params)
       .subscribe(res => {
         this.modals = res['data'];
-        console.log("getTyreModals", this.modals);
-
+        console.log("getTyreModals",this.selectedModal = this.modals[0].name, this.modals);
+       // this.selectedModal = ''+this.modals[0].name;
       }, err => {
         console.error(err);
         this.common.showError();
@@ -60,6 +60,7 @@ public selectedModal = null;
        }else {
         this.common.params = { stockType: { name: 'Tyre', id: -1 } };
        }
+       console.log("this.common.params",this.common.params);
       const activeModal = this.modalService.open(StockitemComponent, { size: 'lg',  container: 'nb-layout', backdrop: 'static',keyboard :false });
       activeModal.result.then(data => {
         // console.log('Data: ', data);

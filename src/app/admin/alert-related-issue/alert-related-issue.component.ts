@@ -26,6 +26,7 @@ export class AlertRelatedIssueComponent implements OnInit {
     public common: CommonService,
     private modalService: NgbModal, ) {
     this.common.refresh = this.refresh.bind(this);
+    this.ticket();
   }
 
   ngOnInit() {
@@ -166,7 +167,9 @@ export class AlertRelatedIssueComponent implements OnInit {
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
       console.log("after data chnage ");
-      // this.ticket();
+      if(!this.foid){
+       this.ticket();
+      }
       let newData = [];
       for (const ticket of this.ticketsData) {
         if(ticket.id != issue.id){
