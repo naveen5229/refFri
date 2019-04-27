@@ -151,4 +151,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/vehicle-gps-detail',
     home: true,
   },
+  {
+    title: 'Short Target',
+    icon: 'fas fa-list',
+    link: '/pages/short-target',
+    home: true,
+  },
 ];

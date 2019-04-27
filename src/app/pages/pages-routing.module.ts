@@ -29,6 +29,7 @@ import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/d
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
+import { ShortTargetComponent } from './short-target/short-target.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -140,6 +141,10 @@ const routes: Routes = [{
   {
     path: 'tip-feedback-logs',
     component: TipFeedbackLogsComponent,
+  },
+  {
+    path: 'short-target',
+    component: ShortTargetComponent,
   }
   ],
 }];

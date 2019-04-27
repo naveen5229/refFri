@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
 
 @Component({
   selector: 'placement-delay-faults',
@@ -97,6 +98,10 @@ export class PlacementDelayFaultsComponent implements OnInit {
           console.log("headings[j]", this.headings[j]);
           this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.delayFaults[i]) };
         }
+        else if (this.headings[j] == "vehicle") {
+          console.log("headings[j]", this.headings[j]);
+          this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.delayFaults[i]) };
+        }
         else {
           this.valobj[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'black', action: '' };
         }
@@ -156,4 +161,17 @@ export class PlacementDelayFaultsComponent implements OnInit {
       // this.reloadData()
     );
   }
+  addShortTarget(target) {
+    this.common.params = {
+      vehicleId: target._vid,
+      vehicleRegNo: target.vehicle
+
+    };
+
+    const activeModal = this.modalService.open(AddShortTargetComponent, {
+      size: "sm",
+      container: "nb-layout"
+    });
+  }
 }
+
