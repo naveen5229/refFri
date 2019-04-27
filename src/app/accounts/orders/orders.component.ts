@@ -68,6 +68,11 @@ export class OrdersComponent implements OnInit {
     }]
   };
 
+
+  showDateModal = false;
+  f2Date = 'startDate';
+  activedateid = '';
+
   suggestions = {
     purchaseLedgers: [],
     supplierLedgers: [],
@@ -364,6 +369,28 @@ export class OrdersComponent implements OnInit {
     console.log('Active event', event);
     this.setAutoSuggestion();
 
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('date') || this.activeId.includes('biltydate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleOrderDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
+
+
     // console.log('Active Id', this.activeId);
     if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
       // console.log('alt + C pressed');
@@ -488,6 +515,32 @@ export class OrdersComponent implements OnInit {
 
 
   }
+
+  handleOrderDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'date') ? 'date' : 'biltydate';
+    if (this.order[datestring].includes('-')) {
+      dateArray = this.order[datestring].split('-');
+    } else if (this.order[datestring].includes('/')) {
+      dateArray = this.order[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.order[datestring] = date + separator + month + separator + year;
+  }
+
 
   setFoucus(id, isSetLastActive = true) {
     console.log('Id: ', id);
@@ -811,7 +864,7 @@ export class OrdersComponent implements OnInit {
   setAutoSuggestion() {
     console.log('-----------------------:', this.suggestions.stockItems, 'ww:', this.suggestions.warehouses);
     let activeId = document.activeElement.id;
-    console.log('Last Active Id:', )
+    console.log('Last Active Id:')
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
