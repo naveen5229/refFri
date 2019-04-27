@@ -46,6 +46,7 @@ import { PlacementDelayFaultsComponent } from './placement-delay-faults/placemen
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
+import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
 
 
 
@@ -98,7 +99,8 @@ const PAGES_COMPONENTS = [
     PlacementDelayFaultsComponent,
     VehicleGpsDetailComponent,
     VehicleCoveredDistanceComponent,
-    TipFeedbackLogsComponent
+    TipFeedbackLogsComponent,
+    TripOnwardDelayComponent
   ],
   exports: [
     FuelAverageAnalysisComponent

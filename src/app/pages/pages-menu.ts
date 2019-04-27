@@ -95,6 +95,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
+    title: 'Trip Onward Delay',
+    icon: 'fas fa-list',
+    link: '/pages/trip-onward-delay',
+    home: true,
+  },
+  {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
     children: [
