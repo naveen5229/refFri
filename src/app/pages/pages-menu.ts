@@ -94,6 +94,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/tip-feedback-logs',
     home: true,
   },
+  {
+    title: 'Trip Onward Delay',
+    icon: 'fas fa-list',
+    link: '/pages/trip-onward-delay',
+    home: true,
+  },
   // {
   //   title: 'Placements',
   //   icon: 'fa fa-location-arrow',
