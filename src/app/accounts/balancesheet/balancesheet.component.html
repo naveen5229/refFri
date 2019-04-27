@@ -52,7 +52,9 @@
             </tr>
             <tr *ngFor=" let balanceSheet of liability.balanceSheets " style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: left;"><p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p></td>
+              <td style="text-align: left;">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -72,7 +74,9 @@
             </tr>
             <tr *ngFor="let balanceSheet of asset.balanceSheets " style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
-              <td style="text-align: left;"><p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p></td>
+              <td style="text-align: left;">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -83,13 +87,16 @@
         <div *ngIf="liabilities.length" class="tanding_total clearfix">
           <div class="total_name">{{liabilities[liabilities.length - 1].name}}</div>
           <div class="total_amount" style="text-align: right;">
-            <p style="margin: 0px; width: 50px; text-align: right;">{{liabilities[liabilities.length - 1].amount}}</p></div>
+            <p style="margin: 0px; width: 50px; text-align: right;">{{liabilities[liabilities.length - 1].amount}}</p>
           </div>
+        </div>
       </div>
       <div class="col-6 pl-0">
         <div class="tanding_total clearfix" *ngIf="assets.length">
           <div class="total_name">{{assets[assets.length - 1].name}}</div>
-          <div class="total_amount" style="text-align: right;"> <p style="margin: 0px; width: 50px; text-align: right;">{{assets[assets.length - 1].amount}}</p></div>
+          <div class="total_amount" style="text-align: right;">
+            <p style="margin: 0px; width: 50px; text-align: right;">{{assets[assets.length - 1].amount}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -97,3 +104,12 @@
 
   </nb-card-body>
 </nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="balanceData[f2Date]" maxlength="10">
+    </div>
+  </div>
+</div>

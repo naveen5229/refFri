@@ -44,6 +44,7 @@ import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
 import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
 
 
@@ -65,8 +66,8 @@ const PAGES_COMPONENTS = [
     OwlNativeDateTimeModule,
     ImageViewerModule,
     ReactiveFormsModule,
-    ResizableModule  ,
-    LorryReceiptModule  
+    ResizableModule,
+    LorryReceiptModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -95,6 +96,7 @@ const PAGES_COMPONENTS = [
     UserActivityStatusComponent,
     PlacementDelayFaultsComponent,
     VehicleGpsDetailComponent,
+    VehicleCoveredDistanceComponent,
     TipFeedbackLogsComponent
   ],
 })

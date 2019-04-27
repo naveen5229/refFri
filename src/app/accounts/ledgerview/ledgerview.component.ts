@@ -13,6 +13,7 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 export class LedgerviewComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
+
   ledger = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -30,12 +31,16 @@ export class LedgerviewComponent implements OnInit {
     }
 
   };
+
   ledgerData = [];
   ledgerList = [];
   activeId = 'voucherType';
   selectedRow = -1;
   allowBackspace = true;
-
+  showDateModal = false;
+  f2Date = 'startDate';
+  activedateid = '';
+  lastActiveId = '';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -161,25 +166,45 @@ export class LedgerviewComponent implements OnInit {
       this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id);
       return;
     }
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
     if (key == 'enter') {
       this.allowBackspace = true;
-       if (this.activeId.includes('voucherType')) {
+      if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       } else if (this.activeId.includes('ledger')) {
-        this.setFoucus('startdate');
-      } else if (this.activeId.includes('startdate')) {
-        this.ledger.startDate=  this.common.handleDateOnEnterNew(this.ledger.startDate);
-        this.setFoucus('enddate');
-      } else if (this.activeId.includes('enddate')) {
-        this.ledger.endDate=  this.common.handleDateOnEnterNew(this.ledger.endDate);
+        this.setFoucus('startDate');
+      } else if (this.activeId.includes('startDate')) {
+        this.ledger.startDate = this.common.handleDateOnEnterNew(this.ledger.startDate);
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
+        this.ledger.endDate = this.common.handleDateOnEnterNew(this.ledger.endDate);
         this.setFoucus('submit');
       }
     }
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
-      if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('ledger');
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('ledger');
       if (this.activeId == 'ledger') this.setFoucus('voucherType');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
@@ -195,6 +220,31 @@ export class LedgerviewComponent implements OnInit {
     }
   }
 
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.ledger[datestring].includes('-')) {
+      dateArray = this.ledger[datestring].split('-');
+    } else if (this.ledger[datestring].includes('/')) {
+      dateArray = this.ledger[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.ledger[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
