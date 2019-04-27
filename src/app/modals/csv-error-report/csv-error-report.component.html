@@ -1,11 +1,21 @@
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
+<div class="row">
+  <div class="col-4">
+    <input type="radio" value="success" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">success
+    <input type="radio" value="fail" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">fail
+
+
+  </div>
+
+</div>
 <div class="table">
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover" *ngIf="selectOption=='success'">
     <thead class="thead">
 
       <tr>
@@ -17,8 +27,8 @@
       </tr>
     </thead>
 
-    <tbody class="">
-      <tr *ngFor="let row of errors; let i=index;">
+    <tbody>
+      <tr *ngFor="let row of success; let i=index;">
 
         <td style='width: 40px;'> <span>{{i + 1}}</span></td>
 
@@ -31,12 +41,39 @@
 
     </tbody>
 
+
+  </table>
+  <table class="table table-bordered table-hover" *ngIf="selectOption=='fail'">
+    <thead class="thead">
+
+      <tr>
+        <th>SrNo</th>
+        <th *ngFor="let col of columns" class="text-center">
+          {{formatTitle(col)}}
+        </th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let row of errors; let i=index;">
+
+        <td style='width: 40px;'> <span>{{i + 1}}</span></td>
+
+        <td *ngFor="let col of columns; " class="text-center">
+
+          {{row[col]}}
+
+        </td>
+      </tr>
+
+    </tbody>
   </table>
 </div>
 <div class="modal-footer">
   <div class="row">
     <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
+      <button class="btn btn-danger" type="button" outline (click)="uploadCsv()" id="cancel"
         style="cursor: pointer;">{{btn}}</button>
     </div>
   </div>
