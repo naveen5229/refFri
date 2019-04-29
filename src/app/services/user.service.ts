@@ -59,6 +59,8 @@ export class UserService {
       { id: 28, route: '/admin/trip-site-rule' },
       { id: 30, route: '/admin/trip-status-feedback-logs' },
       { id: 31, route: '/admin/transport-area' },
+      { id: 32, route: '/accounts/dashboard' },
+      { id: 33, route: '/admin/fuel-average-analysis' },
 
     ]
   }
