@@ -21,6 +21,7 @@ export class AddPumpComponent implements OnInit {
 
   marker = [];
   infoWindow = null;
+  insideInfo = null;
 
   constructor(
     public api: ApiService,
@@ -98,21 +99,31 @@ export class AddPumpComponent implements OnInit {
   }
 
   setEventInfo(event) {
+    this.insideInfo = new Date().getTime();
+    if (this.infoWindow) {
+      this.infoWindow.close();
+    }
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(`
     <p>Site Id :${event.id}</p>
     <p>Pump Name :${event.name}</p>
     `);
+    // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
     this.infoWindow.open(this.mapService.map);
 
   }
-  unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+  async unsetEventInfo() {
+    let diff = new Date().getTime() - this.insideInfo;
+    if (diff > 150) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
-
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   selectCompany(id) {
     this.fuel_company = parseInt(id);
   }
@@ -125,7 +136,6 @@ export class AddPumpComponent implements OnInit {
       fuelCompany: this.fuel_company
     };
     console.log("params", params);
-    return;
     this.common.loading++;
     this.api.post('FuelDetails/addPetrolPump', params)
       .subscribe(res => {

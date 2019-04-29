@@ -20,13 +20,14 @@
         <thead class="thead">
           <tr>
             <th>#</th>
-            <th>Vehicle Id</th>
+            <th>Regno</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Liters</th>
             <th>Amounts</th>
             <th>Average</th>
-            <th>Total Distance</th>
+            <th>Loading Distance</th>
+            <th>Unloading Distance</th>
             <th>Location Trail</th>
 
           </tr>
@@ -35,13 +36,14 @@
         <tbody *ngIf="fuelAvgDetails.length!=0">
           <tr *ngFor="let fuelAvgDetail of fuelAvgDetails; let i = index" (click)="getDetails(fuelAvgDetail)">
             <th scope="row">{{i + 1}}</th>
-            <td>{{fuelAvgDetail.vehicle_id}}</td>
+            <td>{{fuelAvgDetail.reg_number}}</td>
             <td>{{fuelAvgDetail.startdate | date : 'dd-MMM hh:mm '}}</td>
             <td>{{fuelAvgDetail.enddate | date : 'dd-MMM hh:mm '}}</td>
             <td>{{fuelAvgDetail.liters}}</td>
             <td>{{fuelAvgDetail.amounts}}</td>
             <td>{{fuelAvgDetail.avg}}</td>
-            <td>{{fuelAvgDetail.total_distance}}</td>
+            <td>{{fuelAvgDetail.loading_distance}}</td>
+            <td>{{fuelAvgDetail.umloading_distance}}</td>
             <td>{{fuelAvgDetail.location_trail}}</td>
 
 
