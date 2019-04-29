@@ -15,7 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class StorerequisitionsComponent implements OnInit {
 
   StockQuestions = [];
-  storeRequestId=0;
+  storeRequestId = 0;
+  selectedName = '';
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -27,7 +28,7 @@ export class StorerequisitionsComponent implements OnInit {
       console.log('Params1: ', params);
       if (params.id) {
         this.storeRequestId = parseInt(params.id);
-       // this.GetLedger();
+        // this.GetLedger();
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
@@ -37,7 +38,13 @@ export class StorerequisitionsComponent implements OnInit {
   ngOnInit() {
   }
 
-  getStoreQuestion(){
+
+  refresh() {
+    console.log('Refresh');
+    this.getStoreQuestion();
+  }
+
+  getStoreQuestion() {
     let params = {
       foid: 123
     };
@@ -55,14 +62,19 @@ export class StorerequisitionsComponent implements OnInit {
       });
   }
 
-  openStoreRequisitions(stockQuestion?,stockQuestionBranch?) {
+  openStoreRequisitions(stockQuestion?, stockQuestionBranch?) {
     this.common.params = {
-      storeRequestId : this.storeRequestId,
-      stockQuestionId : stockQuestion,
-      stockQuestionBranchid:stockQuestionBranch
+      storeRequestId: this.storeRequestId,
+      stockQuestionId: stockQuestion,
+      stockQuestionBranchid: stockQuestionBranch
     };
     const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
     });
+  }
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
   }
 }
