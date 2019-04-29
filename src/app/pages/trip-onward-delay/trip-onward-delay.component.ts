@@ -2,16 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { parse } from 'path';
 
 @Component({
-  selector: 'vehicle-covered-distance',
-  templateUrl: './vehicle-covered-distance.component.html',
-  styleUrls: ['./vehicle-covered-distance.component.scss']
+  selector: 'trip-onward-delay',
+  templateUrl: './trip-onward-delay.component.html',
+  styleUrls: ['./trip-onward-delay.component.scss']
 })
-export class VehicleCoveredDistanceComponent implements OnInit {
+export class TripOnwardDelayComponent implements OnInit {
   showTable = false;
-  distanceData = [];
+  onwardDelayData = [];
   headings = [];
   valobj = {};
   table = {
@@ -33,32 +32,15 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   ngOnInit() {
   }
 
-
-
   getData() {
-    this.distanceData = [];
+    this.onwardDelayData = [];
     this.common.loading++;
-    this.api.get('Vehicles/foVehiclePerodicDistance')
+    this.api.get('TripsOperation/tripOnwardDelay')
       .subscribe(res => {
         this.common.loading--;
-        let re = JSON.stringify(res['data']);
-        console.log("re---", re);
-        let rep = JSON.parse(re);
-        console.log("response data ", rep);
-        let details = [];
-        Object.keys(rep).map(key => {
-          let detail = {
-            _id: key,
-            Regno: rep[key].regno,
-            Location: rep[key].currLoc
-          };
-          rep[key].slots && rep[key].slots.map((slot, index) => {
-            detail['Slot' + (index + 1)] = slot;
-          });
-          details.push(detail);
-        });
-        console.log('Details:', details);
-        this.distanceData = details;
+
+        console.log("res['data']", res['data'][0].fn_trips_onwarddelay);
+        //this.onwardDelayData = res['data'];
         this.smartTableWithHeadings();
 
       }, err => {
@@ -78,9 +60,9 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         hideHeader: true
       }
     };
-    if (this.distanceData != null) {
-      console.log('distanceData', this.distanceData);
-      let first_rec = this.distanceData[0];
+    if (this.onwardDelayData != null) {
+      console.log('onwardDelayData', this.onwardDelayData);
+      let first_rec = this.onwardDelayData[0];
       console.log("first_Rec", first_rec);
 
       for (var key in first_rec) {
@@ -112,19 +94,20 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   }
   getTableColumns() {
     let columns = [];
-    for (var i = 0; i < this.distanceData.length; i++) {
+    for (var i = 0; i < this.onwardDelayData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
 
-        this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
+        this.valobj[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'black', action: '' };
 
 
       }
-      this.valobj['style'] = { background: this.distanceData[i]._rowcolor };
+      this.valobj['style'] = { background: this.onwardDelayData[i]._rowcolor };
       columns.push(this.valobj);
     }
 
     console.log('Columns:', columns);
     return columns;
   }
+
 }

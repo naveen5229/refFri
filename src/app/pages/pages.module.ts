@@ -46,12 +46,14 @@ import { PlacementDelayFaultsComponent } from './placement-delay-faults/placemen
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
+import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
 import { ShortTargetComponent } from './short-target/short-target.component';
 
 
 
 const PAGES_COMPONENTS = [
-  PagesComponent,
+  PagesComponent
+
 ];
 
 @NgModule({
@@ -99,7 +101,12 @@ const PAGES_COMPONENTS = [
     VehicleGpsDetailComponent,
     VehicleCoveredDistanceComponent,
     TipFeedbackLogsComponent,
+    TripOnwardDelayComponent,
     ShortTargetComponent
+  ],
+  exports: [
+    FuelAverageAnalysisComponent,
+
   ],
 })
 export class PagesModule {

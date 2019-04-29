@@ -133,6 +133,7 @@ import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
 import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.component';
 import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.component';
 import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
+import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-report.component';
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
 @NgModule({
   declarations: [AppComponent,
@@ -229,6 +230,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChoosePeriodsComponent,
     VehicleStatesComponent,
     ChangeDriverComponent,
+    CsvErrorReportComponent,
     AddShortTargetComponent,
 
   ],
@@ -324,6 +326,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     VehicleLrComponent,
     ChoosePeriodsComponent,
     VehicleStatesComponent,
+    CsvErrorReportComponent,
     AddShortTargetComponent
 
   ],
