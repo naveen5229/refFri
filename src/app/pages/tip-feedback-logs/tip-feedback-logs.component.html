@@ -15,8 +15,8 @@
               placeholder="End Date" (click)="getDate('end')" />
           </div>
           <div class="col-sm-3">
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
-            display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
           </div>
           <div class="col-sm-3">
             <button class="btn btn-primary" (click)="getFeedbackLogs()">submit</button>
@@ -26,12 +26,13 @@
     </div>
   </nb-card-header>
   <nb-card-body>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="activitySummary.length==0">
+      No Data Available On That Time Period !
+    </div>
 
     <div>
       <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
-    <!-- <div class="no-data alert alert-danger" role="alert" *ngIf="activitySummary.length==0">
-      No Data available !
-    </div> -->
+
   </nb-card-body>
 </nb-card>
