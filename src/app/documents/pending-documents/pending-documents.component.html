@@ -108,11 +108,11 @@
               <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
                 <label style="font-size:16px; margin-left: 5%; "
-                  *ngIf="modal.first.data.document.review > 0 && modal.first.data.document.review < 3; else checkHistory">Review
-                  :{{modal.first.data.document.review}}</label>
+                  *ngIf="modal.first.data.document.review >= 0 && modal.first.data.document.review <4; else checkHistory">Review
+                  : {{modal.first.data.document.review}}</label>
                 <ng-template #checkHistory>
-                  <span style="font-size:16px; margin-left: 5%;"
-                    (click)="History(modal.first.data.document.id)">CheckHistory</span>
+                  <span style="font-size:16px; color: blue; margin-left: 5%;"
+                    (click)="History(modal.first.data.document.id)">Review: {{modal.first.data.document.review}}</span>
                 </ng-template>
 
                 <span *ngIf="modal.first.data.document.rcImage" class="rc-image">
@@ -318,13 +318,13 @@
               <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                 <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
                 <label style="font-size:16px;  margin-left: 5%;"
-                  *ngIf="modal.second.data.document.review > 0 && modal.second.data.document.review <3 ; else checkHistory">Review
-                  :{{modal.second.data.document.review}}</label>
+                  *ngIf="modal.second.data.document.review >= 0 && modal.second.data.document.review <4 ; else checkHistory">Review
+                  : {{modal.second.data.document.review}}</label>
 
                 <ng-template #checkHistory>
-                  <span style="font-size:16px;  margin-left: 5%;"
+                  <span style="font-size:16px; color: blue;  margin-left: 5%;"
                     (click)="History(modal.second.data.document.id)">Review
-                    History</span>
+                    : {{modal.second.data.document.review}}</span>
                 </ng-template>
 
 
