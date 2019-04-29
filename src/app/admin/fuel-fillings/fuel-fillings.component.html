@@ -10,6 +10,15 @@
     <button id="import-csv" name="import-csv" class="btn btn-primary" (click)="addCsv()"
       style="margin-bottom:15px; margin-right: 10px; cursor: pointer;">Import CSV</button>
 
+    <div class="col-sm-2">
+      <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
+        placeholder="Select Start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date" readonly>
+    </div>
+    <div class="col-sm-2">
+      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+        placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
+    </div>
+
     <smart-table *ngIf="fillingData.length" [data]="table.data" [settings]="table.settings" id="tblfillings">
     </smart-table>
     <br>
