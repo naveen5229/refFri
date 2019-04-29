@@ -8,8 +8,8 @@
 
 <div class="model-body" style="text-align:center; margin-top:5px; margin-left: 10px; margin-right:10px">
   <div class="row">
-    <div class="col-sm-6">
-      <label>Target Type</label>
+    <div class="col-sm-6" style="margin-top: 5px;">
+      <label>Target Type:</label>
     </div>
     <div class="col-sm-6">
       <select [(ngModel)]="addTarget.targetType" class="form-control"
@@ -21,8 +21,8 @@
     </div>
   </div>
   <div class="row" style="margin-top:10px">
-    <div class="col-sm-6">
-      <label>Time</label>
+    <div class="col-sm-6" style="margin-top: 5px;">
+      <label>Time:</label>
     </div>
     <div class="col-sm-6">
       <input type="text" class="form-control" [(ngModel)]="addTarget.time" name="time" placeholder="Time"
@@ -30,8 +30,8 @@
     </div>
   </div>
   <div class="row" *ngIf="addTarget.targetType=='51'" style="margin-top:10px">
-    <div class="col-sm-6">
-      <label>Distance</label>
+    <div class="col-sm-6" style="margin-top: 5px;">
+      <label>Distance:</label>
     </div>
     <div class="col-sm-6">
       <input type="text" class="form-control" [(ngModel)]="targetDistance" name="distance" placeholder="Distance">
