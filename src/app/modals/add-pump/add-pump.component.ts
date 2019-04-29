@@ -112,6 +112,7 @@ export class AddPumpComponent implements OnInit {
       fuelCompany: this.fuel_company
     };
     console.log("params", params);
+    return;
     this.common.loading++;
     this.api.post('FuelDetails/addPetrolPump', params)
       .subscribe(res => {

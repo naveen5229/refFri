@@ -100,27 +100,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/trip-onward-delay',
     home: true,
   },
-  // {
-  //   title: 'Placements',
-  //   icon: 'fa fa-location-arrow',
-  //   link:'/pages/placements'
-  // },
-  //{
-  //  title: 'Call Logs',
-  //  icon: 'fa fa-phone',
-  //  link:'/pages/call-logs'
-  //},
-  // {
-  //   title: 'Route Mapper',
-  //   icon: 'fal fa-map-pin',
-  //   link:'/pages/route-mapper'
-  // }
-  // {
-  //   title: 'Driver',
-  //   icon: 'fa fa-money',
-  //   link:'/driver/dashboard',
-  //   home: true,
-  // },
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
@@ -155,6 +134,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Vehicle Gps Detail',
     icon: 'fas fa-list',
     link: '/pages/vehicle-gps-detail',
+    home: true,
+  },
+  {
+    title: 'Short Target',
+    icon: 'fas fa-list',
+    link: '/pages/short-target',
     home: true,
   },
 ];
