@@ -45,7 +45,7 @@ export class ErrorReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  columnSperate(){
+  columnSperate() {
     if (this.errors.length) {
       for (var key in this.errors[0]) {
         if (key.charAt(0) != "_")
@@ -57,8 +57,8 @@ export class ErrorReportComponent implements OnInit {
   }
   formatTitle(strval) {
     let pos = strval.indexOf('_');
-    if(pos > 0) {
-      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }

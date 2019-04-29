@@ -24,6 +24,7 @@ export class DataService {
         icon: 'fa fa-home',
         link: '/pages',
       },
+
       {
         title: 'Vehicle Status Change',
         icon: 'fas fa-clipboard-check',
@@ -104,6 +105,11 @@ export class DataService {
 
         ]
       },
+      {
+        title: 'Account',
+        icon: 'fa fa-money',
+        link: '/accounts/dashboard'
+      },
 
       {
         title: 'User Prefrence',
@@ -181,16 +187,17 @@ export class DataService {
         link: '/admin/fuel-fillings',
         home: true,
       },
-      {
-        title: 'Vechile Distance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
-        home: true,
-      },
+
       {
         title: 'Trip Feedback Logs',
         icon: 'nb-home',
         link: '/admin/trip-status-feedback-logs',
+        home: true,
+      },
+      {
+        title: 'Fuel Average Analysis',
+        icon: 'fa fa-signal',
+        link: '/admin/fuel-average-analysis',
         home: true,
       },
     ];
