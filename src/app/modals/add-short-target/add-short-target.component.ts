@@ -17,7 +17,7 @@ export class AddShortTargetComponent implements OnInit {
   vRegNo;
 
   addTarget = {
-    targetType: "51",
+    targetType: "101",
     time: null,
     isNotify: true,
   }
