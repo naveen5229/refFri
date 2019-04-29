@@ -116,7 +116,7 @@ export class AddPumpComponent implements OnInit {
   }
   async unsetEventInfo() {
     let diff = new Date().getTime() - this.insideInfo;
-    if (diff > 150) {
+    if (diff > 200) {
       this.infoWindow.close();
       this.infoWindow.opened = false;
     }

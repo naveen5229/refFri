@@ -155,7 +155,7 @@ export class FuelFillingsComponent implements OnInit {
         litres: { value: frec.litres },
         rate: { value: frec.rate },
         amount: { value: frec.amount },
-        addtime: { value: this.datePipe.transform(frec.addtime, 'dd MMM yyyy h:mm:ss a') },
+        addtime: { value: this.datePipe.transform(frec.addtime, 'dd MMM yyyy') },
         username: { value: frec.username },
         rowActions: {}
       };
