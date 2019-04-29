@@ -95,6 +95,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
+    title: 'Trip Onward Delay',
+    icon: 'fas fa-list',
+    link: '/pages/trip-onward-delay',
+    home: true,
+  },
+  {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
     children: [
@@ -128,6 +134,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Vehicle Gps Detail',
     icon: 'fas fa-list',
     link: '/pages/vehicle-gps-detail',
+    home: true,
+  },
+  {
+    title: 'Short Target',
+    icon: 'fas fa-list',
+    link: '/pages/short-target',
     home: true,
   },
 ];

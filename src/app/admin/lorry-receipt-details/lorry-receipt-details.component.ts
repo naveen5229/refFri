@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-consignee.component';
 declare var google: any;
+import { NgZone } from '@angular/core';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
+    private zone: NgZone,
     public modalService: NgbModal) {
     let today;
     today = new Date();
@@ -157,6 +159,9 @@ export class LorryReceiptDetailsComponent implements OnInit {
       this.modal.active = 'second';
     }
     console.log('Handler End: ', this.modal.active);
+
+    setTimeout(this.autoSuggestion.bind(this, this.modal.active + '-source', this.modal.active), 3000);
+    setTimeout(this.autoSuggestion.bind(this, this.modal.active + '-destination', this.modal.active), 3000);
   }
 
   handleModalData(modalType, details) {
@@ -363,9 +368,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
   dismiss(modalType) {
-    this.modal[modalType].show = false;
 
-    this.modal[modalType].show = false;
     if (this.modal.first.show && this.modal.second.show) {
       if (modalType == 'first') {
         this.modal.first.show = false;
@@ -388,7 +391,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
     this.getPendingLr();
   }
 
-  sekectDate(modalType) {
+  selectDate(modalType) {
     let modalRef = this.modal[modalType].data;
     this.common.params = { ref_page: 'lrDetails' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -435,7 +438,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
 
 
-  nsertAgentInfo(modalType) {
+  insertAgentInfo(modalType) {
     let modalRef = this.modal[modalType].data;
     let params = {
       gstin: modalRef.transportAgentDetails.gstin,
@@ -569,7 +572,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
           //this.resetValues();
           this.common.showToast('Success !!');
           modalRef.isUpdated = true;
-          modalRef.dismiss();
+          this.closeModal(modalType);
         }
         else {
           this.common.showToast('Not Success !!');
@@ -587,8 +590,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(this.autoSuggestion.bind(this, 'source'), 3000);
-    setTimeout(this.autoSuggestion.bind(this, 'destination'), 3000);
+
   }
 
   autoSuggestion(elementId, modalType) {
@@ -614,16 +616,20 @@ export class LorryReceiptDetailsComponent implements OnInit {
   setLocations(elementId, place, lat, lng, modalType) {
     let modalRef = this.modal[modalType].data;
 
-    console.log("elementId", elementId, "place", place, "lat", lat, "lng", lng);
-    if (elementId == 'source') {
-      modalRef.LrData.source = place;
-      modalRef.LrData.source_lat = lat;
-      modalRef.LrData.source_long = lng;
-    } else if (elementId == 'destination') {
-      modalRef.LrData.destination = place;
-      modalRef.LrData.destination_lat = lat;
-      modalRef.LrData.destination_long = lng;
-    }
+    this.zone.run(() => {
+      if (elementId.includes('source')) {
+        modalRef.LrData.source = place;
+        console.log('LrData', modalRef.LrData);
+        modalRef.LrData.source_lat = lat;
+        modalRef.LrData.source_long = lng;
+      } else if (elementId.includes('destination')) {
+        modalRef.LrData.destination = place;
+        modalRef.LrData.destination_lat = lat;
+        modalRef.LrData.destination_long = lng;
+      }
+      console.log("elementId", elementId, "place", place, "lat", lat, "lng", lng, 'modalRef', modalRef);
+    });
+
   }
 
   removeLrDetails(modalType) {
@@ -648,7 +654,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
         if (res['success']) {
           this.common.showToast('Success !!');
           modalRef.isUpdated = true;
-          this.dismiss(modalType);
+          this.closeModal(modalType);
         } else {
           this.common.showToast('something went wrong');
         }
@@ -668,7 +674,7 @@ export class LorryReceiptDetailsComponent implements OnInit {
 
   checkDateFormat(modalType) {
     let modalRef = this.modal[modalType].data;
-
+    if (!modalRef.lrDate) return;
     let dateValue = modalRef.lrDate;
     console.log('this.lrdate', modalRef.lrDate);
     if (dateValue.length < 8) return;
@@ -713,11 +719,10 @@ export class LorryReceiptDetailsComponent implements OnInit {
     } else {
       modalRef.status = 1;
     }
-    if (this.modal.first.show && this.modal.second.show) return;
-    this.openNextModal();
   }
 
   openNextModal() {
+    if (this.modal.first.show && this.modal.second.show) return;
     if (this.activeLrIndex == this.pendinglr.length - 1) return;
     this.activeLrIndex++;
     let details = Object.assign({}, this.pendinglr[this.activeLrIndex]);
