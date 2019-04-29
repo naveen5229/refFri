@@ -22,3 +22,23 @@ table tr.highlight {
     width: 152px;
     margin: 15% auto auto auto;
 }
+table{
+    tbody{
+        tr:nth-child(odd){
+                    background-color: #fff;
+                }
+                tr:nth-child(even){
+                    background-color: #e4e4e4;
+                }
+        }
+}
+
+
+.tjr-button {
+    cursor: pointer;
+    margin-top: 18px;
+    background: #263238 !important;
+    height: auto;
+    border-radius: 3px !important;
+    padding: 3px 8px !important;
+}
