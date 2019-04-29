@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Add Short Target</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="model-body" style="text-align:center; margin-top:5px; margin-left: 10px; margin-right:10px">
+  <div class="row">
+    <div class="col-sm-6">
+      <label>Target Type</label>
+    </div>
+    <div class="col-sm-6">
+      <select [(ngModel)]="addTarget.targetType" class="form-control"
+        style=" border: 2px solid darkcyan; font-size: 13px">
+        <option value="51">KM</option>
+        <option value="11">Loading</option>
+        <option value="21">Unloading</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-6">
+      <label>Time</label>
+    </div>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" [(ngModel)]="addTarget.time" name="time" placeholder="Time"
+        (click)="getTime()">
+    </div>
+  </div>
+  <div class="row" *ngIf="addTarget.targetType=='51'" style="margin-top:10px">
+    <div class="col-sm-6">
+      <label>Distance</label>
+    </div>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" [(ngModel)]="targetDistance" name="distance" placeholder="Distance">
+    </div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-6">
+      <input type="checkbox" name="isnotify" [(ngModel)]="addTarget.isNotify" value="check">isNotify
+    </div>
+    <div class="col-sm-6" style="text-align:right">
+      <button class="btn btn-primary" (click)="saveTarget()">Save</button>
+    </div>
+  </div>
+</div>

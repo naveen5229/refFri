@@ -170,16 +170,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-home',
         link: '/admin/fuel-fillings',
     },
-    {
-        title: 'Vechile Distance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
-        home: true,
-    },
+
     {
         title: 'Trip Feedback Logs',
         icon: 'nb-home',
         link: '/admin/trip-status-feedback-logs',
+        home: true,
+    },
+    {
+        title: 'Fuel Average Analysis',
+        icon: 'fa fa-signal',
+        link: '/admin/fuel-average-analysis',
         home: true,
     },
 
