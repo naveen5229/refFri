@@ -14,6 +14,8 @@ import { ImportFillingsComponent } from '../../../app/modals/import-fillings/imp
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
+  totalRecord = null;
+  totalPages = null;
   showcolumns = [];
   headings = [];
   table = {
@@ -82,6 +84,15 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
+        this.totalRecord = this.fillingData.length;
+        console.info("toatl Record Data", this.totalRecord);
+        // show total Pages
+        if (this.totalRecord > 50) {
+          this.totalPages = this.totalRecord / 50;
+          this.totalPages = parseInt(this.totalPages);
+          console.log("Total Pages :", this.totalPages);
+
+        }
         this.fillingData = this.fillingData.slice(1, 100);
         console.info("filling Data", this.fillingData);
         console.log(this.table.data.headings);
