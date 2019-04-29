@@ -4,82 +4,78 @@
   </nb-card-header> -->
   <nb-card-body>
     <div class="container">
-        <div class="row" style="height: 50px;">
-            <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
-            <div class="col-sm-2 list">
-              <select name="list" class="form-control" (change)="selectList($event.target.value)">
-                <option class="form-control" [value]="0">Pending</option>
-                <option class="form-control" [value]="1">Advance Review</option>
-              </select>
-            </div>
+      <div class="row" style="height: 50px;">
+        <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
+        <div class="col-sm-2 list">
+          <select name="list" class="form-control" (change)="selectList($event.target.value)">
+            <option class="form-control" [value]="0">Pending</option>
+            <option class="form-control" [value]="1">Advance Review</option>
+          </select>
         </div>
+      </div>
       <div class="row">
-      <!--<div class="col-sm-12" style="padding-left: 0; margin-top: 15px;">Export : 
-            <span title="PDF Export" (click)="this.common.getPDFFromTableId('tblpending', '', (this.listtype == 1)? 'ADVANCED REVIEW DOCUMENTS' : 'PENDING VEHICLE DOCUMENTS')" style="cursor: pointer;"><i class="fa fa-file-pdf" style="font-size:18px"></i>PDF</span>
-            <span title="CSV Export" (click)="common.getCSVFromTableId('tblpending')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel" style="font-size:18px"></i>CSV</span>
-        </div>-->
         <div class="list_table">
-            <table class="table table-bordered table-hover table-scroll" id="tblpending">
-                <thead class="thead">
-      
-                  <tr>
-                    <th>SrNo</th>
-                    <th *ngFor="let col of columns" class="text-center">
-                      {{formatTitle(col)}}
-                    </th>
-                    <th style="width:120px; text-align: center;" class="del">Action</th>
-                  </tr>
-                </thead>
-      
-                <tbody>
-                  <ng-container *ngIf="data.length">
-                    <tr *ngFor="let row of data; let i = index" class="">
-                     
-                        <td>{{i + 1}}</td>
-                        <td *ngFor="let col of columns">
-                        <span  style="min-width: 200px;">{{row[col]}}</span>
-                 
-                      </td>
-                        <td class="del">
-                          <a href="javascript: void(0);" class="edit" title="Edit Document" (click)="showDetails(row)"><i
-                              class="icon ion-md-create"></i></a>&nbsp;
-                          <a href="javascript: void(0);" class="delete" title="Delete Document" (click)="deleteDocument(row)"><i
-                              class="fa fa-trash"></i></a>
-                          </td>
-                      
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+          <table class="table table-bordered table-hover table-scroll" id="tblpending">
+            <thead class="thead">
+
+              <tr>
+                <th>SrNo</th>
+                <th *ngFor="let col of columns" class="text-center">
+                  {{formatTitle(col)}}
+                </th>
+                <th style="width:120px; text-align: center;" class="del">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngIf="data.length">
+                <tr *ngFor="let row of data; let i = index" class="">
+
+                  <td>{{i + 1}}</td>
+                  <td *ngFor="let col of columns">
+                    <span style="min-width: 200px;">{{row[col]}}</span>
+
+                  </td>
+                  <td class="del">
+                    <a href="javascript: void(0);" class="edit" title="Edit Document" (click)="showDetails(row)"><i
+                        class="icon ion-md-create"></i></a>&nbsp;
+                    <a href="javascript: void(0);" class="delete" title="Delete Document"
+                      (click)="deleteDocument(row)"><i class="fa fa-trash"></i></a>
+                  </td>
+
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
         </div>
-        
+
       </div>
 
       <div class="row">
         <h6>Work List</h6>
 
         <div class="work-table">
-            <table class="table table-bordered table-hover table-scroll">
-                <thead class="thead">
-                  <tr>
-                    <th>SrNo</th>
-                    <th *ngFor="let col of columns2">{{formatTitle(col)}}</th>
-                  </tr>
-                </thead>
-      
-                <tbody class="">
-                  <ng-container *ngIf="userdata.length">
-                    <tr *ngFor="let row of userdata; let i = index">
-                      <td>{{i + 1}}</td>
-                      <td *ngFor="let col of columns2">
-                      <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
-                    </td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+          <table class="table table-bordered table-hover table-scroll">
+            <thead class="thead">
+              <tr>
+                <th>SrNo</th>
+                <th *ngFor="let col of columns2">{{formatTitle(col)}}</th>
+              </tr>
+            </thead>
+
+            <tbody class="">
+              <ng-container *ngIf="userdata.length">
+                <tr *ngFor="let row of userdata; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td *ngFor="let col of columns2">
+                    <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
         </div>
-        
+
       </div>
 
 
@@ -107,11 +103,18 @@
 
               <div class="col-sm-8 " *ngIf="!modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
-               
+
               </div>
               <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
-                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.first.data.document.review > 0">Review :{{modal.first.data.document.review}}</label>
+                <label style="font-size:16px; margin-left: 5%; "
+                  *ngIf="modal.first.data.document.review > 0 && modal.first.data.document.review < 3; else checkHistory">Review
+                  :{{modal.first.data.document.review}}</label>
+                <ng-template #checkHistory>
+                  <span style="font-size:16px; margin-left: 5%;"
+                    (click)="History(modal.first.data.document.id)">CheckHistory</span>
+                </ng-template>
+
                 <span *ngIf="modal.first.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.first.data.document.rcImage}}" title="View Document">RC Image</a>
                 </span>
@@ -130,9 +133,6 @@
                   name="document_id-first" [value]="modal.first.data.document.newRegno | uppercase" type="text"
                   class="form-control " [(ngModel)]="modal.first.data.document.newRegno" />
 
-                <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
-                    placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
-                    (keyup)="isValidVehicle($event)"></auto-suggestion> -->
               </div>
             </div>
             <div class="row form-field clear">
@@ -175,7 +175,8 @@
                   type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.first.data.document.wef_date" [value]="modal.first.data.document.wef_date "
                   (focusout)="checkDateFormat('first', 'wef_date')" placeholder="DD/MM/YYYY" />
-                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3"
+                  style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
                   (click)="getDate('wef_date', 'first')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
@@ -192,7 +193,8 @@
                   (focusout)="checkDateFormat('first', 'expiry_date')" placeholder="DD/MM/YYYY" />
                 <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
                 <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.first.data.canUpdate" class="col-sm-3"
+                  style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
                   (click)="getDate('expiry_date', 'first')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
@@ -315,7 +317,16 @@
 
               <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                 <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
-                <label style="font-size:16px;  margin-left: 5%;" *ngIf="modal.second.data.document.review > 0">Review :{{modal.second.data.document.review}}</label>
+                <label style="font-size:16px;  margin-left: 5%;"
+                  *ngIf="modal.second.data.document.review > 0 && modal.second.data.document.review <3 ; else checkHistory">Review
+                  :{{modal.second.data.document.review}}</label>
+
+                <ng-template #checkHistory>
+                  <span style="font-size:16px;  margin-left: 5%;"
+                    (click)="History(modal.second.data.document.id)">Review
+                    History</span>
+                </ng-template>
+
 
                 <span *ngIf="modal.second.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.second.data.document.rcImage}}" title="View Document">RC Image</a>
@@ -380,7 +391,8 @@
                   type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.second.data.document.wef_date" [value]="modal.second.data.document.wef_date "
                   (focusout)="checkDateFormat('second', 'wef_date')" placeholder="DD/MM/YYYY" />
-                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3"
+                  style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
                   (click)="getDate('wef_date', 'second')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
@@ -397,7 +409,8 @@
                   (focusout)="checkDateFormat('second', 'expiry_date')" placeholder="DD/MM/YYYY" />
                 <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
                 <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                <span *ngIf="modal.second.data.canUpdate" class="col-sm-3"
+                  style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
                   (click)="getDate('expiry_date', 'second')"><i class="icon fa fa-calendar"></i></span>
               </div>
             </div>
