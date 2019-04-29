@@ -11,6 +11,7 @@ import { from } from 'rxjs';
 import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { log } from 'util';
+import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
 
 
 @Component({
@@ -729,6 +730,17 @@ export class PendingDocumentsComponent implements OnInit {
         console.log(err);
       });
 
+  }
+
+  History(doc_id) {
+    this.common.params = { doc_id, title: 'Document Change History' };
+    const activeModal = this.modalService.open(DocumentHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        //this.getHistoryData();
+        //window.location.reload();
+      }
+    });
   }
 
 }

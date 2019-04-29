@@ -247,7 +247,11 @@ export class RouteMapperComponent implements OnInit {
   }
   eventInfo = null;
   infoWindow = null;
+  infoStart = null;
   setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(
@@ -269,8 +273,13 @@ export class RouteMapperComponent implements OnInit {
     // }
   }
   unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+    let diff = new Date().getTime() - this.infoStart;
+    // console.log("Diff", diff);
+
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
