@@ -94,12 +94,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/tip-feedback-logs',
     home: true,
   },
-  {
-    title: 'Trip Onward Delay',
-    icon: 'fas fa-truck',
-    link: '/pages/trip-onward-delay',
-    home: true,
-  },
+  // {
+  //   title: 'Trip Onward Delay',
+  //   icon: 'fas fa-truck',
+  //   link: '/pages/trip-onward-delay',
+  //   home: true,
+  // },
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
@@ -124,22 +124,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ]
   },
-  {
-    title: 'Placement Delay Faults',
-    icon: 'fas fa-list',
-    link: '/pages/placement-delay-faults',
-    home: true,
-  },
+  // {
+  //   title: 'Placement Delay Faults',
+  //   icon: 'fas fa-list',
+  //   link: '/pages/placement-delay-faults',
+  //   home: true,
+  // },
   {
     title: 'Vehicle Gps Detail',
     icon: 'fa fa-map-marker',
     link: '/pages/vehicle-gps-detail',
     home: true,
   },
-  {
-    title: 'Short Target',
-    icon: 'fas fa-sort-amount-up',
-    link: '/pages/short-target',
-    home: true,
-  },
+  // {
+  //   title: 'Short Target',
+  //   icon: 'fas fa-sort-amount-up',
+  //   link: '/pages/short-target',
+  //   home: true,
+  // },
 ];
