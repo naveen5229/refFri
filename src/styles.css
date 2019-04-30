@@ -197,7 +197,8 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 .fas.fa-city::before,
 .fas.fa-route::before,
 .fas.fa-file-signature::before,
-.fas.fa-sync-alt::before {
+.fas.fa-sync-alt::before,
+.fas.fa-map-marked-alt::before {
   font-family: inherit;
 }
 .nb-theme-corporate .modal-content {
