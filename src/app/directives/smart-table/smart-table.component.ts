@@ -15,6 +15,10 @@ export class SmartTableComponent implements OnInit {
   sortType = '';
   activeRow = -1;
 
+  search = {
+    key: '',
+    txt: ''
+  };
 
   constructor(private cdr: ChangeDetectorRef, ) { }
 
@@ -39,10 +43,15 @@ export class SmartTableComponent implements OnInit {
     console.log(this.headings);
     console.log(this.columns);
     this.cdr.detectChanges();
+    if (this.search.txt && this.search.key) {
+      this.headings[this.search.key].value = this.search.txt;
+      this.filterData(this.search.key)
+    };
   }
 
   filterData(key) {
     let search = this.headings[key].value.toLowerCase();
+    this.search = { key, txt: search };
     this.columns = this.data.columns.filter(column => {
       if (!search.length) return true;
       let value = column[key].value;
