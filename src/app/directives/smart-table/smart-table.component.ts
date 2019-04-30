@@ -24,7 +24,7 @@ export class SmartTableComponent implements OnInit {
   pages = {
     count: 0,
     active: 1,
-    limit: 50,
+    limit: 100,
   };
 
   constructor(private cdr: ChangeDetectorRef,
@@ -135,8 +135,8 @@ export class SmartTableComponent implements OnInit {
 
   handlePagination(page) {
     this.pages.active = page;
-    let startIndex = 50 * (this.pages.active - 1);
-    let lastIndex = (50 * this.pages.active) - 1;
+    let startIndex = 100 * (this.pages.active - 1);
+    let lastIndex = (100 * this.pages.active) - 1;
     this.columns = this.data.columns.slice(startIndex, lastIndex);
   }
 
