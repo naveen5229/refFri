@@ -26,6 +26,7 @@
       </div>
     </div>
 
+
     <table class="table table-bordered">
       <thead class="thead">
         <tr>
@@ -34,6 +35,7 @@
           <th>Date</th>
           <th>KMs</th>
           <th>Details</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -41,8 +43,7 @@
           <td>{{i+1}}</td>
           <td>
             <auto-suggestion (onSelected)="getTyreDetails($event,i)" url="Tyres/getTyreNumbersAccordingFO"
-              display="tyrenum" placeholder="Tyre No" [preSelected]="null" [inputId]="'tyreNo-' + i">
-            </auto-suggestion>
+              display="tyrenum" placeholder="Tyre No" [preSelected]="null" [inputId]="'tyreNo-' + i"></auto-suggestion>
           </td>
           <td>
             <input type="text" style="cursor: pointer;" class="form-control" [(ngModel)]="vehicleTyre.date"
@@ -54,10 +55,14 @@
           </td>
           <td>
             <input type="text" class="form-control" [(ngModel)]="vehicleTyre.details" placeholder="Details">
+
           </td>
-          <td *ngIf="i == vehicleTyres.length-1">
-            <i class="fa fa-plus add" (click)="addMore()"></i>
-            <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i></td>
+          <td>
+            <span *ngIf="i == vehicleTyres.length-1">
+              <i class="fa fa-plus add" (click)="addMore()"></i>
+              <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
+            </span>
+          </td>
         </tr>
       </tbody>
     </table>
