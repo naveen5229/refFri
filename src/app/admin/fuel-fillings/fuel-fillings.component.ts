@@ -116,12 +116,13 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   handlePage(selectedPage) {
-    let startIndex = 50 * selectedPage - 1;
+    let startIndex = 1;
     let endIndex = (50 * selectedPage) - 1
+    console.log("starting & Ending", startIndex, endIndex);
     this.fillingData = this.fillingData.slice(startIndex, endIndex);
 
-    console.log(this.table.data.headings);
-    this.getTableColumns();
+    console.log("after Pagination", this.fillingData);
+    this.table.data.columns = this.getTableColumns();
   }
 
   openData(rowfilling) {
