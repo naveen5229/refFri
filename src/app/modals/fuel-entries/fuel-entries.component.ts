@@ -28,8 +28,8 @@ export class FuelEntriesComponent implements OnInit {
     console.log(this.common.params);
     let params = {
       vehId: this.common.params.vehicle_id ? this.common.params.vehicle_id : null,
-      lastFilling: this.common.params.last_filling_entry_time ? this.common.params.last_filling_entry_time : null,
-      currentFilling: this.common.params.current_filling_entry_time ? this.common.params.current_filling_entry_time : null
+      lastFilling: this.common.params.startdate ? this.common.params.startdate : null,
+      currentFilling: this.common.params.enddate ? this.common.params.enddate : null
     }
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
@@ -48,8 +48,8 @@ export class FuelEntriesComponent implements OnInit {
   changeFullDetail(fuelDetail) {
     console.log(fuelDetail);
     let params = {
-      x_ff_id : fuelDetail.id,
-      x_is_full : fuelDetail.is_full
+      x_ff_id: fuelDetail.id,
+      x_is_full: fuelDetail.is_full
     }
     this.common.loading++;
     this.api.post('FuelDetails/changeFullFillingStatus', params)
