@@ -26,6 +26,7 @@ import { MapService } from "../../services/map.service";
 import { NgxPrintModule } from 'ngx-print';
 import { VehicleTripUpdateComponent } from "../../modals/vehicle-trip-update/vehicle-trip-update.component";
 import { ChangeVehicleStatusComponent } from "../../modals/change-vehicle-status/change-vehicle-status.component";
+import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 
 @Component({
   selector: "concise",
@@ -165,9 +166,10 @@ export class ConciseComponent implements OnInit {
       columns.push({
         vechile: {
           value: kpi.x_showveh,
-          action: this.getZoom.bind(this, kpi),
+          action: this.getZoomAndaddShortTarget.bind(this, kpi),
           colActions: {
             dblclick: this.showDetails.bind(this, kpi),
+            click: this.addShortTarget.bind(this, kpi),
             mouseover: this.rotateBounce.bind(this, kpi, i),
             // mouseover: this.mapService.toggleBounceMF.bind(this.mapService, i),
             mouseout: this.mapService.toggleBounceMF.bind(this.mapService, i, 2)
@@ -949,6 +951,14 @@ export class ConciseComponent implements OnInit {
 
   }
 
+  getZoomAndaddShortTarget(kpi) {
+    if (this.isMapView) {
+      this.getZoom(kpi)
+    } else {
+      this.addShortTarget(kpi);
+    }
+  }
+
   getZoom(kpi) {
     if (this.isMapView, kpi) {
       console.log("isMapView------", this.isMapView, kpi);
@@ -1048,6 +1058,20 @@ export class ConciseComponent implements OnInit {
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {
       size: "lg",
+      container: "nb-layout"
+    });
+  }
+
+  addShortTarget(target) {
+    console.log("target", target);
+    this.common.params = {
+      vehicleId: target.x_vehicle_id,
+      vehicleRegNo: target.x_showveh
+
+    };
+    console.log("params=", this.common.params);
+    const activeModal = this.modalService.open(AddShortTargetComponent, {
+      size: "sm",
       container: "nb-layout"
     });
   }
