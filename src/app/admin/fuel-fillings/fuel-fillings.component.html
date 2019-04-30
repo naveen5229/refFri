@@ -30,9 +30,11 @@
     </smart-table>
     <br>
 
-    <!-- <div 8*ngIf="">
+    <div *ngIf="totalPages">
+      <span *ngFor="let page of common.generateArray(this.totalPages)" (click)="selectPage(page)">
+        {{page}}
+      </span>
 
-
-    </div> -->
+    </div>
   </nb-card-body>
 </nb-card>

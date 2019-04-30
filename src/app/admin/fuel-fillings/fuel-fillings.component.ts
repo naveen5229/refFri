@@ -17,6 +17,8 @@ export class FuelFillingsComponent implements OnInit {
   fillingData = [];
   totalRecord = null;
   totalPages = null;
+  activePage = 1;
+
   showcolumns = [];
   headings = [];
   table = {
@@ -58,7 +60,7 @@ export class FuelFillingsComponent implements OnInit {
     this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
     this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
 
-    this.getFillingData();
+    // this.getFillingData();
   }
 
   ngOnInit() {
@@ -88,6 +90,8 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
+        // this.fillingData = this.fillingData.slice(1, 101);
+        console.info("filling Data", this.fillingData);
         this.totalRecord = this.fillingData.length;
         console.info("toatl Record Data", this.totalRecord);
         // show total Pages
@@ -97,14 +101,27 @@ export class FuelFillingsComponent implements OnInit {
           console.log("Total Pages :", this.totalPages);
 
         }
-        this.fillingData = this.fillingData.slice(1, 100);
-        console.info("filling Data", this.fillingData);
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  selectPage(currentPage) {
+    this.activePage = currentPage;
+    this.handlePage(this.activePage);
+  }
+
+  handlePage(selectedPage) {
+    let startIndex = 50 * selectedPage - 1;
+    let endIndex = (50 * selectedPage) - 1
+    this.fillingData = this.fillingData.slice(startIndex, endIndex);
+
+    console.log(this.table.data.headings);
+    this.getTableColumns();
   }
 
   openData(rowfilling) {
