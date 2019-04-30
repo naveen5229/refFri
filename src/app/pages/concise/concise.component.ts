@@ -13,7 +13,7 @@ import * as _ from "lodash";
 import { forEach } from "@angular/router/src/utils/collection";
 import { log } from "util";
 import { ReportIssueComponent } from "../../modals/report-issue/report-issue.component";
-import { componentRefresh } from "@angular/core/src/render3/instructions";
+import { componentRefresh, element } from "@angular/core/src/render3/instructions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RadioSelectionComponent } from "../../modals/radio-selection/radio-selection.component";
 import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on-map.component";
@@ -95,6 +95,7 @@ export class ConciseComponent implements OnInit {
 
   isMapView = false;
   infoWindow = null;
+  infoStart = null;
   isZoomed = false;
   lastRefreshTime = new Date();
 
@@ -862,16 +863,20 @@ export class ConciseComponent implements OnInit {
         this.kpis[index].color = "ff0000";
       }
       else if ((this.kpis[index].x_idle_time / 60) > 0) {
-
-        this.kpis[index].color = "00ff00";
-      } else {
         this.kpis[index].color = "ffff00";
+      } else {
+        this.kpis[index].color = "00ff00";
       }
-
     }
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.mapService.createMarkers(this.kpis);
+      this.mapService.addListerner(this.mapService.map, "center_changed", () => {
+        this.setMarkerLabels();
+      });
+      this.mapService.addListerner(this.mapService.map, "zoom_changed", () => {
+        this.setMarkerLabels();
+      });
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {
         let event = this.kpis[markerIndex];
@@ -887,8 +892,39 @@ export class ConciseComponent implements OnInit {
     //console.log("-------------Map:", this.mapService.map);
     //console.log("-------------- Active Map Id: ",this.mapService.map.__gm.Z.id);
   }
+  setMarkerLabels() {
+    if (this.mapService.markers.length != 0) {
+      for (const zoomMarker of this.mapService.markers) {
+        zoomMarker.setLabel("");
+      }
+    }
+    if (this.mapService.map.getZoom() >= 9) {
+      //   let bounds = this.mapService.getMapBounds();
+      //   this.zommedMarkers = this.mapService.markers.filter(element => {
+      //     if ((bounds.lat1 <= element.position.lat() || bounds.lat2 >= element.position.lat())
+      //       && (bounds.lng1 >= element.position.lng() || bounds.lng2 <= element.position.lng()))
+      //       return false;
+      //     return true;
+      //   });
+      // for (const zoomMarker of this.mapService.markers) {
+      //   let find = this.mapService.markers.find(element => {
+      //     return element.position == zoomMarker.position;
+      //   });
+      //   let index = this.mapService.markers.indexOf(find);
+      //   zoomMarker.setLabel(this.kpis[index].x_showveh);
+      // }
+
+      for (let index = 0; index < this.mapService.markers.length; index++) {
+        const element = this.mapService.markers[index];
+        element.setLabel(this.kpis[index].x_showveh);
+      }
+    }
+  }
 
   setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(
@@ -912,8 +948,12 @@ export class ConciseComponent implements OnInit {
     // }
   }
   unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+    let diff = new Date().getTime() - this.infoStart;
+    //console.log("Diff", diff);
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
 
   handleMapView() {

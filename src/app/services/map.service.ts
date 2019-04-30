@@ -264,6 +264,10 @@ export class MapService {
     }
   }
 
+  createPoint(x,y){
+    return  new google.maps.Point(x,y);
+  }
+
   clearAll(reset = true, boundsReset = true,resetParams = {marker:true,polygons:true,polypath:true}) {
     
     resetParams.marker && this.resetMarker(reset,boundsReset);
