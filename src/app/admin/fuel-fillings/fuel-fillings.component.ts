@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 import { ImportFillingsComponent } from '../../../app/modals/import-fillings/import-fillings.component';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 @Component({
   selector: 'fuel-fillings',
@@ -14,6 +15,8 @@ import { ImportFillingsComponent } from '../../../app/modals/import-fillings/imp
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
+  totalRecord = null;
+  totalPages = null;
   showcolumns = [];
   headings = [];
   table = {
@@ -39,6 +42,10 @@ export class FuelFillingsComponent implements OnInit {
 
   startDate = '';
   endDate = '';
+  dates = {
+    start: this.common.dateFormatter(new Date()),
+    end: this.common.dateFormatter(new Date())
+  };
 
 
   constructor(public api: ApiService,
@@ -46,10 +53,10 @@ export class FuelFillingsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    let today;
-    today = new Date();
-    this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
+    // let today;
+    // today = new Date();
+    // this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
+    // this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
 
     console.log('dates ', this.endDate, this.startDate);
     this.getFillingData();
@@ -69,8 +76,8 @@ export class FuelFillingsComponent implements OnInit {
 
   getFillingData() {
     const params = {
-      startTime: this.startDate,
-      endTime: this.endDate,
+      startTime: this.dates.start,
+      endTime: this.dates.end,
     }
 
     this.common.loading++;
@@ -82,6 +89,15 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
+        this.totalRecord = this.fillingData.length;
+        console.info("toatl Record Data", this.totalRecord);
+        // show total Pages
+        if (this.totalRecord > 50) {
+          this.totalPages = this.totalRecord / 50;
+          this.totalPages = parseInt(this.totalPages);
+          console.log("Total Pages :", this.totalPages);
+
+        }
         this.fillingData = this.fillingData.slice(1, 100);
         console.info("filling Data", this.fillingData);
         console.log(this.table.data.headings);
@@ -144,7 +160,7 @@ export class FuelFillingsComponent implements OnInit {
         litres: { value: frec.litres },
         rate: { value: frec.rate },
         amount: { value: frec.amount },
-        addtime: { value: this.datePipe.transform(frec.addtime, 'dd MMM yyyy h:mm:ss a') },
+        addtime: { value: this.datePipe.transform(frec.addtime, 'dd MMM yyyy') },
         username: { value: frec.username },
         rowActions: {}
       };
@@ -153,5 +169,20 @@ export class FuelFillingsComponent implements OnInit {
     });
 
     return columns;
+  }
+
+
+  getDate(date) {
+    this.common.params = { ref_page: 'fuel-avg' };
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
+        console.log('Date:', this.dates[date]);
+        if (this.dates.start && this.dates.end)
+          this.getFillingData();
+      }
+
+    });
   }
 }

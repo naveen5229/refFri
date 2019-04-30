@@ -141,6 +141,24 @@ export class DataService {
         home: true,
       },
       {
+        title: 'Fuel',
+        icon: 'fas fa-gas-pump',
+        children: [
+          {
+            title: 'Fuel Fillings',
+            icon: 'fas fa-gas-pump',
+            link: '/admin/fuel-fillings',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Analysis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+        ]
+      },
+      {
         title: 'gps-supplier-mapping',
         icon: 'nb-home',
         link: '/admin/gps-supplier-mapping',
@@ -181,12 +199,8 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/vehicle-gps-detail',
       },
-      {
-        title: 'Fuel Fillings',
-        icon: 'nb-home',
-        link: '/admin/fuel-fillings',
-        home: true,
-      },
+
+
 
       {
         title: 'Trip Feedback Logs',
@@ -194,12 +208,7 @@ export class DataService {
         link: '/admin/trip-status-feedback-logs',
         home: true,
       },
-      {
-        title: 'Fuel Average Analysis',
-        icon: 'fa fa-signal',
-        link: '/admin/fuel-average-analysis',
-        home: true,
-      },
+
     ];
   }
 }
