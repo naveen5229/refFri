@@ -33,9 +33,11 @@ export class onwardKmpdComponent implements OnInit {
     public modalService: NgbModal) {
     let today, start;
     today = new Date();
-    this.startDate = this.common.dateFormatter(start);
-    this.startDate = this.common.dateFormatter(today.setDate(today.getDate() - 8));
+    this.startDate = this.common.dateFormatter(today.setDate(today.getDate() - 6));
+    console.log('today startdate', today, this.startDate);
+    today = new Date();
     this.endDate = this.common.dateFormatter(today.setDate(today.getDate() - 1));
+    console.log('default date', this.startDate, this.endDate);
     this.getonwardKmpd();
   }
 

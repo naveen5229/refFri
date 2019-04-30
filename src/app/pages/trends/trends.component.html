@@ -55,6 +55,7 @@
           <div class="col-sm-3" *ngIf="period==2">
             <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
           </div>  -->
+
         <div class="col-sm-2" *ngIf="period == '0'">
           <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date"
             placeholder="Start Date" (click)="getDate('start')">
@@ -64,7 +65,7 @@
             placeholder="End Date" (click)="getDate('end')">
         </div>
         <div class="col-sm-2" *ngIf="period == '0'">
-          <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
+          <button class="btn btn-primary" (click)="getTrend()">submit</button>
         </div>
       </div>
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
