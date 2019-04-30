@@ -17,7 +17,7 @@ export class FuelFillingsComponent implements OnInit {
   fillingData = [];
   totalRecord = null;
   totalPages = null;
-  activePage = 1;
+  activePage = 0;
 
   showcolumns = [];
   headings = [];
@@ -95,12 +95,12 @@ export class FuelFillingsComponent implements OnInit {
         this.totalRecord = this.fillingData.length;
         console.info("toatl Record Data", this.totalRecord);
         // show total Pages
-        if (this.totalRecord > 50) {
-          this.totalPages = this.totalRecord / 50;
-          this.totalPages = parseInt(this.totalPages);
-          console.log("Total Pages :", this.totalPages);
+        // if (this.totalRecord > 50) {
+        //   this.totalPages = this.totalRecord / 50;
+        //   this.totalPages = parseInt(this.totalPages);
+        //   console.log("Total Pages :", this.totalPages);
 
-        }
+        // }
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
 
@@ -111,18 +111,27 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   selectPage(currentPage) {
-    this.activePage = currentPage;
-    this.handlePage(this.activePage);
+    this.handlePage(currentPage);
   }
 
   handlePage(selectedPage) {
-    let startIndex = 1;
-    let endIndex = (50 * selectedPage) - 1
+    this.activePage = selectedPage;
+    let startIndex, endIndex;
+    if (selectedPage == 1) {
+      startIndex = 0;
+      endIndex = (50 * selectedPage) - 1
+    }
+    else {
+      startIndex = 50 * selectedPage - 1;
+      endIndex = (50 * selectedPage) - 1
+
+    }
+
     console.log("starting & Ending", startIndex, endIndex);
     this.fillingData = this.fillingData.slice(startIndex, endIndex);
 
     console.log("after Pagination", this.fillingData);
-    this.table.data.columns = this.getTableColumns();
+    this.getTableColumns();
   }
 
   openData(rowfilling) {
