@@ -160,8 +160,8 @@ export class LorryReceiptDetailsComponent implements OnInit {
     }
     console.log('Handler End: ', this.modal.active);
 
-    setTimeout(this.autoSuggestion.bind(this, this.modal.active + '-source', this.modal.active), 3000);
-    setTimeout(this.autoSuggestion.bind(this, this.modal.active + '-destination', this.modal.active), 3000);
+    setTimeout(this.autoSuggestion.bind(this, this.modal.active + '-source', this.modal.active), 500);
+    setTimeout(this.autoSuggestion.bind(this, this.modal.active + '-destination', this.modal.active), 500);
   }
 
   handleModalData(modalType, details) {

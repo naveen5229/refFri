@@ -17,6 +17,8 @@ export class FuelFillingsComponent implements OnInit {
   fillingData = [];
   totalRecord = null;
   totalPages = null;
+  activePage = 0;
+
   showcolumns = [];
   headings = [];
   table = {
@@ -40,8 +42,8 @@ export class FuelFillingsComponent implements OnInit {
   };
 
 
-  startDate = '';
-  endDate = '';
+  // startDate = '';
+  // endDate = '';
   dates = {
     start: this.common.dateFormatter(new Date()),
     end: this.common.dateFormatter(new Date())
@@ -53,13 +55,12 @@ export class FuelFillingsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    // let today;
-    // today = new Date();
-    // this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    // this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
+    let today;
+    today = new Date();
+    this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
+    this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
 
-    console.log('dates ', this.endDate, this.startDate);
-    this.getFillingData();
+    // this.getFillingData();
   }
 
   ngOnInit() {
@@ -89,23 +90,48 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
+        // this.fillingData = this.fillingData.slice(1, 101);
+        console.info("filling Data", this.fillingData);
         this.totalRecord = this.fillingData.length;
         console.info("toatl Record Data", this.totalRecord);
         // show total Pages
-        if (this.totalRecord > 50) {
-          this.totalPages = this.totalRecord / 50;
-          this.totalPages = parseInt(this.totalPages);
-          console.log("Total Pages :", this.totalPages);
+        // if (this.totalRecord > 50) {
+        //   this.totalPages = this.totalRecord / 50;
+        //   this.totalPages = parseInt(this.totalPages);
+        //   console.log("Total Pages :", this.totalPages);
 
-        }
-        this.fillingData = this.fillingData.slice(1, 100);
-        console.info("filling Data", this.fillingData);
+        // }
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  selectPage(currentPage) {
+    this.handlePage(currentPage);
+  }
+
+  handlePage(selectedPage) {
+    this.activePage = selectedPage;
+    let startIndex, endIndex;
+    if (selectedPage == 1) {
+      startIndex = 0;
+      endIndex = (50 * selectedPage) - 1
+    }
+    else {
+      startIndex = 50 * selectedPage - 1;
+      endIndex = (50 * selectedPage) - 1
+
+    }
+
+    console.log("starting & Ending", startIndex, endIndex);
+    this.fillingData = this.fillingData.slice(startIndex, endIndex);
+
+    console.log("after Pagination", this.fillingData);
+    this.getTableColumns();
   }
 
   openData(rowfilling) {
