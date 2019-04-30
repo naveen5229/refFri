@@ -25,7 +25,7 @@
         <td>{{fueldetail.litres}}</td>
         <td>{{fueldetail.entry_time}}</td>
         <td>
-          <input type="checkbox" [(ngModel)]="fueldetail.is_full" name="isFull" (change) = "changeFullDetail(fueldetail)" >
+          <input type="checkbox" [(ngModel)]="fueldetail.is_full" name="isFull" (change)="changeFullDetail(fueldetail)">
         </td>
       </tr>
     </tbody>

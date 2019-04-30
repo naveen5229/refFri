@@ -2,36 +2,38 @@
   <nb-card-header>
     <h5>Vehicle Tyres</h5>
   </nb-card-header>
-  <nb-card-body>
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-2">
-        <label class="label1"><b>Vehicle Type</b></label>
-      </div>
-      <div class="col-md-2">
-        <select [(ngModel)]="refMode" class="form-control" required (change)="resetVehDetails()">
-          <option value="701">Truck</option>
-          <option value="702">Trolly</option>
-          <option value="703">Warehouse</option>
-        </select>
-      </div>
+  <nb-card-body style="padding:10px 15px;">
+    <div class="row" style="margin-bottom: 10px; margin-top: -10px;">
+      <div class="col-md-6">
+        <div class="col-md-3">
+          <label class="label1"><b>Vehicle Type</b></label>
+        </div>
+        <div class="col-md-3 p-0">
+          <select [(ngModel)]="refMode" class="form-control" required (change)="resetVehDetails()">
+            <option value="701">Truck</option>
+            <option value="702">Trolly</option>
+            <option value="703">Warehouse</option>
+          </select>
+        </div>
 
-      <div class="col-md-2">
-        <label> Vehicle Regno</label>
-      </div>
-      <div class="col-md-3">
-        <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getFoVehList?vehicleType={{refMode}}"
-          display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+        <div class="col-md-3">
+          <label> Vehicle Regno</label>
+        </div>
+        <div class="col-md-3 p-0">
+          <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getFoVehList?vehicleType={{refMode}}"
+            display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+        </div>
       </div>
     </div>
 
     <table class="table table-bordered">
-      <thead  class="thead">
+      <thead class="thead">
         <tr>
           <th>#</th>
           <th>Tyre No.</th>
           <th>Date</th>
+          <th>KMs</th>
           <th>Details</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -43,39 +45,45 @@
             </auto-suggestion>
           </td>
           <td>
-            <input type="text" style="cursor: pointer;" class="form-control"  [(ngModel)]="vehicleTyre.date" autocomplete="off" (click)="getDate(i)"
-                placeholder="Select Date" [value]="vehicleTyre.date | date: 'dd MMM yyyy'" name="date" readonly>
+            <input type="text" style="cursor: pointer;" class="form-control" [(ngModel)]="vehicleTyre.date"
+              autocomplete="off" (click)="getDate(i)" placeholder="Select Date"
+              [value]="vehicleTyre.date | date: 'dd MMM yyyy'" name="date" readonly>
           </td>
-
           <td>
-            <input type="text" class="form-control" [(ngModel)]="vehicleTyre.details">
+            <input type="text" class="form-control" [(ngModel)]="vehicleTyre.kms" placeholder="KMs">
+          </td>
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="vehicleTyre.details" placeholder="Details">
           </td>
           <td *ngIf="i == vehicleTyres.length-1">
-              <i class="fa fa-plus add" (click)="addMore()"></i>
-              <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i></td>
+            <i class="fa fa-plus add" (click)="addMore()"></i>
+            <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i></td>
         </tr>
       </tbody>
     </table>
     <div class="col-4">
-        <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails"
+      <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails"
         style="cursor: pointer;margin-top:10px;">Save</button>
     </div>
 
     <table class="table table-bordered" *ngIf="mappedTyres.length>0">
-        <thead  class="thead">
-          <tr>
+      <thead class="thead">
+        <tr>
           <th>#</th>
           <th>TyreNo.</th>
           <th>Mapping Date</th>
+          <th>KMs</th>
+
         </tr>
-          </thead>
-          <tbody>
-             <tr *ngFor="let mappedTyre of mappedTyres; let i = index;">
-                <td>{{i+1}}</td>
-                <td>{{mappedTyre.r_tyreno}}</td>
-                <td>{{mappedTyre.r_dttime}}</td>
-            </tr>
-            
-          </tbody>
-          </table>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mappedTyre of mappedTyres; let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{mappedTyre.r_tyreno}}</td>
+          <td>{{mappedTyre.r_dttime}}</td>
+          <td>{{mappedTyre.kms}}</td>
+
+        </tr>
+      </tbody>
+    </table>
   </nb-card-body>
