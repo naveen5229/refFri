@@ -40,8 +40,8 @@ export class FuelFillingsComponent implements OnInit {
   };
 
 
-  startDate = '';
-  endDate = '';
+  // startDate = '';
+  // endDate = '';
   dates = {
     start: this.common.dateFormatter(new Date()),
     end: this.common.dateFormatter(new Date())
@@ -53,12 +53,11 @@ export class FuelFillingsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    // let today;
-    // today = new Date();
-    // this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    // this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
+    let today;
+    today = new Date();
+    this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
+    this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
 
-    console.log('dates ', this.endDate, this.startDate);
     this.getFillingData();
   }
 
