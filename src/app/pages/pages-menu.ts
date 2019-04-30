@@ -67,54 +67,39 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Placements DashBoard',
-    icon: 'fas fa-list',
+    icon: 'fas fa-map-marked-alt',
     link: '/pages/placements-dash-board',
     home: true,
   },
   {
     title: 'User Activity Statistics',
-    icon: 'fas fa-list',
+    icon: 'fas fa-chart-pie',
     link: '/pages/user-activity-status',
     home: true,
   },
   {
     title: 'Trip Status FeedBack',
-    icon: 'fas fa-list',
+    icon: 'fas fa-comment-alt',
     link: '/pages/trip-status-feedback',
     home: true,
   },
   {
     title: 'Vehicle Covered Distance',
-    icon: 'fas fa-list',
+    icon: 'fas fa-road',
     link: '/pages/vehicle-covered-distance',
     home: true,
   }, {
     title: 'Trip FeedBack logs',
-    icon: 'fas fa-list',
+    icon: 'fas fa-comments',
     link: '/pages/tip-feedback-logs',
     home: true,
   },
-  // {
-  //   title: 'Placements',
-  //   icon: 'fa fa-location-arrow',
-  //   link:'/pages/placements'
-  // },
-  //{
-  //  title: 'Call Logs',
-  //  icon: 'fa fa-phone',
-  //  link:'/pages/call-logs'
-  //},
-  // {
-  //   title: 'Route Mapper',
-  //   icon: 'fal fa-map-pin',
-  //   link:'/pages/route-mapper'
-  // }
-  // {
-  //   title: 'Driver',
-  //   icon: 'fa fa-money',
-  //   link:'/driver/dashboard',
-  //   home: true,
-  // },
+  {
+    title: 'Trip Onward Delay',
+    icon: 'fas fa-truck',
+    link: '/pages/trip-onward-delay',
+    home: true,
+  },
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
@@ -147,8 +132,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Vehicle Gps Detail',
-    icon: 'fas fa-list',
+    icon: 'fa fa-map-marker',
     link: '/pages/vehicle-gps-detail',
+    home: true,
+  },
+  {
+    title: 'Short Target',
+    icon: 'fas fa-sort-amount-up',
+    link: '/pages/short-target',
     home: true,
   },
 ];

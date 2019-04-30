@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error-report.component';
 
 @Component({
   selector: 'import-fillings',
@@ -76,7 +77,8 @@ export class ImportFillingsComponent implements OnInit {
       fuelCsv: this.fillingcsv,
       foid: this.foid,
       stationId: this.fuel_station_id,
-      isFull: this.isfull
+      isFull: this.isfull,
+      isValidate: true
     };
 
     if (!params.fuelCsv) {
@@ -89,12 +91,14 @@ export class ImportFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("upload result", res);
+        let successData = res['data']['s'];
         let errorData = res['data']['f'];
         console.log("error: ", errorData);
         alert(res["msg"]);
+        this.common.params = { apiData: params, successData, errorData, title: 'Fuel csv Verification' };
+        const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
 
-        // this.closeModal(true);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -102,7 +106,8 @@ export class ImportFillingsComponent implements OnInit {
 
   }
 
-  sampleCsv() {
 
+  sampleCsv() {
+    window.open("http://13.126.215.102/sample/csv/sample_fuelFilling.csv");
   }
 }

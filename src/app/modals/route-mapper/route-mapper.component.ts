@@ -22,27 +22,28 @@ export class RouteMapperComponent implements OnInit {
     private apiService: ApiService,
     private activeModal: NgbActiveModal,
     private commonService: CommonService) {
-  this.startDate = this.commonService.params.fromTime;
-  this.endDate = this.commonService.params.toTime;
-  this.vehicleSelected = this.commonService.params.vehicleId;
-  this.vehicleRegNo = this.commonService.params.vehicleRegNo;
-  console.log("common params:");
-  console.log(this.commonService.params);
-  if(this.commonService.params.title != undefined )
+    this.startDate = this.commonService.params.fromTime;
+    this.endDate = this.commonService.params.toTime;
+    this.vehicleSelected = this.commonService.params.vehicleId;
+    this.vehicleRegNo = this.commonService.params.vehicleRegNo;
+    console.log("common params:");
+    console.log(this.commonService.params);
+    if (this.commonService.params.title != undefined)
       this.title = this.commonService.params.title;
-  console.log("title:" + this.commonService.params.title);
-  console.log("this.startDate",this.startDate);
-  console.log("this.endDate",this.endDate);
-  console.log("this.vehicleSelected",this.vehicleSelected,this.vehicleRegNo);
-      this.getHaltTrails();
-     }
-     
+    console.log("title:" + this.commonService.params.title);
+    console.log("this.startDate", this.startDate);
+    console.log("this.endDate", this.endDate);
+    console.log("this.vehicleSelected", this.vehicleSelected, this.vehicleRegNo);
+    this.getHaltTrails();
+  }
+
 
   ngOnInit() {
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.setMapType(0);
+    this.mapService.map.setOptions({ draggableCursor: 'cursor' });
   }
   polypath = [
     {
@@ -82,9 +83,9 @@ export class RouteMapperComponent implements OnInit {
     }
     this.commonService.loading++;
     let params = {
-      vehicleId:this.vehicleSelected,
-      startDate:this.commonService.dateFormatter(this.startDate),
-      endDate:this.commonService.dateFormatter(this.endDate)
+      vehicleId: this.vehicleSelected,
+      startDate: this.commonService.dateFormatter(this.startDate),
+      endDate: this.commonService.dateFormatter(this.endDate)
     }
     // console.log(params);
     this.apiService.post('HaltOperations/getVehicleEvents', params)
@@ -99,12 +100,12 @@ export class RouteMapperComponent implements OnInit {
         }
         this.commonService.loading++;
         console.log(params);
-        this.apiService.post('Vehicles/getVehDistanceBwTime', {'vehicleId': this.vehicleSelected, fromTime : params['startTime'], tTime : params['toTime']})
+        this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'] })
           .subscribe(resdist => {
             this.commonService.loading--;
             let distance = resdist['data'];
-            if(distance > 0) {
-              distance = Math.round((distance/1000) * 100/100);
+            if (distance > 0) {
+              distance = Math.round((distance / 1000) * 100 / 100);
             } else {
               distance = 0;
             }
@@ -134,7 +135,7 @@ export class RouteMapperComponent implements OnInit {
                     this.polypath = [];
                     this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
                   }
-                  
+
                   this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
                   this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
                   prevElement = element;
@@ -147,34 +148,34 @@ export class RouteMapperComponent implements OnInit {
                   icon: this.mapService.lineSymbol,
                   offset: "0%"
                 }]);
-                let realStart = new Date(vehicleEvents[0].start_time)<new Date(this.startDate)?
-                vehicleEvents[0].start_time:this.startDate;
+                let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startDate) ?
+                  vehicleEvents[0].start_time : this.startDate;
                 let realEnd = null;
-                if(vehicleEvents[0].end_time)
-                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].end_time)>new Date(this.endDate)?
-                  vehicleEvents[vehicleEvents.length-1].end_time:this.endDate;
+                if (vehicleEvents[0].end_time)
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endDate) ?
+                    vehicleEvents[vehicleEvents.length - 1].end_time : this.endDate;
                 let totalHourDiff = 0;
-                if(vehicleEvents.length!=0){
-                  totalHourDiff = this.commonService.dateDiffInHours(realStart,realEnd,true);
-                  console.log("Total Diff",totalHourDiff);
+                if (vehicleEvents.length != 0) {
+                  totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
+                  console.log("Total Diff", totalHourDiff);
                 }
-                
+
                 for (let index = 0; index < vehicleEvents.length; index++) {
-                  if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                  if (vehicleEvents[index].halt_reason == "Unloading" || vehicleEvents[index].halt_reason == "Loading") {
                     vehicleEvents[index].subType = 'marker';
-                    vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                  }else{
+                    vehicleEvents[index].color = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+                  } else {
                     vehicleEvents[index].color = "00ffff";
                   }
                   vehicleEvents[index].position = (this.commonService.dateDiffInHours(
-                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*98;
+                    realStart, vehicleEvents[index].start_time) / totalHourDiff) * 98;
                   vehicleEvents[index].width = (this.commonService.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
-                  console.log("Width",vehicleEvents[index].width);
-                   
+                    vehicleEvents[index].start_time, vehicleEvents[index].end_time, true) / totalHourDiff) * 98;
+                  console.log("Width", vehicleEvents[index].width);
+
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time);
+                    vehicleEvents[index].start_time, vehicleEvents[index].end_time);
                 }
                 console.log("VehicleEvents", vehicleEvents);
                 this.vehicleEvents = vehicleEvents;
@@ -182,8 +183,8 @@ export class RouteMapperComponent implements OnInit {
                 let markerIndex = 0
                 for (const marker of this.mapService.markers) {
                   let event = this.vehicleEvents[markerIndex];
-                  this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
-                  this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
+                  this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+                  this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
                   markerIndex++;
                 }
               }, err => {
@@ -241,12 +242,16 @@ export class RouteMapperComponent implements OnInit {
 
     if (isEvent || !((bound.lat1 + 0.001 <= this.timeLinePoly.lat && bound.lat2 - 0.001 >= this.timeLinePoly.lat) &&
       (bound.lng1 + 0.001 <= this.timeLinePoly.lng && bound.lng2 - 0.001 >= this.timeLinePoly.lng))) {
-      this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, isEvent?this.zoomLevel:this.mapService.map.getZoom());
+      this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, isEvent ? this.zoomLevel : this.mapService.map.getZoom());
     }
   }
   eventInfo = null;
   infoWindow = null;
+  infoStart = null;
   setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(
@@ -268,8 +273,13 @@ export class RouteMapperComponent implements OnInit {
     // }
   }
   unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+    let diff = new Date().getTime() - this.infoStart;
+    // console.log("Diff", diff);
+
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -277,24 +287,24 @@ export class RouteMapperComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
-  
+
   openSmartTool(i, vehicleEvent) {
     this.vehicleEvents.forEach(vEvent => {
       if (vEvent != vehicleEvent)
         vEvent.isOpen = false;
     });
-      vehicleEvent.isOpen = !vehicleEvent.isOpen;
-      this.zoomFunctionality(i, vehicleEvent);
+    vehicleEvent.isOpen = !vehicleEvent.isOpen;
+    this.zoomFunctionality(i, vehicleEvent);
   }
   zoomFunctionality(i, vehicleEvent) {
     console.log("vehicleEvent", vehicleEvent);
-    let latLng=this.mapService.getLatLngValue(vehicleEvent);
-    let googleLatLng=this.mapService.createLatLng(latLng.lat,latLng.lng);
-    console.log("latlngggg",googleLatLng);
+    let latLng = this.mapService.getLatLngValue(vehicleEvent);
+    let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
+    console.log("latlngggg", googleLatLng);
     this.mapService.zoomAt(googleLatLng);
   }
 
-  setZoom(zoom,vehicleEvent) {
+  setZoom(zoom, vehicleEvent) {
     this.mapService.zoomMap(zoom);
   }
 }

@@ -39,14 +39,14 @@ export class UpdateSiteDetailsComponent implements OnInit {
 
   }
   updateSiteDetails() {
-    console.log("site loction:",this.siteLoc);
+    console.log("site loction:", this.siteLoc);
     let params = {
       siteId: this.siteId,
       locationName: this.siteLoc.split(',')[0],
       isStrictLoading: this.isStrictLoading,
     }
     console.log("params", params);
-  
+
     ++this.common.loading;
     this.api.post('Site/updateSiteDetails', params)
       .subscribe(res => {
@@ -74,6 +74,8 @@ export class UpdateSiteDetailsComponent implements OnInit {
     setTimeout(() => {
       this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => this.siteLoc = place);
       this.mapService.createMarkers([{ lat: this.common.params.site.lat, long: this.common.params.site.lng, type: 'site' }]);
+      this.mapService.zoomMap(10.5);
+
     }, 2000);
   }
 

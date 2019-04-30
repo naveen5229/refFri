@@ -24,6 +24,7 @@ export class DataService {
         icon: 'fa fa-home',
         link: '/pages',
       },
+
       {
         title: 'Vehicle Status Change',
         icon: 'fas fa-clipboard-check',
@@ -104,6 +105,11 @@ export class DataService {
 
         ]
       },
+      {
+        title: 'Account',
+        icon: 'fa fa-money',
+        link: '/accounts/dashboard'
+      },
 
       {
         title: 'User Prefrence',
@@ -133,6 +139,24 @@ export class DataService {
         icon: 'fas fa-file-signature',
         link: '/admin/trip-site-rule',
         home: true,
+      },
+      {
+        title: 'Fuel',
+        icon: 'fas fa-gas-pump',
+        children: [
+          {
+            title: 'Fuel Fillings',
+            icon: 'fas fa-gas-pump',
+            link: '/admin/fuel-fillings',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Analysis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+        ]
       },
       {
         title: 'gps-supplier-mapping',
@@ -175,24 +199,16 @@ export class DataService {
         icon: 'nb-home',
         link: '/admin/vehicle-gps-detail',
       },
-      {
-        title: 'Fuel Fillings',
-        icon: 'nb-home',
-        link: '/admin/fuel-fillings',
-        home: true,
-      },
-      {
-        title: 'Vechile Distance',
-        icon: 'fas fa-route',
-        link: '/admin/vehicle-distance',
-        home: true,
-      },
+
+
+
       {
         title: 'Trip Feedback Logs',
         icon: 'nb-home',
         link: '/admin/trip-status-feedback-logs',
         home: true,
       },
+
     ];
   }
 }

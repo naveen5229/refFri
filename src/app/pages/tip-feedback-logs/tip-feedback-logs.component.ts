@@ -21,7 +21,8 @@ export class TipFeedbackLogsComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      tableHeight: '75vh'
     }
   };
 
@@ -38,8 +39,8 @@ export class TipFeedbackLogsComponent implements OnInit {
   ngOnInit() {
   }
 
-  refresh(){
-    this.vehicleId=null;
+  refresh() {
+    this.vehicleId = null;
     this.getFeedbackLogs();
   }
   getDate(type) {
@@ -75,7 +76,8 @@ export class TipFeedbackLogsComponent implements OnInit {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: '75vh',
       }
     };
 
@@ -87,11 +89,11 @@ export class TipFeedbackLogsComponent implements OnInit {
     }
 
     console.log("params:", params);
-    const data = "startDate="+params.startDate+
-    "&endDate="+params.endDate+"&vehicleId="+params.vehicleId;
+    const data = "startDate=" + params.startDate +
+      "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
-  
-    this.api.get('tripsOperation/tripFeedbackLogs?'+ data)
+
+    this.api.get('tripsOperation/tripFeedbackLogs?' + data)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
@@ -101,11 +103,11 @@ export class TipFeedbackLogsComponent implements OnInit {
         console.log("first_Rec", first_rec);
 
         for (var key in first_rec) {
-         
+          if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: key, placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-          
+          }
         }
 
         this.table.data.columns = this.getTableColumns();

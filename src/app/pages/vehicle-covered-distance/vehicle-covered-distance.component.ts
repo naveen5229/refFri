@@ -11,7 +11,6 @@ import { parse } from 'path';
 })
 export class VehicleCoveredDistanceComponent implements OnInit {
   showTable = false;
-
   distanceData = [];
   headings = [];
   valobj = {};
@@ -53,8 +52,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
             Regno: rep[key].regno,
             Location: rep[key].currLoc
           };
-
-          rep[key].slots.map((slot, index) => {
+          rep[key].slots && rep[key].slots.map((slot, index) => {
             detail['Slot' + (index + 1)] = slot;
           });
           details.push(detail);
@@ -70,6 +68,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   }
 
   smartTableWithHeadings() {
+
     this.table = {
       data: {
         headings: {},
