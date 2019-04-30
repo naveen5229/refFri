@@ -56,22 +56,22 @@ export class AddShortTargetComponent implements OnInit {
     let result;
     if (this.addTarget.time == null) {
       this.common.showError("Please Select Duration");
+      return;
 
-    } else {
-      let today = this.common.dateFormatter(new Date()).split(' ')[0];
-      result = this.common.timeFormatter(today);
-      let r1 = parseInt(result.split(':')[0]) + parseInt((this.addTarget.time).split('.')[0]);
-      let r2 = parseInt(result.split(':')[1]) + parseInt((this.addTarget.time).split('.')[1]);
-      result = today + ' ' + r1 + ':' + r2 + ':00';
-      console.log('result', today, result);
     }
+    let today = new Date(new Date().toUTCString());
+    let hours = parseInt(this.addTarget.time.split('.')[0]);
+    let minutes = parseInt(this.addTarget.time.split('.')[1]);
+    today.setHours(today.getHours() + hours);
+    today.setMinutes(today.getMinutes() + minutes);
+    let targetTime = this.common.dateFormatter(today);
 
     //let startday = new Date(today.setDate(today.getHours() +);
     //console.log('starday', this.common.dateFormatter(startday));
     let params = {
       vehicleId: this.vid,
       targetType: this.addTarget.targetType,
-      targetTime: result,
+      targetTime: targetTime,
       isNotify: "" + this.addTarget.isNotify,
       targetParam1: this.targetDistance
     };
