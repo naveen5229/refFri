@@ -8,6 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
+import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/ware-house-modal.component';
 
 @Component({
   selector: 'orders',
@@ -231,9 +232,9 @@ export class OrdersComponent implements OnInit {
     this.api.get('Suggestion/GetStockItem?search=123&invoicetype=' + type)
       .subscribe(res => {
         this.common.loading--;
-        console.log('Res:', res['data']);
-        if (type == 'sales') { this.suggestions.salesstockItems = res['data']; }
-        if (type == 'purchase') { this.suggestions.purchasestockItems = res['data']; }
+        console.log('----------------------kkk:', res['data']);
+        this.suggestions.stockItems = res['data'];
+        this.setAutoSuggestion();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -400,6 +401,12 @@ export class OrdersComponent implements OnInit {
       // console.log('alt + C pressed');
       this.openStockItemModal();
     }
+    if ((event.altKey && key === 'c') && (this.activeId.includes('warehouse'))) {
+      // console.log('alt + C pressed');
+      this.openwareHouseModal();
+
+
+    }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
       console.log('available item', (this.order.amountDetails[index].qty));
@@ -476,6 +483,9 @@ export class OrdersComponent implements OnInit {
         // console.log('stockitem'+'-'+index);
         this.setFoucus('warehouse' + '-' + 0);
       } else if (this.activeId.includes('stockitem')) {
+        // if (this.order.ordertype.name.toLowerCase().includes('purchase')) { this.suggestions.stockItems = this.suggestions.purchasestockItems; }
+        // if (this.order.ordertype.name.toLowerCase().includes('sales')) { this.suggestions.stockItems = this.suggestions.salesstockItems; }
+
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
@@ -850,9 +860,9 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.getStockItems('sales');
-        this.getStockItems('purchase');
-        this.common.showToast(" Stock item Saved");
+        this.getStockItems(this.order.ordertype.name);
+        //   this.getStockItems('purchase');
+        this.common.showToast("Stock item Saved");
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -864,7 +874,7 @@ export class OrdersComponent implements OnInit {
   setAutoSuggestion() {
     console.log('-----------------------:', this.suggestions.stockItems, 'ww:', this.suggestions.warehouses);
     let activeId = document.activeElement.id;
-    console.log('Last Active Id:')
+    console.log('Last Active Id:', activeId)
     if (activeId == 'ordertype') this.autoSuggestion.data = this.suggestions.invoiceTypes;
     else if (activeId == 'purchaseledger') this.autoSuggestion.data = this.suggestions.purchaseLedgers;
     else if (activeId == 'ledger') this.autoSuggestion.data = this.suggestions.supplierLedgers;
@@ -938,6 +948,47 @@ export class OrdersComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+
+
+  openwareHouseModal() {
+    this.common.params = null;
+    const activeModal = this.modalService.open(WareHouseModalComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.addWareHouse(data.wareHouse);
+        return;
+      }
+    });
+  }
+  addWareHouse(wareHouse) {
+    console.log('wareHouse', wareHouse);
+    const params = {
+      name: wareHouse.name,
+      foid: 123,
+      parentid: wareHouse.account.id,
+      primarygroupid: wareHouse.account.primarygroup_id,
+      x_id: 0
+    };
+    console.log('params11: ', params);
+    this.common.loading++;
+    this.api.post('Company/InsertWarehouse', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        let result = res['data'][0].save_warehouse;
+        if (result == '') {
+          this.common.showToast("Add Successfull  ");
+        }
+        else {
+          this.common.showToast(result);
+        }
+        this.getWarehouses();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 
 
