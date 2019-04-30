@@ -29,10 +29,13 @@ export class TrendsComponent implements OnInit {
   siteDetails = [];
   vehicleDetails = [];
   showdate: any;
+  kmpdDate = []; //new change
+  showPeriod = true;  //new changes
   dateStr = [];
   trendType = '11';
   siteUnloading = [];
   vehicleUnloading = [];
+  onWardDistance = [];
   week_month_number = "4";
   period = "0";
   url = '';
@@ -43,11 +46,13 @@ export class TrendsComponent implements OnInit {
   fromDate = '';
   // lastCategory='';
   lastDurationCategory = '';
+  element = {}; //new changes
 
   chartObject = {
     type: '',
     data: {},
     options: {},
+    elements: {},
     lables: [],
     yAxes: [],
     ticks: {},
@@ -109,13 +114,15 @@ export class TrendsComponent implements OnInit {
     console.log('Hours:showChart', this.Hours);
     this.chartObject.type = 'line';
     this.chartObject.data = {
-      labels: this.dateDay,
 
+      // labels: this.dateDay ? this.dateDay : this.kmpdDate,
+      labels: this.dateDay ? this.dateDay : this.kmpdDate,
       datasets: [
         {
           //  label: this.flag,
           data: this.Hours,
           borderColor: this.bgColor,
+          // backgroundColor: this.bgColor, //new
           fill: false,
           pointHoverRadius: 8,
           pointHoverBackgroundColor: '#FFEB3B'
@@ -125,6 +132,7 @@ export class TrendsComponent implements OnInit {
     this.chartObject.options = {
       responsive: true,
       maintainAspectRatio: false,
+      elements: this.element ? this.element : '',
       legend: {
         display: false
       },
@@ -204,8 +212,13 @@ export class TrendsComponent implements OnInit {
       } else if (this.period == '2') {
         this.getMonthlyTrends();
       }
+    } else if (this.trendType == '31') {
+      this.showTables = false;
+      this.showPeriod = false;
+      this.getOnwardDistance();
     } else {
       if (this.period == "0") {
+        this.showPeriod = true;
         if (this.lastDurationCategory == 'DayWise') {
           this.getCategoryDayWise();
         }
@@ -213,6 +226,7 @@ export class TrendsComponent implements OnInit {
           this.getDayWiseTrends();
         }
       } else if (this.period == "1") {
+        this.showPeriod = true;
         this.showTables = false;
         if (this.lastDurationCategory == 'WeekWise') {
           this.getCategoryWeekWise();
@@ -222,6 +236,7 @@ export class TrendsComponent implements OnInit {
         }
 
       } else {
+        this.showPeriod = true;
         this.showTables = false;
         if (this.lastDurationCategory == 'MonthWise') {
           this.getCategoryMonthWise();
@@ -272,6 +287,7 @@ export class TrendsComponent implements OnInit {
     this.Details = [];
     console.log('getDayWiseTrends call');
     this.dateDay = [];
+    // this.element = null;
     this.fromDate = this.common.dateFormatter(this.fromDate).split(' ')[0]
     // this.fromDate=(this.common.dateFormatter(this.fromDate)).split('')[0];
     this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0]
@@ -310,6 +326,7 @@ export class TrendsComponent implements OnInit {
   getCategoryDayWise() {
 
     this.Hours = [];
+    //this.element = null;
     this.lastDurationCategory = 'DayWise';
     console.log('changeTrendType:', 'call');
     this.Details.forEach((element) => {
@@ -401,6 +418,7 @@ export class TrendsComponent implements OnInit {
   getCategoryWeekWise() {
 
     let str: any;
+    // this.element = null;
     this.dateDay = [];
     this.Hours = [];
     this.lastDurationCategory = 'WeekWise';
@@ -498,6 +516,7 @@ export class TrendsComponent implements OnInit {
 
   getCategoryMonthWise() {
     let str: any;
+    //this.element = null;
     this.dateDay = [];
     this.Hours = [];
     this.lastDurationCategory = 'MonthWise';
@@ -599,6 +618,54 @@ export class TrendsComponent implements OnInit {
     console.log('Location: ', location);
     this.common.params = { location, title: 'Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  getOnwardDistance() {
+    let d1, d2;
+    this.onWardDistance = [];
+    //this.dateDay = [];
+    this.Hours = [];
+    let today, endDay, startday;
+    today = new Date();
+    d2 = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1))).split(' ')[0];
+    d1 = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 6))).split(' ')[0];
+    let params = {
+      startDate: d1,
+      endDate: d2
+    };
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api.post('Trends/getGroupOnwardDistance', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['data']);
+        this.onWardDistance = res['data'];
+        // this.period = null;
+        this.showTables = false;
+        this.showPeriod = false;
+        this.onWardDistance.forEach((element) => {
+          this.showdate = this.datepipe.transform(element.DATE, 'dd-MMM');
+          this.kmpdDate.push(this.showdate);
+          this.Hours.push(element.KMPD);
+          console.log('dateDay , Hours: ', this.kmpdDate, this.Hours);
+          this.yScale = "KMPD"
+
+        });
+        this.element = {
+          line: {
+            tension: 0 // disables bezier curves
+          }
+        },
+          this.bgColor = '#FF4500';
+        this.showChart();
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+
+      })
+
+
   }
 
 

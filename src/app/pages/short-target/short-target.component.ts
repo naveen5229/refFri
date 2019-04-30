@@ -30,13 +30,13 @@ export class ShortTargetComponent implements OnInit {
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getShortTarget();
+    this.getOnwardKmpd();
   }
 
   ngOnInit() {
   }
 
-  getShortTarget() {
+  getOnwardKmpd() {
 
     this.shortTarget = [];
     this.table = {
@@ -115,18 +115,18 @@ export class ShortTargetComponent implements OnInit {
 
 
 
-  addShortTarget(target) {
-    this.common.params = {
-      vehicleId: target._vid,
-      vehicleRegNo: target.vehicle
+  // addShortTarget(target) {
+  //   this.common.params = {
+  //     vehicleId: target._vid,
+  //     vehicleRegNo: target.vehicle
 
-    };
+  //   };
 
-    const activeModal = this.modalService.open(AddShortTargetComponent, {
-      size: "sm",
-      container: "nb-layout"
-    });
-  }
+  //   const activeModal = this.modalService.open(AddShortTargetComponent, {
+  //     size: "sm",
+  //     container: "nb-layout"
+  //   });
+  // }
 
 }
 

@@ -121,7 +121,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-list',
         link: '/pages/user-call-summary',
         home: true,
-      }
+      },
+      {
+        title: 'Onward KMPD',
+        icon: 'fas fa-list',
+        link: '/pages/onward-kmpd',
+        home: true,
+      },
+
     ]
   },
   {
