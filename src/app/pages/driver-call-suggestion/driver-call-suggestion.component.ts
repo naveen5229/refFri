@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DriverDistanceComponent } from '../../modals/driver-distance/driver-distance.component';
 import { RouteMapperComponent } from "../../modals/route-mapper/route-mapper.component";
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
+import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
+import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 
 @Component({
   selector: 'driver-call-suggestion',
@@ -20,7 +22,7 @@ export class DriverCallSuggestionComponent implements OnInit {
   distance = 0;
   strcurdate = '';
   stryesterday = '';
-
+  dis_all = 'dcs'
   table = {
     data: {
       headings: {
@@ -228,4 +230,314 @@ export class DriverCallSuggestionComponent implements OnInit {
 
     });
   }
+
+  //--------------------------------- onward data--------------------
+  showTable = false;
+  onwardDelayData = [];
+  valobj2 = {};
+  table2 = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+  getOnwardDelayData() {
+    this.onwardDelayData = [];
+    this.common.loading++;
+    this.api.get('TripsOperation/tripOnwardDelay')
+      .subscribe(res => {
+        this.common.loading--;
+
+        console.log("result", res['data'][0].fn_trips_onwarddelay);
+        this.onwardDelayData = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        this.smartTableWithHeadings();
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  smartTableWithHeadings() {
+    this.table2 = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    if (this.onwardDelayData != null) {
+      console.log('onwardDelayData', this.onwardDelayData);
+      let first_rec = this.onwardDelayData[0];
+      console.log("first_Rec", first_rec);
+
+      for (var key in first_rec) {
+        if (key.charAt(0) != "_") {
+          this.headings.push(key);
+          let headerObj = { title: key, placeholder: this.formatTitle(key) };
+          this.table2.data.headings[key] = headerObj;
+        }
+
+      }
+
+      this.table2.data.columns = this.getTableColumns2();
+      console.log("table:2");
+      console.log(this.table2);
+      this.showTable = true;
+    } else {
+      this.common.showToast('No Record Found !!');
+    }
+
+
+  }
+
+  getTableColumns2() {
+    let columns = [];
+    for (var i = 0; i < this.onwardDelayData.length; i++) {
+      this.valobj2 = {};
+      for (let j = 0; j < this.headings.length; j++) {
+        this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'black', action: '' };
+      }
+      this.valobj2['style'] = { background: this.onwardDelayData[i]._rowcolor };
+      columns.push(this.valobj2);
+    }
+
+    console.log('Columns:', columns);
+    return columns;
+  }
+
+
+  //---------------------- delay defaults data
+
+  delayFaults = [];
+  valobj3 = {};
+  table3 = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+  getDelayFaults() {
+
+    this.delayFaults = [];
+    this.table3 = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    //  console.log('params: ', params);
+    this.common.loading++;
+    this.api.get('Placement/placementDelayFaults?')
+      .subscribe(res => {
+        this.common.loading--;
+        this.delayFaults = JSON.parse(res['data'][0].fn_placements_getfaults);
+        if (this.delayFaults != null) {
+          console.log('delayFaults', this.delayFaults);
+          let first_rec = this.delayFaults[0];
+          console.log("first_Rec", first_rec);
+
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table3.data.headings[key] = headerObj;
+            }
+
+          }
+
+          this.table3.data.columns = this.getTableColumns3();
+          console.log("table:");
+          console.log(this.table);
+          this.showTable = true;
+        } else {
+          this.common.showToast('No Record Found !!');
+        }
+
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
+  }
+
+  getTableColumns3() {
+    let columns = [];
+    for (var i = 0; i < this.delayFaults.length; i++) {
+      this.valobj3 = {};
+      for (let j = 0; j < this.headings.length; j++) {
+        if (this.headings[j] == "endpt") {
+          console.log("headings[j]", this.headings[j]);
+          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openPlacementModal.bind(this, this.delayFaults[i]) };
+        }
+        else if (this.headings[j] == "%Dist") {
+          console.log("headings[j]", this.headings[j]);
+          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.delayFaults[i]) };
+        }
+        else if (this.headings[j] == "vehicle") {
+          console.log("headings[j]", this.headings[j]);
+          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.delayFaults[i]) };
+        }
+        else {
+          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'black', action: '' };
+        }
+
+      }
+      this.valobj3['style'] = { background: this.delayFaults[i]._rowcolor };
+      columns.push(this.valobj3);
+    }
+
+    console.log('Columns:', columns);
+    return columns;
+  }
+
+
+
+  openPlacementModal(placement) {
+    console.log("openPlacementModal", placement);
+    let tripDetails = {
+      vehicleId: placement._vid,
+      siteId: placement._site_id ? placement._site_id : -1
+    }
+    this.common.params = { tripDetils: tripDetails, ref_page: 'placements' };
+    console.log("vehicleTrip", tripDetails);
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      //console.log("data", data.respone);
+
+    });
+  }
+
+  openRouteMapper(defaultFault) {
+    console.log("defaultFault", defaultFault);
+    let fromTime = this.common.dateFormatter(defaultFault._start_time);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: defaultFault._vid,
+      vehicleRegNo: defaultFault.vehicle,
+      fromTime: fromTime,
+      toTime: toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
+  }
+  addShortTarget(target) {
+    this.common.params = {
+      vehicleId: target._vid,
+      vehicleRegNo: target.vehicle
+
+    };
+
+    const activeModal = this.modalService.open(AddShortTargetComponent, {
+      size: "sm",
+      container: "nb-layout"
+    });
+  }
+
+  //----------------short Target Data
+  shortTarget = [];
+  valobj4 = {};
+  table4 = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+
+  getShortTarget() {
+
+    this.shortTarget = [];
+    this.table4 = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    //  console.log('params: ', params);
+    this.common.loading++;
+    this.api.get('Placement/getShortTarget')
+      .subscribe(res => {
+        this.common.loading--;
+        this.shortTarget = JSON.parse(res['data'][0].result);
+        //this.shortTarget = res['data'];
+        if (this.shortTarget != null) {
+          console.log('shortTarget', this.shortTarget);
+          let first_rec = this.shortTarget[0];
+          console.log("first_Rec", first_rec);
+
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table4.data.headings[key] = headerObj;
+            }
+
+          }
+
+          this.table4.data.columns = this.getTableColumns4();
+          console.log("table:");
+          console.log(this.table4);
+          this.showTable = true;
+        } else {
+          this.common.showToast('No Record Found !!');
+        }
+
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
+  }
+
+  getTableColumns4() {
+    let columns = [];
+    for (var i = 0; i < this.shortTarget.length; i++) {
+      this.valobj4 = {};
+      for (let j = 0; j < this.headings.length; j++) {
+
+        this.valobj4[this.headings[j]] = { value: this.shortTarget[i][this.headings[j]], class: 'black', action: '' };
+
+
+      }
+      this.valobj4['style'] = { background: this.shortTarget[i]._rowcolor };
+      columns.push(this.valobj4);
+    }
+
+    console.log('Columns:', columns);
+    return columns;
+  }
 }
+
+
+
+
