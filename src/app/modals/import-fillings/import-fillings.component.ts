@@ -77,7 +77,7 @@ export class ImportFillingsComponent implements OnInit {
       fuelCsv: this.fillingcsv,
       foid: this.foid,
       stationId: this.fuel_station_id,
-      isFull: this.isfull,
+      // isFull: this.isfull,
       isValidate: true
     };
 

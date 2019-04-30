@@ -59,8 +59,7 @@ export class FuelFillingsComponent implements OnInit {
     today = new Date();
     this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
     this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
-
-    // this.getFillingData();
+    this.getFillingData();
   }
 
   ngOnInit() {
