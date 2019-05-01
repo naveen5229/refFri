@@ -205,7 +205,7 @@ export class ConciseComponent implements OnInit {
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         trip: {
-          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.placements),
+          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
@@ -781,7 +781,7 @@ export class ConciseComponent implements OnInit {
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
   }
-      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.placements)}</span> <br>
+      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `

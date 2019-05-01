@@ -234,6 +234,11 @@ export class DriverCallSuggestionComponent implements OnInit {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.addShortTarget.bind(this, this.driverData[i]) };
 
         }
+        else if (this.headings[j] == "Trip") {
+
+          valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.driverData[i]), isHTML: true, class: 'black', action: '' };
+        }
+
         else {
           valobj[this.headings[j]] = { value: val, class: 'black', action: '' };
         }
@@ -337,6 +342,10 @@ export class DriverCallSuggestionComponent implements OnInit {
         console.log("header", this.headings[j])
         if (this.headings[j] == 'v_regno') {
           this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.onwardDelayData[i]) };
+        }
+        else if (this.headings[j] == "Trip") {
+          this.valobj2[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.onwardDelayData[i]), isHTML: true, class: 'black', action: '' };
+
         }
         else {
           this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'black', action: '' };
@@ -608,7 +617,7 @@ export class DriverCallSuggestionComponent implements OnInit {
       for (let j = 0; j < this.headings.length; j++) {
         console.log("header", this.headings[j]);
         if (this.headings[j] == 'regno') {
-          this.valobj5[this.headings[j]] = { value: this.longLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.shortTarget[i]) };
+          this.valobj5[this.headings[j]] = { value: this.longLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.longLoading[i]) };
 
         }
         else {
@@ -625,7 +634,7 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   //---------------------Long unloading data
 
-  longunLoading = [];
+  longUnLoading = [];
   valobj6 = {};
   table6 = {
     data: {
@@ -639,7 +648,7 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   getLongUnloading(type) {
 
-    this.longunLoading = [];
+    this.longUnLoading = [];
     let hrs = this.hours;
     this.table6 = {
       data: {
@@ -660,11 +669,11 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('TripsOperation/tripOnwardDelay?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.longunLoading = JSON.parse(res['data'][0].fn_trips_onwarddelay);
-        //this.shortTarget = res['data'];
-        if (this.longunLoading != null) {
-          console.log('longunLoading', this.longunLoading);
-          let first_rec = this.longunLoading[0];
+        this.longUnLoading = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        console.log('longunLoading', this.longUnLoading);
+
+        if (this.longUnLoading != null) {
+          let first_rec = this.longUnLoading[0];
           console.log("first_Rec", first_rec);
 
           for (var key in first_rec) {
@@ -694,19 +703,24 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   getTableColumns6() {
     let columns = [];
-    for (var i = 0; i < this.longunLoading.length; i++) {
+    for (var i = 0; i < this.longUnLoading.length; i++) {
       this.valobj5 = {};
       for (let j = 0; j < this.headings.length; j++) {
-        console.log("header", this.headings[j]);
+        console.log("header", this.headings[j], this.longUnLoading[i][this.headings[j]]);
         if (this.headings[j] == 'regno') {
-          this.valobj6[this.headings[j]] = { value: this.longunLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.shortTarget[i]) };
+          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.shortTarget[i]) };
+
+        }
+        else if (this.headings[j] == "Trip") {
+          console.log("htmll------", this.common.getJSONTripStatusHTML(this.longUnLoading[i]));
+          this.valobj6[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.longUnLoading[i]), isHTML: true, class: 'black', action: '' };
 
         }
         else {
-          this.valobj6[this.headings[j]] = { value: this.longunLoading[i][this.headings[j]], class: 'black', action: '' };
+          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'black', action: '' };
         }
       }
-      this.valobj6['style'] = { background: this.longunLoading[i]._rowcolor };
+      this.valobj6['style'] = { background: this.longUnLoading[i]._rowcolor };
       columns.push(this.valobj6);
     }
 
