@@ -13,8 +13,8 @@
     </div>
 
     <div class="col-sm-2">
-      <input type="text" class="form-control" [value]="startDate | date : 'dd/MM/yyyy'" name="start"
-        placeholder="Start Date" (dblclick)="getDate('start')">
+      <input type="text" class="form-control" (focusout)="checkDateFormat('start')" [(ngModel)]="startDate.view"
+        name="start" placeholder="Start Date" (dblclick)="getDate('start')">
     </div>
 
     <div class="col-sm-2">
@@ -22,8 +22,8 @@
     </div>
 
     <div class="col-sm-2">
-      <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="end" placeholder="End Date"
-        (click)="getDate('end')">
+      <input type="text" class="form-control" (focusout)="checkDateFormat('end')" [(ngModel)]="endDate.view" name="end"
+        placeholder="End Date" (dblclick)="getDate('end')">
     </div>
 
     <div class="col-sm-2">
@@ -70,5 +70,5 @@
     <td  (click)="showMap(data)"><i class="fa fa-map-marker"></i></td>
   </tbody>
 </table>  -->
-  <smart-table [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
+  <smart-table *ngIf="table" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
 </div>
