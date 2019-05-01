@@ -23,16 +23,20 @@ export class TrendsComponent implements OnInit {
   dateDay = [];
   startDate = '';
   endDate = '';
-  showtrend = false;
+  lastTrend = '';
+  showtrend = false;  //new 
   showTables = false;
   Details = [];
   siteDetails = [];
   vehicleDetails = [];
   showdate: any;
+  kmpdDate = []; //new change
+  showPeriod = true;  //new changes
   dateStr = [];
   trendType = '11';
   siteUnloading = [];
   vehicleUnloading = [];
+  onWardDistance = [];
   week_month_number = "4";
   period = "0";
   url = '';
@@ -43,11 +47,13 @@ export class TrendsComponent implements OnInit {
   fromDate = '';
   // lastCategory='';
   lastDurationCategory = '';
+  element = {}; //new changes
 
   chartObject = {
     type: '',
     data: {},
     options: {},
+    elements: {},
     lables: [],
     yAxes: [],
     ticks: {},
@@ -91,7 +97,8 @@ export class TrendsComponent implements OnInit {
       console.log('endDate', this.endDate);
       console.log('startDate', startday, this.startDate);
       this.getweeklyTrend();
-    } else {
+    }
+    else if (this.period == '2') {
       //  this.month_number='7';
       // startday = new Date(today.setMonth(today.getMonth() - 4));
       this.startDate = this.common.dateFormatter(startday);
@@ -99,45 +106,92 @@ export class TrendsComponent implements OnInit {
       console.log('endDate', this.endDate);
       console.log('startDate', startday, this.startDate);
       this.getMonthlyTrends();
+
+    } else {
+      startday = new Date(today.setDate(today.getDate() - 6));
+      this.fromDate = this.common.dateFormatter(startday);
     }
 
   }
 
 
   showChart() {
-    console.log('date:showChart', this.dateDay);
+    console.log('dateday:showChart', this.dateDay);
+    console.log('kmpd:showChart', this.dateDay);
     console.log('Hours:showChart', this.Hours);
     this.chartObject.type = 'line';
-    this.chartObject.data = {
-      labels: this.dateDay,
 
-      datasets: [
-        {
-          //  label: this.flag,
-          data: this.Hours,
-          borderColor: this.bgColor,
-          fill: false,
-          pointHoverRadius: 8,
-          pointHoverBackgroundColor: '#FFEB3B'
-        }
-      ]
-    };
-    this.chartObject.options = {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        display: false
-      },
+    if (this.trendType == '31') {
+      this.chartObject.data = {
 
-      yAxes: [{
-        ticks: {
-          min: 100,
-          max: 500,
-          stepSize: 100
-        }
-      }]
+        // labels: this.dateDay ? this.dateDay : this.kmpdDate,
+        labels: this.kmpdDate,
+        datasets: [
+          {
+            //  label: this.flag,
+            data: this.Hours,
+            borderColor: this.bgColor,
+            // backgroundColor: this.bgColor, //new
+            fill: false,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B'
+          }
+        ]
+      };
+      this.chartObject.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        elements: this.element,
+        legend: {
+          display: false
+        },
 
-    };
+        yAxes: [{
+          ticks: {
+            min: 100,
+            max: 500,
+            stepSize: 100
+          }
+        }]
+
+      };
+    } else {
+      this.chartObject.data = {
+
+        // labels: this.dateDay ? this.dateDay : this.kmpdDate,
+        labels: this.dateDay,
+        datasets: [
+          {
+            //  label: this.flag,
+            data: this.Hours,
+            borderColor: this.bgColor,
+            // backgroundColor: this.bgColor, //new
+            fill: false,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#FFEB3B'
+          }
+        ]
+      };
+      this.chartObject.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        // elements: this.element ? this.element : null,
+        legend: {
+          display: false
+        },
+
+        yAxes: [{
+          ticks: {
+            min: 100,
+            max: 500,
+            stepSize: 100
+          }
+        }]
+
+      };
+    }
+
+    console.log('lable', this.chartObject.lables);
   }
 
   getSiteWise() {
@@ -204,15 +258,24 @@ export class TrendsComponent implements OnInit {
       } else if (this.period == '2') {
         this.getMonthlyTrends();
       }
+    } else if (this.trendType == '31') {
+      this.showTables = false;
+      this.showPeriod = false;
+      this.getOnwardDistance();
     } else {
       if (this.period == "0") {
+        this.showPeriod = true;
         if (this.lastDurationCategory == 'DayWise') {
-          this.getCategoryDayWise();
+          if (this.lastTrend == 'kmpd') {  //for onward-kmpd handling
+            this.getDayWiseTrends();
+          } else
+            this.getCategoryDayWise();
         }
         else {
           this.getDayWiseTrends();
         }
       } else if (this.period == "1") {
+        this.showPeriod = true;
         this.showTables = false;
         if (this.lastDurationCategory == 'WeekWise') {
           this.getCategoryWeekWise();
@@ -222,6 +285,7 @@ export class TrendsComponent implements OnInit {
         }
 
       } else {
+        this.showPeriod = true;
         this.showTables = false;
         if (this.lastDurationCategory == 'MonthWise') {
           this.getCategoryMonthWise();
@@ -230,6 +294,8 @@ export class TrendsComponent implements OnInit {
         }
       }
     }
+
+    this.lastTrend = this.trendType;
 
   }
 
@@ -268,10 +334,12 @@ export class TrendsComponent implements OnInit {
   // }
 
   getDayWiseTrends() {
-
+    //this.element = null;
+    this.lastTrend = '';
     this.Details = [];
     console.log('getDayWiseTrends call');
     this.dateDay = [];
+    //this.element = '';
     this.fromDate = this.common.dateFormatter(this.fromDate).split(' ')[0]
     // this.fromDate=(this.common.dateFormatter(this.fromDate)).split('')[0];
     this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0]
@@ -310,6 +378,7 @@ export class TrendsComponent implements OnInit {
   getCategoryDayWise() {
 
     this.Hours = [];
+    //this.element = '';
     this.lastDurationCategory = 'DayWise';
     console.log('changeTrendType:', 'call');
     this.Details.forEach((element) => {
@@ -401,6 +470,7 @@ export class TrendsComponent implements OnInit {
   getCategoryWeekWise() {
 
     let str: any;
+    // this.element = '';
     this.dateDay = [];
     this.Hours = [];
     this.lastDurationCategory = 'WeekWise';
@@ -498,6 +568,7 @@ export class TrendsComponent implements OnInit {
 
   getCategoryMonthWise() {
     let str: any;
+    //this.element = ' ';
     this.dateDay = [];
     this.Hours = [];
     this.lastDurationCategory = 'MonthWise';
@@ -599,6 +670,62 @@ export class TrendsComponent implements OnInit {
     console.log('Location: ', location);
     this.common.params = { location, title: 'Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  getOnwardDistance() {
+    this.onWardDistance = [];
+    this.kmpdDate = [];
+    // this.dateDay = [];
+    this.Hours = [];
+    this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0];
+    this.fromDate = this.common.dateFormatter(this.fromDate).split(' ')[0];
+    let params = {
+      startDate: this.fromDate,
+      endDate: this.endDate
+    };
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api.post('Trends/getGroupOnwardDistance', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['data']);
+        this.onWardDistance = res['data'];
+        // this.period = null;
+        this.showTables = false;
+        this.showPeriod = false;
+        this.onWardDistance.forEach((element) => {
+          this.showdate = this.datepipe.transform(element.DATE, 'dd-MMM');
+          this.kmpdDate.push(this.showdate);
+          this.Hours.push(element.KMPD);
+          console.log('dateDay , Hours: ', this.kmpdDate, this.Hours);
+          this.yScale = "KMPD"
+
+        });
+        this.element = {
+          line: {
+            tension: 0 // disables bezier curves
+          }
+        },
+          this.bgColor = '#A0522D';
+        this.showChart();
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+
+      })
+
+
+  }
+
+  getTrend() {   //new change for onward-kmpd
+    if (this.trendType == '31') {
+      this.lastTrend = 'kmpd'
+      this.getOnwardDistance();
+    } else {
+      this.getDayWiseTrends();
+    }
+
   }
 
 

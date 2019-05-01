@@ -37,7 +37,8 @@
       <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && handleRowClick(column, i)"
         (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()"
         [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
-        <td style="width: 40px">{{i+1}}</td>
+        <td style="width: 40px">
+          {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
         <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
           (click)="column[heading].action && column[heading].action()"
           (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
@@ -57,7 +58,17 @@
     </tbody>
   </table>
 
+
+
   <div *ngIf="headings && !columns.length">
     <div class="no-record-found">No Record Found</div>
+  </div>
+</div>
+<div class="pagination" *ngIf="pages.count > 1">
+  <div class="pagination_links">
+    <span *ngIf="pages.active > 1" (click)="handlePagination(pages.active - 1)">Pre</span>
+    <span *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
+      [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</span>
+    <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>
   </div>
 </div>

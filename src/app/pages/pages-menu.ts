@@ -94,18 +94,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/tip-feedback-logs',
     home: true,
   },
-  {
-    title: 'Trip Onward Delay',
-    icon: 'fas fa-truck',
-    link: '/pages/trip-onward-delay',
-    home: true,
-  },
+  // {
+  //   title: 'Trip Onward Delay',
+  //   icon: 'fas fa-truck',
+  //   link: '/pages/trip-onward-delay',
+  //   home: true,
+  // },
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
     children: [
       {
-        title: 'Driver Call Suggestion',
+        title: 'Call Suggestion',
         icon: 'fas fa-traffic-light',
         link: '/pages/driver-call-suggestion',
         home: true,
@@ -121,25 +121,32 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-list',
         link: '/pages/user-call-summary',
         home: true,
-      }
+      },
+      {
+        title: 'Onward KMPD',
+        icon: 'fas fa-list',
+        link: '/pages/onward-kmpd',
+        home: true,
+      },
+
     ]
   },
-  {
-    title: 'Placement Delay Faults',
-    icon: 'fas fa-list',
-    link: '/pages/placement-delay-faults',
-    home: true,
-  },
+  // {
+  //   title: 'Placement Delay Faults',
+  //   icon: 'fas fa-list',
+  //   link: '/pages/placement-delay-faults',
+  //   home: true,
+  // },
   {
     title: 'Vehicle Gps Detail',
     icon: 'fa fa-map-marker',
     link: '/pages/vehicle-gps-detail',
     home: true,
   },
-  {
-    title: 'Short Target',
-    icon: 'fas fa-sort-amount-up',
-    link: '/pages/short-target',
-    home: true,
-  },
+  // {
+  //   title: 'Short Target',
+  //   icon: 'fas fa-sort-amount-up',
+  //   link: '/pages/short-target',
+  //   home: true,
+  // },
 ];

@@ -123,3 +123,36 @@ tbody tr:nth-child(even){
 .icon{
     font-size: 14px;
 }
+.pagination{
+    position: absolute;
+    bottom: 2px;
+    margin: 0px;
+    width: 97%;
+    left: 20px;
+    display: block;
+    .pagination_links{
+        span{
+            position: relative;
+            display: block;
+            padding: 5px 7px;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            float: left;
+            cursor: pointer;
+        }
+        span:hover,
+        span:active,
+        span.active-page{
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        span:focus{
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+    }
+
+}
