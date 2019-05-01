@@ -532,11 +532,11 @@ export class CommonService {
     let hdg_coll = [];
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
-    console.log("hdgcols:",hdgCols);
+    console.log("hdgcols:", hdgCols);
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if(hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
           continue;
@@ -680,24 +680,23 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
-  downloadPdf(divId)
-    {  
-      var data = document.getElementById('print-section');  
-     // console.log("data",data);
-      html2canvas(data).then(canvas => {  
-        // Few necessary setting options  
-        var imgWidth = 208;   
-        var pageHeight = 295;    
-        var imgHeight = canvas.height * imgWidth / canvas.width;  
-        var heightLeft = imgHeight;  
-    
-        const contentDataURL = canvas.toDataURL('image/png')  
-        let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
-        var position = 0;  
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
-        pdf.save('MYPdf.pdf'); // Generated PDF   
-      });  
-    }  
+  downloadPdf(divId) {
+    var data = document.getElementById('print-section');
+    // console.log("data",data);
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options  
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('MYPdf.pdf'); // Generated PDF   
+    });
+  }
 
   getCSVFromTableId(tblEltId) {
     let tblelt = document.getElementById(tblEltId);
@@ -716,8 +715,8 @@ export class CommonService {
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if(hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
-        continue;
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
         if (hdgCols[i].classList.contains('del'))
           continue;
         let elthtml = hdgCols[i].innerHTML;
@@ -840,4 +839,119 @@ export class CommonService {
       .className.split(' ')[0];
   }
 
+
+  //-----------------------trip Status Area ---------------------------
+  getJSONTripStatusHTML(kpi) {
+
+    this.getTripStatusHTML(kpi._status, kpi._origin, kpi._destination, kpi._placements)
+  }
+
+  getTripStatusHTML(x_status, x_origin, x_destination, x_placements) {
+    const colors = ['green', 'red', 'teal'];
+    let html = '';
+    switch (x_status) {
+      case 0:
+        html = `
+            <!-- At Origin -->
+            ${this.handleTripCircle(x_origin.trim(), 'loading')}
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ${this.formatTripPlacement(x_placements)}`;
+        break;
+      case 1:
+        html = `
+            <!-- At Destination -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              ${this.handleTripCircle(x_destination.trim(), 'unloading')}
+            ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ${this.formatTripPlacement(x_placements)}`;
+        break;
+      case 2:
+        html = `
+            <!-- Onward -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ${this.formatTripPlacement(x_placements)}`;
+        break;
+      case 3:
+        html = `
+            <!-- Available (Done) -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            <i class="fa fa-check-circle complete"></i>`;
+        break;
+      case 4:
+        html = `
+            <!-- Available (Next) -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ${this.formatTripPlacement(x_placements)}`;
+        break;
+      case 5:
+        html = `
+            <!-- Available (Moved) -->
+            <span class="unloading">${x_origin.trim()}</span>
+            ${this.formatTripPlacement(x_placements)}`;
+        break;
+      default:
+        html = `
+            <!-- Ambiguous -->
+            <span class="loading">${x_origin.trim()}</span>
+            <span>-</span>
+            <span class="unloading">${x_destination.trim()}</span>
+            ${this.formatTripPlacement(x_placements)}`;
+        break;
+    }
+    // console.log('HTML:', html);
+    return html;
+  }
+
+  formatTripPlacement(placements) {
+    console.log('--------------------:', placements);
+    if (!placements.length) return '';
+    let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
+    const colors = {
+      11: 'loading', // Loading
+      21: 'unloading', // unloading
+      0: 'others' // others
+    };
+
+    placements.map((placement, index) => {
+      html += `<span class="${colors[placement.type]}">${placement.name.trim()}</span>`
+      if (index != placements.length - 1) {
+        html += `<span> - </span>`;
+      }
+    });
+    console.log('Html:', html);
+    return html;
+  }
+
+  handleTripCircle(location, className = 'loading') {
+    let locationArray = location.split('-');
+    if (locationArray.length == 1) {
+      return `<span class="circle ${className}">${location}</span>`;
+    }
+    let html = ``;
+    for (let i = 0; i < locationArray.length; i++) {
+      if (i == locationArray.length - 1) {
+        html += `<span class="circle ${className}">${locationArray[i]}</span>`;
+      } else {
+        html += `<span class="${className}">${locationArray[i]}</span><span class="location-seperator">-</span>`
+      }
+    }
+    return html;
+  }
 }
