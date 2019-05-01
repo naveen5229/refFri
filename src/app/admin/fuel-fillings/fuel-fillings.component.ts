@@ -15,11 +15,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
-  totalRecord = null;
-  totalPages = null;
-  activePage = 0;
 
-  showcolumns = [];
   headings = [];
   table = {
     data: {
@@ -59,11 +55,18 @@ export class FuelFillingsComponent implements OnInit {
     today = new Date();
     this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
     this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
+    this.getFillingData();
+    this.common.refresh = this.refresh.bind(this);
 
-    // this.getFillingData();
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.getFillingData();
+
   }
 
   formatTitle(strval) {
@@ -90,17 +93,8 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
-        // this.fillingData = this.fillingData.slice(1, 101);
         console.info("filling Data", this.fillingData);
-        this.totalRecord = this.fillingData.length;
-        console.info("toatl Record Data", this.totalRecord);
-        // show total Pages
-        // if (this.totalRecord > 50) {
-        //   this.totalPages = this.totalRecord / 50;
-        //   this.totalPages = parseInt(this.totalPages);
-        //   console.log("Total Pages :", this.totalPages);
 
-        // }
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
 
@@ -110,29 +104,8 @@ export class FuelFillingsComponent implements OnInit {
       });
   }
 
-  selectPage(currentPage) {
-    this.handlePage(currentPage);
-  }
 
-  handlePage(selectedPage) {
-    this.activePage = selectedPage;
-    let startIndex, endIndex;
-    if (selectedPage == 1) {
-      startIndex = 0;
-      endIndex = (50 * selectedPage) - 1
-    }
-    else {
-      startIndex = 50 * selectedPage - 1;
-      endIndex = (50 * selectedPage) - 1
 
-    }
-
-    console.log("starting & Ending", startIndex, endIndex);
-    this.fillingData = this.fillingData.slice(startIndex, endIndex);
-
-    console.log("after Pagination", this.fillingData);
-    this.getTableColumns();
-  }
 
   openData(rowfilling) {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };
