@@ -105,7 +105,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-traffic-light',
     children: [
       {
-        title: 'Driver Call Suggestion',
+        title: 'Call Suggestion',
         icon: 'fas fa-traffic-light',
         link: '/pages/driver-call-suggestion',
         home: true,
