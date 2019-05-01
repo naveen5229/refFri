@@ -841,6 +841,10 @@ export class CommonService {
 
 
   //-----------------------trip Status Area ---------------------------
+  getJSONTripStatusHTML(kpi) {
+
+    this.getTripStatusHTML(kpi._status, kpi._origin, kpi._destination, kpi._placements)
+  }
 
   getTripStatusHTML(x_status, x_origin, x_destination, x_placements) {
     const colors = ['green', 'red', 'teal'];
