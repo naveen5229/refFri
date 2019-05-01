@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 import { ImportFillingsComponent } from '../../../app/modals/import-fillings/import-fillings.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { FuelStationEntryComponent } from '../../modals/fuel-station-entry/fuel-station-entry.component';
+import { ShowFuelStationComponent } from '../../modals/show-fuel-station/show-fuel-station.component';
 
 @Component({
   selector: 'fuel-fillings',
@@ -154,7 +156,7 @@ export class FuelFillingsComponent implements OnInit {
       let column = {
         id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
         pump: { value: frec.pp },
-        date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy') },
+        date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy'), class: 'blue', action: this.openFuelEntry.bind(this, frec) },
         regno: { value: frec.regno },
         litres: { value: frec.litres },
         rate: { value: frec.rate },
@@ -183,5 +185,20 @@ export class FuelFillingsComponent implements OnInit {
       }
 
     });
+  }
+
+  openFuelEntry(val) {
+
+    this.common.params = {
+      vid: val.vehicle_id,
+      datetime: this.common.dateFormatter(val.date).split(' ')[0]
+    };
+    this.modalService.open(FuelStationEntryComponent, { size: 'lg', container: 'nb-layout' })
+  }
+
+  getFuelStation() {
+
+    this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' })
+
   }
 }

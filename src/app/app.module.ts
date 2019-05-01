@@ -135,6 +135,8 @@ import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.c
 import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
 import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-report.component';
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
+import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
+import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -232,6 +234,8 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChangeDriverComponent,
     CsvErrorReportComponent,
     AddShortTargetComponent,
+    FuelStationEntryComponent,
+    ShowFuelStationComponent,
 
   ],
   entryComponents: [
@@ -327,7 +331,9 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChoosePeriodsComponent,
     VehicleStatesComponent,
     CsvErrorReportComponent,
-    AddShortTargetComponent
+    AddShortTargetComponent,
+    FuelStationEntryComponent,
+    ShowFuelStationComponent
 
   ],
   imports: [
