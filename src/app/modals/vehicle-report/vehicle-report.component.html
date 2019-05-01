@@ -8,13 +8,13 @@
 <div class="model-body"
   style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
   <div class="row" style="margin-bottom:10px">
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control">
     </div>
 
     <div class="col-sm-2">
-      <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="start"
-        placeholder="Start Date" (click)="getDate('start')">
+      <input type="text" class="form-control" [value]="startDate | date : 'dd/MM/yyyy'" name="start"
+        placeholder="Start Date" (dblclick)="getDate('start')">
     </div>
 
     <div class="col-sm-2">
