@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { shimHostAttribute } from '@angular/platform-browser/src/dom/dom_renderer';
 import * as moment_ from 'moment';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 const moment = moment_;
 @Component({
   selector: 'vehicle-report',
@@ -216,6 +217,28 @@ export class VehicleReportComponent implements OnInit {
   }
   closeModal() {
     this.activeModal.close();
+  }
+
+
+  getDate(type) {
+
+    this.common.params = { ref_page: 'trip status feedback' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
+          let today = new Date(data.date);
+          console.log('fromDate', this.startDate);
+          this.endDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() + 1)))).split(' ')[0];
+        }
+        else {
+          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
   }
 
 
