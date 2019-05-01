@@ -209,6 +209,10 @@ export class DriverCallSuggestionComponent implements OnInit {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openChangeDriverModal.bind(this, this.driverData[i]) };
 
         }
+        else if (this.headings[j] == "Vehicle") {
+          valobj[this.headings[j]] = { value: val, class: 'blue', action: this.addShortTarget.bind(this, this.driverData[i]) };
+
+        }
         else {
           valobj[this.headings[j]] = { value: val, class: 'black', action: '' };
         }
@@ -445,12 +449,13 @@ export class DriverCallSuggestionComponent implements OnInit {
     );
   }
   addShortTarget(target) {
+    console.log("target", target);
     this.common.params = {
-      vehicleId: target._vid,
-      vehicleRegNo: target.vehicle
+      vehicleId: target._vid || target._vehicleid,
+      vehicleRegNo: target.vehicle || target.Vehicle
 
     };
-
+    console.log("params=", this.common.params);
     const activeModal = this.modalService.open(AddShortTargetComponent, {
       size: "sm",
       container: "nb-layout"
