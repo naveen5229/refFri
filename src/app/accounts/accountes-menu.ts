@@ -50,27 +50,27 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-warehouse',
         link: '/accounts/ware-house'
     },
-   
+
     {
-        title:'Store Requisition',
-        icon :'fa fa-building-o',
-       
+        title: 'Store Requisition',
+        icon: 'fa fa-building-o',
+
         children: [
-           
+
             {
                 title: 'Store Request',
                 link: '/accounts/storerequisitions/-2'
             },
-       
+
             {
-                title:'Stock Issue',
+                title: 'Stock Issue',
                 link: '/accounts/storerequisitions/-3'
             },
             {
-                title:'Stock Transfer',
+                title: 'Stock Transfer',
                 link: '/accounts/storerequisitions/-1'
             },
-            
+
         ],
     },
     {
@@ -119,7 +119,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger Mapping',
                 link: '/accounts/ledgermapping'
             },
-         
+
             {
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
@@ -129,11 +129,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/balancesheet'
             },
             {
-                title:'Profit & Loass A/C',
+                title: 'Profit & Loass A/C',
                 link: '/accounts/profitloss'
             },
             {
-                title:'Cash Book',
+                title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
             {
@@ -144,28 +144,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Trading Account',
                 link: '/accounts/trading'
             },
-            
+
         ],
     },
     {
         title: 'Inventry  Reports',
         icon: 'fa fa-file-excel',
         children: [
-           
+
             {
                 title: 'Invoice Register',
                 link: '/accounts/invoiceregister'
             },
-       
+
             {
-                title:'Stock Available',
+                title: 'Stock Available',
                 link: '/accounts/stockavailable'
             },
             {
-                title:'Opening Stock',
+                title: 'Opening Stock',
                 link: '/accounts/openingstock'
             },
-            
+
         ],
     },
     {
@@ -175,24 +175,24 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Ledger Deleted',
                 link: '/accounts/ledgers/1'
-            }, 
+            },
             {
                 title: 'Voucher & Invoice Deleted',
                 link: '/accounts/daybooks/1'
-            } 
+            }
         ]
     },
     {
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
-    },  {
+    }, {
         title: 'City',
         icon: 'fas fa-city',
         link: '/accounts/city'
     },
-  
-  
+
+
 
 
 ];

@@ -15,6 +15,8 @@ export class StorerequisitionComponent implements OnInit {
   showConfirm = '';
   allowBackspace = false;
   StockQuestiondata = [];
+  storeRequestStockId = 0;
+  pendingid = 0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
     issuedate: null,
@@ -90,8 +92,11 @@ export class StorerequisitionComponent implements OnInit {
     public user: UserService,
     private activeModal: NgbActiveModal,
     public modalService: NgbModal) {
-    console.log('stock Request Id', this.common.params);
-    this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
+
+    this.storeRequestStockId = this.common.params.storeRequestId;
+    this.storeRequestStockId = this.common.params.storeRequestId;
+    this.pendingid = this.common.params.pendingid;
+    console.log('stock Request Id', this.pendingid);
     this.common.handleModalSize('class', 'modal-lg', '1150');
 
     this.getBranchList();
@@ -99,7 +104,7 @@ export class StorerequisitionComponent implements OnInit {
     this.getWarehouses();
     this.storeRequestionType();
     if (this.common.params.stockQuestionId) {
-      this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid);
+      this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
   }
 
@@ -138,10 +143,12 @@ export class StorerequisitionComponent implements OnInit {
       });
   }
 
-  getStockRequestionForIssue(stockQuesionid, stockQuestionBranchId) {
+  getStockRequestionForIssue(stockQuesionid, stockQuestionBranchId, storeRequestId) {
     let params = {
       stockQuesionid: stockQuesionid,
-      stockQuestionBranchId: stockQuestionBranchId
+      stockQuestionBranchId: stockQuestionBranchId,
+      storeRequestId: storeRequestId,
+      pendingid: this.pendingid
     };
     this.common.loading++;
     this.api.post('Company/GetStoreReQuestionForissue', params)
