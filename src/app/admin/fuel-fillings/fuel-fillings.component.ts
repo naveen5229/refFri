@@ -37,9 +37,6 @@ export class FuelFillingsComponent implements OnInit {
     }
   };
 
-
-  // startDate = '';
-  // endDate = '';
   dates = {
     start: this.common.dateFormatter(new Date()),
     end: this.common.dateFormatter(new Date())

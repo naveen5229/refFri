@@ -225,7 +225,7 @@ mwlResizable {
     }
 
     th:nth-child(9) {
-        width: 70px;
+        width: 90px;
     }
 
     th {
@@ -239,23 +239,26 @@ mwlResizable {
     }
 
     td {
-        .icon.fa-info {
+        .icon.fa-chart-pie {
             color: #04a9f5;
         }
 
-        .icon.fa-question-circle {
-            color: #ff8091;
+        .icon.fa-star {
+            color: #8518d5;
         }
 
         .icon.fa-route {
-            color: #0072ff;
+            color: #ff8091;
         }
 
         .icon.fa-truck {
-            color: #5CD050;
+            color: #5cd050;
         }
 
-        .icon.fa-camera {
+        .icon.fa-globe {
+            color: #d51818;
+        }
+        .icon.fa-question-circle {
             color: #b150d0;
         }
     }

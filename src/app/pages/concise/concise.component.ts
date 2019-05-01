@@ -866,15 +866,20 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons(kpi) {
+    //console.log("this.user._loggedInBy", this.user._loggedInBy);
+
+
+
     let icons = [
       {
-        class: "icon fa fa-info",
-        action: this.vehicleReport.bind(this, kpi)
+        class: " icon fa fa-chart-pie",
+        action: this.openChangeStatusModal.bind(this, kpi)
       },
       {
-        class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi)
+        class: "icon fa fa-star",
+        action: this.vehicleReport.bind(this, kpi)
       },
+
       {
         class: " icon fa fa-route",
         action: this.openRouteMapper.bind(this, kpi)
@@ -884,17 +889,16 @@ export class ConciseComponent implements OnInit {
         action: this.openTripDetails.bind(this, kpi)
       },
       {
-        class: "icon fa fa-bars",
+        class: "icon fa fa-globe",
         action: this.openVehicleStates.bind(this, kpi)
       },
-
+      {
+        class: "icon fa fa-question-circle",
+        action: this.reportIssue.bind(this, kpi)
+      },
     ]
-    //console.log("this.user._loggedInBy", this.user._loggedInBy);
-    if (this.user._loggedInBy == "admin") {
-      icons.push({
-        class: " icon fa fa-camera",
-        action: this.openChangeStatusModal.bind(this, kpi)
-      });
+    if (this.user._loggedInBy != "admin") {
+      icons.shift();
     }
     return icons;
   }
