@@ -9,17 +9,25 @@
   style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
   <div class="row" style="margin-bottom:10px">
     <div class="col-sm-3">
-
       <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control">
     </div>
-    <div class="col-sm-3">
+
+    <div class="col-sm-2">
       <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="start"
         placeholder="Start Date" (click)="getDate('start')">
-      <input type="time" class="form-control" [(ngModel)]="startTimePeriod">
     </div>
-    <div class="col-sm-3">
+
+    <div class="col-sm-2">
+      <input type="time" class="form-control" placeholder="HH:mm" [(ngModel)]="startTimePeriod">
+    </div>
+
+    <div class="col-sm-2">
       <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="end" placeholder="End Date"
         (click)="getDate('end')">
+    </div>
+
+    <div class="col-sm-2">
+      <input type="time" class="form-control" placeholder="HH:mm" [(ngModel)]="endTimePeriod">
     </div>
     <!-- <div class="col-sm-3">
             <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
@@ -31,7 +39,7 @@
             autocomplete="off" name="date1">
           <owl-date-time #date1></owl-date-time>
         </div> -->
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
     </div>
   </div>

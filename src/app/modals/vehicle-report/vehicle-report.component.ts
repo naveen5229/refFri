@@ -32,6 +32,7 @@ export class VehicleReportComponent implements OnInit {
   table = null;
   i: ''; d: '';
   startTimePeriod = '00:00';
+  endTimePeriod = '00:00'
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
@@ -39,14 +40,13 @@ export class VehicleReportComponent implements OnInit {
     this.vid = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
     if (this.common.params.ref_page == 'consView') {
-      let today, start;
-      today = new Date();
+      let today = new Date(), start;
       this.endDate = this.common.dateFormatter(today);
       start = new Date(today.setDate(today.getDate() - 3))
       this.startDate = this.common.dateFormatter(start);
-      this.startTimePeriod = this.startDate.split(' ')[1];
-
-      console.log("time Perid:", this.startTimePeriod);
+      this.startDate = this.startDate.split(' ')[0];
+      this.startTimePeriod = start.getHours() + ":" + start.getMinutes();
+      this.endTimePeriod = today.getHours() + ":" + today.getMinutes();
       console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
     }
     else {
@@ -71,13 +71,15 @@ export class VehicleReportComponent implements OnInit {
     this.vid = vehicleList.id;
   }
   getVehicleReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
+    this.startDate = this.startDate.split(' ')[0];
+    this.endDate = this.endDate.split(' ')[0];
+    this.startDate = this.common.dateFormatter1(this.startDate);
+    this.endDate = this.common.dateFormatter1(this.endDate);
 
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate,
-      endDate: this.endDate,
+      startDate: this.startDate + " " + this.startTimePeriod,
+      endDate: this.endDate + " " + this.endTimePeriod,
 
     };
     console.log('params: ', params);
