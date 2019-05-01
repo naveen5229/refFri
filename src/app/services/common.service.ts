@@ -192,6 +192,17 @@ export class CommonService {
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
   }
+  dateFormatter2(date) {
+    let d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() <= 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
+
+    console.log(year + "-" + month + "-" + dat);
+
+    // return dat + "-" + month + "-" + year;
+    return { send: year + "-" + month + "-" + dat, view: dat + "-" + month + "-" + year };
+  }
 
   changeDateformat(date) {
     let d = new Date(date);
@@ -982,5 +993,17 @@ export class CommonService {
       }
     }
     return html;
+  }
+
+
+  convertDate(date, currentFormatt = 'dd-mm-yyyy') {
+    let newDate = new Date();
+    switch (currentFormatt) {
+      case 'dd-mm-yyyy':
+        let dateArray = date.split('-');
+        newDate = new Date(dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0]);
+        break;
+    }
+    return newDate;
   }
 }
