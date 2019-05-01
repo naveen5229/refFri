@@ -39,17 +39,18 @@
         [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
         <td style="width: 40px">
           {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
-        <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
+        <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading] ? column[heading].class : ''"
           (click)="column[heading].action && column[heading].action()"
           (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
-          (mouseout)="handleMouseOut(column, heading)" [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
-          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
+          (mouseout)="handleMouseOut(column, heading)"
+          [ngStyle]="{cursor: (column[heading] && column[heading].action) ? 'pointer' : ''}">
+          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && column[heading].isHTML"
             [innerHTML]="column[heading].value"></div>
           <div [ngClass]="column[heading].action ? 'zoom' : ''"
-            *ngIf="!column[heading].isHTML && !column[heading].icons">
+            *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons">
             {{column[heading].value}}
           </div>
-          <div *ngIf="column[heading].icons">
+          <div *ngIf="column[heading] && column[heading].icons">
             <i *ngFor="let icon of column[heading].icons" [class]="icon.class" (click)="icon.action()"></i>
           </div>
           <!-- <div [ngClass]="column[heading].value?"></div> -->
