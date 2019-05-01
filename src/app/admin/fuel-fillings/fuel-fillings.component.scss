@@ -2,3 +2,15 @@
     color: blue;
     font-weight: 700;
 }
+nb-card-header{
+    padding: 10px 15px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+:host ::ng-deep smart-table{
+    max-height: calc(100vh - 220px);
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 230px) !important;
+}

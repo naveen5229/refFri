@@ -15,9 +15,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 })
 export class FuelFillingsComponent implements OnInit {
   fillingData = [];
-  totalRecord = null;
-  totalPages = null;
-  showcolumns = [];
+
   headings = [];
   table = {
     data: {
@@ -40,8 +38,8 @@ export class FuelFillingsComponent implements OnInit {
   };
 
 
-  startDate = '';
-  endDate = '';
+  // startDate = '';
+  // endDate = '';
   dates = {
     start: this.common.dateFormatter(new Date()),
     end: this.common.dateFormatter(new Date())
@@ -53,16 +51,22 @@ export class FuelFillingsComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    // let today;
-    // today = new Date();
-    // this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    // this.startDate = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
-
-    console.log('dates ', this.endDate, this.startDate);
+    let today;
+    today = new Date();
+    this.dates.end = (this.common.dateFormatter(today)).split(' ')[0];
+    this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
     this.getFillingData();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    console.log('Refresh');
+    this.getFillingData();
+
   }
 
   formatTitle(strval) {
@@ -89,24 +93,19 @@ export class FuelFillingsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.fillingData = res['data'];
-        this.totalRecord = this.fillingData.length;
-        console.info("toatl Record Data", this.totalRecord);
-        // show total Pages
-        if (this.totalRecord > 50) {
-          this.totalPages = this.totalRecord / 50;
-          this.totalPages = parseInt(this.totalPages);
-          console.log("Total Pages :", this.totalPages);
-
-        }
-        this.fillingData = this.fillingData.slice(1, 100);
         console.info("filling Data", this.fillingData);
+
         console.log(this.table.data.headings);
         this.table.data.columns = this.getTableColumns();
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
+
+
 
   openData(rowfilling) {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };

@@ -31,6 +31,7 @@ import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehi
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
 import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
 import { ShortTargetComponent } from './short-target/short-target.component';
+import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -174,6 +175,10 @@ const routes: Routes = [{
   {
     path: 'short-target',
     component: ShortTargetComponent,
+  },
+  {
+    path: 'onward-kmpd',
+    component: onwardKmpdComponent,
   }
   ],
 }];
