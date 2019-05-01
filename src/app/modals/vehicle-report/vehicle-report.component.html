@@ -13,12 +13,13 @@
       <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control">
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+      <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="start"
         placeholder="Start Date" (click)="getDate('start')">
+      <input type="time" class="form-control" [(ngModel)]="startTimePeriod">
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
-        placeholder="End Date" (click)="getDate('end')">
+      <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="end" placeholder="End Date"
+        (click)="getDate('end')">
     </div>
     <!-- <div class="col-sm-3">
             <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"

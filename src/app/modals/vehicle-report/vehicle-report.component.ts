@@ -31,6 +31,7 @@ export class VehicleReportComponent implements OnInit {
   limit;
   table = null;
   i: ''; d: '';
+  startTimePeriod = '00:00';
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
@@ -43,6 +44,9 @@ export class VehicleReportComponent implements OnInit {
       this.endDate = this.common.dateFormatter(today);
       start = new Date(today.setDate(today.getDate() - 3))
       this.startDate = this.common.dateFormatter(start);
+      this.startTimePeriod = this.startDate.split(' ')[1];
+
+      console.log("time Perid:", this.startTimePeriod);
       console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
     }
     else {
@@ -229,9 +233,6 @@ export class VehicleReportComponent implements OnInit {
         if (type == 'start') {
           this.startDate = '';
           this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
-          let today = new Date(data.date);
-          console.log('fromDate', this.startDate);
-          this.endDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() + 1)))).split(' ')[0];
         }
         else {
           this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
