@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { ApiService } from "../../services/api.service";
 import { CommonService } from "../../services/common.service";
 import { UserService } from "../../services/user.service";
@@ -13,7 +13,7 @@ import * as _ from "lodash";
 import { forEach } from "@angular/router/src/utils/collection";
 import { log } from "util";
 import { ReportIssueComponent } from "../../modals/report-issue/report-issue.component";
-import { componentRefresh } from "@angular/core/src/render3/instructions";
+import { componentRefresh, element } from "@angular/core/src/render3/instructions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RadioSelectionComponent } from "../../modals/radio-selection/radio-selection.component";
 import { VehiclesOnMapComponent } from "../../modals/vehicles-on-map/vehicles-on-map.component";
@@ -26,15 +26,21 @@ import { MapService } from "../../services/map.service";
 import { NgxPrintModule } from 'ngx-print';
 import { VehicleTripUpdateComponent } from "../../modals/vehicle-trip-update/vehicle-trip-update.component";
 import { ChangeVehicleStatusComponent } from "../../modals/change-vehicle-status/change-vehicle-status.component";
+import * as moment from 'moment';
 import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
-  styleUrls: ["./concise.component.scss", "../pages.component.css"]
+  styleUrls: ["./concise.component.scss", "../pages.component.css"],
+  host: {
+    '(document:mousemove)': 'onMouseMove($event)'
+  }
   // animations: [slideToLeft(), slideToUp()],
 })
 export class ConciseComponent implements OnInit {
+  // @HostListener('document: mousemove', ['$event'])
+
   registerForm: FormGroup;
   submitted = false;
 
@@ -90,7 +96,9 @@ export class ConciseComponent implements OnInit {
 
   isMapView = false;
   infoWindow = null;
+  infoStart = null;
   isZoomed = false;
+  lastRefreshTime = new Date();
 
   constructor(
     public api: ApiService,
@@ -138,24 +146,26 @@ export class ConciseComponent implements OnInit {
   }
 
   refresh() {
-    console.log("Refresh");
+    //console.log("Refresh");
     this.getKPIS();
   }
 
-  getKPIS() {
-    this.common.loading++;
+  getKPIS(isRefresh?) {
+    console.log('-----------------------------------------------------------');
+    this.lastRefreshTime = new Date();
+    !isRefresh && this.common.loading++;
     this.api.get("VehicleKpis").subscribe(
       res => {
-        this.common.loading--;
-        console.log(res);
+        !isRefresh && this.common.loading--;
+        //console.log(res);
         this.allKpis = res["data"];
         this.kpis = res["data"];
         this.grouping(this.viewType);
         this.table = this.setTable();
       },
       err => {
-        this.common.loading--;
-        console.log(err);
+        !isRefresh && this.common.loading--;
+        //console.log(err);
       }
     );
   }
@@ -228,12 +238,12 @@ export class ConciseComponent implements OnInit {
   }
 
   grouping(viewType) {
-    console.log("All ", this.allKpis);
+    //console.log("All ", this.allKpis);
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
-    console.log("this.kpiGroups", this.kpiGroups);
+    //console.log("this.kpiGroups", this.kpiGroups);
     this.kpiGroupsKeys = Object.keys(this.kpiGroups);
-    console.log("this.kpiGroupsKeys", this.kpiGroupsKeys);
+    //console.log("this.kpiGroupsKeys", this.kpiGroupsKeys);
     this.keyGroups = [];
 
     if (viewType == "showprim_status") {
@@ -297,7 +307,7 @@ export class ConciseComponent implements OnInit {
       }
     });
 
-    console.log("Status: ", this.primaryStatus);
+    //console.log("Status: ", this.primaryStatus);
   }
 
   sortData(viewType) {
@@ -331,7 +341,7 @@ export class ConciseComponent implements OnInit {
       });
     }
 
-    console.log(this.chartColors, this.kpiGroupsKeys);
+    //console.log(this.chartColors, this.kpiGroupsKeys);
     let chartInfo = this.common.pieChart(
       chartLabels,
       chartData,
@@ -370,14 +380,14 @@ export class ConciseComponent implements OnInit {
       this.kpis = this.allKpis;
     } else {
       this.selectedFilterKey = filterKey;
-      console.log(filterKey, this.viewType);
+      //console.log(filterKey, this.viewType);
       this.kpis = this.allKpis.filter(kpi => {
         if (kpi[this.viewType] == filterKey) return true;
         return false;
       });
     }
     this.table = this.setTable();
-    console.log("Column: ", this.table);
+    //console.log("Column: ", this.table);
   }
 
   showLocation(kpi) {
@@ -391,7 +401,7 @@ export class ConciseComponent implements OnInit {
       name: "",
       time: ""
     };
-    console.log("Location: ", location);
+    //console.log("Location: ", location);
     this.common.params = { location, title: "Vehicle Location" };
     const activeModal = this.modalService.open(LocationMarkerComponent, {
       size: "lg",
@@ -440,11 +450,11 @@ export class ConciseComponent implements OnInit {
         res => {
           this.common.loading--;
           this.showLR(res["data"][0]);
-          console.log("data", res);
+          //console.log("data", res);
         },
         err => {
           this.common.loading--;
-          console.log(err);
+          //console.log(err);
         }
       );
   }
@@ -464,7 +474,7 @@ export class ConciseComponent implements OnInit {
         image: data.other_image
       }
     ];
-    console.log("image", images);
+    //console.log("image", images);
     this.common.params = { images, title: "LR Details" };
     const activeModal = this.modalService.open(ImageViewComponent, {
       size: "lg",
@@ -473,8 +483,8 @@ export class ConciseComponent implements OnInit {
   }
 
   changeOptions(type) {
-    console.log("type", type);
-    console.log("viewindex", this.viewIndex);
+    //console.log("type", type);
+    //console.log("viewindex", this.viewIndex);
     if (type === "forward") {
       ++this.viewIndex;
       if (this.viewIndex > this.viewOtions.length - 1) {
@@ -498,7 +508,7 @@ export class ConciseComponent implements OnInit {
   }
 
   reportIssue(kpi) {
-    console.log("Kpi:", kpi);
+    //console.log("Kpi:", kpi);
     this.common.params = { refPage: "db" };
     const activeModal = this.modalService.open(ReportIssueComponent, {
       size: "sm",
@@ -580,7 +590,7 @@ export class ConciseComponent implements OnInit {
     });
 
     options[0].name += " : " + options[0].kpis.length;
-    console.log("options", options);
+    //console.log("options", options);
     // this.common.params = { options };
     // const modal = this.modalService.open(RadioSelectionComponent, { size: 'sm' });
     // modal.result.then(data => {
@@ -591,7 +601,7 @@ export class ConciseComponent implements OnInit {
     // });
     this.primarySubStatus = options;
     this.activePrimaryStatus = primaryStatus.name;
-    console.log(this.activePrimaryStatus);
+    //console.log(this.activePrimaryStatus);
   }
 
   selectSubStatus(kpis) {
@@ -600,7 +610,7 @@ export class ConciseComponent implements OnInit {
   }
 
   vehicleReport(kpi) {
-    console.log("KPis: ", kpi);
+    //console.log("KPis: ", kpi);
 
     this.common.params = {
       vehicleId: kpi.x_vehicle_id,
@@ -630,16 +640,16 @@ export class ConciseComponent implements OnInit {
       fromTime: fromTime,
       toTime: toTime
     };
-    console.log("open Route Mapper modal", this.common.params);
+    //console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
       size: "lg",
       container: "nb-layout",
       windowClass: "myCustomModalClass"
     });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
+    // activeModal.result.then(
+    //   data => //console.log("data", data)
+    //   // this.reloadData()
+    // );
   }
   openTripDetails(kpi) {
     let today, startday, fromDate;
@@ -654,34 +664,34 @@ export class ConciseComponent implements OnInit {
       fromTime: fromTime,
       toTime: toTime
     };
-    console.log("open Trip Details modal", this.common.params);
+    //console.log("open Trip Details modal", this.common.params);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     const activeModal = this.modalService.open(TripDetailsComponent, {
       size: "lg",
       container: "nb-layout",
       windowClass: "myCustomModalClass"
     });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
+    // activeModal.result.then(
+    //   data => //console.log("data", data)
+    //   // this.reloadData()
+    // );
   }
 
   vehicleOnMap() {
-    console.log(" open vehicle on map modal");
+    //console.log(" open vehicle on map modal");
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = { vehicles: this.kpis };
-    console.log("open Route Mapper modal", this.common.params);
+    //console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(VehiclesOnMapComponent, {
       size: "lg",
       container: "nb-layout"
     });
-    activeModal.result.then(data => console.log("data", data));
+    // activeModal.result.then(data => //console.log("data", data));
   }
 
   onResizeEnd(event: ResizeEvent, type): void {
-    console.log("Event: ", event);
-    console.log("Element was resized", event.rectangle.width);
+    //console.log("Event: ", event);
+    //console.log("Element was resized", event.rectangle.width);
     this.widths[type] = event.rectangle.width + "px";
   }
 
@@ -692,7 +702,7 @@ export class ConciseComponent implements OnInit {
     ) {
       this.mapService.mapIntialize("concise-view-map");
     } else {
-      console.log("Else------------------------------------");
+      //console.log("Else------------------------------------");
       this.mapService.map.__gm.Z = document.getElementById("concise-view-map");
     }
 
@@ -703,16 +713,20 @@ export class ConciseComponent implements OnInit {
         this.kpis[index].color = "ff0000";
       }
       else if ((this.kpis[index].x_idle_time / 60) > 0) {
-
-        this.kpis[index].color = "00ff00";
-      } else {
         this.kpis[index].color = "ffff00";
+      } else {
+        this.kpis[index].color = "00ff00";
       }
-
     }
     setTimeout(() => {
       this.mapService.setMapType(0);
       this.mapService.createMarkers(this.kpis);
+      this.mapService.addListerner(this.mapService.map, "center_changed", () => {
+        this.setMarkerLabels();
+      });
+      this.mapService.addListerner(this.mapService.map, "zoom_changed", () => {
+        this.setMarkerLabels();
+      });
       let markerIndex = 0;
       for (const marker of this.mapService.markers) {
         let event = this.kpis[markerIndex];
@@ -725,14 +739,42 @@ export class ConciseComponent implements OnInit {
         markerIndex++;
       }
     }, 1000);
-    console.log("-------------Map:", this.mapService.map);
-    console.log(
-      "-------------- Active Map Id: ",
-      this.mapService.map.__gm.Z.id
-    );
+    //console.log("-------------Map:", this.mapService.map);
+    //console.log("-------------- Active Map Id: ",this.mapService.map.__gm.Z.id);
+  }
+  setMarkerLabels() {
+    if (this.mapService.markers.length != 0) {
+      for (const zoomMarker of this.mapService.markers) {
+        zoomMarker.setLabel("");
+      }
+    }
+    if (this.mapService.map.getZoom() >= 9) {
+      //   let bounds = this.mapService.getMapBounds();
+      //   this.zommedMarkers = this.mapService.markers.filter(element => {
+      //     if ((bounds.lat1 <= element.position.lat() || bounds.lat2 >= element.position.lat())
+      //       && (bounds.lng1 >= element.position.lng() || bounds.lng2 <= element.position.lng()))
+      //       return false;
+      //     return true;
+      //   });
+      // for (const zoomMarker of this.mapService.markers) {
+      //   let find = this.mapService.markers.find(element => {
+      //     return element.position == zoomMarker.position;
+      //   });
+      //   let index = this.mapService.markers.indexOf(find);
+      //   zoomMarker.setLabel(this.kpis[index].x_showveh);
+      // }
+
+      for (let index = 0; index < this.mapService.markers.length; index++) {
+        const element = this.mapService.markers[index];
+        element.setLabel(this.kpis[index].x_showveh);
+      }
+    }
   }
 
   setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(
@@ -757,8 +799,12 @@ export class ConciseComponent implements OnInit {
     // }
   }
   unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+    let diff = new Date().getTime() - this.infoStart;
+    //console.log("Diff", diff);
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
 
   handleMapView() {
@@ -777,14 +823,14 @@ export class ConciseComponent implements OnInit {
   rotate = '';
   rotateBounce(kpi, i?, isToggle = true) {
     this.rotate = 'rotate(' + kpi.x_angle + 'deg)';
-    console.log("rotate", this.rotate);
+    //console.log("rotate", this.rotate);
     if (isToggle) {
       this.mapService.toggleBounceMF(i);
     }
   }
 
   getUpadte(kpi) {
-    console.log("kpi", kpi);
+    //console.log("kpi", kpi);
     let tripDetails = {
       vehicleId: kpi.x_vehicle_id,
       siteId: kpi.x_hl_site_id
@@ -795,7 +841,7 @@ export class ConciseComponent implements OnInit {
 
 
     this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
-    console.log("vehicleTrip", tripDetails);
+    //console.log("vehicleTrip", tripDetails);
     const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
@@ -810,9 +856,9 @@ export class ConciseComponent implements OnInit {
 
   getZoom(kpi) {
     if (this.isMapView, kpi) {
-      console.log("isMapView------", this.isMapView, kpi);
+      //console.log("isMapView------", this.isMapView, kpi);
       let latLng = this.mapService.getLatLngValue(kpi);
-      console.log("latLng", latLng);
+      //console.log("latLng", latLng);
       let latLong = this.mapService.createLatLng(latLng.lat, latLng.lng)
       this.mapService.zoomAt(latLong);
       this.isZoomed = true;
@@ -820,15 +866,20 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons(kpi) {
+    //console.log("this.user._loggedInBy", this.user._loggedInBy);
+
+
+
     let icons = [
       {
-        class: "icon fa fa-info",
-        action: this.vehicleReport.bind(this, kpi)
+        class: " icon fa fa-chart-pie",
+        action: this.openChangeStatusModal.bind(this, kpi)
       },
       {
-        class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi)
+        class: "icon fa fa-star",
+        action: this.vehicleReport.bind(this, kpi)
       },
+
       {
         class: " icon fa fa-route",
         action: this.openRouteMapper.bind(this, kpi)
@@ -838,23 +889,22 @@ export class ConciseComponent implements OnInit {
         action: this.openTripDetails.bind(this, kpi)
       },
       {
-        class: "icon fa fa-bars",
+        class: "icon fa fa-globe",
         action: this.openVehicleStates.bind(this, kpi)
       },
-
+      {
+        class: "icon fa fa-question-circle",
+        action: this.reportIssue.bind(this, kpi)
+      },
     ]
-    console.log("this.user._loggedInBy", this.user._loggedInBy);
-    if (this.user._loggedInBy == "admin") {
-      icons.push({
-        class: " icon fa fa-camera",
-        action: this.openChangeStatusModal.bind(this, kpi)
-      });
+    if (this.user._loggedInBy != "admin") {
+      icons.shift();
     }
     return icons;
   }
 
   openChangeStatusModal(trip) {
-    console.log("kpiiiiiis", trip);
+    //console.log("kpiiiiiis", trip);
     let ltime = new Date();
     let tTime = this.common.dateFormatter(new Date());
     let subtractLTime = new Date(ltime.setHours(ltime.getHours() - 48));
@@ -872,11 +922,11 @@ export class ConciseComponent implements OnInit {
     this.common.ref_page = 'tsfl';
 
     this.common.params = VehicleStatusData;
-    console.log("missing open data --", this.common.params);
+    //console.log("missing open data --", this.common.params);
 
     const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
     activeModal.result.then(data => {
-      console.log("after data chnage ");
+      //console.log("after data chnage ");
 
     });
   }
@@ -894,6 +944,17 @@ export class ConciseComponent implements OnInit {
     });
   }
 
+  onMouseMove(e) {
+    // //console.log('eee:', e);
+    let now = moment(new Date()); //todays date
+    let lastRefreshTime = moment(this.lastRefreshTime); // another date
+    let duration = moment.duration(now.diff(lastRefreshTime));
+    let minutes = duration.asMinutes();
+    // console.log('Minutes:', minutes)
+    if (minutes >= 5) {
+      this.getKPIS(true);
+    }
+  }
   addShortTarget(target) {
     console.log("target", target);
     this.common.params = {
