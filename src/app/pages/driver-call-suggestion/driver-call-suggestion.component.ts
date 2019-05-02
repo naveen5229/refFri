@@ -439,6 +439,11 @@ export class DriverCallSuggestionComponent implements OnInit {
           console.log("headings[j]", this.headings[j]);
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.delayFaults[i]) };
         }
+        else if (this.headings[j] == "Trip") {
+          console.log("htmll------", this.common.getJSONTripStatusHTML(this.delayFaults[i]));
+          this.valobj3[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.delayFaults[i]), isHTML: true, class: 'black', action: '' };
+
+        }
         else {
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'black', action: '' };
         }
