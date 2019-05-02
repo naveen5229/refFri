@@ -6,7 +6,7 @@
 </div>
 <div class="model-body"
   style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
-  <div class="row" style="margin-bottom:10px">
+  <div style="margin-bottom:10px" *ngIf="showTable">
     <smart-table *ngIf="fuelEntry.length" [data]="table.fuelEntry" [settings]="table.settings" id="tblfuelEntry">
     </smart-table>
   </div>

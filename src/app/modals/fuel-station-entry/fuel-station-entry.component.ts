@@ -16,6 +16,7 @@ export class FuelStationEntryComponent implements OnInit {
   fuelEntry = [];
   vid;
   startDate;
+  showTable = false;
   endDate;
   dateTime;
   today;
@@ -49,6 +50,7 @@ export class FuelStationEntryComponent implements OnInit {
       .subscribe(res => {
         if (res['data'].length) {
           this.fuelEntry = res['data'];
+          this.showTable = true;
         } else {
           this.common.showToast('No Record Found!!');
         }
