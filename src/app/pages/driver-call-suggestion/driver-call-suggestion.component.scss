@@ -15,12 +15,7 @@ nb-card-header{
     width: 100%;
 }
 :host ::ng-deep .tableFixHead{
-    overflow-y: auto;
-    display: block;
-    width: 100%;
-    table-layout: fixed;
-    overflow: auto;
-    max-height: calc(100vh - 172px);
+    max-height: calc(100vh - 198px);
     height: auto !important;
 }
 .tabs_style{
@@ -28,7 +23,7 @@ nb-card-header{
     margin: 0px;
     border-bottom: 2px solid #26A69A;
     margin-bottom: 10px;
-    padding-left: 10px !important;
+    padding-left: 5px !important;
     li.active{
     background-color: #fff;
     color: #26A69A;
@@ -44,7 +39,7 @@ nb-card-header{
         left: 0px;
     }
     li{
-        padding: 5px 20px;
+        padding: 5px 6px;
         list-style: none;
         margin-right: 5px;
         background-color: #26A69A;
