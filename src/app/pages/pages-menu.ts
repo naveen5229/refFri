@@ -8,17 +8,38 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Tickets',
-    icon: 'nb-notifications',
+    title: 'Admin',
+    icon: 'nb-home',
     link: '/pages/tickets',
     home: true,
+    children: [
+      {
+        title: 'Tickets',
+        icon: 'nb-notifications',
+        link: '/pages/tickets',
+        home: true,
+      },
+      {
+        title: 'Tickets All',
+        icon: 'nb-title',
+        link: '/pages/tickets-all',
+        home: true,
+      },
+      {
+        title: 'Vehicle Gps Detail',
+        icon: 'fa fa-map-marker',
+        link: '/pages/vehicle-gps-detail',
+        home: true,
+      },
+      {
+        title: 'User Activity Statistics',
+        icon: 'fas fa-chart-pie',
+        link: '/pages/user-activity-status',
+        home: true,
+      },
+    ]
   },
-  {
-    title: 'Tickets All',
-    icon: 'nb-title',
-    link: '/pages/tickets-all',
-    home: true,
-  },
+
   {
     title: 'Lorry Receipts',
     icon: 'nb-list',
@@ -71,12 +92,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/placements-dash-board',
     home: true,
   },
-  {
-    title: 'User Activity Statistics',
-    icon: 'fas fa-chart-pie',
-    link: '/pages/user-activity-status',
-    home: true,
-  },
+
   {
     title: 'Trip Status FeedBack',
     icon: 'fas fa-comment-alt',
@@ -137,12 +153,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link: '/pages/placement-delay-faults',
   //   home: true,
   // },
-  {
-    title: 'Vehicle Gps Detail',
-    icon: 'fa fa-map-marker',
-    link: '/pages/vehicle-gps-detail',
-    home: true,
-  },
+
   // {
   //   title: 'Short Target',
   //   icon: 'fas fa-sort-amount-up',

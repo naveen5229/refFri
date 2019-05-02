@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { shimHostAttribute } from '@angular/platform-browser/src/dom/dom_renderer';
 import * as moment_ from 'moment';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { DateService } from '../../services/date.service';
 const moment = moment_;
 @Component({
   selector: 'vehicle-report',
@@ -36,24 +37,25 @@ export class VehicleReportComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    public dateService: DateService) {
     this.vid = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
 
     if (this.common.params.ref_page == 'consView') {
       let today = new Date(), start;
-      this.endDate = this.common.dateFormatter2(today);
+      this.endDate = this.dateService.dateFormatter(today, '', false);
       console.log("end Date:", this.endDate);
       start = new Date(today.setDate(today.getDate() - 3));
-      this.startDate = this.common.dateFormatter2(start);
+      this.startDate = this.dateService.dateFormatter(start, '', false);
       console.log("Start Date:", this.startDate);
 
     }
     else {
       console.log(this.common.params.fromTime);
       console.log(this.common.params.toTime);
-      this.startDate = this.common.dateFormatter(this.common.params.fromTime);
-      this.endDate = this.common.dateFormatter(this.common.params.toTime);
+      this.startDate = this.dateService.dateFormatter(this.common.params.fromTime, '', false);
+      this.endDate = this.dateService.dateFormatter(this.common.params.toTime, '', false);
       console.log("fromTime", this.startDate);
       console.log("endDate", this.endDate);
     }
@@ -72,8 +74,8 @@ export class VehicleReportComponent implements OnInit {
 
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate.send + " " + this.startTimePeriod,
-      endDate: this.endDate.send + " " + this.endTimePeriod,
+      startDate: this.startDate + " " + this.startTimePeriod,
+      endDate: this.endDate + " " + this.endTimePeriod,
     };
 
     this.common.loading++;
@@ -227,64 +229,14 @@ export class VehicleReportComponent implements OnInit {
       if (data.date) {
         if (type == 'start') {
           this.startDate = '';
-          this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
         }
         else {
-          this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
+          this.endDate = this.common.dateFormatter(data.date, '', false).split(' ')[0];
           console.log('endDate', this.endDate);
         }
       }
     });
-
-  }
-
-  checkDateFormat(type) {
-    let dateType = type == 'start' ? this.startDate.view : this.endDate.view;
-    let withoutHyphen = new RegExp(/^([0-2][0-9]||3[0-1])(0[0-9]||1[0-2])[0-9]{4}$/i);
-    let withHyphen = new RegExp(/^([0-2][0-9]||3[0-1])-(0[0-9]||1[0-2])-[0-9]{4}$/i);
-    if (!withHyphen.test(dateType) && !withoutHyphen.test(dateType)) {
-      this.common.showError("Not A Valid Date!!");
-      return;
-    }
-    if (withHyphen.test(dateType)) {
-      console.log("dateType", dateType, "replace", dateType.replace("-", ""));
-
-      dateType = dateType.replace("-", "");
-    }
-    let dateValue = dateType;
-    let date = dateValue[0] + dateValue[1];
-    let month = dateValue[2] + dateValue[3];
-    let year = dateValue.substring(4, 8);
-    if (type == 'start') {
-      this.startDate.view = date + '-' + month + '-' + year;
-      this.startDate.send = year + '-' + month + '-' + date;
-    } else {
-      this.endDate.view = date + '-' + month + '-' + year;
-      this.endDate.send = year + '-' + month + '-' + date;
-
-    }
-    console.log('Date: ', this.startDate);
-    // this.startDate = this.common.dateFormatter(this.common.convertDate(this.startDate));
-    // this.endDate = this.common.dateFormatter(this.common.convertDate(this.endDate));
-  }
-
-  checkOnType(event, type) {
-    let datevalue = null;
-
-    console.log("event Length", event.target.value.length);
-
-    if (event.target.value.length == 11) {
-      console.log("After Key Type", event.data);
-      if (type === 'start') {
-        console.log("After Key Type", event.data);
-        this.startDate[event.target.selectionStart] = event.data;
-      }
-      else {
-        this.endDate[event.target.selectionStart] = event.data;
-
-      }
-    }
-
 
   }
 }

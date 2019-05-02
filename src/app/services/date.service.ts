@@ -12,18 +12,16 @@ export class DateService {
     public api: ApiService,
     private datePipe: DatePipe) { }
 
-  dateFormatter(date, type = 'YYYYMMDD') {
+  dateFormatter(date, type = 'YYYYMMDD', withTime = true) {
     let d = new Date(date);
     let year = d.getFullYear();
     let month = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
     let dat = d.getDate() < 9 ? '0' + d.getDate() : d.getDate();
-
+    let finalDate = '';
     console.log(dat + '/' + month + '/' + year);
-    if (type == 'ddMMYYYY') {
-      return (dat + '/' + month + '/' + year) + ' ' + this.timeFormatter(date);
-    } else {
-      return (year + '-' + month + '-' + dat) + ' ' + this.timeFormatter(date);
-    }
+    if (type == 'ddMMYYYY') finalDate = dat + '/' + month + '/' + year;
+    else finalDate = year + '-' + month + '-' + dat;
+    return finalDate + (withTime ? (' ' + this.timeFormatter(date)) : '');
   }
 
   dateFormatter1(date) {
@@ -62,6 +60,19 @@ export class DateService {
       return this.dateFormatter(currentDate, formatt);
     }
     return currentDate;
+  }
+
+  handleCustomDate(date) {
+    console.log('Date:', date);
+    let withoutHyphen = new RegExp(/^([0-2][0-9]||3[0-1])(0[0-9]||1[0-2])[0-9]{4}$/i);
+    let withHyphen = new RegExp(/^([0-2][0-9]||3[0-1])-(0[0-9]||1[0-2])-[0-9]{4}$/i);
+    if (!withHyphen.test(date) && !withoutHyphen.test(date)) {
+      return date;
+    }
+
+    console.log('Date:: ', date.split('-').reverse().join('-'));
+    return date.split('-').reverse().join('-');
+
   }
 
 }
