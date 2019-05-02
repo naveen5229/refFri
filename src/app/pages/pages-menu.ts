@@ -84,7 +84,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Vehicle Covered Distance',
+    title: 'Vehicle Distance Covered',
     icon: 'fas fa-road',
     link: '/pages/vehicle-covered-distance',
     home: true,
