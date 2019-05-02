@@ -288,8 +288,8 @@ export class DriverCallSuggestionComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
 
-        console.log("result", res['data'][0].fn_trips_onwarddelay);
-        this.onwardDelayData = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        console.log("result", res['data']);
+        this.onwardDelayData = res['data'];
         this.smartTableWithHeadings();
 
       }, err => {
@@ -391,7 +391,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('Placement/placementDelayFaults?')
       .subscribe(res => {
         this.common.loading--;
-        this.delayFaults = JSON.parse(res['data'][0].fn_placements_getfaults);
+        this.delayFaults = res['data'];
         if (this.delayFaults != null) {
           console.log('delayFaults', this.delayFaults);
           let first_rec = this.delayFaults[0];
@@ -488,7 +488,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('Placement/getShortTarget')
       .subscribe(res => {
         this.common.loading--;
-        this.shortTarget = JSON.parse(res['data'][0].result);
+        this.shortTarget = res['data'];
         //this.shortTarget = res['data'];
         if (this.shortTarget != null) {
           console.log('shortTarget', this.shortTarget);
@@ -583,7 +583,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('TripsOperation/tripOnwardDelay?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.longLoading = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        this.longLoading = res['data'];
         //this.shortTarget = res['data'];
         if (this.longLoading != null) {
           console.log('shortTarget', this.longLoading);
@@ -674,7 +674,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('TripsOperation/tripOnwardDelay?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.longUnLoading = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        this.longUnLoading = res['data'];
         console.log('longunLoading', this.longUnLoading);
 
         if (this.longUnLoading != null) {
