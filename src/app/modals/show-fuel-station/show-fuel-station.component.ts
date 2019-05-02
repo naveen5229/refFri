@@ -46,10 +46,10 @@ export class ShowFuelStationComponent implements OnInit {
 
   setTable() {
     let headings = {
-      Name: { title: 'name', placeholder: 'name' },
-      Location: { title: 'location', placeholder: 'location' },
-      SiteId: { title: 'site_id', placeholder: 'site_id' },
-      AddTime: { title: 'addtime', placeholder: 'addtime' },
+      Name: { title: 'Name', placeholder: 'Name' },
+      Location: { title: 'Location', placeholder: 'Location' },
+      SiteId: { title: 'SiteId', placeholder: 'SiteId' },
+      AddTime: { title: 'AddTime', placeholder: 'AddTime' },
       // Lat: { title: 'lat', placeholder: 'lat' },
       // Long: { title: 'long', placeholder: 'long' }
     };
