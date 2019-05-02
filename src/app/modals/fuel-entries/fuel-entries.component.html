@@ -22,8 +22,8 @@
       <tr *ngFor="let fueldetail of fuelDetails; let i = index">
         <!-- <tr *ngIf="fuelDetails.is_last_filling" [style.color]="'red'"> -->
         <th scope="row">{{i + 1}}</th>
-        <td *ngIf="fueldetail.is_last_filling" style="background-color:burlywood">{{fueldetail.name}}</td>
-        <td *ngIf="!fueldetail.is_last_filling">{{fueldetail.name}}</td>
+        <td *ngIf="i==0" style="background-color:burlywood">{{fueldetail.name}}</td>
+        <td *ngIf="i!=0">{{fueldetail.name}}</td>
         <td>{{fueldetail.location}}</td>
         <td>{{fueldetail.litres}}</td>
         <td>{{fueldetail.entry_time | date : 'dd-MMM hh:mm a'}}</td>
