@@ -144,6 +144,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Trading Account',
                 link: '/accounts/trading'
             },
+            {
+                title: 'Trial Balance',
+                link: '/accounts/trialbalance'
+            }
 
         ],
     },

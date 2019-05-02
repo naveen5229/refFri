@@ -135,6 +135,7 @@ import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.c
 import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
 import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-report.component';
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
+import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -232,6 +233,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChangeDriverComponent,
     CsvErrorReportComponent,
     AddShortTargetComponent,
+    DaybookComponent,
 
   ],
   entryComponents: [
@@ -327,7 +329,8 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChoosePeriodsComponent,
     VehicleStatesComponent,
     CsvErrorReportComponent,
-    AddShortTargetComponent
+    AddShortTargetComponent,
+    DaybookComponent
 
   ],
   imports: [
