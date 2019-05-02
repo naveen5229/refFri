@@ -14,7 +14,7 @@
 
     <div class="col-sm-2">
       <input type="text" class="form-control" (focusout)="checkDateFormat('start')" [(ngModel)]="startDate.view"
-        name="start" placeholder="Start Date" (dblclick)="getDate('start')">
+        name="start" (input)=checkOnType($event,start) placeholder="Start Date">
     </div>
 
     <div class="col-sm-2">

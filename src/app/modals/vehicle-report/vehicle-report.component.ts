@@ -246,8 +246,11 @@ export class VehicleReportComponent implements OnInit {
       this.common.showError("Not A Valid Date!!");
       return;
     }
-    if (withHyphen.test(dateType))
+    if (withHyphen.test(dateType)) {
+      console.log("dateType", dateType, "replace", dateType.replace("-", ""));
+
       dateType = dateType.replace("-", "");
+    }
     let dateValue = dateType;
     let date = dateValue[0] + dateValue[1];
     let month = dateValue[2] + dateValue[3];
@@ -265,5 +268,23 @@ export class VehicleReportComponent implements OnInit {
     // this.endDate = this.common.dateFormatter(this.common.convertDate(this.endDate));
   }
 
+  checkOnType(event, type) {
+    let datevalue = null;
 
+    console.log("event Length", event.target.value.length);
+
+    if (event.target.value.length == 11) {
+      console.log("After Key Type", event.data);
+      if (type === 'start') {
+        console.log("After Key Type", event.data);
+        this.startDate[event.target.selectionStart] = event.data;
+      }
+      else {
+        this.endDate[event.target.selectionStart] = event.data;
+
+      }
+    }
+
+
+  }
 }
