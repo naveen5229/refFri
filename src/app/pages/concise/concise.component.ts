@@ -205,7 +205,7 @@ export class ConciseComponent implements OnInit {
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         trip: {
-          value: this.getTripStatusHTMLNew(kpi),
+          value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
           colActions: { dblclick: this.showDetails.bind(this, kpi) }
@@ -231,158 +231,6 @@ export class ConciseComponent implements OnInit {
     return columns;
   }
 
-  getTripStatusHTML(kpi) {
-    let html = "<div>";
-    if (kpi.trip_status_type == 0) {
-      html += `
-      <!-- Heading -->
-        <span>${kpi.x_showtripstart}</span>
-        <i class="icon ion-md-arrow-round-forward mr-0"></i>
-        <i class="ion-md-arrow-round-forward" style="margin-left:-1px;"></i>
-        <span>${kpi.x_showtripend}</span>
-      `;
-    } else if (kpi.trip_status_type == 1) {
-      html += `
-      <!-- Loading -->
-        ${this.handleCircle(kpi.x_showtripstart)}
-        <i class="icon ion-md-arrow-round-forward"></i>
-        <span>${kpi.x_showtripend}</span>
-      `;
-    } else if (kpi.trip_status_type == 2) {
-      html += `
-      <!-- Onward -->
-        <span>${kpi.x_showtripstart}</span>
-        <i class="icon ion-md-arrow-round-forward"></i>
-        <span>${kpi.x_showtripend}</span>
-      `;
-    } else if (kpi.trip_status_type == 3) {
-      html += `
-        <!-- Unloading -->
-          <span>${kpi.x_showtripstart}</span>
-          <i class="icon ion-md-arrow-round-forward"></i>
-          ${this.handleCircle(kpi.x_showtripend)}
-        `;
-    } else if (kpi.trip_status_type == 4) {
-      html += `
-      <!-- Complete -->
-        <span>${kpi.x_showtripstart}</span>
-        <i class="icon ion-md-arrow-round-forward"></i>
-        <span>${kpi.x_showtripend}</span>
-        <i class="fa fa-check-circle complete"></i>
-      `;
-    }
-    // else if (kpi.trip_status_type == 5) {
-    //   html += `
-    //   <!-- Complete -->
-    //     <span>${kpi.x_showtripstart}</span>
-    //     <i class="icon ion-md-arrow-round-forward mr-0"></i>
-    //     <i class="ion-md-arrow-round-forward" style="margin-left:-1px;"></i>
-    //     <span>${kpi.x_showtripend}</span>
-    //   `;
-    // } 
-    else {
-      html += `
-      <!-- Ambigous -->
-        <span>${kpi.x_showtripstart}</span>
-        <span class="icon ion-md-route-arrow">-</span>
-        <span>${kpi.x_showtripend}</span>
-      `;
-    }
-    return html + "</div>";
-  }
-
-  getTripStatusHTMLNew(kpi) {
-    const colors = ['green', 'red', 'teal'];
-    let html = '';
-    switch (kpi.trip_status_type) {
-      case 0:
-        html = `
-            <!-- At Origin -->
-            ${this.handleCircle(kpi.x_showtripstart.trim(), 'loading')}
-            ${kpi.x_showtripend ? `
-              <span>-</span>
-              <span class="unloading">${kpi.x_showtripend.trim()}</span>
-            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            ${this.formatPacement(kpi.placements)}`;
-        break;
-      case 1:
-        html = `
-            <!-- At Destination -->
-            <span class="loading">${kpi.x_showtripstart.trim()}</span>
-            ${kpi.x_showtripend ? `
-              <span>-</span>
-              ${this.handleCircle(kpi.x_showtripend.trim(), 'unloading')}
-            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
-            ${this.formatPacement(kpi.placements)}`;
-        break;
-      case 2:
-        html = `
-            <!-- Onward -->
-            <span class="loading">${kpi.x_showtripstart.trim()}</span>
-            ${kpi.x_showtripend ? `
-              <span>-</span>
-              <span class="unloading">${kpi.x_showtripend.trim()}</span>
-            ` : !kpi.placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
-            ${this.formatPacement(kpi.placements)}`;
-        break;
-      case 3:
-        html = `
-            <!-- Available (Done) -->
-            <span class="loading">${kpi.x_showtripstart.trim()}</span>
-            ${kpi.x_showtripend ? `
-              <span>-</span>
-              <span class="unloading">${kpi.x_showtripend.trim()}</span>
-            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            <i class="fa fa-check-circle complete"></i>`;
-        break;
-      case 4:
-        html = `
-            <!-- Available (Next) -->
-            <span class="loading">${kpi.x_showtripstart.trim()}</span>
-            ${kpi.x_showtripend ? `
-              <span>-</span>
-              <span class="unloading">${kpi.x_showtripend.trim()}</span>
-            ` : !kpi.placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            ${this.formatPacement(kpi.placements)}`;
-        break;
-      case 5:
-        html = `
-            <!-- Available (Moved) -->
-            <span class="unloading">${kpi.x_showtripstart.trim()}</span>
-            ${this.formatPacement(kpi.placements)}`;
-        break;
-      default:
-        html = `
-            <!-- Ambiguous -->
-            <span class="loading">${kpi.x_showtripstart.trim()}</span>
-            <span>-</span>
-            <span class="unloading">${kpi.x_showtripend.trim()}</span>
-            ${this.formatPacement(kpi.placements)}`;
-        break;
-    }
-    // //console.log('HTML:', html);
-    return html;
-  }
-
-  formatPacement(placements) {
-    //console.log('--------------------:', placements);
-    if (!placements.length) return '';
-    let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
-    const colors = {
-      11: 'loading', // Loading
-      21: 'unloading', // unloading
-      0: 'others' // others
-    };
-
-    placements.map((placement, index) => {
-      html += `<span class="${colors[placement.type]}">${placement.name.trim()}</span>`
-      if (index != placements.length - 1) {
-        html += `<span> - </span>`;
-      }
-    });
-    //console.log('Html:', html);
-    return html;
-  }
 
   getViewType() {
     this.table.data.columns = this.getTableColumns();
@@ -932,7 +780,8 @@ export class ConciseComponent implements OnInit {
     this.infoWindow.setContent(
       `
       <b>Vehicle:</b>${event.x_showveh} <br>
-      <span><b>Trip:</b>${this.getTripStatusHTMLNew(event)}</span> <br>
+  }
+      <span><b>Trip:</b>${this.common.getTripStatusHTML(event.trip_status_type, event.x_showtripstart, event.x_showtripend, event.x_p_placement_type, event.x_p_loc_name)}</span> <br>
       <b>Status:</b>${event.showprim_status} <br>
       <b>Location:</b>${event.Address} <br>
       `
@@ -1017,15 +866,20 @@ export class ConciseComponent implements OnInit {
   }
 
   actionIcons(kpi) {
+    //console.log("this.user._loggedInBy", this.user._loggedInBy);
+
+
+
     let icons = [
       {
-        class: "icon fa fa-info",
-        action: this.vehicleReport.bind(this, kpi)
+        class: " icon fa fa-chart-pie",
+        action: this.openChangeStatusModal.bind(this, kpi)
       },
       {
-        class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi)
+        class: "icon fa fa-star",
+        action: this.vehicleReport.bind(this, kpi)
       },
+
       {
         class: " icon fa fa-route",
         action: this.openRouteMapper.bind(this, kpi)
@@ -1035,17 +889,16 @@ export class ConciseComponent implements OnInit {
         action: this.openTripDetails.bind(this, kpi)
       },
       {
-        class: "icon fa fa-bars",
+        class: "icon fa fa-globe",
         action: this.openVehicleStates.bind(this, kpi)
       },
-
+      {
+        class: "icon fa fa-question-circle",
+        action: this.reportIssue.bind(this, kpi)
+      },
     ]
-    //console.log("this.user._loggedInBy", this.user._loggedInBy);
-    if (this.user._loggedInBy == "admin") {
-      icons.push({
-        class: " icon fa fa-camera",
-        action: this.openChangeStatusModal.bind(this, kpi)
-      });
+    if (this.user._loggedInBy != "admin") {
+      icons.shift();
     }
     return icons;
   }
@@ -1078,23 +931,6 @@ export class ConciseComponent implements OnInit {
     });
   }
 
-
-
-  handleCircle(location, className = 'loading') {
-    let locationArray = location.split('-');
-    if (locationArray.length == 1) {
-      return `<span class="circle ${className}">${location}</span>`;
-    }
-    let html = ``;
-    for (let i = 0; i < locationArray.length; i++) {
-      if (i == locationArray.length - 1) {
-        html += `<span class="circle ${className}">${locationArray[i]}</span>`;
-      } else {
-        html += `<span class="${className}">${locationArray[i]}</span><span class="location-seperator">-</span>`
-      }
-    }
-    return html;
-  }
 
   openVehicleStates(vlaues) {
     this.common.params = {

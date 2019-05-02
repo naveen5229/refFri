@@ -22,6 +22,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() name: string;
   @Input() parentForm: FormGroup;
   @Input() controlName: string;
+  @Input() apiHitLimit: Number;
 
   counter = 0;
   searchText = '';
@@ -69,17 +70,17 @@ export class AutoSuggestionComponent implements OnInit {
       this.preSelected = changes.preSelected.currentValue;
       this.handlePreSelection();
     }
-    
+
   }
 
-  handlePreSelection(){
+  handlePreSelection() {
     this.selectedSuggestion = this.preSelected;
-    if(typeof(this.display)!='object')
+    if (typeof (this.display) != 'object')
       this.searchText = this.preSelected[this.display];
-    else{
+    else {
       let index = 0;
       for (const dis of this.display) {
-          this.searchText += (index!=0? (" " + this.seperator + " "):" ") + this.preSelected[dis];
+        this.searchText += (index != 0 ? (" " + this.seperator + " ") : " ") + this.preSelected[dis];
         index++;
       }
     }
@@ -92,7 +93,7 @@ export class AutoSuggestionComponent implements OnInit {
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
-    if (this.searchText.length < 3) return;
+    if (this.searchText.length < this.apiHitLimit || 3) return;
     let params = '?';
     console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
@@ -147,7 +148,7 @@ export class AutoSuggestionComponent implements OnInit {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
       else this.activeSuggestion = this.suggestions.length - 1;
       event.preventDefault();
-    } else if (key == 'enter' || key=='tab') {
+    } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {

@@ -60,8 +60,6 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
         }
       }
     });
-
-
   }
 
   getTripLogs() {
