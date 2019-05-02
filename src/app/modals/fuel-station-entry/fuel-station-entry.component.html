@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Fuel Station Entry</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="model-body"
+  style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
+  <div class="row" style="margin-bottom:10px">
+    <smart-table *ngIf="fuelEntry.length" [data]="table.fuelEntry" [settings]="table.settings" id="tblfuelEntry">
+    </smart-table>
+  </div>
+</div>

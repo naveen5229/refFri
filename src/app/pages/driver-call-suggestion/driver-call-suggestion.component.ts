@@ -51,11 +51,11 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   getReportdata(dis_all) {
     console.log("dis_all", dis_all);
-    if (dis_all == 11) {
+    if (dis_all == '11') {
       this.getLongLoading(dis_all);
-    } else if (dis_all == 21) {
+    } else if (dis_all == '21') {
       this.getLongUnloading(dis_all)
-    } else if (dis_all == 51) {
+    } else if (dis_all == '51') {
       this.getOnwardDelayData(dis_all)
     } else if (dis_all == 'dcs') {
       this.fetchReport();
