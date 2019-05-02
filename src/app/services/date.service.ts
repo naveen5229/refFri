@@ -71,8 +71,6 @@ export class DateService {
     if (!withHyphen.test(date) && !withoutHyphen.test(date)) {
       return date;
     }
-
-
     console.log('Date:: ', date.split('-').reverse().join('-'));
     return date.split('-').reverse().join('-');
 

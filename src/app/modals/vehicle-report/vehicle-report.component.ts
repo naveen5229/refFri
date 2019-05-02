@@ -232,7 +232,7 @@ export class VehicleReportComponent implements OnInit {
           this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
         }
         else {
-          this.endDate = this.common.dateFormatter(data.date, '', false).split(' ')[0];
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
           console.log('endDate', this.endDate);
         }
       }
@@ -241,8 +241,12 @@ export class VehicleReportComponent implements OnInit {
   }
 
   checkformat(date) {
+    let withoutHyphen = new RegExp(/^([0-2][0-9]||3[0-1])(0[0-9]||1[0-2])[0-9]{4}$/i);
+    let withHyphen = new RegExp(/^([0-2][0-9]||3[0-1])-(0[0-9]||1[0-2])-[0-9]{4}$/i);
     console.log("test");
-
-    this.common.handleDateOnEnterNew(date);
+    if (withHyphen.test(date)) {
+      this.common.showError("Entered Valid Format  dd-mm-yyyy");
+      return date = null;
+    }
   }
 }
