@@ -104,41 +104,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ]
   },
-
-
-
-
-  {
-    title: 'Fuel Average Analysis',
-    icon: 'fa fa-signal',
-    link: '/pages/fuel-average-analysis',
-  },
-
-  {
-    title: 'Tyre',
-    icon: 'fa fa-cog',
-    link: '/tyres/inventory'
-  },
-  {
-    title: 'Documentation',
-    icon: 'fa fa-database',
-    link: '/documents/documents-summary'
-  },
-  {
-    title: 'Account',
-    icon: 'fa fa-money',
-    link: '/accounts/dashboard'
-  },
-
-
-
-
-  // {
-  //   title: 'Trip Onward Delay',
-  //   icon: 'fas fa-truck',
-  //   link: '/pages/trip-onward-delay',
-  //   home: true,
-  // },
   {
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
@@ -170,6 +135,35 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
     ]
   },
+
+  {
+    title: 'Fuel Average Analysis',
+    icon: 'fa fa-signal',
+    link: '/pages/fuel-average-analysis',
+  },
+
+  {
+    title: 'Tyre',
+    icon: 'fa fa-cog',
+    link: '/tyres/inventory'
+  },
+  {
+    title: 'Documentation',
+    icon: 'fa fa-database',
+    link: '/documents/documents-summary'
+  },
+  {
+    title: 'Account',
+    icon: 'fa fa-money',
+    link: '/accounts/dashboard'
+  },
+  // {
+  //   title: 'Trip Onward Delay',
+  //   icon: 'fas fa-truck',
+  //   link: '/pages/trip-onward-delay',
+  //   home: true,
+  // },
+
   // {
   //   title: 'Placement Delay Faults',
   //   icon: 'fas fa-list',

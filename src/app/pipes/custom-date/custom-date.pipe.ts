@@ -23,7 +23,7 @@ export class CustomDatePipe implements PipeTransform {
     console.log('Value:', value);
     if (value.length == 10) {
       if (!withHyphenReverse.test(value)) {
-        this.common.showError("Enter Valid dd-mm-yyyy :" + value);
+        this.common.showError("Enter inValid date dd-mm-yyyy :" + value);
         return value = null;
       }
       console.log('Regx:', yyymmdd.test(value));
