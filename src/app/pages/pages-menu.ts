@@ -2,10 +2,53 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Dashboard',
+    title: 'Trip',
     icon: 'nb-home',
     link: '/pages/dashboard',
     home: true,
+    children: [
+      {
+        title: 'Dashboard - Trips',
+        icon: 'nb-home',
+        link: '/pages/dashboard',
+        home: true,
+      },
+      {
+        title: 'Vehicle Trip',
+        icon: 'fa fa-truck',
+        link: '/pages/vehicle-trip',
+      },
+      {
+        title: 'Trip Status FeedBack',
+        icon: 'fas fa-comment-alt',
+        link: '/pages/trip-status-feedback',
+        home: true,
+      },
+      {
+        title: 'Trip FeedBack logs',
+        icon: 'fas fa-comments',
+        link: '/pages/tip-feedback-logs',
+        home: true,
+      },
+      {
+        title: 'Placements DashBoard',
+        icon: 'fas fa-map-marked-alt',
+        link: '/pages/placements-dash-board',
+        home: true,
+      },
+      {
+        title: 'Vehicle Distance Covered',
+        icon: 'fas fa-road',
+        link: '/pages/vehicle-covered-distance',
+        home: true,
+      },
+      {
+        title: 'Trends',
+        icon: 'fa fa-line-chart',
+        link: '/pages/trends'
+      },
+
+    ]
   },
   {
     title: 'Admin',
@@ -39,33 +82,38 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ]
   },
-
   {
-    title: 'Lorry Receipts',
+    title: 'Receipt & Invoice',
     icon: 'nb-list',
-    link: '/pages/lorry-receipts',
-  },
-  {
-    title: 'Generate LR',
-    icon: 'fa fa-pencil',
-    link: '/pages/generate-lr',
+    children: [
+      {
+        title: 'Lorry Receipts',
+        icon: 'nb-list',
+        link: '/pages/lorry-receipts',
+      },
+
+      {
+        title: 'Generate LR',
+        icon: 'fa fa-pencil',
+        link: '/pages/generate-lr',
+      },
+      {
+        title: 'Expenses',
+        icon: 'fa fa-book',
+        link: '/pages/expenses',
+      },
+    ]
   },
 
-  {
-    title: 'Expenses',
-    icon: 'fa fa-book',
-    link: '/pages/expenses',
-  },
+
+
+
   {
     title: 'Fuel Average Analysis',
     icon: 'fa fa-signal',
     link: '/pages/fuel-average-analysis',
   },
-  {
-    title: 'Vehicle Trip',
-    icon: 'fa fa-truck',
-    link: '/pages/vehicle-trip',
-  },
+
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
@@ -81,35 +129,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link: '/accounts/dashboard'
   },
-  {
-    title: 'Trends',
-    icon: 'fa fa-line-chart',
-    link: '/pages/trends'
-  },
-  {
-    title: 'Placements DashBoard',
-    icon: 'fas fa-map-marked-alt',
-    link: '/pages/placements-dash-board',
-    home: true,
-  },
 
-  {
-    title: 'Trip Status FeedBack',
-    icon: 'fas fa-comment-alt',
-    link: '/pages/trip-status-feedback',
-    home: true,
-  },
-  {
-    title: 'Vehicle Distance Covered',
-    icon: 'fas fa-road',
-    link: '/pages/vehicle-covered-distance',
-    home: true,
-  }, {
-    title: 'Trip FeedBack logs',
-    icon: 'fas fa-comments',
-    link: '/pages/tip-feedback-logs',
-    home: true,
-  },
+
+
+
   // {
   //   title: 'Trip Onward Delay',
   //   icon: 'fas fa-truck',

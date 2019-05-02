@@ -239,4 +239,10 @@ export class VehicleReportComponent implements OnInit {
     });
 
   }
+
+  checkformat(date) {
+    console.log("test");
+
+    this.common.handleDateOnEnterNew(date);
+  }
 }

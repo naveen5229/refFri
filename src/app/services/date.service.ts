@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ApiService } from './api.service';
+import { CommonService } from './common.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +11,8 @@ export class DateService {
   constructor(
     public router: Router,
     public api: ApiService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    public common: CommonService) { }
 
   dateFormatter(date, type = 'YYYYMMDD', withTime = true) {
     let d = new Date(date);
@@ -69,6 +71,7 @@ export class DateService {
     if (!withHyphen.test(date) && !withoutHyphen.test(date)) {
       return date;
     }
+
 
     console.log('Date:: ', date.split('-').reverse().join('-'));
     return date.split('-').reverse().join('-');
