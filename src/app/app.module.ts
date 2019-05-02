@@ -137,6 +137,7 @@ import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-rep
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
 import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
+import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -236,7 +237,7 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
     AddShortTargetComponent,
     FuelStationEntryComponent,
     ShowFuelStationComponent,
-
+    CustomDatePipe,
   ],
   entryComponents: [
     ChangeDriverComponent,

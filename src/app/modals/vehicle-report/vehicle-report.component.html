@@ -13,8 +13,9 @@
     </div>
 
     <div class="col-sm-2">
-      <input type="text" class="form-control" (focusout)="checkDateFormat('start')" [(ngModel)]="startDate.view"
-        name="start" placeholder="Start Date" (dblclick)="getDate('start')">
+      <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
+        (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
+        placeholder="Start Date" (dblclick)="getDate('start')">
     </div>
 
     <div class="col-sm-2">
@@ -22,8 +23,9 @@
     </div>
 
     <div class="col-sm-2">
-      <input type="text" class="form-control" (focusout)="checkDateFormat('end')" [(ngModel)]="endDate.view" name="end"
-        placeholder="End Date" (dblclick)="getDate('end')">
+      <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
+        placeholder="End Date" id="end" (dblclick)="getDate('end')"
+        (ngModelChange)="endDate = dateService.handleCustomDate($event)" maxlength="10">
     </div>
 
     <div class="col-sm-2">
