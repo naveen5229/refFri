@@ -42,22 +42,27 @@ export class ChangeDriverComponent implements OnInit {
     this.activeModal.close();
   }
   changDriver() {
+
     this.common.loading++;
     let params = {
       vehicleId: this.vehicleId,
-      driverId: this.driver.id
+      driverId: this.driver.id ? this.driver.id : -1,
+      driverMobileno: this.driver.mobileNo ? this.driver.mobileNo : document.getElementById('driverno')['value'],
+      driverName: this.driver.name
     }
-    console.log("change driver params", params);
+
     this.api.post('Drivers/changeDriver', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data']);
-        if (res['code'] == '1') {
+        if (res['data'][0].r_id > 0) {
           this.common.showToast('Driver Changed Successfully');
-          this.closeModal();
+          setTimeout(() => {
+            this.activeModal.close({ data: res['data'][0].r_id });
+          }, 100);
         }
         else
-          this.common.showError('Driver Not Changed');
+          this.common.showError(res['data'][0].r_msg);
 
       }, err => {
         this.common.loading--;

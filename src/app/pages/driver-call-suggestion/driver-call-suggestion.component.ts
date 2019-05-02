@@ -250,16 +250,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     return columns;
   }
 
-  openChangeDriverModal(vehicleTrip) {
-    console.log("vehicleTrip", vehicleTrip);
-    this.common.params = { vehicleId: vehicleTrip._vehicleid, vehicleRegNo: vehicleTrip.Vehicle };
-    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.respone);
 
-
-    });
-  }
 
   //--------------------------------- onward data--------------------
   showTable = false;
@@ -787,6 +778,17 @@ export class DriverCallSuggestionComponent implements OnInit {
     const activeModal = this.modalService.open(AddShortTargetComponent, {
       size: "sm",
       container: "nb-layout"
+    });
+  }
+
+  openChangeDriverModal(vehicleTrip) {
+    console.log("vehicleTrip", vehicleTrip);
+    this.common.params = { vehicleId: vehicleTrip._vehicleid, vehicleRegNo: vehicleTrip.Vehicle };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+
+
     });
   }
 
