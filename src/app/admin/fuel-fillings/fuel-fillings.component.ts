@@ -190,12 +190,13 @@ export class FuelFillingsComponent implements OnInit {
       vid: val.vehicle_id,
       datetime: this.common.dateFormatter(val.date).split(' ')[0]
     };
-    this.modalService.open(FuelStationEntryComponent, { size: 'lg', container: 'nb-layout' })
+    this.modalService.open(FuelStationEntryComponent, { size: 'lg', container: 'nb-layout' });
   }
 
   getFuelStation() {
 
-    this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' })
+    this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' });
+    this.common.handleModalSize('class', 'modal-lg', '1200');
 
   }
 }
