@@ -130,7 +130,7 @@
               placeholder="Please Select Stock Unit" autocomplete="off" name="account-stockunit"
               placeholder="Enter Stock Unit" [(ngModel)]="detail.stockunit.name" readonly>
           </td>
-          <td *ngIf="storeRequestStockId != -1">
+          <td>
             <input type="number" class="form-control ref-input" autocomplete="off" name="qty" [id]="'qty-' + i"
               [(ngModel)]="detail.qty" placeholder="Please Enter Quantity" [readonly]="storeRequestStockId == -3">
           </td>
