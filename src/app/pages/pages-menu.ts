@@ -3,7 +3,7 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Trip',
-    icon: 'nb-home',
+    icon: 'fas fa-route',
     link: '/pages/dashboard',
     home: true,
     children: [
@@ -52,8 +52,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Admin',
-    icon: 'nb-home',
-    link: '/pages/tickets',
+    icon: 'fa fa-user',
+
     home: true,
     children: [
       {

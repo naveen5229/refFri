@@ -17,22 +17,18 @@ export class CustomDatePipe implements PipeTransform {
 
     let withoutHyphen = new RegExp(/^([0-2][0-9]||3[0-1])(0[0-9]||1[0-2])[0-9]{4}$/i);
     let withHyphen = new RegExp(/^([0-2][0-9]||3[0-1])-(0[0-9]||1[0-2])-[0-9]{4}$/i);
+    let withHyphenReverse = new RegExp(/^[0-9]{4}-(0[0-9]||1[0-2])-([0-2][0-9]||3[0-1])$/i);
     let yyymmdd = new RegExp(/^[0-9]{4}-(0[0-9]||1[0-2])-([0-2][0-9]||3[0-1])$/i);
-
-    // let newrehx = new RegExp(/(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/);
-    // console.log("with Hyphen", newrehx.test(value));
-
-    // if (newrehx.test(value)) {
-    //   this.common.showError("Entered Valid Format  dd-mm-yyyy");
-    //   return value = null;
-    // }
 
     console.log('Value:', value);
     if (value.length == 10) {
+      if (!withHyphenReverse.test(value)) {
+        this.common.showError("Enter Valid dd-mm-yyyy :" + value);
+        return value = null;
+      }
       console.log('Regx:', yyymmdd.test(value));
       if (yyymmdd.test(value)) return value.split('-').reverse().join('-');
       if (!withHyphen.test(value) && !withoutHyphen.test(value)) return value;
-
       return value.split('-').reverse().join('-');
     }
 
