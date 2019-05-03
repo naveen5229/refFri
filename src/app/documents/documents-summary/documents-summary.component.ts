@@ -199,32 +199,11 @@ export class DocumentsSummaryComponent implements OnInit {
           console.log("data", res);
           this.docdata = res['data'];
 
-          let newdate = "";
-          if (this.docdata[0].expiry_date != 'undefined' && this.docdata[0].expiry_date != null)
-            newdate = this.common.changeDateformat1(this.docdata[0].expiry_date).split(' ')[0];
+          // let newdate = "";
+          // if (this.docdata[0].expiry_date != 'undefined' && this.docdata[0].expiry_date != null)
+          //   newdate = this.common.changeDateformat1(this.docdata[0].expiry_date).split(' ')[0];
 
-          /*
-          let rowData = {
-            id: this.docdata[0].id,
-            vehicle_id: this.docdata[0].vehicle_id,
-            regno: this.docdata[0].regno,
-            document_type: this.docdata[0].type,
-            document_type_id: this.docdata[0].type_id,
-            agent: this.docdata[0].agent,
-            agent_id: this.docdata[0].document_agent_id,
-            wef_date: this.docdata[0].wef_date,
-            expiry_date: newdate,
-            issue_date: this.docdata[0].issue_date,
-            remarks: this.docdata[0].remarks,
-            img_url: this.docdata[0].img_url,
-            img_url2: this.docdata[0].img_url2,
-            img_url3: this.docdata[0].img_url3,
-            doc_no: this.docdata[0].document_number,
-            rto: this.docdata[0].rto,
-            amount: this.docdata[0].amount,
-            verify: this.docdata[0].is_verified,
-          };
-          */
+
           let documentData = [{
             regNumber: this.docdata[0].regno,
             id: this.docdata[0].id,
@@ -233,7 +212,7 @@ export class DocumentsSummaryComponent implements OnInit {
             documentId: this.docdata[0].type_id,
             issueDate: this.docdata[0].issue_date,
             wefDate: this.docdata[0].wef_date,
-            expiryDate: newdate,
+            expiryDate: this.docdata[0].expiry_date,
             agentId: this.docdata[0].document_agent_id,
             agentName: this.docdata[0].agent,
             documentNumber: this.docdata[0].document_number,
@@ -280,7 +259,7 @@ export class DocumentsSummaryComponent implements OnInit {
   }
 
   showIssues() {
-    this.common.params = { title: 'Documents Issues', status: 'pendingAll',docReoprt:{document_type_id:0} };
+    this.common.params = { title: 'Documents Issues', status: 'pendingAll', docReoprt: { document_type_id: 0 } };
     const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
   noRecordDocumentData(norecordData, col, colval) {

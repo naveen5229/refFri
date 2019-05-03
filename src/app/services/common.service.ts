@@ -192,6 +192,17 @@ export class CommonService {
     //return dat + "-" + month + "-" + year;
     return year + "-" + month + "-" + dat;
   }
+  dateFormatter2(date) {
+    let d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() <= 9 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let dat = d.getDate() <= 9 ? "0" + d.getDate() : d.getDate();
+
+    console.log(year + "-" + month + "-" + dat);
+
+    // return dat + "-" + month + "-" + year;
+    return { send: year + "-" + month + "-" + dat, view: dat + "-" + month + "-" + year };
+  }
 
   changeDateformat(date) {
     let d = new Date(date);
@@ -532,11 +543,11 @@ export class CommonService {
     let hdg_coll = [];
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
-    console.log("hdgcols:",hdgCols);
+    console.log("hdgcols:", hdgCols);
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if(hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
           continue;
@@ -680,24 +691,23 @@ export class CommonService {
     doc.save("report.pdf");
   }
 
-  downloadPdf(divId)
-    {  
-      var data = document.getElementById('print-section');  
-     // console.log("data",data);
-      html2canvas(data).then(canvas => {  
-        // Few necessary setting options  
-        var imgWidth = 208;   
-        var pageHeight = 295;    
-        var imgHeight = canvas.height * imgWidth / canvas.width;  
-        var heightLeft = imgHeight;  
-    
-        const contentDataURL = canvas.toDataURL('image/png')  
-        let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
-        var position = 0;  
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
-        pdf.save('MYPdf.pdf'); // Generated PDF   
-      });  
-    }  
+  downloadPdf(divId) {
+    var data = document.getElementById('print-section');
+    // console.log("data",data);
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options  
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('MYPdf.pdf'); // Generated PDF   
+    });
+  }
 
   getCSVFromTableId(tblEltId) {
     let tblelt = document.getElementById(tblEltId);
@@ -716,8 +726,8 @@ export class CommonService {
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
-        if(hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
-        continue;
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
         if (hdgCols[i].classList.contains('del'))
           continue;
         let elthtml = hdgCols[i].innerHTML;
@@ -840,4 +850,160 @@ export class CommonService {
       .className.split(' ')[0];
   }
 
+
+  //-----------------------trip Status Area ---------------------------
+  getJSONTripStatusHTML(kpi) {
+    return this.getTripStatusHTML(kpi._status, kpi._origin, kpi._destination, kpi._placement_types, kpi._placements)
+  }
+
+  getTripStatusHTML(x_status, x_origin, x_destination, x_placement_type, x_placements) {
+    if (x_placement_type && x_placements && x_placements != null) {
+      if (x_placements.indexOf('{') != -1) {
+        x_placement_type = x_placement_type.substring(1, x_placement_type.length - 1);
+        x_placements = x_placements.substring(1, x_placements.length - 1);
+        x_placement_type = x_placement_type.split(',')
+        x_placements = x_placements.split(',');
+      }
+    }
+    else {
+      x_placement_type = [];
+      x_placements = [];
+    }
+    const colors = ['green', 'red', 'teal'];
+    let html = '';
+    switch (x_status) {
+      case 0:
+      case 11:
+        html = `
+            <!-- At Origin -->
+            ${this.handleTripCircle(x_origin.trim(), 'loading')}
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        break;
+      case 1:
+      case 12:
+        html = `
+            <!-- At Destination -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              ${this.handleTripCircle(x_destination.trim(), 'unloading')}
+            ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        break;
+      case 2:
+      case 13:
+      case 14:
+      case 51:
+      case 52:
+      case 53:
+        html = `
+            <!-- Onward -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        break;
+      case 3:
+      case 4:
+      case 20:
+      case 21:
+        if (!x_placement_type) {
+          html = `
+            <!-- Available (Done) -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            <i class="fa fa-check-circle complete"></i>`;
+        }
+
+        else {
+          html = `
+            <!-- Available (Next) -->
+            <span class="loading">${x_origin.trim()}</span>
+            ${x_destination ? `
+              <span>-</span>
+              <span class="unloading">${x_destination.trim()}</span>
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        }
+        break;
+
+      case 5:
+      case 15:
+      case 22:
+      case 23:
+        html = `
+            <!-- Available (Moved) -->
+            <span class="unloading">${x_origin.trim()}</span>
+            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        break;
+      default:
+        html = `
+            <!-- Ambiguous -->
+            <span class="loading">${x_origin.trim()}</span>
+            <span>-</span>
+            <span class="unloading">${x_destination.trim()}</span>
+            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        break;
+    }
+    console.log('HTML:', html);
+    return html;
+  }
+
+  formatTripPlacement(placementType, placements) {
+    console.log('++++:placements:', placements, placementType);
+
+    if (!placements.length) return '';
+    let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
+    const colors = {
+      11: 'loading', // Loading
+      21: 'unloading', // unloading
+      0: 'others' // others
+    };
+
+    placements.map((obj, index) => {
+      html += `<span class="${colors[placementType[index]]}">${placements[index].trim()}</span>`
+      if (index != placements.length - 1) {
+        html += `<span> - </span>`;
+      }
+    });
+    return html;
+
+  }
+
+  handleTripCircle(location, className = 'loading') {
+    let locationArray = location.split('-');
+    if (locationArray.length == 1) {
+      return `<span class="circle ${className}">${location}</span>`;
+    }
+    let html = ``;
+    for (let i = 0; i < locationArray.length; i++) {
+      if (i == locationArray.length - 1) {
+        html += `<span class="circle ${className}">${locationArray[i]}</span>`;
+      } else {
+        html += `<span class="${className}">${locationArray[i]}</span><span class="location-seperator">-</span>`
+      }
+    }
+    return html;
+  }
+
+
+  convertDate(date, currentFormatt = 'dd-mm-yyyy') {
+    let newDate = new Date();
+    switch (currentFormatt) {
+      case 'dd-mm-yyyy':
+        let dateArray = date.split('-');
+        newDate = new Date(dateArray[2] + '-' + dateArray[1] + '-' + dateArray[0]);
+        break;
+    }
+    return newDate;
+  }
 }

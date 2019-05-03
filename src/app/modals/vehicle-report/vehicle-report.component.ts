@@ -7,6 +7,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { shimHostAttribute } from '@angular/platform-browser/src/dom/dom_renderer';
 import * as moment_ from 'moment';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { DateService } from '../../services/date.service';
 const moment = moment_;
 @Component({
   selector: 'vehicle-report',
@@ -15,9 +17,9 @@ const moment = moment_;
 })
 export class VehicleReportComponent implements OnInit {
 
-  startDate = '';
+  startDate = null;
   element = '';
-  endDate = '';
+  endDate = null;
   placeName = '';
   startTime: any;
   endTime: any;
@@ -30,29 +32,32 @@ export class VehicleReportComponent implements OnInit {
   limit;
   table = null;
   i: ''; d: '';
+  startTimePeriod = '00:00';
+  endTimePeriod = '00:00';
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    public dateService: DateService) {
     this.vid = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
+
     if (this.common.params.ref_page == 'consView') {
-      let today, start;
-      today = new Date();
-      this.endDate = this.common.dateFormatter(today);
-      start = new Date(today.setDate(today.getDate() - 3))
-      this.startDate = this.common.dateFormatter(start);
-      console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
+      let today = new Date(), start;
+      this.endDate = this.dateService.dateFormatter(today, '', false);
+      console.log("end Date:", this.endDate);
+      start = new Date(today.setDate(today.getDate() - 3));
+      this.startDate = this.dateService.dateFormatter(start, '', false);
+      console.log("Start Date:", this.startDate);
+
     }
     else {
       console.log(this.common.params.fromTime);
       console.log(this.common.params.toTime);
-      this.startDate = this.common.dateFormatter(this.common.params.fromTime);
-      this.endDate = this.common.params.toTime;
+      this.startDate = this.dateService.dateFormatter(this.common.params.fromTime, '', false);
+      this.endDate = this.dateService.dateFormatter(this.common.params.toTime, '', false);
       console.log("fromTime", this.startDate);
       console.log("endDate", this.endDate);
-
-
     }
     this.getVehicleReport();
   }
@@ -66,16 +71,13 @@ export class VehicleReportComponent implements OnInit {
     this.vid = vehicleList.id;
   }
   getVehicleReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
 
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate,
-      endDate: this.endDate,
-
+      startDate: this.startDate + " " + this.startTimePeriod,
+      endDate: this.endDate + " " + this.endTimePeriod,
     };
-    console.log('params: ', params);
+
     this.common.loading++;
     this.api.post('HaltOperations/getVehicleEvents', params)
       .subscribe(res => {
@@ -218,6 +220,25 @@ export class VehicleReportComponent implements OnInit {
     this.activeModal.close();
   }
 
+
+  getDate(type) {
+
+    this.common.params = { ref_page: 'trip status feedback' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+        }
+        else {
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
+
+  }
 
 
 }

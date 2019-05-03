@@ -1,29 +1,30 @@
 <div class="modal-header">
-    <h6 class="modal-title" id="modal-basic-title">Change Driver on {{vehicleRegNo}}</h6>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="model-body" style="margin-left:20px; margin-right:20px; margin-top:10px; text-align: center">
-  
-    <div class="row" style="margin-top:10px">
-      <div class="col-sm-5">
-        <label>Mobile No</label>
-      </div>
-      <div class="col-sm-7">
-          <auto-suggestion (onSelected)="searchDriver($event)" url="suggestion/getDriverName" display="mobileno"
-          placeholder="Driver Number" [preSelected]="null"></auto-suggestion>
-      </div>
+  <h6 class="modal-title" id="modal-basic-title">Change Driver on {{vehicleRegNo}}</h6>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="model-body" style="margin-left:20px; margin-right:20px; margin-top:10px; text-align: center">
+
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-5">
+      <label>Mobile No</label>
     </div>
-    <div class="row" style="margin-top:10px">
-      <div class="col-sm-5">
-        <label>Driver Name</label>
-      </div>
+    <div class="col-sm-7">
+      <auto-suggestion (onSelected)="searchDriver($event)" url="Booster/getDrivers" display="mobileno"
+        placeholder="Driver Number" [preSelected]="null" [apiHitLimit]="10" inputId="driverno">
+      </auto-suggestion>
+    </div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-5">
+      <label>Driver Name</label>
+    </div>
     <div class="col-sm-7">
       <input [(ngModel)]="driver.name" class="form-control" type="text" placeholder="Driver Name">
     </div>
-    </div>
+  </div>
   <div style="margin-top:20px">
     <button class="btn btn-primary" type="button" outline (click)="changDriver()" id="changDriver"
       style="cursor: pointer;">Change</button></div>
-  </div>
+</div>

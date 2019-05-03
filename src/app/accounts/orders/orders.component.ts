@@ -911,7 +911,7 @@ export class OrdersComponent implements OnInit {
       this.order.amountDetails[index].stockitem.id = suggestion.id;
       this.order.amountDetails[index].stockunit.name = suggestion.stockname;
       this.order.amountDetails[index].stockunit.id = suggestion.stockunit_id;
-
+      if (this.order.ordertype.name.toLowerCase().includes('sales')) this.getStockAvailability(suggestion.id);
 
     } else if (activeId.includes('discountledger')) {
       const index = parseInt(activeId.split('-')[1]);
@@ -921,7 +921,7 @@ export class OrdersComponent implements OnInit {
       const index = parseInt(activeId.split('-')[1]);
       this.order.amountDetails[index].warehouse.name = suggestion.name;
       this.order.amountDetails[index].warehouse.id = suggestion.id;
-      this.getStockAvailability(suggestion.id);
+      //  this.getStockAvailability(suggestion.id);
     }
   }
 

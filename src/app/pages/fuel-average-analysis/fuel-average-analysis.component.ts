@@ -16,8 +16,8 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
   dates = {
-    start: this.common.dateFormatter(new Date()),
-    end: this.common.dateFormatter(new Date())
+    start: this.common.dateFormatter(new Date()).split(' ')[0],
+    end: this.common.dateFormatter(new Date()).split(' ')[0]
   };
 
   constructor(
@@ -76,12 +76,6 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
 
   openRouteMapper(fuelData) {
-    // let today, startday, fromDate;
-    // today = new Date();
-    // startday = new Date(today.setDate(today.getDate() - 2));
-    // fromDate = this.common.dateFormatter(startday);
-    // let fromTime = this.common.dateFormatter(fromDate);
-    // let toTime = this.common.dateFormatter(new Date());
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
       vehicleId: fuelData.vehicle_id,
