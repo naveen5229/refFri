@@ -6,6 +6,7 @@ import { CommonService } from '../../services/common.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { map } from 'rxjs/operators';
 import { element } from '@angular/core/src/render3';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'route-mapper',
@@ -18,15 +19,31 @@ export class RouteMapperComponent implements OnInit {
   vehicleRegNo = null;
   title = 'Route Tracker';
   isLite = false;
+  startTimePeriod = '00:00';
+  endTimePeriod = '00:00';
+
   constructor(private modalService: NgbModal,
     private mapService: MapService,
     private apiService: ApiService,
     private activeModal: NgbActiveModal,
-    private commonService: CommonService) {
+    private commonService: CommonService,
+    public dateService: DateService) {
     this.startDate = this.commonService.params.fromTime;
     this.endDate = this.commonService.params.toTime;
+
+    this.startTimePeriod = this.startDate.split(' ')[1];
+    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
+
+    this.endTimePeriod = this.endDate.split(' ')[1];
+    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
+
+    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
+    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
+
     this.vehicleSelected = this.commonService.params.vehicleId;
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
+
+
     console.log("common params:");
     console.log(this.commonService.params);
     if (this.commonService.params.title != undefined)
@@ -60,7 +77,7 @@ export class RouteMapperComponent implements OnInit {
   get timeLinePoly() {
     let odoNow = this.maxOdo * (this.timelineValue / 100);
     if (this.timelineValue == 1) {
-      return { time: this.startDate, lat: parseFloat(this.polypath[0].lat), lng: parseFloat(this.polypath[0].lng) };
+      return { time: this.startTimeFull, lat: parseFloat(this.polypath[0].lat), lng: parseFloat(this.polypath[0].lng) };
     }
     for (const polypoint of this.polypath) {
       if (polypoint.odo >= odoNow) {
@@ -70,6 +87,13 @@ export class RouteMapperComponent implements OnInit {
     return { time: null, lat: null, lng: null };
   }
 
+  get startTimeFull() {
+    return this.startDate + " " + this.startTimePeriod;
+  }
+
+  get endTimeFull() {
+    return this.endDate + " " + this.endTimePeriod;
+  }
 
   startDate = null;
   endDate = null;
@@ -85,8 +109,8 @@ export class RouteMapperComponent implements OnInit {
     this.commonService.loading++;
     let params = {
       vehicleId: this.vehicleSelected,
-      startDate: this.commonService.dateFormatter(this.startDate),
-      endDate: this.commonService.dateFormatter(this.endDate)
+      startDate: this.startTimeFull,
+      endDate: this.endTimeFull,
     }
     // console.log(params);
     this.apiService.post('HaltOperations/getVehicleEvents', params)
@@ -96,8 +120,8 @@ export class RouteMapperComponent implements OnInit {
         let vehicleEvents = res['data'].reverse();
         let params = {
           'vehicleId': this.vehicleSelected,
-          'startTime': this.commonService.dateFormatter(this.startDate, 'YYYYMMDD', true, "-"),
-          'toTime': this.commonService.dateFormatter(this.endDate, 'YYYYMMDD', true, "-")
+          'startTime': this.startTimeFull,
+          'toTime': this.endTimeFull
         }
         this.commonService.loading++;
         console.log(params);
@@ -153,12 +177,14 @@ export class RouteMapperComponent implements OnInit {
                   icon: this.mapService.lineSymbol,
                   offset: "0%"
                 }]);
-                let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startDate) ?
-                  vehicleEvents[0].start_time : this.startDate;
+                let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startTimeFull) ?
+                  vehicleEvents[0].start_time : this.startTimeFull;
                 let realEnd = null;
                 if (vehicleEvents[0].end_time)
-                  realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endDate) ?
-                    vehicleEvents[vehicleEvents.length - 1].end_time : this.endDate;
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endTimeFull) ?
+                    vehicleEvents[vehicleEvents.length - 1].end_time : this.endTimeFull;
+                console.log("RealStart", realStart, "RealEnd", realEnd);
+
                 let totalHourDiff = 0;
                 if (vehicleEvents.length != 0) {
                   totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
