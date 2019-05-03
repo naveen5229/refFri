@@ -32,8 +32,9 @@ export class CustomDatePipe implements PipeTransform {
       return value.split('-').reverse().join('-');
     }
 
+    console.log("Double Hyphen", value.match(/-/g));
 
-
+    if ((value.match(/-/g) || []).length == 2) return value;
     if (value.length == 2 || value.length == 5) return value + '-';
     if (value.length > 2 && value[2] != '-') return value.splice(2, 0, '-');
     if (value.length > 5 && value[5] != '-') return value.splice(5, 0, '-');
