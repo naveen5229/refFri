@@ -358,13 +358,8 @@ export class TrendsComponent implements OnInit {
           this.showdate = this.datepipe.transform(element.date_day, 'dd-MMM');
           this.dateDay.push(this.showdate);
           console.log('dateDay: ', this.showdate);
-
-
         });
         this.getCategoryDayWise();
-
-
-
       }, err => {
         this.common.loading--;
         this.common.showError();
