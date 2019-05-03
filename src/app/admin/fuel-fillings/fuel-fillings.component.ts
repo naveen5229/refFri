@@ -22,7 +22,7 @@ export class FuelFillingsComponent implements OnInit {
   table = {
     data: {
       headings: {
-        id: { title: 'ID', placeholder: 'ID' },
+        // id: { title: 'ID', placeholder: 'ID' },
         pump: { title: 'Pump', placeholder: 'Pump' },
         date: { title: 'Date', placeholder: 'Date' },
         regno: { title: 'Regno', placeholder: 'Regno' },
@@ -151,8 +151,8 @@ export class FuelFillingsComponent implements OnInit {
     this.fillingData.map(frec => {
       //valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
       let column = {
-        id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
-        pump: { value: frec.pp },
+        //  id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
+        pump: { value: frec.pp, class: 'blue', action: this.openData.bind(this, frec) },
         date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy'), class: 'blue', action: this.openFuelEntry.bind(this, frec) },
         regno: { value: frec.regno },
         litres: { value: frec.litres },
@@ -190,12 +190,13 @@ export class FuelFillingsComponent implements OnInit {
       vid: val.vehicle_id,
       datetime: this.common.dateFormatter(val.date).split(' ')[0]
     };
-    this.modalService.open(FuelStationEntryComponent, { size: 'lg', container: 'nb-layout' })
+    this.modalService.open(FuelStationEntryComponent, { size: 'lg', container: 'nb-layout' });
   }
 
   getFuelStation() {
 
-    this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' })
+    this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' });
+    this.common.handleModalSize('class', 'modal-lg', '1200');
 
   }
 }

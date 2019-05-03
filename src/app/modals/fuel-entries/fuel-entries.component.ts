@@ -11,12 +11,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FuelEntriesComponent implements OnInit {
   fuelDetails = null;
+  bgc = [];
 
   constructor(
     public common: CommonService,
     public api: ApiService,
-    private activeModal: NgbActiveModal
-  ) {
+    private activeModal: NgbActiveModal) {
     this.getDetails();
   }
 
@@ -37,6 +37,18 @@ export class FuelEntriesComponent implements OnInit {
         this.common.loading--;
         console.log(res);
         this.fuelDetails = res['data'];
+        this.fuelDetails.forEach((element) => {
+          if (element.is_last_filling) {
+            this.bgc.push(true);
+          } else {
+            this.bgc.push(false);
+          }
+
+          console.log('bgc: ', this.bgc);
+
+
+        });
+
         console.log("fuelDetails", this.fuelDetails);
       }, err => {
         this.common.loading--;
