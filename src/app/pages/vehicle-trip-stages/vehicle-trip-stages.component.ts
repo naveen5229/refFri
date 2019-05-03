@@ -13,7 +13,7 @@ export class VehicleTripStagesComponent implements OnInit {
   vehicleId = null;
   startDate = '';
   endDate = '';
-  activitySummary = [];
+  tripstagesData = [];
   headings = [];
   valobj = {};
   table = {
@@ -30,8 +30,8 @@ export class VehicleTripStagesComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
-    let today;
-    today = new Date();
+
+    let today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
     this.common.refresh = this.refresh.bind(this);
@@ -42,10 +42,10 @@ export class VehicleTripStagesComponent implements OnInit {
 
   refresh() {
     this.vehicleId = null;
-    this.getFeedbackLogs();
+    this.gettripStages();
   }
   getDate(type) {
-    this.common.params = { ref_page: 'trip feedback logs' }
+    this.common.params = { ref_page: 'vehicle trip stages' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -69,8 +69,8 @@ export class VehicleTripStagesComponent implements OnInit {
 
   }
 
-  getFeedbackLogs() {
-    this.activitySummary = [];
+  gettripStages() {
+    this.tripstagesData = [];
     this.table = {
       data: {
         headings: {},
@@ -94,13 +94,13 @@ export class VehicleTripStagesComponent implements OnInit {
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
 
-    this.api.get('tripsOperation/tripFeedbackLogs?' + data)
+    this.api.get('TripsOperation/vehicleDynTripSummary?' + data)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-        this.activitySummary = res['data'];
-        console.log('activitySummary', this.activitySummary);
-        let first_rec = this.activitySummary[0];
+        this.tripstagesData = res['data'];
+        console.log('tripstagesData', this.tripstagesData);
+        let first_rec = this.tripstagesData[0];
         console.log("first_Rec", first_rec);
 
         for (var key in first_rec) {
@@ -124,11 +124,11 @@ export class VehicleTripStagesComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    for (var i = 0; i < this.activitySummary.length; i++) {
+    for (var i = 0; i < this.tripstagesData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
         j
-        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
+        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     }

@@ -7,6 +7,10 @@
       <div class="col-7">
         <div class="row">
           <div class="col-sm-3">
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+          </div>
+          <div class="col-sm-3">
             <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
               placeholder="Start Date" (click)="getDate('start')" />
           </div>
@@ -14,10 +18,7 @@
             <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
               placeholder="End Date" (click)="getDate('end')" />
           </div>
-          <div class="col-sm-3">
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-          </div>
+
           <div class="col-sm-3">
             <button class="btn btn-primary m-0" (click)="getFeedbackLogs()">submit</button>
           </div>
@@ -26,12 +27,12 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="no-data alert alert-danger" role="alert" *ngIf="activitySummary.length==0">
+    <div class="no-data alert alert-danger" role="alert" *ngIf="tripstagesData.length==0">
       No Data Available On That Time Period !
     </div>
 
     <div>
-      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="tripstagesData.length" [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
 
   </nb-card-body>

@@ -6,40 +6,43 @@
 
 </div>
 <div class="modal-body">
-  <div class="row">
+  <div class="row" style="margin-bottom:10px">
     <div class="col-sm-1 pr-0">
       <label>{{vehicleRegNo}}</label>
     </div>
 
-    <div class="col-sm-2">
-      <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
-        (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
-        placeholder="Start Date" (dblclick)="getDate('start')">
+    <div class="col-2">
+      <div class="row">
+        <div class="col-7 pr-0">
+          <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
+            (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
+            placeholder="Start Date" (dblclick)="getDate('start')">
+        </div>
+        <div class="col-5 pl-1">
+          <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
+            [(ngModel)]="startTimePeriod">
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-2">
-      <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm" [(ngModel)]="startTimePeriod">
+
+
+    <div class="col-2">
+      <div class="row">
+        <div class="col-7 pr-0">
+          <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
+            placeholder="End Date" id="end" (dblclick)="getDate('end')"
+            (ngModelChange)="endDate = dateService.handleCustomDate($event)" maxlength="10">
+        </div>
+
+        <div class="col-5 pl-1">
+          <input type="time" class="form-control" name="endTimePeriod" placeholder="HH:mm" [(ngModel)]="endTimePeriod">
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-2">
-      <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
-        placeholder="End Date" id="end" (dblclick)="getDate('end')"
-        (ngModelChange)="endDate = dateService.handleCustomDate($event)" maxlength="10">
-    </div>
 
-    <div class="col-sm-2">
-      <input type="time" class="form-control" name="endTimePeriod" placeholder="HH:mm" [(ngModel)]="endTimePeriod">
-    </div>
-    <!-- <div class="col-sm-3">
-      <input [(ngModel)]="startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate " placeholder="Start Time"
-        class="form-control" autocomplete="off" name="s-date">
-      <owl-date-time #sDate></owl-date-time>
-    </div>
-    <div class="col-sm-3">
-      <input [(ngModel)]="endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate " placeholder="End Time"
-        class="form-control" autocomplete="off" name="e-date">
-      <owl-date-time #eDate></owl-date-time>
-    </div> -->
+
     <div class="col-sm-1">
       <button (click)="getTripDetails()" class="btn btn-primary form-control" style="margin:0px;border:0px;">OK</button>
     </div>
