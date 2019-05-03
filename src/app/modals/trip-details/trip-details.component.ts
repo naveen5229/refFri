@@ -17,6 +17,9 @@ export class TripDetailsComponent implements OnInit {
   vehicleId = null;
   vehicleRegNo = null;
   trips = null;
+  startTimePeriod = '00:00';
+  endTimePeriod = '00:00';
+
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -27,6 +30,16 @@ export class TripDetailsComponent implements OnInit {
     // this.common.handleModalSize('class', 'modal-lg', '1600');
     this.startDate = this.common.params.fromTime;
     this.endDate = this.common.params.toTime;
+
+    this.startTimePeriod = this.startDate.split(' ')[1];
+    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
+
+    this.endTimePeriod = this.endDate.split(' ')[1];
+    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
+
+    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
+    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
+
     this.vehicleId = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
     this.getTripDetails();
@@ -35,10 +48,18 @@ export class TripDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+  get startTimeFull() {
+    return this.startDate + " " + this.startTimePeriod;
+  }
+
+  get endTimeFull() {
+    return this.endDate + " " + this.endTimePeriod;
+  }
+
   getTripDetails() {
     let params = "vehicleId=" + this.vehicleId +
-      "&startTime=" + this.common.dateFormatter(this.startDate) +
-      "&endTime=" + this.common.dateFormatter(this.endDate);
+      "&startTime=" + this.startTimeFull +
+      "&endTime=" + this.endTimeFull;
     console.log(params)
     this.api.get('TripsOperation/viewBtw?' + params)
       .subscribe(res => {
