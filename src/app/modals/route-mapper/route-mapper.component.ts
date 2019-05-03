@@ -338,4 +338,25 @@ export class RouteMapperComponent implements OnInit {
   setZoom(zoom, vehicleEvent) {
     this.mapService.zoomMap(zoom);
   }
+
+
+
+  getDate(type) {
+
+    this.commonService.params = { ref_page: 'route mapper' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+        }
+        else {
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
+
+  }
 }
