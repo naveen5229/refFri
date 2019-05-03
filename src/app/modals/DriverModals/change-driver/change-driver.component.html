@@ -11,8 +11,9 @@
       <label>Mobile No</label>
     </div>
     <div class="col-sm-7">
-      <auto-suggestion (onSelected)="searchDriver($event)" url="suggestion/getDriverName" display="mobileno"
-        placeholder="Driver Number" [preSelected]="null" [apiHitLimit]="10"></auto-suggestion>
+      <auto-suggestion (onSelected)="searchDriver($event)" url="Booster/getDrivers" display="mobileno"
+        placeholder="Driver Number" [preSelected]="null" [apiHitLimit]="10" inputId="driverno">
+      </auto-suggestion>
     </div>
   </div>
   <div class="row" style="margin-top:10px">

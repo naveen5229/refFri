@@ -16,6 +16,7 @@ export class FuelStationEntryComponent implements OnInit {
   fuelEntry = [];
   vid;
   startDate;
+  showTable = false;
   endDate;
   dateTime;
   today;
@@ -49,6 +50,7 @@ export class FuelStationEntryComponent implements OnInit {
       .subscribe(res => {
         if (res['data'].length) {
           this.fuelEntry = res['data'];
+          this.showTable = true;
         } else {
           this.common.showToast('No Record Found!!');
         }
@@ -63,6 +65,8 @@ export class FuelStationEntryComponent implements OnInit {
     let headings = {
       Lat: { title: 'Lat', placeholder: 'Lat' },
       Long: { title: 'Long', placeholder: 'Lat' },
+      Name: { title: 'Name', placeholder: 'Name' },
+      Location: { title: 'Location', placeholder: 'Location' },
       EntryTime: { title: 'EntryTime', placeholder: 'EntryTime' },
       Action: { title: 'Action', placeholder: 'Action' }
     };
@@ -86,6 +90,8 @@ export class FuelStationEntryComponent implements OnInit {
       let column = {
         Lat: { value: R.lat },
         Long: { value: R.long },
+        Name: { value: R.name },
+        Location: { value: R.location },
         EntryTime: { value: this.datePipe.transform(R.entry_time, 'dd MMM HH:mm ') },
         Action: { value: `<i class="fa fa-map-marker"></i>`, isHTML: true, action: this.showLocation.bind(this, R) },
       };

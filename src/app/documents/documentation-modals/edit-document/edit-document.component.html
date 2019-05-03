@@ -9,14 +9,14 @@
     (submit)="documentForm.valid && updateDocument()">
     <div class="row">
       <div class="col-md-4 model_left_section">
-          <div class="row">
-              <div class="col-md-4">
-                <label> Document id </label>
-              </div>
-              <div class="col-md-8">
-                <label style="font-size:16px;">{{document.docId}}</label>
-              </div>
-            </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label> Document id </label>
+          </div>
+          <div class="col-md-8">
+            <label style="font-size:16px;">{{document.docId}}</label>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-md-4">
@@ -48,7 +48,7 @@
             <label>Wef Date</label>
           </div>
           <div class="col-md-7">
-            <label style="font-size:16px;">{{document.wefDate}}</label>
+            <label style="font-size:16px;">{{document.wefDate | date:'dd MMM yyyy'}}</label>
           </div>
         </div>
         <div class="row">
@@ -56,7 +56,7 @@
             <label>Expiry Date</label>
           </div>
           <div class="col-md-7">
-            <label style="font-size:16px;">{{document.expiryDate}}</label>
+            <label style="font-size:16px;">{{document.expiryDate  | date:'dd MMM yyyy'}}</label>
           </div>
         </div>
         <div class="row">
@@ -129,5 +129,5 @@
     </div>
   </form>
 </div>
-<div class="modal-footer"> 
+<div class="modal-footer">
 </div>

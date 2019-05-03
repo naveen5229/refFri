@@ -50,7 +50,9 @@
               <td>{{liability.name}}</td>
               <td style="text-align: right;">{{liability.amount}}</td>
             </tr>
-            <tr *ngFor=" let balanceSheet of liability.balanceSheets " style="background: #dadfe6;">
+            <tr *ngFor="let balanceSheet of liability.balanceSheets"
+              (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
+              style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
               <td style="text-align: left;">
                 <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
@@ -72,7 +74,9 @@
               <td>{{asset.name}}</td>
               <td style="text-align: right;">{{asset.amount}}</td>
             </tr>
-            <tr *ngFor="let balanceSheet of asset.balanceSheets " style="background: #dadfe6;">
+            <tr *ngFor="let balanceSheet of asset.balanceSheets"
+              (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
+              style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
               <td style="text-align: left;">
                 <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>

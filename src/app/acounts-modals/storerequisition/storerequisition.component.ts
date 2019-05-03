@@ -337,16 +337,16 @@ export class StorerequisitionComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issuewarehouse' + '-' + index);
+        this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('issueqty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issuerate' + '-' + index);
+        this.setFoucus('issuewarehouse' + '-' + index);
         if (this.storeQuestion.requesttype.id == -1) {
           this.storeQuestion.details[index].qty = this.storeQuestion.details[index].issueqty;
         }
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issueqty' + '-' + index);
+        this.setFoucus('remarks' + '-' + index);
       } else if (this.activeId.includes('issuerate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('issueamount' + '-' + index);
@@ -369,7 +369,7 @@ export class StorerequisitionComponent implements OnInit {
         if (this.storeQuestion.requesttype.id == -1) {
           this.setFoucus('issueqty' + '-' + index);
         }
-        this.setFoucus('qty' + '-' + index);
+        this.setFoucus('issuerate' + '-' + index);
       } else if (this.activeId.includes('warehouse')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);

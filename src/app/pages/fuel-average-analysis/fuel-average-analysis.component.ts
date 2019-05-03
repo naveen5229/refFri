@@ -16,8 +16,8 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
   dates = {
-    start: this.common.dateFormatter(new Date()),
-    end: this.common.dateFormatter(new Date())
+    start: this.common.dateFormatter(new Date()).split(' ')[0],
+    end: this.common.dateFormatter(new Date()).split(' ')[0]
   };
 
   constructor(

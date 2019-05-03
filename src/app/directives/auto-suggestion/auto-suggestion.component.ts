@@ -87,13 +87,16 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   getSuggestions() {
+    this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
+    console.log("apiHitLimit", this.apiHitLimit, this.searchText.length);
+
     this.showSuggestions = true;
     if (this.data) {
       this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
-    if (this.searchText.length < this.apiHitLimit || 3) return;
+    if (this.searchText.length < 3) return;
     let params = '?';
     console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {

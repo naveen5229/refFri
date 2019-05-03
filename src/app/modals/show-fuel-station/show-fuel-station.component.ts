@@ -15,11 +15,12 @@ export class ShowFuelStationComponent implements OnInit {
 
   fuelStation = [];
   table = null;
-
+  showTable = false;
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
     private modalService: NgbModal) {
+    //this.common.handleModalSize('class', 'modal-lg', '1200');
     this.getFuelStation();
   }
 
@@ -32,6 +33,7 @@ export class ShowFuelStationComponent implements OnInit {
         console.log('res', res['data']);
         if (res['data'].length) {
           this.fuelStation = res['data'];
+          this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
         }
@@ -44,12 +46,12 @@ export class ShowFuelStationComponent implements OnInit {
 
   setTable() {
     let headings = {
-      name: { title: 'name', placeholder: 'name' },
-      location: { title: 'location', placeholder: 'location' },
-      site_id: { title: 'site_id', placeholder: 'site_id' },
-      addtime: { title: 'addtime', placeholder: 'addtime' },
-      lat: { title: 'lat', placeholder: 'lat' },
-      long: { title: 'long', placeholder: 'long' }
+      Name: { title: 'Name', placeholder: 'Name' },
+      Location: { title: 'Location', placeholder: 'Location' },
+      SiteId: { title: 'SiteId', placeholder: 'SiteId' },
+      AddTime: { title: 'AddTime', placeholder: 'AddTime' },
+      // Lat: { title: 'lat', placeholder: 'lat' },
+      // Long: { title: 'long', placeholder: 'long' }
     };
 
 
@@ -69,12 +71,12 @@ export class ShowFuelStationComponent implements OnInit {
     this.fuelStation.map(R => {
 
       let column = {
-        name: { value: R.name },
-        location: { value: R.location },
-        site_id: { value: R.site_id },
-        addtime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
-        Lat: { value: R.lat },
-        Long: { value: R.long },
+        Name: { value: R.name },
+        Location: { value: R.location },
+        SiteId: { value: R.site_id },
+        AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
+        // Lat: { value: R.lat },
+        // Long: { value: R.long },
       };
 
       columns.push(column);
