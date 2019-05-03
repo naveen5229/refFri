@@ -63,34 +63,21 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width:200px;
         }
-        th:nth-child(1){
-            width: 3%;
-        }
-        th:nth-child(2){
-            width: 13%;
-        }
-        th:nth-child(3){
-            width: 13%;
-        }
-        th:nth-child(4){
-            width: 13%;
-        }
-        th:nth-child(5){
-            width: 13%;
-        }
-        th:nth-child(6){
-            width: 13%;
-        }
-        th:nth-child(7){
-            width: 13%;
-        }
-        th:nth-child(8){
-            width: 13%;
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 200px;
+            b{
+                font-weight: normal !important;
+                width: 50px;
+                text-align: right;
+                display: inline-block;
+            }
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -109,34 +96,12 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 312px);
         tr{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
-                width: 3%;
-            }
-            td:nth-child(2){
-                width: 13%
-            }
-            td:nth-child(3){
-                width: 13%
-            }
-            td:nth-child(4){
-                width: 13%
-            }
-            td:nth-child(5){
-                width: 13%
-            }
-            td:nth-child(6){
-                width: 13%
-            }
-            td:nth-child(7){
-                width: 13%
-            }
-            td:nth-child(8){
-                width: 13%
+            td:last-child{
+                width: auto;
             }
         }
         tr:nth-child(odd){

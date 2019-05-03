@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import * as _ from 'lodash';
 
 @Component({
@@ -91,27 +92,49 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+
   formattData() {
-    let assetsGroup = _.groupBy(this.TrialData, 'groupid');
-    let firstGroup = _.groupBy(assetsGroup, 'groupname');
-
-
-    console.log('A:', assetsGroup);
-    console.log('B:', firstGroup);
+    let firstGroup = _.groupBy(this.TrialData, 'groupname');
     this.trialBalanceData = [];
-    for (let key in assetsGroup) {
+    for (let key in firstGroup) {
+      let groups = _.groupBy(firstGroup[key], 'y_ledger_name');
+      let traildatas = [];
+      let totalopening = 0;
+      let totaldr = 0;
+      let totalcr = 0;
+      let totalclosing = 0;
+      let y_closebaltype = '';
+      let y_openbaltype = '';
+      for (let groupKey in groups) {
+
+        groups[groupKey].map(info => {
+          if (info.y_openbal) totalopening += parseInt(info.y_openbal);
+          if (info.y_dr_bal) totaldr += parseInt(info.y_dr_bal);
+          if (info.y_closebal) totalcr += parseInt(info.y_closebal);
+          if (info.y_closebal) totalclosing += parseInt(info.y_closebal);
+          y_closebaltype = info.y_closebaltype;
+          y_openbaltype = info.y_openbaltype;
+          traildatas.push(info);
+        });
+      }
 
       this.trialBalanceData.push({
         name: key,
-        balanceSheets: assetsGroup[key].filter(balanceSheet => { return balanceSheet.y_ledger_name; })
-      })
+        totalopening,
+        totaldr,
+        totalcr,
+        totalclosing,
+        y_openbaltype,
+        y_closebaltype,
+        traildatas
+      });
     }
 
 
 
-    console.log('first Section:', this.trialBalanceData);
 
-
+    console.log('First Section:', this.trialBalanceData);
+    console.log('Second Section:', this.trialBalanceData);
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -249,14 +272,14 @@ export class TrialbalanceComponent implements OnInit {
     console.log('start date and date', this.common.params);
     //  this.common.params = voucherId;
 
-    // const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    // activeModal.result.then(data => {
-    //   // console.log('Data: ', data);
-    //   if (data.response) {
-    //     return;
+    const activeModal = this.modalService.open(ProfitlossComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        return;
 
-    //   }
-    // });
+      }
+    });
   }
 }
 
