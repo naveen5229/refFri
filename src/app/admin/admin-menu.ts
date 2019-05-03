@@ -183,6 +183,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/fuel-average-analysis',
         home: true,
     },
+    {
+        title: 'Remaining Fuel',
+        icon: 'fa fa-signal',
+        link: '/admin/remaining-fuel',
+        home: true,
+    },
 
 
 ];
