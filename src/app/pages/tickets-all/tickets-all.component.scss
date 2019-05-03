@@ -67,10 +67,13 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 15%;
+            width: 270px;
+        }
+        th:last-child{
+            width: auto;
         }
         th:nth-child(1){
-            width: 2%;
+            width: 30px;
         }
         td{
             padding: 5px 10px !important;
@@ -99,10 +102,10 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 15%;
+                width: 30px;
             }
             td{
-                width: 15%;
+                width: 270px;
                 .btn{
                     padding: 10px 15px;
                     height: auto;
@@ -118,7 +121,7 @@ table{
                 }
             }
             td:last-child{
-                width: 15%
+                width: auto;
             }
         }
         tr:nth-child(odd){

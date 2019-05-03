@@ -60,10 +60,13 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 15%;
+            width: 180px;
         }
         th:nth-child(1){
-            width: 2%;
+            width: 30px;
+        }
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
@@ -92,13 +95,13 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 2%;
+                width: 30px;
             }
             td{
-                width: 15%;
+                width: 180px;
             }
             td:last-child{
-                width: 15%
+                width: auto;
             }
         }
         tr:nth-child(odd){
