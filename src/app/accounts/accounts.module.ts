@@ -30,6 +30,7 @@ import { CityComponent } from './city/city.component';
 import { StorerequisitionsComponent } from './storerequisitions/storerequisitions.component';
 import { TradingComponent } from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
+import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -69,7 +70,8 @@ const PAGES_COMPONENTS = [
     CityComponent,
     StorerequisitionsComponent,
     TradingComponent,
-    OpeningstockComponent
+    OpeningstockComponent,
+    TrialbalanceComponent
     //StockSubtypeComponent
   ],
 })

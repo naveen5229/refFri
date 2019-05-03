@@ -87,6 +87,9 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   getSuggestions() {
+    this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
+    console.log("apiHitLimit", this.apiHitLimit, this.searchText.length);
+
     this.showSuggestions = true;
     if (this.data) {
       this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));

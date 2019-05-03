@@ -67,7 +67,7 @@ export class VoucherComponent implements OnInit {
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
-    this.common.handleModalSize('class', 'modal-lg', '1150');
+    this.common.handleModalSize('class', 'modal-lg', '1250');
     this.voucherEditDetail();
   }
 

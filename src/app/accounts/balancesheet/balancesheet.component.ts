@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { DaybookComponent } from '../../acounts-modals/daybook/daybook.component';
 import * as _ from 'lodash';
 
 
@@ -197,4 +198,21 @@ export class BalancesheetComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
+
+  opendaybookmodel(ledgerId) {
+    this.common.params = {
+      startdate: this.balanceData.startdate,
+      enddate: this.balanceData.enddate,
+      ledger: ledgerId,
+      vouchertype: 0
+    };
+    const activeModal = this.modalService.open(DaybookComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      //this.getDayBook();
+      //this.common.showToast('Voucher updated');
+
+    });
+  }
+
 }

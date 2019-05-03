@@ -9,6 +9,8 @@ import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/c
 import { AddShortTargetComponent } from '../../modals/add-short-target/add-short-target.component';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { headersToString } from 'selenium-webdriver/http';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { ReportIssueComponent } from '../../modals/report-issue/report-issue.component';
 
 @Component({
   selector: 'driver-call-suggestion',
@@ -226,7 +228,7 @@ export class DriverCallSuggestionComponent implements OnInit {
               this.common.loading--;
               console.log(err);
             });
-        } else if (this.headings[j] == "Driver Name" || this.headings[j] == "Driver Mobile") {
+        } else if (this.headings[j] == "Driver") {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openChangeDriverModal.bind(this, this.driverData[i]) };
 
         }
@@ -235,8 +237,13 @@ export class DriverCallSuggestionComponent implements OnInit {
 
         }
         else if (this.headings[j] == "Trip") {
-
-          valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.driverData[i]), isHTML: true, class: 'black', action: '' };
+          valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.driverData[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.driverData[i]) };
+        }
+        else if (this.headings[j] == "Current Loc") {
+          valobj[this.headings[j]] = { value: val, class: 'blue', action: this.showLocation.bind(this, this.driverData[i]) };
+        }
+        else if (this.headings[j] == "Action") {
+          valobj[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) };
         }
 
         else {
@@ -250,16 +257,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     return columns;
   }
 
-  openChangeDriverModal(vehicleTrip) {
-    console.log("vehicleTrip", vehicleTrip);
-    this.common.params = { vehicleId: vehicleTrip._vehicleid, vehicleRegNo: vehicleTrip.Vehicle };
-    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      console.log("data", data.respone);
 
-
-    });
-  }
 
   //--------------------------------- onward data--------------------
   showTable = false;
@@ -288,8 +286,8 @@ export class DriverCallSuggestionComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
 
-        console.log("result", res['data'][0].fn_trips_onwarddelay);
-        this.onwardDelayData = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        console.log("result", res['data']);
+        this.onwardDelayData = res['data'];
         this.smartTableWithHeadings();
 
       }, err => {
@@ -391,7 +389,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('Placement/placementDelayFaults?')
       .subscribe(res => {
         this.common.loading--;
-        this.delayFaults = JSON.parse(res['data'][0].fn_placements_getfaults);
+        this.delayFaults = res['data'];
         if (this.delayFaults != null) {
           console.log('delayFaults', this.delayFaults);
           let first_rec = this.delayFaults[0];
@@ -439,6 +437,11 @@ export class DriverCallSuggestionComponent implements OnInit {
           console.log("headings[j]", this.headings[j]);
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.delayFaults[i]) };
         }
+        else if (this.headings[j] == "Trip") {
+          console.log("htmll------", this.common.getJSONTripStatusHTML(this.delayFaults[i]));
+          this.valobj3[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.delayFaults[i]), isHTML: true, class: 'black', action: '' };
+
+        }
         else {
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'black', action: '' };
         }
@@ -483,7 +486,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('Placement/getShortTarget')
       .subscribe(res => {
         this.common.loading--;
-        this.shortTarget = JSON.parse(res['data'][0].result);
+        this.shortTarget = res['data'];
         //this.shortTarget = res['data'];
         if (this.shortTarget != null) {
           console.log('shortTarget', this.shortTarget);
@@ -578,7 +581,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('TripsOperation/tripOnwardDelay?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.longLoading = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        this.longLoading = res['data'];
         //this.shortTarget = res['data'];
         if (this.longLoading != null) {
           console.log('shortTarget', this.longLoading);
@@ -669,7 +672,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.api.get('TripsOperation/tripOnwardDelay?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.longUnLoading = JSON.parse(res['data'][0].fn_trips_onwarddelay);
+        this.longUnLoading = res['data'];
         console.log('longunLoading', this.longUnLoading);
 
         if (this.longUnLoading != null) {
@@ -704,9 +707,9 @@ export class DriverCallSuggestionComponent implements OnInit {
   getTableColumns6() {
     let columns = [];
     for (var i = 0; i < this.longUnLoading.length; i++) {
-      this.valobj5 = {};
+      console.log("longLoading", this.longUnLoading);
+      this.valobj6 = {};
       for (let j = 0; j < this.headings.length; j++) {
-        console.log("header", this.headings[j], this.longUnLoading[i][this.headings[j]]);
         if (this.headings[j] == 'regno') {
           this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.shortTarget[i]) };
 
@@ -737,10 +740,10 @@ export class DriverCallSuggestionComponent implements OnInit {
   openPlacementModal(placement) {
     console.log("openPlacementModal", placement);
     let tripDetails = {
-      vehicleId: placement._vid,
-      siteId: placement._site_id ? placement._site_id : -1
+      vehicleId: placement._vehicleid,
+      siteId: placement._siteid ? placement._siteid : -1
     }
-    this.common.params = { tripDetils: tripDetails, ref_page: 'placements' };
+    this.common.params = { tripDetils: tripDetails, ref_page: 'cs' };
     console.log("vehicleTrip", tripDetails);
     const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
@@ -784,5 +787,49 @@ export class DriverCallSuggestionComponent implements OnInit {
       container: "nb-layout"
     });
   }
+
+  openChangeDriverModal(vehicleTrip) {
+    console.log("vehicleTrip", vehicleTrip);
+    this.common.params = { vehicleId: vehicleTrip._vehicleid, vehicleRegNo: vehicleTrip.Vehicle };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+
+
+    });
+  }
+
+  showLocation(loc) {
+    if (!loc._curlat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: loc._curlat,
+      lng: loc._curlong,
+      name: "",
+      time: ""
+    };
+    //console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+  }
+
+  reportIssue(kpi) {
+    //console.log("Kpi:", kpi);
+    this.common.params = { refPage: "db" };
+    const activeModal = this.modalService.open(ReportIssueComponent, {
+      size: "sm",
+      container: "nb-layout"
+    });
+    activeModal.result.then(
+      data =>
+        data.status && this.common.reportAnIssue(data.issue, kpi._vehicleid)
+    );
+  }
+
 
 }

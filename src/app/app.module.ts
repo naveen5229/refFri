@@ -138,6 +138,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
 import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
+import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -238,6 +239,8 @@ import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
     FuelStationEntryComponent,
     ShowFuelStationComponent,
     CustomDatePipe,
+    DaybookComponent,
+
   ],
   entryComponents: [
     ChangeDriverComponent,
@@ -334,7 +337,8 @@ import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
     CsvErrorReportComponent,
     AddShortTargetComponent,
     FuelStationEntryComponent,
-    ShowFuelStationComponent
+    ShowFuelStationComponent,
+    DaybookComponent,
 
   ],
   imports: [
