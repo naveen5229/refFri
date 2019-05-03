@@ -43,6 +43,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Vehicle Trip Stages',
+        icon: 'fas fa-road',
+        link: '/pages/vehicle-trip-stages',
+        home: true,
+      },
+      {
         title: 'Trends',
         icon: 'fa fa-line-chart',
         link: '/pages/trends'
