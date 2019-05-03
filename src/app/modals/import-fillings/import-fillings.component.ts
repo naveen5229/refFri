@@ -77,7 +77,7 @@ export class ImportFillingsComponent implements OnInit {
       fuelCsv: this.fillingcsv,
       foid: this.foid,
       stationId: this.fuel_station_id,
-      isFull: this.isfull,
+      // isFull: this.isfull,
       isValidate: true
     };
 
@@ -98,14 +98,11 @@ export class ImportFillingsComponent implements OnInit {
         this.common.params = { apiData: params, successData, errorData, title: 'Fuel csv Verification' };
         const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
-
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-
   }
-
 
   sampleCsv() {
     window.open("http://13.126.215.102/sample/csv/sample_fuelFilling.csv");

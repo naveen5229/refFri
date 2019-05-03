@@ -17,24 +17,28 @@ export class VehicleTyresComponent implements OnInit {
       tyreNo: null,
       tyreId: null,
       details: null,
+      kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
     },
     {
       tyreNo: null,
       tyreId: null,
       details: null,
+      kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
     },
     {
       tyreNo: null,
       tyreId: null,
       details: null,
+      kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
     },
     {
       tyreNo: null,
       tyreId: null,
       details: null,
+      kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
     },
   ]
@@ -75,6 +79,7 @@ export class VehicleTyresComponent implements OnInit {
       tyreNo: null,
       tyreId: null,
       details: null,
+      kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
     });
   }
@@ -117,7 +122,7 @@ export class VehicleTyresComponent implements OnInit {
     console.log("params ", params);
     this.api.get('Tyres/getVehicleTyreDetails?' + params)
       .subscribe(res => {
-        console.log("data===",res['data']);
+        console.log("data===", res['data']);
         this.mappedTyres = res['data'];
       }, err => {
         console.error(err);

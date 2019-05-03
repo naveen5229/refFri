@@ -52,7 +52,7 @@ export class MapService {
 
   zoomAt(latLng, level = 18) {
     this.map.panTo(latLng);
-    if(level != this.map.getZoom())
+    if (level != this.map.getZoom())
       this.zoomMap(level);
   }
 
@@ -60,7 +60,7 @@ export class MapService {
     this.map.setZoom(zoomValue);
     if (zoomValue <= 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    } else if (zoomValue> 14) {
+    } else if (zoomValue > 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
@@ -104,10 +104,10 @@ export class MapService {
     this.isMapLoaded = true;
   }
 
-  createLatLng(lat,lng){
+  createLatLng(lat, lng) {
     return new google.maps.LatLng(lat, lng);
   }
-  createInfoWindow(){
+  createInfoWindow() {
     return new google.maps.InfoWindow();
   }
 
@@ -157,7 +157,7 @@ export class MapService {
       infoWindow.opened = false;
       let showContent = latLngs.show;
       google.maps.event.addListener(polygon, 'mouseover', function (evt) {
-        infoWindow.setContent("Info: "+showContent);
+        infoWindow.setContent("Info: " + showContent);
         infoWindow.setPosition(evt.latLng); // or evt.latLng
         infoWindow.open(this.map);
       });
@@ -169,18 +169,18 @@ export class MapService {
     });
   }
 
-  addListerner(element,event,callback){
-    google.maps.event.addListener(element, event,callback);
+  addListerner(element, event, callback) {
+    google.maps.event.addListener(element, event, callback);
   }
 
   getLatLngValue(markerData) {
-    let latLng = {lat:0,lng:0}
+    let latLng = { lat: 0, lng: 0 }
     let keys = Object.keys(markerData);
-    latLng.lat = markerData[keys.find((element)=>{
-      return element=="lat"||element=="y_lat"||element=="x_lat"||element=="x_tlat";
+    latLng.lat = markerData[keys.find((element) => {
+      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat";
     })];
-    latLng.lng = markerData[keys.find((element)=>{
-      return element=="lng"||element=="long"||element=="x_long"||element=="x_tlong";
+    latLng.lng = markerData[keys.find((element) => {
+      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong";
     })];
     return latLng;
   }
@@ -226,17 +226,19 @@ export class MapService {
       }
 
 
-      let marker = new google.maps.Marker({
-        position: latlng,
-        flat: true,
-        icon: pinImage,
-        map: this.map,
-        title: title
-      });
+      let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
-      if (changeBounds&&(lat&&lng))
+      if (changeBounds && (lat && lng)) {
         this.setBounds(latlng);
+        marker = new google.maps.Marker({
+          position: latlng,
+          flat: true,
+          icon: pinImage,
+          map: this.map,
+          title: title
+        });
+      }
       thisMarkers.push(marker);
       this.markers.push(marker);
       clickEvent && marker.addListener('click', clickEvent.bind(this, markers[index]));
@@ -264,14 +266,18 @@ export class MapService {
     }
   }
 
-  clearAll(reset = true, boundsReset = true,resetParams = {marker:true,polygons:true,polypath:true}) {
-    
-    resetParams.marker && this.resetMarker(reset,boundsReset);
+  createPoint(x, y) {
+    return new google.maps.Point(x, y);
+  }
+
+  clearAll(reset = true, boundsReset = true, resetParams = { marker: true, polygons: true, polypath: true }) {
+
+    resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
   }
 
-  resetMarker(reset=true,boundsReset=true){
+  resetMarker(reset = true, boundsReset = true) {
     for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
@@ -281,15 +287,15 @@ export class MapService {
       this.bounds = new google.maps.LatLngBounds();
     }
   }
-  resetBounds(){
+  resetBounds() {
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < this.markers.length; index++) {
       let pos = this.markers[index].position;
-      if(pos.lat()!=0)
-          this.setBounds(pos);
+      if (pos.lat() != 0)
+        this.setBounds(pos);
     }
   }
-  resetPolygons(){
+  resetPolygons() {
     if (this.polygon) {
       this.polygon.setMap(null);
       this.polygon = null;
@@ -301,7 +307,7 @@ export class MapService {
       this.polygons = [];
     }
   }
-  resetPolyPath(){
+  resetPolyPath() {
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
       this.polygonPath = null;
@@ -311,31 +317,31 @@ export class MapService {
   createPolygonPath(polygonOptions?) {
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.isDrawAllow) {
-        this.createPolyPathManual(event.latLng,polygonOptions);      
+        this.createPolyPathManual(event.latLng, polygonOptions);
       }
     });
   }
-  createPolyPathManual(latLng,polygonOptions?){
+  createPolyPathManual(latLng, polygonOptions?) {
     console.log("In Here");
-        if (!this.polygonPath) {
-          const defaultPolygonOptions = {
-            strokeColor: '#000000',
-            strokeOpacity: 1,
-            strokeWeight: 3,
-            icons: [{
-              icon: this.lineSymbol,
-              offset: '100%'
-            }]
-          }
-          this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
-          this.polygonPath.setMap(this.map);
-        }
-        let path = this.polygonPath.getPath();
-        path.push(latLng);
+    if (!this.polygonPath) {
+      const defaultPolygonOptions = {
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '100%'
+        }]
+      }
+      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.polygonPath.setMap(this.map);
+    }
+    let path = this.polygonPath.getPath();
+    path.push(latLng);
   }
 
-  setMapType(typeIndex){
-    let types = ['roadmap','satellite','hybrid','terrain'];
+  setMapType(typeIndex) {
+    let types = ['roadmap', 'satellite', 'hybrid', 'terrain'];
     this.map.setMapTypeId(types[typeIndex]);
   }
 

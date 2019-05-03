@@ -21,7 +21,8 @@ export class TipFeedbackLogsComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      tableHeight: '75vh'
     }
   };
 
@@ -75,7 +76,8 @@ export class TipFeedbackLogsComponent implements OnInit {
         columns: []
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: '75vh',
       }
     };
 

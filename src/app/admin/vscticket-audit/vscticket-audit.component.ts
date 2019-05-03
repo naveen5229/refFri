@@ -117,17 +117,4 @@ export class VSCTicketAuditComponent implements OnInit {
   }
 
 
-  ShowData(){
-   
-    this.common.loading++;
-    this.api.get('VehicleKpi/createMaster')
-      .subscribe(res => {
-        this.common.loading--;
-        this.common.showToast(res['msg']);
-      
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      })
-  }
 }

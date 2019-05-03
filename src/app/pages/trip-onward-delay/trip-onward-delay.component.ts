@@ -39,8 +39,8 @@ export class TripOnwardDelayComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
 
-        console.log("res['data']", res['data'][0].fn_trips_onwarddelay);
-        //this.onwardDelayData = res['data'];
+        console.log("result", res['data'][0].fn_trips_onwarddelay);
+        this.onwardDelayData = JSON.parse(res['data'][0].fn_trips_onwarddelay);
         this.smartTableWithHeadings();
 
       }, err => {

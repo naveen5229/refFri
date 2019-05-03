@@ -7,24 +7,12 @@
       <div class="col-5">
         <div class="row">
           <div class="col-sm-4">
-            <input
-              type="text"
-              class="form-control"
-              [value]="startDate | date: 'dd MMM yyyy'"
-              name="date"
-              placeholder="Start Date"
-              (click)="getDate('start')"
-            />
+            <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
+              placeholder="Start Date" (click)="getDate('start')" />
           </div>
           <div class="col-sm-4">
-            <input
-              type="text"
-              class="form-control"
-              [value]="endDate | date: 'dd MMM yyyy'"
-              name="date1"
-              placeholder="End Date"
-              (click)="getDate('end')"
-            />
+            <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
+              placeholder="End Date" (click)="getDate('end')" />
           </div>
           <div class="col-sm-4 text-right">
             <button class="btn btn-primary" (click)="getSummary()">
@@ -37,11 +25,7 @@
   </nb-card-header>
   <nb-card-body>
     <div>
-      <smart-table
-        *ngIf="activitySummary.length"
-        [data]="table.data"
-        [settings]="table.settings"
-      ></smart-table>
+      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
   </nb-card-body>
 </nb-card>

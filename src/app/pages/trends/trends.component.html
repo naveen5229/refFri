@@ -4,6 +4,9 @@
   </nb-card-header> -->
   <nb-card-body style="padding:15px 15px 0px;">
     <div class="model-body">
+      <!-- <div class="row" style="width:80px; text-align: center; margin-left: 50px; margin-bottom: 20px">
+        <button class="btn btn-primary" (click)="getOnwardDistance()">distance</button>
+      </div> -->
       <div class="row">
         <div class="col-sm-3">
           <select [(ngModel)]="trendType" class="form-control" (change)="changeTrendType()"
@@ -11,9 +14,11 @@
             <option value="11">Loading</option>
             <option value="21">Unloading</option>
             <option value="0">Onward</option>
+            <option value="31">Onward - KMPD</option>
+
           </select>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3" *ngIf="showPeriod">
           <select [(ngModel)]="period" class="form-control" (change)="changeTrendType()"
             style=" border: 1px solid #324148; font-size: 10px">
             <option value="0">Day</option>
@@ -21,7 +26,7 @@
             <option value="2">Month</option>
           </select>
         </div>
-        <div class="col-sm-3" *ngIf="period=='1' || period=='2'">
+        <div class="col-sm-3" *ngIf="(period=='1' || period=='2') && trendType!='31'">
           <select [(ngModel)]="week_month_number" class="form-control" (change)="changeTrendType('week_month')"
             style=" border: 1px solid #324148; font-size: 10px">
             <option value="4">4</option>
@@ -50,16 +55,18 @@
           <div class="col-sm-3" *ngIf="period==2">
             <input type="text" class="form-control" [(ngModel)]="month_number" name="monthNo." placeholder="Number of Month"> 
           </div>  -->
-        <div class="col-sm-2" *ngIf="period == '0'">
+
+        <!-- trendType=='31' //for onWardKmpd -->
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='31'">
           <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date"
             placeholder="Start Date" (click)="getDate('start')">
         </div>
-        <div class="col-sm-2" *ngIf="period == '0'">
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='31'">
           <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
             placeholder="End Date" (click)="getDate('end')">
         </div>
-        <div class="col-sm-2" *ngIf="period == '0'">
-          <button class="btn btn-primary" (click)="getDayWiseTrends()">submit</button>
+        <div class="col-sm-2" *ngIf="period == '0' || trendType=='31'">
+          <button class="btn btn-primary" (click)="getTrend()">submit</button>
         </div>
       </div>
       <div class="border" style="height:2px; color:darkslategray;margin-top: 10px; margin-bottom: 10px"></div>
@@ -164,7 +171,6 @@
             <tbody *ngIf="trendType==21">
               <ng-container *ngFor="let data of vehicleUnloading; let i=index;">
                 <tr *ngIf="trendType==21 && data.unldng_count!= 0">
-                  <td>{{i+1}}</td>
                   <td>{{data.vehicle_id}}</td>
                   <td>{{data.unloading_hrs}}</td>
                   <td>{{data.unldng_count}}</td>

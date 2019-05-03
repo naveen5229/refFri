@@ -1,48 +1,34 @@
 <nb-card style="border: 0px; height: 100%;">
   <nb-card-body style="padding:5px 5px 0px;">
+
+    <!-- <input type="text" name="date-testing" [ngModel]="testingDate | customDate : 'dd-MM-yyyy'"
+      (ngModelChange)="testingDate = dateService.handleCustomDate($event)" class="form-control" maxlength="10"> -->
     <div class="row m-0">
-      <div
-        class="col-sm-3 pl-0 pr-2"
-        style="height: 90vh; overflow: hidden;"
-        [hidden]="isMapView"
-      >
+      <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView">
         <div
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
-          class="row"
-        >
+          class="row">
           <div class="col-sm-2">
             <span (click)="changeOptions('reverse')">
-              <i class="icon ion-ios-rewind"></i
-            ></span>
+              <i class="icon ion-ios-rewind"></i></span>
           </div>
           <div class="col-sm-8">
             <span>{{ viewName }}</span>
           </div>
           <div class="col-sm-2">
-            <span (click)="changeOptions('forward')"
-              ><i class="icon ion-ios-fastforward"></i
-            ></span>
+            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
           </div>
         </div>
         <div style="height: 160px;margin-top:0px">
-          <chart
-            class="dashboard_chart"
-            type="pie"
-            [data]="chartData"
-            [options]="chartOptions"
-            id="chart"
-          ></chart>
+          <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
-        <div
-          class="status_box"
-          style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);"
-        >
+        <div class="status_box" style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
               <div class="col-sm-1 p-0">
                 <div
-                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;"
-                ></div>
+                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                </div>
               </div>
               <div class="col-sm-8">
                 All Data
@@ -54,15 +40,10 @@
           </nb-card>
           <div *ngIf="viewType == 'showprim_status'">
             <nb-card *ngFor="let status of primaryStatus; let i = index">
-              <nb-card-body
-                (click)="choosePrimarySubStatus(status)"
-                style="cursor: pointer;"
-              >
+              <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
-                  <div
-                    style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
-                    [ngStyle]="{ 'background-color': status.bgColor }"
-                  ></div>
+                  <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                    [ngStyle]="{ 'background-color': status.bgColor }"></div>
                 </div>
                 <div class="col-sm-8">
                   {{ status.name | titlecase }}
@@ -71,15 +52,9 @@
                   {{ status.length }}
                 </div>
               </nb-card-body>
-              <div
-                class="select_option"
-                *ngIf="activePrimaryStatus == status.name"
-              >
+              <div class="select_option" *ngIf="activePrimaryStatus == status.name">
                 <ul>
-                  <li
-                    *ngFor="let option of primarySubStatus"
-                    (click)="selectSubStatus(option.kpis)"
-                  >
+                  <li *ngFor="let option of primarySubStatus" (click)="selectSubStatus(option.kpis)">
                     <span></span> {{ option.name }}
                   </li>
                 </ul>
@@ -88,15 +63,10 @@
           </div>
           <div *ngIf="viewType !== 'showprim_status'">
             <nb-card *ngFor="let group of kpiGroupsKeys; let i = index">
-              <nb-card-body
-                (click)="filterData(group.name)"
-                style="cursor: pointer;"
-              >
+              <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
-                  <div
-                    style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
-                    [ngStyle]="{ 'background-color': group.bgColor }"
-                  ></div>
+                  <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                    [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
                 <div class="col-sm-8">
                   {{ group.name | titlecase }}
@@ -109,43 +79,26 @@
           </div>
         </div>
       </div>
-      <div
-        class=""
-        *ngIf="table"
-        [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'"
-      >
+      <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
         <div style=" position: relative;">
           <!-- ============================= SMART TABLE VIEW ============================= -->
-          <div
-            mwlResizable
-            [enableGhostResize]="true"
-            class="map-table-container"
-            [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }"
-            [resizeEdges]="{
+          <div mwlResizable [enableGhostResize]="true" class="map-table-container"
+            [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{
               bottom: false,
               right: true,
               top: false,
               left: false
-            }"
-            (resizeEnd)="onResizeEnd($event, 'smartTable')"
-          >
+            }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
             <div>
-              <smart-table
-                class="home-page-tabel"
-                style="width:100%;"
-                [data]="table.data"
-                [settings]="table.settings"
-              ></smart-table>
+              <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings">
+              </smart-table>
             </div>
           </div>
           <!-- ============================= SMART TABLE END ============================= -->
 
           <!-- ============================= MAP VIEW ============================= -->
-          <div
-            [hidden]="!isMapView"
-            style="padding: 0px; min-width:300px; display:inline-block; position: relative;"
-            [ngStyle]="{ width: 'calc(100% - ' + widths.smartTable + ')' }"
-          >
+          <div [hidden]="!isMapView" style="padding: 0px; min-width:300px; display:inline-block; position: relative;"
+            [ngStyle]="{ width: 'calc(100% - ' + widths.smartTable + ')' }">
             <div id="concise-view-map" style="width: 100%; height: 87vh;"></div>
             <div class="tracker_img" [ngStyle]="{ transform: rotate }">
               <img src="./assets/images/arrow-top.png" alt="image" />

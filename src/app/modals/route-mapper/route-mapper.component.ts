@@ -17,6 +17,7 @@ export class RouteMapperComponent implements OnInit {
   slideToolTipLeft = 0;
   vehicleRegNo = null;
   title = 'Route Tracker';
+  isLite = false;
   constructor(private modalService: NgbModal,
     private mapService: MapService,
     private apiService: ApiService,
@@ -59,11 +60,11 @@ export class RouteMapperComponent implements OnInit {
   get timeLinePoly() {
     let odoNow = this.maxOdo * (this.timelineValue / 100);
     if (this.timelineValue == 1) {
-      return { time: this.startDate, lat: this.polypath[0].lat, lng: this.polypath[0].lng };
+      return { time: this.startDate, lat: parseFloat(this.polypath[0].lat), lng: parseFloat(this.polypath[0].lng) };
     }
     for (const polypoint of this.polypath) {
       if (polypoint.odo >= odoNow) {
-        return polypoint;
+        return { time: polypoint.time, lat: parseFloat(polypoint.lat), lng: parseFloat(polypoint.lng) };
       }
     };
     return { time: null, lat: null, lng: null };
@@ -114,6 +115,10 @@ export class RouteMapperComponent implements OnInit {
             this.apiService.post('VehicleTrail/getVehicleTrailAll', params)
               .subscribe(res => {
                 this.commonService.loading--;
+                if (res['code'] == 2)
+                  this.isLite = true;
+                else
+                  this.isLite = false;
                 this.mapService.clearAll();
                 let i = 0;
                 let prevElement = null;
@@ -238,7 +243,7 @@ export class RouteMapperComponent implements OnInit {
   }
   zoomOnArrow(isEvent = true) {
     let bound = this.mapService.getMapBounds();
-    // console.log("Bound",bound,"TimeLinePoly",this.timeLinePoly);
+    // console.log("Bound", bound, "TimeLinePoly", this.timeLinePoly);
 
     if (isEvent || !((bound.lat1 + 0.001 <= this.timeLinePoly.lat && bound.lat2 - 0.001 >= this.timeLinePoly.lat) &&
       (bound.lng1 + 0.001 <= this.timeLinePoly.lng && bound.lng2 - 0.001 >= this.timeLinePoly.lng))) {
@@ -247,7 +252,11 @@ export class RouteMapperComponent implements OnInit {
   }
   eventInfo = null;
   infoWindow = null;
+  infoStart = null;
   setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(
@@ -269,8 +278,13 @@ export class RouteMapperComponent implements OnInit {
     // }
   }
   unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+    let diff = new Date().getTime() - this.infoStart;
+    // console.log("Diff", diff);
+
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
