@@ -190,8 +190,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/trip-status-feedback-logs',
         home: true,
     },
-
-
+    {
+        title: 'Fuel Average Analysis',
+        icon: 'fa fa-signal',
+        link: '/admin/fuel-average-analysis',
+        home: true,
+    },
+    {
+        title: 'Remaining Fuel',
+        icon: 'fa fa-signal',
+        link: '/admin/remaining-fuel',
+        home: true,
+    },
 
 
 ];
