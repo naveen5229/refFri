@@ -89,17 +89,8 @@ export class DriverCallSuggestionComponent implements OnInit {
     this.getReport();
   }
 
-  openDistanceprev(distObj) {
-    this.common.params = { distObj, title: 'Distance Report' };
-    const activeModal = this.modalService.open(DriverDistanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        //window.location.reload();
-      }
-    });
-  }
 
-  openDistance(vehid, vehicleRegNo) {
+  openDistance(vehid, vehicleRegNo, driverData) {
     this.common.loading++;
     let today = new Date();
     let strcurdate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -112,22 +103,23 @@ export class DriverCallSuggestionComponent implements OnInit {
         if (data > 0)
           this.distance = Math.round((data / 1000) * 100) / 100;
         this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
-        this.common.params = {
-          vehicleId: vehid,
-          vehicleRegNo: vehicleRegNo,
-          fromTime: stryesterday,
-          toTime: strcurdate,
-          title: "Distance: " + this.distance + " Kms"
-        };
-        const activeModal = this.modalService.open(RouteMapperComponent, {
-          size: "lg",
-          container: "nb-layout",
-          windowClass: "myCustomModalClass"
-        });
-        activeModal.result.then(
-          data => console.log("data", data)
-          // this.reloadData()
-        );
+        this.openRouteMapper(driverData);
+        // this.common.params = {
+        //   vehicleId: vehid,
+        //   vehicleRegNo: vehicleRegNo,
+        //   fromTime: stryesterday,
+        //   toTime: strcurdate,
+        //   title: "Distance: " + this.distance + " Kms"
+        // };
+        // const activeModal = this.modalService.open(RouteMapperComponent, {
+        //   size: "lg",
+        //   container: "nb-layout",
+        //   windowClass: "myCustomModalClass"
+        // });
+        // activeModal.result.then(
+        //   data => console.log("data", data)
+        // this.reloadData()
+        //);
       }, err => {
 
         this.common.loading--;
@@ -222,7 +214,7 @@ export class DriverCallSuggestionComponent implements OnInit {
               if (resdist['data'] > 0) {
                 distance = Math.round(resdist['data'] / 1000);
               }
-              valobj[this.headings[j]] = { value: distance, class: 'blue', action: this.openDistance.bind(this, vid, vehicleRegNo) };
+              valobj[this.headings[j]] = { value: distance, class: 'blue', action: this.openDistance.bind(this, vid, vehicleRegNo, this.driverData[i]) };
               console.log("valobj:" + j, valobj[this.headings[j]]);
             }, err => {
               this.common.loading--;
@@ -242,7 +234,7 @@ export class DriverCallSuggestionComponent implements OnInit {
         else if (this.headings[j] == "Current Loc") {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.showLocation.bind(this, this.driverData[i]) };
         }
-        else if (this.headings[j] == "Action") {
+        else if (this.headings[j] == "Act") {
           valobj[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) };
         }
 
@@ -338,11 +330,27 @@ export class DriverCallSuggestionComponent implements OnInit {
 
       for (let j = 0; j < this.headings.length; j++) {
         console.log("header", this.headings[j])
-        if (this.headings[j] == 'v_regno') {
+        if (this.headings[j] == 'Vehicle') {
           this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.onwardDelayData[i]) };
         }
         else if (this.headings[j] == "Trip") {
-          this.valobj2[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.onwardDelayData[i]), isHTML: true, class: 'black', action: '' };
+          this.valobj2[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.onwardDelayData[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.onwardDelayData[i]) };
+
+        }
+        else if (this.headings[j] == "Current Loc") {
+          this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.onwardDelayData[i]) };
+
+        }
+        else if (this.headings[j] == "%Dist") {
+          this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.onwardDelayData[i]) };
+
+        }
+        else if (this.headings[j] == "Mobile") {
+          this.valobj2[this.headings[j]] = { value: this.onwardDelayData[i][this.headings[j]], class: 'blue', action: this.openChangeDriverModal.bind(this, this.onwardDelayData[i]) };
+
+        }
+        else if (this.headings[j] == "Act") {
+          this.valobj2[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.onwardDelayData[i]) };
 
         }
         else {
@@ -425,21 +433,24 @@ export class DriverCallSuggestionComponent implements OnInit {
     for (var i = 0; i < this.delayFaults.length; i++) {
       this.valobj3 = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if (this.headings[j] == "endpt") {
-          console.log("headings[j]", this.headings[j]);
-          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openPlacementModal.bind(this, this.delayFaults[i]) };
+        if (this.headings[j] == "mobileno") {
+          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openChangeDriverModal.bind(this, this.delayFaults[i]) };
         }
         else if (this.headings[j] == "%Dist") {
-          console.log("headings[j]", this.headings[j]);
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.delayFaults[i]) };
         }
         else if (this.headings[j] == "vehicle") {
-          console.log("headings[j]", this.headings[j]);
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.delayFaults[i]) };
         }
         else if (this.headings[j] == "Trip") {
-          console.log("htmll------", this.common.getJSONTripStatusHTML(this.delayFaults[i]));
-          this.valobj3[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.delayFaults[i]), isHTML: true, class: 'black', action: '' };
+          this.valobj3[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.delayFaults[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.delayFaults[i]) };
+
+        }
+        else if (this.headings[j] == "Current Loc") {
+          this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.delayFaults[i]) };
+
+        } else if (this.headings[j] == "Act") {
+          this.valobj3[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.delayFaults[i]) };
 
         }
         else {
@@ -524,8 +535,25 @@ export class DriverCallSuggestionComponent implements OnInit {
       this.valobj4 = {};
       for (let j = 0; j < this.headings.length; j++) {
         console.log("header", this.headings[j]);
-        if (this.headings[j] == 'regno') {
+        if (this.headings[j] == 'Vehicle') {
           this.valobj4[this.headings[j]] = { value: this.shortTarget[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.shortTarget[i]) };
+
+        } else if (this.headings[j] == 'Current Loc') {
+          this.valobj4[this.headings[j]] = { value: this.shortTarget[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.shortTarget[i]) };
+
+        } else if (this.headings[j] == 'Trip') {
+          this.valobj4[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.shortTarget[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.shortTarget[i]) };
+
+        }
+        else if (this.headings[j] == "Act") {
+          this.valobj4[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.shortTarget[i]) };
+
+        } else if (this.headings[j] == "remark") {
+          this.valobj4[this.headings[j]] = { value: this.shortTarget[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.shortTarget[i]) };
+
+        }
+        else if (this.headings[j] == "Mobile") {
+          this.valobj4[this.headings[j]] = { value: this.shortTarget[i][this.headings[j]], class: 'blue', action: this.openChangeDriverModal.bind(this, this.shortTarget[i]) };
 
         }
         else {
@@ -619,8 +647,26 @@ export class DriverCallSuggestionComponent implements OnInit {
       this.valobj5 = {};
       for (let j = 0; j < this.headings.length; j++) {
         console.log("header", this.headings[j]);
-        if (this.headings[j] == 'regno') {
+        if (this.headings[j] == 'Vehicle') {
           this.valobj5[this.headings[j]] = { value: this.longLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.longLoading[i]) };
+
+        } else if (this.headings[j] == 'Driver') {
+          this.valobj5[this.headings[j]] = { value: this.longLoading[i][this.headings[j]], class: 'blue', action: this.openChangeDriverModal.bind(this, this.longLoading[i]) };
+        }
+        else if (this.headings[j] == 'Current Loc') {
+          this.valobj5[this.headings[j]] = { value: this.longLoading[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.longLoading[i]) };
+
+        }
+        else if (this.headings[j] == 'Act') {
+          this.valobj5[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longLoading[i]) };
+
+        }
+        else if (this.headings[j] == 'Trip') {
+          this.valobj5[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.longLoading[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.longLoading[i]) };
+
+        }
+        else if (this.headings[j] == '%Dist') {
+          this.valobj5[this.headings[j]] = { value: this.longLoading[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.longLoading[i]) };
 
         }
         else {
@@ -707,11 +753,29 @@ export class DriverCallSuggestionComponent implements OnInit {
   getTableColumns6() {
     let columns = [];
     for (var i = 0; i < this.longUnLoading.length; i++) {
-      console.log("longLoading", this.longUnLoading);
+      console.log("longUnLoading", this.longUnLoading);
       this.valobj6 = {};
       for (let j = 0; j < this.headings.length; j++) {
-        if (this.headings[j] == 'regno') {
-          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.shortTarget[i]) };
+        if (this.headings[j] == 'Vehicle') {
+          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.addShortTarget.bind(this, this.longUnLoading[i]) };
+
+        } else if (this.headings[j] == 'Driver') {
+          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.openChangeDriverModal.bind(this, this.longUnLoading[i]) };
+        }
+        else if (this.headings[j] == 'Current Loc') {
+          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.longUnLoading[i]) };
+
+        }
+        else if (this.headings[j] == 'Act') {
+          this.valobj6[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) };
+
+        }
+        else if (this.headings[j] == 'Trip') {
+          this.valobj6[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.longUnLoading[i]), isHTML: true, class: 'black', action: this.openPlacementModal.bind(this, this.longUnLoading[i]) };
+
+        }
+        else if (this.headings[j] == '%Dist') {
+          this.valobj6[this.headings[j]] = { value: this.longUnLoading[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.longUnLoading[i]) };
 
         }
         else if (this.headings[j] == "Trip") {
@@ -737,43 +801,7 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   //-------------open Modals--------------------
 
-  openPlacementModal(placement) {
-    console.log("openPlacementModal", placement);
-    let tripDetails = {
-      vehicleId: placement._vehicleid,
-      siteId: placement._siteid ? placement._siteid : -1
-    }
-    this.common.params = { tripDetils: tripDetails, ref_page: 'cs' };
-    console.log("vehicleTrip", tripDetails);
-    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      //console.log("data", data.respone);
 
-    });
-  }
-
-  openRouteMapper(defaultFault) {
-    console.log("defaultFault", defaultFault);
-    let fromTime = this.common.dateFormatter(defaultFault._start_time);
-    let toTime = this.common.dateFormatter(new Date());
-    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
-    this.common.params = {
-      vehicleId: defaultFault._vid,
-      vehicleRegNo: defaultFault.vehicle,
-      fromTime: fromTime,
-      toTime: toTime
-    };
-    console.log("open Route Mapper modal", this.common.params);
-    const activeModal = this.modalService.open(RouteMapperComponent, {
-      size: "lg",
-      container: "nb-layout",
-      windowClass: "myCustomModalClass"
-    });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
-  }
   addShortTarget(target) {
     console.log("target", target);
     this.common.params = {
@@ -790,7 +818,11 @@ export class DriverCallSuggestionComponent implements OnInit {
 
   openChangeDriverModal(vehicleTrip) {
     console.log("vehicleTrip", vehicleTrip);
-    this.common.params = { vehicleId: vehicleTrip._vehicleid, vehicleRegNo: vehicleTrip.Vehicle };
+    let vt = {
+      vehicleId: vehicleTrip._vehicleid || vehicleTrip._vid,
+      vehicleRegNo: vehicleTrip.Vehicle || vehicleTrip.regno || vehicleTrip.v_regno || vehicleTrip.vehicle
+    }
+    this.common.params = { vehicleId: vt.vehicleId, vehicleRegNo: vt.vehicleRegNo };
     const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log("data", data.respone);
@@ -798,15 +830,28 @@ export class DriverCallSuggestionComponent implements OnInit {
 
     });
   }
+  openPlacementModal(placement) {
+    console.log("openPlacementModal", placement);
+    let tripDetails = {
+      vehicleId: placement._vehicleid || placement._vid,
+      siteId: placement._siteid ? placement._siteid : -1
+    }
+    this.common.params = { tripDetils: tripDetails, ref_page: 'cs' };
+    console.log("vehicleTrip", tripDetails);
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   //console.log("data", data.respone);
 
+    // });
+  }
   showLocation(loc) {
-    if (!loc._curlat) {
+    if (!loc._curlat && !loc._tlat) {
       this.common.showToast("Vehicle location not available!");
       return;
     }
     const location = {
-      lat: loc._curlat,
-      lng: loc._curlong,
+      lat: loc._curlat || loc._tlat,
+      lng: loc._curlong || loc._tlong,
       name: "",
       time: ""
     };
@@ -818,8 +863,33 @@ export class DriverCallSuggestionComponent implements OnInit {
     });
   }
 
+
+  openRouteMapper(defaultFault) {
+    console.log("defaultFault", defaultFault);
+    let fromTime = this.common.dateFormatter(defaultFault._starttime);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: defaultFault._vehicleid || defaultFault._vid,
+      vehicleRegNo: defaultFault.Vehicle || defaultFault.regno || defaultFault.v_regno || defaultFault.vehicle,
+      fromTime: fromTime,
+      toTime: toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
+  }
+
   reportIssue(kpi) {
     //console.log("Kpi:", kpi);
+    let vehicleid = kpi._vehicleid || kpi._vid;
     this.common.params = { refPage: "db" };
     const activeModal = this.modalService.open(ReportIssueComponent, {
       size: "sm",
@@ -830,6 +900,4 @@ export class DriverCallSuggestionComponent implements OnInit {
         data.status && this.common.reportAnIssue(data.issue, kpi._vehicleid)
     );
   }
-
-
 }
