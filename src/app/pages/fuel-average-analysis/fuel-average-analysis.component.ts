@@ -77,11 +77,18 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   openRouteMapper(fuelData) {
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    let date;
+    if (fuelData.enddate != null) {
+      date = fuelData.enddate
+    } else {
+      date = this.common.dateFormatter(new Date())
+    }
+    console.log('date', date);
     this.common.params = {
       vehicleId: fuelData.vehicle_id,
       vehicleRegNo: fuelData.reg_number,
       fromTime: fuelData.startdate,
-      toTime: fuelData.enddate
+      toTime: date
     };
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
