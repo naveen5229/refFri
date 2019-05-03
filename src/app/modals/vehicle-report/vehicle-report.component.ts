@@ -59,6 +59,8 @@ export class VehicleReportComponent implements OnInit {
       console.log("fromTime", this.startDate);
       console.log("endDate", this.endDate);
     }
+
+
     this.getVehicleReport();
   }
 
@@ -70,12 +72,20 @@ export class VehicleReportComponent implements OnInit {
   searchVehicle(vehicleList) {
     this.vid = vehicleList.id;
   }
+
+  get startTimeFull() {
+    return this.startDate + " " + this.startTimePeriod;
+  }
+
+  get endTimeFull() {
+    return this.endDate + " " + this.endTimePeriod;
+  }
   getVehicleReport() {
 
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate + " " + this.startTimePeriod,
-      endDate: this.endDate + " " + this.endTimePeriod,
+      startDate: this.startTimeFull,
+      endDate: this.endTimeFull,
     };
 
     this.common.loading++;
