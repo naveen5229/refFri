@@ -48,6 +48,9 @@ import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehi
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
 import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
 import { ShortTargetComponent } from './short-target/short-target.component';
+import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
+import { CustomDatePipe } from '../pipes/custom-date/custom-date.pipe';
+
 
 
 
@@ -102,7 +105,9 @@ const PAGES_COMPONENTS = [
     VehicleCoveredDistanceComponent,
     TipFeedbackLogsComponent,
     TripOnwardDelayComponent,
-    ShortTargetComponent
+    ShortTargetComponent,
+    onwardKmpdComponent,
+    // CustomDatePipe
   ],
   exports: [
     FuelAverageAnalysisComponent,

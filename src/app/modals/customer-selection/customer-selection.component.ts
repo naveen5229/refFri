@@ -23,7 +23,7 @@ export class CustomerSelectionComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public router: Router,
     private route: ActivatedRoute,
-    
+
   ) {
 
   }
@@ -50,6 +50,7 @@ export class CustomerSelectionComponent implements OnInit {
     this.user._customer.name = this.searchString;
     this.user._customer.id = user.foaid;
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
+    this.dismiss();
     this.common.params.refreshPage();
     // if (window.location.href.endsWith('admin')||window.location.href.endsWith('pages')) {
     //   window.location.reload();
@@ -59,7 +60,7 @@ export class CustomerSelectionComponent implements OnInit {
     // } else if  (window.location.href.includes('pages')){
     //   this.router.navigate(['/pages']);
     // }
-    this.dismiss();
+
   }
 
   dismiss() {

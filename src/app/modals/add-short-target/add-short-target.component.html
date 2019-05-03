@@ -8,30 +8,30 @@
 
 <div class="model-body" style="text-align:center; margin-top:5px; margin-left: 10px; margin-right:10px">
   <div class="row">
-    <div class="col-sm-6">
-      <label>Target Type</label>
+    <div class="col-sm-6" style="margin-top: 5px;">
+      <label>Target Type:</label>
     </div>
     <div class="col-sm-6">
       <select [(ngModel)]="addTarget.targetType" class="form-control"
         style=" border: 2px solid darkcyan; font-size: 13px">
-        <option value="51">KM</option>
-        <option value="11">Loading</option>
-        <option value="21">Unloading</option>
+        <option value="101">KM Target</option>
+        <option value="11">Complete Loading</option>
+        <option value="21">Complete Unloading</option>
       </select>
     </div>
   </div>
   <div class="row" style="margin-top:10px">
-    <div class="col-sm-6">
-      <label>Time</label>
+    <div class="col-sm-6" style="margin-top: 5px;">
+      <label>Time:</label>
     </div>
     <div class="col-sm-6">
       <input type="text" class="form-control" [(ngModel)]="addTarget.time" name="time" placeholder="Time"
         (click)="getTime()">
     </div>
   </div>
-  <div class="row" *ngIf="addTarget.targetType=='51'" style="margin-top:10px">
-    <div class="col-sm-6">
-      <label>Distance</label>
+  <div class="row" *ngIf="addTarget.targetType=='101'" style="margin-top:10px">
+    <div class="col-sm-6" style="margin-top: 5px;">
+      <label>Distance:</label>
     </div>
     <div class="col-sm-6">
       <input type="text" class="form-control" [(ngModel)]="targetDistance" name="distance" placeholder="Distance">
