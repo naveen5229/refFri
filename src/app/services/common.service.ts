@@ -857,13 +857,13 @@ export class CommonService {
   }
 
   getTripStatusHTML(x_status, x_origin, x_destination, x_placement_type, x_placements) {
-    if (x_placement_type && x_placements && x_placements != null && x_placements.indexOf('{') != -1) {
-
-      x_placement_type = x_placement_type.substring(1, x_placement_type.length - 1);
-      x_placements = x_placements.substring(1, x_placements.length - 1);
-      x_placement_type = x_placement_type.split(',')
-      x_placements = x_placements.split(',');
-
+    if (x_placement_type && x_placements && x_placements != null) {
+      if (x_placements.indexOf('{') != -1) {
+        x_placement_type = x_placement_type.substring(1, x_placement_type.length - 1);
+        x_placements = x_placements.substring(1, x_placements.length - 1);
+        x_placement_type = x_placement_type.split(',')
+        x_placements = x_placements.split(',');
+      }
     }
     else {
       x_placement_type = [];

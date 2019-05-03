@@ -1,0 +1,47 @@
+<nb-card style="margin:0px; border:0px;">
+  <nb-card-body style="padding:0px;">
+    <div class="modal-header">
+      <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered" id="table">
+
+        <thead style="background-color:#263238; color:#fff;">
+          <tr>
+            <th>Date</th>
+            <th>Particular</th>
+            <th>Vch Type</th>
+            <th>Vch No.</th>
+            <th>Amount(Debit)</th>
+            <th>Amount(Credit)</th>
+          </tr>
+        </thead>
+        <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
+            (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
+            [ngClass]="{'highlight' : selectedRow == i}"> -->
+
+        <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
+          (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel(dataItem.y_voucherid) : openVoucherEdit(dataItem.y_voucherid)"
+          (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+          <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
+          <td>{{dataItem.y_particulars}}</td>
+          <td>{{dataItem.y_type}}</td>
+          <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+          <td>{{dataItem.y_dramunt}}</td>
+          <td>{{dataItem.y_cramunt}}</td>
+        </tr>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="DayBook[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>
