@@ -86,7 +86,8 @@ export class VehicleTripStagesComponent implements OnInit {
     const params = {
       vehicleId: this.vehicleId ? this.vehicleId : -1,
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      endDate: this.common.dateFormatter1(this.endDate.split(' ')[0])
+      // endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
     }
 
     console.log("params:", params);
