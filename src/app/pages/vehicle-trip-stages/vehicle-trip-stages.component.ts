@@ -3,6 +3,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+
 @Component({
   selector: 'vehicle-trip-stages',
   templateUrl: './vehicle-trip-stages.component.html',
@@ -128,13 +130,65 @@ export class VehicleTripStagesComponent implements OnInit {
     for (var i = 0; i < this.tripstagesData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        j
-        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: 'black', action: '' };
+
+        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: 'black', action: this.tripstagesData[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.valobj) : '' };
       }
       columns.push(this.valobj);
     }
     return columns;
   }
+
+  // getTableColumns() {
+  //   let columns = [];
+
+  //  this.tripstagesData.map(doc => {
+  //     let valobj = {};
+  //     let total = {};
+  //     let docobj = { distance : 0};
+  //     for(var i = 0; i < this.headings.length; i++) {
+  //       let strval = doc[this.headings[i]];
+  //       let status = '';
+  //       let val = 0;
+  //       if(strval.indexOf('_') > 0) {
+  //           let arrval = strval.split('_');
+  //           status = arrval[0];
+  //           val = arrval[1];
+  //       } else {
+  //         val = strval;
+  //       }
+  //       docobj.distance = doc['Distance'];
+  //       valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
+
+
+  //     }
+
+  //     columns.push(valobj); 
+  //   });
+
+  openRouteMapper(data) {
+    console.log('Data', data);
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+
+    this.common.params = {
+      vehicleId: data.vehicle_id,
+      // vehicleRegNo: data.reg_number,
+      fromTime: data._startdt,
+      toTime: data._enddt
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+    );
+  }
+
+
+
+
 
   formatTitle(strval) {
     let pos = strval.indexOf('_');
