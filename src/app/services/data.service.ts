@@ -112,7 +112,7 @@ export class DataService {
       },
 
       {
-        title: 'User Prefrence',
+        title: 'User Role',
         icon: 'fas fa-user-cog',
         link: '/admin/user-preferences',
       },
@@ -123,7 +123,7 @@ export class DataService {
         home: true,
       },
       {
-        title: 'Vehicle Gps Trail',
+        title: 'Vehicle GPS Trail',
         icon: 'fas fa-receipt',
         link: '/admin/vehicle-gps-trail',
         home: true,
@@ -165,13 +165,13 @@ export class DataService {
         ]
       },
       {
-        title: 'gps-supplier-mapping',
+        title: 'Fo GPS Mapping',
         icon: 'nb-home',
         link: '/admin/gps-supplier-mapping',
         home: true,
       },
       {
-        title: 'vehicles-view',
+        title: 'Fo Vehicle Details',
         icon: 'nb-home',
         link: '/admin/vehicles-view',
         home: true,
@@ -195,13 +195,13 @@ export class DataService {
         home: true,
       },
       {
-        title: 'Activity Summary',
+        title: 'Fo Activity Summary',
         icon: 'nb-home',
         link: '/admin/activity-summary',
         home: true,
       },
       {
-        title: 'Vehicle Gps Detail',
+        title: 'Vehicle GPS Detail',
         icon: 'nb-home',
         link: '/admin/vehicle-gps-detail',
       },
