@@ -5,6 +5,7 @@ import { VehicleReportComponent } from '../vehicle-report/vehicle-report.compone
 import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 
 @Component({
   selector: 'trip-details',
@@ -95,6 +96,24 @@ export class TripDetailsComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+  getDate(type) {
+
+    this.common.params = { ref_page: 'trip status feedback' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+        }
+        else {
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
+
   }
 
 }
