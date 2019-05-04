@@ -29,8 +29,9 @@ export class FuelEntriesComponent implements OnInit {
     let params = {
       vehId: this.common.params.vehicle_id ? this.common.params.vehicle_id : null,
       lastFilling: this.common.params.startdate ? this.common.params.startdate : null,
-      currentFilling: this.common.params.enddate ? this.common.params.enddate : null
+      currentFilling: this.common.params.enddate ? this.common.params.enddate : this.common.dateFormatter(new Date())
     }
+    console.log('params', params);
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
       .subscribe(res => {

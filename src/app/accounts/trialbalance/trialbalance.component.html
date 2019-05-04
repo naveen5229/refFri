@@ -33,7 +33,6 @@
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>#</th>
-          <th>Primary Group</th>
           <th>Group</th>
           <th>Ledger</th>
           <th>Amount(Debit)</th>
@@ -42,12 +41,31 @@
           <th>Closing Balance</th>
         </tr>
       </thead>
-      <tr *ngFor="let dataItem of TrialData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="getBookDetail(dataItem.y_ledgerid)" (enter)="getBookDetail(dataItem.y_ledgerid) "
-        [ngClass]="{'highlight' : selectedRow == i}">
+      <!-- <tr *ngFor="let dataItem of TrialData; let i = index;" (click)="selectedRow = i"
+        (dblclick)="(dataItem.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(dataItem.y_ledgerid)"
+        (enter)="getBookDetail(dataItem.y_ledgerid) " [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{i + 1}}</td>
-        <td>{{dataItem.primary_groupname}}</td>
         <td>{{dataItem.groupname}}</td>
+        <td>{{dataItem.y_ledger_name}}</td>
+        <td *ngIf="dataItem.y_dr_bal != 0">{{dataItem.y_dr_bal}}</td>
+        <td *ngIf="dataItem.y_dr_bal == 0">&nbsp;</td>
+        <td *ngIf="dataItem.y_cr_bal != 0">{{dataItem.y_cr_bal}}</td>
+        <td *ngIf="dataItem.y_cr_bal == 0">&nbsp;</td>
+
+        <td *ngIf="dataItem.y_openbal == 0">&nbsp;</td>
+        <td *ngIf="dataItem.y_openbal != 0">{{dataItem.y_openbal}} <span style="float:right">
+            {{dataItem.y_openbaltype}}</span></td>
+        <td *ngIf="dataItem.y_closebal != 0">{{dataItem.y_closebal}} <span
+            style="float:right">{{dataItem.y_closebaltype}}</span></td>
+        <td *ngIf="dataItem.y_closebal == 0">&nbsp;</td>
+
+      </tr> -->
+
+      <tr *ngFor="let dataItem of trialBalanceData; let i = index;" (click)="selectedRow = i"
+        (dblclick)="(dataItem.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(dataItem.y_ledgerid)"
+        (enter)="getBookDetail(dataItem.y_ledgerid) " [ngClass]="{'highlight' : selectedRow == i}">
+        <td>{{i + 1}}</td>
+        <td>{{dataItem[0].groupname}}</td>
         <td>{{dataItem.y_ledger_name}}</td>
         <td *ngIf="dataItem.y_dr_bal != 0">{{dataItem.y_dr_bal}}</td>
         <td *ngIf="dataItem.y_dr_bal == 0">&nbsp;</td>

@@ -13,14 +13,20 @@
     </div>
 
     <div class="col-sm-2">
-      <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
-        (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
-        placeholder="Start Date" (dblclick)="getDate('start')">
+      <div class="row">
+        <div class="col-7 pr-0">
+          <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
+            (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
+            placeholder="Start Date" (dblclick)="getDate('start')">
+        </div>
+        <div class="col-sm-5 pl-1">
+          <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
+            [(ngModel)]="startTimePeriod">
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-2">
-      <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm" [(ngModel)]="startTimePeriod">
-    </div>
+
 
     <div class="col-sm-2">
       <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
@@ -31,16 +37,7 @@
     <div class="col-sm-2">
       <input type="time" class="form-control" name="endTimePeriod" placeholder="HH:mm" [(ngModel)]="endTimePeriod">
     </div>
-    <!-- <div class="col-sm-3">
-            <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
-            autocomplete="off" name="date">
-          <owl-date-time #date></owl-date-time>
-        </div>
-        <div class="col-sm-3">
-            <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
-            autocomplete="off" name="date1">
-          <owl-date-time #date1></owl-date-time>
-        </div> -->
+
     <div class="col-sm-2">
       <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
     </div>
