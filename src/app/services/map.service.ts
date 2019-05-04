@@ -10,6 +10,7 @@ export class MapService {
   mapDiv = null;
   markers = [];
   bounds = null;
+  infoStart = null;
   infoWindow = null;
   polygon = null;
   polygons = [];
@@ -91,16 +92,8 @@ export class MapService {
     };
     //$("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
-
     this.mapLoadDiv = this.map.getDiv();
-
     this.bounds = new google.maps.LatLngBounds();
-
-    this.infoWindow = new google.maps.InfoWindow(
-      {
-        size: new google.maps.Size(50, 50),
-        maxWidth: 300
-      });
     this.isMapLoaded = true;
   }
 
@@ -186,11 +179,11 @@ export class MapService {
     return latLng;
   }
 
-  createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {
+  createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?) {
     let thisMarkers = [];
+    let infoWindows = [];
     console.log("Markers", markers);
     for (let index = 0; index < markers.length; index++) {
-
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
@@ -238,12 +231,40 @@ export class MapService {
           map: this.map,
           title: title
         });
+        let displayText = '';
+        if (infoKeys) {
+          let infoWindow = this.createInfoWindow();
+          infoWindows.push(infoWindow);
+          infoWindow.opened = false;
+          console.log(infoWindow);
+          if (typeof (infoKeys) == 'object') {
+            infoKeys.map((display, indexx) => {
+              if (indexx != infoKeys.length - 1) {
+                displayText += markers[index][display] + ' - ';
+              } else {
+                displayText += markers[index][display];
+              }
+            });
+          } else {
+            displayText = markers[index][infoKeys];
+          }
+          google.maps.event.addListener(marker, 'click', function (evt) {
+            this.infoStart = new Date().getTime();
+            for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+              const element = infoWindows[infoIndex];
+              if (element)
+                element.close();
+            }
+            infoWindow.setContent("Info: " + displayText);
+            infoWindow.setPosition(evt.latLng); // or evt.latLng
+            infoWindow.open(this.map);
+          });
+        }
         if (changeBounds)
           this.setBounds(latlng);
       }
       thisMarkers.push(marker);
       this.markers.push(marker);
-      clickEvent && marker.addListener('click', clickEvent.bind(this, markers[index]));
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));

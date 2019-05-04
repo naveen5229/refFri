@@ -143,10 +143,30 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
 
   {
-    title: 'Fuel Average Analysis',
-    icon: 'fa fa-signal',
-    link: '/pages/fuel-average-analysis',
+    title: 'Fuel',
+    icon: 'fas fa-gas-pump',
+    children: [
+      {
+        title: 'Fuel Fillings',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-fillings',
+        home: true,
+      },
+      {
+        title: 'Fuel Average Analysis',
+        icon: 'fa fa-signal',
+        link: '/pages/fuel-average-analysis',
+        home: true,
+      },
+      {
+        title: 'Remaining Fuel',
+        icon: 'fa fa-signal',
+        link: '/pages/remaining-fuel',
+        home: true,
+      },
+    ]
   },
+
 
   {
     title: 'Tyre',
@@ -184,22 +204,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   home: true,
   // },
 
-  // {
-  //   title: 'Fuel',
-  //   icon: 'fas fa-gas-pump',
-  //   children: [
-  //     {
-  //       title: 'Fuel Fillings',
-  //       icon: 'fas fa-gas-pump',
-  //       link: '/pages/fuel-fillings',
-  //       home: true,
-  //     },
-  //     {
-  //       title: 'Fuel Average Analysis',
-  //       icon: 'fa fa-signal',
-  //       link: '/pages/fuel-average-analysis',
-  //       home: true,
-  //     },
-  //   ]
-  // }
 ];
