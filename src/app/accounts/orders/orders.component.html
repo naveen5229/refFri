@@ -27,7 +27,8 @@
         </div>
 
         <!-- Purchase Start -->
-        <div *ngIf="order.ordertype.name.toLowerCase().includes('purchase')">
+        <div
+          *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note')">
           <div class="row">
             <div class="col">
               <div class="form-group">

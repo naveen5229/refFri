@@ -745,6 +745,10 @@ export class OrdersComponent implements OnInit {
     if (this.activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
+      let suggestionname = suggestion.name;
+      if (suggestionname == 'Debit Note') suggestionname = 'Purchase Invoice';
+      if (suggestionname == 'Credit Note') suggestionname = 'Sales Invoice';
+      this.getStockItems(suggestionname);
     } else if (this.activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
@@ -911,6 +915,10 @@ export class OrdersComponent implements OnInit {
     if (activeId == 'ordertype') {
       this.order.ordertype.name = suggestion.name;
       this.order.ordertype.id = suggestion.id;
+      let suggestionname = suggestion.name;
+      if (suggestionname == 'Debit Note') suggestionname = 'Purchase Invoice';
+      if (suggestionname == 'Credit Note') suggestionname = 'Sales Invoice';
+      this.getStockItems(suggestionname);
     } else if (activeId == 'ledger') {
       this.order.ledger.name = suggestion.name;
       this.order.ledger.id = suggestion.id;
