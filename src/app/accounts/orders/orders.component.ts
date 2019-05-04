@@ -9,6 +9,7 @@ import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.com
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { WareHouseModalComponent } from '../../acounts-modals/ware-house-modal/ware-house-modal.component';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'orders',
@@ -99,7 +100,8 @@ export class OrdersComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public accountService: AccountService) {
     // this.getBranchList();
 
     this.common.refresh = () => {
@@ -262,6 +264,17 @@ export class OrdersComponent implements OnInit {
     if (response) {
       //console.log('Order new:', this.order);
       // return;
+
+      if (this.accountService.selected.financialYear.isfrozen == true) {
+        this.common.showError('This financial year is freezed. Please select currect financial year');
+        return;
+      } else {
+        let voucherDate = this.common.dateFormatter(this.common.convertDate(this.order.date), 'y', false);
+        if (voucherDate < this.accountService.selected.financialYear.startdate || voucherDate > this.accountService.selected.financialYear.enddate) {
+          this.common.showError('Please Select Correct Financial Year');
+          return;
+        }
+      }
       this.addOrder(this.order);
     }
     // this.activeModal.close({ response: response, Voucher: this.order });
