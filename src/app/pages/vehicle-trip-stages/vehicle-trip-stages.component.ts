@@ -131,7 +131,7 @@ export class VehicleTripStagesComponent implements OnInit {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
 
-        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: 'black', action: this.tripstagesData[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.valobj) : '' };
+        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: (this.tripstagesData[i][this.headings[j]] > 0) ? 'blue' : 'black', action: this.tripstagesData[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.tripstagesData[i]) : '' };
       }
       columns.push(this.valobj);
     }
@@ -166,14 +166,29 @@ export class VehicleTripStagesComponent implements OnInit {
   //   });
 
   openRouteMapper(data) {
+
     console.log('Data', data);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    let startDate = data._startdt.split('T')[0];
+    let startTimePeriod = data._startdt.split('T')[1];
 
+    let endDate = data._enddt.split('T')[0];
+    let endTimePeriod = data._enddt.split('T')[1];
+    console.log("Start Date:", startDate);
+
+
+    // get startTimeFull() {
+    //   return startDate + " " + startTimePeriod;
+    // }
+
+    // get endTimeFull() {
+    //   return this.endDate + " " + this.endTimePeriod;
+    // }
     this.common.params = {
-      vehicleId: data.vehicle_id,
+      vehicleId: data._vid,
       // vehicleRegNo: data.reg_number,
-      fromTime: data._startdt,
-      toTime: data._enddt
+      fromTime: startDate + " " + startTimePeriod,
+      toTime: endDate + " " + endTimePeriod
     };
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
