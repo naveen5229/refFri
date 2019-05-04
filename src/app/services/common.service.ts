@@ -978,7 +978,7 @@ export class CommonService {
     };
 
     placements.map((obj, index) => {
-      html += `<span class="${colors[placementType[index]]}">${placements[index].trim()}</span>`
+      html += `<span class="${colors[placementType[index]] || 'others'}">${placements[index].trim()}</span>`
       if (index != placements.length - 1) {
         html += `<span> - </span>`;
       }
