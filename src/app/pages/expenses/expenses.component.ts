@@ -4,12 +4,11 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-import { slideToLeft } from '../../services/animation';
 @Component({
   selector: 'expenses',
   templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.scss','../pages.component.css'],
-  animations: [slideToLeft()],
+  styleUrls: ['./expenses.component.scss','../pages.component.css']
+  
 })
 export class ExpensesComponent implements OnInit {
   expenses = [];

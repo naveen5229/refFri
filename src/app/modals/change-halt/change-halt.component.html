@@ -7,83 +7,83 @@
 <div class="modal-body">
   <div class="container" *ngIf="type=='HaltType'">
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType" (click)="getlastHalt(11)">  
       Loading
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType"(click)="getlastHalt(21)" >
       UnLoading
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="0" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="0" [(ngModel)]="HaltType" (click)="setHalt(0)">
       Others
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="41" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="41" [(ngModel)]="HaltType" (click)="setHalt(41)">
       Food/Tea
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="42" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="42" [(ngModel)]="HaltType" (click)="setHalt(42)">
       Rest
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="43" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="43" [(ngModel)]="HaltType" (click)="setHalt(43)">
       Food+Rest
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="51" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="51" [(ngModel)]="HaltType" (click)="setHalt(51)">
       Fuel Filling
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="61" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="61" [(ngModel)]="HaltType" (click)="setHalt(61)">
       Nearby Toll
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="101" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="101" [(ngModel)]="HaltType" (click)="setHalt(101)">
       Nearby Origin
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="201" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="201" [(ngModel)]="HaltType" (click)="setHalt(201)">
       Nearby Destination
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="301" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="301" [(ngModel)]="HaltType" (click)="setHalt(301)">
       RTO
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="311" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="311" [(ngModel)]="HaltType" (click)="setHalt(311)">
       Break Down
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="321" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="321" [(ngModel)]="HaltType" (click)="setHalt(321)">
       Puncture
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="331" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="331" [(ngModel)]="HaltType" (click)="setHalt(331)">
       Maintenance
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="401" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="401" [(ngModel)]="HaltType" (click)="setHalt(401)">
       Hisaab
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="411" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="411" [(ngModel)]="HaltType" (click)="setHalt(411)">
       Documents
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="501" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="501" [(ngModel)]="HaltType" (click)="setHalt(501)">
       No Entry Ahead
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="601" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="601" [(ngModel)]="HaltType" (click)="setHalt(601)">
       Driver Unavailable
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="701" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="701" [(ngModel)]="HaltType" (click)="setHalt(701)">
       Other Reason
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="901" [(ngModel)]="HaltType">
+      <input type="radio" name="HaltType" value="901" [(ngModel)]="HaltType" (click)="setHalt(901)">
       Unknown
     </label>
 
@@ -91,47 +91,47 @@
 
   <div class="container" *ngIf="type=='SiteType'">
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="1" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="1" [(ngModel)]="SiteType" (click)="setSite(1)">
       Industry
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="101" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="101" [(ngModel)]="SiteType" (click)="setSite(101)">
       Pump
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="111" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="111" [(ngModel)]="SiteType" (click)="setSite(111)">
       Dhaba
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="121" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="121" [(ngModel)]="SiteType" (click)="setSite(121)">
       FO Office Site
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="131" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="131" [(ngModel)]="SiteType" (click)="setSite(131)">
       FO Workshop
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="141" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="141" [(ngModel)]="SiteType" (click)="setSite(141)">
       Border
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="301" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="301" [(ngModel)]="SiteType" (click)="setSite(301)">
       Toll Area
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="302" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="302" [(ngModel)]="SiteType" (click)="setSite(302)">
       General Parking
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="303" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="303" [(ngModel)]="SiteType" (click)="setSite(303)">
       Transport Complex
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="201" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="201" [(ngModel)]="SiteType" (click)="setSite(201)">
       Other Site
     </label>
     <label class="halt-label">
-      <input type="radio" name="SiteType" value="901" [(ngModel)]="SiteType">
+      <input type="radio" name="SiteType" value="901" [(ngModel)]="SiteType" (click)="setSite(901)">
       Unknown
     </label>
 
@@ -146,7 +146,7 @@
         style="cursor: pointer;">Cancel</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary" type="button" outline (click)="submitModal(true)" id="submit"
+      <button class="btn btn-primary" type="button" outline (click)="submitModal()" id="submit"
         style="cursor: pointer;">OK</button>
     </div>
   </div>

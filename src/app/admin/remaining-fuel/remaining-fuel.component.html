@@ -1,0 +1,13 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Fuel Fillings</h4>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <smart-table *ngIf="remainingFuel.length" [data]="table.remainingFuel" [settings]="table.settings"
+    id="tblremainingFuel">
+  </smart-table>
+</nb-card>

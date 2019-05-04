@@ -9,22 +9,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Inventory',
-        icon: 'fa fa-text-width',
+        icon: 'fa fa-recycle',
         link: '/tyres/inventory',
         home: true,
     },
     {
-        title: 'Inputs',
-        icon: 'fa fa-angle-double-left',
-        link: '/tyres/inputs',
+        title: 'Vehicle Tyres',
+        icon: 'fa fa-pencil-square-o',
+        link: '/tyres/vehicle-tyres',
         home: true,
     },
-    {
-        title: 'Health Checkup',
-        icon: 'fa fa-check-circle',
-        link: '/tyres/tyre-health-check-up',
-        home: true,
-    },
+    // {
+    //     title: 'Inputs',
+    //     icon: 'fa fa-pencil-square-o',
+    //     link: '/tyres/inputs',
+    //     home: true,
+    // },
+    // {
+    //     title: 'Health Checkup',
+    //     icon: 'fa fa-medkit',
+    //     link: '/tyres/tyre-health-check-up',
+    //     home: true,
+    // },
     {
         title: 'Add Trolly',
         icon: 'fa fa-truck',
@@ -33,8 +39,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Vehicle Trolly Mapping',
-        icon: 'fa fa-map-signs',
+        icon: 'fa fa-street-view',
         link: '/tyres/vehicle-trolly-mapping',
+        home: true,
+    },
+    {
+        title: 'Tyre Modals',
+        icon: 'fa fa-text-width',
+        link: '/tyres/tyre-modals',
         home: true,
     },
 ];

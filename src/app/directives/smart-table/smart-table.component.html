@@ -1,4 +1,4 @@
-<div [ngClass]="settings.notFixedHeader ? '' : 'tableFixHead'">
+<div [ngClass]="settings.notFixedHeader ? '' : 'tableFixHead'" [ngStyle]="{height: settings.tableHeight || '73vh'}">
   <table *ngIf="headings" class="table table-bordered fixed">
     <thead *ngIf="!settings.hideHeader">
       <th style="width: 40px">#</th>
@@ -6,13 +6,19 @@
     </thead>
     <thead>
       <tr style="background:#f2f2f2;">
-        <th style="padding:5px" style="width: 40px">#</th>
-        <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);">
-          <div class="filter-container">
+        <th style="padding:5px" style="width: 40px">
+          <div *ngIf="settings.count">
+            <i [class]="settings.count.icon" (click)="settings.count.action && settings.count.action()"></i>
+          </div>
+          <span *ngIf="!settings.count">#</span>
+        </th>
+        <th style="padding:5px;" *ngFor="let heading of objectKeys(headings);" [ngClass]="headings[heading].class">
+          <div class="filter-container" *ngIf="!headings[heading].isHTML">
             <div *ngIf="!headings[heading].hideSearch">
               <div class="filter-input-container">
                 <input type="text" class="filter-input" [(ngModel)]="headings[heading].value"
-                  (input)="filterData(heading)" [placeholder]="headings[heading].placeholder">
+                  (input)="filterData(heading)" [placeholder]="headings[heading].placeholder"
+                  [title]="headings[heading].placeholder">
               </div>
               <div class="sort-container">
                 <i class="fa fa-sort sort-icon" (click)="sortColumn(heading)"></i>
@@ -22,22 +28,30 @@
               <span>{{headings[heading].title}}</span>
             </div>
           </div>
+          <div *ngIf="headings[heading].isHTML" [innerHTML]="headings[heading].html"></div>
         </th>
       </tr>
     </thead>
     <tbody>
 
       <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && handleRowClick(column, i)"
-        (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()" [ngClass]="activeRow == i ? 'active-row' : ''">
-        <td style="width: 40px">{{i+1}}</td>
-        <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
+        (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()"
+        [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
+        <td style="width: 40px">
+          {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
+        <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading] ? column[heading].class : ''"
           (click)="column[heading].action && column[heading].action()"
-          (dblclick)="handleColDoubleClick(column, heading)"
-          [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
-          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
+          (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
+          (mouseout)="handleMouseOut(column, heading)"
+          [ngStyle]="{cursor: (column[heading] && column[heading].action) ? 'pointer' : ''}">
+          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && column[heading].isHTML"
             [innerHTML]="column[heading].value"></div>
-          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="!column[heading].isHTML">
+          <div [ngClass]="column[heading].action ? 'zoom' : ''"
+            *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons">
             {{column[heading].value}}
+          </div>
+          <div *ngIf="column[heading] && column[heading].icons">
+            <i *ngFor="let icon of column[heading].icons" [class]="icon.class" (click)="icon.action()"><span></span></i>
           </div>
           <!-- <div [ngClass]="column[heading].value?"></div> -->
         </td>
@@ -45,7 +59,17 @@
     </tbody>
   </table>
 
+
+
   <div *ngIf="headings && !columns.length">
     <div class="no-record-found">No Record Found</div>
+  </div>
+</div>
+<div class="pagination" *ngIf="pages.count > 1">
+  <div class="pagination_links">
+    <span *ngIf="pages.active > 1" (click)="handlePagination(pages.active - 1)">Pre</span>
+    <span *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
+      [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</span>
+    <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>
   </div>
 </div>

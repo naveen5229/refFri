@@ -1,0 +1,18 @@
+.invalid-feedback{
+    font: 200;
+    font-size: 14px;
+}
+.model-handler {
+    position: absolute;
+    left: 5px;
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+  }
+  .modal-footer button{
+    text-transform: capitalize;
+    padding: 8px 20px;
+    border: 0px;
+    border-radius: 5px;
+  }

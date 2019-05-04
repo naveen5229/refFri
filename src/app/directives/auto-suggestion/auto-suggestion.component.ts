@@ -22,6 +22,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() name: string;
   @Input() parentForm: FormGroup;
   @Input() controlName: string;
+  @Input() apiHitLimit: Number;
 
   counter = 0;
   searchText = '';
@@ -48,10 +49,7 @@ export class AutoSuggestionComponent implements OnInit {
   ngAfterViewInit() {
     console.log('URL:', this.url);
     console.log('URL:', this.display);
-    if (this.preSelected) {
-      this.selectedSuggestion = this.preSelected;
-      this.searchText = this.preSelected[this.display];
-    }
+    if (this.preSelected) this.handlePreSelection();
 
     console.log('Is Array:', Array.isArray(this.display));
     if (Array.isArray(this.display)) {
@@ -66,13 +64,40 @@ export class AutoSuggestionComponent implements OnInit {
 
   }
 
+  ngOnChanges(changes) {
+    console.log("--------------------+++++++++", changes);
+    if (changes.preSelected) {
+      this.preSelected = changes.preSelected.currentValue;
+      this.handlePreSelection();
+    }
+
+  }
+
+  handlePreSelection() {
+    this.selectedSuggestion = this.preSelected;
+    if (typeof (this.display) != 'object')
+      this.searchText = this.preSelected[this.display];
+    else {
+      let index = 0;
+      for (const dis of this.display) {
+        this.searchText += (index != 0 ? (" " + this.seperator + " ") : " ") + this.preSelected[dis];
+        index++;
+      }
+    }
+  }
+
   getSuggestions() {
+    console.log("apiHitLimit", this.apiHitLimit, this.searchText.length);
+
+    this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
+
     this.showSuggestions = true;
     if (this.data) {
       this.suggestions = this.data.filter(data => data[this.display].toLowerCase().includes(this.searchText.toLowerCase()));
       this.suggestions.splice(10, this.suggestions.length - 1);
       return;
     }
+    if (this.searchText.length < this.apiHitLimit) return;
     let params = '?';
     console.log(this.url, typeof this.url);
     if (this.url.includes('?')) {
@@ -127,7 +152,7 @@ export class AutoSuggestionComponent implements OnInit {
       if (this.activeSuggestion != 0) this.activeSuggestion--;
       else this.activeSuggestion = this.suggestions.length - 1;
       event.preventDefault();
-    } else if (key == 'enter') {
+    } else if (key == 'enter' || key == 'tab') {
       if (this.activeSuggestion !== -1) {
         this.selectSuggestion(this.suggestions[this.activeSuggestion]);
       } else {

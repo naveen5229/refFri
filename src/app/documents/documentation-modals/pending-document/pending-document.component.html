@@ -4,186 +4,181 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body vert-mdl-pdg">
-  <form #documentForm="ngForm" id="document-form" name="document-form"
-    (submit)="documentForm.valid && updateDocument()">
-    <div class="row">
-      <div class="col-sm-4">
+<nb-card>
+  <nb-card-body style="overflow:inherit;padding-top: 0px;">
+    <div class="modal-body vert-mdl-pdg">
+      <form #documentForm="ngForm" id="document-form" name="document-form"
+        (submit)="documentForm.valid && updateDocument(0)">
+        <div class="row">
+          <div class="col-sm-4">
 
-        <!-- <div *ngIf="this.user._customer.id ==45; else notShow"> -->
-        <div class="form-field clear">
-          <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
-        
-          <div class="col-sm-8 " *ngIf="!canUpdate">
-              <label style="font-size:16px;">{{document.id}}</label>
-          </div>
-          <div class="col-sm-8 " *ngIf="canUpdate">
-              <label style="font-size:16px;">{{document.id}}</label>
-          </div>
-          <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
+            <div class="row form-field clear">
+              <label for="document_id" class="col-sm-4 mgn-vert">Document ID</label>
+
+              <div class="col-sm-8 " *ngIf="!canUpdate">
+                <label style="font-size:16px;">{{document.id}}</label>
+                <span *ngIf="document.verify == true" style="margin-left:20%;">
+                 <label style="font-size:16px; "> Verified </label>
+                </span>
+               
+              </div>
+              <div class="col-sm-8 " *ngIf="canUpdate">
+                <label style="font-size:16px;">{{document.id}}</label>
+              </div>
+              <!-- <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
             class="col-sm-8 form-control frm-fld mgn-vert" style="width:60%; margin-left:2%;" [value]="document.id" readonly />-->
-        </div> 
-        <div class="form-field clear">
-          <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
-          <div *ngIf="!canUpdate" class="col-sm-8" > 
-              <label style="font-size:16px;">{{document.regno}}</label>
-        </div>
+            </div>
+            <div class="row form-field clear">
+              <label for="veh_no" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
+              <div *ngIf="!canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">{{document.regno}}</label>
+                
+              </div>
 
-          <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-              <input *ngIf="canUpdate" id="document_id" name="document_id" type="text"
-              class="form-control " [(ngModel)]="document.newRegno" (change)="getVehicleId(document.newRegno)" />
-    
-            <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
+              <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <input *ngIf="canUpdate" id="document_id" name="document_id" type="text" class="form-control "
+                  [(ngModel)]="document.newRegno" (blur)="validateRegno()" />
+
+                <!-- <auto-suggestion (onSelected)="getvehicleData($event)" url="Suggestion/getVehicleList" display="regno"
               placeholder="Enter Vehicle Number" [preSelected]="null" style="width:60%;"
               (keyup)="isValidVehicle($event)"></auto-suggestion> -->
-          </div>
-        </div>
-        <div class="form-field clear">
-          <label for="doc_type" class="col-sm-4 mgn-vert">Document Type<span class="mandatory">*</span></label>
-          <div *ngIf="!canUpdate" class="col-sm-8 ">
-              <label style="font-size:16px;">{{document.document_type}}</label>
-           </div>
-          <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-            <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url="" display="document_type"
-              [data]="docTypes" placeholder="Enter Document Type"
-              [preSelected]="null" class="documentType "
-              style='width: 60% !important;' (keyup)="isValidDocument($event)"></auto-suggestion>
-          </div>
-        </div>
-
-        <div class="form-field clear">
-          <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
-          <div *ngIf="!canUpdate" class="col-sm-8 ">
-              <label style="font-size:16px;">   {{getDateInDisplayFormat(document.issue_date)| date:'dd-MM-yyyy'}}</label>
-          </div>
-          <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="text"
-            class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date"
-            [value]="document.issue_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
-          <!-- <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date" [value]="document.issue_date | date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY" (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)"  />-->
-          <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
-            (click)="getDate('issue_date')"><i class="icon fa fa-calendar"></i></span>
-        </div>
-        <div class="form-field clear">
-          <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
-          <div *ngIf="!canUpdate" class="col-sm-8">
-              <label style="font-size:16px;"> {{getDateInDisplayFormat(document.wef_date)| date:'dd-MM-yyyy'}}</label>
-           
-          </div>
-          <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="text"
-            class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.wef_date" [value]="document.wef_date "
-            (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
-          <!-- <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.wef_date |  date: 'yyyy-MM-dd'"  placeholder="DD-MMM-YYYY"   (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)"  />-->
-          <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
-            (click)="getDate('wef_date')"><i class="icon fa fa-calendar"></i></span>
-        </div>
-        <div class="form-field clear">
-          <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
-          <div *ngIf="!canUpdate" class="col-sm-8">
-              <label style="font-size:16px;"> {{getDateInDisplayFormat(document.expiry_date)| date:'dd-MM-yyyy'}}</label>
-           </div>
-          <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text"
-            class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.expiry_date"
-            [value]="document.expiry_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
-          <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
-          <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
-          <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
-            (click)="getDate('expiry_date')"><i class="icon fa fa-calendar"></i></span>
-        </div>
-
-        <div class="row form-field clear" *ngIf="canUpdate == 0">
-            <label for="agent" class="col-sm-4 mgn">Agent</label>
-            <div class="col-sm-8 ">
-              <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent"
-                class="form-control frm-fld mdl-sel-agt">
-                <option value="">--</option>
-                <option *ngFor="let agent of agents" [value]=agent.id>
-                  {{agent.name}}
-                </option>
-              </select>
-              <a href="javascript: void(0);" (click)="addAgent()">Add Agent</a>
+              </div>
             </div>
-          </div>
-
-          <div class=" row form-field clear" *ngIf="canUpdate == 0">
-            <label for="doc_no" class="col-sm-4 mgn">Document No.</label>
-            <div class="col-sm-8">
-              <input id="doc_no" name="doc_no" type="text" class=" form-control " maxlength="25"
-                [(ngModel)]="document.doc_no" />
+            <div class="row form-field clear">
+              <label for="doc_type" class="col-sm-4 mgn-vert">Doc Type<span class="mandatory">*</span></label>
+              <div *ngIf="!canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">{{document.document_type}}</label>
+              </div>
+              <div *ngIf="canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <auto-suggestion *ngIf="docTypes.length" (onSelected)="selectDocType($event)" url=""
+                  display="document_type" [data]="docTypes" placeholder="Enter Document Type" [preSelected]="null"
+                  class="documentType " style='width: 60% !important;' (keyup)="isValidDocument($event)">
+                </auto-suggestion>
+              </div>
             </div>
-          </div>
-          
-          <div class="row form-field clear" *ngIf="canUpdate == 0">
-              <label for="amount" class="col-sm-4 mgn">Amount</label>
+
+            <div class="row form-field clear">
+              <label for="issue_date" class="col-sm-4 mgn-vert">Issue Date:</label>
+              <div *ngIf="!canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">
+                  {{getDateInDisplayFormat(document.issue_date)| date:'dd-MM-yyyy'}}</label>
+              </div>
+              <input #issue_date *ngIf="canUpdate" id="issue_date" name="issue_date" type="text"
+                class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.issue_date"
+                [value]="document.issue_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
+              <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+                (click)="getDate('issue_date')"><i class="icon fa fa-calendar"></i></span>
+            </div>
+            <div class="row form-field clear">
+              <label for="wef_date" class="col-sm-4 mgn-vert">W.e.f Date</label>
+              <div *ngIf="!canUpdate" class="col-sm-8">
+                <label style="font-size:16px;"> {{getDateInDisplayFormat(document.wef_date)| date:'dd-MM-yyyy'}}</label>
+
+              </div>
+              <input #wefdate *ngIf="canUpdate" id="wef_date" name="wef_date" type="text"
+                class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.wef_date"
+                [value]="document.wef_date " (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
+              <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+                (click)="getDate('wef_date')"><i class="icon fa fa-calendar"></i></span>
+            </div>
+            <div class="row form-field clear">
+              <label for="expiry_date" class="col-sm-4 mgn-vert">Expiry Date</label>
+              <div *ngIf="!canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">
+                  {{getDateInDisplayFormat(document.expiry_date)| date:'dd-MM-yyyy'}}</label>
+              </div>
+              <input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text"
+                class="col-sm-6 form-control frm-fld mgn-vert" [(ngModel)]="document.expiry_date"
+                [value]="document.expiry_date" (blur)="checkExpiryDateValidity()" placeholder="DD/MM/YYYY" />
+              <!--<input #expiry_date *ngIf="canUpdate" id="expiry_date" name="expiry_date" type="text" class="col-sm-8 form-control frm-fld mgn-vert" [value]="document.expiry_date| date: 'yyyy-MM-dd'" placeholder="DD-MMM-YYYY"  (blur)="checkExpDateValidity(issue_date, wefdate, expiry_date)" /> -->
+              <!-- <span *ngIf="spnexpdt" style="color: red; margin-left: 10px;">Expiry Date cannot be less than Issue Date/Wef Date</span> -->
+              <span *ngIf="canUpdate" class="col-sm-1" style='cursor:pointer; font-size: 28px;'
+                (click)="getDate('expiry_date')"><i class="icon fa fa-calendar"></i></span>
+            </div>
+
+            <div class="row form-field clear" *ngIf="canUpdate == 0">
+              <label for="agent" class="col-sm-4 ">Agent</label>
+              <div class="col-sm-8 ">
+                <select id="doc_agent" [(ngModel)]="document.agent_id" name="doc_agent"
+                  class="form-control frm-fld mdl-sel-agt">
+                  <option value="">--</option>
+                  <option *ngFor="let agent of agents" [value]=agent.id>
+                    {{agent.name}}
+                  </option>
+                </select>
+                <a href="javascript: void(0);" (click)="addAgent()">Add Agent</a>
+              </div>
+            </div>
+
+            <div class=" row form-field clear" *ngIf="canUpdate == 0">
+              <label for="doc_no" class="col-sm-4 ">Document No.</label>
+              <div class="col-sm-8">
+                <input id="doc_no" name="doc_no" type="text" class=" form-control " maxlength="25"
+                  [(ngModel)]="document.doc_no" />
+              </div>
+            </div>
+
+            <div class="row form-field clear" *ngIf="canUpdate == 0">
+              <label for="amount" class="col-sm-4 ">Amount</label>
               <div class="col-sm-8 ">
                 <input id="amount" name="amount" type="text" class="form-control frm-fld mgn-vert"
-                  [(ngModel)]="document.amount"  maxlength="10" maxlength="10" placeholder="Enter Amount" />
+                  [(ngModel)]="document.amount" maxlength="10" maxlength="10" placeholder="Enter Amount" />
               </div>
             </div>
 
-          <div class="row form-field clear" *ngIf="canUpdate == 0">
-            <label for="rto" class="col-sm-4 mgn">RTO</label>
-            <div class="col-sm-8 ">
-              <input type="text" id="rto" name="rto" type="text" class="form-control" [(ngModel)]="document.rto"
-                maxlength="20" placeholder="Enter Rto">
+            <div class="row form-field clear" *ngIf="canUpdate == 0">
+              <label for="rto" class="col-sm-4 ">RTO</label>
+              <div class="col-sm-8 ">
+                <input type="text" id="rto" name="rto" type="text" class="form-control" [(ngModel)]="document.rto"
+                  maxlength="20" placeholder="Enter Rto">
+              </div>
             </div>
+
+            <div class="row form-field clear">
+              <label for="remarks" class="col-sm-4 ">Remarks</label>
+              <div class="col-sm-8">
+                <textarea id="remarks" name="remarks" rows="2" class="form-control "
+                  [(ngModel)]="document.remarks"></textarea>
+              </div>
+            </div>
+
+
+
+            <div class="row" style="margin-top:20px">
+
+              <!-- <div class="col-sm-3" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'">
+            <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
+              id="submit" style="cursor: pointer;">{{btn1}}</button>
           </div>
-          
 
-          <div class="row form-field clear" > 
-              <label for="remarks" class="col-sm-4 mgn">Remarks</label>
-              <div class="col-sm-8" style="margin-left:-1%; margin-top: 1%">
-                  <textarea  id="remarks" name="remarks" rows="1" class="form-control " [(ngModel)]="document.remarks" ></textarea>
-              </div>
-            </div>
-
-            <div class="row">
-            <div class="col-sm-4" *ngIf="this.user._loggedInBy== 'admin'" >
+          <div class="col-sm-3" style="margin-left: 20%;" *ngIf=" canUpdate === 1 && this.user._loggedInBy== 'admin'">
+              <button class="btn btn-default" type="button"  (click)="updateDocument(1)" id="advance"
+              style="cursor: pointer;">Advance Review</button> 
+          </div> -->
+              <!-- <div class="col-sm-3" *ngIf="this.user._loggedInBy== 'admin'">
                 <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
                   style="cursor: pointer;">{{btn2}}</button>
-              </div>
+              </div> -->
 
-            <div class="col-sm-4" *ngIf="canUpdate === 1 && this.user._loggedInBy== 'admin'" style="margin-left:30%;" >
-                <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
-                  id="submit" style="cursor: pointer;">{{btn1}}</button>
-              </div>
-              <div class="col-sm-4" *ngIf="canUpdate === 0 " style="margin-left:30%;" >
-                <button class="btn btn-primary"  type="submit"  (click)="customerByUpdate()"
-                  id="submit" style="cursor: pointer;">{{btn1}}</button>
+              <div class="col-sm-3" *ngIf="canUpdate === 0 " style="margin-left: 60%;">
+                <button class="btn btn-primary" type="submit" (click)="customerByUpdate()" id="submit"
+                  style="cursor: pointer;">{{btn1}}</button>
               </div>
             </div>
-          
+          </div>
+
+          <div class="col-sm-8 imageView">
+            <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View
+                Document</a>
+            </div>
+            <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
+              [loadOnInit]="true" [snapView]="false"></app-image-viewer>
+            <div *ngIf="!document.img_url">No Image Exists</div>
+            <div id="imgzoom"></div>
+          </div>
         </div>
-      <!-- </div> -->
+      </form>
+    </div>
+  </nb-card-body>
+</nb-card>
 
-      <div class="col-sm-8">
-        <!--<img src="{{document.img_url}}" alt="doc-img" class="doc-img" /> -->
-        <div *ngIf="doc_not_img"><a target='_blank' href="{{document.img_url}}" title="View Document">View
-            Document</a>
-        </div>
-        <app-image-viewer *ngIf="document.img_url && !doc_not_img" [images]="images" [idContainer]="'idOnHTML'"
-          [loadOnInit]="true"></app-image-viewer>
-        <div *ngIf="!document.img_url">No Image Exists</div>
-
-        <div id="imgzoom"></div>
-      </div>
-    </div>
-  </form>
-</div>
-
-<div class="modal-footer">
-  <!-- <div class="row">
-    <div class="col">
-      <button class="btn btn-danger" type="button" outline (click)="deleteImage(document.id)" id="cancel"
-        style="cursor: pointer;">{{btn2}}</button>
-    </div>
-  
-    <div class="col text-right" *ngIf="canUpdate == 1 || this.user._loggedInBy== 'admin'">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="isFormSubmit = true"
-        id="submit" style="cursor: pointer;">{{btn1}}</button>
-    </div>
-    <div class="col text-right" *ngIf="this.user._loggedInBy== 'customer'">
-      <button class="btn btn-primary" form="document-form" type="submit"  (click)="customerByUpdate()"
-        id="submit" style="cursor: pointer;">{{btn1}}</button>
-    </div>
-  </div> -->
-</div>

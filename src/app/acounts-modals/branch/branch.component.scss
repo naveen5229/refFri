@@ -11,6 +11,12 @@
 .radiostockitem .form-group label{
     font-weight: normal;
 }
+.iaactive{
+  border: 1px solid black;
+  width: auto;
+  margin: 0px;
+  padding: 3px 0px;
+}
 button { background-color: #73a1ff;
 }
 
@@ -39,4 +45,68 @@ button { background-color: #73a1ff;
     padding: 10px 20px;
     color: #fff;
     border-radius: 3px;
+}
+.modal-footer{
+    button{
+      border-radius: 5px;
+    }
+  }
+  .close{
+    background-color: #ccc;
+    font-size: 26px;
+    padding: 10px 15px;
+  }
+
+  .modal-header{
+    padding: 10px 15px;
+    background-color: #263238;
+  }
+  .modal-header h5{
+    color: #fff;
+  }
+  .close{
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+  }
+  .modal-body label{
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 12px;
+    min-width: 80px !important;
+    font-weight: normal;
+  }
+  .modal-body input{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px !important;
+    height: auto;
+    font-size: 12px;
+  }
+.modal-footer{
+  padding: 10px 15px;
+  button{
+    padding: 5px 12px;
+    text-transform: capitalize;
+  }
+  .btn-danger{
+    background-color: #d61414;
+  }
+  .btn-primary{
+    background-color: #263238;
+  }
+}
+.col-6 label{
+    background: transparent !important;
+    color: #000 !important;
+    display: inline;
+}
+.col-6 input{
+    float: left !important;
 }

@@ -2,7 +2,7 @@
 .main {
     width: 350px;
     margin: auto;
-    background: rgba(0, 0, 0, .25);
+    background: rgba(0, 0, 0, 0.25);
     padding: 20px;
     height: auto;
     border-radius: 5px;
@@ -73,3 +73,44 @@ input {
     margin-left: 25px;
     font-size: 14px;
 }
+.blink{
+    background-color: transparent;
+    text-align: center;
+}
+span{
+    font-size: 25px;
+    font-family: cursive;
+    color: white;
+    animation: blink 5s linear infinite;
+}
+@keyframes blink{
+0%{opacity: 0; color: white}
+0%{opacity: 0.25; color: white}
+50%{opacity: .5; color: white}
+0%{opacity: 0.75; color: #FF5722}
+100%{opacity: 1; color: #FF5722}
+}
+
+// .admin{
+//     animation:blinkingText 0.8s infinite;
+// }
+// @keyframes blinkingText{
+//     0%{     color: red;    }
+//     49%{    color: transparent; }
+//     50%{    color: transparent; }
+//     99%{    color:transparent;  }
+//     100%{   color: red;    }
+// }
+// video{
+//     position: absolute;
+//     left: 0px;
+//     top: 0px;
+//     width: 100%;
+//     opacity: 0.4;
+//     height: 100%;
+//     object-fit: cover;
+// }
+// .main{
+//     position: relative;
+//     z-index: 99;
+// }

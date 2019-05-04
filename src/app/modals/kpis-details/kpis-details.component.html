@@ -1,153 +1,155 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Kpis Details</h4>
+  <h5 class="modal-title" id="modal-basic-title">Kpis Details</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <table class="table table-bordered table-hover">
-
-    <tbody>
+<div class="previous-data col-sm-12"
+  style=" font-size: 14px; margin-bottom: 15px; margin-top: 15px; color: darkblue;font-weight: 500;">
+  <table class="table table-bordered">
+    <thead class="thead" style="text-align:center">
+      <th>Vehicle RegNo</th>
+      <th>Status</th>
+      <th>Hrs</th>
+      <th>Trip</th>
+      <th>KMPD</th>
+      <th>Location</th>
+    </thead>
+    <tbody >
       <tr>
-        <th>Vehicle</th>
-        <td>{{kpi.x_showveh}}</td>
-      </tr>
-      <tr>
-          <th>View Lr</th>
-          <td><span (click)="getLR(kpi)" *ngIf="kpi.x_lr_id">{{kpi.x_lr_id}}</span></td>
-      </tr>
-      <tr>
-        <th>Driver</th>
-        <td>{{kpi.x_empname}}</td>
-      </tr>
-      <tr>
-        <th>Mobile</th>
-        <td>{{kpi.x_mobileno}}</td>
-      </tr>
-      <tr>
-        <th>Status</th>
-        <td> {{kpi.showprim_status}}, {{kpi.showsec_status}} </td>
-      </tr>
-      <tr>
-        <th>Hrs Since</th>
+        <td>{{kpi.x_showveh}} </td>
+        <td>{{kpi.showprim_status}}</td>
         <td>{{kpi.x_hrssince}}</td>
-      </tr>
-      <tr>
-        <th>Addtional Info</th>
-        <td>{{kpi.addinfo1 ? kpi.addinfo1 + (kpi.addinfo2 || kpi.addinfo3 ? ',' : '' ) : '' }}
-          {{kpi.addinfo2 ? kpi.addinfo2 + (kpi.addinfo3 ? ',' : '' ) : '' }}
-          {{kpi.addinfo3 ? kpi.addinfo3 : '' }}</td>
-      </tr>
-      <tr (click)= "getUpadte(kpi)">
-        <th>Trip</th>
-        <td>
-          <!-- Heading -->
-          <div col-4  *ngIf="kpi.trip_status_type == 0">
-            <i class="icon ion-md-exit"></i>
-            <span class="circle">{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-
-            <span>{{kpi.x_showtripend}}</span>
-          </div>
-
-          <!-- Heading -->
-          <div col-4 *ngIf="kpi.trip_status_type == 0">
-            <i name="exit" class="fa fa-sign-out-alt"></i>
-            <span class="circle">{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-
-            <span>{{kpi.x_showtripend}}</span>
-          </div>
-
-          <!-- Loading -->
-          <div col-4  *ngIf="kpi.trip_status_type == 1">
-            <span class="circle">{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-
-            <span>{{kpi.x_showtripend}}</span>
-          </div>
-
-          <!-- Onward -->
-          <div col-4  *ngIf="kpi.trip_status_type == 2">
-            <span>{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-
-            <span>{{kpi.x_showtripend}}</span>
-          </div>
-
-          <!-- Unloading -->
-          <div col-4  *ngIf="kpi.trip_status_type == 3">
-            <span>{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-            <span class="circle">{{kpi.x_showtripend}}</span>
-          </div>
-
-          <!-- Complete -->
-          <div col-4  *ngIf="kpi.trip_status_type == 4">
-            <span>{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-
-            <span>{{kpi.x_showtripend}}</span>
-            <i class="complete" name="checkmark-circle-outline"></i>
-          </div>
-
-          <!-- Ambigous -->
-          <div col-4  *ngIf="kpi.trip_status_type == 5">
-            <span>{{kpi.x_showtripstart}}</span>
-            <span class="arrow" *ngIf="kpi.x_showtripend"> -></span>
-
-            <span>{{kpi.x_showtripend}}</span>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th>Trip Start Time</th>
-        <td>{{kpi.x_showstarttime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-      </tr>
-      <tr>
-        <th>Trip End Time</th>
-        <td>{{kpi.x_showendtime | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-      </tr>
-      <tr>
-        <th>Issue</th>
-        <td>{{kpi.entries_issue}}</td>
-      </tr>
-      <tr>
-        <th>Kpi Dist </th>
-        <td>{{kpi.x_kpidist }}</td>
-      </tr>
-      <tr>
-        <th>kpi Time</th>
-        <td>{{kpi.x_kpitime }}</td>
-      </tr>
-      <tr>
-        <th>Kmph</th>
-        <td>{{kpi.x_kmph }}</td>
-      </tr>
-      <tr>
-        <th>Dist Left</th>
-        <td>{{kpi.x_disleft }}</td>
-      </tr>
-      <tr>
-        <th>Suggestion</th>
-        <td>{{kpi.suggestion }}</td>
-      </tr>
-      <tr>
-        <th>Gps</th>
-        <td>{{kpi.x_gps ? 'working': 'not working' }}</td>
-      </tr>
-      <tr>
-        <th>Last Location Time</th>
-        <td>{{kpi.x_ttime | date : 'dd MMM HH:mm' }}</td>
-      </tr>
-      <tr>
-        <th>Location</th>
+        <td><span>{{kpi.x_showtripstart}}</span> <span *ngIf="kpi.x_showtripend"> ->
+            {{kpi.x_showtripend}} </span></td>
+        <td>{{kpi.x_kmph}}</td>
         <td>{{kpi.Address}}</td>
-      </tr>
 
+      </tr>
     </tbody>
   </table>
 </div>
-<div class="modal-footer">
+<div class="modal-body clearfix">
+  <div style="margin: 0px -15px;">
+    <div class="col-sm-4">
+        <table class="table table-bordered table-hover">
+          <thead class="thead" style="text-align:center">
+            <th colspan="2">Generic Info</th>
+          </thead>
+          <tbody *ngIf="vehicleInfo">
+            <tr>
+              <td>Driver Name </td>
+              <td>{{vehicleInfo.d_name ? vehicleInfo.d_name : 'Null'}}</td>
+            </tr>
+            <tr>
+              <td>Driver Contact No </td>
+              <td>{{vehicleInfo.d_mobile}}</td>
+            </tr>
+            <tr>
+              <td>GPS Status </td>
+              <td>{{vehicleInfo.gps_stat}}</td>
+            </tr>
+            <tr>
+              <td>GPS Provider </td>
+              <td>{{vehicleInfo.gps_prov}}</td>
+            </tr>
+            <tr>
+              <td>Current Location </td>
+              <td>{{vehicleInfo.current_loc}}</td>
+            </tr>
+            <tr>
+              <td>Current Location Time</td>
+              <td>{{vehicleInfo.cur_loc_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-4">
+          <table class="table table-bordered table-hover">
+            <thead class="thead" style="text-align:center">
+              <th colspan="2">Trip Information</th>
+            </thead>
+            <tbody *ngIf="vehicleInfo">
+              <tr>
+                <td>Distance From Source </td>
+                <td>{{vehicleInfo.srckm}}</td>
+              </tr>
+              <tr>
+                <td>Distance To Destination</td>
+                <td>{{vehicleInfo.dstkm}}</td>
+              </tr>
+              <tr>
+                <td>Trip Start Time</td>
+                <td>{{vehicleInfo.trp_srt_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+              </tr>
+              <tr>
+                <td>Trip End Time </td>
+                <td>{{vehicleInfo.trp_end_time | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+              </tr>
+              <tr>
+                <td>ETOA / Delay </td>
+                <td>{{vehicleInfo.etahr}}</td>
+              </tr>
+              <tr>
+                <td>Total KM</td>
+                <td>{{vehicleInfo.totalkm}}</td>
+              </tr>
+              <tr>
+                <td>% Movement time (Trip) </td>
+                <td>{{vehicleInfo.mvttime}}</td>
+              </tr>
+              <tr>
+                <td>KMPD</td>
+                <td>{{vehicleInfo.kmpd}}</td>
+              </tr>
+              <tr>
+                  <td>LR Image</td>
+                  <td><span *ngIf="vehicleInfo.lr_id" (click)="getLR(vehicleInfo.lr_id)">View</span>
+                    <span *ngIf="!vehicleInfo.lr_id">N.A.</span> 
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-4">
+            <table class="table table-bordered table-hover">
+              <thead class="thead" style="text-align:center">
+                <th colspan="2">Performance Indicator</th>
+              </thead>
+              <tbody *ngIf="vehicleInfo">
+                <tr>
+                  <td>Today's KM </td>
+                  <td>{{vehicleInfo.kmtoday}}</td>
+                </tr>
+                <tr>
+                  <td>Yesterday's KM </td>
+                  <td>{{vehicleInfo.kmyesterday}}</td>
+                </tr>
+                <tr>
+                  <td>KM Travelled (Month) </td>
+                  <td>{{vehicleInfo.kmmonth}}</td>
+                </tr>
+                <tr>
+                  <td>Loaded % KM (Month) </td>
+                  <td>{{vehicleInfo.lkmmonth}}</td>
+                </tr>
+                <tr>
+                  <td>% Movement Time (Month)</td>
+                  <td>{{vehicleInfo.mvttimemonth}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+  </div>
+
+  
+  
+  
+</div>
+<div class="col-sm-12" style="text-align:center;margin-bottom: 15px">
+  <button (click)="getUpadte(kpi)" style="padding:8px;border-radius: 5px; border:0px;" class="btn-primary"><b>Add
+      Placements</b></button>
+</div>
+<div class="modal-footer col-sm-12">
   <button type="button" class="btn btn-outline-dark" (click)="closeModal()" style="cursor:pointer">Close</button>
 </div>

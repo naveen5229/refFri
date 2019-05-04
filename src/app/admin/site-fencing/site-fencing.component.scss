@@ -2,10 +2,7 @@
     width: 100%;
 }
 .map{
-    height: 600px;
     width: 90%;
-    margin: auto;
-    margin-top: 20px;
 }
 .table table tbody tr > td,input,button  {
     height: 100%;
@@ -16,4 +13,36 @@
     overflow: auto;
     height: 440px;
     display: block;
+}
+table{
+    tr{
+        td{
+            input, select{
+                padding: 4px 5px;
+                width: 100%;
+                height: auto;
+                margin: 0px;
+                max-width: 100%;
+                font-size: 12px;
+            }
+            button{
+                padding: 0px 10px;
+                margin: 0px;
+                text-transform: capitalize;
+                width: auto;
+            }
+        }
+        td:nth-child(1){
+            width: 200px !important;
+            max-width: inherit !important;
+        }
+        td:nth-child(2){
+            width: 200px !important;
+            max-width: inherit !important;
+        }
+        td:nth-child(3){
+            width: 150px !important;
+            max-width: inherit !important;
+        }
+    }
 }
