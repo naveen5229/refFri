@@ -43,6 +43,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Vehicle Trip Stages',
+        icon: 'fas fa-road',
+        link: '/pages/vehicle-trip-stages',
+        home: true,
+      },
+      {
         title: 'Trends',
         icon: 'fa fa-line-chart',
         link: '/pages/trends'
@@ -122,7 +128,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'User Call Summary',
-        icon: 'fas fa-list',
+        icon: 'fas fa-address-book',
         link: '/pages/user-call-summary',
         home: true,
       },
@@ -177,4 +183,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link: '/pages/short-target',
   //   home: true,
   // },
+
+  // {
+  //   title: 'Fuel',
+  //   icon: 'fas fa-gas-pump',
+  //   children: [
+  //     {
+  //       title: 'Fuel Fillings',
+  //       icon: 'fas fa-gas-pump',
+  //       link: '/pages/fuel-fillings',
+  //       home: true,
+  //     },
+  //     {
+  //       title: 'Fuel Average Analysis',
+  //       icon: 'fa fa-signal',
+  //       link: '/pages/fuel-average-analysis',
+  //       home: true,
+  //     },
+  //   ]
+  // }
 ];
