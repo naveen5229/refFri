@@ -128,7 +128,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'User Call Summary',
-        icon: 'fas fa-list',
+        icon: 'fas fa-address-book',
         link: '/pages/user-call-summary',
         home: true,
       },

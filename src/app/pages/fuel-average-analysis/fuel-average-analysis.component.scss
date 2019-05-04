@@ -31,10 +31,13 @@ table{
         th{
             padding: 5px 8px;
             font-weight: normal;
-            width: 15%;
+            width: 110px;
         }
         th:nth-child(1){
-            width: 3%;
+            width: 30px;
+        }
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 8px !important;
@@ -53,13 +56,13 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 3%;
+                width: 30px;
             }
             td{
-                width: 15%;
+                width: 110px;
             }
             td:last-child{
-                width: 15%;
+                width: auto;
                 word-break:break-all;
             }
         }
