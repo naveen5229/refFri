@@ -290,3 +290,7 @@
     background: #677277;
     color: #fff;
 }
+:host ::ng-deep .user-picture{
+    background-image: url(assets/images/avtar.png) !important;
+    background-size: cover !important;
+}

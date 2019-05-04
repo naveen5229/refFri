@@ -1,8 +1,5 @@
 <nb-card style="border: 0px; height: 100%;">
   <nb-card-body style="padding:5px 5px 0px;">
-
-    <!-- <input type="text" name="date-testing" [ngModel]="testingDate | customDate : 'dd-MM-yyyy'"
-      (ngModelChange)="testingDate = dateService.handleCustomDate($event)" class="form-control" maxlength="10"> -->
     <div class="row m-0">
       <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView">
         <div
@@ -89,11 +86,14 @@
               top: false,
               left: false
             }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
-            <div>
+            <div id="print-section">
               <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings">
               </smart-table>
             </div>
+
           </div>
+          <!-- <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('print-section')"
+            style="cursor: pointer;margin-left: 10px; margin-bottom: 20px"><i class="fas fa-file-excel"></i></span> -->
           <!-- ============================= SMART TABLE END ============================= -->
 
           <!-- ============================= MAP VIEW ============================= -->
@@ -111,4 +111,3 @@
     </div>
   </nb-card-body>
 </nb-card>
-<!-- <button (click) = "print('print-section')">print</button>  -->
