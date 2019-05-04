@@ -25,7 +25,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Trip FeedBack logs',
+        title: 'Trip FeedBack Logs',
         icon: 'fas fa-comments',
         link: '/pages/tip-feedback-logs',
         home: true,
@@ -75,7 +75,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Vehicle Gps Detail',
+        title: 'GPS Capital',
         icon: 'fa fa-map-marker',
         link: '/pages/vehicle-gps-detail',
         home: true,
@@ -146,14 +146,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Fuel',
     icon: 'fas fa-gas-pump',
     children: [
+      // {
+      //   title: 'Fuel Fillings',
+      //   icon: 'fas fa-gas-pump',
+      //   link: '/pages/fuel-fillings',
+      //   home: true,
+      // },
       {
-        title: 'Fuel Fillings',
-        icon: 'fas fa-gas-pump',
-        link: '/pages/fuel-fillings',
-        home: true,
-      },
-      {
-        title: 'Fuel Average Analysis',
+        title: 'Fuel Mileage',
         icon: 'fa fa-signal',
         link: '/pages/fuel-average-analysis',
         home: true,
@@ -174,12 +174,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/tyres/inventory'
   },
   {
-    title: 'Documentation',
+    title: 'Documents',
     icon: 'fa fa-database',
     link: '/documents/documents-summary'
   },
   {
-    title: 'Account',
+    title: 'Accounts',
     icon: 'fa fa-money',
     link: '/accounts/dashboard'
   },
