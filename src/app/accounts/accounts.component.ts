@@ -27,6 +27,7 @@ export class AccountsComponent {
       return;
     }
     this.getBranches();
+    this.getFinancial();
   }
 
   getBranches() {
@@ -34,6 +35,21 @@ export class AccountsComponent {
       .subscribe(res => {
         console.log('Branches :', res['data']);
         this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
+      });
+  }
+
+  getFinancial() {
+    this.api.post('Suggestion/GetFinancialYear', { search: 123 })
+      .subscribe(res => {
+        console.log('financial :', res['data']);
+        this.accountService.financialYears = res['data'];
+        this.accountService.financialYears.map(financialYear => {
+          if (financialYear.name.split('-')[0] == (new Date()).getFullYear()) {
+            this.accountService.selected.financialYear = financialYear;
+          }
+        });
       }, err => {
         console.log('Error: ', err);
       });
