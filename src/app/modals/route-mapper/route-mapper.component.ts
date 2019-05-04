@@ -427,15 +427,5 @@ export class RouteMapperComponent implements OnInit {
 
     });
     console.log('getPlace: ', this.getPlace);
-    let name = 'komal,trivedi';
-    console.log('name before', name);
-    console.log('name : substring', name.substring(0, 5));
-    console.log('name split', name.split(',')[1]);
-    if (name.substring(0, 5) == 'komal') {
-      console.log('name:', name.split(',')[1]);
-    }
-
-
-
   }
 }
