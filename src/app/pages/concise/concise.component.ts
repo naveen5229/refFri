@@ -540,9 +540,13 @@ export class ConciseComponent implements OnInit {
       settings: {
         hideHeader: true,
         count: {
-          icon: "fa fa-map map-view-icon",
-          action: this.handleMapView.bind(this)
+          icon: "fa fa-map",
+          action: this.handleMapView.bind(this),
+
         },
+
+
+
         tableHeight: "87vh"
       }
     };

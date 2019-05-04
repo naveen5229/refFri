@@ -3,33 +3,29 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Dashboard',
-        icon: 'nb-home',
-        link: '/admin/dashboard',
-        home: true,
+        icon: 'fa fa-home',
+        link: '/pages',
     },
+
     {
         title: 'Vehicle Status Change',
-        icon: 'nb-home',
+        icon: 'fas fa-clipboard-check',
         link: '/admin/vehiclestatuschange',
-        home: true,
     },
     {
         title: 'VSC Ticket Audit',
-        icon: 'nb-home',
+        icon: 'fas fa-ticket-alt',
         link: '/admin/vscticketaudit',
-        home: true,
     },
     {
         title: 'Issue Alerts',
-        icon: 'nb-home',
+        icon: 'fa fa-exclamation-triangle',
         link: '/admin/issue-alerts',
-        home: true,
     },
     {
         title: 'Escalation Matrix',
-        icon: 'nb-home',
+        icon: 'fa fa-chart-bar',
         link: '/admin/escalation-matrix',
-        home: true,
     },
     {
         title: 'Alert Related Issue',
@@ -39,93 +35,79 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Driver',
-        icon: 'nb-home',
+        icon: 'fa fa-male',
         link: '/admin/driver-list',
         home: true,
     },
     {
         title: 'Generate LR',
-        icon: 'nb-home',
+        icon: 'fa fa-pencil',
         link: '/admin/generate-lr',
-        home: true,
     },
     {
         title: 'Group Managements',
-        icon: 'nb-home',
+        icon: 'fa fa-users',
         link: '/admin/group-managements',
-        home: true,
     },
 
     {
         title: 'Ticket Properties',
-        icon: 'nb-home',
+        icon: 'fas fa-ticket-alt',
         link: '/admin/ticket-properties',
-        home: true,
     },
     {
         title: 'Lorry Receipt Details',
-        icon: 'nb-home',
+        icon: 'fas fa-receipt',
         link: '/admin/lorry-receipt-details',
-        home: true,
     },
     {
         title: 'Site Fencing',
-        icon: 'nb-home',
+        icon: 'fas fa-coins',
         link: '/admin/site-fencing',
     },
     {
         title: 'Transport Area Fencing',
-        icon: 'nb-home',
+        icon: 'fas fa-coins',
         link: '/admin/transport-area',
     },
     {
         title: 'Diagnostics',
-        icon: 'nb-home',
+        icon: 'fa fa-stethoscope',
         link: '/admin/diagnostics',
-        home: true,
     },
     {
         title: 'Document',
-        icon: 'nb-home',
+        icon: 'fa fa-file-alt',
         children: [
             {
                 title: 'Pending Details',
                 icon: 'fa fa-pencil-square-o',
                 link: '/admin/pending-documents',
-                home: true,
             },
 
         ]
     },
+    {
+        title: 'Account',
+        icon: 'fa fa-money',
+        link: '/accounts/dashboard'
+    },
 
     {
         title: 'User Prefrence',
-        icon: 'nb-home',
+        icon: 'fas fa-user-cog',
         link: '/admin/user-preferences',
-        home: true,
     },
     {
         title: 'Site Details',
-        icon: 'nb-home',
+        icon: 'fa fa-sitemap',
         link: '/admin/site-details',
         home: true,
     },
     {
-        title: 'Activity Summary',
-        icon: 'nb-home',
-        link: '/admin/activity-summary',
-        home: true,
-    },
-    {
-        title: 'vehicle-gps-detail',
-        icon: 'nb-home',
-        link: '/admin/vehicle-gps-detail',
-        home: true,
-    },
-    {
-        title: 'Gps Supplier Mapping',
-        icon: 'nb-home',
-        link: '/admin/gps-supplier-mapping',
+        title: 'Vehicle Gps Trail',
+        icon: 'fas fa-receipt',
+        link: '/admin/vehicle-gps-trail',
         home: true,
     },
     {
@@ -140,15 +122,38 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/trip-site-rule',
         home: true,
     },
-
     {
-        title: 'Vehicles View',
+        title: 'Fuel',
+        icon: 'fas fa-gas-pump',
+        children: [
+            {
+                title: 'Fuel Fillings',
+                icon: 'fas fa-gas-pump',
+                link: '/admin/fuel-fillings',
+                home: true,
+            },
+            {
+                title: 'Fuel Average Analysis',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-average-analysis',
+                home: true,
+            },
+        ]
+    },
+    {
+        title: 'gps-supplier-mapping',
+        icon: 'nb-home',
+        link: '/admin/gps-supplier-mapping',
+        home: true,
+    },
+    {
+        title: 'vehicles-view',
         icon: 'nb-home',
         link: '/admin/vehicles-view',
         home: true,
     },
     {
-        title: 'Companies',
+        title: 'Company Details',
         icon: 'nb-home',
         link: '/admin/company-details',
         home: true,
@@ -166,10 +171,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Fuel Fillings',
+        title: 'Activity Summary',
         icon: 'nb-home',
-        link: '/admin/fuel-fillings',
+        link: '/admin/activity-summary',
+        home: true,
     },
+    {
+        title: 'Vehicle Gps Detail',
+        icon: 'nb-home',
+        link: '/admin/vehicle-gps-detail',
+    },
+
+
 
     {
         title: 'Trip Feedback Logs',
@@ -181,6 +194,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Fuel Average Analysis',
         icon: 'fa fa-signal',
         link: '/admin/fuel-average-analysis',
+        home: true,
+    },
+    {
+        title: 'Remaining Fuel',
+        icon: 'fa fa-signal',
+        link: '/admin/remaining-fuel',
         home: true,
     },
 

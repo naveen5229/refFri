@@ -5,6 +5,7 @@ import { VehicleReportComponent } from '../vehicle-report/vehicle-report.compone
 import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
 
 @Component({
   selector: 'trip-details',
@@ -17,6 +18,9 @@ export class TripDetailsComponent implements OnInit {
   vehicleId = null;
   vehicleRegNo = null;
   trips = null;
+  startTimePeriod = '00:00';
+  endTimePeriod = '00:00';
+
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -27,6 +31,16 @@ export class TripDetailsComponent implements OnInit {
     // this.common.handleModalSize('class', 'modal-lg', '1600');
     this.startDate = this.common.params.fromTime;
     this.endDate = this.common.params.toTime;
+
+    this.startTimePeriod = this.startDate.split(' ')[1];
+    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
+
+    this.endTimePeriod = this.endDate.split(' ')[1];
+    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
+
+    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
+    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
+
     this.vehicleId = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
     this.getTripDetails();
@@ -35,10 +49,18 @@ export class TripDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+  get startTimeFull() {
+    return this.startDate + " " + this.startTimePeriod;
+  }
+
+  get endTimeFull() {
+    return this.endDate + " " + this.endTimePeriod;
+  }
+
   getTripDetails() {
     let params = "vehicleId=" + this.vehicleId +
-      "&startTime=" + this.common.dateFormatter(this.startDate) +
-      "&endTime=" + this.common.dateFormatter(this.endDate);
+      "&startTime=" + this.startTimeFull +
+      "&endTime=" + this.endTimeFull;
     console.log(params)
     this.api.get('TripsOperation/viewBtw?' + params)
       .subscribe(res => {
@@ -74,6 +96,24 @@ export class TripDetailsComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+  getDate(type) {
+
+    this.common.params = { ref_page: 'trip status feedback' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+        }
+        else {
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
+
   }
 
 }
