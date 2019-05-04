@@ -139,6 +139,8 @@ import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-stat
 import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
+import { PagesModule } from './pages/pages.module';
+import { AdminModule } from './admin/admin.module';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
