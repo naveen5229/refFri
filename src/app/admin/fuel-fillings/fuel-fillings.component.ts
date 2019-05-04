@@ -56,7 +56,7 @@ export class FuelFillingsComponent implements OnInit {
     this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
     this.getFillingData();
     this.common.refresh = this.refresh.bind(this);
-
+    console.log("Page Type:", user._pages);
   }
 
   ngOnInit() {
