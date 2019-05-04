@@ -35,12 +35,16 @@
         color: white;
         font-size: 20px;
         border: none;
+        box-shadow: none;
     }
-
     .header-container {
         display: flex;
         align-items: center;
         width: auto;
+        
+        nb-action{
+            border: 0px !important;
+        }
 
         .navigation {
             @include nb-ltr(padding-right, nb-theme(padding));
@@ -235,6 +239,7 @@
     background-color: transparent;
     border: none;
     color: #fff;
+    box-shadow: none;
 }
 
 .back_btn img {
@@ -293,4 +298,9 @@
 :host ::ng-deep .user-picture{
     background-image: url(assets/images/avtar.png) !important;
     background-size: cover !important;
+}
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+    .select_branch{
+        width: 350px;
+    }
 }
