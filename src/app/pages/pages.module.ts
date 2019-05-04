@@ -50,6 +50,7 @@ import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.
 import { ShortTargetComponent } from './short-target/short-target.component';
 import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
 import { CustomDatePipe } from '../pipes/custom-date/custom-date.pipe';
+import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
 
 
 
@@ -107,6 +108,7 @@ const PAGES_COMPONENTS = [
     TripOnwardDelayComponent,
     ShortTargetComponent,
     onwardKmpdComponent,
+    VehicleTripStagesComponent,
     // CustomDatePipe
   ],
   exports: [

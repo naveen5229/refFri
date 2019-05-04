@@ -913,27 +913,35 @@ export class CommonService {
       case 4:
       case 20:
       case 21:
-        if (!x_placement_type) {
-          html = `
-            <!-- Available (Done) -->
+
+        html = `
+           
             <span class="loading">${x_origin.trim()}</span>
             ${x_destination ? `
               <span>-</span>
               <span class="unloading">${x_destination.trim()}</span>
-            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            <i class="fa fa-check-circle complete"></i>`;
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}`;
+        console.log('X_placementType =', x_placements.length, x_status);
+        if (x_placements.length && x_placements.length > 0) {
+          html += ` <!-- Available (Done) -->
+          ${this.formatTripPlacement(x_placement_type, x_placements)}`
+
+        } else {
+          html += ` <!-- Available (Next) -->
+          <i class="fa fa-check-circle complete"></i>`;
+
         }
 
-        else {
-          html = `
-            <!-- Available (Next) -->
-            <span class="loading">${x_origin.trim()}</span>
-            ${x_destination ? `
-              <span>-</span>
-              <span class="unloading">${x_destination.trim()}</span>
-            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
-        }
+        // else {
+        //   html = `
+        //     <!-- Available (Next) -->
+        //     <span class="loading">${x_origin.trim()}</span>
+        //     ${x_destination ? `
+        //       <span>-</span>
+        //       <span class="unloading">${x_destination.trim()}</span>
+        //     ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+        //     ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        // }
         break;
 
       case 5:

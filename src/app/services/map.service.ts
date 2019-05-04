@@ -170,18 +170,19 @@ export class MapService {
   }
 
   addListerner(element, event, callback) {
-    google.maps.event.addListener(element, event, callback);
+    if (element)
+      google.maps.event.addListener(element, event, callback);
   }
 
   getLatLngValue(markerData) {
     let latLng = { lat: 0, lng: 0 }
     let keys = Object.keys(markerData);
-    latLng.lat = markerData[keys.find((element) => {
+    latLng.lat = parseFloat(markerData[keys.find((element) => {
       return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat";
-    })];
-    latLng.lng = markerData[keys.find((element) => {
+    })]);
+    latLng.lng = parseFloat(markerData[keys.find((element) => {
       return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong";
-    })];
+    })]);
     return latLng;
   }
 
@@ -229,8 +230,7 @@ export class MapService {
       let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
-      if (changeBounds && (lat && lng)) {
-        this.setBounds(latlng);
+      if ((lat && lng)) {
         marker = new google.maps.Marker({
           position: latlng,
           flat: true,
@@ -238,6 +238,8 @@ export class MapService {
           map: this.map,
           title: title
         });
+        if (changeBounds)
+          this.setBounds(latlng);
       }
       thisMarkers.push(marker);
       this.markers.push(marker);
@@ -279,7 +281,8 @@ export class MapService {
 
   resetMarker(reset = true, boundsReset = true) {
     for (let i = 0; i < this.markers.length; i++) {
-      this.markers[i].setMap(null);
+      if (this.markers[i])
+        this.markers[i].setMap(null);
     }
     if (reset)
       this.markers = [];
@@ -290,9 +293,11 @@ export class MapService {
   resetBounds() {
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < this.markers.length; index++) {
-      let pos = this.markers[index].position;
-      if (pos.lat() != 0)
-        this.setBounds(pos);
+      if (this.markers[index]) {
+        let pos = this.markers[index].position;
+        if (pos.lat() != 0)
+          this.setBounds(pos);
+      }
     }
   }
   resetPolygons() {
