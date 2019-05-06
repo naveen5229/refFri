@@ -109,6 +109,7 @@ const PAGES_COMPONENTS = [
     ShortTargetComponent,
     onwardKmpdComponent,
     VehicleTripStagesComponent,
+    //PoliceStationComponent,
     // CustomDatePipe
   ],
   exports: [
