@@ -67,7 +67,7 @@ export class ConciseComponent implements OnInit {
       key: "showprim_status"
     },
     {
-      name: "Secondry Status",
+      name: "Secondary Status",
       key: "showsec_status"
     },
     {

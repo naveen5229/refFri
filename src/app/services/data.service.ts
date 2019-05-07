@@ -64,7 +64,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Vechile Distance',
+            title: 'Vehicle  Distance',
             icon: 'fas fa-route',
             link: '/admin/vehicle-distance',
             home: true,
