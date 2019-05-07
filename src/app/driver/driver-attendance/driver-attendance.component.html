@@ -6,15 +6,17 @@
         <table class="table table-bordered table-hover table-scroll">
             <thead class="thead">
               <th>#</th>
-              <th *ngFor="let day of days">{{day}}</th>
+              <th>Driver Names</th>
+               <th *ngFor="let date of days">{{date}}</th> 
             </thead>
             <tbody>
-                <tr *ngFor="let driver of driverList">
-            <td>{{driver.empname}}</td>
-            </tr>
-            <td></td>
+               <!-- // <tr *ngFor="let driver of driverList"> -->
+            <tr *ngFor="let details of arrdriverData.driver_attendance"> 
               
-             
+            <td>{{details.id}}</td>
+            <td>{{details.name}}</td>
+            <td *ngFor = "let attendance of details.attendance" (click)="Update(details,attendance)">{{attendance}}</td> 
+            </tr>
           </tbody>
           </table>
           </nb-card-body>

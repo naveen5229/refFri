@@ -107,6 +107,7 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
+import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-update/driver-attendance-update.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
@@ -141,6 +142,7 @@ import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -211,6 +213,7 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
@@ -319,6 +322,7 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
