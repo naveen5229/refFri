@@ -1,35 +1,53 @@
-<div>
-  <div>
-    <form>
-      <select [(ngModel)]="type" name="type">
-        <option value="1">Police Station</option>
-        <option value="2">Fules</option>
-        <option value="3">tolls</option>
-     </select>
-     </form>
-    <button type="button"  (click)="getPoliceStation()">OK</button>
- </div>
- <div>
- 
- <div class="col-sm-6">
-  <table class="table table-bordered table-hover" >
-    <thead> 
-      <th><b>name</b></th>
-      <th><b>Vicnity</b></th>
-      <th><b>phoneno</b></th> 
-     </thead>
-  <tbody>
-      <tr *ngFor="let value of PoliceStation; let i = index">
-  
-    <td>{{value.name}}</td>
-      <td>{{value.Vicinity}}</td>
-      <td>{{value.phone}}</td>
-      </tr>
-  </tbody>
-  </table>
- </div>
-<div class="col-sm-6 map" id="map" ></div>
-</div>
+<nb-card>
+  <nb-card-body>
 
-</div>
+    <div>
+      <form>
+        <select [(ngModel)]="type" name="type">
+          <option value="1">Police Station</option>
+          <option value="2">Fules</option>
+          <option value="3">tolls</option>
+        </select>
+      </form>
+      <button type="button" (click)="getPoliceStation()">OK</button>
+      <button type="button" class="close" aria-label="Close" (click)="dismiss()">close</button>
+    </div>
+    <div>
 
+      <div class="col-sm-6">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <th><b>name</b></th>
+            <th><b>Address</b></th>
+            <th><b>phoneno</b></th>
+          </thead>
+
+          <tbody *ngFor="let value of PoliceStation; let i = index" >
+                        
+               <tr cdkDrag [id]="'value-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
+                (mouseout)="mapService.toggleBounceMF(i,2)"> 
+              <!-- <nb-card *ngFor="let value of PoliceStation; let i = index">
+                      <nb-card-body  style="cursor: pointer;">
+                          <div class="col-sm-4">
+                              {{ value.name  }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ value.Vicinity }}
+                              </div>
+                              <div class="col-sm-4">
+                                  {{ value.phone }}
+                                </div>
+                      </nb-card-body>
+                  </nb-card> -->
+
+              <td (click)="openSmartTool(i,value);">{{value.name}}</td>
+              <td (click)="openSmartTool(i,value);">{{value.Vicinity}}</td>
+              <td (click)="openSmartTool(i,value);">{{value.phone}}</td>
+            </tr>
+          </tbody> 
+        </table>
+      </div>
+      <div class="col-sm-6 map" id="map"></div>
+    </div>
+  </nb-card-body>
+</nb-card>
