@@ -123,6 +123,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
 
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.distanceData[i]) };
         }
+
         else {
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
         }
