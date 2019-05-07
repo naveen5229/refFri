@@ -95,6 +95,7 @@ export class StorerequisitionComponent implements OnInit {
 
     this.storeRequestStockId = this.common.params.storeRequestId;
     this.storeRequestStockId = this.common.params.storeRequestId;
+    this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
     this.pendingid = this.common.params.pendingid;
     console.log('stock Request Id', this.pendingid);
     this.common.handleModalSize('class', 'modal-lg', '1150');

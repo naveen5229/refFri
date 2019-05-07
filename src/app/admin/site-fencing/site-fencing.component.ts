@@ -278,7 +278,7 @@ export class SiteFencingComponent implements OnInit {
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.clearAll();
-        this.mapService.createMarkers(data);
+        this.mapService.createMarkers(data, false, true, ["id", "name"]);
       }, err => {
         console.error(err);
         this.commonService.showError();

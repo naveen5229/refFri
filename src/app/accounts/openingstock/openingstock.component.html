@@ -32,6 +32,11 @@
         <tr>
           <th>Stock Item</th>
           <th>Unit</th>
+          <th>sales return</th>
+          <th>Purchase return</th>
+          <th>wastage Qty</th>
+          <th>store Received qty</th>
+          <th>store Issue qty</th>
           <th>Avg Purchase Rate</th>
           <th>Avg Sales Rate</th>
           <th>Total Purchase Qty</th>
@@ -45,6 +50,11 @@
           [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{openingStock['Stock Item']}}</td>
           <td>{{openingStock['Unit']}}</td>
+          <td>{{openingStock['sr_total_qty  ']}}</td>
+          <td>{{openingStock['pr_total_qty ']}}</td>
+          <td>{{openingStock['wastage_total_qty ']}}</td>
+          <td>{{openingStock['storeRec_total_qty']}}</td>
+          <td>{{openingStock['storeIssue_total_qty']}}</td>
           <td>{{openingStock['Avg Purchase Rate']}}</td>
           <td>{{openingStock['Avg Sales Rate']}}</td>
           <td>{{openingStock['Total Purchase Qty']}}</td>
