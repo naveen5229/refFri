@@ -4,7 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
-import { updateBinding } from '@angular/core/src/render3/instructions';
+// 
 import {EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
 @Component({
