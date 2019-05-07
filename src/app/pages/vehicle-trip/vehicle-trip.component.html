@@ -1,34 +1,14 @@
-<nb-card>
+<nb-card style="border: 0px;">
     <nb-card-header>
       <div class="row">
-        <div class="col-sm-10"><h2>Vehicle Trips</h2></div>
+        <div class="col-sm-10"><h5>Vehicle Trips</h5></div>
+        <div class="col-sm-2 text-right">
+            <button class="btn btn-primary m-0" (click)="openAddTripModal()">Add Trip</button>
+        </div>
       </div>
     </nb-card-header>
     <nb-card-body>
-      <div>
-        <table class="table table-bordered table-hover">
-          <thead class="thead">
-            <tr>
-              <th>#</th>
-              <th>Vehicle No</th>
-              <th>Start Date</th>
-              <th>Start Name</th>
-              <th>End Date</th>
-              <th>End Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vehicleTrip of vehicleTrips; let i = index" (click)="getUpadte(vehicleTrip)">
-              <th scope="row" >{{i + 1}}</th>
-              <td>{{vehicleTrip.regno}}</td>
-              <td>{{vehicleTrip.startTime | date : 'dd MMM hh:mm a'}}</td>
-              <td>{{vehicleTrip.startName}}</td>           
-              <td>{{vehicleTrip.endTime | date : 'dd MMM hh:mm a'}}</td>
-              <td>{{vehicleTrip.endName}}</td>
-            </tr>
-        </table>
-  
-      </div>
-  
+      <smart-table *ngIf="vehicleTrips.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+      <br>
     </nb-card-body>
   </nb-card>

@@ -1,0 +1,14 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Short Target</h5>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="model-body">
+      <smart-table *ngIf="shortTarget.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -72,8 +72,18 @@
 table{
     cursor:pointer;
 }
-nb-card{
-    padding-left: 4% !important;
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
 }
 
 
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
+}

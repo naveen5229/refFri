@@ -10,13 +10,19 @@ export class MapService {
   mapDiv = null;
   markers = [];
   bounds = null;
+  infoStart = null;
   infoWindow = null;
   polygon = null;
   polygons = [];
   isMapLoaded = false;
+  mapLoadDiv = null;
   lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
+  lineSymbolBack = {
+    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
+  };
+
   polygonPath = null;
   isDrawAllow = false;
   designsDefaults = [
@@ -38,40 +44,43 @@ export class MapService {
   }
 
   updateLocation(elementId, autocomplete, setLocation?) {
-    console.log('tets');
-    let place = autocomplete.getPlace();
-    let lat = place.geometry.location.lat();
-    let lng = place.geometry.location.lng();
-    place = autocomplete.getPlace().formatted_address;
-    setLocation && setLocation(place, lat, lng);
+    let placeFull = autocomplete.getPlace();
+    let lat = placeFull.geometry.location.lat();
+    let lng = placeFull.geometry.location.lng();
+    let place = placeFull.formatted_address.split(',')[0];
+    setLocation && setLocation(place, lat, lng, placeFull.formatted_address);
   }
 
   zoomAt(latLng, level = 18) {
-    this.map.setCenter(latLng);
-    this.map.setZoom(level);
+    this.map.panTo(latLng);
+    if (level != this.map.getZoom())
+      this.zoomMap(level);
   }
 
   zoomMap(zoomValue) {
     this.map.setZoom(zoomValue);
-    if (zoomValue == 10 || zoomValue == 12 || zoomValue == 14) {
+    if (zoomValue <= 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    } else if (zoomValue == 16 || zoomValue == 18) {
+    } else if (zoomValue > 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
   }
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
-    // if (this.isMapLoaded) {
-    //   return;
-    // }
+    if (this.isMapLoaded) {
+      // document.getElementById(div).innerHTML="";
+      // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
+      // this.setMapType(0);
+      // return;
+    }
     this.mapDiv = document.getElementById(div);
     let latlng = new google.maps.LatLng(lat, long);
     let opt =
     {
       center: latlng,
       zoom: zoom,
-      mapTypeId: google.maps.MapTypeId.HYBRID,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
       styles: [{
         featureType: 'all',
@@ -83,16 +92,18 @@ export class MapService {
     };
     //$("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
-
+    this.mapLoadDiv = this.map.getDiv();
     this.bounds = new google.maps.LatLngBounds();
-
-    this.infoWindow = new google.maps.InfoWindow(
-      {
-        size: new google.maps.Size(50, 50),
-        maxWidth: 300
-      });
     this.isMapLoaded = true;
   }
+
+  createLatLng(lat, lng) {
+    return new google.maps.LatLng(lat, lng);
+  }
+  createInfoWindow() {
+    return new google.maps.InfoWindow();
+  }
+
   createPolygon(latLngs, options?) {// strokeColor = '#', fillColor = '#') {
     const defaultOptions = {
       paths: latLngs,
@@ -106,49 +117,81 @@ export class MapService {
     this.polygon = new google.maps.Polygon(options || defaultOptions);
     this.polygon.setMap(this.map);
   }
-  createPolygons(latLngsMulti, mainLatLngs?, secLatLngs?, options?) {// strokeColor = '#', fillColor = '#') {
+  createPolygons(latLngsMulti, options?) {// strokeColor = '#', fillColor = '#') {
+    let index = 0;
+
     latLngsMulti.forEach(latLngs => {
       let colorBorder;
       let colorFill;
-      if (secLatLngs == latLngs) {
+      let isMain = false;
+      if (latLngs.isSec) {
         colorBorder = '#f00';
         colorFill = '#f88';
-      } else if (mainLatLngs != latLngs) {
-        colorBorder = '#00f';
-        colorFill = '#88f';
-      }else{
+      } else if (latLngs.isMain) {
         colorBorder = '#0f0';
         colorFill = '#8f8';
+      } else {
+        colorBorder = '#00f';
+        colorFill = '#88f';
       }
       const defaultOptions = {
-        paths: latLngs,
+        paths: latLngs.data,
         strokeColor: colorBorder,
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        clickable: false,
+        clickable: !latLngs.isMain,
         fillColor: colorFill,
         fillOpacity: 0.35
       };
-      this.polygons.push(new google.maps.Polygon(options || defaultOptions));
-    });
-    this.polygons.forEach(polygon => {
+      let polygon = new google.maps.Polygon(options || defaultOptions);
+      this.polygons.push(polygon);
       polygon.setMap(this.map);
+      let infoWindow = new google.maps.InfoWindow();
+      infoWindow.opened = false;
+      let showContent = latLngs.show;
+      google.maps.event.addListener(polygon, 'mouseover', function (evt) {
+        infoWindow.setContent("Info: " + showContent);
+        infoWindow.setPosition(evt.latLng); // or evt.latLng
+        infoWindow.open(this.map);
+      });
+      google.maps.event.addListener(polygon, 'mouseout', function (evt) {
+        infoWindow.close();
+        infoWindow.opened = false;
+      });
+      index++;
     });
-
   }
 
-  createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {
+  addListerner(element, event, callback) {
+    if (element)
+      google.maps.event.addListener(element, event, callback);
+  }
+
+  getLatLngValue(markerData) {
+    let latLng = { lat: 0, lng: 0 }
+    let keys = Object.keys(markerData);
+    latLng.lat = parseFloat(markerData[keys.find((element) => {
+      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat";
+    })]);
+    latLng.lng = parseFloat(markerData[keys.find((element) => {
+      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong";
+    })]);
+    return latLng;
+  }
+
+  createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?) {
     let thisMarkers = [];
+    let infoWindows = [];
     console.log("Markers", markers);
     for (let index = 0; index < markers.length; index++) {
-
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
       let text = markers[index]["text"] ? markers[index]["text"] : " ";
       let pinColor = markers[index]["color"] ? markers[index]["color"] : "FFFF00";
-      let lat = markers[index]["lat"] ? markers[index]["lat"] : 25;
-      let lng = markers[index]["long"] ? markers[index]["long"] : 75;
+      let latLng = this.getLatLngValue(markers[index]);
+      let lat = latLng.lat;
+      let lng = latLng.lng;
       let title = markers[index]["title"] ? markers[index]["title"] : "Untitled";
       let latlng = new google.maps.LatLng(lat, lng);
       let pinImage;
@@ -169,7 +212,7 @@ export class MapService {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 3,
+            scale: 6,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -177,20 +220,51 @@ export class MapService {
       }
 
 
-      let marker = new google.maps.Marker({
-        position: latlng,
-        flat: true,
-        icon: pinImage,
-        map: this.map,
-        title: title
-      });
+      let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
-      if (changeBounds)
-        this.setBounds(latlng);
+      if ((lat && lng)) {
+        marker = new google.maps.Marker({
+          position: latlng,
+          flat: true,
+          icon: pinImage,
+          map: this.map,
+          title: title
+        });
+        let displayText = '';
+        if (infoKeys) {
+          let infoWindow = this.createInfoWindow();
+          infoWindows.push(infoWindow);
+          infoWindow.opened = false;
+          console.log(infoWindow);
+          if (typeof (infoKeys) == 'object') {
+            infoKeys.map((display, indexx) => {
+              if (indexx != infoKeys.length - 1) {
+                displayText += markers[index][display] + ' - ';
+              } else {
+                displayText += markers[index][display];
+              }
+            });
+          } else {
+            displayText = markers[index][infoKeys];
+          }
+          google.maps.event.addListener(marker, 'click', function (evt) {
+            this.infoStart = new Date().getTime();
+            for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+              const element = infoWindows[infoIndex];
+              if (element)
+                element.close();
+            }
+            infoWindow.setContent("Info: " + displayText);
+            infoWindow.setPosition(evt.latLng); // or evt.latLng
+            infoWindow.open(this.map);
+          });
+        }
+        if (changeBounds)
+          this.setBounds(latlng);
+      }
       thisMarkers.push(marker);
       this.markers.push(marker);
-      clickEvent && marker.addListener('click', clickEvent.bind(this, markers[index]));
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
@@ -199,15 +273,55 @@ export class MapService {
     return thisMarkers;
   }
 
-  clearAll(reset = true, boundsReset = true) {
+  toggleBounceMF(id, evtype = 1) {
+    //console.log("Bounce marker",id);
+    //console.log("index",index);
+    //.log("test",test);
+    //console.log("item",item);
+    console.log('Evtype:', evtype);
+    if (this.markers[id]) {
+      if (this.markers[id].getAnimation() == null && evtype == 1) {
+        this.markers[id].setAnimation(google.maps.Animation.BOUNCE);
+      }
+      else if (evtype == 2 && this.markers[id].getAnimation() != null) {
+        this.markers[id].setAnimation(null);
+      }
+    }
+  }
+
+  createPoint(x, y) {
+    return new google.maps.Point(x, y);
+  }
+
+  clearAll(reset = true, boundsReset = true, resetParams = { marker: true, polygons: true, polypath: true }) {
+
+    resetParams.marker && this.resetMarker(reset, boundsReset);
+    resetParams.polygons && this.resetPolygons();
+    resetParams.polypath && this.resetPolyPath();
+  }
+
+  resetMarker(reset = true, boundsReset = true) {
     for (let i = 0; i < this.markers.length; i++) {
-      this.markers[i].setMap(null);
+      if (this.markers[i])
+        this.markers[i].setMap(null);
     }
     if (reset)
       this.markers = [];
     if (boundsReset) {
       this.bounds = new google.maps.LatLngBounds();
     }
+  }
+  resetBounds() {
+    this.bounds = new google.maps.LatLngBounds();
+    for (let index = 0; index < this.markers.length; index++) {
+      if (this.markers[index]) {
+        let pos = this.markers[index].position;
+        if (pos.lat() != 0)
+          this.setBounds(pos);
+      }
+    }
+  }
+  resetPolygons() {
     if (this.polygon) {
       this.polygon.setMap(null);
       this.polygon = null;
@@ -218,6 +332,8 @@ export class MapService {
       });
       this.polygons = [];
     }
+  }
+  resetPolyPath() {
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
       this.polygonPath = null;
@@ -227,24 +343,32 @@ export class MapService {
   createPolygonPath(polygonOptions?) {
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.isDrawAllow) {
-        console.log("In Here");
-        if (!this.polygonPath) {
-          const defaultPolygonOptions = {
-            strokeColor: '#000000',
-            strokeOpacity: 1,
-            strokeWeight: 3,
-            icons: [{
-              icon: this.lineSymbol,
-              offset: '100%'
-            }]
-          }
-          this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
-          this.polygonPath.setMap(this.map);
-        }
-        let path = this.polygonPath.getPath();
-        path.push(event.latLng);
+        this.createPolyPathManual(event.latLng, polygonOptions);
       }
     });
+  }
+  createPolyPathManual(latLng, polygonOptions?) {
+    console.log("In Here");
+    if (!this.polygonPath) {
+      const defaultPolygonOptions = {
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '100%'
+        }]
+      }
+      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.polygonPath.setMap(this.map);
+    }
+    let path = this.polygonPath.getPath();
+    path.push(latLng);
+  }
+
+  setMapType(typeIndex) {
+    let types = ['roadmap', 'satellite', 'hybrid', 'terrain'];
+    this.map.setMapTypeId(types[typeIndex]);
   }
 
   setBounds(latLng, reset = false) {

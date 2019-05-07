@@ -1,0 +1,51 @@
+.modal-body{
+    padding: 10px 15px;
+}
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #37474F;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 250px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

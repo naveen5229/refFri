@@ -14,17 +14,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Inputs',
+        title: 'Vehicle Tyres',
         icon: 'fa fa-pencil-square-o',
-        link: '/tyres/inputs',
+        link: '/tyres/vehicle-tyres',
         home: true,
     },
-    {
-        title: 'Health Checkup',
-        icon: 'fa fa-medkit',
-        link: '/tyres/tyre-health-check-up',
-        home: true,
-    },
+    // {
+    //     title: 'Inputs',
+    //     icon: 'fa fa-pencil-square-o',
+    //     link: '/tyres/inputs',
+    //     home: true,
+    // },
+    // {
+    //     title: 'Health Checkup',
+    //     icon: 'fa fa-medkit',
+    //     link: '/tyres/tyre-health-check-up',
+    //     home: true,
+    // },
     {
         title: 'Add Trolly',
         icon: 'fa fa-truck',

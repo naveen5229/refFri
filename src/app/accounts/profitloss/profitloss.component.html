@@ -1,0 +1,113 @@
+<nb-card style="padding-top: 25px; border: 0px;">
+  <nb-card-body (keydown)="keyHandler($event)">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="tjr-label">Starting Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+            placeholder="Select Date" name="account-date" [(ngModel)]="plData.startdate" id="startdate"
+            maxlength="10" />
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="tjr-label">End Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+            placeholder="Select Date" name="account-enddate" [(ngModel)]="plData.enddate" id="enddate" maxlength="10" />
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary tjr-button" type="button" outline (click)="getBalanceSheet()" id="submit"
+            style="cursor: pointer; margin-top: 14px; padding: 5px 10px !important;">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row balance-shit m-0 p-0">
+      <div class="col-6 p-0">
+        <table class="table table-bordered m-0">
+          <thead>
+            <tr>
+              <th>Particulars</th>
+              <th style="text-align: right;">Amount</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let liability of liabilities; let i = index">
+            <tr style="background: #184154;" [ngStyle]="{ display: i == liabilities.length - 1 ? 'none' : '' }">
+              <td>{{ liability.name }}</td>
+              <td style="text-align: right;">{{ liability.amount }}</td>
+            </tr>
+            <tr *ngFor="let balanceSheet of liability.profitLossData" style="background: #dadfe6;">
+              <td>{{ balanceSheet.y_ledger_name }}</td>
+              <td style="text-align: left;">
+                <p style="margin: 0px; width: 50px; text-align: right;">
+                  {{ balanceSheet.y_amount }}
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-6 p-0">
+        <table class="table table-bordered m-0">
+          <thead>
+            <tr>
+              <th>Particulars</th>
+              <th style="text-align: right;">Amount</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let asset of assets; let i = index">
+            <tr style="background: #184154;" [ngStyle]="{ display: i == assets.length - 1 ? 'none' : '' }">
+              <td>{{ asset.name }}</td>
+              <td style="text-align: right;">{{ asset.amount }}</td>
+            </tr>
+            <tr *ngFor="let balanceSheet of asset.profitLossData" style="background: #dadfe6;">
+              <td>{{ balanceSheet.y_ledger_name }}</td>
+              <td style="text-align: left;">
+                <p style="margin: 0px; width: 50px; text-align: right;">
+                  {{ balanceSheet.y_amount }}
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 pr-0">
+        <div *ngIf="liabilities.length" class="tanding_total clearfix">
+          <div class="total_name">
+            {{ liabilities[liabilities.length - 1].name }}
+          </div>
+          <div class="total_amount" style="text-align: right;">
+            <p style="margin: 0px; width: 50px; text-align: right;">
+              {{ liabilities[liabilities.length - 1].amount }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 pl-0">
+        <div class="tanding_total clearfix" *ngIf="assets.length">
+          <div class="total_name">{{ assets[assets.length - 1].name }}</div>
+          <div class="total_amount" style="text-align: right;">
+            <p style="margin: 0px; width: 50px; text-align: right;">
+              {{ assets[assets.length - 1].amount }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="plData[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

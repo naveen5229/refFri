@@ -1,10 +1,7 @@
-
-nb-card{
-    margin-left: 4%;
-}
-a {
-    font-size: 20px;
-    padding: 15%;
+nb-card-header {
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
 }
 .rc-image{
     margin-left: 0px;
@@ -26,9 +23,30 @@ a {
 label {
     font-size: 14px;
     padding-top: 10px;
-    font-weight: 600;
+    font-weight: normal;
+    color: #4b4b4b;
 }
-
+.modal-body input, 
+.modal-body textarea, 
+.modal-body select{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px !important;
+    height: auto;
+    font-size: 12px;
+}
+.modal-body textarea{
+    height: 100px;
+}
+.btn-primary{
+    background-color: #263238 !important;
+}
+.btn-danger {
+    background-color: #d61414 !important;
+}
+.modal-footer{
+    padding: 0px;
+}
 .dropdown {
     position: relative;
 }
@@ -111,7 +129,21 @@ auto-suggestion {
     overflow: auto;
     height: 100%;
 }
-
+.modal-header{
+    padding: 10px 15px;
+    background-color: #263238 !important;
+}
+.modal-header h5{
+    color:#fff;
+}
+.close {
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+}
 .custom-modal-body {
     background: #fff;
 }
@@ -125,5 +157,120 @@ auto-suggestion {
 .custom-passive-modal {
     z-index: 1049;
 }
+table{
+    margin: 0px;
+    border: 0px;
+    thead{
+        background-color: #263238;
+        tr{
+            th{
+                padding: 5px 10px;
+                font-weight: normal;
+            }
+        }
+    }
+    tbody{
+        tr:nth-child(odd){
+            background-color:#fff;
+        }
+        tr:nth-child(even){
+            background-color:#e4e4e4;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            .edit{
+                background-color: #1DE9B6;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 3px;
+                display: inline-block;
+                font-size: 12px;
+            }
+            .delete{
+                background-color: #F44236;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 3px;
+                display: inline-block;
+                font-size: 12px;
+            }
+        }
+    }
+}
 
-// Modal END
+.list_table table tbody {
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height: 320px;
+    min-height: 320px;
+}
+.list_table table thead tr th:nth-child(1){
+    width: 45px;
+}
+.list_table table thead tr th:nth-child(2),
+.list_table table thead tr th:nth-child(3){
+    width: 110px;
+}
+
+.list_table table thead tr th:nth-child(4),
+.list_table table thead tr th:nth-child(6),
+.list_table table thead tr th:nth-child(7){
+    width: 150px;
+}
+.list_table table thead tr th:nth-child(5){
+    width: 130px;
+}
+.list_table table tbody tr td:nth-child(1){
+    width: 45px;
+}
+.list_table table tbody tr td:nth-child(2),
+.list_table table tbody tr td:nth-child(3),
+.list_table table tbody tr td:nth-child(9){
+    width: 110px;
+}
+
+.list_table table tbody tr td:nth-child(4),
+.list_table table tbody tr td:nth-child(6),
+.list_table table tbody tr td:nth-child(7){
+    width: 150px;
+}
+.list_table table tbody tr td:nth-child(5){
+    width: 130px;
+}
+.work-table table tbody{
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height: 70px;
+    min-height: 70px;
+}
+.work-table table thead tr th:nth-child(1),
+.work-table table tbody tr td:nth-child(1){
+    width: 50px;
+}
+.work-table table thead tr th:nth-child(2),
+.work-table table tbody tr td:nth-child(2),
+.work-table table thead tr th:nth-child(3),
+.work-table table tbody tr td:nth-child(3){
+    width: 350px;
+}
+h6{
+    margin: 15px 0px 10px;
+}
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.table-scroll tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+

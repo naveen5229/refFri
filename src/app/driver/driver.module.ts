@@ -9,6 +9,11 @@ import { DriverRoutingModule } from './driver-routing.module';
 import { AddDriverComponent } from './add-driver/add-driver.component';
 import { DriverListComponent } from './driver-list/driver-list.component';
 import { VehicleDriverMappingComponent } from './vehicle-driver-mapping/vehicle-driver-mapping.component';
+import { DriverAttendanceComponent } from './driver-attendance/driver-attendance.component';
+import { DriverDocumentComponent } from './driver-document/driver-document.component';
+import { LicenceUploadComponent } from './licence-upload/licence-upload.component';
+import { PendingLicenceComponent } from './pending-licence/pending-licence.component';
+import { ImageViewerModule } from 'ng2-image-viewer';
 
 const PAGES_COMPONENTS = [
   DriverComponent,
@@ -20,7 +25,11 @@ const PAGES_COMPONENTS = [
     DriverRoutingModule,
     ThemeModule,
     DashboardModule,
-    DirectiveModule
+    DirectiveModule,
+    ImageViewerModule
+  ],
+  exports:[
+    DriverListComponent,
   ],
   providers: [DatePipe],
   declarations: [
@@ -28,6 +37,11 @@ const PAGES_COMPONENTS = [
     AddDriverComponent,
     DriverListComponent,
     VehicleDriverMappingComponent,
+    DriverAttendanceComponent,
+    DriverDocumentComponent,
+    LicenceUploadComponent,
+    PendingLicenceComponent
+    
   ],
 })
 export class DriverModule { }

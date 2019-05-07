@@ -9,6 +9,7 @@ import { AddDocumentComponent } from '../../documents/documentation-modals/add-d
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
+import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
 import { from } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
@@ -35,6 +36,7 @@ export class DocumentationDetailsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
+    this.common.currentPage = 'Vehicle Documents Input';
   }
 
   ngOnInit() {
@@ -69,15 +71,16 @@ export class DocumentationDetailsComponent implements OnInit {
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-      rto: { title: 'Rto', placeholder: 'Rto' },
+      rto: { title: 'RTO', placeholder: 'RTO' },
       amount: { title: 'Amount', placeholder: 'Amount' },
-      remark: { title: 'Remark', placeholder: 'Remak' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true },
-      edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+      verified: { title: 'Verified', placeholder: 'Verified' },
+      remark: { title: 'Remark', placeholder: 'Remark' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class: 'del'  },
+      edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true, class: 'del' },
     };
 
     if (this.user._loggedInBy == 'admin') {
-      headings['delete'] = { title: 'Delete', placeholder: 'Delete', hideSearch: true, };
+      headings['delete'] = { title: 'Delete', placeholder: 'Delete', hideSearch: true, class: 'del' };
     }
     return {
       data: {
@@ -85,7 +88,8 @@ export class DocumentationDetailsComponent implements OnInit {
         columns: this.getTableColumns()
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: "auto"
       }
     }
   }
@@ -99,7 +103,7 @@ export class DocumentationDetailsComponent implements OnInit {
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
       console.log("expiry date:", exp_date);
       let column = {
-        docId:{value: doc.id},
+        docId:{value: doc.id, class: this.user._loggedInBy == 'admin'? 'blue': 'black', action:this.openHistory.bind(this, doc.id)},
         vehicleNumber: { value: doc.regno },
         docType: { value: doc.document_type },
         agentName: { value: doc.agent },
@@ -109,10 +113,11 @@ export class DocumentationDetailsComponent implements OnInit {
         documentNumber: { value: doc.document_number },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
+        verified: { value: doc.is_verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
-        edit: { value: `<i class="fa fa-pencil"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
-        rowActions: {}
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center del' },
+        edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center del' },
+        rowActions: { class : 'del'}
       };
       if (this.user._loggedInBy == 'admin') {
         column['delete'] = { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' };
@@ -121,6 +126,17 @@ export class DocumentationDetailsComponent implements OnInit {
       columns.push(column);
     });
     return columns;
+  }
+
+  openHistory(doc_id) {
+    this.common.params = { doc_id, title: 'Document Change History' };
+    const activeModal = this.modalService.open(DocumentHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        //this.getHistoryData();
+        //window.location.reload();
+      }
+    });
   }
 
   getDate(date) {
@@ -256,4 +272,19 @@ export class DocumentationDetailsComponent implements OnInit {
       })
     }
   }
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
 }

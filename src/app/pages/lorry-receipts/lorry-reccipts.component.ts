@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
+import { DatePipe } from '@angular/common';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -12,16 +16,28 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 })
 export class LorryRecciptsComponent implements OnInit {
   receipts = [];
+  table = null;
   viewImages = null;
   activeImage = 'lr_image';
   viewType = 'allLR';
+  startDate='';
+  endDate='';
   // showMsg = false;
   constructor(
     public api: ApiService,
     public common: CommonService,
+    private datePipe: DatePipe,
     public user: UserService,
-    private modalService: NgbModal) {
-    this.getLorryReceipts();
+    public route: ActivatedRoute,
+    private modalService: NgbModal,
+    public renderer: Renderer) {
+      
+      let today;
+      today = new Date();
+      this.endDate = this.common.dateFormatter(today);
+      this.startDate=this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
+      console.log('dates ',this.endDate,this.startDate)
+      this.getLorryReceipts();
 
 
   }
@@ -32,19 +48,27 @@ export class LorryRecciptsComponent implements OnInit {
 
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
+     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0],);
+    let params = {
+      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      endDate:  this.common.dateFormatter1( enddate.setDate( enddate.getDate() + 1 )).split(' ')[0],
+      type: this.viewType
+    }; 
     
     ++this.common.loading;
-    this.api.post('FoDetails/getLorryStatus', { type: this.viewType })
+    this.api.post('FoDetails/getLorryStatus', params)
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res);
         this.receipts = res['data'];
         // console.log("Receipt",this.receipts);
+        this.table = this.setTable();
       }, err => {
         --this.common.loading;
 
         console.log('Err:', err);
       });
+
   }
 
   getImage(receipt) {
@@ -64,5 +88,95 @@ export class LorryRecciptsComponent implements OnInit {
     console.log("images:", images);
     this.common.params = { images, title: 'LR Details' };
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  printLr(receipt){
+    
+
+    console.log("receipts",receipt);
+    this.common.params = {lrId: receipt.lr_id }
+    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
+   
+  setTable() {
+    let headings = {
+      LRId: { title: 'LR Id', placeholder: 'LR Id' },
+      VehiceNo: { title: 'Vehicle No', placeholder: 'Vehicle No' },
+      LRNo: { title: 'LR No', placeholder: 'LR No' },
+      LRDate: { title: 'LR Date', placeholder: 'LR Date' },
+      Consigner: { title: 'Consigner', placeholder: 'Consigner' },
+      consignee: { title: 'consignee', placeholder: 'consignee'},
+      Source: { title: 'Source', placeholder: 'Source'},
+      Destination: { title: 'Destination', placeholder: 'Destination'},
+      AddTime: { title: 'AddTime', placeholder: 'AddTime'},
+      Image: { title: 'Image', placeholder: 'Image'},
+      Print: { title: 'Print', placeholder: 'Print'},
+      
+    };
+
+    // if (this.user._loggedInBy == 'admin') {
+    //   headings['delete'] = { title: 'Delete', placeholder: 'Delete', hideSearch: true, class: 'del' };
+    // }
+    return {
+      receipts: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true
+      }
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    this.receipts.map(R => {
+
+      let column = {
+      LRId: { value: R.lr_id },
+      VehiceNo: { value: R.regno },
+      LRNo: { value: R.lr_no },
+      LRDate: { value: this.datePipe.transform(R.lr_date, 'dd MMM HH:mm ') },
+      Consigner: { value: R.lr_consigner_name },
+      consignee: { value: R.lr_consignee_name },
+      Source: { value: R.lr_source},
+      Destination: { value: R.lr_destination },
+      AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ')  },
+      Image: { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) },
+      Print: { value: `<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R) } 
+     };
+      columns.push(column);
+    
+    });
+    return columns;
+  }
+
+  getDate(type) {
+
+    this.common.params={ref_page:'LrView'}       
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start'){
+          this.startDate='';
+          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
+          console.log('fromDate',this.startDate);
+        }
+        else{
+         
+          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
+          // return this.endDate = date.setDate( date.getDate() + 1 )
+          console.log('endDate',this.endDate);
+        }
+
+      }
+
+    });
+
+
   }
 }

@@ -21,68 +21,193 @@ export class DataService {
     return [
       {
         title: 'Dashboard',
-        icon: 'nb-home',
-        link: '/admin/dashboard',
+        icon: 'fa fa-home',
+        link: '/pages',
       },
       {
-        title: 'Vehicle Status Change',
-        icon: 'nb-home',
-        link: '/admin/vehiclestatuschange',
-      },
-      {
-        title: 'VSC Ticket Audit',
-        icon: 'nb-home',
-        link: '/admin/vscticketaudit',
-      },
-      {
-        title: 'Issue Alerts',
-        icon: 'nb-home',
-        link: '/admin/issue-alerts',
-      },
-      {
-        title: 'Escalation Matrix',
-        icon: 'nb-home',
-        link: '/admin/escalation-matrix',
-      },
-      {
-        title: 'LR View',
-        icon: 'nb-home',
-        link: '/admin/lrview',
-      },
-      {
-        title: 'Generate LR',
-        icon: 'nb-home',
-        link: '/admin/generate-lr',
-      },
-      {
-        title: 'Group Managements',
-        icon: 'nb-home',
-        link: '/admin/group-managements',
+        title: 'Trip',
+        icon: 'fas fa-route',
+        children: [
+          {
+            title: 'Vehicle Status Change',
+            icon: 'fas fa-clipboard-check',
+            link: '/admin/vehiclestatuschange',
+          },
+          {
+            title: 'VSC Ticket Audit',
+            icon: 'fas fa-ticket-alt',
+            link: '/admin/vscticketaudit',
+          },
+
+          {
+            title: 'Issue Alerts',
+            icon: 'fa fa-exclamation-triangle',
+            link: '/admin/issue-alerts',
+          },
+          {
+            title: 'Alert Related Issue',
+            icon: 'far fa-bell',
+            link: '/admin/alert-related-issue',
+            home: true,
+          },
+          {
+            title: 'Trip Feedback Logs',
+            icon: 'nb-home',
+            link: '/admin/trip-status-feedback-logs',
+            home: true,
+          },
+
+          {
+            title: 'Vehicle GPS Trail',
+            icon: 'fas fa-receipt',
+            link: '/admin/vehicle-gps-trail',
+            home: true,
+          },
+          {
+            title: 'Vechile Distance',
+            icon: 'fas fa-route',
+            link: '/admin/vehicle-distance',
+            home: true,
+          },
+          {
+            title: 'Trip Site Rule',
+            icon: 'fas fa-file-signature',
+            link: '/admin/trip-site-rule',
+            home: true,
+          },
+          {
+            title: 'Transport Agents',
+            icon: 'nb-home',
+            link: '/admin/transport-agents',
+            home: true,
+          },
+
+          {
+            title: 'Site Fencing',
+            icon: 'fas fa-coins',
+            link: '/admin/site-fencing',
+          },
+          {
+            title: 'Transport Area Fencing',
+            icon: 'fas fa-coins',
+            link: '/admin/transport-area',
+          },
+          {
+            title: 'Site Details',
+            icon: 'fa fa-sitemap',
+            link: '/admin/site-details',
+            home: true,
+          },
+          {
+            title: 'Subsites',
+            icon: 'nb-home',
+            link: '/admin/sub-sites',
+            home: true,
+          },
+        ]
       },
 
       {
-        title: 'Ticket Properties',
-        icon: 'nb-home',
-        link: '/admin/ticket-properties',
+        title: 'Admin',
+        icon: 'fa fa-user',
+        home: true,
+        children: [
+          {
+            title: 'Driver',
+            icon: 'fa fa-male',
+            link: '/admin/driver-list',
+            home: true,
+          },
+          {
+            title: 'Ticket Properties',
+            icon: 'fas fa-ticket-alt',
+            link: '/admin/ticket-properties',
+          },
+
+          {
+            title: 'Diagnostics',
+            icon: 'fa fa-stethoscope',
+            link: '/admin/diagnostics',
+          },
+
+          {
+            title: 'User Role',
+            icon: 'fas fa-user-cog',
+            link: '/admin/user-preferences',
+          },
+          {
+            title: 'Fo Activity Summary',
+            icon: 'nb-home',
+            link: '/admin/activity-summary',
+            home: true,
+          },
+        ]
       },
       {
-        title: 'Lorry Receipt Details',
-        icon: 'nb-home',
-        link: '/admin/lorry-receipt-details',
+        title: 'Receipt & Invoice',
+        icon: 'fas fa-receipt',
+        children: [
+          {
+            title: 'Lorry Receipt Details',
+            icon: 'fas fa-receipt',
+            link: '/admin/lorry-receipt-details',
+          },
+
+          {
+            title: 'Generate LR',
+            icon: 'fa fa-pencil',
+            link: '/admin/generate-lr',
+          },
+        ]
       },
       {
-        title: 'Site Fencing',
-        icon: 'nb-home',
-        link: '/admin/site-fencing',
+        title: 'Customer Admin',
+        icon: 'fa fa-user',
+        children: [
+          {
+            title: 'Fo GPS Mapping',
+            icon: 'nb-home',
+            link: '/admin/gps-supplier-mapping',
+            home: true,
+          },
+          {
+            title: 'Vehicle GPS Detail',
+            icon: 'nb-home',
+            link: '/admin/vehicle-gps-detail',
+          },
+          {
+            title: 'Group Managements',
+            icon: 'fa fa-users',
+            link: '/admin/group-managements',
+          },
+          {
+            title: 'Escalation Matrix',
+            icon: 'fa fa-chart-bar',
+            link: '/admin/escalation-matrix',
+          },
+          {
+            title: 'Fo Vehicle Details',
+            icon: 'nb-home',
+            link: '/admin/vehicles-view',
+            home: true,
+          },
+          {
+            title: 'Company Details',
+            icon: 'nb-home',
+            link: '/admin/company-details',
+            home: true,
+          },
+        ]
       },
-      {
-        title: 'Diagnostics',
-        icon: 'nb-home',
-        link: '/admin/diagnostics',
-      },
+
+
+
+
+
+
       {
         title: 'Document',
-        icon: 'nb-home',
+        icon: 'fa fa-file-alt',
         children: [
           {
             title: 'Pending Details',
@@ -94,16 +219,39 @@ export class DataService {
       },
 
       {
-        title: 'User Prefrence',
-        icon: 'nb-home',
-        link: '/admin/user-preferences',
+        title: 'Fuel',
+        icon: 'fas fa-gas-pump',
+        children: [
+          {
+            title: 'Fuel Fillings',
+            icon: 'fas fa-gas-pump',
+            link: '/admin/fuel-fillings',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Analysis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+          {
+            title: 'Remaining Fuel',
+            icon: 'fa fa-signal',
+            link: '/admin/remaining-fuel',
+            home: true,
+          },
+        ]
       },
       {
-        title: 'Site Details',
-        icon: 'nb-home',
-        link: '/admin/site-details',
-        home: true,
-      }
+        title: 'Account',
+        icon: 'fa fa-money',
+        link: '/accounts/dashboard'
+      },
+
+
+
+
+
     ];
   }
 }

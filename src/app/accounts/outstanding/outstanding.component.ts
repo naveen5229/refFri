@@ -15,30 +15,46 @@ import * as _ from 'lodash';
 export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
-  ledger = {
-    endDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startDate: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+  activedateid = '';
+  outStanding = {
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     ledger: {
-      name: '',
-      id: ''
+      name: 'All',
+      id: 0
     },
     branch: {
       name: '',
       id: ''
     },
+    trantype: 0
   };
 
   ledgerData = [];
   voucherEntries = [];
+  ledgerList = [];
+  activeId = 'ledger';
+  allowBackspace = true;
+  showDateModal = false;
+  f2Date = 'startDate';
+  lastActiveId = '';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) {
-    this.getBranchList();
+    this.common.refresh = this.refresh.bind(this);
+    this.getLedgerList();
+    this.setFoucus('ledger');
+    this.common.currentPage = 'Outstanding';
+
   }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getLedgerList();
+    this.setFoucus('ledger');
   }
 
   getBranchList() {
@@ -58,14 +74,32 @@ export class OutstandingComponent implements OnInit {
       });
 
   }
+  getLedgerList() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllLedger', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.ledgerList = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
 
   getLedgerView() {
-    console.log('Ledger:', this.ledger);
+    console.log('Ledger:', this.outStanding);
     let params = {
-      startdate: this.ledger.startDate,
-      enddate: this.ledger.endDate,
-      ledger: this.ledger.ledger.id,
-      branch: this.ledger.branch.id
+      startdate: this.outStanding.startDate,
+      enddate: this.outStanding.endDate,
+      ledger: this.outStanding.ledger.id,
+      branch: this.outStanding.branch.id,
+      trantype: this.outStanding.trantype
     };
 
     this.common.loading++;
@@ -84,14 +118,14 @@ export class OutstandingComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.ledger[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log(this.ledger[date]);
+      this.outStanding[date] = this.common.dateFormatternew(data.date).split(' ')[0];
+      console.log(this.outStanding[date]);
     });
   }
 
   onSelected(selectedData, type, display) {
-    this.ledger[type].name = selectedData[display];
-    this.ledger[type].id = selectedData.id;
+    this.outStanding[type].name = selectedData[display];
+    this.outStanding[type].id = selectedData.id;
     // console.log('order User: ', this.DayBook);
   }
 
@@ -126,5 +160,89 @@ export class OutstandingComponent implements OnInit {
         this.voucherEntries[index].amount.credit += parseFloat(data.y_cramunt);
       });
     });
+  }
+
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    console.log('Active event', event);
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
+    if (key == 'enter') {
+      this.allowBackspace = true;
+      if (this.activeId.includes('ledger')) {
+        this.setFoucus('startDate');
+      } else if (this.activeId.includes('startDate')) {
+        this.outStanding.startDate = this.common.handleDateOnEnterNew(this.outStanding.startDate);
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
+        this.outStanding.endDate = this.common.handleDateOnEnterNew(this.outStanding.endDate);
+        this.setFoucus('submit');
+      }
+    }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('ledger');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+  }
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.outStanding[datestring].includes('-')) {
+      dateArray = this.outStanding[datestring].split('-');
+    } else if (this.outStanding[datestring].includes('/')) {
+      dateArray = this.outStanding[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.outStanding[datestring] = date + separator + month + separator + year;
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }

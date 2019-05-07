@@ -1,6 +1,6 @@
-<nb-card>
+<nb-card style="border:0px;">
     <nb-card-header>
-        <h2>All Tickets</h2>
+        <h5>All Tickets</h5>
     </nb-card-header>
 
     <nb-card-body>
@@ -18,18 +18,19 @@
                                 <th>Trails</th>
                             </tr>
                         </thead>
-                        <tbody>
-
+                        <tbody (scroll)="test($event)">
                             <tr *ngFor="let ticket of allOpenTickets; let i = index">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{ticket.regno}}</td>
                                 <!-- <td>{{ticket.ticket_id}}</td> -->
                                 <td>{{ticket.msg}}</td>
                                 <td>{{common.findRemainingTime(ticket.remaining_time)}}</td>
-                                <td (click)="showTrailList(ticket)" style="text-decoration:underline; color: blue;cursor: pointer;">show</td>
+                                <td (click)="showTrailList(ticket)"><span class="btn btn-success">show</span></td>
                             </tr>
+                        </tbody>
                     </table>
-                    <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
+                    <div class="no-data alert alert-danger" role="alert"
+                        *ngIf="status == 0 && !allOpenTickets.length && showMsg ">
                         No Data available !
                     </div>
 
@@ -57,10 +58,12 @@
                                 <!-- <td>{{ticket.ticket_id}}</td> -->
                                 <td>{{ticket.msg}}</td>
                                 <td>{{ticket.addtime}}</td>
-                                <td (click)="showTrailList(ticket)" style="text-decoration:underline; color: blue;cursor: pointer;">show</td>
+                                <td (click)="showTrailList(ticket)"><span class="btn btn-success">show</span></td>
                             </tr>
+                        </tbody>
                     </table>
-                    <div class="no-data alert alert-danger" role="alert" *ngIf="status == 0 && !allClaimDrivers.length && showMsg">
+                    <div class="no-data alert alert-danger" role="alert"
+                        *ngIf="status == 0 && !allClaimDrivers.length && showMsg">
                         No Data available !
                     </div>
                 </div>

@@ -1,10 +1,7 @@
 nb-card-header{
-    padding: 20px;  
+    padding: 10px 15px;
     border: 1px solid #efefef;
-    margin-bottom: 20px!important;
-}
-nb-card-body{
-    padding: 0px 20px 15px;
+    margin-bottom: 10px;
 }
 .alert-danger{
     color: #721c24 !important;
@@ -16,3 +13,63 @@ nb-card-body{
     padding: 12px !important;
     font-size: 18px !important;
 }
+nb-card-header{
+    select{
+        padding: 3px !important;
+    }
+    .btn-primary{
+        margin: 0px;
+        text-transform: capitalize;
+    }
+}
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 15%;
+        }
+        th:nth-child(1){
+            width: 2%;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 202px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 2%;
+            }
+            td{
+                width: 15%;
+            }
+            td:last-child{
+                width: 15%
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

@@ -30,10 +30,34 @@ import { VehicleSearchComponent } from '../modals/vehicle-search/vehicle-search.
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { RouteMapperComponent } from './route-mapper/route-mapper.component';
+import { GenerateLRComponent } from '../lorry-receipt/generate-lr/generate-lr.component';
+import { TrendsComponent } from './trends/trends.component';
+import { ResizableModule } from 'angular-resizable-element';
+import { PlacementsComponent } from './placements/placements.component';
+import { CallLogsComponent } from './call-logs/call-logs.component';
+import { DriverCallSuggestionComponent } from './driver-call-suggestion/driver-call-suggestion.component';
+import { UserCallSummaryComponent } from './user-call-summary/user-call-summary.component';
+import { PlacementsDashBoardComponent } from './placements-dash-board/placements-dash-board.component';
+import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
+import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
+import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
+import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
+import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
+import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
+import { ShortTargetComponent } from './short-target/short-target.component';
+import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
+import { CustomDatePipe } from '../pipes/custom-date/custom-date.pipe';
+import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
+import { AdminModule } from '../admin/admin.module';
+import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
+import { SharedModule } from '../shared.module';
 
 
 const PAGES_COMPONENTS = [
-  PagesComponent,
+  PagesComponent
 ];
 
 @NgModule({
@@ -48,7 +72,10 @@ const PAGES_COMPONENTS = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ImageViewerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ResizableModule,
+    LorryReceiptModule,
+    SharedModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -63,9 +90,30 @@ const PAGES_COMPONENTS = [
     TicketSiteDetailsComponent,
     TicketActionsComponent,
     ConciseComponent,
-    FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
+    RouteMapperComponent,
+    TrendsComponent,
+    PlacementsComponent,
+    CallLogsComponent,
+    DriverCallSuggestionComponent,
+    UserCallSummaryComponent,
+    PlacementsDashBoardComponent,
+    TripStatusFeedbackComponent,
+    UserActivityStatusComponent,
+    PlacementDelayFaultsComponent,
+    VehicleGpsDetailComponent,
+    VehicleCoveredDistanceComponent,
+    TipFeedbackLogsComponent,
+    TripOnwardDelayComponent,
+    ShortTargetComponent,
+    onwardKmpdComponent,
+    VehicleTripStagesComponent,
+    // CustomDatePipe
+  ],
+  exports: [
+    FuelAverageAnalysisComponent,
+
   ],
 })
 export class PagesModule {
