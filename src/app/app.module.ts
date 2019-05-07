@@ -140,6 +140,7 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
