@@ -50,6 +50,8 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         Object.keys(rep).map(key => {
           let detail = {
             _id: key,
+            _lat: rep[key].lat,
+            _long: rep[key].long,
             Regno: rep[key].regno,
             Location: rep[key].currLoc,
             lat: rep[key].lat,
@@ -118,14 +120,12 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     for (var i = 0; i < this.distanceData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        console.log('heading', this.headings[j]);
-        if (this.headings[j] == "Regno") {
-
-          this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.distanceData[i]) };
+        if (this.headings[j] == "Location") {
+          this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.distanceData[i]) };
         }
-        else {
+        else
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
-        }
+
 
       }
       this.valobj['style'] = { background: this.distanceData[i]._rowcolor };
@@ -135,21 +135,23 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     console.log('Columns:', columns);
     return columns;
   }
-
-  showLocation(details) {
-    console.log('detail', details);
-    if (!details.lat) {
-      this.common.showToast('Vehicle location not available!');
+  showLocation(kpi) {
+    console.log("location==", kpi);
+    if (!kpi._lat) {
+      this.common.showToast("Vehicle location not available!");
       return;
     }
     const location = {
-      lat: details.lat,
-      lng: details.long,
-      name: '',
-      time: ''
+      lat: kpi._lat,
+      lng: kpi._long,
+      name: "",
+      time: ""
     };
-    console.log('Location: ', location);
-    this.common.params = { location, title: 'Vehicle Location' };
-    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
+    ////console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 }
