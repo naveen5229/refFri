@@ -8,64 +8,59 @@
   </nb-card-header>
 
   <nb-card-body>
-    <div class="col-sm-12">
-      <ul class="tabs_style">
-        <li [ngClass]="dis_all == 'dcs' ? 'active' : '' " id="dis-all"
-          (click)=" dis_all = 'dcs'; getReportdata(dis_all); ">
-          Driver Call Suggestion
-        </li>
-        <li [ngClass]="dis_all == '51' ? 'active' : '' " (click)=" dis_all = '51';  getReportdata(dis_all)">
-          Onward Trip Delay
-        </li>
-        <li [ngClass]="dis_all == 'pdf' ? 'active' : '' " (click)=" dis_all = 'pdf'; getReportdata(dis_all)">
-          Placement Delay Faults
-        </li>
-        <li [ngClass]="dis_all == 'st' ? 'active' : '' " (click)=" dis_all = 'st'; getReportdata(dis_all)">
-          Short Target
-        </li>
-        <li [ngClass]="dis_all == '11' ? 'active' : '' " (click)=" dis_all = '11';  getReportdata(dis_all)">
-          Long Loading
-        </li>
-        <li [ngClass]="dis_all == '21' ? 'active' : '' " (click)=" dis_all = '21'; getReportdata(dis_all)">
-          Long UnLoading
-        </li>
-      </ul>
-    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <ul class="tabs_style">
+          <li [ngClass]="dis_all == 'dcs' ? 'active' : '' " id="dis-all"
+            (click)=" dis_all = 'dcs'; getReportdata(dis_all); ">
+            Driver Call Suggestion
+          </li>
+          <li [ngClass]="dis_all == '11' ? 'active' : '' " (click)=" dis_all = '11';  getReportdata(dis_all)">
+            Long Loading
+          </li>
+          <li [ngClass]="dis_all == '51' ? 'active' : '' " (click)=" dis_all = '51';  getReportdata(dis_all)">
+            Onward Trip Delay
+          </li>
+          <li [ngClass]="dis_all == '21' ? 'active' : '' " (click)=" dis_all = '21'; getReportdata(dis_all)">
+            Long UnLoading
+          </li>
+          <li [ngClass]="dis_all == 'pdf' ? 'active' : '' " (click)=" dis_all = 'pdf'; getReportdata(dis_all)">
+            Placement Delay Faults
+          </li>
+          <li [ngClass]="dis_all == 'st' ? 'active' : '' " (click)=" dis_all = 'st'; getReportdata(dis_all)">
+            Short Target
+          </li>
 
-    <div *ngIf="dis_all == 'dcs'">
-      <div class="col-md-8"></div>
-      <div class="col-md-4" style="text-align:right;">
+        </ul>
+      </div>
+      <div class="col-md-3" *ngIf="dis_all == 'dcs'">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-3 pr-0">
             <label style="margin-top:8px">KM/Day:</label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-5">
             <input type="text" class="form-control" id="txtkmpd" name="txtkmpd" placeholder="Kmpd" [(ngModel)]="kmpdval"
               value="this.kmpdval" maxlength=3 />
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 pl-0">
             <button type="submit" class="btn btn-primary " style="cursor: pointer;"
               (click)=" getReportdata(dis_all)">Submit</button>
           </div>
         </div>
       </div>
-    </div>
-
-    <div *ngIf="dis_all == '11' || dis_all == '21' || dis_all == '51' ">
-      <div class="col-md-8"></div>
-      <div class="col-md-4" style="text-align:right;">
+      <div class="col-md-3" *ngIf="dis_all == '11' || dis_all == '21' || dis_all == '51' ">
         <div class="row">
-          <div class="col-md-3">
-            <select [(ngModel)]="hoursType">
+          <div class="col-md-4 pr-0">
+            <select class="w-100" [(ngModel)]="hoursType">
               <option value='hrs'>Hours</option>
               <option value='days'>Days</option>
             </select>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <input type="text" class="form-control" id="txthrs" name="txthrs" placeholder="Hours" [(ngModel)]="hours"
               value="this.hours" maxlength=2 />
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 pl-0">
             <button type="submit" class="btn btn-primary " style="cursor: pointer;"
               (click)=" getReportdata(dis_all)">Submit</button>
           </div>

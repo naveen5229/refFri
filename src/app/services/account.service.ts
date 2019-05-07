@@ -6,9 +6,11 @@ import { ApiService } from './api.service';
 })
 export class AccountService {
   selected = {
-    branch: '0'
+    branch: '0',
+    financialYear: null
   };
   branches = [];
+  financialYears = [];
 
   constructor() {
     // this.getData('Suggestion/GetBranchList', { search: 123 }, 'branches');

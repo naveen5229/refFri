@@ -6,7 +6,7 @@
 </div>
 
 
-<div class="model-body" style="text-align:center; margin-top:5px; margin-left: 10px; margin-right:10px">
+<div class="modal-body" style="text-align:center; margin-top:5px; margin-left: 10px; margin-right:10px">
   <div class="row">
     <div class="col-sm-6" style="margin-top: 5px;">
       <label>Target Type:</label>
@@ -37,11 +37,14 @@
       <input type="text" class="form-control" [(ngModel)]="targetDistance" name="distance" placeholder="Distance">
     </div>
   </div>
-  <div class="row" style="margin-top:10px">
-    <div class="col-sm-6">
-      <input type="checkbox" name="isnotify" [(ngModel)]="addTarget.isNotify" value="check">isNotify
+
+</div>
+<div class="modal-footer">
+  <div class="row w-100">
+    <div class="col text-left">
+      <input type="checkbox" name="isnotify" [(ngModel)]="addTarget.isNotify" value="check"> isNotify
     </div>
-    <div class="col-sm-6" style="text-align:right">
+    <div class="col text-left">
       <button class="btn btn-primary" (click)="saveTarget()">Save</button>
     </div>
   </div>

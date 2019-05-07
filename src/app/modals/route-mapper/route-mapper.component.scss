@@ -125,7 +125,7 @@ table{
   .btn-primary.form-control{
     border: 0px;
     color: #fff;
-    padding: 5px 15px;
+    padding: 5px 0px;
   }
   .close{
     font-size: 36px;
@@ -151,6 +151,9 @@ table {
       width: 150px !important;
       word-break: break-all;
     }
+    .go_btn{
+      width: 50px !important;
+    }
   }
   tbody {
     display: table;
@@ -159,7 +162,7 @@ table {
 }
 
 .lite{
-  margin-left: 100vh !important;
+  margin-left: 50vh !important;
   font-weight: 1000;
   color: darkmagenta;
  }

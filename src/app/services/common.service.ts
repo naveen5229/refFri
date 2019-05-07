@@ -880,7 +880,7 @@ export class CommonService {
             ${x_destination ? `
               <span>-</span>
               <span class="unloading">${x_destination.trim()}</span>
-            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+            ` : !x_placements.length ? ` <i title="${x_origin.trim()} -> " class="icon ion-md-arrow-round-forward"></i> ` : ``}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
       case 1:
@@ -891,7 +891,7 @@ export class CommonService {
             ${x_destination ? `
               <span>-</span>
               ${this.handleTripCircle(x_destination.trim(), 'unloading')}
-            ` : !x_placements.length ? `<i class="icon ion-md-arrow-round-forward"></i>` : ``}
+            ` : !x_placements.length ? `<i title="Hello World!!" class="icon ion-md-arrow-round-forward"></i>` : `<i title=""></i>`}
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
       case 2:
@@ -913,27 +913,35 @@ export class CommonService {
       case 4:
       case 20:
       case 21:
-        if (!x_placement_type) {
-          html = `
-            <!-- Available (Done) -->
+
+        html = `
+           
             <span class="loading">${x_origin.trim()}</span>
             ${x_destination ? `
               <span>-</span>
               <span class="unloading">${x_destination.trim()}</span>
-            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            <i class="fa fa-check-circle complete"></i>`;
+            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}`;
+        console.log('X_placementType =', x_placements.length, x_status);
+        if (x_placements.length && x_placements.length > 0) {
+          html += ` <!-- Available (Done) -->
+          ${this.formatTripPlacement(x_placement_type, x_placements)}`
+
+        } else {
+          html += ` <!-- Available (Next) -->
+          <i class="fa fa-check-circle complete"></i>`;
+
         }
 
-        else {
-          html = `
-            <!-- Available (Next) -->
-            <span class="loading">${x_origin.trim()}</span>
-            ${x_destination ? `
-              <span>-</span>
-              <span class="unloading">${x_destination.trim()}</span>
-            ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
-            ${this.formatTripPlacement(x_placement_type, x_placements)}`;
-        }
+        // else {
+        //   html = `
+        //     <!-- Available (Next) -->
+        //     <span class="loading">${x_origin.trim()}</span>
+        //     ${x_destination ? `
+        //       <span>-</span>
+        //       <span class="unloading">${x_destination.trim()}</span>
+        //     ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}
+        //     ${this.formatTripPlacement(x_placement_type, x_placements)}`;
+        // }
         break;
 
       case 5:
@@ -942,20 +950,20 @@ export class CommonService {
       case 23:
         html = `
             <!-- Available (Moved) -->
-            <span class="unloading">${x_origin.trim()}</span>
+            <span class="unloading">${x_origin.trim()}</span><i title=""></i>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
       default:
         html = `
             <!-- Ambiguous -->
             <span class="loading">${x_origin.trim()}</span>
-            <span>-</span>
+            <span>-</span><i title=""></i>
             <span class="unloading">${x_destination.trim()}</span>
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
     console.log('HTML:', html);
-    return html;
+    return html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements);
   }
 
   formatTripPlacement(placementType, placements) {
@@ -970,7 +978,7 @@ export class CommonService {
     };
 
     placements.map((obj, index) => {
-      html += `<span class="${colors[placementType[index]]}">${placements[index].trim()}</span>`
+      html += `<span class="${colors[placementType[index]] || 'others'}">${placements[index].trim()}</span>`
       if (index != placements.length - 1) {
         html += `<span> - </span>`;
       }
@@ -1005,5 +1013,55 @@ export class CommonService {
         break;
     }
     return newDate;
+  }
+
+  handleTripStatusOnExcelExport(status, origin, destination, placements) {
+    let title = '';
+    // placements.map((placement, index) => {
+    //   title += placement;
+    //   if (index < placements.length - 1) title += ' - ';
+    // });
+
+    switch (status) {
+      case 0:
+      case 11:
+      case 1:
+      case 12:
+      case 2:
+      case 13:
+      case 14:
+      case 51:
+      case 52:
+      case 53:
+        title = origin;
+        title += destination ? title += ` - ${destination}` : '';
+        title += ' -> ' + placements.join('-');
+        break;
+      case 3:
+      case 4:
+      case 20:
+      case 21:
+
+        title = origin;
+        title += destination ? title += ` - ${destination}` : '';
+        placements.length && (title += ' -> ' + placements.join('-'));
+        !placements.length && (title += ' *');
+        break;
+
+      case 5:
+      case 15:
+      case 22:
+      case 23:
+        title = origin;
+        title += destination ? title += ` - ${destination}` : '';
+        title += ' -> ' + placements.join('-');
+        break;
+      default:
+        title = origin;
+        title += destination ? title += ` - ${destination}` : '';
+        title += ' -> ' + placements.join('-');
+        break;
+    }
+    return `<i title="${title}"></i>`
   }
 }

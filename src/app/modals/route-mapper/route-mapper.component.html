@@ -1,5 +1,5 @@
 <div [ngStyle]="{background :isLite?'#22b108':'#46a79a'}" class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">{{title+(isLite?'(Lite Mode)':'')}}</h5>
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
   <h5 class="lite" *ngIf="isLite">(LITE MODE >10 Days)</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
@@ -20,6 +20,32 @@
           </tr>
           <tr>
             <td>
+              <div class="row">
+                <div class="col-sm-6 pr-0">
+                  <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
+                    (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
+                    placeholder="Start Date" (dblclick)="getDate('start')">
+                </div>
+                <div class="col-sm-6 pl-1">
+                  <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
+                    [(ngModel)]="startTimePeriod">
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="col-sm-6 pr-0">
+                  <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
+                    placeholder="End Date" id="end" (dblclick)="getDate('end')"
+                    (ngModelChange)="endDate = dateService.handleCustomDate($event)" maxlength="10">
+                </div>
+                <div class="col-sm-6 pl-1">
+                  <input type="time" class="form-control" name="endTimePeriod" placeholder="HH:mm"
+                    [(ngModel)]="endTimePeriod">
+                </div>
+              </div>
+            </td>
+            <!-- <td>
               <input [(ngModel)]="startDate" [owlDateTime]="sDate" [owlDateTimeTrigger]="sDate "
                 placeholder="Start Time" class="form-control" autocomplete="off" name="s-date">
               <owl-date-time #sDate></owl-date-time>
@@ -28,8 +54,8 @@
               <input [(ngModel)]="endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate " placeholder="End Time"
                 class="form-control" autocomplete="off" name="e-date">
               <owl-date-time #eDate></owl-date-time>
-            </td>
-            <td>
+            </td> -->
+            <td class="go_btn">
               <button (click)="getHaltTrails()" class="btn btn-primary form-control">Go</button>
             </td>
           </tr>
@@ -37,8 +63,10 @@
             <td colspan="3">
               <table class="tbl table table-bordered table-hover">
                 <thead class="thead">
-            <th style="width:40px;">Reason</th>
-            <th>Place</th>
+                  <!-- <th style="width:40px;">Reason</th> -->
+                  <!-- <th>Place</th> -->
+            <th style="width:40px;">place</th>
+            <th>Location</th>
             <th>Start</th>
             <th>End</th>
             <th>Duration</th>
@@ -47,7 +75,8 @@
           <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
             (mouseout)="mapService.toggleBounceMF(i,2)"
             [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
-            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td>
+            <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
+            <td (click)="openSmartTool(i,vehicleEvent);">{{getPlace[i]}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>
             <td (click)="openSmartTool(i,vehicleEvent);">{{commonService.changeDateformat2(vehicleEvent.start_time)}}
             </td>
