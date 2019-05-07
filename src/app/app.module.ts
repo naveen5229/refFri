@@ -107,6 +107,7 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
+import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-update/driver-attendance-update.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
@@ -211,6 +212,7 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
@@ -318,6 +320,7 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,

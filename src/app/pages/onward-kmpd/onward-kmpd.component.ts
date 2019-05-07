@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
 @Component({
   selector: 'onward-kmpd',
@@ -152,5 +153,30 @@ export class onwardKmpdComponent implements OnInit {
 
   }
 
+  openRouteMapper(kpi) {
+    let today, startday, fromDate;
+    today = new Date();
+    startday = new Date(today.setDate(today.getDate() - 2));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: kpi._vid,
+      vehicleRegNo: kpi.y_regno,
+      fromTime: this.startDate || fromTime,
+      toTime: this.endDate || toTime
+    };
+    ////console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    // activeModal.result.then(
+    //   data => ////console.log("data", data)
+    //   // this.reloadData()
+    // );
+  }
 
 }

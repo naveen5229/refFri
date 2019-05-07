@@ -51,7 +51,10 @@
             {{column[heading].value}}
           </div>
           <div *ngIf="column[heading] && column[heading].icons">
-            <i *ngFor="let icon of column[heading].icons" [class]="icon.class" (click)="icon.action()"><span></span></i>
+            <div *ngFor="let icon of column[heading].icons" [class]="icon.parentClass"
+              style="display:inline; position: relative;">
+              <i [class]="icon.class" (click)="icon.action()"><span></span></i>
+            </div>
           </div>
           <!-- <div [ngClass]="column[heading].value?"></div> -->
         </td>

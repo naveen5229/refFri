@@ -146,12 +146,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Fuel',
     icon: 'fas fa-gas-pump',
     children: [
-      // {
-      //   title: 'Fuel Fillings',
-      //   icon: 'fas fa-gas-pump',
-      //   link: '/pages/fuel-fillings',
-      //   home: true,
-      // },
+      {
+        title: 'Fuel Fillings',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-fillings',
+        home: true,
+      },
       {
         title: 'Fuel Mileage',
         icon: 'fa fa-signal',
