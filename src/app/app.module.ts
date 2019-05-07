@@ -13,7 +13,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
@@ -142,6 +142,7 @@ import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
 import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
+import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -378,6 +379,7 @@ import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 
   bootstrap: [AppComponent],
   providers: [
+    NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },
