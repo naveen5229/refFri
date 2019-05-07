@@ -136,7 +136,7 @@ export class DataService {
             link: '/admin/user-preferences',
           },
           {
-            title: 'Fo Activity Summary',
+            title: 'FO Activity Summary',
             icon: 'nb-home',
             link: '/admin/activity-summary',
             home: true,
