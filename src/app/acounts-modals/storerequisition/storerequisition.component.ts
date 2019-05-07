@@ -12,17 +12,20 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./storerequisition.component.scss']
 })
 export class StorerequisitionComponent implements OnInit {
-
-  StockQuestiondata=[];
+  showConfirm = '';
+  allowBackspace = false;
+  StockQuestiondata = [];
+  storeRequestStockId = 0;
+  pendingid = 0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
-    issuedate:null,
+    issuedate: null,
     code: '',
     custcode: '',
-    approved:1,
-    deltereview:0,
-    delete:0,
-    id:0,
+    approved: 1,
+    deltereview: 0,
+    delete: 0,
+    id: 0,
     requesttype: {
       name: '',
       id: 0
@@ -39,9 +42,9 @@ export class StorerequisitionComponent implements OnInit {
       remarks: '',
       qty: 0,
       issueqty: null,
-      issuerate:null,
-      issueamount:null,
-      issueremarks:null,
+      issuerate: null,
+      issueamount: null,
+      issueremarks: null,
       issuewarehouse: {
         name: '',
         id: null
@@ -72,7 +75,7 @@ export class StorerequisitionComponent implements OnInit {
     warehouses: [],
     storerequestiontype: [],
     list: [],
-    transferwarehouses:[]
+    transferwarehouses: []
   };
   suggestionIndex = -1;
 
@@ -88,9 +91,13 @@ export class StorerequisitionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private activeModal: NgbActiveModal,
-    public modalService: NgbModal) { 
-    console.log('stock Request Id',this.common.params);
+    public modalService: NgbModal) {
+
+    this.storeRequestStockId = this.common.params.storeRequestId;
+    this.storeRequestStockId = this.common.params.storeRequestId;
     this.storeQuestion.requesttype.id = this.common.params.storeRequestId;
+    this.pendingid = this.common.params.pendingid;
+    console.log('stock Request Id', this.pendingid);
     this.common.handleModalSize('class', 'modal-lg', '1150');
 
     this.getBranchList();
@@ -98,9 +105,9 @@ export class StorerequisitionComponent implements OnInit {
     this.getWarehouses();
     this.storeRequestionType();
     if (this.common.params.stockQuestionId) {
-    this.getStockRequestionForIssue(this.common.params.stockQuestionId,this.common.params.stockQuestionBranchid);
+      this.getStockRequestionForIssue(this.common.params.stockQuestionId, this.common.params.stockQuestionBranchid, this.common.params.storeRequestId);
     }
-    }
+  }
 
   ngOnInit() {
   }
@@ -123,7 +130,7 @@ export class StorerequisitionComponent implements OnInit {
 
   }
 
-  getbranchdata(branchid){
+  getbranchdata(branchid) {
     this.common.loading++;
     this.api.get('Suggestion/GetWareHouse?search=123&branchid=' + branchid)
       .subscribe(res => {
@@ -136,11 +143,13 @@ export class StorerequisitionComponent implements OnInit {
         this.common.showError();
       });
   }
-  
-  getStockRequestionForIssue(stockQuesionid,stockQuestionBranchId) {
+
+  getStockRequestionForIssue(stockQuesionid, stockQuestionBranchId, storeRequestId) {
     let params = {
-      stockQuesionid:stockQuesionid,
-      stockQuestionBranchId:stockQuestionBranchId
+      stockQuesionid: stockQuesionid,
+      stockQuestionBranchId: stockQuestionBranchId,
+      storeRequestId: storeRequestId,
+      pendingid: this.pendingid
     };
     this.common.loading++;
     this.api.post('Company/GetStoreReQuestionForissue', params)
@@ -148,18 +157,18 @@ export class StorerequisitionComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.StockQuestiondata = res['data'];
-       this.storeQuestion = {
+        this.storeQuestion = {
           requestdate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
-          issuedate:this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
+          issuedate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
           code: this.StockQuestiondata[0].y_code,
           custcode: this.StockQuestiondata[0].y_cust_code,
-          approved:(this.StockQuestiondata[0].y_for_approved ==false ?0:1),
-          deltereview:(this.StockQuestiondata[0].y_del_review ==false ?0:1),
-          delete:(this.StockQuestiondata[0].y_deleted ==false ?0:1),
-          id:this.StockQuestiondata[0].y_id,
+          approved: (this.StockQuestiondata[0].y_for_approved == false ? 0 : 1),
+          deltereview: (this.StockQuestiondata[0].y_del_review == false ? 0 : 1),
+          delete: (this.StockQuestiondata[0].y_deleted == false ? 0 : 1),
+          id: this.StockQuestiondata[0].y_id,
           requesttype: {
             name: '',
-            id:this.StockQuestiondata[0].y_req_typeid
+            id: this.StockQuestiondata[0].y_req_typeid
           },
           frombranch: {
             name: this.StockQuestiondata[0].y_from_fobranch_name,
@@ -169,7 +178,7 @@ export class StorerequisitionComponent implements OnInit {
             name: this.StockQuestiondata[0].y_to_fobranch_name,
             id: this.StockQuestiondata[0].y_to_fobranch_id
           },
-          details:[]
+          details: []
         }
         this.StockQuestiondata.map((stoQuestionDetail, index) => {
           if (!this.storeQuestion.details[index]) {
@@ -188,7 +197,7 @@ export class StorerequisitionComponent implements OnInit {
           this.storeQuestion.details[index].stockitem.id = stoQuestionDetail.y_dtl_req_stockitemid;
           this.storeQuestion.details[index].stockitem.name = stoQuestionDetail.y_req_stockitem_name;
           this.storeQuestion.details[index].stockunit.id = stoQuestionDetail.y_dtl_req_stockunitid;
-          this.storeQuestion.details[index].stockunit.name = stoQuestionDetail.y_req_stockunit_name;        
+          this.storeQuestion.details[index].stockunit.name = stoQuestionDetail.y_req_stockunit_name;
         });
       }, err => {
         this.common.loading--;
@@ -221,7 +230,7 @@ export class StorerequisitionComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-         this.suggestions.stockItems = res['data']; 
+        this.suggestions.stockItems = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -244,16 +253,16 @@ export class StorerequisitionComponent implements OnInit {
       });
   }
 
-  
+
   addAmountDetails() {
     this.storeQuestion.details.push({
-  
+
       remarks: '',
       qty: 0,
       issueqty: null,
-      issuerate:null,
-      issueamount:null,
-      issueremarks:null,
+      issuerate: null,
+      issueamount: null,
+      issueremarks: null,
       issuewarehouse: {
         name: '',
         id: null
@@ -273,23 +282,23 @@ export class StorerequisitionComponent implements OnInit {
 
     });
     let index = parseInt(this.activeId.split('-')[1]);
-    this.setFoucus('warehouse-'+(index+1));
+    this.setFoucus('warehouse-' + (index + 1));
   }
 
   modelCondition() {
-    this.activeModal.close({  });
-     event.preventDefault();
-     return;
-   }
+    this.activeModal.close({});
+    event.preventDefault();
+    return;
+  }
 
 
-   keyHandler(event) {
+  keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     this.setAutoSuggestion();
 
-   
+
     if (key == 'enter') {
       if (this.activeId.includes('requesttype')) {
         if (this.suggestions.list.length) {
@@ -319,26 +328,26 @@ export class StorerequisitionComponent implements OnInit {
       } else if (this.activeId.includes('custcode')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('tobranch');
-       
+
       } else if (this.activeId.includes('code')) {
         this.setFoucus('custcode');
-      }  else if (this.activeId.includes('stockitem')) {
+      } else if (this.activeId.includes('stockitem')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issuewarehouse' + '-' + index);
+        this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('issueqty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issuerate' + '-' + index);
-        if(this.storeQuestion.requesttype.id==-1){
-          this.storeQuestion.details[index].qty= this.storeQuestion.details[index].issueqty;
-          }
-      }  else if (this.activeId.includes('qty')) {
+        this.setFoucus('issuewarehouse' + '-' + index);
+        if (this.storeQuestion.requesttype.id == -1) {
+          this.storeQuestion.details[index].qty = this.storeQuestion.details[index].issueqty;
+        }
+      } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issueqty' + '-' + index);
+        this.setFoucus('remarks' + '-' + index);
       } else if (this.activeId.includes('issuerate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('issueamount' + '-' + index);
@@ -351,17 +360,17 @@ export class StorerequisitionComponent implements OnInit {
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('issueremarks' + '-' + index);
-      }  else if (this.activeId.includes('issuewarehouse')) {
+      } else if (this.activeId.includes('issuewarehouse')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        if(this.storeQuestion.requesttype.id==-1){
+        if (this.storeQuestion.requesttype.id == -1) {
           this.setFoucus('issueqty' + '-' + index);
-          }
-        this.setFoucus('qty' + '-' + index);
+        }
+        this.setFoucus('issuerate' + '-' + index);
       } else if (this.activeId.includes('warehouse')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -370,7 +379,7 @@ export class StorerequisitionComponent implements OnInit {
         }
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('stockitem' + '-' + index);
-      }   
+      }
     } else if (key.includes('arrow')) {
       if (key.includes('arrowup') || key.includes('arrowdown')) {
         this.handleArrowUpDown(key);
@@ -381,20 +390,20 @@ export class StorerequisitionComponent implements OnInit {
 
 
 
-   dismiss(response) {
+  dismiss(response) {
     if (response) {
-       this.addStoreRequestion(this.storeQuestion);
+      this.addStoreRequestion(this.storeQuestion);
     }
-     this.activeModal.close({ response: response, Voucher: this.storeQuestion });
+    this.activeModal.close({ response: response, Voucher: this.storeQuestion });
   }
 
-  
+
   addStoreRequestion(Storerequestion) {
     console.log('new store Requestion', Storerequestion);
     const params = {
       requesttype: Storerequestion.requesttype.id,
-      frombranch:Storerequestion.frombranch.id,
-      tobranch:Storerequestion.tobranch.id,
+      frombranch: Storerequestion.frombranch.id,
+      tobranch: Storerequestion.tobranch.id,
       code: Storerequestion.code,
       custcode: Storerequestion.custcode,
       issuedate: Storerequestion.issuedate,
@@ -403,7 +412,7 @@ export class StorerequisitionComponent implements OnInit {
       approved: Storerequestion.approved,
       delete: Storerequestion.delete,
       deltereview: Storerequestion.deltereview,
-      x_id : Storerequestion.id
+      x_id: Storerequestion.id
     };
 
     console.log('params11: ', params);
@@ -453,7 +462,7 @@ export class StorerequisitionComponent implements OnInit {
       IDs.push('stockunit-' + index);
     });
     return IDs;
-  } 
+  }
 
   getSuggestions() {
     const element = document.getElementById(this.activeId);
@@ -484,7 +493,7 @@ export class StorerequisitionComponent implements OnInit {
       else this.suggestionIndex = this.suggestions.list.length - 1;
     }
 
-     }
+  }
 
 
   selectSuggestion(suggestion, id?) {
@@ -495,40 +504,40 @@ export class StorerequisitionComponent implements OnInit {
     } else if (this.activeId == 'tobranch') {
       this.storeQuestion.tobranch.name = suggestion.name;
       this.storeQuestion.tobranch.id = suggestion.id;
-      if(this.storeQuestion.requesttype.id==-1){
+      if (this.storeQuestion.requesttype.id == -1) {
         this.getbranchdata(suggestion.id);
-        }
-    }  else if (this.activeId == 'requesttype') {
+      }
+    } else if (this.activeId == 'requesttype') {
       this.storeQuestion.requesttype.name = suggestion.name;
       this.storeQuestion.requesttype.id = suggestion.id;
-    }  else  if(this.activeId.includes('issuewarehouse')) {
+    } else if (this.activeId.includes('issuewarehouse')) {
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].issuewarehouse.name = suggestion.name;
       this.storeQuestion.details[index].issuewarehouse.id = suggestion.id;
-    } else  if(this.activeId.includes('warehouse')) {
+    } else if (this.activeId.includes('warehouse')) {
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].warehouse.name = suggestion.name;
       this.storeQuestion.details[index].warehouse.id = suggestion.id;
-    } else  if(this.activeId.includes('stockitem')) {
+    } else if (this.activeId.includes('stockitem')) {
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].stockitem.name = suggestion.name;
       this.storeQuestion.details[index].stockitem.id = suggestion.id;
       this.storeQuestion.details[index].stockunit.name = suggestion.stockname;
       this.storeQuestion.details[index].stockunit.id = suggestion.stockunit_id;
     }
-    
+
   }
 
-  
+
   setAutoSuggestion() {
-    let activeId = document.activeElement.id;   
+    let activeId = document.activeElement.id;
     if ((activeId.includes('issuewarehouse')) && (this.storeQuestion.requesttype.id == -1)) { console.log('issyue'); this.autoSuggestion.data = this.suggestions.transferwarehouses; }
-    else if (activeId == 'frombranch' || activeId=='tobranch') this.autoSuggestion.data = this.suggestions.branchdata;
+    else if (activeId == 'frombranch' || activeId == 'tobranch') this.autoSuggestion.data = this.suggestions.branchdata;
     else if (activeId == 'requesttype') this.autoSuggestion.data = this.suggestions.storerequestiontype;
     else if (activeId.includes('warehouse') || activeId.includes('issuewarehouse')) this.autoSuggestion.data = this.suggestions.warehouses;
     else if (activeId.includes('stockitem')) this.autoSuggestion.data = this.suggestions.stockItems;
     else if (activeId.includes('discountledger')) this.autoSuggestion.data = this.suggestions.purchaseLedgers;
-    
+
     else {
       this.autoSuggestion.data = [];
       this.autoSuggestion.display = '';
@@ -541,33 +550,33 @@ export class StorerequisitionComponent implements OnInit {
     console.log('Auto Suggestion: ', this.autoSuggestion);
   }
 
-  
+
   onSelect(suggestion, activeId) {
     console.log('Suggestion: ', suggestion);
     if (activeId == 'frombranch') {
       this.storeQuestion.frombranch.name = suggestion.name;
       this.storeQuestion.frombranch.id = suggestion.id;
-     
-    } else  if (activeId == 'tobranch') {
+
+    } else if (activeId == 'tobranch') {
       this.storeQuestion.tobranch.name = suggestion.name;
       this.storeQuestion.tobranch.id = suggestion.id;
-      if(this.storeQuestion.requesttype.id==-1){
+      if (this.storeQuestion.requesttype.id == -1) {
         this.getbranchdata(suggestion.id);
-        }
+      }
     }
-    else  if (activeId == 'requesttype') {
+    else if (activeId == 'requesttype') {
       this.storeQuestion.requesttype.name = suggestion.name;
       this.storeQuestion.requesttype.id = suggestion.id;
-    } else  if(activeId.includes('issuewarehouse')) {
+    } else if (activeId.includes('issuewarehouse')) {
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].issuewarehouse.name = suggestion.name;
       this.storeQuestion.details[index].issuewarehouse.id = suggestion.id;
     }
-    else  if(activeId.includes('warehouse')) {
+    else if (activeId.includes('warehouse')) {
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].warehouse.name = suggestion.name;
       this.storeQuestion.details[index].warehouse.id = suggestion.id;
-    } else  if(activeId.includes('stockitem')) {
+    } else if (activeId.includes('stockitem')) {
       let index = parseInt(this.activeId.split('-')[1]);
       this.storeQuestion.details[index].stockitem.name = suggestion.name;
       this.storeQuestion.details[index].stockitem.id = suggestion.id;

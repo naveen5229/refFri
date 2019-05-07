@@ -1,17 +1,5 @@
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Csv Import</h4>
+  <h5 class="modal-title" id="modal-basic-title">Import Csv</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -23,52 +11,43 @@
       <div class="row">
         <div class="col-md-6">
           <label class="fill-elt">Fuel Station:</label>
-        </div>
-        <div class="col-md-6">
           <auto-suggestion name="fuelStation" (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
             display="name" placeholder="Enter Fuel Station" preSelected="null" class="fstn-name" style="width:60%;">
           </auto-suggestion>
-          <div class="suggestions ng-star-inserted">
-          </div>
+          <div class="suggestions ng-star-inserted"></div>
         </div>
-      </div>
-
-      <div class="row">
         <div class="col-md-6">
           <label class="fill-elt">FO Name:</label>
-        </div>
-        <div class="col-md-6">
           <auto-suggestion name="foname" (onSelected)="getFoData($event)" url="Suggestion/getFoUsersList" display="name"
             placeholder="Enter FO Name" preSelected="null" class="fstn-name" style="width:60%;">
           </auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
         </div>
-      </div>
-
-
-
-      <div class="row">
-        <div class="col-md-6">
-          <label>CSV File </label>
-        </div>
-        <div class="col-md-6">
-          <div class="upload-btn-wrapper">
-            <input type="file" name="fillingCsv" (change)="handleFileSelection($event)"
-              style="margin:4%;">
+        <div class="col-12 mt-2">
+          <div class="row">
+            <div class="col-3"><label>CSV File </label></div>
+            <div class="col-9">
+              <div class="upload-btn-wrapper">
+                <input type="file" name="fillingCsv" (change)="handleFileSelection($event)">
+              </div>
+            </div>
           </div>
         </div>
+        <!-- <div class="col-12">
+          <div class="row">
+            <div class="col-2 pr-0">
+              <label class="fill-elt">Is Full?</label>
+            </div>
+            <div class="col-10 pt-2">
+              <input class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [(ngModel)]="isfull" />
+
+            </div>
+          </div>
+        </div> -->
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <label class="fill-elt">Is Full?</label>
-        </div>
-        <div class="col-md-6">
-          <input class="fill-elt chkbx" type="checkbox" name="isFull" id="isFull" [(ngModel)]="isfull" />
 
-        </div>
-      </div>
 
       <div class="row">
         <div class="col-md-12 offset-md-08">
@@ -89,8 +68,8 @@
     </div>
 
     <div class="col text-right">
-      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="submitFillingData()" id="submit"
-        style="cursor: pointer;">Add</button>
+      <button class="btn btn-primary" form="document-form" type="submit" outline (click)="submitFillingData()"
+        id="submit" style="cursor: pointer;">Add</button>
     </div>
   </div>
 </div>

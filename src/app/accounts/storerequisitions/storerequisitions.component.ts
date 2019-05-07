@@ -15,19 +15,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class StorerequisitionsComponent implements OnInit {
 
   StockQuestions = [];
-  storeRequestId=0;
+  storeRequestId = 0;
+  selectedName = '';
+  pending = 1;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
     public user: UserService,
     public modalService: NgbModal,
     public router: Router) {
-    this.common.currentPage = 'Store Request';
+    this.common.refresh = this.refresh.bind(this);
+
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
         this.storeRequestId = parseInt(params.id);
-       // this.GetLedger();
+        // this.GetLedger();
+
+        this.common.currentPage = (this.storeRequestId == -2) ? 'Store Request' : (this.storeRequestId == -3) ? 'Stock Issue' : 'Stock Transfer';
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
@@ -37,9 +42,18 @@ export class StorerequisitionsComponent implements OnInit {
   ngOnInit() {
   }
 
-  getStoreQuestion(){
+
+  refresh() {
+    console.log('Refresh');
+    this.getStoreQuestion();
+  }
+
+  getStoreQuestion() {
+    console.log(' pending value', this.pending);
     let params = {
-      foid: 123
+      foid: 123,
+      storeRequestId: this.storeRequestId,
+      pendingid: this.pending
     };
     this.common.loading++;
     this.api.post('Company/GetStoreReQuestion', params)
@@ -55,14 +69,27 @@ export class StorerequisitionsComponent implements OnInit {
       });
   }
 
-  openStoreRequisitions(stockQuestion?,stockQuestionBranch?) {
+  openStoreRequisitions(stockQuestion?, stockQuestionBranch?) {
     this.common.params = {
-      storeRequestId : this.storeRequestId,
-      stockQuestionId : stockQuestion,
-      stockQuestionBranchid:stockQuestionBranch
+      storeRequestId: this.storeRequestId,
+      stockQuestionId: stockQuestion,
+      stockQuestionBranchid: stockQuestionBranch,
+      pendingid: this.pending
     };
     const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
+      this.getStoreQuestion();
     });
+
+  }
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+
+  changeRefresh(id) {
+    if (this.pending == id) return;
+    this.StockQuestions = [];
   }
 }

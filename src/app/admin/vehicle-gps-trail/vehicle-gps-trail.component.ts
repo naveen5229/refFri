@@ -52,13 +52,13 @@ export class VehicleGpsTrailComponent implements OnInit {
 
 
   result(button) {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
+    // this.startDate = this.common.dateFormatter(this.startDate);
+    // this.endDate = this.common.dateFormatter(this.endDate);
     let selectapi = '';
     let params = {
       vehicleId: this.vId,
-      startTime: this.startDate,
-      toTime: this.endDate
+      startTime: this.common.dateFormatter(this.startDate),
+      toTime: this.common.dateFormatter(this.endDate)
     };
     switch (button) {
       case 1: selectapi = 'VehicleTrail/getVehicleTrailAll';

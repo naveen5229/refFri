@@ -29,6 +29,13 @@ import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/d
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
+import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
+import { ShortTargetComponent } from './short-target/short-target.component';
+import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
+import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
+import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
+import { RemainingFuelComponent } from '../admin/remaining-fuel/remaining-fuel.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -37,10 +44,12 @@ const routes: Routes = [{
     component: ConciseComponent
   },
   {
+
     path: 'dashboard',
     component: ConciseComponent,
   },
   {
+
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,
   },
@@ -50,86 +59,112 @@ const routes: Routes = [{
     pathMatch: 'full',
   },
   {
+
     path: 'tickets',
     component: TicketsComponent,
   },
   {
+
     path: 'tickets-all',
     component: TicketsAllComponent,
   },
   {
+
     path: 'lorry-receipts',
     component: LorryRecciptsComponent,
   },
   {
+
     path: 'generate-lr',
     component: GenerateLRComponent,
   },
   {
+
     path: 'expenses',
     component: ExpensesComponent,
   },
   {
+
     path: 'concise',
     component: ConciseComponent,
   },
   {
+
     path: 'ticket-site-details',
     component: TicketSiteDetailsComponent
   },
   {
+
     path: 'ticket-details',
     component: TicketDetailsComponent
   },
   {
+
     path: 'fuel-average-analysis',
     component: FuelAverageAnalysisComponent
   },
   {
+
     path: 'vehicle-trip',
     component: VehicleTripComponent
   },
   {
+
     path: 'route-mapper',
     component: RouteMapperComponent
   },
   {
+
     path: 'trends',
     component: TrendsComponent
   },
   {
+
     path: 'placements',
     component: PlacementsComponent
   },
   {
+
     path: 'call-logs',
     component: CallLogsComponent
   },
   {
+
     path: 'driver-call-suggestion',
     component: DriverCallSuggestionComponent
   },
   {
+
     path: 'user-call-summary',
     component: UserCallSummaryComponent
   },
   {
+
     path: 'placements-dash-board',
     component: PlacementsDashBoardComponent
   },
   {
+
     path: 'trip-status-feedback',
     component: TripStatusFeedbackComponent
   },
   {
+
+    path: 'trip-onward-delay',
+    component: TripOnwardDelayComponent
+  },
+  {
+
     path: 'user-activity-status',
     component: UserActivityStatusComponent
   },
   {
+
     path: 'placement-delay-faults',
     component: PlacementDelayFaultsComponent
   },
   {
+
     path: 'vehicle-covered-distance',
     component: VehicleCoveredDistanceComponent
   },
@@ -140,7 +175,27 @@ const routes: Routes = [{
   {
     path: 'tip-feedback-logs',
     component: TipFeedbackLogsComponent,
-  }
+  },
+  {
+    path: 'short-target',
+    component: ShortTargetComponent,
+  },
+  {
+    path: 'onward-kmpd',
+    component: onwardKmpdComponent,
+  },
+  {
+    path: 'vehicle-trip-stages',
+    component: VehicleTripStagesComponent,
+  },
+  {
+    path: 'fuel-fillings',
+    component: FuelFillingsComponent
+  },
+  {
+    path: 'remaining-fuel',
+    component: RemainingFuelComponent
+  },
   ],
 }];
 

@@ -7,7 +7,7 @@ declare var google: any;
 @Component({
   selector: 'location-marker',
   templateUrl: './location-marker.component.html',
-  styleUrls: ['./location-marker.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./location-marker.component.scss', '../../pages/pages.component.css']
 })
 export class LocationMarkerComponent implements OnInit {
   title = '';
@@ -41,7 +41,7 @@ export class LocationMarkerComponent implements OnInit {
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
     let mapOptions = {
       center: new google.maps.LatLng(lat, lng),
-      zoom: 8,
+      zoom: 14,
       disableDefaultUI: true,
       mapTypeControl: false,
       mapTypeId: google.maps.MapTypeId.ROADMAP,

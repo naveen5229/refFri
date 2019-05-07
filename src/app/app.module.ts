@@ -128,12 +128,20 @@ import { AddCityComponent } from './acounts-modals/add-city/add-city.component';
 import { SiteTripDetailsComponent } from './modals/site-trip-details/site-trip-details.component';
 import { AddSiteRuleComponent } from './modals/add-site-rule/add-site-rule.component';
 import { StorerequisitionComponent } from './acounts-modals/storerequisition/storerequisition.component';
-import {DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
+import { DropDownListComponent } from './documents/documentation-modals/drop-down-list/drop-down-list.component';
 import { VehicleGpsTrailComponent } from './modals/vehicle-gps-trail/vehicle-gps-trail.component';
 import { VehicleLrComponent } from './modals/vehicle-lr/vehicle-lr.component';
 import { ChoosePeriodsComponent } from './modals/choose-periods/choose-periods.component';
 import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.component';
 import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
+import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-report.component';
+import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
+import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
+import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
+import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
+import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
+import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -230,6 +238,13 @@ import { ChangeDriverComponent } from './modals/DriverModals/change-driver/chang
     ChoosePeriodsComponent,
     VehicleStatesComponent,
     ChangeDriverComponent,
+    CsvErrorReportComponent,
+    AddShortTargetComponent,
+    FuelStationEntryComponent,
+    ShowFuelStationComponent,
+    CustomDatePipe,
+    DaybookComponent,
+    ProfitlossComponent,
 
   ],
   entryComponents: [
@@ -324,8 +339,14 @@ import { ChangeDriverComponent } from './modals/DriverModals/change-driver/chang
     VehicleGpsTrailComponent,
     VehicleLrComponent,
     ChoosePeriodsComponent,
-    VehicleStatesComponent
-    
+    VehicleStatesComponent,
+    CsvErrorReportComponent,
+    AddShortTargetComponent,
+    FuelStationEntryComponent,
+    ShowFuelStationComponent,
+    DaybookComponent,
+    ProfitlossComponent,
+
   ],
   imports: [
     BrowserModule,

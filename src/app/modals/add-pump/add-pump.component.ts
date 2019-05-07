@@ -20,7 +20,8 @@ export class AddPumpComponent implements OnInit {
   title = '';
 
   marker = [];
-
+  infoWindow = null;
+  insideInfo = null;
 
   constructor(
     public api: ApiService,
@@ -40,7 +41,7 @@ export class AddPumpComponent implements OnInit {
         this.location = place;
         this.getmapData(lat, lng);
       });
-    }, 5000)
+    }, 2000)
 
 
   }
@@ -53,6 +54,7 @@ export class AddPumpComponent implements OnInit {
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.mapService.clearAll(true, true, { marker: true, polygons: false, polypath: false });
       this.mapService.zoomAt({ lat: lat, lng: lng });
       this.getmapData(lat, lng);
     });
@@ -74,14 +76,14 @@ export class AddPumpComponent implements OnInit {
         console.log(res['data']);
         this.marker = res['data'];
         this.mapService.createMarkers(this.marker);
-
-
         console.log("marker", this.marker);
         let markerIndex = 0
         for (const marker of this.mapService.markers) {
           let event = this.marker[markerIndex];
-          this.mapService.addListerner(marker, 'click', () => this.setEventInfo(event));
-          this.mapService.addListerner(marker, 'click', () => this.unsetEventInfo());
+          this.mapService.addListerner(marker, 'click', () => this.setPetrolInfo(event));
+          this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+          this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
+          markerIndex++;
         }
       }, err => {
         this.common.showError("Error occurred");
@@ -91,15 +93,37 @@ export class AddPumpComponent implements OnInit {
 
   }
 
-  setEventInfo(event) {
+  setPetrolInfo(event) {
     console.log("Event Data:", event);
     this.siteId = event.id;
   }
 
-  unsetEventInfo() {
+  setEventInfo(event) {
+    this.insideInfo = new Date().getTime();
+    if (this.infoWindow) {
+      this.infoWindow.close();
+    }
+    this.infoWindow = this.mapService.createInfoWindow();
+    this.infoWindow.opened = false;
+    this.infoWindow.setContent(`
+    <p>Site Id :${event.id}</p>
+    <p>Pump Name :${event.name}</p>
+    `);
+    // this.infoWindow.setContent("Flicker Test");
+    this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
+    this.infoWindow.open(this.mapService.map);
 
   }
-
+  async unsetEventInfo() {
+    let diff = new Date().getTime() - this.insideInfo;
+    if (diff > 200) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
+  }
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   selectCompany(id) {
     this.fuel_company = parseInt(id);
   }

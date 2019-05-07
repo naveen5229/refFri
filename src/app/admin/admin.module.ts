@@ -28,6 +28,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { DriverModule } from '../driver/driver.module';
+import { PagesModule } from '../pages/pages.module';
 import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
 import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
@@ -39,6 +40,8 @@ import { TransportAreaComponent } from './transport-area/transport-area.componen
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
 import { ImageViewerModule } from 'ng2-image-viewer';
+import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
+import { SharedModule } from '../shared.module';
 
 
 
@@ -58,7 +61,8 @@ const PAGES_COMPONENTS = [
   VehiclesViewComponent,
   VehicleGpsTrailComponent,
   ActivitySummaryComponent,
-  VehicleGpsDetailComponent
+  VehicleGpsDetailComponent,
+
 
 ];
 @NgModule({
@@ -72,7 +76,8 @@ const PAGES_COMPONENTS = [
     DocumentsModule,
     LorryReceiptModule,
     DriverModule,
-    ImageViewerModule
+    ImageViewerModule,
+    SharedModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -84,7 +89,6 @@ const PAGES_COMPONENTS = [
     TransportAgentsComponent,
     VehicleGpsTrailComponent,
     GpsTrailsComponent,
-    FuelFillingsComponent,
     SubSitesComponent,
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
@@ -92,6 +96,9 @@ const PAGES_COMPONENTS = [
     TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
+
+  ],
+  exports: [
   ],
 })
 export class AdminModule { }

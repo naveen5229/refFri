@@ -22,7 +22,7 @@
     .logo-containter {
         display: flex;
         align-items: center;
-        width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+        width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});  
     }
 
     .control-item {
@@ -35,12 +35,16 @@
         color: white;
         font-size: 20px;
         border: none;
+        box-shadow: none;
     }
-
     .header-container {
         display: flex;
         align-items: center;
         width: auto;
+        
+        nb-action{
+            border: 0px !important;
+        }
 
         .navigation {
             @include nb-ltr(padding-right, nb-theme(padding));
@@ -226,30 +230,49 @@
     }
 }
 
+.user_back_name{
+    width: 635px;
+    display: flex;
+}
 .header-container {
     border-right: 1px solid #585858;
 }
-
+:host ::ng-deep .right.medium{
+    .user_photo{
+        padding: 0px 20px 0px 0px !important;
+    }
+    .control-item{
+        padding: 0px 20px 0px 0px !important;
+    }
+}
 .header_button button {
-    padding: 0px 15px !important;
+    padding: 23px 15px 23px 0px !important;
     background-color: transparent;
     border: none;
     color: #fff;
+    box-shadow: none;
+    height: auto;
 }
-
+.add_customer button {
+    padding: 21px 20px 21px 0px !important;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    box-shadow: none;
+    height: auto;
+}
 .back_btn img {
     width: 20px;
 }
 
 .add_customer img {
-    width: 40px;
+    width: 26px;
 }
 
 .refresh_icon {
-    margin-bottom: 0px !important;
-
-    button {
-        margin-top: 10px;
+    button.refresh {
+        padding: 19px 20px 19px 0px;
+        height: auto;
     }
 }
 
@@ -269,24 +292,50 @@
     transform: translate(-50%);
 }
 .select_branch{
-    width: 250px;
     padding: 10px 0px;
-    margin: 0px;
+    margin-right: 20px;
 }
 .select_branch label{
-    margin-right:10px;
+    margin-right: 0;
+    font-size: 12px;
+    margin-bottom: 2px;
+    display: block;
 }
 .select_branch select{
     width: 100px;
     display: inline-block;
-    background: #677277;
-    border: 0px;
+    background: transparent;
+    border: 1px solid #878f92 !important;
     color: #fff;
     opacity: 1;
-    padding: 7px 5px !important;
+    padding: 5px !important;
     border-radius: 0px;
 }
 .select_branch select option{
     background: #677277;
     color: #fff;
+}
+:host ::ng-deep .user-picture{
+    background-image: url(assets/images/avtar.png) !important;
+    background-size: cover !important;
+}
+.user_cust_name h4,
+.user-det_name h4{
+    color: white;
+    padding: 24px 0px;
+    font-size: medium;
+    margin: 0px;
+}
+.branch_option{
+    display: flex;
+    width: 250px;
+}
+.header_mini_menu{
+    display: flex;
+    width: 208px;
+}
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+    .select_branch{
+        width: 350px;
+    }
 }

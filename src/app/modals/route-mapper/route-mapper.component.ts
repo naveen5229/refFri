@@ -6,6 +6,7 @@ import { CommonService } from '../../services/common.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { map } from 'rxjs/operators';
 import { element } from '@angular/core/src/render3';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'route-mapper',
@@ -17,32 +18,48 @@ export class RouteMapperComponent implements OnInit {
   slideToolTipLeft = 0;
   vehicleRegNo = null;
   title = 'Route Tracker';
+  isLite = false;
+  startTimePeriod = '00:00';
+  endTimePeriod = '00:00';
+  strSiteName = [];
+  strHaltReason = [];
+  getPlace = [];
+  placeName = '';
+
   constructor(private modalService: NgbModal,
     private mapService: MapService,
     private apiService: ApiService,
     private activeModal: NgbActiveModal,
-    private commonService: CommonService) {
-  this.startDate = this.commonService.params.fromTime;
-  this.endDate = this.commonService.params.toTime;
-  this.vehicleSelected = this.commonService.params.vehicleId;
-  this.vehicleRegNo = this.commonService.params.vehicleRegNo;
-  console.log("common params:");
-  console.log(this.commonService.params);
-  if(this.commonService.params.title != undefined )
+    private commonService: CommonService,
+    public dateService: DateService) {
+    this.startDate = this.commonService.params.fromTime;
+    this.endDate = this.commonService.params.toTime;
+    this.startTimePeriod = this.startDate.split(' ')[1];
+    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
+    this.endTimePeriod = this.endDate.split(' ')[1];
+    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
+    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
+    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
+    this.vehicleSelected = this.commonService.params.vehicleId;
+    this.vehicleRegNo = this.commonService.params.vehicleRegNo;
+    console.log("common params:");
+    console.log(this.commonService.params);
+    if (this.commonService.params.title != undefined)
       this.title = this.commonService.params.title;
-  console.log("title:" + this.commonService.params.title);
-  console.log("this.startDate",this.startDate);
-  console.log("this.endDate",this.endDate);
-  console.log("this.vehicleSelected",this.vehicleSelected,this.vehicleRegNo);
-      this.getHaltTrails();
-     }
-     
+    console.log("title:" + this.commonService.params.title);
+    console.log("this.startDate", this.startDate);
+    console.log("this.endDate", this.endDate);
+    console.log("this.vehicleSelected", this.vehicleSelected, this.vehicleRegNo);
+    this.getHaltTrails();
+  }
+
 
   ngOnInit() {
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.setMapType(0);
+    this.mapService.map.setOptions({ draggableCursor: 'cursor' });
   }
   polypath = [
     {
@@ -58,16 +75,23 @@ export class RouteMapperComponent implements OnInit {
   get timeLinePoly() {
     let odoNow = this.maxOdo * (this.timelineValue / 100);
     if (this.timelineValue == 1) {
-      return { time: this.startDate, lat: this.polypath[0].lat, lng: this.polypath[0].lng };
+      return { time: this.startTimeFull, lat: parseFloat(this.polypath[0].lat), lng: parseFloat(this.polypath[0].lng) };
     }
     for (const polypoint of this.polypath) {
       if (polypoint.odo >= odoNow) {
-        return polypoint;
+        return { time: polypoint.time, lat: parseFloat(polypoint.lat), lng: parseFloat(polypoint.lng) };
       }
     };
     return { time: null, lat: null, lng: null };
   }
 
+  get startTimeFull() {
+    return this.startDate + " " + this.startTimePeriod;
+  }
+
+  get endTimeFull() {
+    return this.endDate + " " + this.endTimePeriod;
+  }
 
   startDate = null;
   endDate = null;
@@ -76,35 +100,38 @@ export class RouteMapperComponent implements OnInit {
   timelineValue = 1;
   isPlay = false;
   getHaltTrails() {
+    this.strHaltReason = [];
+    this.strSiteName = [];
     if (!(this.vehicleSelected && this.startDate && this.endDate)) {
       this.commonService.showError("Fill All Params");
       return;
     }
     this.commonService.loading++;
     let params = {
-      vehicleId:this.vehicleSelected,
-      startDate:this.commonService.dateFormatter(this.startDate),
-      endDate:this.commonService.dateFormatter(this.endDate)
+      vehicleId: this.vehicleSelected,
+      startDate: this.startTimeFull,
+      endDate: this.endTimeFull,
     }
     // console.log(params);
-    this.apiService.post('HaltOperations/getVehicleEvents', params)
+    this.apiService.post('HaltOperations/getvehicleEvents', params)
       .subscribe(res => {
         this.commonService.loading--;
         console.log(res);
         let vehicleEvents = res['data'].reverse();
+        this.getPlaceName(vehicleEvents);
         let params = {
           'vehicleId': this.vehicleSelected,
-          'startTime': this.commonService.dateFormatter(this.startDate, 'YYYYMMDD', true, "-"),
-          'toTime': this.commonService.dateFormatter(this.endDate, 'YYYYMMDD', true, "-")
+          'startTime': this.startTimeFull,
+          'toTime': this.endTimeFull
         }
         this.commonService.loading++;
         console.log(params);
-        this.apiService.post('Vehicles/getVehDistanceBwTime', {'vehicleId': this.vehicleSelected, fromTime : params['startTime'], tTime : params['toTime']})
+        this.apiService.post('Vehicles/getVehDistanceBwTime', { 'vehicleId': this.vehicleSelected, fromTime: params['startTime'], tTime: params['toTime'] })
           .subscribe(resdist => {
             this.commonService.loading--;
             let distance = resdist['data'];
-            if(distance > 0) {
-              distance = Math.round((distance/1000) * 100/100);
+            if (distance > 0) {
+              distance = Math.round((distance / 1000) * 100 / 100);
             } else {
               distance = 0;
             }
@@ -113,6 +140,10 @@ export class RouteMapperComponent implements OnInit {
             this.apiService.post('VehicleTrail/getVehicleTrailAll', params)
               .subscribe(res => {
                 this.commonService.loading--;
+                if (res['code'] == 2)
+                  this.isLite = true;
+                else
+                  this.isLite = false;
                 this.mapService.clearAll();
                 let i = 0;
                 let prevElement = null;
@@ -134,7 +165,7 @@ export class RouteMapperComponent implements OnInit {
                     this.polypath = [];
                     this.polypath.push({ lat: element.lat, lng: element.long, odo: 0, time: element.time });
                   }
-                  
+
                   this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
                   this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
                   prevElement = element;
@@ -147,43 +178,45 @@ export class RouteMapperComponent implements OnInit {
                   icon: this.mapService.lineSymbol,
                   offset: "0%"
                 }]);
-                let realStart = new Date(vehicleEvents[0].start_time)<new Date(this.startDate)?
-                vehicleEvents[0].start_time:this.startDate;
+                let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startTimeFull) ?
+                  vehicleEvents[0].start_time : this.startTimeFull;
                 let realEnd = null;
-                if(vehicleEvents[0].end_time)
-                  realEnd = new Date(vehicleEvents[vehicleEvents.length-1].end_time)>new Date(this.endDate)?
-                  vehicleEvents[vehicleEvents.length-1].end_time:this.endDate;
+                if (vehicleEvents[0].end_time)
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endTimeFull) ?
+                    vehicleEvents[vehicleEvents.length - 1].end_time : this.endTimeFull;
+                console.log("RealStart", realStart, "RealEnd", realEnd);
+
                 let totalHourDiff = 0;
-                if(vehicleEvents.length!=0){
-                  totalHourDiff = this.commonService.dateDiffInHours(realStart,realEnd,true);
-                  console.log("Total Diff",totalHourDiff);
+                if (vehicleEvents.length != 0) {
+                  totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
+                  console.log("Total Diff", totalHourDiff);
                 }
-                
+
                 for (let index = 0; index < vehicleEvents.length; index++) {
-                  if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                  if (vehicleEvents[index].halt_reason == "Unloading" || vehicleEvents[index].halt_reason == "Loading") {
                     vehicleEvents[index].subType = 'marker';
-                    vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
-                  }else{
+                    vehicleEvents[index].color = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+                    vehicleEvents[index].rc = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+                  } else {
                     vehicleEvents[index].color = "00ffff";
                   }
                   vehicleEvents[index].position = (this.commonService.dateDiffInHours(
-                    realStart,vehicleEvents[index].start_time)/totalHourDiff)*98;
+                    realStart, vehicleEvents[index].start_time) / totalHourDiff) * 98;
                   vehicleEvents[index].width = (this.commonService.dateDiffInHours(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time,true)/totalHourDiff)*98;
-                  console.log("Width",vehicleEvents[index].width);
-                   
+                    vehicleEvents[index].start_time, vehicleEvents[index].end_time, true) / totalHourDiff) * 98;
+                  console.log("Width", vehicleEvents[index].width);
+
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
-                    vehicleEvents[index].start_time,vehicleEvents[index].end_time);
+                    vehicleEvents[index].start_time, vehicleEvents[index].end_time);
                 }
-                console.log("VehicleEvents", vehicleEvents);
+                console.log("vehicleEvents", vehicleEvents);
                 this.vehicleEvents = vehicleEvents;
                 this.mapService.createMarkers(this.vehicleEvents, false, false);
                 let markerIndex = 0
                 for (const marker of this.mapService.markers) {
                   let event = this.vehicleEvents[markerIndex];
-                  this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
-                  this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
+                  this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+                  this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
                   markerIndex++;
                 }
               }, err => {
@@ -237,16 +270,20 @@ export class RouteMapperComponent implements OnInit {
   }
   zoomOnArrow(isEvent = true) {
     let bound = this.mapService.getMapBounds();
-    // console.log("Bound",bound,"TimeLinePoly",this.timeLinePoly);
+    // console.log("Bound", bound, "TimeLinePoly", this.timeLinePoly);
 
     if (isEvent || !((bound.lat1 + 0.001 <= this.timeLinePoly.lat && bound.lat2 - 0.001 >= this.timeLinePoly.lat) &&
       (bound.lng1 + 0.001 <= this.timeLinePoly.lng && bound.lng2 - 0.001 >= this.timeLinePoly.lng))) {
-      this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, isEvent?this.zoomLevel:this.mapService.map.getZoom());
+      this.mapService.zoomAt({ lat: this.timeLinePoly.lat, lng: this.timeLinePoly.lng }, isEvent ? this.zoomLevel : this.mapService.map.getZoom());
     }
   }
   eventInfo = null;
   infoWindow = null;
+  infoStart = null;
   setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
     this.infoWindow = this.mapService.createInfoWindow();
     this.infoWindow.opened = false;
     this.infoWindow.setContent(
@@ -268,8 +305,13 @@ export class RouteMapperComponent implements OnInit {
     // }
   }
   unsetEventInfo() {
-    this.infoWindow.close();
-    this.infoWindow.opened = false;
+    let diff = new Date().getTime() - this.infoStart;
+    // console.log("Diff", diff);
+
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
   }
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -277,24 +319,107 @@ export class RouteMapperComponent implements OnInit {
   closeModal(response) {
     this.activeModal.close({ response: response });
   }
-  
-  openSmartTool(i, vehicleEvent) {
+
+  openSmartTool(i, vehicleEvents) {
     this.vehicleEvents.forEach(vEvent => {
-      if (vEvent != vehicleEvent)
+      if (vEvent != vehicleEvents)
         vEvent.isOpen = false;
     });
-      vehicleEvent.isOpen = !vehicleEvent.isOpen;
-      this.zoomFunctionality(i, vehicleEvent);
+    vehicleEvents.isOpen = !vehicleEvents.isOpen;
+    this.zoomFunctionality(i, vehicleEvents);
   }
-  zoomFunctionality(i, vehicleEvent) {
-    console.log("vehicleEvent", vehicleEvent);
-    let latLng=this.mapService.getLatLngValue(vehicleEvent);
-    let googleLatLng=this.mapService.createLatLng(latLng.lat,latLng.lng);
-    console.log("latlngggg",googleLatLng);
+  zoomFunctionality(i, vehicleEvents) {
+    console.log("vehicleEvents", vehicleEvents);
+    let latLng = this.mapService.getLatLngValue(vehicleEvents);
+    let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
+    console.log("latlngggg", googleLatLng);
     this.mapService.zoomAt(googleLatLng);
   }
 
-  setZoom(zoom,vehicleEvent) {
+  setZoom(zoom, vehicleEvents) {
     this.mapService.zoomMap(zoom);
+  }
+
+
+
+  getDate(type) {
+
+    this.commonService.params = { ref_page: 'route mapper' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+        }
+        else {
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
+
+  }
+
+  getPlaceName(E) {
+    this.getPlace = [];
+    let str_site_name, str_halt_reason;
+    E.forEach((E) => {
+      if (E.site_name != null) {
+        str_site_name = E.site_name.toUpperCase();
+        console.log('str_site_name', str_site_name)
+      }
+      if (E.halt_reason != null) {
+        str_halt_reason = E.halt_reason.toUpperCase();
+        console.log('str_halt_reason', str_halt_reason)
+      }
+
+      if ((str_site_name == "UNKNOWN") || (E.site_name == null)) {
+        if (E.site_type != null) {
+          if ((str_halt_reason != "UNKNOWN")) {
+            this.placeName = E.site_type + '_' + E.halt_reason;
+            this.getPlace.push(this.placeName);
+            console.log('place:1 ', this.placeName);
+          } else {
+            this.placeName = E.site_type;
+            this.getPlace.push(this.placeName);
+            console.log('place:2 ', this.placeName);
+          }
+        } else if ((str_halt_reason != "UNKNOWN")) {
+          this.placeName = E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:3 ', this.placeName);
+        } else {
+          this.placeName = 'Halt';
+          this.getPlace.push(this.placeName);
+          console.log('place:4 ', this.placeName);
+        }
+      } else if ((str_halt_reason != "UNKNOWN")) {
+        if (str_site_name.substring(0, 7) == 'UNKNOWN') {
+          this.placeName = str_site_name.split(',')[1] + '_' + E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:5 if', this.placeName);
+        } else {
+          this.placeName = E.site_name + '_' + E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:5 else', this.placeName);
+
+        }
+
+      } else {
+        if (str_site_name.substring(0, 7) == 'UNKNOWN') {
+          this.placeName = str_site_name.split(',')[1];
+          this.getPlace.push(this.placeName);
+          console.log('place:6 if ', this.placeName);
+        } else {
+          this.placeName = E.site_name;
+          this.getPlace.push(this.placeName);
+          console.log('place:6 else', this.placeName);
+        }
+
+      }
+
+    });
+    console.log('getPlace: ', this.getPlace);
   }
 }
