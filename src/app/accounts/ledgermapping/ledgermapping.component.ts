@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,30 +11,47 @@ import { UserService } from '../../@core/data/users.service';
 })
 export class LedgermappingComponent implements OnInit {
   secondaryData=[];
+  selectedName = '';
   ledgerMapping = {
     ledger :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       },
       group :{
-        name:'',
-        id:''
+        name:'All',
+        id:0
       },
     };
     ledgerMappingData=[];
     ledgerList=[];
-    activeId='';
+    activeId='secondaryname';
+    selectedRow = -1;
+    allowBackspace = true;
+
+    @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event) {
+      this.keyHandler(event);
+    }
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
     public modalService: NgbModal) { 
+      this.common.refresh = this.refresh.bind(this);  
       this.getSecondaryData();
       this.getLedgerList();
       this.setFoucus('secondaryname');
+      this.common.currentPage = 'Ledger Mapping';
     }
 
 
   ngOnInit() {
+  }
+   
+  refresh(){
+    this.getSecondaryData();
+    this.getLedgerList();
+    this.setFoucus('secondaryname');
   }
 
   getSecondaryData() {
@@ -67,6 +84,11 @@ export class LedgermappingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerMappingData = res['data'];
+        this.setFoucus('secondaryname');
+        if (this.ledgerMappingData.length) {
+          document.activeElement['blur']();
+          this.selectedRow = 0;
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -84,6 +106,7 @@ export class LedgermappingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerList = res['data'];
+        
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -104,12 +127,29 @@ export class LedgermappingComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
+      this.allowBackspace = true;
        if (this.activeId.includes('secondaryname')) {
         this.setFoucus('ledger');
       }else  if (this.activeId.includes('ledger')) {
         this.setFoucus('submit');
       }
     }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'ledger') this.setFoucus('secondaryname');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerMappingData.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.ledgerMappingData.length - 1) this.selectedRow++;
+
+    }
+    
   }
 
   setFoucus(id, isSetLastActive = true) {

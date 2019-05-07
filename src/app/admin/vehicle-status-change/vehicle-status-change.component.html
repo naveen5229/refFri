@@ -1,61 +1,97 @@
 <nb-card>
   <nb-card-header>
-    <div class="col-sm-4">
-      <h2>Vehicle Status Changes</h2>
-    </div>
-    <div class="col-sm-8" style="margin-top:-86px">
-      <input type="button" style="margin-top: 8%; padding: 11px; background-color:hsl(0,50%,75%);border-radius:15px"
-        id="statusPending" (click)="getPendingStatusDetails()" value="Pending Alerts">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
-        (click)="getVehicleStatusAlerts('all')" value="View All">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
-        (click)="getVehicleStatusAlerts('view new')" value="View New">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
-        (click)="getVehicleStatusAlerts('view old')" value="View old">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
-        (click)="getVehicleStatusAlerts('pending')" value="Refresh">
-      <input type="button" style="margin-top: 8%; padding: 11px; border-radius:15px" id="statusPending"
-        (click)="getVehicleStatusAlerts('advance review')" value="Advance Review">
+    <div class="row">
+      <div class="col-10">
+        <h5>Vehicle Status Changes</h5>
+      </div>
+      <div class="col-2">
+        <span class="anlytics_btn" (click)="openAnalyticsModal()"
+          ><img height="50px" width="50px" src="assets/images/analytics.png" />
+        </span>
+      </div>
     </div>
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body style="padding:10px 15px;">
+    <div class="vehicle_status_tabs clearfix mb-3">
+      <ul class="tabset">
+        <li [ngClass]="dis=='all'?'tab active':'tab'" >
+          <input
+            type="button"
+            id="viewall"
+            (click)="getVehicleStatusAlerts('all');dis='all'"
+            value="View All"
+          />
+        </li>
+        <li [ngClass]="dis=='new'?'tab active':'tab'">
+          <input
+            type="button"
+            id="viewnew"
+            (click)="getVehicleStatusAlerts('view new');dis='new'"
+            value="View New"
+          />
+        </li>
+        <li [ngClass]="dis=='old'?'tab active':'tab'">
+          <input
+            type="button"
+            id="viewold"
+            (click)="getVehicleStatusAlerts('view old');dis='old'"
+            value="View old"
+          />
+        </li>
+        <li [ngClass]="dis=='refresh'?'tab active':'tab'" >
+          <input
+            type="button"
+            id="refresh"
+            (click)="getVehicleStatusAlerts('pending');dis='refresh'"
+            value="Refresh"
+          />
+        </li>
+        <li [ngClass]="dis=='adrw'?'tab active':'tab'">
+          <input
+            type="button"
+            id="advancereview"
+            (click)="getVehicleStatusAlerts('advance review');dis='adrw'"
+            value="Advance Review"
+          />
+        </li>
+      </ul>
+      <input
+        type="button"
+        id="statusPending"
+        (click)="getPendingStatusDetails()"
+        value="Pending Alerts"
+      />
+    </div>
     <div class="tableFixHead">
       <table class="table table-bordered table-hover ">
         <thead class="thead">
           <tr>
-            <!-- <th>Id</th> -->
             <th>Fo Name</th>
-            <th>Vehicle RegNo </th>
-            <th>Vehicle Id </th>
-            <th>Primary Status </th>
+            <th>Vehicle RegNo</th>
+            <th>Vehicle Id</th>
+            <th>Primary Status</th>
             <th>Secondry Status</th>
-            <!-- <th>Remark</th> -->
             <th>Suggestion</th>
             <th>Alert Time</th>
-            <!-- <th>Clear UserId</th>
-            <th>Cleared By</th> -->
-            <!-- <th>Status</th> -->
             <th>Hold User</th>
             <th>Action</th>
           </tr>
-
         </thead>
         <tbody>
           <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
-            <!-- <td>{{VehicleStatusAlert.id}}</td> -->
-            <td>{{VehicleStatusAlert.fo_name}}</td>
-            <td>{{VehicleStatusAlert.regno}}</td>
-            <td>{{VehicleStatusAlert.vehicle_id}}</td>
-            <td>{{VehicleStatusAlert.prim_status}}</td>
-            <td>{{VehicleStatusAlert.sec_status}}</td>
-            <!-- <td>{{VehicleStatusAlert.remark}}</td> -->
-            <td>{{VehicleStatusAlert.suggest}}</td>
-            <td>{{VehicleStatusAlert.alert_time}}</td>
-            <!-- <td>{{VehicleStatusAlert.aduserid}}</td>
-            <td>{{VehicleStatusAlert.clearedby}}</td> -->
-            <!-- <td>{{status[VehicleStatusAlert.status]}}</td> -->
-            <td>{{VehicleStatusAlert.hold_by}}</td>
-            <td><button (click)="enterTicket(VehicleStatusAlert)">Take Action</button></td>
+            <td>{{ VehicleStatusAlert.fo_name }}</td>
+            <td>{{ VehicleStatusAlert.regno }}</td>
+            <td>{{ VehicleStatusAlert.vehicle_id }}</td>
+            <td>{{ VehicleStatusAlert.prim_status }}</td>
+            <td>{{ VehicleStatusAlert.sec_status }}</td>
+            <td>{{ VehicleStatusAlert.suggest }}</td>
+            <td>{{ VehicleStatusAlert.alert_time }}</td>
+            <td>{{ VehicleStatusAlert.hold_by }}</td>
+            <td>
+              <button (click)="enterTicket(VehicleStatusAlert)">
+                Take Action
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -63,8 +99,8 @@
     <div class="no-data" *ngIf="!VehicleStatusAlerts.length">
       No Data available !
     </div>
-    <div style="margin-top:20px">
-      <b>Number Of Alerts : {{VehicleStatusAlerts.length}}</b>
+    <div style="margin-top:10px">
+      <b>Number Of Alerts : {{ VehicleStatusAlerts.length }}</b>
     </div>
   </nb-card-body>
 </nb-card>

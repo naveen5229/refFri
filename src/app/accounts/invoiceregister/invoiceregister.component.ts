@@ -11,42 +11,56 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./invoiceregister.component.scss']
 })
 export class InvoiceregisterComponent implements OnInit {
-  
-  vouchertypedata=[];
-  branchdata=[];
+
+  vouchertypedata = [];
+  branchdata = [];
   invoiceRegister = {
-    endDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    startDate:this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
-    custCode:'',
-    code:'',
-    ledger :{
-        name:'',
-        id:''
-      },
-      branch :{
-        name:'',
-        id:''
-      },
-      voucherType :{
-        name:'',
-        id:''
-      }
-    
-    };
-    invoiceRegisterData=[];
-    ledgerList=[];
-    activeId='branch';
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    custCode: '',
+    code: '',
+    ledger: {
+      name: 'All',
+      id: 0
+    },
+    branch: {
+      name: '',
+      id: ''
+    },
+    voucherType: {
+      name: 'Purchase Invoice',
+      id: -2
+    }
+
+  };
+  invoiceRegisterData = [];
+  ledgerList = [];
+  activeId = 'voucherType';
+  allowBackspace = true;
+
+  showDateModal = false;
+  f2Date = 'startDate';
+  activedateid = '';
+  lastActiveId = '';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
-      this.getVoucherTypeList();
-      this.getBranchList();
-      this.getLedgerList();
-      this.setFoucus('branch');
-    }
+    public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+
+    this.getVoucherTypeList();
+    this.getLedgerList();
+    this.setFoucus('voucherType');
+    this.common.currentPage = 'Invoice Register';
+  }
 
   ngOnInit() {
+  }
+  refresh() {
+    this.getVoucherTypeList();
+    this.getLedgerList();
+    this.setFoucus('voucherType');
   }
 
   getVoucherTypeList() {
@@ -54,7 +68,7 @@ export class InvoiceregisterComponent implements OnInit {
       search: 123
     };
     this.common.loading++;
-    this.api.post('Suggestion/GetVouchertypeList', params)
+    this.api.post('Suggestion/GetOrderTypeList', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -63,7 +77,7 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getLedgerList() {
@@ -80,7 +94,7 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getBranchList() {
@@ -97,7 +111,7 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getInvoiceRegister() {
@@ -111,7 +125,7 @@ export class InvoiceregisterComponent implements OnInit {
       custCode: this.invoiceRegister.custCode,
       orderType: this.invoiceRegister.voucherType.id,
     };
-    
+
     this.common.loading++;
     this.api.post('Accounts/getInvoiceRegister', params)
       .subscribe(res => {
@@ -122,17 +136,17 @@ export class InvoiceregisterComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.invoiceRegister[date] = this.common.dateFormatter(data.date).split(' ')[0];
-        console.log(this.invoiceRegister[date]);
+      this.invoiceRegister[date] = this.common.dateFormatternew(data.date).split(' ')[0];
+      console.log(this.invoiceRegister[date]);
     });
   }
-  
+
   onSelected(selectedData, type, display) {
     this.invoiceRegister[type].name = selectedData[display];
     this.invoiceRegister[type].id = selectedData.id;
@@ -143,25 +157,84 @@ export class InvoiceregisterComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
     if (key == 'enter') {
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('voucherType');
-      }else  if (this.activeId.includes('voucherType')) {
+      this.allowBackspace = true;
+      if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
-      }else  if (this.activeId.includes('ledger')) {
-        this.setFoucus('startdate');
-      }else  if (this.activeId.includes('startdate')) {
-        this.setFoucus('enddate');
-      }else  if (this.activeId.includes('enddate')) {
+      } else if (this.activeId.includes('ledger')) {
         this.setFoucus('code');
-      }else  if (this.activeId.includes('custcode')) {
+      } else if (this.activeId.includes('startDate')) {
+        this.invoiceRegister.startDate = this.common.handleDateOnEnterNew(this.invoiceRegister.startDate);
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
+        this.invoiceRegister.endDate = this.common.handleDateOnEnterNew(this.invoiceRegister.endDate);
         this.setFoucus('submit');
-      }else  if (this.activeId.includes('code')) {
+      } else if (this.activeId.includes('custcode')) {
+        this.setFoucus('startDate');
+      } else if (this.activeId.includes('code')) {
         this.setFoucus('custcode');
       }
     }
+    else if (key == 'backspace' && this.allowBackspace) {
+      event.preventDefault();
+      console.log('active 1', this.activeId);
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('custcode');
+      if (this.activeId == 'custcode') this.setFoucus('code');
+      if (this.activeId == 'code') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('voucherType');
+    } else if (key.includes('arrow')) {
+      this.allowBackspace = false;
+    } else if (key != 'backspace') {
+      this.allowBackspace = false;
+    }
+
   }
 
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.invoiceRegister[datestring].includes('-')) {
+      dateArray = this.invoiceRegister[datestring].split('-');
+    } else if (this.invoiceRegister[datestring].includes('/')) {
+      dateArray = this.invoiceRegister[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.invoiceRegister[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

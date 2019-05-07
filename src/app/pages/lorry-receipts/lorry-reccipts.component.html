@@ -1,47 +1,35 @@
-<nb-card>
+<nb-card style="border:0px;">
   <nb-card-header>
-    <div class="row">
-      <div class="col-sm-10"><h4>Lorry Receipts</h4></div>
-      <div class="form-group" class="col-sm-2">
-      <select class="form-control" (change)="getLorryReceipts()" name="viewType" [(ngModel)]="viewType">
-        <option value="allLR">All</option>
-        <option value="myLr">My</option>
-      </select>
-    </div>
-    </div>
+      <h5>Lorry Receipts</h5>
   </nb-card-header>
   <nb-card-body>
+      <div class="row" style="margin-top:10px; margin-bottom:10px;">
+          <div class="col-sm-2">
+            <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+              placeholder="Start Date" (click)="getDate('start')">
+          </div>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+              placeholder="End Date" (click)="getDate('end')">
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-primary m-0" (click)="getLorryReceipts()">submit</button>
+          </div>
+          <div class="col-sm-2">
+            <select class="form-control" (change)="getLorryReceipts()" name="viewType" [(ngModel)]="viewType">
+              <option value="allLR">All</option>
+              <option value="myLr">My</option>
+            </select>
+          </div>
+        </div>
     <div>
-      <table class="table table-bordered table-hover">
-        <thead class="thead">
-          <tr>
-            <th>#</th>
-            <th>Vehicle No</th>
-            <th>Status Name</th>
-            <th *ngIf="viewType == 'allLR'">Name</th>
-            <th>Add Time</th>
-            <th>view</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let receipt of receipts; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{receipt.regno}}</td>
-            <td>{{receipt.statusName}}</td>
-            <td *ngIf="viewType == 'allLR'">{{receipt.name}}</td>           
-            <td>{{receipt.addtime | date : 'dd MMM HH:mm'}}</td>
-            <td>
-                <span style="text-decoration:underline; color: blue;cursor: pointer; font-size:18px;" (click)="getImage(receipt)">
-                  view</span>
-            </td>
-          </tr>
-          </tbody>
-      </table>
+      <smart-table *ngIf="receipts.length" [data]="table.receipts" [settings]="table.settings" id="tblLorryReceipt">
+      </smart-table>
       <div class="no-data alert alert-danger" role="alert" *ngIf="receipts.length==0">
         No Data available !
-    </div>
+      </div>
     </div>
 
   </nb-card-body>
 </nb-card>
+<router-outlet></router-outlet>

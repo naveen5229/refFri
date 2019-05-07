@@ -7,6 +7,9 @@ import { DriverComponent } from './driver.component';
 import { DriverListComponent } from './driver-list/driver-list.component';
 import {VehicleDriverMappingComponent } from './vehicle-driver-mapping/vehicle-driver-mapping.component';
 import {DriverAttendanceComponent } from './driver-attendance/driver-attendance.component';
+import { DriverDocumentComponent } from './driver-document/driver-document.component';
+import { LicenceUploadComponent } from './licence-upload/licence-upload.component';
+import { PendingLicenceComponent } from './pending-licence/pending-licence.component';
     import { from } from 'rxjs';
 const routes: Routes = [{
     path: '',
@@ -32,6 +35,18 @@ const routes: Routes = [{
             path: 'driver-attendance',
             component: DriverAttendanceComponent,
         },
+        {
+            path:'driver-document',
+            component:DriverDocumentComponent,
+        },
+        {
+            path:'licence-upload',
+            component:LicenceUploadComponent,
+        },
+        {
+            path:'pending-licence',
+            component:PendingLicenceComponent,
+        }
     ],
 }];
 

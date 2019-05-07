@@ -36,7 +36,7 @@ export class VouchersComponent implements OnInit {
   lastActiveId = '';
   allowBackspace = true;
   showDateModal = false;
-  date = this.common.dateFormatter(new Date());
+  date = this.common.dateFormatternew(new Date());
 
   activeLedgerIndex = -1;
 
@@ -61,6 +61,11 @@ export class VouchersComponent implements OnInit {
     this.getLedgers('credit');
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
+
+
+    setTimeout(() => {
+      console.log('financial year', this.accountService.selected.financialYear);
+    }, 10000);
   }
 
   ngOnInit() {
@@ -70,7 +75,7 @@ export class VouchersComponent implements OnInit {
   setVoucher() {
     return {
       name: '',
-      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
       foid: '',
       user: {
         name: '',
@@ -78,7 +83,7 @@ export class VouchersComponent implements OnInit {
       },
       vouchertypeid: '',
       amountDetails: [{
-        transactionType: (this.voucherId == '-3' || this.voucherId == '-1') ? 'credit' : 'debit',
+        transactionType: (this.voucherId == '-4' || this.voucherId == '-2') ? 'credit' : 'debit',
         ledger: {
           name: '',
           id: ''
@@ -130,12 +135,21 @@ export class VouchersComponent implements OnInit {
     //   }
     // });
   }
-  modelCondition(){
+  modelCondition() {
     this.showConfirm = false;
     event.preventDefault();
     return;
-   }
+  }
   dismiss(response) {
+    console.log('DD: ', this.common.dateFormatter(this.common.convertDate(this.voucher.date), 'y', false));
+    console.log('DD: ', this.accountService.selected.financialYear.startdate);
+    console.log('DD: ', this.accountService.selected.financialYear.enddate);
+    this.showConfirm = false;
+    if (!response) {
+      this.showConfirm = false;
+      return;
+    }
+
     console.log('Voucher:', this.voucher);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
       this.common.showError('Credit And Debit Amount Should be Same');
@@ -145,7 +159,18 @@ export class VouchersComponent implements OnInit {
       this.showConfirm = false;
       event.preventDefault();
       return;
+    } else if (this.accountService.selected.financialYear.isfrozen == true) {
+      this.common.showError('This financial year is freezed. Please select currect financial year');
+      return;
+    } else {
+      let voucherDate = this.common.dateFormatter(this.common.convertDate(this.voucher.date), 'y', false);
+      if (voucherDate < this.accountService.selected.financialYear.startdate || voucherDate > this.accountService.selected.financialYear.enddate) {
+        this.common.showError('Please Select Correct Financial Year');
+        return;
+      }
     }
+
+    // if (this.voucher) return;
     console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch != '0');
     if (this.accountService.selected.branch != '0') {
       // this.accountService.selected.branch
@@ -170,7 +195,9 @@ export class VouchersComponent implements OnInit {
       remarks: this.voucher.remarks,
       date: this.voucher.date,
       amountDetails: this.voucher.amountDetails,
-      vouchertypeid: this.voucherId
+      vouchertypeid: this.voucherId,
+      y_code: '',
+      xid: 0
     };
 
     console.log('params 1 : ', params);
@@ -185,6 +212,7 @@ export class VouchersComponent implements OnInit {
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
           this.setFoucus('ref-code');
+          this.voucher.date = params.date;
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);
@@ -207,7 +235,7 @@ export class VouchersComponent implements OnInit {
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.voucher.date = this.common.dateFormatter(data.date).split(' ')[0];
+      this.voucher.date = this.common.dateFormatternew(data.date).split(' ')[0];
       //  console.log('Date:', this.date);
     });
   }
@@ -243,7 +271,7 @@ export class VouchersComponent implements OnInit {
         } else if (this.accountService.selected.branch == '0') {
           alert('Please Select Branch');
         } else {
-          this.addVoucher();
+          this.dismiss(true);
         }
       }
       return;
@@ -450,14 +478,27 @@ export class VouchersComponent implements OnInit {
       this.common.showError('Invalid Date Format!');
       return;
     }
-    let date = dateArray[2];
-    date = date.length == 1 ? '0' + date : date;
+
     let month = dateArray[1];
     month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[0];
+    month = (month > 12) ? 12 : month;
+    let year = dateArray[2];
     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    date = (date > 31) ? 31 : date;
+    date = (((month == '04') || (month == '06') || (month == '09') || (month == '11')) && (date > 30)) ? 30 : date;
+    date = ((date == 28) && (month == '02')) ? 28 : date;
+    if (year % 4 == 0 && (month == '02')) {
+      date = (((date > 28) && (month == '02')) && ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))) ? 29 : date;
+
+    }
+    else if (year % 4 != 0 && (month == '02')) {
+      date = 28;
+    } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
+
     console.log('Date: ', year + separator + month + separator + date);
-    this.voucher.date = year + separator + month + separator + date;
+    this.voucher.date = date + separator + month + separator + year;
   }
 
   handleArrowUpDown(key, activeId) {
@@ -571,10 +612,19 @@ export class VouchersComponent implements OnInit {
       code: ledger.code,
       foid: ledger.user.id,
       per_rate: ledger.perrate,
-      primarygroupid: ledger.account.primarygroup_id,
-      account_id: ledger.account.id,
+      primarygroupid: ledger.undergroup.primarygroup_id,
+      account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
-      x_id: 0
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
+      x_id: ledger.id ? ledger.id : 0,
     };
 
     console.log('params11: ', params);
@@ -586,6 +636,7 @@ export class VouchersComponent implements OnInit {
         console.log('res: ', res);
         this.getLedgers('debit');
         this.getLedgers('credit');
+        this.common.showToast('Ledger Are Saved');
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

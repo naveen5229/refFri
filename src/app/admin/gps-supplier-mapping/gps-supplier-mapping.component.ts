@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ManualHaltComponent } from '../../modals/manual-halt/manual-halt.component';
 
 @Component({
   selector: 'gps-supplier-mapping',
@@ -23,6 +24,18 @@ export class GpsSupplierMappingComponent implements OnInit {
     public modalService: NgbModal) { }
 
   ngOnInit() {
+  }
+
+  insertSupplierDetails(){
+    const activeModel = this.modalService.open(ManualHaltComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+  }
+
+  getFoList(fo){
+
+  }
+
+  getSupplierList(supplier){
+    
   }
 
 }

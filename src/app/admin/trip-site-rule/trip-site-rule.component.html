@@ -1,0 +1,39 @@
+<nb-card style="border: 0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-6">
+          <h5>Trip Site Rule</h5>
+      </div>
+      <div class="col-6 text-right">
+          <button type="submit" class="btn btn-primary m-0" name="add" (click)="addsite()">Add Rule</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+          <div class="row mb-3">
+           <div class="col-3">
+              <auto-suggestion (onSelected)="selectVehicle($event)" [(ngModel)]="vehicle.id"
+              url="suggestion/getVehicleList" display="regno" placeholder="Regno" [preSelected]="null">
+            </auto-suggestion>
+            <div class="suggestions ng-star-inserted"></div>
+           </div>
+           <div class="col-3">
+              <auto-suggestion (onSelected)="selectSite($event)" [(ngModel)]="siteId" url="Suggestion/getSites?typeId=1"
+                seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="null">
+              </auto-suggestion>
+              <div class="suggestions ng-star-inserted"></div>
+           </div>
+           <div class="col-3">
+              <button type="submit" class="btn btn-primary" (click)="getAllSiteData()">Submit</button>
+           </div> 
+          </div>
+    <div>
+      <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div>
+    </div>
+
+
+  </nb-card-body>
+</nb-card>

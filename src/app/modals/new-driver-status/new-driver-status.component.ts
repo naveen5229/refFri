@@ -50,4 +50,8 @@ export class NewDriverStatusComponent implements OnInit {
 
   }
 
+  NewStatus(){
+    
+  }
+
 }

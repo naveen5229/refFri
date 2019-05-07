@@ -4,83 +4,24 @@
       <h2>Alert Related Issues</h2>
     </div>
     <div class="col-sm-8 text-right">
-      <input type="button" id="missingIndustry" class="missingIndustry btn-design" (click)="missingIndustry()"
-        value="Missing Industry">
-      <input type="button" id="backLogs" class="backLogs btn-design" (click)="backLogs()" value="Missing History">
+    </div>
 
-    </div>
-    <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
-      <label>Distance</label>
-      <select name="distance" class="form-control "  [(ngModel)]="distance" (change)="missingIndustry()">
-        <option class="form-control" [value]="1">Low</option>
-        <option class="form-control" [value]="2">Modrate</option>
-        <option class="form-control" [value]="3">High</option>
-      </select>
-    </div>
-    <div class="col-sm-3 list" *ngIf="missing==1 || backLogs==0">
-      <label>Ratio</label>
-      <select name="ratio" class="form-control " [(ngModel)]="ratio" (change)="missingIndustry()">
-        <option class="form-control" [value]="1">Low</option>
-        <option class="form-control" [value]="2">Modrate</option>
-        <option class="form-control" [value]="3">High</option>
-      </select>
-    </div>
-    <div class="col-1 pl-0 pt-2" *ngIf="missing==1 || backLogs==0">{{missingIndusrtyData.length}} Records</div>
   </nb-card-header>
   <nb-card-body>
-    <div class="tableFixHead">
-      <table class="table table-bordered table-hover " *ngIf="missing==1 || backLogs==0">
-        <thead class="thead">
-          <tr>
-            <th>SrNo</th>
-            <th *ngFor="let col of header" class="text-center">
-              {{formatTitle(col)}}
-            </th>
-            <th style="width:120px; text-align: center;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let alert of missingIndusrtyData; let i = index">
-            <td style="width:5%;">{{i + 1}}</td>
-            <td *ngFor="let col of columns">
-              <span
-                style="min-width: 200px;">{{(col=='y_curr_start'||col=='y_outside_start')? ( common.changeDateformat2(alert[col])):alert[col]}}</span>
-            </td>
-            <td><button (click)="missingIssue(alert)">Take Action</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="no-data" *ngIf=" missingIndusrtyData.length==null">
-          No Data available !
+    <div class="row">
+      <div class="col-3">
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+          placeholder="Fo User" [preSelected]="null"></auto-suggestion>
+        <div class="suggestions ng-star-inserted">
         </div>
-      
-
-      <table class="table table-bordered table-hover" *ngIf="backLogs==1 || missing==0  ">
-        <thead class="thead">
-          <tr>
-            <th>SrNo</th>
-            <th *ngFor="let col of header2" class="text-center">
-              {{formatTitle(col)}}
-            </th>
-            <th style="width:120px; text-align: center;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let alert of backlogData; let i = index">
-            <td style="width:5%;">{{i + 1}}</td>
-            <td *ngFor="let col of columns2">
-              <span
-                style="min-width: 200px;">{{(col=='y_sec_start_time'||col=='y_start_time')? ( common.changeDateformat2(alert[col])):alert[col]}}</span>
-            </td>
-            <td><button (click)="backlogsIssue(alert)">Take Action</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- <div class="no-data" *ngIf=" backlogData.length == null">
-          No Data available !
-        </div>
-      -->
+      </div>
+      <div class="col-3">
+        <button class="btn btn-dark" (click)="foid=null;ticket()" >All Issue</button>
+      </div>
     </div>
+    <div class="col-1 pl-0 pt-2">{{ticketsData.length}} Records</div>
+    <smart-table *ngIf="ticketsData.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
 
   </nb-card-body>
 </nb-card>

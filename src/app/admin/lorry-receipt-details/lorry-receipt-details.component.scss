@@ -1,0 +1,110 @@
+.heading-row {
+    font-size: 12px;
+}
+
+input[type=text] {
+    width: 100%;
+    height: 30px;
+    padding-left: 5px;
+    font-size: 13px;
+    border: 2px solid darkcyan;
+    border-radius: 4px;
+}
+
+
+
+
+/************************************************** Custome Modal CSS *****************************/
+.custom-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: transparent;
+    overflow: auto;
+    height: 100%;
+}
+
+.modal-header {
+    padding: 10px 15px;
+    background-color: #263238 !important;
+}
+
+.modal-header h5 {
+    color: #fff;
+}
+
+.close {
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+}
+
+.custom-modal-body {
+    background: #fff;
+}
+
+.custom-active-modal {
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.5);
+
+}
+
+.custom-passive-modal {
+    z-index: 1049;
+}
+
+/****************************************************** Custome Modal CSS End ******************************/
+
+
+
+/************************************* Modal UI *********************************/
+button {
+    background-color: darkcyan;
+    border: 2px solid blanchedalmond;
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+input[type=text] {
+    width: 100%;
+    height: 30px;
+    padding-left: 5px;
+    font-size: 13px;
+    margin-top: 10px;
+    border: 2px solid darkcyan;
+    border-radius: 4px;
+}
+
+.close {
+    background-color: white;
+    color: black;
+    border: none
+}
+
+.suggestion {
+    width: 100%;
+    height: 30px;
+    padding-left: 5px;
+    font-size: 12px;
+    margin-top: 10px;
+    border: 2px solid darkcyan;
+    border-radius: 4px;
+}
+
+.select option {
+    padding: 10px 5px;
+    border-bottom: 1px solid #cccccc
+}
+
+.iv-large-image {
+    max-width: 1000px !important;
+    max-height: 1000px !important;
+}
+
+/*********************************** Modal UI END *****************************/

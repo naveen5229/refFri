@@ -36,6 +36,7 @@ export class DocumentationDetailsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
+    this.common.currentPage = 'Vehicle Documents Input';
   }
 
   ngOnInit() {
@@ -70,16 +71,16 @@ export class DocumentationDetailsComponent implements OnInit {
       wefDate: { title: 'Wef Date', placeholder: 'Wef Date' },
       expiryDate: { title: 'Expiry Date', placeholder: 'Expiry Date' },
       documentNumber: { title: 'Document Number', placeholder: 'Document No' },
-      rto: { title: 'Rto', placeholder: 'Rto' },
+      rto: { title: 'RTO', placeholder: 'RTO' },
       amount: { title: 'Amount', placeholder: 'Amount' },
       verified: { title: 'Verified', placeholder: 'Verified' },
-      remark: { title: 'Remark', placeholder: 'Remak' },
-      image: { title: 'Image', placeholder: 'Image', hideSearch: true },
-      edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true },
+      remark: { title: 'Remark', placeholder: 'Remark' },
+      image: { title: 'Image', placeholder: 'Image', hideSearch: true, class: 'del'  },
+      edit: { title: 'Edit', placeholder: 'Edit', hideSearch: true, class: 'del' },
     };
 
     if (this.user._loggedInBy == 'admin') {
-      headings['delete'] = { title: 'Delete', placeholder: 'Delete', hideSearch: true, };
+      headings['delete'] = { title: 'Delete', placeholder: 'Delete', hideSearch: true, class: 'del' };
     }
     return {
       data: {
@@ -87,7 +88,8 @@ export class DocumentationDetailsComponent implements OnInit {
         columns: this.getTableColumns()
       },
       settings: {
-        hideHeader: true
+        hideHeader: true,
+        tableHeight: "auto"
       }
     }
   }
@@ -111,11 +113,11 @@ export class DocumentationDetailsComponent implements OnInit {
         documentNumber: { value: doc.document_number },
         rto: { value: doc.rto },
         amount: { value: doc.amount },
-        verified: { value: doc.verified? 'Yes': 'No' },
+        verified: { value: doc.is_verified? 'Yes': 'No' },
         remark: { value: doc.remarks },
-        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center' },
-        edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center' },
-        rowActions: {}
+        image: { value: `${doc.img_url ? '<i class="fa fa-image"></i>' : ''}`, isHTML: true, action: doc.img_url ? this.imageView.bind(this, doc) : '', class: 'image text-center del' },
+        edit: { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.editData.bind(this, doc), class: 'icon text-center del' },
+        rowActions: { class : 'del'}
       };
       if (this.user._loggedInBy == 'admin') {
         column['delete'] = { value: `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteData.bind(this, doc), class: 'icon text-center' };

@@ -1,41 +1,14 @@
-<nb-card>
+<nb-card style="border: 0px;">
     <nb-card-header>
       <div class="row">
-        <div class="col-sm-10"><h4>Vehicle Trips</h4></div>
-        <button class="btn" (click)="openAddTripModal()">Add Trip</button>
+        <div class="col-sm-10"><h5>Vehicle Trips</h5></div>
+        <div class="col-sm-2 text-right">
+            <button class="btn btn-primary m-0" (click)="openAddTripModal()">Add Trip</button>
+        </div>
       </div>
     </nb-card-header>
     <nb-card-body>
-      <div>
-        <table class="table table-bordered table-hover">
-          <thead class="thead">
-            <tr>
-              <th>#</th>
-              <th>Vehicle No</th>
-              <th>Start Date</th>
-              <th>Start Name</th>
-              <th>End Name</th>
-              <th>End Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vehicleTrip of vehicleTrips; let i = index">
-              <th scope="row" >{{i + 1}}</th>
-              <td>{{vehicleTrip.regno}}</td>
-              <td>{{vehicleTrip.start_time | date : 'dd MMM hh:mm a'}}</td>
-              <td>{{vehicleTrip.start_name}}</td> 
-              <td>{{vehicleTrip.end_name}}</td>
-              <td>{{vehicleTrip.end_time | date : 'dd MMM hh:mm a'}}</td>
-              <td><span>
-                <span ><i class="fa fa-pencil-square-o  edit-btn" (click)="update(vehicleTrip);"></i></span>
-                <span style="margin-left:30px"><i class="fa fa-question-circle report-btn" (click)="reportIssue(vehicleTrip);"></i></span>
-                <span style="margin-left:30px" *ngIf = "!is_manual"><i class="fa fa-trash remove" (click)="vehicleTrips.splice(i,1);deleteTrip(vehicleTrip)"></i></span>
-              </span></td>
-            </tr>
-        </table>
-  
-      </div>
-  
+      <smart-table *ngIf="vehicleTrips.length" [data]="table.data" [settings]="table.settings" ></smart-table>
+      <br>
     </nb-card-body>
   </nb-card>

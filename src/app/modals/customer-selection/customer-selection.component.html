@@ -1,19 +1,20 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title"> Search FO Admin</h4>
+  <h5 class="modal-title" id="modal-basic-title"> Search FO Admin</h5>
   <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body" style="min-height:220px">
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString"
-      [(ngModel)]="searchString" autocomplete="off">
-    <ul class="auto_listing" *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
-      <li *ngFor="let suggestion of suggestions;" (click)="selectUser(suggestion)" style="height:30px;font-size: 14px">
-        {{ suggestion.foaname}} - {{suggestion.foaid}} - {{suggestion.foname}} - {{suggestion.foid}} -
-        {{suggestion.fomobileno}}
-      </li>
-    </ul>
-  </div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="search customer" (input)="searchUser()" name="searchString" [(ngModel)]="searchString"  autocomplete="off">
+      <ul class="auto_listing" *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
+        <li *ngFor="let suggestion of suggestions;" (click)="selectUser(suggestion)">
+          {{ suggestion.foaname}} - {{suggestion.foaid}} - {{suggestion.foname}} - {{suggestion.foid}} -
+          {{suggestion.fomobileno}}
+        </li>
+      </ul>
+    </div>
+  </form>
 
 </div>

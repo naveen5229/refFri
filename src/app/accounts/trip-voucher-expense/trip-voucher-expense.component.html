@@ -5,7 +5,7 @@
   <nb-card-body>
     <div class="row">
       <div class="col-sm-3" style="margin-bottom :10px">
-          <auto-suggestion (onSelected)="getTripSummary($event)" url="Suggestion/getVehicleList" display="regno"
+          <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
           placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
         </div>
         <div class="col-sm-6" style="text-align :right">
@@ -20,14 +20,16 @@
           <th>End Location</th>
           <th>Start Date</th>
           <th>End Date</th>
+          <th>Action</th>
         </thead>
         <tbody>
-          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;" (click)="getVoucherSummary(tripVoucher)">
-            <td>{{i+1}}</td>
+          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;">
+            <td (click)="getVoucherSummary(tripVoucher)">{{i+1}}</td>
             <td>{{tripVoucher.startloc}}</td>
             <td>{{tripVoucher.endloc || '--'}}</td>
             <td>{{tripVoucher.startdate | date : 'dd MMM'}}</td>
             <td>{{tripVoucher.enddate | date : 'dd MMM'}}</td>
+            <td><i class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px" (click)="deleteVoucherEntry(tripVoucher)"></i></td>
           </tr>
         </tbody>
       </table>

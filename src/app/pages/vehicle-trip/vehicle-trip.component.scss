@@ -1,5 +1,5 @@
 nb-card-header{
-    padding: 15px 20px;
+    padding: 10px 15px;
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
@@ -8,7 +8,7 @@ nb-card-header{
     margin-bottom: 20px!important;
 }
 nb-card-body{
-    padding: 0px 20px 15px;
+    padding: 0px 15px;
 }
 .alert-danger{
     color: #721c24 !important;
@@ -20,15 +20,139 @@ nb-card-body{
     padding: 12px !important;
     font-size: 18px !important;
 }
-.remove{
-    font-size: 20px;
-    color: #ef2c2c;
+:host ::ng-deep .tableFixHead{
+    overflow: auto;
+    max-height: calc(100vh - 162px);
 }
-.report-btn{
-    font-size: 20px;
-    color: yellowgreen;
+:host ::ng-deep td i.fa-pencil-square-o{
+    background-color: #04A9F5;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    position: relative;
 }
-.edit-btn{
-    font-size: 20px;
-    color: rgb(81, 5, 131);
+:host ::ng-deep td i.fa-pencil-square-o:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-pencil-square-o span{
+    position: absolute;
+    display: none;
+    padding: 11px 21px;
+    left: -9px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+}
+:host ::ng-deep td i.fa-pencil-square-o span::before{
+    content: 'Edit';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #04A9F5;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-pencil-square-o span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #04A9F5;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+:host ::ng-deep td i.fa-question-circle{
+    background-color: #1DE9B6;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    position: relative;
+}
+:host ::ng-deep td i.fa-question-circle:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-question-circle span{
+    position: absolute;
+    display: none;
+    padding: 11px 28px;
+    left: -16px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+}
+:host ::ng-deep td i.fa-question-circle span::before{
+    content: 'Report';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #1DE9B6;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-question-circle span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #1DE9B6;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+:host ::ng-deep td i.fa-trash{
+    background-color: #F44236;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    position: relative;
+}
+:host ::ng-deep td i.fa-trash:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-trash span{
+    position: absolute;
+    display: none;
+    padding: 11px 24px;
+    left: -14px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+}
+:host ::ng-deep td i.fa-trash span::before{
+    content: 'trash';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #F44236;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-trash span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #F44236;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+:host ::ng-deep td i.fa-route{
+    background-color: #ff8091;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
 }

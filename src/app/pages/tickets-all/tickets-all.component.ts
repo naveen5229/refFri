@@ -95,7 +95,7 @@ export class TicketsAllComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         --this.common.loading;
-        
+
         let data = [];
         res['data'].map((trail, index) => {
           data.push([index, trail.employeename, trail.spent_time, trail.status]);
@@ -122,5 +122,8 @@ export class TicketsAllComponent implements OnInit {
     });
     // let modal = this.modalCtrl.create('ForwardTicketPage', { tickets: tickets, type: 'multiple' });
     // modal.present();
+  }
+  test(event) {
+    console.log("Event", event);
   }
 }
