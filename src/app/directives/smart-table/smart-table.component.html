@@ -67,7 +67,8 @@
 </div>
 <div class="pagination" *ngIf="pages.count > 1">
   <div class="pagination_links">
-    <span *ngIf="pages.active > 1" (click)="handlePagination(pages.active - 1)">Pre</span>
+    <span *ngIf="pages.active==1" disabled="disabled">Pre</span>
+    <span *ngIf="pages.active >1" (click)="handlePagination(pages.active - 1)">Pre</span>
     <span *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
       [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</span>
     <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>
