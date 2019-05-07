@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { parse } from 'path';
 
 @Component({
@@ -49,8 +50,12 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         Object.keys(rep).map(key => {
           let detail = {
             _id: key,
+            _lat: rep[key].lat,
+            _long: rep[key].long,
             Regno: rep[key].regno,
-            Location: rep[key].currLoc
+            Location: rep[key].currLoc,
+            lat: rep[key].lat,
+            long: rep[key].long
           };
           rep[key].slots && rep[key].slots.map((slot, index) => {
             detail['Slot' + (index + 1)] = slot;
@@ -115,8 +120,11 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     for (var i = 0; i < this.distanceData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-
-        this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
+        if (this.headings[j] == "Location") {
+          this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.distanceData[i]) };
+        }
+        else
+          this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
 
 
       }
@@ -126,5 +134,24 @@ export class VehicleCoveredDistanceComponent implements OnInit {
 
     console.log('Columns:', columns);
     return columns;
+  }
+  showLocation(kpi) {
+    console.log("location==", kpi);
+    if (!kpi._lat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: kpi._lat,
+      lng: kpi._long,
+      name: "",
+      time: ""
+    };
+    ////console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
   }
 }

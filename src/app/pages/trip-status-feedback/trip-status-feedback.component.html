@@ -36,7 +36,7 @@
             <td>{{trip.r_driver}}</td>
             <td>{{trip.r_origin}}</td>
             <td>{{trip.r_destination}}</td>
-            <td>{{trip.r_location}}</td>
+            <td style="color:blue; cursor: pointer;" (click)="showLocation(trip)">{{trip.r_location}}</td>
             <td>{{trip.r_tripstatus}}
               <button class="btn btn-success" (click)="tripVerified(trip,'true',i)">Verified</button>
             </td>

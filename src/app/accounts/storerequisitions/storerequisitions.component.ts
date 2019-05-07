@@ -78,9 +78,9 @@ export class StorerequisitionsComponent implements OnInit {
     };
     const activeModal = this.modalService.open(StorerequisitionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
-
+      this.getStoreQuestion();
     });
-    this.getStoreQuestion();
+
   }
 
   RowSelected(u: any) {

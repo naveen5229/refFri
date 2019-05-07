@@ -47,15 +47,18 @@ export class DriverStatusChangeComponent implements OnInit {
   ngOnInit() {
     //  if(this.common.params.driver.md_name||this.common.params.driver.md_no){
 
-    this.driverStatusForm = this.formbuilder.group({
-      name: [this.name],
-      mobileno: [this.mobile, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      Status: [this.driverStatus, [Validators.required]],
-    });
-    console.log('driverstatusform:', this.driverStatusForm);
+    // this.driverStatusForm = this.formbuilder.group({
+    //   name: [this.name],
+    //   mobileno: [this.mobile, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    //   Status: [this.driverStatus, [Validators.required]],
+    // });
+    //
     //}
   }
-  get f() { return this.driverStatusForm.controls; }
+ // get f() { return this.driverStatusForm.controls; }
+ getvehicleData(Fodriver){
+   
+ }
   getdriverStatus() {
     this.common.loading++;
     let response;

@@ -81,7 +81,7 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     this.api.get('TripsOperation/tripDetailsVerificationLogs?' + params)
       .subscribe(res => {
         this.common.loading--;
-        this.tripLogs = res['data'][0].fn_trips_getfeedbackdata ? JSON.parse(res['data'][0].fn_trips_getfeedbackdata) : [];
+        this.tripLogs = res['data'] ? res['data'] : [];
         console.log("Trips Logs", this.tripLogs);
         let first_rec = this.tripLogs[0];
         console.log("first_Rec", first_rec);
@@ -112,8 +112,18 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
         j
         if (this.headings[j] == 'Vehicle') {
           this.valobj[this.headings[j]] = { value: this.tripLogs[i][this.headings[j]], class: 'black', action: this.openChangeStatusModal.bind(this, this.tripLogs[i]) };
-        } else
+        } else if (this.headings[j] == 'Action') {
+          if (this.tripLogs[i][this.headings[j]] == 0)
+            this.valobj[this.headings[j]] = { value: "Action Required", class: "red", action: this.changeTripFeedbackAction.bind(this, this.tripLogs[i]) };
+          else {
+            this.valobj[this.headings[j]] = { value: "Done", class: 'green' };
+
+          }
+        }
+        else
           this.valobj[this.headings[j]] = { value: this.tripLogs[i][this.headings[j]], class: 'black', action: '' };
+        // this.valobj['style'] = { background: this.tripLogs[i][this.headings[j]] == 1 ? "#0EEC0E" : "" };
+
       }
       columns.push(this.valobj);
     }
@@ -168,6 +178,29 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
         this.common.loading--;
         this.common.showToast(res['msg']);
 
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+  getVerifiedButton() {
+    let html = `
+    <button class="btn btn-primary m-0" (click)="checked();">Get Details</button>
+    `
+    return html;
+  }
+  changeTripFeedbackAction(tripFeedback) {
+    let params = {
+      tripFeedbackId: tripFeedback._id
+    }
+    this.common.loading++;
+    this.api.post('TripsOperation/changeTripFeedbackAction', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.common.showToast(res['msg']);
+        if (res['code'] == 1) {
+          this.getTripLogs();
+        }
       }, err => {
         this.common.loading--;
         this.common.showError();
