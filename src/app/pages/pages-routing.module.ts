@@ -33,6 +33,9 @@ import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.
 import { ShortTargetComponent } from './short-target/short-target.component';
 import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
 import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
+import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
+import { RemainingFuelComponent } from '../admin/remaining-fuel/remaining-fuel.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -184,7 +187,15 @@ const routes: Routes = [{
   {
     path: 'vehicle-trip-stages',
     component: VehicleTripStagesComponent,
-  }
+  },
+  {
+    path: 'fuel-fillings',
+    component: FuelFillingsComponent
+  },
+  {
+    path: 'remaining-fuel',
+    component: RemainingFuelComponent
+  },
   ],
 }];
 

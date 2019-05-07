@@ -112,43 +112,41 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/daybooks/0'
             },
             {
-                title: 'Ledger View',
-                link: '/accounts/ledgerview'
-            },
-            {
-                title: 'Ledger Mapping',
-                link: '/accounts/ledgermapping'
-            },
-
-            {
-                title: 'OutStanding',
-                link: '/accounts/outstanding'
-            },
-            {
-                title: 'Balance Sheet',
-                link: '/accounts/balancesheet'
-            },
-            {
-                title: 'Profit & Loass A/C',
-                link: '/accounts/profitloss'
+                title: 'Bank Book',
+                link: '/accounts/bank-books'
             },
             {
                 title: 'Cash Book',
                 link: '/accounts/cashbook'
             },
             {
-                title: 'Bank Book',
-                link: '/accounts/bank-books'
+                title: 'Ledger View',
+                link: '/accounts/ledgerview'
             },
             {
                 title: 'Trading Account',
                 link: '/accounts/trading'
             },
             {
+                title: 'Profit & Loass A/C',
+                link: '/accounts/profitloss'
+            },
+            {
+                title: 'Balance Sheet',
+                link: '/accounts/balancesheet'
+            },
+            {
                 title: 'Trial Balance',
                 link: '/accounts/trialbalance'
+            },
+            {
+                title: 'Ledger Mapping',
+                link: '/accounts/ledgermapping'
+            },
+            {
+                title: 'OutStanding',
+                link: '/accounts/outstanding'
             }
-
         ],
     },
     {

@@ -82,8 +82,9 @@ export class VehicleTripComponent implements OnInit {
         endName: { value: doc.end_name },
         endDate: { value: this.datePipe.transform(doc.end_time, 'dd MMM hh:mm a') },
         action: {
-          value: '', isHTML: false, action: null, icons: [
-            { class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, doc) },
+
+          value: '', isHTML: true, action: null, icons: [
+            { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action: this.update.bind(this, doc) },
             { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, doc) },
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, doc) },

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { parse } from 'path';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
+import { parse } from 'path';
 
 @Component({
   selector: 'vehicle-covered-distance',
@@ -53,7 +53,9 @@ export class VehicleCoveredDistanceComponent implements OnInit {
             _lat: rep[key].lat,
             _long: rep[key].long,
             Regno: rep[key].regno,
-            Location: rep[key].currLoc
+            Location: rep[key].currLoc,
+            lat: rep[key].lat,
+            long: rep[key].long
           };
           rep[key].slots && rep[key].slots.map((slot, index) => {
             detail['Slot' + (index + 1)] = slot;

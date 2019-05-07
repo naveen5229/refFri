@@ -21,6 +21,10 @@ export class RouteMapperComponent implements OnInit {
   isLite = false;
   startTimePeriod = '00:00';
   endTimePeriod = '00:00';
+  strSiteName = [];
+  strHaltReason = [];
+  getPlace = [];
+  placeName = '';
 
   constructor(private modalService: NgbModal,
     private mapService: MapService,
@@ -30,20 +34,14 @@ export class RouteMapperComponent implements OnInit {
     public dateService: DateService) {
     this.startDate = this.commonService.params.fromTime;
     this.endDate = this.commonService.params.toTime;
-
     this.startTimePeriod = this.startDate.split(' ')[1];
     this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
-
     this.endTimePeriod = this.endDate.split(' ')[1];
     this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
-
     this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
     this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
-
     this.vehicleSelected = this.commonService.params.vehicleId;
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
-
-
     console.log("common params:");
     console.log(this.commonService.params);
     if (this.commonService.params.title != undefined)
@@ -102,6 +100,8 @@ export class RouteMapperComponent implements OnInit {
   timelineValue = 1;
   isPlay = false;
   getHaltTrails() {
+    this.strHaltReason = [];
+    this.strSiteName = [];
     if (!(this.vehicleSelected && this.startDate && this.endDate)) {
       this.commonService.showError("Fill All Params");
       return;
@@ -113,11 +113,12 @@ export class RouteMapperComponent implements OnInit {
       endDate: this.endTimeFull,
     }
     // console.log(params);
-    this.apiService.post('HaltOperations/getVehicleEvents', params)
+    this.apiService.post('HaltOperations/getvehicleEvents', params)
       .subscribe(res => {
         this.commonService.loading--;
         console.log(res);
         let vehicleEvents = res['data'].reverse();
+        this.getPlaceName(vehicleEvents);
         let params = {
           'vehicleId': this.vehicleSelected,
           'startTime': this.startTimeFull,
@@ -208,7 +209,7 @@ export class RouteMapperComponent implements OnInit {
                   vehicleEvents[index].duration = this.commonService.dateDiffInHoursAndMins(
                     vehicleEvents[index].start_time, vehicleEvents[index].end_time);
                 }
-                console.log("VehicleEvents", vehicleEvents);
+                console.log("vehicleEvents", vehicleEvents);
                 this.vehicleEvents = vehicleEvents;
                 this.mapService.createMarkers(this.vehicleEvents, false, false);
                 let markerIndex = 0
@@ -319,23 +320,23 @@ export class RouteMapperComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  openSmartTool(i, vehicleEvent) {
+  openSmartTool(i, vehicleEvents) {
     this.vehicleEvents.forEach(vEvent => {
-      if (vEvent != vehicleEvent)
+      if (vEvent != vehicleEvents)
         vEvent.isOpen = false;
     });
-    vehicleEvent.isOpen = !vehicleEvent.isOpen;
-    this.zoomFunctionality(i, vehicleEvent);
+    vehicleEvents.isOpen = !vehicleEvents.isOpen;
+    this.zoomFunctionality(i, vehicleEvents);
   }
-  zoomFunctionality(i, vehicleEvent) {
-    console.log("vehicleEvent", vehicleEvent);
-    let latLng = this.mapService.getLatLngValue(vehicleEvent);
+  zoomFunctionality(i, vehicleEvents) {
+    console.log("vehicleEvents", vehicleEvents);
+    let latLng = this.mapService.getLatLngValue(vehicleEvents);
     let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
     console.log("latlngggg", googleLatLng);
     this.mapService.zoomAt(googleLatLng);
   }
 
-  setZoom(zoom, vehicleEvent) {
+  setZoom(zoom, vehicleEvents) {
     this.mapService.zoomMap(zoom);
   }
 
@@ -358,5 +359,67 @@ export class RouteMapperComponent implements OnInit {
       }
     });
 
+  }
+
+  getPlaceName(E) {
+    this.getPlace = [];
+    let str_site_name, str_halt_reason;
+    E.forEach((E) => {
+      if (E.site_name != null) {
+        str_site_name = E.site_name.toUpperCase();
+        console.log('str_site_name', str_site_name)
+      }
+      if (E.halt_reason != null) {
+        str_halt_reason = E.halt_reason.toUpperCase();
+        console.log('str_halt_reason', str_halt_reason)
+      }
+
+      if ((str_site_name == "UNKNOWN") || (E.site_name == null)) {
+        if (E.site_type != null) {
+          if ((str_halt_reason != "UNKNOWN")) {
+            this.placeName = E.site_type + '_' + E.halt_reason;
+            this.getPlace.push(this.placeName);
+            console.log('place:1 ', this.placeName);
+          } else {
+            this.placeName = E.site_type;
+            this.getPlace.push(this.placeName);
+            console.log('place:2 ', this.placeName);
+          }
+        } else if ((str_halt_reason != "UNKNOWN")) {
+          this.placeName = E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:3 ', this.placeName);
+        } else {
+          this.placeName = 'Halt';
+          this.getPlace.push(this.placeName);
+          console.log('place:4 ', this.placeName);
+        }
+      } else if ((str_halt_reason != "UNKNOWN")) {
+        if (str_site_name.substring(0, 7) == 'UNKNOWN') {
+          this.placeName = str_site_name.split(',')[1] + '_' + E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:5 if', this.placeName);
+        } else {
+          this.placeName = E.site_name + '_' + E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:5 else', this.placeName);
+
+        }
+
+      } else {
+        if (str_site_name.substring(0, 7) == 'UNKNOWN') {
+          this.placeName = str_site_name.split(',')[1];
+          this.getPlace.push(this.placeName);
+          console.log('place:6 if ', this.placeName);
+        } else {
+          this.placeName = E.site_name;
+          this.getPlace.push(this.placeName);
+          console.log('place:6 else', this.placeName);
+        }
+
+      }
+
+    });
+    console.log('getPlace: ', this.getPlace);
   }
 }
