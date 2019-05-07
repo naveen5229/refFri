@@ -108,7 +108,6 @@ const PAGES_COMPONENTS = [
     TripOnwardDelayComponent,
     ShortTargetComponent,
     onwardKmpdComponent,
-    VehicleTripStagesComponent,
     // CustomDatePipe
   ],
   exports: [
