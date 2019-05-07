@@ -44,3 +44,10 @@ nb-card-body{
     border-radius: 3px;
     margin-left: 5px;
 }
+:host ::ng-deep td i.fa-route{
+    background-color: #ff8091;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
