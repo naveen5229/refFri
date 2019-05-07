@@ -20,8 +20,9 @@
             placeholder="Start Date" (dblclick)="getDate('start')">
         </div>
         <div class="col-sm-5 pl-1">
-          <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
-            [(ngModel)]="startTimePeriod">
+          <input type="text" [ngModel]="startTimePeriod | customTime : 'HH:mm'" class="form-control"
+            name="startTimePeriod" placeholder="HH:mm" maxlength="5"
+            (ngModelChange)="startTimePeriod = dateService.handleCustomTime($event)">
         </div>
       </div>
     </div>
@@ -35,39 +36,15 @@
     </div>
 
     <div class="col-sm-2">
-      <input type="time" class="form-control" name="endTimePeriod" placeholder="HH:mm" [(ngModel)]="endTimePeriod">
+      <input type="text" class="form-control" name="endTimePeriod" placeholder="HH:mm"
+        [ngModel]="endTimePeriod | customTime :'HH:mm'" maxlength="5"
+        (ngModelChange)="endTimePeriod = dateService.handleCustomTime($event)">
     </div>
 
     <div class="col-sm-2">
       <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
     </div>
   </div>
-  <!-- <table class="table table-bordered" style="margin-top:20px">
-  <thead class="thead" style="background-color:darkgrey">
-    <tr *ngIf="report.length">
-    <th>Id</th>
-    <th>Reason</th>
-    <th>Place </th>
-    <th>Location</th>
-    <th>Start</th>
-    <th>End</th>
-    <th>Duration(Hours)</th>
-    <th>Action</th> 
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let data of report; let i=index;">
-    <td>{{i+1}}</td>
-    <td>{{data.halt_reason}}</td>
-    <td ><ng-template *ngIf="data.site_type!=null;then showtype; else showname"></ng-template>
-      <ng-template #showtype>{{data.site_name}}({{data.site_type}})</ng-template>
-      <ng-template #showname>{{data.site_name}}</ng-template></td>
-    <td>{{data.loc_name}}</td>
-    <td>{{data.start_time | date : 'dd MMM HH:mm'}}</td>
-    <td>{{data.end_time | date : 'dd MMM HH:mm'}}</td>
-    <td>{{duration[i]}}</td>
-    <td  (click)="showMap(data)"><i class="fa fa-map-marker"></i></td>
-  </tbody>
-</table>  -->
+
   <smart-table *ngIf="table" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
 </div>
