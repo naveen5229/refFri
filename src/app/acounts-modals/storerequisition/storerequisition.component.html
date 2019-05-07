@@ -32,14 +32,14 @@
             <div class="form-group">
               <label class="ref-label">Code</label>
               <input autocomplete="off" type="text" class="form-control ref-input" name="code" id="code"
-                [(ngModel)]="storeQuestion.code" placeholder="Code">
+                [(ngModel)]="storeQuestion.code" placeholder="Code" [readonly]="storeRequestStockId == -3">
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label class="ref-label">Cust Code</label>
               <input autocomplete="off" type="text" class="form-control ref-input" name="custcode" id="custcode"
-                [(ngModel)]="storeQuestion.custcode" placeholder="Cust Code">
+                [(ngModel)]="storeQuestion.custcode" placeholder="Cust Code" [readonly]="storeRequestStockId == -3">
             </div>
           </div>
           <div class="col">
@@ -47,7 +47,7 @@
               <label class="ref-label">To Branch</label>
               <input autocomplete="off" type="text" class="form-control  ref-input" id="tobranch" name="tobranch"
                 placeholder="Please Select Branch" [(ngModel)]="storeQuestion.tobranch.name"
-                (input)="allowBackspace = false;">
+                [readonly]="storeRequestStockId == -3" (input)="allowBackspace = false;">
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
               <input autocomplete="off" type="text" style="cursor: pointer;" class="form-control ref-input"
                 autocomplete="off" id="requestdate" name="requestdate" [(ngModel)]="storeQuestion.requestdate"
                 maxlength="10" (click)="lastActiveId = 'requestdate'; allowBackspace = false;"
-                (input)="allowBackspace = false;">
+                [readonly]="storeRequestStockId == -3" (input)="allowBackspace = false;">
             </div>
           </div>
           <div class="col-4" *ngIf="storeRequestStockId == -3">
@@ -138,7 +138,7 @@
             <input type="text" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Remarks"
               name="remarks" [id]="'remarks-' + i" [(ngModel)]="detail.remarks" [readonly]="storeRequestStockId == -3">
           </td>
-          <td *ngIf="storeRequestStockId == -3 || storeRequestStockId == -1">
+          <td *ngIf="storeRequestStockId == -3">
             <input type="number" class="form-control ref-input" autocomplete="off" name="issueqty"
               [id]="'issueqty-' + i" (input)="detail.issueamount = detail.issueqty * detail.issuerate;"
               [(ngModel)]="detail.issueqty" placeholder="Please Enter Issue Quantity">
