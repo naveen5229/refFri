@@ -17,6 +17,7 @@ export class PoliceStationComponent implements OnInit {
   lat;
   long;
   type;
+  location;
 
   constructor(
     public mapService: MapService,
@@ -28,13 +29,25 @@ export class PoliceStationComponent implements OnInit {
     this.long = this.common.params.long;
     console.log("------------",this.lat);
     this.getPoliceStation();
+    this.location = [{
+      lat:this.common.params.lat,
+      long: this.common.params.long,
+      color:'00ff00',
+      type:'site'
+    }];
     
   }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
-    this.mapService.mapIntialize("map");
+
+    setTimeout(() => {
+      this.mapService.mapIntialize("map");
+
+    }, 1000);
+    
+    
     
   }
   tempData = [];
@@ -55,7 +68,14 @@ export class PoliceStationComponent implements OnInit {
           if (res['success'])
             this.common.showToast('Success');
             this.PoliceStation = res['data'];
-            this.mapService.createMarkers(this.PoliceStation,false,true,["vicinity"]);
+            setTimeout(() => {
+              this.mapService.createMarkers(this.PoliceStation,false,true,["Vicinity","phone"]);
+              this.mapService.createMarkers(this.location);
+              this.mapService.zoomMap(10.5);
+        
+            }, 1000);
+            
+            
             
         }, err => {
           this.common.loading--;
