@@ -58,7 +58,12 @@ const routes: Routes = [
     loadChildren: 'app/driver/driver.module#DriverModule',
     canActivate: [AuthGuard],
   },
- 
+  {
+    path: 'vehicle-maintenance',
+    loadChildren: 'app/vehicle-maintenance/vehicle-maintenance.module#VehicleMaintenanceModule',
+    canActivate: [AuthGuard],
+  },
+
   {
     path: 'auth',
     component: NbAuthComponent,

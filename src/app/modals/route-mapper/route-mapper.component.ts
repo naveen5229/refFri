@@ -36,6 +36,7 @@ export class RouteMapperComponent implements OnInit {
     this.endDate = this.commonService.params.toTime;
     this.startTimePeriod = this.startDate.split(' ')[1];
     this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
+    console.log("Start Time:", this.startTimePeriod);
     this.endTimePeriod = this.endDate.split(' ')[1];
     this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
     this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
