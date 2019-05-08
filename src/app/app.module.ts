@@ -140,6 +140,7 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -242,6 +243,7 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
     CustomDatePipe,
     DaybookComponent,
     ProfitlossComponent,
+    LedgerviewComponent,
 
   ],
   entryComponents: [
@@ -342,7 +344,7 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
     ShowFuelStationComponent,
     DaybookComponent,
     ProfitlossComponent,
-
+    LedgerviewComponent,
   ],
   imports: [
     BrowserModule,

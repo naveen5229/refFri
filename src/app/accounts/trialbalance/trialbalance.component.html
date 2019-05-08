@@ -59,13 +59,12 @@
 
       </tr> -->
 
-      <tbody *ngFor="let dataItem of trialBalanceData; let i = index;" (click)="selectedRow = i"
-        [ngClass]="{'highlight' : selectedRow == i}">
+      <tbody *ngFor="let dataItem of trialBalanceData; let i = index;">
         <tr style="background: #184154; color: #fff">
           <td>{{dataItem.name}}</td>
 
           <td *ngIf="dataItem.totalopening == 0">&nbsp;</td>
-          <td *ngIf="dataItem.totalopening != 0">{{dataItem.totalopening}} <span>
+          <td style="text-align:right;" *ngIf="dataItem.totalopening != 0">{{dataItem.totalopening}} <span>
               {{dataItem.y_openbaltype}}</span></td>
 
           <td *ngIf="dataItem.totaldr != 0">{{dataItem.totaldr}}</td>
@@ -74,25 +73,28 @@
           <td *ngIf="dataItem.totalcr != 0">{{dataItem.totalcr}}</td>
           <td *ngIf="dataItem.totalcr == 0">&nbsp;</td>
 
-          <td *ngIf="dataItem.totalclosing != 0"><b>{{dataItem.totalclosing}}</b>
+          <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0"><b>{{dataItem.totalclosing}}</b>
             <span>{{dataItem.y_closebaltype}}</span></td>
           <td *ngIf="dataItem.totalclosing == 0">&nbsp;</td>
         </tr>
-        <tr *ngFor="let trialdata of dataItem.traildatas"
-          (dblclick)="(trialdata.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(dataItem.y_ledgerid)"
-          style="background: #dadfe6;">
+        <tr *ngFor="let trialdata of dataItem.traildatas; let j = index" (click)="selectedRow =  '' + i + j"
+          (dblclick)="(trialdata.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialdata.y_ledgerid)"
+          [ngClass]="{'highlight' : selectedRow == '' + i + j }" style="background: #dadfe6;">
 
           <td>{{trialdata.y_ledger_name}}</td>
 
           <td *ngIf="trialdata.y_openbal == 0">&nbsp;</td>
-          <td *ngIf="trialdata.y_openbal != 0">{{trialdata.y_openbal}} <span>
+          <td *ngIf="trialdata.y_openbal != 0"><span
+              style="width:100px; display: block; text-align:right;">{{trialdata.y_openbal}}
               {{trialdata.y_openbaltype}}</span></td>
           <td *ngIf="trialdata.y_dr_bal != 0">{{trialdata.y_dr_bal}}</td>
           <td *ngIf="trialdata.y_dr_bal == 0">&nbsp;</td>
           <td *ngIf="trialdata.y_cr_bal != 0">{{trialdata.y_cr_bal}}</td>
           <td *ngIf="trialdata.y_cr_bal == 0">&nbsp;</td>
-          <td *ngIf="trialdata.y_closebal != 0"><b>{{trialdata.y_closebal}}</b>
-            <span>{{trialdata.y_closebaltype}}</span></td>
+          <td *ngIf="trialdata.y_closebal != 0">
+            <span
+              style="width:100px; display: block; text-align:right;"><b>{{trialdata.y_closebal}}</b>{{trialdata.y_closebaltype}}</span>
+          </td>
           <td *ngIf="trialdata.y_closebal == 0">&nbsp;</td>
         </tr>
       </tbody>
