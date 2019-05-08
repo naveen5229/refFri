@@ -67,7 +67,7 @@ export class ConciseComponent implements OnInit {
       key: "showprim_status"
     },
     {
-      name: "Secondry Status",
+      name: "Secondary Status",
       key: "showsec_status"
     },
     {
@@ -879,28 +879,28 @@ export class ConciseComponent implements OnInit {
     let icons = [
       {
         class: " icon fa fa-chart-pie",
-        action: this.openChangeStatusModal.bind(this, kpi)
+        action: this.openChangeStatusModal.bind(this, kpi),
       },
       {
         class: "icon fa fa-star",
-        action: this.vehicleReport.bind(this, kpi)
+        action: this.vehicleReport.bind(this, kpi),
       },
 
       {
         class: " icon fa fa-route",
-        action: this.openRouteMapper.bind(this, kpi)
+        action: this.openRouteMapper.bind(this, kpi),
       },
       {
         class: " icon fa fa-truck",
-        action: this.openTripDetails.bind(this, kpi)
+        action: this.openTripDetails.bind(this, kpi),
       },
       {
         class: "icon fa fa-globe",
-        action: this.openVehicleStates.bind(this, kpi)
+        action: this.openVehicleStates.bind(this, kpi),
       },
       {
         class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi)
+        action: this.reportIssue.bind(this, kpi),
       },
     ]
     if (this.user._loggedInBy != "admin") {

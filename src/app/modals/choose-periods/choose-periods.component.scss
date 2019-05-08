@@ -1,4 +1,25 @@
 .rem-btn{
-    border-radius: 15px;
+    background-color: #ccc;
+    border: 0px;
+    border-radius: 3px;
+    padding: 5px 0px;
+    width: 28px;
+    text-align: center;
     margin: 5px;
+    font-size: 12px;
+}
+.rem-btn:active,
+.rem-btn:focus{
+    background-color: #04a9f5;    
+    color: #fff;
+}
+.modal-footer button{
+    margin: 0px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    display: block;
+    height: auto;
+    width: auto;
+    outline: none;
+    text-transform: capitalize;
 }

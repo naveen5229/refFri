@@ -198,7 +198,13 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 .fas.fa-route::before,
 .fas.fa-file-signature::before,
 .fas.fa-sync-alt::before,
-.fas.fa-map-marked-alt::before {
+.fas.fa-map-marked-alt::before,
+.fas.fa-comment-dots::before,
+.fas.fa-address-card::before,
+.fas.fa-file-alt::before,
+.fas.fa-map-marked-alt::before,
+.fas.fa-map-pin::before,
+.fas.fa-info-circle::before {
   font-family: inherit;
 }
 .nb-theme-corporate .modal-content {
@@ -423,7 +429,7 @@ nb-card {
 }
 
 .others {
-  color: teal;
+  color: rgb(0, 59, 253);
 }
 
 .circle {
