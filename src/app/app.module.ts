@@ -353,12 +353,8 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     ShowFuelStationComponent,
     DaybookComponent,
     ProfitlossComponent,
-<<<<<<< HEAD
     PoliceStationComponent,
-
-=======
     LedgerviewComponent,
->>>>>>> sachin
   ],
   imports: [
     BrowserModule,
