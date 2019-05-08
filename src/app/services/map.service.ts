@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CommonService } from './common.service';
 declare let google: any;
 
 @Injectable({
@@ -30,7 +31,7 @@ export class MapService {
     "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"//Pin
   ];
 
-  constructor() {
+  constructor(public common: CommonService) {
   }
 
   autoSuggestion(elementId, setLocation?) {
@@ -240,13 +241,13 @@ export class MapService {
           if (typeof (infoKeys) == 'object') {
             infoKeys.map((display, indexx) => {
               if (indexx != infoKeys.length - 1) {
-                displayText += markers[index][display] + ' - ';
+                displayText += this.common.ucWords(display)+" : " + markers[index][display] + ' <br> ';
               } else {
-                displayText += markers[index][display];
+                displayText += this.common.ucWords(display)+" : " + markers[index][display];
               }
             });
           } else {
-            displayText = markers[index][infoKeys];
+            displayText = this.common.ucWords(infoKeys)+" : " + markers[index][infoKeys];
           }
           google.maps.event.addListener(marker, 'click', function (evt) {
             this.infoStart = new Date().getTime();
@@ -255,7 +256,7 @@ export class MapService {
               if (element)
                 element.close();
             }
-            infoWindow.setContent("Info: " + displayText);
+            infoWindow.setContent("<span style='color:blue'>Info</span> <br> " + displayText);
             infoWindow.setPosition(evt.latLng); // or evt.latLng
             infoWindow.open(this.map);
           });
