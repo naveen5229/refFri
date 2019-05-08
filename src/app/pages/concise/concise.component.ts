@@ -29,6 +29,7 @@ import { ChangeVehicleStatusComponent } from "../../modals/change-vehicle-status
 import * as moment from 'moment';
 import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 import { DateService } from "../../services/date.service";
+import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 
 @Component({
   selector: "concise",
@@ -902,6 +903,10 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-question-circle",
         action: this.reportIssue.bind(this, kpi),
       },
+      {
+        class: "icon fa fa-globe",
+        action: this.openStations.bind(this, kpi)
+      },
     ]
     if (this.user._loggedInBy != "admin") {
       icons.shift();
@@ -973,5 +978,19 @@ export class ConciseComponent implements OnInit {
       size: "sm",
       container: "nb-layout"
     });
+  }
+  openStations(kpi) {
+    console.log("kpi-------------", kpi);
+    this.common.params = {
+      lat: kpi.x_tlat,
+      long: kpi.x_tlong
+
+    };
+    const activeModal = this.modalService.open(PoliceStationComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+   
+
   }
 }
