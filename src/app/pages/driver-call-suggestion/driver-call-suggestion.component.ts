@@ -90,13 +90,13 @@ export class DriverCallSuggestionComponent implements OnInit {
   }
 
 
-  openDistance(vehid, vehicleRegNo, driverData) {
+  openDistance(driverData) {
     this.common.loading++;
     let today = new Date();
     let strcurdate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     today.setDate(today.getDate() - 1);
     let stryesterday = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    this.api.post('Vehicles/getVehDistanceBwTime', { vehicleId: vehid, fromTime: stryesterday, tTime: strcurdate })
+    this.api.post('Vehicles/getVehDistanceBwTime', { vehicleId: driverData, fromTime: stryesterday, tTime: strcurdate })
       .subscribe(res => {
         this.common.loading--;
         let data = res['data'];
@@ -104,22 +104,7 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.distance = Math.round((data / 1000) * 100) / 100;
         this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
         this.openRouteMapper(driverData);
-        // this.common.params = {
-        //   vehicleId: vehid,
-        //   vehicleRegNo: vehicleRegNo,
-        //   fromTime: stryesterday,
-        //   toTime: strcurdate,
-        //   title: "Distance: " + this.distance + " Kms"
-        // };
-        // const activeModal = this.modalService.open(RouteMapperComponent, {
-        //   size: "lg",
-        //   container: "nb-layout",
-        //   windowClass: "myCustomModalClass"
-        // });
-        // activeModal.result.then(
-        //   data => console.log("data", data)
-        // this.reloadData()
-        //);
+
       }, err => {
 
         this.common.loading--;
@@ -148,12 +133,7 @@ export class DriverCallSuggestionComponent implements OnInit {
     if (typeof x_kmpd == "string") {
       x_kmpd = parseInt(x_kmpd);
     }
-    /*
-    if(typeof x_runhour == "string") {
-      x_runhour = parseInt(x_runhour);
-    }
-    */
-    //this.api.post('Drivers/getDriverCallSuggestion', {x_user_id: x_user_id, x_kmpd: x_kmpd, x_runhour: x_runhour })
+
     this.api.post('Drivers/getDriverCallSuggestion', { x_user_id: x_user_id, x_kmpd: x_kmpd })
       .subscribe(res => {
         this.common.loading--;
@@ -205,21 +185,10 @@ export class DriverCallSuggestionComponent implements OnInit {
       let valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
         let val = this.driverData[i][this.headings[j]];
-        if (this.headings[j].toUpperCase() == "LAST 24HR KM") {
-          let vid = this.driverData[i]['_vehicleid'];
-          let vehicleRegNo = this.driverData[i]['Vehicle'];
-          this.api.post('Vehicles/getVehDistanceBwTime', { vehicleId: vid, fromTime: this.stryesterday, tTime: this.strcurdate })
-            .subscribe(resdist => {
-              let distance = 0;
-              if (resdist['data'] > 0) {
-                distance = Math.round(resdist['data'] / 1000);
-              }
-              valobj[this.headings[j]] = { value: distance, class: 'blue', action: this.openDistance.bind(this, vid, vehicleRegNo, this.driverData[i]) };
-              console.log("valobj:" + j, valobj[this.headings[j]]);
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-            });
+        if (this.headings[j] == "Dist Covered" && this.driverData[i]._starttime) {
+
+          valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openRouteMapper.bind(this, this.driverData[i]) };
+
         } else if (this.headings[j] == "Driver") {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openChangeDriverModal.bind(this, this.driverData[i]) };
 
@@ -233,6 +202,9 @@ export class DriverCallSuggestionComponent implements OnInit {
         }
         else if (this.headings[j] == "Current Loc") {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.showLocation.bind(this, this.driverData[i]) };
+        }
+        else if (this.headings[j] == "Last 24Hr KM" && this.driverData[i]._last24starttime) {
+          valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openRouteMapper.bind(this, this.driverData[i], "Last 24Hr KM") };
         }
         else if (this.headings[j] == "Act") {
           valobj[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) };
@@ -864,9 +836,14 @@ export class DriverCallSuggestionComponent implements OnInit {
   }
 
 
-  openRouteMapper(defaultFault) {
+  openRouteMapper(defaultFault, timeFrom = 'Trip Start') {
+    let fromTime = null;
     console.log("defaultFault", defaultFault);
-    let fromTime = this.common.dateFormatter(defaultFault._starttime);
+    if (timeFrom == 'Last 24Hr KM') {
+      fromTime = this.common.dateFormatter(defaultFault._last24starttime);
+    } else {
+      fromTime = this.common.dateFormatter(defaultFault._starttime);
+    }
     let toTime = this.common.dateFormatter(new Date());
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
