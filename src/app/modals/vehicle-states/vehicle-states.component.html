@@ -92,6 +92,30 @@
         </div>
       </div>
     </div>
+    <!-- <div class="col-sm-6" *ngIf="changeCategory=='halts'">
+      <table class="table table-bordered">
+        <thead class="thead" style="background-color:#d4d4d4">
+          <tr>
+            <th>Select Halt</th>
+            <th>Last 10 Halt</th>
+            <th>Time</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngIf="!vehicleEvent.length">
+            <td colspan="3">Record not found</td>
+          </tr>
+          <tr *ngFor="let data of vehicleEvent; let i=index;">
+            <td> <input type="radio" name="select" value="select" (change)="selectHalt(data)"></td>
+            <td>{{data.halt_reason}}</td>
+            <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  </div>
+  <div class="row">
     <div class="col-sm-6" *ngIf="changeCategory=='halts'">
       <table class="table table-bordered">
         <thead class="thead" style="background-color:#d4d4d4">
@@ -114,6 +138,10 @@
         </tbody>
       </table>
     </div>
+    <div class="col-sm-6">
+      <div #map id="map"></div>
+    </div>
+
   </div>
 
   <div class="row">
