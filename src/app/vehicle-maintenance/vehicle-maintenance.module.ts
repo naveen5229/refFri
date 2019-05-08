@@ -7,6 +7,7 @@ import { DashboardModule } from '../documents/dashboard/dashboard.module';
 import { DirectiveModule } from '../directives/directives.module';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
+import { AddMaintenanceComponent } from './model/add-maintenance/add-maintenance.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -24,7 +25,11 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
     AddVehicleMaintenanceComponent,
+    AddMaintenanceComponent,
 
   ],
+  entryComponents: [
+    AddMaintenanceComponent
+  ]
 })
 export class VehicleMaintenanceModule { }
