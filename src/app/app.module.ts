@@ -107,6 +107,7 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
+import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-update/driver-attendance-update.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
@@ -140,6 +141,7 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 
 @NgModule({
@@ -212,6 +214,7 @@ import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
@@ -244,6 +247,8 @@ import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-
     CustomDatePipe,
     DaybookComponent,
     ProfitlossComponent,
+    CustomTimePipe,
+
   ],
   entryComponents: [
     ChangeDriverComponent,
@@ -318,6 +323,7 @@ import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,

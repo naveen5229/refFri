@@ -54,13 +54,14 @@ export class VehicleCoveredDistanceComponent implements OnInit {
             _long: rep[key].long,
             Regno: rep[key].regno,
             Location: rep[key].currLoc,
-            lat: rep[key].lat,
-            long: rep[key].long
+
           };
           rep[key].slots && rep[key].slots.map((slot, index) => {
             detail['Slot' + (index + 1)] = slot;
           });
+
           details.push(detail);
+
         });
         console.log('Details:', details);
         this.distanceData = details;
@@ -117,41 +118,51 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   }
   getTableColumns() {
     let columns = [];
+
+    console.log('distanceData, length', this.distanceData.length);
     for (var i = 0; i < this.distanceData.length; i++) {
       this.valobj = {};
+      console.log('headings, length', this.headings, this.headings.length);
       for (let j = 0; j < this.headings.length; j++) {
+
         if (this.headings[j] == "Location") {
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.distanceData[i]) };
+          console.log('distanceData if', this.distanceData[i]);
         }
-        else
+        else {
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
+          console.log('distanceData else', this.distanceData[i]);
 
+        }
+        this.valobj['style'] = { background: this.distanceData[i]._rowcolor };
+        //columns.push(this.valobj);
 
       }
-      this.valobj['style'] = { background: this.distanceData[i]._rowcolor };
+      console.log('valobj', this.valobj);
       columns.push(this.valobj);
-    }
 
-    console.log('Columns:', columns);
+      console.log('Columns:', columns);
+
+    }
     return columns;
+
   }
-  showLocation(kpi) {
-    console.log("location==", kpi);
-    if (!kpi._lat) {
-      this.common.showToast("Vehicle location not available!");
+
+  showLocation(details) {
+    console.log('detail', details);
+    if (!details._lat) {
+      this.common.showToast('Vehicle location not available!');
       return;
     }
     const location = {
-      lat: kpi._lat,
-      lng: kpi._long,
-      name: "",
-      time: ""
+      lat: details._lat,
+      lng: details._long,
+      name: '',
+      time: ''
     };
-    ////console.log("Location: ", location);
-    this.common.params = { location, title: "Vehicle Location" };
-    const activeModal = this.modalService.open(LocationMarkerComponent, {
-      size: "lg",
-      container: "nb-layout"
-    });
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Vehicle Location' };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }

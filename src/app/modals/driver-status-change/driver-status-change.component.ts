@@ -14,15 +14,15 @@ export class DriverStatusChangeComponent implements OnInit {
   mobile = null;
   driverStatusForm: FormGroup;
   submitted = false;
-  Regno=null;
+  Regno = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public formbuilder: FormBuilder) {
-      this.name = this.common.params.name;
-      this.mobile = this.common.params.mobile;
-      this.Regno=this.common.params.driver.regno;
+    this.name = this.common.params.name;
+    this.mobile = this.common.params.mobile;
+    this.Regno = this.common.params.driver.regno;
     this.getdriverStatus();
     // if (this.common.params.name) {
     //   this.name = this.common.params.name;
@@ -47,15 +47,18 @@ export class DriverStatusChangeComponent implements OnInit {
   ngOnInit() {
     //  if(this.common.params.driver.md_name||this.common.params.driver.md_no){
 
-    this.driverStatusForm = this.formbuilder.group({
-      name: [this.name],
-      mobileno: [this.mobile, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      Status: [this.driverStatus, [Validators.required]],
-    });
-    console.log('driverstatusform:', this.driverStatusForm);
+    // this.driverStatusForm = this.formbuilder.group({
+    //   name: [this.name],
+    //   mobileno: [this.mobile, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    //   Status: [this.driverStatus, [Validators.required]],
+    // });
+    //
     //}
   }
   get f() { return this.driverStatusForm.controls; }
+  getvehicleData(Fodriver) {
+
+  }
   getdriverStatus() {
     this.common.loading++;
     let response;
@@ -72,10 +75,10 @@ export class DriverStatusChangeComponent implements OnInit {
 
   }
   closeModal() {
-    this.activeModal.close({response:true});
+    this.activeModal.close({ response: true });
   }
 
-  addNewStatus(){
-    
+  addNewStatus() {
+
   }
 }

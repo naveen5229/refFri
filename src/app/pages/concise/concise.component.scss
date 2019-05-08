@@ -229,6 +229,8 @@ mwlResizable {
     }
 
     th {
+        position: relative;
+        z-index: 999;
         .sort-container {
             width: 15px;
         }
@@ -239,10 +241,6 @@ mwlResizable {
     }
 
     td {
-        .icon{
-            position: relative;
-        }
-       
         .icon.fa-chart-pie {
             color: #04a9f5;
             span{
@@ -256,6 +254,7 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
+                z-index:9999;
             }
             span::before{
                 content: 'Change Vehicle Status';
@@ -300,6 +299,7 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
+                z-index:9999;
             }
             span::before{
                 content: 'Vehicle Event';
@@ -345,6 +345,7 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
+                z-index:9999;
             }
             span::before{
                 content: 'Rout Tracker';
@@ -389,6 +390,7 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
+                z-index:9999;
             }
             span::before{
                 content: 'Trips';
@@ -433,6 +435,7 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
+                z-index:9999;
             }
             span::before{
                 content: 'Vehicle States';
@@ -474,6 +477,7 @@ mwlResizable {
                 -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
                 font-family: Roboto;
+                z-index:9999;
             }
             span::before{
                 content: 'Report Issue';

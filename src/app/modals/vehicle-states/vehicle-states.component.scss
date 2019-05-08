@@ -10,3 +10,23 @@ input[type=text] {
 .pac-container{
     z-index: 9999999;
 }
+.modal-header{
+    padding: 10px 15px;
+}
+.modal-footer button{
+    margin: 0px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    display: block;
+    height: auto;
+    width: auto;
+    outline: none;
+    text-transform: capitalize;    
+}
+table{
+    tr{
+        th{
+            font-weight: 500;
+        }
+    }
+}
