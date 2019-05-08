@@ -227,7 +227,7 @@ export class VehicleStatesComponent implements OnInit {
 
   getCategory() {
     if (this.changeCategory == 'halts') {
-      document.getElementById('foo').className = 'col-sm-8';
+      document.getElementById('foo').className = 'col-sm-6';
     } else {
       document.getElementById('foo').className = 'col-sm-12';
     }
