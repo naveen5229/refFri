@@ -68,7 +68,7 @@ export class MapService {
     }
   }
 
-  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
+  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75,showUI=false) {
     if (this.isMapLoaded) {
       // document.getElementById(div).innerHTML="";
       // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
@@ -83,6 +83,7 @@ export class MapService {
       zoom: zoom,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
+      disableDefaultUI:showUI,
       styles: [{
         featureType: 'all',
         elementType: 'labels',
