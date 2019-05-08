@@ -338,10 +338,18 @@ export class StorerequisitionComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('qty' + '-' + index);
+        if (this.storeRequestStockId == -1) {
+          this.setFoucus('issueqty' + '-' + index);
+        } else {
+          this.setFoucus('qty' + '-' + index);
+        }
       } else if (this.activeId.includes('issueqty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issuewarehouse' + '-' + index);
+        if (this.storeRequestStockId == -1) {
+          this.setFoucus('issuerate' + '-' + index);
+        } else {
+          this.setFoucus('issuewarehouse' + '-' + index);
+        }
         if (this.storeQuestion.requesttype.id == -1) {
           this.storeQuestion.details[index].qty = this.storeQuestion.details[index].issueqty;
         }
