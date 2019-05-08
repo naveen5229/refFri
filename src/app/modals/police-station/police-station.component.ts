@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { Api2Service } from '../../services/api2.service';
 import { element } from '@angular/core/src/render3';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'police-station',
@@ -12,12 +13,20 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./police-station.component.scss','../../pages/pages.component.css']
 })
 export class PoliceStationComponent implements OnInit {
-  PoliceStation = [];
-
+ PoliceStation = [];
+  // PoliceStation;
   lat;
   long;
   type;
+  name;
+  Vicinity;
+  phone;
   location;
+  data;
+  dateVal=[]
+ 
+  resData=[];
+
 
   constructor(
     public mapService: MapService,
@@ -32,9 +41,10 @@ export class PoliceStationComponent implements OnInit {
     this.location = [{
       lat:this.common.params.lat,
       long: this.common.params.long,
-      color:'00ff00',
-      type:'site'
+      color:'FF0000',
+      subType:'marker'
     }];
+    
     
   }
 
@@ -43,7 +53,7 @@ export class PoliceStationComponent implements OnInit {
   ngAfterViewInit() {
 
     setTimeout(() => {
-      this.mapService.mapIntialize("map");
+      this.mapService.mapIntialize("map",18,25,75,true);
 
     }, 1000);
     
@@ -63,17 +73,44 @@ export class PoliceStationComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log(res['data'])
-          
+          this.dateVal=res['data'];
+         // let re=JSON.stringify(res['data']);
+          //console.log('json',re);
+          //console.log('dataval',this.dateVal);
+          let details = [];
+
+          Object.keys(this.dateVal).map(key => {
+            let detail = {
+              id: key,
+              lat: this.dateVal[key].lat,
+              long: this.dateVal[key].long,
+              name: this.dateVal[key].name,
+              Vicinity: this.dateVal[key].Vicinity,
+              phone: this.dateVal[key].phone,
+               color: 'ADFF2F',
+        
+              
+            };
+           
+            details.push(detail);
+          });
+
+          console.log('details',details);
+            
 
           if (res['success'])
             this.common.showToast('Success');
-            this.PoliceStation = res['data'];
+            this.PoliceStation = details;
+            
+            console.log("--------------",this.PoliceStation);
+
+             //this.PoliceStation = res['data'];
             setTimeout(() => {
               this.mapService.createMarkers(this.PoliceStation,false,true,["Vicinity","phone"]);
               this.mapService.createMarkers(this.location);
               this.mapService.zoomMap(10.5);
         
-            }, 1000);
+            }, 2500);
             
             
             
