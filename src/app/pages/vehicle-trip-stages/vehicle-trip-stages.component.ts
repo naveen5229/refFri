@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { on } from 'cluster';
 
 @Component({
   selector: 'vehicle-trip-stages',
@@ -15,6 +16,8 @@ export class VehicleTripStagesComponent implements OnInit {
   vehicleId = null;
   startDate = '';
   endDate = '';
+  openType = this.common.openType;
+  vehicleNo = '';
   tripstagesData = [];
   headings = [];
   valobj = {};
@@ -31,12 +34,23 @@ export class VehicleTripStagesComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) {
-
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
+    this.common.openType = 'page'
+    console.log("openType", this.openType);
     let today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
     this.common.refresh = this.refresh.bind(this);
+    if (this.openType == "modal") {
+      console.log("console.log", this.common.params);
+      this.startDate = this.common.params.fromTime ? this.common.params.fromTime : this.startDate;
+      this.endDate = this.common.params.toTime ? this.common.params.toTime : this.endDate;
+      this.vehicleId = this.common.params.vehicleId;
+      this.vehicleNo = this.common.params.vehicleRegNo;
+      this.getTripStages();
+
+    }
   }
 
   ngOnInit() {
@@ -44,7 +58,7 @@ export class VehicleTripStagesComponent implements OnInit {
 
   refresh() {
     this.vehicleId = null;
-    this.gettripStages();
+    this.getTripStages();
   }
   getDate(type) {
     this.common.params = { ref_page: 'vehicle trip stages' }
@@ -62,16 +76,14 @@ export class VehicleTripStagesComponent implements OnInit {
         }
       }
     });
-
   }
 
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.vehicleId = vehicle.id;
-
   }
 
-  gettripStages() {
+  getTripStages() {
     this.tripstagesData = [];
     this.table = {
       data: {
@@ -84,7 +96,6 @@ export class VehicleTripStagesComponent implements OnInit {
       }
     };
 
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     const params = {
       vehicleId: this.vehicleId ? this.vehicleId : -1,
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
@@ -96,7 +107,6 @@ export class VehicleTripStagesComponent implements OnInit {
     const data = "startDate=" + params.startDate +
       "&endDate=" + params.endDate + "&vehicleId=" + params.vehicleId;
     this.common.loading++;
-
     this.api.get('TripsOperation/vehicleDynTripSummary?' + data)
       .subscribe(res => {
         this.common.loading--;
@@ -113,12 +123,7 @@ export class VehicleTripStagesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-
         this.table.data.columns = this.getTableColumns();
-        console.log("table:");
-        console.log(this.table);
-
-
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -130,50 +135,29 @@ export class VehicleTripStagesComponent implements OnInit {
     for (var i = 0; i < this.tripstagesData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-
-        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: 'black', action: this.tripstagesData[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.valobj) : '' };
+        this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: (this.tripstagesData[i][this.headings[j]] > 0) ? 'blue' : 'black', action: this.tripstagesData[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.tripstagesData[i]) : '' };
       }
       columns.push(this.valobj);
     }
     return columns;
   }
 
-  // getTableColumns() {
-  //   let columns = [];
 
-  //  this.tripstagesData.map(doc => {
-  //     let valobj = {};
-  //     let total = {};
-  //     let docobj = { distance : 0};
-  //     for(var i = 0; i < this.headings.length; i++) {
-  //       let strval = doc[this.headings[i]];
-  //       let status = '';
-  //       let val = 0;
-  //       if(strval.indexOf('_') > 0) {
-  //           let arrval = strval.split('_');
-  //           status = arrval[0];
-  //           val = arrval[1];
-  //       } else {
-  //         val = strval;
-  //       }
-  //       docobj.distance = doc['Distance'];
-  //       valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
-
-
-  //     }
-
-  //     columns.push(valobj); 
-  //   });
 
   openRouteMapper(data) {
     console.log('Data', data);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    let startDate = data._startdt.split('T')[0];
+    let startTimePeriod = data._startdt.split('T')[1];
+
+    let endDate = data._enddt.split('T')[0];
+    let endTimePeriod = data._enddt.split('T')[1];
 
     this.common.params = {
-      vehicleId: data.vehicle_id,
-      // vehicleRegNo: data.reg_number,
-      fromTime: data._startdt,
-      toTime: data._enddt
+      vehicleId: data._vid,
+      vehicleRegNo: data._regno,
+      fromTime: startDate + " " + startTimePeriod,
+      toTime: endDate + " " + endTimePeriod
     };
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
@@ -186,10 +170,6 @@ export class VehicleTripStagesComponent implements OnInit {
     );
   }
 
-
-
-
-
   formatTitle(strval) {
     let pos = strval.indexOf('_');
     if (pos > 0) {
@@ -199,9 +179,8 @@ export class VehicleTripStagesComponent implements OnInit {
     }
   }
 
-
-
-
-
+  closeModal() {
+    this.activeModal.close();
+  }
 
 }
