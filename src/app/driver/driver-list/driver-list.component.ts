@@ -61,7 +61,7 @@ export class DriverListComponent implements OnInit {
   getdriverLists() {
     this.common.loading++;
     let response;
-    this.api.get('/Drivers/index')
+    this.api.get('Drivers/index')
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

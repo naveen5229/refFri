@@ -1,0 +1,64 @@
+
+ <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update driver Attendance</h4>
+    <!-- <h2>Update Driver Attendance</h2> -->
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+    <!-- </nb-card-header> -->
+  <!-- <nb-card-body> -->
+      <div class="modal-body">
+          <div class="container">
+     <form class="form-group"> 
+      <div class="row margin-top-15">
+        <div class="col-3">
+          <label>Driver Name</label>
+        </div>
+        <div class="col-3">
+          <label>{{name}}</label>
+        </div>
+      </div>
+      <div class="row margin-top-15">
+        <div class="col-3">
+          <label>Date</label>
+        </div>
+        <div class="col-3">
+          <label>{{date}}</label>
+        </div>
+      </div>
+      <div class="row margin-top-15">
+       <!-- <div class="col-3"> -->
+         <div class="col-3">
+           <label>Change State</label>
+         </div>
+         <div class="col-3">
+          <select class="form-control" name="Attendance" id="attendance" [(ngModel)]="attendance">
+              <option value="H">Half Day</option>
+              <option value="A">Apsent</option>
+              <option value="P">Present</option>
+              <option value="X">Not Join</option>
+              <option value="L">Leave</option>
+            </select> 
+     
+        </div>
+        </div>
+      </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col">
+                <button class="btn btn-primary" id="submit" type="submit"
+                (click)="NewStatus()">Update State</button>
+          </div>
+        <!-- <div class="col-md-12 text-center margin-top-15"> -->
+           
+          </div>
+          <!-- </form> -->
+    </div>
+    
+    <!-- </nb-card-body> -->
+    
+    <!-- </nb-card-body>
+    </nb-card> -->

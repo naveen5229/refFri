@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { on } from 'cluster';
 
 @Component({
   selector: 'vehicle-trip-stages',
@@ -15,6 +16,8 @@ export class VehicleTripStagesComponent implements OnInit {
   vehicleId = null;
   startDate = '';
   endDate = '';
+  openType = this.common.openType;
+  vehicleNo = '';
   tripstagesData = [];
   headings = [];
   valobj = {};
@@ -31,11 +34,23 @@ export class VehicleTripStagesComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
+    this.common.openType = 'page'
+    console.log("openType", this.openType);
     let today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
     this.common.refresh = this.refresh.bind(this);
+    if (this.openType == "modal") {
+      console.log("console.log", this.common.params);
+      this.startDate = this.common.params.fromTime ? this.common.params.fromTime : this.startDate;
+      this.endDate = this.common.params.toTime ? this.common.params.toTime : this.endDate;
+      this.vehicleId = this.common.params.vehicleId;
+      this.vehicleNo = this.common.params.vehicleRegNo;
+      this.getTripStages();
+
+    }
   }
 
   ngOnInit() {
@@ -43,7 +58,7 @@ export class VehicleTripStagesComponent implements OnInit {
 
   refresh() {
     this.vehicleId = null;
-    this.gettripStages();
+    this.getTripStages();
   }
   getDate(type) {
     this.common.params = { ref_page: 'vehicle trip stages' }
@@ -68,7 +83,7 @@ export class VehicleTripStagesComponent implements OnInit {
     this.vehicleId = vehicle.id;
   }
 
-  gettripStages() {
+  getTripStages() {
     this.tripstagesData = [];
     this.table = {
       data: {
@@ -81,7 +96,6 @@ export class VehicleTripStagesComponent implements OnInit {
       }
     };
 
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     const params = {
       vehicleId: this.vehicleId ? this.vehicleId : -1,
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
@@ -163,6 +177,10 @@ export class VehicleTripStagesComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  closeModal() {
+    this.activeModal.close();
   }
 
 }

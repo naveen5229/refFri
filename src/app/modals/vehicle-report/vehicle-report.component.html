@@ -38,7 +38,6 @@
         [ngModel]="endTimePeriod | customTime :'HH:mm'" maxlength="5"
         (ngModelChange)="endTimePeriod = dateService.handleCustomTime($event)">
     </div>
-
     <div class="col-sm-2">
       <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
     </div>

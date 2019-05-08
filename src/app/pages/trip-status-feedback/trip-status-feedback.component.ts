@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 
 @Component({
   selector: 'trip-status-feedback',
@@ -76,7 +77,7 @@ export class TripStatusFeedbackComponent implements OnInit {
       newDestination: trip.destination ? trip.destination : '',
       newState: trip.status,
       location: trip.r_location,
-      remark:trip.remark
+      remark: trip.remark
     }
     console.log("params", params);
     this.trips.splice(i, 1);
@@ -97,5 +98,22 @@ export class TripStatusFeedbackComponent implements OnInit {
         console.log(err);
       });
   }
-
+  showLocation(kpi) {
+    if (!kpi.r_lat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: kpi.r_lat,
+      lng: kpi.r_lng,
+      name: "",
+      time: ""
+    };
+    ////console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+  }
 }

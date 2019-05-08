@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 import { SiteTripDetailsComponent } from '../../modals/site-trip-details/site-trip-details.component';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 
 @Component({
   selector: 'placements-dash-board',
@@ -186,8 +187,12 @@ export class PlacementsDashBoardComponent implements OnInit {
 
         }
         else if (this.headings[j] == "Action") {
-          this.valobj[this.headings[j]] = { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.openPlacementModal.bind(this, this.filteredVehiclePlacements), class: 'icon text-center del' };
-        } else {
+          this.valobj[this.headings[j]] = { value: `<i class="fa fa-pencil-alt"></i>`, isHTML: true, action: this.openPlacementModal.bind(this, this.filteredVehiclePlacements[i]), class: 'icon text-center del' };
+        } else if (this.headings[j] == "Current Loc") {
+          this.valobj[this.headings[j]] = { value: this.filteredVehiclePlacements[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.filteredVehiclePlacements[i]) };
+
+        }
+        else {
           this.valobj[this.headings[j]] = { value: this.filteredVehiclePlacements[i][this.headings[j]], class: 'black', action: '' };
 
         }
@@ -247,8 +252,8 @@ export class PlacementsDashBoardComponent implements OnInit {
   openPlacementModal(placement) {
     console.log("openPlacementModal", placement);
     let tripDetails = {
-      vehicleId: placement.r_vid,
-      siteId: placement.r_hl_site_id
+      vehicleId: placement._vid,
+      siteId: placement._site_id
     }
     this.common.params = { tripDetils: tripDetails, ref_page: 'placements' };
     console.log("vehicleTrip", tripDetails);
@@ -274,6 +279,24 @@ export class PlacementsDashBoardComponent implements OnInit {
       //console.log("data", data.respone);
       // this.getVehiclePlacement();
 
+    });
+  }
+  showLocation(kpi) {
+    if (!kpi._tlat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: kpi._tlat,
+      lng: kpi._tlong,
+      name: "",
+      time: ""
+    };
+    ////console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
     });
   }
 }

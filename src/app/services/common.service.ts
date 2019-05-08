@@ -33,6 +33,7 @@ export class CommonService {
   passedVehicleId = null;
   changeHaltModal = null;
   ref_page = null;
+  openType = 'page';
   primaryType = {
     1: { page: "HomePage", title: "Home" },
     2: { page: "HomePage", title: "Home" },
