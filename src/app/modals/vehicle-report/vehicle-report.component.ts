@@ -44,11 +44,18 @@ export class VehicleReportComponent implements OnInit {
 
     if (this.common.params.ref_page == 'consView') {
       let today = new Date(), start;
+
+
+      console.log("today Date:", this.startTimePeriod);
       this.endDate = this.dateService.dateFormatter(today, '', false);
       console.log("end Date:", this.endDate);
       start = new Date(today.setDate(today.getDate() - 3));
       this.startDate = this.dateService.dateFormatter(start, '', false);
       console.log("Start Date:", this.startDate);
+      this.endTimePeriod = this.common.dateFormatter(today).split(' ')[1];
+      this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
+      this.startTimePeriod;
+      this.endTimePeriod;
 
     }
     else {

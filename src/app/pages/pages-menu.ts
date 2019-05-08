@@ -75,7 +75,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'GPS Capital',
+        title: 'GPS Details',
         icon: 'fa fa-map-marker',
         link: '/pages/vehicle-gps-detail',
         home: true,

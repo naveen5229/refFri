@@ -64,7 +64,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Vechile Distance',
+            title: 'Vehicle  Distance',
             icon: 'fas fa-route',
             link: '/admin/vehicle-distance',
             home: true,
@@ -136,7 +136,7 @@ export class DataService {
             link: '/admin/user-preferences',
           },
           {
-            title: 'Fo Activity Summary',
+            title: 'FO Activity Summary',
             icon: 'fas fa-file-alt',
             link: '/admin/activity-summary',
             home: true,
