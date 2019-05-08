@@ -14,15 +14,15 @@ export class DriverStatusChangeComponent implements OnInit {
   mobile = null;
   driverStatusForm: FormGroup;
   submitted = false;
-  Regno=null;
+  Regno = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public formbuilder: FormBuilder) {
-      this.name = this.common.params.name;
-      this.mobile = this.common.params.mobile;
-      this.Regno=this.common.params.driver.regno;
+    this.name = this.common.params.name;
+    this.mobile = this.common.params.mobile;
+    this.Regno = this.common.params.driver.regno;
     this.getdriverStatus();
     // if (this.common.params.name) {
     //   this.name = this.common.params.name;
@@ -55,10 +55,10 @@ export class DriverStatusChangeComponent implements OnInit {
     //
     //}
   }
- // get f() { return this.driverStatusForm.controls; }
- getvehicleData(Fodriver){
-   
- }
+  get f() { return this.driverStatusForm.controls; }
+  getvehicleData(Fodriver) {
+
+  }
   getdriverStatus() {
     this.common.loading++;
     let response;
@@ -75,10 +75,10 @@ export class DriverStatusChangeComponent implements OnInit {
 
   }
   closeModal() {
-    this.activeModal.close({response:true});
+    this.activeModal.close({ response: true });
   }
 
-  addNewStatus(){
-    
+  addNewStatus() {
+
   }
 }
