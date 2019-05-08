@@ -904,7 +904,7 @@ export class ConciseComponent implements OnInit {
         action: this.reportIssue.bind(this, kpi),
       },
       {
-        class: "icon fa fa-globe",
+        class: "icon fa fa-user-secret",
         action: this.openStations.bind(this, kpi)
       },
     ]
