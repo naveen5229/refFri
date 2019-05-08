@@ -183,6 +183,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-money',
     link: '/accounts/dashboard'
   },
+  {
+    title: 'Maintenance',
+    icon: 'fa fa-money',
+    link: '/vehicle-maintenance/add-vehicle-maintenance'
+  },
   // {
   //   title: 'Trip Onward Delay',
   //   icon: 'fas fa-truck',
