@@ -18,8 +18,14 @@ export class AddMaintenanceComponent implements OnInit {
   vehicleId = null;
   regno = null;
   typeId = null;
-  currentMtDate = null;
   maintenanceType = [];
+  nextMaintDate: any;
+  currentMaintDate: any;
+  nextVehicleKm = null;
+  remark: any;
+  currentVehicleKm: any;
+  maintLocation: any;
+  amount: any;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
@@ -68,15 +74,27 @@ export class AddMaintenanceComponent implements OnInit {
     let params = {
       vId: this.vehicleId,
       mainTypeId: this.typeId,
-      currDate: this.common.dateFormatter(this.currentMtDate),
+      currDate: this.common.dateFormatter(this.currentMaintDate),
+      targetDate: this.common.dateFormatter(this.nextMaintDate),
+      currKm: this.currentVehicleKm,
+      targetKm: this.nextVehicleKm,
+      amt: this.amount,
+      locName: this.maintLocation,
+      remark: this.remark
     };
     this.common.loading++;
     this.api.post('VehicleMaintenance/add', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("response:", res);
-        this.common.showToast(res['data'][0].rtn_msg);
-        this.closeModal(true);
+        if (res['data'][0].rtn_msg == 'Success') {
+          this.closeModal(true);
+          this.common.showToast(res['data'][0].rtn_msg);
+        }
+        else {
+          this.common.showError(res['data'][0].rtn_msg);
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);

@@ -38,7 +38,8 @@
         <label>Maintenance Date</label>
       </div>
       <div class="col-md-6">
-        <uj-date-time-picker (onChanged)="currentMtDate = $event" [isTime]="false" [dateTimeValue]="currentMtDate">
+        <uj-date-time-picker (onChanged)="currentMaintDate = $event" [isTime]="false"
+          [dateTimeValue]="currentMaintDate">
 
         </uj-date-time-picker>
 
@@ -50,8 +51,7 @@
         <label>Current Vehicle Km</label>
       </div>
       <div class="col-md-6">
-        <input type="number" pattern="\d*" class="form-control" name="currentVehicleKm" [(ngModel)]="currentVehicleKm"
-          maxlength="8">
+        <input type="number" class="form-control" name="currentVehicleKm" [(ngModel)]="currentVehicleKm" maxlength="8">
       </div>
     </div>
     <div class="row mb-2">
@@ -59,7 +59,7 @@
         <label>Next Maintenance Date</label>
       </div>
       <div class="col-md-6">
-        <uj-date-time-picker (onChanged)="nextMtDate = $event" [dateTimeValue]="nextMtDate">
+        <uj-date-time-picker [isTime]="false" (onChanged)="nextMaintDate = $event" [dateTimeValue]="nextMaintDate">
 
         </uj-date-time-picker>
       </div>
@@ -72,7 +72,23 @@
         <input type="number" class="form-control" name="nextVehicleKm" [(ngModel)]="nextVehicleKm" maxlength="8">
       </div>
     </div>
-    <div class="row">
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Maintenance Location</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" name="maintLocation" [(ngModel)]="maintLocation">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Amount</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" name="amount" [(ngModel)]="amount">
+      </div>
+    </div>
+    <div class="row mb-2">
       <div class="col-md-6">
         <label>Remark</label>
       </div>
