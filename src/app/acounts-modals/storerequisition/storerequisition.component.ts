@@ -304,7 +304,7 @@ export class StorerequisitionComponent implements OnInit {
       setTimeout(() => {
         if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
           alert('Quantity is lower then available quantity');
-          this.storeQuestion.details[index].qty = 0;
+          this.storeQuestion.details[index].issueqty = 0;
         }
       }, 50);
 
