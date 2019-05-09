@@ -141,6 +141,7 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
 import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
@@ -248,6 +249,7 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     CustomDatePipe,
     DaybookComponent,
     ProfitlossComponent,
+    LedgerviewComponent,
     CustomTimePipe,
     PoliceStationComponent,
 
@@ -352,7 +354,7 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     DaybookComponent,
     ProfitlossComponent,
     PoliceStationComponent,
-
+    LedgerviewComponent,
   ],
   imports: [
     BrowserModule,
