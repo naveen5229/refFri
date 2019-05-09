@@ -439,16 +439,17 @@ export class OrdersComponent implements OnInit {
     if ((event.altKey && key === 'c') && ((this.activeId.includes('purchaseledger')) || (this.activeId.includes('discountledger')) || (this.activeId.includes('ledger')))) {
       // console.log('alt + C pressed');
       this.openledger();
+      return;
     }
     if ((event.altKey && key === 'c') && (this.activeId.includes('stockitem'))) {
       // console.log('alt + C pressed');
       this.openStockItemModal();
+      return;
     }
     if ((event.altKey && key === 'c') && (this.activeId.includes('warehouse'))) {
       // console.log('alt + C pressed');
       this.openwareHouseModal();
-
-
+      return;
     }
     if (this.activeId.includes('qty-') && (this.order.ordertype.name.toLowerCase().includes('sales'))) {
       let index = parseInt(this.activeId.split('-')[1]);
