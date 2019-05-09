@@ -124,12 +124,8 @@ tbody tr:nth-child(even){
     font-size: 14px;
 }
 .pagination{
-    position: absolute;
-    bottom: 2px;
-    margin: 0px;
-    width: 97%;
-    left: 20px;
-    display: block;
+    margin-top: 10px;
+    margin-bottom: 0px;
     .pagination_links{
         span{
             position: relative;
@@ -158,5 +154,8 @@ tbody tr:nth-child(even){
 
 }
 .tablePagination{
+    color: black;
+}
+.test{
     color: black;
 }
