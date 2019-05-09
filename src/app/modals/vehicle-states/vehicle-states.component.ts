@@ -42,6 +42,14 @@ export class VehicleStatesComponent implements OnInit {
     long: '',
     loc_date: ''
   };
+  // map: any;
+  // @ViewChild('map') mapElement: ElementRef;
+  // location = {
+  //   lat: 26.9124336,
+  //   lng: 75.78727090000007,
+  //   name: '',
+  //   time: ''
+  // };
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,

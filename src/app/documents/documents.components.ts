@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'ngx-pages',
   template: `
     <ngx-sample-layout>
-      <nb-menu [items]="menu"></nb-menu>
+      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-sample-layout>
   `,

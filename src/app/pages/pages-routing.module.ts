@@ -189,6 +189,10 @@ const routes: Routes = [{
     component: VehicleTripStagesComponent,
   },
   {
+    path: 'vehicle-trip-stages',
+    component: VehicleTripStagesComponent,
+  },
+  {
     path: 'fuel-fillings',
     component: FuelFillingsComponent
   },
