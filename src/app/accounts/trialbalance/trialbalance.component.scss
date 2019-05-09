@@ -54,6 +54,7 @@ table tr.highlight {
     min-height: 128px;
 }
 table{
+    border: 0px;
     thead{
         display: table;
         width: 100%;
@@ -72,6 +73,8 @@ table{
             padding: 5px 10px !important;
             font-size: 12px;
             width: 200px;
+            border: 1px solid #C7C7C7;
+            border-bottom: 0px;
             b{
                 font-weight: normal !important;
                 width: 50px;
@@ -96,6 +99,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
+        border:0px;
         tr{
             display: table;
             table-layout: fixed;
@@ -126,4 +130,11 @@ table{
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
+}
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #576c77 !important;
+    color: #ffffff;
 }

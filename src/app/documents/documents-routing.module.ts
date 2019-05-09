@@ -15,7 +15,7 @@ const routes: Routes = [{
             path: 'dashboard',
             component: DashboardComponent,
         },
-       
+
         {
             path: 'documentation-details',
             component: DocumentationDetailsComponent,
@@ -28,7 +28,7 @@ const routes: Routes = [{
         {
             path: 'pending-documents',
             component: PendingDocumentsComponent,
-        },     
+        },
         {
             path: 'change-history',
             component: ChangeHistoryComponent,

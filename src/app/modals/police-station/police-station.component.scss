@@ -1,0 +1,90 @@
+.map{
+    height: 400px;
+}
+table{
+    border: 0px;
+    margin: 0px;
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+        tr{
+            th:last-child{
+                width: auto;
+            }
+
+
+        }
+    }
+    tr{
+        .td_box{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+        td{
+            .btn-success{
+                font-size: 12px;
+                text-transform: capitalize;
+                padding: 7px 6px;
+                height: auto;
+            }
+            
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 260px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:last-child{
+                width: auto;
+            }
+            td{     
+                text-align: center;
+                span{
+                    input{
+                        margin-right: 5px;
+                        margin-bottom: 5px;
+                        width: 100px;
+                    }
+                    select{
+                        height: 30px !important;
+                        padding: 3px !important;
+                    }
+                    button{
+                        margin-top: 2px;
+                        text-transform: capitalize;
+                    }
+                }
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 
+.zoom_btn_box{
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    z-index: 999;
+}
+.zoom_btn_box span{
+    display: block;
+}

@@ -338,28 +338,54 @@ export class StorerequisitionComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('qty' + '-' + index);
+        if (this.storeRequestStockId == -1) {
+          this.setFoucus('issueqty' + '-' + index);
+        } else {
+          this.setFoucus('qty' + '-' + index);
+        }
       } else if (this.activeId.includes('issueqty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issuewarehouse' + '-' + index);
+        if (this.storeRequestStockId == -1) {
+          this.setFoucus('issuerate' + '-' + index);
+        } else {
+          this.setFoucus('issuewarehouse' + '-' + index);
+        }
         if (this.storeQuestion.requesttype.id == -1) {
           this.storeQuestion.details[index].qty = this.storeQuestion.details[index].issueqty;
         }
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('remarks' + '-' + index);
+        if (this.storeQuestion.requesttype.id == -1) {
+          this.setFoucus('issuerate' + '-' + index);
+        } else {
+          this.setFoucus('remarks' + '-' + index);
+        }
       } else if (this.activeId.includes('issuerate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('issueamount' + '-' + index);
       } else if (this.activeId.includes('issueamount')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('remarks' + '-' + index);
+        console.log('issue amount ', this.storeQuestion.requesttype.id);
+        if (this.storeRequestStockId == -3) {
+          this.setFoucus('issueremarks' + '-' + index);
+        } else {
+          this.setFoucus('remarks' + '-' + index);
+        }
       } else if (this.activeId.includes('issueremarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('plustransparent');
+        if (this.storeQuestion.requesttype.id == -1) {
+          this.setFoucus('issuerate' + '-' + index);
+        } else {
+          this.setFoucus('plustransparent');
+        }
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issueremarks' + '-' + index);
+
+        if (this.storeQuestion.requesttype.id == -1) {
+          this.setFoucus('plustransparent' + '-' + index);
+        } else {
+          this.setFoucus('issueremarks' + '-' + index);
+        }
       } else if (this.activeId.includes('issuewarehouse')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -368,9 +394,10 @@ export class StorerequisitionComponent implements OnInit {
         }
         let index = parseInt(this.activeId.split('-')[1]);
         if (this.storeQuestion.requesttype.id == -1) {
-          this.setFoucus('issueqty' + '-' + index);
+          this.setFoucus('stockitem' + '-' + index);
+        } else {
+          this.setFoucus('issuerate' + '-' + index);
         }
-        this.setFoucus('issuerate' + '-' + index);
       } else if (this.activeId.includes('warehouse')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
@@ -378,7 +405,11 @@ export class StorerequisitionComponent implements OnInit {
           this.suggestionIndex = -1;
         }
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('stockitem' + '-' + index);
+        if (this.storeQuestion.requesttype.id == -1) {
+          this.setFoucus('issuewarehouse' + '-' + index);
+        } else {
+          this.setFoucus('stockitem' + '-' + index);
+        }
       }
     } else if (key.includes('arrow')) {
       if (key.includes('arrowup') || key.includes('arrowdown')) {

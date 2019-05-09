@@ -7,7 +7,6 @@ import { DirectiveModule } from './directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './admin/remaining-fuel/remaining-fuel.component';
-import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -15,7 +14,6 @@ const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
     RemainingFuelComponent,
-    VehicleTripStagesComponent
 ];
 
 
