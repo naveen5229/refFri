@@ -14,7 +14,7 @@ export class AddMaintenanceComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
-
+  isFormSubmit = false;
   vehicleId = null;
   regno = null;
   typeId = null;
