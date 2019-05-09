@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { UserService } from '../../@core/data/users.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { TaxdetailComponent } from '../../acounts-modals/taxdetail/taxdetail.component';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
@@ -53,7 +54,7 @@ export class OrdersComponent implements OnInit {
     },
     ledger: {
       name: '',
-      id: ''
+      id: 0
     },
     purchaseledger: {
       name: '',
@@ -114,11 +115,30 @@ export class OrdersComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
+    private route: ActivatedRoute,
     public user: UserService,
+    public router: Router,
     public modalService: NgbModal,
     public accountService: AccountService) {
     // this.getBranchList();
-
+    this.route.params.subscribe(params => {
+      console.log('Params1: ', params);
+      if (params.id) {
+        this.order.ordertype.id = params.id;
+        this.order.ordertype.name = params.name;
+      }
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      let suggestionname = params.name;
+      if (suggestionname == 'Debit Note') {
+        this.getInvoiceList(-2);
+        suggestionname = 'Purchase Invoice';
+      }
+      if (suggestionname == 'Credit Note') {
+        this.getInvoiceList(-4);
+        suggestionname = 'Sales Invoice';
+      }
+      this.getStockItems(suggestionname);
+    });
     this.common.refresh = () => {
       this.getInvoiceTypes();
       this.getPurchaseLedgers();
@@ -166,7 +186,7 @@ export class OrdersComponent implements OnInit {
       },
       ledger: {
         name: '',
-        id: ''
+        id: 0
       },
       purchaseledger: {
         name: '',
@@ -480,14 +500,24 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('biltydate')) {
         this.setFoucus('deliveryterms');
       } else if (this.activeId.includes('date')) {
-        this.setFoucus('purchaseledger');
+        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+          this.setFoucus('qty' + '-' + 0);
+        }
+        else {
+          this.setFoucus('purchaseledger');
+        }
       } else if (this.activeId.includes('purchaseledger')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
-        this.setFoucus('ledger');
+        if (this.order.ordertype.id == -8) {
+          this.setFoucus('warehouse' + '-' + 0);
+        }
+        else {
+          this.setFoucus('ledger');
+        }
       } else if (this.activeId.includes('discountledger')) {
         console.log('0000000000000000000000000000000');
         if (this.suggestions.list.length) {
@@ -539,10 +569,20 @@ export class OrdersComponent implements OnInit {
         this.setFoucus('qty' + '-' + index);
       } else if (this.activeId.includes('qty')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('rate' + '-' + index);
+        if (this.order.ordertype.id == -8) {
+          this.setFoucus('plustransparent');
+        }
+        else {
+          this.setFoucus('rate' + '-' + index);
+        }
       } else if (this.activeId.includes('rate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('remarks' + '-' + index);
+        if (this.order.ordertype.id == -7 || this.order.ordertype.id == -6) {
+          this.setFoucus('submit');
+        }
+        else {
+          this.setFoucus('remarks' + '-' + index);
+        }
       } else if (this.activeId.includes('discountate')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('warehouse' + '-' + index);
@@ -558,6 +598,8 @@ export class OrdersComponent implements OnInit {
       } else if (this.activeId.includes('remarks')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('taxDetail' + '-' + index);
+      } else if (this.activeId.includes('invocelist')) {
+        this.setFoucus('custcode');
       }
     } else if (key.includes('arrow')) {
       //  this.allowBackspace = false;
