@@ -87,7 +87,7 @@ export class StorerequisitionsComponent implements OnInit {
   formattData(groupData) {
     let firstGroup = _.groupBy(groupData, 'y_id');
     console.log('groupData', firstGroup);
-
+this.StockQuestions=[];
     for (let key in firstGroup) {
       let total = 0;
 
