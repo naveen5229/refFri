@@ -51,7 +51,8 @@
         <label>Current Vehicle Km</label>
       </div>
       <div class="col-md-6">
-        <input type="number" class="form-control" name="currentVehicleKm" [(ngModel)]="currentVehicleKm" maxlength="8">
+        <input type="number" placeholder="Km" class="form-control" name="currentVehicleKm"
+          [(ngModel)]="currentVehicleKm" maxlength="8">
       </div>
     </div>
     <div class="row mb-2">
@@ -69,7 +70,8 @@
         <label>Next vehicle Km</label>
       </div>
       <div class="col-md-6">
-        <input type="number" class="form-control" name="nextVehicleKm" [(ngModel)]="nextVehicleKm" maxlength="8">
+        <input type="number" placeholder="Km" class="form-control" name="nextVehicleKm" [(ngModel)]="nextVehicleKm"
+          maxlength="8">
       </div>
     </div>
     <div class="row mb-2">
@@ -77,7 +79,7 @@
         <label>Maintenance Location</label>
       </div>
       <div class="col-md-6">
-        <input type="text" class="form-control" name="maintLocation" [(ngModel)]="maintLocation">
+        <input type="text" placeholder="Location" class="form-control" name="maintLocation" [(ngModel)]="maintLocation">
       </div>
     </div>
     <div class="row mb-2">
@@ -85,7 +87,7 @@
         <label>Amount</label>
       </div>
       <div class="col-md-6">
-        <input type="text" class="form-control" name="amount" [(ngModel)]="amount">
+        <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="amount">
       </div>
     </div>
     <div class="row mb-2">
@@ -93,7 +95,8 @@
         <label>Remark</label>
       </div>
       <div class="col-md-6">
-        <textarea rows="4" cols="8" class="form-control" name="remark" [(ngModel)]="remark"></textarea>
+        <textarea rows="4" cols="8" placeholder="Remak" class="form-control" name="remark"
+          [(ngModel)]="remark"></textarea>
 
       </div>
     </div>
