@@ -36,20 +36,16 @@ export class RouteMapperComponent implements OnInit {
     this.endDate = this.commonService.params.toTime;
     this.startTimePeriod = this.startDate.split(' ')[1];
     this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
+    console.log("Start Time:", this.startTimePeriod);
     this.endTimePeriod = this.endDate.split(' ')[1];
     this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
     this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
     this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
     this.vehicleSelected = this.commonService.params.vehicleId;
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
-    console.log("common params:");
-    console.log(this.commonService.params);
-    if (this.commonService.params.title != undefined)
-      this.title = this.commonService.params.title;
-    console.log("title:" + this.commonService.params.title);
-    console.log("this.startDate", this.startDate);
-    console.log("this.endDate", this.endDate);
-    console.log("this.vehicleSelected", this.vehicleSelected, this.vehicleRegNo);
+    console.log("common params:", this.commonService.params, "title:", this.title);
+    this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
+
     this.getHaltTrails();
   }
 

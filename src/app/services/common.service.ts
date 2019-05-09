@@ -79,6 +79,19 @@ export class CommonService {
     this.showToast(msg || "Something went wrong! try again.", "danger");
   }
 
+  ucWords(str){
+      str = str.toLowerCase();
+      var words = str.split(' ');
+      str = '';
+      for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        word = word.charAt(0).toUpperCase() + word.slice(1);
+        if (i > 0) { str = str + ' '; }
+        str = str + word;
+      }
+      return str;
+    }
+
   showToast(body, type?, duration?, title?) {
     // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
     const config = {

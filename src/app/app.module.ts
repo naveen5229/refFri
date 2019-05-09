@@ -144,6 +144,7 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
 import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
 import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
+import { PoliceStationComponent } from './modals/police-station/police-station.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -250,6 +251,7 @@ import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-
     ProfitlossComponent,
     LedgerviewComponent,
     CustomTimePipe,
+    PoliceStationComponent,
 
   ],
   entryComponents: [
@@ -351,6 +353,7 @@ import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-
     ShowFuelStationComponent,
     DaybookComponent,
     ProfitlossComponent,
+    PoliceStationComponent,
     LedgerviewComponent,
   ],
   imports: [
