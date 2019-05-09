@@ -990,7 +990,7 @@ export class ConciseComponent implements OnInit {
       size: "lg",
       container: "nb-layout"
     });
-   
+
 
   }
 }
