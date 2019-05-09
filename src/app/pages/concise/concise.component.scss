@@ -336,9 +336,9 @@ mwlResizable {
             span{
                 position: absolute;
                 display: none;
-                padding: 10px 41px;
+                padding: 10px 44px;
                 font-size: 11px;
-                left: -32px;
+                left: -34px;
                 font-weight: normal;
                 top: -28px;
                 top: -28px;
@@ -348,7 +348,7 @@ mwlResizable {
                 z-index:9999;
             }
             span::before{
-                content: 'Rout Tracker';
+                content: 'Route Tracker';
                 display: block;
                 position: absolute;
                 top: 0px;

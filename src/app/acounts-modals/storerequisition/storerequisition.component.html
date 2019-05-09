@@ -100,15 +100,13 @@
         <tr *ngIf="storeRequestStockId == -1">
 
           <th>Warehouse</th>
+          <th>Transfer Warehouse</th>
           <th>Stock Item</th>
           <th>Unit</th>
           <th>Qty</th>
-          <th>remarks</th>
-          <th>Transfer Warehouse</th>
-
           <th>Rate</th>
           <th>Amount</th>
-
+          <th>remarks</th>
           <th *ngIf="i !== 0 && storeQuestion.id == 0"></th>
         </tr>
       </thead>
@@ -120,6 +118,11 @@
               [name]="'warehouse-' + i" [(ngModel)]="detail.warehouse.name" placeholder="Please Select Warehouse"
               [readonly]="storeRequestStockId == -3">
           </td>
+          <td *ngIf="storeRequestStockId == -1">
+            <input type="text" [id]="'issuewarehouse-' + i" class="form-control ref-input"
+              [name]="'issuewarehouse-' + i" autocomplete="off" [(ngModel)]="detail.issuewarehouse.name"
+              placeholder="Please Select Issue Warehouse">
+          </td>
           <td>
             <input type="text" [id]="'stockitem-' + i" class="form-control ref-input"
               placeholder="Please Select Stock Item" autocomplete="off" name="'stockitem-' + i"
@@ -130,11 +133,16 @@
               placeholder="Please Select Stock Unit" autocomplete="off" name="account-stockunit"
               placeholder="Enter Stock Unit" [(ngModel)]="detail.stockunit.name" readonly>
           </td>
-          <td>
+          <td *ngIf="storeRequestStockId == -1">
+            <input type="number" class="form-control ref-input" autocomplete="off" name="issueqty"
+              [id]="'issueqty-' + i" (input)="detail.issueamount = detail.issueqty * detail.issuerate;"
+              [(ngModel)]="detail.issueqty" placeholder="Please Enter Issue Quantity">
+          </td>
+          <td *ngIf="storeRequestStockId != -1">
             <input type="number" class="form-control ref-input" autocomplete="off" name="qty" [id]="'qty-' + i"
               [(ngModel)]="detail.qty" placeholder="Please Enter Quantity" [readonly]="storeRequestStockId == -3">
           </td>
-          <td>
+          <td *ngIf="storeRequestStockId != -1">
             <input type="text" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Remarks"
               name="remarks" [id]="'remarks-' + i" [(ngModel)]="detail.remarks" [readonly]="storeRequestStockId == -3">
           </td>
@@ -145,7 +153,7 @@
           </td>
 
 
-          <td *ngIf="storeRequestStockId == -3 || storeRequestStockId == -1">
+          <td *ngIf="storeRequestStockId == -3">
             <input type="text" [id]="'issuewarehouse-' + i" class="form-control ref-input"
               [name]="'issuewarehouse-' + i" autocomplete="off" [(ngModel)]="detail.issuewarehouse.name"
               placeholder="Please Select Issue Warehouse">
@@ -160,6 +168,10 @@
           <td *ngIf="storeRequestStockId == -3 ||storeRequestStockId == -1">
             <input type="number" class="form-control ref-input" autocomplete="off" name="issueamount"
               placeholder="Please Enter Amount" [id]="'issueamount-' + i" [(ngModel)]="detail.issueamount">
+          </td>
+          <td *ngIf="storeRequestStockId == -1">
+            <input type="text" class="form-control ref-input" autocomplete="off" placeholder="Please Enter Remarks"
+              name="remarks" [id]="'remarks-' + i" [(ngModel)]="detail.remarks" [readonly]="storeRequestStockId == -3">
           </td>
           <td *ngIf="storeRequestStockId == -3">
             <input type="text" class="form-control ref-input" autocomplete="off" name="issueremarks"

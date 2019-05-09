@@ -35,6 +35,7 @@
             <th>#</th>
             <th>Code</th>
             <th>Cust Code</th>
+            <th>Branch</th>
             <th>Request Date</th>
           </tr>
         </thead>
@@ -46,6 +47,8 @@
             <td>{{i + 1}}</td>
             <td>{{StockQuestion.y_code}}</td>
             <td>{{StockQuestion.y_cust_code}}</td>
+            <td *ngIf="this.storeRequestId != -3">{{StockQuestion.y_to_fobranch_name}}</td>
+            <td *ngIf="this.storeRequestId == -3">{{StockQuestion.y_from_fobranch_name}}</td>
             <td>{{StockQuestion.y_req_date | date : 'dd-MMM-yy'}}</td>
             <!-- <td class="del">
           <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
