@@ -18,6 +18,7 @@ export class AddMaintenanceComponent implements OnInit {
   vehicleId = null;
   regno = null;
   typeId = null;
+  currentMtDate = null;
   maintenanceType = [];
   constructor(public api: ApiService,
     public common: CommonService,
@@ -59,10 +60,27 @@ export class AddMaintenanceComponent implements OnInit {
   changeMaitenanceType(type) {
     let name = type.target.value;
     let id = this.maintenanceType.filter(x => x.name === name)[0];
-    console.log("id:", id);
+    console.log("Type Id", this.typeId);
+    this.typeId = id.id;
+
   }
   addMaintenance() {
-
+    let params = {
+      vId: this.vehicleId,
+      mainTypeId: this.typeId,
+      currDate: this.common.dateFormatter(this.currentMtDate),
+    };
+    this.common.loading++;
+    this.api.post('VehicleMaintenance/add', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("response:", res);
+        this.common.showToast(res['data'][0].rtn_msg);
+        this.closeModal(true);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
 }
