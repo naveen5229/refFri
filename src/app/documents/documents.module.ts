@@ -33,8 +33,8 @@ const PAGES_COMPONENTS = [
 
     // DocumentationDetailsComponent,
     // DocumentsSummaryComponent,
-    // PendingDocumentsComponent,
-    // ChangeHistoryComponent,
+    PendingDocumentsComponent,
+    ChangeHistoryComponent,
     // DocumentDashboardComponent
 
   ],
