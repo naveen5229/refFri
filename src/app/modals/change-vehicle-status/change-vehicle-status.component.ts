@@ -7,11 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
-<<<<<<< HEAD
-// import { resetComponentState } from '@angular/core/src/render3/instructions';
-=======
-import { resetComponentState, elementStylingMap } from '@angular/core/src/render3/instructions';
->>>>>>> aea94af2e931f78b594580e4444292cb2c6bc490
+// import { resetComponentState, elementStylingMap } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
