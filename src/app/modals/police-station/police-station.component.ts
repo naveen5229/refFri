@@ -108,7 +108,7 @@ export class PoliceStationComponent implements OnInit {
           this.mapService.createMarkers(this.location, false, false);
           this.mapService.zoomMap(10.5);
 
-        }, 2500);
+        }, 1000);
 
 
 

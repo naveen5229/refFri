@@ -141,6 +141,12 @@ export class DataService {
             link: '/admin/activity-summary',
             home: true,
           },
+          {
+            title: 'Ticket Subscribe',
+            icon: 'fas fa-info-circle',
+            link: '/admin/ticket-subscribe',
+            home: true,
+          },
         ]
       },
       {
@@ -197,6 +203,7 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
+
         ]
       },
 
