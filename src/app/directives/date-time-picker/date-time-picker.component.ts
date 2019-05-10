@@ -11,13 +11,16 @@ export class DateTimePickerComponent implements OnInit {
   @Output() onChanged = new EventEmitter();
   @Input() dateFormat: string = "dd-MM-yyyy";
   @Input() timeFormat: string = "HH:mm";
-  @Input() isTime: boolean = true;
-  @Input() isDate: boolean = true;
+  @Input() isTime: boolean;
+  @Input() isDate: boolean;
+  @Input() isForm: boolean;
   @Input() dateTimeValue: Date;
 
 
   constructor() {
-
+    this.isDate = true;
+    this.isTime = true;
+    this.isForm = true;
   }
 
   ngOnInit() {

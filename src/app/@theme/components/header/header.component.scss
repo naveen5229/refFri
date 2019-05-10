@@ -231,7 +231,7 @@
 }
 
 .user_back_name{
-    width: 635px;
+    width: 560px;
     display: flex;
 }
 .header-container {
@@ -294,6 +294,7 @@
 .select_branch{
     padding: 10px 0px;
     margin-right: 20px;
+    width: 50%;
 }
 .select_branch label{
     margin-right: 0;
@@ -302,7 +303,7 @@
     display: block;
 }
 .select_branch select{
-    width: 100px;
+    width: 100%;
     display: inline-block;
     background: transparent;
     border: 1px solid #878f92 !important;
@@ -328,7 +329,7 @@
 }
 .branch_option{
     display: flex;
-    width: 250px;
+    width: 320px;
 }
 .header_mini_menu{
     display: flex;

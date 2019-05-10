@@ -7,15 +7,18 @@ import { DirectiveModule } from './directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './admin/remaining-fuel/remaining-fuel.component';
-import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { DocumentationDetailsComponent } from './documents/documentation-details/documentation-details.component';
+import { DocumentsSummaryComponent } from './documents/documents-summary/documents-summary.component';
+import { DocumentDashboardComponent } from './documents/dashboard/dashboard.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
     RemainingFuelComponent,
-    VehicleTripStagesComponent
+    DocumentationDetailsComponent,
+    DocumentsSummaryComponent,
+    DocumentDashboardComponent
+
 ];
 
 
@@ -26,7 +29,10 @@ const PAGES_COMPONENTS = [
         DirectiveModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        ImageViewerModule
+        ImageViewerModule,
+        DashboardModule,
+
+
     ],
     exports: [...PAGES_COMPONENTS],
     providers: [],

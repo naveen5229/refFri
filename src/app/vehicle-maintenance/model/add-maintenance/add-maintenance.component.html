@@ -1,0 +1,118 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #maintenanceForm="ngForm" id="maintenance-form" name="maintenance-form"
+    (submit)="maintenanceForm.valid && addMaintenance()">
+
+    <div class="row">
+      <div class="col-md-6">
+        <label> Vehicle Number </label>
+      </div>
+      <div class="col-md-6">
+        <span>{{regno}}</span>
+      </div>
+    </div>
+
+
+
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Maintenance Type</label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" type="text" list="maintenanceType" name="maintenance-type"
+          (change)="changeMaitenanceType($event)">
+        <datalist id="maintenanceType">
+          <option *ngFor="let doc of maintenanceType;" [value]="doc.name">{{doc.name}}</option>
+        </datalist>
+
+      </div>
+
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Maintenance Date</label>
+      </div>
+      <div class="col-md-6">
+        <uj-date-time-picker (onChanged)="currentMaintDate = $event" [isTime]="false"
+          [dateTimeValue]="currentMaintDate">
+
+        </uj-date-time-picker>
+
+      </div>
+
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Current Vehicle Km</label>
+      </div>
+      <div class="col-md-6">
+        <input type="number" placeholder="Km" class="form-control" name="currentVehicleKm"
+          [(ngModel)]="currentVehicleKm" maxlength="8">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Next Maintenance Date</label>
+      </div>
+      <div class="col-md-6">
+        <uj-date-time-picker [isTime]="false" (onChanged)="nextMaintDate = $event" [dateTimeValue]="nextMaintDate">
+
+        </uj-date-time-picker>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Next vehicle Km</label>
+      </div>
+      <div class="col-md-6">
+        <input type="number" placeholder="Km" class="form-control" name="nextVehicleKm" [(ngModel)]="nextVehicleKm"
+          maxlength="8">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Maintenance Location</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" placeholder="Location" class="form-control" name="maintLocation" [(ngModel)]="maintLocation">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Amount</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="amount">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Remark</label>
+      </div>
+      <div class="col-md-6">
+        <textarea rows="4" cols="8" placeholder="Remak" class="form-control" name="remark"
+          [(ngModel)]="remark"></textarea>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <div class="col text-right">
+      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
+        style="cursor: pointer;">{{btn1}}</button>
+    </div>
+  </div>
+</div>

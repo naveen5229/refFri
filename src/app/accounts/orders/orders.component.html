@@ -8,22 +8,11 @@
         <div class="row">
           <!-- <div class="col-4">
             <div class="form-group">
-              <label class="ref-label">Branch</label>
-              <auto-suggestion (onSelected)="onSelected($event, 'branch', 'name')" url="Suggestion/GetBranchList"
-                display="name" inputId="branch" placeholder="Enter Branch" [data]="branchdata"
-                [preSelected]="{name:'All'}"></auto-suggestion>
-            </div>
-          </div> -->
-          <div class="col-4">
-            <div class="form-group">
               <label class="ref-label">Invoice Type</label>
               <input type="text" autocomplete="off" class="form-control ref-input" id="ordertype" name="ordertype"
                 [(ngModel)]="order.ordertype.name" placeholder="Please Select Invoice Type" required>
-              <!-- <auto-suggestion (onSelected)="onSelected($event, 'ordertype', 'name')" url="Suggestion/GetOrderTypeList"
-                display="name" inputId="ordertype" placeholder="Enter Order Type" [data]="orderTypeData"
-                [preSelected]="null"></auto-suggestion> -->
             </div>
-          </div>
+          </div> -->
 
           <div class="col-4" *ngIf="(order.ordertype.id == -6 || order.ordertype.id ==-7)">
             <div class="form-group">
@@ -37,7 +26,7 @@
 
         <!-- Purchase Start -->
         <div
-          *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note') ">
+          *ngIf="order.ordertype.name.toLowerCase().includes('purchase') || order.ordertype.name.toLowerCase().includes('debit note') || order.ordertype.name.toLowerCase().includes('wastage') ">
           <div class="row">
             <div class="col">
               <div class="form-group">
@@ -209,7 +198,7 @@
                   display="name" inputId="ledger" placeholder="Party Name" [preSelected]="null"></auto-suggestion> -->
                 <input type="text" autocomplete="off" class="form-control ref-input" id="ledger" name="ledger"
                   [readonly]="(order.ordertype.id == -6 || order.ordertype.id ==-7)" [(ngModel)]="order.ledger.name"
-                  placeholder="Ppease Enter Party Name" require>
+                  placeholder="Please Enter Party Name" require>
 
               </div>
             </div>
@@ -339,7 +328,7 @@
           <th *ngIf="(order.ordertype.id != -8)">Line Amount</th>
 
           <th *ngIf="(order.ordertype.id != -8)">remarks</th>
-          <th></th>
+          <th *ngIf="(order.ordertype.id != -8)"></th>
           <th></th>
         </tr>
       </thead>
@@ -420,7 +409,7 @@
                 class="fa fa-trash"></i></button>
           </td>
         </tr>
-        <tr style="background: #576c77 !important; color:#fff;">
+        <tr style="background: #576c77 !important; color:#fff;" *ngIf="(order.ordertype.id != -8)">
           <td colspan="4">&nbsp;</td>
           <td><b>Total Amount : </b></td>
           <td><input type="text" class="form-control ref-input" autocomplete="off" name="account-totalamount"
