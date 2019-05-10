@@ -41,15 +41,16 @@
         </thead>
         <tbody>
           <tr *ngFor="let StockQuestion of StockQuestions; let i = index;" (click)="selectedRow = i"
-            (dblclick)="openStoreRequisitions(StockQuestion.y_id,StockQuestion.y_to_fobranch_id)"
-            (enter)="openStoreRequisitions(StockQuestion.y_id,StockQuestion.y_to_fobranch_id)"
+            (dblclick)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_to_fobranch_id)"
+            (enter)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_to_fobranch_id)"
             [ngClass]="{'highlight' : selectedRow == i}">
+
             <td>{{i + 1}}</td>
-            <td>{{StockQuestion.y_code}}</td>
-            <td>{{StockQuestion.y_cust_code}}</td>
-            <td *ngIf="this.storeRequestId != -3">{{StockQuestion.y_to_fobranch_name}}</td>
-            <td *ngIf="this.storeRequestId == -3">{{StockQuestion.y_from_fobranch_name}}</td>
-            <td>{{StockQuestion.y_req_date | date : 'dd-MMM-yy'}}</td>
+            <td>{{StockQuestion[0].y_code}}</td>
+            <td>{{StockQuestion[0].y_cust_code}}</td>
+            <td *ngIf="this.storeRequestId != -3">{{StockQuestion[0].y_to_fobranch_name}}</td>
+            <td *ngIf="this.storeRequestId == -3">{{StockQuestion[0].y_from_fobranch_name}}</td>
+            <td>{{StockQuestion[0].y_req_date | date : 'dd-MMM-yy'}}</td>
             <!-- <td class="del">
           <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
               class="fa fa-trash"></i></a>

@@ -18,8 +18,6 @@ export class TripDetailsComponent implements OnInit {
   vehicleId = null;
   vehicleRegNo = null;
   trips = null;
-  startTimePeriod = '00:00';
-  endTimePeriod = '00:00';
 
   constructor(
     public common: CommonService,
@@ -29,38 +27,26 @@ export class TripDetailsComponent implements OnInit {
     public dateService: DateService
   ) {
     // this.common.handleModalSize('class', 'modal-lg', '1600');
-    this.startDate = this.common.params.fromTime;
-    this.endDate = this.common.params.toTime;
-
-    this.startTimePeriod = this.startDate.split(' ')[1];
-    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
-
-    this.endTimePeriod = this.endDate.split(' ')[1];
-    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
-
-    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
-    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
-
+    this.startDate = new Date(this.common.params.fromTime);
+    this.endDate = new Date(this.common.params.toTime);
+    console.log("Start Date:", this.startDate);
     this.vehicleId = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
+
     this.getTripDetails();
   }
 
   ngOnInit() {
   }
 
-  get startTimeFull() {
-    return this.startDate + " " + this.startTimePeriod;
-  }
 
-  get endTimeFull() {
-    return this.endDate + " " + this.endTimePeriod;
-  }
 
   getTripDetails() {
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
     let params = "vehicleId=" + this.vehicleId +
-      "&startTime=" + this.startTimeFull +
-      "&endTime=" + this.endTimeFull;
+      "&startTime=" + startDate +
+      "&endTime=" + endDate;
     console.log(params)
     this.api.get('TripsOperation/viewBtw?' + params)
       .subscribe(res => {

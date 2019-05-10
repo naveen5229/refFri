@@ -24,7 +24,7 @@ export class SmartTableComponent implements OnInit {
   pages = {
     count: 0,
     active: 1,
-    limit: 150,
+    limit: 200,
   };
 
   constructor(private cdr: ChangeDetectorRef,

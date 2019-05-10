@@ -6,6 +6,8 @@ import { UserService } from '../../@core/data/users.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { StorerequisitionComponent } from '../../acounts-modals/storerequisition/storerequisition.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'storerequisitions',
@@ -60,8 +62,8 @@ export class StorerequisitionsComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.StockQuestions = res['data'];
-
+        let groupData = res['data'];
+        this.formattData(groupData);
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -82,6 +84,18 @@ export class StorerequisitionsComponent implements OnInit {
     });
 
   }
+  formattData(groupData) {
+    let firstGroup = _.groupBy(groupData, 'y_id');
+    console.log('groupData', firstGroup);
+this.StockQuestions=[];
+    for (let key in firstGroup) {
+      let total = 0;
+
+      this.StockQuestions.push(firstGroup[key])
+    }
+    console.log('StockQuestions', this.StockQuestions);
+
+  }
 
   RowSelected(u: any) {
     console.log('data of u', u);
@@ -91,5 +105,6 @@ export class StorerequisitionsComponent implements OnInit {
   changeRefresh(id) {
     if (this.pending == id) return;
     this.StockQuestions = [];
+    this.getStoreQuestion();
   }
 }

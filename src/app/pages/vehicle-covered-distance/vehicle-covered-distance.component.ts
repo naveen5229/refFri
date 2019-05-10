@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { parse } from 'path';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'vehicle-covered-distance',
@@ -26,6 +27,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   };
 
   constructor(public api: ApiService,
+    private datePipe: DatePipe,
     public common: CommonService,
     public modalService: NgbModal) {
     this.getData();
@@ -54,6 +56,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
             _long: rep[key].long,
             Regno: rep[key].regno,
             Location: rep[key].currLoc,
+            LastSuccessDate: rep[key].successdt
 
           };
           rep[key].slots && rep[key].slots.map((slot, index) => {
@@ -128,6 +131,10 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         if (this.headings[j] == "Location") {
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.distanceData[i]) };
           console.log('distanceData if', this.distanceData[i]);
+        }
+        else if (this.headings[j] == "LastSuccessDate") {
+          this.valobj[this.headings[j]] = { value: this.datePipe.transform(this.distanceData[i][this.headings[j]], 'dd MMM HH:mm '), class: 'black', action: '' };
+
         }
         else {
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
