@@ -50,6 +50,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   vehicleMaintenanceData() {
+    this.data = [];
     this.common.loading++;
     this.api.post('VehicleMaintenance/view', { vId: this.selectedVehicle })
       .subscribe(res => {
@@ -74,6 +75,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   getTableColumns() {
+
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
@@ -82,7 +84,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-      this.valobj['Action'] = { value: '<i class="fa fa-pencil-square"></i>', isHTML: true, action: this.addMaintenance.bind(this, doc), class: 'image text-center del' }
+      this.valobj['Action'] = { value: `<i class="fa fa-pencil-square"></i>`, isHTML: true, action: this.editMaintenance.bind(this, doc), class: 'image text-center del' }
       columns.push(this.valobj);
     });
     return columns;
@@ -106,9 +108,26 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     this.common.params = { title: 'Add Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno };
     const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // if (data.response) {
-      //   this.documentUpdate();
-      // }
+      if (data.response) {
+        this.getTableColumns();
+      }
+    });
+  }
+  editMaintenance(row) {
+    if (!this.selectedVehicle) {
+      this.common.showError("Please select Vehicle Number");
+      return false;
+    }
+    this.common.params = { title: 'Edit Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno, row };
+    const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("before:");
+
+      if (data.response) {
+        console.log("After:");
+        this.vehicleMaintenanceData();
+        this.getTableColumns();
+      }
     });
   }
 

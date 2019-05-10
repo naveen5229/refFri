@@ -25,7 +25,7 @@
       </div>
       <div class="col-md-6">
         <input class="form-control" type="text" list="maintenanceType" name="maintenance-type"
-          (change)="changeMaitenanceType($event)">
+          (change)="changeMaitenanceType(selectedMT)" [(ngModel)]="selectedMT">
         <datalist id="maintenanceType">
           <option *ngFor="let doc of maintenanceType;" [value]="doc.name">{{doc.name}}</option>
         </datalist>
@@ -107,11 +107,15 @@
   <div class="row">
     <div class="col">
       <button class="btn btn-danger" type="button" (click)="closeModal(false)" id="cancel"
-        style="cursor: pointer;">{{btn2}}</button>
-    </div>
-    <div class="col text-right">
-      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
         style="cursor: pointer;">{{btn1}}</button>
     </div>
+    <div class="col text-right" *ngIf="edit==0; else update">
+      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
+        style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <ng-template #update>
+      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
+        style="cursor: pointer;">{{btn3}}</button>
+    </ng-template>
   </div>
 </div>
