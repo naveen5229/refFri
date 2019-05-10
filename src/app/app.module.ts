@@ -13,7 +13,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
@@ -141,6 +141,10 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
+import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
+import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
+import { PoliceStationComponent } from './modals/police-station/police-station.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -245,6 +249,9 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
     CustomDatePipe,
     DaybookComponent,
     ProfitlossComponent,
+    LedgerviewComponent,
+    CustomTimePipe,
+    PoliceStationComponent,
 
   ],
   entryComponents: [
@@ -346,7 +353,8 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
     ShowFuelStationComponent,
     DaybookComponent,
     ProfitlossComponent,
-
+    PoliceStationComponent,
+    LedgerviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -376,6 +384,7 @@ import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.comp
 
   bootstrap: [AppComponent],
   providers: [
+    NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },

@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { parse } from 'path';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'vehicle-covered-distance',
@@ -26,6 +27,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   };
 
   constructor(public api: ApiService,
+    private datePipe: DatePipe,
     public common: CommonService,
     public modalService: NgbModal) {
     this.getData();
@@ -54,13 +56,15 @@ export class VehicleCoveredDistanceComponent implements OnInit {
             _long: rep[key].long,
             Regno: rep[key].regno,
             Location: rep[key].currLoc,
-            lat: rep[key].lat,
-            long: rep[key].long
+            LastSuccessDate: rep[key].successdt
+
           };
           rep[key].slots && rep[key].slots.map((slot, index) => {
             detail['Slot' + (index + 1)] = slot;
           });
+
           details.push(detail);
+
         });
         console.log('Details:', details);
         this.distanceData = details;
@@ -117,41 +121,55 @@ export class VehicleCoveredDistanceComponent implements OnInit {
   }
   getTableColumns() {
     let columns = [];
+
+    console.log('distanceData, length', this.distanceData.length);
     for (var i = 0; i < this.distanceData.length; i++) {
       this.valobj = {};
+      console.log('headings, length', this.headings, this.headings.length);
       for (let j = 0; j < this.headings.length; j++) {
+
         if (this.headings[j] == "Location") {
           this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: this.showLocation.bind(this, this.distanceData[i]) };
+          console.log('distanceData if', this.distanceData[i]);
         }
-        else
-          this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
+        else if (this.headings[j] == "LastSuccessDate") {
+          this.valobj[this.headings[j]] = { value: this.datePipe.transform(this.distanceData[i][this.headings[j]], 'dd MMM HH:mm '), class: 'black', action: '' };
 
+        }
+        else {
+          this.valobj[this.headings[j]] = { value: this.distanceData[i][this.headings[j]], class: 'black', action: '' };
+          console.log('distanceData else', this.distanceData[i]);
+
+        }
+        this.valobj['style'] = { background: this.distanceData[i]._rowcolor };
+        //columns.push(this.valobj);
 
       }
-      this.valobj['style'] = { background: this.distanceData[i]._rowcolor };
+      console.log('valobj', this.valobj);
       columns.push(this.valobj);
-    }
 
-    console.log('Columns:', columns);
+      console.log('Columns:', columns);
+
+    }
     return columns;
+
   }
-  showLocation(kpi) {
-    console.log("location==", kpi);
-    if (!kpi._lat) {
-      this.common.showToast("Vehicle location not available!");
+
+  showLocation(details) {
+    console.log('detail', details);
+    if (!details._lat) {
+      this.common.showToast('Vehicle location not available!');
       return;
     }
     const location = {
-      lat: kpi._lat,
-      lng: kpi._long,
-      name: "",
-      time: ""
+      lat: details._lat,
+      lng: details._long,
+      name: '',
+      time: ''
     };
-    ////console.log("Location: ", location);
-    this.common.params = { location, title: "Vehicle Location" };
-    const activeModal = this.modalService.open(LocationMarkerComponent, {
-      size: "lg",
-      container: "nb-layout"
-    });
+    console.log('Location: ', location);
+    this.common.params = { location, title: 'Vehicle Location' };
+    const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }

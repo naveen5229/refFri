@@ -36,11 +36,11 @@
         </div>
         <div class="row">
           <div class="col-7">
-            <div class="form-group">
-              <div class="col-md-2 text-center">
+            <div class="row form-group mb-0 mt-2">
+              <div class="col-md-4">
                 <label>Opening Balance</label>
               </div>
-              <div class="col-md-10 text-center">
+              <div class="col-md-8 pl-0 text-center">
                 <div class="debit_box">
                   <div class="debit">
                     <span>Debit</span>
@@ -109,11 +109,11 @@
               <td>{{ voucher.y_type }}</td>
               <td>&nbsp;</td>
               <td *ngIf="voucher.y_dramunt != 0" style="text-align:right;">
-                {{ voucher.y_dramunt }}
+                <span>{{ voucher.y_dramunt }}</span>
               </td>
               <td *ngIf="voucher.y_dramunt == 0"></td>
               <td *ngIf="voucher.y_cramunt != 0" style="text-align:right;">
-                {{ voucher.y_cramunt }}
+                <span>{{ voucher.y_cramunt }}</span>
               </td>
               <td *ngIf="voucher.y_cramunt == 0"></td>
             </tr>

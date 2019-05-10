@@ -75,7 +75,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'GPS Capital',
+        title: 'GPS Details',
         icon: 'fa fa-map-marker',
         link: '/pages/vehicle-gps-detail',
         home: true,
@@ -166,22 +166,46 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ]
   },
-
+  {
+    title: 'Documents',
+    icon: 'fa fa-database',
+    children: [{
+      title: 'Documents Input ',
+      icon: 'fa fa-book',
+      link: '/pages/documentation-details',
+      home: true,
+    },
+    {
+      title: 'Document Dashboard',
+      icon: 'fa fa-table',
+      link: '/pages/documents-summary',
+      home: true,
+    },
+    {
+      title: 'Document Summary',
+      icon: 'fa fa-file-text',
+      link: '/pages/document-dashboard',
+      home: true,
+    },
+    ]
+  },
 
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
   },
-  {
-    title: 'Documents',
-    icon: 'fa fa-database',
-    link: '/documents/documents-summary'
-  },
+
+
   {
     title: 'Accounts',
     icon: 'fa fa-money',
     link: '/accounts/dashboard'
+  },
+  {
+    title: 'Maintenance',
+    icon: 'fas fa-tools',
+    link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
   // {
   //   title: 'Trip Onward Delay',

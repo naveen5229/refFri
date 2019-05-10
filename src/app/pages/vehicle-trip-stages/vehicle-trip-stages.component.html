@@ -8,7 +8,8 @@
         <div class="row">
           <div class="col-sm-3">
             <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+              placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="{regno:vehicleNo }">
+            </auto-suggestion>
           </div>
           <div class="col-sm-3">
             <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
@@ -19,8 +20,13 @@
               placeholder="End Date" (click)="getDate('end')" />
           </div>
 
-          <div class="col-sm-3">
-            <button class="btn btn-primary m-0" (click)="gettripStages()">submit</button>
+          <div class="col-sm-2">
+            <button class="btn btn-primary m-0" (click)="getTripStages()">submit</button>
+          </div>
+          <div class="col-sm-1" *ngIf="openType=='modal'">
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
         </div>
       </div>
