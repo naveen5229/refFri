@@ -1,13 +1,10 @@
 import { ChangeHaltComponent } from '../change-halt/change-halt.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MapService } from '../../services/map.service';
 import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MatExpansionModule } from '@angular/material/expansion';
-// import { resetComponentState, elementStylingMap } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';

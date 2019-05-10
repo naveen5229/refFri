@@ -8,7 +8,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class Api2Service {
 
-  URL: string = 'http://ec2-13-126-162-170.ap-south-1.compute.amazonaws.com:7070/'; // Dev Server
+ // URL: string = 'http://ec2-13-126-162-170.ap-south-1.compute.amazonaws.com:7070/';
+  URL: string = 'http://elogist.in/testservices/'; // Dev Server
   // URL: string = 'http://ec2-13-126-162-170.ap-south-1.compute.amazonaws.com:7071/'; // Dev Server
   // URL: string = 'http://13.233.32.59/';
   version = '0.1.0';

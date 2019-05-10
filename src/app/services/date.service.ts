@@ -79,4 +79,14 @@ export class DateService {
 
   }
 
+  handleCustomTime(time) {
+    console.log("test", time);
+    let withColon = new RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9])$/i);
+    if (!withColon.test(time)) {
+      console.log("Invalid format:", withColon.test(time));
+      return time;
+    }
+    return time;
+  }
+
 }

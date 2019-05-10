@@ -12,6 +12,8 @@ import { DocumentsComponent } from '../../documents/documents.components';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
+import { VehicleStatesComponent } from '../../modals/vehicle-states/vehicle-states.component';
+import { VehicleTripStagesComponent } from '../vehicle-trip-stages/vehicle-trip-stages.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -88,7 +90,8 @@ export class VehicleTripComponent implements OnInit {
             { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, doc) },
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, doc) },
-            { class: 'fa fa-star  star', action: this.vehicleReport.bind(this, doc) }
+            { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, doc) },
+            { class: 'fa fa-chart-bar  status', action: this.vehicleStates.bind(this, doc) }
           ]
         },
 
@@ -209,6 +212,18 @@ export class VehicleTripComponent implements OnInit {
     this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: trip.regno, fromTime: fromTime, toTime: toTime };
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
+
+  }
+
+  vehicleStates(trip) {
+    console.log("trip------", trip);
+    let fromTime = trip.start_time;
+    let toTime = trip.end_time;
+    console.log("trip------", fromTime, toTime);
+    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: trip.regno, fromTime: fromTime, toTime: toTime };
+    this.common.openType = "modal";
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(VehicleTripStagesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
 
   }
 

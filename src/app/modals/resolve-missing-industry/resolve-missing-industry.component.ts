@@ -7,7 +7,6 @@ import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
-// import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 

@@ -6,6 +6,7 @@ import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
+import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,7 +15,7 @@ import * as _ from 'lodash';
   styleUrls: ['./trialbalance.component.scss']
 })
 export class TrialbalanceComponent implements OnInit {
-
+  selectedName = '';
 
   trial = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -247,9 +248,14 @@ export class TrialbalanceComponent implements OnInit {
 
   getBookDetail(voucherId) {
     console.log('vouher id', voucherId);
-    this.common.params = voucherId;
-
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    //  this.common.params = voucherId;
+    this.common.params = {
+      startdate: this.trial.startDate,
+      enddate: this.trial.endDate,
+      ledger: voucherId,
+      vouchertype: 0
+    };
+    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
@@ -280,6 +286,11 @@ export class TrialbalanceComponent implements OnInit {
 
       }
     });
+  }
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
   }
 }
 

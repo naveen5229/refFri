@@ -202,6 +202,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/remaining-fuel',
         home: true,
     },
+    {
+        title: 'Ticket Subscribe',
+        icon: 'fa fa-signal',
+        link: '/admin/ticket-subscribe',
+        home: true,
+    },
 
 
 ];
