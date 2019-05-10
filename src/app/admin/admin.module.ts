@@ -42,6 +42,7 @@ import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/tri
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
+import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 
 
 
@@ -62,6 +63,7 @@ const PAGES_COMPONENTS = [
   VehicleGpsTrailComponent,
   ActivitySummaryComponent,
   VehicleGpsDetailComponent,
+  TicketSubscribeComponent
 
 
 ];
@@ -96,6 +98,7 @@ const PAGES_COMPONENTS = [
     TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
+    TicketSubscribeComponent,
 
   ],
   exports: [

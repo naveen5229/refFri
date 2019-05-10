@@ -204,7 +204,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Maintenance',
-    icon: 'fa fa-money',
+    icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
   // {

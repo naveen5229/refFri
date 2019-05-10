@@ -943,10 +943,14 @@ export class ConciseComponent implements OnInit {
   }
 
 
-  openVehicleStates(vlaues) {
+  openVehicleStates(values) {
+    console.log('values', values);
     this.common.params = {
-      vehicleId: vlaues.x_vehicle_id,
-      vehicleRegNo: vlaues.x_showveh
+      vehicleId: values.x_vehicle_id,
+      vehicleRegNo: values.x_showveh,
+      lat: values.x_tlat,
+      long: values.x_tlong,
+      vregno: values.x_empname
 
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {
