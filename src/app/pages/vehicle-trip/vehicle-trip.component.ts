@@ -90,8 +90,8 @@ export class VehicleTripComponent implements OnInit {
             { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc) },
             { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, doc) },
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, doc) },
-            { class: 'fa fa-star  star', action: this.vehicleReport.bind(this, doc) },
-            { class: 'fa fa-star  star', action: this.vehicleStates.bind(this, doc) }
+            { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, doc) },
+            { class: 'fa fa-chart-bar  status', action: this.vehicleStates.bind(this, doc) }
           ]
         },
 
