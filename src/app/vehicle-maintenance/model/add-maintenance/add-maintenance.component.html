@@ -7,7 +7,6 @@
 <div class="modal-body">
   <form #maintenanceForm="ngForm" id="maintenance-form" name="maintenance-form"
     (submit)="maintenanceForm.valid && addMaintenance()">
-
     <div class="row">
       <div class="col-md-6">
         <label> Vehicle Number </label>
@@ -16,8 +15,6 @@
         <span>{{regno}}</span>
       </div>
     </div>
-
-
 
     <div class="row mb-2">
       <div class="col-md-6">
@@ -29,10 +26,9 @@
         <datalist id="maintenanceType">
           <option *ngFor="let doc of maintenanceType;" [value]="doc.name">{{doc.name}}</option>
         </datalist>
-
       </div>
-
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Maintenance Date</label>
@@ -40,12 +36,10 @@
       <div class="col-md-6">
         <uj-date-time-picker (onChanged)="currentMaintDate = $event" [isTime]="false"
           [dateTimeValue]="currentMaintDate">
-
         </uj-date-time-picker>
-
       </div>
-
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Current Vehicle Km</label>
@@ -55,16 +49,17 @@
           [(ngModel)]="currentVehicleKm" maxlength="8">
       </div>
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Next Maintenance Date</label>
       </div>
       <div class="col-md-6">
         <uj-date-time-picker [isTime]="false" (onChanged)="nextMaintDate = $event" [dateTimeValue]="nextMaintDate">
-
         </uj-date-time-picker>
       </div>
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Next Maintenance Km</label>
@@ -74,6 +69,7 @@
           maxlength="8">
       </div>
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Maintenance Location</label>
@@ -82,6 +78,7 @@
         <input type="text" placeholder="Location" class="form-control" name="maintLocation" [(ngModel)]="maintLocation">
       </div>
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Amount</label>
@@ -90,6 +87,7 @@
         <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="amount">
       </div>
     </div>
+
     <div class="row mb-2">
       <div class="col-md-6">
         <label>Remark</label>
@@ -99,7 +97,6 @@
           [(ngModel)]="remark"></textarea>
       </div>
     </div>
-
   </form>
 </div>
 
