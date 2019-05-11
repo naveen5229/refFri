@@ -227,9 +227,6 @@ export class FuelFillingsComponent implements OnInit {
       });
   }
   getemptyFueldetails() {
-
-
-    this.modalService.open(TankEmptyDetailsComponent, { size: 'lg', container: 'nb-layout' });
-
+    this.modalService.open(TankEmptyDetailsComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 }
