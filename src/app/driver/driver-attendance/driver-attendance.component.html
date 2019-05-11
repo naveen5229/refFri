@@ -1,22 +1,32 @@
-<nb-card>
+<nb-card style="border:0px;">
   <nb-card-header>
     <h2>Driver Attendance</h2>
+
   </nb-card-header>
-  <nb-card-body>
-    <table class="table table-bordered table-hover table-scroll">
-      <thead class="thead">
-        <th>#</th>
-        <th>Driver Names</th>
-        <th *ngFor="let date of days">{{date}}</th>
-      </thead>
-      <tbody>
-        <!-- // <tr *ngFor="let driver of driverList"> -->
-        <!-- <tr *ngFor="let details of arrdriverData.driver_attendance"> 
-            <td>{{details.id}}</td>
-            <td>{{details.name}}</td>
-            <td *ngFor = "let attendance of details.attendance" (click)="Update(details,attendance)">{{attendance}}</td> 
-            </tr> -->
-      </tbody>
-    </table>
+  <nb-card-body style="padding-top:0px;">
+
+    <div class="row">
+      <div class="col-sm-2">
+        <label>From Date</label>
+      </div>
+      <div class="col-sm-2">
+        <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Select Start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date">
+      </div>
+      <div class="col-sm-2">
+        <label>End Date</label>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date">
+      </div>
+      <div class="col-sm-2">
+        <button type="submit" id="submit" name="submit" class="btn btn-primary" (click)="getAttendace()">GET
+          ATTENDANCE</button>
+      </div>
+    </div>
+    <smart-table *ngIf="table.data.columns.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
+
   </nb-card-body>
 </nb-card>

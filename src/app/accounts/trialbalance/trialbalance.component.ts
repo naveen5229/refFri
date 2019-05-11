@@ -19,7 +19,7 @@ export class TrialbalanceComponent implements OnInit {
 
   trial = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0

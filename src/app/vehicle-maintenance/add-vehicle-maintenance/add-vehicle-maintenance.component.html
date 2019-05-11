@@ -23,5 +23,8 @@
       </div>
     </div>
 
+    <smart-table class="maintenance-details" *ngIf="data.length" [data]="table.data" [settings]="table.settings"
+      id="maintenance"></smart-table>
+
   </nb-card-body>
 </nb-card>
