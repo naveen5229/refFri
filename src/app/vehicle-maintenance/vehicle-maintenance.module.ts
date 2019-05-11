@@ -8,6 +8,7 @@ import { DirectiveModule } from '../directives/directives.module';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
 import { AddMaintenanceComponent } from './model/add-maintenance/add-maintenance.component';
+import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -26,10 +27,12 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     AddVehicleMaintenanceComponent,
     AddMaintenanceComponent,
+    MaintenanaceDashboardComponent,
 
   ],
   entryComponents: [
-    AddMaintenanceComponent
+    AddMaintenanceComponent,
+    MaintenanaceDashboardComponent
   ]
 })
 export class VehicleMaintenanceModule { }

@@ -17,7 +17,6 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   vehicleRegno = null;
 
   data = [];
-
   table = {
     data: {
       headings: {},
@@ -35,7 +34,6 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    // this.getSuggestionData();
   }
 
   ngOnInit() {
@@ -75,7 +73,6 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   getTableColumns() {
-
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
@@ -91,10 +88,6 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
 
-  getSuggestionData(value) {
-    console.log("value:", value);
-
-  }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
@@ -109,10 +102,12 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
+        this.vehicleMaintenanceData();
         this.getTableColumns();
       }
     });
   }
+
   editMaintenance(row) {
     if (!this.selectedVehicle) {
       this.common.showError("Please select Vehicle Number");
@@ -121,10 +116,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     this.common.params = { title: 'Edit Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno, row };
     const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log("before:");
-
       if (data.response) {
-        console.log("After:");
         this.vehicleMaintenanceData();
         this.getTableColumns();
       }

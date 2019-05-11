@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EditDocumentComponent } from '../../documents/documentation-modals/edit-document/edit-document.component';
-import { DocumentIssuesComponent } from '../../documents/documentation-modals/document-issues/document-issues.component';
-import { AddDocumentComponent } from '../documentation-modals/add-document/add-document.component';
-import { DocumentRef } from '@agm/core/utils/browser-globals';
-import { DocumentReportComponent } from '../documentation-modals/document-report/document-report.component';
+import { UserService } from '../../services/user.service';
+
 @Component({
-  selector: 'documents-summary',
-  templateUrl: './documents-summary.component.html',
-  styleUrls: ['./documents-summary.component.scss', '../../pages/pages.component.css']
+  selector: 'maintenanace-dashboard',
+  templateUrl: './maintenanace-dashboard.component.html',
+  styleUrls: ['./maintenanace-dashboard.component.scss']
 })
-export class DocumentsSummaryComponent implements OnInit {
+export class MaintenanaceDashboardComponent implements OnInit {
+
   data = { result: [], summary: [] };
   docdata = [];
   columns = [];
@@ -21,26 +18,17 @@ export class DocumentsSummaryComponent implements OnInit {
   total_recs = 0;
   fodata = [];
 
-  constructor(
-    public api: ApiService,
+  constructor(public api: ApiService,
     public common: CommonService,
     private modalService: NgbModal,
     public user: UserService) {
-
-    this.common.refresh = this.refresh.bind(this);
-    this.getDocumentMatrixData();
-    // this.common.currentPage = 'Vehicle Documents Dashboard';
+    this.getMaintenanceMatrix();
   }
 
   ngOnInit() {
   }
 
-  refresh() {
-    console.log('Refresh');
-    window.location.reload();
-  }
-
-  getDocumentMatrixData() {
+  getMaintenanceMatrix() {
     this.columns = [];
     this.common.loading++;
     let user_id = this.user._details.id;
@@ -66,7 +54,6 @@ export class DocumentsSummaryComponent implements OnInit {
         console.log(err);
       });
   }
-
 
   getDocumentType(strval) {
     if (strval) {
@@ -178,56 +165,56 @@ export class DocumentsSummaryComponent implements OnInit {
     return strclass;
   }
 
-  fetchDocumentData(row, col, colval) {
-    console.log("colval:");
-    console.log(colval);
-    if (colval) {
-      let arrval = colval.split('_');
-      let docid = arrval[1];
-      let regno = row['vehicle'];
-      console.log("docid:" + docid);
-      this.common.loading++;
-      this.api.post('Vehicles/getPendingDocDetailsById', { x_document_id: docid })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.docdata = res['data'];
+  // fetchDocumentData(row, col, colval) {
+  //   console.log("colval:");
+  //   console.log(colval);
+  //   if (colval) {
+  //     let arrval = colval.split('_');
+  //     let docid = arrval[1];
+  //     let regno = row['vehicle'];
+  //     console.log("docid:" + docid);
+  //     this.common.loading++;
+  //     this.api.post('Vehicles/getPendingDocDetailsById', { x_document_id: docid })
+  //       .subscribe(res => {
+  //         this.common.loading--;
+  //         console.log("data", res);
+  //         this.docdata = res['data'];
 
-          // let newdate = "";
-          // if (this.docdata[0].expiry_date != 'undefined' && this.docdata[0].expiry_date != null)
-          //   newdate = this.common.changeDateformat1(this.docdata[0].expiry_date).split(' ')[0];
-          let documentData = [{
-            regNumber: this.docdata[0].regno,
-            id: this.docdata[0].id,
-            vehicleId: this.docdata[0].vehicle_id,
-            documentType: this.docdata[0].type,
-            documentId: this.docdata[0].type_id,
-            issueDate: this.docdata[0].issue_date,
-            wefDate: this.docdata[0].wef_date,
-            expiryDate: this.docdata[0].expiry_date,
-            agentId: this.docdata[0].document_agent_id,
-            agentName: this.docdata[0].agent,
-            documentNumber: this.docdata[0].document_number,
-            docUpload: this.docdata[0].img_url,
-            docUpload2: this.docdata[0].img_url2,
-            docUpload3: this.docdata[0].img_url3,
-            remark: this.docdata[0].remarks,
-            rto: this.docdata[0].rto,
-            amount: this.docdata[0].amount,
-          }];
-          this.common.params = { documentData, title: 'Document Details', canUpdate: 0, vehicleId: this.docdata[0].vehicle_id };
-          this.common.handleModalSize('class', 'modal-lg', '1200');
-          const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-          activeModal.result.then(mdldata => {
-            console.log("response:", mdldata);
-            // this.getDocumentMatrixData();
-          });
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-        });
-    }
-  }
+  //         // let newdate = "";
+  //         // if (this.docdata[0].expiry_date != 'undefined' && this.docdata[0].expiry_date != null)
+  //         //   newdate = this.common.changeDateformat1(this.docdata[0].expiry_date).split(' ')[0];
+  //         let documentData = [{
+  //           regNumber: this.docdata[0].regno,
+  //           id: this.docdata[0].id,
+  //           vehicleId: this.docdata[0].vehicle_id,
+  //           documentType: this.docdata[0].type,
+  //           documentId: this.docdata[0].type_id,
+  //           issueDate: this.docdata[0].issue_date,
+  //           wefDate: this.docdata[0].wef_date,
+  //           expiryDate: this.docdata[0].expiry_date,
+  //           agentId: this.docdata[0].document_agent_id,
+  //           agentName: this.docdata[0].agent,
+  //           documentNumber: this.docdata[0].document_number,
+  //           docUpload: this.docdata[0].img_url,
+  //           docUpload2: this.docdata[0].img_url2,
+  //           docUpload3: this.docdata[0].img_url3,
+  //           remark: this.docdata[0].remarks,
+  //           rto: this.docdata[0].rto,
+  //           amount: this.docdata[0].amount,
+  //         }];
+  //         this.common.params = { documentData, title: 'Document Details', canUpdate: 0, vehicleId: this.docdata[0].vehicle_id };
+  //         this.common.handleModalSize('class', 'modal-lg', '1200');
+  //         const activeModal = this.modalService.open(EditDocumentComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  //         activeModal.result.then(mdldata => {
+  //           console.log("response:", mdldata);
+  //           // this.getDocumentMatrixData();
+  //         });
+  //       }, err => {
+  //         this.common.loading--;
+  //         console.log(err);
+  //       });
+  //   }
+  // }
 
   printPDF(tblEltId) {
     this.common.loading++;
@@ -247,21 +234,5 @@ export class DocumentsSummaryComponent implements OnInit {
       });
   }
 
-  showIssues() {
-    this.common.params = { title: 'Documents Issues', status: 'pendingAll', docReoprt: { document_type_id: 0 } };
-    const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
-  noRecordDocumentData(norecordData, col, colval) {
-    console.log("row:", norecordData);
-    console.log("col:", col);
-    console.log("colval:", colval.split("_")[2]);
-    colval = colval.split("_")[2];
-    this.common.params = { norecordData, col, colval };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getDocumentMatrixData();
-      }
-    });
-  }
+
 }
