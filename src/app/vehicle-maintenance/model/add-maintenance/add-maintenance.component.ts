@@ -4,6 +4,7 @@ import { CommonService } from '../../../services/common.service';
 import { DateService } from '../../../services/date.service';
 import { UserService } from '../../../@core/data/users.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'add-maintenance',
@@ -14,6 +15,7 @@ export class AddMaintenanceComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
+  btn3 = 'Submit'
   isFormSubmit = false;
   vehicleId = null;
   regno = null;
@@ -26,6 +28,9 @@ export class AddMaintenanceComponent implements OnInit {
   currentVehicleKm: any;
   maintLocation: any;
   amount: any;
+  selectedMT: string = '';
+  edit = 0;
+  MaintenanceId = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
@@ -33,11 +38,26 @@ export class AddMaintenanceComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.title = this.common.params.title || 'Add Maintenance';
-    this.btn1 = this.common.params.btn1 || 'Add';
-    this.btn2 = this.common.params.btn2 || 'Cancel';
+    this.btn1 = this.common.params.btn1 || 'Cancel';
+    this.btn2 = this.common.params.btn2 || 'Add';
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
     this.serviceMaintenanceType();
+    if (this.common.params.row) {
+      this.edit = 1;
+      this.MaintenanceId = this.common.params.row._id;
+      this.typeId = this.common.params.row._type_id;
+      this.selectedMT = this.common.params.row.type_name;
+      console.log("Type Id", this.typeId);
+
+      this.currentMaintDate = new Date(this.common.params.row.cur_date);
+      this.nextMaintDate = new Date(this.common.params.row.target_date);
+      this.currentVehicleKm = this.common.params.row.cur_km,
+        this.nextVehicleKm = this.common.params.row.target_km,
+        this.amount = this.common.params.row.amount,
+        this.maintLocation = this.common.params.row.maint_location,
+        this.remark = this.common.params.row.remarks
+    }
   }
 
   ngOnInit() {
@@ -64,14 +84,17 @@ export class AddMaintenanceComponent implements OnInit {
 
 
   changeMaitenanceType(type) {
-    let name = type.target.value;
-    let id = this.maintenanceType.filter(x => x.name === name)[0];
+    // let name = type.target.value;
+    this.typeId = this.maintenanceType.find((element) => {
+      return element.name == type;
+    }).id;
     console.log("Type Id", this.typeId);
-    this.typeId = id.id;
+    // this.typeId = id.id;
 
   }
   addMaintenance() {
     let params = {
+      id: this.MaintenanceId ? this.MaintenanceId : -1,
       vId: this.vehicleId,
       mainTypeId: this.typeId,
       currDate: this.common.dateFormatter(this.currentMaintDate),
@@ -82,6 +105,7 @@ export class AddMaintenanceComponent implements OnInit {
       locName: this.maintLocation,
       remark: this.remark
     };
+    console.log("Params:", params);
     this.common.loading++;
     this.api.post('VehicleMaintenance/add', params)
       .subscribe(res => {

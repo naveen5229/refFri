@@ -19,14 +19,14 @@ export class DiagnosticsComponent implements OnInit {
   diagnostics = {
     vechileno: null,
     endDate: this.common.dateFormatter(new Date()),
-    startTime: this.common.dateFormatter(new Date())
+    startTime: this.common.dateFormatter(new Date()),
 
   };
   selectedVehicleId = null;
   Trails = {
     vechileno: null,
     startTime: this.common.dateFormatter(new Date()),
-    endDate: this.common.dateFormatter(new Date())
+    endDate: this.common.dateFormatter(new Date()),
   };
   VehicleStatusData = {
     vehicle_id: null,
@@ -51,7 +51,7 @@ export class DiagnosticsComponent implements OnInit {
   getDate(time) {
     const activeModal = this.modalservice.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.diagnostics[time] = this.common.dateFormatter(data.date).split(' ')[0];
+      this.diagnostics[time] = this.common.dateFormatter(data.time).split(' ')[0];
       console.log('Date:', this.diagnostics[time]);
     });
 
@@ -60,8 +60,8 @@ export class DiagnosticsComponent implements OnInit {
 
     let params = {
       vehicleId: this.selectedVehicleId,
-      fromTime: this.common.dateFormatter1(this.diagnostics.startTime),
-      tTime: this.common.dateFormatter1(this.diagnostics.endDate)
+      fromTime: this.common.dateFormatter(this.diagnostics.startTime),
+      tTime: this.common.dateFormatter(this.diagnostics.endDate)
     };
     console.log("params :", params);
     this.common.loading++;
@@ -89,8 +89,8 @@ export class DiagnosticsComponent implements OnInit {
   getVehicleTrails() {
     let param = {
       vehicleId: this.selectedVehicleId,
-      fromTime: this.common.dateFormatter1(this.Trails.startTime),
-      toTime: this.common.dateFormatter1(this.Trails.endDate),
+      fromTime: this.common.dateFormatter(this.Trails.startTime),
+      toTime: this.common.dateFormatter(this.Trails.endDate),
       suggestId: 1,
       status: 0
     }
@@ -140,7 +140,7 @@ export class DiagnosticsComponent implements OnInit {
   selectVehicle(vehicle) {
     console.log('Vehicle Data:+++ ', this.selectedVehicleId);
     this.selectedVehicleId = vehicle.id;
-    console.log("vehicle=",vehicle);
+    console.log("vehicle=", vehicle);
 
 
 
@@ -175,8 +175,8 @@ export class DiagnosticsComponent implements OnInit {
 
   }
 
-  ChangeVehicleStatusChange(){
-    
+  ChangeVehicleStatusChange() {
+
   }
 
 
