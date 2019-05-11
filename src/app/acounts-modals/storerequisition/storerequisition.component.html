@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)" style="padding: 0px;">
     <div class="modal-header mb-3">
-      <h5 class="modal-title" id="modal-basic-title">Store Requestion</h5>
+      <h5 class="modal-title" id="modal-basic-title">{{ storeRequestName}}</h5>
       <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -196,7 +196,7 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col text-right"
-          *ngIf="((storeRequestStockId == -3 && pendingid == 1)|| (storeRequestStockId == -1) || (storeRequestStockId == -2))">
+          *ngIf="((storeRequestStockId == -3 && pendingid == 1)|| (storeRequestStockId == -1) || (storeRequestStockId == -2 && storeQuestion.id  == 0))">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>
