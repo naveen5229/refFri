@@ -7,7 +7,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'maintenanace-dashboard',
   templateUrl: './maintenanace-dashboard.component.html',
-  styleUrls: ['./maintenanace-dashboard.component.scss']
+  styleUrls: ['./maintenanace-dashboard.component.scss', '../../pages/pages.component.css']
 })
 export class MaintenanaceDashboardComponent implements OnInit {
 

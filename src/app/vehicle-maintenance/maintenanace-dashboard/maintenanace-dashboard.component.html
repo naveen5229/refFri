@@ -14,45 +14,43 @@
 
   </nb-card-header>
   <nb-card-body style="padding-bottom: 0px; padding-top: 5px;">
-    <div class="document-dash-contnet">
+    <div class="maintenance-dash-contnet">
       <div class="row mb-3 document-heading_box">
-
         <div class="col-sm-12">
           <table class="table table-bordered table-hover">
             <tr>
               <td *ngFor="let statusrow of this.data.summary; ">
                 <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"
-                    title="NoRecord"></i><input type='radio' name='rdostatus' value='0'
+                    title="NoRecord"></i><input type='radio' name='status' value='0'
                     (click)="filterRows(statusrow.status)"> No Record <span>({{statusrow.total}})</span></span>
-                <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio'
-                    name='rdostatus' value='1' (click)="filterRows(statusrow.status)"> No Image/Upload
+                <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio' name='status'
+                    value='1' (click)="filterRows(statusrow.status)"> No Image/Upload
                   <span>({{statusrow.total}})</span></span>
-                <span *ngIf="statusrow.status == 2"><i class="fa fa-check i-red"></i><input type='radio'
-                    name='rdostatus' value='2' (click)="filterRows(statusrow.status)"> Expired
+                <span *ngIf="statusrow.status == 2"><i class="fa fa-check i-red"></i><input type='radio' name='status'
+                    value='2' (click)="filterRows(statusrow.status)"> Expired
                   <span>({{statusrow.total}})</span></span>
                 <span *ngIf="statusrow.status == 3"><i class="fa fa-check i-black"></i> <input type='radio'
-                    name='rdostatus' value='3' (click)="filterRows(statusrow.status)"> Unverified
+                    name='status' value='3' (click)="filterRows(statusrow.status)"> Unverified
                   <span>({{statusrow.total}})</span></span>
-                <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio'
-                    name='rdostatus' value='4' (click)="filterRows(statusrow.status)"> Normal
+                <span *ngIf="statusrow.status == 4"><i class="fa fa-check i-green"></i><input type='radio' name='status'
+                    value='4' (click)="filterRows(statusrow.status)"> Normal
                   <span>({{statusrow.total}})</span></span>
                 <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio'
-                    name='rdostatus' value='5' (click)="filterRows(statusrow.status)"> Near Expiring
+                    name='status' value='5' (click)="filterRows(statusrow.status)"> Near Expiring
                   <span>({{statusrow.total}})</span></span>
-                <span *ngIf="statusrow.status == 9"><i class="fa fa-minus"></i><input type='radio' name='rdostatus'
+                <span *ngIf="statusrow.status == 9"><i class="fa fa-minus"></i><input type='radio' name='status'
                     value="9" (click)="filterRows(statusrow.status)"> Ignore
                   <span>({{statusrow.total}})</span></span>
 
                 <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 9)">
-                  <input type='radio' name='rdostatus' (click)="filterRows(statusrow.status)"> Other
+                  <input type='radio' name='status' (click)="filterRows(statusrow.status)"> Other
                   <span>({{statusrow.total}})</span>
                 </span>
               </td>
               <td class="btn-all" style="position: relative;padding:8px 0px !important; text-align: center;"><input
-                  type='radio' name='rdostatus' value='-1' (click)="showAllRecords()">Show All</td>
+                  type='radio' name='status' value='-1' (click)="showAllRecords()">Show All</td>
             </tr>
           </table>
-
         </div>
       </div>
 
