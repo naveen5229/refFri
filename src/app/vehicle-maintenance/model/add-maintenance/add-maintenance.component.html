@@ -25,7 +25,7 @@
       </div>
       <div class="col-md-6">
         <input class="form-control" type="text" list="maintenanceType" name="maintenance-type"
-          (change)="changeMaitenanceType($event)">
+          (change)="changeMaitenanceType(selectedMT)" [(ngModel)]="selectedMT">
         <datalist id="maintenanceType">
           <option *ngFor="let doc of maintenanceType;" [value]="doc.name">{{doc.name}}</option>
         </datalist>
@@ -67,7 +67,7 @@
     </div>
     <div class="row mb-2">
       <div class="col-md-6">
-        <label>Next vehicle Km</label>
+        <label>Next Maintenance Km</label>
       </div>
       <div class="col-md-6">
         <input type="number" placeholder="Km" class="form-control" name="nextVehicleKm" [(ngModel)]="nextVehicleKm"
@@ -97,7 +97,6 @@
       <div class="col-md-6">
         <textarea rows="4" cols="8" placeholder="Remak" class="form-control" name="remark"
           [(ngModel)]="remark"></textarea>
-
       </div>
     </div>
 
@@ -108,11 +107,15 @@
   <div class="row">
     <div class="col">
       <button class="btn btn-danger" type="button" (click)="closeModal(false)" id="cancel"
-        style="cursor: pointer;">{{btn2}}</button>
-    </div>
-    <div class="col text-right">
-      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
         style="cursor: pointer;">{{btn1}}</button>
     </div>
+    <div class="col text-right" *ngIf="edit==0; else update">
+      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
+        style="cursor: pointer;">{{btn2}}</button>
+    </div>
+    <ng-template #update>
+      <button class="btn btn-primary" form="maintenance-form" type="submit" (click)="isFormSubmit =true" id="submit"
+        style="cursor: pointer;">{{btn3}}</button>
+    </ng-template>
   </div>
 </div>
