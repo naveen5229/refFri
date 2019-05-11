@@ -55,7 +55,7 @@ export class MaintenanaceDashboardComponent implements OnInit {
       });
   }
 
-  getDocumentType(strval) {
+  getMaintenanceType(strval) {
     if (strval) {
       if (strval.indexOf('_') > -1) {
         return strval.split('_')[0];
@@ -71,45 +71,15 @@ export class MaintenanaceDashboardComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  resetRowsVisibility() {
-    let tblelt = document.getElementById('tbldocs');
-    var rows = tblelt.querySelectorAll('tr');
-    console.log("rows=" + rows.length);
-    if (rows.length > 1) {
-      for (var i = 1; i < rows.length; i++) {
-        rows[i].classList.remove('cls-hide');
-      }
-    }
-  }
-
-  showAllRecords() {
-    this.resetRowsVisibility();
-    this.resetSerialNo();
-  }
-
-  resetSerialNo() {
-    let tblelt = document.getElementById('tbldocs');
-    var rows = tblelt.querySelectorAll('tr');
-    if (rows.length > 1) {
-      let ctr = 1;
-      for (var i = 1; i < rows.length; i++) {
-        if (!rows[i].classList.contains('cls-hide')) {
-          rows[i].cells[0].innerHTML = "" + ctr;
-          ctr++;
-        }
-      }
-    }
-  }
 
   filterRows(status) {
     console.log("checking for status:" + status);
     this.resetRowsVisibility();
-    let tblelt = document.getElementById('tbldocs');
+    let tblelt = document.getElementById('tableMaintenance');
     var rows = tblelt.querySelectorAll('tr');
     console.log("rows=" + rows.length);
     if (rows.length > 1) {
-      //console.log("rowscoll::");
-      //console.log(rows);
+
       for (var i = 1; i < rows.length; i++) {
         let classlst = rows[i].classList;
         if (classlst.length) {
@@ -142,30 +112,59 @@ export class MaintenanaceDashboardComponent implements OnInit {
     this.resetSerialNo();
   }
 
-  getDocClasses(row) {
-    let docclass = [];
-    let strclass = "";
 
+  resetRowsVisibility() {
+    let tblelt = document.getElementById('tableMaintenance');
+    var rows = tblelt.querySelectorAll('tr');
+    console.log("rows=" + rows.length);
+    if (rows.length > 1) {
+      for (var i = 1; i < rows.length; i++) {
+        rows[i].classList.remove('cls-hide');
+      }
+    }
+  }
+
+  showAllRecords() {
+    this.resetRowsVisibility();
+    this.resetSerialNo();
+  }
+
+  resetSerialNo() {
+    let tblelt = document.getElementById('tableMaintenance');
+    var rows = tblelt.querySelectorAll('tr');
+    if (rows.length > 1) {
+      let ctr = 1;
+      for (var i = 1; i < rows.length; i++) {
+        if (!rows[i].classList.contains('cls-hide')) {
+          rows[i].cells[0].innerHTML = "" + ctr;
+          ctr++;
+        }
+      }
+    }
+  }
+
+  getMantClasses(row) {
+    let mantclass = [];
+    let strclass = "";
     for (var i = 0; i < this.columns.length; i++) {
       let colval = row[this.columns[i]];
       if (colval) {
         if (colval.indexOf('_') > -1) {
           let status = colval.split('_')[0];
-          docclass.push(status);
+          mantclass.push(status);
         }
       } else if (colval == null) {
-        docclass.push(0);
+        mantclass.push(0);
       }
     }
-    if (docclass.length == 0) {
-      docclass.push(0);
+    if (mantclass.length == 0) {
+      mantclass.push(0);
     }
-    strclass = docclass.join('--');
-
+    strclass = mantclass.join('--');
     return strclass;
   }
 
-  // fetchDocumentData(row, col, colval) {
+  // fetchMaintenanceData(row, col, colval) {
   //   console.log("colval:");
   //   console.log(colval);
   //   if (colval) {
@@ -226,13 +225,11 @@ export class MaintenanaceDashboardComponent implements OnInit {
         this.common.loading--;
         this.fodata = res['data'];
         let left_heading = this.fodata['name'];
-        let center_heading = "Document Status";
+        let center_heading = "Maintenance Status";
         this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-
-
 }

@@ -41,20 +41,20 @@ table{
     color: red; font-size: 18px;
 }
 .btn-all { padding-top: 13px;}
-#tbldocs {
+#tableMaintenance {
     counter-reset: rowNumber;
 }
 
-table#tbldocs tbody tr {
+table#tableMaintenance tbody tr {
     counter-increment: rowNumber;
 }
 
-table#tbldocs tbody tr td:first-child::before {
+table#tableMaintenance tbody tr td:first-child::before {
     // content: counter(rowNumber);
     min-width: 0.5em;
     margin-right: 2px;
 }
-table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
+table#tableMaintenance thead tr th:first-child, table#tableMaintenance tbody tr td:first-child {
     width: 130px;
 }
 .select_cat_tabel table tr td{

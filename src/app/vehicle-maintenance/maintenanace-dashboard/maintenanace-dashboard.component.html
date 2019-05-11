@@ -5,9 +5,9 @@
         <h5>Vehicle Maintenance Dashboard</h5>
       </div>
       <div class="col-6 text-right">
-        <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i
+        <span class="pdf-icon" title="PDF Export" (click)="printPDF('tableMaintenance')" style="cursor: pointer;"><i
             class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tableMaintenance')"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
       </div>
     </div>
@@ -55,7 +55,7 @@
       </div>
 
       <div class="document-dashboard-tabel">
-        <table class="table table-bordered table-hover table-scroll" id="tbldocs">
+        <table class="table table-bordered table-hover table-scroll" id="tableMaintenance">
           <thead class="thead">
             <tr>
               <th>SN</th>
@@ -65,42 +65,41 @@
 
           <tbody class="">
             <ng-container *ngIf="total_recs">
-              <tr *ngFor="let row of data.result; let i=index;" class="{{getDocClasses(row)}}">
-
+              <tr *ngFor="let row of data.result; let i=index;" class="{{getMantClasses(row)}}">
                 <td style='width: 40px;'> <span>{{i + 1}}</span></td>
-
                 <td *ngFor="let col of columns; " class="text-center">
 
                   <span *ngIf="col.toUpperCase() == 'VEHICLE'">
                     {{row[col]}}
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) == 3 && col.toUpperCase() != 'VEHICLE'">
-                    <i class="fa fa-check icon-black" (click)="fetchDocumentData(row, col, row[col])"
+                  <span *ngIf="getMaintenanceType(row[col]) == 3 && col.toUpperCase() != 'VEHICLE'">
+                    <i class="fa fa-check icon-black" (click)="fetchMaintenanceData(row, col, row[col])"
                       title="Unverified"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) == 1 && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="getMaintenanceType(row[col]) == 1 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-times icon-black" (click)="fetchDocumentData(row, col, row[col])"
+                    <i class="fa fa-times icon-black" (click)="fetchMaintenanceData(row, col, row[col])"
                       title="No Image"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) == 2 && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="getMaintenanceType(row[col]) == 2 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-check icon-red" (click)="fetchDocumentData(row, col, row[col])" title="Expired"></i>
+                    <i class="fa fa-check icon-red" (click)="fetchMaintenanceData(row, col, row[col])"
+                      title="Expired"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) == 4 && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="getMaintenanceType(row[col]) == 4 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])" title="OK"></i>
+                    <i class="fa fa-check icon-green" (click)="fetchMaintenanceData(row, col, row[col])" title="OK"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) == 5 && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="getMaintenanceType(row[col]) == 5 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-check icon-yellow" (click)="fetchDocumentData(row, col, row[col])"
+                    <i class="fa fa-check icon-yellow" (click)="fetchMaintenanceData(row, col, row[col])"
                       title="Near Expiring"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) == 9 && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="getMaintenanceType(row[col]) == 9 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-minus" (click)="fetchDocumentData(row, col, row[col])" title="ignore"></i>
+                    <i class="fa fa-minus" (click)="fetchMaintenanceData(row, col, row[col])" title="ignore"></i>
                   </span>
-                  <span *ngIf="getDocumentType(row[col]) > 9 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
+                  <span *ngIf="getMaintenanceType(row[col]) > 9 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
                     {{row[col]}}
                   </span>
                   <span *ngIf="row[col].startsWith('0_0') && col.toUpperCase() != 'VEHICLE'">
