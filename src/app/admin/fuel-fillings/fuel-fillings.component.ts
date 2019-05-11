@@ -9,7 +9,7 @@ import { ImportFillingsComponent } from '../../../app/modals/import-fillings/imp
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FuelStationEntryComponent } from '../../modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from '../../modals/show-fuel-station/show-fuel-station.component';
-
+import { TankEmptyDetailsComponent } from '../../modals/tank-empty-details/tank-empty-details.component';
 @Component({
   selector: 'fuel-fillings',
   templateUrl: './fuel-fillings.component.html',
@@ -197,6 +197,12 @@ export class FuelFillingsComponent implements OnInit {
 
     this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' });
     this.common.handleModalSize('class', 'modal-lg', '1200');
+
+  }
+  getemptyFueldetails() {
+
+
+    this.modalService.open(TankEmptyDetailsComponent, { size: 'lg', container: 'nb-layout' });
 
   }
 }
