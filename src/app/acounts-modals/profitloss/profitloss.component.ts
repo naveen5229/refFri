@@ -43,7 +43,7 @@ export class ProfitlossComponent implements OnInit {
     // this.getBalanceSheet();
     //  this.getBranchList();
     // this.setFoucus('startdate');
-    this.common.currentPage = 'Profit & Loss A/C';
+    // this.common.currentPage = 'Profit & Loss A/C';
 
     this.plData = {
       enddate: this.common.params.enddate,
