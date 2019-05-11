@@ -34,7 +34,7 @@ export class DocumentsSummaryComponent implements OnInit {
 
     this.common.refresh = this.refresh.bind(this);
     this.getDocumentMatrixData();
-    this.common.currentPage = 'Vehicle Documents Dashboard';
+    // this.common.currentPage = 'Vehicle Documents Dashboard';
 
   }
 

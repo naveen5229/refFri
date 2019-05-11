@@ -6,11 +6,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FuelEntriesComponent } from '../../modals/fuel-entries/fuel-entries.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'fuel-average-analysis',
   templateUrl: './fuel-average-analysis.component.html',
-  styleUrls: ['./fuel-average-analysis.component.scss', '../pages.component.css']
+  styleUrls: ['./fuel-average-analysis.component.scss', '../pages.component.css'],
+  providers: [DatePipe]
 })
 export class FuelAverageAnalysisComponent implements OnInit {
 
@@ -19,13 +21,15 @@ export class FuelAverageAnalysisComponent implements OnInit {
     start: this.common.dateFormatter(new Date()).split(' ')[0],
     end: this.common.dateFormatter(new Date()).split(' ')[0]
   };
-
+  table = null;
   constructor(
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) {
-    this.getfuelAverageDetails();
+    private modalService: NgbModal,
+    private datePipe: DatePipe, ) {
+
+    // this.getfuelAverageDetails();
 
   }
 
@@ -45,11 +49,64 @@ export class FuelAverageAnalysisComponent implements OnInit {
         this.common.loading--;
         console.log(res);
         this.fuelAvgDetails = res['data'];
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
+  setTable() {
+    let headings = {
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+      startDate: { title: 'Start Date', placeholder: 'Start Date' },
+      endDate: { title: 'End Date', placeholder: 'End Date' },
+      liters: { title: 'Liters', placeholder: 'Liters' },
+      amount: { title: 'Amounts', placeholder: 'Amounts' },
+      average: { title: 'Average', placeholder: 'Average' },
+      totalDistance: { title: 'Total Distance', placeholder: 'Total Distance' },
+      loadingDistance: { title: 'Loading Distance', placeholder: 'Loading Distance' },
+      unloadingDistance: { title: 'Unloading Distance', placeholder: 'Unloading Distance' },
+      location: { title: 'Location Trail', placeholder: 'Location Trail' },
+    };
+
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "auto"
+      }
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    this.fuelAvgDetails.map(fuel => {
+      let column = {
+        vehicleNumber: { value: fuel.reg_number },
+        startDate: { value: this.datePipe.transform(fuel.startdate, 'dd-MMM hh:mm a') },
+        endDate: { value: fuel.enddate != null ? this.datePipe.transform(fuel.enddate, 'dd-MMM hh:mm a') : '------' },
+        liters: { value: fuel.liters, class: fuel.liters ? 'blue' : 'black', action: this.getDetails.bind(this, fuel) },
+        amount: { value: fuel.amounts },
+        average: { value: fuel.avg },
+        totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
+        loadingDistance: { value: fuel.loading_distance },
+        unloadingDistance: { value: fuel.umloading_distance },
+        location: { value: fuel.location_trail },
+
+      };
+
+
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
+
 
   getDate(date) {
     this.common.params = { ref_page: 'fuel-avg' };
@@ -58,8 +115,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
       if (data.date) {
         this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
         console.log('Date:', this.dates[date]);
-        if (this.dates.start && this.dates.end)
-          this.getfuelAverageDetails();
+
       }
 
     });

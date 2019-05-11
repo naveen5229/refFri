@@ -199,4 +199,31 @@ export class FuelFillingsComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1200');
 
   }
+
+  getFuelMapping() {
+    this.common.loading++;
+    this.api.get('Fuel/mappingFillingStationEntries?')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Mapping:', res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  getisFuel() {
+    this.common.loading++;
+    this.api.get('Fuel/mappingIsFullFilling?')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Mapping:', res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
 }
