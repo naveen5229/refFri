@@ -35,7 +35,7 @@ export class MaintenanaceDashboardComponent implements OnInit {
     if (this.user._loggedInBy == 'admin')
       user_id = this.user._customer.id;
     //let user_mode = this.user._loggedInBy == 'admin' ? 1 : this.user._loggedInBy == 'partner' ? 2 : 3;
-    this.api.post('Vehicles/getDocumentMatrixDataWeb', { x_user_id: user_id })
+    this.api.post('VehicleMaintenance/getMaintenanceMatrixDataWeb', { x_user_id: user_id })
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);

@@ -20,9 +20,9 @@
           <table class="table table-bordered table-hover">
             <tr>
               <td *ngFor="let statusrow of this.data.summary; ">
-                <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross"
-                    title="NoRecord"></i><input type='radio' name='status' value='0'
-                    (click)="filterRows(statusrow.status)"> No Record <span>({{statusrow.total}})</span></span>
+                <span *ngIf="statusrow.status == 0"><i class="fa fa-times-circle i-red-cross" title="Failure"></i><input
+                    type='radio' name='status' value='0' (click)="filterRows(statusrow.status)"> Failure
+                  <span>({{statusrow.total}})</span></span>
                 <span *ngIf="statusrow.status == 1"><i class="fa fa-times i-black"></i><input type='radio' name='status'
                     value='1' (click)="filterRows(statusrow.status)"> No Image/Upload
                   <span>({{statusrow.total}})</span></span>
