@@ -20,10 +20,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let fueldetail of fuelDetails; let i = index">
+      <tr *ngFor="let fueldetail of fuelDetails; let i = index" [ngStyle]="{'background':i == 0 ? 'burlywood':'white'}">
         <th scope="row">{{i + 1}}</th>
-        <td *ngIf="i==0" style="background-color:burlywood">{{fueldetail.name}}</td>
-        <td *ngIf="i!=0">{{fueldetail.name}}</td>
+        <!-- <td *ngIf="i==0" style="background-color:burlywood">{{fueldetail.name}}</td> -->
+        <td>{{fueldetail.name}}</td>
         <td>{{fueldetail.location}}</td>
         <td>{{fueldetail.litres}}</td>
         <td>{{fueldetail.rate}}</td>
