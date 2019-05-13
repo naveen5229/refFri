@@ -1,25 +1,26 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <h4>Fuel Fillings</h4>
       </div>
-      <div class="col-md-6 text-right">
+      <div class="col-md-8 text-right">
         <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()"
           style="margin:0px; margin-right: 5px; cursor: pointer;">Add Fuel</button>
         <button id="import-csv" name="import-csv" class="btn btn-primary" *ngIf="user._loggedInBy=='admin'"
           (click)="addCsv()" style="margin:0px; cursor: pointer;">Import CSV</button>
         <button id="fuel-station" name="fuel-station" class="btn btn-primary" (click)="getFuelStation()"
           style="margin:0px; margin-left: 10px; cursor: pointer;">Fuel Station</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 text-right">
+        <button id="fuel-mapping" name="fuel-mapping" class="btn btn-primary" (click)="getFuelMapping()"
+          style="margin:0px; margin-left: 15px; cursor: pointer;">Fuel mapping</button>
+        <button id="fuel-isFuel" name="fuel-isFuel" class="btn btn-primary" (click)="getisFuel()"
+          style="margin:0px; margin-left: 15px; cursor: pointer;">is Fuel</button>
         <button id="empty-fuel-details" name="empty-fuel-details" class="btn btn-primary"
           (click)="getemptyFueldetails()" style="margin:0px; margin-top:10px; cursor:pointer;">Tank Empty
           Details</button>
       </div>
     </div>
+
 
   </nb-card-header>
 

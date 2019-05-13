@@ -8,7 +8,7 @@ import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'tank-empty-details',
   templateUrl: './tank-empty-details.component.html',
-  styleUrls: ['./tank-empty-details.component.scss']
+  styleUrls: ['./tank-empty-details.component.scss', '../../pages/pages.component.css']
 })
 export class TankEmptyDetailsComponent implements OnInit {
   startDate = '';
@@ -24,8 +24,7 @@ export class TankEmptyDetailsComponent implements OnInit {
     public common: CommonService,
     private modalservice: NgbModal,
     public activeModal: NgbActiveModal,
-    public api: ApiService,
-  ) {
+    public api: ApiService) {
     let today;
     today = new Date();
 
@@ -35,9 +34,14 @@ export class TankEmptyDetailsComponent implements OnInit {
 
   ngOnInit() {
   }
-  ngAfterViewInit() {
-    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.moveLoc = { place, lat, lng });
 
+  ngAfterViewInit() {
+
+    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.moveLoc.place = place;
+      this.moveLoc.lat = lat;
+      this.moveLoc.lng = lng;
+    });
   }
 
   closeModal() {
@@ -47,39 +51,29 @@ export class TankEmptyDetailsComponent implements OnInit {
     //console.log('Vehicle Data:+++ ', this.selectedVehicleId);
     this.vid = vehicle.id;
     //console.log("vehicle=", vehicle);
-
-
-
   }
 
   Submit() {
     const params = {
       vid: this.vid,
-      date: this.startDate,
+      date: this.common.dateFormatter1(this.startDate),
       litre: this.liter,
       location: this.moveLoc.place,
       lat: this.moveLoc.lat,
       long: this.moveLoc.lng,
-
     }
+    console.log("params:", params);
 
     this.common.loading++;
-
-
     this.api.post('Fuel/setTankEmptyDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        this.fillingData = res['data'];
-        console.info("filling Data", this.fillingData);
-        console.log("filling data", this.fillingData);
-        //console.log(this.table.data.headings);
-        // this.table.data.columns = this.getTableColumns();
+        this.activeModal.close();
+
 
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
-
-
 }
