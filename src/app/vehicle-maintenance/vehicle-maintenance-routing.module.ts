@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { VehicleMaintenanceComponent } from '../vehicle-maintenance/vehicle-maintenance-components';
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
+import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
 
 const routes: Routes = [{
     path: '',
@@ -11,6 +12,10 @@ const routes: Routes = [{
         {
             path: 'add-vehicle-maintenance',
             component: AddVehicleMaintenanceComponent,
+        },
+        {
+            path: 'maintenanace-dashboard',
+            component: MaintenanaceDashboardComponent,
         },
 
 
