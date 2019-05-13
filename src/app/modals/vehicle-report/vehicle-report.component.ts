@@ -32,8 +32,7 @@ export class VehicleReportComponent implements OnInit {
   limit;
   table = null;
   i: ''; d: '';
-  startTimePeriod = '00:00';
-  endTimePeriod = '00:00';
+
   constructor(private activeModal: NgbActiveModal, public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
@@ -43,19 +42,24 @@ export class VehicleReportComponent implements OnInit {
     this.vehicleRegNo = this.common.params.vehicleRegNo;
 
     if (this.common.params.ref_page == 'consView') {
-      let today = new Date(), start;
-      this.endDate = this.dateService.dateFormatter(today, '', false);
+      let today = new Date(), start = new Date();
+
+      this.endDate = today;
       console.log("end Date:", this.endDate);
-      start = new Date(today.setDate(today.getDate() - 3));
-      this.startDate = this.dateService.dateFormatter(start, '', false);
+
+      start.setDate(today.getDate() - 3);
+      this.startDate = start;
       console.log("Start Date:", this.startDate);
+      // this.endDate = this.common.dateFormatter(today);
+      // start = new Date(today.setDate(today.getDate() - 3));
+      // this.startDate = this.common.dateFormatter(start);
 
     }
     else {
       console.log(this.common.params.fromTime);
       console.log(this.common.params.toTime);
-      this.startDate = this.dateService.dateFormatter(this.common.params.fromTime, '', false);
-      this.endDate = this.dateService.dateFormatter(this.common.params.toTime, '', false);
+      this.startDate = this.common.dateFormatter(this.common.params.fromTime);
+      this.endDate = this.common.dateFormatter(this.common.params.toTime);
       console.log("fromTime", this.startDate);
       console.log("endDate", this.endDate);
     }
@@ -73,19 +77,13 @@ export class VehicleReportComponent implements OnInit {
     this.vid = vehicleList.id;
   }
 
-  get startTimeFull() {
-    return this.startDate + " " + this.startTimePeriod;
-  }
 
-  get endTimeFull() {
-    return this.endDate + " " + this.endTimePeriod;
-  }
   getVehicleReport() {
 
     let params = {
       vehicleId: this.vid,
-      startDate: this.startTimeFull,
-      endDate: this.endTimeFull,
+      startDate: this.common.dateFormatter(this.startDate),
+      endDate: this.common.dateFormatter(this.endDate),
     };
 
     this.common.loading++;

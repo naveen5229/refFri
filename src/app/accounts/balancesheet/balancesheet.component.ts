@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { DaybookComponent } from '../../acounts-modals/daybook/daybook.component';
+import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
+import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import * as _ from 'lodash';
 
 
@@ -14,7 +16,7 @@ import * as _ from 'lodash';
   styleUrls: ['./balancesheet.component.scss']
 })
 export class BalancesheetComponent implements OnInit {
-
+  selectedName = '';
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
@@ -206,12 +208,35 @@ export class BalancesheetComponent implements OnInit {
       ledger: ledgerId,
       vouchertype: 0
     };
-    const activeModal = this.modalService.open(DaybookComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       //this.getDayBook();
       //this.common.showToast('Voucher updated');
 
+    });
+  }
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+
+
+  getProfitLoss() {
+    this.common.params = {
+      startdate: this.balanceData.startdate,
+      enddate: this.balanceData.enddate
+    };
+    console.log('start date and date', this.common.params);
+    //  this.common.params = voucherId;
+
+    const activeModal = this.modalService.open(ProfitlossComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        return;
+
+      }
     });
   }
 

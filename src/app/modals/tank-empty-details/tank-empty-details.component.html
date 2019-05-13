@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Tank Empty Details</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-6">
+      <label>Vehicle Regitration Number
+      </label>
+    </div>
+    <div class="col-6">
+      <auto-suggestion (onSelected)="selectVehicle($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+        placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-6">
+      <label>Enter Location</label>
+    </div>
+    <div class="col-6">
+      <input type="text" placeholder="Location" id="moveLoc" class="form-control">
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-6">
+      <label>Enter Date</label>
+    </div>
+    <div class="col-6">
+      <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date"
+        class="form-control" autocomplete="off" name="date">
+      <owl-date-time #date></owl-date-time>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-6">
+      <label>Liters of Petrol/Deisel</label>
+    </div>
+    <div class="col-6">
+      <input type="number" placeholder="Liters" [(ngModel)]="liter" class="form-control">
+    </div>
+  </div>
+  <div class="col-md-12 text-center margin-top-15">
+    <button class="btn btn-primary" id="submit" type="submit" (click)="Submit()">submit</button>
+  </div>
+</div>

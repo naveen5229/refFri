@@ -80,10 +80,12 @@ export class AddShortTargetComponent implements OnInit {
     this.api.post('Placement/addShortTarget', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res['data'])
-        if (res['success'])
+        let response = res['data'][0];
+        console.log("response==", response);
+        if (response.id > 0) {
           this.common.showToast('Success');
-
+          this.closeModal();
+        }
       }, err => {
         this.common.loading--;
         this.common.showError();

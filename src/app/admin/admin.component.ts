@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin.scss'],
   template: `
     <ngx-sample-layout class="admin">
-      <nb-menu [items]="menu"></nb-menu>
+      <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
       <router-outlet class="admin-dot"></router-outlet>
     </ngx-sample-layout>
   `,

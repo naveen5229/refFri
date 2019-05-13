@@ -50,9 +50,9 @@
               <td>{{liability.name}}</td>
               <td style="text-align: right;">{{liability.amount}}</td>
             </tr>
-            <tr *ngFor="let balanceSheet of liability.balanceSheets"
+            <tr *ngFor="let balanceSheet of liability.balanceSheets; let j = index" (click)="selectedRow =  'A' + i + j"
               (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
-              style="background: #dadfe6;">
+              [ngClass]="{'highlight' : selectedRow == 'A' + i + j }" style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
               <td style="text-align: left;">
                 <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
@@ -69,14 +69,14 @@
               <th style="text-align: right;">Amount</th>
             </tr>
           </thead>
-          <tbody *ngFor="let asset of assets; let i = index;">
-            <tr style="background: #184154;" [ngStyle]="{'display':  i == assets.length -1 ? 'none' : ''}">
+          <tbody *ngFor="let asset of assets; let k = index;">
+            <tr style="background: #184154;" [ngStyle]="{'display':  k == assets.length -1 ? 'none' : ''}">
               <td>{{asset.name}}</td>
               <td style="text-align: right;">{{asset.amount}}</td>
             </tr>
-            <tr *ngFor="let balanceSheet of asset.balanceSheets"
-              (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
-              style="background: #dadfe6;">
+            <tr *ngFor="let balanceSheet of asset.balanceSheets; let l = index" (click)="selectedRow =  'B' + k + l"
+              (dblclick)="(asset.name.includes('Profit & Loss A/c')) ? getProfitLoss() : (balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
+              [ngClass]="{'highlight' : selectedRow == 'B' + k + l }" style="background: #dadfe6;">
               <td>{{balanceSheet.y_ledger_name}}</td>
               <td style="text-align: left;">
                 <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>

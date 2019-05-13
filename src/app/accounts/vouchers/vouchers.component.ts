@@ -261,6 +261,7 @@ export class VouchersComponent implements OnInit {
     if (event.altKey && key === 'c') {
       // console.log('alt + C pressed');
       this.openledger();
+      return;
     }
     if (this.showConfirm) {
       if (key == 'y' || key == 'enter') {

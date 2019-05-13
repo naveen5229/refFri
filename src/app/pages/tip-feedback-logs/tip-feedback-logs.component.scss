@@ -10,6 +10,10 @@ nb-card-body{
     height: auto !important;
     max-height: calc(100vh - 156px);
 }
+:host ::ng-deep.tableFixHead.paginaion_conditon {
+    max-height: calc(100vh - 192px) !important;
+}
+
 .btn-primary{
     border-radius: 3px;
     border: 0px;

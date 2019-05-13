@@ -83,3 +83,10 @@ nb-card-header{
     border-radius: 3px !important;
     padding: 3px 8px !important;
 }
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #576c77 !important;
+    color: #ffffff !important;
+}

@@ -29,6 +29,7 @@ import { ChangeVehicleStatusComponent } from "../../modals/change-vehicle-status
 import * as moment from 'moment';
 import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 import { DateService } from "../../services/date.service";
+import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 
 @Component({
   selector: "concise",
@@ -67,7 +68,7 @@ export class ConciseComponent implements OnInit {
       key: "showprim_status"
     },
     {
-      name: "Secondry Status",
+      name: "Secondary Status",
       key: "showsec_status"
     },
     {
@@ -879,28 +880,32 @@ export class ConciseComponent implements OnInit {
     let icons = [
       {
         class: " icon fa fa-chart-pie",
-        action: this.openChangeStatusModal.bind(this, kpi)
+        action: this.openChangeStatusModal.bind(this, kpi),
       },
       {
         class: "icon fa fa-star",
-        action: this.vehicleReport.bind(this, kpi)
+        action: this.vehicleReport.bind(this, kpi),
       },
 
       {
         class: " icon fa fa-route",
-        action: this.openRouteMapper.bind(this, kpi)
+        action: this.openRouteMapper.bind(this, kpi),
       },
       {
         class: " icon fa fa-truck",
-        action: this.openTripDetails.bind(this, kpi)
+        action: this.openTripDetails.bind(this, kpi),
       },
       {
         class: "icon fa fa-globe",
-        action: this.openVehicleStates.bind(this, kpi)
+        action: this.openVehicleStates.bind(this, kpi),
       },
       {
         class: "icon fa fa-question-circle",
-        action: this.reportIssue.bind(this, kpi)
+        action: this.reportIssue.bind(this, kpi),
+      },
+      {
+        class: "icon fa fa-user-secret",
+        action: this.openStations.bind(this, kpi)
       },
     ]
     if (this.user._loggedInBy != "admin") {
@@ -938,10 +943,14 @@ export class ConciseComponent implements OnInit {
   }
 
 
-  openVehicleStates(vlaues) {
+  openVehicleStates(values) {
+    console.log('values', values);
     this.common.params = {
-      vehicleId: vlaues.x_vehicle_id,
-      vehicleRegNo: vlaues.x_showveh
+      vehicleId: values.x_vehicle_id,
+      vehicleRegNo: values.x_showveh,
+      lat: values.x_tlat,
+      long: values.x_tlong,
+      vregno: values.x_empname
 
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {
@@ -973,5 +982,19 @@ export class ConciseComponent implements OnInit {
       size: "sm",
       container: "nb-layout"
     });
+  }
+  openStations(kpi) {
+    console.log("kpi-------------", kpi);
+    this.common.params = {
+      lat: kpi.x_tlat,
+      long: kpi.x_tlong
+
+    };
+    const activeModal = this.modalService.open(PoliceStationComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+
+
   }
 }

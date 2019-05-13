@@ -32,24 +32,13 @@ export class RouteMapperComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private commonService: CommonService,
     public dateService: DateService) {
-    this.startDate = this.commonService.params.fromTime;
-    this.endDate = this.commonService.params.toTime;
-    this.startTimePeriod = this.startDate.split(' ')[1];
-    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
-    this.endTimePeriod = this.endDate.split(' ')[1];
-    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
-    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
-    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
+    this.startDate = new Date(this.commonService.params.fromTime);
+    this.endDate = new Date(this.commonService.params.toTime);
     this.vehicleSelected = this.commonService.params.vehicleId;
     this.vehicleRegNo = this.commonService.params.vehicleRegNo;
-    console.log("common params:");
-    console.log(this.commonService.params);
-    if (this.commonService.params.title != undefined)
-      this.title = this.commonService.params.title;
-    console.log("title:" + this.commonService.params.title);
-    console.log("this.startDate", this.startDate);
-    console.log("this.endDate", this.endDate);
-    console.log("this.vehicleSelected", this.vehicleSelected, this.vehicleRegNo);
+    console.log("common params:", this.commonService.params, "title:", this.title);
+    this.title = this.commonService.params.title ? this.commonService.params.title : this.title;
+
     this.getHaltTrails();
   }
 
@@ -75,7 +64,7 @@ export class RouteMapperComponent implements OnInit {
   get timeLinePoly() {
     let odoNow = this.maxOdo * (this.timelineValue / 100);
     if (this.timelineValue == 1) {
-      return { time: this.startTimeFull, lat: parseFloat(this.polypath[0].lat), lng: parseFloat(this.polypath[0].lng) };
+      return { time: this.commonService.dateFormatter(this.startDate), lat: parseFloat(this.polypath[0].lat), lng: parseFloat(this.polypath[0].lng) };
     }
     for (const polypoint of this.polypath) {
       if (polypoint.odo >= odoNow) {
@@ -83,14 +72,6 @@ export class RouteMapperComponent implements OnInit {
       }
     };
     return { time: null, lat: null, lng: null };
-  }
-
-  get startTimeFull() {
-    return this.startDate + " " + this.startTimePeriod;
-  }
-
-  get endTimeFull() {
-    return this.endDate + " " + this.endTimePeriod;
   }
 
   startDate = null;
@@ -109,8 +90,8 @@ export class RouteMapperComponent implements OnInit {
     this.commonService.loading++;
     let params = {
       vehicleId: this.vehicleSelected,
-      startDate: this.startTimeFull,
-      endDate: this.endTimeFull,
+      startDate: this.commonService.dateFormatter(this.startDate),
+      endDate: this.commonService.dateFormatter(this.endDate),
     }
     // console.log(params);
     this.apiService.post('HaltOperations/getvehicleEvents', params)
@@ -121,8 +102,8 @@ export class RouteMapperComponent implements OnInit {
         this.getPlaceName(vehicleEvents);
         let params = {
           'vehicleId': this.vehicleSelected,
-          'startTime': this.startTimeFull,
-          'toTime': this.endTimeFull
+          'startTime': this.commonService.dateFormatter(this.startDate),
+          'toTime': this.commonService.dateFormatter(this.endDate)
         }
         this.commonService.loading++;
         console.log(params);
@@ -178,12 +159,12 @@ export class RouteMapperComponent implements OnInit {
                   icon: this.mapService.lineSymbol,
                   offset: "0%"
                 }]);
-                let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startTimeFull) ?
-                  vehicleEvents[0].start_time : this.startTimeFull;
+                let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startDate) ?
+                  vehicleEvents[0].start_time : this.commonService.dateFormatter(this.startDate);
                 let realEnd = null;
                 if (vehicleEvents[0].end_time)
-                  realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endTimeFull) ?
-                    vehicleEvents[vehicleEvents.length - 1].end_time : this.endTimeFull;
+                  realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endDate) ?
+                    vehicleEvents[vehicleEvents.length - 1].end_time : this.commonService.dateFormatter(this.endDate);
                 console.log("RealStart", realStart, "RealEnd", realEnd);
 
                 let totalHourDiff = 0;
@@ -338,27 +319,6 @@ export class RouteMapperComponent implements OnInit {
 
   setZoom(zoom, vehicleEvents) {
     this.mapService.zoomMap(zoom);
-  }
-
-
-
-  getDate(type) {
-
-    this.commonService.params = { ref_page: 'route mapper' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-        if (type == 'start') {
-          this.startDate = '';
-          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
-        }
-        else {
-          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
-          console.log('endDate', this.endDate);
-        }
-      }
-    });
-
   }
 
   getPlaceName(E) {
