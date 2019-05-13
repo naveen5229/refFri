@@ -1,0 +1,35 @@
+<div class="main-view">
+  <div class="overlay" (click)="dismiss(false)" id="close_modal_btn"></div>
+  <div class="custom-modal">
+    <div class="custom-modal-header" id="modal_title" style="margin-top:20px;">Search FO Admin</div>
+
+    <div class="custom-modal-content" style="height: 200px;">
+      <!-- <p class="select-txt">Select An Fo</p> -->
+      <div class="option-container">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search Customer" (input)="searchUser()"
+            name="searchString" [(ngModel)]="searchString" autocomplete="off" style="width:240px">
+          <ul *ngIf=" (showSuggestions)&&(suggestions.length >  0)">
+            <li *ngFor="let suggestion of suggestions;" (click)="selectUser(suggestion)"
+              style="height:50px;font-size: 14px;margin-left:-40px">
+              {{ suggestion.foaname}} - {{suggestion.foaid}} - {{suggestion.foname}} - {{suggestion.foid}} -
+              {{suggestion.fomobileno}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-modal-footer">
+      <row>
+        <col text-center>
+        <button class="modal-footer-btn" type="button" outline (click)="dismiss(false)" id="cancel">Cancel</button>
+        </col>
+        <ion-col text-center>
+          <button ion-button class="modal-footer-btn forward-btn" type="button" outline (click)="dismiss(true)"
+            id="forward">Select</button>
+          </col>
+      </row>
+    </div>
+  </div>
+  </content>
