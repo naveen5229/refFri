@@ -36,7 +36,6 @@ export class VehicleDistanceComponent implements OnInit {
 
     console.log("Data:", this.data);
     let params = {
-      foid: this.data.foid,
       fromTime: this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"),
       tTime: this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"),
     };

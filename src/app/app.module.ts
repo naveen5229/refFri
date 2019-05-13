@@ -146,6 +146,7 @@ import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
+import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -254,6 +255,7 @@ import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empt
     CustomTimePipe,
     PoliceStationComponent,
     TankEmptyDetailsComponent,
+    OdoMeterComponent,
 
   ],
   entryComponents: [
@@ -358,6 +360,7 @@ import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empt
     PoliceStationComponent,
     LedgerviewComponent,
     TankEmptyDetailsComponent,
+    OdoMeterComponent
   ],
   imports: [
     BrowserModule,
