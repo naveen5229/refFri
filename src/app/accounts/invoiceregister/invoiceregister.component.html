@@ -3,8 +3,13 @@
     <h4>Invoice Register</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
+
     <div class="row">
       <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
           <!-- <div class="col">
       <div class="form-group">
@@ -88,7 +93,7 @@
         </div>
       </div>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>#</th>
