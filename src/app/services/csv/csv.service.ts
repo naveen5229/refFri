@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
+import * as _ from "lodash";
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,16 @@ export class CsvService {
   constructor() { }
 
   multiTableCSVWithId(tableIds) {
-    let tablesHeadings = [];
-    let tablesRows = [];
+    let xrows = [{}];
+
     tableIds.map((tableId, index) => {
-      tablesHeadings.push(this.findTableHeadings(tableId));
-      tablesRows.push(this.findTableRows(tableId));
+      this.findTableHeadings(tableId).map((col, index2) => {
+        xrows[0]['tabel-' + index + '-col-' + index2] = col;
+      });
+    });
+
+    tableIds.map((tableId, index) => {
+      xrows = this.handleRows(this.findTableRows(tableId), index, xrows);
     });
 
     let organization = { "elogist Solutions": "elogist Solutions" };
@@ -23,29 +29,8 @@ export class CsvService {
     info.push(organization);
     info.push(blankline);
 
-    let headings = {};
-    let rows = [];
-    tablesHeadings.map((tableHeadings, index) => {
-      tableHeadings.map((tableHeading, index2) => {
-        headings[tableHeading + '-' + index] = tableHeading;
-        tablesRows[index].map((row, index3) => {
-          console.log('Ro---------:', row, index3);
-          if (!rows[index3]) rows.push({});
-          rows[index3][tableHeading + '-' + index] = row[index2];
-        });
-        console.log('=======:', rows);
-
-      });
-      console.log('++++++++++:', rows);
-    });
-
-    console.log('Headings:', headings);
-    console.log('Rows:', rows);
-
-    info.push(headings);
-    info.push(...rows);
-
-    new Angular5Csv(info, "report.csv");
+    info.push(...xrows);
+    new Angular5Csv(info, "report");
   }
 
   findTableHeadings(tableId) {
@@ -129,6 +114,22 @@ export class CsvService {
     }
     console.log('Rows:', rows);
     return rows;
+  }
+
+  handleRows(tableRows, table, xrows) {
+    tableRows.map((row, index) => {
+      row.map((col, index2) => {
+        if (!xrows[index + 1]) {
+          let keys = Object.keys(xrows[0]).sort();
+          let newRow = {};
+          keys.map(key => newRow[key] = '');
+          xrows.push(newRow);
+        }
+        xrows[index + 1]['tabel-' + table + '-col-' + index2] = col;
+      });
+    });
+
+    return xrows;
   }
 
 }
