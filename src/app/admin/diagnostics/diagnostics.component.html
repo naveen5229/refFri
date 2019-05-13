@@ -3,30 +3,30 @@
     Diagnostics
   </nb-card-header>
   <nb-card-body>
-      <div class="row">
-          <div class="col-4">
-            <label>Vehicle No</label>
-            <auto-suggestion (onSelected)="selectVehicle($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-           
-          </div>
-          <div class="col-4">
-            <label>Table Type</label>
-            <select name="list" class="form-control " [(ngModel)]="listtype" >
-              <option class="form-control" value="halts">Halts</option>
-              <option class="form-control" value="vehicle_placements">Vehicle_Placement</option>
-              <option class="form-control" value="lorry_receipts">lorry_Receipts</option>
-              <option class="form-control" value="master_vehicle_temp1">Master_Vehicle_Temp</option>
-            </select>
-  
-          </div>
-          <div class="col-4">
-            <button class="btn btn-primary mt-4 p-1" (click)="topRecord()">Top Latest Record</button>
-  
-          </div>
-        </div>
+    <div class="row">
+      <div class="col-4">
+        <label>Vehicle No</label>
+        <auto-suggestion (onSelected)="selectVehicle($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+          placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+
+      </div>
+      <div class="col-4">
+        <label>Table Type</label>
+        <select name="list" class="form-control " [(ngModel)]="listtype">
+          <option class="form-control" value="halts">Halts</option>
+          <option class="form-control" value="vehicle_placements">Vehicle_Placement</option>
+          <option class="form-control" value="lorry_receipts">lorry_Receipts</option>
+          <option class="form-control" value="master_vehicle_temp1">Master_Vehicle_Temp</option>
+        </select>
+
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary mt-4 p-1" (click)="topRecord()">Top Latest Record</button>
+
+      </div>
+    </div>
     <form class="form-group">
-      
+
       <div class="divActivities" style="border:2px solid  blue">
         <div class="row">
           <div class="col-3">
@@ -36,8 +36,8 @@
         <div class="row">
           <div class="col-2">
 
-            <auto-suggestion (onSelected)="selectVehicle($event)" url="Vehicles/getVehicleListForFoid"
-              display="regno" placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null">
+            <auto-suggestion (onSelected)="selectVehicle($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+              placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="null">
             </auto-suggestion>
           </div>
           <div class="col-3">
@@ -46,7 +46,7 @@
             <owl-date-time #date1></owl-date-time>
           </div>
           <div class="col-3">
-            <input [(ngModel)]="diagnostics.endDate" [owlDateTime]="date" [owlDateTimeTrigger]="date "
+            <input [(ngModel)]="diagnostics.endDate" [owlDateTime]="date" [owlDateTimeTrigger]="date"
               placeholder="End Time" class="form-control" autocomplete="off" name="date">
             <owl-date-time #date></owl-date-time>
           </div>

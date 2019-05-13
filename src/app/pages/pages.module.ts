@@ -49,13 +49,15 @@ import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.
 import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
 import { ShortTargetComponent } from './short-target/short-target.component';
 import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
-
-
+import { CustomDatePipe } from '../pipes/custom-date/custom-date.pipe';
+import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
+import { AdminModule } from '../admin/admin.module';
+import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
+import { SharedModule } from '../shared.module';
 
 
 const PAGES_COMPONENTS = [
   PagesComponent
-
 ];
 
 @NgModule({
@@ -72,7 +74,8 @@ const PAGES_COMPONENTS = [
     ImageViewerModule,
     ReactiveFormsModule,
     ResizableModule,
-    LorryReceiptModule
+    LorryReceiptModule,
+    SharedModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -87,7 +90,6 @@ const PAGES_COMPONENTS = [
     TicketSiteDetailsComponent,
     TicketActionsComponent,
     ConciseComponent,
-    FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
     RouteMapperComponent,
@@ -106,7 +108,8 @@ const PAGES_COMPONENTS = [
     TripOnwardDelayComponent,
     ShortTargetComponent,
     onwardKmpdComponent,
-
+    VehicleTripStagesComponent,
+    // CustomDatePipe
   ],
   exports: [
     FuelAverageAnalysisComponent,

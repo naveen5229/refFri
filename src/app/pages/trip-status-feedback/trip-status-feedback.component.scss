@@ -20,32 +20,21 @@ table{
         background-color: #263238;
         color: #fff;
         tr{
+            th{
+                width: 100px;
+            }
             th:nth-child(1){
-                width: 2%;
+                width: 30px;
             }
-            th:nth-child(2){
-                width: 4%;
-            }
+            th:nth-child(2),
             th:nth-child(3){
-                width: 5%;
-            }
-            th:nth-child(4){
-                width: 5%;
-            }
-            th:nth-child(5){
-                width: 5%;
+                width: 90px;
             }
             th:nth-child(6){
-                width: 8%;
+                width: 150px;
             }
-            th:nth-child(7){
-                width: 5%;
-            }
-            th:nth-child(8){
-                width: 6%;
-            }
-            th:nth-child(9){
-                width: 15%;
+            th:last-child{
+                width: auto;
             }
 
         }
@@ -71,44 +60,33 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 200px);
+        max-height: calc(100vh - 220px);
         tr{
             display: table;
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 2%;
+                width: 30px;
             }
-            td:nth-child(2){
-                width: 4%;
-            }
+            td:nth-child(2),
             td:nth-child(3){
-                width: 5%;
-            }
-            td:nth-child(4){
-                width: 5%;
-            }
-            td:nth-child(5){
-                width: 5%;
+                width: 90px;
             }
             td:nth-child(6){
-                width: 8%;
+                width: 150px;
             }
-            td:nth-child(7){
-                width: 5%;
-                text-align: center;
-            }
-            td:nth-child(8){
-                width: 6%;
-            }
-            td:nth-child(9){
-                width: 14.7%;
+            td:last-child{
+                width: auto;
+                text-align: left;
             }
             td{
+                width: 100px;
+                text-align: center;
                 span{
                     input{
                         margin-right: 5px;
                         margin-bottom: 5px;
+                        width: 100px;
                     }
                     select{
                         height: 30px !important;

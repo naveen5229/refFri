@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { MENU_ITEMS } from './pages-menu';
+import { NbMenuService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-pages',
@@ -8,7 +9,7 @@ import { MENU_ITEMS } from './pages-menu';
   template: `
     <ngx-sample-layout>
     
-       <nb-menu [items]="menu"></nb-menu>
+       <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
      
       <router-outlet></router-outlet>
     </ngx-sample-layout>
@@ -17,4 +18,10 @@ import { MENU_ITEMS } from './pages-menu';
 export class PagesComponent {
 
   menu = MENU_ITEMS;
+
+  constructor(public menuService: NbMenuService) {
+    console.log('Menu:', this.menuService);
+  }
+
+
 }

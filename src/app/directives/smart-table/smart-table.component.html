@@ -1,4 +1,5 @@
-<div [ngClass]="settings.notFixedHeader ? '' : 'tableFixHead'" [ngStyle]="{height: settings.tableHeight || '73vh'}">
+<div [ngClass]="[settings.notFixedHeader  ? '' : 'tableFixHead', pages.count > 1 ? 'paginaion_conditon':'']"
+  [ngStyle]="{height: settings.tableHeight || '73vh'}">
   <table *ngIf="headings" class="table table-bordered fixed">
     <thead *ngIf="!settings.hideHeader">
       <th style="width: 40px">#</th>
@@ -39,18 +40,22 @@
         [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
         <td style="width: 40px">
           {{(i + 1) + ((pages.active - 1) * pages.limit)}}</td>
-        <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading].class"
+        <td *ngFor="let heading of objectKeys(headings);" [ngClass]="column[heading] ? column[heading].class : ''"
           (click)="column[heading].action && column[heading].action()"
           (dblclick)="handleColDoubleClick(column, heading)" (mouseover)="handleMouseHover(column, heading)"
-          (mouseout)="handleMouseOut(column, heading)" [ngStyle]="{cursor: column[heading].action ? 'pointer' : ''}">
-          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading].isHTML"
+          (mouseout)="handleMouseOut(column, heading)"
+          [ngStyle]="{cursor: (column[heading] && column[heading].action) ? 'pointer' : ''}">
+          <div [ngClass]="column[heading].action ? 'zoom' : ''" *ngIf="column[heading] && column[heading].isHTML"
             [innerHTML]="column[heading].value"></div>
           <div [ngClass]="column[heading].action ? 'zoom' : ''"
-            *ngIf="!column[heading].isHTML && !column[heading].icons">
+            *ngIf="column[heading] && !column[heading].isHTML && !column[heading].icons">
             {{column[heading].value}}
           </div>
-          <div *ngIf="column[heading].icons">
-            <i *ngFor="let icon of column[heading].icons" [class]="icon.class" (click)="icon.action()"></i>
+          <div *ngIf="column[heading] && column[heading].icons">
+            <div *ngFor="let icon of column[heading].icons" [class]="icon.parentClass"
+              style="display:inline; position: relative;">
+              <i [class]="icon.class" (click)="icon.action()"><span></span></i>
+            </div>
           </div>
           <!-- <div [ngClass]="column[heading].value?"></div> -->
         </td>
@@ -66,7 +71,8 @@
 </div>
 <div class="pagination" *ngIf="pages.count > 1">
   <div class="pagination_links">
-    <span *ngIf="pages.active > 1" (click)="handlePagination(pages.active - 1)">Pre</span>
+    <span *ngIf="pages.active==1" disabled="disabled">Pre</span>
+    <span *ngIf="pages.active >1" (click)="handlePagination(pages.active - 1)">Pre</span>
     <span *ngFor="let page of common.generateArray(pages.count)" (click)="handlePagination(page)"
       [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</span>
     <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>

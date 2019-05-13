@@ -284,7 +284,7 @@ export class EditDocumentComponent implements OnInit {
       }
     });
   }
-  
+
   getDateInDisplayFormat(strdate) {
     if (strdate)
       return strdate.split("-").reverse().join("/");

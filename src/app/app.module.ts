@@ -13,7 +13,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
@@ -107,6 +107,7 @@ import { ResolveMissingIndustryComponent } from './modals/resolve-missing-indust
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
+import { DriverAttendanceUpdateComponent } from './modals/driver-attendance-update/driver-attendance-update.component';
 import { VehicleReportComponent } from './modals/vehicle-report/vehicle-report.component';
 import { LRViewComponent } from './modals/LRModals/lrview/lrview.component';
 import { UpdateCompanyComponent } from './modals/update-company/update-company.component';
@@ -135,6 +136,16 @@ import { VehicleStatesComponent } from './modals/vehicle-states/vehicle-states.c
 import { ChangeDriverComponent } from './modals/DriverModals/change-driver/change-driver.component';
 import { CsvErrorReportComponent } from './modals/csv-error-report/csv-error-report.component';
 import { AddShortTargetComponent } from './modals/add-short-target/add-short-target.component';
+import { FuelStationEntryComponent } from './modals/fuel-station-entry/fuel-station-entry.component';
+import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-station.component';
+import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
+import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
+import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
+import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
+import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
+import { PoliceStationComponent } from './modals/police-station/police-station.component';
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -205,6 +216,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
@@ -232,6 +244,14 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChangeDriverComponent,
     CsvErrorReportComponent,
     AddShortTargetComponent,
+    FuelStationEntryComponent,
+    ShowFuelStationComponent,
+    CustomDatePipe,
+    DaybookComponent,
+    ProfitlossComponent,
+    LedgerviewComponent,
+    CustomTimePipe,
+    PoliceStationComponent,
 
   ],
   entryComponents: [
@@ -307,6 +327,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     DriverVehicleRemappingComponent,
     DriverStatusChangeComponent,
     NewDriverStatusComponent,
+    DriverAttendanceUpdateComponent,
     VehicleReportComponent,
     LRViewComponent,
     UpdateCompanyComponent,
@@ -327,8 +348,13 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
     ChoosePeriodsComponent,
     VehicleStatesComponent,
     CsvErrorReportComponent,
-    AddShortTargetComponent
-
+    AddShortTargetComponent,
+    FuelStationEntryComponent,
+    ShowFuelStationComponent,
+    DaybookComponent,
+    ProfitlossComponent,
+    PoliceStationComponent,
+    LedgerviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -358,6 +384,7 @@ import { AddShortTargetComponent } from './modals/add-short-target/add-short-tar
 
   bootstrap: [AppComponent],
   providers: [
+    NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },

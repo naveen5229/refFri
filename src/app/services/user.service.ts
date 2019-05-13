@@ -61,6 +61,8 @@ export class UserService {
       { id: 31, route: '/admin/transport-area' },
       { id: 32, route: '/accounts/dashboard' },
       { id: 33, route: '/admin/fuel-average-analysis' },
+      { id: 34, route: '/admin/remaining-fuel' },
+      { id: 35, route: '/admin/ticket-subscribe' },
 
     ]
   }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CommonService } from './common.service';
 declare let google: any;
 
 @Injectable({
@@ -10,6 +11,7 @@ export class MapService {
   mapDiv = null;
   markers = [];
   bounds = null;
+  infoStart = null;
   infoWindow = null;
   polygon = null;
   polygons = [];
@@ -29,7 +31,7 @@ export class MapService {
     "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"//Pin
   ];
 
-  constructor() {
+  constructor(public common: CommonService) {
   }
 
   autoSuggestion(elementId, setLocation?) {
@@ -52,7 +54,7 @@ export class MapService {
 
   zoomAt(latLng, level = 18) {
     this.map.panTo(latLng);
-    if(level != this.map.getZoom())
+    if (level != this.map.getZoom())
       this.zoomMap(level);
   }
 
@@ -60,13 +62,13 @@ export class MapService {
     this.map.setZoom(zoomValue);
     if (zoomValue <= 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    } else if (zoomValue> 14) {
+    } else if (zoomValue > 14) {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
   }
 
-  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75) {
+  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false) {
     if (this.isMapLoaded) {
       // document.getElementById(div).innerHTML="";
       // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
@@ -81,6 +83,7 @@ export class MapService {
       zoom: zoom,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
+      disableDefaultUI: showUI,
       styles: [{
         featureType: 'all',
         elementType: 'labels',
@@ -91,23 +94,15 @@ export class MapService {
     };
     //$("#"+mapId).heigth(height);
     this.map = new google.maps.Map(this.mapDiv, opt);
-
     this.mapLoadDiv = this.map.getDiv();
-
     this.bounds = new google.maps.LatLngBounds();
-
-    this.infoWindow = new google.maps.InfoWindow(
-      {
-        size: new google.maps.Size(50, 50),
-        maxWidth: 300
-      });
     this.isMapLoaded = true;
   }
 
-  createLatLng(lat,lng){
+  createLatLng(lat, lng) {
     return new google.maps.LatLng(lat, lng);
   }
-  createInfoWindow(){
+  createInfoWindow() {
     return new google.maps.InfoWindow();
   }
 
@@ -157,7 +152,7 @@ export class MapService {
       infoWindow.opened = false;
       let showContent = latLngs.show;
       google.maps.event.addListener(polygon, 'mouseover', function (evt) {
-        infoWindow.setContent("Info: "+showContent);
+        infoWindow.setContent("Info: " + showContent);
         infoWindow.setPosition(evt.latLng); // or evt.latLng
         infoWindow.open(this.map);
       });
@@ -169,27 +164,28 @@ export class MapService {
     });
   }
 
-  addListerner(element,event,callback){
-    google.maps.event.addListener(element, event,callback);
+  addListerner(element, event, callback) {
+    if (element)
+      google.maps.event.addListener(element, event, callback);
   }
 
   getLatLngValue(markerData) {
-    let latLng = {lat:0,lng:0}
+    let latLng = { lat: 0, lng: 0 }
     let keys = Object.keys(markerData);
-    latLng.lat = markerData[keys.find((element)=>{
-      return element=="lat"||element=="y_lat"||element=="x_lat"||element=="x_tlat";
-    })];
-    latLng.lng = markerData[keys.find((element)=>{
-      return element=="lng"||element=="long"||element=="x_long"||element=="x_tlong";
-    })];
+    latLng.lat = parseFloat(markerData[keys.find((element) => {
+      return element == "lat" || element == "y_lat" || element == "x_lat" || element == "x_tlat";
+    })]);
+    latLng.lng = parseFloat(markerData[keys.find((element) => {
+      return element == "lng" || element == "long" || element == "x_long" || element == "x_tlong";
+    })]);
     return latLng;
   }
 
-  createMarkers(markers, dropPoly = false, changeBounds = true, clickEvent?) {
+  createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?, afterClick?) {
     let thisMarkers = [];
+    let infoWindows = [];
     console.log("Markers", markers);
     for (let index = 0; index < markers.length; index++) {
-
       let subType = markers[index]["subType"];
       let design = markers[index]["type"] == "site" ? this.designsDefaults[0] :
         markers[index]["type"] == "subSite" ? this.designsDefaults[1] : null;
@@ -226,20 +222,52 @@ export class MapService {
       }
 
 
-      let marker = new google.maps.Marker({
-        position: latlng,
-        flat: true,
-        icon: pinImage,
-        map: this.map,
-        title: title
-      });
+      let marker = null;
       if (dropPoly)
         this.drawPolyMF(latlng);
-      if (changeBounds&&(lat&&lng))
-        this.setBounds(latlng);
+      if ((lat && lng)) {
+        marker = new google.maps.Marker({
+          position: latlng,
+          flat: true,
+          icon: pinImage,
+          map: this.map,
+          title: title
+        });
+        let displayText = '';
+        if (infoKeys) {
+          let infoWindow = this.createInfoWindow();
+          infoWindows.push(infoWindow);
+          infoWindow.opened = false;
+          console.log(infoWindow);
+          if (typeof (infoKeys) == 'object') {
+            infoKeys.map((display, indexx) => {
+              if (indexx != infoKeys.length - 1) {
+                displayText += this.common.ucWords(display) + " : " + markers[index][display] + ' <br> ';
+              } else {
+                displayText += this.common.ucWords(display) + " : " + markers[index][display];
+              }
+            });
+          } else {
+            displayText = this.common.ucWords(infoKeys) + " : " + markers[index][infoKeys];
+          }
+          google.maps.event.addListener(marker, 'click', function (evt) {
+            this.infoStart = new Date().getTime();
+            for (let infoIndex = 0; infoIndex < infoWindows.length; infoIndex++) {
+              const element = infoWindows[infoIndex];
+              if (element)
+                element.close();
+            }
+            infoWindow.setContent("<span style='color:blue'>Info</span> <br> " + displayText);
+            infoWindow.setPosition(evt.latLng); // or evt.latLng
+            infoWindow.open(this.map);
+            afterClick(markers[index]);
+          });
+        }
+        if (changeBounds)
+          this.setBounds(latlng);
+      }
       thisMarkers.push(marker);
       this.markers.push(marker);
-      clickEvent && marker.addListener('click', clickEvent.bind(this, markers[index]));
       //  marker.addListener('mouseover', this.infoWindow.bind(this, marker, show ));
 
       //  marker.addListener('click', fillSite.bind(this,item.lat,item.long,item.name,item.id,item.city,item.time,item.type,item.type_id));
@@ -264,20 +292,21 @@ export class MapService {
     }
   }
 
-  createPoint(x,y){
-    return  new google.maps.Point(x,y);
+  createPoint(x, y) {
+    return new google.maps.Point(x, y);
   }
 
-  clearAll(reset = true, boundsReset = true,resetParams = {marker:true,polygons:true,polypath:true}) {
-    
-    resetParams.marker && this.resetMarker(reset,boundsReset);
+  clearAll(reset = true, boundsReset = true, resetParams = { marker: true, polygons: true, polypath: true }) {
+
+    resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
   }
 
-  resetMarker(reset=true,boundsReset=true){
+  resetMarker(reset = true, boundsReset = true) {
     for (let i = 0; i < this.markers.length; i++) {
-      this.markers[i].setMap(null);
+      if (this.markers[i])
+        this.markers[i].setMap(null);
     }
     if (reset)
       this.markers = [];
@@ -285,15 +314,17 @@ export class MapService {
       this.bounds = new google.maps.LatLngBounds();
     }
   }
-  resetBounds(){
+  resetBounds() {
     this.bounds = new google.maps.LatLngBounds();
     for (let index = 0; index < this.markers.length; index++) {
-      let pos = this.markers[index].position;
-      if(pos.lat()!=0)
+      if (this.markers[index]) {
+        let pos = this.markers[index].position;
+        if (pos.lat() != 0)
           this.setBounds(pos);
+      }
     }
   }
-  resetPolygons(){
+  resetPolygons() {
     if (this.polygon) {
       this.polygon.setMap(null);
       this.polygon = null;
@@ -305,7 +336,7 @@ export class MapService {
       this.polygons = [];
     }
   }
-  resetPolyPath(){
+  resetPolyPath() {
     if (this.polygonPath) {
       this.polygonPath.setMap(null);
       this.polygonPath = null;
@@ -315,31 +346,31 @@ export class MapService {
   createPolygonPath(polygonOptions?) {
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.isDrawAllow) {
-        this.createPolyPathManual(event.latLng,polygonOptions);      
+        this.createPolyPathManual(event.latLng, polygonOptions);
       }
     });
   }
-  createPolyPathManual(latLng,polygonOptions?){
+  createPolyPathManual(latLng, polygonOptions?) {
     console.log("In Here");
-        if (!this.polygonPath) {
-          const defaultPolygonOptions = {
-            strokeColor: '#000000',
-            strokeOpacity: 1,
-            strokeWeight: 3,
-            icons: [{
-              icon: this.lineSymbol,
-              offset: '100%'
-            }]
-          }
-          this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
-          this.polygonPath.setMap(this.map);
-        }
-        let path = this.polygonPath.getPath();
-        path.push(latLng);
+    if (!this.polygonPath) {
+      const defaultPolygonOptions = {
+        strokeColor: '#000000',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '100%'
+        }]
+      }
+      this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.polygonPath.setMap(this.map);
+    }
+    let path = this.polygonPath.getPath();
+    path.push(latLng);
   }
 
-  setMapType(typeIndex){
-    let types = ['roadmap','satellite','hybrid','terrain'];
+  setMapType(typeIndex) {
+    let types = ['roadmap', 'satellite', 'hybrid', 'terrain'];
     this.map.setMapTypeId(types[typeIndex]);
   }
 

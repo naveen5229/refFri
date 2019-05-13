@@ -32,6 +32,12 @@ import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.
 import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
 import { ShortTargetComponent } from './short-target/short-target.component';
 import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
+import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
+import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
+import { RemainingFuelComponent } from '../admin/remaining-fuel/remaining-fuel.component';
+import { DocumentationDetailsComponent } from '../documents/documentation-details/documentation-details.component';
+import { DocumentsSummaryComponent } from '../documents/documents-summary/documents-summary.component';
+import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -179,7 +185,35 @@ const routes: Routes = [{
   {
     path: 'onward-kmpd',
     component: onwardKmpdComponent,
-  }
+  },
+  {
+    path: 'vehicle-trip-stages',
+    component: VehicleTripStagesComponent,
+  },
+  {
+    path: 'vehicle-trip-stages',
+    component: VehicleTripStagesComponent,
+  },
+  {
+    path: 'fuel-fillings',
+    component: FuelFillingsComponent
+  },
+  {
+    path: 'remaining-fuel',
+    component: RemainingFuelComponent
+  },
+  {
+    path: 'documentation-details',
+    component: DocumentationDetailsComponent,
+  },
+  {
+    path: 'documents-summary',
+    component: DocumentsSummaryComponent,
+  },
+  {
+    path: 'document-dashboard',
+    component: DocumentDashboardComponent,
+  },
   ],
 }];
 

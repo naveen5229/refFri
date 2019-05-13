@@ -7,8 +7,10 @@
       <div class="col-md-6 text-right">
         <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()"
           style="margin:0px; margin-right: 5px; cursor: pointer;">Add Fuel</button>
-        <button id="import-csv" name="import-csv" class="btn btn-primary" (click)="addCsv()"
-          style="margin:0px; cursor: pointer;">Import CSV</button>
+        <button id="import-csv" name="import-csv" class="btn btn-primary" *ngIf="user._loggedInBy=='admin'"
+          (click)="addCsv()" style="margin:0px; cursor: pointer;">Import CSV</button>
+        <button id="fuel-station" name="fuel-station" class="btn btn-primary" (click)="getFuelStation()"
+          style="margin:0px; margin-left: 10px; cursor: pointer;">Fuel Station</button>
       </div>
     </div>
 

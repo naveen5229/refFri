@@ -217,16 +217,17 @@ export class DocumentReportComponent implements OnInit {
         let first_rec = this.data[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
-         
+
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-            let image = { title: this.formatTitle('Image'), placeholder: this.formatTitle('Image') };
-            this.table.data.headings['image'] = image;
+
           }
 
 
         }
+        let image = { title: this.formatTitle('Image'), placeholder: this.formatTitle('Image') };
+        this.table.data.headings['image'] = image;
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;

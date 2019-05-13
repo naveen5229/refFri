@@ -1,14 +1,19 @@
-<nb-card>
-  <nb-card-header>
-    <h2>Driver Vehicle Remapping</h2>
+<!-- <nb-card>
+  <nb-card-header> -->
+      <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Driver Vehicle Remapping</h4>
+    <!-- <h2>Driver Vehicle Remapping</h2> -->
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
-  </nb-card-header>
-  <nb-card-body>
+    </div>
+  <!-- </nb-card-header>
+  <nb-card-body> -->
     <!-- <form [formGroup]="driverRemapForm" name="driverRemap-form"  id="driverRemap-form"
       (submit)="driverRemapForm.valid && Remapdriver()"> -->
-     <form class="form-group">
+     <!-- <form class="form-group"> -->
+        <div class="modal-body">
+            <div class="container">
       <div class="row">
         <div class="col-3">
           <label>{{maping.regno}}</label>
@@ -88,10 +93,12 @@
           </div> -->
         </div>
       </div>
+      </div>
+        </div>
       <div class="col-md-12 text-center margin-top-15">
         <button class="btn btn-primary" id="submit" type="submit"
           (click)="Remapdriver()">submit</button>
       </div>
-    </form>
+    <!-- </form>
   </nb-card-body>
-  </nb-card>
+  </nb-card> -->

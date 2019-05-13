@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 import { EditFillingComponent } from '../../../app/modals/edit-filling/edit-filling.component';
 import { ImportFillingsComponent } from '../../../app/modals/import-fillings/import-fillings.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { FuelStationEntryComponent } from '../../modals/fuel-station-entry/fuel-station-entry.component';
+import { ShowFuelStationComponent } from '../../modals/show-fuel-station/show-fuel-station.component';
 
 @Component({
   selector: 'fuel-fillings',
@@ -20,7 +22,7 @@ export class FuelFillingsComponent implements OnInit {
   table = {
     data: {
       headings: {
-        id: { title: 'ID', placeholder: 'ID' },
+        // id: { title: 'ID', placeholder: 'ID' },
         pump: { title: 'Pump', placeholder: 'Pump' },
         date: { title: 'Date', placeholder: 'Date' },
         regno: { title: 'Regno', placeholder: 'Regno' },
@@ -54,7 +56,7 @@ export class FuelFillingsComponent implements OnInit {
     this.dates.start = (this.common.dateFormatter(new Date(today.getFullYear(), today.getMonth(), 1))).split(' ')[0];
     this.getFillingData();
     this.common.refresh = this.refresh.bind(this);
-
+    console.log("Page Type:", user._pages);
   }
 
   ngOnInit() {
@@ -149,9 +151,9 @@ export class FuelFillingsComponent implements OnInit {
     this.fillingData.map(frec => {
       //valobj[this.headings[i]] = { value: val, class: (val > 0 )? 'blue': 'black', action: val >0 ? this.openData.bind(this, docobj, status) : '' };
       let column = {
-        id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
-        pump: { value: frec.pp },
-        date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy') },
+        //  id: { value: frec.id, class: 'blue', action: this.openData.bind(this, frec) },
+        pump: { value: frec.pp, class: 'blue', action: this.openData.bind(this, frec) },
+        date: { value: this.datePipe.transform(frec.date, 'dd MMM yyyy'), class: 'blue', action: this.openFuelEntry.bind(this, frec) },
         regno: { value: frec.regno },
         litres: { value: frec.litres },
         rate: { value: frec.rate },
@@ -180,5 +182,21 @@ export class FuelFillingsComponent implements OnInit {
       }
 
     });
+  }
+
+  openFuelEntry(val) {
+
+    this.common.params = {
+      vid: val.vehicle_id,
+      datetime: this.common.dateFormatter(val.date).split(' ')[0]
+    };
+    this.modalService.open(FuelStationEntryComponent, { size: 'lg', container: 'nb-layout' });
+  }
+
+  getFuelStation() {
+
+    this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' });
+    this.common.handleModalSize('class', 'modal-lg', '1200');
+
   }
 }

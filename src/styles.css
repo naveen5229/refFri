@@ -198,7 +198,14 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 .fas.fa-route::before,
 .fas.fa-file-signature::before,
 .fas.fa-sync-alt::before,
-.fas.fa-map-marked-alt::before {
+.fas.fa-map-marked-alt::before,
+.fas.fa-comment-dots::before,
+.fas.fa-address-card::before,
+.fas.fa-file-alt::before,
+.fas.fa-map-marked-alt::before,
+.fas.fa-map-pin::before,
+.fas.fa-info-circle::before,
+.fas.fa-tools::before {
   font-family: inherit;
 }
 .nb-theme-corporate .modal-content {
@@ -412,4 +419,38 @@ nb-card {
   background: #06d79c !important;
   box-shadow: 0 14px 26px -12px rgba(40,190,189,.42), 0 4px 23px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(40,190,189,.2);
   border: 1px solid #06d79c !important;
+}
+
+.loading {
+  color: green;
+}
+
+.unloading {
+  color: red;
+}
+
+.others {
+  color: rgb(0, 59, 253);
+}
+
+.circle {
+  border: 1px solid gray;
+  border-radius: 50%;
+  padding: 3px 4px;
+}
+
+.route-arrow {
+  font-size: 20px;
+  vertical-align: middle;
+  margin: 0px 5px;
+}
+
+.complete {
+  vertical-align: middle;
+  color: green;
+}
+
+.exit {
+  vertical-align: middle;
+  margin-right: 3px;
 }

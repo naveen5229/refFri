@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 
 @Component({
   selector: 'onward-kmpd',
@@ -69,10 +71,8 @@ export class onwardKmpdComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         //this.onwardKmpd = JSON.parse(res['data']);
-        console.log('onwardkmpd', this.onwardKmpd);
         this.onwardKmpd = res['data'];
         if (this.onwardKmpd != null) {
-          console.log('onwardKmpd', this.onwardKmpd);
           let first_rec = this.onwardKmpd[0];
           console.log("first_Rec", first_rec);
 
@@ -106,9 +106,15 @@ export class onwardKmpdComponent implements OnInit {
     for (var i = 0; i < this.onwardKmpd.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
+        if (this.headings[j] == "y_regno") {
+          this.valobj[this.headings[j]] = { value: this.onwardKmpd[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.onwardKmpd[i]) };
 
-        this.valobj[this.headings[j]] = { value: this.onwardKmpd[i][this.headings[j]], class: 'black', action: '' };
+        } else if (this.headings[j] == "y_kms") {
+          this.valobj[this.headings[j]] = { value: this.onwardKmpd[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.onwardKmpd[i]) };
 
+        } else {
+          this.valobj[this.headings[j]] = { value: this.onwardKmpd[i][this.headings[j]], class: 'black', action: '' };
+        }
 
       }
       this.valobj['style'] = { background: this.onwardKmpd[i]._rowcolor };
@@ -152,5 +158,46 @@ export class onwardKmpdComponent implements OnInit {
 
   }
 
+  showLocation(loc) {
+    if (!loc._lat) {
+      this.common.showToast("Vehicle location not available!");
+      return;
+    }
+    const location = {
+      lat: loc._lat,
+      lng: loc._long,
+      name: "",
+      time: ""
+    };
+    //console.log("Location: ", location);
+    this.common.params = { location, title: "Vehicle Location" };
+    const activeModal = this.modalService.open(LocationMarkerComponent, {
+      size: "lg",
+      container: "nb-layout"
+    });
+  }
 
+
+  openRouteMapper(defaultFault, timeFrom = 'Trip Start') {
+    console.log("defaultFault", defaultFault)
+    let fromTime = this.common.dateFormatter(this.startDate);
+    let toTime = this.common.dateFormatter(this.endDate);
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: defaultFault._vid,
+      vehicleRegNo: defaultFault.y_regno,
+      fromTime: fromTime,
+      toTime: toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
+  }
 }
