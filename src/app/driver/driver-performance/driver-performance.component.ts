@@ -13,24 +13,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class DriverPerformanceComponent implements OnInit {
   startDate = null;
   endDate = null;
-  driverPerformance = [{
-    "Pending": "pending_127",
-    "Verified": "verified_0",
-    "_type_id": 1,
-    "Type_name": "Normal Service"
-  },
-  {
-    "Pending": "pending_126",
-    "Verified": "verified_1",
-    "_type_id": 2,
-    "Type_name": "Battery Recharge"
-  },
-  {
-    "Pending": "pending_253",
-    "Verified": "verified_1",
-    "_type_id": 0,
-    "Type_name": "Summary"
-  }];
+  driverPerformance = [];
 
   headings = [];
   valobj = {};
