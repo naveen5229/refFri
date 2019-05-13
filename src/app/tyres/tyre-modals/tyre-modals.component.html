@@ -1,10 +1,10 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-2">
-        <h2>Tyre Modals</h2>
+      <div class="col-sm-6">
+        <h5>Tyre Modals</h5>
       </div>
-      <div class="col-sm-1">
+      <div class="col-sm-2 text-right">
         <span> 
           Brand Name : 
         </span>
@@ -12,37 +12,22 @@
       <div class="col-sm-2">
 
           <select class="form-control" [(ngModel)] = "selectedModal" (change)="getStockItems()">
+
             <option *ngFor="let modal of modals" [value]="modal.id"  >{{modal.name}}
             </option>
           </select>
         </div>
-      <div class="col-sm-4">
-        <button (click)=openStockItemModal() class="btn">Add Modal</button>
+      <div class="col-sm-2">
+        <button (click)="openStockItemModal()" class="btn btn-primary">Add Modal</button>
       </div>
      
     </div>
   </nb-card-header>
 
-  <nb-card-body>
-      <div class="row">
-          <div class="col-sm-1">
-            <span> 
-              Brand Name : 
-            </span>
-          </div>
-          <div class="col-sm-2">
-    
-              <select class="form-control" [(ngModel)] = "selectedModal" (change)="getStockItems()">
-                <option *ngFor="let modal of modals" [value]="modal.id"  >{{modal.name}}
-                </option>
-              </select>
-            </div>
-          <div class="col-sm-4">
-            <button (click)=openAddModals() class="btn btn-primary">Add Modal</button>
-          </div>
-        </div>
-    <div style="margin-top:20px">
-      <table class="table table-bordered table-hover">
+  <nb-card-body style="padding:10px 15px;">
+     
+    <div>
+      <table class="table table-bordered table-hover mb-0">
         <thead class="thead">
           <tr>
             <th># </th>
@@ -63,7 +48,7 @@
         </tbody>
       </table>
     </div>
-    <div class="no-data" *ngIf="items.length==0">
+    <div class="no-data alert-danger mt-3" *ngIf="items.length==0">
       No Data available !
     </div>
   </nb-card-body>

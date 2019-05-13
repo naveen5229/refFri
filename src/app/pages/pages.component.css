@@ -5,7 +5,7 @@ tr:nth-child(even) {
 .thead{
     color: white;
     font-size: 12px;
-    background-color: #677078;
+    background-color: #263238;
   }
 td{
     font-size: 12px;
@@ -13,13 +13,10 @@ td{
     padding:8px;
     
 }
-tr{
-    max-height: 5px;
-}
 .thead-dark{
     color: white;
     font-size: 18px;
-    background-color: #677078;
+    background-color: #263238;
   }
   .arrow{
     font-size: 18px;
@@ -85,8 +82,8 @@ tr{
  }
  
  nb-card-body ::-webkit-scrollbar {
-    width: 14px;
-    height: 14px;
+    width: 5px;
+    height: 5px;
  }
  .nb-theme-corporate nb-card ::-webkit-scrollbar {
     width: 5px;
@@ -152,20 +149,12 @@ tr{
         linear-gradient(270deg, #696969 30%, rgba(0, 0, 0, 0) 31%);
     background-color: #b6b6b6;
 }
-.modal-header{
-    text-align: center;
-    background-color:   #e0e0e0;
-    
-}
 .no-data {
-    font-size: 24px;
-    color: red;
-    font-weight: 400;
-    padding-left: 38%;
+    font-size: 18px;
+    color: #f73c3c;
+    font-weight: 600;
+    text-align: center;
 }
-:host ::ng-deep .menu-icon::before{
-    content: '';
-  }
 :host ::ng-deep .nb-home::before{
     content: '\f015';
 }

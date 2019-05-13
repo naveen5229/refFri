@@ -1,0 +1,27 @@
+<nb-card>
+  <nb-card-header>
+    <div class="col-sm-4">
+      <h2>Alert Related Issues</h2>
+    </div>
+    <div class="col-sm-8 text-right">
+    </div>
+
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-3">
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+          placeholder="Fo User" [preSelected]="null"></auto-suggestion>
+        <div class="suggestions ng-star-inserted">
+        </div>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-dark" (click)="foid=null;ticket()" >All Issue</button>
+      </div>
+    </div>
+    <div class="col-1 pl-0 pt-2">{{ticketsData.length}} Records</div>
+    <smart-table *ngIf="ticketsData.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br>
+
+  </nb-card-body>
+</nb-card>

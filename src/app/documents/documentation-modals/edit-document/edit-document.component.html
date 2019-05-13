@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,14 +9,14 @@
     (submit)="documentForm.valid && updateDocument()">
     <div class="row">
       <div class="col-md-4 model_left_section">
-          <div class="row">
-              <div class="col-md-4">
-                <label> Document id </label>
-              </div>
-              <div class="col-md-8">
-                <label style="font-size:16px;">{{document.docId}}</label>
-              </div>
-            </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label> Document id </label>
+          </div>
+          <div class="col-md-8">
+            <label style="font-size:16px;">{{document.docId}}</label>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-md-4">
@@ -48,7 +48,7 @@
             <label>Wef Date</label>
           </div>
           <div class="col-md-7">
-            <label style="font-size:16px;">{{document.wefDate}}</label>
+            <label style="font-size:16px;">{{document.wefDate | date:'dd MMM yyyy'}}</label>
           </div>
         </div>
         <div class="row">
@@ -56,7 +56,7 @@
             <label>Expiry Date</label>
           </div>
           <div class="col-md-7">
-            <label style="font-size:16px;">{{document.expiryDate}}</label>
+            <label style="font-size:16px;">{{document.expiryDate  | date:'dd MMM yyyy'}}</label>
           </div>
         </div>
         <div class="row">
@@ -68,7 +68,7 @@
               <option *ngFor="let agent of agents;" [value]="agent.id" class="form-control">{{agent.name}}
               </option>
             </select>
-            <a href="javascript: void(0);" (click)="addAgent()">Add Agent</a>
+            <a href="javascript: void(0);" class="add-agent" (click)="addAgent()">Add Agent</a>
           </div>
         </div>
         <div class="row">
@@ -107,7 +107,7 @@
             <textarea name="remark" class="form-control" [(ngModel)]="document.remark" placeholder="remark"></textarea>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-3 mb-3">
           <div class="col-sm-6">
             <button class="btn btn-danger" type="button" outline (click)="closeModal(false)" id="cancel"
               style="cursor: pointer;">{{btn2}}</button>
@@ -129,5 +129,5 @@
     </div>
   </form>
 </div>
-<div class="modal-footer"> 
+<div class="modal-footer">
 </div>

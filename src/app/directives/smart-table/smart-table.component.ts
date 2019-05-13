@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
+import { CommonService } from '../../services/common.service';
 // import * as _ from 'lodash';
 
 @Component({
@@ -15,7 +16,19 @@ export class SmartTableComponent implements OnInit {
   sortType = '';
   activeRow = -1;
 
-  constructor(private cdr: ChangeDetectorRef, ) { }
+  search = {
+    key: '',
+    txt: ''
+  };
+
+  pages = {
+    count: 0,
+    active: 1,
+    limit: 200,
+  };
+
+  constructor(private cdr: ChangeDetectorRef,
+    public common: CommonService) { }
 
   ngOnInit() {
   }
@@ -34,14 +47,24 @@ export class SmartTableComponent implements OnInit {
 
   setData() {
     this.headings = this.data.headings;
-    this.columns = this.data.columns
+    this.handlePagination(this.pages.active);
+    // this.columns = this.data.columns
     console.log(this.headings);
     console.log(this.columns);
     this.cdr.detectChanges();
+    if (this.search.txt && this.search.key) {
+      this.headings[this.search.key].value = this.search.txt;
+      this.filterData(this.search.key)
+    };
+    this.pages.count = Math.floor(this.data.columns.length / this.pages.limit);
+    if (this.data.columns.length % this.pages.limit) {
+      this.pages.count++;
+    }
   }
 
   filterData(key) {
-    let search = this.headings[key].value.toLowerCase().replace(/ /g, '');
+    let search = this.headings[key].value.toLowerCase();
+    this.search = { key, txt: search };
     this.columns = this.data.columns.filter(column => {
       if (!search.length) return true;
       let value = column[key].value;
@@ -94,6 +117,29 @@ export class SmartTableComponent implements OnInit {
     if (column[heading].colActions && column[heading].colActions.dblclick) {
       column[heading].colActions.dblclick()
     }
+  }
+
+  handleMouseHover(column, heading) {
+    // console.log('Mouseover');
+    if (column[heading].colActions && column[heading].colActions.mouseover) {
+      column[heading].colActions.mouseover()
+    }
+  }
+
+  handleMouseOut(column, heading) {
+    // console.log('MouseOut');
+    if (column[heading].colActions && column[heading].colActions.mouseout) {
+      column[heading].colActions.mouseout()
+    }
+  }
+
+  handlePagination(page) {
+    this.pages.active = page;
+    let startIndex = this.pages.limit * (this.pages.active - 1);
+    let lastIndex = (this.pages.limit * this.pages.active);
+    console.log('tttt:', startIndex, lastIndex);
+    this.columns = this.data.columns.slice(startIndex, lastIndex);
+    console.log(this.columns.length, this.columns);
   }
 
 }

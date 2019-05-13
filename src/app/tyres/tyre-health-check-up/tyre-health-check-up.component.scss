@@ -99,16 +99,13 @@ th{
   .health-values{
       height: 30px;
       margin-left: 20px;
-      width:80px;
+      width:70px;
       padding: 5px;
   }
   nb-card-header{
-    padding: 20px;  
+    padding: 15px 20px;
     border: 1px solid #efefef;
-    margin-bottom: 20px!important;
-  }
-  nb-card-body{
-      padding: 0px 20px 15px;
+    margin-bottom: 10px;
   }
   .alert-danger{
       color: #721c24 !important;
@@ -126,4 +123,14 @@ th{
   }
   .tyre_health_form .col-12 + .col-12{
     margin-top: 10px;
+  }
+  .vehicle_list{
+    position: relative;
+  }
+  .vehicle_list ul{
+    padding: 0px;
+    width: 100%;
+  }
+  .vehicle_list ul li{
+    padding: 5px 15px;
   }

@@ -5,26 +5,31 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FuelEntriesComponent } from '../../modals/fuel-entries/fuel-entries.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'fuel-average-analysis',
   templateUrl: './fuel-average-analysis.component.html',
-  styleUrls: ['./fuel-average-analysis.component.scss', '../pages.component.css']
+  styleUrls: ['./fuel-average-analysis.component.scss', '../pages.component.css'],
+  providers: [DatePipe]
 })
 export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
   dates = {
-    start: this.common.dateFormatter(new Date()),
-    end: this.common.dateFormatter(new Date())
+    start: this.common.dateFormatter(new Date()).split(' ')[0],
+    end: this.common.dateFormatter(new Date()).split(' ')[0]
   };
-
+  table = null;
   constructor(
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) {
-    this.getfuelAverageDetails();
+    private modalService: NgbModal,
+    private datePipe: DatePipe, ) {
+
+    // this.getfuelAverageDetails();
 
   }
 
@@ -39,59 +44,116 @@ export class FuelAverageAnalysisComponent implements OnInit {
       endTime: this.dates.end,
       foId: null,
     };
-    this.api.post('FuelDetails/getFillingsByDateAndFoid', params)
+    this.api.post('FuelDetails/getFuelFillingsAverage', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
         this.fuelAvgDetails = res['data'];
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
+  setTable() {
+    let headings = {
+      vehicleNumber: { title: 'Vehicle Number', placeholder: 'Vehicle No' },
+      startDate: { title: 'Start Date', placeholder: 'Start Date' },
+      endDate: { title: 'End Date', placeholder: 'End Date' },
+      liters: { title: 'Liters', placeholder: 'Liters' },
+      amount: { title: 'Amounts', placeholder: 'Amounts' },
+      average: { title: 'Average', placeholder: 'Average' },
+      totalDistance: { title: 'Total Distance', placeholder: 'Total Distance' },
+      loadingDistance: { title: 'Loading Distance', placeholder: 'Loading Distance' },
+      unloadingDistance: { title: 'Unloading Distance', placeholder: 'Unloading Distance' },
+      location: { title: 'Location Trail', placeholder: 'Location Trail' },
+    };
+
+    return {
+      data: {
+        headings: headings,
+        columns: this.getTableColumns()
+      },
+      settings: {
+        hideHeader: true,
+        tableHeight: "auto"
+      }
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    this.fuelAvgDetails.map(fuel => {
+      let column = {
+        vehicleNumber: { value: fuel.reg_number },
+        startDate: { value: this.datePipe.transform(fuel.startdate, 'dd-MMM hh:mm a') },
+        endDate: { value: fuel.enddate != null ? this.datePipe.transform(fuel.enddate, 'dd-MMM hh:mm a') : '------' },
+        liters: { value: fuel.liters, class: fuel.liters ? 'blue' : 'black', action: this.getDetails.bind(this, fuel) },
+        amount: { value: fuel.amounts },
+        average: { value: fuel.avg },
+        totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
+        loadingDistance: { value: fuel.loading_distance },
+        unloadingDistance: { value: fuel.umloading_distance },
+        location: { value: fuel.location_trail },
+
+      };
+
+
+      columns.push(column);
+    });
+    return columns;
+  }
+
+
+
+
   getDate(date) {
+    this.common.params = { ref_page: 'fuel-avg' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
         this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
         console.log('Date:', this.dates[date]);
-        if (this.dates.start && this.dates.end)
-          this.getfuelAverageDetails();
+
       }
 
     });
   }
 
-  // getDetails(fuelAvgDetail){
-  //   this.common.params =fuelAvgDetail;
-  //   let params ={
-  //     vehId : fuelAvgDetail.vehicle_id?fuelAvgDetail.vehicle_id:null,
-  //     lastFilling : fuelAvgDetail.last_filling_entry_time?fuelAvgDetail.last_filling_entry_time:null,
-  //     currentFilling : fuelAvgDetail.current_filling_entry_time?fuelAvgDetail.current_filling_entry_time:null
-  //   } 
-  //   this.common.loading++;
-  //   this.api.post('FuelDetails/getFillingsBwTime',params)
-  //     .subscribe(res => {
-  //       this.common.loading--;
-  //       console.log(res);
-  //       let data = [];
-  //       res['data'].map((fueldetail, index) => {
-  //         data.push([index, fueldetail.name, fueldetail.location, fueldetail.liters,this.common.changeDateformat(fueldetail.entry_time)]);
-  //       });
-  //       console.log(data);
-  //       this.common.params = { title: 'Filling Entries', headings: ["#", "Station Name", "Location", "Litres","Entry Time"], data };
-  //     this.modalService.open(ViewListComponent, { size: 'lg', container: 'nb-layout' });
-  //     }, err => {
-  //       this.common.loading--;
-  //       console.log(err);
-  //     });
-      
 
-  // }
-  getDetails(fuelAvgDetail){
-  this.common.params =fuelAvgDetail;
-  const activeModal = this.modalService.open(FuelEntriesComponent, { size: 'lg', container: 'nb-layout' });
-  
+  getDetails(fuelAvgDetail) {
+    this.common.params = fuelAvgDetail;
+    console.log('Param', this.common.params);
+
+    const activeModal = this.modalService.open(FuelEntriesComponent, { size: 'lg', container: 'nb-layout' });
+
+  }
+
+
+  openRouteMapper(fuelData) {
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    let date;
+    if (fuelData.enddate != null) {
+      date = fuelData.enddate
+    } else {
+      date = this.common.dateFormatter(new Date())
+    }
+    console.log('date', date);
+    this.common.params = {
+      vehicleId: fuelData.vehicle_id,
+      vehicleRegNo: fuelData.reg_number,
+      fromTime: fuelData.startdate,
+      toTime: date
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+    );
   }
 }

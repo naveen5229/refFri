@@ -1,0 +1,172 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Vehicle States</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-bottom:20px">
+    <div class="col-sm-2">
+      <label>Trip States:</label>
+    </div>
+    <div class="col-sm-4">
+      <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
+        style=" border: 1px solid #324148; font-size: 10px">
+        <option value="0">Selcet State</option>
+        <option value="1">Loading</option>
+
+        <!-- <option value="13">Onward, Nearby Origin</option> -->
+        <!-- <option value="14">Onward, Nearby Destination</option> -->
+        <!-- <option value="15">Available, Nearby Origin</option> -->
+        <!-- <option value="20">Available, Nearby Destination</option> -->
+        <!-- <option value="21">Available, Unauthorised Movement</option> -->
+        <!-- <option value="22">Available, Empty Movement</option> -->
+        <option value="2">Onward</option>
+        <option value="3">Unloading</option>
+        <option value="4">Availabe</option>
+        <option value="5">Accident</option>
+        <option value="6">Maintenance</option>
+        <option value="7">Break Down</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:20px">
+    <!-- <div class="col-sm-6" id="foo"> -->
+    <!-- <div class="row"> -->
+    <div class="col-sm-4">
+      <input type="radio" name="halt" value="halts" [(ngModel)]="changeCategory" (change)="getCategory()">
+      Halts
+    </div>
+    <div class="col-sm-4">
+      <input type="radio" name="sites" value="sites" [(ngModel)]="changeCategory" (change)="getCategory()">
+      Sites
+    </div>
+    <div class="col-sm-4">
+      <input type="radio" name="location" value="location" [(ngModel)]="changeCategory" (change)="getCategory()">
+      Location
+    </div>
+  </div>
+  <div class="row mt-3" *ngIf="changeCategory=='halts'">
+    <div class="col-sm-4" style="margin-top:15px">
+      <label>Location Name:</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" [(ngModel)]="halt.location" name="haltLocation"
+        placeholder="Location Name">
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="changeCategory=='sites'">
+    <div class="col-sm-2 mt-2">
+      <label>Site: </label>
+    </div>
+    <div class="col-sm-4">
+      <auto-suggestion (onSelected)="getSite($event)" url="Suggestion/getSites?typeId=1" display="name"
+        placeholder="Search site" [preSelected]="null"></auto-suggestion>
+    </div>
+
+    <div class="col-sm-2 mt-2">
+      <label>Date:</label>
+    </div>
+    <div class="col-sm-4">
+      <input [(ngModel)]="site.site_date" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
+        class="form-control" autocomplete="off" name="date">
+      <owl-date-time #date></owl-date-time>
+      <!-- <input type="text" class="form-control" [value]="site.site_date | date : 'dd MMM yyyy'" name="date" placeholder="Date" (click)="getDate('site')"> -->
+    </div>
+  </div>
+  <div class="row mt-4" [hidden]="changeCategory != 'location'">
+    <div class="col-sm-2 mt-2">
+      <label>Location: </label>
+    </div>
+    <div class="col-sm-4">
+      <input type="text" placeholder="place.." id="location" name="location" [(ngModel)]="location.loc"
+        class="form-control mt-0">
+    </div>
+
+    <div class="col-sm-2 mt-2">
+      <label>Date:</label>
+    </div>
+    <div class="col-sm-4">
+      <input [(ngModel)]="location.loc_date" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="Date Time"
+        class="form-control" autocomplete="off" name="date1">
+      <owl-date-time #date1></owl-date-time>
+      <!-- <input type="text" class="form-control" [value]="location.loc_date | date : 'dd MMM yyyy'" name="date1" placeholder="Date" (click)="getDate('loc')"> -->
+    </div>
+  </div>
+  <!-- </div> -->
+  <!-- <div class="col-sm-6" *ngIf="changeCategory=='halts'">
+      <table class="table table-bordered">
+        <thead class="thead" style="background-color:#d4d4d4">
+          <tr>
+            <th>Select Halt</th>
+            <th>Last 10 Halt</th>
+            <th>Time</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngIf="!vehicleEvent.length">
+            <td colspan="3">Record not found</td>
+          </tr>
+          <tr *ngFor="let data of vehicleEvent; let i=index;">
+            <td> <input type="radio" name="select" value="select" (change)="selectHalt(data)"></td>
+            <td>{{data.halt_reason}}</td>
+            <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  <!-- </div> -->
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-6" *ngIf="changeCategory=='halts'">
+      <table class="table table-bordered">
+        <thead class="thead" style="background-color:#d4d4d4">
+          <tr>
+            <th>Select Halt</th>
+            <th>Last 10 Halt</th>
+            <th>Time</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngIf="!vehicleEvent.length">
+            <td colspan="3">Record not found</td>
+          </tr>
+          <tr *ngFor="let data of vehicleEvent; let i=index;">
+            <td> <input type="radio" name="select" value="select" (change)="selectHalt(data)"></td>
+            <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{data.halt_reason}}</td>
+            <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{data.addtime | date : 'dd MMM HH:mm'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-6" style="position:relative;" id="foo">
+      <div class="zoom_btn_box">
+        <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+      </div>
+      <div class="map" id="map"></div>
+    </div>
+
+
+  </div>
+
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-2 mt-2">
+      <label>Remark:</label>
+    </div>
+    <div class="col-sm-4">
+      <input type="text" placeholder="" name="remark" [(ngModel)]="remark" class="form-control mt-0">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="footer" style="text-align:right;"><button class="btn btn-primary"
+      (click)="saveVehicleState()">Save</button></div>
+</div>

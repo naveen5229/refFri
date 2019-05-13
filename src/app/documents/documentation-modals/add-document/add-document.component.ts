@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAgentComponent } from '../add-agent/add-agent.component';
 import { DatePickerComponent } from '../../../modals/date-picker/date-picker.component';
 import { from } from 'rxjs';
+import { DropDownListComponent } from '../drop-down-list/drop-down-list.component';
 @Component({
   selector: 'add-document',
   templateUrl: './add-document.component.html',
@@ -19,6 +20,13 @@ export class AddDocumentComponent implements OnInit {
   btn2 = '';
   vehicleId = '';
   spnexpdt = 0;
+  // for report model
+  updateimage = 0;
+  docId = null;
+  vehicleid = null;
+  docTypeid = null;
+  docType = null;
+  regno = null;
 
   document = {
     image1: null,
@@ -49,6 +57,7 @@ export class AddDocumentComponent implements OnInit {
   docTypes = [];
   vehicle = null;
   isFormSubmit = false;
+  ignore = 0;
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -56,11 +65,28 @@ export class AddDocumentComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.title = this.common.params.title;
+    this.title = this.common.params.title || 'Add Document';
     this.btn1 = this.common.params.btn1 || 'Add';
     this.btn2 = this.common.params.btn2 || 'Cancel';
 
     this.vehicleId = this.common.params.vehicleId;
+    if (this.common.params.row) {
+      this.updateimage = 1;
+      this.regno = this.common.params.row.Vehicle;
+      this.docId = this.common.params.row._docid;
+      this.vehicleid = this.common.params.row._vid;
+      this.docType = this.common.params.row._docname;
+      this.docTypeid = this.common.params.row._doctypeid;
+    }
+
+    if (this.common.params.norecordData) {
+      this.ignore = 1;
+      this.regno = this.common.params.norecordData.vehicle;
+      // this.vehicleid = this.common.params.norecordData._vid;
+      this.vehicleId = this.common.params.norecordData._vid;
+      this.docType = this.common.params.col;
+      this.docTypeid = this.common.params.colval;
+    }
 
     if (this.document.dates.issue)
       this.document.dates.issue = this.common.dateFormatter(this.document.dates.issue, 'ddMMYYYY').split(' ')[0];
@@ -83,7 +109,7 @@ export class AddDocumentComponent implements OnInit {
         this.common.loading--;
         // console.log("data", res);
         this.vehicle = res['data'].vehicle_info[0];
-        this.agents = res['data'].document_agents_info;
+        // this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
       }, err => {
         this.common.loading--;
@@ -96,7 +122,7 @@ export class AddDocumentComponent implements OnInit {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
-        this.common.loading--;
+        //this.common.loading--;
         let file = event.target.files[0];
         console.log("Type", file.type);
         if (file.type == "image/jpeg" || file.type == "image/jpg" ||
@@ -110,12 +136,46 @@ export class AddDocumentComponent implements OnInit {
           return false;
         }
 
-        console.log('Base 64: ', res);
+        //console.log('Base 64: ', res);
         this.document['image' + index] = res;
+        this.compressImage(res, index);
+        this.common.loading--;
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);
       })
+  }
+
+  compressImage(base64Image, index) {
+    let image = new Image();
+    image.onload = () => {
+      // Resize the image using canvas  
+      let canvas = document.createElement('canvas'),
+        max_size = 1504,// TODO : max size for a pic  
+        width = image.width,
+        height = image.height;
+      if (width > height) {
+        if (width > max_size) {
+          height *= max_size / width;
+          width = max_size;
+        }
+      } else {
+        if (height > max_size) {
+          width *= max_size / height;
+          height = max_size;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+
+      //Getting base64 string; 
+      //this.images[index].base64 = canvas.toDataURL('image/jpeg').split(",")[1];      
+      this.document['image' + index] = canvas.toDataURL('image/jpeg');
+      console.log('Image Compressed !');
+      console.log(this.document['image' + index]);
+    }
+    image.src = base64Image;
   }
 
 
@@ -159,92 +219,83 @@ export class AddDocumentComponent implements OnInit {
   }
 
   addDocument() {
-    const params = {
-      x_entryby: this.user._details.id,
-      x_vehicle_id: this.vehicle.id,
-      x_document_type_id: this.document.type.id,
-      x_document_type: this.findDocumentType(this.document.type.id),
-      // x_issue_date: this.document.dates.issue,
-      // x_wef_date: this.document.dates.wef,
-      // x_expiry_date: this.document.dates.expiry,
-      x_base64img: this.document.image1,
-      x_base64img2: this.document.image2,
-      x_base64img3: this.document.image3,
-    };
-   
 
+    if (this.docId) {
+      const params = {
+        x_entryby: this.user._details.id,
+        x_document_id: this.docId,
+        x_vehicle_id: this.vehicleid,
+        x_document_type_id: this.docTypeid,
+        x_document_type: this.docType,
+        x_base64img: this.document.image1,
+        x_base64img2: this.document.image2,
+        x_base64img3: this.document.image3,
+      };
 
-    // let issuedt_valid = 1;
-    // let wefdt_valid = 1;
-    // if (this.document.dates.issue != "undefined" && this.document.dates.expiry != "undefined") {
-    //   if (this.document.dates.issue && this.document.dates.expiry)
-    //     issuedt_valid = this.checkExpiryDateValidityByValue(this.document.dates.issue, this.document.dates.expiry);
-    // }
-    // if (this.document.dates.wef != "undefined" && this.document.dates.expiry != "undefined") {
-    //   if (this.document.dates.wef && this.document.dates.expiry)
-    //     wefdt_valid = this.checkExpiryDateValidityByValue(this.document.dates.wef, this.document.dates.expiry);
-    // }
-    // if (issuedt_valid && wefdt_valid) {
-    //   this.spnexpdt = 0;
-    // } else {
-    //   this.spnexpdt = 1;
-    // }
+      // if (!this.document.type.id) {
+      //   return this.common.showError("Select Document Type");
+      // }
+      if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
+        return this.common.showError("Select Document Image/File");
+      }
+      console.log('Params: ', params);
+      this.common.loading++;
+      this.api.post('Vehicles/addVehicleDocumentWeb', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("api result", res);
+          let result = res["msg"];
+          if (result == "success") {
+            this.common.showToast("Success");
+            this.closeModal(true);
+          }
+          else {
+            alert(result);
 
-    // if (this.spnexpdt) {
-    //   this.common.showError("Please check the Expiry Date validity");
-    //   return false;
-    // }
+          }
 
-    // if (this.document.dates.issue) {
-    //   params.x_issue_date = this.document.dates.issue.split("/").reverse().join("-");
-    //   let strdt = new Date(params.x_issue_date);
-    //   if (isNaN(strdt.getTime())) {
-    //     this.common.showError("Invalid Issue Date. Date formats should be dd/mm/yyyy");
-    //     return false;
-    //   }
-    // }
-    // if (this.document.dates.wef) {
-    //   params.x_wef_date = this.document.dates.wef.split("/").reverse().join("-");
-    //   let strdt = new Date(params.x_wef_date);
-    //   if (isNaN(strdt.getTime())) {
-    //     this.common.showError("Invalid Wef Date. Date formats should be dd/mm/yyyy");
-    //     return false;
-    //   }
-    // }
-    // if (this.document.dates.expiry) {
-    //   params.x_expiry_date = this.document.dates.expiry.split("/").reverse().join("-");
-    //   let strdt = new Date(params.x_expiry_date);
-    //   if (isNaN(strdt.getTime())) {
-    //     this.common.showError("Invalid Expiry Date. Date formats should be dd/mm/yyyy");
-    //     return false;
-    //   }
-    // }
-     if (!this.document.type.id) {
-      return this.common.showError("Select Document Type");
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
     }
-    if (!this.document.image1) {
-      return this.common.showError("Select Document Image/File");
+    else {
+      const params = {
+        x_entryby: this.user._details.id,
+        x_vehicle_id: this.vehicle.id,
+        x_document_type_id: this.document.type.id,
+        x_document_type: this.findDocumentType(this.document.type.id),
+        // x_issue_date: this.document.dates.issue,
+        // x_wef_date: this.document.dates.wef,
+        // x_expiry_date: this.document.dates.expiry,
+        x_base64img: this.document.image1,
+        x_base64img2: this.document.image2,
+        x_base64img3: this.document.image3,
+      };
+      if (!this.document.image1 && !this.document.image2 && !this.document.image3) {
+        return this.common.showError("Select Document Image/File");
+      }
+      console.log('Params: ', params);
+      this.common.loading++;
+      this.api.post('Vehicles/addVehicleDocumentWeb', params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("api result", res);
+          let result = res["msg"];
+          if (result == "success") {
+            this.common.showToast("Success");
+            this.closeModal(true);
+          }
+          else {
+            alert(result);
+
+          }
+
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
     }
-    console.log('Params: ', params);
-    this.common.loading++;
-    this.api.post('Vehicles/addVehicleDocumentWeb', params)
-      .subscribe(res => {
-        this.common.loading--;
-         console.log("api result", res);
-        let result = res["msg"];
-        if (result == "success") {
-          this.common.showToast("Success");
-          this.closeModal(true);
-        }
-        else {
-          alert(result);
-
-        }
-
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
   }
 
 
@@ -271,23 +322,23 @@ export class AddDocumentComponent implements OnInit {
     return documentType;
   }
 
-  addAgent() {
-    this.common.params = { title: 'Add Agent' };
-    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+  // addAgent() {
+  //   this.common.params = { title: 'Add Agent' };
+  //   const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getDocumentsData();
-      }
-    });
-  }
+  //   activeModal.result.then(data => {
+  //     if (data.response) {
+  //       this.getDocumentsData();
+  //     }
+  //   });
+  // }
 
   selectDocType(docType) {
     this.document.type.id = docType.id
     console.log("doc var", this.document.type.id);
   }
 
-  checkDateFormat(dateType){
+  checkDateFormat(dateType) {
     let dateValue = this.document.dates[dateType];
     if (dateValue.length < 8) return;
     let date = dateValue[0] + dateValue[1];
@@ -295,5 +346,57 @@ export class AddDocumentComponent implements OnInit {
     let year = dateValue.substring(4, 8);
     this.document.dates[dateType] = date + '/' + month + '/' + year;
     console.log('Date: ', this.document.dates[dateType]);
+  }
+
+  ignoreDoc() {
+    if (this.docTypeid || this.document.type.id) {
+      const ignoreData = {
+        x_entryby: this.user._details.id,
+        x_vehicle_id: this.vehicleId,
+        x_document_type_id: this.document.type.id ? this.document.type.id : this.docTypeid,
+        x_document_type: this.document.type.id ? this.findDocumentType(this.document.type.id) : this.docType,
+
+      };
+      this.common.params = { title: 'ignore Reason', ignoreData };
+      const activeModal = this.modalService.open(DropDownListComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.returnIgnoreData(data.response, data.record);
+        }
+      });
+    }
+    else {
+      this.common.showToast("select Document Type");
+    }
+  }
+
+
+  returnIgnoreData(ignoreReason, record) {
+    const params = {
+      x_remarks: ignoreReason.name,
+      x_vehicle_id: record.x_vehicle_id,
+      x_document_type_id: record.x_document_type_id,
+
+    };
+    console.log("Params:", params);
+    this.common.loading++;
+
+    this.api.post('vehicles/saveIgnoreVehicleDocument', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+          this.closeModal(true);
+        }
+        else {
+          this.common.showError(res['msg']);
+        }
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 }

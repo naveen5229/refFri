@@ -1,49 +1,72 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Add Consignee/Consignor</h4>
+ 
+<div class="model-drag" cdkDrag>
+    <div class="model-handler" cdkDragHandle>
+        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+          <path d="M0 0h24v24H0z" fill="none"></path>
+        </svg>
+      </div>
+  <div class="modal-header" style="margin-top:5px">
+  <h5 class="modal-title" id="modal-basic-title">Add Consignee/Consignor</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <div class="container">
-    <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label> PAN No. </label>
+    <form [formGroup]="Form" name="consignee-form" id="consignee-form" (submit)="Form.valid && addConsignee()">
+
+      <!-- <input type="hidden" id="vehTripId" name="vehTripId" [(ngModel)]="vehicleTrip.id" /> -->
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label> PAN No. </label>
+        </div>
+        <div class="col-md-8">
+          <input id="panNo" name="panNo" formControlName="panNo" type="text" placeholder="PAN No" autocomplete="off"
+            class="form-control" [(ngModel)]="consignee.panNo" (keyup)="checkFormat()" 
+            [ngClass]="{ 'is-invalid': isFormSubmit && f.panNo.errors }">
+          <div *ngIf="isFormSubmit && f.panNo.errors" class="invalid-feedback">
+            <div *ngIf="f.panNo.errors.required">PanNumber is Require</div>
+            <div *ngIf="f.panNo.errors.pattern"> Example : AELPU5278H</div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-8">
-        <input id="panNo" name="panNo" type="text" placeholder="PAN No" autocomplete="off" class="form-control"
-          [(ngModel)]="consignee.panNo">
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label> Name </label>
+        </div>
+        <div class="col-md-8" style="margin-top:5px">
+          <input type="text" id="name" formControlName="name" class="form-control" [(ngModel)]="consignee.name"
+            name="name" placeholder="Name" (keyUp)="checkFormat()" autocomplete="off"  [ngClass]="{ 'is-invalid': isFormSubmit && f.name.errors }"     >
+            <div *ngIf="isFormSubmit && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is Require</div>
+               
+              </div>
+        </div>
       </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label> Name </label>
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label> Mobile No</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="mobileNo" formControlName="mobileNo" name="mobileNo"
+            placeholder="Mobile No" [(ngModel)]="consignee.mobileNo" minlength="10" maxlength="10"  [ngClass]="{ 'is-invalid': isFormSubmit && f.mobileNo.errors }">
+            <div *ngIf="isFormSubmit && f.mobileNo.errors" class="invalid-feedback">
+                <div *ngIf="f.mobileNo.errors.pattern"> Example : 9857546602</div>
+                <div *ngIf="f.mobileNo.errors.minlength"> Enter Minimum 10 Digits</div>
+              </div>
+        </div>
       </div>
-      <div class="col-md-8" style="margin-top:5px">
-        <input type="text" id="name" class="form-control" [(ngModel)]="consignee.name" name="name"
-          placeholder="Name" autocomplete="off">
+      <div class="row" style="margin-top:5px">
+        <div class="col-md-4">
+          <label>Address</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" id="address" class="form-control" formControlName="address" name="address"
+            [(ngModel)]="consignee.address" placeholder="Address" autocomplete="off">
+        </div>
       </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label> Mobile No</label>
-      </div>
-      <div class="col-md-8">
-        <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Mobile No"
-          [(ngModel)]="consignee.mobileNo">
-      </div>
-    </div>
-    <div class="row" style="margin-top:5px">
-      <div class="col-md-4">
-        <label>Address</label>
-      </div>
-      <div class="col-md-8">
-        <input type="text" id="address" class="form-control" name="address" [(ngModel)]="consignee.address"
-          placeholder="Address" autocomplete="off">
-      </div>
-    </div>
-   
+    </form>
   </div>
 </div>
 <div class="modal-footer">
@@ -52,7 +75,10 @@
       <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
     <div class="col">
-      <button class="btn btn-primary" (click)="addConsignee();" style="cursor:pointer;">Add</button>
+      <button class="btn btn-primary" form="consignee-form" (click)="isFormSubmit=true"
+        style="cursor:pointer;">Add</button>
     </div>
   </div>
 </div>
+</div>
+

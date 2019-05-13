@@ -26,8 +26,8 @@ export class AddDriverComponent implements OnInit {
     aadharphoto: null,
     Salary: null,
     guranter: null,
-    guranterno: null
-
+    guranterno: null,
+    doj: null
   }
   constructor(
     public common: CommonService,
@@ -101,7 +101,7 @@ export class AddDriverComponent implements OnInit {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       photo: this.driverForm.controls.uploadPhoto.value,
-      lisenceno: this.driverForm.controls.lisenceno.value,
+      licenceNo: this.driverForm.controls.lisenceno.value,
       licencePhoto: this.driverForm.controls.lisencephoto.value,
       aadharNo: this.driverForm.controls.aadharno.value,
       aadharPhoto: this.driverForm.controls.aadharphoto.value,

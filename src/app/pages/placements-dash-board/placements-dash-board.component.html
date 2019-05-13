@@ -1,0 +1,35 @@
+<nb-card style="border:0px;">
+  <nb-card-header style="padding-bottom:0px;">
+    <div class="row">
+      <div class="col-sm-6">
+        <h5>Placements DashBoard</h5>
+      </div>
+      <div class="col-sm-6">
+        <ul class="tabs_style">
+          <li [ngClass]="dis_all == 0 ? 'active' : ''" id="dis-all" (click)="displayList(0); dis_all = 0">
+            All
+          </li>
+          <li [ngClass]="dis_all == 1 ? 'active' : ''" (click)="displayList(1); dis_all = 1">
+            Placements Assigned
+          </li>
+          <li [ngClass]="dis_all == -1 ? 'active' : ''" (click)="displayList(-1); dis_all = -1" id="dis-pen">
+            Placement Pending
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body style="padding-bottom: 0px; padding-top: 10px;">
+    <div class="row">
+      <div class="col-sm-6 pr-0" *ngIf="placements.length">
+        <smart-table *ngIf="placements.length" [data]="table.placements" [settings]="table.settings" id="tblVehDocs">
+        </smart-table>
+      </div>
+      <div class="col-sm-6" *ngIf="filteredVehiclePlacements.length">
+        <smart-table *ngIf="filteredVehiclePlacements.length" [data]="table1.data" [settings]="table1.settings"
+          id="tbldocs">
+        </smart-table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
