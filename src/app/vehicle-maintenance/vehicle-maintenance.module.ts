@@ -9,6 +9,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
 import { AddMaintenanceComponent } from './model/add-maintenance/add-maintenance.component';
 import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
+import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-summary.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -28,6 +29,7 @@ const PAGES_COMPONENTS = [
     AddVehicleMaintenanceComponent,
     AddMaintenanceComponent,
     MaintenanaceDashboardComponent,
+    MaintenanceSummaryComponent,
 
   ],
   entryComponents: [
