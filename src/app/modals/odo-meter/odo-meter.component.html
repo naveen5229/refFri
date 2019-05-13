@@ -43,7 +43,9 @@
   </div>
 
 
-
+  <div>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  </div>
 
 
 </div>
@@ -55,9 +57,9 @@
       <button class="btn btn-danger" type="button" outline (click)="closeModal()" id="cancel"
         style="cursor: pointer;">Cancel</button>
     </div>
-    <div class="col text-right">
+    <!-- <div class="col text-right">
       <button class="btn btn-primary" type="button" id="submit" (click)="saveOdoMaterData()"
         style="cursor: pointer;">Save</button>
-    </div>
+    </div> -->
   </div>
 </div>
