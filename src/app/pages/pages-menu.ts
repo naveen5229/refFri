@@ -211,7 +211,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Driver',
     icon: 'fa fa-user',
     children: [{
-      title: 'Documents Input ',
+      title: 'driver Performance ',
       icon: 'fa fa-book',
       link: '/pages/driver-performance',
       home: true,

@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentReportComponent } from '../../documents/documentation-modals/document-report/document-report.component';
+import { MaintenanceReportComponent } from '../model/maintenance-report/maintenance-report.component';
 
 @Component({
   selector: 'maintenance-summary',
@@ -47,8 +48,8 @@ export class MaintenanceSummaryComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    //this.getDocumentData();
-    window.location.reload();
+    this.getDocumentData();
+    // window.location.reload();
   }
 
   getDocumentData() {
@@ -85,7 +86,7 @@ export class MaintenanceSummaryComponent implements OnInit {
     this.maintenanceData.map(doc => {
       let valobj = {};
       let total = {};
-      let docobj = { document_type_id: 0 };
+      let docobj = { maintenance_type_id: 0 };
       for (var i = 0; i < this.headings.length; i++) {
         let strval = doc[this.headings[i]];
         let status = '';
@@ -97,7 +98,7 @@ export class MaintenanceSummaryComponent implements OnInit {
         } else {
           val = strval;
         }
-        docobj.document_type_id = doc['_doctypeid'];
+        docobj.maintenance_type_id = doc['_type_id'];
         valobj[this.headings[i]] = { value: val, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
 
 
@@ -113,8 +114,9 @@ export class MaintenanceSummaryComponent implements OnInit {
   }
 
   openData(docReoprt, status) {
-    this.common.params = { docReoprt, status, title: 'Document Report' };
-    const activeModal = this.modalService.open(DocumentReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    console.log("report", docReoprt, status);
+    this.common.params = { docReoprt, status, title: 'Maintenance Report' };
+    const activeModal = this.modalService.open(MaintenanceReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getDocumentData();

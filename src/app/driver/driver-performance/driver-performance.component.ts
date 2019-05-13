@@ -13,7 +13,24 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class DriverPerformanceComponent implements OnInit {
   startDate = null;
   endDate = null;
-  driverPerformance = [];
+  driverPerformance = [{
+    "Pending": "pending_127",
+    "Verified": "verified_0",
+    "_type_id": 1,
+    "Type_name": "Normal Service"
+  },
+  {
+    "Pending": "pending_126",
+    "Verified": "verified_1",
+    "_type_id": 2,
+    "Type_name": "Battery Recharge"
+  },
+  {
+    "Pending": "pending_253",
+    "Verified": "verified_1",
+    "_type_id": 0,
+    "Type_name": "Summary"
+  }];
 
   headings = [];
   valobj = {};
@@ -87,7 +104,7 @@ export class DriverPerformanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-        this.driverPerformance = res['data'];
+        // this.driverPerformance = res['data'];
         console.log('tripstagesData', this.driverPerformance);
         let first_rec = this.driverPerformance[0];
         console.log("first_Rec", first_rec);
