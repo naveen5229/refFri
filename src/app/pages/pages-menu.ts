@@ -49,9 +49,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Verify Trip States',
-        icon: 'fas fa-road',
+        title: 'Vehicle Trip States',
+        icon: 'fas fa-map-marked',
         link: '/pages/vehicle-trip-states',
+        home: true,
+      },
+      {
+        title: 'Verify Trip States',
+        icon: 'far fa-check-circle',
+        link: '/pages/trip-verify-states',
         home: true,
       },
       {

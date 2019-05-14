@@ -40,6 +40,7 @@ import { DocumentsSummaryComponent } from '../documents/documents-summary/docume
 import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.component';
 import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
+import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -223,6 +224,10 @@ const routes: Routes = [{
   {
     path: 'vehicle-distance',
     component: VehicleDistanceComponent
+  },
+  {
+    path: 'trip-verify-states',
+    component: TripVerifyStatesComponent,
   }
   ],
 }];
