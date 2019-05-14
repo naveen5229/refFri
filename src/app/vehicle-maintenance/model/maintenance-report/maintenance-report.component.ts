@@ -59,33 +59,33 @@ export class MaintenanceReportComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-  //  printPDF(tblEltId) {
-  //    this.common.loading++;
-  //    let userid = this.user._customer.id;
-  //    if (this.user._loggedInBy == "customer")
-  //      userid = this.user._details.id;
-  //    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
-  //      .subscribe(res => {
-  //        this.common.loading--;
-  //        this.fodata = res['data'];
-  //        let left_heading = this.fodata['name'];
-  //        let strstatus = this.reportData.status.toUpperCase();
-  //        switch (strstatus) {
-  //          case 'VERIFIED': strstatus = 'VERIFIED DOCUMENTS'; break;
-  //          case 'UNVERIFIED': strstatus = 'UNVERIFIED DOCUMENTS'; break;
-  //          case 'PENDINGIMAGE': strstatus = 'PENDING IMAGES'; break;
-  //          case 'EXPIRING30DAYS': strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
-  //          case 'EXPIRED': strstatus = 'EXPIRED DOCUMENTS'; break;
-  //          case 'PENDINGDOC': strstatus = 'PENDING DOCUMENTS'; break;
-  //          default: break;
-  //        }
-  //        let center_heading = strstatus;
-  //        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
-  //      }, err => {
-  //        this.common.loading--;
-  //        console.log(err);
-  //      });
-  //  }
+  printPDF(tblEltId) {
+    //  this.common.loading++;
+    //  let userid = this.user._customer.id;
+    //  if (this.user._loggedInBy == "customer")
+    //    userid = this.user._details.id;
+    //  this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+    //    .subscribe(res => {
+    //      this.common.loading--;
+    //      this.fodata = res['data'];
+    //      let left_heading = this.fodata['name'];
+    //      let strstatus = this.reportData.status.toUpperCase();
+    //      switch (strstatus) {
+    //        case 'VERIFIED': strstatus = 'VERIFIED DOCUMENTS'; break;
+    //        case 'UNVERIFIED': strstatus = 'UNVERIFIED DOCUMENTS'; break;
+    //        case 'PENDINGIMAGE': strstatus = 'PENDING IMAGES'; break;
+    //        case 'EXPIRING30DAYS': strstatus = 'DOCUMENTS EXPIRING IN 30 DAYS'; break;
+    //        case 'EXPIRED': strstatus = 'EXPIRED DOCUMENTS'; break;
+    //        case 'PENDINGDOC': strstatus = 'PENDING DOCUMENTS'; break;
+    //        default: break;
+    //      }
+    //      let center_heading = strstatus;
+    //      this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+    //    }, err => {
+    //      this.common.loading--;
+    //      console.log(err);
+    //    });
+  }
 
 
 
