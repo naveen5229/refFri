@@ -32,7 +32,7 @@ const PAGES_COMPONENTS = [
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         ImageViewerModule,
-        DashboardModule,
+
 
 
     ],
