@@ -207,12 +207,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
-  // {
-  //   title: 'Trip Onward Delay',
-  //   icon: 'fas fa-truck',
-  //   link: '/pages/trip-onward-delay',
-  //   home: true,
-  // },
+  {
+    title: 'Driver',
+    icon: 'fa fa-user',
+    children: [{
+      title: 'driver Performance ',
+      icon: 'fa fa-book',
+      link: '/pages/driver-performance',
+      home: true,
+    }]
+  },
 
   // {
   //   title: 'Placement Delay Faults',

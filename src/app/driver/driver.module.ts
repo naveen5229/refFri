@@ -40,7 +40,7 @@ const PAGES_COMPONENTS = [
     DriverAttendanceComponent,
     DriverDocumentComponent,
     LicenceUploadComponent,
-    PendingLicenceComponent
+    PendingLicenceComponent,
     
   ],
 })
