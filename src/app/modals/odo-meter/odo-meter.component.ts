@@ -64,6 +64,7 @@ export class OdoMeterComponent implements OnInit {
         if (res['data'][0]['r_id'] > 0) {
           this.common.showToast("Save SuccessFull");
           this.getOdoMeterData();
+          this.getTableColumns();
         }
         else {
           let error = res['data'][0]['r_msg'];
@@ -80,15 +81,26 @@ export class OdoMeterComponent implements OnInit {
 
 
   getOdoMeterData() {
-
+    this.data = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.headings = [];
+    this.valobj = {};
     const params = "vehicleId=" + this.vehicleId;
     console.log("param:", params);
-
     this.common.loading++;
     this.api.get('Vehicles/showManualKmData?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
+        if (!res['data']) return;
         this.data = res['data'];
         let first_rec = this.data[0];
         for (var key in first_rec) {
@@ -107,6 +119,7 @@ export class OdoMeterComponent implements OnInit {
   }
 
   getTableColumns() {
+
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
@@ -119,7 +132,6 @@ export class OdoMeterComponent implements OnInit {
       columns.push(this.valobj);
 
     });
-    console.log("columns ::::::", columns);
 
     return columns;
   }

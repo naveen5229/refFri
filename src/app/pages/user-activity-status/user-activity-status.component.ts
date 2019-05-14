@@ -25,6 +25,10 @@ export class UserActivityStatusComponent implements OnInit {
     }
   };
 
+  foid = 0;
+  isAdmin = 0;
+  id = null;
+
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
@@ -32,12 +36,27 @@ export class UserActivityStatusComponent implements OnInit {
     today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(today)).split(' ')[0];
-    console.log('dates ', this.endDate, this.startDate)
+
+    // this.id = this.common.params.foid;
+    if (this.common.params) {
+      this.foid = this.common.params.foid ? this.common.params.foid : 0;
+      this.isAdmin = this.common.params.foid ? 1 : 0;
+    }
+
     this.getSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
+
+
+  refresh() {
+    console.log('Refresh');
+    this.getSummary();
+  }
+
 
   getDate(type) {
 
@@ -70,7 +89,7 @@ export class UserActivityStatusComponent implements OnInit {
       }
     };
     const params = "startDate=" + this.startDate +
-      "&endDate=" + this.endDate + " 23:59:59";
+      "&endDate=" + this.endDate + " 23:59:59" + "&foid=" + this.foid + "&isAdmin=" + this.isAdmin;
     console.log('params: ', params);
     this.common.loading++;
     this.api.get('FoDetails/getFoUserActivitySummary?' + params)
@@ -122,7 +141,5 @@ export class UserActivityStatusComponent implements OnInit {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-
-
 
 }
