@@ -100,7 +100,7 @@ const PAGES_COMPONENTS = [
     UserCallSummaryComponent,
     PlacementsDashBoardComponent,
     TripStatusFeedbackComponent,
-    UserActivityStatusComponent,
+    // UserActivityStatusComponent,
     PlacementDelayFaultsComponent,
     VehicleGpsDetailComponent,
     VehicleCoveredDistanceComponent,
