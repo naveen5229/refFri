@@ -10,24 +10,22 @@
       <label>Trip States:</label>
     </div>
     <div class="col-sm-4">
+      <!-- Any change will need to change in fn_getvehicelstatename -->
       <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
         style=" border: 1px solid #324148; font-size: 10px">
         <option value="0">Selcet State</option>
         <option value="1">Loading</option>
-
-        <!-- <option value="13">Onward, Nearby Origin</option> -->
-        <!-- <option value="14">Onward, Nearby Destination</option> -->
-        <!-- <option value="15">Available, Nearby Origin</option> -->
-        <!-- <option value="20">Available, Nearby Destination</option> -->
-        <!-- <option value="21">Available, Unauthorised Movement</option> -->
-        <!-- <option value="22">Available, Empty Movement</option> -->
         <option value="2">Onward</option>
         <option value="3">Unloading</option>
         <option value="4">Available</option>
-        <option value="5">Accident</option>
-        <option value="6">Maintenance</option>
-        <option value="7">Break Down</option>
+        <option value="301">Accident</option>
+        <option value="321">Maintenance</option>
+        <option value="311">Break Down</option>
+        <option value="331">Waiting for Load</option>
+        <option value="341">Driver Unavailable</option>
       </select>
+      <!-- Any change will need to change in fn_getvehicelstatename -->
+
     </div>
   </div>
   <div class="row" style="margin-bottom:20px">
