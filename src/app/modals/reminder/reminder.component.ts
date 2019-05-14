@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'reminder',
   templateUrl: './reminder.component.html',
-  styleUrls: ['./reminder.component.scss']
+  styleUrls: ['./reminder.component.scss','../../pages/pages.component.css']
 })
 export class ReminderComponent implements OnInit {
 
@@ -14,7 +14,7 @@ export class ReminderComponent implements OnInit {
     date: '',
     time: ''
   };
-
+title='';
   dates = [{
     name: 'Today',
     date: this.common.getDate(),
@@ -40,13 +40,19 @@ export class ReminderComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
+      if(this.common.params.title){
+        this.title = this.common.params.title;
+      }
+      else{
+        this.title = "Reminder";
+      }
   }
 
   ngOnInit() {
     console.log('ionViewDidLoad BuyTimePage');
   }
 
-  dismiss(response) {
+  dismiss() {
     this.activeModal.close();
   }
 
@@ -58,7 +64,14 @@ export class ReminderComponent implements OnInit {
       this.common.showToast('Select An hour!');
       return;
     }
+    console.log("returndata",this.common.params.returnData);
 
+    if(this.common.params.returnData){
+    console.log("returndata",this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00')
+     setTimeout(() =>{
+      this.activeModal.close({ date: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00' });
+    });}
+else{
     const params = {
       fo_ticket_allocation_id: this.common.params['fo_ticket_allocation_id'],
       remindtime: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00'
@@ -71,14 +84,14 @@ export class ReminderComponent implements OnInit {
         console.log(res);
         this.common.loading--;
         this.common.showToast(res['msg']);
-        this.dismiss(true);
+        this.dismiss();
       }, err => {
         console.error(err);
         this.common.showError();
         this.common.loading--;
       });
   }
-
+  }
   handleDate() {
     this.reminder.date = this.common.dateFormatter(this.reminder.date);
     this.showHours = true;

@@ -1,7 +1,7 @@
-<nb-card>
+<nb-card style="border:0px;">
     <nb-card-header>
       <div class="row">
-        <div class="col-sm-10"><h2>Expenses</h2></div>
+        <div class="col-sm-10"><h5>Expenses</h5></div>
         <div class="form-group" class="col-sm-2">
         <select class="form-control" (change)="getExpenditure()" name="viewType" [(ngModel)]="viewType">
           <option value="allExp">All</option>
@@ -13,7 +13,7 @@
     <nb-card-body>
       <div>
         <table class="table table-bordered table-hover">
-          <thead class="thead-dark">
+          <thead class="thead">
             <tr>
               <th>#</th>
               <th>Vehicle No</th>
@@ -21,7 +21,6 @@
               <th *ngIf="viewType == 'allLR'">Name</th>
               <th>view</th>
               <th>Add Time</th>
-  
             </tr>
           </thead>
           <tbody>
@@ -31,10 +30,12 @@
               <td>{{expense.statusName}}</td>
               <td *ngIf="viewType == 'allLR'">{{expense.name}}</td>
               <td><span style="text-decoration:underline; color: blue;cursor: pointer;" (click)="getImage(expense)">view</span></td>
-              <td>{{expense.addtime | date : 'dd MMM HH:mm'}}</td>
+              <td>{{expense.addtime | date : 'dd MMM HH:mm a'}}</td>
             </tr>
         </table>
-  
+        <div class="no-data alert alert-danger" role="alert" *ngIf="expenses.length==0">
+          No Data available !
+      </div>
       </div>
   
     </nb-card-body>

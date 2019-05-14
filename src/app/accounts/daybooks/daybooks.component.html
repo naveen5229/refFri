@@ -1,0 +1,116 @@
+<nb-card style="padding-top: 0px; border: 0px;">
+  <!-- <nb-card-header>
+    <h4>Day Book</h4>
+  </nb-card-header> -->
+  <nb-card-body>
+    <div class="row">
+      <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        <div class="row">
+          <!-- <div class="col-4">
+            <div class="form-group">
+              <label class="tjr-label">Branch</label>
+              <input type="text" id="branch" class="form-control tjr-input" name="branch"
+                [(ngModel)]="DayBook.branch.name">
+            </div>
+          </div> -->
+          <div class="col-6">
+            <div class="form-group">
+              <label class="tjr-label">Voucher</label>
+              <input autocomplete="off" type="text" id="vouchertype" class="form-control tjr-input" name="vouchertype"
+                [(ngModel)]="DayBook.vouchertype.name">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label class="tjr-label">Ledger</label>
+              <input autocomplete="off" type="text" id="ledger" class="form-control tjr-input" name="ledger"
+                [(ngModel)]="DayBook.ledger.name">
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">Starting Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off"
+                id="startdate" placeholder="Select Date" name="account-date" [(ngModel)]="DayBook.startdate"
+                maxlength="10">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="tjr-label">End Date</label>
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" autocomplete="off" id="enddate"
+                placeholder="Select Date" name="account-enddate" [(ngModel)]="DayBook.enddate" maxlength="10">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getDayBook()"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <!-- <div class="form-group" *ngIf="this.activeId.includes('branch')">
+          <auto-suggetion-in-side [data]="branchdata" targetId="branch" display="name"
+            (select)="onSelected($event, 'branch', 'name')"></auto-suggetion-in-side>
+        </div> -->
+        <div class="auto-sugg">
+          <div class="form-group" *ngIf="this.activeId.includes('vouchertype')">
+            <auto-suggetion-in-side [data]="vouchertypedata" targetId="vouchertype" display="name"
+              (select)="onSelected($event, 'vouchertype', 'name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="this.activeId.includes('ledger')">
+            <auto-suggetion-in-side [data]="ledgerData" targetId="ledger" display="name"
+              (select)="onSelected($event, 'ledger', 'name')"></auto-suggetion-in-side>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <table class="table table-bordered" id="table">
+
+      <thead style="background-color:#263238; color:#fff;">
+        <tr>
+          <th>Date</th>
+          <th>Particular</th>
+          <th>Vch Type</th>
+          <th>Vch No.</th>
+          <th>Amount(Debit)</th>
+          <th>Amount(Credit)</th>
+        </tr>
+      </thead>
+      <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
+        (dblclick)="getBookDetail(dataItem.y_voucherid)" (enter)="getBookDetail(dataItem.y_voucherid) "
+        [ngClass]="{'highlight' : selectedRow == i}"> -->
+
+      <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel(dataItem.y_voucherid) : openVoucherEdit(dataItem.y_voucherid)"
+        (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+        <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
+        <td>{{dataItem.y_particulars}}</td>
+        <td>{{dataItem.y_type}}</td>
+        <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
+        <td>{{dataItem.y_dramunt}}</td>
+        <td>{{dataItem.y_cramunt}}</td>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="DayBook[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

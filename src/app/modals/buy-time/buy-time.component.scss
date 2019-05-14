@@ -1,73 +1,67 @@
 .input-group {
-    padding: 5px 10px;
+  padding: 5px 10px;
 }
 
 .input-group label {
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: .5px;
-    padding: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 3px;
 }
 
 .input-group input,
 .input-group textarea {
-    display: block;
-    width: 100%;
-    border: 1px solid #c2c2c2;
-    border-radius: 3px;
-    font-size: 12px;
-    padding: 5px 5px;
-    max-width: 100%;
-    min-height: 27px;
+  display: block;
+  width: 100%;
+  border: 1px solid #c2c2c2;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 5px 5px;
+  max-width: 100%;
+  min-height: 27px;
 }
 
 .btn-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.btn {
-    background: #f2f2f2;
-    /* padding: 5px 6px; */
-    font-weight: bold;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
-    display: inline-block;
-    width: 80px;
-    font-size: 12px;
-    text-align: center;
-    height: 30px;
-    line-height: 5px;
-    border-radius: 4px;
-    font-family: monospace;
-    color: #000;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .active-btn {
-    background: orange;
-    color: #fff;
-    font-size: 14px;
+    background-color: #26a69a !important;
+    color: #fff !important;
+}
+.btn:hover{
+    background-color: #26a69a !important;
+    color: #fff !important;
 }
 
 .row-style {
-    font-size: 14px; // font-weight: bold;
-    text-align: center;
-    width: calc(100% + 20px);
-    margin-left: -10px;
-    background: #f2f2f2;
-    border-top: 2px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
+  font-size: 14px; // font-weight: bold;
+  text-align: center;
+  width: calc(100% + 20px);
+  margin-left: -10px;
+  background: #f2f2f2;
+  border-top: 2px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
 }
-.row-style .col{
-    padding: 5px;
+.row-style .col {
+  padding: 5px;
 }
 
 .active-col {
-    background: #fff;
-    color: orange;
-    font-weight: bold;
-    border-radius: 5px;
-    font-size: 16px;
+  background: #26A69A;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 0px;
+  font-size: 16px;
+}
+.close {
+  background: transparent;
+  color: #263238 !important;
+  opacity: 1;
+  padding: 10px 20px;
+  margin: -10px -1rem -1rem auto;
+  outline: none;
+  font-size: 30px;
 }

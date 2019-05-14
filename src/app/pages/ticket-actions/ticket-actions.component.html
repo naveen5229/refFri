@@ -1,4 +1,4 @@
-<div *ngIf="ticketInfo" style="background: #fff;">
+<div *ngIf="ticketInfo" class="main">
   <p class="section">Ticket Actions</p>
   <div class="actions action-text">
     <p class="info action-text">
@@ -24,25 +24,27 @@
 
     <p class="mark-done action-text">
       <span>Comments</span>
-      
+
       <i class="action-icon fa fa-plus" (click)="commentPrompt()"></i>
       <i class="action-icon fa fa-info-circle" (click)="getComments()"></i>
 
     </p>
   </div>
 
-  <div style="margin-top:10px;">
+  <div class="footer">
     <div class="row">
-      <div class="col">
-        <a href="javascript:void(0)" style="margin-left: 10px; line-height: 45px;" (click)="getRemark(-5)">Can't do</a>
+      <div class="col" style="padding-left: 5%;">
+        <button class="btn btn-default btn-sm" (click)="getRemark(-5)">
+            <span style="margin-left: 10px; text-transform: none; cursor: pointer; ">Can't Do</span>
+          <!-- <a href="javascript:void(0)" style="margin-left: 10px;">Can't do</a> -->
+        </button>
       </div>
-      <div class="col text-right">
-        <button class="btn btn-primary btn-sm " (click)="getRemark(5)">
-          <i name="checkmark-circle-outline" class="icon ion-checkmark-circle-outline"></i>
-          <span style="margin-left: 10px; text-transform: none;">Mark as done</span>
+      <div class="col">
+        <button class="btn btn-primary btn-sm" (click)="getRemark(5)">
+          <!-- <i name="checkmark-circle-outline" class="icon ion-checkmark-circle-outline"></i> -->
+          <span style="margin-left: 10px; text-transform: none; cursor: pointer; ">Mark as done</span>
         </button>
       </div>
     </div>
   </div>
-
 </div>

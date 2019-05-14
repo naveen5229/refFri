@@ -4,11 +4,11 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-
 @Component({
   selector: 'expenses',
   templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.scss']
+  styleUrls: ['./expenses.component.scss','../pages.component.css']
+  
 })
 export class ExpensesComponent implements OnInit {
   expenses = [];

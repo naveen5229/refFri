@@ -1,13 +1,14 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Reminder</h4>
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
   <button type="button" class="close" aria- label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <div class="custom-modal-header" id="modal_title">
-    <span *ngIf="showHours" (click)="showHours = false;" class="back-btn">
-      <i class="fa fa-chevron-left"></i>
+    <span *ngIf="showHours" (click)="showHours = false;" class="back-btn" style="font-size:25px; cursor:pointer">
+      <!-- <i class="fa fa-chevron-left"></i> -->
+      <i class="fa fa-hand-o-left" aria-hidden="true"></i>
       <span>Back</span>
     </span>
   </div>
@@ -42,19 +43,16 @@
     </div>
   </div>
 
-
-
 </div>
 
 <div class="modal-footer">
   <div class="row">
-    <div class="col">
-      <button class="btn modal-footer-btn" type="button" outline (click)="dismiss(false)" id="cancel" style="background: #f2f2f2;">Cancel</button>
+    <div class="col-6">
+      <button class="btn btn-danger" type="button" outline (click)="dismiss()" id="cancel" style="cursor: pointer;">Cancel</button>
     </div>
-    <div class="col text-right">
-      <button class="btn btn-primary modal-footer-btn forward-btn" type="button" outline (click)="setReminder()" id="reminder"
-        style="color: #fff;">Set Reminder</button>
+    <div class="col-6 text-right">
+      <button class="btn btn-primary" type="button" outline (click)="setReminder()" id="reminder" style="cursor: pointer;">Set
+        Reminder</button>
     </div>
   </div>
 </div>
-

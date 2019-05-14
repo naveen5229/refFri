@@ -8,7 +8,7 @@ import { TicketTrailsComponent } from '../../modals/ticket-trails/ticket-trails.
 @Component({
   selector: 'tickets',
   templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss']
+  styleUrls: ['./tickets.component.scss','../pages.component.css']
 })
 export class TicketsComponent implements OnInit {
   notifications = [];
@@ -56,6 +56,8 @@ export class TicketsComponent implements OnInit {
         console.log(res);
         this.notifications = res['data'];
         this.showMsg = true;
+        this.newTickets = [];
+        this.openTickets = [];
         this.notifications.map(ticket => {
           if (ticket.status == 0) {
             this.newTickets.push(ticket);
@@ -197,6 +199,7 @@ export class TicketsComponent implements OnInit {
   }
 
   showDetails(notification) {
+    console.log(notification)
     this.common.renderPage(notification.pri_type, notification.sec_type1, notification.sec_type2, notification);
   }
 

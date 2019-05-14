@@ -1,0 +1,208 @@
+.center { text-align: center;}
+.icon-img { width: 20px; height: 20px; border-radius: 50%; }
+table{
+    margin: 0px;
+}
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.document-heading_box{
+    height: 100px;;
+}
+.table-scroll tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+.icon-black {
+    color: black; font-size: 18px; cursor:pointer;
+}
+.icon-red {
+    color: red; font-size: 18px; cursor:pointer;
+}
+.icon-green {
+    color: green; font-size: 18px; cursor:pointer;
+}
+.icon-yellow {
+    color: #ff9800; font-size: 18px; cursor:pointer;
+}
+.fa-minus{
+    background-color: navajowhite;
+    color: #000;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    line-height: 20px;
+}
+.icon-red-cross {
+    color: red; font-size: 18px; cursor:arrow;
+}
+.i-black {
+    color: black; font-size: 18px; 
+}
+.i-red {
+    color: red; font-size: 18px;
+}
+.i-green {
+    color: green; font-size: 18px;
+}
+.i-yellow {
+    color: #ff9800; font-size: 18px;
+ }
+.i-red-cross {
+    color: red; font-size: 18px;
+}
+.btn-all { padding-top: 13px;}
+span.mgn-lt { margin-left: 15px;}
+.pdg-ltrt-none { padding-left: 0; padding-right: 0;}
+.idx-fld { width: 40px; }
+.cls-hide { display: none !important;}
+.description{
+    width: 95% !important;
+    margin: 0% !important;
+}
+#tbldocs {
+    counter-reset: rowNumber;
+}
+
+table#tbldocs tbody tr {
+    counter-increment: rowNumber;
+}
+
+table#tbldocs tbody tr td:first-child::before {
+    // content: counter(rowNumber);
+    min-width: 0.5em;
+    margin-right: 2px;
+}
+table#tbldocs thead tr th:first-child, table#tbldocs tbody tr td:first-child {
+    width: 130px;
+}
+.select_cat_tabel table tr td{
+    position: relative;
+}
+.document-heading_box tr td{
+    padding: 0px !important;
+}
+.document-heading_box tr td > span{
+    display: block;
+    position: relative;
+    padding: 8px;
+    width: 100%;
+    text-align: center;
+}
+.document-heading_box tr td > span i{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.document-heading_box tr td input{
+    position: absolute;
+    width: 100%;
+    height: 100% !important;
+    top: 0px;
+    margin: 0px;
+    left: 0px;
+    z-index: 99;
+    opacity: 0;
+    cursor: pointer;
+}
+.document-heading_box tbody tr:hover{
+    background-color: transparent;
+}
+.document-heading_box tbody tr td:hover{
+    background-color: rgba(0, 0, 0, 0.075);
+}
+.blk-issue {
+    margin-top: 5px; margin-bottom: 5px;
+}
+.lnk-issue { color: black; text-decoration: underline; }
+nb-card-header {
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.pdf_csv_download{
+    margin-bottom: 10px;
+}
+.pdf_csv_download span{
+    display: inline-block;
+    cursor: pointer;
+    background-color: #27ca7f;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+.pdf_csv_download span i{
+    margin-right: 5px;
+}
+.blk-issue{
+    margin-bottom: 10px;
+}
+.blk-issue a{
+    display: inline-block;
+    background-color: #324148;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
+}
+.btn-primary{
+    background-color: #324148 !important;
+}
+.document-dashboard-tabel{
+    overflow: auto;
+}
+table.table-scroll{
+    thead{
+        background-color: #263238;
+        tr{
+            th:nth-child(1){
+                width: 40px !important;
+            }
+            th:last-child{
+                width: 128px !important;
+            }
+            th{
+                width: 115px;
+                padding: 5px 10px;
+                font-weight: normal;
+            }
+        }
+    }
+    tbody{
+        overflow-y: scroll;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        max-height: calc(100vh - 250px);
+        tr{
+            td{
+                width: 115px;
+                padding: 5px 10px !important;
+                font-size: 12px;
+            }
+            td:last-child{
+                width: 122px;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+}

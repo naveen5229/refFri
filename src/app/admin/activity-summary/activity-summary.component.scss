@@ -1,0 +1,16 @@
+nb-card-header{
+    padding: 10px 15px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+    .btn-primary{
+        padding: 7px 15px;
+        text-transform: capitalize;
+        width: 100%;
+        border-radius: 5px;
+        border: 0px;
+    }
+}
+:host ::nb-deep .tableFixHead {
+    height: auto !important;
+    max-height: calc(100vh - 170px);
+}

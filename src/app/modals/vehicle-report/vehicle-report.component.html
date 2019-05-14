@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Vehicle Event</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="model-body"
+  style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-sm-2">
+      <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control">
+    </div>
+    <div class="col-sm-2">
+      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+      </uj-date-time-picker>
+    </div>
+
+    <div class="col-sm-2">
+      <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+      </uj-date-time-picker>
+      <!-- <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
+        placeholder="End Date" id="end" (dblclick)="getDate('end')"
+        (ngModelChange)="endDate = dateService.handleCustomDate($event)" maxlength="10"> -->
+    </div>
+
+
+    <div class="col-sm-2 pr-1">
+      <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
+    </div>
+  </div>
+
+  <smart-table *ngIf="table" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
+</div>

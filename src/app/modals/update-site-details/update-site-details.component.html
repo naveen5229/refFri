@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Site Name</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+
+
+    </button>
+</div>
+
+<div class="modal-body" style="min-height:300px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-ng ">
+                    <div class="site_name">
+                        <span> Site Name :
+                            <b>{{this.s_name}} </b></span>
+                            <span style="margin-left : 30px"><i class="fa fa-question-circle report-btn" (click)="reportIssue();"></i></span>
+                    </div>
+                    <div class="site_name" style="margin-top:15px">
+
+                        <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="siteLoc" name="siteLoc" class="form-control">
+                        <!-- <input  type="text"  placeholder="Site Location" > -->
+                    </div>
+                    <div class="dropdown site_name" style="margin-top:15px">
+                        <select id="myList" [(ngModel)]="isStrictLoading ">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                            <option value="null">Cant Say</option>
+                        </select>
+
+                    </div>
+                    <button class="submit_button" type="submit" (click)="updateSiteDetails()">Submit</button>
+
+                </div>
+            </div>
+
+            <div class="col-9">
+                    <span>
+                            <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+                            <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+                            <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+                            <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+                            <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+                        </span>
+                
+                
+                <div id="map" class="map"></div>
+            </div>
+        </div>
+    </div>
+</div>

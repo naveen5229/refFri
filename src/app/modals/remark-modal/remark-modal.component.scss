@@ -1,0 +1,49 @@
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    margin-left: 14px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+// textarea{
+//         margin-left: 12px;
+//         height: 100px;
+//         width: 80%;
+//     }
+
+label {
+    font-size: 14px;
+    padding-top: 0;
+    font-weight: normal;
+    color: #263238;
+    margin-bottom: 5px;
+    margin-left: 0px;
+}
+.close{
+    background: transparent;
+    color: #263238 !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+    font-size: 30px;
+}
+.modal-body input, 
+.modal-body textarea, 
+.modal-body select{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px !important;
+    height: auto;
+    font-size: 12px;
+}
+.modal-body textarea{
+    height: 100px;
+}
+button{
+    margin: 0px;
+}
+.modal-footer{
+    padding: 10px 15px;
+}

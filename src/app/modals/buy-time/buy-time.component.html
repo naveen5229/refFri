@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Buy Time</h4>
+  <h5 class="modal-title" id="modal-basic-title">Buy Time</h5>
   <button type="button" class="close" aria- label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -29,14 +29,13 @@
 </div>
 
 <div class="modal-footer">
-  <div class="row">
-    <div class="col">
-      <button class="btn modal-footer-btn" type="button" outline (click)="dismiss(false)" id="cancel" style="background: #f2f2f2;">Cancel</button>
-    </div>
-    <div class="col text-right">
-      <button class="btn btn-primary modal-footer-btn forward-btn" type="button" outline (click)="buyNow()" id="buy"
-        style="color: #fff;">Buy
-        Now</button>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" type="button" outline (click)="dismiss()" id="cancel" style="cursor: pointer;">Cancel</button>
+      </div>
+      <div class="col text-right">
+        <button class="btn btn-primary" type="button" outline (click)="buyNow()" id="buy" style="cursor: pointer;">Buy Now
+          </button>
+      </div>
     </div>
   </div>
-</div>

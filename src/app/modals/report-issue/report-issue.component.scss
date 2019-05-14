@@ -1,0 +1,14 @@
+.modal-footer{
+    align-items: inherit;
+    justify-content: center;
+    button{
+        margin: 0px;
+        padding: 5px 20px;
+        border-radius: 5px;
+        display: block;
+        height: auto;
+        width: auto;
+        outline: none;
+        text-transform:capitalize;
+    }
+}

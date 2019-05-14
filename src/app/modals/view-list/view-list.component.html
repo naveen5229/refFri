@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table table-bordered table-hover">
+      <thead>
+          <tr>
+            <th *ngFor="let heading of headings">{{heading}}</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of datas; let i = index;">
+          <td *ngFor="let info of data; let j = index;" (click)="handleAction(i, j)">{{info}}</td>
+        </tr>
+      </tbody>
+  
+    </table>
+  </div>

@@ -1,0 +1,21 @@
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+.row-mgn-vert {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.fill-elt {
+    padding: 3px; font-size: 14px;
+}
+
+.fstn-name {
+    overflow: auto !important;
+    max-height: 150px !important;
+}
+.chkbx {
+    width: 20px; height: 20px;
+}
+.add-pp-lnk { margin-top: 5px; cursor: pointer;  }

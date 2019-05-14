@@ -1,0 +1,32 @@
+<nb-card>
+  <nb-card-header>
+    <h5>Vehicle Trolly Mapping</h5>
+  </nb-card-header>
+
+  <nb-card-body>
+    <table class="table table-bordered table-hover mb-0" *ngIf="vehTrollyMappings">
+      <thead class="thead">
+        <tr>
+          <th># </th>
+          <th>Trolly No </th>
+          <th>Vehicle No</th>
+          <th>Attached Date</th>
+          <th>Change Mapping</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehTrollyMapping of vehTrollyMappings; let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{vehTrollyMapping.trolleyno}} </td>
+          <td>{{vehTrollyMapping.vehname}}</td>
+          <td>{{vehTrollyMapping.attachdate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+          <td><button class="text-primary" (click)="vehicleChange(vehTrollyMapping.trolleyid,vehTrollyMapping.vehicleid,vehTrollyMapping.vehname)"><i class="fas fa-pencil-alt"></i></button></td>
+        </tr>
+      </tbody>
+    </table>
+  <div class="no-data alert-danger mt-3" *ngIf="!vehTrollyMappings.length">
+    No Data available !
+  </div>
+  </nb-card-body>
+</nb-card>
