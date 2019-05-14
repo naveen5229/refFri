@@ -12,6 +12,7 @@ import { DocumentationDetailsComponent } from './documents/documentation-details
 import { DocumentsSummaryComponent } from './documents/documents-summary/documents-summary.component';
 import { DocumentDashboardComponent } from './documents/dashboard/dashboard.component';
 import { DriverPerformanceComponent } from './driver/driver-performance/driver-performance.component';
+import { VehicleDistanceComponent } from './admin/vehicle-distance/vehicle-distance.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -19,7 +20,8 @@ const PAGES_COMPONENTS = [
     DocumentationDetailsComponent,
     DocumentsSummaryComponent,
     DocumentDashboardComponent,
-    DriverPerformanceComponent
+    DriverPerformanceComponent,
+    VehicleDistanceComponent
 
 ];
 

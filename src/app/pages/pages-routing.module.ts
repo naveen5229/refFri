@@ -39,6 +39,7 @@ import { DocumentationDetailsComponent } from '../documents/documentation-detail
 import { DocumentsSummaryComponent } from '../documents/documents-summary/documents-summary.component';
 import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.component';
 import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
+import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -218,6 +219,10 @@ const routes: Routes = [{
   {
     path: 'driver-performance',
     component: DriverPerformanceComponent,
+  },
+  {
+    path: 'vehicle-distance',
+    component: VehicleDistanceComponent
   }
   ],
 }];

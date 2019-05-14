@@ -37,9 +37,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Vehicle Distance Covered',
+        title: 'Vehicle Distance(24Hr)',
         icon: 'fas fa-road',
         link: '/pages/vehicle-covered-distance',
+        home: true,
+      },
+      {
+        title: 'Vehicle Distance',
+        icon: 'fas fa-road',
+        link: '/pages/vehicle-distance',
         home: true,
       },
       {
