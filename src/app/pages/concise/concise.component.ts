@@ -30,6 +30,7 @@ import * as moment from 'moment';
 import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
+import { PdfService } from "../../services/pdf/pdf.service";
 
 @Component({
   selector: "concise",
@@ -102,6 +103,52 @@ export class ConciseComponent implements OnInit {
   isZoomed = false;
   lastRefreshTime = new Date();
 
+  pdfData = {
+    company: 'Elogist Solutions Private Limited',
+    address: '310, Shree Gopal Nagar,Gopalpura Bypass',
+    city: 'Jaipur',
+    reportName: 'Bank Payment Voucher',
+    details: [
+      {
+        name: 'Voucher Number',
+        value: 'BPV/01027'
+      },
+      {
+        name: 'Branch',
+        value: 'Affordable Site'
+      },
+      {
+        name: 'Voucher Date',
+        value: '28 Oct 2013'
+      }
+    ],
+    headers: [
+      {
+        name: 'GL Code',
+        textAlign: 'left'
+      },
+      {
+        name: 'Particulars',
+        textAlign: 'left'
+      },
+      {
+        name: 'Debit Amount',
+        textAlign: 'right'
+      },
+      {
+        name: 'Credit Amount',
+        textAlign: 'right'
+      }
+    ],
+    table: [
+      ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+      ['GL00094', 'To IDBI Bank', '', '110.0'],
+    ],
+    total: ['110.0', '110.0'],
+    inWords: 'One Hundred Rupees TenPaisa Only',
+    narration: ''
+  };
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -109,6 +156,7 @@ export class ConciseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     public mapService: MapService,
+    public pdfService: PdfService,
     public dateService: DateService
   ) {
     this.getKPIS();
