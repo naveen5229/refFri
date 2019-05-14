@@ -49,9 +49,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Vehicle Trip Stages',
+        title: 'Verify Trip States',
         icon: 'fas fa-road',
-        link: '/pages/vehicle-trip-stages',
+        link: '/pages/vehicle-trip-states',
         home: true,
       },
       {

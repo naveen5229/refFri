@@ -193,7 +193,7 @@ const routes: Routes = [{
     component: VehicleTripStagesComponent,
   },
   {
-    path: 'vehicle-trip-stages',
+    path: 'vehicle-trip-states',
     component: VehicleTripStagesComponent,
   },
   {
