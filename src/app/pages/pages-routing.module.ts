@@ -38,6 +38,7 @@ import { RemainingFuelComponent } from '../admin/remaining-fuel/remaining-fuel.c
 import { DocumentationDetailsComponent } from '../documents/documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent } from '../documents/documents-summary/documents-summary.component';
 import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.component';
+import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -214,6 +215,10 @@ const routes: Routes = [{
     path: 'document-dashboard',
     component: DocumentDashboardComponent,
   },
+  {
+    path: 'driver-performance',
+    component: DriverPerformanceComponent,
+  }
   ],
 }];
 

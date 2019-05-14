@@ -11,13 +11,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentationDetailsComponent } from './documents/documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent } from './documents/documents-summary/documents-summary.component';
 import { DocumentDashboardComponent } from './documents/dashboard/dashboard.component';
+import { DriverPerformanceComponent } from './driver/driver-performance/driver-performance.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
     RemainingFuelComponent,
     DocumentationDetailsComponent,
     DocumentsSummaryComponent,
-    DocumentDashboardComponent
+    DocumentDashboardComponent,
+    DriverPerformanceComponent
 
 ];
 
@@ -30,7 +32,7 @@ const PAGES_COMPONENTS = [
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         ImageViewerModule,
-        DashboardModule,
+
 
 
     ],
