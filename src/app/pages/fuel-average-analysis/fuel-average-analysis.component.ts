@@ -159,13 +159,13 @@ export class FuelAverageAnalysisComponent implements OnInit {
   }
 
 
-  openOdoMeter() {
-    let vehicleId = 56;
-    let regno = 'Rj147678';
-    this.common.params = { vehicleId, regno };
-    console.log('Param', this.common.params);
+  // openOdoMeter() {
+  //   let vehicleId = 56;
+  //   let regno = 'Rj147678';
+  //   this.common.params = { vehicleId, regno };
+  //   console.log('Param', this.common.params);
 
-    const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout' });
+  //   const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout' });
 
-  }
+  // }
 }

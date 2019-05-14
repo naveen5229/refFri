@@ -100,7 +100,7 @@ export class OdoMeterComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-
+        if (!res['data']) return;
         this.data = res['data'];
         let first_rec = this.data[0];
         for (var key in first_rec) {
