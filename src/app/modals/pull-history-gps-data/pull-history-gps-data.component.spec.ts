@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddFoComponent } from './add-fo.component';
+import { PullHistoryGPSDataComponent } from './pull-history-gps-data.component';
 
-describe('AddFoComponent', () => {
-  let component: AddFoComponent;
-  let fixture: ComponentFixture<AddFoComponent>;
+describe('PullHistoryGPSDataComponent', () => {
+  let component: PullHistoryGPSDataComponent;
+  let fixture: ComponentFixture<PullHistoryGPSDataComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddFoComponent ]
+      declarations: [ PullHistoryGPSDataComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddFoComponent);
+    fixture = TestBed.createComponent(PullHistoryGPSDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
