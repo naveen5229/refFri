@@ -65,3 +65,34 @@ nb-card-header {
 .balance-shit {
   background-color: #dadfe6;
 }
+.date-modal{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999999;
+  top: 0;
+  left: 0;
+}
+.date-modal-body{
+  background: #fff;
+  width: 152px;
+  margin: 15% auto auto auto;
+}
+
+.tjr-button {
+  cursor: pointer;
+  margin-top: 18px;
+  background: #263238 !important;
+  height: auto;
+  border-radius: 3px !important;
+  padding: 3px 8px !important;
+}
+.pdf-icon{
+  font-size: 30px;
+  color: #9F0001;
+}
+.exel-icon{
+  font-size: 30px;
+  color: #217346;
+}

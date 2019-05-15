@@ -36,7 +36,7 @@ export class DocumentationDetailsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
-    this.common.currentPage = 'Vehicle Documents Input';
+    // this.common.currentPage = 'Vehicle Documents Input';
   }
 
   ngOnInit() {

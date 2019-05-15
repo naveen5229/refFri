@@ -7,6 +7,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { shimHostAttribute } from '@angular/platform-browser/src/dom/dom_renderer';
 import * as moment_ from 'moment';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { DateService } from '../../services/date.service';
 const moment = moment_;
 @Component({
   selector: 'vehicle-report',
@@ -15,10 +17,10 @@ const moment = moment_;
 })
 export class VehicleReportComponent implements OnInit {
 
-  startDate = '';
+  startDate = null;
   element = '';
-  endDate = '';
-  placeName='';
+  endDate = null;
+  placeName = '';
   startTime: any;
   endTime: any;
   resultTime: any;
@@ -27,54 +29,64 @@ export class VehicleReportComponent implements OnInit {
   details = [];
   report = [];
   vehicleRegNo;
+  limit;
   table = null;
   i: ''; d: '';
-  constructor(private activeModal: NgbActiveModal, public common: CommonService,
+
+  constructor(private activeModal: NgbActiveModal,
+    public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
-    private modalService: NgbModal) {
-      this.vid = this.common.params.vehicleId;
-      this.vehicleRegNo = this.common.params.vehicleRegNo;
-    if (this.common.params.ref_page =='consView' ) {
-      let today, start;
-      today = new Date();
-      this.endDate = this.common.dateFormatter(today);
-      start = new Date(today.setDate(today.getDate() - 3))
-      this.startDate = this.common.dateFormatter(start);
-      console.log('details: ', this.vid, this.vehicleRegNo, this.endDate, this.startDate);
-      
+    private modalService: NgbModal,
+    public dateService: DateService) {
+    this.vid = this.common.params.vehicleId;
+    this.vehicleRegNo = this.common.params.vehicleRegNo;
+
+    if (this.common.params.ref_page == 'consView') {
+      let today = new Date(), start = new Date();
+
+      this.endDate = today;
+      console.log("end Date:", this.endDate);
+
+      start.setDate(today.getDate() - 3);
+      this.startDate = start;
+      console.log("Start Date:", this.startDate);
+      // this.endDate = this.common.dateFormatter(today);
+      // start = new Date(today.setDate(today.getDate() - 3));
+      // this.startDate = this.common.dateFormatter(start);
+
     }
-    else{
+    else {
       console.log(this.common.params.fromTime);
       console.log(this.common.params.toTime);
       this.startDate = this.common.dateFormatter(this.common.params.fromTime);
-      this.endDate = this.common.params.toTime;
-      console.log("fromTime",this.startDate);
-      console.log("endDate",this.endDate);
-
-
+      this.endDate = this.common.dateFormatter(this.common.params.toTime);
+      console.log("fromTime", this.startDate);
+      console.log("endDate", this.endDate);
     }
+
+
     this.getVehicleReport();
   }
 
 
   ngOnInit() {
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   searchVehicle(vehicleList) {
     this.vid = vehicleList.id;
   }
+
+
   getVehicleReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
 
     let params = {
       vehicleId: this.vid,
-      startDate: this.startDate,
-      endDate: this.endDate
+      startDate: this.common.dateFormatter(this.startDate),
+      endDate: this.common.dateFormatter(this.endDate),
     };
-    console.log('params: ', params);
+
     this.common.loading++;
     this.api.post('HaltOperations/getVehicleEvents', params)
       .subscribe(res => {
@@ -88,21 +100,21 @@ export class VehicleReportComponent implements OnInit {
           this.startTime = new Date(this.startTime);
           this.endTime = d.end_time;
 
-        if(this.endTime!=null){
-         this.endTime = new Date(this.endTime);
-         this.resultTime = this.endTime - this.startTime;
-        console.log('begore resultTime: ' + this.resultTime);
-        var result=this.common.dateDiffInHoursAndMins(this.startTime, this.endTime);
-         //var result=moment.utc(this.resultTime).format('HH:mm');
-         console.log('moment',moment.utc(this.resultTime).format('HH:mm'));
-         this.duration.push(result);
-        }else{
-          var result1='Running';
-          this.duration.push(result1);
-        }
+          if (this.endTime != null) {
+            this.endTime = new Date(this.endTime);
+            this.resultTime = this.endTime - this.startTime;
+            console.log('begore resultTime: ' + this.resultTime);
+            var result = this.common.dateDiffInHoursAndMins(this.startTime, this.endTime);
+            //var result=moment.utc(this.resultTime).format('HH:mm');
+            console.log('moment', moment.utc(this.resultTime).format('HH:mm'));
+            this.duration.push(result);
+          } else {
+            var result1 = 'Running';
+            this.duration.push(result1);
+          }
 
-                
-         });
+
+        });
         console.log('result time', this.resultTime);
         this.table = this.setTable();
 
@@ -135,7 +147,7 @@ export class VehicleReportComponent implements OnInit {
       Place: { title: 'Place', placeholder: 'Place' },
       Location: { title: 'Location', placeholder: 'Location' },
       // Reason: { title: 'Reason', placeholder: 'Reason' },
-      Duration: { title: 'Duration', placeholder: 'Duration'},
+      Duration: { title: 'Duration', placeholder: 'Duration' },
       Action: { title: 'Action', placeholder: 'Action' }
     };
 
@@ -164,7 +176,7 @@ export class VehicleReportComponent implements OnInit {
         Place: { value: this.getPlaceName(R), class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
         Location: { value: R.loc_name },
         // Reason: { value: R.halt_reason, class: R.halt_type_id == 11 ? 'green' : R.halt_type_id == 21 ? 'red' : 'default' },
-        Duration: { value: this.duration[i]},
+        Duration: { value: this.duration[i] },
         Action: { value: `<i class="fa fa-map-marker"></i>`, isHTML: true, action: this.showLocation.bind(this, R) },
       };
 
@@ -174,49 +186,68 @@ export class VehicleReportComponent implements OnInit {
     return columns;
   }
 
-  getPlaceName(R){
-    let str_site_name,str_halt_reason;
-  if(R.site_name!=null){
-     str_site_name=R.site_name.toUpperCase();
-    console.log('str_site_name',str_site_name)
-  }
-  if(R.halt_reason!=null){
-     str_halt_reason=R.halt_reason.toUpperCase();
-    console.log('str_halt_reason',str_halt_reason)
-  }
- 
-  
-  if((str_site_name=="UNKNOWN") || (R.site_name==null)){
-     if(R.site_type!=null){
-       if((str_halt_reason != "UNKNOWN")){
-         this.placeName= R.site_type+'_'+R.halt_reason;
-         console.log('place:1 ',this.placeName);
-       }else{
-         this.placeName= R.site_type;
-         console.log('place:2 ',this.placeName);
-       }
-     }else if((str_halt_reason != "UNKNOWN")){
-       this.placeName=R.halt_reason;
-       console.log('place:3 ',this.placeName);
-     }else{
-       this.placeName='Halt';
-       console.log('place:4 ',this.placeName);
-     }
-   }else if((str_halt_reason != "UNKNOWN")){
-      this.placeName= R.site_name+'_'+R.halt_reason;
-      console.log('place:5 ',this.placeName);
-   }else{
-      this.placeName=R.site_name;
-      console.log('place:6 ',this.placeName);
-   }
+  getPlaceName(R) {
+    let str_site_name, str_halt_reason;
+    if (R.site_name != null) {
+      str_site_name = R.site_name.toUpperCase();
+      console.log('str_site_name', str_site_name)
+    }
+    if (R.halt_reason != null) {
+      str_halt_reason = R.halt_reason.toUpperCase();
+      console.log('str_halt_reason', str_halt_reason)
+    }
 
-   return this.placeName;
+
+    if ((str_site_name == "UNKNOWN") || (R.site_name == null)) {
+      if (R.site_type != null) {
+        if ((str_halt_reason != "UNKNOWN")) {
+          this.placeName = R.site_type + '_' + R.halt_reason;
+          console.log('place:1 ', this.placeName);
+        } else {
+          this.placeName = R.site_type;
+          console.log('place:2 ', this.placeName);
+        }
+      } else if ((str_halt_reason != "UNKNOWN")) {
+        this.placeName = R.halt_reason;
+        console.log('place:3 ', this.placeName);
+      } else {
+        this.placeName = 'Halt';
+        console.log('place:4 ', this.placeName);
+      }
+    } else if ((str_halt_reason != "UNKNOWN")) {
+      this.placeName = R.site_name + '_' + R.halt_reason;
+      console.log('place:5 ', this.placeName);
+    } else {
+      this.placeName = R.site_name;
+      console.log('place:6 ', this.placeName);
+    }
+
+    return this.placeName;
 
   }
   closeModal() {
     this.activeModal.close();
   }
 
+
+  getDate(type) {
+
+    this.common.params = { ref_page: 'trip status feedback' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          this.startDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+        }
+        else {
+          this.endDate = this.dateService.dateFormatter(data.date, '', false).split(' ')[0];
+          console.log('endDate', this.endDate);
+        }
+      }
+    });
+
+  }
 
 
 }

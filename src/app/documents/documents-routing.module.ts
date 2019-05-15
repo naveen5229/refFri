@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DocumentsComponent } from './documents.components';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DocumentDashboardComponent } from './dashboard/dashboard.component';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent } from './documents-summary/documents-summary.component';
 import { PendingDocumentsComponent } from './pending-documents/pending-documents.component';
@@ -12,10 +12,10 @@ const routes: Routes = [{
     component: DocumentsComponent,
     children: [
         {
-            path: 'dashboard',
-            component: DashboardComponent,
+            path: 'document-dashboard',
+            component: DocumentDashboardComponent,
         },
-       
+
         {
             path: 'documentation-details',
             component: DocumentationDetailsComponent,
@@ -28,7 +28,7 @@ const routes: Routes = [{
         {
             path: 'pending-documents',
             component: PendingDocumentsComponent,
-        },     
+        },
         {
             path: 'change-history',
             component: ChangeHistoryComponent,

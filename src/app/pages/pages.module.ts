@@ -43,12 +43,22 @@ import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-feedback.component';
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
 import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
-import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
-
+import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
+import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
+import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
+import { TripOnwardDelayComponent } from './trip-onward-delay/trip-onward-delay.component';
+import { ShortTargetComponent } from './short-target/short-target.component';
+import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
+import { CustomDatePipe } from '../pipes/custom-date/custom-date.pipe';
+import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
+import { AdminModule } from '../admin/admin.module';
+import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
+import { SharedModule } from '../shared.module';
+import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 
 
 const PAGES_COMPONENTS = [
-  PagesComponent,
+  PagesComponent
 ];
 
 @NgModule({
@@ -64,8 +74,9 @@ const PAGES_COMPONENTS = [
     OwlNativeDateTimeModule,
     ImageViewerModule,
     ReactiveFormsModule,
-    ResizableModule  ,
-    LorryReceiptModule  
+    ResizableModule,
+    LorryReceiptModule,
+    SharedModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -80,7 +91,6 @@ const PAGES_COMPONENTS = [
     TicketSiteDetailsComponent,
     TicketActionsComponent,
     ConciseComponent,
-    FuelAverageAnalysisComponent,
     VehicleTripComponent,
     ImageProcessingComponent,
     RouteMapperComponent,
@@ -91,9 +101,21 @@ const PAGES_COMPONENTS = [
     UserCallSummaryComponent,
     PlacementsDashBoardComponent,
     TripStatusFeedbackComponent,
-    UserActivityStatusComponent,
+    // UserActivityStatusComponent,
     PlacementDelayFaultsComponent,
-    DateServiceTesterComponent
+    VehicleGpsDetailComponent,
+    VehicleCoveredDistanceComponent,
+    TipFeedbackLogsComponent,
+    TripOnwardDelayComponent,
+    ShortTargetComponent,
+    onwardKmpdComponent,
+    VehicleTripStagesComponent,
+    TripVerifyStatesComponent,
+    // CustomDatePipe
+  ],
+  exports: [
+    FuelAverageAnalysisComponent,
+
   ],
 })
 export class PagesModule {

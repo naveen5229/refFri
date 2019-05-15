@@ -38,6 +38,11 @@ export class InvoiceregisterComponent implements OnInit {
   activeId = 'voucherType';
   allowBackspace = true;
 
+  showDateModal = false;
+  f2Date = 'startDate';
+  activedateid = '';
+  lastActiveId = '';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -152,20 +157,40 @@ export class InvoiceregisterComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
+      return;
+    }
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('voucherType')) {
         this.setFoucus('ledger');
       } else if (this.activeId.includes('ledger')) {
         this.setFoucus('code');
-      } else if (this.activeId.includes('startdate')) {
+      } else if (this.activeId.includes('startDate')) {
         this.invoiceRegister.startDate = this.common.handleDateOnEnterNew(this.invoiceRegister.startDate);
-        this.setFoucus('enddate');
-      } else if (this.activeId.includes('enddate')) {
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
         this.invoiceRegister.endDate = this.common.handleDateOnEnterNew(this.invoiceRegister.endDate);
         this.setFoucus('submit');
       } else if (this.activeId.includes('custcode')) {
-        this.setFoucus('startdate');
+        this.setFoucus('startDate');
       } else if (this.activeId.includes('code')) {
         this.setFoucus('custcode');
       }
@@ -173,8 +198,8 @@ export class InvoiceregisterComponent implements OnInit {
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
-      if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('custcode');
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('custcode');
       if (this.activeId == 'custcode') this.setFoucus('code');
       if (this.activeId == 'code') this.setFoucus('ledger');
       if (this.activeId == 'ledger') this.setFoucus('voucherType');
@@ -186,6 +211,30 @@ export class InvoiceregisterComponent implements OnInit {
 
   }
 
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.invoiceRegister[datestring].includes('-')) {
+      dateArray = this.invoiceRegister[datestring].split('-');
+    } else if (this.invoiceRegister[datestring].includes('/')) {
+      dateArray = this.invoiceRegister[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.invoiceRegister[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);

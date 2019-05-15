@@ -9,6 +9,11 @@ import { ReportIssueComponent } from '../../modals/report-issue/report-issue.com
 import { UpdateTripDetailComponent } from '../../modals/update-trip-detail/update-trip-detail.component';
 import { DatePipe } from '@angular/common';
 import { DocumentsComponent } from '../../documents/documents.components';
+import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
+import { VehicleReportComponent } from '../../modals/vehicle-report/vehicle-report.component';
+import { VehicleStatesComponent } from '../../modals/vehicle-states/vehicle-states.component';
+import { VehicleTripStagesComponent } from '../vehicle-trip-stages/vehicle-trip-stages.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -77,12 +82,18 @@ export class VehicleTripComponent implements OnInit {
         startDate: { value: this.datePipe.transform(doc.start_time, 'dd MMM hh:mm a') },
         startName: { value: doc.start_name },
         endName: { value: doc.end_name },
-        endDate: { value: this.datePipe.transform(doc.end_time,'dd MMM hh:mm a')},
-        action: {value: '', isHTML: false, action: null, icons: [
-          {class: 'fa fa-pencil-square-o  edit-btn', action: this.update.bind(this, doc)},
-          {class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc)},
-          {class:" fa fa-trash remove", action:this.deleteTrip.bind(this, doc)}
-        ]},
+        endDate: { value: this.datePipe.transform(doc.end_time, 'dd MMM hh:mm a') },
+        action: {
+
+          value: '', isHTML: true, action: null, icons: [
+            { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action: this.update.bind(this, doc) },
+            { class: 'fa fa-question-circle report-btn', action: this.reportIssue.bind(this, doc) },
+            { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, doc) },
+            { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, doc) },
+            { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, doc) },
+            { class: 'fa fa-chart-bar  status', action: this.vehicleStates.bind(this, doc) }
+          ]
+        },
 
 
         rowActions: {
@@ -93,10 +104,6 @@ export class VehicleTripComponent implements OnInit {
     });
     return columns;
   }
-
-
-
-
 
 
   getUpadte(vehicleTrip) {
@@ -114,6 +121,35 @@ export class VehicleTripComponent implements OnInit {
       });
     }
   }
+
+
+  openRouteMapper(kpi) {
+    console.log("----kpi----", kpi);
+    let today, startday, fromDate;
+    today = new Date();
+    startday = new Date(today.setDate(today.getDate() - 2));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: kpi.vehicle_id,
+      vehicleRegNo: kpi.regno,
+      fromTime: kpi.start_time || fromTime,
+      toTime: kpi.end_time || toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
+  }
+
   openAddTripModal() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
@@ -156,4 +192,39 @@ export class VehicleTripComponent implements OnInit {
 
     });
   }
+
+  openChangeDriverModal(vehicleTrip) {
+    this.common.params = { vehicleId: vehicleTrip.vehicle_id, vehicleRegNo: vehicleTrip.regno };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log("data", data.respone);
+
+      // this.getVehicleTrips();
+
+    });
+  }
+
+  vehicleReport(trip) {
+    console.log("trip------", trip);
+    let fromTime = trip.start_time;
+    let toTime = trip.end_time;
+    console.log("trip------", fromTime, toTime);
+    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: trip.regno, fromTime: fromTime, toTime: toTime };
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
+
+  }
+
+  vehicleStates(trip) {
+    console.log("trip------", trip);
+    let fromTime = trip.start_time;
+    let toTime = trip.end_time;
+    console.log("trip------", fromTime, toTime);
+    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: trip.regno, fromTime: fromTime, toTime: toTime };
+    this.common.openType = "modal";
+    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
+    this.modalService.open(VehicleTripStagesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
+
+  }
+
 }

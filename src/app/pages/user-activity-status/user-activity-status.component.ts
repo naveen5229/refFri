@@ -10,9 +10,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./user-activity-status.component.scss']
 })
 export class UserActivityStatusComponent implements OnInit {
-  startDate='';
-  endDate='';
-  activitySummary=[];
+  startDate = '';
+  endDate = '';
+  activitySummary = [];
   headings = [];
   valobj = {};
   table = {
@@ -25,40 +25,59 @@ export class UserActivityStatusComponent implements OnInit {
     }
   };
 
+  foid = 0;
+  isAdmin = 0;
+  id = null;
+
   constructor(public api: ApiService,
-     public common: CommonService,
+    public common: CommonService,
     public modalService: NgbModal) {
     let today;
     today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
-    this.startDate=(this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)))).split(' ')[0];
-    console.log('dates ',this.endDate,this.startDate)
+    this.startDate = (this.common.dateFormatter(today)).split(' ')[0];
+
+    // this.id = this.common.params.foid;
+    if (this.common.params) {
+      this.foid = this.common.params.foid ? this.common.params.foid : 0;
+      this.isAdmin = this.common.params.foid ? 1 : 0;
+    }
+
     this.getSummary();
-   }
+    this.common.refresh = this.refresh.bind(this);
+
+  }
 
   ngOnInit() {
   }
 
+
+  refresh() {
+    console.log('Refresh');
+    this.getSummary();
+  }
+
+
   getDate(type) {
 
-    this.common.params={ref_page:'trip status feedback'}       
+    this.common.params = { ref_page: 'trip status feedback' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        if (type == 'start'){
-          this.startDate='';
+        if (type == 'start') {
+          this.startDate = '';
           this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
         }
-        else{    
+        else {
           this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
-          console.log('endDate',this.endDate);
+          console.log('endDate', this.endDate);
         }
       }
     });
 
   }
 
-  getSummary(){
+  getSummary() {
     this.activitySummary = [];
     this.table = {
       data: {
@@ -69,21 +88,21 @@ export class UserActivityStatusComponent implements OnInit {
         hideHeader: true
       }
     };
-    const params = "startDate="+this.startDate+
-    "&endDate="+this.endDate+" 23:59:59";
+    const params = "startDate=" + this.startDate +
+      "&endDate=" + this.endDate + " 23:59:59" + "&foid=" + this.foid + "&isAdmin=" + this.isAdmin;
     console.log('params: ', params);
     this.common.loading++;
-    this.api.get('FoDetails/getFoUserActivitySummary?'+params)
+    this.api.get('FoDetails/getFoUserActivitySummary?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
         this.activitySummary = res['data'];
-        console.log('activitySummary',this.activitySummary);
+        console.log('activitySummary', this.activitySummary);
         let first_rec = this.activitySummary[0];
         console.log("first_Rec", first_rec);
-        
+
         for (var key in first_rec) {
-          if(key.charAt(0) != "_") {
+          if (key.charAt(0) != "_") {
             this.headings.push(key);
             let headerObj = { title: key, placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
@@ -94,7 +113,7 @@ export class UserActivityStatusComponent implements OnInit {
         console.log("table:");
         console.log(this.table);
 
-              
+
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -103,10 +122,11 @@ export class UserActivityStatusComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    for(var i= 0; i<this.activitySummary.length; i++) {
+    for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
-      for(let j=0; j<this.headings.length; j++) {j 
-          this.valobj[this.headings[j]] = {value: this.activitySummary[i][this.headings[j]], class: 'black', action:  ''};
+      for (let j = 0; j < this.headings.length; j++) {
+        j
+        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     }
@@ -115,13 +135,11 @@ export class UserActivityStatusComponent implements OnInit {
 
   formatTitle(strval) {
     let pos = strval.indexOf('_');
-    if(pos > 0) {
-      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-
-
 
 }

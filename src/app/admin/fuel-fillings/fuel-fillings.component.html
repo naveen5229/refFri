@@ -1,14 +1,47 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h4>Fuel Fillings</h4>
+    <div class="row">
+      <div class="col-md-2">
+        <h4>Fuel Fillings</h4>
+      </div>
+      <div class="col-md-10 text-right">
+        <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()"
+          style="margin:0px; margin-right: 5px; cursor: pointer;">Add Fuel</button>
+        <button id="import-csv" name="import-csv" class="btn btn-primary" *ngIf="user._loggedInBy=='admin'"
+          (click)="addCsv()" style="margin:0px; cursor: pointer;">Import CSV</button>
+        <button id="fuel-station" name="fuel-station" class="btn btn-primary" (click)="getFuelStation()"
+          style="margin:0px; margin-left: 10px; cursor: pointer;">Fuel Station</button>
+        <button id="fuel-mapping" name="fuel-mapping" class="btn btn-primary" (click)="getFuelMapping()"
+          style="margin:0px; margin-left: 15px; cursor: pointer;">Fuel Station Entries Mapping</button>
+        <button id="fuel-isFuel" name="fuel-isFuel" class="btn btn-primary" (click)="getisFuel()"
+          style="margin:0px; margin-left: 15px; cursor: pointer;">is FullMapping</button>
+        <button id="empty-fuel-details" name="empty-fuel-details" class="btn btn-primary"
+          (click)="getemptyFueldetails()" style="margin:0px; margin-top:10px; cursor:pointer;">Tank Empty
+          Details</button>
+      </div>
+    </div>
+
+
   </nb-card-header>
 
   <nb-card-body style="padding-top:0px; ">
-      
-    <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()" style="margin-bottom:15px; margin-right: 10px; cursor: pointer;">Add Fuel</button>
-    <button id="import-csv" name="import-csv" class="btn btn-primary" (click)="addCsv()" style="margin-bottom:15px; margin-right: 10px; cursor: pointer;">Import CSV</button>
-    
-    <smart-table *ngIf="fillingData.length" [data]="table.data" [settings]="table.settings" id="tblfillings"></smart-table>
+    <div class="row mb-3">
+      <div class="col-sm-2">
+        <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Select Start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date">
+      </div>
+    </div>
+
+    <smart-table *ngIf="fillingData.length" [data]="table.data" [settings]="table.settings" id="tblfillings">
+    </smart-table>
     <br>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="fillingData.length==0">
+      No Data available On That Time Period!
+    </div>
+
   </nb-card-body>
 </nb-card>

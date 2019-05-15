@@ -5,13 +5,6 @@
   <nb-card-body>
     <table class="table table-bordered gerrate_tabel">
       <tbody>
-        <!-- <tr>
-          <td><label>Branch</label></td>
-          <td> <select [(ngModel)]=lr.branch (change)="getBranchDetails()" class="form-conrol" style="width: 150px;
-                  height: 31px;" placeholder="select branch">
-              <option *ngFor="let branch of branches" [value]="branch">{{branch}}</option>
-            </select> </td>
-        </tr> -->
         <tr>
           <td><label>Vehicle No*</label></td>
           <td>
@@ -31,14 +24,13 @@
               autocomplete="off" name="date" placeholder="Enter Date">
             <owl-date-time #date></owl-date-time> -->
             <div class="row">
-              <div class="col-sm-10">
-                <input type="text" style="width:280px" class="form-control" autocomplete="off" [(ngModel)]="lr.date"
+              <div class="col-sm-11">
+                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date"
                   name="date" (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
                 <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
               </div>
-              <div class="col-sm-2" style="margin-top:-8px">
-                <span style='cursor:pointer; font-size: 23px;' (click)="getDate()"><i class="icon fa fa-calendar"
-                    style="margin-top:10px; margin-left:-5px"></i></span>
+              <div class="col-sm-1 pl-0">
+                <span style='cursor:pointer;' (click)="getDate()"><i class="icon fa fa-calendar add"></i></span>
               </div>
             </div>
           </td>

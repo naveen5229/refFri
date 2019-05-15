@@ -1,36 +1,64 @@
-<nb-card style="margin: 0px; border:0px;">
-    <!-- <nb-card-header>
+<nb-card style="margin-top: 20px !important; margin-bottom: 0px !important; border:0px;">
+  <!-- <nb-card-header>
         <h4>Stock Item</h4>
       </nb-card-header> -->
   <nb-card-body>
-<button class="btn mb-4 add-button" (click)="openStoreRequisitions()"><i class="fa fa-plus"></i></button>
-<div class="main">
-<table class="table table-bordered ">
-  <thead style="background-color: #263238; color:#fff;">
-    <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Action</th>
-      </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let stockItem of StockItems; let i = index;" (click)="selectedRow = i"
-    (dblclick)="openStockItemModal(stockItem)" (enter)="openStockItemModal(stockItem)"
-    [ngClass]="{'highlight' : selectedRow == i}">
-        <td>{{i + 1}}</td>
-        <td>{{stockItem.stocktype_name}}</td>
-        <td>{{stockItem.stoctsubtypename}}</td>
-        <td>{{stockItem.name}}</td>
-        <td>{{stockItem.entry_dt | date : 'dd-MMM-yy'}}</td>
-        <td class="del">
+    <div class="row">
+      <div class="col-12" *ngIf="this.storeRequestId == -3">
+        <div class="row">
+          <div class="col-3">
+            <div class="form-group type-radio-box">
+
+              <input autocomplete="off" type="radio" id="pending" class="tjr-input" (click)="changeRefresh(0)"
+                name="pending" [value]="0" [(ngModel)]="pending">
+              <span class="tjr-span">Non-Pending</span>
+              <input autocomplete="off" type="radio" id="nonpending" class="tjr-input" (click)="changeRefresh(1)"
+                name="pending" [value]="1" [(ngModel)]="pending">
+              <span class="tjr-span">Pending</span>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getStoreQuestion()"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button *ngIf="this.storeRequestId != -3" class="btn mb-4 add-button" (click)="openStoreRequisitions()"><i
+        class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered ">
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Cust Code</th>
+            <th>To Branch</th>
+            <th>Request Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let StockQuestion of StockQuestions; let i = index;" (click)="selectedRow = i"
+            (dblclick)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_to_fobranch_id)"
+            (enter)="openStoreRequisitions(StockQuestion[0].y_id,StockQuestion[0].y_to_fobranch_id)"
+            [ngClass]="{'highlight' : selectedRow == i}">
+
+            <td>{{i + 1}}</td>
+            <td>{{StockQuestion[0].y_code}}</td>
+            <td>{{StockQuestion[0].y_cust_code}}</td>
+            <td *ngIf="this.storeRequestId != -3">{{StockQuestion[0].y_to_fobranch_name}}</td>
+            <td *ngIf="this.storeRequestId == -3">{{StockQuestion[0].y_from_fobranch_name}}</td>
+            <td>{{StockQuestion[0].y_req_date | date : 'dd-MMM-yy'}}</td>
+            <!-- <td class="del">
           <a href="javascript: void(0);" class="delete" title="Delete " (click)="delete(stockItem.id)"><i
               class="fa fa-trash"></i></a>
-        </td>
-      </tr>
-  </tbody>
-  
-</table>
-</div>
-</nb-card-body>
+        </td> -->
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </nb-card-body>
 </nb-card>

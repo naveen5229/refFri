@@ -31,16 +31,15 @@ export class VehicleDistanceComponent implements OnInit {
     this.data.foid = user.id;
   }
   getDistance() {
-    
-    this.data.startDate = this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-");
-    this.data.endDate = this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-");
+    console.log('Start Date: ', this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"));
+    console.log('End Date: ', this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"));
+
     console.log("Data:", this.data);
     let params = {
-      foid: this.data.foid,
-      fromTime: this.data.startDate,
-      tTime: this.data.endDate,
+      fromTime: this.common.dateFormatter(this.data.startDate, 'YYYYMMDD', true, "-"),
+      tTime: this.common.dateFormatter(this.data.endDate, 'YYYYMMDD', true, "-"),
     };
-   
+    this.common.loading++;
     this.api.post('vehicles/foVehicleDistance', params)
       .subscribe(res => {
         this.common.loading--;
@@ -67,7 +66,7 @@ export class VehicleDistanceComponent implements OnInit {
       settings: {
         hideHeader: true,
         tableHeight: "72vh"
-        
+
       }
     }
   }

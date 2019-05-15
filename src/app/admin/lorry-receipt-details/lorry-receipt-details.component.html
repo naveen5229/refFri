@@ -1,36 +1,38 @@
 <nb-card>
   <nb-card-header>
     <div class="row" style="margin-left:10px">
-     <div class="col-sm-6">
-    Lorry Receipt Details
-    </div>
-    <div class="col-sm-3">
-    <select [(ngModel)]="lrType" class="form-control" (change)="getPendingLr()"
+      <div class="col-sm-6">
+        Lorry Receipt Details
+      </div>
+      <div class="col-sm-3">
+        <select [(ngModel)]="lrType" class="form-control" (change)="getPendingLr()"
           style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="0">Pending</option>
           <option value="1">Complete</option>
           <option value="-1">Rejected</option>
         </select>
-        </div>
       </div>
+    </div>
   </nb-card-header>
-  
+
   <nb-card-body>
     <div class="model-body">
       <div class="row">
-          <div class="col-sm-3">
-              <auto-suggestion (onSelected)="getFolist($event)" url="suggestion/getFoUsersList" display="name"
-              placeholder="Search" [preSelected]="null"></auto-suggestion>
-          </div>
-          <div class="col-sm-3">
-              <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date" placeholder="Start Date" (click)="getDate('start')">
-          </div>
-          <div class="col-sm-3">
-              <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1" placeholder="End Date" (click)="getDate('end')">
-          </div>
-          <div class="col-sm-3">
-            <button class="btn btn-primary" (click)="getPendingLr()">submit</button>
-          </div>
+        <div class="col-sm-3" style="margin-top:10px">
+          <auto-suggestion (onSelected)="getFolist($event)" url="suggestion/getFoUsersList" display="name"
+            placeholder="Search" [preSelected]="null"></auto-suggestion>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date"
+            placeholder="Start Date" (click)="getDate('start')">
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+            placeholder="End Date" (click)="getDate('end')">
+        </div>
+        <div class="col-sm-3">
+          <button class="btn btn-primary" (click)="getPendingLr()">submit</button>
+        </div>
       </div>
       <table class="table table-bordered" style="margin-left: 5px; margin-top:10px; margin-right: 5px;">
         <thead class="thead">
@@ -50,7 +52,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of pendinglr; let i=index;">
+          <tr *ngFor="let data of pendinglr; let i = index;">
             <td (click)="getImage(data)">{{data.id}}</td>
             <td>{{data.receipt_no}}</td>
             <th>{{data.lr_date | date : 'dd MMM'}}</th>
@@ -64,15 +66,503 @@
             <!-- <td>{{data.weight}}</td> -->
             <td>{{data.addtime | date : 'dd MMM HH:mm'}}</td>
             <td>
-                <ng-template *ngIf="data.status==0 then showEdit;"></ng-template>
-                <ng-template *ngIf="data.status==1 then showRevert;"></ng-template>
-                <ng-template #showRevert><button class="btn" (click)="revertLrDetails(data)">Revert</button></ng-template>
-                <ng-template #showEdit><button class="btn" (click)="openEditLorryDetailsModel(data)">Edit</button></ng-template>
-             </td>   
-             <!-- <button class="btn btn-primary" (click)="openEditLorryDetailsModel(data)">Edit</button>
-              <button class="btn btn-primary" (click)="revertLrDetails(data)">Revert</button></td> -->
+              <ng-template *ngIf="data.status==0 then showEdit;"></ng-template>
+              <ng-template *ngIf="data.status==1 then showRevert;"></ng-template>
+              <ng-template #showRevert><button class="btn" (click)="revertLrDetails(data)">Revert</button></ng-template>
+              <ng-template #showEdit><button class="btn" (click)="modalOpenHandling(data, i)">Edit</button>
+              </ng-template>
+            </td>
         </tbody>
       </table>
     </div>
   </nb-card-body>
 </nb-card>
+
+
+
+<!-- Modal 1 -->
+<div class="custom-modal" *ngIf="modal.first.show" [ngClass]="modal.first.class">
+  <div class="custom-modal-body">
+
+    <!-- Content -->
+    <div class="model-header" style="margin-top:10px; height:20px; margin-left:10px; margin-right:10px;">
+      <button type="button" class="close"
+        style="background-color:white; height:30px; margin-left: 15px; margin-top:-10px" aria-label="Close"
+        (click)="closeModal('first')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row" style="margin-left: 20px; margin-right: 20px;">
+      <table class="table table-bordered">
+        <thead class="thead">
+          <tr>
+            <th>VehicleRegNo.</th>
+            <th>VehicleId</th>
+            <th>LRId</th>
+            <th>addUserId</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let data of pendinglr; let i=index;"> -->
+          <tr>
+            <td>{{modal.first.data.LrData.regno}}</td>
+            <td>{{modal.first.data.LrData.vehicle_id}}</td>
+            <td>{{modal.first.data.LrData.id}}</td>
+            <td>{{modal.first.data.LrData.aduserid}}</td>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="border" style="height: 2px; color: brown; margin-top: 10px; margin-bottom: 20px"></div>
+    <div class="model-body" style="margin-left:10px; margin-right:10px; margin-bottom:10px">
+      <div class="row">
+        <div class="col-sm-3" *ngIf="modal.first.data.showAgentLayout">
+          <h6>Transport Agent Name</h6>
+        </div>
+        <div class="col-sm-3" *ngIf="modal.first.data.showMain">
+          <div class="from-group">
+            <select [(ngModel)]="modal.first.data.option" class="form-control" (change)="changeStatusType('first')"
+              style="border: 2px solid darkcyan; font-size: 13px">
+              <option value="accept">Accept</option>
+              <option value="reject">Reject</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <button class="btn-loadLr" style="width:150px" type="button" (click)="loadImage('LR', 'first')">Lorry
+            Receipt</button>
+        </div>
+        <div class="col-sm-3">
+          <button class="btn-loadInvoice" type="button" style="width:150px"
+            (click)="loadImage('Invoice', 'first')">Invoice</button>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn-loadOther" style="width:150px" type="button"
+            (click)="loadImage('Other', 'first')">Others</button>
+        </div>
+        <div class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
+          (click)="removeLrDetails('first')">
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-3" *ngIf="modal.first.data.showMain">
+          <input type="text" class="form-control" (focusout)="openNextModal()"
+            [(ngModel)]="modal.first.data.LrData.receipt_no" name="first-RNo." placeholder="Receipt No."
+            autocomplete="off">
+          <input type="text" class="from-control" id="first-source" [(ngModel)]="modal.first.data.LrData.source"
+            name="first-source" placeholder="Source">
+          <input type="text" class="from-control" id="first-destination" name="first-destination"
+            [(ngModel)]="modal.first.data.LrData.destination" placeholder="Destination" style="margin-bottom:10px">
+          <!-- <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
+              placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion> -->
+          <auto-suggestion (onSelected)="searchVehicle($event, 'first')" url="suggestion/getVehicleList" display="regno"
+            placeholder="Vehicle Number" [preSelected]="{regno : modal.first.data.regno}"></auto-suggestion>
+
+          <input type="text" class="from-control" name="first-remark" [(ngModel)]="modal.first.data.LrData.remark"
+            placeholder="Remark" style="margin-bottom:10px">
+          <div class="row">
+            <div class="col-9" style="margin-bottom:10px">
+              <auto-suggestion (onSelected)="searchTaName($event, 'first')" url="Suggestion/GetTransportAgent"
+                display="name" placeholder="Transport Agent Name" [preSelected]="{name : modal.first.data.taName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-3">
+              <button class="btn-agentName" type="button"
+                style="background-color: transparent; margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+                (click)="addAgentName('first')">Add</button>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom:10px">
+            <div class="col-9">
+              <auto-suggestion (onSelected)="searchName($event,'Consigner', 'first')" url="Suggestion/GetCompanies"
+                display="name" placeholder="Consigner Name" [preSelected]="{name : modal.first.data.consignerName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-3">
+              <button class="btn-consignerName" type="button"
+                style="background-color: transparent;  margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+                (click)="add('first')">Add</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-9" style="margin-bottom:10px">
+              <auto-suggestion (onSelected)="searchName($event,'Consignee', 'first')" url="Suggestion/GetCompanies"
+                display="name" placeholder="Consignee Name" [preSelected]="{name : modal.first.data.consineeName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-3">
+              <button class="btn-consigneeName" type="button"
+                style="background-color: transparent; margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+                (click)="add('first')">Add</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.lrDate" name="first-lr-date"
+                (focusout)="checkDateFormat('first')" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="col-sm-3">
+              <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="selectDate('first')"><i
+                  class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
+            </div>
+          </div>
+          <div class="from-group" style="margin-top:10px">
+            <select [(ngModel)]="modal.first.data.payType" class="form-control" (change)="changePayType('first')"
+              style=" border: 2px solid darkcyan; font-size: 13px">
+              <option value="1">ToPay</option>
+              <option value="2">Advance</option>
+              <option value="3">NA</option>
+            </select>
+          </div>
+          <input type="text" name="first-rate" [(ngModel)]="modal.first.data.LrData.rate" class="form-control"
+            placeholder="Rate">
+          <input type="text" name="first-amount" [(ngModel)]="modal.first.data.LrData.amount" class="form-control"
+            placeholder="Amount" style="margin-bottom:10px">
+
+          <div class="row" id="first-ton-material">
+            <div class="col-sm-6" style="margin-top: 10px">
+              <auto-suggestion (onSelected)="searchMaterialType($event, 'first')" url="Suggestion/GetMaterialTypes"
+                display="name" placeholder="Material Name" [inputId]="'material_input'"
+                [preSelected]="{name : modal.first.data.materialName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-sm-6">
+              <input type="text" name="first-tonnage" [(ngModel)]="modal.first.data.LrData.weight"
+                (focus)="getMaterialName('first')" class="form-control" placeholder="Tonnage">
+            </div>
+
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="col-6">
+              <Button class="btn btn-danger" type="reset" (click)="resetValues('first')">Reset</Button>
+            </div>
+            <div class="col-6">
+              <Button class="btn btn-primary" type="button" (click)="insertLrDetails('first')">Submit</Button>
+            </div>
+          </div>
+        </div>
+        <div class="col-3" *ngIf="modal.first.data.showAgentLayout" style="margin-bottom:10px">
+
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.pan"
+                name="first-pan" placeholder="Pan No.">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.name"
+                name="first-name" placeholder="Name">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.city"
+                name="first-city" placeholder="City">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.gstin"
+                name="first-gst" placeholder="Gstin">
+            </div>
+          </div>
+          <h6>Sub Admin 1</h6>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.sbname1"
+                name="first-name" placeholder="Name">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.sbmobile1"
+                name="first-mobile" placeholder="Mobile">
+            </div>
+          </div>
+          <h6>Sub Admin 2</h6>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.sbname2"
+                name="first-name" placeholder="Name">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.sbmobile2"
+                name="first-mobile" placeholder="Mobile">
+            </div>
+          </div>
+          <h6>Sub Admin 3</h6>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.sbname3"
+                name="first-name" placeholder="Name">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.first.data.transportAgentDetails.sbmobile3"
+                name="first-mobile" placeholder="Mobile">
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px; margin-left: 10px">
+            <div class="col-6">
+              <Button class="btn btn-primary" type="button" (click)="insertAgentInfo('first')">Submit</Button>
+            </div>
+            <div class="col-6">
+              <Button class="btn btn-danger" type="button" (click)="resetView('first')">Close</Button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-9">
+          <app-image-viewer *ngIf="modal.first.data.images.length" [images]="modal.first.data.images"
+            [idContainer]="'idOnHTMLFirst'" [loadOnInit]="true">
+          </app-image-viewer>
+
+        </div>
+      </div>
+    </div>
+    <!-- Content End -->
+  </div>
+</div>
+
+<!-- Modal 1 End -->
+
+<!-- Modal 2 -->
+<div class="custom-modal" *ngIf="modal.second.show" [ngClass]="modal.second.class">
+  <div class="custom-modal-body">
+
+    <!-- Content -->
+    <div class="model-header" style="margin-top:10px; height:20px; margin-left:10px; margin-right:10px;">
+      <button type="button" class="close"
+        style="background-color:white; height:30px; margin-left: 15px; margin-top:-10px" aria-label="Close"
+        (click)="closeModal('second')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row" style="margin-left: 20px; margin-right: 20px;">
+      <table class="table table-bordered">
+        <thead class="thead">
+          <tr>
+            <th>VehicleRegNo.</th>
+            <th>VehicleId</th>
+            <th>LRId</th>
+            <th>addUserId</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{modal.second.data.LrData.regno}}</td>
+            <td>{{modal.second.data.LrData.vehicle_id}}</td>
+            <td>{{modal.second.data.LrData.id}}</td>
+            <td>{{modal.second.data.LrData.aduserid}}</td>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="border" style="height: 2px; color: brown; margin-top: 10px; margin-bottom: 20px"></div>
+    <div class="model-body" style="margin-left:10px; margin-right:10px; margin-bottom:10px">
+      <div class="row">
+        <div class="col-sm-3" *ngIf="modal.second.data.showAgentLayout">
+          <h6>Transport Agent Name</h6>
+        </div>
+        <div class="col-sm-3" *ngIf="modal.second.data.showMain">
+          <div class="from-group">
+            <select [(ngModel)]="modal.second.data.option" class="form-control" (change)="changeStatusType('second')"
+              style="border: 2px solid darkcyan; font-size: 13px">
+              <option value="accept">Accept</option>
+              <option value="reject">Reject</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <button class="btn-loadLr" style="width:150px" type="button" (click)="loadImage('LR', 'second')">Lorry
+            Receipt</button>
+        </div>
+        <div class="col-sm-3">
+          <button class="btn-loadInvoice" type="button" style="width:150px"
+            (click)="loadImage('Invoice', 'second')">Invoice</button>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn-loadOther" style="width:150px" type="button"
+            (click)="loadImage('Other', 'second')">Others</button>
+        </div>
+        <div class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
+          (click)="removeLrDetails('second')">
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-3" *ngIf="modal.second.data.showMain">
+          <input type="text" class="form-control" [(ngModel)]="modal.second.data.LrData.receipt_no" name="second-RNo."
+            placeholder="Receipt No." autocomplete="off">
+          <input type="text" class="from-control" (focusout)="openNextModal()" id="second-source"
+            [(ngModel)]="modal.second.data.LrData.source" name="second-source" placeholder="Source">
+          <input type="text" class="from-control" id="second-destination" name="second-destination"
+            [(ngModel)]="modal.second.data.LrData.destination" placeholder="Destination" style="margin-bottom:10px">
+          <auto-suggestion (onSelected)="searchVehicle($event, 'second')" url="suggestion/getVehicleList"
+            display="regno" placeholder="Vehicle Number" [preSelected]="{regno : modal.second.data.regno}">
+          </auto-suggestion>
+
+          <input type="text" class="from-control" name="second-remark" [(ngModel)]="modal.second.data.LrData.remark"
+            placeholder="Remark" style="margin-bottom:10px">
+          <div class="row">
+            <div class="col-9" style="margin-bottom:10px">
+              <auto-suggestion (onSelected)="searchTaName($event, 'second')" url="Suggestion/GetTransportAgent"
+                display="name" placeholder="Transport Agent Name" [preSelected]="{name : modal.second.data.taName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-3">
+              <button class="btn-agentName" type="button"
+                style="background-color: transparent; margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+                (click)="addAgentName('second')">Add</button>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom:10px">
+            <div class="col-9">
+              <auto-suggestion (onSelected)="searchName($event,'Consigner', 'second')" url="Suggestion/GetCompanies"
+                display="name" placeholder="Consigner Name" [preSelected]="{name : modal.second.data.consignerName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-3">
+              <button class="btn-consignerName" type="button"
+                style="background-color: transparent;  margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+                (click)="add('second')">Add</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-9" style="margin-bottom:10px">
+              <auto-suggestion (onSelected)="searchName($event,'Consignee', 'second')" url="Suggestion/GetCompanies"
+                display="name" placeholder="Consignee Name" [preSelected]="{name : modal.second.data.consineeName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-3">
+              <button class="btn-consigneeName" type="button"
+                style="background-color: transparent; margin-top: 5px; height: 30px; margin-left: -10px; color:darkcyan; border: 2px solid darkcyan;"
+                (click)="add('second')">Add</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.lrDate" name="second-lr-date"
+                (focusout)="checkDateFormat('second')" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="col-sm-3">
+              <span style='cursor:pointer; font-size: 23px; margin-top: 8px' (click)="selectDate('second')"><i
+                  class="icon fa fa-calendar" style="margin-top:10px; margin-left:-5px"></i></span>
+            </div>
+          </div>
+          <div class="from-group" style="margin-top:10px">
+            <select [(ngModel)]="modal.second.data.payType" class="form-control" (change)="changePayType('second')"
+              style=" border: 2px solid darkcyan; font-size: 13px">
+              <option value="1">ToPay</option>
+              <option value="2">Advance</option>
+              <option value="3">NA</option>
+            </select>
+          </div>
+          <input type="text" name="second-rate" [(ngModel)]="modal.second.data.LrData.rate" class="form-control"
+            placeholder="Rate">
+          <input type="text" name="second-amount" [(ngModel)]="modal.second.data.LrData.amount" class="form-control"
+            placeholder="Amount" style="margin-bottom:10px">
+
+          <div class="row" id="second-ton-material">
+            <div class="col-sm-6" style="margin-top: 10px">
+              <auto-suggestion (onSelected)="searchMaterialType($event, 'second')" url="Suggestion/GetMaterialTypes"
+                display="name" placeholder="Material Name" [inputId]="'second-material_input'"
+                [preSelected]="{name : modal.second.data.materialName}">
+              </auto-suggestion>
+            </div>
+            <div class="col-sm-6">
+              <input type="text" name="second-tonnage" [(ngModel)]="modal.second.data.LrData.weight"
+                (focus)="getMaterialName('second')" class="form-control" placeholder="Tonnage">
+            </div>
+
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="col-6">
+              <Button class="btn btn-danger" type="reset" (click)="resetValues('second')">Reset</Button>
+            </div>
+            <div class="col-6">
+              <Button class="btn btn-primary" type="button" (click)="insertLrDetails('second')">Submit</Button>
+            </div>
+          </div>
+        </div>
+        <div class="col-3" *ngIf="modal.second.data.showAgentLayout" style="margin-bottom:10px">
+
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.pan"
+                name="second-pan" placeholder="Pan No.">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.name"
+                name="second-name" placeholder="Name">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.city"
+                name="second-city" placeholder="City">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.gstin"
+                name="second-gst" placeholder="Gstin">
+            </div>
+          </div>
+          <h6>Sub Admin 1</h6>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.sbname1"
+                name="second-name" placeholder="Name">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.sbmobile1"
+                name="second-mobile" placeholder="Mobile">
+            </div>
+          </div>
+          <h6>Sub Admin 2</h6>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.sbname2"
+                name="second-name" placeholder="Name">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.sbmobile2"
+                name="second-mobile" placeholder="Mobile">
+            </div>
+          </div>
+          <h6>Sub Admin 3</h6>
+          <div class="row">
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.sbname3"
+                name="second-name" placeholder="Name">
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="modal.second.data.transportAgentDetails.sbmobile3"
+                name="second-mobile" placeholder="Mobile">
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px; margin-left: 10px">
+            <div class="col-6">
+              <Button class="btn btn-primary" type="button" (click)="insertAgentInfo('second')">Submit</Button>
+            </div>
+            <div class="col-6">
+              <Button class="btn btn-danger" type="button" (click)="resetView('second')">Close</Button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-9">
+          <app-image-viewer *ngIf="modal.second.data.images.length" [images]="modal.second.data.images"
+            [idContainer]="'idOnHTMLSecond'" [loadOnInit]="true">
+          </app-image-viewer>
+
+        </div>
+      </div>
+    </div>
+    <!-- Content End -->
+
+  </div>
+</div>
+<!-- Modal 2 End -->

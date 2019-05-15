@@ -32,7 +32,9 @@ import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-deta
 import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
-
+import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fuel-average-analysis.component';
+import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
+import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -164,7 +166,7 @@ const routes: Routes = [{
             path: 'vehicle-gps-detail',
             component: VehicleGpsDetailComponent,
         },
-         {
+        {
 
 
             path: 'trip-status-feedback-logs',
@@ -183,6 +185,21 @@ const routes: Routes = [{
             component: TripSiteRuleComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'fuel-average-analysis',
+            component: FuelAverageAnalysisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'remaining-fuel',
+            component: RemainingFuelComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'ticket-subscribe',
+            component: TicketSubscribeComponent,
+            canActivate: [RouteGuard]
+        }
     ],
 }];
 

@@ -7,7 +7,8 @@
       <div class="row pdg-ltrt-none document-heading_box">
         <div class="col-sm-12">
           <span>
-            <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+            <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs')" style="cursor: pointer;"><i
+                class="fa fa-file-pdf"></i></span>
             <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
               style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
           </span>
@@ -19,7 +20,7 @@
             <!-- <a href="javascript:void(0);" (click)="showIssues()" title="View Document Issues" class="lnk-issue">Document Issues</a> -->
           </div>
         </div>
-      
+
         <div class="col-sm-12">
           <table class="table table-bordered table-hover">
             <tr>
@@ -42,8 +43,8 @@
                 <span *ngIf="statusrow.status == 5"><i class="fa fa-check i-yellow"></i><input type='radio'
                     name='rdostatus' value='5' (click)="filterRows(statusrow.status)"> Near Expiring
                   <span>({{statusrow.total}})</span></span>
-                  <span *ngIf="statusrow.status == 9"><i class="fa fa-minus-circle i-yellow"></i><input type='radio'
-                    name='rdostatus' value="9" (click)="filterRows(statusrow.status)"> ignore
+                <span *ngIf="statusrow.status == 9"><i class="fa fa-minus"></i><input type='radio' name='rdostatus'
+                    value="9" (click)="filterRows(statusrow.status)"> Ignore
                   <span>({{statusrow.total}})</span></span>
 
                 <span *ngIf="!(statusrow.status >=0 && statusrow.status <= 9)">
@@ -51,8 +52,8 @@
                   <span>({{statusrow.total}})</span>
                 </span>
               </td>
-              <td class="btn-all" style="position: relative;padding:8px 0px !important; text-align: center;"><input type='radio'
-                  name='rdostatus' value='-1' (click)="showAllRecords()">Show All</td>
+              <td class="btn-all" style="position: relative;padding:8px 0px !important; text-align: center;"><input
+                  type='radio' name='rdostatus' value='-1' (click)="showAllRecords()">Show All</td>
             </tr>
           </table>
 
@@ -103,13 +104,12 @@
                   </span>
                   <span *ngIf="getDocumentType(row[col]) == 9 && col.toUpperCase() != 'VEHICLE'">
 
-                    <i class="fa fa-minus-circle i-yellow" (click)="fetchDocumentData(row, col, row[col])"
-                      title="ignore"></i>
+                    <i class="fa fa-minus" (click)="fetchDocumentData(row, col, row[col])" title="ignore"></i>
                   </span>
                   <span *ngIf="getDocumentType(row[col]) > 9 && col.toUpperCase() != 'VEHICLE'" title="{{row[col]}}">
                     {{row[col]}}
                   </span>
-                  <span  *ngIf="row[col].startsWith('0_0') && col.toUpperCase() != 'VEHICLE'">
+                  <span *ngIf="row[col].startsWith('0_0') && col.toUpperCase() != 'VEHICLE'">
                     <i class="fa fa-times-circle icon-red-cross" (click)="noRecordDocumentData(row, col, row[col])"
                       title="No Record"></i>
                   </span>

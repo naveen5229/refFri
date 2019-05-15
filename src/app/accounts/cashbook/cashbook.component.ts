@@ -40,6 +40,13 @@ export class CashbookComponent implements OnInit {
   selectedRow = -1;
   allowBackspace = true;
 
+
+  f2Date = 'startdate';
+  lastActiveId = '';
+  showDateModal = false;
+  activedateid = '';
+
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -146,29 +153,29 @@ export class CashbookComponent implements OnInit {
     console.log('Selected Data: ', selectedData, type, display);
     console.log('order User: ', this.DayBook);
   }
-
-  handleVoucherDateOnEnter() {
+  handleVoucherDateOnEnter(iddate) {
     let dateArray = [];
     let separator = '-';
-    /* if (this.voucher.date.includes('-')) {
-       dateArray = this.voucher.date.split('-');
-     } else if (this.voucher.date.includes('/')) {
-       dateArray = this.voucher.date.split('/');
-       separator = '/';
-     } else {
-       this.common.showError('Invalid Date Format!');
-       return;
-     }
-     let date = dateArray[0];
-     date = date.length == 1 ? '0' + date : date;
-     let month = dateArray[1];
-     month = month.length == 1 ? '0' + month : month;
-     let year = dateArray[2];
-     year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-     console.log('Date: ', date + separator + month + separator + year);
-     this.voucher.date = date + separator + month + separator + year;
-    */
 
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
+    if (this.DayBook[datestring].includes('-')) {
+      dateArray = this.DayBook[datestring].split('-');
+    } else if (this.DayBook[datestring].includes('/')) {
+      dateArray = this.DayBook[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.DayBook[datestring] = date + separator + month + separator + year;
   }
 
   filterData() {
@@ -215,15 +222,36 @@ export class CashbookComponent implements OnInit {
       this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
       return;
     }
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      return;
+    }
+
     if (key == 'enter') {
-      this.allowBackspace=true;
-       if (this.activeId.includes('ledger')) {
+      this.allowBackspace = true;
+      if (this.activeId.includes('ledger')) {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
-        this.DayBook.startdate=  this.common.handleDateOnEnterNew(this.DayBook.startdate);
+        this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
-        this.DayBook.enddate=  this.common.handleDateOnEnterNew(this.DayBook.enddate);
+        this.DayBook.enddate = this.common.handleDateOnEnterNew(this.DayBook.enddate);
         this.setFoucus('submit');
       }
     }
@@ -237,7 +265,7 @@ export class CashbookComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    
+
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;

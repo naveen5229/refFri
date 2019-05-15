@@ -67,14 +67,8 @@ table{
         width: 100%;
         table-layout: fixed;
         tr{
-            th:nth-child(1){
-                width: 15%;
-            }
-            th:nth-child(2),
-            th:nth-child(3),
-            th:nth-child(4),
-            th:nth-child(5){
-                width: 15%;
+            th:last-child{
+                width: auto;
             }
         }
     }
@@ -82,12 +76,12 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 15%;
+            width: 165px;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 15%;
+            width: 165px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -98,6 +92,13 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+            span{
+                width: 100px;
+                display: block;
+            }
+        }
+        td:last-child{
+            width: auto;
         }
     }
     .tbody-section{
@@ -113,23 +114,11 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            th:nth-child(1){
-                width: 59.5%;
-            }
-            th:nth-child(2){
-                width: 20%;
-            }
-            th:nth-child(3){
-                width: 24%;
-            }
-            td:nth-child(1){
-                width: 15%;
-            }
-            td:nth-child(2),
-            td:nth-child(3),
-            td:nth-child(4),
-            td:nth-child(5){
-                width: 15%;
+            // th:nth-child(1){
+            //     width: 496px;
+            // }
+            th:last-child{
+                width: auto;
             }
         }
         tr:nth-child(odd){
@@ -169,3 +158,26 @@ input[type=radio]{
     display: inline-block;
     margin-left: 30px;
   }
+
+  .date-modal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999999;
+    top: 0;
+    left: 0;
+}
+.date-modal-body{
+    background: #fff;
+    width: 152px;
+    margin: 15% auto auto auto;
+}
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
+}

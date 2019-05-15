@@ -4,53 +4,31 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-    
-<div class="model-body" style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
-    <div class="row" style="margin-bottom:10px">
-        <div class="col-sm-3">
-         
-          <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control"> 
-        </div>
-        <div class="col-sm-3">
-            <input [(ngModel)]="startDate" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Start Time" class="form-control"
-            autocomplete="off" name="date">
-          <owl-date-time #date></owl-date-time>
-        </div>
-        <div class="col-sm-3">
-            <input [(ngModel)]="endDate" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1" placeholder="End Time" class="form-control"
-            autocomplete="off" name="date1">
-          <owl-date-time #date1></owl-date-time>
-        </div>
-        <div class="col-sm-3">
-            <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
-        </div>
-      </div>
-<!-- <table class="table table-bordered" style="margin-top:20px">
-  <thead class="thead" style="background-color:darkgrey">
-    <tr *ngIf="report.length">
-    <th>Id</th>
-    <th>Reason</th>
-    <th>Place </th>
-    <th>Location</th>
-    <th>Start</th>
-    <th>End</th>
-    <th>Duration(Hours)</th>
-    <th>Action</th> 
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let data of report; let i=index;">
-    <td>{{i+1}}</td>
-    <td>{{data.halt_reason}}</td>
-    <td ><ng-template *ngIf="data.site_type!=null;then showtype; else showname"></ng-template>
-      <ng-template #showtype>{{data.site_name}}({{data.site_type}})</ng-template>
-      <ng-template #showname>{{data.site_name}}</ng-template></td>
-    <td>{{data.loc_name}}</td>
-    <td>{{data.start_time | date : 'dd MMM HH:mm'}}</td>
-    <td>{{data.end_time | date : 'dd MMM HH:mm'}}</td>
-    <td>{{duration[i]}}</td>
-    <td  (click)="showMap(data)"><i class="fa fa-map-marker"></i></td>
-  </tbody>
-</table>  -->
-<smart-table [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
+
+<div class="model-body"
+  style="text-align:center; margin-top:10px; margin-left: 5px; margin-right: 5px; padding-bottom: 10px;">
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-sm-2">
+      <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control">
+    </div>
+    <div class="col-sm-2">
+      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+      </uj-date-time-picker>
+    </div>
+
+    <div class="col-sm-2">
+      <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+      </uj-date-time-picker>
+      <!-- <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"
+        placeholder="End Date" id="end" (dblclick)="getDate('end')"
+        (ngModelChange)="endDate = dateService.handleCustomDate($event)" maxlength="10"> -->
+    </div>
+
+
+    <div class="col-sm-2 pr-1">
+      <Button class="btn btn-primary" type="button" (click)="getVehicleReport()">Get Report</Button>
+    </div>
+  </div>
+
+  <smart-table *ngIf="table" [data]="table.report" [settings]="table.settings" id="tblVehReport"></smart-table>
 </div>

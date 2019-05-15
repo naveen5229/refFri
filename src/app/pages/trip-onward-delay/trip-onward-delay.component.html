@@ -1,0 +1,17 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-8">
+        <h5>Onward Trip Delay</h5>
+      </div>
+
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="model-body">
+      <smart-table *ngIf="onwardDelayData.length" [data]="table.data" [settings]="table.settings" id="tbldocs">
+      </smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>

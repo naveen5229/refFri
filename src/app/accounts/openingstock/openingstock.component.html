@@ -5,7 +5,10 @@
   <nb-card-body style="min-height: 450px;" (keydown)="keyHandler($event)">
     <div class="row">
       <div class="col-9">
-
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
           <div class="col-4">
             <div class="form-group">
@@ -16,8 +19,8 @@
           </div>
           <div class="col-3">
             <div class="form-group">
-              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="dismiss(true)" id="submit"
-                style="cursor: pointer;margin-top: 18px;">Submit</button>
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="dismiss(true)"
+                id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
             </div>
           </div>
         </div>
@@ -32,6 +35,11 @@
         <tr>
           <th>Stock Item</th>
           <th>Unit</th>
+          <th>sales return</th>
+          <th>Purchase return</th>
+          <th>wastage Qty</th>
+          <th>store Received qty</th>
+          <th>store Issue qty</th>
           <th>Avg Purchase Rate</th>
           <th>Avg Sales Rate</th>
           <th>Total Purchase Qty</th>
@@ -41,9 +49,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let openingStock of openingStocks;  let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
+        <tr *ngFor="let openingStock of openingStocks;  let i = index;" (click)="selectedRow = i"
+          [ngClass]="{'highlight' : selectedRow == i}">
           <td>{{openingStock['Stock Item']}}</td>
           <td>{{openingStock['Unit']}}</td>
+          <td>{{openingStock['sr_total_qty  ']}}</td>
+          <td>{{openingStock['pr_total_qty ']}}</td>
+          <td>{{openingStock['wastage_total_qty ']}}</td>
+          <td>{{openingStock['storeRec_total_qty']}}</td>
+          <td>{{openingStock['storeIssue_total_qty']}}</td>
           <td>{{openingStock['Avg Purchase Rate']}}</td>
           <td>{{openingStock['Avg Sales Rate']}}</td>
           <td>{{openingStock['Total Purchase Qty']}}</td>
@@ -55,3 +69,11 @@
     </table>
   </nb-card-body>
 </nb-card>
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2"
+        [(ngModel)]="openingstock[f2Date]" maxlength="10">
+    </div>
+  </div>
+</div>
