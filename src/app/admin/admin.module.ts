@@ -43,6 +43,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { BeehiveComponent } from './beehive/beehive.component';
 
 
 
@@ -99,6 +100,7 @@ const PAGES_COMPONENTS = [
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
+    BeehiveComponent,
 
   ],
   exports: [

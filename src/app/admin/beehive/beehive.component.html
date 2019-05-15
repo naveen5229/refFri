@@ -1,0 +1,19 @@
+<div>
+  Size = <input type="text" name="lname" placeholder="Enter Size" [(ngModel)]="size"> <br>
+  1stLatLong=  <input type="text" name="1stLatLong" placeholder=" 1stLatLong" [(ngModel)]="first"  id ="1stLatLong"> <br>
+  2ndLatLong= <input type="text" name="2ndLatLong" placeholder=" 2ndLatLong" id ="2ndLatLong" [(ngModel)]="second"> <br>
+  <button class="btn btn-primary" type="button" (click)=" getMapping()">
+    SUBMIT</button>
+</div>
+<div style="position:relative;">
+  <div class="zoom_btn_box">
+    <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+    <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+    <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+    <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+    <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+  </div>
+</div>
+
+
+<div class="map" id="map"></div>

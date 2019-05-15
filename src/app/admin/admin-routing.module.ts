@@ -35,6 +35,7 @@ import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/tri
 import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fuel-average-analysis.component';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { BeehiveComponent } from './beehive/beehive.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -42,6 +43,11 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: VehicleStatusChangeComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'beehive',
+            component: BeehiveComponent,
             canActivate: [RouteGuard]
         },
         {
