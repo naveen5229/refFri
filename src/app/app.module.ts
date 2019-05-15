@@ -146,6 +146,9 @@ import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
+import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
+import { ImportBulkVehiclesComponent } from './modals/import-bulk-vehicles/import-bulk-vehicles.component';
+import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-admin-users.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -254,6 +257,9 @@ import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empt
     CustomTimePipe,
     PoliceStationComponent,
     TankEmptyDetailsComponent,
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
 
   ],
   entryComponents: [
@@ -358,6 +364,9 @@ import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empt
     PoliceStationComponent,
     LedgerviewComponent,
     TankEmptyDetailsComponent,
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h5 class="modal-title">Add FoAdmin Users</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="foAdminUser" name="addFoAdmin-form" id="addFoAdmin-form"
+    (submit)="foAdminUser.valid && addFoAdmin()">
+
+    <div class="row" style="margin-bottom:10px">
+      <div class="col-3">
+        <label>Fo User</label>
+      </div>
+      <div class="col-3">
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+          placeholder="Fo User"></auto-suggestion>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+      <div class="col-3">
+        <label>Mobile Number</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
+          formControlName="mobileno" minlength="10" required maxlength="10"
+          [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" required>
+        <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
+          <div *ngIf="f.mobileno.errors.required">mobileNumber is required</div>
+          <div *ngIf="f.mobileno.errors.minlength ">mobile Number minlength 10</div>
+          <div *ngIf="f.mobileno.errors.maxlength ">mobile Number maxlength 10</div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+      <div class="col-3">
+        <label>Name</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" formControlName="name" autocomplete="off" id="name"
+          [ngClass]="{ 'is-invalid': submitted && f.name.errors }" required>
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 text-center margin-top-15">
+      <button class="btn btn-primary" id="submit" form="addFoAdmin-form" (click)="submitted=true">Submit</button>
+    </div>
+  </form>
+</div>

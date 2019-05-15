@@ -18,7 +18,7 @@ export class ApiService {
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
 
-  UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -61,7 +61,7 @@ export class ApiService {
     return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
   }
 
-  postToTranstrucknew(subURL: string, body: any, options?) {
+  postToTranstrucknew(subURL: string, body: any, optons?) {
     console.log('Test::::');
     // if (this.user._customer.id) {
     //   body['foAdminId'] = this.user._customer.id;
