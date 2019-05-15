@@ -86,7 +86,6 @@ export class AddDriverComponent implements OnInit {
       })
   }
 
-
   get f() { return this.driverForm.controls; }
 
   addNewdriver() {
