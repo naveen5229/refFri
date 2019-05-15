@@ -4,7 +4,12 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { DaybookComponent } from '../../acounts-modals/daybook/daybook.component';
+import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
+import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 
 @Component({
@@ -13,7 +18,7 @@ import * as _ from 'lodash';
   styleUrls: ['./balancesheet.component.scss']
 })
 export class BalancesheetComponent implements OnInit {
-
+  selectedName = '';
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
@@ -31,10 +36,16 @@ export class BalancesheetComponent implements OnInit {
   liabilities = [];
   assets = [];
   allowBackspace = true;
+  f2Date = 'startdate';
+  lastActiveId = '';
+  showDateModal = false;
+  activedateid = '';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     this.setFoucus('startdate');
     this.common.currentPage = 'Balance Sheet';
@@ -114,6 +125,27 @@ export class BalancesheetComponent implements OnInit {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
+
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      // document.getElementById("voucher-date").focus();
+      // this.voucher.date = '';
+      this.lastActiveId = this.activeId;
+      this.setFoucus('voucher-date-f2', false);
+      this.showDateModal = true;
+      this.f2Date = this.activeId;
+      this.activedateid = this.lastActiveId;
+      return;
+    } else if ((key == 'enter' && this.showDateModal)) {
+      this.showDateModal = false;
+      console.log('Last Ac: ', this.lastActiveId);
+      this.handleVoucherDateOnEnter(this.activeId);
+      this.setFoucus(this.lastActiveId);
+
+      return;
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+      return;
+    }
+
     if (key == 'enter') {
       this.allowBackspace = true;
       if (this.activeId.includes('startdate')) {
@@ -136,6 +168,32 @@ export class BalancesheetComponent implements OnInit {
 
   }
 
+
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
+    if (this.balanceData[datestring].includes('-')) {
+      dateArray = this.balanceData[datestring].split('-');
+    } else if (this.balanceData[datestring].includes('/')) {
+      dateArray = this.balanceData[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.balanceData[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
@@ -146,4 +204,44 @@ export class BalancesheetComponent implements OnInit {
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
+
+  opendaybookmodel(ledgerId) {
+    this.common.params = {
+      startdate: this.balanceData.startdate,
+      enddate: this.balanceData.enddate,
+      ledger: ledgerId,
+      vouchertype: 0
+    };
+    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      //this.getDayBook();
+      //this.common.showToast('Voucher updated');
+
+    });
+  }
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+
+
+  getProfitLoss() {
+    this.common.params = {
+      startdate: this.balanceData.startdate,
+      enddate: this.balanceData.enddate
+    };
+    console.log('start date and date', this.common.params);
+    //  this.common.params = voucherId;
+
+    const activeModal = this.modalService.open(ProfitlossComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        return;
+
+      }
+    });
+  }
+
 }

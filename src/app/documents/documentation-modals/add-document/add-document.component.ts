@@ -72,11 +72,11 @@ export class AddDocumentComponent implements OnInit {
     this.vehicleId = this.common.params.vehicleId;
     if (this.common.params.row) {
       this.updateimage = 1;
-      this.regno = this.common.params.row.regno;
-      this.docId = this.common.params.row.id;
-      this.vehicleid = this.common.params.row.vehicle_id;
-      this.docType = this.common.params.row.document_type;
-      this.docTypeid = this.common.params.row.document_type_id;
+      this.regno = this.common.params.row.Vehicle;
+      this.docId = this.common.params.row._docid;
+      this.vehicleid = this.common.params.row._vid;
+      this.docType = this.common.params.row._docname;
+      this.docTypeid = this.common.params.row._doctypeid;
     }
 
     if (this.common.params.norecordData) {
@@ -109,7 +109,7 @@ export class AddDocumentComponent implements OnInit {
         this.common.loading--;
         // console.log("data", res);
         this.vehicle = res['data'].vehicle_info[0];
-        this.agents = res['data'].document_agents_info;
+        // this.agents = res['data'].document_agents_info;
         this.docTypes = res['data'].document_types_info;
       }, err => {
         this.common.loading--;
@@ -322,16 +322,16 @@ export class AddDocumentComponent implements OnInit {
     return documentType;
   }
 
-  addAgent() {
-    this.common.params = { title: 'Add Agent' };
-    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+  // addAgent() {
+  //   this.common.params = { title: 'Add Agent' };
+  //   const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
 
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.getDocumentsData();
-      }
-    });
-  }
+  //   activeModal.result.then(data => {
+  //     if (data.response) {
+  //       this.getDocumentsData();
+  //     }
+  //   });
+  // }
 
   selectDocType(docType) {
     this.document.type.id = docType.id
@@ -349,51 +349,54 @@ export class AddDocumentComponent implements OnInit {
   }
 
   ignoreDoc() {
-    if (this.docTypeid || this.document.type.id ) {
+    if (this.docTypeid || this.document.type.id) {
       const ignoreData = {
         x_entryby: this.user._details.id,
         x_vehicle_id: this.vehicleId,
-        x_document_type_id: this.docTypeid,
-        x_document_type: this.docType,
-       
+        x_document_type_id: this.document.type.id ? this.document.type.id : this.docTypeid,
+        x_document_type: this.document.type.id ? this.findDocumentType(this.document.type.id) : this.docType,
+
       };
-      this.common.params = { title: 'ignore Reason',ignoreData};
+      this.common.params = { title: 'ignore Reason', ignoreData };
       const activeModal = this.modalService.open(DropDownListComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
-          this.returnIgnoreData(data.response,data.record);
-          this.closeModal(true);
+          this.returnIgnoreData(data.response, data.record);
         }
       });
     }
-    else{
+    else {
       this.common.showToast("select Document Type");
     }
   }
 
 
-  returnIgnoreData(ignoreReason,record){
-    
-      const params = {
-        x_remarks: ignoreReason.name,
-        x_vehicle_id:record.x_vehicle_id,
-        x_document_type_id:record.x_document_type_id,
+  returnIgnoreData(ignoreReason, record) {
+    const params = {
+      x_remarks: ignoreReason.name,
+      x_vehicle_id: record.x_vehicle_id,
+      x_document_type_id: record.x_document_type_id,
 
-      };
-      console.log("Params:",params);
-      this.common.loading++;
-      this.api.post('vehicles/saveIgnoreVehicleDocument', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log('res: ', res);
-          if (res['msg']) {
-            this.common.showToast(res['msg']);
-          }
-          
-        }, err => {
-          this.common.loading--;
-          console.log('Error: ', err);
-          this.common.showError();
-        });
-    }
+    };
+    console.log("Params:", params);
+    this.common.loading++;
+
+    this.api.post('vehicles/saveIgnoreVehicleDocument', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+          this.closeModal(true);
+        }
+        else {
+          this.common.showError(res['msg']);
+        }
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
 }

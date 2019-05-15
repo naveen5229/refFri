@@ -1,0 +1,45 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-5">
+        <h5>Vehicle Trip States</h5>
+      </div>
+      <div class="col-7">
+        <div class="row">
+          <div class="col-sm-3">
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+              placeholder="Enter Vehicle Number" style="width:60%;" [preSelected]="{regno:vehicleNo }">
+            </auto-suggestion>
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
+              placeholder="Start Date" (click)="getDate('start')" />
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
+              placeholder="End Date" (click)="getDate('end')" />
+          </div>
+
+          <div class="col-sm-2">
+            <button class="btn btn-primary m-0" (click)="getTripStages()">submit</button>
+          </div>
+          <div class="col-sm-1" *ngIf="openType=='modal'">
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="tripstagesData.length==0">
+      No Data Available On That Time Period !
+    </div>
+
+    <div>
+      <smart-table *ngIf="tripstagesData.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+
+  </nb-card-body>
+</nb-card>

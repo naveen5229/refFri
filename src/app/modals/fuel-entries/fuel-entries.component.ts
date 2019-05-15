@@ -11,12 +11,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FuelEntriesComponent implements OnInit {
   fuelDetails = null;
+  bgc = [];
 
   constructor(
     public common: CommonService,
     public api: ApiService,
-    private activeModal: NgbActiveModal
-  ) {
+    private activeModal: NgbActiveModal) {
     this.getDetails();
   }
 
@@ -28,16 +28,28 @@ export class FuelEntriesComponent implements OnInit {
     console.log(this.common.params);
     let params = {
       vehId: this.common.params.vehicle_id ? this.common.params.vehicle_id : null,
-      lastFilling: this.common.params.last_filling_entry_time ? this.common.params.last_filling_entry_time : null,
-      currentFilling: this.common.params.current_filling_entry_time ? this.common.params.current_filling_entry_time : null
+      lastFilling: this.common.params.startdate ? this.common.params.startdate : null,
+      currentFilling: this.common.params.enddate ? this.common.params.enddate : this.common.dateFormatter(new Date())
     }
+    console.log('params', params);
     this.common.loading++;
     this.api.post('FuelDetails/getFillingsBwTime', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        let data = [];
         this.fuelDetails = res['data'];
+        this.fuelDetails.forEach((element) => {
+          if (element.is_last_filling) {
+            this.bgc.push(true);
+          } else {
+            this.bgc.push(false);
+          }
+
+          console.log('bgc: ', this.bgc);
+
+
+        });
+
         console.log("fuelDetails", this.fuelDetails);
       }, err => {
         this.common.loading--;
@@ -48,8 +60,8 @@ export class FuelEntriesComponent implements OnInit {
   changeFullDetail(fuelDetail) {
     console.log(fuelDetail);
     let params = {
-      x_ff_id : fuelDetail.id,
-      x_is_full : fuelDetail.is_full
+      x_ff_id: fuelDetail.id,
+      x_is_full: fuelDetail.is_full ? 1 : 0,
     }
     this.common.loading++;
     this.api.post('FuelDetails/changeFullFillingStatus', params)
@@ -58,6 +70,7 @@ export class FuelEntriesComponent implements OnInit {
         console.log(res);
         this.common.showToast(res['msg']);
         console.log("fuelDetails", this.fuelDetails);
+        this.closeModal();
       }, err => {
         this.common.loading--;
         console.log(err);

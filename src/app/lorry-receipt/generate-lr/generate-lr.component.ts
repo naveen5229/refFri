@@ -10,6 +10,7 @@ import { AddDriverComponent } from '../../modals/add-driver/add-driver.component
 import { AccountService } from '../../services/account.service';
 import { MapService } from '../../services/map.service';
 import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
+import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
 
 @Component({
   selector: 'generate-lr',
@@ -20,6 +21,7 @@ export class GenerateLRComponent implements OnInit {
   materialDetails = null;
   branches = null;
   vehicleId = null;
+  vehicleRegNo = null;
   mobileno;
   flag = false;
   lr = {
@@ -119,20 +121,29 @@ export class GenerateLRComponent implements OnInit {
     console.log("open material modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'md', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
-      console.log('Date:', data);
+      console.log('Data:', data);
+
     });
   }
 
   addDriver() {
-    console.log("open material modal")
-    const activeModal = this.modalService.open(AddDriverComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
+    const activeModal = this.modalService.open(ChangeDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log('Date:', data);
+      console.log("data", data);
+      if (data.data) {
+        this.getDriverInfo();
+      }
+
     });
   }
   getvehicleData(vehicle) {
     console.log('Vehicle Data: ', vehicle);
     this.vehicleId = vehicle.id;
+    this.vehicleRegNo = vehicle.regno;
+    this.getDriverInfo();
+  }
+  getDriverInfo() {
     let params = {
       vid: this.vehicleId
     };
@@ -223,69 +234,69 @@ export class GenerateLRComponent implements OnInit {
   }
 
   saveDetails() {
-    if((!this.lr.sourceLat)||(!this.lr.destinationLat)){
+    if ((!this.lr.sourceLat) || (!this.lr.destinationLat)) {
       this.common.showError("Source and Destination Location selection are required");
-    }else{
-     ++this.common.loading;
-    let particulars = JSON.parse(JSON.stringify(this.particulars));
-    particulars.map(particular => {
-      for (let i = 0; i < particular.customfields.customDetail.length; i += 2) {
-        particular.customfields[particular.customfields.customDetail[i]] = particular.customfields.customDetail[i + 1];
-      }
-      particular.customfields = Object.assign({}, particular.customfields);
-      delete particular.customfields.customDetail;
-    });
-
-    this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
-    console.log('params lrdate',this.lr.date);
-  
-    let params = {
-      branchId: this.accountService.selected.branch,
-      vehicleId: this.vehicleId,
-      lrNo: this.lr.lrNumber,
-      lrDate: this.lr.date,
-      driverId: this.driver.id,
-      source: this.lr.sourceCity,
-      destination: this.lr.destinationCity,
-      consignorId: this.lr.consignorId,
-      consigneeId: this.lr.consigneeId,
-      amount: this.lr.payableAmount,
-      payType: this.lr.paymentTerm,
-      taxPaid: this.lr.taxPaidBy,
-      travelAgentId: this.taId,
-      deliveryAddress: this.lr.deliveryAddress,
-      lrDetails: JSON.stringify(particulars),
-      remarks: this.lr.remark,
-      sourceLat: this.lr.sourceLat,
-      sourceLng: this.lr.sourceLng,
-      destinationLat: this.lr.destinationLat,
-      destinationLng: this.lr.destinationLng,
-      consigneeAddress: this.lr.consigneeAddress,
-      consignorAddress: this.lr.consignorAddress,
-    }
-    console.log("params", params);
-
-    this.api.post('LorryReceiptsOperation/generateLR', params)
-      .subscribe(res => {
-        --this.common.loading;
-        console.log('response :', res['data'][0].rtn_id);
-        if (res['data'][0].rtn_id > 0) {
-          this.common.showToast("LR Generated Successfully");
-          this.lrView(res['data'][0].rtn_id);
-        } else {
-          this.common.showError(res['data'][0].rtn_msg);
+    } else {
+      ++this.common.loading;
+      let particulars = JSON.parse(JSON.stringify(this.particulars));
+      particulars.map(particular => {
+        for (let i = 0; i < particular.customfields.customDetail.length; i += 2) {
+          particular.customfields[particular.customfields.customDetail[i]] = particular.customfields.customDetail[i + 1];
         }
-      }, err => {
-        --this.common.loading;
-        this.common.showError(err);
-        console.log('Error: ', err);
+        particular.customfields = Object.assign({}, particular.customfields);
+        delete particular.customfields.customDetail;
       });
+
+      this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
+      console.log('params lrdate', this.lr.date);
+
+      let params = {
+        branchId: this.accountService.selected.branch,
+        vehicleId: this.vehicleId,
+        lrNo: this.lr.lrNumber,
+        lrDate: this.lr.date,
+        driverId: this.driver.id,
+        source: this.lr.sourceCity,
+        destination: this.lr.destinationCity,
+        consignorId: this.lr.consignorId,
+        consigneeId: this.lr.consigneeId,
+        amount: this.lr.payableAmount,
+        payType: this.lr.paymentTerm,
+        taxPaid: this.lr.taxPaidBy,
+        travelAgentId: this.taId,
+        deliveryAddress: this.lr.deliveryAddress,
+        lrDetails: JSON.stringify(particulars),
+        remarks: this.lr.remark,
+        sourceLat: this.lr.sourceLat,
+        sourceLng: this.lr.sourceLng,
+        destinationLat: this.lr.destinationLat,
+        destinationLng: this.lr.destinationLng,
+        consigneeAddress: this.lr.consigneeAddress,
+        consignorAddress: this.lr.consignorAddress,
+      }
+      console.log("params", params);
+
+      this.api.post('LorryReceiptsOperation/generateLR', params)
+        .subscribe(res => {
+          --this.common.loading;
+          console.log('response :', res['data'][0].rtn_id);
+          if (res['data'][0].rtn_id > 0) {
+            this.common.showToast("LR Generated Successfully");
+            this.lrView(res['data'][0].rtn_id);
+          } else {
+            this.common.showError(res['data'][0].rtn_msg);
+          }
+        }, err => {
+          --this.common.loading;
+          this.common.showError(err);
+          console.log('Error: ', err);
+        });
     }
   }
 
-  lrView(lrId){
-    console.log("receipts",lrId);
-    this.common.params = {lrId: lrId }
+  lrView(lrId) {
+    console.log("receipts", lrId);
+    this.common.params = { lrId: lrId }
     const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
@@ -294,14 +305,20 @@ export class GenerateLRComponent implements OnInit {
 
   checkDateFormat() {
     let dateValue = this.lr.date;
+    let datereg = /^\d{4}[-]\d{2}[-]\d{2}$/;
     console.log('this.lrdate', this.lr.date);
     if (dateValue.length < 8) return;
-    let date = dateValue[0] + dateValue[1];
-    let month = dateValue[2] + dateValue[3];
-    let year = dateValue.substring(4, 8);
-    // this.lrDate= date + '/' + month + '/' + year;
-    this.lr.date = year + '-' + month + '-' + date;
-    console.log('checkDateFormat',this.lr.date);
+
+    if (dateValue.match(datereg))
+      return;
+    else {
+      let date = dateValue[0] + dateValue[1];
+      let month = dateValue[2] + dateValue[3];
+      let year = dateValue.substring(4, 8);
+      // this.lrDate= date + '/' + month + '/' + year;
+      this.lr.date = year + '-' + month + '-' + date;
+      console.log('checkDateFormat', this.lr.date);
+    }
   }
 
   getDate() {

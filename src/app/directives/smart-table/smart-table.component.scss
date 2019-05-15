@@ -25,7 +25,7 @@ table.fixed {
 }
 .filter-input {
     border: none;
-    padding: 4px 6px;
+    padding: 4px 6px !important;
     outline: none;
     width: 100%; // border: 1px solid #e2e2e2;
     margin: 0;
@@ -100,6 +100,7 @@ table.fixed {
     position: sticky;
     top: 0;
     background: #263238;
+    z-index: 999;
 }
 /* Just common table stuff. Really. */
 table {
@@ -122,4 +123,40 @@ tbody tr:nth-child(even){
 .image,
 .icon{
     font-size: 14px;
+}
+.pagination{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    .pagination_links{
+        span{
+            position: relative;
+            display: block;
+            padding: 5px 7px;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            float: left;
+            cursor: pointer;
+        }
+        span:hover,
+        span:active,
+        span.active-page{
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        span:focus{
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+    }
+
+
+}
+.tablePagination{
+    color: black;
+}
+.test{
+    color: black;
 }

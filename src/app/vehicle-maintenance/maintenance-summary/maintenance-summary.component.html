@@ -1,0 +1,27 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-6">
+        <h5>Maintenance Summary</h5>
+      </div>
+      <!-- <div class="col-6 text-right">
+        <span class="pdf-icon" title="PDF Export" (click)="printPDF('tableMaintenance')" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tableMaintenance')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+      </div> -->
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="padding-top:0px; ">
+    <span style="margin-bottom: 10px; display: block;">
+      <span class="pdf-icon" title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i
+          class="fa fa-file-pdf"></i></span>
+      <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')"
+        style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+    </span>
+    <smart-table *ngIf="maintenanceData.length" [data]="table.data" [settings]="table.settings" id="tblsummary">
+    </smart-table>
+    <br>
+  </nb-card-body>
+</nb-card>

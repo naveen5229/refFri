@@ -28,6 +28,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { TransportAgentsComponent } from './transport-agents/transport-agents.component';
 import { LorryReceiptModule } from '../lorry-receipt/lorry-receipt.module';
 import { DriverModule } from '../driver/driver.module';
+import { PagesModule } from '../pages/pages.module';
 import { VehicleGpsTrailComponent } from './vehicle-gps-trail/vehicle-gps-trail.component';
 import { GpsTrailsComponent } from './gps-trails/gps-trails.component';
 import { FuelFillingsComponent } from './fuel-fillings/fuel-fillings.component';
@@ -38,6 +39,10 @@ import { VehicleDistanceComponent } from './vehicle-distance/vehicle-distance.co
 import { TransportAreaComponent } from './transport-area/transport-area.component';
 import { TripSiteRuleComponent } from './trip-site-rule/trip-site-rule.component';
 import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/trip-status-feedback-logs.component';
+import { ImageViewerModule } from 'ng2-image-viewer';
+import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
+import { SharedModule } from '../shared.module';
+import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 
 
 
@@ -57,7 +62,9 @@ const PAGES_COMPONENTS = [
   VehiclesViewComponent,
   VehicleGpsTrailComponent,
   ActivitySummaryComponent,
-  VehicleGpsDetailComponent
+  VehicleGpsDetailComponent,
+  TicketSubscribeComponent
+
 
 ];
 @NgModule({
@@ -71,6 +78,8 @@ const PAGES_COMPONENTS = [
     DocumentsModule,
     LorryReceiptModule,
     DriverModule,
+    ImageViewerModule,
+    SharedModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -82,14 +91,17 @@ const PAGES_COMPONENTS = [
     TransportAgentsComponent,
     VehicleGpsTrailComponent,
     GpsTrailsComponent,
-    FuelFillingsComponent,
     SubSitesComponent,
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
-    VehicleDistanceComponent,
+    // VehicleDistanceComponent,
     TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
+    TicketSubscribeComponent,
+
+  ],
+  exports: [
   ],
 })
 export class AdminModule { }

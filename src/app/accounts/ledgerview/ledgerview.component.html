@@ -1,10 +1,14 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<nb-card style=" border: 0px;">
   <!-- <nb-card-header>
     <h4>Ledger View</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
       <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
           <!-- <div class="col">
     <div class="form-group">
@@ -35,14 +39,14 @@
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">Starting Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startdate"
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="startDate"
                 autocomplete="off" maxlength="10" name="account-startDate" [(ngModel)]="ledger.startDate">
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label class="tjr-label">End Date</label>
-              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
+              <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="endDate" autocomplete="off"
                 maxlength="10" name="account-endDate" [(ngModel)]="ledger.endDate">
             </div>
           </div>
@@ -70,7 +74,7 @@
         </div>
       </div>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>#</th>
@@ -100,3 +104,12 @@
     </table>
   </nb-card-body>
 </nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="ledger[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

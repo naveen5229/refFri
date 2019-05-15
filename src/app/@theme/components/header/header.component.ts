@@ -79,6 +79,7 @@ export class HeaderComponent implements OnInit {
 
   openChangeModal() {
     console.log("open change modal");
+    this.common.params = {refreshPage: this.common.refresh};
     this.modalService.open(CustomerSelectionComponent, { size: 'md', container: 'nb-layout', windowClass: 'admin-popup' });
   }
 

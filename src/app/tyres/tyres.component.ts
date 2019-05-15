@@ -17,9 +17,9 @@ export class TyresComponent {
 
   menu = MENU_ITEMS;
   constructor(public user: UserService, public router: Router) {
-    if (this.user._loggedInBy == 'customer') {
-      this.router.navigate(['/pages']);
-      return;
-    }
+    // if (this.user._loggedInBy == 'customer') {
+    //   this.router.navigate(['/pages']);
+    //   return;
+    // }
   }
 }

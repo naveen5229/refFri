@@ -14,24 +14,29 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row">
-    <div class="col-sm-3">
-      <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
-        placeholder="Start Date" (click)="getDate('start')">
-    </div>
-    <!-- <div class="col-sm-3">
+      <div class="col-sm-3">
+        <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+          placeholder="Start Date" (click)="getDate('start')">
+      </div>
+      <!-- <div class="col-sm-3">
       <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
         placeholder="End Date" (click)="getDate('end')">
     </div> -->
-    <div class="col-sm-3">
-      <select [(ngModel)]="status" class="form-control" [name]="status">
-        <option value="-1">All</option>
-        <option value="1">Verify</option>
-        <option value="2">Change</option>
-      </select>
-    </div>
-    <div class="col-sm-2">
-      <button class="btn btn-primary" (click)="getTripLogs()">Get Details</button>
-    </div>
+      <div class="col-sm-3">
+        <select [(ngModel)]="status" class="form-control" [name]="status">
+          <option value="-1">All</option>
+          <option value="1">Verify</option>
+          <option value="2">Change</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary m-0" (click)="getTripLogs()">Get Details</button>
+      </div>
+
+      <div style="margin-left:200px;">
+        <i class="fas fa-sync-alt" style="cursor:pointer" (click)="ShowData()"></i>
+      </div>
+
     </div>
     <!-- <div>
         <table class="table table-bordered table-hover" id="tbldocs">
@@ -67,7 +72,7 @@
       </div> -->
     <div>
 
-      <smart-table *ngIf = "tripLogs.length" [data]="table.data" [settings]="table.settings" id='tbldocs'></smart-table>
+      <smart-table *ngIf="tripLogs.length" [data]="table.data" [settings]="table.settings" id='tbldocs'></smart-table>
       <br>
     </div>
   </nb-card-body>

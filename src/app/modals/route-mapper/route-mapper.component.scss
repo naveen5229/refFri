@@ -77,9 +77,6 @@ table{
 .player_inner input{
     display: inline-block;
 }
-.player_inner .col-11{
-    padding-top: 6px;
-}
 .tooltip {
     position: relative;
     display: inline-block;
@@ -128,17 +125,44 @@ table{
   .btn-primary.form-control{
     border: 0px;
     color: #fff;
-    padding: 5px 15px;
+    padding: 5px 0px;
   }
   .close{
     font-size: 36px;
     padding: 8px 16px;
     outline: none;
   }
-  table{
-        tr{
-          th, td{
-              padding: 5px !important;
-          }
-      }
+table {
+  thead {
+    background-color: #263238;
+    color: #fff;
+    display: table;
+    width: 100%;
   }
+  tr {
+    th {
+      padding: 5px 10px;
+      font-weight: normal;
+      width: 150px !important;
+    }
+    td {
+      padding: 5px 10px !important;
+      font-size: 12px;
+      width: 150px !important;
+      word-break: break-all;
+    }
+    .go_btn{
+      width: 50px !important;
+    }
+  }
+  tbody {
+    display: table;
+    width: 100%;
+  }
+}
+
+.lite{
+  margin-left: 50vh !important;
+  font-weight: 1000;
+  color: darkmagenta;
+ }

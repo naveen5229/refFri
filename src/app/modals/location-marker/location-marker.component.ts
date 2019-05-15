@@ -7,7 +7,7 @@ declare var google: any;
 @Component({
   selector: 'location-marker',
   templateUrl: './location-marker.component.html',
-  styleUrls: ['./location-marker.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./location-marker.component.scss', '../../pages/pages.component.css']
 })
 export class LocationMarkerComponent implements OnInit {
   title = '';
@@ -20,6 +20,7 @@ export class LocationMarkerComponent implements OnInit {
     time: ''
   };
   marker: any;
+  infoWindows = [];
 
   constructor(
     public common: CommonService,
@@ -41,7 +42,7 @@ export class LocationMarkerComponent implements OnInit {
   loadMap(lat = 26.9124336, lng = 75.78727090000007) {
     let mapOptions = {
       center: new google.maps.LatLng(lat, lng),
-      zoom: 8,
+      zoom: 14,
       disableDefaultUI: true,
       mapTypeControl: false,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -52,11 +53,22 @@ export class LocationMarkerComponent implements OnInit {
 
 
   createMarker(lat = 26.9124336, lng = 75.78727090000007) {
+
     this.marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
       position: new google.maps.LatLng(lat, lng),
       draggable: false
+    });
+    let displayText = '';
+    let infoWindow = this.createInfoWindow();
+
+    displayText = 'lat' + " : " + this.location.lat + " " + 'long' + " : " + this.location.lng;
+    google.maps.event.addListener(this.marker, 'click', function (evt) {
+      console.log("In Here");
+      infoWindow.setPosition(evt.latLng);
+      infoWindow.setContent(displayText);
+      infoWindow.open(this.map, this.marker);
     });
   }
 
@@ -67,6 +79,10 @@ export class LocationMarkerComponent implements OnInit {
     } else {
       this.map.setMapTypeId('roadmap')
     }
+  }
+
+  createInfoWindow() {
+    return new google.maps.InfoWindow();
   }
 
   closeModal() {

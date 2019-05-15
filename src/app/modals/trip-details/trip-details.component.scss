@@ -55,5 +55,19 @@ table{
         tr:nth-child(even){
             background-color: #e4e4e4;
         }
+        td{
+            .icon.fa-info{
+                color: #04a9f5;
+            }
+            .icon.fa-question-circle{
+                color: #ff8091;
+            }
+            .icon.fa-route{
+                color: #0072ff;
+            }
+            .icon.fa-truck{
+                color: #5CD050;
+            }
+        }
     }
 } 

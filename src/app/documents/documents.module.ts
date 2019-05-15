@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DocumentDashboardComponent } from './dashboard/dashboard.component';
 import { DocumentsRoutingModule } from './documents-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
-import { DashboardModule } from './dashboard/dashboard.module';
+// import { doc } from './dashboard/dashboard.module';
 import { DocumentsComponent } from './documents.components';
 import { DocumentationDetailsComponent } from './documentation-details/documentation-details.component';
 import { DirectiveModule } from '../directives/directives.module';
@@ -13,9 +13,6 @@ import { PendingDocumentsComponent } from './pending-documents/pending-documents
 import { DatePipe } from '@angular/common';
 import { ChangeHistoryComponent } from './change-history/change-history.component';
 import { ImageViewerModule } from 'ng2-image-viewer';
-//import { DocumentIssuesComponent } from './documentation-modals/document-issues/document-issues.component';
-//import { EmpDashboardComponent } from './documentation-modals/emp-dashboard/emp-dashboard.component';
-//import { DocumentHistoryComponent } from './documentation-modals/document-history/document-history.component';
 
 const PAGES_COMPONENTS = [
   DocumentsComponent,
@@ -26,7 +23,7 @@ const PAGES_COMPONENTS = [
   imports: [
     DocumentsRoutingModule,
     ThemeModule,
-    DashboardModule,
+    // DashboardModule,
     DirectiveModule,
     ImageViewerModule
   ],
@@ -34,12 +31,12 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
 
-    DocumentationDetailsComponent,
-    DocumentsSummaryComponent,
+    // DocumentationDetailsComponent,
+    // DocumentsSummaryComponent,
     PendingDocumentsComponent,
     ChangeHistoryComponent,
-    //EmpDashboardComponent,
-    //DocumentHistoryComponent,
+    // DocumentDashboardComponent
+
   ],
 })
 export class DocumentsModule { }

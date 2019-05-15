@@ -16,6 +16,7 @@ declare var google: any;
   styleUrls: ['./vehicle-trip-update.component.scss','../../pages/pages.component.css']
 })
 export class VehicleTripUpdateComponent implements OnInit {
+  vehicleStatus = null;
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -23,10 +24,9 @@ export class VehicleTripUpdateComponent implements OnInit {
     targetTime: null,
     id: null,
     regno: null,
-    startLat: null,
-    startLng: null,
+    
     startName: null,
-    startTime: null,
+
     placementType:null,
     vehicleId:null,
     siteId:null,
@@ -46,17 +46,9 @@ export class VehicleTripUpdateComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     console.log(this.common.params)
-    this.vehicleTrip.endLat = this.common.params.tripDetils.endLat;
-    this.vehicleTrip.endLng = this.common.params.tripDetils.endLng;
-    this.vehicleTrip.endName = this.common.params.tripDetils.endName;
-    this.vehicleTrip.id = this.common.params.tripDetilsid;;
-    this.vehicleTrip.regno = this.common.params.tripDetils.regno;
+   
     this.vehicleTrip.vehicleId = this.common.params.tripDetils.vehicleId;
-    this.vehicleTrip.startLat = this.common.params.tripDetils.startLat;
-    this.vehicleTrip.startLng = this.common.params.tripDetils.startLng;
-    this.vehicleTrip.startName = this.common.params.tripDetils.startName;
     this.vehicleTrip.siteId = this.common.params.tripDetils.siteId;
-    this.vehicleTrip.startTime = this.common.changeDateformat(this.common.params.tripDetils.startTime);
     this.ref_page = this.common.params.ref_page;
     console.log("ref_page",this.ref_page);
     if(this.ref_page == 'placements'){
@@ -66,6 +58,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     }
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
+    this.getVehicleCurrentStatus();
   }
 
   ngOnInit() {
@@ -179,6 +172,21 @@ export class VehicleTripUpdateComponent implements OnInit {
    }
 }
 
+getVehicleCurrentStatus(){
+  let params ={
+    vehicleId: this.vehicleTrip.vehicleId,
+  } 
+ 
+  this.api.post('Placement/getVehicleCurrentStatus' ,params)
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.vehicleStatus = res['data'][0];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+}
+
 getPlacementSuggestion(){
   let params ={
     vehicleId: this.vehicleTrip.vehicleId,
@@ -230,8 +238,8 @@ delete(placement) {
   
 setPlacementDetail(placementSuggestion){
   console.log("placementSuggestion",placementSuggestion);
-  this.vehicleTrip.endName = placementSuggestion.loc_name;
-  this.vehicleTrip.endLat = placementSuggestion.lat;
-  this.vehicleTrip.endLng = placementSuggestion.long;
+  this.vehicleTrip.endName = placementSuggestion.y_loc_name;
+  this.vehicleTrip.endLat = placementSuggestion.y_lat;
+  this.vehicleTrip.endLng = placementSuggestion.y_long;
 }
 }

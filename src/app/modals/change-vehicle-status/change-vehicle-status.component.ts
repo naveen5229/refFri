@@ -1,13 +1,10 @@
 import { ChangeHaltComponent } from '../change-halt/change-halt.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MapService } from '../../services/map.service';
 import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { resetComponentState } from '@angular/core/src/render3/instructions';
 import { ReportIssueComponent } from '../report-issue/report-issue.component';
 import { ManualHaltComponent } from '../manual-halt/manual-halt.component';
 import { RemarkModalComponent } from '../remark-modal/remark-modal.component';
@@ -39,6 +36,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   dataType = 'events';
   VehicleStatusData;
   vehicleEvents = [];
+  vehicleEventsR = [];
   vehEvent = [];
   marker: any;
   lastIndType = null;
@@ -164,15 +162,18 @@ export class ChangeVehicleStatusComponent implements OnInit {
       this.map.setMapTypeId('roadmap');
     }
   }
+  infoWindow = null;
+  setEventInfo(event, isClick?) {
+    console.log(event);
+    if (!isClick)
+      this.toggleBounceMF(event.mIndex);
+    else
+      this.markerZoomMF(event.mIndex, 17);
 
-  setEventInfo(event) {
-
-    // if (!((bound.lat1 + 0.001 <= event.lat && bound.lat2 - 0.001 >= event.lat) &&
-    //   (bound.lng1 + 0.001 <= event.long && bound.lng2 - 0.001 >= event.long))) {
-    //   this.mapService.zoomAt({ lat: event.lat, lng: event.lng }, this.zoomLevel);
-    // }
   }
-  unsetEventInfo() {
+  unsetEventInfo(event) {
+    console.log(event);
+    this.toggleBounceMF(event.mIndex, 2);
 
   }
 
@@ -187,7 +188,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       "&toTime=" + this.toTime +
       "&status=" + status;
     console.log(params);
-    this.api.get('HaltOperations/getHaltHistory?' + params)
+    this.api.get('HaltOperations/getHaltHistoryV2?' + params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
@@ -195,6 +196,50 @@ export class ChangeVehicleStatusComponent implements OnInit {
         this.clearAllMarkers();
         this.createMarkers(res['data']);
         this.resetBtnStatus();
+        // ------------------------ Route Mapper Code (Authored by UJ) ----------------------
+        let startElement = this.vehicleEvents.find((element) => {
+          return !(element.desc + "").includes('LT');
+        });
+        this.vehicleEvents.forEach((element) => {
+          if ((element.haltTypeId == 21 || element.haltTypeId == 11)
+            && (element.desc + "").includes('LT'))
+            element.lastType = element.haltTypeId;
+          else
+            element.lastType = null;
+        });
+        console.log("StartElement", startElement);
+        if (startElement) {
+          let start = startElement.startTime;
+          let startIndex = this.vehicleEvents.indexOf(startElement);
+          let end = this.vehicleEvents[this.vehicleEvents.length - 1].endTime;
+          console.log(res);
+          this.vehicleEventsR = [];
+          let vehicleEvents = res['data'];
+          let realStart = new Date(vehicleEvents[startIndex].startTime) < new Date(start) ?
+            vehicleEvents[startIndex].startTime : start;
+          let realEnd = null;
+          if (vehicleEvents[0].endTime)
+            realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].endTime) > new Date(end) ?
+              vehicleEvents[vehicleEvents.length - 1].endTime : end;
+          let totalHourDiff = 0;
+          if (vehicleEvents.length != 0) {
+            totalHourDiff = this.common.dateDiffInHours(realStart, realEnd, true);
+            console.log("Total Diff", totalHourDiff);
+          }
+          for (let index = startIndex; index < vehicleEvents.length; index++) {
+            vehicleEvents[index].mIndex = index;
+            startIndex++;
+            vehicleEvents[index].position = (this.common.dateDiffInHours(
+              realStart, vehicleEvents[index].startTime) / totalHourDiff) * 98;
+            vehicleEvents[index].width = (this.common.dateDiffInHours(
+              vehicleEvents[index].startTime, vehicleEvents[index].endTime, true) / totalHourDiff) * 98;
+            console.log("Width", vehicleEvents[index].width);
+            this.vehicleEventsR.push(vehicleEvents[index]);
+          }
+          console.log("VehicleEvents", this.vehicleEventsR);
+        }
+        //  ------------ RouteMapper Code Exit -------------
+
 
         //bottom bar
         // let vehEvent = this.vehicleEvents;
@@ -216,7 +261,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
       }, err => {
         this.common.loading--;
         console.log(err);
-      });
+      })
   }
 
   resetBtnStatus() {
