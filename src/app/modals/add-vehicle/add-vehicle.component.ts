@@ -10,7 +10,7 @@ import { ImportBulkVehiclesComponent } from '../../modals/import-bulk-vehicles/i
 })
 export class AddVehicleComponent implements OnInit {
   Foid = null;
-  Regno = null;
+  regno = null;
   isDost = 1;
   vehicleList = [];
   constructor(
@@ -34,7 +34,7 @@ export class AddVehicleComponent implements OnInit {
   Submit() {
     let params = {
       foid: this.Foid,
-      regno: this.Regno,
+      regno: this.regno,
       isDost: this.isDost
     };
     // console.log(params);
