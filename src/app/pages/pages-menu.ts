@@ -123,17 +123,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ]
   },
   {
-<<<<<<< HEAD
-    title: 'Date Service Tester',
-    icon: 'nb-list',
-    link: '/pages/date-service-tester',
-  },
-  {
-    title: 'Generate LR',
-    icon: 'fa fa-pencil',
-    link: '/pages/generate-lr',
-  },
-=======
     title: 'Traffic',
     icon: 'fas fa-traffic-light',
     children: [
@@ -161,7 +150,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/onward-kmpd',
         home: true,
       },
->>>>>>> f47005a6c6000ed7fae616a7ea2d690611252236
 
     ]
   },

@@ -26,9 +26,6 @@ import { TripStatusFeedbackComponent } from './trip-status-feedback/trip-status-
 import { UserActivityStatusComponent } from './user-activity-status/user-activity-status.component';
 import { PlacementDelayFaultsComponent } from './placement-delay-faults/placement-delay-faults.component';
 import { DriverCallSuggestionComponent } from '../pages/driver-call-suggestion/driver-call-suggestion.component';
-<<<<<<< HEAD
-import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
-=======
 import { VehicleGpsDetailComponent } from './vehicle-gps-detail/vehicle-gps-detail.component';
 import { VehicleCoveredDistanceComponent } from './vehicle-covered-distance/vehicle-covered-distance.component';
 import { TipFeedbackLogsComponent } from './tip-feedback-logs/tip-feedback-logs.component';
@@ -44,7 +41,6 @@ import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.com
 import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
->>>>>>> f47005a6c6000ed7fae616a7ea2d690611252236
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -88,14 +84,6 @@ const routes: Routes = [{
     component: GenerateLRComponent,
   },
   {
-<<<<<<< HEAD
-    path: 'date-service-tester',
-    component: DateServiceTesterComponent,
-  },
-  {
-=======
-
->>>>>>> f47005a6c6000ed7fae616a7ea2d690611252236
     path: 'expenses',
     component: ExpensesComponent,
   },
