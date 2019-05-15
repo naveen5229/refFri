@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'trip-verify-states',
@@ -17,7 +18,8 @@ export class TripVerifyStatesComponent implements OnInit {
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      tableHeight: "68vh"
     }
   };
   headings = [];
@@ -72,13 +74,13 @@ export class TripVerifyStatesComponent implements OnInit {
     let columns = [];
     console.log("Data=", this.verifyState);
     this.verifyState.map(doc => {
-      console.log("Doc Data:", doc);
+      // console.log("Doc Data:", doc);
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
+        // console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
-        this.valobj['action'] = { value: `'<i class="fa fa-pencil-square"></i>'`, isHTML: true, action: '', class: 'image text-center del' }
+        this.valobj['action'] = { value: null, isHTML: false, action: null, class: '', icons: this.actionIcons(doc) }
 
       }
 
@@ -86,6 +88,96 @@ export class TripVerifyStatesComponent implements OnInit {
       columns.push(this.valobj);
     });
     return columns;
+  }
+
+
+
+  actionIcons(details) {
+    let icons = [
+      {
+        class: " fa fa-check-circle",
+        action: this.acceptOnTrip.bind(this, details),
+      },
+      {
+        class: "fa fa-window-close",
+        action: this.rejectOnTrip.bind(this, details),
+      },
+
+    ]
+
+    return icons;
+  }
+
+  acceptOnTrip(details) {
+
+    let params = {
+      vehicleStateId: details._id,
+      isVerified: 1,
+    };
+    if (details) {
+      console.log('details', details);
+      this.common.params = {
+        title: 'Accept Trip ',
+        description: `<b>&nbsp;` + 'Are Sure To Accept This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Vehicles/ActionOnPendingVehicleStates', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+              // this.GetBranchData();
+              this.common.showToast(res['data'][0].r_msg);
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('Error!');
+            });
+        }
+      });
+    }
+  }
+
+  rejectOnTrip(details) {
+
+    let params = {
+      vehicleStateId: details._id,
+      isVerified: 0,
+    };
+    if (details) {
+      console.log('details', details);
+      this.common.params = {
+        title: 'Accept Trip ',
+        description: `<b>&nbsp;` + 'Are Sure To Reject This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('Vehicles/ActionOnPendingVehicleStates', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res: ', res);
+
+              // vehicleId: values.x_vehicle_id,
+              // vehicleRegNo: values.x_showveh,
+              // lat: values.x_tlat,
+              // long: values.x_tlong,
+              // vregno: values.x_empname,
+
+              this.common.showToast(res['data'][0].r_msg);
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+              this.common.showError('Error!');
+            });
+        }
+      });
+    }
   }
 
 }
