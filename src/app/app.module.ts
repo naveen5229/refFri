@@ -147,6 +147,7 @@ import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
 import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -256,6 +257,7 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     PoliceStationComponent,
     TankEmptyDetailsComponent,
     OdoMeterComponent,
+    CostCentersComponent,
 
   ],
   entryComponents: [
@@ -360,7 +362,8 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     PoliceStationComponent,
     LedgerviewComponent,
     TankEmptyDetailsComponent,
-    OdoMeterComponent
+    OdoMeterComponent,
+    CostCentersComponent
   ],
   imports: [
     BrowserModule,
