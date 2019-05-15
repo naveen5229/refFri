@@ -171,8 +171,8 @@ export class VouchersComponent implements OnInit {
     }
 
     // if (this.voucher) return;
-    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch != '0');
-    if (this.accountService.selected.branch != '0') {
+    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
+    if (this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
       this.addVoucher();
       this.showConfirm = false;
@@ -269,7 +269,7 @@ export class VouchersComponent implements OnInit {
         event.preventDefault();
         if (this.voucher.total.debit == 0) {
           this.common.showError('Please Enter Amount');
-        } else if (this.accountService.selected.branch == '0') {
+        } else if (this.accountService.selected.branch.id == 0) {
           alert('Please Select Branch');
         } else {
           this.dismiss(true);
@@ -637,7 +637,11 @@ export class VouchersComponent implements OnInit {
         console.log('res: ', res);
         this.getLedgers('debit');
         this.getLedgers('credit');
-        this.common.showToast('Ledger Are Saved');
+        if (res['data'][0].y_errormsg) {
+          this.common.showToast(res['data'][0].y_errormsg);
+        } else {
+          this.common.showToast('Ledger Has been saved!');
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
