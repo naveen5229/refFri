@@ -32,5 +32,10 @@ export class AddFoAdminUsersComponent implements OnInit {
     this.activeModal.close();
 
   }
+  selectFoUser(e) {
 
+  }
+  addFoAdmin() {
+
+  }
 }

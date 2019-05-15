@@ -43,8 +43,8 @@ export class AddCustomerComponent implements OnInit {
       lng: location.long
     };
   }
-  locationSelection(user) {
-    this.common.params = { user, placeholder: 'selectLocation', title: 'SelectLocation' };
+  locationSelection() {
+    this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
     const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(res => {
       console.log('response', res);

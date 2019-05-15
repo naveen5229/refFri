@@ -49,4 +49,10 @@ export class ImportBulkVehiclesComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
+  selectFoUser(e) {
+
+  }
+  uploadCsv() {
+
+  }
 }
