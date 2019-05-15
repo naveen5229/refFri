@@ -3,9 +3,6 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { AddFoComponent } from '../../modals/add-fo/add-fo.component';
-import { PullHistoryGPSDataComponent } from '../../modals/pull-history-gps-data/pull-history-gps-data.component';
-
 
 @Component({
   selector: 'vehicle-tyres',
@@ -133,11 +130,6 @@ export class VehicleTyresComponent implements OnInit {
       });
 
   }
-  submitted1() {
-    const activeModal = this.modalService.open(AddFoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
-  submitted2() {
-    const activeModal = this.modalService.open(PullHistoryGPSDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
+
 
 }

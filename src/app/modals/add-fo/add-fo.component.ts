@@ -33,7 +33,7 @@ export class AddFoComponent implements OnInit {
     private formBuilder: FormBuilder) {
     // this.company.pan = this.common.params.company.pan;
 
-  }
+  } gi
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
