@@ -147,6 +147,12 @@ export class DataService {
             link: '/admin/ticket-subscribe',
             home: true,
           },
+          {
+            title: 'add-customer',
+            icon: 'fas fa-info-circle',
+            link: '/admin/add-customer',
+            home: true,
+          },
         ]
       },
       {
@@ -254,6 +260,7 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
+
 
 
 
