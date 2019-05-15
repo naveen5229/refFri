@@ -45,6 +45,7 @@ export class LedgerComponent implements OnInit {
     approved: 1,
     deleteview: 0,
     delete: 0,
+    bankname: '',
     accDetails: [{
       id: '',
       salutation: {
@@ -100,6 +101,7 @@ export class LedgerComponent implements OnInit {
         id: this.common.params.ledgerdata[0].y_id,
         code: this.common.params.ledgerdata[0].y_code,
         branchname: this.common.params.ledgerdata[0].branch_name,
+        bankname: '',
         branchcode: this.common.params.ledgerdata[0].branch_code,
         accnumber: this.common.params.ledgerdata[0].ac_no,
         creditdays: this.common.params.ledgerdata[0].credit_days,
