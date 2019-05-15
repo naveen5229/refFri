@@ -13,7 +13,7 @@ export class ApiService {
   // URL: string = 'http://elogist.in/testservices/'; // prod Server
   // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   //URL: string = 'http://localhost/Transtruck/booster_webservices/';
-  // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
+  // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
@@ -35,7 +35,7 @@ export class ApiService {
       console.log("foAdminId", body);
     }
 
-    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
 
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
@@ -52,9 +52,9 @@ export class ApiService {
 
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
       if (subURL.includes('?')) {
-        subURL += '&branch=' + this.accountService.selected.branch;
+        subURL += '&branch=' + this.accountService.selected.branch.id;
       } else {
-        subURL += '?branch=' + this.accountService.selected.branch;
+        subURL += '?branch=' + this.accountService.selected.branch.id;
       }
     };
 

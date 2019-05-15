@@ -148,6 +148,8 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
 import { AddFoComponent } from './modals/add-fo/add-fo.component';
 import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
+import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -258,6 +260,8 @@ import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull
     TankEmptyDetailsComponent,
     AddFoComponent,
     PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
 
   ],
   entryComponents: [
@@ -364,6 +368,8 @@ import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull
     TankEmptyDetailsComponent,
     AddFoComponent,
     PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent
   ],
   imports: [
     BrowserModule,
