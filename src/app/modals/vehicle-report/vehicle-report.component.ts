@@ -33,7 +33,8 @@ export class VehicleReportComponent implements OnInit {
   table = null;
   i: ''; d: '';
 
-  constructor(private activeModal: NgbActiveModal, public common: CommonService,
+  constructor(private activeModal: NgbActiveModal,
+    public common: CommonService,
     private datePipe: DatePipe,
     public api: ApiService,
     private modalService: NgbModal,

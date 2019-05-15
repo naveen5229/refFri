@@ -145,6 +145,9 @@ import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.comp
 import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
+import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
+import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -252,6 +255,9 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     LedgerviewComponent,
     CustomTimePipe,
     PoliceStationComponent,
+    TankEmptyDetailsComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
 
   ],
   entryComponents: [
@@ -355,6 +361,9 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     ProfitlossComponent,
     PoliceStationComponent,
     LedgerviewComponent,
+    TankEmptyDetailsComponent,
+    OdoMeterComponent,
+    CostCentersComponent
   ],
   imports: [
     BrowserModule,

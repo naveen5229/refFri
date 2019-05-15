@@ -217,8 +217,8 @@ export class VoucherComponent implements OnInit {
       event.preventDefault();
       return;
     }
-    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch != '0');
-    if (this.accountService.selected.branch != '0') {
+    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
+    if (this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
       this.addVoucher();
       this.showConfirm = false;
@@ -317,7 +317,7 @@ export class VoucherComponent implements OnInit {
         event.preventDefault();
         if (this.voucher.total.debit == 0) {
           this.common.showError('Please Enter Amount');
-        } else if (this.accountService.selected.branch == '0') {
+        } else if (this.accountService.selected.branch.id == 0) {
           alert('Please Select Branch');
         } else {
           this.addVoucher();

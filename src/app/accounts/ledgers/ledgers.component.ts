@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LedgersComponent implements OnInit {
   Ledgers = [];
   selectedName = '';
-  deletedId=0;
+  deletedId = 0;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -21,7 +21,7 @@ export class LedgersComponent implements OnInit {
     public router: Router,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
-   
+
     this.common.currentPage = 'Ledger';
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -41,7 +41,7 @@ export class LedgersComponent implements OnInit {
   GetLedger() {
     let params = {
       foid: 123,
-      deleted:this.deletedId 
+      deleted: this.deletedId
     };
 
     this.common.loading++;
@@ -67,7 +67,7 @@ export class LedgersComponent implements OnInit {
       let params = {
         id: ledger.id,
         foid: ledger.foid,
-        
+
       }
       this.common.loading++;
       this.api.post('Accounts/EditLedgerdata', params)
@@ -76,8 +76,8 @@ export class LedgersComponent implements OnInit {
           console.log('Res:', res['data']);
           data = res['data'];
           this.common.params = {
-          ledgerdata:  res['data'],
-            deleted:this.deletedId 
+            ledgerdata: res['data'],
+            deleted: this.deletedId
           }
           // this.common.params = { data, title: 'Edit Ledgers Data' };
           const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -119,16 +119,17 @@ export class LedgersComponent implements OnInit {
       primarygroupid: ledger.undergroup.primarygroup_id,
       account_id: ledger.undergroup.id,
       accDetails: ledger.accDetails,
-      branchname :ledger.branchname,
-      branchcode:  ledger.branchcode,
-      accnumber:   ledger.accnumber,
-      creditdays:  ledger.creditdays,
-      openingbalance:  ledger.openingbalance,
-      isdr:  ledger.openingisdr,
-      approved:  ledger.approved,
-      deleteview:  ledger.deleteview,
-      delete:  ledger.delete,
+      branchname: ledger.branchname,
+      branchcode: ledger.branchcode,
+      accnumber: ledger.accnumber,
+      creditdays: ledger.creditdays,
+      openingbalance: ledger.openingbalance,
+      isdr: ledger.openingisdr,
+      approved: ledger.approved,
+      deleteview: ledger.deleteview,
+      delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
+      bankname:ledger.bankname
     };
 
     console.log('params11: ', params);
@@ -139,7 +140,11 @@ export class LedgersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res);
         this.GetLedger();
-        this.common.showToast('Ledger Has been saved!');
+        if (res['data'][0].y_errormsg) {
+          this.common.showToast(res['data'][0].y_errormsg);
+        } else {
+          this.common.showToast('Ledger Has been saved!');
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

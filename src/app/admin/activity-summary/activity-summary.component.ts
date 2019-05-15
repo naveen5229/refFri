@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NbThemeService } from '@nebular/theme';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { UserActivityStatusComponent } from '../../pages/user-activity-status/user-activity-status.component';
 
 @Component({
   selector: 'activity-summary',
@@ -112,12 +113,20 @@ export class ActivitySummaryComponent implements OnInit {
     for (var i = 0; i < this.activitySummary.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
-        j
-        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: '' };
+
+        this.valobj[this.headings[j]] = { value: this.activitySummary[i][this.headings[j]], class: 'black', action: this.openUserData.bind(this, this.activitySummary[i]) };
       }
       columns.push(this.valobj);
     }
     return columns;
+
+  }
+
+  openUserData(data) {
+    this.common.params = {
+      foid: data._idfo
+    };
+    this.modalService.open(UserActivityStatusComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   formatTitle(strval) {
