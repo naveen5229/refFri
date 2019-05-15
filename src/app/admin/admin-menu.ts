@@ -28,6 +28,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/escalation-matrix',
     },
     {
+        title: 'vehicle view',
+        icon: 'fa fa-chart-bar',
+        link: '/admin/vehicles-view',
+    },
+    {
         title: 'Alert Related Issue',
         icon: 'far fa-bell',
         link: '/admin/alert-related-issue',
