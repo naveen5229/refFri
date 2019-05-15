@@ -19,6 +19,12 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/vehicle-maintenance/maintenanace-dashboard',
         home: true,
     },
+    {
+        title: 'Maintenance Summary',
+        icon: 'fa fa-home',
+        link: '/vehicle-maintenance/maintenance-summary',
+        home: true,
+    },
 ];
 
 // export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [

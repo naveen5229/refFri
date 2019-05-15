@@ -149,6 +149,10 @@ import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empt
 import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
 import { ImportBulkVehiclesComponent } from './modals/import-bulk-vehicles/import-bulk-vehicles.component';
 import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-admin-users.component';
+import { AddFoComponent } from './modals/add-fo/add-fo.component';
+import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
+import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -260,6 +264,10 @@ import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-adm
     AddVehicleComponent,
     ImportBulkVehiclesComponent,
     AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
 
   ],
   entryComponents: [
@@ -367,6 +375,10 @@ import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-adm
     AddVehicleComponent,
     ImportBulkVehiclesComponent,
     AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent
   ],
   imports: [
     BrowserModule,

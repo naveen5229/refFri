@@ -96,7 +96,7 @@ const PAGES_COMPONENTS = [
     SubSitesComponent,
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
-    VehicleDistanceComponent,
+    // VehicleDistanceComponent,
     TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,

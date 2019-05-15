@@ -7,6 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { FuelEntriesComponent } from '../../modals/fuel-entries/fuel-entries.component';
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { DatePipe } from '@angular/common';
+import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 
 @Component({
   selector: 'fuel-average-analysis',
@@ -156,4 +157,15 @@ export class FuelAverageAnalysisComponent implements OnInit {
       data => console.log("data", data)
     );
   }
+
+
+  // openOdoMeter() {
+  //   let vehicleId = 56;
+  //   let regno = 'Rj147678';
+  //   this.common.params = { vehicleId, regno };
+  //   console.log('Param', this.common.params);
+
+  //   const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout' });
+
+  // }
 }

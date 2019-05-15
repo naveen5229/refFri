@@ -8,6 +8,8 @@ import { DaybookComponent } from '../../acounts-modals/daybook/daybook.component
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 
 @Component({
@@ -42,6 +44,8 @@ export class BalancesheetComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     this.setFoucus('startdate');
     this.common.currentPage = 'Balance Sheet';
