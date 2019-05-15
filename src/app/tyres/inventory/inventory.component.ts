@@ -132,6 +132,7 @@ export class InventoryComponent implements OnInit {
   }
 
   getDate(index) {
+    this.common.params = { ref_page: "Inventory" };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.inventories[index].date1 = this.common.dateFormatter(data.date).split(' ')[0];
@@ -225,26 +226,6 @@ export class InventoryComponent implements OnInit {
       if (data.response) {
         if (stockitem) {
           this.updateStockItem(stockitem.id, data.stockitem);
-          return;
-        }
-        this.addStockItem(data.stockItem);
-      }
-    });
-  }
-
-  openStockSubTypeModal(StockSubType?) {
-    console.log('StockSubType', StockSubType);
-    if (StockSubType) {
-      this.common.params = StockSubType;
-    } else {
-      this.common.params = { StockSubType: { name: 'Tyre', id: -1 } };
-    }
-    const activeModal = this.modalService.open(StockSubtypeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        if (StockSubType) {
-          this.updateStockItem(StockSubType.id, data.stockitem);
           return;
         }
         this.addStockItem(data.stockItem);

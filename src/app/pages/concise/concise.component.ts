@@ -30,6 +30,7 @@ import * as moment from 'moment';
 import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
+import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 
 @Component({
   selector: "concise",
@@ -907,6 +908,10 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-user-secret",
         action: this.openStations.bind(this, kpi)
       },
+      {
+        class: "icon fas fa-tachometer-alt",
+        action: this.openOdoMeter.bind(this, kpi)
+      },
     ]
     if (this.user._loggedInBy != "admin") {
       icons.shift();
@@ -995,6 +1000,16 @@ export class ConciseComponent implements OnInit {
       container: "nb-layout"
     });
 
+
+  }
+
+  openOdoMeter(kpi) {
+    console.log("kpi data", kpi);
+    let vehicleId = kpi.x_vehicle_id;
+    let regno = kpi.x_showveh;
+    this.common.params = { vehicleId, regno };
+    console.log('Param', this.common.params);
+    const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 }

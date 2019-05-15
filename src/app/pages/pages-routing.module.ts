@@ -39,6 +39,8 @@ import { DocumentationDetailsComponent } from '../documents/documentation-detail
 import { DocumentsSummaryComponent } from '../documents/documents-summary/documents-summary.component';
 import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.component';
 import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
+import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
+import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -192,7 +194,7 @@ const routes: Routes = [{
     component: VehicleTripStagesComponent,
   },
   {
-    path: 'vehicle-trip-stages',
+    path: 'vehicle-trip-states',
     component: VehicleTripStagesComponent,
   },
   {
@@ -218,6 +220,14 @@ const routes: Routes = [{
   {
     path: 'driver-performance',
     component: DriverPerformanceComponent,
+  },
+  {
+    path: 'vehicle-distance',
+    component: VehicleDistanceComponent
+  },
+  {
+    path: 'trip-verify-states',
+    component: TripVerifyStatesComponent,
   }
   ],
 }];
