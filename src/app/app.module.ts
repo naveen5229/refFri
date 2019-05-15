@@ -146,6 +146,7 @@ import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
+import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -254,6 +255,7 @@ import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers
     CustomTimePipe,
     PoliceStationComponent,
     CostCentersComponent,
+    VouchercostcenterComponent,
 
   ],
   entryComponents: [
@@ -357,7 +359,8 @@ import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers
     ProfitlossComponent,
     PoliceStationComponent,
     LedgerviewComponent,
-    CostCentersComponent
+    CostCentersComponent,
+    VouchercostcenterComponent
   ],
   imports: [
     BrowserModule,

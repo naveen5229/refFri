@@ -101,7 +101,7 @@ export class LedgerComponent implements OnInit {
         id: this.common.params.ledgerdata[0].y_id,
         code: this.common.params.ledgerdata[0].y_code,
         branchname: this.common.params.ledgerdata[0].branch_name,
-        bankname: '',
+        bankname: this.common.params.ledgerdata[0].y_bank_name,
         branchcode: this.common.params.ledgerdata[0].branch_code,
         accnumber: this.common.params.ledgerdata[0].ac_no,
         creditdays: this.common.params.ledgerdata[0].credit_days,
