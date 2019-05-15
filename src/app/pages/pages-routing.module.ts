@@ -178,7 +178,7 @@ const routes: Routes = [{
     component: VehicleGpsDetailComponent
   },
   {
-    path: 'tip-feedback-logs',
+    path: 'trip-feedback-logs',
     component: TipFeedbackLogsComponent,
   },
   {

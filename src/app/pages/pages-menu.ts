@@ -27,7 +27,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Trip FeedBack Logs',
         icon: 'fas fa-comments',
-        link: '/pages/tip-feedback-logs',
+        link: '/pages/trip-feedback-logs',
         home: true,
       },
       {
