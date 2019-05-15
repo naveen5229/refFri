@@ -191,8 +191,8 @@ export class ConciseComponent implements OnInit {
         },
         status: {
           value: kpi.showprim_status,
-          action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          action: this.showDetails.bind(this, kpi),
+          // colActions: { click: this.showDetails.bind(this, kpi) }
         },
         location: {
           value: kpi.Address,
@@ -201,23 +201,23 @@ export class ConciseComponent implements OnInit {
         hrs: {
           value: kpi.x_hrssince,
           action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { click: this.showDetails.bind(this, kpi) }
         },
         Idle_Time: {
           value: parseFloat((kpi.x_idle_time / 60).toFixed(1)),
           action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         trip: {
           value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         kmp: {
           value: kpi.x_kmph,
           action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
 
         action: {

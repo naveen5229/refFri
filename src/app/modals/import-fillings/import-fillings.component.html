@@ -10,7 +10,10 @@
 
       <div class="row">
         <div class="col-md-6">
-          <label class="fill-elt">Fuel Station:</label>
+          <span>
+            <label class="fill-elt">Fuel Station: </label> <input style="margin-left:15px" type="checkbox"
+              (change)="checkFuelFalg(isFuelFlag?true:false)" [(ngModel)]="isFuelFlag"> Is Null ?
+          </span>
           <auto-suggestion name="fuelStation" (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
             display="name" placeholder="Enter Fuel Station" preSelected="null" class="fstn-name" style="width:60%;">
           </auto-suggestion>

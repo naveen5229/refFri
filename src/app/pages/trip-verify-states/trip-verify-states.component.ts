@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { VehicleStatesComponent } from '../../modals/vehicle-states/vehicle-states.component';
 
 @Component({
   selector: 'trip-verify-states',
@@ -143,14 +144,22 @@ export class TripVerifyStatesComponent implements OnInit {
 
   rejectOnTrip(details) {
 
-    let params = {
+
+    let value = {
       vehicleStateId: details._id,
       isVerified: 0,
+      vehicleId: details._vid,
+      lat: details._lat,
+      long: details._lngt,
+      vregno: details.Vehicle
+
     };
+    console.log("Param:", value);
+
     if (details) {
       console.log('details', details);
       this.common.params = {
-        title: 'Accept Trip ',
+        title: 'Reject Trip ',
         description: `<b>&nbsp;` + 'Are Sure To Reject This Record' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
@@ -158,18 +167,20 @@ export class TripVerifyStatesComponent implements OnInit {
         if (data.response) {
           console.log("data", data);
           this.common.loading++;
-          this.api.post('Vehicles/ActionOnPendingVehicleStates', params)
+          this.api.post('Vehicles/ActionOnPendingVehicleStates', value)
             .subscribe(res => {
               this.common.loading--;
               console.log('res: ', res);
-
-              // vehicleId: values.x_vehicle_id,
-              // vehicleRegNo: values.x_showveh,
-              // lat: values.x_tlat,
-              // long: values.x_tlong,
-              // vregno: values.x_empname,
-
-              this.common.showToast(res['data'][0].r_msg);
+              this.common.showToast(res['data'][0].r_msg, '', 10000);
+              this.common.params = {
+                vehicleStateId: details._id,
+                isVerified: 0,
+                vehicleId: details._vid,
+                lat: details._lat,
+                long: details._lngt,
+                vregno: details.Vehicle
+              };
+              const activeModal = this.modalService.open(VehicleStatesComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);
