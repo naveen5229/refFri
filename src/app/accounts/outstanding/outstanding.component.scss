@@ -114,9 +114,9 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            th:nth-child(1){
-                width: 496px;
-            }
+            // th:nth-child(1){
+            //     width: 496px;
+            // }
             th:last-child{
                 width: auto;
             }
@@ -172,4 +172,12 @@ input[type=radio]{
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
+}
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
 }

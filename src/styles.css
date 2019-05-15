@@ -204,7 +204,10 @@ nb-menu .menu-item > .menu-items > .menu-item a {
 .fas.fa-file-alt::before,
 .fas.fa-map-marked-alt::before,
 .fas.fa-map-pin::before,
-.fas.fa-info-circle::before {
+.fas.fa-info-circle::before,
+.fas.fa-tools::before,
+.fas.fa-badge-check::before,
+.fas.fa-map-marked::before {
   font-family: inherit;
 }
 .nb-theme-corporate .modal-content {

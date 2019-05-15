@@ -37,15 +37,27 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Vehicle Distance Covered',
+        title: 'Vehicle Distance(24Hr)',
         icon: 'fas fa-road',
         link: '/pages/vehicle-covered-distance',
         home: true,
       },
       {
-        title: 'Vehicle Trip Stages',
+        title: 'Vehicle Distance',
         icon: 'fas fa-road',
-        link: '/pages/vehicle-trip-stages',
+        link: '/pages/vehicle-distance',
+        home: true,
+      },
+      {
+        title: 'Vehicle Trip States',
+        icon: 'fas fa-map-marked',
+        link: '/pages/vehicle-trip-states',
+        home: true,
+      },
+      {
+        title: 'Verify Trip States',
+        icon: 'far fa-check-circle',
+        link: '/pages/trip-verify-states',
         home: true,
       },
       {
@@ -166,18 +178,37 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ]
   },
-
+  {
+    title: 'Documents',
+    icon: 'fa fa-database',
+    children: [{
+      title: 'Documents Input ',
+      icon: 'fa fa-book',
+      link: '/pages/documentation-details',
+      home: true,
+    },
+    {
+      title: 'Document Dashboard',
+      icon: 'fa fa-table',
+      link: '/pages/documents-summary',
+      home: true,
+    },
+    {
+      title: 'Document Summary',
+      icon: 'fa fa-file-text',
+      link: '/pages/document-dashboard',
+      home: true,
+    },
+    ]
+  },
 
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
   },
-  {
-    title: 'Documents',
-    icon: 'fa fa-database',
-    link: '/documents/documents-summary'
-  },
+
+
   {
     title: 'Accounts',
     icon: 'fa fa-money',
@@ -185,15 +216,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Maintenance',
-    icon: 'fa fa-money',
+    icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
-  // {
-  //   title: 'Trip Onward Delay',
-  //   icon: 'fas fa-truck',
-  //   link: '/pages/trip-onward-delay',
-  //   home: true,
-  // },
+  {
+    title: 'Driver',
+    icon: 'fa fa-user',
+    children: [{
+      title: 'driver Performance ',
+      icon: 'fa fa-book',
+      link: '/pages/driver-performance',
+      home: true,
+    }]
+  },
 
   // {
   //   title: 'Placement Delay Faults',

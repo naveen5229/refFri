@@ -13,10 +13,12 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class StorerequisitionComponent implements OnInit {
   showConfirm = '';
+  storeRequestName = '';
   allowBackspace = false;
   StockQuestiondata = [];
   storeRequestStockId = 0;
   pendingid = 0;
+  totalitem = 0;
   storeQuestion = {
     requestdate: this.common.dateFormatternew(new Date()).split(' ')[0],
     issuedate: null,
@@ -100,6 +102,8 @@ export class StorerequisitionComponent implements OnInit {
     console.log('stock Request Id', this.pendingid);
     this.common.handleModalSize('class', 'modal-lg', '1150');
 
+    this.storeRequestName = (this.storeRequestStockId == -2) ? 'Store Request' : (this.storeRequestStockId == -3) ? 'Stock Issue' : 'Stock Transfer';
+
     this.getBranchList();
     this.getStockItems();
     this.getWarehouses();
@@ -159,7 +163,7 @@ export class StorerequisitionComponent implements OnInit {
         this.StockQuestiondata = res['data'];
         this.storeQuestion = {
           requestdate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
-          issuedate: this.common.dateFormatternew(this.StockQuestiondata[0].y_req_date),
+          issuedate: (this.storeRequestStockId == -3) ? this.common.dateFormatternew(new Date()).split(' ')[0] : this.common.dateFormatternew(this.StockQuestiondata[0].y_issue_date),
           code: this.StockQuestiondata[0].y_code,
           custcode: this.StockQuestiondata[0].y_cust_code,
           approved: (this.StockQuestiondata[0].y_for_approved == false ? 0 : 1),
@@ -297,7 +301,17 @@ export class StorerequisitionComponent implements OnInit {
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     this.setAutoSuggestion();
+    if (this.activeId.includes('qty-') && (this.storeRequestStockId == -1 || this.storeRequestStockId == -3)) {
+      let index = parseInt(this.activeId.split('-')[1]);
+      // console.log('available item', (this.order.amountDetails[index].qty));
+      setTimeout(() => {
+        if ((this.totalitem) < (document.getElementById(this.activeId)['value'])) {
+          alert('Quantity is lower then available quantity');
+          this.storeQuestion.details[index].issueqty = 0;
+        }
+      }, 50);
 
+    }
 
     if (key == 'enter') {
       if (this.activeId.includes('requesttype')) {
@@ -324,7 +338,7 @@ export class StorerequisitionComponent implements OnInit {
       } else if (this.activeId.includes('requestdate')) {
         this.setFoucus('warehouse' + '-' + 0);
       } else if (this.activeId.includes('issuedate')) {
-        this.setFoucus('code');
+        this.setFoucus('issueqty-0');
       } else if (this.activeId.includes('custcode')) {
         let index = parseInt(this.activeId.split('-')[1]);
         this.setFoucus('tobranch');
@@ -362,7 +376,13 @@ export class StorerequisitionComponent implements OnInit {
         }
       } else if (this.activeId.includes('issuerate')) {
         let index = parseInt(this.activeId.split('-')[1]);
-        this.setFoucus('issueamount' + '-' + index);
+        if (this.storeRequestStockId == -3) {
+          this.setFoucus('issueremarks' + '-' + index);
+        } else if (this.storeRequestStockId == -1) {
+          this.setFoucus('remarks' + '-' + index);
+        } else {
+          this.setFoucus('issueamount' + '-' + index);
+        }
       } else if (this.activeId.includes('issueamount')) {
         let index = parseInt(this.activeId.split('-')[1]);
         console.log('issue amount ', this.storeQuestion.requesttype.id);
@@ -614,5 +634,28 @@ export class StorerequisitionComponent implements OnInit {
       this.storeQuestion.details[index].stockunit.name = suggestion.stockname;
       this.storeQuestion.details[index].stockunit.id = suggestion.stockunit_id;
     }
+  }
+
+  getStockAvailability() {
+    let activeId = document.activeElement.id;
+    const index = parseInt(activeId.split('-')[1]);
+    console.log('hello dear', activeId, 'index', index, 'value detail', this.storeQuestion.details[index].stockitem.id);
+    let totalitem = 0;
+    let stockid = 0;
+    let params = {
+      stockid: this.storeQuestion.details[index].stockitem.id
+    };
+    //  this.common.loading++;
+    this.api.post('Suggestion/GetStockItemAvailableQty', params)
+      .subscribe(res => {
+        console.log('total item available:', res['data'][0].get_stockitemavailableqty);
+        this.totalitem = res['data'][0].get_stockitemavailableqty;
+        return this.totalitem;
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
   }
 }

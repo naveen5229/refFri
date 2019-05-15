@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'profitloss',
@@ -38,6 +40,8 @@ export class ProfitlossComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     // this.getBalanceSheet();
     this.getBranchList();

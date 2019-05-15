@@ -1,10 +1,14 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<nb-card style=" border: 0px;">
   <!-- <nb-card-header>
     <h4>Ledger View</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <div class="row">
       <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
           <div class="col">
             <div class="form-group">
@@ -29,7 +33,7 @@
         </div>
       </div>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>Ledger</th>
@@ -63,19 +67,19 @@
         <tr style="background: #184154; color: #fff">
           <td>{{dataItem.name}}</td>
 
-          <td *ngIf="dataItem.totalopening == 0">&nbsp;</td>
+          <td *ngIf="dataItem.totalopening == 0"></td>
           <td style="text-align:right;" *ngIf="dataItem.totalopening != 0">{{dataItem.totalopening}} <span>
               {{dataItem.y_openbaltype}}</span></td>
 
           <td *ngIf="dataItem.totaldr != 0">{{dataItem.totaldr}}</td>
-          <td *ngIf="dataItem.totaldr == 0">&nbsp;</td>
+          <td *ngIf="dataItem.totaldr == 0"></td>
 
           <td *ngIf="dataItem.totalcr != 0">{{dataItem.totalcr}}</td>
-          <td *ngIf="dataItem.totalcr == 0">&nbsp;</td>
+          <td *ngIf="dataItem.totalcr == 0"></td>
 
           <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0"><b>{{dataItem.totalclosing}}</b>
             <span>{{dataItem.y_closebaltype}}</span></td>
-          <td *ngIf="dataItem.totalclosing == 0">&nbsp;</td>
+          <td *ngIf="dataItem.totalclosing == 0"></td>
         </tr>
         <tr *ngFor="let trialdata of dataItem.traildatas; let j = index" (click)="selectedRow =  '' + i + j"
           (dblclick)="(trialdata.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialdata.y_ledgerid)"
@@ -83,19 +87,19 @@
 
           <td>{{trialdata.y_ledger_name}}</td>
 
-          <td *ngIf="trialdata.y_openbal == 0">&nbsp;</td>
+          <td *ngIf="trialdata.y_openbal == 0"></td>
           <td *ngIf="trialdata.y_openbal != 0"><span
               style="width:100px; display: block; text-align:right;">{{trialdata.y_openbal}}
               {{trialdata.y_openbaltype}}</span></td>
           <td *ngIf="trialdata.y_dr_bal != 0">{{trialdata.y_dr_bal}}</td>
-          <td *ngIf="trialdata.y_dr_bal == 0">&nbsp;</td>
+          <td *ngIf="trialdata.y_dr_bal == 0"></td>
           <td *ngIf="trialdata.y_cr_bal != 0">{{trialdata.y_cr_bal}}</td>
-          <td *ngIf="trialdata.y_cr_bal == 0">&nbsp;</td>
+          <td *ngIf="trialdata.y_cr_bal == 0"></td>
           <td *ngIf="trialdata.y_closebal != 0">
             <span
               style="width:100px; display: block; text-align:right;"><b>{{trialdata.y_closebal}}</b>{{trialdata.y_closebaltype}}</span>
           </td>
-          <td *ngIf="trialdata.y_closebal == 0">&nbsp;</td>
+          <td *ngIf="trialdata.y_closebal == 0"></td>
         </tr>
       </tbody>
     </table>

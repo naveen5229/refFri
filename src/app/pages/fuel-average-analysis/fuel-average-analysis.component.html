@@ -1,8 +1,8 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-8">
-        <h5>Fuel Average Analysis</h5>
+      <div class="col-sm-6">
+        <h5>Fuel Mileage</h5>
       </div>
       <div class="col-sm-2">
         <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -12,10 +12,20 @@
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
       </div>
+
+      <div class="col-sm-2">
+        <button id="submit" name="submit" class="btn btn-primary" (click)="getfuelAverageDetails()"
+          style="margin:0px;  cursor: pointer;">Submit</button>
+      </div>
+
+      <!-- <div class="col-sm-2">
+        <button id="submit" name="submit" class="btn btn-primary" (click)="openOdoMeter()"
+          style="margin:0px;  cursor: pointer;">Odometer</button>
+      </div> -->
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div>
+    <!-- <div>
       <table class="table table-bordered table-hover">
         <thead class="thead">
           <tr>
@@ -56,7 +66,10 @@
       <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvgDetails.length==0">
         No Data available !
       </div>
+    </div> -->
+    <smart-table *ngIf="fuelAvgDetails.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvgDetails.length==0">
+      No Data available !
     </div>
-
   </nb-card-body>
 </nb-card>
