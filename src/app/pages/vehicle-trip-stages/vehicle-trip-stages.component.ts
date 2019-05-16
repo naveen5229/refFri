@@ -132,9 +132,11 @@ export class VehicleTripStagesComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
+    let State
     for (var i = 0; i < this.tripstagesData.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
+
         this.valobj[this.headings[j]] = { value: this.tripstagesData[i][this.headings[j]], class: (this.tripstagesData[i][this.headings[j]] > 0) ? 'blue' : 'black', action: this.tripstagesData[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.tripstagesData[i]) : '' };
       }
       columns.push(this.valobj);

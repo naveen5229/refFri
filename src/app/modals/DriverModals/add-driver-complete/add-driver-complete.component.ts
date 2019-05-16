@@ -57,7 +57,7 @@ export class AddDriverCompleteComponent implements OnInit {
   }
   closeModal() {
     this.driverForm.controls = null;
-    
+
     this.activeModal.close({ response: true });
   }
   get f() { return this.driverForm.controls; }
@@ -95,7 +95,7 @@ export class AddDriverCompleteComponent implements OnInit {
       });
   }
 
-  handleFileSelection(event, type){
+  handleFileSelection(event, type) {
 
   }
 

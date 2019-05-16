@@ -139,6 +139,42 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label>Lr Terms</label>
+            <input autocomplete="off" type="text" class="form-control" name="lr-terms" id="lr-terms"
+              [(ngModel)]="Branches.lrTerm" placeholder="Lr Terms">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label>Lr Footer</label>
+            <input autocomplete="off" type="text" class="form-control" name="lr-footer" id="lr-footer"
+              [(ngModel)]="Branches.lrFooter" placeholder="Lr Footer">
+          </div>
+        </div>
+
+        <div class="col radiostockitem">
+          <div class="form-group">
+            <label>Const Center</label>
+            <div class="row iaactive">
+              <div class="col-6 pr-0">
+                <label> Yes</label>
+                <input type="radio" class="form-control" name="constcenterTrue" id="constcenterallow"
+                  [(ngModel)]="Branches.constcenter" [value]=1>
+              </div>
+              <div class="col-6 pl-0">
+                <label>No</label>
+                <input type="radio" class="form-control" name="constcenterFalse" [(ngModel)]="Branches.constcenter"
+                  [value]=0>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="form-group">

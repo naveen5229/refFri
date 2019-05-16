@@ -652,7 +652,7 @@ export class CommonService {
       if (left_heading != "undefined" && left_heading != null && left_heading != '') {
         x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
-        let xpos = x - hdglen - 40;
+        let xpos = x - hdglen - 50;
         y = 40;
         doc.setFont("times", "bold", "text-center");
         doc.text(left_heading, xpos, y);
@@ -663,7 +663,7 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold", "text-center");
-        doc.text(center_heading, x - hdglen - 40, y);
+        doc.text(center_heading, x - hdglen - 60, y);
       }
       y = 15;
       //doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);

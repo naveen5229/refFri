@@ -15,10 +15,12 @@ export class ApiService {
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
-  //  URL: string = 'http://localhost/booster_webservices/'; // sachin
+  // URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
 
+  // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
+  URL2 = 'http://elogist.in/transtruck/';
 
   constructor(private http: HttpClient,
     public router: Router,
@@ -34,13 +36,34 @@ export class ApiService {
       console.log("foAdminId", body);
     }
 
-    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch;
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
 
     console.log('BODY: ', body);
     return this.http.post(this.URL + subURL, body, { headers: this.setHeaders() })
   }
 
   get(subURL: string, params?: any) {
+    if (this.user._customer.id) {
+      if (subURL.includes('?')) {
+        subURL += '&foAdminId=' + this.user._customer.id;
+      } else {
+        subURL += '?foAdminId=' + this.user._customer.id;
+      }
+    }
+
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
+      if (subURL.includes('?')) {
+        subURL += '&branch=' + this.accountService.selected.branch.id;
+      } else {
+        subURL += '?branch=' + this.accountService.selected.branch.id;
+      }
+    };
+
+
+    return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
+  }
+
+  get3(subURL: string, params?: any) {
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
         subURL += '&foAdminId=' + this.user._customer.id;
@@ -58,10 +81,10 @@ export class ApiService {
     };
 
 
-    return this.http.get(this.URL + subURL, { headers: this.setHeaders() })
+    return this.http.get(this.URL2 + subURL, {})
   }
 
-  postToTranstrucknew(subURL: string, body: any, options?) {
+  postToTranstrucknew(subURL: string, body: any, optons?) {
     console.log('Test::::');
     // if (this.user._customer.id) {
     //   body['foAdminId'] = this.user._customer.id;
