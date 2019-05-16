@@ -1,69 +1,57 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Cost Center</h5>
+  <!-- <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
+    <span aria-hidden="true">&times;</span>
+  </button> -->
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-9">
 
-  <nb-card-body (keydown)="keyHandler($event)">
-
-    <!-- <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title">Cost Center</h5>
-      <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div> -->
-    <div class="modal-body">
       <div class="row">
-        <div class="col-9">
-
-          <div class="row">
-            <div class="col-12">
-              <table class="table table-bordered">
-                <tr style="background: #263238; color: #fff;">
-                  <th>Ledger</th>
-                  <th>Amount</th>
-                </tr>
-                <tr *ngFor="let amountDetail of amountDetails; let i = index;" style="background: #e4e4e4;">
-                  <td>
-                    <input type="text" class="form-control" [id]="'cost-ledger-' + i" [name]="'cost-ledger-' + i"
-                      [(ngModel)]="amountDetail.ledger.name" autocomplete="off"
-                      (click)="lastActiveId = 'cost-ledger-' + i; allowBackspace = false;"
-                      (input)="allowBackspace = false;">
-                  </td>
-                  <td>
-                    <input type="number" class="form-control" [id]="'cost-amount-' + i" [name]="'cost-amount-' + i"
-                      (click)="lastActiveId = 'cost-amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
-                      autocomplete="off" [(ngModel)]="amountDetail.amount">
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-
-
-          <!-- Submit -->
-          <div class="row">
-            <div class="col text-right">
-              <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cost-cancel"
-                style="cursor: pointer;">Cancel
-              </button>
-            </div>
-            <div class="col text-right">
-              <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="cost-submit"
-                style="cursor: pointer;">Submit
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-3">
-          <div class="ledger-container" id="cost-ledger-container">
-            <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
-              [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
-              <span>{{ledger.name}}</span>
-            </div>
-          </div>
+        <div class="col-12">
+          <table class="table table-bordered">
+            <tr style="background: #263238; color: #fff;">
+              <th>Ledger</th>
+              <th>Amount</th>
+            </tr>
+            <tr *ngFor="let amountDetail of amountDetails; let i = index;" style="background: #e4e4e4;">
+              <td>
+                <input type="text" class="form-control" [id]="'cost-ledger-' + i" [name]="'cost-ledger-' + i"
+                  [(ngModel)]="amountDetail.ledger.name" autocomplete="off"
+                  (click)="lastActiveId = 'cost-ledger-' + i; allowBackspace = false;"
+                  (input)="allowBackspace = false;">
+              </td>
+              <td>
+                <input type="number" class="form-control" [id]="'cost-amount-' + i" [name]="'cost-amount-' + i"
+                  (click)="lastActiveId = 'cost-amount-' + i" (input)="calculateTotal(i); allowBackspace = false;"
+                  autocomplete="off" [(ngModel)]="amountDetail.amount">
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
-  </nb-card-body>
-</nb-card>
+
+    <div class="col-3">
+      <div class="ledger-container" id="cost-ledger-container">
+        <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
+          [ngClass]="activeLedgerIndex == i ? 'active-ledger' : ''" (click)='selectLedger(ledger)'>
+          <span>{{ledger.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer text-right">
+  <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cost-cancel"
+    style="cursor: pointer;">Cancel
+  </button>
+  <button class="btn btn-primary mr-0" type="button" outline (click)="dismiss(true)" id="cost-submit"
+    style="cursor: pointer;">Submit
+  </button>
+</div>
 
 
 <div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
