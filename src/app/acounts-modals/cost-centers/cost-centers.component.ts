@@ -11,11 +11,12 @@ import { CommonService } from '../../services/common.service';
 export class CostCentersComponent implements OnInit {
   showConfirm = false;
   Accounts = {
+    parentName: 'is Primary',
+    parentId: '',
+    xid: 0,
     name: '',
-    xid: 0
-
-
   };
+
   allowBackspace = true;
 
   autoSuggestion = {
@@ -25,16 +26,17 @@ export class CostCentersComponent implements OnInit {
   };
   activeId = 'account';
   suggestionIndex = -1;
+
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-
-
-
+    this.getCostCenter();
     if (this.common.params) {
       this.Accounts = {
+        parentName: this.common.params.parente_name,
+        parentId: this.common.params.id,
+        xid: this.common.params.id,
         name: this.common.params.name,
-        xid: this.common.params.id
 
       }
       console.log('Accounts: ', this.Accounts);
@@ -44,45 +46,29 @@ export class CostCentersComponent implements OnInit {
 
   ngOnInit() {
   }
+
   dismiss(response) {
     console.log('Accounts:', this.Accounts);
-    if (response == false) {
-      this.activeModal.close({ response: response });
-    } else {
-      this.addAccount(this.Accounts);
-    }
+    this.activeModal.close({ response: response, costCenter: this.Accounts });
   }
 
-  addAccount(Accounts) {
-    console.log('accountdata', Accounts);
-    const params = {
-      name: Accounts.name,
-      foid: 123,
-      x_id: Accounts.xid
+  getCostCenter() {
+    let params = {
+      foid: 123
     };
-    console.log('params11: ', params);
+
     this.common.loading++;
-    this.api.post('Accounts/InsertCostCenter', params)
+    this.api.post('Accounts/GetCostCenter', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res);
-        let result = res['data'][0].save_costcenter;
-        if (result == '') {
-          this.common.showToast("Save Successfully");
-          this.activeModal.close({ response: true });
-        }
-        else {
-          this.common.showToast(result);
-        }
-        // this.GetAccount();
+        console.log('Res:', res['data']);
+        this.autoSuggestion.data = res['data'];
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
   }
-
-
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
@@ -135,6 +121,12 @@ export class CostCentersComponent implements OnInit {
   }
 
 
+  onSelect(suggestion, activeId) {
+    console.log('Suggestion: ', suggestion);
+    this.Accounts.parentName = suggestion.name;
+    this.Accounts.parentId = suggestion.id;
+    // this.Accounts.account.primarygroup_id =suggestion.primarygroup_id;
+  }
 
 
 
