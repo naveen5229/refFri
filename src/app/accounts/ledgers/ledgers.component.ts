@@ -58,6 +58,31 @@ export class LedgersComponent implements OnInit {
       });
 
   }
+
+  updateLedgerCostCenter(checkvalue, id) {
+    let params = {
+      ledgerid: id,
+      ladgervalue: checkvalue.target.checked
+    };
+    console.log('ledger data', checkvalue.target.checked, id);
+    // console.log('ledger data1', checkvalue, id);
+    this.common.loading++;
+    this.api.post('Accounts/SaveLedgerCostCenter', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        // this.Ledgers = res['data'];
+        this.common.showToast(res['data'][0].y_errormsg);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+
   selectedRow = -1;
 
   openModal(ledger?) {
