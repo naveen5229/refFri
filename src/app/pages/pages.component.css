@@ -72,27 +72,14 @@ td{
  .nb-theme-corporate .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
-::-webkit-scrollbar {
-    width: 4em;
-    height: 2em
- }
  
  ::-webkit-scrollbar-track-piece {
-    background: #ccc
- }
- 
- nb-card-body ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
- }
- .nb-theme-corporate nb-card ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    background: #F1F1F1;
  }
  nb-card-body ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: #C1C1C1;
     cursor: pointer;
-    border-radius: 2.5px;
+    border-radius: 0px;
  }
  ::-webkit-scrollbar-button:vertical:start:decrement {
     background:
