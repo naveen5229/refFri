@@ -28,8 +28,8 @@ export class AddDriverComponent implements OnInit {
     doj: null
 
   };
-  show:boolean = false;
-  detailsBtn:any= 'More Details';
+  show: boolean = false;
+  detailsBtn: any = 'More Details';
 
 
   constructor(public api: ApiService,
@@ -86,7 +86,6 @@ export class AddDriverComponent implements OnInit {
       })
   }
 
-
   get f() { return this.driverForm.controls; }
 
   addNewdriver() {
@@ -104,19 +103,19 @@ export class AddDriverComponent implements OnInit {
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
     };
-       this.common.loading++;
-      this.api.post('Drivers/add', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log('Res:', res['data']);
-          this.common.showToast(res['msg']);
-          this.activeModal.close();
-  
-        }, err => {
-  
-          this.common.loading--;
-          console.log(err);
-        });
+    this.common.loading++;
+    this.api.post('Drivers/add', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        this.common.showToast(res['msg']);
+        this.activeModal.close();
+
+      }, err => {
+
+        this.common.loading--;
+        console.log(err);
+      });
 
   }
 
@@ -139,10 +138,11 @@ export class AddDriverComponent implements OnInit {
     this.show = !this.show;
     console.log(this.show);
     // CHANGE THE NAME OF THE BUTTON.
-    if(this.show)  
+    if (this.show)
       this.detailsBtn = "Hide";
     else
       this.detailsBtn = "More Details";
   }
+
 
 }

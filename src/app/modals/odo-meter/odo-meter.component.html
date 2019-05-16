@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">OdoMeter</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-bottom:10px">
+    <div class="col-3">
+      <div class="row">
+        <div class="col-5">
+          <label class="pt-1">Reg no</label>
+        </div>
+        <div class="col-7 pl-0">
+          <label class="pt-1">{{regno}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="row">
+        <div class="col-2 pr-0">
+          <label class="pt-1">Date</label>
+        </div>
+        <div class="col-10">
+          <uj-date-time-picker (onChanged)="date = $event" [dateTimeValue]="date"></uj-date-time-picker>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="row">
+        <div class="col-3 pr-0">
+          <label class="pt-1">KM</label>
+        </div>
+        <div class="col-9">
+          <input type="number" placeholder="KM" [(ngModel)]="kM" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="col-1 pl-0">
+      <button class="btn btn-primary pr-0 pl-0 m-0 w-100" type="button" id="submit" (click)="saveOdoMaterData()"
+        style="cursor: pointer;">Save</button>
+    </div>
+  </div>
+
+
+  <div>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+  </div>
+
+
+</div>
+
+<!-- Footer -->
+<div class="modal-footer">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-danger" type="button" outline (click)="closeModal()" id="cancel"
+        style="cursor: pointer;">Cancel</button>
+    </div>
+    <!-- <div class="col text-right">
+      <button class="btn btn-primary" type="button" id="submit" (click)="saveOdoMaterData()"
+        style="cursor: pointer;">Save</button>
+    </div> -->
+  </div>
+</div>
