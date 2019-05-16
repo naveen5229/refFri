@@ -35,6 +35,7 @@ import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/tri
 import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fuel-average-analysis.component';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -196,10 +197,12 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
-            path: 'ticket-subscribe',
-            component: TicketSubscribeComponent,
+            path: 'add-customer',
+            component: AddCustomerComponent,
             canActivate: [RouteGuard]
-        }
+        },
+
+
     ],
 }];
 

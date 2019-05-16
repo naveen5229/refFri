@@ -1033,6 +1033,7 @@ export class OrdersComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
+      bankname:ledger.bankname
     };
 
     console.log('params11: ', params);
@@ -1042,9 +1043,14 @@ export class OrdersComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res);
-        this.common.showToast('Ledger Are Saved');
+
         this.getPurchaseLedgers();
         this.getSupplierLedgers();
+        if (res['data'][0].y_errormsg) {
+          this.common.showToast(res['data'][0].y_errormsg);
+        } else {
+          this.common.showToast('Ledger Has been saved!');
+        }
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
