@@ -13,7 +13,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './auth/login/login.component';
 import { HttpModule } from '@angular/http';
 import { KpisDetailsComponent } from './modals/kpis-details/kpis-details.component';
@@ -141,7 +141,19 @@ import { ShowFuelStationComponent } from './modals/show-fuel-station/show-fuel-s
 import { CustomDatePipe } from './pipes/custom-date/custom-date.pipe';
 import { DaybookComponent } from './acounts-modals/daybook/daybook.component';
 import { ProfitlossComponent } from './acounts-modals/profitloss/profitloss.component';
+import { LedgerviewComponent } from './acounts-modals/ledgerview/ledgerview.component';
+import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
+import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
+import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
+import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
+import { ImportBulkVehiclesComponent } from './modals/import-bulk-vehicles/import-bulk-vehicles.component';
+import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-admin-users.component';
+import { AddFoComponent } from './modals/add-fo/add-fo.component';
+import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
+import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
+import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -246,7 +258,18 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     CustomDatePipe,
     DaybookComponent,
     ProfitlossComponent,
+    LedgerviewComponent,
+    CustomTimePipe,
     PoliceStationComponent,
+    TankEmptyDetailsComponent,
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
+    VouchercostcenterComponent,
 
   ],
   entryComponents: [
@@ -349,7 +372,16 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
     DaybookComponent,
     ProfitlossComponent,
     PoliceStationComponent,
-
+    LedgerviewComponent,
+    TankEmptyDetailsComponent,
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
+    VouchercostcenterComponent
   ],
   imports: [
     BrowserModule,
@@ -379,6 +411,7 @@ import { PoliceStationComponent } from './modals/police-station/police-station.c
 
   bootstrap: [AppComponent],
   providers: [
+    NgbActiveModal,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'en' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseHandlerService, multi: true },

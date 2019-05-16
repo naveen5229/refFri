@@ -2,25 +2,26 @@
   <nb-card-header>
     <div class="row">
       <div class="col-6">
-          <h5>Add Trolly</h5>
+        <h5>Add Trolly</h5>
       </div>
       <div class="col-6">
         <div class="row">
-        <div class="col-sm-2 pr-0"><label><b>Trolly No.</b></label></div>
+          <div class="col-sm-2 pr-0"><label><b>Trolly No.</b></label></div>
           <div class="col-sm-7 ">
-            <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" autocomplete="off" class="form-control"
-              [(ngModel)]="trollyNo">
+            <input id="trollyNo" name="trollyNo" type="text" placeholder=" Enter Trolly No" autocomplete="off"
+              class="form-control" [(ngModel)]="trollyNo">
           </div>
           <div class="col-sm-3">
-            <button class="btn btn-primary mt-0" type="button" outline (click)="saveTrollyDetails()" id="reminder" style="cursor: pointer;">Save</button>
+            <button class="btn btn-primary mt-0" type="button" outline (click)="saveTrollyDetails()" id="reminder"
+              style="cursor: pointer;">Save</button>
           </div>
         </div>
       </div>
     </div>
-    
+
   </nb-card-header>
   <nb-card-body>
-    
+
     <div>
       <table class="table table-bordered table-hover mb-0" *ngIf="trollys">
         <thead class="thead">

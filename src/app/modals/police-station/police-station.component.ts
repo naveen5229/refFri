@@ -10,10 +10,10 @@ import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 @Component({
   selector: 'police-station',
   templateUrl: './police-station.component.html',
-  styleUrls: ['./police-station.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./police-station.component.scss', '../../pages/pages.component.css']
 })
 export class PoliceStationComponent implements OnInit {
- PoliceStation = [];
+  PoliceStation = [];
   // PoliceStation;
   lat;
   long;
@@ -23,42 +23,39 @@ export class PoliceStationComponent implements OnInit {
   phone;
   location;
   data;
-  dateVal=[]
- 
-  resData=[];
+  dateVal = []
+
+  resData = [];
 
 
   constructor(
     public mapService: MapService,
     public api2: Api2Service,
     private activeModal: NgbActiveModal,
-    public common: CommonService) { 
-      this.common.handleModalSize('class', 'modal-lg', '1000');
-      this.lat = this.common.params.lat;
+    public common: CommonService) {
+    this.common.handleModalSize('class', 'modal-lg', '1000');
+    this.lat = this.common.params.lat;
     this.long = this.common.params.long;
-    console.log("------------",this.lat);
+    console.log("------------", this.lat);
     this.getPoliceStation();
     this.location = [{
-      lat:this.common.params.lat,
+      lat: this.common.params.lat,
       long: this.common.params.long,
-      color:'FF0000',
-      subType:'marker'
+      color: 'FF0000',
+      subType: 'marker'
     }];
-    
-    
+
+
   }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
 
-    setTimeout(() => {
-      this.mapService.mapIntialize("map",18,25,75,true);
 
-    }, 1000);
-    
-    
-    
+    this.mapService.mapIntialize("map", 18, 25, 75, true);
+
+
   }
  
   getPoliceStation(){

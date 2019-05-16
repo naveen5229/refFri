@@ -49,7 +49,7 @@ export class ShowFuelStationComponent implements OnInit {
       Name: { title: 'Name', placeholder: 'Name' },
       Location: { title: 'Location', placeholder: 'Location' },
       SiteId: { title: 'SiteId', placeholder: 'SiteId' },
-      AddTime: { title: 'AddTime', placeholder: 'AddTime' },
+      count: { title: 'count', placeholder: 'count' },
       // Lat: { title: 'lat', placeholder: 'lat' },
       // Long: { title: 'long', placeholder: 'long' }
     };
@@ -74,7 +74,7 @@ export class ShowFuelStationComponent implements OnInit {
         Name: { value: R.name },
         Location: { value: R.location },
         SiteId: { value: R.site_id },
-        AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
+        count: { value: R.count },
         // Lat: { value: R.lat },
         // Long: { value: R.long },
       };

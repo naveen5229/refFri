@@ -35,7 +35,12 @@ import { onwardKmpdComponent } from './onward-kmpd/onward-kmpd.component';
 import { VehicleTripStagesComponent } from './vehicle-trip-stages/vehicle-trip-stages.component';
 import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
 import { RemainingFuelComponent } from '../admin/remaining-fuel/remaining-fuel.component';
-
+import { DocumentationDetailsComponent } from '../documents/documentation-details/documentation-details.component';
+import { DocumentsSummaryComponent } from '../documents/documents-summary/documents-summary.component';
+import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.component';
+import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
+import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
+import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -173,7 +178,7 @@ const routes: Routes = [{
     component: VehicleGpsDetailComponent
   },
   {
-    path: 'tip-feedback-logs',
+    path: 'trip-feedback-logs',
     component: TipFeedbackLogsComponent,
   },
   {
@@ -189,7 +194,7 @@ const routes: Routes = [{
     component: VehicleTripStagesComponent,
   },
   {
-    path: 'vehicle-trip-stages',
+    path: 'vehicle-trip-states',
     component: VehicleTripStagesComponent,
   },
   {
@@ -200,6 +205,30 @@ const routes: Routes = [{
     path: 'remaining-fuel',
     component: RemainingFuelComponent
   },
+  {
+    path: 'documentation-details',
+    component: DocumentationDetailsComponent,
+  },
+  {
+    path: 'documents-summary',
+    component: DocumentsSummaryComponent,
+  },
+  {
+    path: 'document-dashboard',
+    component: DocumentDashboardComponent,
+  },
+  {
+    path: 'driver-performance',
+    component: DriverPerformanceComponent,
+  },
+  {
+    path: 'vehicle-distance',
+    component: VehicleDistanceComponent
+  },
+  {
+    path: 'trip-verify-states',
+    component: TripVerifyStatesComponent,
+  }
   ],
 }];
 
