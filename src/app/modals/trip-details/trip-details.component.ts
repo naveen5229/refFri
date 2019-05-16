@@ -151,7 +151,7 @@ export class TripDetailsComponent implements OnInit {
   openRouteMapper(trip) {
     let fromTime = this.common.dateFormatter(new Date(trip._startdate));
     let toTime = this.common.dateFormatter(new Date(trip._enddate));
-    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime }
+    this.common.params = { vehicleId: trip._vid, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime }
     // console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
     activeModal.result.then(data =>

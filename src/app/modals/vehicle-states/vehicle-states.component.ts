@@ -356,7 +356,7 @@ export class VehicleStatesComponent implements OnInit {
         if (res['data'] == 1) {
           this.saveVehicleState();
         } else {
-          this.common.showError('vehicle is not exist in this location.. select rihgt location to continue !!');
+          this.common.showError('vehicle is not exist in this location.. choose correct location to continue !!');
         }
       }, err => {
         this.common.loading--;
