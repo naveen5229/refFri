@@ -133,11 +133,5 @@ export class VehicleTyresComponent implements OnInit {
       });
 
   }
-  submitted1() {
-    const activeModal = this.modalService.open(AddFoComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
-  submitted2() {
-    const activeModal = this.modalService.open(PullHistoryGPSDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-  }
 
 }
