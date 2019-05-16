@@ -91,7 +91,8 @@ export class VoucherComponent implements OnInit {
           name: '',
           id: ''
         },
-        amount: 0
+        amount: 0,
+        details: []
       }],
       code: '',
       remarks: '',
@@ -132,13 +133,32 @@ export class VoucherComponent implements OnInit {
         }
 
         res['data'].map(voucher => {
+          let costCenterDetails = [];
+          if (voucher.y_cc_details) {
+            let costStr = voucher.y_cc_details.replace(/'/g, '"');
+            costStr = ("[" + costStr.substring(1, costStr.length - 1) + "]").replace(/{/g, '[').replace(/}/g, ']');
+            console.log('Cost STR:', costStr);
+            console.log('Cost Array:', JSON.parse(costStr));
+            let costArray = JSON.parse(costStr);
+            costArray.map(cost => {
+              costCenterDetails.push({
+                ledger: {
+                  id: cost[0],
+                  name: cost[1],
+                },
+                amount: parseInt(cost[2]),
+              })
+            })
+          }
+
           this.voucher.amountDetails.push({
             transactionType: voucher.y_dlt_iscr ? 'credit' : 'debit',
             ledger: {
               name: voucher.y_ledgername,
               id: voucher.y_dlt_ledger_id
             },
-            amount: parseInt(voucher.y_dlt_amount)
+            amount: parseInt(voucher.y_dlt_amount),
+            details: costCenterDetails
           });
 
           if (voucher.y_dlt_iscr) {
