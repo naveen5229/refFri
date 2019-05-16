@@ -33,7 +33,10 @@
           <tr *ngFor="let inventory of inventories; let i = index;">
             <td>{{i+1}}</td>
             <td width="35%">
-              <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
+              <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands"
+                display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
+
+              <!-- <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
                 (input)="searchModels(inventory.searchModelString, i)" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.searchModelString">
               <div *ngIf="activeRow == i">
@@ -42,7 +45,7 @@
                     {{ model.name}} : {{model.brand}}
                   </li>
                 </ul>
-              </div>
+              </div> -->
             </td>
             <td width="15%">
               <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize" display="size"
