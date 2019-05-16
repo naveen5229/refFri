@@ -142,9 +142,16 @@ button.btn-primary{
     padding: 8px 10px !important;
 }
 table tr{
+    th:nth-child(1){
+        width: 20%;
+    }
+    th:last-child{
+        width: auto;
+    }
     th{
         padding: 5px 10px!important;
         font-weight: normal;
+        width: 46%;
     }
     td{
         padding: 5px 10px!important;

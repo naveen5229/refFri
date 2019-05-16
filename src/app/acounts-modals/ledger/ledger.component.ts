@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountsComponent } from '../accounts/accounts.component';
 
 @Component({
   selector: 'ledger',
@@ -46,6 +47,7 @@ export class LedgerComponent implements OnInit {
     deleteview: 0,
     delete: 0,
     bankname: '',
+    costcenter: 0,
     accDetails: [{
       id: '',
       salutation: {
@@ -110,6 +112,7 @@ export class LedgerComponent implements OnInit {
         openingbalance: this.common.params.ledgerdata[0].opening_balance,
         approved: (this.common.params.ledgerdata[0].y_for_approved == true) ? 1 : 0,
         deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1 : 0,
+        costcenter: (this.common.params.ledgerdata[0].is_constcenterallow == true) ? 1 : 0,
         delete: 0,
         accDetails: []
       };
@@ -353,14 +356,23 @@ export class LedgerComponent implements OnInit {
     if (event.key == "Escape") {
       this.showExit = true;
     }
-    console.log(event);
+    console.log('GGGGGG', event);
     // else if (activeId.includes('isbank') && (activeId.includes('isbank').checked)){ 
     //   this.setFoucus('branchname');
     // }
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
+    console.log('ccc:', (event.altKey && key === 'c'));
+    console.log('yyy:', activeId);
+
+    if ((event.altKey && key === 'c') && (activeId.includes('undergroup'))) {
+      console.log('alt + C pressed');
+      this.openAccountModal();
+      return;
+    }
     this.setAutoSuggestion();
+
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
@@ -393,7 +405,7 @@ export class LedgerComponent implements OnInit {
       // console.log('Active jj: ', activeId.includes('aliasname'));
 
       if (activeId.includes('branchcode')) {
-        this.setFoucus('creditdays');
+        this.setFoucus('accnumber');
       } else if (activeId == 'name') {
         this.setFoucus('aliasname');
       } else if (activeId == 'aliasname') {
@@ -405,22 +417,26 @@ export class LedgerComponent implements OnInit {
       } else if (activeId.includes('openingbalance')) {
         this.setFoucus('openingisdr');
       } else if (activeId.includes('openingisdr')) {
-        this.setFoucus('accnumber');
+        this.setFoucus('creditdays');
       } else if (activeId.includes('branchname')) {
         this.setFoucus('branchcode');
       } else if (activeId.includes('accnumber')) {
-        this.setFoucus('isbank');
-      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 0)) {
-        this.setFoucus('salutation-0');
-      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 1)) {
-        this.setFoucus('branchname');
-      } else if (activeId.includes('creditdays')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         this.setFoucus('salutation-0');
+      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 0)) {
+        this.setFoucus('salutation-0');
+      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 1)) {
+        this.setFoucus('bankname');
+      } else if (activeId.includes('bankname')) {
+        this.setFoucus('branchname');
+      } else if (activeId.includes('creditdays')) {
+        this.setFoucus('costcenter');
+      } else if (activeId.includes('costcenter')) {
+        this.setFoucus('isbank');
       } else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
@@ -670,5 +686,52 @@ export class LedgerComponent implements OnInit {
       });
     }
   }
+
+
+  openAccountModal(Accounts?) {
+
+
+    this.common.params = null;
+    const activeModal = this.modalService.open(AccountsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.addAccount(data.Accounts);
+        return;
+      }
+    });
+
+  }
+
+  addAccount(Accounts1) {
+    console.log('accountdata', Accounts1);
+    const params = {
+      name: Accounts1.name,
+      foid: 123,
+      parentid: Accounts1.account.id,
+      primarygroupid: Accounts1.account.primarygroup_id,
+      x_id: 0
+    };
+    console.log('params11: ', params);
+    this.common.loading++;
+    this.api.post('Accounts/InsertAccount', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        let result = res['data'][0].save_secondarygroup;
+        if (result == '') {
+          this.common.showToast("Add Successfull  ");
+        }
+        else {
+          this.common.showToast(result);
+        }
+        this.getUnderGroup();
+        // this.GetAccount();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
 
 }
