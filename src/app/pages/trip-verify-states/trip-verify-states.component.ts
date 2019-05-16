@@ -30,12 +30,17 @@ export class TripVerifyStatesComponent implements OnInit {
     public modalService: NgbModal,
     private activeModal: NgbActiveModal) {
     this.getPendingStates();
+    this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+    console.log('Refresh');
+    this.getPendingStates();
+  }
 
 
   getPendingStates() {
@@ -130,8 +135,9 @@ export class TripVerifyStatesComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               console.log('res: ', res);
-              // this.GetBranchData();
+
               this.common.showToast(res['data'][0].r_msg);
+              this.getPendingStates();
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);
@@ -181,6 +187,7 @@ export class TripVerifyStatesComponent implements OnInit {
                 vregno: details.Vehicle
               };
               const activeModal = this.modalService.open(VehicleStatesComponent, { size: "lg", container: "nb-layout", backdrop: 'static' });
+
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);
