@@ -48,12 +48,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance',
         home: true,
       },
-      {
-        title: 'Vehicle Trip States',
-        icon: 'fas fa-map-marked',
-        link: '/pages/vehicle-trip-states',
-        home: true,
-      },
+      // {
+      //   title: 'Vehicle Trip States',
+      //   icon: 'fas fa-map-marked',
+      //   link: '/pages/vehicle-trip-states',
+      //   home: true,
+      // },
       {
         title: 'Verify Trip States',
         icon: 'far fa-check-circle',

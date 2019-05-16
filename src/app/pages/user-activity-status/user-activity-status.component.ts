@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'user-activity-status',
@@ -28,10 +28,14 @@ export class UserActivityStatusComponent implements OnInit {
   foid = 0;
   isAdmin = 0;
   id = null;
+  openType = this.common.openType;
+
 
   constructor(public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
+    this.common.openType = 'page'
     let today;
     today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
@@ -140,6 +144,11 @@ export class UserActivityStatusComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+
+  closeModal() {
+    this.activeModal.close();
   }
 
 }

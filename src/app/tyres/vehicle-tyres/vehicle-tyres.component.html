@@ -73,6 +73,15 @@
       <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails"
         style="cursor: pointer;margin-top:10px;">Save</button>
     </div>
+    <div class="col-md-12 text-center margin-top-15">
+      <button type="submit" id="submit" class="btn btn-primary" (click)="submitted1()">ADD</button>
+      <!--(click)="submitted=true">ADD</button>-->
+    </div>
+    <div class="col-md-12 text-center margin-top-15">
+      <button type="submit" id="submit" class="btn btn-primary" (click)="submitted2()">ADD1</button>
+      <!--(click)="submitted=true">ADD</button>-->
+    </div>
+
 
     <table class="table table-bordered" *ngIf="mappedTyres.length>0">
       <thead class="thead">
