@@ -8,10 +8,40 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/dashboard',
         home: true,
     },
+    // {
+    //     title: 'Invoice',
+    //     icon: 'fas fa-file-invoice',
+    //     link: '/accounts/orders'
+    // },
     {
         title: 'Invoice',
         icon: 'fas fa-file-invoice',
-        link: '/accounts/orders'
+        children: [
+            {
+                title: 'Purchase Invoice',
+                link: '/accounts/orders/-2/Purchase Invoice'
+            },
+            {
+                title: 'Sales Invoice',
+                link: '/accounts/orders/-4/Sales Invoice'
+            },
+            {
+                title: 'Purchase Assets Invoice',
+                link: '/accounts/orders/-5/Purchase Assets Invoice'
+            },
+            {
+                title: 'Debit Note',
+                link: '/accounts/orders/-7/Debit Note'
+            },
+            {
+                title: 'Credit Note',
+                link: '/accounts/orders/-6/Credit Note'
+            },
+            {
+                title: 'Wastage',
+                link: '/accounts/orders/-8/Wastage'
+            },
+        ],
     },
 
     {
@@ -34,6 +64,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Account Group',
         icon: 'fa fa-university',
         link: '/accounts/account'
+    },
+    {
+        title: 'Cost Center',
+        icon: 'fa fa-university',
+        link: '/accounts/costcenter'
     },
     {
         title: 'Ledger',

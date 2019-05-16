@@ -30,6 +30,7 @@ import * as moment from 'moment';
 import { AddShortTargetComponent } from "../../modals/add-short-target/add-short-target.component";
 import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
+import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 
 @Component({
   selector: "concise",
@@ -68,7 +69,7 @@ export class ConciseComponent implements OnInit {
       key: "showprim_status"
     },
     {
-      name: "Secondry Status",
+      name: "Secondary Status",
       key: "showsec_status"
     },
     {
@@ -190,8 +191,8 @@ export class ConciseComponent implements OnInit {
         },
         status: {
           value: kpi.showprim_status,
-          action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          action: this.showDetails.bind(this, kpi),
+          // colActions: { click: this.showDetails.bind(this, kpi) }
         },
         location: {
           value: kpi.Address,
@@ -200,23 +201,23 @@ export class ConciseComponent implements OnInit {
         hrs: {
           value: kpi.x_hrssince,
           action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { click: this.showDetails.bind(this, kpi) }
         },
         Idle_Time: {
           value: parseFloat((kpi.x_idle_time / 60).toFixed(1)),
           action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         trip: {
           value: this.common.getTripStatusHTML(kpi.trip_status_type, kpi.x_showtripstart, kpi.x_showtripend, kpi.x_p_placement_type, kpi.x_p_loc_name),
           action: this.getUpadte.bind(this, kpi),
           isHTML: true,
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
         kmp: {
           value: kpi.x_kmph,
           action: "",
-          colActions: { dblclick: this.showDetails.bind(this, kpi) }
+          // colActions: { dblclick: this.showDetails.bind(this, kpi) }
         },
 
         action: {
@@ -907,6 +908,10 @@ export class ConciseComponent implements OnInit {
         class: "icon fa fa-user-secret",
         action: this.openStations.bind(this, kpi)
       },
+      {
+        class: "icon fas fa-tachometer-alt",
+        action: this.openOdoMeter.bind(this, kpi)
+      },
     ]
     if (this.user._loggedInBy != "admin") {
       icons.shift();
@@ -943,10 +948,14 @@ export class ConciseComponent implements OnInit {
   }
 
 
-  openVehicleStates(vlaues) {
+  openVehicleStates(values) {
+    console.log('values', values);
     this.common.params = {
-      vehicleId: vlaues.x_vehicle_id,
-      vehicleRegNo: vlaues.x_showveh
+      vehicleId: values.x_vehicle_id,
+      vehicleRegNo: values.x_showveh,
+      lat: values.x_tlat,
+      long: values.x_tlong,
+      vregno: values.x_empname
 
     };
     const activeModal = this.modalService.open(VehicleStatesComponent, {
@@ -990,7 +999,17 @@ export class ConciseComponent implements OnInit {
       size: "lg",
       container: "nb-layout"
     });
-   
+
+
+  }
+
+  openOdoMeter(kpi) {
+    console.log("kpi data", kpi);
+    let vehicleId = kpi.x_vehicle_id;
+    let regno = kpi.x_showveh;
+    this.common.params = { vehicleId, regno };
+    console.log('Param', this.common.params);
+    const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'user-activity-status',
@@ -25,19 +25,42 @@ export class UserActivityStatusComponent implements OnInit {
     }
   };
 
+  foid = 0;
+  isAdmin = 0;
+  id = null;
+  openType = this.common.openType;
+
+
   constructor(public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
+    this.common.openType = 'page'
     let today;
     today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
     this.startDate = (this.common.dateFormatter(today)).split(' ')[0];
-    console.log('dates ', this.endDate, this.startDate)
+
+    // this.id = this.common.params.foid;
+    if (this.common.params) {
+      this.foid = this.common.params.foid ? this.common.params.foid : 0;
+      this.isAdmin = this.common.params.foid ? 1 : 0;
+    }
+
     this.getSummary();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
+
+
+  refresh() {
+    console.log('Refresh');
+    this.getSummary();
+  }
+
 
   getDate(type) {
 
@@ -70,7 +93,7 @@ export class UserActivityStatusComponent implements OnInit {
       }
     };
     const params = "startDate=" + this.startDate +
-      "&endDate=" + this.endDate + " 23:59:59";
+      "&endDate=" + this.endDate + " 23:59:59" + "&foid=" + this.foid + "&isAdmin=" + this.isAdmin;
     console.log('params: ', params);
     this.common.loading++;
     this.api.get('FoDetails/getFoUserActivitySummary?' + params)
@@ -124,5 +147,8 @@ export class UserActivityStatusComponent implements OnInit {
   }
 
 
+  closeModal() {
+    this.activeModal.close();
+  }
 
 }

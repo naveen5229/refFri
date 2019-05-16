@@ -42,6 +42,7 @@ nb-card-body{
     top: -28px;
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     font-family: Roboto;
+    z-index: 999;
 }
 :host ::ng-deep td i.fa-pencil-square-o span::before{
     content: 'Edit';
@@ -84,6 +85,7 @@ nb-card-body{
     top: -28px;
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     font-family: Roboto;
+    z-index: 999;
 }
 :host ::ng-deep td i.fa-question-circle span::before{
     content: 'Report';
@@ -126,6 +128,7 @@ nb-card-body{
     top: -28px;
     box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     font-family: Roboto;
+    z-index: 999;
 }
 :host ::ng-deep td i.fa-trash span::before{
     content: 'trash';
@@ -155,4 +158,123 @@ nb-card-body{
     padding: 5px;
     border-radius: 3px;
     margin-left: 5px;
+}
+:host ::ng-deep td i.fa-route:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-route span{
+    position: absolute;
+    display: none;
+    padding: 11px 24px;
+    left: -8px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 999;
+}
+:host ::ng-deep td i.fa-route span::before{
+    content: 'Route';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #ff8091;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-route span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #ff8091;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+:host ::ng-deep td i.fa-star{
+    background-color: #8280ff;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+:host ::ng-deep td i.fa-star:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-star span{
+    position: absolute;
+    display: none;
+    padding: 11px 28px;
+    left: -10px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 999;
+}
+:host ::ng-deep td i.fa-star span::before{
+    content: 'Events';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #8280ff;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-star span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #8280ff;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
+}
+:host ::ng-deep td i.fa-chart-bar{
+    background-color: #80f54f;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+:host ::ng-deep td i.fa-chart-bar:hover span{
+    display: block;
+}
+:host ::ng-deep td i.fa-chart-bar span{
+    position: absolute;
+    display: none;
+    padding: 11px 28px;
+    left: -10px;
+    top: -28px;
+    box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: Roboto;
+    z-index: 999;
+}
+:host ::ng-deep td i.fa-chart-bar span::before{
+    content: 'Status';
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #80f54f;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+:host ::ng-deep td i.fa-chart-bar span::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #80f54f;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%);
 }

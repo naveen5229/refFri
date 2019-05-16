@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}
+    <span style="margin-left: 15px;">
+      <span class="pdf-icon" title="PDF Export" (click)="printPDF('doc_report')" style="cursor: pointer;"><i
+          class="fa fa-file-pdf"></i></span>
+      <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('doc_report')"
+        style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+    </span>
+  </h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <img src="assets/images/elogist.png" alt="logo" id="img-logo" style="display: none;" />
+  <smart-table id="doc_report" *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+</div>

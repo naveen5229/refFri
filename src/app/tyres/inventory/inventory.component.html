@@ -4,7 +4,10 @@
       <div class="col-sm-6">
         <h5>Tyre Inventory</h5>
       </div>
-      <div class="col-sm-6 text-right"><button (click)=openStockItemModal() class="btn btn-primary m-0">Add
+      <div class="col-sm-6 text-right">
+        <button (click)="openStockItemModal()" class="btn btn-primary m-0">Add
+          Brands</button>
+        <button (click)="openStockItemModal()" class="btn btn-primary " style="margin-right:15px">Add
           Modals</button></div>
     </div>
   </nb-card-header>
@@ -30,28 +33,31 @@
           <tr *ngFor="let inventory of inventories; let i = index;">
             <td>{{i+1}}</td>
             <td width="35%">
-              <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
+              <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands"
+                display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
+
+              <!-- <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
                 (input)="searchModels(inventory.searchModelString, i)" autocomplete="off" class="form-control"
-                [(ngModel)]="inventory.searchModelString" >
+                [(ngModel)]="inventory.searchModelString">
               <div *ngIf="activeRow == i">
                 <ul *ngIf="(modelSuggestion) && (models.length >  0)">
                   <li *ngFor="let model of models;" (click)="selectModel(model,i)">
                     {{ model.name}} : {{model.brand}}
                   </li>
                 </ul>
-              </div>
+              </div> -->
             </td>
             <td width="15%">
-                <auto-suggestion (onSelected)="getTyreSize($event,i)"  url="Suggestion/getTyreSize"
-                display="size" placeholder="Size" [inputId]="'size-' + i" ></auto-suggestion>
+              <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize" display="size"
+                placeholder="Size" [inputId]="'size-' + i"></auto-suggestion>
 
               <!-- <input id="Tyresize" name="Tyresize" type="text" placeholder="Size" autocomplete="off"
                 class="form-control" [(ngModel)]="inventory.tyreSize" style="width : 175px"> -->
             </td>
-            <td width="20%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number" autocomplete="off"
-                class="form-control" [(ngModel)]="inventory.tyreNo" (focus)="size(i)">
+            <td width="20%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number"
+                autocomplete="off" class="form-control" [(ngModel)]="inventory.tyreNo" (focus)="size(i)">
             </td>
-            <td width="20%"> 
+            <td width="20%">
               <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)"
                 placeholder="Select Date" [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly>
               <!-- <input [(ngModel)]="inventory.date1" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="Date Time"
@@ -84,7 +90,7 @@
       </table>
     </div>
 
-  
+
     <div class="row-width clearfix">
       <div class="text-left">
         <button class="btn btn-primary" type="button" outline (click)="testFilledData()" id="saveDetails"

@@ -68,7 +68,7 @@ export class MapService {
     }
   }
 
-  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75,showUI=false) {
+  mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false) {
     if (this.isMapLoaded) {
       // document.getElementById(div).innerHTML="";
       // document.getElementById(div).append(this.mapLoadDiv.innerHTML);
@@ -83,7 +83,7 @@ export class MapService {
       zoom: zoom,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
-      disableDefaultUI:showUI,
+      disableDefaultUI: showUI,
       styles: [{
         featureType: 'all',
         elementType: 'labels',
@@ -181,7 +181,7 @@ export class MapService {
     return latLng;
   }
 
-  createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?) {
+  createMarkers(markers, dropPoly = false, changeBounds = true, infoKeys?, afterClick?) {
     let thisMarkers = [];
     let infoWindows = [];
     console.log("Markers", markers);
@@ -242,13 +242,13 @@ export class MapService {
           if (typeof (infoKeys) == 'object') {
             infoKeys.map((display, indexx) => {
               if (indexx != infoKeys.length - 1) {
-                displayText += this.common.ucWords(display)+" : " + markers[index][display] + ' <br> ';
+                displayText += this.common.ucWords(display) + " : " + markers[index][display] + ' <br> ';
               } else {
-                displayText += this.common.ucWords(display)+" : " + markers[index][display];
+                displayText += this.common.ucWords(display) + " : " + markers[index][display];
               }
             });
           } else {
-            displayText = this.common.ucWords(infoKeys)+" : " + markers[index][infoKeys];
+            displayText = this.common.ucWords(infoKeys) + " : " + markers[index][infoKeys];
           }
           google.maps.event.addListener(marker, 'click', function (evt) {
             this.infoStart = new Date().getTime();
@@ -260,6 +260,7 @@ export class MapService {
             infoWindow.setContent("<span style='color:blue'>Info</span> <br> " + displayText);
             infoWindow.setPosition(evt.latLng); // or evt.latLng
             infoWindow.open(this.map);
+            afterClick(markers[index]);
           });
         }
         if (changeBounds)

@@ -52,7 +52,7 @@ export class DataService {
           },
           {
             title: 'Trip Feedback Logs',
-            icon: 'nb-home',
+            icon: 'fas fa-comment-dots',
             link: '/admin/trip-status-feedback-logs',
             home: true,
           },
@@ -64,7 +64,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Vechile Distance',
+            title: 'Vehicle  Distance',
             icon: 'fas fa-route',
             link: '/admin/vehicle-distance',
             home: true,
@@ -77,7 +77,7 @@ export class DataService {
           },
           {
             title: 'Transport Agents',
-            icon: 'nb-home',
+            icon: 'fas fa-address-card',
             link: '/admin/transport-agents',
             home: true,
           },
@@ -100,7 +100,7 @@ export class DataService {
           },
           {
             title: 'Subsites',
-            icon: 'nb-home',
+            icon: 'fa fa-arrows-alt',
             link: '/admin/sub-sites',
             home: true,
           },
@@ -123,6 +123,11 @@ export class DataService {
             icon: 'fas fa-ticket-alt',
             link: '/admin/ticket-properties',
           },
+          {
+            title: 'vehicle view',
+            icon: 'fa fa-chart-bar',
+            link: '/admin/vehicles-view',
+          },
 
           {
             title: 'Diagnostics',
@@ -136,9 +141,21 @@ export class DataService {
             link: '/admin/user-preferences',
           },
           {
-            title: 'Fo Activity Summary',
-            icon: 'nb-home',
+            title: 'FO Activity Summary',
+            icon: 'fas fa-file-alt',
             link: '/admin/activity-summary',
+            home: true,
+          },
+          {
+            title: 'Ticket Subscribe',
+            icon: 'fas fa-info-circle',
+            link: '/admin/ticket-subscribe',
+            home: true,
+          },
+          {
+            title: 'add-customer',
+            icon: 'fas fa-info-circle',
+            link: '/admin/add-customer',
             home: true,
           },
         ]
@@ -166,13 +183,13 @@ export class DataService {
         children: [
           {
             title: 'Fo GPS Mapping',
-            icon: 'nb-home',
+            icon: 'fas fa-map-marked-alt',
             link: '/admin/gps-supplier-mapping',
             home: true,
           },
           {
             title: 'Vehicle GPS Detail',
-            icon: 'nb-home',
+            icon: 'fas fa-map-pin',
             link: '/admin/vehicle-gps-detail',
           },
           {
@@ -187,16 +204,17 @@ export class DataService {
           },
           {
             title: 'Fo Vehicle Details',
-            icon: 'nb-home',
+            icon: 'fas fa-info-circle',
             link: '/admin/vehicles-view',
             home: true,
           },
           {
             title: 'Company Details',
-            icon: 'nb-home',
+            icon: 'fas fa-info-circle',
             link: '/admin/company-details',
             home: true,
           },
+
         ]
       },
 
@@ -247,6 +265,7 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
+
 
 
 

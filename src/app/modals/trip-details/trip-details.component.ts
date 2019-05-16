@@ -17,9 +17,18 @@ export class TripDetailsComponent implements OnInit {
   endDate = null;
   vehicleId = null;
   vehicleRegNo = null;
-  trips = null;
-  startTimePeriod = '00:00';
-  endTimePeriod = '00:00';
+  trips = [];
+  headings = [];
+  valobj = {};
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
 
   constructor(
     public common: CommonService,
@@ -29,18 +38,9 @@ export class TripDetailsComponent implements OnInit {
     public dateService: DateService
   ) {
     // this.common.handleModalSize('class', 'modal-lg', '1600');
-    this.startDate = this.common.params.fromTime;
-    this.endDate = this.common.params.toTime;
-
-    this.startTimePeriod = this.startDate.split(' ')[1];
-    this.startTimePeriod = this.startTimePeriod.split(':')[0] + ":" + this.startTimePeriod.split(':')[1];
-
-    this.endTimePeriod = this.endDate.split(' ')[1];
-    this.endTimePeriod = this.endTimePeriod.split(':')[0] + ":" + this.endTimePeriod.split(':')[1];
-
-    this.startDate = this.dateService.dateFormatter(this.startDate, '', false);
-    this.endDate = this.dateService.dateFormatter(this.endDate, '', false);
-
+    this.startDate = new Date(this.common.params.fromTime);
+    this.endDate = new Date(this.common.params.toTime);
+    console.log("Start Date:", this.startDate);
     this.vehicleId = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
     this.getTripDetails();
@@ -49,43 +49,109 @@ export class TripDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
-  get startTimeFull() {
-    return this.startDate + " " + this.startTimePeriod;
-  }
 
-  get endTimeFull() {
-    return this.endDate + " " + this.endTimePeriod;
-  }
 
   getTripDetails() {
+    this.trips = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
     let params = "vehicleId=" + this.vehicleId +
-      "&startTime=" + this.startTimeFull +
-      "&endTime=" + this.endTimeFull;
+      "&startDate=" + startDate +
+      "&endDate=" + endDate;
     console.log(params)
-    this.api.get('TripsOperation/viewBtw?' + params)
+    this.api.get('TripsOperation/getTrips?' + params)
       .subscribe(res => {
         console.log('Res: ', res['data']);
         this.trips = res['data'];
+        if (this.trips != null) {
+          console.log('vehicleTrips', this.trips);
+          let first_rec = this.trips[0];
+          console.log("first_Rec", first_rec);
+
+          for (var key in first_rec) {
+
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table.data.headings[key] = headerObj;
+            }
+
+          }
+          let action = { title: 'Action', placeholder: 'Action' };
+          this.table.data.headings['action'] = action;
+
+
+          this.table.data.columns = this.getTableColumns();
+          console.log("table:");
+          console.log(this.table);
+          // this.showTable = true;
+        } else {
+          this.common.showToast('No Record Found !!');
+        }
       }, err => {
         console.error(err);
         this.common.showError();
       });
   }
+
+  formatTitle(strval) {
+    let pos = strval.indexOf('_');
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
+    } else {
+      return strval.charAt(0).toUpperCase() + strval.substr(1);
+    }
+  }
+
+  getTableColumns() {
+    let columns = [];
+    for (var i = 0; i < this.trips.length; i++) {
+      this.valobj = {};
+      for (let j = 0; j < this.headings.length; j++) {
+
+        this.valobj[this.headings[j]] = { value: this.trips[i][this.headings[j]], class: 'black', action: '' };
+
+        this.valobj['action'] = {
+          value: '', isHTML: true, action: null, icons: [
+            { class: " icon fa fa-info", action: this.vehicleReport.bind(this, this.trips[i]) },
+            { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.trips[i]) },
+
+          ]
+        }
+
+
+      }
+      this.valobj['style'] = { background: this.trips[i]._rowcolor };
+      columns.push(this.valobj);
+    }
+
+    console.log('Columns:', columns);
+    return columns;
+  }
   vehicleReport(trip) {
     console.log("trip------", trip);
-    let fromTime = trip.start_time;
-    let toTime = trip.end_time;
+    let fromTime = trip._startdate;
+    let toTime = trip._enddate;
     console.log("trip------", fromTime, toTime);
-    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime };
+    this.common.params = { vehicleId: trip._vid, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime };
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
 
   }
 
   openRouteMapper(trip) {
-    let fromTime = this.common.dateFormatter(new Date(trip.start_time));
-    let toTime = this.common.dateFormatter(new Date(trip.end_time));
-    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime }
+    let fromTime = this.common.dateFormatter(new Date(trip._startdate));
+    let toTime = this.common.dateFormatter(new Date(trip._enddate));
+    this.common.params = { vehicleId: trip._vid, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime }
     // console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
     activeModal.result.then(data =>

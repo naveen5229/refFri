@@ -28,6 +28,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/escalation-matrix',
     },
     {
+        title: 'vehicle view',
+        icon: 'fa fa-chart-bar',
+        link: '/admin/vehicles-view',
+    },
+    {
         title: 'Alert Related Issue',
         icon: 'far fa-bell',
         link: '/admin/alert-related-issue',
@@ -200,6 +205,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Remaining Fuel',
         icon: 'fa fa-signal',
         link: '/admin/remaining-fuel',
+        home: true,
+    },
+    {
+        title: 'Ticket Subscribe',
+        icon: 'fa fa-signal',
+        link: '/admin/ticket-subscribe',
+        home: true,
+    },
+    {
+        title: 'Add Customer',
+        icon: 'fa fa-signal',
+        link: '/admin/add-customer',
         home: true,
     },
 
