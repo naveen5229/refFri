@@ -159,6 +159,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/ledgerview'
             },
             {
+                title: 'CostCenter',
+                link: '/accounts/cost-center-report'
+            },
+            {
                 title: 'Trading Account',
                 link: '/accounts/trading'
             },
@@ -182,6 +186,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
             }
+
         ],
     },
     {
