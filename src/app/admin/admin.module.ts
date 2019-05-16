@@ -43,6 +43,8 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { MapMappingComponent } from './map-mapping/map-mapping.component';
 
 
 
@@ -63,7 +65,8 @@ const PAGES_COMPONENTS = [
   VehicleGpsTrailComponent,
   ActivitySummaryComponent,
   VehicleGpsDetailComponent,
-  TicketSubscribeComponent
+  TicketSubscribeComponent,
+  AddCustomerComponent
 
 
 ];
@@ -99,6 +102,8 @@ const PAGES_COMPONENTS = [
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
+    AddCustomerComponent,
+    MapMappingComponent
 
   ],
   exports: [

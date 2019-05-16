@@ -83,6 +83,7 @@ export class RouteMapperComponent implements OnInit {
   getHaltTrails() {
     this.strHaltReason = [];
     this.strSiteName = [];
+    this.clearAll();
     if (!(this.vehicleSelected && this.startDate && this.endDate)) {
       this.commonService.showError("Fill All Params");
       return;
@@ -216,6 +217,11 @@ export class RouteMapperComponent implements OnInit {
         console.log(err);
       });
   }
+  clearAll() {
+    this.slideToolTipLeft = 0;
+    this.isLite = false;
+    this.mapService.clearAll();
+  }
   breakPrevious = false;
 
   setSliderPoint() {
@@ -248,6 +254,8 @@ export class RouteMapperComponent implements OnInit {
         break;
       }
     }
+    this.timelineValue = 0;
+    this.isPlay = false;
   }
   zoomOnArrow(isEvent = true) {
     let bound = this.mapService.getMapBounds();

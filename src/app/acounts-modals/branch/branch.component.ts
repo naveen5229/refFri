@@ -32,7 +32,10 @@ export class BranchComponent implements OnInit {
     taxexemptionno: '',
     isactive: '',
     addressline: '',
-    remarks: ''
+    remarks: '',
+    lrTerm: '',
+    lrFooter: '',
+    constcenter: 0,
   };
   allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
@@ -64,7 +67,10 @@ export class BranchComponent implements OnInit {
         taxexemptionno: this.common.params.taxexemptionno,
         isactive: this.common.params.isactive,
         addressline: this.common.params.addressline,
-        remarks: this.common.params.remarks
+        remarks: this.common.params.remarks,
+        lrTerm: this.common.params.lr_terms,
+        lrFooter: this.common.params.lr_footer,
+        constcenter: this.common.params.is_constcenterallow,
       }
 
       //  console.log('Accounts: ', this.Accounts);

@@ -96,6 +96,9 @@ export class CompanyBranchesComponent implements OnInit {
       tinno: branch.tinno,
       tollfreenumber: branch.tollfreenumber,
       taxexemptionno: branch.taxexemptionno,
+      x_lr_terms: branch.lrTerm,
+      x_lr_footer: branch.lrFooter,
+      x_is_constcenterallow: branch.constcenter,
       x_id: 0
     };
 
@@ -144,6 +147,9 @@ export class CompanyBranchesComponent implements OnInit {
       tinno: branch.tinno,
       tollfreenumber: branch.tollfreenumber,
       taxexemptionno: branch.taxexemptionno,
+      x_lr_terms: branch.lrTerm,
+      x_lr_footer: branch.lrFooter,
+      x_is_constcenterallow: branch.constcenter,
       x_id: rowid
     };
     console.log("finalbranch :", params)

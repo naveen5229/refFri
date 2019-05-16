@@ -213,6 +213,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/ticket-subscribe',
         home: true,
     },
+    {
+        title: 'Add Customer',
+        icon: 'fa fa-signal',
+        link: '/admin/add-customer',
+        home: true,
+    },
 
 
 ];
