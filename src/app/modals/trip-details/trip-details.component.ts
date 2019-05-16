@@ -43,7 +43,6 @@ export class TripDetailsComponent implements OnInit {
     console.log("Start Date:", this.startDate);
     this.vehicleId = this.common.params.vehicleId;
     this.vehicleRegNo = this.common.params.vehicleRegNo;
-
     this.getTripDetails();
   }
 

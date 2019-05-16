@@ -146,7 +146,14 @@ import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
+import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
+import { ImportBulkVehiclesComponent } from './modals/import-bulk-vehicles/import-bulk-vehicles.component';
+import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-admin-users.component';
+import { AddFoComponent } from './modals/add-fo/add-fo.component';
+import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
 import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
+import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -255,7 +262,14 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     CustomTimePipe,
     PoliceStationComponent,
     TankEmptyDetailsComponent,
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
     OdoMeterComponent,
+    CostCentersComponent,
+    VouchercostcenterComponent,
 
   ],
   entryComponents: [
@@ -360,7 +374,14 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     PoliceStationComponent,
     LedgerviewComponent,
     TankEmptyDetailsComponent,
-    OdoMeterComponent
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
+    VouchercostcenterComponent
   ],
   imports: [
     BrowserModule,
