@@ -12,6 +12,7 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { VouchercostcenterComponent } from '../vouchercostcenter/vouchercostcenter.component';
 
 @Component({
   selector: 'voucher',
@@ -386,6 +387,7 @@ export class VoucherComponent implements OnInit {
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
+        return;
       } else if (activeId == 'voucher-date') {
         this.handleVoucherDateOnEnter();
         this.setFoucus('transaction-type-0');
@@ -425,6 +427,9 @@ export class VoucherComponent implements OnInit {
 
   handleAmountEnter(index) {
     index = parseInt(index);
+    if (this.voucher.amountDetails[index].details.length || confirm('Edit Cost Center?')) {
+      this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+    }
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
       this.setFoucus('narration');
       return;
@@ -773,6 +778,27 @@ export class VoucherComponent implements OnInit {
         }
       });
     }
+  }
+
+  handleCostCenterModal(amount, index) {
+    console.log('Indes:', index);
+    index = parseInt(index);
+    this.common.params = { amount, details: this.voucher.amountDetails[index].details };
+    const activeModal = this.modalService.open(VouchercostcenterComponent, { size: 'lg' });
+    activeModal.result.then(data => {
+      console.log('Modal res:', data);
+      if (data.response) {
+        this.voucher.amountDetails[index].details = data.amountDetails;
+      }
+      if (document.getElementById('transaction-type-' + (index + 1))) {
+        this.setFoucus('transaction-type-' + (index + 1));
+      } else {
+        this.setFoucus('narration');
+      }
+
+      console.log('Testiong', this.voucher.amountDetails[index]);
+    });
+
   }
 
 }
