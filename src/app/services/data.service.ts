@@ -123,6 +123,11 @@ export class DataService {
             icon: 'fas fa-ticket-alt',
             link: '/admin/ticket-properties',
           },
+          {
+            title: 'vehicle view',
+            icon: 'fa fa-chart-bar',
+            link: '/admin/vehicles-view',
+          },
 
           {
             title: 'Diagnostics',
@@ -145,6 +150,12 @@ export class DataService {
             title: 'Ticket Subscribe',
             icon: 'fas fa-info-circle',
             link: '/admin/ticket-subscribe',
+            home: true,
+          },
+          {
+            title: 'add-customer',
+            icon: 'fas fa-info-circle',
+            link: '/admin/add-customer',
             home: true,
           },
         ]
@@ -254,6 +265,7 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
+
 
 
 

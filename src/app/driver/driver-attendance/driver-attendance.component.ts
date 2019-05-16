@@ -104,7 +104,7 @@ export class DriverAttendanceComponent implements OnInit {
       })
     });
     formattedAttendances[0]['data'].map(attendance => {
-      this.table.data.headings[attendance.DATE.split(' ')[0]] = { placeholder: attendance.DATE.split(' ')[0] };
+      this.table.data.headings[attendance.DATE.split(' ')[0]] = { placeholder: this.common.changeDateformat1(attendance.DATE.split(' ')[0]) };
     });
 
     console.log('Group:', driverAttendanceGroups, formattedAttendances, this.table.data.headings);

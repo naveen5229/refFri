@@ -105,6 +105,7 @@ select {
 :host ::ng-deep.blue {
     color: blue;
     font-weight: 700;
+    cursor: pointer;
 }
 :host ::ng-deep.black {
     color: black;
