@@ -129,7 +129,8 @@ export class LedgersComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
-      bankname:ledger.bankname
+      bankname: ledger.bankname,
+      costcenter: ledger.costcenter
     };
 
     console.log('params11: ', params);
