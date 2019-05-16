@@ -339,7 +339,7 @@ export class DaybooksComponent implements OnInit {
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         this.getDayBook();
-        this.common.showToast('Voucher updated');
+        // this.common.showToast('Voucher updated');
 
       });
     }
