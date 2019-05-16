@@ -220,7 +220,7 @@ export class VehicleStatesComponent implements OnInit {
       this.mapService.createMarkers(detail, false, true, ["sd_loc_name"]);
       this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
       //this.mapService.createMarkers(this.location, false, false);
-      this.mapService.zoomMap(6);
+      this.mapService.zoomMap(9);
 
     }, 2000);
     console.log('site params', this.site);
@@ -363,6 +363,23 @@ export class VehicleStatesComponent implements OnInit {
         this.common.showError();
       })
   }
+
+  openSmartTool(i, vehicleEvents) {
+    this.vehicleEvent.forEach(vEvent => {
+      if (vEvent != vehicleEvents)
+        vEvent.isOpen = false;
+    });
+    vehicleEvents.isOpen = !vehicleEvents.isOpen;
+    this.zoomFunctionality(i, vehicleEvents);
+  }
+  zoomFunctionality(i, vehicleEvents) {
+    console.log("vehicleEvents", vehicleEvents);
+    let latLng = this.mapService.getLatLngValue(vehicleEvents);
+    let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
+    console.log("latlngggg", googleLatLng);
+    this.mapService.zoomAt(googleLatLng);
+  }
+
   closeModal() {
     this.activeModal.close();
   }

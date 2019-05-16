@@ -130,12 +130,14 @@
           <tr *ngIf="!vehicleEvent.length">
             <td colspan="3">Record not found</td>
           </tr>
-          <tr *ngFor="let data of vehicleEvent; let i=index;">
-            <td> <input type="radio" name="select" value="select" (change)="selectHalt(data)"></td>
-            <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)">
-              {{data.halt_reason}}</td>
-            <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)">
-              {{data.addtime | date : 'dd MMM HH:mm'}}</td>
+          <tr *ngFor="let Event of vehicleEvent; let i=index;">
+            <td> <input type="radio" name="select" value="select" (change)="selectHalt(Event)"></td>
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{Event.halt_reason}}</td>
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{Event.addtime | date : 'dd MMM HH:mm'}}</td>
           </tr>
         </tbody>
       </table>
@@ -150,6 +152,13 @@
         <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
       </div>
       <div class="map" id="map"></div>
+      <!-- <div class="time-line-event">
+        <div class="time-line-scale"></div>
+        <div *ngFor="let event of vehicleEvents; let i = index;" class="time-line-circle"
+          [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
+          (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()">
+        </div>
+      </div> -->
     </div>
 
 
