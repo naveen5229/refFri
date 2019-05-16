@@ -298,7 +298,7 @@ export class DaybooksComponent implements OnInit {
         this.setFoucus('vouchertype');
       } else if (this.activeId.includes('vouchertype')) {
         this.setFoucus('ledger');
-      } else if (this.activeId.includes('ledger')) {
+      } else if (this.activeId == 'ledger') {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
