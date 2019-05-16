@@ -76,6 +76,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/ledgers/0'
     },
     {
+        title: 'Cost Center Ledger',
+        icon: 'fas fa-building-o',
+        link: '/accounts/ledgers/2'
+    },
+    {
         title: 'Company-Branches',
         icon: 'fa fa-building-o',
         link: '/accounts/company-branches'
