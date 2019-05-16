@@ -143,7 +143,7 @@ export class TripDetailsComponent implements OnInit {
     let fromTime = trip._startdate;
     let toTime = trip._enddate;
     console.log("trip------", fromTime, toTime);
-    this.common.params = { vehicleId: trip.vehicle_id, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime };
+    this.common.params = { vehicleId: trip._vid, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime };
     this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
     this.modalService.open(VehicleReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
 
