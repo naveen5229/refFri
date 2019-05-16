@@ -8,7 +8,8 @@
 .time-line-event .time-line-scale{
     position: relative;
     width: 98%;
-    
+    margin-top:10px;
+    margin-left: 5px;
     border-bottom: 1px solid black;
     top: 4px;
 }
@@ -52,10 +53,55 @@ input[type=text] {
     outline: none;
     text-transform: capitalize;    
 }
+
 table{
-    tr{
-        th{
-            font-weight: 500;
-        }
-    }
+    margin: 0px;
 }
+.tbl{
+    overflow: auto;
+    height: 75vh;
+    display: block;
+    border: 0px;
+    margin: 0px;
+}
+.table table tbody tr {
+    height: 100%;
+    width: 100%;
+    max-width: 160px;
+}
+
+table {
+    thead {
+      background-color: #263238;
+      color: #fff;
+      display: table;
+      width: 100%;
+    }
+    tr {
+      th {
+        padding: 5px 10px;
+        font-weight: normal;
+        width: 150px !important;
+      }
+      td {
+        padding: 5px 10px !important;
+        font-size: 12px;
+        width: 150px !important;
+        word-break: break-all;
+      }
+      .go_btn{
+        width: 50px !important;
+      }
+    }
+    tbody {
+      display: table;
+      width: 100%;
+    }
+  }
+// table{
+//     tr{
+//         th{
+//             font-weight: 500;
+//         }
+//     }
+// }
