@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { AddFoComponent } from '../../modals/add-fo/add-fo.component';
 import { PullHistoryGPSDataComponent } from '../../modals/pull-history-gps-data/pull-history-gps-data.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
 @Component({
@@ -67,6 +68,7 @@ export class VehicleTyresComponent implements OnInit {
   getTyreDetails(tyreDetails, index) {
     this.vehicleTyres[index].tyreId = tyreDetails.id;
     this.vehicleTyres[index].tyreNo = tyreDetails.tyrenum;
+    this.getTyreCurrentStatus(this.vehicleTyres[index].tyreId, index)
   }
   getvehicleData(vehicleDetails) {
     this.vehicleId = vehicleDetails.id;
@@ -134,4 +136,44 @@ export class VehicleTyresComponent implements OnInit {
 
   }
 
+  getTyreCurrentStatus(tyreId, index) {
+    console.log("vehicle Id ---", this.vehicleId, "tyre====", tyreId);
+    if (!this.vehicleId || !tyreId) {
+      alert("Vehicle id and Tyre Id is Mandatory");
+    } else {
+      let alertMsg;
+      let params = 'tyreId=' + tyreId;
+      console.log("params ", params);
+      this.api.get('Tyres/getTyreCurrentStatus?' + params)
+        .subscribe(res => {
+          console.log('Res: ', res['data']);
+          if (res['data'][0].rtn_id > 0) {
+            alertMsg = res['data'][0].rtn_msg
+            this.openConrirmationAlert(alertMsg, index);
+          }
+
+        }, err => {
+          console.error(err);
+          this.common.showError();
+        });
+    }
+  }
+  openConrirmationAlert(alertMsg, index) {
+    this.common.params = {
+      title: "Current Postion Of Tyre",
+      description: alertMsg + " Do you want to change ?"
+    }
+    const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (!data.response) {
+        this.vehicleTyres[index].tyreId = null;
+        this.vehicleTyres[index].tyreNo = null;
+        // console.log("data", document.getElementById('tyreNo-' + index), document.getElementById('tyreNo-' + index).innerHTML);
+
+        (<HTMLInputElement>document.getElementById('tyreNo-' + index)).value = '';
+      }
+    });
+  }
 }
+
+
