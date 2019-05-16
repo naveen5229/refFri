@@ -13,6 +13,7 @@ declare var google: any;
 
 export class LocationSelectionComponent implements OnInit {
   title = '';
+  placeholder = '';
   map: any;
   @ViewChild('map') mapElement: ElementRef;
 
@@ -31,7 +32,17 @@ export class LocationSelectionComponent implements OnInit {
     public common: CommonService,
     private activeModal: NgbActiveModal,
     private zone: NgZone) {
-    this.title = 'Vehicle Location';
+    // this.title = 'Vehicle Location';
+    this.title = this.common.params.title || 'Vehicle Location';
+    this.placeholder = this.common.params.placeholder || 'Enter Drop Location';
+    // if (this.common.params.title || this.common.params.placeholder) {
+    //   this.title = this.common.params.title;
+    //   this.placeholder = this.common.params.placeholder;
+    // } else {
+    //   this.title = 'vehicle Location';
+    //   this.placeholder = 'Enter Drop Location';
+    // }
+
   }
 
   ngOnInit() {
@@ -40,7 +51,7 @@ export class LocationSelectionComponent implements OnInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      if (this.common.params['location'].lat) {
+      if (this.common.params['location']) {
         this.location = this.common.params['location'];
         this.loadMap(this.location.lat, this.location.lng);
       } else {

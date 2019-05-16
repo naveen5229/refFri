@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
+import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
 
 @Component({
   selector: 'inventory',
@@ -159,7 +160,7 @@ export class InventoryComponent implements OnInit {
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("sucess");
         } else {
-          this.common.showToast(res['data'][0].rtn_msg);
+          this.common.showError(res['data'][0].rtn_msg);
         }
         //this.searchData();
       }, err => {
