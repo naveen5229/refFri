@@ -46,6 +46,7 @@ export class LedgerComponent implements OnInit {
     deleteview: 0,
     delete: 0,
     bankname: '',
+    costcenter: 0,
     accDetails: [{
       id: '',
       salutation: {
@@ -110,6 +111,7 @@ export class LedgerComponent implements OnInit {
         openingbalance: this.common.params.ledgerdata[0].opening_balance,
         approved: (this.common.params.ledgerdata[0].y_for_approved == true) ? 1 : 0,
         deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1 : 0,
+        costcenter: (this.common.params.ledgerdata[0].is_constcenterallow == true) ? 1 : 0,
         delete: 0,
         accDetails: []
       };
@@ -393,7 +395,7 @@ export class LedgerComponent implements OnInit {
       // console.log('Active jj: ', activeId.includes('aliasname'));
 
       if (activeId.includes('branchcode')) {
-        this.setFoucus('creditdays');
+        this.setFoucus('accnumber');
       } else if (activeId == 'name') {
         this.setFoucus('aliasname');
       } else if (activeId == 'aliasname') {
@@ -405,22 +407,26 @@ export class LedgerComponent implements OnInit {
       } else if (activeId.includes('openingbalance')) {
         this.setFoucus('openingisdr');
       } else if (activeId.includes('openingisdr')) {
-        this.setFoucus('accnumber');
+        this.setFoucus('creditdays');
       } else if (activeId.includes('branchname')) {
         this.setFoucus('branchcode');
       } else if (activeId.includes('accnumber')) {
-        this.setFoucus('isbank');
-      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 0)) {
-        this.setFoucus('salutation-0');
-      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 1)) {
-        this.setFoucus('branchname');
-      } else if (activeId.includes('creditdays')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         this.setFoucus('salutation-0');
+      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 0)) {
+        this.setFoucus('salutation-0');
+      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 1)) {
+        this.setFoucus('bankname');
+      } else if (activeId.includes('bankname')) {
+        this.setFoucus('branchname');
+      } else if (activeId.includes('creditdays')) {
+        this.setFoucus('costcenter');
+      } else if (activeId.includes('costcenter')) {
+        this.setFoucus('isbank');
       } else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
