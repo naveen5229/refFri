@@ -52,15 +52,15 @@
     </div>
   </nb-card-body>
 </nb-card>
-
-<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+<!-- 
+<div class="date-modal" (keydown)="keyHandler($event)">
   <div class="date-modal-body">
     <div>
       <input type="text" class="form-control" name="voucher-date-f2" id="cost-voucher-date-f2"
         [(ngModel)]="voucher.date" maxlength="10">
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="date-modal" *ngIf="showConfirm" (keydown)="keyHandler($event)">
   <div class="date-modal-body data_model_save">
