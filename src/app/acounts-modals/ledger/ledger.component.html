@@ -84,6 +84,26 @@
           </div>
           <div class="row">
             <div class="form-group">
+              <div class="col-md-2 text-center">
+                <label>Credit Days</label>
+              </div>
+              <div class="col-md-4">
+                <input type="number" class="form-control" name="creditdays" ng-maxlength="3"
+                  placeholder="Please Enter Credit Days" [(ngModel)]="Accounts.creditdays" id="creditdays">
+              </div>
+              <div class="col-md-2 text-center">
+                <label>Is Cost Center Applicable</label>
+              </div>
+              <div class="col-md-4">
+                <input type="radio" class="form-control" name="branchcode" id="costcenter"
+                  [(ngModel)]="Accounts.costcenter" [value]=1> <span>Yes</span>
+                <input type="radio" class="form-control" name="branchcode" id="costcenter1"
+                  [(ngModel)]="Accounts.costcenter" [value]=0> <span>No</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
 
               <div class="col-md-2 text-center">
                 <label>Is Bank</label>
@@ -93,12 +113,14 @@
                   [(ngModel)]="Accounts.isbank" [value]=0 (ngModelChange)="changeevent(Accounts.isbank)">
               </div>
               <div class="col-md-2 text-center" *ngIf="Accounts.isbank == 1">
-                <label>A/c Number</label>
+                <label>Bank Name</label>
               </div>
               <div class="col-md-4" *ngIf="Accounts.isbank == 1">
-                <input type="text" class="form-control" name="accnumber" id="accnumber" [(ngModel)]="Accounts.accnumber"
-                  placeholder="Please Enter A/c Number">
+                <input type="text" class="form-control" name="bankname" placeholder="Please Enter Bank Name"
+                  id="bankname" [(ngModel)]="Accounts.bankname">
               </div>
+
+
             </div>
           </div>
           <div class="row" *ngIf="Accounts.isbank == 1">
@@ -122,20 +144,14 @@
           </div>
           <div class="row" *ngIf="Accounts.isbank == 1">
             <div class="form-group">
-              <div class="col-md-2 text-center">
-                <label>Credit Days</label>
+              <div class="col-md-2 text-center" *ngIf="Accounts.isbank == 1">
+                <label>A/c Number</label>
               </div>
-              <div class="col-md-4">
-                <input type="number" class="form-control" name="creditdays" ng-maxlength="3"
-                  placeholder="Please Enter Credit Days" [(ngModel)]="Accounts.creditdays" id="creditdays">
+              <div class="col-md-4" *ngIf="Accounts.isbank == 1">
+                <input type="text" class="form-control" name="accnumber" id="accnumber" [(ngModel)]="Accounts.accnumber"
+                  placeholder="Please Enter A/c Number">
               </div>
-              <div class="col-md-2 text-center">
-                <label>Bank Name</label>
-              </div>
-              <div class="col-md-4">
-                <input type="text" class="form-control" name="branchcode" placeholder="Please Enter Branch Code"
-                  id="branchcode" [(ngModel)]="Accounts.bankname">
-              </div>
+
             </div>
           </div>
           <div class="row" *ngIf="(this.common.params)">

@@ -380,7 +380,6 @@ export class AddDocumentComponent implements OnInit {
     };
     console.log("Params:", params);
     this.common.loading++;
-
     this.api.post('vehicles/saveIgnoreVehicleDocument', params)
       .subscribe(res => {
         this.common.loading--;

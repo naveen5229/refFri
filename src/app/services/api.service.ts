@@ -11,11 +11,17 @@ import { AccountService } from './account.service';
 export class ApiService {
   // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   // URL: string = 'http://elogist.in/testservices/'; // prod Server
+<<<<<<< HEAD
   //URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.113/transtruck/booster_webservices/'; // Pawan
+=======
+  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  // URL: string = 'http://localhost/transtruck/booster_webservices/';
+  // URL: string = 'http://192.168.0.180/booster_webservices/'; // Pawan
+>>>>>>> 2068a583c3a3e2473a0aaa6a8ba2f8c4ae5609f9
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
-  // URL: string = 'http://localhost/booster_webservices/'; // sachin
+  //  URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
 
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
@@ -76,7 +82,7 @@ export class ApiService {
       if (subURL.includes('?')) {
         subURL += '&branch=' + this.accountService.selected.branch;
       } else {
-        subURL += '?branch=' + this.accountService.selected.branch;
+        subURL += '?branch=' +this.accountService.selected.branch;
       }
     };
 

@@ -12,10 +12,22 @@
 
         <div class="col-4">
           <div class="form-group">
+            <label>Parent Name</label>
+            <input autocomplete="off" type="text" class="form-control" name="account" id="account"
+              [(ngModel)]="Accounts.parentName">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
             <label>Name</label>
             <input autocomplete="off" type="text" class="form-control" name="account-name" id="name"
               [(ngModel)]="Accounts.name">
           </div>
+        </div>
+        <div class="col-4">
+          <auto-suggetion-in-side *ngIf="autoSuggestion.data.length" [data]="autoSuggestion.data"
+            [targetId]="autoSuggestion.targetId" [display]="autoSuggestion.display"
+            (select)="onSelect($event, autoSuggestion.targetId)"></auto-suggetion-in-side>
         </div>
 
       </div>

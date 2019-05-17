@@ -57,10 +57,10 @@ export class VehicleReportComponent implements OnInit {
 
     }
     else {
-      console.log(this.common.params.fromTime);
-      console.log(this.common.params.toTime);
-      this.startDate = this.common.dateFormatter(this.common.params.fromTime);
-      this.endDate = this.common.dateFormatter(this.common.params.toTime);
+      console.log('fromTime', new Date(this.common.params.fromTime));
+      console.log('totime', new Date(this.common.params.toTime));
+      this.startDate = new Date(this.common.params.fromTime);
+      this.endDate = new Date(this.common.params.toTime);
       console.log("fromTime", this.startDate);
       console.log("endDate", this.endDate);
     }
@@ -80,11 +80,12 @@ export class VehicleReportComponent implements OnInit {
 
 
   getVehicleReport() {
-
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
     let params = {
       vehicleId: this.vid,
-      startDate: this.common.dateFormatter(this.startDate),
-      endDate: this.common.dateFormatter(this.endDate),
+      startDate: startDate,
+      endDate: endDate,
     };
 
     this.common.loading++;

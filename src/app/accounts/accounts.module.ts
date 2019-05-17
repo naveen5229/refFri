@@ -32,6 +32,7 @@ import { TradingComponent } from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
+import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -73,7 +74,8 @@ const PAGES_COMPONENTS = [
     TradingComponent,
     OpeningstockComponent,
     TrialbalanceComponent,
-    CostcenterComponent
+    CostcenterComponent,
+    CostCenterReportComponent
     //StockSubtypeComponent
   ],
 })

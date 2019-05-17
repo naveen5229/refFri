@@ -1,22 +1,19 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
+import { ApiService } from '../../services/api.service';
+import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from '../../@core/data/users.service';
+import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
-import { OrderComponent } from '../../acounts-modals/order/order.component';
-import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'daybooks',
-  templateUrl: './daybooks.component.html',
-  styleUrls: ['./daybooks.component.scss']
+  selector: 'cost-center-report',
+  templateUrl: './cost-center-report.component.html',
+  styleUrls: ['./cost-center-report.component.scss']
 })
-export class DaybooksComponent implements OnInit {
+export class CostCenterReportComponent implements OnInit {
   selectedName = '';
-  activedateid = '';
   DayBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -35,17 +32,21 @@ export class DaybooksComponent implements OnInit {
     issumrise: 'true'
 
   };
-  lastActiveId = '';
-  showDateModal = false;
   vouchertypedata = [];
   branchdata = [];
   DayData = [];
   ledgerData = [];
-  activeId = 'vouchertype';
+  activeId = 'startdate';
   selectedRow = -1;
   allowBackspace = true;
-  deletedId = 0;
+
+
   f2Date = 'startdate';
+  lastActiveId = '';
+  showDateModal = false;
+  activedateid = '';
+
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -53,109 +54,56 @@ export class DaybooksComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    private route: ActivatedRoute,
     public user: UserService,
-    public modalService: NgbModal,
-    public router: Router) {
+    public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
-    this.getVoucherTypeList();
-    //  this.getBranchList();
-    this.getAllLedger();
-    this.setFoucus('vouchertype');
-    this.common.currentPage = 'Day Book';
 
-    this.route.params.subscribe(params => {
-      console.log('Params1: ', params);
-      if (params.id) {
-        this.deletedId = parseInt(params.id);
-        // this.GetLedger();
-      }
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    });
+    this.getAllLedger();
+    this.setFoucus('startdate');
+    this.common.currentPage = 'CostCenter-Report';
+
+
 
   }
 
   ngOnInit() {
   }
-  refresh() {
-    this.getVoucherTypeList();
-    this.getBranchList();
-    this.getAllLedger();
-    this.setFoucus('vouchertype');
-  }
 
   ngAfterViewInit() {
 
   }
-
-  getVoucherTypeList() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetVouchertypeList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.vouchertypedata = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
+  refresh() {
+    this.getAllLedger();
+    this.setFoucus('startdate');
   }
-  getBranchList() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetBranchList', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
-        this.branchdata = res['data'];
-      }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
 
-  }
+
+
   openinvoicemodel(invoiceid) {
-    // console.log('welcome to invoice ');
-    //  this.common.params = invoiceid;
-    this.common.params = {
-      invoiceid: invoiceid,
-      delete: this.deletedId
-    };
+    this.common.params = invoiceid;
     const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
       if (data.response) {
         console.log('open succesfull');
 
-        // this.addLedger(data.ledger);
       }
     });
   }
 
+
+
   getAllLedger() {
-    let params = {
-      search: 123
-    };
-    this.common.loading++;
-    this.api.post('Suggestion/GetAllLedger', params)
+    let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-3) + '&search=' + 'test';
+    console.log('URL: ', url);
+    this.api.get(url)
       .subscribe(res => {
-        this.common.loading--;
-        console.log('Res:', res['data']);
+        console.log(res);
         this.ledgerData = res['data'];
       }, err => {
-        this.common.loading--;
-        console.log('Error: ', err);
+        console.error(err);
         this.common.showError();
       });
-
+    this.setFoucus('ref-code');
   }
   getDayBook() {
     console.log('Accounts:', this.DayBook);
@@ -165,11 +113,10 @@ export class DaybooksComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-      delete: this.deletedId
     };
 
     this.common.loading++;
-    this.api.post('Company/GetDayBook', params)
+    this.api.post('Company/GetCashBook', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
@@ -197,11 +144,10 @@ export class DaybooksComponent implements OnInit {
 
   onSelected(selectedData, type, display) {
     this.DayBook[type].name = selectedData[display];
-    this.DayBook[type].id = selectedData.id;
+    this.DayBook[type].id = selectedData.y_ledger_id;
     console.log('Selected Data: ', selectedData, type, display);
     console.log('order User: ', this.DayBook);
   }
-
   handleVoucherDateOnEnter(iddate) {
     let dateArray = [];
     let separator = '-';
@@ -268,9 +214,10 @@ export class DaybooksComponent implements OnInit {
     console.log('Active event', event, this.activeId);
     if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_voucherid);
+      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
       return;
     }
+
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
@@ -291,16 +238,9 @@ export class DaybooksComponent implements OnInit {
       return;
     }
 
-
     if (key == 'enter') {
       this.allowBackspace = true;
-      if (this.activeId.includes('branch')) {
-        this.setFoucus('vouchertype');
-      } else if (this.activeId.includes('vouchertype')) {
-        this.setFoucus('ledger');
-      } else if (this.activeId == 'ledger') {
-        this.setFoucus('startdate');
-      } else if (this.activeId.includes('startdate')) {
+      if (this.activeId.includes('startdate')) {
         this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
         this.setFoucus('enddate');
       } else if (this.activeId.includes('enddate')) {
@@ -312,13 +252,12 @@ export class DaybooksComponent implements OnInit {
       event.preventDefault();
       console.log('active 1', this.activeId);
       if (this.activeId == 'enddate') this.setFoucus('startdate');
-      if (this.activeId == 'startdate') this.setFoucus('ledger');
-      if (this.activeId == 'ledger') this.setFoucus('vouchertype');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
+
     else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
@@ -327,38 +266,16 @@ export class DaybooksComponent implements OnInit {
     }
   }
 
-
-  openVoucherEdit(voucherId) {
-    console.log('ledger123', voucherId);
-    if (voucherId) {
-      this.common.params = {
-        voucherId: voucherId,
-        delete: this.deletedId
-      };
-      const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        this.getDayBook();
-        // this.common.showToast('Voucher updated');
-
-      });
-    }
-  }
-
-
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);
       element.focus();
-      // this.moveCursor(element, 0, element['value'].length);
-      // if (isSetLastActive) this.lastActiveId = id;
-      // console.log('last active id: ', this.lastActiveId);
+
     }, 100);
   }
 
   test(e) {
     console.log('--------: ', e);
   }
-
 }
