@@ -12,7 +12,7 @@ export class CostCentersComponent implements OnInit {
   showConfirm = false;
   Accounts = {
     parentName: 'is Primary',
-    parentId: '',
+    parentId: 0,
     xid: 0,
     name: '',
   };
