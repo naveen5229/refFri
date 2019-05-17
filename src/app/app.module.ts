@@ -273,6 +273,7 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     CostCentersComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
+    CostCenterViewComponent
 
   ],
   entryComponents: [
@@ -386,6 +387,7 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     CostCentersComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
+    CostCenterViewComponent
   ],
   imports: [
     BrowserModule,
