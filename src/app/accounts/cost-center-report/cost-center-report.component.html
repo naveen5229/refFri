@@ -36,40 +36,21 @@
     <table class="table table-bordered" id="table">
       <thead style="background-color:#263238; color:#fff;">
         <tr>
-          <th>Ledger</th>
-          <th>Opening Balance</th>
+          <th>Cost Category</th>
+
           <th>Amount(Debit)</th>
           <th>Amount(Credit)</th>
           <th>Closing Balance</th>
         </tr>
       </thead>
-      <!-- <tr *ngFor="let dataItem of TrialData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(dataItem.y_ledgerid)"
-        (enter)="getBookDetail(dataItem.y_ledgerid) " [ngClass]="{'highlight' : selectedRow == i}">
-        <td>{{i + 1}}</td>
-        <td>{{dataItem.groupname}}</td>
-        <td>{{dataItem.y_ledger_name}}</td>
-        <td *ngIf="dataItem.y_dr_bal != 0">{{dataItem.y_dr_bal}}</td>
-        <td *ngIf="dataItem.y_dr_bal == 0">&nbsp;</td>
-        <td *ngIf="dataItem.y_cr_bal != 0">{{dataItem.y_cr_bal}}</td>
-        <td *ngIf="dataItem.y_cr_bal == 0">&nbsp;</td>
 
-        <td *ngIf="dataItem.y_openbal == 0">&nbsp;</td>
-        <td *ngIf="dataItem.y_openbal != 0">{{dataItem.y_openbal}} <span style="float:right">
-            {{dataItem.y_openbaltype}}</span></td>
-        <td *ngIf="dataItem.y_closebal != 0">{{dataItem.y_closebal}} <span
-            style="float:right">{{dataItem.y_closebaltype}}</span></td>
-        <td *ngIf="dataItem.y_closebal == 0">&nbsp;</td>
-
-      </tr> -->
 
       <tbody *ngFor="let dataItem of trialBalanceData; let i = index;">
         <tr style="background: #184154; color: #fff">
           <td>{{dataItem.name}}</td>
 
-          <td *ngIf="dataItem.totalopening == 0"></td>
-          <td style="text-align:right;" *ngIf="dataItem.totalopening != 0">{{dataItem.totalopening}} <span>
-              {{dataItem.y_openbaltype}}</span></td>
+          <td style="text-align:right;" *ngIf="dataItem.totalopening != 0">{{dataItem.y_opn_amt}} <span>
+              {{dataItem.y_opn_amt}}</span></td>
 
           <td *ngIf="dataItem.totaldr != 0">{{dataItem.totaldr}}</td>
           <td *ngIf="dataItem.totaldr == 0"></td>
@@ -78,26 +59,24 @@
           <td *ngIf="dataItem.totalcr == 0"></td>
 
           <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0"><b>{{dataItem.totalclosing}}</b>
-            <span>{{dataItem.y_closebaltype}}</span></td>
+            <span>{{dataItem.y_close_amt}}</span></td>
           <td *ngIf="dataItem.totalclosing == 0"></td>
         </tr>
         <tr *ngFor="let trialdata of dataItem.traildatas; let j = index" (click)="selectedRow =  '' + i + j"
-          (dblclick)="(trialdata.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialdata.y_ledgerid)"
-          [ngClass]="{'highlight' : selectedRow == '' + i + j }" style="background: #dadfe6;">
+          (dblclick)="getBookDetail(trialdata.y_costcenter_id)" [ngClass]="{'highlight' : selectedRow == '' + i + j }"
+          style="background: #dadfe6;">
 
-          <td>{{trialdata.y_ledger_name}}</td>
+          <td>{{trialdata.y_costcentername}}</td>
 
           <td *ngIf="trialdata.y_openbal == 0"></td>
-          <td *ngIf="trialdata.y_openbal != 0"><span
-              style="width:100px; display: block; text-align:right;">{{trialdata.y_openbal}}
-              {{trialdata.y_openbaltype}}</span></td>
-          <td *ngIf="trialdata.y_dr_bal != 0">{{trialdata.y_dr_bal}}</td>
+
+          <td *ngIf="trialdata.y_dr_bal != 0">{{trialdata.y_dr_amt}}</td>
           <td *ngIf="trialdata.y_dr_bal == 0"></td>
-          <td *ngIf="trialdata.y_cr_bal != 0">{{trialdata.y_cr_bal}}</td>
+          <td *ngIf="trialdata.y_cr_bal != 0">{{trialdata.y_cr_amt}}</td>
           <td *ngIf="trialdata.y_cr_bal == 0"></td>
           <td *ngIf="trialdata.y_closebal != 0">
             <span
-              style="width:100px; display: block; text-align:right;"><b>{{trialdata.y_closebal}}</b>{{trialdata.y_closebaltype}}</span>
+              style="width:100px; display: block; text-align:right;"><b>{{trialdata.y_close_amt}}</b>{{trialdata.y_closebaltype}}</span>
           </td>
           <td *ngIf="trialdata.y_closebal == 0"></td>
         </tr>
