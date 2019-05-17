@@ -86,6 +86,7 @@ export class VehicleTripComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res['data']);
+        this.vehicleId = -1;
         // this.vehicleTrips = res['data'];
         //this.vehicleTrips = JSON.parse(res['data']);
         this.vehicleTrips = res['data'];
