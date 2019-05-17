@@ -12,7 +12,7 @@ import { CsvErrorReportComponent } from '../../modals/csv-error-report/csv-error
   styleUrls: ['./import-fillings.component.scss', '../../pages/pages.component.css']
 })
 export class ImportFillingsComponent implements OnInit {
-  // isFuelFlag = false;
+  isFuelFlag = false;
   fuel_station_id = 0;
   fuel_station_name = '';
   foid = 0;
@@ -36,20 +36,13 @@ export class ImportFillingsComponent implements OnInit {
   ngOnInit() {
   }
 
-  checkFuelFalg(isFuelFlag) {
+  checkFuelFlag(isFuelFlag) {
     console.log("isFuelFlag ", isFuelFlag)
-    if (isFuelFlag == false) {
-      this.fuel_station_id = -1;
-      this.fuel_station_name = 'null';
-
-    } else {
-      this.fuel_station_name = '';
-
-    }
+    isFuelFlag ? this.getStnData(null, true) : this.getStnData({ name: null, id: null });
   }
-  getStnData(station) {
-    this.fuel_station_id = station.id;
-    this.fuel_station_name = station.name;
+  getStnData(station, isNull = false) {
+    this.fuel_station_id = isNull ? -1 : station.id;
+    this.fuel_station_name = isNull ? "Null" : station.name;
   }
 
   getFoData(fodata) {

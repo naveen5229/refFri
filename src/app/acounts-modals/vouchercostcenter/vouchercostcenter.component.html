@@ -16,7 +16,7 @@
             <div class="col-12">
               <table class="table table-bordered">
                 <tr style="background: #263238; color: #fff;">
-                  <th>Ledger</th>
+                  <th>Cost Category</th>
                   <th>Amount</th>
                 </tr>
                 <tr *ngFor="let amountDetail of amountDetails; let i = index;" style="background: #e4e4e4;">
@@ -36,7 +36,6 @@
             </div>
           </div>
         </div>
-
         <div class="col-3">
           <div class="ledger-container" id="cost-ledger-container">
             <div *ngFor="let ledger of getActiveLedgerType(ledgers); let i = index;" class="ledger-option"
@@ -47,6 +46,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="modal-footer text-right">
       <button class="btn btn-danger" type="button" outline (click)="dismiss(false)" id="cost-cancel"
