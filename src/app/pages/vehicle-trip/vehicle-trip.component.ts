@@ -86,6 +86,7 @@ export class VehicleTripComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log('Res:', res['data']);
+        this.vehicleId = -1;
         // this.vehicleTrips = res['data'];
         //this.vehicleTrips = JSON.parse(res['data']);
         this.vehicleTrips = res['data'];
@@ -236,8 +237,8 @@ export class VehicleTripComponent implements OnInit {
   }
 
 
-  openRouteMapper(kpi) {
-    console.log("----kpi----", kpi);
+  openRouteMapper(trip) {
+    console.log("----trip----", trip);
     let today, startday, fromDate;
     today = new Date();
     startday = new Date(today.setDate(today.getDate() - 2));
@@ -246,10 +247,10 @@ export class VehicleTripComponent implements OnInit {
     let toTime = this.common.dateFormatter(new Date());
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
-      vehicleId: kpi.vehicle_id,
-      vehicleRegNo: kpi.regno,
-      fromTime: kpi.start_time || fromTime,
-      toTime: kpi.end_time || toTime
+      vehicleId: trip._vid,
+      vehicleRegNo: trip.Vehicle,
+      fromTime: trip._startdate || fromTime,
+      toTime: trip._enddate || toTime
     };
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {

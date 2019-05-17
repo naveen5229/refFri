@@ -27,7 +27,8 @@
             <td>{{data.name}}</td>
             <td>{{data.alias_name}}</td>
             <td *ngIf="deletedId !=2 ">{{data.is_constcenterallow}}</td>
-            <td *ngIf="deletedId ==2 "> <input type="checkbox" [value]='data.is_constcenterallow' /></td>
+            <td *ngIf="deletedId ==2 "> <input type="checkbox" [value]='data.is_constcenterallow'
+                [(ngModel)]="data.is_constcenterallow" (change)="updateLedgerCostCenter($event,data.id)" /></td>
             <td>{{data.entry_dt | date : 'dd-MMM-yy'}}</td>
             <!-- <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td> -->
           </tr>

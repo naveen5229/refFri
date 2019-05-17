@@ -60,26 +60,26 @@
             <input type="text" class="form-control" [(ngModel)]="vehicleTyre.details" placeholder="Details">
 
           </td>
-          <td>
+
+          <td *ngIf="i == 0">
+            <i class="fa fa-plus add" (click)="addMore()"></i>
+          <td *ngIf="i !== 0">
+            <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
+          </td>
+          <!-- <td>
+
             <span *ngIf="i == vehicleTyres.length-1">
               <i class="fa fa-plus add" (click)="addMore()"></i>
-              <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
             </span>
-          </td>
+            <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
+
+          </td> -->
         </tr>
       </tbody>
     </table>
-    <div class="row">
-      <div class="col-9">
-        <div class="submit_button">
-          <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails"
-            style="cursor: pointer;margin-top:10px;">Save</button>
-        </div>
-      </div>
-      <div class="col-3 text-right">
-        <button type="submit" id="submit" class="btn btn-primary" (click)="submitted1()">ADD</button>
-        <button type="submit" id="submit" class="btn btn-primary mr-0" (click)="submitted2()">ADD1</button>
-      </div>
+    <div class="submit_button">
+      <button class="btn btn-primary" type="button" outline (click)="saveDetails()" id="saveDetails"
+        style="cursor: pointer;margin-top:10px;">Save</button>
     </div>
 
 
@@ -90,7 +90,7 @@
           <th>TyreNo.</th>
           <th>Mapping Date</th>
           <th>KMs</th>
-
+          <th>Details</th>
         </tr>
       </thead>
       <tbody>
@@ -98,8 +98,8 @@
           <td>{{i+1}}</td>
           <td>{{mappedTyre.r_tyreno}}</td>
           <td>{{mappedTyre.r_dttime}}</td>
-          <td>{{mappedTyre.kms}}</td>
-
+          <td>{{mappedTyre.r_kms}}</td>
+          <td>{{mappedTyre.r_details}}</td>
         </tr>
       </tbody>
     </table>
