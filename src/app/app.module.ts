@@ -153,6 +153,7 @@ import { AddFoComponent } from './modals/add-fo/add-fo.component';
 import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
 import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
 import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
+import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/error-coomon-vehicles.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -268,6 +269,7 @@ import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers
     PullHistoryGPSDataComponent,
     OdoMeterComponent,
     CostCentersComponent,
+    ErrorCoomonVehiclesComponent,
 
   ],
   entryComponents: [
@@ -378,7 +380,8 @@ import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers
     AddFoComponent,
     PullHistoryGPSDataComponent,
     OdoMeterComponent,
-    CostCentersComponent
+    CostCentersComponent,
+    ErrorCoomonVehiclesComponent,
   ],
   imports: [
     BrowserModule,
