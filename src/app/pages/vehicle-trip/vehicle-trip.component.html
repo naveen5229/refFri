@@ -8,8 +8,10 @@
         <button class="btn btn-primary m-0" (click)="openAddTripModal()">Add Trip</button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-3">
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row mb-3">
+      <div class="col-3">
         <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
           placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
       </div>
@@ -26,8 +28,6 @@
           style="margin:0px;border:0px;">OK</button>
       </div>
     </div>
-  </nb-card-header>
-  <nb-card-body>
     <smart-table *ngIf="vehicleTrips.length" [data]="table.data" [settings]="table.settings"></smart-table>
     <br>
   </nb-card-body>

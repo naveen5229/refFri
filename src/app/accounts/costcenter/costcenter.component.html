@@ -9,6 +9,7 @@
         <thead style="background-color: #263238; color: #fff; white-space: nowrap;">
           <tr>
             <th>#</th>
+            <th>parent Name</th>
             <th>Name</th>
             <th>Date</th>
             <th>Action</th>
@@ -19,6 +20,7 @@
             (dblclick)="openAccountModal(Account)" (enter)="openAccountModal(Account)"
             [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
+            <td>{{Account.parente_name}}</td>
             <td>{{Account.name}}</td>
             <td>{{Account.entry_dt | date : 'dd-MMM-yy'}}</td>
             <td class="del">

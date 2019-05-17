@@ -251,7 +251,8 @@ export class VouchersComponent implements OnInit {
       transactionType: type,
       ledger: {
         name: '',
-        id: ''
+        id: '',
+        is_constcenterallow: false
       },
       amount: amount,
       details: []
@@ -303,8 +304,10 @@ export class VouchersComponent implements OnInit {
 
     if (key == 'enter') {
       if (document.activeElement.id.includes('amount-')) {
-        if (this.accountService.selected.branch.is_constcenterallow == true && confirm('Are you sure want to cost center entry?')) {
-          console.log('test rest successfull', this.accountService.selected.branch.is_constcenterallow);
+        let index = activeId.split('-')[1];
+        console.log('test rest successfull', this.voucher.amountDetails[index].ledger.is_constcenterallow);
+        if (this.voucher.amountDetails[index].ledger.is_constcenterallow == true && confirm('Are you sure want to cost center entry?')) {
+          // console.log('test rest successfull', this.voucher.amountDetails[index].is_constcenterallow);
           let index = activeId.split('-')[1];
           console.log('Inde:', index);
           console.log('Amount:', this.voucher.amountDetails[index].amount);
@@ -325,15 +328,17 @@ export class VouchersComponent implements OnInit {
         if (this.activeLedgerIndex > this.ledgers.suggestions.length - 1) {
           this.activeLedgerIndex = 0;
         }
-        console.log('Test: ', index, this.ledgers, this.ledgers.suggestions[0]);
+        //   console.log('Test: ', index, this.ledgers, this.ledgers.suggestions[0]);
         this.selectLedger(this.ledgers.suggestions[this.activeLedgerIndex !== -1 ? this.activeLedgerIndex : 0], index);
-        console.log('hello dear', this.voucher.amountDetails[index].transactionType);
+        // console.log('hello dear', this.voucher.amountDetails[index].transactionType);
         if ((this.voucherId == '-1' || this.voucherId == '-3') && (this.voucher.amountDetails[index].transactionType == 'credit')) {
           this.getCurrentBalance(this.voucher.amountDetails[index].ledger.id);
         }
+        console.log('test rest successfull', this.voucher.amountDetails[index].is_constcenterallow);
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
+
       } else if (activeId == 'voucher-date') {
         this.handleVoucherDateOnEnter();
         this.setFoucus('transaction-type-0');
@@ -481,6 +486,10 @@ export class VouchersComponent implements OnInit {
     }
     this.voucher.amountDetails[index].ledger.name = ledger.y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = ledger.y_ledger_id;
+    this.voucher.amountDetails[index].ledger.is_constcenterallow = ledger.is_constcenterallow;
+
+    // console.log('Last Active ID:', ledger.is_constcenterallow, this.voucher.amountDetails[index].ledger.is_constcenterallow);
+
   }
 
   handleVoucherDateOnEnter() {

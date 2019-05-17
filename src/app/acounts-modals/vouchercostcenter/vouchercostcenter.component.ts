@@ -39,6 +39,7 @@ export class VouchercostcenterComponent implements OnInit {
     public modalService: NgbModal,
     public accountService: AccountService,
     private activeModal: NgbActiveModal) {
+    console.log('Params: ', this.common.params);
     this.mainAmount = this.common.params.amount;
     if (this.common.params.details.length) {
       this.amountDetails = JSON.parse(JSON.stringify(this.common.params.details));

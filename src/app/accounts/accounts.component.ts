@@ -26,8 +26,10 @@ export class AccountsComponent {
       this.router.navigate(['/pages']);
       return;
     }
-    this.getBranches();
-    this.getFinancial();
+    if (!this.accountService.branches.length) {
+      this.getBranches();
+      this.getFinancial();
+    }
   }
 
   getBranches() {
