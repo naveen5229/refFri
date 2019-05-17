@@ -66,7 +66,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/account'
     },
     {
-        title: 'Cost Center',
+        title: 'Cost Category',
         icon: 'fa fa-university',
         link: '/accounts/costcenter'
     },
@@ -76,7 +76,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/ledgers/0'
     },
     {
-        title: 'Cost Center Ledger',
+        title: 'Cost Category-Ledger',
         icon: 'fas fa-building-o',
         link: '/accounts/ledgers/2'
     },
