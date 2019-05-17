@@ -68,8 +68,10 @@ export class TripDetailsComponent implements OnInit {
       "&startDate=" + startDate +
       "&endDate=" + endDate;
     console.log(params)
+    this.common.loading++;
     this.api.get('TripsOperation/getTrips?' + params)
       .subscribe(res => {
+        this.common.loading--;
         console.log('Res: ', res['data']);
         this.trips = res['data'];
         if (this.trips != null) {
@@ -98,6 +100,7 @@ export class TripDetailsComponent implements OnInit {
           this.common.showToast('No Record Found !!');
         }
       }, err => {
+        this.common.loading--;
         console.error(err);
         this.common.showError();
       });

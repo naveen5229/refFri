@@ -58,7 +58,7 @@ export class VehicleTyresComponent implements OnInit {
   }
 
   getDate(index) {
-    this.common.params = { ref_page: "Tyre Inputs" };
+    this.common.params = { ref_page: "Tyre Inputs", date: this.vehicleTyres[index].date };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.vehicleTyres[index].date = this.common.dateFormatter(data.date).split(' ')[0];
