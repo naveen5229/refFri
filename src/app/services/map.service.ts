@@ -214,7 +214,7 @@ export class MapService {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 6,
+            scale: 1,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -274,6 +274,19 @@ export class MapService {
       //  marker.addListener('mouseover', showInfoWindow.bind(this, marker, show ));
     }
     return thisMarkers;
+  }
+
+  createCirclesOnPostion(center,radius){
+    return new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.2,
+      map: this.map,
+      center: center,
+      radius: radius
+    });
   }
 
   toggleBounceMF(id, evtype = 1) {
