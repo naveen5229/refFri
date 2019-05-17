@@ -10,7 +10,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./auto-suggestion.component.scss']
 })
 export class AutoSuggestionComponent implements OnInit {
+
   @Output() onSelected = new EventEmitter();
+  @Output() noDataFound = new EventEmitter();
+  @Output() onChange = new EventEmitter();
+
   @Input() url: string;
   @Input() display: any;
   @Input() className: string;
@@ -23,7 +27,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() parentForm: FormGroup;
   @Input() controlName: string;
   @Input() apiHitLimit: Number;
-
+  @Input() isNoDataFoundEmit: boolean;
   counter = 0;
   searchText = '';
   showSuggestions = false;
@@ -88,7 +92,7 @@ export class AutoSuggestionComponent implements OnInit {
 
   getSuggestions() {
     console.log("apiHitLimit", this.apiHitLimit, this.searchText.length);
-
+    this.onChange.emit(this.searchText);
     this.apiHitLimit = this.apiHitLimit ? this.apiHitLimit : 3;
 
     this.showSuggestions = true;
@@ -109,6 +113,7 @@ export class AutoSuggestionComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.suggestions = res['data'];
+        if (this.isNoDataFoundEmit && !this.suggestions.length) this.noDataFound.emit({ search: this.searchText });
       }, err => {
         console.error(err);
         this.common.showError();
@@ -122,6 +127,7 @@ export class AutoSuggestionComponent implements OnInit {
     this.showSuggestions = false;
     this.onSelected.emit(suggestion);
     this.activeSuggestion = -1;
+
   }
 
   generateString(suggestion) {

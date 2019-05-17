@@ -10,7 +10,7 @@ import { ImportBulkVehiclesComponent } from '../../modals/import-bulk-vehicles/i
 })
 export class AddVehicleComponent implements OnInit {
   Foid = null;
-  Regno = null;
+  regno = null;
   isDost = 1;
   vehicleList = [];
   constructor(
@@ -34,13 +34,13 @@ export class AddVehicleComponent implements OnInit {
   Submit() {
     let params = {
       foid: this.Foid,
-      regno: this.Regno,
-      isDost: this.isDost
+      regno: this.regno,
+
     };
     // console.log(params);
     this.common.loading++;
     let response;
-    this.api.postToTranstrucknew('Vehicles/addVehicles.json', params)
+    this.api.post('Gisdb/addVehicle', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
