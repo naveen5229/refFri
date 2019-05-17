@@ -123,6 +123,11 @@ export class DataService {
             icon: 'fas fa-ticket-alt',
             link: '/admin/ticket-properties',
           },
+          {
+            title: 'vehicle view',
+            icon: 'fa fa-chart-bar',
+            link: '/admin/vehicles-view',
+          },
 
           {
             title: 'Diagnostics',

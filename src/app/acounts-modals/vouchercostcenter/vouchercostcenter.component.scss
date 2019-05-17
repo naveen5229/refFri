@@ -1,0 +1,165 @@
+button { background-color: #73a1ff;
+}
+// .transaction{
+//     height: auto !important;
+//     padding: 5px;
+//     width: 119px;
+// }
+// .transaction-detail-tabel td:nth-child(1){
+//     width: 100px;
+// }
+// .transaction-detail-tabel td:nth-child(2){
+//     width: 218px;
+//     padding: 0px 15px;
+// }
+// .transaction-detail-tabel td:nth-child(3){
+//     padding-left: 12px;
+//     width: 300px;
+// }
+// .transaction-detail-tabel td:nth-child(4){
+//     padding-left: 30px;
+//     width: 300px;
+// }
+// .transaction-detail-label th:nth-child(2),
+// .transaction-detail-label th:nth-child(3){
+//     padding-left: 15px;
+// }
+// .transaction-detail-label th:nth-child(4){
+//     padding-left: 30px;
+// }
+// .remark-box .col-4:nth-child(1){
+//     flex: 34%;
+//     max-width: 34%;
+// }
+// .remark-box .col-4:nth-child(2){
+//     flex: 315px;
+//     max-width: 315px;
+// }
+// .remark-box .col-4:nth-child(3){
+//     flex: 300px;
+//     max-width: 300px;
+// }
+// .plustransparent{
+//     background-color: transparent;
+//     border:0px;
+//   }
+
+.ledger-container{
+    border-radius: 0;
+    padding: 8px;
+    background-color: #e4e4e4;
+    max-height: 230px;
+    min-height: 230px;
+    overflow: auto;
+}
+
+.date-modal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999999;
+    top: 0;
+    left: 0;
+}
+.date-modal-body{
+    background: #fff;
+    width: 152px;
+    margin: 15% auto auto auto;
+}
+.data_model_save{
+    padding: 20px;
+    text-align: center;
+    width: auto;
+    max-width: 250px;
+}
+.data_model_save button{
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 3px;
+}
+.ledger-option{
+    border: 1px solid #263238;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #263238;
+    margin-bottom: 3px;
+    color: #fff;
+}
+.active-ledger{
+    background: #26a69a;
+    font-weight: normal;
+    border-color: #26a69a;
+}
+button { 
+    background-color: #263238;
+    border-radius: 5px !important;
+    text-transform: capitalize !important;
+    padding: 10px 20px !important;
+    outline: none;
+    box-shadow: none;
+}
+
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.ref-label{
+    background: #263238;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 0;
+    border-radius: 3px 3px 0px 0px;
+    font-size: 12px;
+    min-width: 80px !important;
+    font-weight: normal;
+}
+.ref-input{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px;
+    height: auto;
+    font-size: 12px;
+}
+.date-modal-body .ng-pristine{
+    border: 0px !important;
+    padding: 8px;
+    height: auto;
+    width: auto;
+    border-radius: 0px;
+    line-height: initial;
+}
+.form-control:focus{
+    border-color: #263238 !important;
+}
+button{
+    padding: 8px 10px !important;
+}
+button.btn-primary{
+    background-color: #263238 !important;
+}
+table tr{
+    th{
+        padding: 5px 10px!important;
+        font-weight: normal;
+    }
+    td{
+        padding: 5px 10px!important;
+        input, select{
+            padding: 5px !important;
+            height: 30px !important;
+        }
+    }
+} 
+
+.modal-header {
+    padding: 10px 15px;
+    background-color: #263238;
+}
+.modal-header h5{
+    color: #fff;
+}

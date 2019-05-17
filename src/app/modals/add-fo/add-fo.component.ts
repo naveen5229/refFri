@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./add-fo.component.scss']
 })
 export class AddFoComponent implements OnInit {
+
   Form: FormGroup
   isFormSubmit = false;
   document = {
@@ -80,5 +81,12 @@ export class AddFoComponent implements OnInit {
   }
   closeModal() {
     this.activeModal.close();
+  }
+
+  addFo() {
+
+  }
+  searchUser() {
+
   }
 }

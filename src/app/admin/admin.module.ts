@@ -44,6 +44,7 @@ import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.componen
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { MapMappingComponent } from './map-mapping/map-mapping.component';
 
 
 
@@ -102,6 +103,7 @@ const PAGES_COMPONENTS = [
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
     AddCustomerComponent,
+    MapMappingComponent
 
   ],
   exports: [
