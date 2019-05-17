@@ -315,7 +315,8 @@ export class VoucherComponent implements OnInit {
       transactionType: type,
       ledger: {
         name: '',
-        id: ''
+        id: '',
+        is_constcenterallow: false
       },
       amount: amount
     });
@@ -427,7 +428,7 @@ export class VoucherComponent implements OnInit {
 
   handleAmountEnter(index) {
     index = parseInt(index);
-    if (this.voucher.amountDetails[index].details.length || confirm('Edit Cost Center?')) {
+    if (this.voucher.amountDetails[index].ledger.is_constcenterallow && confirm('Edit Cost Center?')) {
       this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     }
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
@@ -538,6 +539,7 @@ export class VoucherComponent implements OnInit {
     }
     this.voucher.amountDetails[index].ledger.name = ledger.y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = ledger.y_ledger_id;
+    this.voucher.amountDetails[index].ledger.is_constcenterallow = ledger.is_constcenterallow;
   }
 
   handleVoucherDateOnEnter() {
