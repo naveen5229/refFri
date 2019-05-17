@@ -12,6 +12,7 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { VouchercostcenterComponent } from '../vouchercostcenter/vouchercostcenter.component';
 
 @Component({
   selector: 'voucher',
@@ -91,7 +92,8 @@ export class VoucherComponent implements OnInit {
           name: '',
           id: ''
         },
-        amount: 0
+        amount: 0,
+        details: []
       }],
       code: '',
       remarks: '',
@@ -132,13 +134,32 @@ export class VoucherComponent implements OnInit {
         }
 
         res['data'].map(voucher => {
+          let costCenterDetails = [];
+          if (voucher.y_cc_details) {
+            let costStr = voucher.y_cc_details.replace(/'/g, '"');
+            costStr = ("[" + costStr.substring(1, costStr.length - 1) + "]").replace(/{/g, '[').replace(/}/g, ']');
+            console.log('Cost STR:', costStr);
+            console.log('Cost Array:', JSON.parse(costStr));
+            let costArray = JSON.parse(costStr);
+            costArray.map(cost => {
+              costCenterDetails.push({
+                ledger: {
+                  id: cost[0],
+                  name: cost[1],
+                },
+                amount: parseInt(cost[2]),
+              })
+            })
+          }
+
           this.voucher.amountDetails.push({
             transactionType: voucher.y_dlt_iscr ? 'credit' : 'debit',
             ledger: {
               name: voucher.y_ledgername,
               id: voucher.y_dlt_ledger_id
             },
-            amount: parseInt(voucher.y_dlt_amount)
+            amount: parseInt(voucher.y_dlt_amount),
+            details: costCenterDetails
           });
 
           if (voucher.y_dlt_iscr) {
@@ -217,8 +238,8 @@ export class VoucherComponent implements OnInit {
       event.preventDefault();
       return;
     }
-    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch != '0');
-    if (this.accountService.selected.branch != '0') {
+    console.log('acc service', this.accountService.selected.branch, this.accountService.selected.branch.id != 0);
+    if (this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch
       this.addVoucher();
       this.showConfirm = false;
@@ -294,7 +315,8 @@ export class VoucherComponent implements OnInit {
       transactionType: type,
       ledger: {
         name: '',
-        id: ''
+        id: '',
+        is_constcenterallow: false
       },
       amount: amount
     });
@@ -317,7 +339,7 @@ export class VoucherComponent implements OnInit {
         event.preventDefault();
         if (this.voucher.total.debit == 0) {
           this.common.showError('Please Enter Amount');
-        } else if (this.accountService.selected.branch == '0') {
+        } else if (this.accountService.selected.branch.id == 0) {
           alert('Please Select Branch');
         } else {
           this.addVoucher();
@@ -366,6 +388,7 @@ export class VoucherComponent implements OnInit {
         this.setFoucus('amount-' + index);
         //this.setFoucus('ledger-container');
         this.activeLedgerIndex = -1;
+        return;
       } else if (activeId == 'voucher-date') {
         this.handleVoucherDateOnEnter();
         this.setFoucus('transaction-type-0');
@@ -405,6 +428,9 @@ export class VoucherComponent implements OnInit {
 
   handleAmountEnter(index) {
     index = parseInt(index);
+    if (this.voucher.amountDetails[index].ledger.is_constcenterallow && confirm('Edit Cost Center?')) {
+      this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+    }
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
       this.setFoucus('narration');
       return;
@@ -513,6 +539,7 @@ export class VoucherComponent implements OnInit {
     }
     this.voucher.amountDetails[index].ledger.name = ledger.y_ledger_name;
     this.voucher.amountDetails[index].ledger.id = ledger.y_ledger_id;
+    this.voucher.amountDetails[index].ledger.is_constcenterallow = ledger.is_constcenterallow;
   }
 
   handleVoucherDateOnEnter() {
@@ -753,6 +780,27 @@ export class VoucherComponent implements OnInit {
         }
       });
     }
+  }
+
+  handleCostCenterModal(amount, index) {
+    console.log('Indes:', index);
+    index = parseInt(index);
+    this.common.params = { amount, details: this.voucher.amountDetails[index].details };
+    const activeModal = this.modalService.open(VouchercostcenterComponent, { size: 'lg' });
+    activeModal.result.then(data => {
+      console.log('Modal res:', data);
+      if (data.response) {
+        this.voucher.amountDetails[index].details = data.amountDetails;
+      }
+      if (document.getElementById('transaction-type-' + (index + 1))) {
+        this.setFoucus('transaction-type-' + (index + 1));
+      } else {
+        this.setFoucus('narration');
+      }
+
+      console.log('Testiong', this.voucher.amountDetails[index]);
+    });
+
   }
 
 }

@@ -22,7 +22,8 @@ nb-card-body{
 }
 :host ::ng-deep .tableFixHead{
     overflow: auto;
-    max-height: calc(100vh - 162px);
+    max-height: calc(100vh - 235px);
+    height: auto !important;
 }
 :host ::ng-deep td i.fa-pencil-square-o{
     background-color: #04A9F5;

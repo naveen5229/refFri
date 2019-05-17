@@ -29,6 +29,8 @@ import { StorerequisitionsComponent } from './storerequisitions/storerequisition
 import { TradingComponent } from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
+import { CostcenterComponent } from './costcenter/costcenter.component';
+import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
 
 const routes: Routes = [{
     path: '',
@@ -157,6 +159,14 @@ const routes: Routes = [{
         {
             path: 'trialbalance',
             component: TrialbalanceComponent
+        },
+        {
+            path: 'costcenter',
+            component: CostcenterComponent
+        },
+        {
+            path: 'cost-center-report',
+            component: CostCenterReportComponent,
         }
     ],
 

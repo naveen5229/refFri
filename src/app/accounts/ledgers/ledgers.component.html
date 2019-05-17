@@ -3,36 +3,39 @@
     <h4>Account</h4>
   </nb-card-header> -->
   <nb-card-body>
-<button  *ngIf="this.deletedId== 0"  class="btn mb-4 add-button" (click)="openModal()"><i class="fa fa-plus"></i></button>
-<div class="main">
-  <table class="table table-bordered">
-    <thead style="background-color: #263238; color:#fff;">
-      <tr>
-          <th>#</th>
-          <th>Under Group</th>
-          <th>Name</th>
-          <th>Alias Name</th>
-          <!-- <th>Code</th> -->
-          <th>Date</th>
-        
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
-        (dblclick)="openModal(data)" (enter)="openModal(data)"
-        [ngClass]="{'highlight' : selectedRow == i}">
+    <button *ngIf="this.deletedId== 0" class="btn mb-4 add-button" (click)="openModal()"><i
+        class="fa fa-plus"></i></button>
+    <div class="main">
+      <table class="table table-bordered">
+        <thead style="background-color: #263238; color:#fff;">
+          <tr>
+            <th>#</th>
+            <th>Under Group</th>
+            <th>Name</th>
+            <th>Alias Name</th>
+            <th>Cost Center</th>
+            <th>Date</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of Ledgers; let i = index;" (click)="selectedRow = i"
+            (dblclick)="(deletedId !=2) ? openModal(data) : ''" (enter)="openModal(data)"
+            [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i + 1}}</td>
             <td>{{ data.groupname}}</td>
             <td>{{data.name}}</td>
             <td>{{data.alias_name}}</td>
-            <!-- <td>{{data.code}}</td> -->
+            <td *ngIf="deletedId !=2 ">{{data.is_constcenterallow}}</td>
+            <td *ngIf="deletedId ==2 "> <input type="checkbox" [value]='data.is_constcenterallow'
+                [(ngModel)]="data.is_constcenterallow" (change)="updateLedgerCostCenter($event,data.id)" /></td>
             <td>{{data.entry_dt | date : 'dd-MMM-yy'}}</td>
-           <!-- <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td> -->
+            <!-- <td><span class="fa fa-pencil-square-o" (click)="openModal(data)"></span></td> -->
           </tr>
-    </tbody>
-    
-  </table>
-</div>
+        </tbody>
 
-</nb-card-body>
+      </table>
+    </div>
+
+  </nb-card-body>
 </nb-card>
