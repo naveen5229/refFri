@@ -1,20 +1,17 @@
 <nb-card>
-  <nb-card-header>
-    <h4>Trip Voucher Expense</h4>
-  </nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-3" style="margin-bottom :10px">
-          <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
+      <div class="col-sm-2 pr-0">
+        <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
           placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
-        </div>
-        <div class="col-sm-6" style="text-align :right">
-            <button (click)="getPendingTrips()" class="btn btn-primary">ADD New Voucher</button>
-          </div>
+      </div>
+      <div class="col-sm-6">
+        <button (click)="getPendingTrips()" class="btn btn-primary">ADD New Voucher</button>
+      </div>
     </div>
     <div class="mt-4">
-      <table class="table table-bordered">
-        <thead>
+      <table class="table table-bordered" id="table">
+        <thead style="background-color:#263238; color:#fff;">
           <th>SN</th>
           <th>Start Location</th>
           <th>End Location</th>
@@ -29,7 +26,8 @@
             <td>{{tripVoucher.endloc || '--'}}</td>
             <td>{{tripVoucher.startdate | date : 'dd MMM'}}</td>
             <td>{{tripVoucher.enddate | date : 'dd MMM'}}</td>
-            <td><i class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px" (click)="deleteVoucherEntry(tripVoucher)"></i></td>
+            <td><i class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
+                (click)="deleteVoucherEntry(tripVoucher)"></i></td>
           </tr>
         </tbody>
       </table>
