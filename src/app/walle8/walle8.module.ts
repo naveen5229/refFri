@@ -17,10 +17,11 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
+    CardMappingComponent
   ],
   declarations: [
     ...PAGES_COMPONENTS,
-    CardMappingComponent,
+    CardMappingComponent
     
   ],
 })
