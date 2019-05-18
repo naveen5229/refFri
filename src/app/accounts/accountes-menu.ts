@@ -81,6 +81,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Stock Item',
                 link: '/accounts/stockitem'
             },
+            {
+                title: 'Ware House',
+                link: '/accounts/ware-house'
+            },
 
         ],
     },
@@ -103,7 +107,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
     {
         title: 'Accounts Master',
-        icon: 'fa fa-building-o',
+        icon: 'fa fa-user-circle-o',
 
         children: [
 
@@ -120,24 +124,24 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger',
                 link: '/accounts/ledgers/0'
             },
+            {
+                title: 'City',
+                link: '/accounts/city'
+            },
+            {
+                title: 'Cost Category-Ledger',
+                link: '/accounts/ledgers/2'
+            },
+            {
+                title: 'Company-Branches',
+                link: '/accounts/company-branches'
+            },
 
         ],
     },
-    {
-        title: 'Cost Category-Ledger',
-        icon: 'fas fa-building-o',
-        link: '/accounts/ledgers/2'
-    },
-    {
-        title: 'Company-Branches',
-        icon: 'fa fa-building-o',
-        link: '/accounts/company-branches'
-    },
-    {
-        title: 'Ware House',
-        icon: 'fas fa-warehouse',
-        link: '/accounts/ware-house'
-    },
+
+
+
 
     {
         title: 'Store Requisition',
@@ -212,7 +216,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/ledgerview'
             },
             {
-                title: 'CostCenter',
+                title: 'Cost Category',
                 link: '/accounts/cost-center-report'
             },
             {
@@ -281,10 +285,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
-    }, {
-        title: 'City',
-        icon: 'fas fa-city',
-        link: '/accounts/city'
     },
 
 
