@@ -44,36 +44,84 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
 
+    // {
+    //     title: 'Stock Types',
+    //     icon: 'fas fa-weight-hanging',
+    //     link: '/accounts/stock-types'
+    // },
+    // {
+    //     title: 'Stock Sub Types',
+    //     icon: 'fas fa-weight-hanging',
+    //     link: '/accounts/stock-subtypes'
+    // }
+    // ,
+    // {
+    //     title: 'Stock Item',
+    //     icon: 'fa fa-list',
+    //     link: '/accounts/stockitem'
+    // },
+
+
     {
-        title: 'Stock Types',
-        icon: 'fas fa-weight-hanging',
-        link: '/accounts/stock-types'
+        title: 'Stock Master',
+        icon: 'fa fa-building-o',
+
+        children: [
+
+            {
+                title: 'Stock Type',
+                link: '/accounts/stock-types'
+            },
+
+            {
+                title: 'Stock Sub Type',
+                link: '/accounts/stock-subtypes'
+            },
+            {
+                title: 'Stock Item',
+                link: '/accounts/stockitem'
+            },
+
+        ],
     },
+    // {
+    //     title: 'Account Group',
+    //     icon: 'fa fa-university',
+    //     link: '/accounts/account'
+    // },
+    // {
+    //     title: 'Cost Category',
+    //     icon: 'fa fa-university',
+    //     link: '/accounts/costcenter'
+    // },
+    // {
+    //     title: 'Ledger',
+    //     icon: 'fas fa-file-invoice-dollar',
+    //     link: '/accounts/ledgers/0'
+    // },
+
+
     {
-        title: 'Stock Sub Types',
-        icon: 'fas fa-weight-hanging',
-        link: '/accounts/stock-subtypes'
-    }
-    ,
-    {
-        title: 'Stock Item',
-        icon: 'fa fa-list',
-        link: '/accounts/stockitem'
-    },
-    {
-        title: 'Account Group',
-        icon: 'fa fa-university',
-        link: '/accounts/account'
-    },
-    {
-        title: 'Cost Category',
-        icon: 'fa fa-university',
-        link: '/accounts/costcenter'
-    },
-    {
-        title: 'Ledger',
-        icon: 'fas fa-file-invoice-dollar',
-        link: '/accounts/ledgers/0'
+        title: 'Accounts Master',
+        icon: 'fa fa-building-o',
+
+        children: [
+
+            {
+                title: 'Account Group',
+                link: '/accounts/account'
+            },
+
+            {
+                title: 'Cost Category',
+                link: '/accounts/costcenter'
+            },
+            {
+                title: 'Ledger',
+                link: '/accounts/ledgers/0'
+            },
+
+        ],
     },
     {
         title: 'Cost Category-Ledger',
@@ -163,10 +211,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
             },
-            // {
-            //     title: 'CostCenter',
-            //     link: '/accounts/cost-center-report'
-            // },
+            {
+                title: 'CostCenter',
+                link: '/accounts/cost-center-report'
+            },
             {
                 title: 'Trading Account',
                 link: '/accounts/trading'
