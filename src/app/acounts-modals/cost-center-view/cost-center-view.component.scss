@@ -63,18 +63,34 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 150px;
         }
-        th:first-child{
-            width: 30px;
+        th:nth-child(1){
+            width: 3%;
         }
-        th:last-child{
-            width: auto;
+        th:nth-child(2){
+            width: 13%;
+        }
+        th:nth-child(3){
+            width: 13%;
+        }
+        th:nth-child(4){
+            width: 13%;
+        }
+        th:nth-child(5){
+            width: 13%;
+        }
+        th:nth-child(6){
+            width: 13%;
+        }
+        th:nth-child(7){
+            width: 13%;
+        }
+        th:nth-child(8){
+            width: 13%;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 150px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -98,11 +114,29 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:first-child{
-                width: 30px;
+            td:nth-child(1){
+                width: 3%;
             }
-            td:last-child{
-                width: auto;
+            td:nth-child(2){
+                width: 13%
+            }
+            td:nth-child(3){
+                width: 13%
+            }
+            td:nth-child(4){
+                width: 13%
+            }
+            td:nth-child(5){
+                width: 13%
+            }
+            td:nth-child(6){
+                width: 13%
+            }
+            td:nth-child(7){
+                width: 13%
+            }
+            td:nth-child(8){
+                width: 13%
             }
         }
         tr:nth-child(odd){
@@ -113,7 +147,9 @@ table{
         }
     }
 } 
-
+.modal-header{
+    background-color: #263238;
+}
 .date-modal{
     position: absolute;
     width: 100%;
@@ -127,12 +163,4 @@ table{
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
-}
-.pdf-icon{
-    font-size: 30px;
-    color: #9F0001;
-}
-.exel-icon{
-    font-size: 30px;
-    color: #217346;
 }

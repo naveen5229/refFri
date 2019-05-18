@@ -321,6 +321,7 @@ export class VouchersComponent implements OnInit {
           let index = activeId.split('-')[1];
           console.log('Inde:', index);
           console.log('Amount:', this.voucher.amountDetails[index].amount);
+          this.setFoucus('transaction-type-' + (parseInt(index) + 1));
           this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
         }
         this.handleAmountEnter(document.activeElement.id.split('-')[1]);
@@ -425,7 +426,7 @@ export class VouchersComponent implements OnInit {
     }
 
     this.calculateTotal();
-    this.setFoucus('transaction-type-' + (parseInt(index) + 1));
+    // this.setFoucus('transaction-type-' + (parseInt(index) + 1));
   }
 
   setFoucus(id, isSetLastActive = true) {
@@ -434,7 +435,7 @@ export class VouchersComponent implements OnInit {
       element.focus();
       this.moveCursor(element, 0, element['value'].length);
       if (isSetLastActive) this.lastActiveId = id;
-      console.log('last active id: ', this.lastActiveId);
+      console.log('last active id 66: ', this.lastActiveId);
     }, 100);
   }
 
@@ -490,7 +491,7 @@ export class VouchersComponent implements OnInit {
 
 
   selectLedger(ledger, index?) {
-    console.log('Last Active ID:', this.lastActiveId, ledger);
+    console.log('Last Active ID44:', this.lastActiveId, ledger);
     if (!index && this.lastActiveId.includes('ledger')) {
       index = this.lastActiveId.split('-')[1];
     }

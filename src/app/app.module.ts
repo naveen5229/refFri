@@ -155,6 +155,7 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
 import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/error-coomon-vehicles.component';
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
+import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -272,6 +273,7 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
     CostCentersComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
+    CostCenterViewComponent
 
   ],
   entryComponents: [
@@ -384,7 +386,8 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
     OdoMeterComponent,
     CostCentersComponent,
     ErrorCoomonVehiclesComponent,
-    VouchercostcenterComponent
+    VouchercostcenterComponent,
+    CostCenterViewComponent
   ],
   imports: [
     BrowserModule,
