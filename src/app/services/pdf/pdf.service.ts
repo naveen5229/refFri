@@ -16,7 +16,6 @@ export class PdfService {
       tablesHeadings.push(this.findTableHeadings(tableId));
       tablesRows.push(this.findTableRows(tableId));
     });
-
     /**************** LOGO Creation *************** */
     let eltimg = document.createElement("img");
     eltimg.src = "assets/images/elogist.png";

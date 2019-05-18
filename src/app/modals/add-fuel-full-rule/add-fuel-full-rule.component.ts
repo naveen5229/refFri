@@ -100,4 +100,8 @@ export class AddFuelFullRuleComponent implements OnInit {
     }
   }
 
+  changeRuleType() {
+
+  }
+
 }

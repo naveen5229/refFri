@@ -361,4 +361,9 @@ export class DaybooksComponent implements OnInit {
     console.log('--------: ', e);
   }
 
+  imageOpen(dataItem) {
+    console.log("dataItem:", dataItem);
+
+  }
+
 }
