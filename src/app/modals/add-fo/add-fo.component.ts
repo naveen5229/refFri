@@ -4,14 +4,16 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentComponent } from '../../documents/documentation-modals/add-document/add-document.component';
 import { DOCUMENT } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'add-fo',
   templateUrl: './add-fo.component.html',
   styleUrls: ['./add-fo.component.scss']
 })
 export class AddFoComponent implements OnInit {
-  Form: FormGroup
   isFormSubmit = false;
+  show_dialog: boolean = false;
+  public button_name: any = 'Show Login Form!';
   document = {
     image1: null,
     image2: null,
@@ -20,32 +22,37 @@ export class AddFoComponent implements OnInit {
   }
   company = {
     mobileNo: '',
-    pan: null,
-    name: null,
+    pan: '',
+    name: '',
     address: '',
-    Pin_Code: '',
-
-
+    pincode: '',
+    password: '',
+    partner: '',
+    searchMN: '',
   }
 
   constructor(public common: CommonService,
     public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder) {
+    public api: ApiService
+
+  ) {
     // this.company.pan = this.common.params.company.pan;
 
-  } gi
+  }
 
   ngOnInit() {
-    this.Form = this.formBuilder.group({
-      Mobile: ['', [Validators.required, Validators.min(10), Validators.max(10)]],
-      panNo: ['', [Validators.required, Validators.pattern("^[A-Z]{5}[0-9]{4}[A-Z]$")]],
-      name: ['',],
-      address: [''],
-      Pin_Code: [''],
-      Password: [''],
-    });
   }
-  get f() { return this.Form.controls; }
+  toggle() {
+    this.show_dialog = !this.show_dialog;
+
+    // CHANGE THE TEXT OF THE BUTTON.
+    if (this.show_dialog)
+      this.button_name = "Hide Login Form!";
+    else
+      this.button_name = "Show Login Form!";
+  }
+
+
   handleFileSelection(event, index) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
@@ -73,9 +80,48 @@ export class AddFoComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
+  addfo() {
+    //console.log("hiiiiiiiiii", form);
+
+    let params = {
+      name: this.company.name,
+      mobileNo: this.company.mobileNo,
+      address: this.company.address,
+      pinCode: this.company.pincode,
+      passWord: this.company.password,
+      idProof: this.document.image1,
+      addProofFront: this.document.image2,
+      addProofBack: this.document.image3,
+      panCard: this.company.pan,
+      partner: this.company.partner,
+      search: this.company.searchMN,
+    };
+    console.log('Params:', params);
+    // if (params) return;
+    this.common.loading++;
+
+    this.api.post('Gisdb/addFo', params)
+      .subscribe(res => {
+        this.common.loading--;
+
+        console.log('Res:', res['data']);
+        this.activeModal.close();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+
+
 
   checkFormat() {
     this.company.pan = (this.company.pan).toUpperCase();
+
+  }
+  selectPartner(e) {
+    // console.log('', e)
+    this.company.partner = e.id;
 
   }
   closeModal() {

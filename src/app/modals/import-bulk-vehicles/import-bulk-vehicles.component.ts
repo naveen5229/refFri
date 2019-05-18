@@ -10,6 +10,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class ImportBulkVehiclesComponent implements OnInit {
   csv = null;
+
   constructor(
     public common: CommonService,
     private activeModal: NgbActiveModal,
@@ -41,6 +42,7 @@ export class ImportBulkVehiclesComponent implements OnInit {
           return false;
         }
 
+
         res = res.toString().replace('vnd.ms-excel', 'csv');
         console.log('Base 64: ', res);
         this.csv = res;
@@ -48,5 +50,11 @@ export class ImportBulkVehiclesComponent implements OnInit {
         this.common.loading--;
         console.error('Base Err: ', err);
       })
+  }
+  selectFoUser(e) {
+
+  }
+  uploadCsv() {
+
   }
 }
