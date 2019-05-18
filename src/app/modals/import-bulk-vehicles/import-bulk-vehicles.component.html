@@ -22,8 +22,12 @@
           <label>Vehicle Reg CSV</label>
         </div>
         <div class="col-3">
+<<<<<<< HEAD
           <input type="file" name="vehicleRegCsv" [(ngModel)]="csv" (change)="handleFileSelection($event)"
             style="margin:4%;">
+=======
+          <input type="file" name="vehicleRegCsv" (change)="handleFileSelection($event)" style="margin:4%;">
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
         </div>
       </div>
       <div class="row">
@@ -37,12 +41,21 @@
       <div class="modal-footer">
         <div class="row">
           <div class="col">
+<<<<<<< HEAD
             <button class="btn btn-danger" type="button" outline (click)="closeModal()" id="cancel"
               style="cursor: pointer;">btn2</button>
           </div>
           <div class="col text-right">
             <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit"
               style="cursor: pointer;">btn1</button>
+=======
+            <button class="btn btn-danger" type="button" outline (click)="cancelModal()" id="cancel"
+              style="cursor: pointer;">Cancel</button>
+          </div>
+          <div class="col text-right">
+            <button class="btn btn-primary" form="document-form" type="submit" outline (click)="uploadCsv()" id="submit"
+              style="cursor: pointer;">Submit</button>
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
           </div>
         </div>
 

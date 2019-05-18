@@ -9,11 +9,16 @@ import { AccountService } from './account.service';
   providedIn: 'root'
 })
 export class ApiService {
-  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-  // URL: string = 'http://elogist.in/testservices/'; // prod Server
+  //URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
+  //URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+<<<<<<< HEAD
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.180/booster_webservices/'; // Pawan
+=======
+  //URL: string = 'http://localhost/Transtruck/booster_webservices/';
+  // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
   //  URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
@@ -54,6 +59,8 @@ export class ApiService {
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
       if (subURL.includes('?')) {
         subURL += '&branch=' + this.accountService.selected.branch.id;
+<<<<<<< HEAD
+=======
       } else {
         subURL += '?branch=' + this.accountService.selected.branch.id;
       }
@@ -75,6 +82,29 @@ export class ApiService {
     if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
       if (subURL.includes('?')) {
         subURL += '&branch=' + this.accountService.selected.branch;
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
+      } else {
+        subURL += '?branch=' + this.accountService.selected.branch.id;
+      }
+    };
+
+
+    return this.http.get(this.URL2 + subURL, {})
+  }
+
+<<<<<<< HEAD
+  get3(subURL: string, params?: any) {
+    if (this.user._customer.id) {
+      if (subURL.includes('?')) {
+        subURL += '&foAdminId=' + this.user._customer.id;
+      } else {
+        subURL += '?foAdminId=' + this.user._customer.id;
+      }
+    }
+
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) {
+      if (subURL.includes('?')) {
+        subURL += '&branch=' + this.accountService.selected.branch;
       } else {
         subURL += '?branch=' +this.accountService.selected.branch;
       }
@@ -84,6 +114,8 @@ export class ApiService {
     return this.http.get(this.URL2 + subURL, {})
   }
 
+=======
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
   postToTranstrucknew(subURL: string, body: any, optons?) {
     console.log('Test::::');
     // if (this.user._customer.id) {

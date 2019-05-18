@@ -22,6 +22,11 @@ export class LocationSelectionComponent implements OnInit {
     lng: 75.78727090000007,
     name: 'Jaipur, Rajasthan, India'
   };
+  // location = {
+  //   lat: '',
+  //   lng: '',
+  //   name: ''
+  // };
 
   marker: any;
 
@@ -35,6 +40,14 @@ export class LocationSelectionComponent implements OnInit {
     // this.title = 'Vehicle Location';
     this.title = this.common.params.title || 'Vehicle Location';
     this.placeholder = this.common.params.placeholder || 'Enter Drop Location';
+<<<<<<< HEAD
+=======
+    this.location = this.common.params.title ? {
+      lat: null,
+      lng: null,
+      name: null,
+    } : this.location;
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
     // if (this.common.params.title || this.common.params.placeholder) {
     //   this.title = this.common.params.title;
     //   this.placeholder = this.common.params.placeholder;

@@ -153,6 +153,10 @@ import { AddFoComponent } from './modals/add-fo/add-fo.component';
 import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
 import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
 import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
+<<<<<<< HEAD
+=======
+import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/error-coomon-vehicles.component';
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 
 @NgModule({
@@ -269,6 +273,10 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
     PullHistoryGPSDataComponent,
     OdoMeterComponent,
     CostCentersComponent,
+<<<<<<< HEAD
+=======
+    ErrorCoomonVehiclesComponent,
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
     VouchercostcenterComponent,
 
   ],
@@ -381,6 +389,10 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
     PullHistoryGPSDataComponent,
     OdoMeterComponent,
     CostCentersComponent,
+<<<<<<< HEAD
+=======
+    ErrorCoomonVehiclesComponent,
+>>>>>>> cb114ae9b08206066b54a3ed299bd01ac75abe6b
     VouchercostcenterComponent
   ],
   imports: [
