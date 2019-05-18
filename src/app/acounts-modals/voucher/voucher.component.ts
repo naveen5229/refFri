@@ -137,7 +137,7 @@ export class VoucherComponent implements OnInit {
           let costCenterDetails = [];
           if (voucher.y_cc_details) {
             let costStr = voucher.y_cc_details.replace(/'/g, '"');
-            costStr = ("[" + costStr.substring(1, costStr.length - 1) + "]").replace(/{/g, '[').replace(/}/g, ']');
+            costStr = ("[" + costStr.substring(1, costStr.length - 1) + "]").replace(/{/g, '[').replace(/}/g, ']').replace(/""/g, '"');
             console.log('Cost STR:', costStr);
             console.log('Cost Array:', JSON.parse(costStr));
             let costArray = JSON.parse(costStr);

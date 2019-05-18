@@ -51,7 +51,7 @@ export class VouchercostcenterComponent implements OnInit {
 
     setTimeout(() => {
       this.setFoucus('cost-ledger-0');
-    }, 5000);
+    }, 1000);
 
 
   }
