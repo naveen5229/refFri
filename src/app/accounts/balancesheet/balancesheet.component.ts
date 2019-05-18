@@ -206,6 +206,7 @@ export class BalancesheetComponent implements OnInit {
   }
 
   opendaybookmodel(ledgerId) {
+    console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
