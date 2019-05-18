@@ -26,9 +26,9 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="no-data alert alert-danger" role="alert" *ngIf="activitySummary.length==0">
+    <!-- <div class="no-data alert alert-danger" role="alert" *ngIf="activitySummary.length==0">
       No Data Available On That Time Period !
-    </div>
+    </div> -->
 
     <div>
       <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>

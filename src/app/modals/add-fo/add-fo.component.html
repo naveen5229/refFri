@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title"> Add Fo User</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="Form" name="company-form" id="company-form" (submit)="Form.valid && addFo()">
+    <div class="row" style="margin-bottom:10px">
+      <div class="col-2 pr-0">
+        <label> Mobile-Num.</label>
+        <input type="text" class="form-control" placeholder="Mobile-Num." formControlName="Mobile" name="Mobile"
+          maxlength="10" autocomplete="off">
+      </div>
+      <div class="col-2 pr-0">
+        <div class="form-group">
+          <label> Pan-Card </label>
+          <input type="text" class="form-control" placeholder="Pan-Card" formControlName="panNo" id="pan" name="pan"
+            (keyup)="checkFormat()" [ngClass]="{ 'is-invalid': isFormSubmit && f.panNo.errors }"
+            [(ngModel)]="company.pan" autocomplete="off">
+          <div *ngIf="isFormSubmit && f.panNo.errors" class="invalid-feedback">
+            <div *ngIf="f.panNo.errors.required">PanNumber is Require</div>
+            <div *ngIf="f.panNo.errors.pattern"> Example : AELPU5278H</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-2 pr-0">
+        <div class="form-group">
+          <label>Full-Name</label>
+          <input type="text" class="form-control" placeholder="Full-Name" formControlName="name" id="name"
+            autocomplete="off">
+        </div>
+      </div>
+      <div class="col-2 pr-0">
+        <div class="form-group">
+          <label> Address </label>
+          <input type="text" class="form-control" placeholder="Address" formControlName="address" autocomplete="off">
+        </div>
+      </div>
+      <div class="col-2 pr-0">
+        <div class="form-group">
+          <label> Pin-Code</label>
+          <input type="number" class="form-control" placeholder="Pin-Code" formControlName="Pin_Code" name="Pin_Code"
+            autocomplete="off">
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-group">
+          <label>Password </label>
+          <input type="Password" class="form-control" placeholder="Password" formControlName="Password" name="Password"
+            autocomplete="off">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2 pr-0">
+        <div class="form-group">
+          <label>ID Proof</label>
+          <div class="custom-file">
+            <input type="file" class="p-0" name="myfile2" id="filePicker2" (change)="handleFileSelection($event,1)" />
+            <label class="custom-file-label" for="filePicker2">Browse..</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 pr-0">
+        <div class="form-group">
+          <label>Address_Proof(Front)</label>
+          <div class="custom-file">
+            <input type="file" class="p-0" name="myfile1" id="filePicker1" (change)="handleFileSelection($event,2)" />
+            <label class="custom-file-label" for="filePicker1">Browse..</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 pr-0">
+        <div class="form-group">
+          <label>Address_Proof(Back)</label>
+          <div class="custom-file">
+            <input class="p-0" type="file" name="myfile1" id="filePicker1" (change)="handleFileSelection($event,3)" />
+            <label class="custom-file-label" for="filePicker1">Browse..</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-2 pr-0">
+        <div class="form-group">
+          <label>Partner</label>
+          <input type="text" class="form-control" placeholder="Partner" (input)="searchUser()" name="searchString"
+            autocomplete="off">
+        </div>
+      </div>
+      <div class="col-2">
+        <button class="modal-footer-btn forward-btn btn btn-primary w-100 mt-4" type="button" form="company-form"
+          outline (click)="isFormSubmit=true" id="forward">Select</button>
+      </div>
+    </div>
+  </form>
+  <div class="custom-modal-footer">
+    <input type="text" class="form-control" placeholder="Search By Mobile No. And Name" (input)="searchUser()"
+      name="searchString" autocomplete="off">
+  </div>

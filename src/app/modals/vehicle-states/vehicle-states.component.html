@@ -10,24 +10,22 @@
       <label>Trip States:</label>
     </div>
     <div class="col-sm-4">
+      <!-- Any change will need to change in fn_getvehicelstatename -->
       <select [(ngModel)]="stateType" class="form-control" (change)="changeStateType()"
         style=" border: 1px solid #324148; font-size: 10px">
-        <option value="0">Selcet State</option>
+        <option value="0">Select State</option>
         <option value="1">Loading</option>
-
-        <!-- <option value="13">Onward, Nearby Origin</option> -->
-        <!-- <option value="14">Onward, Nearby Destination</option> -->
-        <!-- <option value="15">Available, Nearby Origin</option> -->
-        <!-- <option value="20">Available, Nearby Destination</option> -->
-        <!-- <option value="21">Available, Unauthorised Movement</option> -->
-        <!-- <option value="22">Available, Empty Movement</option> -->
         <option value="2">Onward</option>
         <option value="3">Unloading</option>
         <option value="4">Available</option>
-        <option value="5">Accident</option>
-        <option value="6">Maintenance</option>
-        <option value="7">Break Down</option>
+        <option value="301">Accident</option>
+        <option value="321">Maintenance</option>
+        <option value="311">Break Down</option>
+        <option value="331">Waiting for Load</option>
+        <option value="341">Driver Unavailable</option>
       </select>
+      <!-- Any change will need to change in fn_getvehicelstatename -->
+
     </div>
   </div>
   <div class="row" style="margin-bottom:20px">
@@ -47,10 +45,10 @@
     </div>
   </div>
   <div class="row mt-3" *ngIf="changeCategory=='halts'">
-    <div class="col-sm-4" style="margin-top:15px">
+    <div class="col-sm-2" style="margin-top:15px">
       <label>Location Name:</label>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <input type="text" class="form-control" [(ngModel)]="halt.location" name="haltLocation"
         placeholder="Location Name">
     </div>
@@ -117,14 +115,17 @@
       </table>
     </div> -->
   <!-- </div> -->
-  <div class="row" style="margin-top:10px">
-    <div class="col-sm-6" *ngIf="changeCategory=='halts'">
-      <table class="table table-bordered">
-        <thead class="thead" style="background-color:#d4d4d4">
+  <div class="row" style="margin-top:10px; height: 450px ">
+    <div class="col-sm-6" *ngIf="changeCategory=='halts'" style="height: 450px ">
+      <table class="tbl table table-bordered table-hover">
+        <thead class="thead">
           <tr>
             <th>Select Halt</th>
-            <th>Last 10 Halt</th>
-            <th>Time</th>
+            <th>place</th>
+            <th>Location</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Duration</th>
           </tr>
 
         </thead>
@@ -132,12 +133,27 @@
           <tr *ngIf="!vehicleEvent.length">
             <td colspan="3">Record not found</td>
           </tr>
-          <tr *ngFor="let data of vehicleEvent; let i=index;">
-            <td> <input type="radio" name="select" value="select" (change)="selectHalt(data)"></td>
-            <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)">
-              {{data.halt_reason}}</td>
-            <td (mouseover)="mapService.toggleBounceMF(i)" (mouseout)="mapService.toggleBounceMF(i,2)">
-              {{data.addtime | date : 'dd MMM HH:mm'}}</td>
+          <tr *ngFor="let Event of vehicleEvent; let i=index;"
+            [ngStyle]="{'background-color' : (Event.halt_reason=='Loading') || (Event.halt_reason=='Unloading')  ? '#'+Event.rc:'#fff'}">
+            <td> <input type="radio" name="select" value="select" (change)="selectHalt(Event)"></td>
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{getPlace[i]}}</td>
+            <!-- <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{Event.addtime | date : 'dd MMM HH:mm'}}</td> -->
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{Event.loc_name}}</td>
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{commonService.changeDateformat2(Event.start_time)}}</td>
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{commonService.changeDateformat2(Event.end_time)}}</td>
+            <td (click)="openSmartTool(i,Event)" (mouseover)="mapService.toggleBounceMF(i)"
+              (mouseout)="mapService.toggleBounceMF(i,2)">
+              {{Event.duration}}</td>
           </tr>
         </tbody>
       </table>
@@ -152,6 +168,14 @@
         <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
       </div>
       <div class="map" id="map"></div>
+      <div class="time-line-event" *ngIf="changeCategory=='halts'">
+        <div class="time-line-scale"></div>
+        <!-- <span class="clock" style="margin-top:5px;margin-right:5px"><i class="fa fa-clock"></i></span> -->
+        <div *ngFor="let event of vehicleEvent; let i = index;" class="time-line-circle"
+          [ngStyle]="{background: '#'+event.color, left: event.position + '%', width:event.width+'%'} "
+          (click)="selectHalt(event)" (mouseover)="setEventInfo(event)" (mouseout)="unsetEventInfo()">
+        </div>
+      </div>
     </div>
 
 
@@ -167,6 +191,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <div class="footer" style="text-align:right;"><button class="btn btn-primary"
-      (click)="saveVehicleState()">Save</button></div>
+  <div class="footer" style="text-align:right;"><button class="btn btn-primary" (click)="checkVehicle()">Save</button>
+  </div>
 </div>

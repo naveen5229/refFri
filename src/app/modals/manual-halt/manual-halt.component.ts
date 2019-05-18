@@ -84,18 +84,23 @@ export class ManualHaltComponent implements OnInit {
     }
   }
 
-  resetLatLng(){
+  resetLatLng() {
     this.location.haltlocation = null;
     this.location.lat = null;
     this.location.long = null;
   }
 
   saveHalt() {
-    this.startTime = this.common.dateFormatter(this.startTime);
-    this.endTime = this.common.dateFormatter(this.endTime);
-    if (!this.location.lat && !this.location.long && !this.haltSite) {
+    if (!this.startTime || !this.endTime) {
+      this.common.showError("please fill Time");
+    }
+
+    else if (!this.location.lat && !this.location.long && !this.haltSite) {
       this.common.showError("please select location");
-    } else {
+    }
+    else {
+      this.startTime = this.common.dateFormatter(this.startTime);
+      this.endTime = this.common.dateFormatter(this.endTime);
       let params = {
         startTime: this.startTime,
         endTime: this.endTime,
@@ -105,7 +110,7 @@ export class ManualHaltComponent implements OnInit {
         haltTypeId: this.halt_type,
         siteId: this.haltSite ? this.haltSite : ''
       };
-       console.log('params to insert', params);
+      console.log('params to insert', params);
       this.common.loading++;
       this.api.post('HaltOperations/insertSingleHalt', params)
         .subscribe(res => {

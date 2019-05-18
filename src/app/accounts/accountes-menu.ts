@@ -66,9 +66,19 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/account'
     },
     {
+        title: 'Cost Category',
+        icon: 'fa fa-university',
+        link: '/accounts/costcenter'
+    },
+    {
         title: 'Ledger',
         icon: 'fas fa-file-invoice-dollar',
         link: '/accounts/ledgers/0'
+    },
+    {
+        title: 'Cost Category-Ledger',
+        icon: 'fas fa-building-o',
+        link: '/accounts/ledgers/2'
     },
     {
         title: 'Company-Branches',
@@ -153,6 +163,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Ledger View',
                 link: '/accounts/ledgerview'
             },
+            // {
+            //     title: 'CostCenter',
+            //     link: '/accounts/cost-center-report'
+            // },
             {
                 title: 'Trading Account',
                 link: '/accounts/trading'
@@ -177,6 +191,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
             }
+
         ],
     },
     {
