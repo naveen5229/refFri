@@ -154,7 +154,7 @@ import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull
 import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
 import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
-
+import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -270,6 +270,8 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
     OdoMeterComponent,
     CostCentersComponent,
     VouchercostcenterComponent,
+    AddFuelFullRuleComponent
+
 
   ],
   entryComponents: [
@@ -381,7 +383,9 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
     PullHistoryGPSDataComponent,
     OdoMeterComponent,
     CostCentersComponent,
-    VouchercostcenterComponent
+    VouchercostcenterComponent,
+    AddFuelFullRuleComponent
+
   ],
   imports: [
     BrowserModule,
