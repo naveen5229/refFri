@@ -87,7 +87,7 @@ export class DriverPerformanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
-        // this.driverPerformance = res['data'];
+        this.driverPerformance = res['data'];
         console.log('tripstagesData', this.driverPerformance);
         let first_rec = this.driverPerformance[0];
         console.log("first_Rec", first_rec);

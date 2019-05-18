@@ -5,11 +5,9 @@
         <h5>Tyre Inventory</h5>
       </div>
       <div class="col-sm-6 text-right">
-        <button (click)="openStockItemModal()" class="btn btn-primary m-0">Add
-          Brands</button>
-        <button (click)="openStockItemModal()" openStockItemModal() class="btn btn-primary "
-          style="margin-right:15px">Add
-          Modals</button></div>
+        <!-- 
+        <button (click)="importCsv()" class="btn btn-primary m-0">Import CSV Inventory</button> -->
+      </div>
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -34,7 +32,10 @@
           <tr *ngFor="let inventory of inventories; let i = index;">
             <td>{{i+1}}</td>
             <td width="35%">
-              <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
+              <auto-suggestion (onSelected)="selectModel($event,i)" url="Suggestion/getTyreNamesWithBrands"
+                display="modelname" placeholder="Model No" [inputId]="'modelNo_' + i"></auto-suggestion>
+
+              <!-- <input [id]="'modelNo_'+i" [name]="'modelNo_'+i" type="text" placeholder=" Enter Model No"
                 (input)="searchModels(inventory.searchModelString, i)" autocomplete="off" class="form-control"
                 [(ngModel)]="inventory.searchModelString">
               <div *ngIf="activeRow == i">
@@ -43,7 +44,7 @@
                     {{ model.name}} : {{model.brand}}
                   </li>
                 </ul>
-              </div>
+              </div> -->
             </td>
             <td width="15%">
               <auto-suggestion (onSelected)="getTyreSize($event,i)" url="Suggestion/getTyreSize" display="size"

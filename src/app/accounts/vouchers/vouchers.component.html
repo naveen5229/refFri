@@ -78,21 +78,22 @@
 
         <!-- End Amount Details -->
         <div class="row">
-          <div class="col-4">
+          <div class="col-6">
             <div class="form-group">
               <label class="ref-label">Narration</label>
-              <input type="text" class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
+              <textarea class="form-control ref-input" id="narration" (click)="lastActiveId = 'narration'"
                 name="narration" [(ngModel)]="voucher.remarks" (input)="allowBackspace = false;">
+              </textarea>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <div class="form-group">
               <label class="ref-label">Total Debit</label>
               <input type="text" class="form-control ref-input" name="account-name" readonly
                 [(ngModel)]="voucher.total.debit" style="background: #e4e4e4">
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <div class="form-group">
               <label class="ref-label">Total Credit</label>
               <input type="text" class="form-control ref-input" name="account-name" readonly
@@ -139,3 +140,13 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="date-modal" *ngIf="showConfirmCostCenter" (keydown)="keyHandler($event)">
+  <div class="date-modal-body data_model_save">
+    <div>
+      <p>Are you sure want to cost center entry?</p>
+      <button (click)="(true)">Yes</button> <span>&nbsp;&nbsp;&nbsp;</span> <button
+        (click)="modelCondition()">No</button>
+    </div>
+  </div>
+</div> -->
