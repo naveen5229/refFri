@@ -112,8 +112,27 @@ export class FuelRulesComponent implements OnInit {
   }
 
   deleteRule(rule) {
+    if (window.confirm("Are You Want Delete Record")) {
+      const params = {
+        foid: rule.foid,
 
+      }
+      this.common.loading++;
+      this.api.post('Fuel/deleteRule', params)
+        .subscribe(res => {
+          this.common.loading--;
+          let output = res['data'];
+          console.log("data:");
+          console.log(output);
+          this.common.showToast(res['msg']);
+          this.getFuelNorms();
+
+        }, err => {
+
+          this.common.loading--;
+          console.log(err);
+        });
+    }
   }
-
 
 }
