@@ -48,7 +48,6 @@ button { background-color: #73a1ff;
     border-radius: 0;
     padding: 8px;
     background-color: #e4e4e4;
-    margin-top: 20px;
     max-height: 230px;
     min-height: 230px;
     overflow: auto;
@@ -137,9 +136,11 @@ nb-card-header{
 .form-control:focus{
     border-color: #263238 !important;
 }
+button{
+    padding: 8px 10px !important;
+}
 button.btn-primary{
     background-color: #263238 !important;
-    padding: 8px 10px !important;
 }
 table tr{
     th{
@@ -154,3 +155,11 @@ table tr{
         }
     }
 } 
+
+.modal-header {
+    padding: 10px 15px;
+    background-color: #263238;
+}
+.modal-header h5{
+    color: #fff;
+}
