@@ -22,7 +22,7 @@ export class LedgersComponent implements OnInit {
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
-    this.common.currentPage = 'Ledger';
+
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -31,6 +31,7 @@ export class LedgersComponent implements OnInit {
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
+    this.common.currentPage = (this.deletedId == 2) ? 'Cost Category Ledger' : 'Ledger';
   }
 
   ngOnInit() {

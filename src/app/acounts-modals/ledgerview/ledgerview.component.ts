@@ -62,7 +62,7 @@ export class LedgerviewComponent implements OnInit {
         startDate: this.common.params.startdate,
         ledger: {
           name: 'All',
-          id: 0
+          id: this.common.params.ledger
         },
         branch: {
           name: '',
