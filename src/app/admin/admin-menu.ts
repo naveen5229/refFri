@@ -149,6 +149,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/fuel-rules',
                 home: true,
             },
+            {
+                title: 'Pump Station Area',
+                icon: 'fa fa-signal',
+                link: '/admin/pump-station-area',
+                home: true,
+            },
         ]
     },
     {

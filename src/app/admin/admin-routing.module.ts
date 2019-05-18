@@ -37,6 +37,7 @@ import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.componen
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -190,6 +191,11 @@ const routes: Routes = [{
         {
             path: 'fuel-rules',
             component: FuelRulesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'pump-station-area',
+            component: PumpStationAreaComponent,
             canActivate: [RouteGuard]
         },
         {

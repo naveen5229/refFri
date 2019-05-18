@@ -263,7 +263,13 @@ export class DataService {
             icon: 'fa fa-signal',
             link: '/admin/fuel-rules',
             home: true,
-          }
+          },
+          {
+            title: 'Pump Station Area',
+            icon: 'fa fa-signal',
+            link: '/admin/pump-station-area',
+            home: true,
+          },
         ]
       },
       {

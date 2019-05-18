@@ -46,6 +46,7 @@ import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.co
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { MapMappingComponent } from './map-mapping/map-mapping.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 
 
 
@@ -68,7 +69,8 @@ const PAGES_COMPONENTS = [
   VehicleGpsDetailComponent,
   TicketSubscribeComponent,
   AddCustomerComponent,
-  FuelRulesComponent
+  FuelRulesComponent,
+  PumpStationAreaComponent
 
 
 
@@ -107,7 +109,8 @@ const PAGES_COMPONENTS = [
     TicketSubscribeComponent,
     AddCustomerComponent,
     MapMappingComponent,
-    FuelRulesComponent
+    FuelRulesComponent,
+    PumpStationAreaComponent
 
 
   ],

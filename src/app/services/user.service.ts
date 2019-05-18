@@ -65,6 +65,7 @@ export class UserService {
       { id: 35, route: '/admin/ticket-subscribe' },
       { id: 36, route: '/admin/add-customer' },
       { id: 37, route: '/admin/fuel-rules' },
+      { id: 38, route: '/admin/pump-station-area' },
     ]
   }
 

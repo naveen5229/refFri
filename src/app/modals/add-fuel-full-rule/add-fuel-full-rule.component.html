@@ -42,7 +42,7 @@
           placeholder="Site" [preSelected]="null"></auto-suggestion>
       </div>
       <div class="col-sm-4" *ngIf="Rules.ruleType=='2'">
-        <auto-suggestion (onSelected)="getPump($event)" url="Suggestion/getPumpStationArea" display="name"
+        <auto-suggestion (onSelected)="getPump($event)" url="Suggestion/getPumpStationArea" display="loc_name"
           placeholder="Pump" [preSelected]="null"></auto-suggestion>
       </div>
     </div>
