@@ -79,6 +79,11 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'ticket-subscribe',
+            component: TicketSubscribeComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'lorry-receipt-details',
             component: LorryReceiptDetailsComponent,
             canActivate: [RouteGuard]
