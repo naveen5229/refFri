@@ -48,7 +48,12 @@ export class VouchercostcenterComponent implements OnInit {
     }
     this.getLedgers();
     console.log('amountDetails:', this.amountDetails);
-    this.setFoucus('cost-ledger-0');
+
+    setTimeout(() => {
+      this.setFoucus('cost-ledger-0');
+    }, 5000);
+
+
   }
 
   ngOnInit() {

@@ -170,27 +170,27 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-ticket-alt',
         children: [
             {
-                title: 'Journal Voucher',
+                title: 'Journal Voucher (F9)',
                 link: '/accounts/vouchers/-7/Journal Voucher'
             },
             {
-                title: 'Cash Receipt Voucher',
+                title: 'Cash Receipt Voucher (F8)',
                 link: '/accounts/vouchers/-4/Cash Receipt Voucher'
             },
             {
-                title: 'Bank Receipt Voucher',
+                title: 'Bank Receipt Voucher (F7)',
                 link: '/accounts/vouchers/-2/Bank Receipt Voucher'
             },
             {
-                title: 'Cash Payment Voucher',
+                title: 'Cash Payment Voucher (F6)',
                 link: '/accounts/vouchers/-3/Cash Payment Voucher'
             },
             {
-                title: 'Bank Payment Voucher',
+                title: 'Bank Payment Voucher (F5)',
                 link: '/accounts/vouchers/-1/Bank Payment Voucher'
             },
             {
-                title: 'Contra Voucher',
+                title: 'Contra Voucher (F4)',
                 link: '/accounts/vouchers/-8/Contra Voucher'
             },
         ],
