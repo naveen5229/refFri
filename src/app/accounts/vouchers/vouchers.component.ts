@@ -15,7 +15,10 @@ import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcent
 @Component({
   selector: 'vouchers',
   templateUrl: './vouchers.component.html',
-  styleUrls: ['./vouchers.component.scss']
+  styleUrls: ['./vouchers.component.scss'],
+  host: {
+    '(document:keydown)': 'keyHandler($event)'
+  }
 })
 export class VouchersComponent implements OnInit {
   Vouchers = [];
@@ -264,6 +267,13 @@ export class VouchersComponent implements OnInit {
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
+
+    /******* On f3 Submit Form ******* */
+    if (key == 'f3') {
+      this.dismiss(true);
+      event.preventDefault();
+      return;
+    }
     // console.log(event);
     const activeId = document.activeElement.id;
     if (event.altKey && key === 'c') {
