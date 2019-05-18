@@ -155,6 +155,7 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
 import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
 import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/error-coomon-vehicles.component';
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
+import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
 
 @NgModule({
@@ -273,6 +274,7 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     CostCentersComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
+    AddFuelFullRuleComponent,
     CostCenterViewComponent
 
   ],
@@ -385,6 +387,8 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     PullHistoryGPSDataComponent,
     OdoMeterComponent,
     CostCentersComponent,
+    VouchercostcenterComponent,
+    AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
     CostCenterViewComponent
