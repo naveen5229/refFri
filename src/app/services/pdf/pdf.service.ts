@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import jsPDF from "jspdf";
-
+import html2canvas from 'html2canvas';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,6 @@ export class PdfService {
       tablesHeadings.push(this.findTableHeadings(tableId));
       tablesRows.push(this.findTableRows(tableId));
     });
-
     /**************** LOGO Creation *************** */
     let eltimg = document.createElement("img");
     eltimg.src = "assets/images/elogist.png";
@@ -183,6 +182,207 @@ export class PdfService {
       data.settings.margin.left,
       doc.internal.pageSize.height - 10
     );
+  }
+
+  voucherPDF(pdfData) {
+    console.log('Test');
+    // var data = document.getElementById('voucher-pdf');
+    let data = this.createPdfHtml(pdfData);
+    html2canvas(data, { scale: 2 }).then(canvas => {
+      // Few necessary setting options
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      const context = canvas.getContext('2d');
+      context.scale(2, 2);
+      context['dpi'] = 144;
+      context['imageSmoothingEnabled'] = false;
+      context['mozImageSmoothingEnabled'] = false;
+      context['oImageSmoothingEnabled'] = false;
+      context['webkitImageSmoothingEnabled'] = false;
+      context['msImageSmoothingEnabled'] = false;
+
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('report.pdf'); // Generated PDF
+      var elem = document.querySelector('#voucher-pdf');
+      elem.parentNode.removeChild(elem);
+
+      // var imgData = canvas.toDataURL('image/png');
+      // var imgWidth = 210;
+      // var pageHeight = 295;
+      // var imgHeight = canvas.height * imgWidth / canvas.width;
+      // var heightLeft = imgHeight;
+      // var doc = new jsPDF('p', 'mm');
+      // var position = 0;
+
+      // doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      // heightLeft -= pageHeight;
+
+      // while (heightLeft >= 0) {
+      //   position = heightLeft - imgHeight;
+      //   doc.addPage({ margin: { top: 80 } });
+      //   doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      //   heightLeft -= pageHeight;
+      // }
+      // doc.save('file.pdf');
+    });
+  }
+
+  createPdfHtml(pdfData) {
+    // let pdfData = {
+    //   company: 'Elogist Solutions Private Limited',
+    //   address: '310, Shree Gopal Nagar,Gopalpura Bypass',
+    //   city: 'Jaipur',
+    //   reportName: 'Bank Payment Voucher',
+    //   details: [
+    //     {
+    //       name: 'Voucher Number',
+    //       value: 'BPV/01027'
+    //     },
+    //     {
+    //       name: 'Branch',
+    //       value: 'Affordable Site'
+    //     },
+    //     {
+    //       name: 'Voucher Date',
+    //       value: '28 Oct 2013'
+    //     }
+    //   ],
+    //   headers: [
+    //     {
+    //       name: 'GL Code',
+    //       textAlign: 'left'
+    //     },
+    //     {
+    //       name: 'Particulars',
+    //       textAlign: 'left'
+    //     },
+    //     {
+    //       name: 'Debit Amount',
+    //       textAlign: 'right'
+    //     },
+    //     {
+    //       name: 'Credit Amount',
+    //       textAlign: 'right'
+    //     }
+    //   ],
+    //   table: [
+    //     ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+    //     ['GL00094', 'To IDBI Bank', '', '110.0'],
+    //   ],
+    //   total: ['110.0', '110.0'],
+    //   inWords: 'One Hundred Rupees TenPaisa Only',
+    //   narration: ''
+    // };
+
+    let mainElement = document.createElement('div');
+    mainElement.className = 'voucher-pdf';
+    mainElement.id = 'voucher-pdf';
+
+    mainElement.innerHTML = `
+      <div class="voucher-customer">
+          <div class="voucher-company">${pdfData.company}</div>
+          <div class="voucher-address">${pdfData.address}</div>
+          <div class="voucher-city">${pdfData.city}</div>
+        </div>
+        <div class="voucher-name">${pdfData.reportName}</div>
+        <div class="row">
+          ${this.getDetailsHtml(pdfData.details)}
+        </div>
+        <div>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+              ${this.getHeadersHTML(pdfData.headers)}
+              </tr>
+              ${this.getRowsHTML(pdfData.table, pdfData.headers)}
+              <tr>
+                <th colspan="2" class="text-right"><strong>Total</strong></th>
+                ${this.getTotalHTML(pdfData.total)}
+              </tr>
+              <tr>
+                <td colspan="4"><strong>In Words:</strong> ${pdfData.inWords}</td>
+              </tr>
+              <tr>
+                <td colspan="4"><strong>Narration:</strong> ${pdfData.narration}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row voucher-footer">
+            <div class="col-6"></div>
+            <div class="col-3 voucher-signature">
+              <div>Accountant</div>
+            </div>
+            <div class="col-3 voucher-signature">
+              <div>Approved By</div>
+            </div>
+          </div>
+        </div>`;
+    console.log(mainElement);
+    document.getElementsByTagName('BODY')[0].append(mainElement);
+    return mainElement;
+  }
+
+  getDetailsHtml(details) {
+    let html = '';
+    details.map(detail => {
+      html += `
+        <div class="col-6 voucher-details">
+          <strong>${detail.name}:</strong> <span>${detail.value}</span>
+        </div>
+      `;
+    });
+
+    return html;
+  }
+
+  getHeadersHTML(headers) {
+    let html = '';
+    headers.map(header => {
+      html += `
+        <th style="text-align: ${header.textAlign}">
+          ${header.name}
+        </th>
+      `;
+    });
+
+    return html;
+  }
+
+  getRowsHTML(rows, headers) {
+    let html = '';
+    rows.map(row => {
+      html += `
+        <tr>
+          ${this.getColsHTML(row, headers)}
+        </tr>
+      `;
+    });
+
+    return html;
+  }
+
+  getColsHTML(cols, headers) {
+    let html = '';
+    cols.map((col, i) => {
+      html += `<td style="text-align: ${headers[i].textAlign}">${col}</td>`;
+    });
+
+    return html;
+  }
+
+  getTotalHTML(totals) {
+    let html = '';
+    totals.map((total, i) => {
+      html += `<td class="text-right">${total}</td>`;
+    });
+
+    return html;
   }
 
 

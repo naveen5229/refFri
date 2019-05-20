@@ -35,12 +35,12 @@ export class AddVehicleComponent implements OnInit {
     let params = {
       foid: this.Foid,
       regno: this.regno,
-      isDost: this.isDost
+
     };
     // console.log(params);
     this.common.loading++;
     let response;
-    this.api.postToTranstrucknew('Vehicles/addVehicles.json', params)
+    this.api.post('Gisdb/addVehicle', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

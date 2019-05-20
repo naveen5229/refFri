@@ -7,7 +7,7 @@
 <div class="modal-body">
   <form #foForm="ngForm" name="addfo-form" id="addfo-form" (submit)="foForm.valid && addfo()">
     <div class="row" style="margin-bottom:10px">
-      <div class="col-2">
+      <div class="col-2 pr-0">
         <label> Mobile-Num.</label>
         <input type="text" class="form-control" placeholder="Mobile-Num." [(ngModel)]="company.mobileNo"
           #mobile="ngModel" name="Mobile" minlength="10" maxlength="10" autocomplete="off" required>
@@ -19,7 +19,6 @@
 
       <div class="col-3">
         <div class="form-group">
-
           <label>Full-Name</label>
           <input type="text" class="form-control" placeholder="Full-Name" [(ngModel)]="company.name" #name="ngModel"
             name="Name" autocomplete="off" required>
@@ -38,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-2 pr-0">
         <div class="form-group">
           <label> Pin-Code</label>
           <input type="number" class="form-control" placeholder="Pin-Code" [(ngModel)]="company.pincode" name="Pin_Code"

@@ -8,7 +8,8 @@ export class AccountService {
   selected = {
     branch: {
       name: '',
-      id: 0
+      id: 0,
+      is_constcenterallow: false
     },
     financialYear: null
   };

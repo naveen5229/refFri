@@ -6,7 +6,7 @@
       </div>
       <div class="col-sm-7">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-3 text-right">
             <label class="label1">Vehicle Type</label>
           </div>
           <div class="col-md-3 p-0">
@@ -17,7 +17,7 @@
             </select>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-3 text-right">
             <label>Vehicle Regno</label>
           </div>
           <div class="col-md-3 pl-0">
@@ -60,12 +60,20 @@
             <input type="text" class="form-control" [(ngModel)]="vehicleTyre.details" placeholder="Details">
 
           </td>
-          <td>
+
+          <td *ngIf="i == 0">
+            <i class="fa fa-plus add" (click)="addMore()"></i>
+          <td *ngIf="i !== 0">
+            <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
+          </td>
+          <!-- <td>
+
             <span *ngIf="i == vehicleTyres.length-1">
               <i class="fa fa-plus add" (click)="addMore()"></i>
-              <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
-              n </span>
-          </td>
+            </span>
+            <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
+
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -75,8 +83,6 @@
     </div>
 
 
-
-
     <table class="table table-bordered" *ngIf="mappedTyres.length>0">
       <thead class="thead">
         <tr>
@@ -84,7 +90,7 @@
           <th>TyreNo.</th>
           <th>Mapping Date</th>
           <th>KMs</th>
-
+          <th>Details</th>
         </tr>
       </thead>
       <tbody>
@@ -92,8 +98,8 @@
           <td>{{i+1}}</td>
           <td>{{mappedTyre.r_tyreno}}</td>
           <td>{{mappedTyre.r_dttime}}</td>
-          <td>{{mappedTyre.kms}}</td>
-
+          <td>{{mappedTyre.r_kms}}</td>
+          <td>{{mappedTyre.r_details}}</td>
         </tr>
       </tbody>
     </table>

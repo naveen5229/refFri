@@ -20,7 +20,7 @@ export class CostcenterComponent implements OnInit {
     public modalService: NgbModal) {
 
     this.GetAccount();
-    this.common.currentPage = 'Cost Center';
+    this.common.currentPage = 'Cost Category';
     this.common.refresh = this.refresh.bind(this);
 
   }
@@ -60,8 +60,7 @@ export class CostcenterComponent implements OnInit {
       const activeModal = this.modalService.open(CostCentersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          // this.updateAccount(data.Accounts, Accounts.id);
-          // return;
+          this.updateCostCenter(data.costCenter, Accounts.id)
         }
       });
     }
@@ -70,12 +69,76 @@ export class CostcenterComponent implements OnInit {
       const activeModal = this.modalService.open(CostCentersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {
         if (data.response) {
-          // this.addAccount(data.Accounts);
-          //  return;
+          this.addCostCenter(data.costCenter);
+          return;
         }
       });
     }
-    this.GetAccount();
+  }
+
+
+
+
+
+  addCostCenter(costCenter) {
+    console.log('costCenter', costCenter);
+    const params = {
+      parentName: costCenter.parentName,
+      parentid: costCenter.parentId,
+      foid: 123,
+      x_id: costCenter.xid,
+      name: costCenter.name,
+    };
+    console.log('params11: ', params);
+    this.common.loading++;
+    this.api.post('Accounts/InsertCostCenter', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        let result = res['data'][0].save_costcenter;
+        if (result == '') {
+          this.common.showToast("Save Successfully");
+        }
+        else {
+          this.common.showToast(result);
+        }
+        this.GetAccount();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
+  updateCostCenter(costCenter, rowid) {
+    console.log('costCenter', costCenter);
+    const params = {
+      parentName: costCenter.parentName,
+      parentid: costCenter.parentId,
+      foid: 123,
+      x_id: rowid,
+      name: costCenter.name,
+    };
+    console.log('params123: ', params);
+
+    this.common.loading++;
+    this.api.post('Accounts/InsertCostCenter', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        let result = res['data'][0].save_costcenter;
+        if (result == '') {
+          this.common.showToast("Save Successfully");
+        }
+        else {
+          this.common.showToast(result);
+        }
+        this.GetAccount();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
 
 

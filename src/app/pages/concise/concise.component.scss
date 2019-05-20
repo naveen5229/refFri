@@ -233,8 +233,17 @@ mwlResizable {
         z-index: 999;
         .sort-container {
             width: 15px;
+            display: none
         }
 
+        .filter-input-container {
+            width: auto;
+        }
+    }
+    th:hover {
+        .sort-container {
+            display: inline-block;
+        }
         .filter-input-container {
             width: calc(100% - 17px);
         }

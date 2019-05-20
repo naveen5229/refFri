@@ -36,6 +36,8 @@ import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fue
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -76,6 +78,11 @@ const routes: Routes = [{
         {
             path: 'ticket-properties',
             component: TicketPropertiesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'ticket-subscribe',
+            component: TicketSubscribeComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -179,6 +186,16 @@ const routes: Routes = [{
         {
             path: 'fuel-fillings',
             component: FuelFillingsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'fuel-rules',
+            component: FuelRulesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'pump-station-area',
+            component: PumpStationAreaComponent,
             canActivate: [RouteGuard]
         },
         {

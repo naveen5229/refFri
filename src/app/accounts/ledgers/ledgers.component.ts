@@ -22,7 +22,7 @@ export class LedgersComponent implements OnInit {
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
-    this.common.currentPage = 'Ledger';
+
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
       if (params.id) {
@@ -31,6 +31,7 @@ export class LedgersComponent implements OnInit {
       }
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
+    this.common.currentPage = (this.deletedId == 2) ? 'Cost Category Ledger' : 'Ledger';
   }
 
   ngOnInit() {
@@ -58,6 +59,31 @@ export class LedgersComponent implements OnInit {
       });
 
   }
+
+  updateLedgerCostCenter(checkvalue, id) {
+    let params = {
+      ledgerid: id,
+      ladgervalue: checkvalue.target.checked
+    };
+    console.log('ledger data', checkvalue.target.checked, id);
+    // console.log('ledger data1', checkvalue, id);
+    this.common.loading++;
+    this.api.post('Accounts/SaveLedgerCostCenter', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        // this.Ledgers = res['data'];
+        this.common.showToast(res['data'][0].y_errormsg);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
+  }
+
+
   selectedRow = -1;
 
   openModal(ledger?) {
@@ -129,7 +155,8 @@ export class LedgersComponent implements OnInit {
       deleteview: ledger.deleteview,
       delete: ledger.delete,
       x_id: ledger.id ? ledger.id : 0,
-      bankname:ledger.bankname
+      bankname: ledger.bankname,
+      costcenter: ledger.costcenter
     };
 
     console.log('params11: ', params);

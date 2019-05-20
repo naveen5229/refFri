@@ -127,4 +127,11 @@ export class AddFoComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
+
+  addFo() {
+
+  }
+  searchUser() {
+
+  }
 }

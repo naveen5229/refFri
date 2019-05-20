@@ -5,8 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-
-  <div class="row" style="margin-bottom:10px">
+  <div class="row">
     <div class="col-4">
       <label> Fo User</label>
       <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
@@ -17,12 +16,10 @@
         <label> From Date </label>
         <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')" />
-
       </div>
     </div>
     <div class="col-4">
       <div class="form-group">
-
         <label>To Date</label>
         <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')" />
@@ -45,4 +42,8 @@
         value="Add-Halt" name="Add-Halt" autocomplete="off" (click)="gethaltData()">
     </div>
   </div>
+</div>
+<div class="modal-footer">
+  <input type=" Button" class="form-control" class="btn btn-primary" style="border-radius:3px;width:100px;"
+    value="Submit" name="Submit" autocomplete="off" (click)="getgpsData()">
 </div>

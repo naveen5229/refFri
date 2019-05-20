@@ -126,7 +126,9 @@ export class ActivitySummaryComponent implements OnInit {
     this.common.params = {
       foid: data._idfo
     };
-    this.modalService.open(UserActivityStatusComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+    this.common.openType = "modal";
+    this.modalService.open(UserActivityStatusComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass", backdrop: 'static' });
   }
 
   formatTitle(strval) {
