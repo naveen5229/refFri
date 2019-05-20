@@ -757,8 +757,8 @@ export class CommonService {
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
-    info.push(leftData);
     info.push(blankline);
+    info.push(leftData);
     info.push(centerData);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
