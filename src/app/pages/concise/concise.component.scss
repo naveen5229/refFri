@@ -642,3 +642,9 @@ mwlResizable {
 :host ::ng-deep .no-search {
     color: #000;
 }
+
+#page-1, #page-2{
+    width: 210mm;
+    height: 297mm;
+    padding: 10mm;
+}

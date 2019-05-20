@@ -149,11 +149,17 @@ export class ConciseComponent implements OnInit {
     private modalService: NgbModal,
     public mapService: MapService,
     public dateService: DateService,
-    public pdfService: PdfService
-  ) {
-    this.getKPIS();
-    this.common.refresh = this.refresh.bind(this);
-    this.common.currentPage = "";
+    public pdfService: PdfService) {
+    if (localStorage.getItem('KPI_DATA')) {
+      this.allKpis = JSON.parse(localStorage.getItem('KPI_DATA'));
+      this.kpis = JSON.parse(localStorage.getItem('KPI_DATA'));
+      this.grouping(this.viewType);
+      this.table = this.setTable();
+    } else {
+      this.getKPIS();
+      this.common.refresh = this.refresh.bind(this);
+      this.common.currentPage = "";
+    }
   }
 
   ngOnInit() {
@@ -202,6 +208,7 @@ export class ConciseComponent implements OnInit {
         !isRefresh && this.common.loading--;
         ////console.log(res);
         this.allKpis = res["data"];
+        localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
         this.kpis = res["data"];
         this.grouping(this.viewType);
         this.table = this.setTable();
