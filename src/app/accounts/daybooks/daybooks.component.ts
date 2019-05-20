@@ -8,6 +8,7 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 @Component({
   selector: 'daybooks',
@@ -362,7 +363,27 @@ export class DaybooksComponent implements OnInit {
   }
 
   imageOpen(dataItem) {
+    let images = [];
     console.log("dataItem:", dataItem);
+    let params = {
+      voucherid: dataItem.y_voucherid
+    };
+    this.common.loading++;
+    this.api.post('Accounts/getvoucherdocs', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        let images = res['data'];
+
+        this.common.params = { images, title: 'Image' };
+        const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
 
   }
 

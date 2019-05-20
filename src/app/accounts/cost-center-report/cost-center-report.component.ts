@@ -56,7 +56,7 @@ export class CostCenterReportComponent implements OnInit {
     //this.getVoucherTypeList();
     // this.getLedgerList();
     this.setFoucus('startDate');
-    this.common.currentPage = 'Cost Center Report';
+    this.common.currentPage = 'Cost Category Report';
   }
 
   ngOnInit() {

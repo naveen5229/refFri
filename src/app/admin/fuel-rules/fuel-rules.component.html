@@ -10,5 +10,11 @@
     </div>
   </nb-card-header>
   <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
+    <div>
+      <smart-table *ngIf="fuelNorms.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <div class="no-data alert alert-danger" role="alert" *ngIf="fuelNorms.length==0">
+        No Data available !
+      </div>
+    </div>
   </nb-card-body>
 </nb-card>

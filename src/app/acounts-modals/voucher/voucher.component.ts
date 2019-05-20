@@ -137,7 +137,7 @@ export class VoucherComponent implements OnInit {
           let costCenterDetails = [];
           if (voucher.y_cc_details) {
             let costStr = voucher.y_cc_details.replace(/'/g, '"');
-            costStr = ("[" + costStr.substring(1, costStr.length - 1) + "]").replace(/{/g, '[').replace(/}/g, ']');
+            costStr = ("[" + costStr.substring(1, costStr.length - 1) + "]").replace(/{/g, '[').replace(/}/g, ']').replace(/""/g, '"');
             console.log('Cost STR:', costStr);
             console.log('Cost Array:', JSON.parse(costStr));
             let costArray = JSON.parse(costStr);
@@ -147,7 +147,7 @@ export class VoucherComponent implements OnInit {
                   id: cost[0],
                   name: cost[1],
                 },
-                amount: parseInt(cost[2]),
+                amount: parseFloat(cost[2]),
               })
             })
           }
@@ -158,14 +158,14 @@ export class VoucherComponent implements OnInit {
               name: voucher.y_ledgername,
               id: voucher.y_dlt_ledger_id
             },
-            amount: parseInt(voucher.y_dlt_amount),
+            amount: parseFloat(voucher.y_dlt_amount),
             details: costCenterDetails
           });
 
           if (voucher.y_dlt_iscr) {
-            this.voucher.total.credit += parseInt(voucher.y_dlt_amount);
+            this.voucher.total.credit += parseFloat(voucher.y_dlt_amount);
           } else {
-            this.voucher.total.debit += parseInt(voucher.y_dlt_amount);
+            this.voucher.total.debit += parseFloat(voucher.y_dlt_amount);
           }
         });
 
@@ -613,7 +613,7 @@ export class VoucherComponent implements OnInit {
   }
 
   findBalance(index) {
-    console.log('IndexL::::', index);
+    // console.log('IndexL::::', index);
     let amount = 0;
     let allCreditAmounts = [];
     let ledgerId = this.voucher.amountDetails[index].ledger.id;
