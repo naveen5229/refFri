@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'vehicles-view',
@@ -11,72 +11,76 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class VehiclesViewComponent implements OnInit {
 
-  foid='';
-  vehicleViewDetails=[];
-  showtable=false;
-  is_ncv=[];
+  foid = '';
+  vehicleViewDetails = [];
+  showtable = false;
+  is_ncv = [];
 
   constructor(public api: ApiService, public common: CommonService,
     public user: UserService,
-     public modalService: NgbModal) { 
-       
-     }
+    public modalService: NgbModal,
+    public activeModal: NgbActiveModal) {
+
+  }
 
   ngOnInit() {
   }
 
-  getFoList(details){
+  getFoList(details) {
 
-    this.foid=details.id;
+    this.foid = details.id;
     this.getVehiclesView();
   }
 
-  getVehiclesView(){
-    
+  getVehiclesView() {
+
     let params = 'foid=' + this.foid;
-    console.log('params',params);
+    console.log('params', params);
     this.common.loading++;
-    this.api.getToTranstruckNew('Vehicles/getVehicleWrtFo.json',params)
-            .subscribe(res =>{
-              this.common.loading--;
-              console.log('res: '+res['data']);
-              this.vehicleViewDetails=res['data'];
-              this.vehicleViewDetails.forEach((element) => {
-                if(element.is_ncv=="0"){
-                 this.is_ncv.push(0);
-                }else{
-                  this.is_ncv.push(1);
-                }
-               this.showtable=true;
-              });
-            }, err => {
-              this.common.loading--;
-              this.common.showError();
-            });
-        
-   
+    this.api.getToTranstruckNew('Vehicles/getVehicleWrtFo.json', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ' + res['data']);
+        this.vehicleViewDetails = res['data'];
+        this.vehicleViewDetails.forEach((element) => {
+          if (element.is_ncv == "0") {
+            this.is_ncv.push(0);
+          } else {
+            this.is_ncv.push(1);
+          }
+          this.showtable = true;
+        });
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+
+
   }
 
-  changeNcvValue(vid,index){
-     let ncv=this.is_ncv[index];
-     let params={
-      id:vid,
-      is_ncv:ncv
-     };
-     this.common.loading++;
-     this.api.postToTranstrucknew('Vehicles/updateVehicleCvStatus.json',params)
-             .subscribe(res=>{
-               this.common.loading--; 
-                console.log('responsecode: ',res['responsecode']);
-                if(res['responsecode']=='1')
-                this.common.showToast('Success!!');
-                else
-                 this.common.showToast('Not Success!!');
-                this.getVehiclesView();
-             },err=>{
-               this.common.loading--;
-               this.common.showError();
-             })
+  changeNcvValue(vid, index) {
+    let ncv = this.is_ncv[index];
+    let params = {
+      id: vid,
+      is_ncv: ncv
+    };
+    this.common.loading++;
+    this.api.postToTranstrucknew('Vehicles/updateVehicleCvStatus.json', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('responsecode: ', res['responsecode']);
+        if (res['responsecode'] == '1')
+          this.common.showToast('Success!!');
+        else
+          this.common.showToast('Not Success!!');
+        this.getVehiclesView();
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+  closeModal() {
+    this.activeModal.close();
   }
 
 }
