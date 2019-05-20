@@ -50,6 +50,7 @@ export class ImportBulkVehiclesComponent implements OnInit {
           return false;
         }
 
+
         res = res.toString().replace('vnd.ms-excel', 'csv');
         console.log('Base 64: ', res);
         this.csv = res;

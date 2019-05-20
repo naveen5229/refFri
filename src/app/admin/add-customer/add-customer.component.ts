@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 import { AddFoComponent } from '../../modals/add-fo/add-fo.component';
 import { PullHistoryGPSDataComponent } from '../../modals/pull-history-gps-data/pull-history-gps-data.component';
 import { AddVehicleComponent } from '../../modals/add-vehicle/add-vehicle.component';
+import { VehiclesViewComponent } from '../vehicles-view/vehicles-view.component';
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -84,6 +85,7 @@ export class AddCustomerComponent implements OnInit {
   // }
 
   vehiclesview() {
+    const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
 }
