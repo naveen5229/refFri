@@ -38,6 +38,8 @@ import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.co
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
+import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
+
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -218,6 +220,11 @@ const routes: Routes = [{
             component: AddCustomerComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'pending-vehicle',
+            component: PendingVehicleComponent,
+            canActivate: [RouteGuard]
+        }
 
 
     ],
