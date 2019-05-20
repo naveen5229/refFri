@@ -31,11 +31,12 @@ import { AddShortTargetComponent } from "../../modals/add-short-target/add-short
 import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
+import { PdfService } from "../../services/pdf/pdf.service";
 
 @Component({
   selector: "concise",
   templateUrl: "./concise.component.html",
-  styleUrls: ["./concise.component.scss", "../pages.component.css"],
+  styleUrls: ["./concise.component.scss", "../pages.component.css", "print.scss"],
   host: {
     '(document:mousemove)': 'onMouseMove($event)'
   }
@@ -59,6 +60,7 @@ export class ConciseComponent implements OnInit {
   keyGroups = [];
 
   chartData = null;
+  chartDataa = null;
   chartOptions = null;
   chartColors = [];
   textColor = [];
@@ -87,7 +89,9 @@ export class ConciseComponent implements OnInit {
   table = null;
 
   primaryStatus = [];
+
   subPrimaryStatus = {};
+  secondaryStatus = [];
 
   activePrimaryStatus = "";
   primarySubStatus = [];
@@ -103,6 +107,40 @@ export class ConciseComponent implements OnInit {
   isZoomed = false;
   lastRefreshTime = new Date();
 
+  pdfData = {
+    primary: {
+      name: 'Primary',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'showprim_status',
+    },
+    secondary: {
+      name: 'Secondary',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'showsec_status',
+      kpiGroups: null,
+    },
+    tripStart: {
+      name: 'Trip Start',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'x_showtripstart',
+      kpiGroups: null,
+    },
+    tripEnd: {
+      name: 'Trip End',
+      chartData: null,
+      chartOptions: null,
+      list: [],
+      key: 'x_showtripend',
+      kpiGroups: null,
+    }
+  };
+
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -110,7 +148,8 @@ export class ConciseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     public mapService: MapService,
-    public dateService: DateService
+    public dateService: DateService,
+    public pdfService: PdfService
   ) {
     this.getKPIS();
     this.common.refresh = this.refresh.bind(this);
@@ -239,10 +278,12 @@ export class ConciseComponent implements OnInit {
   getViewType() {
     this.table.data.columns = this.getTableColumns();
     this.grouping(this.viewType);
+    //this.grouping(this.viewTypea);
+
   }
 
   grouping(viewType) {
-    ////console.log("All ", this.allKpis);
+    //console.log("All ", this.allKpis);
     this.kpis = this.allKpis;
     this.kpiGroups = _.groupBy(this.allKpis, viewType);
     ////console.log("this.kpiGroups", this.kpiGroups);
@@ -275,6 +316,43 @@ export class ConciseComponent implements OnInit {
 
     this.sortData(viewType);
   }
+
+
+  // groupinga(viewTypea) {
+  //   //console.log("All ", this.allKpis);
+  //   this.kpis = this.allKpis;
+  //   this.kpiGroups = _.groupBy(this.allKpis, viewTypea);
+  //   ////console.log("this.kpiGroups", this.kpiGroups);
+  //   this.kpiGroupsKeys = Object.keys(this.kpiGroups);
+  //   ////console.log("this.kpiGroupsKeys", this.kpiGroupsKeys);
+  //   this.keyGroups = [];
+
+  //   if (viewTypea == "showsec_status") {
+  //     this.kpiGroupsKeys.map(key => {
+  //       const hue = Math.floor(Math.random() * 359 + 1);
+  //       this.keyGroups.push({
+  //         name: key,
+  //         bgColor: `hsl(${hue}, 100%, 75%)`,
+  //         textColor: `hsl(${hue}, 100%, 25%)`
+  //       });
+  //     });
+  //   } else {
+  //     this.kpiGroupsKeys.map(key => {
+  //       const hue = Math.floor(Math.random() * 359 + 1);
+  //       this.keyGroups.push({
+  //         name: key,
+  //         bgColor: `hsl(${hue}, 100%, 75%)`,
+  //         textColor: `hsl(${hue}, 100%, 25%)`
+  //       });
+  //     });
+  //   }
+
+  //   this.sortDataa(viewTypea);
+  // }
+
+
+
+
 
   primaryStatusGrouping() {
     this.primaryStatus = [];
@@ -320,6 +398,7 @@ export class ConciseComponent implements OnInit {
     let chartLabels = [];
     let chartData = [];
     if (viewType == "showprim_status") {
+      console.log("---------------------");
       this.primaryStatus = _.sortBy(this.primaryStatus, ["length"]).reverse();
       this.primaryStatus.map(primaryStatus => {
         this.chartColors.push(primaryStatus.bgColor);
@@ -353,9 +432,76 @@ export class ConciseComponent implements OnInit {
     );
     this.chartData = chartInfo.chartData;
     this.chartOptions = chartInfo.chartOptions;
-
+    console.log('Chart Data:', this.chartData);
     this.selectedFilterKey && this.filterData(this.selectedFilterKey, viewType);
   }
+
+
+
+  // sortDataa(viewTypea) {
+  //   let data = [];
+  //   this.chartColors = [];
+  //   let chartLabels = [];
+  //   let chartDataa = [];
+  //   if (viewTypea == "showsec_status") {
+
+  //     this.keyGroups.map(group => {
+  //       data.push({ group: group, length: this.kpiGroups[group.name].length });
+  //     });
+
+  //     this.kpiGroupsKeys = [];
+  //     _.sortBy(data, ["length"])
+  //       .reverse()
+  //       .map(keyData => {
+  //         this.kpiGroupsKeys.push(keyData.group);
+  //       });
+
+  //     this.kpiGroupsKeys.map(keyGroup => {
+  //       this.chartColors.push(keyGroup.bgColor);
+  //       chartLabels.push(keyGroup.name);
+  //       chartDataa.push(this.kpiGroups[keyGroup.name].length);
+  //     });
+
+  //   }
+
+
+  //   // this.primaryStatus = _.sortBy(this.primaryStatus, ["length"]).reverse();
+  //   // this.primaryStatus.map(primaryStatus => {
+  //   //   this.chartColors.push(primaryStatus.bgColor);
+  //   //   chartLabels.push(primaryStatus.name);
+  //   //   chartData.push(primaryStatus.length);
+  //   //   // });
+  //   // } else {
+  //   //   this.keyGroups.map(group => {
+  //   //     data.push({ group: group, length: this.kpiGroups[group.name].length });
+  //   //   });
+
+  //   //   this.kpiGroupsKeys = [];
+  //   //   _.sortBy(data, ["length"])
+  //   //     .reverse()
+  //   //     .map(keyData => {
+  //   //       this.kpiGroupsKeys.push(keyData.group);
+  //   //     });
+
+  //   //   this.kpiGroupsKeys.map(keyGroup => {
+  //   //     this.chartColors.push(keyGroup.bgColor);
+  //   //     chartLabels.push(keyGroup.name);
+  //   //     chartData.push(this.kpiGroups[keyGroup.name].length);
+  //   //   });
+  //   // }
+
+  //   ////console.log(this.chartColors, this.kpiGroupsKeys);
+  //   let chartInfo = this.common.pieChart(
+  //     chartLabels,
+  //     chartDataa,
+  //     this.chartColors
+  //   );
+  //   this.chartDataa = chartInfo.chartDataa;
+  //   this.chartOptions = chartInfo.chartOptions;
+
+  //   this.selectedFilterKey && this.filterData(this.selectedFilterKey, viewTypea);
+  // }
+
 
   filterData(filterKey, viewType?) {
     if (this.viewType == "showprim_status" || viewType == "showprim_status") {
@@ -1012,4 +1158,52 @@ export class ConciseComponent implements OnInit {
     const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
+  getPdf() {
+    this.common.downloadPdf('Content1');
+    //  // this.common.getPDFFromTableId('print-section');
+
+
+  }
+
+  handlePdfPrint() {
+    let lastActive = {
+      key: this.viewType,
+      name: this.viewName
+
+    };
+
+    let statuses = ['primary', 'secondary', 'tripStart', 'tripEnd'];
+    // this.viewType = 'showprim_status';
+    // this.grouping(this.viewType);
+    // console.log('Data:', this.chartData, this.changeOptions);
+
+
+    statuses.map(status => {
+      console.log(status, this.pdfData);
+      console.log('this.pdfData[status]', this.pdfData[status]);
+      this.viewType = this.pdfData[status].key;
+
+      this.grouping(this.viewType);
+      console.log('this.pdfData[status]', this.pdfData[status]);
+      console.log('Chafrt:::::::', JSON.stringify(this.chartData));
+      this.pdfData[status].chartData = Object.assign({}, this.chartData);
+      this.pdfData[status].chartOptions = Object.assign({}, this.chartOptions);
+      if (status == 'primary') this.pdfData[status].list = this.primaryStatus;
+      else {
+        this.pdfData[status].list = this.kpiGroupsKeys;
+        this.pdfData[status].kpiGroups = this.kpiGroups;
+      }
+    });
+
+    this.pdfData.tripStart.list.splice(5, this.pdfData.tripStart.list.length - 1);
+    this.pdfData.tripEnd.list.splice(5, this.pdfData.tripEnd.list.length - 1);
+
+    console.log('PDF Data: ', this.pdfData);
+    // this.viewType = lastActive.key;
+    // this.viewName = lastActive.name;
+    // this.grouping(this.viewType);
+
+
+  }
+
 }
