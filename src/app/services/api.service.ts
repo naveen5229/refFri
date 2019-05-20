@@ -11,11 +11,11 @@ import { AccountService } from './account.service';
 export class ApiService {
   //URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
-  URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   //URL: string = 'http://localhost/Transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
-  // URL: string = 'http://localhost/booster_webservices/'; // sachin
+  URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
 
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
@@ -157,4 +157,14 @@ export class ApiService {
 
   //   return this.http.post(this.IMAGE_PROCESSING_URL + subURL, body, { headers: headers })
   // }
+
+  getBranches() {
+    this.post('Suggestion/GetBranchList', { search: 123 })
+      .subscribe(res => {
+        console.log('Branches :', res['data']);
+        this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
+      });
+  }
 }

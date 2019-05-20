@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'customer-selection',
@@ -21,6 +22,7 @@ export class CustomerSelectionComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     public activeModal: NgbActiveModal,
+    public accountService: AccountService,
     public router: Router,
     private route: ActivatedRoute,
 
@@ -45,11 +47,13 @@ export class CustomerSelectionComponent implements OnInit {
   }
 
   selectUser(user) {
+    this.accountService.branches = [];
     this.searchString = user.foaname + " - " + user.foname;
     this.showSuggestions = false;
     this.user._customer.name = this.searchString;
     this.user._customer.id = user.foaid;
     localStorage.setItem('CUSTOMER_DETAILS', JSON.stringify(this.user._customer));
+    this.api.getBranches();
     this.dismiss();
     this.common.params.refreshPage();
     // if (window.location.href.endsWith('admin')||window.location.href.endsWith('pages')) {

@@ -68,7 +68,6 @@ export class VouchersComponent implements OnInit {
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
 
-
     setTimeout(() => {
       console.log('financial year', this.accountService.selected.branch.is_constcenterallow);
     }, 10000);
@@ -81,10 +80,11 @@ export class VouchersComponent implements OnInit {
     this.getLedgers('debit');
     this.getLedgers('credit');
   }
+
   setVoucher() {
     return {
       name: '',
-      date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+      date: this.accountService.voucherDate || this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
       foid: '',
       user: {
         name: '',
@@ -145,12 +145,14 @@ export class VouchersComponent implements OnInit {
     //   }
     // });
   }
+
   modelCondition() {
     this.showConfirm = false;
     this.showConfirmCostCenter = false;
     event.preventDefault();
     return;
   }
+
   dismiss(response) {
     console.log('DD: ', this.common.dateFormatter(this.common.convertDate(this.voucher.date), 'y', false));
     console.log('DD: ', this.accountService.selected.financialYear.startdate);
@@ -220,11 +222,11 @@ export class VouchersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res['data'].code);
         if (res['success']) {
+          this.accountService.voucherDate = this.voucher.date;
           this.voucher = this.setVoucher();
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
           this.setFoucus('ref-code');
-          this.voucher.date = params.date;
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);
