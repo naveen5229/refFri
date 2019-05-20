@@ -80,14 +80,14 @@ export class AddFuelFullRuleComponent implements OnInit {
       foid: this.Rules.foid,
       ruleType: this.Rules.ruleType,
       angleFrom: this.Rules.angleFrom,
-      angleTo: this.Rules.angleTo,
-      siteId: this.Rules.siteId,
+      angleTo: parseInt(this.Rules.angleTo),
+      siteId: parseInt(this.Rules.siteId),
       pumpStationId: this.Rules.pumpStationId
     };
+    console.log('params to save', params);
     if (this.status == 1) {
-      console.log('params to save', params);
       this.common.loading++;
-      this.api.post('Fuel/insertFuelFullNorms', params)
+      this.api.post('Fuel/updateFuelFullNorm', params)
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res['data'])
@@ -97,7 +97,6 @@ export class AddFuelFullRuleComponent implements OnInit {
           this.common.showError();
         })
     } else {
-      console.log('params to save', params);
       this.common.loading++;
       this.api.post('Fuel/insertFuelFullNorms', params)
         .subscribe(res => {
@@ -111,8 +110,5 @@ export class AddFuelFullRuleComponent implements OnInit {
     }
   }
 
-  changeRuleType() {
-
-  }
 
 }
