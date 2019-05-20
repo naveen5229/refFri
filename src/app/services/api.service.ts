@@ -157,4 +157,30 @@ export class ApiService {
 
   //   return this.http.post(this.IMAGE_PROCESSING_URL + subURL, body, { headers: headers })
   // }
+
+  walle8Post(subURL: string, body: any, options?) {
+    this.user._customer.id && (body['foAdminId'] = this.user._customer.id);
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
+
+    return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: this.setWalle8Headers() })
+  }
+
+  walle8Get(subURL: string, params?: any) {
+    return this.http.get(this.UrlTranstruckNew + subURL, { headers: this.setWalle8Headers() })
+  }
+
+  setWalle8Headers() {
+    const entryMode = '3';
+    const authKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5NDYsInVzZXJfbW9iaWxlIjo5ODEyOTI5OTk5LCJzZXNzaW9uX2lkIjo0NDc4MSwidGltZSI6IjIwMTktMDUtMTggMTI6MzM6UE0ifQ.JqRuIcXLOh1vN9jsqvqkTIuxhduD8vInaflg3EBYV3A';
+    const version = '2.3';
+    
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'version': version,
+      'entrymode': entryMode,
+      'authkey': authKey
+    });
+
+    return headers;
+  }
 }
