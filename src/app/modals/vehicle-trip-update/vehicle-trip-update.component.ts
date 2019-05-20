@@ -146,8 +146,6 @@ export class VehicleTripUpdateComponent implements OnInit {
     console.log("End Lat", this.vehicleTrip.endLat);
     console.log("Placement Site", this.placementSite);
     console.log("Placement Type", this.vehicleTrip.placementType);
-
-    return;
     if ((this.vehicleTrip.endLat || this.placementSite) && this.vehicleTrip.placementType) {
       let params = {
         vehicleId: this.vehicleTrip.vehicleId,
@@ -254,13 +252,19 @@ export class VehicleTripUpdateComponent implements OnInit {
     console.log("palce", place);
     this.vehicleTrip.endLat = place.lat;
     this.vehicleTrip.endLng = place.long;
-    this.vehicleTrip.endName = place.name;
+    this.vehicleTrip.endName = place.location || place.name;
   }
   onChangeAuto(search) {
     this.searchString = search;
     console.log('..........', search);
   }
   selectSite(site) {
+
+    console.log("site=", site);
+    let location = site.value.split(",")
+    this.vehicleTrip.endLat = location[0];
+    this.vehicleTrip.endLng = location[1];
+    this.vehicleTrip.endName = site.name;
 
   }
   takeAction(res) {

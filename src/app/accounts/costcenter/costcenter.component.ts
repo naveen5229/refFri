@@ -20,7 +20,7 @@ export class CostcenterComponent implements OnInit {
     public modalService: NgbModal) {
 
     this.GetAccount();
-    this.common.currentPage = 'Cost Center';
+    this.common.currentPage = 'Cost Category';
     this.common.refresh = this.refresh.bind(this);
 
   }
