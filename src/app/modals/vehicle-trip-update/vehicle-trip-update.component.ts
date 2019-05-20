@@ -261,9 +261,11 @@ export class VehicleTripUpdateComponent implements OnInit {
   selectSite(site) {
 
     console.log("site=", site);
-    let location = site.value.split(",")
-    this.vehicleTrip.endLat = location[0];
-    this.vehicleTrip.endLng = location[1];
+    // let location = site.value.split(",")
+    // this.vehicleTrip.endLat = location[0];
+    // this.vehicleTrip.endLng = location[1];
+    this.vehicleTrip.endLat = site.lat;
+    this.vehicleTrip.endLng = site.long;
     this.vehicleTrip.endName = site.name;
 
   }
