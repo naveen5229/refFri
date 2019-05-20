@@ -106,8 +106,8 @@
               <td></td>
               <td></td>
               <td><b>{{ voucherEntry.name }}</b></td>
-              <td style="text-align:right;"><b>{{ voucherEntry.amount.debit }}</b></td>
-              <td style="text-align:right;"><b>{{ voucherEntry.amount.credit }}</b></td>
+              <td style="text-align:right;"><b>{{ voucherEntry.amount.debit  | number : '1.2-2'}}</b></td>
+              <td style="text-align:right;"><b>{{ voucherEntry.amount.credit | number : '1.2-2' }}</b></td>
             </tr>
             <tr *ngFor="let voucher of voucherEntry.vouchers">
               <td>{{ voucher.y_code }}</td>

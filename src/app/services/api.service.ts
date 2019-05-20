@@ -156,4 +156,14 @@ export class ApiService {
 
   //   return this.http.post(this.IMAGE_PROCESSING_URL + subURL, body, { headers: headers })
   // }
+
+  getBranches() {
+    this.post('Suggestion/GetBranchList', { search: 123 })
+      .subscribe(res => {
+        console.log('Branches :', res['data']);
+        this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
+      });
+  }
 }

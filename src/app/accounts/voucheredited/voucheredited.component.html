@@ -23,6 +23,33 @@
                 [(ngModel)]="bankBook.vouchertype.name">
             </div>
           </div> -->
+          <div class="col-7">
+            <div class="row form-group mb-0 mt-2">
+              <div class="col-md-4">
+                <label>Voucher Edit Type</label>
+              </div>
+              <div class="col-md-8 pl-0 text-center">
+                <div class="debit_box">
+                  <div class="debit">
+                    <span>voucher date</span>
+                    <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
+                      [(ngModel)]="bankBook.vouchertype" [value]=0>
+                  </div>
+                  <div class="credit">
+                    <span>voucher entry date</span>
+                    <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
+                      [(ngModel)]="bankBook.vouchertype" [value]=1>
+                  </div>
+                  <div class="credit">
+                    <span>lastupdated date</span>
+                    <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
+                      [(ngModel)]="bankBook.vouchertype" [value]=2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
@@ -30,7 +57,6 @@
                 [(ngModel)]="bankBook.ledger.name">
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col">
@@ -50,7 +76,7 @@
           </div>
           <div class="col">
             <div class="form-group">
-              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getBankBook()"
+              <button class="btn btn-primary btn-block tjr-button" type="button" outline (click)="getVoucherEdited()"
                 id="submit" style="cursor: pointer;margin-top: 18px;">Submit</button>
             </div>
           </div>
@@ -77,12 +103,13 @@
       <thead style="background-color:#263238; color:#fff;">
         <tr>
           <th>Date</th>
-          <th>Particular</th>
+          <th>y_ledgername</th>
           <th>Vch Type</th>
           <th>Vch No.</th>
-          <th>Ref No.</th>
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
+          <th>Amount</th>
+          <th>Last Edit Time</th>
+          <th> Entry Time</th>
+          <th>Edit By</th>
         </tr>
       </thead>
       <!-- <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
@@ -91,14 +118,16 @@
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel() : getBookDetail(dataItem.y_voucherid)"
-        (enter)="getBookDetail(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+        (enter)="getBookDetail(dataItem.y_voucherid) "
+        [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
-        <td>{{dataItem.y_ledger}}</td>
-        <td>{{dataItem.y_type}}</td>
-        <td>{{dataItem.y_code}}</td>
-        <td>{{dataItem.y_cust_code}}</td>
-        <td>{{dataItem.y_dramunt}}</td>
-        <td>{{dataItem.y_cramunt}}</td>
+        <td>{{dataItem.y_ledgername}}</td>
+        <td>{{dataItem.y_vouchertype}}</td>
+        <td>{{dataItem.y_voucherno}}</td>
+        <td>{{dataItem.y_amount}}</td>
+        <td>{{dataItem.y_last_edit_time}}</td>
+        <td>{{dataItem.y_entry_time}}</td>
+        <td>{{dataItem.y_last_editby}}</td>
       </tr>
     </table>
   </nb-card-body>
