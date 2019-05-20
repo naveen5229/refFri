@@ -48,7 +48,12 @@ export class VouchercostcenterComponent implements OnInit {
     }
     this.getLedgers();
     console.log('amountDetails:', this.amountDetails);
-    this.setFoucus('cost-ledger-0');
+
+    setTimeout(() => {
+      this.setFoucus('cost-ledger-0');
+    }, 1000);
+
+
   }
 
   ngOnInit() {
@@ -168,12 +173,13 @@ export class VouchercostcenterComponent implements OnInit {
 
 
   setFoucus(id, isSetLastActive = true) {
+    console.log('id set focus', id);
     setTimeout(() => {
       let element = document.getElementById(id);
       element.focus();
       this.moveCursor(element, 0, element['value'].length);
-      if (isSetLastActive) this.lastActiveId = id;
-      console.log('last active id: ', this.lastActiveId);
+      //  if (isSetLastActive) this.lastActiveId = id;
+      console.log('last active id11: ', this.lastActiveId);
     }, 100);
   }
 
@@ -193,7 +199,7 @@ export class VouchercostcenterComponent implements OnInit {
   }
 
   selectLedger(ledger, index?) {
-    console.log('Last Active ID:', this.lastActiveId, ledger, index);
+    console.log('Last Active ID22:', this.lastActiveId, ledger, index);
     if (!index && this.lastActiveId.includes('cost-ledger')) {
       index = this.lastActiveId.split('-')[1];
     }

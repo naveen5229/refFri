@@ -1,0 +1,44 @@
+<nb-card style="padding: 0px; border: 0px;">
+  <nb-card-body style="padding:0px;">
+    <div class="modal-header mb-3">
+      <h5 class="modal-title" id="modal-basic-title">Cost Category View</h5>
+      <button type="button" class="close" aria- label="Close" (click)="modelCondition()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <table class="table table-bordered">
+      <thead style="background-color:#263238; color:#fff;">
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>costCenter Name</th>
+          <th>Voucher No</th>
+          <th>Amount(Debit)</th>
+          <th>Amount(Credit)</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let dataItem of costCenterData; let i = index;" (click)="selectedRow = i"
+        (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucher_id) "
+        [ngClass]="{'highlight' : selectedRow == i}">
+        <td>{{i + 1}}</td>
+        <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>
+        <td>{{dataItem.y_costcentername}}</td>
+        <td>{{dataItem.y_voucherno}}</td>
+        <td *ngIf="dataItem.y_dramunt != 0">{{dataItem.y_dr_amt}}</td>
+        <td *ngIf="dataItem.y_dramunt == 0"></td>
+        <td *ngIf="dataItem.y_cramunt != 0">{{dataItem.y_cr_amt}}</td>
+        <td *ngIf="dataItem.y_cramunt ==0"></td>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+<div class="date-modal" *ngIf="showDateModal" (keydown)="keyHandler($event)">
+  <div class="date-modal-body">
+    <div>
+      <input type="text" class="form-control" name="voucher-date-f2" id="voucher-date-f2" [(ngModel)]="ledger[f2Date]"
+        maxlength="10">
+    </div>
+  </div>
+</div>

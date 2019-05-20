@@ -1,11 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
+import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderComponent } from '../../acounts-modals/order/order.component';
-import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
+import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
+import { ProfitlossComponent } from '../profitloss/profitloss.component';
+import * as _ from 'lodash';
+import { CostCenterViewComponent } from '../../acounts-modals/cost-center-view/cost-center-view.component';
 
 @Component({
   selector: 'cost-center-report',
@@ -14,43 +16,36 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 })
 export class CostCenterReportComponent implements OnInit {
   selectedName = '';
-  DayBook = {
-    enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+
+  trial = {
+    endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+    startDate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
     ledger: {
       name: 'All',
       id: 0
     },
-    branch: {
+    voucherType: {
       name: 'All',
       id: 0
-    },
-    vouchertype: {
-      name: 'All',
-      id: 0
-    },
-    issumrise: 'true'
+    }
 
   };
-  vouchertypedata = [];
-  branchdata = [];
-  DayData = [];
-  ledgerData = [];
-  activeId = 'startdate';
+
+  costCenterData = [];
+  ledgerList = [];
+  activeId = 'voucherType';
   selectedRow = -1;
   allowBackspace = true;
-
-
-  f2Date = 'startdate';
-  lastActiveId = '';
   showDateModal = false;
+  f2Date = 'startDate';
   activedateid = '';
-
-
+  lastActiveId = '';
+  trialBalanceData = [];
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
   }
+
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -58,167 +53,109 @@ export class CostCenterReportComponent implements OnInit {
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
-    this.getAllLedger();
-    this.setFoucus('startdate');
-    this.common.currentPage = 'CostCenter-Report';
-
-
-
+    //this.getVoucherTypeList();
+    // this.getLedgerList();
+    this.setFoucus('startDate');
+    this.common.currentPage = 'Cost Category Report';
   }
 
   ngOnInit() {
   }
-
-  ngAfterViewInit() {
-
-  }
   refresh() {
-    this.getAllLedger();
-    this.setFoucus('startdate');
+    // this.getVoucherTypeList();
+    // this.getLedgerList();
+    this.setFoucus('startDate');
   }
 
 
 
-  openinvoicemodel(invoiceid) {
-    this.common.params = invoiceid;
-    const activeModal = this.modalService.open(OrderComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        console.log('open succesfull');
-
-      }
-    });
-  }
-
-
-
-  getAllLedger() {
-    let url = 'Suggestion/GetLedger?transactionType=' + 'credit' + '&voucherId=' + (-3) + '&search=' + 'test';
-    console.log('URL: ', url);
-    this.api.get(url)
-      .subscribe(res => {
-        console.log(res);
-        this.ledgerData = res['data'];
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-    this.setFoucus('ref-code');
-  }
-  getDayBook() {
-    console.log('Accounts:', this.DayBook);
+  getTrial() {
+    console.log('Ledger:', this.trial);
     let params = {
-      startdate: this.DayBook.startdate,
-      enddate: this.DayBook.enddate,
-      ledger: this.DayBook.ledger.id,
-      branchId: this.DayBook.branch.id,
-      vouchertype: this.DayBook.vouchertype.id,
+      startdate: this.trial.startDate,
+      enddate: this.trial.endDate
     };
 
     this.common.loading++;
-    this.api.post('Company/GetCashBook', params)
+    this.api.post('Accounts/getCostCenterSummary', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.DayData = res['data'];
-        this.filterData();
-        if (this.DayData.length) {
+        this.costCenterData = res['data'];
+        this.formattData();
+        if (this.costCenterData.length) {
           document.activeElement['blur']();
           this.selectedRow = 0;
         }
-
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
 
+  formattData() {
+    let firstGroup = _.groupBy(this.costCenterData, 'y_parent_costcentername');
+    this.trialBalanceData = [];
+    for (let key in firstGroup) {
+      let groups = _.groupBy(firstGroup[key], 'y_parent_costcentername');
+      let traildatas = [];
+      let totalopening = 0;
+      let totaldr = 0;
+      let totalcr = 0;
+      let totalclosing = 0;
+      let y_closebaltype = '';
+      let y_openbaltype = '';
+      for (let groupKey in groups) {
+
+        groups[groupKey].map(info => {
+          if (info.y_openbal) totalopening += parseInt(info.y_openbal);
+          if (info.y_dr_amt) totaldr += parseInt(info.y_dr_amt);
+          if (info.y_cr_amt) totalcr += parseInt(info.y_cr_amt);
+          if (info.y_close_amt) totalclosing += parseInt(info.y_close_amt);
+          y_closebaltype = info.y_closebaltype;
+          y_openbaltype = info.y_openbaltype;
+          traildatas.push(info);
+        });
+      }
+
+      this.trialBalanceData.push({
+        name: key,
+        totalopening,
+        totaldr,
+        totalcr,
+        totalclosing,
+        y_openbaltype,
+        y_closebaltype,
+        traildatas
+      });
+    }
+
+
+
+
+    console.log('First Section:', this.trialBalanceData);
+    console.log('Second Section:', this.trialBalanceData);
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.DayBook[date] = this.common.dateFormatternew(data.date).split(' ')[0];
-      console.log(this.DayBook[date]);
+      this.trial[date] = this.common.dateFormatternew(data.date).split(' ')[0];
+      console.log(this.trial[date]);
     });
-  }
-
-  onSelected(selectedData, type, display) {
-    this.DayBook[type].name = selectedData[display];
-    this.DayBook[type].id = selectedData.y_ledger_id;
-    console.log('Selected Data: ', selectedData, type, display);
-    console.log('order User: ', this.DayBook);
-  }
-  handleVoucherDateOnEnter(iddate) {
-    let dateArray = [];
-    let separator = '-';
-
-    //console.log('starting date 122 :', this.activedateid);
-    let datestring = (this.activedateid == 'startdate') ? 'startdate' : 'enddate';
-    if (this.DayBook[datestring].includes('-')) {
-      dateArray = this.DayBook[datestring].split('-');
-    } else if (this.DayBook[datestring].includes('/')) {
-      dateArray = this.DayBook[datestring].split('/');
-      separator = '/';
-    } else {
-      this.common.showError('Invalid Date Format!');
-      return;
-    }
-    let date = dateArray[0];
-    date = date.length == 1 ? '0' + date : date;
-    let month = dateArray[1];
-    month = month.length == 1 ? '0' + month : month;
-    let year = dateArray[2];
-    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
-    console.log('Date: ', date + separator + month + separator + year);
-    this.DayBook[datestring] = date + separator + month + separator + year;
-  }
-
-  filterData() {
-    let yCodes = [];
-    this.DayData.map(dayData => {
-      if (yCodes.indexOf(dayData.y_code) !== -1) {
-        dayData.y_code = ' ';
-        dayData.y_date = 0;
-      }
-    });
-  }
-
-  getBookDetail(voucherId) {
-    console.log('vouher id', voucherId);
-    this.common.params = voucherId;
-
-    const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        return;
-        //   if (stocksubType) {
-
-        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
-        //     return;
-        //   }
-        //  this.addStockSubType(data.stockSubType)
-      }
-    });
-  }
-
-  RowSelected(u: any) {
-    console.log('data of u', u);
-    this.selectedName = u;   // declare variable in component.
   }
 
 
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
-    console.log('Active event', event, this.activeId);
-    if (key == 'enter' && !this.activeId && this.DayData.length && this.selectedRow != -1) {
+    console.log('Active event', event);
+    if (key == 'enter' && !this.activeId && this.costCenterData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.DayData[this.selectedRow].y_ledger_id);
+      this.getBookDetail(this.costCenterData[this.selectedRow].y_costcenter_id);
       return;
     }
-
-    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
       this.lastActiveId = this.activeId;
@@ -234,48 +171,126 @@ export class CostCenterReportComponent implements OnInit {
       this.setFoucus(this.lastActiveId);
 
       return;
-    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startdate') || this.activeId.includes('enddate'))) {
+    } else if ((key != 'enter' && this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
       return;
     }
 
     if (key == 'enter') {
       this.allowBackspace = true;
-      if (this.activeId.includes('startdate')) {
-        this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
-        this.setFoucus('enddate');
-      } else if (this.activeId.includes('enddate')) {
-        this.DayBook.enddate = this.common.handleDateOnEnterNew(this.DayBook.enddate);
+      if (this.activeId.includes('voucherType')) {
+        this.setFoucus('ledger');
+      } else if (this.activeId.includes('ledger')) {
+        this.setFoucus('startDate');
+      } else if (this.activeId.includes('startDate')) {
+        this.trial.startDate = this.common.handleDateOnEnterNew(this.trial.startDate);
+        this.setFoucus('endDate');
+      } else if (this.activeId.includes('endDate')) {
+        this.trial.endDate = this.common.handleDateOnEnterNew(this.trial.endDate);
         this.setFoucus('submit');
       }
     }
     else if (key == 'backspace' && this.allowBackspace) {
       event.preventDefault();
       console.log('active 1', this.activeId);
-      if (this.activeId == 'enddate') this.setFoucus('startdate');
+      if (this.activeId == 'endDate') this.setFoucus('startDate');
+      if (this.activeId == 'startDate') this.setFoucus('ledger');
+      if (this.activeId == 'ledger') this.setFoucus('voucherType');
     } else if (key.includes('arrow')) {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
 
-    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
+    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.costCenterData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
-      else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
+      else if (this.selectedRow != this.costCenterData.length - 1) this.selectedRow++;
 
     }
   }
 
+
+  handleVoucherDateOnEnter(iddate) {
+    let dateArray = [];
+    let separator = '-';
+
+    //console.log('starting date 122 :', this.activedateid);
+    let datestring = (this.activedateid == 'startDate') ? 'startDate' : 'endDate';
+    if (this.trial[datestring].includes('-')) {
+      dateArray = this.trial[datestring].split('-');
+    } else if (this.trial[datestring].includes('/')) {
+      dateArray = this.trial[datestring].split('/');
+      separator = '/';
+    } else {
+      this.common.showError('Invalid Date Format!');
+      return;
+    }
+    let date = dateArray[0];
+    date = date.length == 1 ? '0' + date : date;
+    let month = dateArray[1];
+    month = month.length == 1 ? '0' + month : month;
+    let year = dateArray[2];
+    year = year.length == 1 ? '200' + year : year.length == 2 ? '20' + year : year;
+    console.log('Date: ', date + separator + month + separator + year);
+    this.trial[datestring] = date + separator + month + separator + year;
+  }
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
       let element = document.getElementById(id);
       console.log('Element: ', element);
       element.focus();
-
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
     }, 100);
   }
 
-  test(e) {
-    console.log('--------: ', e);
+
+  getBookDetail(costCenterId) {
+    console.log('cost Center id', costCenterId);
+    //  this.common.params = voucherId;
+    this.common.params = {
+      startdate: this.trial.startDate,
+      enddate: this.trial.endDate,
+      costCenterId: costCenterId,
+
+    };
+
+    const activeModal = this.modalService.open(CostCenterViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      if (data.response) {
+        return;
+        //   if (stocksubType) {
+
+        //     this.updateStockSubType(stocksubType.id, data.stockSubType);
+        //     return;
+        //   }
+        //  this.addStockSubType(data.stockSubType)
+      }
+    });
+  }
+
+  getProfitLoss() {
+    this.common.params = {
+      startdate: this.trial.startDate,
+      enddate: this.trial.endDate
+    };
+    console.log('start date and date', this.common.params);
+    //  this.common.params = voucherId;
+
+    const activeModal = this.modalService.open(ProfitlossComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        return;
+
+      }
+    });
+  }
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
   }
 }
+

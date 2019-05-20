@@ -25,9 +25,9 @@ export class AddMaintenanceComponent implements OnInit {
   currentMaintDate: any;
   nextVehicleKm = null;
   remark: any;
-  currentVehicleKm: any;
+  currentVehicleKm = null;
   maintLocation: any;
-  amount: any;
+  amount = null;
   selectedMT: string = '';
   edit = 0;
   MaintenanceId = null;
@@ -88,7 +88,7 @@ export class AddMaintenanceComponent implements OnInit {
 
   addMaintenance() {
     let params = {
-      id: this.MaintenanceId ? this.MaintenanceId : -1,
+      id: this.MaintenanceId ? this.MaintenanceId : null,
       vId: this.vehicleId,
       mainTypeId: this.typeId,
       currDate: this.common.dateFormatter(this.currentMaintDate),
