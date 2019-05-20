@@ -127,7 +127,7 @@
             <input type="text" class="form-control" placeholder="Pan-Card" id="pan" name="pan" (keyup)="checkFormat()"
               pattern="[A-Z]{5}[0-9]{4}[A-Z]$" [ngClass]="{ 'is-invalid': isFormSubmit && pan.errors }"
               [(ngModel)]="company.pan" autocomplete="off" #pan="ngModel">
-            <div *ngIf="isFormSubmit && pan.errors" class="invalid-feedback">
+            <div *ngIf="isFormSubmit && pan.errors || pan.touch" class="invalid-feedback">
               <div *ngIf="pan.errors.required">PanNumber is Require</div>
               <div *ngIf="pan.errors.pattern"> Example : AELPU5278H</div>
             </div>
