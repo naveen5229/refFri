@@ -6,5 +6,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-home',
         link: '/walle8',
         home: true,
-    }
+    },   
+    
+    {
+        title: 'Card Mappping',
+        icon: 'fa fa-credit-card',
+        link: '/walle8/card-mapping',
+        home: true,
+    },
 ];
