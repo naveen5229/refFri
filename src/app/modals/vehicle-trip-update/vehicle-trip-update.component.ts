@@ -278,6 +278,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);
+          this.keepGoing = true;
 
           if (res.location.lat) {
             this.vehicleTrip.endName = res.location.name;
