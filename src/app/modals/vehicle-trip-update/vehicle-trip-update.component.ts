@@ -155,7 +155,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         placementType: this.vehicleTrip.placementType,
         targetTime: this.vehicleTrip.targetTime,
         allowedHaltHours: this.vehicleTrip.allowedHaltHours,
-        siteId: this.vehicleTrip.endLat ? 0 : this.placementSite,
+        siteId: this.vehicleTrip.siteId ? this.vehicleTrip.siteId : this.placementSite ? this.placementSite : 'null',
 
       }
 
@@ -267,6 +267,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endLat = site.lat;
     this.vehicleTrip.endLng = site.long;
     this.vehicleTrip.endName = site.name;
+    this.vehicleTrip.siteId = site.id;
 
   }
   takeAction(res) {
