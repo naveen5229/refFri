@@ -25,10 +25,10 @@ export class AccountsComponent {
   constructor(public api: ApiService,
     public router: Router,
     public user: UserService, public accountService: AccountService) {
-    if (this.user._loggedInBy == 'customer') {
-      this.router.navigate(['/pages']);
-      return;
-    }
+    // if (this.user._loggedInBy == 'customer') {
+    //   this.router.navigate(['/pages']);
+    //   return;
+    // }
     if (!this.accountService.branches.length) {
       this.getBranches();
       this.getFinancial();
