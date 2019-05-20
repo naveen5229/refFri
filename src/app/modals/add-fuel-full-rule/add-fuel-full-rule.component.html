@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="status==0">
       <div class="col-sm-3">
         <label>Fo User:</label>
       </div>
@@ -20,8 +20,7 @@
         <label>Rule Type</label>
       </div>
       <div class="col-sm-3">
-        <select [(ngModel)]="Rules.ruleType" class="form-control" (change)="changeRuleType()"
-          style=" border: 1px solid #324148; font-size: 10px">
+        <select [(ngModel)]="Rules.ruleType" class="form-control" style=" border: 1px solid #324148; font-size: 10px">
           <option value="0">Select Type</option>
           <option value="1">Site</option>
           <option value="2">Pump Station</option>
@@ -38,7 +37,7 @@
         </label>
       </div>
       <div class="col-sm-4" *ngIf="Rules.ruleType=='1'">
-        <auto-suggestion (onSelected)="getSite($event)" url="Suggestion/getSites?typeId=1" display="name"
+        <auto-suggestion (onSelected)="getSite($event)" url="Site/getSitesFromRedis?search=" display="name"
           placeholder="Site" [preSelected]="{name:siteName}"></auto-suggestion>
       </div>
       <div class="col-sm-4" *ngIf="Rules.ruleType=='2'">
@@ -46,7 +45,7 @@
           placeholder="Pump" [preSelected]="{loc_name:pumpName}"></auto-suggestion>
       </div>
     </div>
-    <div class="row" style="margin-top:10px">
+    <!-- <div class="row" style="margin-top:10px">
       <div class="col-sm-3" style="margin-top:7px">
         <label>Angle From:</label>
       </div>
@@ -59,7 +58,7 @@
       <div class="col-sm-3">
         <input type="text" class="form-control" [(ngModel)]="Rules.angleTo" name="angleto" placeholder="">
       </div>
-    </div>
+    </div> -->
     <!-- <div class="row" style="margin-top:10px" *ngIf="ruleType=='2'">
       <div class="col-sm-3" style="margin-top:5px">
         <label>Location:</label>

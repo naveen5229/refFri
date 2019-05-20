@@ -19,6 +19,8 @@ export class PumpStationAreaComponent implements OnInit {
   };
   locName = null;
   locLatLng = { lat: 0, lng: 0 };
+  angleFrom;
+  angleTo;
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
@@ -155,7 +157,9 @@ export class PumpStationAreaComponent implements OnInit {
             polygon: path,
             locName: this.locName,
             lat: this.locLatLng.lat,
-            long: this.locLatLng.lng
+            long: this.locLatLng.lng,
+            angle_from: this.angleFrom,
+            angle_to: this.angleTo
           };
           this.apiService.post("SiteFencing/insertPumpStationAreaFence", params)
             .subscribe(res => {
@@ -174,7 +178,9 @@ export class PumpStationAreaComponent implements OnInit {
             polygon: path,
             locName: this.selectedArea.loc_name,
             lat: this.selectedArea.lat,
-            long: this.selectedArea.long
+            long: this.selectedArea.long,
+            angle_from: this.angleFrom,
+            angle_to: this.angleTo
           };
           this.apiService.post("SiteFencing/updatePumpStationArea", params)
             .subscribe(res => {

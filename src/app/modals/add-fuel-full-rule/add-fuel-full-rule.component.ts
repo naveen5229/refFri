@@ -15,13 +15,13 @@ export class AddFuelFullRuleComponent implements OnInit {
   foname = '';
   siteName = '';
   pumpName = '';
+  result = [];
   Rules = {
     foid: '',
     ruleType: '0',
-    angleFrom: '',
-    angleTo: '',
     siteId: null,
-    pumpStationId: null
+    pumpStationId: null,
+    rowid: ''
   };
 
 
@@ -37,6 +37,7 @@ export class AddFuelFullRuleComponent implements OnInit {
       this.Rules.foid = this.common.params.rule.foid;
       this.foname = this.common.params.rule.fo_name;
       this.Rules.ruleType = this.common.params.rule.rule_type || '0';
+      this.Rules.rowid = this.common.params.rule.id;
       if (this.Rules.ruleType == '1') {
         this.siteName = this.common.params.rule.name || ''
       } else {
@@ -44,8 +45,8 @@ export class AddFuelFullRuleComponent implements OnInit {
       }
       this.Rules.siteId = this.common.params.rule.siteid || 'null';
       this.Rules.pumpStationId = this.common.params.rule.pump_station_area_id || 'null';
-      this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
-      this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
+      //  this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
+      //  this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
 
     }
   }
@@ -79,10 +80,11 @@ export class AddFuelFullRuleComponent implements OnInit {
     let params = {
       foid: this.Rules.foid,
       ruleType: this.Rules.ruleType,
-      angleFrom: this.Rules.angleFrom,
-      angleTo: parseInt(this.Rules.angleTo),
+      //  angleFrom: this.Rules.angleFrom,
+      // angleTo: parseInt(this.Rules.angleTo),
       siteId: parseInt(this.Rules.siteId),
-      pumpStationId: this.Rules.pumpStationId
+      pumpStationId: this.Rules.pumpStationId,
+      rowid: this.Rules.rowid ? this.Rules.rowid : 'null'
     };
     console.log('params to save', params);
     if (this.status == 1) {
@@ -91,7 +93,9 @@ export class AddFuelFullRuleComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res['data'])
+          this.result = res['data'];
           this.common.showToast(res['msg']);
+          this.activeModal.close({ response: this.result });
         }, err => {
           this.common.loading--
           this.common.showError();
@@ -102,6 +106,9 @@ export class AddFuelFullRuleComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res['data'])
+          this.result = res['data'];
+          this.common.showToast(res['msg']);
+          this.activeModal.close({ response: this.result });
         }, err => {
           this.common.loading--
           this.common.showError();

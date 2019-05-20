@@ -32,7 +32,7 @@ export class FuelRulesComponent implements OnInit {
     const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        // this.getSiteData();
+        this.getFuelNorms();
       }
     });
   }
@@ -57,8 +57,8 @@ export class FuelRulesComponent implements OnInit {
       FoName: { title: 'Fo Name', placeholder: 'Fo Name' },
       RuleType: { title: 'Rule Type ', placeholder: 'Rule Type' },
       Name: { title: 'Name ', placeholder: 'Name' },
-      AngleFrom: { title: 'Angle From ', placeholder: 'Angle From' },
-      AngleTo: { title: 'Angle To ', placeholder: 'Angle To' },
+      // AngleFrom: { title: 'Angle From ', placeholder: 'Angle From' },
+      // AngleTo: { title: 'Angle To ', placeholder: 'Angle To' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
     return {
@@ -80,8 +80,8 @@ export class FuelRulesComponent implements OnInit {
         FoName: { value: norm.fo_name },
         RuleType: { value: norm.type },
         Name: { value: norm.name },
-        AngleFrom: { value: norm.angle_from },
-        AngleTo: { value: norm.angle_to },
+        // AngleFrom: { value: norm.angle_from },
+        // AngleTo: { value: norm.angle_to },
         action: {
           value: '', isHTML: false, action: null, icons: [
             { class: 'fa fa-pencil-square-o  edit-btn', action: this.updateRule.bind(this, norm) },
