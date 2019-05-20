@@ -37,6 +37,25 @@ export class VoucherdetailComponent implements OnInit {
         this.common.showError();
       });
   }
+
+  filterCostDetails(unFilterData) {
+    let costFilter = [];
+    console.log('Unfilter:', unFilterData);
+    if (unFilterData) {
+      let costStr = unFilterData.replace(/'/g, '');
+      costStr = costStr.substring(1, costStr.length - 1).replace(/{/g, '').replace(/}/g, '');
+      console.log('Cost STR:', costStr);
+      let costArray = costStr.split(',');
+      console.log('Cost Array:', costArray);
+      costArray.map(cost => {
+        costFilter.push(cost)
+      })
+    }
+
+    return costFilter;
+
+
+  }
   dismiss(response) {
     //console.log('Accounts:', this.Branches);
     this.activeModal.close({ response: response, test: this.Detail });
