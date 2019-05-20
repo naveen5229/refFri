@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
+import { VehicleTripUpdateComponent } from '../../modals/vehicle-trip-update/vehicle-trip-update.component';
 
 @Component({
   selector: 'trip-status-feedback-logs',
@@ -112,7 +113,10 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
         j
         if (this.headings[j] == 'Vehicle') {
           this.valobj[this.headings[j]] = { value: this.tripLogs[i][this.headings[j]], class: 'black', action: this.openChangeStatusModal.bind(this, this.tripLogs[i]) };
-        } else if (this.headings[j] == 'Action') {
+        } else if (this.headings[j] == 'New Destination') {
+          this.valobj[this.headings[j]] = { value: this.tripLogs[i][this.headings[j]], class: 'blue', action: this.openPlacementModal.bind(this, this.tripLogs[i]) };
+        }
+        else if (this.headings[j] == 'Action') {
           if (this.tripLogs[i][this.headings[j]] == 0)
             this.valobj[this.headings[j]] = { value: "Action Required", class: "red", action: this.changeTripFeedbackAction.bind(this, this.tripLogs[i]) };
           else {
@@ -189,6 +193,18 @@ export class TripStatusFeedbackLogsComponent implements OnInit {
     `
     return html;
   }
+
+  openPlacementModal(trip) {
+    let tripDetails = {
+      vehicleId: trip._vid,
+      siteId: -1
+
+    }
+    this.common.params = { tripDetils: tripDetails, ref_page: 'trip status feedback logs' };
+    const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+
   changeTripFeedbackAction(tripFeedback) {
     let params = {
       tripFeedbackId: tripFeedback._id

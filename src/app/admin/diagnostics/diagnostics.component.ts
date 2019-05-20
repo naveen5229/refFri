@@ -81,7 +81,7 @@ export class DiagnosticsComponent implements OnInit {
     if (type == 'trails') {
       this.Trails.vechileno = vehicle.id;
     } if (type == 'distance') {
-      this.diagnostics.vechileno = vehicle.id;
+      this.diagnostics.vechileno = vehicle.regno;
     } if (type == 'Status') {
       this.VehicleStatusData.vehicle_id = vehicle.id;
     }
