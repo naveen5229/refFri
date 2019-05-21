@@ -41,7 +41,7 @@ export class CostCentersComponent implements OnInit {
       }
       console.log('Accounts: ', this.Accounts);
     }
-
+    this.common.handleModalSize('class', 'modal-lg', '1250');
   }
 
   ngOnInit() {

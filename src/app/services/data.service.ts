@@ -232,6 +232,11 @@ export class DataService {
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-documents',
           },
+          {
+            title: 'Pending vehicle',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/pending-vehicle',
+          },
 
         ]
       },

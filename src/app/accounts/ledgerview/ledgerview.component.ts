@@ -212,7 +212,7 @@ export class LedgerviewComponent implements OnInit {
       this.allowBackspace = false;
     }
 
-    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerData.length) {
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.ledgerData.length - 1) this.selectedRow++;

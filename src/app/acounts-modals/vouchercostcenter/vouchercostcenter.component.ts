@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../services/account.service';
+import { CostCentersComponent } from '../cost-centers/cost-centers.component';
 
 
 @Component({
@@ -51,6 +52,9 @@ export class VouchercostcenterComponent implements OnInit {
 
     setTimeout(() => {
       this.setFoucus('cost-ledger-0');
+      console.log('first active id', document.activeElement.id);
+
+      console.log('first active id', this.lastActiveId);
     }, 1000);
 
 
@@ -98,11 +102,15 @@ export class VouchercostcenterComponent implements OnInit {
       }
       return;
     }
+    if (event.altKey && key === 'c') {
+      // console.log('alt + C pressed');
+      this.openCostCenter();
+    }
 
     if (key == 'enter') {
       if (document.activeElement.id.includes('amount-')) {
         this.handleAmountEnter(document.activeElement.id.split('-')[2]);
-      } else if (activeId.includes('ledger-')) {
+      } else if (activeId.includes('cost-ledger-')) {
         let index = activeId.split('-')[2];
         if (this.activeLedgerIndex > this.ledgers.suggestions.length - 1) {
           this.activeLedgerIndex = 0;
@@ -130,7 +138,7 @@ export class VouchercostcenterComponent implements OnInit {
       }
       //console.log('helo',document.activeElement.id);
     } else if (activeId.includes('ledger-')) {
-      let index = activeId.split('-')[1];
+      let index = activeId.split('-')[2];
     }
   }
 
@@ -200,15 +208,20 @@ export class VouchercostcenterComponent implements OnInit {
 
   selectLedger(ledger, index?) {
     console.log('Last Active ID22:', this.lastActiveId, ledger, index);
-    if (!index && this.lastActiveId.includes('cost-ledger')) {
-      index = this.lastActiveId.split('-')[1];
+    // if (!index && this.lastActiveId.includes('cost-ledger')) {
+    //   index = this.lastActiveId.split('-')[1];
+    // }
+    if (!index && document.activeElement.id.includes('cost-ledger')) {
+      index = this.lastActiveId.split('-')[2];
     }
+
+
     this.amountDetails[index].ledger.name = ledger.name;
     this.amountDetails[index].ledger.id = ledger.id;
   }
 
   handleArrowUpDown(key, activeId) {
-    let index = parseInt(activeId.split('-')[1]);
+    let index = parseInt(activeId.split('-')[2]);
     if (key == 'arrowdown') {
       if (this.activeLedgerIndex != this.ledgers.suggestions.length - 1) {
         this.activeLedgerIndex++;
@@ -224,12 +237,14 @@ export class VouchercostcenterComponent implements OnInit {
   }
 
   getActiveLedgerType(ledgers) {
-    if (!this.lastActiveId || !this.lastActiveId.includes('ledger-')) return [];
-    let index = parseInt(this.lastActiveId.split('-')[1]);
+    console.log('ActiveID:', document.activeElement.id);
+    let activeId = document.activeElement.id;
+    if (!activeId.includes('ledger-')) return [];
+    let index = parseInt(activeId.split('-')[2]);
     let suggestions = ledgers.all;
     // console.log(document.getElementById(this.lastActiveId)['value']);
-    if (document.getElementById(this.lastActiveId) && document.getElementById(this.lastActiveId)['value']) {
-      let search = document.getElementById(this.lastActiveId)['value'].toLowerCase();
+    if (document.getElementById(activeId) && document.getElementById(activeId)['value']) {
+      let search = document.getElementById(activeId)['value'].toLowerCase();
       suggestions = ledgers.all.filter(ledger => ledger.name.toLowerCase().includes(search));
     }
     this.ledgers.suggestions = suggestions;
@@ -237,5 +252,49 @@ export class VouchercostcenterComponent implements OnInit {
 
   }
 
+
+  openCostCenter(ledger?) {
+    console.log('ledger123', ledger);
+    if (ledger) this.common.params = ledger;
+    const activeModal = this.modalService.open(CostCentersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        // console.log('ledger data',data.ledger);
+        this.addCostCenter(data.ledger);
+      }
+    });
+  }
+
+
+  addCostCenter(costCenter) {
+    console.log('costCenter', costCenter);
+    const params = {
+      parentName: costCenter.parentName,
+      parentid: costCenter.parentId,
+      foid: 123,
+      x_id: costCenter.xid,
+      name: costCenter.name,
+    };
+    console.log('params11: ', params);
+    this.common.loading++;
+    this.api.post('Accounts/InsertCostCenter', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        let result = res['data'][0].save_costcenter;
+        if (result == '') {
+          this.common.showToast("Save Successfully");
+        }
+        else {
+          this.common.showToast(result);
+        }
+        this.getLedgers();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
 
 }
