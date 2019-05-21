@@ -41,7 +41,7 @@
           <tbody *ngFor="let liability of liabilities; let i = index">
             <tr style="background: #184154;" [ngStyle]="{ display: i == liabilities.length - 1 ? 'none' : '' }">
               <td>{{ liability.name }}</td>
-              <td style="text-align: right;">{{ liability.amount }}</td>
+              <td style="text-align: right;">{{ liability.amount  | number : '1.2-2'}}</td>
             </tr>
             <tr *ngFor="let balanceSheet of liability.profitLossData let j = index" style="background: #dadfe6;"
               (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id) : ' ' "
@@ -67,7 +67,7 @@
           <tbody *ngFor="let asset of assets; let k = index">
             <tr style="background: #184154;" [ngStyle]="{ display: i == assets.length - 1 ? 'none' : '' }">
               <td>{{ asset.name }}</td>
-              <td style="text-align: right;">{{ asset.amount }}</td>
+              <td style="text-align: right;">{{ asset.amount | number : '1.2-2' }}</td>
             </tr>
             <tr *ngFor="let balanceSheet of asset.profitLossData let l = index" (click)="selectedRow =  'B' + k + l"
               (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id) : ' ' "
@@ -91,7 +91,7 @@
           </div>
           <div class="total_amount" style="text-align: right;">
             <p style="margin: 0px; width: 100px; text-align: right;">
-              {{ liabilities[liabilities.length - 1].amount }}
+              {{ liabilities[liabilities.length - 1].amount  | number : '1.2-2'}}
             </p>
           </div>
         </div>
@@ -101,7 +101,7 @@
           <div class="total_name">{{ assets[assets.length - 1].name }}</div>
           <div class="total_amount" style="text-align: right;">
             <p style="margin: 0px; width: 100px; text-align: right;">
-              {{ assets[assets.length - 1].amount }}
+              {{ assets[assets.length - 1].amount  | number : '1.2-2'}}
             </p>
           </div>
         </div>

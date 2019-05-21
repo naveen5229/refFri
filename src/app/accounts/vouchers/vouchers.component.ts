@@ -34,6 +34,7 @@ export class VouchersComponent implements OnInit {
   currentbalance = 0;
   balances = {};
   showConfirm = false;
+  showConfirmCostCenter = false;
 
   showSuggestions = false;
   // ledgers = [];
@@ -67,7 +68,6 @@ export class VouchersComponent implements OnInit {
     this.voucher = this.setVoucher();
     this.common.currentPage = this.voucherName;
 
-
     setTimeout(() => {
       console.log('financial year', this.accountService.selected.branch.is_constcenterallow);
     }, 10000);
@@ -80,10 +80,11 @@ export class VouchersComponent implements OnInit {
     this.getLedgers('debit');
     this.getLedgers('credit');
   }
+
   setVoucher() {
     return {
       name: '',
-      date: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
+      date: this.accountService.voucherDate || this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
       foid: '',
       user: {
         name: '',
@@ -144,16 +145,20 @@ export class VouchersComponent implements OnInit {
     //   }
     // });
   }
+
   modelCondition() {
     this.showConfirm = false;
+    this.showConfirmCostCenter = false;
     event.preventDefault();
     return;
   }
+
   dismiss(response) {
     console.log('DD: ', this.common.dateFormatter(this.common.convertDate(this.voucher.date), 'y', false));
     console.log('DD: ', this.accountService.selected.financialYear.startdate);
     console.log('DD: ', this.accountService.selected.financialYear.enddate);
     this.showConfirm = false;
+    this.showConfirmCostCenter = false;
     if (!response) {
       this.showConfirm = false;
       return;
@@ -217,11 +222,11 @@ export class VouchersComponent implements OnInit {
         this.common.loading--;
         console.log('res: ', res['data'].code);
         if (res['success']) {
+          this.accountService.voucherDate = this.voucher.date;
           this.voucher = this.setVoucher();
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);
           this.setFoucus('ref-code');
-          this.voucher.date = params.date;
         } else {
           let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
           this.common.showError(message);
@@ -295,6 +300,29 @@ export class VouchersComponent implements OnInit {
       }
       return;
     }
+
+    if (this.showConfirmCostCenter) {
+      console.log('..........................');
+      if (key == 'y' || key == 'enter') {
+        this.showConfirmCostCenter = false;
+        event.preventDefault();
+        if (this.voucher.total.debit == 0) {
+          this.showConfirmCostCenter = false;
+          this.common.showError('Please Enter Amount');
+        } else {
+          let index = this.lastActiveId.split('-')[1];
+          console.log('last hello ', this.showConfirmCostCenter, this.lastActiveId, index);
+          this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+          return
+        }
+      }
+      return;
+    }
+    console.log('..........................');
+
+
+
+
     if (key == 'f2' && !this.showDateModal) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
@@ -316,13 +344,14 @@ export class VouchersComponent implements OnInit {
       if (document.activeElement.id.includes('amount-')) {
         let index = activeId.split('-')[1];
         console.log('test rest successfull', this.voucher.amountDetails[index].ledger.is_constcenterallow);
-        if (this.voucher.amountDetails[index].ledger.is_constcenterallow == true && confirm('Are you sure want to cost center entry?')) {
+        if (this.voucher.amountDetails[index].ledger.is_constcenterallow == true) {
+          this.showConfirmCostCenter = true;
           // console.log('test rest successfull', this.voucher.amountDetails[index].is_constcenterallow);
           let index = activeId.split('-')[1];
           console.log('Inde:', index);
           console.log('Amount:', this.voucher.amountDetails[index].amount);
-          this.setFoucus('transaction-type-' + (parseInt(index) + 1));
-          this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+          //this.setFoucus('transaction-type-' + (parseInt(index) + 1));
+          // this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
         }
         this.handleAmountEnter(document.activeElement.id.split('-')[1]);
       }
@@ -386,7 +415,13 @@ export class VouchersComponent implements OnInit {
       let transactionType = this.voucher.amountDetails[index].transactionType;
     }
   }
-
+  vouchercostcenter() {
+    let index = document.activeElement.id.split('-')[1];
+    console.log('fdsfedsfdsfdsf', index)
+    this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+    this.showConfirmCostCenter = false;
+    event.preventDefault();
+  }
   handleAmountEnter(index) {
     index = parseInt(index);
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
@@ -394,7 +429,9 @@ export class VouchersComponent implements OnInit {
       return;
     } else if (this.voucher.total.debit == this.voucher.total.credit && index != this.voucher.amountDetails.length - 1) {
       this.calculateTotal();
-      this.setFoucus('transaction-type-' + (index + 1));
+      if (!this.voucher.amountDetails[index].ledger.is_constcenterallow) {
+        this.setFoucus('transaction-type-' + (index + 1));
+      }
       return;
     }
 
@@ -699,11 +736,14 @@ export class VouchersComponent implements OnInit {
       console.log(document.getElementById('transaction-type-' + (index + 1)), index, 'transaction-type-' + (index + 1));
       setTimeout(() => {
         console.log('eeee', document.getElementById('transaction-type-' + (index + 1)));
-
-      }, 1000);
+        console.log('0000000000000000000L:', this.showConfirmCostCenter);
+        this.showConfirmCostCenter = false;
+      }, 200);
+      this.showConfirmCostCenter = false;
       this.setFoucus('transaction-type-' + (index + 1));
       console.log('Testiong', this.voucher.amountDetails[index]);
     });
+
 
   }
 

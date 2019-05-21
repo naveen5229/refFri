@@ -9,7 +9,7 @@ import { AccountService } from './account.service';
   providedIn: 'root'
 })
 export class ApiService {
-  //URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
+  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://localhost/Transtruck/booster_webservices/';
@@ -156,4 +156,14 @@ export class ApiService {
 
   //   return this.http.post(this.IMAGE_PROCESSING_URL + subURL, body, { headers: headers })
   // }
+
+  getBranches() {
+    this.post('Suggestion/GetBranchList', { search: 123 })
+      .subscribe(res => {
+        console.log('Branches :', res['data']);
+        this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
+      });
+  }
 }

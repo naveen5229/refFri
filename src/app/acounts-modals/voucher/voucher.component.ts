@@ -34,6 +34,8 @@ export class VoucherComponent implements OnInit {
   currentbalance = 0;
   balances = {};
   showConfirm = false;
+  showConfirmCostCenter = false;
+
 
   showSuggestions = false;
   // ledgers = [];
@@ -347,6 +349,25 @@ export class VoucherComponent implements OnInit {
       }
       return;
     }
+
+    if (this.showConfirmCostCenter) {
+      console.log('..........................');
+      if (key == 'y' || key == 'enter') {
+        this.showConfirmCostCenter = false;
+        event.preventDefault();
+        if (this.voucher.total.debit == 0) {
+          this.showConfirmCostCenter = false;
+          this.common.showError('Please Enter Amount');
+        } else {
+          let index = this.lastActiveId.split('-')[1];
+          console.log('last hello ', this.showConfirmCostCenter, this.lastActiveId, 'index last', index);
+          this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+          return
+        }
+      }
+      return;
+    }
+
     if (key == 'f2' && !this.showDateModal) {
       // document.getElementById("voucher-date").focus();
       // this.voucher.date = '';
@@ -425,18 +446,31 @@ export class VoucherComponent implements OnInit {
       let transactionType = this.voucher.amountDetails[index].transactionType;
     }
   }
-
+  vouchercostcenter() {
+    let index = document.activeElement.id.split('-')[1];
+    console.log('fdsfedsfdsfdsf', this.lastActiveId);
+    this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+    this.showConfirmCostCenter = false;
+    event.preventDefault();
+  }
   handleAmountEnter(index) {
     index = parseInt(index);
-    if (this.voucher.amountDetails[index].ledger.is_constcenterallow && confirm('Edit Cost Center?')) {
-      this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
+    if (this.voucher.amountDetails[index].ledger.is_constcenterallow) {
+      this.showConfirmCostCenter = true;
+      console.log('last one hello ggg', this.showConfirmCostCenter, this.lastActiveId, 'index last', index);
+
+      // this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     }
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
       this.setFoucus('narration');
       return;
     } else if (this.voucher.total.debit == this.voucher.total.credit && index != this.voucher.amountDetails.length - 1) {
       this.calculateTotal();
-      this.setFoucus('transaction-type-' + (index + 1));
+      console.log('console eror 2');
+      // this.setFoucus('transaction-type-' + (index + 1));
+      if (!this.voucher.amountDetails[index].ledger.is_constcenterallow) {
+        this.setFoucus('transaction-type-' + (index + 1));
+      }
       return;
     }
 
@@ -468,7 +502,7 @@ export class VoucherComponent implements OnInit {
     }
 
     this.calculateTotal();
-    this.setFoucus('transaction-type-' + (parseInt(index) + 1));
+    // this.setFoucus('transaction-type-' + (parseInt(index) + 1));
   }
 
   setFoucus(id, isSetLastActive = true) {
@@ -793,10 +827,17 @@ export class VoucherComponent implements OnInit {
         this.voucher.amountDetails[index].details = data.amountDetails;
       }
       if (document.getElementById('transaction-type-' + (index + 1))) {
+        console.log('console eror 1');
         this.setFoucus('transaction-type-' + (index + 1));
       } else {
         this.setFoucus('narration');
       }
+
+      setTimeout(() => {
+        console.log('eeee', document.getElementById('transaction-type-' + (index + 1)));
+        console.log('0000000000000000000L:', this.showConfirmCostCenter);
+        this.showConfirmCostCenter = false;
+      }, 200);
 
       console.log('Testiong', this.voucher.amountDetails[index]);
     });

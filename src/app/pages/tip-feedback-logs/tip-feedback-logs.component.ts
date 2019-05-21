@@ -3,6 +3,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../../services/user.service';
 @Component({
   selector: 'tip-feedback-logs',
   templateUrl: './tip-feedback-logs.component.html',
@@ -28,7 +29,8 @@ export class TipFeedbackLogsComponent implements OnInit {
 
   constructor(public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public user: UserService) {
     let today;
     today = new Date();
     this.endDate = (this.common.dateFormatter(today)).split(' ')[0];
@@ -141,6 +143,44 @@ export class TipFeedbackLogsComponent implements OnInit {
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
+  }
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Trip Feedback Logs";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Trip Feedback Logs";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
   }
 
 

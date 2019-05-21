@@ -6,31 +6,41 @@
 </div>
 <div class="modal-body">
   <div class="row" style="margin-bottom:10px">
-    <div class="col-8">
-      <div class="row">
-        <div class="col-sm-1 pr-0">
-          <label>FoId</label>
-        </div>
-        <div class="col-sm-3">
-          <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name" id="name"
-            placeholder="Fo User"></auto-suggestion>
-        </div>
+    <div class="col-4">
+      <div class="form-group">
 
-        <div class="col-sm-2">
-          <label>Reg No</label>
-        </div>
-        <div class="col-sm-4">
-          <input type="text" class="w-100" placeholder="Registration Number" id="regno" name="regno"
-            [(ngModel)]="regno">
-        </div>
-        <div class="col-2"> <button class="btn btn-primary" id="submit" name="button" (click)="Submit()">Submit</button>
-        </div>
+        <!-- <div class="row"> -->
+        <!-- <div class="col-sm-1 pr-0"> -->
+        <label>FoId</label>
+        <!-- </div> -->
+        <!-- <div class="col-sm-3"> -->
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name" id="name"
+          placeholder="Fo User"></auto-suggestion>
       </div>
     </div>
-    <div class="col-4 text-right">
-      <button class="btn btn-primary" type="submit" (click)="importDriverCsv()" name="button">Import Csv</button>
-    </div>
 
+    <!-- <div class="col-sm-2"> -->
+    <div class="col-4">
+      <div class="form-group">
+
+        <label>Reg No</label>
+        <!-- </div> -->
+        <!-- <div class="col-sm-4"> -->
+        <input type="text" class="w-100" placeholder="Registration Number" id="regno" name="regno" [(ngModel)]="regno">
+      </div>
+    </div>
+    <div class="col-4 text-right" style="margin-top: 21px;">
+      <button class="btn btn-primary" type="submit" (click)="importDriverCsv()" name="button"
+        style="margin-right:108px;">Import Csv</button>
+    </div>
+    <!-- <div class="col-2"> <button class="btn btn-primary" id="submit" name="button" (click)="Submit()">Submit</button>
+        </div> -->
+    <!-- <div class="col-4 text-right">
+      <button class="btn btn-primary" type="submit" (click)="importDriverCsv()" name="button">Import Csv</button>
+    </div> -->
+    <div class="col-md-12 text-center margin-top-15">
+      <button class="btn btn-primary" id="submit" name="button" (click)="Submit()">Submit</button>
+    </div>
 
   </div>
 </div>
