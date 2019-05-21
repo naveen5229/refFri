@@ -160,6 +160,7 @@ export class ConciseComponent implements OnInit {
       this.common.refresh = this.refresh.bind(this);
       this.common.currentPage = "";
     }
+    this.handlePdfPrint();
   }
 
   ngOnInit() {

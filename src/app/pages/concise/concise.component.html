@@ -1,5 +1,5 @@
-<button (click)="handlePdfPrint()">pdf</button>
-<button class="btn btn-primary" type="button" (click)="pdfService.multiImagePdf(['page-1', 'page-2'])">PDF</button>
+<!-- <button (click)="handlePdfPrint()">pdf</button> -->
+<button class="btn btn-primary" type="button" (click)="pdfService.tableWithImages(['page-1', 'page-2'], 'print-section')">PDF</button>
 
 <div class="status-print-view" id="status-print-view">
   <div class="row" *ngIf="pdfData.primary.list.length" id="page-1">
@@ -250,7 +250,7 @@
 
 
 
-<nb-card style="border: 0px; height: 100%;">
+<nb-card class="nb_card_box" style="border: 0px; height: 100%;">
   <nb-card-body style="padding:5px 5px 0px;">
     <!-- TEsting -->
     <!-- <button (click)="pdfService.voucherPDF()">PDF</button> -->
@@ -382,7 +382,7 @@
             </nb-card>
           </div>
         </div>
-        <button class="btn btn-primary" type="button" (click)="getPdf()">PDF</button>
+        <button class="btn btn-primary" type="button" (click)="pdfService.tableWithImages(['page-1', 'page-2'], 'print-section')">PDF</button>
       </div>
       <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
         <div style=" position: relative;">
