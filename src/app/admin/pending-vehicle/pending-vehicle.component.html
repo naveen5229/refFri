@@ -131,18 +131,32 @@
               </div>
             </div>
             <div class="row form-field clear">
-              <label for="doc_type-first" class="col-sm-4 mgn-vert">Vehicle Type<span class="mandatory">*</span></label>
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Brand Type<span class="mandatory">*</span></label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <auto-suggestion *ngIf="modal.first.data.docTypes.length" (onSelected)="selectDocType($event, 'first')"
-                  url="" display="document_type" [data]="modal.first.data.docTypes" placeholder="Enter Vehicle Type"
+                  url="" display="name" [data]="modal.first.data.docTypes" placeholder="Enter Vehicle Type"
                   [preSelected]="null" class="documentType " style='width: 60% !important;'
                   (keyup)="isValidDocument($event, 'first')">
                 </auto-suggestion>
               </div>
             </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Model Type<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
+              </div>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <auto-suggestion (onSelected)="selectModelType($event, 'first')" display="name"
+                  [data]="modal['first'].data.modelType" placeholder="Enter Vehicle Type" [preSelected]="null"
+                  class="documentType " style='width: 60% !important;'>
+                </auto-suggestion>
+              </div>
+            </div>
+
 
             <div class="row form-field clear">
               <label for="wef_date-first" class="col-sm-4 mgn-vert">W.e.f Date</label>
@@ -294,19 +308,22 @@
               </div>
             </div>
             <div class="row form-field clear">
-              <label for="doc_type-second" class="col-sm-4 mgn-vert">Vehicle Type<span
-                  class="mandatory">*</span></label>
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Brand Type<span class="mandatory">*</span></label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
                 <label style="font-size:16px;">{{modal.second.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <auto-suggestion *ngIf="modal.second.data.docTypes.length"
-                  (onSelected)="selectDocType($event, 'second')" url="" display="document_type"
+                  (onSelected)="selectDocType($event, 'second')" url="" display="name"
                   [data]="modal.second.data.docTypes" placeholder="Enter Vehicle Type" [preSelected]="null"
                   class="documentType " style='width: 60% !important;' (keyup)="isValidDocument($event, 'second')">
                 </auto-suggestion>
               </div>
             </div>
+
+
+
+
 
 
             <div class="row form-field clear">

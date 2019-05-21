@@ -35,6 +35,7 @@ export class PendingVehicleComponent implements OnInit {
   };
 
   documentTypes = [];
+  modelType = [];
 
   vehicleId = -1;
 
@@ -44,7 +45,7 @@ export class PendingVehicleComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.getPendingDetailsVehicle();
-    this.getAllTypesOfDocuments();
+    this.getAllTypesOfBrand();
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
     this.listtype;
@@ -84,11 +85,22 @@ export class PendingVehicleComponent implements OnInit {
 
   }
 
-  getAllTypesOfDocuments() {
-    this.api.get('Vehicles/getAllDocumentTypesList')
+  getAllTypesOfBrand() {
+    this.api.get('vehicles/getVehicleBrandsMaster')
       .subscribe(res => {
-        console.log("All Type Docs: ", res);
         this.documentTypes = res['data'];
+        console.log("All Type Docs: ", this.documentTypes);
+      }, err => {
+        console.log(err);
+      });
+  }
+  getAllTypesOfModel(brandId, modal) {
+    let params = "&brandId=" + brandId;
+    this.api.get('vehicles/getVehicleModelsMaster?' + params)
+      .subscribe(res => {
+        this.modelType = res['data'];
+        this.modal[modal].data.modelType = this.modelType;
+        console.log("All Type Model: ", this.modal[modal].data.modelType);
       }, err => {
         console.log(err);
       });
@@ -97,8 +109,8 @@ export class PendingVehicleComponent implements OnInit {
   showDetails(row) {
     // _docid
     let rowData = {
-      id: row._docid,
-      vehicle_id: row.vehicle_id,
+      id: row._foadminid,
+      vehicle_id: row._vid,
     };
     console.log("Model Doc Id:", rowData.id);
     this.modalOpenHandling({ rowData, title: 'Update Vehicle', canUpdate: 1 });
@@ -158,24 +170,28 @@ export class PendingVehicleComponent implements OnInit {
     }
     this.modal[modal].data.images = this.modal[modal].data.imgs;
 
-    this.getDocumentPending(modal);
+    this.getvehiclePending(modal);
     // this.getDocumentsData(modal);
     this.modal[modal].data.docTypes = this.documentTypes;
+    // this.modal[modal].data.modelType = this.modelType;
   }
 
-  getDocumentPending(modal) {
-    const params = {
-      x_user_id: this.user._details.id,
-      x_document_id: this.modal[modal].data.document.id,
-      x_advreview: this.listtype
-    }
+  getvehiclePending(modal) {
+    // const params = {
+    //   vehicleId:this.modal[modal].data.vehicle_id,
+    //   // x_user_id: this.user._details.id,
+    //   // x_document_id: this.modal[modal].data.document.id,
+    //   // x_advreview: this.listtype
+    // }
+    console.log('Modal data: ', this.modal[modal].data);
+    let params = "&vehicleId=" + this.modal[modal].data.vehicleId;
     console.log('Params: ', params);
-    this.api.post('Vehicles/getPendingDocDetail', params)
+    this.api.get(' vehicles/getPendingFoVehicleBrands?' + params)
       .subscribe(res => {
         console.log("pending detalis:", res);
-        this.modal[modal].data.document.id = res['data'][0].document_id;
-        this.modal[modal].data.document.newRegno = res['data'][0].regno;
-        this.modal[modal].data.document.img_url = res["data"][0].img_url;
+        this.modal[modal].data.document.id = res['data'][0]._vid;
+        this.modal[modal].data.document.newRegno = res['data'][0].Vehicle;
+        this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
         this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
@@ -555,6 +571,12 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.document_type_id = docType.id;
     console.log('Doc id: ', docType.id);
     console.log("doc var", this.modal[modal].data.document.document_type_id);
+    this.getAllTypesOfModel(docType.id, modal);
+  }
+
+  selectModelType(modalType, modal) {
+    console.log("Modal Type:", modalType, modal);
+
   }
 
 
