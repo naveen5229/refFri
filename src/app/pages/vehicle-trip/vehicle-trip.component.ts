@@ -347,8 +347,6 @@ export class VehicleTripComponent implements OnInit {
   }
 
 
-
-
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;

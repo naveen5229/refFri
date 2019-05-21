@@ -15,6 +15,7 @@ export class AccountService {
   };
   branches = [];
   financialYears = [];
+  voucherDate = '';
 
   constructor() {
     // this.getData('Suggestion/GetBranchList', { search: 123 }, 'branches');
