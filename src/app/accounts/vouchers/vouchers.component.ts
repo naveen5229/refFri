@@ -281,7 +281,8 @@ export class VouchersComponent implements OnInit {
     }
     // console.log(event);
     const activeId = document.activeElement.id;
-    if (event.altKey && key === 'c') {
+    let index = this.lastActiveId.split('-')[1];
+    if ((event.altKey && key === 'c') && (activeId == 'ledger-' + index)) {
       // console.log('alt + C pressed');
       this.openledger();
       return;
@@ -727,7 +728,7 @@ export class VouchersComponent implements OnInit {
     console.log('Indes:', index);
     index = parseInt(index);
     this.common.params = { amount, details: this.voucher.amountDetails[index] };
-    const activeModal = this.modalService.open(VouchercostcenterComponent, { size: 'lg' });
+    const activeModal = this.modalService.open(VouchercostcenterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {
       console.log('Modal res:', data);
       if (data.response) {
