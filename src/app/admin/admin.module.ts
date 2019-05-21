@@ -87,7 +87,7 @@ const PAGES_COMPONENTS = [
     LorryReceiptModule,
     DriverModule,
     ImageViewerModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
