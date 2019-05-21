@@ -1,8 +1,19 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-5">
-        <h5>Trip feedback Logs</h5>
+      <div class="col-2">
+        <h5>Trip Feedback Logs</h5>
+      </div>
+
+      <div class="col-3">
+        <div *ngIf="activitySummary.length">
+          <span>
+            <span class="pdf-icon" title="PDF Export" (click)="printPDF('feedbackLogs')" style="cursor: pointer;"><i
+                class="fa fa-file-pdf"></i></span>
+            <span class="exel-icon" title="CSV Export" (click)="printCsv('feedbackLogs')"
+              style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+          </span>
+        </div>
       </div>
       <div class="col-7">
         <div class="row">
@@ -31,7 +42,8 @@
     </div> -->
 
     <div>
-      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings" id="feedbackLogs">
+      </smart-table>
     </div>
 
   </nb-card-body>

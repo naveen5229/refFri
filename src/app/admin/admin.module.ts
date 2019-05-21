@@ -47,6 +47,7 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { MapMappingComponent } from './map-mapping/map-mapping.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
+import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 
 
 
@@ -110,7 +111,8 @@ const PAGES_COMPONENTS = [
     AddCustomerComponent,
     MapMappingComponent,
     FuelRulesComponent,
-    PumpStationAreaComponent
+    PumpStationAreaComponent,
+    PendingVehicleComponent
 
 
   ],
