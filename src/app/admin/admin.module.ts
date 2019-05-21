@@ -110,7 +110,7 @@ const PAGES_COMPONENTS = [
     AddCustomerComponent,
     MapMappingComponent,
     FuelRulesComponent,
-    PumpStationAreaComponent
+    PumpStationAreaComponent,
 
 
   ],

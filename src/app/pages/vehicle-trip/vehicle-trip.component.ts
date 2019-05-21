@@ -138,7 +138,12 @@ export class VehicleTripComponent implements OnInit {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
 
-        this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
+        if (this.headings[j] == "Trip") {
+          this.valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.vehicleTrips[i]), isHTML: true, class: 'black' };
+
+        } else {
+          this.valobj[this.headings[j]] = { value: this.vehicleTrips[i][this.headings[j]], class: 'black', action: '' };
+        }
 
         this.valobj['action'] = {
           value: '', isHTML: true, action: null, icons: [
