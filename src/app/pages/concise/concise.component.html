@@ -9,15 +9,13 @@
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
           <div class="col-sm-2">
-            <span (click)="changeOptions('reverse')">
-              <i class="icon ion-ios-rewind"></i></span>
           </div>
 
           <div class="col-sm-8">
             <span>{{ pdfData.primary.name }}</span>
           </div>
           <div class="col-sm-2">
-            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
+           
           </div>
 
         </div>
@@ -29,31 +27,27 @@
         <div class="status_box">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
-              <div class="col-sm-1 p-0">
-                <div
-                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
-                </div>
-              </div>
-              <div class="col-sm-8">
-                All Data
-              </div>
-              <div class="col-sm-3">
-                {{ allKpis.length }}
+              <div class="row m-0">
+                  <div class="col-sm-1 p-0">
+                    <div
+                      style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                    </div>
+                  </div>
+                  <div class="col-sm-11 pl-0">
+                    All Data ({{ allKpis.length }})
+                  </div>
               </div>
             </nb-card-body>
           </nb-card>
-          <div>
+          <div class="graph-data">
             <nb-card *ngFor="let status of pdfData.primary.list; let i = index">
               <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': status.bgColor }"></div>
                 </div>
-                <div class="col-sm-8">
-                  {{ status.name }}
-                </div>
-                <div class="col-sm-3">
-                  {{ status.length }}
+                <div class="col-sm-9">
+                  {{ status.name }} ({{ status.length }})
                 </div>
               </nb-card-body>
 
@@ -69,15 +63,14 @@
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
           <div class="col-sm-2">
-            <span (click)="changeOptions('reverse')">
-              <i class="icon ion-ios-rewind"></i></span>
+            
           </div>
 
           <div class="col-sm-8">
             <span>{{ pdfData.secondary.name }}</span>
           </div>
           <div class="col-sm-2">
-            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
+            
           </div>
 
         </div>
@@ -130,23 +123,18 @@
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
           <div class="col-sm-2">
-            <span (click)="changeOptions('reverse')">
-              <i class="icon ion-ios-rewind"></i></span>
           </div>
 
           <div class="col-sm-8">
             <span>Top 5 Trip Start</span>
           </div>
           <div class="col-sm-2">
-            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
+           
           </div>
 
         </div>
 
-        <div class="chartbox">
-          <chart class="dashboard_chart" type="pie" [data]="pdfData.tripStart.chartData"
-            [options]="pdfData.tripStart.chartOptions" id="chart"></chart>
-        </div>
+        
         <div class="status_box">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
@@ -190,23 +178,18 @@
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
           <div class="col-sm-2">
-            <span (click)="changeOptions('reverse')">
-              <i class="icon ion-ios-rewind"></i></span>
           </div>
 
           <div class="col-sm-8">
             <span>Top 5 Trip End</span>
           </div>
           <div class="col-sm-2">
-            <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
+           
           </div>
 
         </div>
 
-        <div class="chartbox">
-          <chart class="dashboard_chart" type="pie" [data]="pdfData.tripEnd.chartData"
-            [options]="pdfData.tripEnd.chartOptions" id="chart"></chart>
-        </div>
+       
         <div class="status_box">
           <nb-card>
             <nb-card-body (click)="allData()" style="cursor: pointer;">
