@@ -47,7 +47,6 @@ export class ConciseComponent implements OnInit {
   testingDate = this.common.dateFormatter(new Date(), '', false);
   registerForm: FormGroup;
   submitted = false;
-
   kpis = [];
   allKpis = [];
   searchTxt = "";
