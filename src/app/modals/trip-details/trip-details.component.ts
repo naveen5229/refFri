@@ -120,9 +120,12 @@ export class TripDetailsComponent implements OnInit {
     for (var i = 0; i < this.trips.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
+        if (this.headings[j] == "Trip") {
+          this.valobj[this.headings[j]] = { value: this.common.getJSONTripStatusHTML(this.trips[i]), isHTML: true, class: 'black' };
 
-        this.valobj[this.headings[j]] = { value: this.trips[i][this.headings[j]], class: 'black', action: '' };
-
+        } else {
+          this.valobj[this.headings[j]] = { value: this.trips[i][this.headings[j]], class: 'black', action: '' };
+        }
         this.valobj['action'] = {
           value: '', isHTML: true, action: null, icons: [
             { class: " icon fa fa-info", action: this.vehicleReport.bind(this, this.trips[i]) },

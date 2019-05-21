@@ -232,6 +232,11 @@ export class DataService {
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-documents',
           },
+          {
+            title: 'Pending vehicle',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/pending-vehicle',
+          },
 
         ]
       },
@@ -256,6 +261,18 @@ export class DataService {
             title: 'Remaining Fuel',
             icon: 'fa fa-signal',
             link: '/admin/remaining-fuel',
+            home: true,
+          },
+          {
+            title: 'Fuel Rules',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-rules',
+            home: true,
+          },
+          {
+            title: 'Pump Station Area',
+            icon: 'fa fa-signal',
+            link: '/admin/pump-station-area',
             home: true,
           },
         ]

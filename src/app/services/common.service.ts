@@ -547,7 +547,8 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+    // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -558,9 +559,21 @@ export class CommonService {
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
     console.log("hdgcols:", hdgCols);
-    console.log(hdgCols.length);
+    // console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
@@ -570,9 +583,12 @@ export class CommonService {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs.push(attrval);
+
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
+
+
           hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
@@ -601,6 +617,7 @@ export class CommonService {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
+
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
@@ -663,10 +680,10 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold", "text-center");
-        doc.text(center_heading, x - hdglen - 60, y);
+        doc.text(center_heading, x - hdglen - 40, y);
       }
       y = 15;
-      //doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -725,7 +742,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -733,15 +750,33 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
+    let leftData = { left_heading };
+    let centerData = { center_heading };
 
     let info = [];
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
+    info.push(leftData);
+    info.push(centerData);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
+
+
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))

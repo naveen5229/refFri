@@ -83,7 +83,7 @@
         <label>Enter Site</label>
       </div>
       <div class="col-md-8">
-        <auto-suggestion (onSelected)="selectSite($event)" url="Site/getSitesFromRedis?search=jam" display="name"
+        <auto-suggestion (onSelected)="selectSite($event)" url="Site/getSitesFromRedis?search=" display="name"
           placeholder="Search site"></auto-suggestion>
       </div>
     </div>
@@ -179,7 +179,7 @@
       <button class="btn btn-danger m-0" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary m-0" (click)="updateTrip();" style="cursor:pointer;">Update</button>
+      <button class="btn btn-primary m-0" (click)="updateTrip()" style="cursor:pointer;">Update</button>
     </div>
   </div>
 </div>
