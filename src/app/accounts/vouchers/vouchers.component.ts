@@ -11,6 +11,7 @@ import { isUndefined } from 'util';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcenter/vouchercostcenter.component';
+import { PdfService } from '../../services/pdf/pdf.service';
 
 @Component({
   selector: 'vouchers',
@@ -51,7 +52,8 @@ export class VouchersComponent implements OnInit {
     public user: UserService,
     public router: Router,
     public modalService: NgbModal,
-    public accountService: AccountService) {
+    public accountService: AccountService,
+    public pdfService: PdfService) {
     this.common.refresh = this.refresh.bind(this);
     this.voucher = this.setVoucher();
     this.route.params.subscribe(params => {
@@ -84,6 +86,7 @@ export class VouchersComponent implements OnInit {
   setVoucher() {
     return {
       name: '',
+      print: false,
       date: this.accountService.voucherDate || this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
       foid: '',
       user: {
@@ -223,6 +226,76 @@ export class VouchersComponent implements OnInit {
         console.log('res: ', res['data'].code);
         if (res['success']) {
           this.accountService.voucherDate = this.voucher.date;
+
+
+
+
+          let pdfData = {
+            company: 'Elogist Solutions Private Limited',
+            address: '310, Shree Gopal Nagar,Gopalpura Bypass',
+            city: 'Jaipur',
+            reportName: 'Bank Payment Voucher',
+            details: [
+              {
+                name: 'Voucher Number',
+                value: 'BPV/01027'
+              },
+              {
+                name: 'Branch',
+                value: 'Affordable Site'
+              },
+              {
+                name: 'Voucher Date',
+                value: '28 Oct 2013'
+              }
+            ],
+            headers: [
+              {
+                name: 'GL Code',
+                textAlign: 'left'
+              },
+              {
+                name: 'Particulars',
+                textAlign: 'left'
+              },
+              {
+                name: 'Debit Amount',
+                textAlign: 'right'
+              },
+              {
+                name: 'Credit Amount',
+                textAlign: 'right'
+              }
+            ],
+            table: [
+              ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+              ['GL00094', 'To IDBI Bank', '', '110.0'],
+            ],
+            total: ['110.0', '110.0'],
+            inWords: 'One Hundred Rupees TenPaisa Only',
+            narration: ''
+          };
+          console.log('voucher print', this.voucher.print);
+          if (this.voucher.print) {
+            let datapdf = this.pdfService.createPdfHtml(pdfData);
+            let divToPrint = datapdf.innerHTML;
+            let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+            newWindow.document.open();
+            newWindow.document.write(`
+    <html>
+        <head>
+          <title>Print tab</title>
+          <style>
+          
+          </style>
+        </head>
+        <body onload="window.print();window.close()">${divToPrint}   
+        </body>
+      </html>
+    `);
+            newWindow.document.close();
+          }
+
           this.voucher = this.setVoucher();
           this.getVouchers();
           this.common.showToast('Your Code :' + res['data'].code);

@@ -152,7 +152,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/outstanding'
             },
             {
-                title: 'Voucher Edit',
+                title: 'Voucher Audit',
                 link: '/accounts/voucheredited'
             }
 

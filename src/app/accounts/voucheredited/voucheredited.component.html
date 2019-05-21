@@ -106,8 +106,9 @@
           <th>Vch Type</th>
           <th>Vch No.</th>
           <th>Amount</th>
-          <th>Last Edit Time</th>
           <th> Entry Time</th>
+          <th>Last Edit Time</th>
+
           <th>Edit By</th>
         </tr>
       </thead>
@@ -116,16 +117,15 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel() : getBookDetail(dataItem.y_voucherid)"
-        (enter)="getBookDetail(dataItem.y_voucherid) "
+        (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_ledgername}}</td>
         <td>{{dataItem.y_vouchertype}}</td>
         <td>{{dataItem.y_voucherno}}</td>
         <td>{{dataItem.y_amount}}</td>
-        <td>{{dataItem.y_last_edit_time}}</td>
-        <td>{{dataItem.y_entry_time}}</td>
+        <td>{{dataItem.y_entry_time | date:'dd-MMM-yy h:mm'}}</td>
+        <td>{{dataItem.y_last_edit_time | date:'dd-MMM-yy h:mm'}}</td>
         <td>{{dataItem.y_last_editby}}</td>
       </tr>
     </table>
