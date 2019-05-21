@@ -333,6 +333,7 @@ export class VoucherComponent implements OnInit {
     const activeId = document.activeElement.id;
     if (event.altKey && key === 'c') {
       // console.log('alt + C pressed');
+      console.log('--------------------ALT+C-----------------:Voucher');
       this.openledger();
     }
     if (this.showConfirm) {

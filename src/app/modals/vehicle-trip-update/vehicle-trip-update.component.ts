@@ -36,7 +36,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     allowedHaltHours: null
   };
   placements = null;
-  placementSite = 0;
+  placementSite = null;
   placementSuggestion = [];
   ref_page = null;
   cLT = 'city';
@@ -135,6 +135,7 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endLat = lat;
     this.vehicleTrip.endLng = lng;
     this.vehicleTrip.endName = place;
+    this.placementSite = null;
   }
 
   closeModal() {
@@ -143,8 +144,6 @@ export class VehicleTripUpdateComponent implements OnInit {
 
   updateTrip() {
 
-    console.log("End Lat", this.vehicleTrip.endLat);
-    console.log("Placement Site", this.placementSite);
     console.log("Placement Type", this.vehicleTrip.placementType);
     if ((this.vehicleTrip.endLat || this.placementSite) && this.vehicleTrip.placementType) {
       let params = {
@@ -155,7 +154,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         placementType: this.vehicleTrip.placementType,
         targetTime: this.vehicleTrip.targetTime,
         allowedHaltHours: this.vehicleTrip.allowedHaltHours,
-        siteId: this.vehicleTrip.siteId ? this.vehicleTrip.siteId : this.placementSite ? this.placementSite : 'null',
+        siteId: this.placementSite ? this.placementSite : 'null',
 
       }
 
@@ -247,9 +246,12 @@ export class VehicleTripUpdateComponent implements OnInit {
     this.vehicleTrip.endName = placementSuggestion.y_loc_name;
     this.vehicleTrip.endLat = placementSuggestion.y_lat;
     this.vehicleTrip.endLng = placementSuggestion.y_long;
+    this.placementSite = null;
+
   }
   selectLocation(place) {
     console.log("palce", place);
+    this.placementSite = null;
     this.vehicleTrip.endLat = place.lat;
     this.vehicleTrip.endLng = place.long;
     this.vehicleTrip.endName = place.location || place.name;
@@ -259,15 +261,11 @@ export class VehicleTripUpdateComponent implements OnInit {
     console.log('..........', search);
   }
   selectSite(site) {
-
     console.log("site=", site);
-    // let location = site.value.split(",")
-    // this.vehicleTrip.endLat = location[0];
-    // this.vehicleTrip.endLng = location[1];
-    this.vehicleTrip.endLat = site.lat;
-    this.vehicleTrip.endLng = site.long;
-    this.vehicleTrip.endName = site.name;
-    this.vehicleTrip.siteId = site.id;
+    this.vehicleTrip.endLat = null;
+    this.vehicleTrip.endLng = null;
+    this.vehicleTrip.endName = null;//site.name;
+    this.placementSite = site.id;
 
   }
   takeAction(res) {
@@ -288,6 +286,7 @@ export class VehicleTripUpdateComponent implements OnInit {
             (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
             this.vehicleTrip.endLat = res.location.lat;
             this.vehicleTrip.endLng = res.location.lng;
+            this.placementSite = null;
             this.keepGoing = true;
           }
         })
