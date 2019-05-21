@@ -71,13 +71,14 @@
           <td style="text-align:right;" *ngIf="dataItem.totalopening != 0">{{dataItem.totalopening}} <span>
               {{dataItem.y_openbaltype}}</span></td>
 
-          <td *ngIf="dataItem.totaldr != 0">{{dataItem.totaldr}}</td>
+          <td *ngIf="dataItem.totaldr != 0">{{dataItem.totaldr  | number : '1.2-2'}}</td>
           <td *ngIf="dataItem.totaldr == 0"></td>
 
-          <td *ngIf="dataItem.totalcr != 0">{{dataItem.totalcr}}</td>
+          <td *ngIf="dataItem.totalcr != 0">{{dataItem.totalcr  | number : '1.2-2'}}</td>
           <td *ngIf="dataItem.totalcr == 0"></td>
 
-          <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0"><b>{{dataItem.totalclosing}}</b>
+          <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0">
+            <b>{{dataItem.totalclosing  | number : '1.2-2'}}</b>
             <span>{{dataItem.y_closebaltype}}</span></td>
           <td *ngIf="dataItem.totalclosing == 0"></td>
         </tr>

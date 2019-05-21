@@ -11,7 +11,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./invoiceregister.component.scss']
 })
 export class InvoiceregisterComponent implements OnInit {
-
+  selectedName = '';
   vouchertypedata = [];
   branchdata = [];
   invoiceRegister = {
@@ -37,7 +37,7 @@ export class InvoiceregisterComponent implements OnInit {
   ledgerList = [];
   activeId = 'voucherType';
   allowBackspace = true;
-
+  selectedRow = -1;
   showDateModal = false;
   f2Date = 'startDate';
   activedateid = '';
@@ -208,6 +208,13 @@ export class InvoiceregisterComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.invoiceRegisterData.length) {
+
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.invoiceRegisterData.length - 1) this.selectedRow++;
+
+    }
 
   }
 
@@ -244,5 +251,10 @@ export class InvoiceregisterComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
   }
 }

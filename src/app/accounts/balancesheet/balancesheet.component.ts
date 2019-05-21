@@ -87,7 +87,7 @@ export class BalancesheetComponent implements OnInit {
     for (let key in firstGroup) {
       let total = 0;
       firstGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.liabilities.push({
@@ -101,7 +101,7 @@ export class BalancesheetComponent implements OnInit {
     for (let key in secondGroup) {
       let total = 0;
       secondGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.assets.push({

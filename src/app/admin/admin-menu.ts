@@ -143,6 +143,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/fuel-average-analysis',
                 home: true,
             },
+            {
+                title: 'Fuel Rules',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-rules',
+                home: true,
+            },
+            {
+                title: 'Pump Station Area',
+                icon: 'fa fa-signal',
+                link: '/admin/pump-station-area',
+                home: true,
+            },
         ]
     },
     {

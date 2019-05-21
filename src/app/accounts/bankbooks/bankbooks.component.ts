@@ -296,7 +296,7 @@ export class BankbooksComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
