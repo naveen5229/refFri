@@ -18,6 +18,7 @@ export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   activedateid = '';
+  selectedName = '';
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -41,6 +42,7 @@ export class OutstandingComponent implements OnInit {
   f2Date = 'startDate';
   lastActiveId = '';
   headingName = '';
+  selectedRow = -1;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -212,6 +214,12 @@ export class OutstandingComponent implements OnInit {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
       this.allowBackspace = false;
+    }
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.voucherEntries.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.voucherEntries.length - 1) this.selectedRow++;
+
     }
   }
 

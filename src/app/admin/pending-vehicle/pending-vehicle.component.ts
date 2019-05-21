@@ -1,25 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ImageViewComponent } from '../../modals/image-view/image-view.component';
-import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { PendingDocumentComponent } from '../../documents/documentation-modals/pending-document/pending-document.component';
+import { UserService } from '../../services/user.service';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
-import { from } from 'rxjs';
-import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { log } from 'util';
-import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
-
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 
 @Component({
-  selector: 'pending-documents',
-  templateUrl: './pending-documents.component.html',
-  styleUrls: ['./pending-documents.component.scss', '../../pages/pages.component.css']
+  selector: 'pending-vehicle',
+  templateUrl: './pending-vehicle.component.html',
+  styleUrls: ['./pending-vehicle.component.scss']
 })
-export class PendingDocumentsComponent implements OnInit {
+export class PendingVehicleComponent implements OnInit {
+
   data = [];
   userdata = [];
   columns = [];
@@ -42,14 +36,14 @@ export class PendingDocumentsComponent implements OnInit {
 
   documentTypes = [];
 
-
+  vehicleId = -1;
 
   constructor(
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    this.getPendingDetailsDocuments();
+    this.getPendingDetailsVehicle();
     this.getAllTypesOfDocuments();
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
@@ -62,49 +56,32 @@ export class PendingDocumentsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
+
     window.location.reload();
+
   }
 
-  getPendingDetailsDocuments() {
+  getPendingDetailsVehicle() {
+    let params = "&vehicleId=" + this.vehicleId;
     this.common.loading++;
-    if (this.listtype == 1) {
-      this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: 1 })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.data = res['data'];
-          if (this.data.length) {
-            for (var key in this.data[0]) {
-              if (key.charAt(0) != "_")
-                this.columns.push(key);
-            }
-            console.log("columns");
-            console.log(this.columns);
+    this.api.get('vehicles/getPendingFoVehicleBrands?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.data = res['data'];
+        if (this.data.length) {
+          for (var key in this.data[0]) {
+            if (key.charAt(0) != "_")
+              this.columns.push(key);
           }
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-        });
-    }
-    else {
-      this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1 })
-        .subscribe(res => {
-          this.common.loading--;
-          console.log("data", res);
-          this.data = res['data'];
-          if (this.data.length) {
-            for (var key in this.data[0]) {
-              if (key.charAt(0) != "_")
-                this.columns.push(key);
-            }
-            console.log("columns");
-            console.log(this.columns);
-          }
-        }, err => {
-          this.common.loading--;
-          console.log(err);
-        });
-    }
+          console.log("columns");
+          console.log(this.columns);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 
   getAllTypesOfDocuments() {
@@ -124,7 +101,7 @@ export class PendingDocumentsComponent implements OnInit {
       vehicle_id: row.vehicle_id,
     };
     console.log("Model Doc Id:", rowData.id);
-    this.modalOpenHandling({ rowData, title: 'Update Document', canUpdate: 1 });
+    this.modalOpenHandling({ rowData, title: 'Update Vehicle', canUpdate: 1 });
   }
 
   modalOpenHandling(params) {
@@ -234,11 +211,11 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
 
-  deleteDocument(row) {
+  deleteVehicle(row) {
     let remark;
-    let ret = confirm("Are you sure you want to delete this Document?");
+    let ret = confirm("Are you sure you want to delete this vehicle?");
     if (ret) {
-      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
+      this.common.params = { RemarkModalComponent, title: 'Delete vehicle' };
       const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         if (data.response) {
@@ -250,12 +227,12 @@ export class PendingDocumentsComponent implements OnInit {
               this.common.loading--;
               console.log("data", res);
               this.columns = [];
-              this.getPendingDetailsDocuments();
+              this.getPendingDetailsVehicle();
               this.common.showToast("Success Delete");
             }, err => {
               this.common.loading--;
               console.log(err);
-              this.getPendingDetailsDocuments();
+              this.getPendingDetailsVehicle();
             });
         }
       })
@@ -399,12 +376,7 @@ export class PendingDocumentsComponent implements OnInit {
 
       };
       console.log("Id is", params);
-      // if(params.x_advreview==0){
-      //   if (!document.vehicle_id ) {
-      //     this.common.showError("Please enter Vehicle No.");
-      //     return false;
-      //   }
-      // }
+
 
       if (params.x_advreview == 0) {
         if (!document.document_type_id) {
@@ -533,6 +505,7 @@ export class PendingDocumentsComponent implements OnInit {
 
 
   getDate(date, modal) {
+    this.common.params = { ref_page: 'pending-vehicle' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -567,33 +540,6 @@ export class PendingDocumentsComponent implements OnInit {
     return 1;
   }
 
-  addAgent(modal) {
-    this.common.params = { title: 'Add Agent' };
-    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(agtdata => {
-      if (agtdata.response) {
-        console.log("agtdata:");
-        console.log(agtdata.response);
-        this.common.loading++;
-        this.api.post('Vehicles/getAddVehicleFormDetails', { x_vehicle_id: this.modal[modal].data.vehicleId })
-          .subscribe(res => {
-            this.common.loading--;
-            console.log("data", res);
-            this.modal.first.data.agents = res['data'].document_agents_info;
-            this.modal.second.data.agents = res['data'].document_agents_info;
-            if (this.modal[modal].data.agents.length) {
-              this.modal[modal].document.agent_id = this.modal[modal].agents[this.modal[modal].agents.length - 1].id;
-              this.modal[modal].document.agent = this.modal[modal].agents[this.modal[modal].agents.length - 1].name;
-            }
-
-          }, err => {
-            this.common.loading--;
-            console.log(err);
-          });
-      }
-    });
-
-  }
 
   findDocumentType(id, modal) {
     for (var i = 0; i < this.modal[modal].data.docTypes.length; i++) {
@@ -701,11 +647,11 @@ export class PendingDocumentsComponent implements OnInit {
 
   checkDateFormat(modal, dateType) {
     let dateValue = this.modal[modal].data.document[dateType];
-    if (dateValue.length < 8) return;
-    let date = dateValue[0] + dateValue[1];
-    let month = dateValue[2] + dateValue[3];
-    let year = dateValue.substring(4, 8);
-    this.modal[modal].data.document[dateType] = date + '/' + month + '/' + year;
+    if (dateValue.length < 6) return;
+    // let date = dateValue[0] + dateValue[1];
+    let month = dateValue[0] + dateValue[1];
+    let year = dateValue.substring(2, 6);
+    this.modal[modal].data.document[dateType] = month + '/' + year;
     console.log('Date: ', this.modal[modal].data.document[dateType]);
   }
 
@@ -732,15 +678,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   }
 
-  History(doc_id) {
-    this.common.params = { doc_id, title: 'Document Change History' };
-    const activeModal = this.modalService.open(DocumentHistoryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        //this.getHistoryData();
-        //window.location.reload();
-      }
-    });
-  }
-
 }
+
+
+

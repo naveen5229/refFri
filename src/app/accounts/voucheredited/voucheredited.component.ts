@@ -7,11 +7,11 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/voucherdetail.component';
 
 @Component({
-  selector: 'bankbooks',
-  templateUrl: './bankbooks.component.html',
-  styleUrls: ['./bankbooks.component.scss']
+  selector: 'voucheredited',
+  templateUrl: './voucheredited.component.html',
+  styleUrls: ['./voucheredited.component.scss']
 })
-export class BankbooksComponent implements OnInit {
+export class VouchereditedComponent implements OnInit {
   selectedName = '';
   bankBook = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -24,7 +24,7 @@ export class BankbooksComponent implements OnInit {
       name: 'All',
       id: 0
     },
-
+    vouchertype: 0,
     issumrise: 'true'
 
   };
@@ -54,10 +54,10 @@ export class BankbooksComponent implements OnInit {
     // this.getVoucherTypeList();
     this.common.refresh = this.refresh.bind(this);
 
-    this.getBranchList();
+    // this.getBranchList();
     this.getLedgers();
     this.setFoucus('ledger');
-    this.common.currentPage = 'Bank Book';
+    this.common.currentPage = 'Voucher Edit';
 
 
   }
@@ -143,17 +143,17 @@ export class BankbooksComponent implements OnInit {
       });
     this.setFoucus('ref-code');
   }
-  getBankBook() {
+  getVoucherEdited() {
     console.log('Accounts:', this.bankBook);
     let params = {
       startdate: this.bankBook.startdate,
       enddate: this.bankBook.enddate,
       ledger: this.bankBook.ledger.id,
-      branchId: this.bankBook.branch.id,
+      vouchertype: this.bankBook.vouchertype
     };
 
     this.common.loading++;
-    this.api.post('Company/GetBankBook', params)
+    this.api.post('Voucher/getVoucherEdited', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);

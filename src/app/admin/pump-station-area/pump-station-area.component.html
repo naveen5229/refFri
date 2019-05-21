@@ -6,6 +6,19 @@
           <tbody>
             <tr>
               <td>
+                <input type="text" class="form-control" [(ngModel)]="angleFrom" name="anglefrom"
+                  placeholder="Angle from">
+              </td>
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="angleTo" name="angleTo" placeholder="Angle To">
+              </td>
+              <td rowspan="2">
+                <button (click)="enterTicket();" style="margin-top:30px"
+                  class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <auto-suggestion name="selected-area" (onSelected)="selectArea($event)"
                   url="Suggestion/getPumpStationArea" display="loc_name" placeholder="Station Name..."
                   [preSelected]="null"></auto-suggestion>
@@ -13,10 +26,10 @@
               <td>
                 <input placeholder="Site LocName.." id="siteLoc" [(ngModel)]="locName" class="form-control">
               </td>
-              <td>
+              <!-- <td rowspan="2">
                 <button (click)="enterTicket();"
                   class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Fencing' :'Create Fencing'}}</button>
-              </td>
+              </td> -->
 
             </tr>
             <tr>
