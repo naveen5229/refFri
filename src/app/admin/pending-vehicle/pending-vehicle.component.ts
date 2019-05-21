@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
+import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
 @Component({
   selector: 'pending-vehicle',
@@ -148,8 +148,7 @@ export class PendingVehicleComponent implements OnInit {
     }
 
     this.modal[modal].data.document = params.rowData;
-    if (this.modal[modal].data.document.issue_date)
-      this.modal[modal].data.document.issue_date = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
+
     if (this.modal[modal].data.document.wef_date)
       this.modal[modal].data.document.wef_date = this.common.dateFormatter(this.modal[modal].data.document.wef_date, 'ddMMYYYY').split(' ')[0];
     if (this.modal[modal].data.document.expiry_date)
@@ -315,9 +314,9 @@ export class PendingVehicleComponent implements OnInit {
       }
     }*/
   }
-
+  // (0[1-9]|10|11|12)/20[0-9]{2}$
   checkDatePattern(strdate) {
-    let dateformat = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+    let dateformat = /^((0[1-9])|(1[0-2]))\/(\d{4})$/;
     if (dateformat.test(strdate)) {
       return true;
     } else {
@@ -330,10 +329,7 @@ export class PendingVehicleComponent implements OnInit {
     let document = this.modal[modal].data.document;
     let issuedt_valid = 1;
     let wefdt_valid = 1;
-    if (document.issue_date != "undefined" && document.expiry_date != "undefined") {
-      if (document.issue_date && document.expiry_date)
-        issuedt_valid = this.checkExpiryDateValidityByValue(document.issue_date, document.expiry_date, modal);
-    }
+
     if (document.wef_date != "undefined" && document.expiry_date != "undefined") {
       if (document.wef_date && document.expiry_date)
         wefdt_valid = this.checkExpiryDateValidityByValue(document.wef_date, document.expiry_date, modal);
@@ -370,10 +366,9 @@ export class PendingVehicleComponent implements OnInit {
     return response;
   }
 
-  updateDocument(modal, status?, confirm?) {
+  updateVehicle(modal, status?, confirm?) {
 
 
-    console.log('Test');
     if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
       let document = this.modal[modal].data.document;
       const params = {
@@ -382,53 +377,35 @@ export class PendingVehicleComponent implements OnInit {
         x_user_id: this.user._details.id,
         x_document_id: document.id,
         x_document_type_id: document.document_type_id,
-        x_document_type: this.findDocumentType(document.document_type_id, modal),
-        x_issue_date: document.issue_date,
         x_wef_date: document.wef_date,
         x_expiry_date: document.expiry_date,
         x_remarks: document.remarks,
-        x_advreview: status || 0,
-        x_isconfirmed: confirm || 0
+
 
       };
-      console.log("Id is", params);
+      console.log("Params is", params);
 
 
-      if (params.x_advreview == 0) {
-        if (!document.document_type_id) {
-          this.common.showError("Please enter Document Type");
-          return false;
-        }
+
+      if (!document.document_type_id) {
+        this.common.showError("Please enter Brand Type");
+        return false;
       }
 
-      if (document.issue_date) {
-        let valid = this.checkDatePattern(document.issue_date);
-        if (!valid) {
-          this.common.showError("Invalid Issue Date. Date must be in DD/MM/YYYY format");
-          return false;
-        }
-      }
+
+
       if (document.wef_date) {
         let valid = this.checkDatePattern(document.wef_date);
         if (!valid) {
-          this.common.showError("Invalid Wef Date. Date must be in DD/MM/YYYY format");
-          return false;
-        }
-      }
-      if (document.expiry_date) {
-        let valid = this.checkDatePattern(document.expiry_date);
-        if (!valid) {
-          this.common.showError("Invalid Expiry Date. Date must be in DD/MM/YYYY format");
+          this.common.showError("Invalid manufacturing Date. Date must be in MM/YYYY format");
           return false;
         }
       }
 
+
       let issuedt_valid = 1;
       let wefdt_valid = 1;
-      if (document.issue_date != "undefined" && document.expiry_date != "undefined") {
-        if (document.issue_date && document.expiry_date)
-          issuedt_valid = this.checkExpiryDateValidityByValue(document.issue_date, document.expiry_date, modal);
-      }
+
       if (document.wef_date != "undefined" && document.expiry_date != "undefined") {
         if (document.wef_date && document.expiry_date)
           wefdt_valid = this.checkExpiryDateValidityByValue(document.wef_date, document.expiry_date, modal);
@@ -444,14 +421,6 @@ export class PendingVehicleComponent implements OnInit {
         return false;
       }
 
-      if (document.issue_date) {
-        params.x_issue_date = document.issue_date.split("/").reverse().join("-");
-        let strdt = new Date(params.x_issue_date);
-        if (isNaN(strdt.getTime())) {
-          this.common.showError("Invalid Issue Date. Date formats should be DD/MM/YYYY");
-          return false;
-        }
-      }
       if (document.wef_date) {
         params.x_wef_date = document.wef_date.split("/").reverse().join("-");
         let strdt = new Date(params.x_wef_date);
@@ -460,14 +429,7 @@ export class PendingVehicleComponent implements OnInit {
           return false;
         }
       }
-      if (document.expiry_date) {
-        params.x_expiry_date = document.expiry_date.split("/").reverse().join("-");
-        let strdt = new Date(params.x_expiry_date);
-        if (isNaN(strdt.getTime())) {
-          this.common.showError("Invalid Expiry Date. Date formats should be DD/MM/YYYY");
-          return false;
-        }
-      }
+
 
       this.common.loading++;
       let response;
@@ -485,11 +447,11 @@ export class PendingVehicleComponent implements OnInit {
             alert(result);
 
           }
-          if (res['code'] == -2) {
-            this.openConrirmationAlert(res, params.x_advreview);
+          // if (res['code'] == -2) {
+          //   this.openConrirmationAlert(res, params.x_advreview);
 
-            console.log("res Data", res['code']);
-          }
+          //   console.log("res Data", res['code']);
+          // }
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -511,7 +473,7 @@ export class PendingVehicleComponent implements OnInit {
         let confirm = 1;
         console.log("modal active:", this.modal.active);
 
-        this.updateDocument(this.modal.active, review, confirm);
+        this.updateVehicle(this.modal.active, review, confirm);
 
         //  console.log("cofirm data response:",data.response);
       }
@@ -526,6 +488,7 @@ export class PendingVehicleComponent implements OnInit {
     activeModal.result.then(data => {
       if (data.date) {
         this.modal[modal].data.document[date] = this.common.dateFormatter(data.date, 'ddMMYYYY').split(' ')[0];
+        this.modal[modal].data.document[date] = this.modal[modal].data.document[date].split('-').slice(0, 2).reverse().join('/');
         console.log('Date:', this.modal[modal].data.document[date]);
       }
     });
@@ -533,7 +496,6 @@ export class PendingVehicleComponent implements OnInit {
 
   setDate(date, modal) {
     console.log("fetch Date", date);
-    this.modal[modal].data.document[date] = this.common.dateFormatter(this.modal[modal].data.document.issue_date, 'ddMMYYYY').split(' ')[0];
     console.log('Date:', this.modal[modal].data.document[date]);
   }
 
@@ -648,7 +610,6 @@ export class PendingVehicleComponent implements OnInit {
         document_type: null,
         document_type_id: null,
         expiry_date: null,
-        issue_date: null,
         id: null,
         img_url: null,
         regno: null,
