@@ -46,7 +46,6 @@ export class PendingVehicleComponent implements OnInit {
     private modalService: NgbModal) {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
-    this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
     this.listtype;
     //this.common.currentPage = 'Pending Vehicle Documents';
@@ -155,7 +154,6 @@ export class PendingVehicleComponent implements OnInit {
       this.modal[modal].data.document.expiry_date = this.common.dateFormatter(this.modal[modal].data.document.expiry_date, 'ddMMYYYY').split(' ')[0];
 
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
-    this.modal[modal].data.agentId = this.modal[modal].data.document.agent_id;
 
     this.modal[modal].data.imgs = [];
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
@@ -176,12 +174,6 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   getvehiclePending(modal) {
-    // const params = {
-    //   vehicleId:this.modal[modal].data.vehicle_id,
-    //   // x_user_id: this.user._details.id,
-    //   // x_document_id: this.modal[modal].data.document.id,
-    //   // x_advreview: this.listtype
-    // }
     console.log('Modal data: ', this.modal[modal].data);
     let params = "&vehicleId=" + this.modal[modal].data.vehicleId;
     console.log('Params: ', params);
@@ -371,20 +363,19 @@ export class PendingVehicleComponent implements OnInit {
 
     if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
       let document = this.modal[modal].data.document;
+      // let date = "-01";
+      // document.wef_date = document.wef_date + date;
+      let newDate = document.wef_date.split('/').reverse().join('-') + '-01';
+      console.log("date:::::", document.wef_date, newDate);
       const params = {
-        x_vehicleno: document.newRegno,
-        x_vehicle_id: 0,
-        x_user_id: this.user._details.id,
-        x_document_id: document.id,
-        x_document_type_id: document.document_type_id,
-        x_wef_date: document.wef_date,
-        x_expiry_date: document.expiry_date,
-        x_remarks: document.remarks,
 
-
+        vehicleId: document.id,
+        brandId: document.document_type_id,
+        modelId: document.modalTypeId,
+        manufacturingDate: newDate,
+        // x_remarks: document.remarks,
       };
       console.log("Params is", params);
-
 
 
       if (!document.document_type_id) {
@@ -421,19 +412,19 @@ export class PendingVehicleComponent implements OnInit {
         return false;
       }
 
-      if (document.wef_date) {
-        params.x_wef_date = document.wef_date.split("/").reverse().join("-");
-        let strdt = new Date(params.x_wef_date);
-        if (isNaN(strdt.getTime())) {
-          this.common.showError("Invalid Wef Date. Date formats should be DD/MM/YYYY");
-          return false;
-        }
-      }
+      // if (document.wef_date) {
+      //   params.manufacturingDate = document.wef_date.split("/").reverse().join("-");
+      //   let strdt = new Date(params.manufacturingDate);
+      //   if (isNaN(strdt.getTime())) {
+      //     this.common.showError("Invalid Wef Date. Date formats should be DD/MM/YYYY");
+      //     return false;
+      //   }
+      // }
 
 
       this.common.loading++;
       let response;
-      this.api.post('Vehicles/updateVehicleDocumentByAdmin', params)
+      this.api.post('Vehicles/updateVehicleModal', params)
         .subscribe(res => {
           this.common.loading--;
           console.log("api result", res);
@@ -529,16 +520,16 @@ export class PendingVehicleComponent implements OnInit {
 
   }
 
-  selectDocType(docType, modal) {
-    this.modal[modal].data.document.document_type_id = docType.id;
-    console.log('Doc id: ', docType.id);
-    console.log("doc var", this.modal[modal].data.document.document_type_id);
-    this.getAllTypesOfModel(docType.id, modal);
+  selectBrandType(brandType, modal) {
+    this.modal[modal].data.document.document_type_id = brandType.id;
+    console.log('brandType id: ', brandType.id);
+    // console.log("doc var", this.modal[modal].data.document.document_type_id);
+    this.getAllTypesOfModel(brandType.id, modal);
   }
 
   selectModelType(modalType, modal) {
     console.log("Modal Type:", modalType, modal);
-
+    this.modal[modal].data.document.modalTypeId = modalType.id;
   }
 
 
@@ -609,13 +600,12 @@ export class PendingVehicleComponent implements OnInit {
         doc_no: null,
         document_type: null,
         document_type_id: null,
-        expiry_date: null,
+        modelTypeId: null,
         id: null,
         img_url: null,
         regno: null,
         newRegno: null,
         remarks: null,
-        rto: null,
         vehicle_id: null,
         wef_date: null,
         img_url2: null,
@@ -626,6 +616,7 @@ export class PendingVehicleComponent implements OnInit {
 
   openNextModal(modal) {
     this.showDetails({ _docid: 0, vehicle_id: 0 });
+
   }
 
   checkDateFormat(modal, dateType) {
@@ -639,27 +630,6 @@ export class PendingVehicleComponent implements OnInit {
   }
 
 
-  getUserWorkList() {
-    this.common.loading++;
-    this.api.post('Vehicles/getUserWorkSummary', {})
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("data", res);
-        this.userdata = res['data'];
-        if (this.userdata.length) {
-          for (var key in this.userdata[0]) {
-            if (key.charAt(0) != "_")
-              this.columns2.push(key);
-          }
-          console.log("columns");
-          console.log(this.columns2);
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-
-  }
 
 }
 
