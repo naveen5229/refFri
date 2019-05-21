@@ -167,6 +167,13 @@ table{
             th{
                 padding: 5px 10px;
                 font-weight: normal;
+                width: 300px;
+            }
+            th:first-child{
+                width: 50px;
+            }
+            th:last-child{
+                width: auto;
             }
         }
     }
@@ -180,6 +187,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 300px;
             .edit{
                 background-color: #1DE9B6;
                 color: #fff;
@@ -197,6 +205,12 @@ table{
                 font-size: 12px;
             }
         }
+        td:first-child{
+            width: 50px;
+        }
+        td:last-child{
+            width: auto;
+        }
     }
 }
 
@@ -208,58 +222,6 @@ table{
     overflow: auto;
     max-height: 320px;
     min-height: 320px;
-}
-.list_table table thead tr th:nth-child(1){
-    width: 45px;
-}
-.list_table table thead tr th:nth-child(2),
-.list_table table thead tr th:nth-child(3){
-    width: 110px;
-}
-
-.list_table table thead tr th:nth-child(4),
-.list_table table thead tr th:nth-child(6),
-.list_table table thead tr th:nth-child(7){
-    width: 150px;
-}
-.list_table table thead tr th:nth-child(5){
-    width: 130px;
-}
-.list_table table tbody tr td:nth-child(1){
-    width: 45px;
-}
-.list_table table tbody tr td:nth-child(2),
-.list_table table tbody tr td:nth-child(3),
-.list_table table tbody tr td:nth-child(9){
-    width: 110px;
-}
-
-.list_table table tbody tr td:nth-child(4),
-.list_table table tbody tr td:nth-child(6),
-.list_table table tbody tr td:nth-child(7){
-    width: 150px;
-}
-.list_table table tbody tr td:nth-child(5){
-    width: 130px;
-}
-.work-table table tbody{
-    overflow-y: auto;
-    display: block;
-    width: 100%;
-    table-layout: fixed;
-    overflow: auto;
-    max-height: 70px;
-    min-height: 70px;
-}
-.work-table table thead tr th:nth-child(1),
-.work-table table tbody tr td:nth-child(1){
-    width: 50px;
-}
-.work-table table thead tr th:nth-child(2),
-.work-table table tbody tr td:nth-child(2),
-.work-table table thead tr th:nth-child(3),
-.work-table table tbody tr td:nth-child(3){
-    width: 350px;
 }
 h6{
     margin: 15px 0px 10px;
