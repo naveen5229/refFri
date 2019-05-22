@@ -266,7 +266,7 @@ export class VouchersComponent implements OnInit {
       }
 
     });
-    let remainingstring1 = (companydata[0].phonenumber) ? ', Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
     let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
     let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
 
