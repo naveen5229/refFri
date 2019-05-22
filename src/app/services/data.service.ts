@@ -233,7 +233,7 @@ export class DataService {
             link: '/admin/pending-documents',
           },
           {
-            title: 'Pending vehicle',
+            title: 'Pending vehicle Modal',
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-vehicle',
           },

@@ -102,13 +102,7 @@
               </div>
               <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
-                <label style="font-size:16px; margin-left: 5%; "
-                  *ngIf="modal.first.data.document.review >= 0 && modal.first.data.document.review <4; else checkHistory">Review
-                  : {{modal.first.data.document.review}}</label>
-                <ng-template #checkHistory>
-                  <span style="font-size:16px; color: blue; margin-left: 5%;"
-                    (click)="History(modal.first.data.document.id)">Review: {{modal.first.data.document.review}}</span>
-                </ng-template>
+
 
                 <span *ngIf="modal.first.data.document.rcImage" class="rc-image">
                   <a target='_blank' href="{{modal.first.data.document.rcImage}}" title="View Vehicle">RC Image</a>
@@ -124,9 +118,8 @@
               </div>
 
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <input *ngIf="modal.first.data.canUpdate" id="document_id-first" name="document_id-first"
-                  [value]="modal.first.data.document.newRegno | uppercase" type="text" class="form-control "
-                  [(ngModel)]="modal.first.data.document.newRegno" />
+                <label style="font-size:16px;">{{modal.first.data.document.newRegno}}</label>
+
 
               </div>
             </div>
@@ -278,15 +271,7 @@
 
               <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                 <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
-                <label style="font-size:16px;  margin-left: 5%;"
-                  *ngIf="modal.second.data.document.review >= 0 && modal.second.data.document.review <4 ; else checkHistory">Review
-                  : {{modal.second.data.document.review}}</label>
 
-                <ng-template #checkHistory>
-                  <span style="font-size:16px; color: blue;  margin-left: 5%;"
-                    (click)="History(modal.second.data.document.id)">Review
-                    : {{modal.second.data.document.review}}</span>
-                </ng-template>
 
 
                 <span *ngIf="modal.second.data.document.rcImage" class="rc-image">
@@ -302,9 +287,7 @@
               </div>
 
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <input *ngIf="modal.second.data.canUpdate" id="document_id-second" name="document_id-second" type="text"
-                  [value]="modal.second.data.document.newRegno | uppercase" class="form-control "
-                  [(ngModel)]="modal.second.data.document.newRegno" />
+                <label style="font-size:16px;">{{modal.second.data.document.newRegno}}</label>
 
               </div>
             </div>
