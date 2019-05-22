@@ -102,38 +102,42 @@ export class PendingVehicleComponent implements OnInit {
       });
   }
 
-  showDetails(row) {
+  showDetails(row, isNext?) {
     console.log("row:", row);
     let rowData = {
-
       vehicle_id: row._vid,
     };
     console.log("Model  Id:", rowData);
-    this.modalOpenHandling({ rowData, title: 'Update Vehicle', canUpdate: 1 });
+    console.log('Handle Next::', isNext);
+    this.modalOpenHandling({ rowData, title: 'Update Vehicle', canUpdate: 1 }, isNext);
   }
 
-  modalOpenHandling(params) {
+  modalOpenHandling(params, isNext?) {
     console.log('Handler Start: ', this.modal.active);
     if (!this.modal.active) {
       this.modal.first.class = 'custom-active-modal';
       this.modal.first.show = true;
-      this.handleModalData('first', params);
+      this.handleModalData('first', params, isNext);
       this.modal.active = 'first';
+      console.log('Handle Next::', isNext);
     } else if (this.modal.active == 'first') {
       this.modal.second.class = 'custom-passive-modal';
       this.modal.second.show = true;
-      this.handleModalData('second', params);
+      this.handleModalData('second', params, isNext);
       this.modal.active = 'first';
+      console.log('Handle Next::', isNext);
     } else if (this.modal.active == 'second') {
       this.modal.first.class = 'custom-passive-modal';
       this.modal.first.show = true;
-      this.handleModalData('first', params);
+      this.handleModalData('first', params, isNext);
       this.modal.active = 'second';
+      console.log('Handle Next::', isNext);
+
     }
     console.log('Handler End: ', this.modal.active);
   }
 
-  handleModalData(modal, params) {
+  handleModalData(modal, params, isNext?) {
     this.modal[modal].data.title = params.title;
     this.modal[modal].data.btn1 = params.btn1 || 'Update';
     this.modal[modal].data.btn2 = params.btn2 || 'Discard Image';
@@ -165,14 +169,19 @@ export class PendingVehicleComponent implements OnInit {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
     }
     this.modal[modal].data.images = this.modal[modal].data.imgs;
-
-    this.getvehiclePending(modal);
+    console.log('Handle Next::', isNext);
+    this.getvehiclePending(modal, isNext);
     this.modal[modal].data.docTypes = this.documentTypes;
   }
 
-  getvehiclePending(modal, fornext?) {
+  getvehiclePending(modal, isNext?) {
+    console.log('Handle Next: getvehiclePending:', isNext);
+
     console.log('Modal data: ', this.modal[modal].data);
     let params = "&vehicleId=" + this.modal[modal].data.vehicleId;
+    if (isNext) {
+      params += '&forNext=1';
+    }
     console.log('Params: ', params);
     this.api.get(' vehicles/getPendingFoVehicleBrands?' + params)
       .subscribe(res => {
@@ -520,33 +529,7 @@ export class PendingVehicleComponent implements OnInit {
       return strdate;
   }
 
-  deleteImage(id, modal) {
-    let remark;
-    let ret = confirm("Are you sure you want to delete this Document?");
-    if (ret) {
-      this.common.params = { RemarkModalComponent, title: 'Delete Document' };
 
-      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        if (data.response) {
-          console.log("reason For delete: ", data.remark);
-          remark = data.remark;
-          this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: id, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 0 })
-            .subscribe(res => {
-              this.common.loading--;
-              console.log("data", res);
-              this.closeModal(true, modal);
-              this.common.showToast("Success Delete");
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-
-            });
-        }
-      })
-    }
-  }
 
   setModalData() {
     return {
@@ -587,7 +570,8 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   openNextModal(modal, vehicle_id) {
-    this.showDetails({ _vid: vehicle_id });
+    console.log('Handle Next: Open Next Modal');
+    this.showDetails({ _vid: vehicle_id }, true);
 
   }
 
