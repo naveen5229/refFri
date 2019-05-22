@@ -56,14 +56,10 @@ export class TripVerifyStatesComponent implements OnInit {
         let first_rec = this.verifyState[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
-
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-
           }
-
-
         }
         let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
         this.table.data.headings['action'] = action;
@@ -82,17 +78,11 @@ export class TripVerifyStatesComponent implements OnInit {
     let columns = [];
     console.log("Data=", this.verifyState);
     this.verifyState.map(doc => {
-      // console.log("Doc Data:", doc);
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        // console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
         this.valobj['action'] = { value: null, isHTML: false, action: null, class: '', icons: this.actionIcons(doc) }
-
       }
-
-
       columns.push(this.valobj);
     });
     return columns;
