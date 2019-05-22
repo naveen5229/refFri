@@ -109,10 +109,10 @@ export class TrialbalanceComponent implements OnInit {
       for (let groupKey in groups) {
 
         groups[groupKey].map(info => {
-          if (info.y_openbal) totalopening += parseInt(info.y_openbal);
-          if (info.y_dr_bal) totaldr += parseInt(info.y_dr_bal);
-          if (info.y_closebal) totalcr += parseInt(info.y_closebal);
-          if (info.y_closebal) totalclosing += parseInt(info.y_closebal);
+          if (info.y_openbal) totalopening += parseFloat(info.y_openbal);
+          if (info.y_dr_bal) totaldr += parseFloat(info.y_dr_bal);
+          if (info.y_closebal) totalcr += parseFloat(info.y_closebal);
+          if (info.y_closebal) totalclosing += parseFloat(info.y_closebal);
           y_closebaltype = info.y_closebaltype;
           y_openbaltype = info.y_openbaltype;
           traildatas.push(info);

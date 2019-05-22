@@ -233,8 +233,17 @@ mwlResizable {
         z-index: 999;
         .sort-container {
             width: 15px;
+            display: none
         }
 
+        .filter-input-container {
+            width: auto;
+        }
+    }
+    th:hover {
+        .sort-container {
+            display: inline-block;
+        }
         .filter-input-container {
             width: calc(100% - 17px);
         }
@@ -549,6 +558,55 @@ mwlResizable {
         .icon.fa-question-circle:hover span{
             display: block;
         }
+
+
+
+
+
+        .icon.fa-tachometer-alt {
+            color: #ff8099;
+            span{
+                position: absolute;
+                display: none;
+                padding: 10px 35px;
+                font-weight: normal;
+                font-size: 11px;
+                left: -28px;
+                top: -28px;
+                -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+                font-family: Roboto;
+                z-index:9999;
+            }
+            span::before{
+                content: 'Odometer';
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                background-color: #ff8099;
+                border-radius: 3px;
+                padding: 5px 10px;
+                color:#fff;
+                width: 100%;
+            }
+            span::after{
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #ff8099;
+                position: absolute;
+                bottom: -5px;
+                right: 50%;
+                transform: translate(50%);
+            }
+            
+    }
+    .icon.fa-tachometer-alt:hover span{
+        display: block;
+    }
     }
 
     .loading {
@@ -583,4 +641,18 @@ mwlResizable {
 
 :host ::ng-deep .no-search {
     color: #000;
+}
+.exel-icon{
+    bottom: 20px;
+    position: absolute;
+    left: -60px;
+    background-color: #4fa9ff;
+    font-size: 16px;
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    box-shadow: 5px 4px 24px rgba(0, 0, 0, 0.4);
 }

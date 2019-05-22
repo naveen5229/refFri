@@ -25,9 +25,9 @@ export class AddMaintenanceComponent implements OnInit {
   currentMaintDate: any;
   nextVehicleKm = null;
   remark: any;
-  currentVehicleKm: any;
+  currentVehicleKm = null;
   maintLocation: any;
-  amount: any;
+  amount = null;
   selectedMT: string = '';
   edit = 0;
   MaintenanceId = null;
@@ -48,8 +48,6 @@ export class AddMaintenanceComponent implements OnInit {
       this.MaintenanceId = this.common.params.row._id;
       this.typeId = this.common.params.row._type_id;
       this.selectedMT = this.common.params.row.type_name;
-      console.log("Type Id", this.typeId);
-
       this.currentMaintDate = new Date(this.common.params.row.cur_date);
       this.nextMaintDate = new Date(this.common.params.row.target_date);
       this.currentVehicleKm = this.common.params.row.cur_km,
@@ -68,7 +66,6 @@ export class AddMaintenanceComponent implements OnInit {
     this.activeModal.close({ response: response });
   }
 
-
   serviceMaintenanceType() {
     this.common.loading++;
     this.api.get('VehicleMaintenance/getHeadMaster')
@@ -82,19 +79,16 @@ export class AddMaintenanceComponent implements OnInit {
       });
   }
 
-
   changeMaitenanceType(type) {
-    // let name = type.target.value;
     this.typeId = this.maintenanceType.find((element) => {
       return element.name == type;
     }).id;
     console.log("Type Id", this.typeId);
-    // this.typeId = id.id;
-
   }
+
   addMaintenance() {
     let params = {
-      id: this.MaintenanceId ? this.MaintenanceId : -1,
+      id: this.MaintenanceId ? this.MaintenanceId : null,
       vId: this.vehicleId,
       mainTypeId: this.typeId,
       currDate: this.common.dateFormatter(this.currentMaintDate),
@@ -124,5 +118,4 @@ export class AddMaintenanceComponent implements OnInit {
         console.log(err);
       });
   }
-
 }

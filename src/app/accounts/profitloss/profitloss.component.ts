@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
+import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 
 @Component({
   selector: 'profitloss',
@@ -12,7 +15,7 @@ import * as _ from 'lodash';
   styleUrls: ['./profitloss.component.scss']
 })
 export class ProfitlossComponent implements OnInit {
-
+  selectedName = '';
   plData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
@@ -38,6 +41,8 @@ export class ProfitlossComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     // this.getBalanceSheet();
     this.getBranchList();
@@ -101,7 +106,7 @@ export class ProfitlossComponent implements OnInit {
     for (let key in firstGroup) {
       let total = 0;
       firstGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.liabilities.push({
@@ -115,7 +120,7 @@ export class ProfitlossComponent implements OnInit {
     for (let key in secondGroup) {
       let total = 0;
       secondGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.assets.push({
@@ -215,5 +220,26 @@ export class ProfitlossComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+  openLedgerViewModel(ledgerId) {
+    console.log('ledger id 00000', ledgerId);
+    this.common.params = {
+      startdate: this.plData.startdate,
+      enddate: this.plData.enddate,
+      ledger: ledgerId,
+      vouchertype: 0
+    };
+    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      //this.getDayBook();
+      //this.common.showToast('Voucher updated');
+
+    });
   }
 }

@@ -24,20 +24,18 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: 180px;
         }
-        th:nth-child(1){
+        th:first-child{
             width: 35px;
         }
-        th:nth-child(2),
-        th:nth-child(3),
-        th:nth-child(4),
-        th:nth-child(5),
-        th:nth-child(6){
-            width: 180px;
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 180px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -61,15 +59,11 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
+            td:first-child{
                 width: 35px;
             }
-            td:nth-child(2),
-            td:nth-child(3),
-            td:nth-child(4),
-            td:nth-child(5),
-            td:nth-child(6){
-                width: 180px;
+            td:last-child{
+                width: auto
             }
         }
         tr:nth-child(odd){
@@ -129,7 +123,7 @@ table tr.highlight {
    
 }
 i{
-    font-size: 14px;
+    font-size: 30px;
     align-content: center;
 }
 
@@ -147,4 +141,12 @@ i{
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
+}
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
 }

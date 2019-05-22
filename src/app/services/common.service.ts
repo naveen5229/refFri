@@ -79,18 +79,18 @@ export class CommonService {
     this.showToast(msg || "Something went wrong! try again.", "danger");
   }
 
-  ucWords(str){
-      str = str.toLowerCase();
-      var words = str.split(' ');
-      str = '';
-      for (var i = 0; i < words.length; i++) {
-        var word = words[i];
-        word = word.charAt(0).toUpperCase() + word.slice(1);
-        if (i > 0) { str = str + ' '; }
-        str = str + word;
-      }
-      return str;
+  ucWords(str) {
+    str = str.toLowerCase();
+    var words = str.split(' ');
+    str = '';
+    for (var i = 0; i < words.length; i++) {
+      var word = words[i];
+      word = word.charAt(0).toUpperCase() + word.slice(1);
+      if (i > 0) { str = str + ' '; }
+      str = str + word;
     }
+    return str;
+  }
 
   showToast(body, type?, duration?, title?) {
     // toastTypes = ["success", "info", "warning", "primary", "danger", "default"]
@@ -547,7 +547,8 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+    // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -558,9 +559,21 @@ export class CommonService {
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
     console.log("hdgcols:", hdgCols);
-    console.log(hdgCols.length);
+    // console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
@@ -570,9 +583,12 @@ export class CommonService {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs.push(attrval);
+
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
+
+
           hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
@@ -601,6 +617,7 @@ export class CommonService {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
+
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
@@ -652,7 +669,7 @@ export class CommonService {
       if (left_heading != "undefined" && left_heading != null && left_heading != '') {
         x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
-        let xpos = x - hdglen - 40;
+        let xpos = x - hdglen - 50;
         y = 40;
         doc.setFont("times", "bold", "text-center");
         doc.text(left_heading, xpos, y);
@@ -666,7 +683,7 @@ export class CommonService {
         doc.text(center_heading, x - hdglen - 40, y);
       }
       y = 15;
-      //doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -702,6 +719,8 @@ export class CommonService {
       columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
 
     });
+
+
     doc.save("report.pdf");
   }
 
@@ -723,7 +742,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -731,15 +750,33 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
+    let leftData = { left_heading };
+    let centerData = { center_heading };
 
     let info = [];
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
+    info.push(leftData);
+    info.push(centerData);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
+
+
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))

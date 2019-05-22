@@ -10,10 +10,15 @@
 
       <div class="row">
         <div class="col-md-6">
-          <label class="fill-elt">Fuel Station:</label>
-          <auto-suggestion name="fuelStation" (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
-            display="name" placeholder="Enter Fuel Station" preSelected="null" class="fstn-name" style="width:60%;">
-          </auto-suggestion>
+          <span>
+            <label class="fill-elt">Fuel Station: </label> <input style="margin-left:15px" type="checkbox"
+              (change)="checkFuelFlag(isFuelFlag?true:false)" name="is-fuel-station" [(ngModel)]="isFuelFlag"> Is Null ?
+          </span>
+          <div *ngIf="!isFuelFlag">
+            <auto-suggestion name="fuelStation" (onSelected)="getStnData($event)" url="Suggestion/GetFuelStation"
+              display="name" placeholder="Enter Fuel Station" preSelected="null" class="fstn-name" style="width:60%;">
+            </auto-suggestion>
+          </div>
           <div class="suggestions ng-star-inserted"></div>
         </div>
         <div class="col-md-6">

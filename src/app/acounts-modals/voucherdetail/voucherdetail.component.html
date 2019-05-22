@@ -3,20 +3,21 @@
     <div class="modal-header">
       <h5 class="modal-title" id="modal-basic-title">Voucher Detail</h5>
       <button type="button" class="close" aria- label="Close" (click)="dismiss(false)">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <div class="modal-body" >
+    <div class="modal-body">
       <table class="table table-bordered">
-          <thead style="background-color:#263238; color:#fff;">
-        <tr>
-          <th>Particular</th>
-          <!--th>Vch Type</th>
+        <thead style="background-color:#263238; color:#fff;">
+          <tr>
+            <th>Particular</th>
+            <!--th>Vch Type</th>
         <th>Vch No.</th-->
-          <th>Amount(Debit)</th>
-          <th>Amount(Credit)</th>
+            <th>Amount(Debit)</th>
+            <th>Amount(Credit)</th>
+            <th>Cost Center</th>
 
-        </tr>
+          </tr>
         </thead>
         <tr *ngFor=" let dataItem of Detail;">
           <td>{{dataItem.y_particulars}}</td>
@@ -24,6 +25,11 @@
           <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td-->
           <td>{{dataItem.y_dramunt}}</td>
           <td>{{dataItem.y_cramunt}}</td>
+          <td>
+            <div *ngFor="let costDetail of filterCostDetails(dataItem.y_ccdetails)">
+              {{costDetail}}
+            </div>
+          </td>
 
 
         </tr>

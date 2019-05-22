@@ -1,8 +1,12 @@
-<nb-card style="padding-top: 25px; border:0px;">
+<nb-card style="border:0px;">
   <!-- <nb-card-header>
     <h4>Balance Sheet</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.mutliTablePdfWithId(['table1', 'table2'])"
+      style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+    <span class="exel-icon" title="CSV Export" (click)="csvService.multiTableCSVWithId(['table1', 'table2'])"
+      style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
       <!--div class="col">
         <div class="form-group">
@@ -38,7 +42,7 @@
 
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
-        <table class="table table-bordered m-0">
+        <table class="table table-bordered m-0" id="table1">
           <thead>
             <tr>
               <th>Liability</th>
@@ -48,7 +52,7 @@
           <tbody *ngFor="let liability of liabilities;  let i = index;">
             <tr style="background: #184154;" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
               <td>{{liability.name}}</td>
-              <td style="text-align: right;">{{liability.amount}}</td>
+              <td style="text-align: right;">{{liability.amount | number : '1.2-2'}}</td>
             </tr>
             <tr *ngFor="let balanceSheet of liability.balanceSheets; let j = index" (click)="selectedRow =  'A' + i + j"
               (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
@@ -62,7 +66,7 @@
         </table>
       </div>
       <div class="col-6 p-0">
-        <table class="table table-bordered m-0">
+        <table class="table table-bordered m-0" id="table2">
           <thead>
             <tr>
               <th>Asset</th>
@@ -72,7 +76,9 @@
           <tbody *ngFor="let asset of assets; let k = index;">
             <tr style="background: #184154;" [ngStyle]="{'display':  k == assets.length -1 ? 'none' : ''}">
               <td>{{asset.name}}</td>
-              <td style="text-align: right;">{{asset.amount}}</td>
+              <!-- <td style="text-align: right;">{{asset.amount}}</td> -->
+              <td style="text-align: right;">{{asset.amount | number : '1.2-2'}}</td>
+
             </tr>
             <tr *ngFor="let balanceSheet of asset.balanceSheets; let l = index" (click)="selectedRow =  'B' + k + l"
               (dblclick)="(asset.name.includes('Profit & Loss A/c')) ? getProfitLoss() : (balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid) : ' ' "
@@ -91,7 +97,8 @@
         <div *ngIf="liabilities.length" class="tanding_total clearfix">
           <div class="total_name">{{liabilities[liabilities.length - 1].name}}</div>
           <div class="total_amount" style="text-align: right;">
-            <p style="margin: 0px; width: 50px; text-align: right;">{{liabilities[liabilities.length - 1].amount}}</p>
+            <p style="margin: 0px; width: 100px; text-align: right;">
+              {{liabilities[liabilities.length - 1].amount | number : '1.2-2'}}</p>
           </div>
         </div>
       </div>
@@ -99,7 +106,8 @@
         <div class="tanding_total clearfix" *ngIf="assets.length">
           <div class="total_name">{{assets[assets.length - 1].name}}</div>
           <div class="total_amount" style="text-align: right;">
-            <p style="margin: 0px; width: 50px; text-align: right;">{{assets[assets.length - 1].amount}}</p>
+            <p style="margin: 0px; width: 100px; text-align: right;">
+              {{assets[assets.length - 1].amount | number : '1.2-2'}}</p>
           </div>
         </div>
       </div>

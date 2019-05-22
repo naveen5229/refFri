@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
+import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
 
 @Component({
   selector: 'inventory',
@@ -24,7 +25,7 @@ export class InventoryComponent implements OnInit {
     nsd2: null,
     nsd3: null,
     psi: null,
-    tyreSize:null
+    tyreSize: null
   },
   {
     modelName: null,
@@ -38,7 +39,7 @@ export class InventoryComponent implements OnInit {
     nsd2: null,
     nsd3: null,
     psi: null,
-    tyreSize:null
+    tyreSize: null
   },
   {
     modelName: null,
@@ -47,12 +48,12 @@ export class InventoryComponent implements OnInit {
     tyreNo: null,
     date1: this.common.dateFormatter(new Date()),
     searchModelString: null,
-    is_health:false,
+    is_health: false,
     nsd1: null,
     nsd2: null,
     nsd3: null,
     psi: null,
-    tyreSize:null
+    tyreSize: null
   }];
 
   activeRow = -1;
@@ -104,10 +105,10 @@ export class InventoryComponent implements OnInit {
 
     let alerts = false;
     let count = this.inventories.length;
-    let afterRemove =[];
+    let afterRemove = [];
     for (let i = 0; i < count; i++) {
-      console.log("tyreno",this.inventories[i].tyreNo);
-      if (this.inventories[i].tyreNo){
+      console.log("tyreno", this.inventories[i].tyreNo);
+      if (this.inventories[i].tyreNo) {
         afterRemove.push(this.inventories[i]);
       }
     }
@@ -119,7 +120,7 @@ export class InventoryComponent implements OnInit {
         alerts = true;
         break;
       }
-     
+
     }
     if (alerts == true) {
       alert("NSD-1 , NSD-2 , NSD-3 , PSI fields are mandatory is  Is_Health is Checked");
@@ -131,6 +132,7 @@ export class InventoryComponent implements OnInit {
   }
 
   getDate(index) {
+    this.common.params = { ref_page: "Inventory" };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.inventories[index].date1 = this.common.dateFormatter(data.date).split(' ')[0];
@@ -143,7 +145,7 @@ export class InventoryComponent implements OnInit {
     this.inventories[i].tyreSize = document.getElementById('size-' + i)['value'];
   }
 
-  getTyreSize(tsize,i){
+  getTyreSize(tsize, i) {
     this.inventories[i].tyreSize = tsize.size;
   }
 
@@ -158,7 +160,7 @@ export class InventoryComponent implements OnInit {
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("sucess");
         } else {
-          this.common.showToast(res['data'][0].rtn_msg);
+          this.common.showError(res['data'][0].rtn_msg);
         }
         //this.searchData();
       }, err => {
@@ -195,7 +197,7 @@ export class InventoryComponent implements OnInit {
       nsd2: null,
       nsd3: null,
       psi: null,
-     tyreSize:null
+      tyreSize: null
     });
   }
 
@@ -211,91 +213,6 @@ export class InventoryComponent implements OnInit {
     this.inventories[index].psi = null;
   }
 
-  openStockItemModal (stockitem?) {
-    console.log('stockitem',stockitem);
-       if (stockitem){ this.common.params = stockitem;
-       }else {
-        this.common.params = { stockType: { name: 'Tyre', id: -1 } };
-       }
-      const activeModal = this.modalService.open(StockitemComponent, { size: 'lg',  container: 'nb-layout', backdrop: 'static',keyboard :false });
-      activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
-          if (stockitem) {
-            this.updateStockItem(stockitem.id, data.stockitem);
-            return;
-          }
-         this.addStockItem(data.stockItem);
-        }
-      });
-    }
 
-    addStockItem(stockItem) {
-      console.log(stockItem);
-     // const params ='';
-       const params = {
-          //foid: stockItem.user.id,
-           name: stockItem.name,
-          code: stockItem.code,
-          stocksubtypeid: stockItem.stockSubType.id,
-          sales: stockItem.sales,
-          purchase: stockItem.purchase,
-          minlimit: stockItem.minlimit,
-          maxlimit: stockItem.maxlimit,
-          isactive: stockItem.isactive,
-          inventary: stockItem.inventary,
-          stockunit  : stockItem.unit.id
-         
-       };
-  
-       console.log('params: ',params);
-      this.common.loading++;
-  
-      this.api.post('Stock/InsertStockItem', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log('res: ', res);
-         // this.getStockItems();
-        }, err => {
-          this.common.loading--;
-          console.log('Error: ', err);
-          this.common.showError();
-        });
-  
-    }
-  
-    updateStockItem(stockItemid,stockItem) {
-      console.log(stockItem);
-     // const params ='';
-       const params = {
-          //foid: stockItem.user.id,
-           name: stockItem.name,
-          code: stockItem.code,
-          stocksubtypeid: stockItem.stockSubType.id,
-          sales: stockItem.sales,
-          purchase: stockItem.purchase,
-          minlimit: stockItem.minlimit,
-          maxlimit: stockItem.maxlimit,
-          isactive: stockItem.isactive,
-          inventary: stockItem.inventary,
-          stockunit  : stockItem.unit.id,
-          stockItemid :stockItemid
-       };
-  
-       console.log('paramsans: ',params);
-      this.common.loading++;
-  
-      this.api.post('Stock/UpdateStockItem', params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log('res: ', res);
-          //this.getStockItems();
-        }, err => {
-          this.common.loading--;
-          console.log('Error: ', err);
-          this.common.showError();
-        });
-  
-    }
 }
 

@@ -54,7 +54,7 @@ export class PendingDocumentsComponent implements OnInit {
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
     this.listtype;
-    this.common.currentPage = 'Pending Vehicle Documents';
+    //this.common.currentPage = 'Pending Vehicle Documents';
   }
 
   ngOnInit() {

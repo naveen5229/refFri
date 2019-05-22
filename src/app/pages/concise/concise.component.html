@@ -1,7 +1,57 @@
-
-
 <nb-card style="border: 0px; height: 100%;">
   <nb-card-body style="padding:5px 5px 0px;">
+    <!-- TEsting -->
+    <!-- <button (click)="pdfService.voucherPDF()">PDF</button> -->
+    <!-- <div class="voucher-pdf" id="voucher-pdf">
+      <div class="voucher-customer">
+        <div class="voucher-company">{{pdfData.company}}</div>
+        <div class="voucher-address">{{pdfData.address}}</div>
+        <div class="voucher-city">{{pdfData.city}}</div>
+      </div>
+      <div class="voucher-name">{{pdfData.reportName}}</div>
+      <div class="row">
+        <div class="col-6 voucher-details" *ngFor="let item of pdfData.details">
+          <strong>{{item.name}}:</strong> <span>{{item.value}}</span>
+        </div>
+      </div>
+      <div>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th *ngFor="let heading of pdfData.headers" [ngStyle]="{'text-align' : heading.textAlign}">
+                {{heading.name}}
+              </th>
+            </tr>
+            <tr *ngFor="let row of pdfData.table">
+              <td *ngFor="let col of row; let i = index" [ngStyle]="{'text-align' : pdfData.headers[i].textAlign}">
+                {{col}}</td>
+            </tr>
+
+            <tr>
+              <th colspan="2" class="text-right"><strong>Total</strong></th>
+              <td class="text-right" *ngFor="let total of pdfData.total">{{total}}</td>
+            </tr>
+            <tr>
+              <td colspan="4"><strong>In Words:</strong> {{pdfData.inWords}}</td>
+            </tr>
+            <tr>
+              <td colspan="4"><strong>Narration:</strong> {{pdfData.narration}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row voucher-footer">
+          <div class="col-6"></div>
+          <div class="col-3 voucher-signature">
+            <div>Accountant</div>
+          </div>
+          <div class="col-3 voucher-signature">
+            <div>Approved By</div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- Tetsing End -->
+
     <div class="row m-0">
       <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView">
         <div
@@ -95,7 +145,7 @@
 
           </div>
           <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('print-section')"
-            style="cursor: pointer;margin-left: 10px; margin-bottom: 20px"><i class="fas fa-file-excel"></i></span>
+            style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
           <!-- ============================= SMART TABLE END ============================= -->
 
           <!-- ============================= MAP VIEW ============================= -->

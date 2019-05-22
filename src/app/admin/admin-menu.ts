@@ -28,6 +28,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/escalation-matrix',
     },
     {
+        title: 'vehicle view',
+        icon: 'fa fa-chart-bar',
+        link: '/admin/vehicles-view',
+    },
+    {
         title: 'Alert Related Issue',
         icon: 'far fa-bell',
         link: '/admin/alert-related-issue',
@@ -138,6 +143,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/fuel-average-analysis',
                 home: true,
             },
+            {
+                title: 'Fuel Rules',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-rules',
+                home: true,
+            },
+            {
+                title: 'Pump Station Area',
+                icon: 'fa fa-signal',
+                link: '/admin/pump-station-area',
+                home: true,
+            },
         ]
     },
     {
@@ -206,6 +223,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Ticket Subscribe',
         icon: 'fa fa-signal',
         link: '/admin/ticket-subscribe',
+        home: true,
+    },
+    {
+        title: 'Add Customer',
+        icon: 'fa fa-signal',
+        link: '/admin/add-customer',
         home: true,
     },
 

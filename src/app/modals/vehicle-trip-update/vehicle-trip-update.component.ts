@@ -6,17 +6,19 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ReminderComponent } from '../../modals/reminder/reminder.component';
 import { ChoosePeriodsComponent } from '../choose-periods/choose-periods.component';
-
+import { LocationSelectionComponent } from '../../modals/location-selection/location-selection.component';
 
 declare var google: any;
 
 @Component({
   selector: 'vehicle-trip-update',
   templateUrl: './vehicle-trip-update.component.html',
-  styleUrls: ['./vehicle-trip-update.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./vehicle-trip-update.component.scss', '../../pages/pages.component.css']
 })
 export class VehicleTripUpdateComponent implements OnInit {
   vehicleStatus = null;
+  keepGoing = true;
+  searchString = '';
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -24,19 +26,19 @@ export class VehicleTripUpdateComponent implements OnInit {
     targetTime: null,
     id: null,
     regno: null,
-    
+
     startName: null,
 
-    placementType:null,
-    vehicleId:null,
-    siteId:null,
-    locationType:'city',
-    allowedHaltHours:null
+    placementType: null,
+    vehicleId: null,
+    siteId: null,
+    locationType: 'city',
+    allowedHaltHours: null
   };
   placements = null;
-  placementSite = 0;
+  placementSite = null;
   placementSuggestion = [];
-  ref_page = null ;
+  ref_page = null;
   cLT = 'city';
   constructor(public api: ApiService,
     public common: CommonService,
@@ -46,14 +48,14 @@ export class VehicleTripUpdateComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     console.log(this.common.params)
-   
+
     this.vehicleTrip.vehicleId = this.common.params.tripDetils.vehicleId;
     this.vehicleTrip.siteId = this.common.params.tripDetils.siteId;
     this.ref_page = this.common.params.ref_page;
-    console.log("ref_page",this.ref_page);
-    if(this.ref_page == 'placements'){
+    console.log("ref_page", this.ref_page);
+    if (this.ref_page == 'placements') {
       this.vehicleTrip.placementType = '11';
-    }else{
+    } else {
       this.vehicleTrip.placementType = '0';
     }
     this.getVehiclePlacements();
@@ -63,52 +65,52 @@ export class VehicleTripUpdateComponent implements OnInit {
 
   ngOnInit() {
   }
-  selecteCity(){
+  selecteCity() {
     console.log("city selected");
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',false), 3000);
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', false), 3000);
   }
 
   ngAfterViewInit(): void {
     //setTimeout(this.map, 3000);
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',false), 1000);
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', false), 1000);
 
   }
-  changeLocationType(clt){
-    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip',clt), 1000);
+  changeLocationType(clt) {
+    setTimeout(this.autoSuggestion.bind(this, 'vehicleTrip_endtrip', clt), 1000);
   }
-  openReminderModal(){
+  openReminderModal() {
     this.common.params.returnData = true;
     this.common.params.title = "Target Time";
     const activeModal = this.modalService.open(ReminderComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log("data",data);
+      console.log("data", data);
       this.vehicleTrip.targetTime = data.date;
-      this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
+      this.vehicleTrip.targetTime = this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
       console.log('Date:', this.vehicleTrip.targetTime);
     });
   }
-  
-  openTimePeriodModal(){
-    this.common.params = {refPage:'placements',title :"Allowed Halt Hours"};
+
+  openTimePeriodModal() {
+    this.common.params = { refPage: 'placements', title: "Allowed Halt Hours" };
     const activeModal = this.modalService.open(ChoosePeriodsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      console.log("data",data);
+      console.log("data", data);
       this.vehicleTrip.allowedHaltHours = data.duration;
       //this.vehicleTrip.targetTime= this.common.dateFormatter(new Date(this.vehicleTrip.targetTime));
       console.log('allowedHaltHours:', this.vehicleTrip.allowedHaltHours);
     });
   }
 
-  autoSuggestion(elementId,locType) {
-    console.log("locType",locType);
+  autoSuggestion(elementId, locType) {
+    console.log("locType", locType);
     var options;
-    if(locType){
+    if (locType) {
       options = {
         //types: ['(address)'],
         componentRestrictions: { country: "in" }
       };
     }
-    else{
+    else {
       options = {
         types: ['(cities)'],
         componentRestrictions: { country: "in" }
@@ -116,23 +118,24 @@ export class VehicleTripUpdateComponent implements OnInit {
     }
     let ref = document.getElementById(elementId);//.getElementsByTagName('input')[0];
     let autocomplete = new google.maps.places.Autocomplete(ref, options);
-    google.maps.event.addListener(autocomplete, 'place_changed', this.updateLocation.bind(this,elementId, autocomplete));
+    google.maps.event.addListener(autocomplete, 'place_changed', this.updateLocation.bind(this, elementId, autocomplete));
   }
 
-  updateLocation(elementId,autocomplete) {
+  updateLocation(elementId, autocomplete) {
     console.log('tets');
     let place = autocomplete.getPlace();
     let lat = place.geometry.location.lat();
     let lng = place.geometry.location.lng();
     place = autocomplete.getPlace().formatted_address;
-   
-    this.setLocations(elementId,place,lat,lng);
+
+    this.setLocations(elementId, place, lat, lng);
   }
 
-  setLocations(elementId,place,lat,lng){
-      this.vehicleTrip.endLat = lat;
-      this.vehicleTrip.endLng = lng;
-      this.vehicleTrip.endName = place;
+  setLocations(elementId, place, lat, lng) {
+    this.vehicleTrip.endLat = lat;
+    this.vehicleTrip.endLng = lng;
+    this.vehicleTrip.endName = place;
+    this.placementSite = null;
   }
 
   closeModal() {
@@ -140,44 +143,46 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   updateTrip() {
-    if((this.vehicleTrip.endLat||this.placementSite)&&this.vehicleTrip.placementType){
+
+    console.log("Placement Type", this.vehicleTrip.placementType);
+    if ((this.vehicleTrip.endLat || this.placementSite) && this.vehicleTrip.placementType) {
+      let params = {
+        vehicleId: this.vehicleTrip.vehicleId,
+        location: this.vehicleTrip.endName ? this.vehicleTrip.endName.split(',')[0] : '',
+        locationLat: this.vehicleTrip.endLat,
+        locationLng: this.vehicleTrip.endLng,
+        placementType: this.vehicleTrip.placementType,
+        targetTime: this.vehicleTrip.targetTime,
+        allowedHaltHours: this.vehicleTrip.allowedHaltHours,
+        siteId: this.placementSite ? this.placementSite : 'null',
+
+      }
+
+      console.log("params", params);
+
+      ++this.common.loading;
+      this.api.post('TripsOperation/vehicleTripReplacement', params)
+        .subscribe(res => {
+          --this.common.loading;
+          console.log(res['msg']);
+          this.common.showToast(res['msg']);
+          this.getVehiclePlacements();
+          // this.activeModal.close();
+        }, err => {
+          --this.common.loading;
+          console.log('Err:', err);
+        });
+    } else {
+      alert("Next Location And Purpose is Mandatory");
+    }
+  }
+
+  getVehicleCurrentStatus() {
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
-      location: this.vehicleTrip.endName?this.vehicleTrip.endName.split(',')[0]:'',
-      locationLat: this.vehicleTrip.endLat,
-      locationLng: this.vehicleTrip.endLng,
-      placementType: this.vehicleTrip.placementType,
-      targetTime: this.vehicleTrip.targetTime,
-      allowedHaltHours:this.vehicleTrip.allowedHaltHours,
-      siteId: this.vehicleTrip.endLat?0:this.placementSite,
-
     }
-  
-     console.log("params", params);
-  
-    ++this.common.loading;
-    this.api.post('TripsOperation/vehicleTripReplacement', params)
-      .subscribe(res => {
-        --this.common.loading;
-        console.log(res['msg']);
-        this.common.showToast(res['msg']);
-        this.getVehiclePlacements();
-       // this.activeModal.close();
-      }, err => {
-        --this.common.loading;
-        console.log('Err:', err);
-      });
-  }else{
-    alert("Next Location And Purpose is Mandatory");
-   }
-}
 
-getVehicleCurrentStatus(){
-  let params ={
-    vehicleId: this.vehicleTrip.vehicleId,
-  } 
- 
-  this.api.post('Placement/getVehicleCurrentStatus' ,params)
+    this.api.post('Placement/getVehicleCurrentStatus', params)
       .subscribe(res => {
         console.log('Res: ', res['data']);
         this.vehicleStatus = res['data'][0];
@@ -185,15 +190,15 @@ getVehicleCurrentStatus(){
         console.error(err);
         this.common.showError();
       });
-}
+  }
 
-getPlacementSuggestion(){
-  let params ={
-    vehicleId: this.vehicleTrip.vehicleId,
-    siteId: this.vehicleTrip.siteId
-  } 
- 
-  this.api.post('Placement/getSuggestion?' ,params)
+  getPlacementSuggestion() {
+    let params = {
+      vehicleId: this.vehicleTrip.vehicleId,
+      siteId: this.vehicleTrip.siteId
+    }
+
+    this.api.post('Placement/getSuggestion?', params)
       .subscribe(res => {
         console.log('Res: ', res['data']);
         this.placementSuggestion = res['data'];
@@ -201,12 +206,12 @@ getPlacementSuggestion(){
         console.error(err);
         this.common.showError();
       });
-}
+  }
 
-getVehiclePlacements(){
-  ++this.common.loading;
-  let params = "vehId=" +this.vehicleTrip.vehicleId;
-  this.api.get('VehicleTrips/vehiclePlacements?' +params)
+  getVehiclePlacements() {
+    ++this.common.loading;
+    let params = "vehId=" + this.vehicleTrip.vehicleId;
+    this.api.get('VehicleTrips/vehiclePlacements?' + params)
       .subscribe(res => {
         --this.common.loading;
         console.log('Res: ', res['data']);
@@ -216,30 +221,77 @@ getVehiclePlacements(){
         console.error(err);
         this.common.showError();
       });
-}
+  }
 
-delete(placement) {
-  console.log("issue",placement);
-  this.common.loading++;
-  let params = {
-    placementId: placement.id,
-    status: true
-  };
-  console.log(params);
-  this.api.post('VehicleTrips/updateVehiclePlacement?', params)
-    .subscribe(res => {
-      this.common.loading--;
-     this.getVehiclePlacements();
-    }, err => {
-      this.common.loading--;
-      console.log(err);
-    });
-}
-  
-setPlacementDetail(placementSuggestion){
-  console.log("placementSuggestion",placementSuggestion);
-  this.vehicleTrip.endName = placementSuggestion.y_loc_name;
-  this.vehicleTrip.endLat = placementSuggestion.y_lat;
-  this.vehicleTrip.endLng = placementSuggestion.y_long;
-}
+  delete(placement) {
+    console.log("issue", placement);
+    this.common.loading++;
+    let params = {
+      placementId: placement.id,
+      status: true
+    };
+    console.log(params);
+    this.api.post('VehicleTrips/updateVehiclePlacement?', params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.getVehiclePlacements();
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  setPlacementDetail(placementSuggestion) {
+    console.log("placementSuggestion", placementSuggestion);
+    this.vehicleTrip.endName = placementSuggestion.y_loc_name;
+    this.vehicleTrip.endLat = placementSuggestion.y_lat;
+    this.vehicleTrip.endLng = placementSuggestion.y_long;
+    this.placementSite = null;
+
+  }
+  selectLocation(place) {
+    console.log("palce", place);
+    this.placementSite = null;
+    this.vehicleTrip.endLat = place.lat;
+    this.vehicleTrip.endLng = place.long;
+    this.vehicleTrip.endName = place.location || place.name;
+  }
+  onChangeAuto(search) {
+    this.searchString = search;
+    console.log('..........', search);
+  }
+  selectSite(site) {
+    console.log("site=", site);
+    this.vehicleTrip.endLat = null;
+    this.vehicleTrip.endLng = null;
+    this.vehicleTrip.endName = null;//site.name;
+    this.placementSite = site.id;
+
+  }
+  takeAction(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.searchString.length, this.searchString);
+
+      if (this.keepGoing && this.searchString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+
+          if (res.location.lat) {
+            this.vehicleTrip.endName = res.location.name;
+            (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
+            this.vehicleTrip.endLat = res.location.lat;
+            this.vehicleTrip.endLng = res.location.lng;
+            this.placementSite = null;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+
+  }
 }

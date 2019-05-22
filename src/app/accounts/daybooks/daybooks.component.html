@@ -1,10 +1,14 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<nb-card style="padding-top: 0px; border: 0px;">
   <!-- <nb-card-header>
     <h4>Day Book</h4>
   </nb-card-header> -->
   <nb-card-body>
     <div class="row">
       <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
           <!-- <div class="col-4">
             <div class="form-group">
@@ -92,7 +96,11 @@
         (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel(dataItem.y_voucherid) : openVoucherEdit(dataItem.y_voucherid)"
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
-        <td>{{dataItem.y_particulars}}</td>
+        <td>{{dataItem.y_particulars}}
+          <span *ngIf="dataItem.y_docscount>0">
+            <i class="far fa-image" (click)="imageOpen(dataItem);"></i>
+          </span>
+        </td>
         <td>{{dataItem.y_type}}</td>
         <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
         <td>{{dataItem.y_dramunt}}</td>

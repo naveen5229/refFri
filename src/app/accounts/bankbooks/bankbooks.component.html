@@ -1,8 +1,13 @@
-<nb-card style="padding-top: 25px; border: 0px;">
+<nb-card style="border: 0px;">
 
   <nb-card-body>
     <div class="row">
       <div class="col-9">
+        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')"
+          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+          style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+
         <div class="row">
           <!-- <div class="col-4">
             <div class="form-group">
@@ -21,7 +26,7 @@
           <div class="col-4">
             <div class="form-group">
               <label class="tjr-label">Ledger</label>
-              <input type="text" id="ledger" class="form-control tjr-input" name="ledger"
+              <input type="text" id="ledger" class="form-control tjr-input" name="ledger" autocomplete="off"
                 [(ngModel)]="bankBook.ledger.name">
             </div>
           </div>
@@ -59,7 +64,8 @@
         <div class="form-group">
           <div class="auto-sugg">
             <auto-suggetion-in-side *ngIf="ledgerData.length" [data]="ledgerData" targetId="ledger"
-              display="y_ledger_name" (select)="onSelected($event, 'ledger', 'y_ledger_name')"></auto-suggetion-in-side>
+              display="y_ledger_name" (select)="onSelected($event, 'ledger', 'y_ledger_name')">
+            </auto-suggetion-in-side>
           </div>
         </div>
       </div>

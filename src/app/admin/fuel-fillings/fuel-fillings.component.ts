@@ -9,7 +9,7 @@ import { ImportFillingsComponent } from '../../../app/modals/import-fillings/imp
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FuelStationEntryComponent } from '../../modals/fuel-station-entry/fuel-station-entry.component';
 import { ShowFuelStationComponent } from '../../modals/show-fuel-station/show-fuel-station.component';
-
+import { TankEmptyDetailsComponent } from '../../modals/tank-empty-details/tank-empty-details.component';
 @Component({
   selector: 'fuel-fillings',
   templateUrl: './fuel-fillings.component.html',
@@ -198,5 +198,35 @@ export class FuelFillingsComponent implements OnInit {
     this.modalService.open(ShowFuelStationComponent, { size: 'lg', container: 'nb-layout' });
     this.common.handleModalSize('class', 'modal-lg', '1200');
 
+  }
+
+  getFuelMapping() {
+    this.common.loading++;
+    this.api.get('Fuel/mappingFillingStationEntries?')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Mapping:', res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  getisFuel() {
+    this.common.loading++;
+    this.api.get('Fuel/mappingIsFullFilling?')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Mapping:', res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  getemptyFueldetails() {
+    this.modalService.open(TankEmptyDetailsComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
   }
 }

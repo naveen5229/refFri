@@ -8,6 +8,7 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 @Component({
   selector: 'daybooks',
@@ -298,7 +299,7 @@ export class DaybooksComponent implements OnInit {
         this.setFoucus('vouchertype');
       } else if (this.activeId.includes('vouchertype')) {
         this.setFoucus('ledger');
-      } else if (this.activeId.includes('ledger')) {
+      } else if (this.activeId == 'ledger') {
         this.setFoucus('startdate');
       } else if (this.activeId.includes('startdate')) {
         this.DayBook.startdate = this.common.handleDateOnEnterNew(this.DayBook.startdate);
@@ -319,7 +320,9 @@ export class DaybooksComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.DayData.length) {
+
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.DayData.length) {
+      console.log('-Jai rana---');
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
@@ -339,7 +342,7 @@ export class DaybooksComponent implements OnInit {
       activeModal.result.then(data => {
         // console.log('Data: ', data);
         this.getDayBook();
-        this.common.showToast('Voucher updated');
+        // this.common.showToast('Voucher updated');
 
       });
     }
@@ -359,6 +362,31 @@ export class DaybooksComponent implements OnInit {
 
   test(e) {
     console.log('--------: ', e);
+  }
+
+  imageOpen(dataItem) {
+    let images = [];
+    console.log("dataItem:", dataItem);
+    let params = {
+      voucherid: dataItem.y_voucherid
+    };
+    this.common.loading++;
+    this.api.post('Accounts/getvoucherdocs', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res:', res['data']);
+        let images = res['data'];
+
+        this.common.params = { images, title: 'Image' };
+        const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+
   }
 
 }

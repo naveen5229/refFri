@@ -45,8 +45,8 @@ export class ManualHaltComponent implements OnInit {
   }
 
   selecteCity() {
+    this.resetLatLng()
     console.log("city selected");
-    this.haltSite = null;
     setTimeout(this.autoSuggestion.bind(this, 'place', false), 3000);
   }
 
@@ -84,37 +84,53 @@ export class ManualHaltComponent implements OnInit {
     }
   }
 
-  resetLatLng(){
+  setHaltSite(site) {
+    this.resetLatLng();
+    this.haltSite = site.id;
+    this.location.haltlocation = site.name;
+    this.location.lat = site.lat;
+    this.location.long = site.long;
+  }
+
+  resetLatLng() {
+    this.haltSite = null;
     this.location.haltlocation = null;
     this.location.lat = null;
     this.location.long = null;
   }
 
   saveHalt() {
-    this.startTime = this.common.dateFormatter(this.startTime);
-    this.endTime = this.common.dateFormatter(this.endTime);
-    if (!this.location.lat && !this.location.long && !this.haltSite) {
+    if (!this.startTime || !this.endTime) {
+      this.common.showError("please fill Time");
+    }
+
+    else if (!this.location.lat && !this.location.long && !this.haltSite) {
       this.common.showError("please select location");
-    } else {
+    }
+    else {
+      this.startTime = this.common.dateFormatter(this.startTime);
+      this.endTime = this.common.dateFormatter(this.endTime);
       let params = {
         startTime: this.startTime,
         endTime: this.endTime,
         vehicleId: this.vid,
         lat: this.location.lat ? this.location.lat : '',
         long: this.location.long ? this.location.long : '',
+        location: this.location.haltlocation ? this.location.haltlocation : '',
         haltTypeId: this.halt_type,
         siteId: this.haltSite ? this.haltSite : ''
       };
-       console.log('params to insert', params);
+      console.log('params to insert', params);
       this.common.loading++;
       this.api.post('HaltOperations/insertSingleHalt', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log('res: ', res['data']);
-          if (res['code'] == '1')
+          //console.log('res1: ', res['data'][0].r_id);
+          console.log('res2: ', res['data'][0][0].r_id);
+          if (res['data'][0][0].r_id > 0)
             this.common.showToast('Success!!');
           else
-            this.common.showToast('Not Success!!');
+            this.common.showError('Not Success!!');
 
         }, err => {
           this.common.loading--;

@@ -123,6 +123,11 @@ export class DataService {
             icon: 'fas fa-ticket-alt',
             link: '/admin/ticket-properties',
           },
+          {
+            title: 'vehicle view',
+            icon: 'fa fa-chart-bar',
+            link: '/admin/vehicles-view',
+          },
 
           {
             title: 'Diagnostics',
@@ -145,6 +150,12 @@ export class DataService {
             title: 'Ticket Subscribe',
             icon: 'fas fa-info-circle',
             link: '/admin/ticket-subscribe',
+            home: true,
+          },
+          {
+            title: 'add-customer',
+            icon: 'fas fa-info-circle',
+            link: '/admin/add-customer',
             home: true,
           },
         ]
@@ -221,6 +232,11 @@ export class DataService {
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-documents',
           },
+          {
+            title: 'Pending vehicle',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/pending-vehicle',
+          },
 
         ]
       },
@@ -247,6 +263,18 @@ export class DataService {
             link: '/admin/remaining-fuel',
             home: true,
           },
+          {
+            title: 'Fuel Rules',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-rules',
+            home: true,
+          },
+          {
+            title: 'Pump Station Area',
+            icon: 'fa fa-signal',
+            link: '/admin/pump-station-area',
+            home: true,
+          },
         ]
       },
       {
@@ -254,6 +282,7 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
+
 
 
 

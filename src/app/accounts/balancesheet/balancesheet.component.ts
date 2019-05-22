@@ -8,6 +8,8 @@ import { DaybookComponent } from '../../acounts-modals/daybook/daybook.component
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 
 @Component({
@@ -42,6 +44,8 @@ export class BalancesheetComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     this.setFoucus('startdate');
     this.common.currentPage = 'Balance Sheet';
@@ -83,7 +87,7 @@ export class BalancesheetComponent implements OnInit {
     for (let key in firstGroup) {
       let total = 0;
       firstGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.liabilities.push({
@@ -97,7 +101,7 @@ export class BalancesheetComponent implements OnInit {
     for (let key in secondGroup) {
       let total = 0;
       secondGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.assets.push({
@@ -202,6 +206,7 @@ export class BalancesheetComponent implements OnInit {
   }
 
   opendaybookmodel(ledgerId) {
+    console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,

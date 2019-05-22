@@ -18,46 +18,50 @@ export class TripVoucherExpenseComponent implements OnInit {
   tripHeads = [];
   tripVouchers = [];
   selectedVehicle;
-  vehicles=[];
-  flag=false;
-  constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal) {
-
+  vehicles = [];
+  flag = false;
+  constructor(
+    public api: ApiService,
+    public common: CommonService,
+    public modalService: NgbModal) {
+    this.common.currentPage = 'Trip Voucher Expense';
   }
 
   ngOnInit() {
   }
 
-  getVehicle(vehicle){
+  getVehicle(vehicle) {
     this.selectedVehicle = vehicle;
-    this.flag=true;
+    this.flag = true;
     this.getTripSummary();
+
   }
 
   getPendingTrips() {
-    if(this.flag==false){
+    if (this.flag == false) {
       this.common.showToast('please enter registration number !!')
-    }else{
+    } else {
       const params = {
-      vehId: this.selectedVehicle.id
-    };
-    this.common.loading++;
-    this.api.post('VehicleTrips/getPendingVehicleTrips', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.showTripSummary(res['data']);
-        //this.flag=false;
-        //this.trips = res['data'];
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError();
-      });
+        vehId: this.selectedVehicle.id
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.showTripSummary(res['data']);
+          //this.flag=false;
+          //this.trips = res['data'];
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
     }
   }
-  showTripSummary(tripDetails){ 
-    let vehId=this.selectedVehicle.id;
-    this.common.params = { vehId,tripDetails};
+  showTripSummary(tripDetails) {
+    let vehId = this.selectedVehicle.id;
+    this.common.params = { vehId, tripDetails };
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -188,7 +192,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     console.log('Total: ', this.tripHeads[index].total);
   }
   getTripSummary() {
-  
+
     const params = {
       vehId: this.selectedVehicle.id
     };
@@ -208,24 +212,24 @@ export class TripVoucherExpenseComponent implements OnInit {
     console.log(tripVoucher);
     const params = {
       voucherId: tripVoucher.id,
-      startDate:tripVoucher.startdate,
-      endDate:tripVoucher.enddate
+      startDate: tripVoucher.startdate,
+      endDate: tripVoucher.enddate
     };
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.showVoucherSummary(res['data'],tripVoucher);
+        this.showVoucherSummary(res['data'], tripVoucher);
       }, err => {
         console.log(err);
         this.common.loading--;
         this.common.showError();
       });
   }
-  showVoucherSummary(tripDetails,tripVoucher){
-    let vehId=this.selectedVehicle.id; 
-    this.common.params = { vehId,tripDetails,tripVoucher};
+  showVoucherSummary(tripDetails, tripVoucher) {
+    let vehId = this.selectedVehicle.id;
+    this.common.params = { vehId, tripDetails, tripVoucher };
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
@@ -235,25 +239,24 @@ export class TripVoucherExpenseComponent implements OnInit {
     });
   }
 
-  deleteVoucherEntry(tripVoucher){
-    let params={
-      voucherId:tripVoucher.id
+  deleteVoucherEntry(tripVoucher) {
+    let params = {
+      voucherId: tripVoucher.id
     };
-    console.log('params',params);
+    console.log('params', params);
     this.common.loading++;
-    this.api.post('TripExpenseVoucher/deleteTripExpenseVouchers',params)
-            .subscribe(res=>{
-              this.common.loading--;
-              console.log('res',res['data']);
-              if(res['success'])
-              {
-                this.common.showToast('Success!!')
-                this.getTripSummary();
-              }
-            }, err=>{
-              this.common.loading--;
-              this.common.showError();
-            })
+    this.api.post('TripExpenseVoucher/deleteTripExpenseVouchers', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['success']) {
+          this.common.showToast('Success!!')
+          this.getTripSummary();
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
   }
 
 

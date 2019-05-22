@@ -83,8 +83,8 @@
         <label>Enter Site</label>
       </div>
       <div class="col-md-8">
-        <auto-suggestion (onSelected)="placementSite = $event.id" url="Suggestion/getSites?typeId=1" display="name"
-          placeholder="Search site" [preSelected]="null"></auto-suggestion>
+        <auto-suggestion (onSelected)="selectSite($event)" url="Site/getSitesFromRedis?search=" display="name"
+          placeholder="Search site"></auto-suggestion>
       </div>
     </div>
 
@@ -102,14 +102,22 @@
       </div>
       <div class="col-md-4" *ngIf="placementSuggestion.length>0"></div>
       <div class="col-md-4">
-        <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
-          [(ngModel)]="vehicleTrip.endName">
+        <auto-suggestion (onChange)="onChangeAuto($event)" (onSelected)="selectLocation($event)"
+          (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
+          display="location" inputId="endname" placeholder="Location" [value]="vehicleTrip.endName"
+          [preSelected]='{location:vehicleTrip.endName}'>
+        </auto-suggestion>
+        <!-- <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
+          [(ngModel)]="vehicleTrip.endName"> -->
         <input id="vehicleTrip_end_lat" name="endLat" class="form-control" style="text-align: left"
           placeholder="End lat" type="hidden" readonly [(ngModel)]="vehicleTrip.endLat">
         <input id="vehicleTrip_end_long" name="endLong" class="form-control" style="text-align: left"
           placeholder="End lng" type="hidden" readonly [(ngModel)]="vehicleTrip.endLng">
       </div>
-      <div class="col-md-4">
+      <!-- <div class="">
+        <label class="btn btn-primary info_btn" (click)="locationSelection()"><i class="fa fa-info"></i></label>
+      </div> -->
+      <div class="col-md-3">
         <label>
           <input type="radio" [(ngModel)]="cLT" (change)="changeLocationType(false)" value="city"
             name="changeLocationType"> City
@@ -172,7 +180,7 @@
       <button class="btn btn-danger m-0" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
     <div class="col text-right">
-      <button class="btn btn-primary m-0" (click)="updateTrip();" style="cursor:pointer;">Update</button>
+      <button class="btn btn-primary m-0" (click)="updateTrip()" style="cursor:pointer;">Update</button>
     </div>
   </div>
 </div>

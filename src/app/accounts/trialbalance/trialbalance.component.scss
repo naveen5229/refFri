@@ -80,7 +80,7 @@ table{
             border-bottom: 0px;
             b{
                 font-weight: normal !important;
-                width: 50px;
+                width: 120px;
                 text-align: right;
                 display: inline-block;
             }
@@ -143,4 +143,12 @@ table{
 table tr.highlight {
     background-color: #576c77 !important;
     color: #ffffff !important;
+}
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
 }

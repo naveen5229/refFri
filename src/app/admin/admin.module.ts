@@ -43,6 +43,10 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
+import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 
 
 
@@ -63,7 +67,11 @@ const PAGES_COMPONENTS = [
   VehicleGpsTrailComponent,
   ActivitySummaryComponent,
   VehicleGpsDetailComponent,
-  TicketSubscribeComponent
+  TicketSubscribeComponent,
+  AddCustomerComponent,
+  FuelRulesComponent,
+  PumpStationAreaComponent
+
 
 
 ];
@@ -79,7 +87,7 @@ const PAGES_COMPONENTS = [
     LorryReceiptModule,
     DriverModule,
     ImageViewerModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -94,11 +102,16 @@ const PAGES_COMPONENTS = [
     SubSitesComponent,
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
-    VehicleDistanceComponent,
+    // VehicleDistanceComponent,
     TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
+    AddCustomerComponent,
+    FuelRulesComponent,
+    PumpStationAreaComponent,
+    PendingVehicleComponent
+
 
   ],
   exports: [

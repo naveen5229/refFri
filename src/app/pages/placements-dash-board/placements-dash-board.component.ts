@@ -58,7 +58,7 @@ export class PlacementsDashBoardComponent implements OnInit {
         siteName: { value: placement.r_sitename, action: this.siteTripModal.bind(this, placement, 'site') },
         onward: { value: placement.r_todayonwards, action: this.siteTripModal.bind(this, placement, 'onward') },
         loading: { value: placement.r_loadings, action: this.siteTripModal.bind(this, placement, 'loading') },
-        intrasit: { value: placement.r_intransits, action: this.siteTripModal.bind(this, placement, 'intrasit') },
+        towards: { value: placement.r_intransits, action: this.siteTripModal.bind(this, placement, 'towards') },
         waiting: { value: placement.r_waitingtime, },
       };
 
@@ -73,7 +73,7 @@ export class PlacementsDashBoardComponent implements OnInit {
       siteName: { title: 'Site Name', placeholder: 'Site Name' },
       onward: { title: 'Onward 24 Hrs', placeholder: 'Onward 24 Hrs' },
       loading: { title: 'At Loading', placeholder: 'At Loading' },
-      intrasit: { title: 'In Transit', placeholder: 'In Transit' },
+      towards: { title: 'Towards', placeholder: 'Towards' },
       waiting: { title: 'Waiting Time', placeholder: 'Waiting Time' },
 
     };

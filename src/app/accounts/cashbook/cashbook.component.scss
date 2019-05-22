@@ -72,35 +72,20 @@ table{
         display: table;
         width: 100%;
         table-layout: fixed;
-        tr{
-            th:nth-child(1){
-                width: 10%;
-            }
-            th:nth-child(2){
-                width: 15%;
-            }
-            th:nth-child(3){
-                width: 15%;
-            }
-            th:nth-child(4){
-                width: 15%;
-            }
-            th:nth-child(5){
-                width: 15%;
-            }
-            th:nth-child(6){
-                width: 15%;
-            }
-        }
     }
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: 150px;
+        }
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 150px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -124,26 +109,8 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
-                width: 10%;
-            }
-            td:nth-child(2){
-                width: 15%;
-            }
-            td:nth-child(3){
-                width: 15%;
-            }
-            td:nth-child(4){
-                width: 15%;
-            }
-            td:nth-child(5){
-                width: 15%;
-            }
-            td:nth-child(6){
-                width: 15%;
-            }
-            td:nth-child(7){
-                width: 15%;
+            td:last-child{
+                width: auto;
             }
         }
         tr:nth-child(odd){
@@ -178,4 +145,12 @@ table{
     background: #fff;
     width: 152px;
     margin: 15% auto auto auto;
+}
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
 }
