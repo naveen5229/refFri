@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
+import { CommonService } from '../common.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -321,7 +323,15 @@ export class PdfService {
             <div class="col-sm-3 col-xs-3 voucher-signature">
               <div>Approved By</div>
             </div>
-            
+            <div class="col-sm-4 col-xs-3 footerselector">
+            <div>Powered By : Elogist Solution</div>
+            </div>
+            <div class="col-sm-4 col-xs-3 footerselector">
+            <div>Printed Date:  '23-05-2019' </div>
+            </div> 
+            <div class="col-sm-4 col-xs-3 footerselector">
+            <div>Page No : 1 </div>
+            </div> 
           </div>
         </div>`;
     console.log(mainElement);
