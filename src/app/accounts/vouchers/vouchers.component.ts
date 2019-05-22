@@ -11,6 +11,8 @@ import { isUndefined } from 'util';
 import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcenter/vouchercostcenter.component';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'vouchers',
@@ -51,7 +53,8 @@ export class VouchersComponent implements OnInit {
     public user: UserService,
     public router: Router,
     public modalService: NgbModal,
-    public accountService: AccountService) {
+    public accountService: AccountService,
+    public pdfService: PdfService) {
     this.common.refresh = this.refresh.bind(this);
     this.voucher = this.setVoucher();
     this.route.params.subscribe(params => {
@@ -84,6 +87,7 @@ export class VouchersComponent implements OnInit {
   setVoucher() {
     return {
       name: '',
+      print: false,
       date: this.accountService.voucherDate || this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
       foid: '',
       user: {
@@ -220,16 +224,25 @@ export class VouchersComponent implements OnInit {
     this.api.post('Voucher/InsertVoucher', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res['data'].code);
+        console.log('return vouher id: ', res['data']);
         if (res['success']) {
           this.accountService.voucherDate = this.voucher.date;
-          this.voucher = this.setVoucher();
-          this.getVouchers();
-          this.common.showToast('Your Code :' + res['data'].code);
-          this.setFoucus('ref-code');
-        } else {
-          let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-          this.common.showError(message);
+
+          if (res['data'][0].save_voucher_v1) {
+            if (this.voucher.print) {
+              // this.getCompanyData();
+              this.printVoucher(this.voucher, res['data']['companydata']);
+
+            }
+            //  this.voucher = this.setVoucher();
+            this.getVouchers();
+            this.common.showToast('Your Code :' + res['data'].code);
+            this.setFoucus('ref-code');
+
+          } else {
+            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+            this.common.showError(message);
+          }
         }
 
       }, err => {
@@ -237,6 +250,149 @@ export class VouchersComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+
+  printVoucher(voucherdataprint, companydata) {
+
+    console.log('print company data', companydata);
+    console.log('print data voucher', voucherdataprint);
+    let rowdetaildata = []; //  ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+    voucherdataprint.amountDetails.map(value => {
+      if (value.transactionType == 'debit') {
+        rowdetaildata.push([value.ledger.name, value.amount, ""]);
+      } else {
+        rowdetaildata.push([value.ledger.name, "", value.amount]);
+      }
+
+    });
+    let remainingstring1 = (companydata[0].phonenumber) ? ' Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
+
+    let pdfData = {
+      company: companydata[0].foname,
+      address: companydata[0].addressline,
+      city: cityaddress,
+      reportName: this.voucherName,
+      details: [
+        {
+          name: 'Voucher Number',
+          value: voucherdataprint.code
+        },
+        {
+          name: 'Branch',
+          value: companydata[0].branchname
+        },
+        {
+          name: 'Voucher Date',
+          value: voucherdataprint.date
+        }
+      ],
+      headers: [
+        // {
+        //   name: 'GL Code',
+        //   textAlign: 'left'
+        // },
+        {
+          name: 'Particulars',
+          textAlign: 'left'
+        },
+        {
+          name: 'Debit Amount',
+          textAlign: 'right'
+        },
+        {
+          name: 'Credit Amount',
+          textAlign: 'right'
+        }
+      ],
+      table:
+        rowdetaildata
+      ,
+      total: [voucherdataprint.total.credit, voucherdataprint.total.debit],
+      inWords: this.pdfService.convertNumberToWords(voucherdataprint.total.debit),
+      narration: voucherdataprint.remarks
+    };
+
+    console.log('print pdf data', pdfData);
+    let datapdf = this.pdfService.createPdfHtml(pdfData);
+    let divToPrint = datapdf.innerHTML;
+    let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    newWindow.document.open();
+    newWindow.document.write(`
+        <html>
+        <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+          <style>
+          .voucher-pdf {
+            width: 210mm;
+            padding: 10mm;
+            padding-left: 10mm;
+            padding-right: 10mm;
+        }
+        
+      .voucher-company {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: .5px;
+            margin-bottom: 4px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .voucher-pdf table {
+            width: 100%;
+            margin-top: 6px;
+        }
+        
+        .table,
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>td,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>thead>tr>th {
+            border-color: #444;
+        }
+        
+        .voucher-name {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+        }
+        
+        .voucher-details {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .voucher-details strong {
+            margin-right: 8px;
+        }
+        
+        ..voucher-footer {
+            margin-top: 40px;
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        .voucher-signature div {
+            border-top: 2px solid #000;
+        }
+          </style>
+        </head>
+        <body onload="window.print();window.close()">
+          <div class="container">${divToPrint}<div>
+        </body>
+        </html>
+        `);
+    newWindow.document.close();
+
   }
 
 
