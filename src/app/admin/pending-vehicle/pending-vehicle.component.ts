@@ -53,8 +53,9 @@ export class PendingVehicleComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-
-    window.location.reload();
+    this.getPendingDetailsVehicle();
+    this.getAllTypesOfBrand();
+    // window.location.reload();
 
   }
 
@@ -192,7 +193,6 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
         this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
-        this.modal[modal].data.document.remarks = res["data"][0].remarks;
         this.modal[modal].data.document.review = res["data"][0].reviewcount;
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
@@ -224,33 +224,6 @@ export class PendingVehicleComponent implements OnInit {
   }
 
 
-  deleteVehicle(row) {
-    // let remark;
-    // let ret = confirm("Are you sure you want to delete this vehicle?");
-    // if (ret) {
-    //   this.common.params = { RemarkModalComponent, title: 'Delete vehicle' };
-    //   const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    //   activeModal.result.then(data => {
-    //     if (data.response) {
-    //       console.log("reason For delete: ", data.remark);
-    //       remark = data.remark;
-    //       this.common.loading++;
-    //       this.api.post('Vehicles/deleteDocumentById', { x_document_id: row._docid, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
-    //         .subscribe(res => {
-    //           this.common.loading--;
-    //           console.log("data", res);
-    //           this.columns = [];
-    //           this.getPendingDetailsVehicle();
-    //           this.common.showToast("Success Delete");
-    //         }, err => {
-    //           this.common.loading--;
-    //           console.log(err);
-    //           this.getPendingDetailsVehicle();
-    //         });
-    //     }
-    //   })
-    // }
-  }
 
 
   closeModal(option, modal) {
@@ -418,16 +391,12 @@ export class PendingVehicleComponent implements OnInit {
             alert("Success");
             this.closeModal(true, modal);
           }
-          else if (res['code'] != -2) {
 
-            alert(result);
-
+          if (res['success'] == false) {
+            alert(res['data']);
           }
-          // if (res['code'] == -2) {
-          //   this.openConrirmationAlert(res, params.x_advreview);
 
-          //   console.log("res Data", res['code']);
-          // }
+
         }, err => {
           this.common.loading--;
           console.log(err);
@@ -564,7 +533,6 @@ export class PendingVehicleComponent implements OnInit {
         img_url: null,
         regno: null,
         newRegno: null,
-        remarks: null,
         vehicle_id: null,
         wef_date: null,
         img_url2: null,
