@@ -9,16 +9,9 @@
         <div
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
-          <div class="col-sm-2">
-          </div>
-
-          <div class="col-sm-8">
+          <div class="col-sm-12">
             <span>{{ pdfData.primary.name }}</span>
           </div>
-          <div class="col-sm-2">
-
-          </div>
-
         </div>
 
         <div class="chartbox">
@@ -26,21 +19,21 @@
             [options]="pdfData.primary.chartOptions" id="chart"></chart>
         </div>
         <div class="status_box">
-          <nb-card>
-            <nb-card-body (click)="allData()" style="cursor: pointer;">
-              <div class="row m-0">
-                <div class="col-sm-1 p-0">
-                  <div
-                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+          <div class="graph-data">
+            <!-- <nb-card>
+              <nb-card-body (click)="allData()" style="cursor: pointer;">
+                <div class="row m-0">
+                  <div class="col-sm-1 p-0">
+                    <div
+                      style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                    </div>
+                  </div>
+                  <div class="col-sm-11">
+                    <p class="all_data m-0">All Data ({{ allKpis.length }})</p>
                   </div>
                 </div>
-                <div class="col-sm-11 pl-0">
-                  All Data ({{ allKpis.length }})
-                </div>
-              </div>
-            </nb-card-body>
-          </nb-card>
-          <div class="graph-data">
+              </nb-card-body>
+            </nb-card> -->
             <nb-card *ngFor="let status of pdfData.primary.list; let i = index">
               <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -51,10 +44,8 @@
                   {{ status.name }} ({{ status.length }})
                 </div>
               </nb-card-body>
-
             </nb-card>
           </div>
-
         </div>
       </div>
     </div>
@@ -63,17 +54,9 @@
         <div
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
-          <div class="col-sm-2">
-
-          </div>
-
-          <div class="col-sm-8">
+          <div class="col-sm-12">
             <span>{{ pdfData.secondary.name }}</span>
           </div>
-          <div class="col-sm-2">
-
-          </div>
-
         </div>
 
         <div class="chartbox">
@@ -81,90 +64,79 @@
             [options]="pdfData.secondary.chartOptions" id="chart"></chart>
         </div>
         <div class="status_box">
-          <nb-card>
-            <nb-card-body (click)="allData()" style="cursor: pointer;">
-              <div class="col-sm-1 p-0">
-                <div
-                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+          <div class="graph-data">
+            <!-- <nb-card>
+              <nb-card-body (click)="allData()" style="cursor: pointer;">
+                <div class="col-sm-1 p-0">
+                  <div
+                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-8">
-                All Data
-              </div>
-              <div class="col-sm-3">
-                {{ allKpis.length }}
-              </div>
-            </nb-card-body>
-          </nb-card>
-
-          <div>
+                <div class="col-sm-11">
+                  All Data ({{ allKpis.length }})
+                </div>
+              </nb-card-body>
+            </nb-card> -->
             <nb-card *ngFor="let group of pdfData.secondary.list; let i = index">
               <nb-card-body style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
-                <div class="col-sm-8">
-                  {{ group.name | titlecase }}
-                </div>
-                <div class="col-sm-3">
-                  {{ pdfData.secondary.kpiGroups[group.name].length }}
+                <div class="col-sm-9 pr-0">
+                  {{ group.name | titlecase }} ({{ pdfData.secondary.kpiGroups[group.name].length }})
                 </div>
               </nb-card-body>
             </nb-card>
+          </div>
+
+
+          <div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="truck-route">
+    <div class="truck_road">
+      <i class="fas fa-truck-moving left-truck"></i>
+      <i class="fas fa-truck-moving right-truck"></i>
+      <hr>
+    </div>
+  </div>
   <div class="row" id="page-2">
-    <div class="col-sm-6">
+    <div class="col-sm-3 pl-5">
       <div class="" style="overflow: hidden;" [hidden]="isMapView">
         <div
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
-          <div class="col-sm-2">
-          </div>
-
-          <div class="col-sm-8">
+          <div class="col-sm-12">
             <span>Top 5 Trip Start</span>
           </div>
-          <div class="col-sm-2">
-
-          </div>
-
         </div>
-
-
         <div class="status_box">
-          <nb-card>
-            <nb-card-body (click)="allData()" style="cursor: pointer;">
-              <div class="col-sm-1 p-0">
-                <div
-                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+          <div class="">
+            <!-- <nb-card>
+              <nb-card-body (click)="allData()" style="cursor: pointer;">
+                <div class="col-sm-1 p-0">
+                  <div
+                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-8">
-                All Data
-              </div>
-              <div class="col-sm-3">
-                {{ allKpis.length }}
-              </div>
-            </nb-card-body>
-          </nb-card>
-
-          <div>
+                <div class="col-sm-11">
+                  All Data ({{ allKpis.length }})
+                </div>
+              </nb-card-body>
+            </nb-card> -->
             <nb-card *ngFor="let group of pdfData.tripStart.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
-                <div class="col-sm-8">
-                  {{ group.name | titlecase }}
-                </div>
-                <div class="col-sm-3">
-                  {{ pdfData.tripStart.kpiGroups[group.name].length }}
+                <div class="col-sm-9 pr-0">
+                  {{ group.name | titlecase }} ({{ pdfData.tripStart.kpiGroups[group.name].length }})
                 </div>
               </nb-card-body>
             </nb-card>
@@ -173,53 +145,40 @@
 
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-6"></div>
+    <div class="col-sm-3 pr-5">
       <div class="" style="overflow: hidden;" [hidden]="isMapView">
         <div
           style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
           class="row">
-          <div class="col-sm-2">
-          </div>
-
-          <div class="col-sm-8">
+          <div class="col-sm-12">
             <span>Top 5 Trip End</span>
           </div>
-          <div class="col-sm-2">
-
-          </div>
-
         </div>
 
 
         <div class="status_box">
-          <nb-card>
-            <nb-card-body (click)="allData()" style="cursor: pointer;">
-              <div class="col-sm-1 p-0">
-                <div
-                  style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+          <div class="">
+            <!-- <nb-card>
+              <nb-card-body (click)="allData()" style="cursor: pointer;">
+                <div class="col-sm-1 p-0">
+                  <div
+                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                  </div>
                 </div>
-              </div>
-              <div class="col-sm-8">
-                All Data
-              </div>
-              <div class="col-sm-3">
-                {{ allKpis.length }}
-              </div>
-            </nb-card-body>
-          </nb-card>
-
-          <div>
+                <div class="col-sm-11">
+                  All Data ({{ allKpis.length }})
+                </div>
+              </nb-card-body>
+            </nb-card> -->
             <nb-card *ngFor="let group of pdfData.tripEnd.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
-                <div class="col-sm-8">
-                  {{ group.name | titlecase }}
-                </div>
-                <div class="col-sm-3">
-                  {{ pdfData.tripEnd.kpiGroups[group.name].length }}
+                <div class="col-sm-9 pr-0">
+                  {{ group.name | titlecase }} ({{ pdfData.tripEnd.kpiGroups[group.name].length }})
                 </div>
               </nb-card-body>
             </nb-card>
