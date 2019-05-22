@@ -225,31 +225,31 @@ export class PendingVehicleComponent implements OnInit {
 
 
   deleteVehicle(row) {
-    let remark;
-    let ret = confirm("Are you sure you want to delete this vehicle?");
-    if (ret) {
-      this.common.params = { RemarkModalComponent, title: 'Delete vehicle' };
-      const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-      activeModal.result.then(data => {
-        if (data.response) {
-          console.log("reason For delete: ", data.remark);
-          remark = data.remark;
-          this.common.loading++;
-          this.api.post('Vehicles/deleteDocumentById', { x_document_id: row._docid, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
-            .subscribe(res => {
-              this.common.loading--;
-              console.log("data", res);
-              this.columns = [];
-              this.getPendingDetailsVehicle();
-              this.common.showToast("Success Delete");
-            }, err => {
-              this.common.loading--;
-              console.log(err);
-              this.getPendingDetailsVehicle();
-            });
-        }
-      })
-    }
+    // let remark;
+    // let ret = confirm("Are you sure you want to delete this vehicle?");
+    // if (ret) {
+    //   this.common.params = { RemarkModalComponent, title: 'Delete vehicle' };
+    //   const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    //   activeModal.result.then(data => {
+    //     if (data.response) {
+    //       console.log("reason For delete: ", data.remark);
+    //       remark = data.remark;
+    //       this.common.loading++;
+    //       this.api.post('Vehicles/deleteDocumentById', { x_document_id: row._docid, x_remarks: remark, x_user_id: this.user._details.id, x_deldoc: 1 })
+    //         .subscribe(res => {
+    //           this.common.loading--;
+    //           console.log("data", res);
+    //           this.columns = [];
+    //           this.getPendingDetailsVehicle();
+    //           this.common.showToast("Success Delete");
+    //         }, err => {
+    //           this.common.loading--;
+    //           console.log(err);
+    //           this.getPendingDetailsVehicle();
+    //         });
+    //     }
+    //   })
+    // }
   }
 
 
@@ -287,7 +287,6 @@ export class PendingVehicleComponent implements OnInit {
       }
     }*/
   }
-  // (0[1-9]|10|11|12)/20[0-9]{2}$
   checkDatePattern(strdate) {
     let dateformat = /^((0[1-9])|(1[0-2]))\/(\d{4})$/;
     if (dateformat.test(strdate)) {
@@ -373,6 +372,11 @@ export class PendingVehicleComponent implements OnInit {
           return false;
         }
       }
+      if (!document.modalTypeId) {
+        this.common.showError("Please enter Model Type");
+        return false;
+      }
+
 
 
       let issuedt_valid = 1;
