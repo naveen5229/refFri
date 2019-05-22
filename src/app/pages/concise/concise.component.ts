@@ -32,6 +32,7 @@ import { DateService } from "../../services/date.service";
 import { PoliceStationComponent } from "../../modals/police-station/police-station.component";
 import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 import { PdfService } from "../../services/pdf/pdf.service";
+import { MatTableDataSource } from "@angular/material";
 
 @Component({
   selector: "concise",
@@ -137,7 +138,8 @@ export class ConciseComponent implements OnInit {
       list: [],
       key: 'x_showtripend',
       kpiGroups: null,
-    }
+    },
+    tables: []
   };
 
   constructor(
@@ -220,9 +222,10 @@ export class ConciseComponent implements OnInit {
     );
   }
 
-  getTableColumns() {
+  getTableColumns(kpis?) {
     let columns = [];
-    this.kpis.map((kpi, i) => {
+    let kpisList = kpis || this.kpis;
+    kpisList.map((kpi, i) => {
       columns.push({
         vechile: {
           value: kpi.x_showveh,
@@ -677,7 +680,7 @@ export class ConciseComponent implements OnInit {
     );
   }
 
-  setTable() {
+  setTable(kpis?) {
     return {
       data: {
         headings: {
@@ -690,7 +693,7 @@ export class ConciseComponent implements OnInit {
           kmp: { title: "Kmp", placeholder: "KMP" },
           action: { title: "Action", placeholder: "", hideSearch: true }
         },
-        columns: this.getTableColumns()
+        columns: this.getTableColumns(kpis)
       },
       settings: {
         hideHeader: true,
@@ -1211,6 +1214,28 @@ export class ConciseComponent implements OnInit {
     // this.grouping(this.viewType);
 
 
+  }
+
+  generatePDF() {
+    this.pdfData.tables = [];
+    console.log('KPIS:', this.primaryStatus);
+    this.primaryStatus.map(status => {
+      let kpis = [];
+      Object.keys(status['subStatus']).map(key => {
+        kpis.push(...status['subStatus'][key]);
+      });
+      console.log('----------------------------PDF Tables:', kpis);
+      this.pdfData.tables.push(this.setTable(kpis))
+    })
+
+    // this.primarySubStatus.map(stausData => {
+    //   console.log('KPIS:', stausData);
+    //   console.log('KPIS:', this.setTable(stausData.kpis));
+    //   this.pdfData.tables.push(this.setTable(stausData.kpis));
+
+    // });
+    console.log('----------------------------PDF Tables:', this.pdfData);
+    // this.pdfService.tableWithImages(['page-1', 'page-2'], 'print-section')
   }
 
 }
