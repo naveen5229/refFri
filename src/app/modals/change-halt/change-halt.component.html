@@ -7,11 +7,11 @@
 <div class="modal-body">
   <div class="container" *ngIf="type=='HaltType'">
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType" (click)="getlastHalt(11)">  
+      <input type="radio" name="HaltType" value="11" [(ngModel)]="HaltType" (click)="getlastHalt(11)">
       Loading
     </label>
     <label class="halt-label">
-      <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType"(click)="getlastHalt(21)" >
+      <input type="radio" name="HaltType" value="21" [(ngModel)]="HaltType" (click)="getlastHalt(21)">
       UnLoading
     </label>
     <label class="halt-label">
@@ -86,7 +86,14 @@
       <input type="radio" name="HaltType" value="901" [(ngModel)]="HaltType" (click)="setHalt(901)">
       Unknown
     </label>
-
+    <label class="halt-label">
+      <input type="radio" name="HaltType" value="12" [(ngModel)]="HaltType" (click)="setHalt(12)">
+      Reject Loading
+    </label>
+    <label class="halt-label">
+      <input type="radio" name="HaltType" value="22" [(ngModel)]="HaltType" (click)="setHalt(22)">
+      Reject UnLoading
+    </label>
   </div>
 
   <div class="container" *ngIf="type=='SiteType'">
