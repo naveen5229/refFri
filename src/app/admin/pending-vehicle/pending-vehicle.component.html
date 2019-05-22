@@ -22,7 +22,7 @@
                     <span>{{row[col]}}</span>
                   </td>
                   <td class="del">
-                    <a href="javascript: void(0);" class="edit" title="Edit Vehicle" (click)="showDetails(row,'0')"><i
+                    <a href="javascript: void(0);" class="edit" title="Edit Vehicle" (click)="showDetails(row,'-1')"><i
                         class="icon ion-md-create"></i></a>&nbsp;
                     <!-- <a href="javascript: void(0);" class="delete" title="Delete Vehicle" (click)="deleteVehicle(row)"><i
                         class="fa fa-trash"></i></a> -->
@@ -83,10 +83,10 @@
                 <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectBrandType($event, 'first')"
-                  (focusout)="openNextModal('second',modal.first.data.document.id)" url="" display="name"
-                  [data]="modal.first.data.docTypes" placeholder="Enter Brand Type" [preSelected]="null"
-                  class="documentType " style='width: 60% !important;' (keyup)="isValidDocument($event, 'first')">
+                <auto-suggestion (onSelected)="selectBrandType($event, 'first')" url="" display="name"
+                  [data]="modal.first.data.docTypes" placeholder="Enter Brand Type"
+                  [preSelected]="{name:modal.first.data.document.document_type}" class="documentType "
+                  style='width: 60% !important;' (keyup)="isValidDocument($event, 'first')">
                 </auto-suggestion>
               </div>
             </div>
@@ -97,8 +97,9 @@
                 <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectModelType($event, 'first')" display="name"
-                  [data]="modal['first'].data.modelType" placeholder="Enter Model Type" [preSelected]="null"
+                <auto-suggestion (onSelected)="selectModelType($event, 'first')"
+                  (focusout)="openNextModal('second',modal.first.data.document.id)" display="name"
+                  [data]="modal.first.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
                   class="documentType " style='width: 60% !important;'>
                 </auto-suggestion>
               </div>
@@ -132,7 +133,8 @@
             </div> -->
 
             <div class="row mt-3 mb-3">
-              <div class="col-6" *ngIf="modal.first.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
+              <div class="col-12 text-center"
+                *ngIf="modal.first.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
                 <button class="btn btn-primary" form="document-form" type="button" outline
                   (click)="updateVehicle('first')" id="submit-first"
                   style="cursor: pointer;">{{modal.first.data.btn1}}</button>
@@ -200,8 +202,8 @@
               </div>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <auto-suggestion (onSelected)="selectBrandType($event, 'second')" url="" display="name"
-                  (focusout)="openNextModal('first',modal.second.data.document.id)" [data]="modal.second.data.docTypes"
-                  placeholder="Enter Brand Type" [preSelected]="null" class="documentType "
+                  [data]="modal.second.data.docTypes" placeholder="Enter Brand Type"
+                  [preSelected]="{name:modal.second.data.document.document_type }" class="documentType "
                   style='width: 60% !important;' (keyup)="isValidDocument($event, 'second')">
                 </auto-suggestion>
               </div>
@@ -213,8 +215,9 @@
                 <label style="font-size:16px;">{{modal.second.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectModelType($event, 'second')" display="name"
-                  [data]="modal['second'].data.modelType" placeholder="Enter Model Type" [preSelected]="null"
+                <auto-suggestion (onSelected)="selectModelType($event, 'second')"
+                  (focusout)="openNextModal('first',modal.second.data.document.id)" display="name"
+                  [data]="modal.second.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
                   class="documentType " style='width: 60% !important;'>
                 </auto-suggestion>
               </div>
@@ -248,7 +251,8 @@
 
             <div class="row mt-3 mb-3">
 
-              <div class="col-6" *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
+              <div class="col-12 text-center"
+                *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
                 <button class="btn btn-primary" form="document-form" type="submit" outline
                   (click)="updateVehicle('second')" id="submit-second"
                   style="cursor: pointer;">{{modal.second.data.btn1}}</button>

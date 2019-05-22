@@ -91,13 +91,14 @@ export class PendingVehicleComponent implements OnInit {
         console.log(err);
       });
   }
-  getAllTypesOfModel(brandId, modal) {
+  getAllTypesOfModel(brandId) {
     let params = "&brandId=" + brandId;
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
-        this.modal[modal].data.modelType = this.modelType;
-        console.log("All Type Model: ", this.modal[modal].data.modelType);
+        // this.
+        // this.modal[modal].data.modelType = this.modelType;
+        // console.log("All Type Model: ", this.modal[modal].data.modelType);
       }, err => {
         console.log(err);
       });
@@ -159,6 +160,9 @@ export class PendingVehicleComponent implements OnInit {
 
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
 
+
+
+
     this.modal[modal].data.imgs = [];
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
@@ -173,6 +177,7 @@ export class PendingVehicleComponent implements OnInit {
     console.log('Handle Next::', isNext);
     this.getvehiclePending(modal, isNext);
     this.modal[modal].data.docTypes = this.documentTypes;
+    this.modal[modal].data.modelType = this.modelType;
   }
 
   getvehiclePending(modal, isNext?) {
@@ -180,7 +185,7 @@ export class PendingVehicleComponent implements OnInit {
 
     console.log('Modal data: ', this.modal[modal].data);
     let params = "&vehicleId=" + this.modal[modal].data.vehicleId;
-    if (isNext) {
+    if (isNext != -1) {
       params += '&forNext=1';
     }
     console.log('Params: ', params);
@@ -189,11 +194,16 @@ export class PendingVehicleComponent implements OnInit {
         console.log("pending detalis:", res);
         this.modal[modal].data.document.id = res['data'][0]._vid;
         this.modal[modal].data.document.newRegno = res['data'][0].Vehicle;
+        this.modal[modal].data.document.document_type_id = res['data'][0]._brandid;
+        this.modal[modal].data.document.document_type = res['data'][0].Brand;
+        this.modal[modal].data.document.wef_date = res['data'][0]._manfdate;
         this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
         this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
         this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
         this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
         this.modal[modal].data.document.review = res["data"][0].reviewcount;
+
+        this.modal[modal].data.document.wef_date = this.modal[modal].data.document.wef_date.split('-').slice(0, 2).reverse().join('/')
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
@@ -204,6 +214,10 @@ export class PendingVehicleComponent implements OnInit {
         }
         if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
+        }
+        if (this.modal[modal].data.document.document_type_id) {
+          console.log("hiiiiiiiiiii", this.modal[modal].data.document.document_type_id, this.modal[modal]);
+          this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
         }
         // console.log("msg:",res["data"][0].errormsg,);   
         if (res["msg"] != "success") {
@@ -478,7 +492,7 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
     // console.log("doc var", this.modal[modal].data.document.document_type_id);
-    this.getAllTypesOfModel(brandType.id, modal);
+    this.getAllTypesOfModel(brandType.id);
   }
 
   selectModelType(modalType, modal) {
