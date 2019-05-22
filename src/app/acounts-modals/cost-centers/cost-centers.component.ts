@@ -39,7 +39,7 @@ export class CostCentersComponent implements OnInit {
         name: this.common.params.name,
 
       }
-      console.log('Accounts: ', this.Accounts);
+      console.log('Accounts 11: ', this.Accounts);
     }
     this.common.handleModalSize('class', 'modal-lg', '1250');
   }

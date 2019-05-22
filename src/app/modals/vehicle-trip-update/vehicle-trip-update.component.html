@@ -104,7 +104,8 @@
       <div class="col-md-4">
         <auto-suggestion (onChange)="onChangeAuto($event)" (onSelected)="selectLocation($event)"
           (noDataFound)="takeAction($event)" [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis"
-          display="location" inputId="endname" placeholder="Location" [value]="vehicleTrip.endName">
+          display="location" inputId="endname" placeholder="Location" [value]="vehicleTrip.endName"
+          [preSelected]='{location:vehicleTrip.endName}'>
         </auto-suggestion>
         <!-- <input type="text" class="form-control" id="vehicleTrip_endtrip" name="endTrip" placeholder="End City"
           [(ngModel)]="vehicleTrip.endName"> -->

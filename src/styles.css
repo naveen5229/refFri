@@ -572,3 +572,8 @@ nb-card {
 .voucher-signature div {
     border-top: 2px solid #000;
 }
+
+
+.CostcenterClass{
+    z-index: 999999 !important;
+}
