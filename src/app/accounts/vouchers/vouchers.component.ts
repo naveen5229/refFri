@@ -224,13 +224,15 @@ export class VouchersComponent implements OnInit {
     this.api.post('Voucher/InsertVoucher', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('return vouher id: ', res['data'][0]);
+        console.log('return vouher id: ', res['data']);
         if (res['success']) {
           this.accountService.voucherDate = this.voucher.date;
 
           if (res['data'][0].save_voucher_v1) {
             if (this.voucher.print) {
-              this.printVoucher(this.voucher);
+              // this.getCompanyData();
+              this.printVoucher(this.voucher, res['data']['companydata']);
+
             }
             //  this.voucher = this.setVoucher();
             this.getVouchers();
@@ -251,26 +253,29 @@ export class VouchersComponent implements OnInit {
   }
 
 
-  printVoucher(voucherdataprint) {
+  printVoucher(voucherdataprint, companydata) {
 
+    console.log('print company data', companydata);
     console.log('print data voucher', voucherdataprint);
     let rowdetaildata = []; //  ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
     voucherdataprint.amountDetails.map(value => {
       if (value.transactionType == 'debit') {
-        rowdetaildata.push(['rr', value.ledger.name, value.amount, ""]);
+        rowdetaildata.push([value.ledger.name, value.amount, ""]);
       } else {
-        rowdetaildata.push(['rr', value.ledger.name, "", value.amount]);
+        rowdetaildata.push([value.ledger.name, "", value.amount]);
       }
 
     });
-    // for (let rowvalue of voucherdataprint.amountDetails) {
-    //   console.log('row selection data', rowvalue);
-    //      }
+    let remainingstring1 = (companydata[0].phonenumber) ? ', Phone Number -  ' + companydata[0].phonenumber : '';
+    let remainingstring2 = (companydata[0].panno) ? ', PAN No -  ' + companydata[0].panno : '';
+    let remainingstring3 = (companydata[0].gstno) ? ', GST NO -  ' + companydata[0].gstno : '';
+
+    let cityaddress = remainingstring1 + remainingstring2 + remainingstring3;
 
     let pdfData = {
-      company: 'Elogist Solutions Private Limited',
-      address: '310, Shree Gopal Nagar,Gopalpura Bypass',
-      city: 'Jaipur',
+      company: companydata[0].foname,
+      address: companydata[0].addressline,
+      city: cityaddress,
       reportName: this.voucherName,
       details: [
         {
@@ -279,18 +284,18 @@ export class VouchersComponent implements OnInit {
         },
         {
           name: 'Branch',
-          value: this.accountService.selected.branch.name
+          value: companydata[0].branchname
         },
         {
           name: 'Voucher Date',
-          value: this.common.dateFormatternew(voucherdataprint.date, 'dd MM YYYY', false, '-')
+          value: voucherdataprint.date
         }
       ],
       headers: [
-        {
-          name: 'GL Code',
-          textAlign: 'left'
-        },
+        // {
+        //   name: 'GL Code',
+        //   textAlign: 'left'
+        // },
         {
           name: 'Particulars',
           textAlign: 'left'
@@ -308,7 +313,7 @@ export class VouchersComponent implements OnInit {
         rowdetaildata
       ,
       total: [voucherdataprint.total.credit, voucherdataprint.total.debit],
-      inWords: 'One Hundred Rupees TenPaisa Only',
+      inWords: this.pdfService.convertNumberToWords(voucherdataprint.total.debit),
       narration: voucherdataprint.remarks
     };
 
