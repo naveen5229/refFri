@@ -19,7 +19,6 @@ export class PendingVehicleComponent implements OnInit {
   columns = [];
   columns2 = []
 
-  listtype = 0;
   modal = {
     active: '',
     first: {
@@ -36,7 +35,6 @@ export class PendingVehicleComponent implements OnInit {
 
   documentTypes = [];
   modelType = [];
-
   vehicleId = -1;
 
   constructor(
@@ -47,7 +45,6 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.common.refresh = this.refresh.bind(this);
-    this.listtype;
     //this.common.currentPage = 'Pending Vehicle Documents';
   }
 
@@ -106,12 +103,12 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   showDetails(row) {
-    // _docid
+    console.log("row:", row);
     let rowData = {
-      id: row._foadminid,
+
       vehicle_id: row._vid,
     };
-    console.log("Model Doc Id:", rowData.id);
+    console.log("Model  Id:", rowData);
     this.modalOpenHandling({ rowData, title: 'Update Vehicle', canUpdate: 1 });
   }
 
@@ -147,6 +144,8 @@ export class PendingVehicleComponent implements OnInit {
     }
 
     this.modal[modal].data.document = params.rowData;
+    this.modal[modal].data.vehicleId = params.rowData.vehicle_id;
+    console.log("Modal Data........", this.modal[modal].data.vehicleId);
 
     if (this.modal[modal].data.document.wef_date)
       this.modal[modal].data.document.wef_date = this.common.dateFormatter(this.modal[modal].data.document.wef_date, 'ddMMYYYY').split(' ')[0];
@@ -168,12 +167,10 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.images = this.modal[modal].data.imgs;
 
     this.getvehiclePending(modal);
-    // this.getDocumentsData(modal);
     this.modal[modal].data.docTypes = this.documentTypes;
-    // this.modal[modal].data.modelType = this.modelType;
   }
 
-  getvehiclePending(modal) {
+  getvehiclePending(modal, fornext?) {
     console.log('Modal data: ', this.modal[modal].data);
     let params = "&vehicleId=" + this.modal[modal].data.vehicleId;
     console.log('Params: ', params);
@@ -246,31 +243,6 @@ export class PendingVehicleComponent implements OnInit {
     }
   }
 
-
-  selectList(id) {
-    console.log("list value:", id);
-    this.listtype = parseInt(id);
-
-    this.common.loading++;
-    this.api.post('Vehicles/getPendingDocumentsList', { x_user_id: this.user._details.id, x_is_admin: 1, x_advreview: parseInt(id) })
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("data", res);
-        this.data = res['data'];
-        this.columns = [];
-        if (this.data.length) {
-          for (var key in this.data[0]) {
-            if (key.charAt(0) != "_")
-              this.columns.push(key);
-          }
-          console.log("columns");
-          console.log(this.columns);
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-  }
 
   closeModal(option, modal) {
     if (this.modal.first.show && this.modal.second.show) {
@@ -614,8 +586,8 @@ export class PendingVehicleComponent implements OnInit {
     }
   }
 
-  openNextModal(modal) {
-    this.showDetails({ _docid: 0, vehicle_id: 0 });
+  openNextModal(modal, vehicle_id) {
+    this.showDetails({ _vid: vehicle_id });
 
   }
 
