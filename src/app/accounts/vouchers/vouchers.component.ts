@@ -227,82 +227,15 @@ export class VouchersComponent implements OnInit {
         if (res['success']) {
           this.accountService.voucherDate = this.voucher.date;
 
-
-
-
-          let pdfData = {
-            company: 'Elogist Solutions Private Limited',
-            address: '310, Shree Gopal Nagar,Gopalpura Bypass',
-            city: 'Jaipur',
-            reportName: 'Bank Payment Voucher',
-            details: [
-              {
-                name: 'Voucher Number',
-                value: 'BPV/01027'
-              },
-              {
-                name: 'Branch',
-                value: 'Affordable Site'
-              },
-              {
-                name: 'Voucher Date',
-                value: '28 Oct 2013'
-              }
-            ],
-            headers: [
-              {
-                name: 'GL Code',
-                textAlign: 'left'
-              },
-              {
-                name: 'Particulars',
-                textAlign: 'left'
-              },
-              {
-                name: 'Debit Amount',
-                textAlign: 'right'
-              },
-              {
-                name: 'Credit Amount',
-                textAlign: 'right'
-              }
-            ],
-            table: [
-              ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
-              ['GL00094', 'To IDBI Bank', '', '110.0'],
-            ],
-            total: ['110.0', '110.0'],
-            inWords: 'One Hundred Rupees TenPaisa Only',
-            narration: ''
-          };
-          console.log('voucher print', this.voucher.print);
           if (this.voucher.print) {
-            let datapdf = this.pdfService.createPdfHtml(pdfData);
-            let divToPrint = datapdf.innerHTML;
-            let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-            newWindow.document.open();
-            newWindow.document.write(`
-    <html>
-        <head>
-          <title>Print tab</title>
-          <style>
-          
-          </style>
-        </head>
-        <body onload="window.print();window.close()">${divToPrint}   
-        </body>
-      </html>
-    `);
-            newWindow.document.close();
+            this.voucher = this.setVoucher();
+            this.getVouchers();
+            this.common.showToast('Your Code :' + res['data'].code);
+            this.setFoucus('ref-code');
+          } else {
+            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+            this.common.showError(message);
           }
-
-          this.voucher = this.setVoucher();
-          this.getVouchers();
-          this.common.showToast('Your Code :' + res['data'].code);
-          this.setFoucus('ref-code');
-        } else {
-          let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
-          this.common.showError(message);
         }
 
       }, err => {
@@ -310,6 +243,85 @@ export class VouchersComponent implements OnInit {
         console.log('Error: ', err);
         this.common.showError();
       });
+  }
+
+
+  printVoucher() {
+    let datapdf = this.pdfService.createPdfHtml();
+    let divToPrint = datapdf.innerHTML;
+    let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    newWindow.document.open();
+    newWindow.document.write(`
+        <html>
+        <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+          <style>
+          .voucher-pdf {
+            width: 210mm;
+            padding: 10mm;
+            padding-left: 10mm;
+            padding-right: 10mm;
+        }
+        
+      .voucher-company {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: .5px;
+            margin-bottom: 4px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .voucher-pdf table {
+            width: 100%;
+            margin-top: 6px;
+        }
+        
+        .table,
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>td,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>thead>tr>th {
+            border-color: #444;
+        }
+        
+        .voucher-name {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+        }
+        
+        .voucher-details {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .voucher-details strong {
+            margin-right: 8px;
+        }
+        
+        ..voucher-footer {
+            margin-top: 40px;
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        .voucher-signature div {
+            border-top: 2px solid #000;
+        }
+          </style>
+        </head>
+        <body onload="window.print();window.close()">
+          <div class="container">${divToPrint}<div>
+        </body>
+        </html>
+        `);
+    newWindow.document.close();
+
   }
 
 

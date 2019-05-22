@@ -184,7 +184,7 @@ export class PdfService {
     );
   }
 
-  voucherPDF(pdfData) {
+  voucherPDF(pdfData?) {
     console.log('Test');
     // var data = document.getElementById('voucher-pdf');
     let data = this.createPdfHtml(pdfData);
@@ -233,62 +233,62 @@ export class PdfService {
     });
   }
 
-  createPdfHtml(pdfData) {
-    // let pdfData = {
-    //   company: 'Elogist Solutions Private Limited',
-    //   address: '310, Shree Gopal Nagar,Gopalpura Bypass',
-    //   city: 'Jaipur',
-    //   reportName: 'Bank Payment Voucher',
-    //   details: [
-    //     {
-    //       name: 'Voucher Number',
-    //       value: 'BPV/01027'
-    //     },
-    //     {
-    //       name: 'Branch',
-    //       value: 'Affordable Site'
-    //     },
-    //     {
-    //       name: 'Voucher Date',
-    //       value: '28 Oct 2013'
-    //     }
-    //   ],
-    //   headers: [
-    //     {
-    //       name: 'GL Code',
-    //       textAlign: 'left'
-    //     },
-    //     {
-    //       name: 'Particulars',
-    //       textAlign: 'left'
-    //     },
-    //     {
-    //       name: 'Debit Amount',
-    //       textAlign: 'right'
-    //     },
-    //     {
-    //       name: 'Credit Amount',
-    //       textAlign: 'right'
-    //     }
-    //   ],
-    //   table: [
-    //     ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
-    //     ['GL00094', 'To IDBI Bank', '', '110.0'],
-    //   ],
-    //   total: ['110.0', '110.0'],
-    //   inWords: 'One Hundred Rupees TenPaisa Only',
-    //   narration: ''
-    // };
+  createPdfHtml(pdfData?) {
+    pdfData = {
+      company: 'Elogist Solutions Private Limited',
+      address: '310, Shree Gopal Nagar,Gopalpura Bypass',
+      city: 'Jaipur',
+      reportName: 'Bank Payment Voucher',
+      details: [
+        {
+          name: 'Voucher Number',
+          value: 'BPV/01027'
+        },
+        {
+          name: 'Branch',
+          value: 'Affordable Site'
+        },
+        {
+          name: 'Voucher Date',
+          value: '28 Oct 2013'
+        }
+      ],
+      headers: [
+        {
+          name: 'GL Code',
+          textAlign: 'left'
+        },
+        {
+          name: 'Particulars',
+          textAlign: 'left'
+        },
+        {
+          name: 'Debit Amount',
+          textAlign: 'right'
+        },
+        {
+          name: 'Credit Amount',
+          textAlign: 'right'
+        }
+      ],
+      table: [
+        ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+        ['GL00094', 'To IDBI Bank', '', '110.0'],
+      ],
+      total: ['110.0', '110.0'],
+      inWords: 'One Hundred Rupees TenPaisa Only',
+      narration: ''
+    };
 
     let mainElement = document.createElement('div');
     mainElement.className = 'voucher-pdf';
     mainElement.id = 'voucher-pdf';
 
     mainElement.innerHTML = `
-      <div class="voucher-customer">
-          <div class="voucher-company">${pdfData.company}</div>
-          <div class="voucher-address">${pdfData.address}</div>
-          <div class="voucher-city">${pdfData.city}</div>
+      <div class="voucher-customer ">
+          <div class="voucher-company text-center">${pdfData.company}</div>
+          <div class="voucher-address text-center">${pdfData.address}</div>
+          <div class="voucher-city text-center">${pdfData.city}</div>
         </div>
         <div class="voucher-name">${pdfData.reportName}</div>
         <div class="row">
@@ -314,13 +314,14 @@ export class PdfService {
             </tbody>
           </table>
           <div class="row voucher-footer">
-            <div class="col-6"></div>
-            <div class="col-3 voucher-signature">
+            <div class="col-sm-6 col-xs-6"></div>
+            <div class="col-sm-3 col-xs-3 voucher-signature">
               <div>Accountant</div>
             </div>
-            <div class="col-3 voucher-signature">
+            <div class="col-sm-3 col-xs-3 voucher-signature">
               <div>Approved By</div>
             </div>
+            
           </div>
         </div>`;
     console.log(mainElement);
@@ -332,7 +333,7 @@ export class PdfService {
     let html = '';
     details.map(detail => {
       html += `
-        <div class="col-6 voucher-details">
+        <div class="col-sm-6 col-xs-6 voucher-details">
           <strong>${detail.name}:</strong> <span>${detail.value}</span>
         </div>
       `;
