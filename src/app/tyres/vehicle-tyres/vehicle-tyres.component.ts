@@ -3,8 +3,6 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { AddFoComponent } from '../../modals/add-fo/add-fo.component';
-import { PullHistoryGPSDataComponent } from '../../modals/pull-history-gps-data/pull-history-gps-data.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 
