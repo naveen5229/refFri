@@ -12,6 +12,7 @@ import { LedgerComponent } from '../../acounts-modals/ledger/ledger.component';
 import { AccountService } from '../../services/account.service';
 import { VouchercostcenterComponent } from '../../acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { PdfService } from '../../services/pdf/pdf.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'vouchers',
@@ -223,15 +224,19 @@ export class VouchersComponent implements OnInit {
     this.api.post('Voucher/InsertVoucher', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res['data'].code);
+        console.log('return vouher id: ', res['data'][0]);
         if (res['success']) {
           this.accountService.voucherDate = this.voucher.date;
 
-          if (this.voucher.print) {
-            this.voucher = this.setVoucher();
+          if (res['data'][0].save_voucher_v1) {
+            if (this.voucher.print) {
+              this.printVoucher(this.voucher);
+            }
+            //  this.voucher = this.setVoucher();
             this.getVouchers();
             this.common.showToast('Your Code :' + res['data'].code);
             this.setFoucus('ref-code');
+
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);
@@ -246,8 +251,69 @@ export class VouchersComponent implements OnInit {
   }
 
 
-  printVoucher() {
-    let datapdf = this.pdfService.createPdfHtml();
+  printVoucher(voucherdataprint) {
+
+    console.log('print data voucher', voucherdataprint);
+    let rowdetaildata = []; //  ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+    voucherdataprint.amountDetails.map(value => {
+      if (value.transactionType == 'debit') {
+        rowdetaildata.push(['rr', value.ledger.name, value.amount, ""]);
+      } else {
+        rowdetaildata.push(['rr', value.ledger.name, "", value.amount]);
+      }
+
+    });
+    // for (let rowvalue of voucherdataprint.amountDetails) {
+    //   console.log('row selection data', rowvalue);
+    //      }
+
+    let pdfData = {
+      company: 'Elogist Solutions Private Limited',
+      address: '310, Shree Gopal Nagar,Gopalpura Bypass',
+      city: 'Jaipur',
+      reportName: this.voucherName,
+      details: [
+        {
+          name: 'Voucher Number',
+          value: voucherdataprint.code
+        },
+        {
+          name: 'Branch',
+          value: this.accountService.selected.branch.name
+        },
+        {
+          name: 'Voucher Date',
+          value: this.common.dateFormatternew(voucherdataprint.date, 'dd MM YYYY', false, '-')
+        }
+      ],
+      headers: [
+        {
+          name: 'GL Code',
+          textAlign: 'left'
+        },
+        {
+          name: 'Particulars',
+          textAlign: 'left'
+        },
+        {
+          name: 'Debit Amount',
+          textAlign: 'right'
+        },
+        {
+          name: 'Credit Amount',
+          textAlign: 'right'
+        }
+      ],
+      table:
+        rowdetaildata
+      ,
+      total: [voucherdataprint.total.credit, voucherdataprint.total.debit],
+      inWords: 'One Hundred Rupees TenPaisa Only',
+      narration: voucherdataprint.remarks
+    };
+
+    console.log('print pdf data', pdfData);
+    let datapdf = this.pdfService.createPdfHtml(pdfData);
     let divToPrint = datapdf.innerHTML;
     let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     newWindow.document.open();

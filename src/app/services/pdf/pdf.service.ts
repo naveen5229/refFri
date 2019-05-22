@@ -234,51 +234,51 @@ export class PdfService {
   }
 
   createPdfHtml(pdfData?) {
-    pdfData = {
-      company: 'Elogist Solutions Private Limited',
-      address: '310, Shree Gopal Nagar,Gopalpura Bypass',
-      city: 'Jaipur',
-      reportName: 'Bank Payment Voucher',
-      details: [
-        {
-          name: 'Voucher Number',
-          value: 'BPV/01027'
-        },
-        {
-          name: 'Branch',
-          value: 'Affordable Site'
-        },
-        {
-          name: 'Voucher Date',
-          value: '28 Oct 2013'
-        }
-      ],
-      headers: [
-        {
-          name: 'GL Code',
-          textAlign: 'left'
-        },
-        {
-          name: 'Particulars',
-          textAlign: 'left'
-        },
-        {
-          name: 'Debit Amount',
-          textAlign: 'right'
-        },
-        {
-          name: 'Credit Amount',
-          textAlign: 'right'
-        }
-      ],
-      table: [
-        ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
-        ['GL00094', 'To IDBI Bank', '', '110.0'],
-      ],
-      total: ['110.0', '110.0'],
-      inWords: 'One Hundred Rupees TenPaisa Only',
-      narration: ''
-    };
+    // pdfData = {
+    //   company: 'Elogist Solutions Private Limited',
+    //   address: '310, Shree Gopal Nagar,Gopalpura Bypass',
+    //   city: 'Jaipur',
+    //   reportName: 'Bank Payment Voucher',
+    //   details: [
+    //     {
+    //       name: 'Voucher Number',
+    //       value: 'BPV/01027'
+    //     },
+    //     {
+    //       name: 'Branch',
+    //       value: 'Affordable Site'
+    //     },
+    //     {
+    //       name: 'Voucher Date',
+    //       value: '28 Oct 2013'
+    //     }
+    //   ],
+    //   headers: [
+    //     {
+    //       name: 'GL Code',
+    //       textAlign: 'left'
+    //     },
+    //     {
+    //       name: 'Particulars',
+    //       textAlign: 'left'
+    //     },
+    //     {
+    //       name: 'Debit Amount',
+    //       textAlign: 'right'
+    //     },
+    //     {
+    //       name: 'Credit Amount',
+    //       textAlign: 'right'
+    //     }
+    //   ],
+    //   table: [
+    //     ['GL00184', 'By Packing Charges (Recd)', '110.0', ''],
+    //     ['GL00094', 'To IDBI Bank', '', '110.0'],
+    //   ],
+    //   total: ['110.0', '110.0'],
+    //   inWords: 'One Hundred Rupees TenPaisa Only',
+    //   narration: ''
+    // };
 
     let mainElement = document.createElement('div');
     mainElement.className = 'voucher-pdf';
