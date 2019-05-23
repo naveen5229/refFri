@@ -67,6 +67,7 @@ export class UserService {
       { id: 37, route: '/admin/fuel-rules' },
       { id: 38, route: '/admin/pump-station-area' },
       { id: 39, route: '/admin/pending-vehicle' },
+      { id: 40, route: '/admin/halt-density' },
     ]
   }
 
