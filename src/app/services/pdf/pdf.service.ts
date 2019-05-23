@@ -58,7 +58,7 @@ export class PdfService {
     console.log("hdgcols:", hdgCols);
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
-      for (let i = 0; i < hdgCols.length; i++) {
+      for (let i = 0; i < (hdgCols.length - 1); i++) {
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
@@ -134,14 +134,15 @@ export class PdfService {
   }
 
   addTableInDoc(doc, headings, rows) {
-    let tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
+   
+    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
       head: headings,
       body: rows,
       theme: 'grid',
       didDrawPage: this.didDrawPage,
-      margin: { top: 80 },
+      margin: { top: 80,left:15 },
       rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
@@ -178,11 +179,11 @@ export class PdfService {
     var str = "Page " + data.pageCount;
 
     doc.setFontSize(10);
-    doc.text(
-      str,
-      data.settings.margin.left,
-      doc.internal.pageSize.height - 10
-    );
+    // doc.text(
+    //   str,
+    //   data.settings.margin.left,
+    //   doc.internal.pageSize.height - 10
+    // );
   }
 
   voucherPDF(pdfData) {
@@ -386,12 +387,12 @@ export class PdfService {
     return html;
   }
 
-  multiImagePdf(ids) {
+  multiImagePdf(id) {
     let promises = [];
-    ids.map(id => {
-      let element = document.getElementById(id);
-      promises.push(html2canvas(element, { scale: 2 }));
-    });
+    //ids.map(id => {
+    let element = document.getElementById(id);
+    promises.push(html2canvas(element, { scale: 2 }));
+    // });
     this.common.loading++;
     Promise.all(promises).then(result => {
       console.log('Result:', result);
@@ -426,14 +427,14 @@ export class PdfService {
     return pdf;
   }
 
-  tableWithImages(ids, tableId) {
+  tableWithImages(id, tableIds) {
     this.common.loading++;
     let promises = [];
-    ids.map(id => {
-      let element = document.getElementById(id);
-      promises.push(html2canvas(element, { scale: 2 }));
-    });
-    
+    //ids.map(id => {
+    let element = document.getElementById(id);
+    promises.push(html2canvas(element, { scale: 2 }));
+    //});
+
     Promise.all(promises).then(result => {
       console.log('Result:', result);
       let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
@@ -444,39 +445,24 @@ export class PdfService {
       // pdf.save('report.pdf'); // Generated PDF
       this.common.loading--;
       pdf.addPage();
-
-      let tablesHeadings = [];
-      let tablesRows = [];
-      let tableIds = [tableId];
-      tableIds.map(tableId => {
-        tablesHeadings.push(this.findTableHeadings(tableId));
-        tablesRows.push(this.findTableRows(tableId));
-      });
-
       /**************** LOGO Creation *************** */
       let eltimg = document.createElement("img");
       eltimg.src = "assets/images/elogist.png";
       eltimg.alt = "logo";
-
       /**************** PDF Size ***************** */
       let maxHeadingLength = 0;
-      tablesHeadings.map(tableHeadings => {
-        if (maxHeadingLength < tableHeadings.length)
-          maxHeadingLength = tableHeadings.length;
-      });
       let pageOrientation = "Portrait";
-      if (maxHeadingLength > 7) {
-        pageOrientation = "Landscape";
-      }
-
-      // let doc = new jsPDF({
-      //   orientation: pageOrientation,
-      //   unit: "px",
-      //   format: "a4"
-      // });
-
-      tablesHeadings.map((tableHeadings, index) => {
-        pdf = this.addTableInDoc(pdf, tableHeadings, tablesRows[index]);
+      const status = ["onward", "issue", "available", "loading", "unloading"];
+      tableIds.map((tableId, index) => {
+        let tablesHeadings = [];
+        let tablesRows = [];
+        tablesHeadings = this.findTableHeadings(tableId);
+        tablesRows = this.findTableRows(tableId);
+        console.log('...........................', tablesHeadings, tablesRows);
+        console.log('...........................', status[index], status, index);
+        pdf.text(status[index], 25, 65);
+        pdf = this.addTableInDoc(pdf, tablesHeadings, tablesRows);
+        pdf.addPage();
       });
 
       pdf.save("table-with-images.pdf");

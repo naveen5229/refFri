@@ -1,6 +1,7 @@
 .nb_card_box{
     position: absolute;
     top: 70px;
+    z-index: 9999;
 }
 .status-print-view2{
     width: 210mm;
@@ -19,6 +20,7 @@
 }
 .status-print-view{
     padding: 15px;
+   
 }
 .all_data{
     font-size:12px;
@@ -77,4 +79,8 @@
 }
 #page-2 .status_box nb-card:nth-child(1){
     border-top: 0px !important;
+}
+.status-print-title h4{
+    font-weight: bold;
+    color: #55a1ff;
 }

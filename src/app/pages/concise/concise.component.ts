@@ -52,6 +52,7 @@ export class ConciseComponent implements OnInit {
   allKpis = [];
   searchTxt = "";
   filters = [];
+  
   viewType = "showprim_status";
   viewName = "Primary Status";
 
@@ -162,6 +163,7 @@ export class ConciseComponent implements OnInit {
       this.common.currentPage = "";
     }
     this.handlePdfPrint();
+   // this.generatePDF();
   }
 
   ngOnInit() {
@@ -1218,6 +1220,8 @@ export class ConciseComponent implements OnInit {
 
   generatePDF() {
     this.pdfData.tables = [];
+    this.pdfData.primary.list = [];
+    console.log("list------------------",this.pdfData.primary.list);
     console.log('KPIS:', this.primaryStatus);
     this.primaryStatus.map(status => {
       let kpis = [];
@@ -1235,7 +1239,7 @@ export class ConciseComponent implements OnInit {
 
     // });
     console.log('----------------------------PDF Tables:', this.pdfData);
-    // this.pdfService.tableWithImages(['page-1', 'page-2'], 'print-section')
+     this.pdfService.tableWithImages('page-1', ['print-table-0','print-table-1','print-table-2','print-table-3','print-table-4']);
   }
 
 }
