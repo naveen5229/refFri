@@ -69,6 +69,7 @@ export class UserService {
       { id: 39, route: '/admin/pending-vehicle' },
       { id: 40, route: '/admin/halt-density' },
       { id: 41, route: '/admin/placement-site-rule' },
+      { id: 42, route: '/admin/fuel-average-issues' },
     ]
   }
 
