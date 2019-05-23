@@ -234,7 +234,7 @@ export class VouchersComponent implements OnInit {
               this.printVoucher(this.voucher, res['data']['companydata']);
 
             }
-            //  this.voucher = this.setVoucher();
+              this.voucher = this.setVoucher();
             this.getVouchers();
             this.common.showToast('Your Code :' + res['data'].code);
             this.setFoucus('ref-code');
