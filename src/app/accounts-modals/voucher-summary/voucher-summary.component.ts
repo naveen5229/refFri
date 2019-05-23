@@ -24,7 +24,10 @@ export class VoucherSummaryComponent implements OnInit {
   FinanceVoucherId;
   DriverId;
   DriverName;
-  creditLedger = 0;
+  creditLedger: {
+    name: '',
+    id: 0
+  };
 
   constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
     this.getAllLedgers();
@@ -63,6 +66,13 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
+  }
+
+  onSelected(selectedData, type, display) {
+    this.creditLedger.name = selectedData[display];
+    this.creditLedger.id = selectedData.id;
+    console.log('Selected Data: ', selectedData, type, display);
+    //  console.log('order User: ', this.DayBook);
   }
 
 
@@ -278,7 +288,7 @@ export class VoucherSummaryComponent implements OnInit {
       transactionType: "credit",
       ledger: {
         name: '',
-        id: this.creditLedger
+        id: this.creditLedger.id
       },
       amount: totalAmount
     });
