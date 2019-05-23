@@ -120,6 +120,7 @@ export class PumpStationAreaComponent implements OnInit {
     this.mapService.zoomAt(this.locLatLng, 10);
     this.gotoSingle(false);
     this.selectedArea = search;
+    console.log('slectedArea', this.selectArea);
     this.commonService.loading--;
   }
 

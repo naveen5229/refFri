@@ -39,6 +39,7 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
+import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 
 const routes: Routes = [{
     path: '',
@@ -208,6 +209,11 @@ const routes: Routes = [{
         {
             path: 'fuel-average-analysis',
             component: FuelAverageAnalysisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'fuel-average-issues',
+            component: FuelAverageIssuesComponent,
             canActivate: [RouteGuard]
         },
         {

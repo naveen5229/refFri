@@ -275,6 +275,12 @@ export class DataService {
             link: '/admin/pump-station-area',
             home: true,
           },
+          {
+            title: 'Fuel Average Issues',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-issues',
+            home: true,
+          },
         ]
       },
       {

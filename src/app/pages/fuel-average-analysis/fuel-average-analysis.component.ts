@@ -45,7 +45,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
       endTime: this.dates.end,
       foId: null,
     };
-    this.api.post('FuelDetails/getFuelFillingsAverage', params)
+    this.api.post('FuelDetails/getVehicleFuelFillingAvg', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
