@@ -76,6 +76,12 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Palacement Site Rule',
+            icon: 'fas fa-file-signature',
+            link: '/admin/placement-site-rule',
+            home: true,
+          },
+          {
             title: 'Transport Agents',
             icon: 'fas fa-address-card',
             link: '/admin/transport-agents',

@@ -48,6 +48,7 @@ import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 import { HaltDensityComponent } from './halt-density/halt-density.component';
+import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 
 
 
@@ -112,7 +113,8 @@ const PAGES_COMPONENTS = [
     FuelRulesComponent,
     PumpStationAreaComponent,
     PendingVehicleComponent,
-    HaltDensityComponent
+    HaltDensityComponent,
+    PalacementSiteRuleComponent
 
 
   ],
