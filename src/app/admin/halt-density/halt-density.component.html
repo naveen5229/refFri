@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-2">
+    <input type="text" placeholder="Move to.." id="moveLoc" class="form-control">
+  </div>
+  <div class="col-3">
+    <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+
+    </uj-date-time-picker>
+  </div>
+  <div class="col-3">
+    <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+
+    </uj-date-time-picker>
+  </div>
+  <div class="col-2">
+    <button (click)="submit()">
+      Search..
+    </button>
+  </div>
+  <div class="col-2">
+    <button (click)="submit(true)">
+      Search With Heat..
+    </button>
+  </div>
+</div>
+<div id="map" class="map">
+
+</div>
