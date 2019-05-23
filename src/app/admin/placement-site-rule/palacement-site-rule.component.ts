@@ -26,21 +26,7 @@ export class PalacementSiteRuleComponent implements OnInit {
       name: "Loading & Unloading"
     }
   ];
-  bodyType = [
-    {
-      id: 11,
-      name: "3axle"
-    },
-    {
-      id: 21,
-      name: "4axle"
-    },
-    {
-      id: 31,
-      name: "6axle"
-    }
-  ];
-  materialType = "";
+
   siteId = null;
   vehicle = {
     id: null,
@@ -83,17 +69,14 @@ export class PalacementSiteRuleComponent implements OnInit {
 
         let index = 0;
         for (const data of this.data) {
-          let bodyName = this.bodyType.find((element) => {
-            return element.id == this.data[index].bodytype_id;
-          });
-          this.data[index].bodyName = bodyName ? bodyName.name : 'N.A';
+
+
           let ruleName = this.ruleType.find((element) => {
             return element.id == this.data[index].ruletype_id;
           });
           this.data[index].ruleName = ruleName ? ruleName.name : 'N.A';
 
-          this.data[index].preSiteType = data.pre_site_name ? data.pre_site_name : 'N.A';
-          this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
+          this.data[index].preSiteType = data.next_site_name ? data.next_site_name : 'N.A';
           index++;
         }
         this.table = this.setTable();
@@ -108,10 +91,8 @@ export class PalacementSiteRuleComponent implements OnInit {
   setTable() {
     let headings = {
       foName: { title: 'Fo Name', placeholder: 'Fo Name' },
-      preSiteName: { title: 'Pre Site Name ', placeholder: 'Pre Site Name' },
+      nextSiteName: { title: 'Next Site Name ', placeholder: 'Next Site Name' },
       currentSiteName: { title: 'Current Site Name ', placeholder: 'Current Site Name' },
-      materialName: { title: 'Material Name ', placeholder: 'Material Name' },
-      bodyType: { title: 'Body Type ', placeholder: 'Body Type' },
       ruleType: { title: 'Rule Type', placeholder: 'Rule Type' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
@@ -132,10 +113,9 @@ export class PalacementSiteRuleComponent implements OnInit {
     this.data.map(doc => {
       let column = {
         foName: { value: doc.f_name },
-        preSiteName: { value: doc.preSiteType },
+        nextSiteName: { value: doc.preSiteType },
         currentSiteName: { value: doc.curr_site_name },
         materialName: { value: doc.materialType },
-        bodyType: { value: doc.bodyName },
         ruleType: { value: doc.ruleName },
         action: {
           value: '', isHTML: false, action: null, icons: [
@@ -167,16 +147,18 @@ export class PalacementSiteRuleComponent implements OnInit {
   }
 
   deleteRule(doc) {
+
+    console.log("doc:", doc);
     if (window.confirm("Are You Want Delete Record")) {
       const params = {
         foid: doc.foid,
         currSiteId: doc.current_siteid,
-        preSiteId: doc.pre_siteid
+        nextSiteId: doc.next_siteid
       }
 
 
       this.common.loading++;
-      this.api.post('TripSiteRule/delete', params)
+      this.api.post('PlacementSiteRule/delete', params)
         .subscribe(res => {
           this.common.loading--;
           let output = res['data'];
@@ -202,16 +184,14 @@ export class PalacementSiteRuleComponent implements OnInit {
 
         let index = 0;
         for (const data of this.data) {
-          let bodyName = this.bodyType.find((element) => {
-            return element.id == this.data[index].bodytype_id;
-          });
-          this.data[index].bodyName = bodyName ? bodyName.name : 'N.A';
+
+
           let ruleName = this.ruleType.find((element) => {
             return element.id == this.data[index].ruletype_id;
           });
           this.data[index].ruleName = ruleName ? ruleName.name : 'N.A';
 
-          this.data[index].preSiteType = data.pre_site_name ? data.pre_site_name : 'N.A';
+          this.data[index].preSiteType = data.next_site_name ? data.next_site_name : 'N.A';
           this.data[index].materialType = data.mt_name ? data.mt_name : 'N.A';
           index++;
         }
