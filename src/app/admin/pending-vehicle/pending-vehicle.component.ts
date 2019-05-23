@@ -91,14 +91,14 @@ export class PendingVehicleComponent implements OnInit {
         console.log(err);
       });
   }
-  getAllTypesOfModel(brandId) {
+  getAllTypesOfModel(brandId, modal?) {
     let params = "&brandId=" + brandId;
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
         // this.
-        // this.modal[modal].data.modelType = this.modelType;
-        // console.log("All Type Model: ", this.modal[modal].data.modelType);
+        this.modal[modal].data.modelType = this.modelType;
+        console.log("All Type Model: ", this.modelType);
       }, err => {
         console.log(err);
       });
@@ -492,7 +492,7 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
     // console.log("doc var", this.modal[modal].data.document.document_type_id);
-    this.getAllTypesOfModel(brandType.id);
+    this.getAllTypesOfModel(brandType.id, modal);
   }
 
   selectModelType(modalType, modal) {
