@@ -36,7 +36,7 @@ export class VoucherSummaryComponent implements OnInit {
     console.log(this.common.params.tripVoucher);
     if (this.tripVoucher) {
       this.VoucherId = this.tripVoucher.id;
-      this.FinanceVoucherId=this.tripVoucher.fi_voucher_id;
+      this.FinanceVoucherId = this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.trips;
       this.trips.map(trip => trip.isChecked = true);
       this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
@@ -250,7 +250,7 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('Res: ', res);
         this.common.loading--;
-        this.addVoucher(this.VoucherId,this.FinanceVoucherId);
+        this.addVoucher(this.VoucherId, this.FinanceVoucherId);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -335,7 +335,7 @@ export class VoucherSummaryComponent implements OnInit {
   addTrip() {
     let vehId = this.VehicleId;
     this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {
