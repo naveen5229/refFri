@@ -53,9 +53,9 @@ export class PendingVehicleComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    this.getPendingDetailsVehicle();
-    this.getAllTypesOfBrand();
-    // window.location.reload();
+    // this.getPendingDetailsVehicle();
+    // this.getAllTypesOfBrand();
+    window.location.reload();
 
   }
 
