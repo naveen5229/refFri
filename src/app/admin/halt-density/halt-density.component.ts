@@ -58,5 +58,24 @@ export class HaltDensityComponent implements OnInit {
         this.commonService.showError();
       });
   }
+  loadMarkers() {
+    let boundBox = this.mapService.getMapBounds();
+    let bounds = {
+      'lat1': boundBox.lat1,
+      'lng1': boundBox.lng1,
+      'lat2': boundBox.lat2,
+      'lng2': boundBox.lng2,
+      'typeId': null
+    };
+    this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
+      .subscribe(res => {
+        let data = res['data'];
+        console.log('Res: ', res['data']);
+        this.mapService.createMarkers(data, false, true, ["id", "name"]);
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
+  }
 
 }

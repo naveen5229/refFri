@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-2">
+  <div class="col-3">
     <input type="text" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc" class="form-control">
   </div>
   <div class="col-3">
@@ -12,16 +12,22 @@
 
     </uj-date-time-picker>
   </div>
-  <div class="col-2">
+  <div class="col-1">
     <button (click)="submit()">
       Search..
     </button>
   </div>
-  <div class="col-2">
+  <div class="col-1">
     <button (click)="submit(true)">
       Search With Heat..
     </button>
   </div>
+  <div class="col-1">
+    <button (click)="loadMarkers(true)">
+      Load Marker...
+    </button>
+  </div>
+
 </div>
 <div id="map" class="map">
 
