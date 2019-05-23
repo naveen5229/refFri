@@ -73,7 +73,70 @@ export class HaltDensityComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.createMarkers(data, false, true, ["id", "name"]);
+        this.mapService.createMarkers(data, false, true, ["id", "name"], (marker) => {
+          this.apiService.post("Site/getSingleSite", { siteId: marker.id })
+            .subscribe(res => {
+              let data = res['data'];
+              this.mapService.options = { clearHeat: false };
+              this.mapService.clearAll(true, true, { marker: false, polygons: true, polypath: false });
+              this.apiService.post("SiteFencing/getSiteFences", { siteId: marker.id })
+                .subscribe(res => {
+                  this.commonService.loading++;
+                  let data = res['data'];
+                  let count = Object.keys(data).length;
+                  console.log('Res: ', res['data']);
+                  if (count == 1) {
+                    this.mapService.createPolygon(data[Object.keys(data)[0]].latLngs);
+                    console.log("Single", data[Object.keys(data)[0]]);
+                  }
+                  else if (count > 1) {
+                    let latLngsArray = [];
+                    let show = "Unknown";
+                    let isMain = false;
+                    let isSec = false;
+                    let minDis = 100000;
+                    let minIndex = -1;
+                    for (const datax in data) {
+                      isMain = false;
+                      if (data.hasOwnProperty(datax)) {
+                        const datav = data[datax];
+                        if (datax == marker.id) {
+                          isMain = true;
+                        }
+                        else if (minDis > datav.dis) {
+                          isMain = false;
+                          minDis = datav.dis;
+                          minIndex = latLngsArray.length;
+                        }
+                        latLngsArray.push({
+                          data: datav.latLngs, isMain: isMain, isSec: isSec, show:
+                            `
+                  Id: ${datax}<br>
+                  Name:${datav.name}<br>
+                  Location:${datav.loc_name}<br>
+                  `
+                        });
+                      }
+                    }
+                    if (minIndex != -1)
+                      latLngsArray[minIndex].isSec = true;
+                    this.mapService.createPolygons(latLngsArray);
+                  }
+                  else {
+                    console.log("Else");
+                  }
+                  this.mapService.zoomAt(this.mapService.createLatLng(marker.lat, marker.long), 16);
+                  this.commonService.loading--;
+                }, err => {
+                  console.error(err);
+                  this.commonService.showError();
+                  this.commonService.loading--;
+                });
+            }, err => {
+              console.error(err);
+              this.commonService.showError();
+            });
+        });
       }, err => {
         console.error(err);
         this.commonService.showError();
