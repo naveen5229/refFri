@@ -67,6 +67,12 @@ export class PendingVehicleComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
+        if (this.data == null) {
+          this.data = [];
+          alert("Data Not  Available");
+          return;
+
+        }
         if (this.data.length) {
           for (var key in this.data[0]) {
             if (key.charAt(0) != "_")
@@ -97,7 +103,7 @@ export class PendingVehicleComponent implements OnInit {
       .subscribe(res => {
         this.modelType = res['data'];
         // this.
-        this.modal[modal].data.modelType = this.modelType;
+        // this.modal[modal].data.modelType = this.modelType;
         console.log("All Type Model: ", this.modelType);
       }, err => {
         console.log(err);
@@ -105,7 +111,6 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   showDetails(row, isNext?) {
-    console.log("row:", row);
     let rowData = {
       vehicle_id: row._vid,
     };
@@ -159,20 +164,12 @@ export class PendingVehicleComponent implements OnInit {
       this.modal[modal].data.document.expiry_date = this.common.dateFormatter(this.modal[modal].data.document.expiry_date, 'ddMMYYYY').split(' ')[0];
 
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
-
-
-
-
     this.modal[modal].data.imgs = [];
+    console.log("Test :::", this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url);
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
     }
-    if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url2);
-    }
-    if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
-    }
+
     this.modal[modal].data.images = this.modal[modal].data.imgs;
     console.log('Handle Next::', isNext);
     this.getvehiclePending(modal, isNext);
@@ -198,25 +195,18 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.document_type = res['data'][0].Brand;
         this.modal[modal].data.document.wef_date = res['data'][0]._manfdate;
         this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
-        this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
-        this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
-        this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
         this.modal[modal].data.document.review = res["data"][0].reviewcount;
 
         this.modal[modal].data.document.wef_date = this.modal[modal].data.document.wef_date.split('-').slice(0, 2).reverse().join('/')
         // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
+        console.log("Here", res["data"][0]._rcimage, this.modal[modal].data.document.img_url);
+
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url);
         }
-        if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
-          this.modal[modal].data.images.push(this.modal[modal].data.document.img_url2);
-        }
-        if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
-          this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
-        }
+
         if (this.modal[modal].data.document.document_type_id) {
-          console.log("hiiiiiiiiiii", this.modal[modal].data.document.document_type_id, this.modal[modal]);
           this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
         }
         // console.log("msg:",res["data"][0].errormsg,);   
@@ -549,8 +539,7 @@ export class PendingVehicleComponent implements OnInit {
         newRegno: null,
         vehicle_id: null,
         wef_date: null,
-        img_url2: null,
-        img_url3: null
+
       },
     }
   }
