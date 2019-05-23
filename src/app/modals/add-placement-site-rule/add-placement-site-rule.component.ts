@@ -13,17 +13,16 @@ export class AddPlacementSiteRuleComponent implements OnInit {
 
   title = '';
   addSite = {
-    preSiteId: null,
+    nextSiteId: null,
     currSiteId: null,
     foid: null,
     foname: null,
-    materialId: null,
     ruleTypeId: null,
   };
   nextSite = {
-    preSiteName: null,
-    preStieLocName: null,
-    preSiteId: null,
+    nextSiteName: null,
+    nextSiteLocName: null,
+    nextSiteId: null,
   }
 
   currSite = {
@@ -70,16 +69,15 @@ export class AddPlacementSiteRuleComponent implements OnInit {
       this.status = 1;
       this.addSite.foid = this.common.params.row.foid;
       this.addSite.foname = this.common.params.row.f_name || 'N.A';
-      this.nextSite.preSiteName = this.common.params.row.next_site_name || 'N.A';
-      this.nextSite.preStieLocName = this.common.params.row.sd_loc_name1 || 'N.A';
-      this.addSite.preSiteId = this.common.params.row.next_siteid;
+      this.nextSite.nextSiteName = this.common.params.row.next_site_name || 'N.A';
+      this.nextSite.nextSiteLocName = this.common.params.row.sd_loc_name1 || 'N.A';
+      this.addSite.nextSiteId = this.common.params.row.next_siteid;
       this.currSite.currSiteName = this.common.params.row.curr_site_name || 'N.A';
       this.addSite.currSiteId = this.common.params.row.current_siteid;
       this.currSite.currStieLocName = this.common.params.row.sd_loc_name2 || 'N.A';
-      this.addSite.materialId = this.common.params.row.materialtype_id;
       this.addSite.ruleTypeId = this.common.params.row.ruletype_id;
       this.currSite.currSiteId = this.common.params.row.current_siteid;
-      this.nextSite.preSiteId = this.common.params.row.next_siteid;
+      this.nextSite.nextSiteId = this.common.params.row.next_siteid;
       this.refTypeNext = this.common.params.row.ref_type_next;
       this.refTypeCur = this.common.params.row.ref_type_cur;
     }
@@ -116,7 +114,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
     if (!this.addSite.currSiteId) {
       return this.common.showError("Please Fill Current Site");
     }
-    if (!this.addSite.preSiteId) {
+    if (!this.addSite.nextSiteId) {
       return this.common.showError("Please Fill Next Site");
     }
     if (!this.addSite.ruleTypeId) {
@@ -125,7 +123,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
     let params = {
       foid: this.addSite.foid,
       currSiteId: this.addSite.currSiteId,
-      nextSiteId: this.addSite.preSiteId,
+      nextSiteId: this.addSite.nextSiteId,
       ruleTypeId: this.addSite.ruleTypeId,
       refTypeNext: this.refTypeNext,
       refTypeCur: this.refTypeCur,
@@ -159,7 +157,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
     if (!this.addSite.currSiteId) {
       return this.common.showError("Please Fill Current Site");
     }
-    if (!this.addSite.preSiteId) {
+    if (!this.addSite.nextSiteId) {
       return this.common.showError("Please Fill Next Site ");
     }
     if (!this.addSite.ruleTypeId) {
@@ -168,10 +166,10 @@ export class AddPlacementSiteRuleComponent implements OnInit {
     let params = {
       foid: this.addSite.foid,
       currSiteId: this.addSite.currSiteId,
-      nextSiteId: this.addSite.preSiteId,
+      nextSiteId: this.addSite.nextSiteId,
       ruleTypeId: this.addSite.ruleTypeId,
       currSiteIdOld: this.currSite.currSiteId,
-      nextSiteIdOld: this.nextSite.preSiteId,
+      nextSiteIdOld: this.nextSite.nextSiteId,
     }
     this.common.loading++;
     this.api.post('PlacementSiteRule/edit ', params)

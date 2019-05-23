@@ -91,8 +91,8 @@ export class PalacementSiteRuleComponent implements OnInit {
   setTable() {
     let headings = {
       foName: { title: 'Fo Name', placeholder: 'Fo Name' },
-      nextSiteName: { title: 'Next Site Name ', placeholder: 'Next Site Name' },
       currentSiteName: { title: 'Current Site Name ', placeholder: 'Current Site Name' },
+      nextSiteName: { title: 'Next Site Name ', placeholder: 'Next Site Name' },
       ruleType: { title: 'Rule Type', placeholder: 'Rule Type' },
       action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
@@ -113,9 +113,8 @@ export class PalacementSiteRuleComponent implements OnInit {
     this.data.map(doc => {
       let column = {
         foName: { value: doc.f_name },
-        nextSiteName: { value: doc.preSiteType },
         currentSiteName: { value: doc.curr_site_name },
-        materialName: { value: doc.materialType },
+        nextSiteName: { value: doc.preSiteType },
         ruleType: { value: doc.ruleName },
         action: {
           value: '', isHTML: false, action: null, icons: [
