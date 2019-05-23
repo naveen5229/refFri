@@ -27,8 +27,10 @@ export class HaltDensityComponent implements OnInit {
   }
   submit(isHeat?) {
     this.mapService.clearAll();
-    if (this.mapService.map.getZoom() < this.minZoom)
+    if (this.mapService.map.getZoom() < this.minZoom) {
       this.commonService.showToast("bounds are huge");
+      return;
+    }
     var bounds = this.mapService.getMapBounds();
     console.log("Bounds", bounds);
 
