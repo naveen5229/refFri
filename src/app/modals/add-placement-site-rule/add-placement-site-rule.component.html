@@ -9,11 +9,11 @@
     <form enctype="multipart/form-data" #myForm="ngForm" id="site-form" name="site-form">
       <div class="row">
         <div class="col-md-6">
-          <label>Fo User<span>*</span></label>
+          <label>Fo<span>*</span></label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
           <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
-            placeholder="Fo User" [preSelected]="null"></auto-suggestion>
+            placeholder="Fo" [preSelected]="null"></auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
         </div>
@@ -25,7 +25,7 @@
 
       <div class="row">
         <div class="col-md-6">
-          <label>CurrentSite Name<span>*</span></label>
+          <label>Current Site Name<span>*</span></label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
           <select name="listType" class="form-control mb-2" (change)="selectListType($event.target.value)"
@@ -75,7 +75,7 @@
 
       <div class="row">
         <div class="col-md-6">
-          <label>NextSite Name<span>*</span></label>
+          <label>Next Site Name<span>*</span></label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
           <select name="list" class="form-control mb-2" (change)="selectList($event.target.value)"

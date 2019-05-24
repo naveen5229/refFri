@@ -109,7 +109,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
   addSiteRule() {
     console.log("data:", this.addSite);
     if (!this.addSite.foid) {
-      return this.common.showError("Please Fill foUser");
+      return this.common.showError("Please Fill Fo");
     }
     if (!this.addSite.currSiteId) {
       return this.common.showError("Please Fill Current Site");
@@ -118,7 +118,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
       return this.common.showError("Please Fill Next Site");
     }
     if (!this.addSite.ruleTypeId) {
-      return this.common.showError("Please Fill ruleTypeId");
+      return this.common.showError("Please Fill ruleType");
     }
     let params = {
       foid: this.addSite.foid,
@@ -196,11 +196,13 @@ export class AddPlacementSiteRuleComponent implements OnInit {
 
   selectList(id) {
     this.refTypeNext = parseInt(id);
+    this.addSite.nextSiteId = null;
     console.log("type:", this.refTypeNext);
 
   }
   selectListType(typeid) {
     this.refTypeCur = parseInt(typeid);
+    this.addSite.currSiteId = null;
     console.log("type2:", this.refTypeCur);
   }
 
