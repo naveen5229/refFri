@@ -222,12 +222,13 @@ export class AddSiteRuleComponent implements OnInit {
 
   selectList(id) {
     this.refTypePre = parseInt(id);
-    this.addSite.preSiteId
+    this.addSite.preSiteId = null;
     console.log("type:", this.refTypePre);
 
   }
   selectListType(typeid) {
     this.refTypeCur = parseInt(typeid);
+    this.addSite.currSiteId = null;
     console.log("type2:", this.refTypeCur);
   }
 
