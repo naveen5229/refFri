@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 
 @Component({
   selector: 'vehicle-performance',
@@ -120,11 +121,40 @@ export class VehiclePerformanceComponent implements OnInit {
     for (var i = 0; i < this.vehiclePerformance.length; i++) {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
+        console.log("Test....", this.headings[j]);
+        if (this.headings[j] == "distance") {
+          this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.vehiclePerformance[i]) };
+
+        }
         this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]] };
       }
       columns.push(this.valobj);
     }
     return columns;
+  }
+
+
+  openRouteMapper(defaultFault, timeFrom = 'Vehicle Performance') {
+    console.log("defaultFault", defaultFault)
+    let fromTime = this.common.dateFormatter(this.startDate);
+    let toTime = this.common.dateFormatter(this.endDate);
+    this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
+    this.common.params = {
+      vehicleId: defaultFault._vid,
+      vehicleRegNo: defaultFault.regno,
+      fromTime: fromTime,
+      toTime: toTime
+    };
+    console.log("open Route Mapper modal", this.common.params);
+    const activeModal = this.modalService.open(RouteMapperComponent, {
+      size: "lg",
+      container: "nb-layout",
+      windowClass: "myCustomModalClass"
+    });
+    activeModal.result.then(
+      data => console.log("data", data)
+      // this.reloadData()
+    );
   }
 
 

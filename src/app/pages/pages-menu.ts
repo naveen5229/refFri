@@ -152,11 +152,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Vehicle Performance',
-        icon: 'fas fa-traffic-light',
+        icon: 'fas fa-truck-pickup',
         link: '/pages/vehicle-performance',
         home: true,
       },
-
     ]
   },
 
