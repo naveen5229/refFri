@@ -73,6 +73,7 @@ export class AddMaintenanceComponent implements OnInit {
       }
     ]
   }]
+  edit = 0;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
