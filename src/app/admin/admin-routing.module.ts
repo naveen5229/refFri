@@ -41,6 +41,7 @@ import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
+import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 
 const routes: Routes = [{
     path: '',
@@ -210,6 +211,11 @@ const routes: Routes = [{
         {
             path: 'fuel-average-analysis',
             component: FuelAverageAnalysisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'fuel-average-issues',
+            component: FuelAverageIssuesComponent,
             canActivate: [RouteGuard]
         },
         {

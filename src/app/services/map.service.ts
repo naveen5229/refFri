@@ -303,7 +303,7 @@ export class MapService {
     resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
-    this.resetHeatMap();
+    this.options.clearHeat && this.resetHeatMap();
   }
   resetHeatMap() {
     if (this.heatmap) {

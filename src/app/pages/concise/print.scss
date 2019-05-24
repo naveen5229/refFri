@@ -1,0 +1,80 @@
+.nb_card_box{
+    position: absolute;
+    top: 70px;
+}
+.status-print-view2{
+    width: 210mm;
+    height: 297mm;
+    margin: auto;
+}
+.graph-data nb-card{
+    width: 33%;
+    display: inline-block;
+    padding: 0px;
+    font-size: 12px;
+}
+.graph-data nb-card nb-card-body{
+    padding: 10px;
+    display: block;
+}
+.status-print-view{
+    padding: 15px;
+}
+.all_data{
+    font-size:12px;
+}
+.status-print-view .dashboard_chart {
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+.truck-route{
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.truck_road{
+    display: block;
+    width: 100%;
+}
+.truck_road:before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 100%;
+    position: absolute;
+    bottom: -3px;
+}
+.truck_road:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 100%;
+    position: absolute;
+    right: 0px;
+    bottom: -3px;
+}
+.truck_road hr{
+    background-color: #000;
+    height: 2px;
+    margin: 0px;
+}
+.left-truck{
+    margin-left: 15px;
+}
+.right-truck{
+    float: right;
+    margin-right: 15px;
+}
+.truck_road i {
+    font-size: 40px;
+    color: #f87003;
+}
+#page-2 .status_box nb-card:nth-child(1){
+    border-top: 0px !important;
+}
