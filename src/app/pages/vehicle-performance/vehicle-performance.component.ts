@@ -122,28 +122,29 @@ export class VehiclePerformanceComponent implements OnInit {
       this.valobj = {};
       for (let j = 0; j < this.headings.length; j++) {
         console.log("Test....", this.headings[j]);
-        if (this.headings[j] == "distance") {
+        if (this.headings[j] === "distance") {
           this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.vehiclePerformance[i]) };
 
         }
-        this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]] };
+        else {
+
+          this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]] };
+        }
       }
       columns.push(this.valobj);
     }
     return columns;
   }
 
+  openRouteMapper(details) {
 
-  openRouteMapper(defaultFault, timeFrom = 'Vehicle Performance') {
-    console.log("defaultFault", defaultFault)
-    let fromTime = this.common.dateFormatter(this.startDate);
-    let toTime = this.common.dateFormatter(this.endDate);
+
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     this.common.params = {
-      vehicleId: defaultFault._vid,
-      vehicleRegNo: defaultFault.regno,
-      fromTime: fromTime,
-      toTime: toTime
+      vehicleId: details._vid,
+      vehicleRegNo: details.regno,
+      fromTime: details._start,
+      toTime: details._end
     };
     console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
@@ -151,10 +152,10 @@ export class VehiclePerformanceComponent implements OnInit {
       container: "nb-layout",
       windowClass: "myCustomModalClass"
     });
-    activeModal.result.then(
-      data => console.log("data", data)
-      // this.reloadData()
-    );
+    // activeModal.result.then(
+    //   data => ////console.log("data", data)
+    //   // this.reloadData()
+    // );
   }
 
 
