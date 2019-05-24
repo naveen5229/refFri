@@ -58,7 +58,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getAllTypesOfBrand();
 
 
-    // window.location.reload();
+    window.location.reload();
 
   }
 

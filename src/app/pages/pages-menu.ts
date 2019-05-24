@@ -150,6 +150,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/onward-kmpd',
         home: true,
       },
+      {
+        title: 'Vehicle Performance',
+        icon: 'fas fa-traffic-light',
+        link: '/pages/vehicle-performance',
+        home: true,
+      },
 
     ]
   },
