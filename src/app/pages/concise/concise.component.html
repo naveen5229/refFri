@@ -2,7 +2,7 @@
 <button class="btn btn-primary" type="button"
   (click)="pdfService.tableWithImages(['page-1', 'page-2'], 'print-section')">PDF</button>
 
-<div class="status-print-view" id="status-print-view">
+<!-- <div class="status-print-view" id="status-print-view">
   <div class="row" *ngIf="pdfData.primary.list.length" id="page-1">
     <div class="col-sm-6">
       <div style="overflow: hidden;" [hidden]="isMapView">
@@ -20,20 +20,7 @@
         </div>
         <div class="status_box">
           <div class="graph-data">
-            <!-- <nb-card>
-              <nb-card-body (click)="allData()" style="cursor: pointer;">
-                <div class="row m-0">
-                  <div class="col-sm-1 p-0">
-                    <div
-                      style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
-                    </div>
-                  </div>
-                  <div class="col-sm-11">
-                    <p class="all_data m-0">All Data ({{ allKpis.length }})</p>
-                  </div>
-                </div>
-              </nb-card-body>
-            </nb-card> -->
+          >
             <nb-card *ngFor="let status of pdfData.primary.list; let i = index">
               <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -65,18 +52,7 @@
         </div>
         <div class="status_box">
           <div class="graph-data">
-            <!-- <nb-card>
-              <nb-card-body (click)="allData()" style="cursor: pointer;">
-                <div class="col-sm-1 p-0">
-                  <div
-                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
-                  </div>
-                </div>
-                <div class="col-sm-11">
-                  All Data ({{ allKpis.length }})
-                </div>
-              </nb-card-body>
-            </nb-card> -->
+          
             <nb-card *ngFor="let group of pdfData.secondary.list; let i = index">
               <nb-card-body style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -117,18 +93,7 @@
         </div>
         <div class="status_box">
           <div class="">
-            <!-- <nb-card>
-              <nb-card-body (click)="allData()" style="cursor: pointer;">
-                <div class="col-sm-1 p-0">
-                  <div
-                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
-                  </div>
-                </div>
-                <div class="col-sm-11">
-                  All Data ({{ allKpis.length }})
-                </div>
-              </nb-card-body>
-            </nb-card> -->
+           
             <nb-card *ngFor="let group of pdfData.tripStart.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -159,18 +124,7 @@
 
         <div class="status_box">
           <div class="">
-            <!-- <nb-card>
-              <nb-card-body (click)="allData()" style="cursor: pointer;">
-                <div class="col-sm-1 p-0">
-                  <div
-                    style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
-                  </div>
-                </div>
-                <div class="col-sm-11">
-                  All Data ({{ allKpis.length }})
-                </div>
-              </nb-card-body>
-            </nb-card> -->
+          
             <nb-card *ngFor="let group of pdfData.tripEnd.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -187,7 +141,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 
