@@ -14,7 +14,6 @@ export class DriverPerformanceComponent implements OnInit {
   startDate = null;
   endDate = null;
   driverPerformance = [];
-
   headings = [];
   valobj = {};
   table = {
@@ -27,6 +26,7 @@ export class DriverPerformanceComponent implements OnInit {
       tableHeight: '75vh'
     }
   };
+  click = false;
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal,
@@ -64,7 +64,7 @@ export class DriverPerformanceComponent implements OnInit {
   }
 
   getDriverPerformance() {
-    this.driverPerformance = [];
+    // this.driverPerformance = [];
     this.table = {
       data: {
         headings: {},
@@ -80,6 +80,7 @@ export class DriverPerformanceComponent implements OnInit {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
       endDate: this.common.dateFormatter1(this.endDate.split(' ')[0])
     }
+    this.click = true;
     const data = "startDate=" + params.startDate +
       "&endDate=" + params.endDate;
     this.common.loading++;
@@ -87,7 +88,16 @@ export class DriverPerformanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data'])
+        if (res['data'] == null) {
+
+          this.driverPerformance = [];
+          // this.click=false;
+          this.table = null;
+          return;
+
+        }
         this.driverPerformance = res['data'];
+
         console.log('tripstagesData', this.driverPerformance);
         let first_rec = this.driverPerformance[0];
         console.log("first_Rec", first_rec);

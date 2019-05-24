@@ -47,6 +47,8 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
+import { HaltDensityComponent } from './halt-density/halt-density.component';
+import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 
 
@@ -89,7 +91,7 @@ const PAGES_COMPONENTS = [
     LorryReceiptModule,
     DriverModule,
     ImageViewerModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -113,6 +115,8 @@ const PAGES_COMPONENTS = [
     FuelRulesComponent,
     PumpStationAreaComponent,
     PendingVehicleComponent,
+    HaltDensityComponent,
+    PalacementSiteRuleComponent,
     FuelAverageIssuesComponent
 
 

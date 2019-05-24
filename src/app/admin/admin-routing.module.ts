@@ -39,6 +39,8 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
+import { HaltDensityComponent } from './halt-density/halt-density.component';
+import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 
 const routes: Routes = [{
@@ -229,6 +231,16 @@ const routes: Routes = [{
         {
             path: 'pending-vehicle',
             component: PendingVehicleComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'halt-density',
+            component: HaltDensityComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'placement-site-rule',
+            component: PalacementSiteRuleComponent,
             canActivate: [RouteGuard]
         }
 
