@@ -47,7 +47,8 @@
           <thead>
             <tr>
               <th>SN</th>
-              <th> </th>
+              <th><input type="checkbox" name="checkall" id="checkall" value="1" [(ngModel)]="checkall"
+                  (ngModelChange)="checkedAll()"></th>
               <th>Start Location</th>
               <th>End Location</th>
               <th>Start Date</th>
@@ -58,7 +59,7 @@
             <tr *ngFor="let trip of trips;let i=index;">
               <td>{{i+1}}</td>
               <td>
-                <input type="checkbox" [name]="'trip-' + i" [(ngModel)]="trip.isChecked"
+                <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
                   (ngModelChange)="checkedAllSelected()">
               </td>
               <td>{{trip.start_name}}</td>

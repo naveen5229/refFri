@@ -28,6 +28,7 @@ export class VoucherSummaryComponent implements OnInit {
     name: '',
     id: 0
   };
+  checkall = false;
 
   constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
     this.getAllLedgers();
@@ -83,6 +84,22 @@ export class VoucherSummaryComponent implements OnInit {
       this.checkedTrips.push(this.trips[i]);
     }
   }
+
+
+  checkedAll() {
+    console.log('true value', this.checkall);
+    let selectedAll = '';
+    if (this.checkall) {
+      this.trips.map(trip => trip.isChecked = true);
+    } else {
+      this.trips.map(trip => trip.isChecked = false);
+    }
+    // for (var i = 0; i < this.trips.length; i++) {
+    //   this.trips[i].selected = true;
+    // }
+  }
+
+
   findFirstSelectInfo(type = 'startDate') {
     let options = {
       startDate: '',
