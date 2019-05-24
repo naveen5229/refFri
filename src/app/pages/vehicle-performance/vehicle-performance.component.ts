@@ -123,7 +123,7 @@ export class VehiclePerformanceComponent implements OnInit {
       for (let j = 0; j < this.headings.length; j++) {
         console.log("Test....", this.headings[j]);
         if (this.headings[j] === "distance") {
-          this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.vehiclePerformance[i]) };
+          this.valobj[this.headings[j]] = { value: this.vehiclePerformance[i][this.headings[j]], class: this.vehiclePerformance[i][this.headings[j]] > 0 ? 'blue' : '', action: this.vehiclePerformance[i][this.headings[j]] > 0 ? this.openRouteMapper.bind(this, this.vehiclePerformance[i]) : '' };
 
         }
         else {
