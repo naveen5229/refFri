@@ -17,7 +17,7 @@ export class PoliceStationComponent implements OnInit {
   // PoliceStation;
   lat;
   long;
-  type;
+  type = null;
   name;
   Vicinity;
   phone;
@@ -57,69 +57,69 @@ export class PoliceStationComponent implements OnInit {
 
 
   }
- 
-  getPoliceStation(){
-    
-    let params = "lat="+this.lat+
-      "&lng=" +this.long+
-      "&type=" +this.type;
 
-      console.log('params: ', params);
-      this.common.loading++;
-      this.api2.get('Location/getNearBy?'+params)
-        .subscribe(res => {
-          this.common.loading--;
-          console.log(res['data'])
-          this.dateVal=res['data'];
-         // let re=JSON.stringify(res['data']);
-          //console.log('json',re);
-          //console.log('dataval',this.dateVal);
-          let details = [];
+  getPoliceStation() {
 
-          Object.keys(this.dateVal).map(key => {
-            let detail = {
-              id: key,
-              lat: this.dateVal[key].lat,
-              long: this.dateVal[key].long,
-              name: this.dateVal[key].name,
-              Vicinity: this.dateVal[key].Vicinity,
-              phone: this.dateVal[key].phone,
-               color: 'ADFF2F',
-        
-              
-            };
-           
-            details.push(detail);
-          });
+    let params = "lat=" + this.lat +
+      "&lng=" + this.long +
+      "&type=" + this.type;
 
-          console.log('details',details);
-            
+    console.log('params: ', params);
+    this.common.loading++;
+    this.api2.get('Location/getNearBy?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res['data'])
+        this.dateVal = res['data'];
+        // let re=JSON.stringify(res['data']);
+        //console.log('json',re);
+        //console.log('dataval',this.dateVal);
+        let details = [];
 
-          if (res['success'])
-            this.common.showToast('Success');
-            this.PoliceStation = details;
-            
-            console.log("--------------",this.PoliceStation);
+        Object.keys(this.dateVal).map(key => {
+          let detail = {
+            id: key,
+            lat: this.dateVal[key].lat,
+            long: this.dateVal[key].long,
+            name: this.dateVal[key].name,
+            Vicinity: this.dateVal[key].Vicinity,
+            phone: this.dateVal[key].phone,
+            color: 'ADFF2F',
 
-             //this.PoliceStation = res['data'];
-            setTimeout(() => {
-              this.mapService.clearAll();
-              this.mapService.createMarkers(this.PoliceStation,false,true,["Vicinity","phone"]);
-              this.mapService.createMarkers(this.location,false,true);
-              this.mapService.zoomMap(10.5);
-        
-            }, 2500);
-            
-            
-            
-        }, err => {
-          this.common.loading--;
-          this.common.showError();
-        })
-        
-        
-        
-    
+
+          };
+
+          details.push(detail);
+        });
+
+        console.log('details', details);
+
+
+        if (res['success'])
+          this.common.showToast('Success');
+        this.PoliceStation = details;
+
+        console.log("--------------", this.PoliceStation);
+
+        //this.PoliceStation = res['data'];
+        setTimeout(() => {
+          this.mapService.clearAll();
+          this.mapService.createMarkers(this.PoliceStation, false, true, ["Vicinity", "phone"]);
+          this.mapService.createMarkers(this.location, false, true);
+          this.mapService.zoomMap(10.5);
+
+        }, 2500);
+
+
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
+
+
+
   }
   openSmartTool(i, value) {
     this.PoliceStation.forEach(vEvent => {

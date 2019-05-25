@@ -182,7 +182,7 @@ export class AddSiteRuleComponent implements OnInit {
       return this.common.showError("Please Fill Current Site");
     }
     if (!this.addSite.ruleTypeId) {
-      return this.common.showError("Please Fill ruleTypeId");
+      return this.common.showError("Please Fill ruleType");
     }
     let params = {
       foid: this.addSite.foid,
@@ -222,11 +222,13 @@ export class AddSiteRuleComponent implements OnInit {
 
   selectList(id) {
     this.refTypePre = parseInt(id);
+    this.addSite.preSiteId = null;
     console.log("type:", this.refTypePre);
 
   }
   selectListType(typeid) {
     this.refTypeCur = parseInt(typeid);
+    this.addSite.currSiteId = null;
     console.log("type2:", this.refTypeCur);
   }
 
