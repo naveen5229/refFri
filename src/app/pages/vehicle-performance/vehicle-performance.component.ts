@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
+import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 
 @Component({
   selector: 'vehicle-performance',
