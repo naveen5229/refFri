@@ -104,55 +104,35 @@
               <td>{{i+1}}</td>
               <td>
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
-                  (ngModelChange)="changeTotal(fuelFiling.amount,fuelFiling.id)">
+                  (ngModelChange)="changeTotal(fuelFiling.y_amount,fuelFiling.y_id)">
               </td>
-              <td>{{fuelFiling.name}}</td>
-              <td>{{fuelFiling.litres}}</td>
-              <td>{{fuelFiling.rate}}</td>
-              <td>{{fuelFiling.amount}}</td>
-              <td>{{fuelFiling.entry_time | date : 'dd-MMM-yy'}}</td>
+              <td>{{fuelFiling.y_name}}</td>
+              <td>{{fuelFiling.y_litres}}</td>
+              <td>{{fuelFiling.y_rate}}</td>
+              <td>{{fuelFiling.y_amount}}</td>
+              <td>{{fuelFiling.y_entry_time | date : 'dd-MMM-yy'}}</td>
             </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
-                </textarea>
-              </td>
-              <td>
-                <input type="text" name="total" [(ngModel)]="total">
-              </td>
-              <td> <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
-                  style="cursor: pointer;">Submit
-                </button></td>
-            </tr>
+
           </tbody>
         </table>
-        <!-- <table class="table table-bordered" id="table">
-        <thead style="background-color:#263238; color:#fff;">
-          <th>SN</th>
-          <th>Start Location</th>
-          <th>End Location</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Action</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;">
-            <td (click)="getVoucherSummary(tripVoucher)">{{i+1}}</td>
-            <td>{{tripVoucher.startloc}}</td>
-            <td>{{tripVoucher.endloc || '--'}}</td>
-            <td>{{tripVoucher.startdate | date : 'dd MMM'}}</td>
-            <td>{{tripVoucher.enddate | date : 'dd MMM'}}</td>
-            <td><i class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
-                (click)="deleteVoucherEntry(tripVoucher)"></i></td>
-          </tr>
-        </tbody>
-      </table> -->
+
+      </div>
+      <div class="row">
+        <div class="text_area_box">
+          <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
+              </textarea>
+        </div>
+        <div class="amount_box">
+          <input type="text" class="form-control" name="total" [(ngModel)]="total">
+        </div>
+        <div class="submit_btn">
+          <button class="btn btn-primary w-100" type="button" outline (click)="dismiss(true)" id="submit"
+            style="cursor: pointer;">Submit</button>
+        </div>
       </div>
     </div>
+
+
 
     <!-- <div>
       <table class="table table-bordered">

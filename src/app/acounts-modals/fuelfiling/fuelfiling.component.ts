@@ -115,10 +115,11 @@ export class FuelfilingComponent implements OnInit {
     const params = {
       vehId: this.common.params.vehId,
       lastFilling: this.common.params.lastFilling,
-      currentFilling: this.common.params.currentFilling
+      currentFilling: this.common.params.currentFilling,
+      fuelstationid: this.fuelstationid
     };
     this.common.loading++;
-    this.api.post('FuelDetails/getFillingsBwTime', params)
+    this.api.post('Fuel/getFeulfillings', params)
       .subscribe(res => {
         console.log('fuel data', res);
         this.common.loading--;
