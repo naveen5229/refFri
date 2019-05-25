@@ -5,7 +5,7 @@
         <h5>Tyre Inventory</h5>
       </div>
       <div class="col-sm-4 text-right">
-        <div class="row" *ngIf="user._loggedInBy==admin">
+        <div class="row" *ngIf="user._loggedInBy=='admin'">
           <div class="col-6 pl-0">
             <div class="upload-btn-wrapper">
               <input type="file" name="csv" (change)="handleFileSelection($event)">
