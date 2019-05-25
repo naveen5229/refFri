@@ -67,9 +67,15 @@
         No Data available !
       </div>
     </div> -->
-    <smart-table *ngIf="fuelAvgDetails.length" [data]="table.data" [settings]="table.settings"></smart-table>
-    <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvgDetails.length==0">
+    <!-- <ng-template *ngIf="fuelAvgDetails.length>0; then showTable; else showDiv"></ng-template>
+    <ng-template #showTable> -->
+    <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+    <!-- </ng-template> -->
+    <!-- <ng-template #showDiv> -->
+    <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvgDetails==null">
       No Data available !
     </div>
+    <!-- </ng-template> -->
   </nb-card-body>
 </nb-card>

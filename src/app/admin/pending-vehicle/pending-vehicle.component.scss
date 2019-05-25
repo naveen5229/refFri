@@ -225,7 +225,7 @@ table{
     width: 100%;
     table-layout: fixed;
     overflow: auto;
-    min-height:calc(100vh - 140px);
+    max-height:calc(100vh - 140px);
 }
 h6{
     margin: 15px 0px 10px;

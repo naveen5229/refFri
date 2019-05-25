@@ -16,25 +16,25 @@
                   [(ngModel)]="vehicleTrip.regno"  readonly>
               </div>
             </div> -->
-            <div class="row" style="margin-top:5px" *ngIf = "prevehicleId == -1">
-              <div class="col-md-4">
-                <label> Vehicle Regno</label>
-              </div>
-              <div class="col-md-8" style="margin-top:5px">
-                <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
-              display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
-              </div>
-            </div>
-            <div class="row" style="margin-top:5px" *ngIf = "prevehicleId != -1">
-              <div class="col-md-4">
-                <label> Vehicle Id</label>
-              </div>
-              <div class="col-md-8" style="margin-top:5px">
-                <label></label>
-              </div>
-            </div>
-  <div class="row" style="margin-top:5px">
+  <div class="row" style="margin-top:5px" *ngIf="prevehicleId == -1">
     <div class="col-md-4">
+      <label> Vehicle Regno</label>
+    </div>
+    <div class="col-md-8" style="margin-top:5px">
+      <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+        placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+    </div>
+  </div>
+  <div class="row" style="margin-top:5px" *ngIf="prevehicleId != -1">
+    <div class="col-md-4 pr-0">
+      <label> Vehicle Id</label>
+    </div>
+    <div class="col-md-8" style="margin-top:5px">
+      <label></label>
+    </div>
+  </div>
+  <div class="row" style="margin-top:5px">
+    <div class="col-md-4 pr-0">
       <label> Start Location </label>
     </div>
     <div class="col-md-8">
@@ -47,22 +47,22 @@
     </div>
   </div>
   <div class="row" style="margin-top:5px">
-    <div class="col-md-4">
+    <div class="col-md-4 pr-0">
       <label> Start Time </label>
     </div>
     <div class="col-md-8" style="margin-top:5px">
-      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')" placeholder="Select Date"
-                [value]="startTime | date: 'dd MMM yyyy'" name="date" readonly >
+      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+        placeholder="Select Date" [value]="startTime | date: 'dd MMM yyyy'" name="date" readonly>
 
       <!-- <input [(ngModel)]="startTime" [owlDateTime]="date1 " [owlDateTimeTrigger]="date1 " placeholder="Entry Time"
         class="form-control" autocomplete="off" name="startTime"> -->
       <owl-date-time #date1></owl-date-time>
-     
+
     </div>
   </div>
 
   <div class="row" style="margin-top:5px">
-    <div class="col-md-4">
+    <div class="col-md-4 pr-0">
       <label>Destination Location</label>
     </div>
     <div class="col-md-8" style="margin-top:5px">
@@ -75,21 +75,21 @@
     </div>
   </div>
   <div class="row" style="margin-top:5px">
-    <div class="col-md-4">
+    <div class="col-md-4 pr-0">
       <label>End Time</label>
     </div>
     <div class="col-md-8">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')" placeholder="Select Date"
-        [value]="targetTime | date: 'dd MMM yyyy'" name="date" readonly >
+      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+        placeholder="Select Date" [value]="targetTime | date: 'dd MMM yyyy'" name="date" readonly>
       <!-- <input [(ngModel)]="targetTime" [owlDateTime]="date " [owlDateTimeTrigger]="date " placeholder="End Time"
         class="form-control" autocomplete="off" name="targetTime">
       <owl-date-time #date></owl-date-time> -->
-      
+
     </div>
   </div>
 
   <div class="row" style="margin-top:5px">
-    <div class="col-md-4">
+    <div class="col-md-4 pr-0">
       <label>Trip Type</label>
     </div>
     <div class="col-md-8">
@@ -99,7 +99,7 @@
         <option value="2">Loading - Others</option>
         <option value="12">UnLoading - Others</option>
       </select>
-      
+
     </div>
   </div>
 </div>
@@ -109,7 +109,7 @@
       <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
     </div>
     <div class="col">
-      <button class="btn btn-primary" (click)="addTrip();" style="cursor:pointer;">Submit</button>
+      <button class="btn btn-dark" (click)="addTrip();" style="cursor:pointer;">Submit</button>
     </div>
   </div>
 </div>

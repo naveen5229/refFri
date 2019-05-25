@@ -53,13 +53,17 @@ export class PendingVehicleComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    // this.getPendingDetailsVehicle();
-    // this.getAllTypesOfBrand();
+
+    this.getPendingDetailsVehicle();
+    this.getAllTypesOfBrand();
+
+
     window.location.reload();
 
   }
 
   getPendingDetailsVehicle() {
+
     let params = "&vehicleId=" + this.vehicleId;
     this.common.loading++;
     this.api.get('vehicles/getPendingFoVehicleBrands?' + params)
@@ -67,6 +71,12 @@ export class PendingVehicleComponent implements OnInit {
         this.common.loading--;
         console.log("data", res);
         this.data = res['data'];
+        if (this.data == null) {
+          this.data = [];
+          alert("Data Not  Available");
+          return;
+
+        }
         if (this.data.length) {
           for (var key in this.data[0]) {
             if (key.charAt(0) != "_")
@@ -91,21 +101,20 @@ export class PendingVehicleComponent implements OnInit {
         console.log(err);
       });
   }
-  getAllTypesOfModel(brandId) {
+  getAllTypesOfModel(brandId, modal?) {
     let params = "&brandId=" + brandId;
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
         // this.
-        // this.modal[modal].data.modelType = this.modelType;
-        // console.log("All Type Model: ", this.modal[modal].data.modelType);
+        this.modal[modal].data.modelType = this.modelType ? this.modelType : '';
+        console.log("All Type Model: ", this.modelType);
       }, err => {
         console.log(err);
       });
   }
 
   showDetails(row, isNext?) {
-    console.log("row:", row);
     let rowData = {
       vehicle_id: row._vid,
     };
@@ -155,24 +164,14 @@ export class PendingVehicleComponent implements OnInit {
 
     if (this.modal[modal].data.document.wef_date)
       this.modal[modal].data.document.wef_date = this.common.dateFormatter(this.modal[modal].data.document.wef_date, 'ddMMYYYY').split(' ')[0];
-    if (this.modal[modal].data.document.expiry_date)
-      this.modal[modal].data.document.expiry_date = this.common.dateFormatter(this.modal[modal].data.document.expiry_date, 'ddMMYYYY').split(' ')[0];
 
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
-
-
-
-
     this.modal[modal].data.imgs = [];
+    console.log("Test :::", this.modal[modal].data.document.img_url);
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
     }
-    if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url2);
-    }
-    if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
-      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
-    }
+    console.log('-------------------------Images:', this.modal[modal].data);
     this.modal[modal].data.images = this.modal[modal].data.imgs;
     console.log('Handle Next::', isNext);
     this.getvehiclePending(modal, isNext);
@@ -184,7 +183,7 @@ export class PendingVehicleComponent implements OnInit {
     console.log('Handle Next: getvehiclePending:', isNext);
 
     console.log('Modal data: ', this.modal[modal].data);
-    let params = "&vehicleId=" + this.modal[modal].data.vehicleId;
+    let params = "vehicleId=" + this.modal[modal].data.vehicleId;
     if (isNext != -1) {
       params += '&forNext=1';
     }
@@ -192,31 +191,22 @@ export class PendingVehicleComponent implements OnInit {
     this.api.get(' vehicles/getPendingFoVehicleBrands?' + params)
       .subscribe(res => {
         console.log("pending detalis:", res);
+        let data = res['data'][0];
         this.modal[modal].data.document.id = res['data'][0]._vid;
         this.modal[modal].data.document.newRegno = res['data'][0].Vehicle;
         this.modal[modal].data.document.document_type_id = res['data'][0]._brandid;
         this.modal[modal].data.document.document_type = res['data'][0].Brand;
-        this.modal[modal].data.document.wef_date = res['data'][0]._manfdate;
+        this.modal[modal].data.document.wef_date = data._manfdate ? data._manfdate.split('-').slice(0, 2).reverse().join('/') : '';
         this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
-        this.modal[modal].data.document.img_url2 = res["data"][0].img_url2;
-        this.modal[modal].data.document.img_url3 = res["data"][0].img_url3;
-        this.modal[modal].data.document.rcImage = res["data"][0].rcimage;
-        this.modal[modal].data.document.review = res["data"][0].reviewcount;
 
-        this.modal[modal].data.document.wef_date = this.modal[modal].data.document.wef_date.split('-').slice(0, 2).reverse().join('/')
-        // add in 11-03-2018 fro check image is null
         this.modal[modal].data.images = [];
+        console.log("Here", data._rcimage, this.modal[modal].data.document.img_url);
+
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url);
         }
-        if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
-          this.modal[modal].data.images.push(this.modal[modal].data.document.img_url2);
-        }
-        if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
-          this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
-        }
+        console.log('-------------------------Images:', this.modal[modal].data);
         if (this.modal[modal].data.document.document_type_id) {
-          console.log("hiiiiiiiiiii", this.modal[modal].data.document.document_type_id, this.modal[modal]);
           this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
         }
         // console.log("msg:",res["data"][0].errormsg,);   
@@ -492,7 +482,7 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
     // console.log("doc var", this.modal[modal].data.document.document_type_id);
-    this.getAllTypesOfModel(brandType.id);
+    this.getAllTypesOfModel(brandType.id, modal);
   }
 
   selectModelType(modalType, modal) {
@@ -502,11 +492,11 @@ export class PendingVehicleComponent implements OnInit {
 
 
   isValidDocument(event, modal) {
-    let selected_doctype = event.target.value;
-    if (selected_doctype == "") {
-      this.modal[modal].data.document.document_type = "";
-      this.modal[modal].data.document.document_type_id = "";
-    }
+    // let selected_doctype = event.target.value;
+    // if (selected_doctype == "") {
+    //   this.modal[modal].data.document.document_type = "";
+    //   this.modal[modal].data.document.document_type_id = "";
+    // }
   }
 
   getDateInDisplayFormat(strdate) {
@@ -549,8 +539,7 @@ export class PendingVehicleComponent implements OnInit {
         newRegno: null,
         vehicle_id: null,
         wef_date: null,
-        img_url2: null,
-        img_url3: null
+
       },
     }
   }

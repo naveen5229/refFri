@@ -76,6 +76,12 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Palacement Site Rule',
+            icon: 'fas fa-file-signature',
+            link: '/admin/placement-site-rule',
+            home: true,
+          },
+          {
             title: 'Transport Agents',
             icon: 'fas fa-address-card',
             link: '/admin/transport-agents',
@@ -273,6 +279,12 @@ export class DataService {
             title: 'Pump Station Area',
             icon: 'fa fa-signal',
             link: '/admin/pump-station-area',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Issues',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-issues',
             home: true,
           },
         ]
