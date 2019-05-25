@@ -99,7 +99,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
       return false;
     }
     this.common.params = { title: 'Add Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno };
-    const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.vehicleMaintenanceData();
