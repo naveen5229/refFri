@@ -1,7 +1,6 @@
 <!-- <button (click)="handlePdfPrint()">pdf</button> -->
-<button class="btn btn-primary" type="button"pdf
-          (click)="generatePDF()">PDF</button>
-  <!-- <button class="btn btn-primary" type="button"pdf
+
+<!-- <button class="btn btn-primary" type="button"pdf
           (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
 
 
@@ -9,7 +8,7 @@
   <div class="status-print-title mb-2 text-center">
     <h4>Trip dashboard</h4>
   </div>
-  <div class="row" *ngIf="pdfData.primary.list.length" >
+  <div class="row" *ngIf="pdfData.primary.list.length">
     <div class="col-sm-6">
       <div style="overflow: hidden;" [hidden]="isMapView">
         <div
@@ -194,14 +193,22 @@
     </div>
   </div>
 </div>
-<nb-card *ngFor="let table of pdfData.tables; let i = index">
-  <nb-card-body>
-    <div [id]="'print-table-' + i">
-      <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings">
-      </smart-table>
-    </div>
-  </nb-card-body>
-</nb-card>
+<div mwlResizable [enableGhostResize]="true" class="map-table-container"
+  [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{
+              bottom: false,
+              right: true,
+              top: false,
+              left: false
+            }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
+  <nb-card *ngFor="let table of pdfData.tables; let i = index">
+    <nb-card-body>
+      <div [id]="'print-table-' + i" >
+        <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings">
+        </smart-table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
 
 
 
@@ -287,9 +294,8 @@
             </nb-card>
           </div>
         </div>
-        <button class="btn btn-primary" type="button"pdf
-          (click)="generatePDF()">PDF</button>
-          <!-- <button class="btn btn-primary" type="button"pdf
+        <button class="btn btn-primary" type="button" pdf (click)="generatePDF()">PDF</button>
+        <!-- <button class="btn btn-primary" type="button"pdf
           (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
       </div>
       <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">

@@ -519,7 +519,8 @@ nb-card {
 }
 
 .voucher-pdf {
-    width: 210mm;
+    width: 450px;
+    height: 600px;
     padding: 10mm;
     padding-left: 10mm;
     padding-right: 10mm;
@@ -576,4 +577,7 @@ nb-card {
 
 .CostcenterClass{
     z-index: 999999 !important;
+}
+ngb-modal-window{
+    z-index: 9999 !important;
 }

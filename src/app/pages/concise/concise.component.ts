@@ -52,9 +52,10 @@ export class ConciseComponent implements OnInit {
   allKpis = [];
   searchTxt = "";
   filters = [];
-  
+
   viewType = "showprim_status";
   viewName = "Primary Status";
+
 
   kpiGroups = null;
   kpiGroupsKeys = [];
@@ -84,7 +85,6 @@ export class ConciseComponent implements OnInit {
       key: "x_showtripend"
     }
   ];
-
   selectedFilterKey = "";
 
   table = null;
@@ -159,11 +159,11 @@ export class ConciseComponent implements OnInit {
       this.table = this.setTable();
     } else {
       this.getKPIS();
-      this.common.refresh = this.refresh.bind(this);
       this.common.currentPage = "";
     }
     this.handlePdfPrint();
-   // this.generatePDF();
+    this.common.refresh = this.refresh.bind(this);
+    // this.generatePDF();
   }
 
   ngOnInit() {
@@ -216,6 +216,7 @@ export class ConciseComponent implements OnInit {
         this.kpis = res["data"];
         this.grouping(this.viewType);
         this.table = this.setTable();
+        this.cookPdfData();
       },
       err => {
         !isRefresh && this.common.loading--;
@@ -1211,17 +1212,19 @@ export class ConciseComponent implements OnInit {
     this.pdfData.tripEnd.list.splice(5, this.pdfData.tripEnd.list.length - 1);
 
     console.log('PDF Data: ', this.pdfData);
-    // this.viewType = lastActive.key;
-    // this.viewName = lastActive.name;
-    // this.grouping(this.viewType);
+    this.viewType = lastActive.key;
+    this.viewName = lastActive.name;
+    this.grouping(this.viewType);
 
 
   }
 
   generatePDF() {
-    this.pdfData.tables = [];
-    this.pdfData.primary.list = [];
-    console.log("list------------------",this.pdfData.primary.list);
+    setTimeout(()=>{ 
+      this.common.loading++;
+      this.pdfData.tables = [];
+    let data = this.pdfData.primary.list;
+    console.log("list123------------------", this.pdfData.primary.list);
     console.log('KPIS:', this.primaryStatus);
     this.primaryStatus.map(status => {
       let kpis = [];
@@ -1230,16 +1233,59 @@ export class ConciseComponent implements OnInit {
       });
       console.log('----------------------------PDF Tables:', kpis);
       this.pdfData.tables.push(this.setTable(kpis))
+    });
+
+    this.common.loading++;
+    const tableId = [];
+    this.pdfData.tables.map((table, index) => {
+      tableId.push(`print-table-${index}`);
     })
-
-    // this.primarySubStatus.map(stausData => {
-    //   console.log('KPIS:', stausData);
-    //   console.log('KPIS:', this.setTable(stausData.kpis));
-    //   this.pdfData.tables.push(this.setTable(stausData.kpis));
-
-    // });
+    console.log("tableId", tableId);
     console.log('----------------------------PDF Tables:', this.pdfData);
-     this.pdfService.tableWithImages('page-1', ['print-table-0','print-table-1','print-table-2','print-table-3','print-table-4']);
+    this.common.loading--;
+    this.pdfService.tableWithImages('page-1', tableId, data);
+     
+    }, 100);
+    this.common.loading--;
+    
   }
 
+  cookPdfData() {
+    let lastActive = {
+      key: this.viewType,
+      name: this.viewName
+
+    };
+
+    let statuses = ['primary', 'secondary', 'tripStart', 'tripEnd'];
+    // this.viewType = 'showprim_status';
+    // this.grouping(this.viewType);
+    // console.log('Data:', this.chartData, this.changeOptions);
+
+
+    statuses.map(status => {
+      console.log(status, this.pdfData);
+      console.log('this.pdfData[status]', this.pdfData[status]);
+      this.viewType = this.pdfData[status].key;
+
+      this.grouping(this.viewType);
+      console.log('this.pdfData[status]', this.pdfData[status]);
+      console.log('Chafrt:::::::', JSON.stringify(this.chartData));
+      this.pdfData[status].chartData = Object.assign({}, this.chartData);
+      this.pdfData[status].chartOptions = Object.assign({}, this.chartOptions);
+      if (status == 'primary') this.pdfData[status].list = this.primaryStatus;
+      else {
+        this.pdfData[status].list = this.kpiGroupsKeys;
+        this.pdfData[status].kpiGroups = this.kpiGroups;
+      }
+    });
+
+    this.pdfData.tripStart.list.splice(5, this.pdfData.tripStart.list.length - 1);
+    this.pdfData.tripEnd.list.splice(5, this.pdfData.tripEnd.list.length - 1);
+
+    console.log('PDF Data: ', this.pdfData);
+    this.viewType = lastActive.key;
+    this.viewName = lastActive.name;
+    this.grouping(this.viewType);
+  }
 }
