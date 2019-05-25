@@ -1,5 +1,4 @@
 <!-- <button (click)="handlePdfPrint()">pdf</button> -->
-<<<<<<< HEAD
 
 <!-- <button class="btn btn-primary" type="button"pdf
           (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
@@ -10,13 +9,6 @@
     <h4>Trip dashboard</h4>
   </div>
   <div class="row" *ngIf="pdfData.primary.list.length">
-=======
-<!-- <button class="btn btn-primary" type="button"
-  (click)="pdfService.tableWithImages(['page-1', 'page-2'], 'print-section')">PDF</button> -->
-
-<!-- <div class="status-print-view" id="status-print-view">
-  <div class="row" *ngIf="pdfData.primary.list.length" id="page-1">
->>>>>>> dev
     <div class="col-sm-6">
       <div style="overflow: hidden;" [hidden]="isMapView">
         <div
@@ -33,7 +25,7 @@
         </div>
         <div class="status_box">
           <div class="graph-data">
-          >
+            >
             <nb-card *ngFor="let status of pdfData.primary.list; let i = index">
               <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -65,7 +57,7 @@
         </div>
         <div class="status_box">
           <div class="graph-data">
-          
+
             <nb-card *ngFor="let group of pdfData.secondary.list; let i = index">
               <nb-card-body style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -106,7 +98,7 @@
         </div>
         <div class="status_box">
           <div class="">
-           
+
             <nb-card *ngFor="let group of pdfData.tripStart.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -137,7 +129,7 @@
 
         <div class="status_box">
           <div class="">
-          
+
             <nb-card *ngFor="let group of pdfData.tripEnd.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -154,7 +146,6 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
 </div>
 <div mwlResizable [enableGhostResize]="true" class="map-table-container"
   [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{
@@ -165,16 +156,13 @@
             }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
   <nb-card *ngFor="let table of pdfData.tables; let i = index">
     <nb-card-body>
-      <div [id]="'print-table-' + i" >
+      <div [id]="'print-table-' + i">
         <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings">
         </smart-table>
       </div>
     </nb-card-body>
   </nb-card>
 </div>
-=======
-</div> -->
->>>>>>> dev
 
 
 

@@ -161,14 +161,8 @@ export class ConciseComponent implements OnInit {
       this.getKPIS();
       this.common.currentPage = "";
     }
-<<<<<<< HEAD
-    this.handlePdfPrint();
-    this.common.refresh = this.refresh.bind(this);
-    // this.generatePDF();
-=======
     this.common.refresh = this.refresh.bind(this);
     // this.handlePdfPrint();
->>>>>>> dev
   }
 
   ngOnInit() {
@@ -1225,34 +1219,34 @@ export class ConciseComponent implements OnInit {
   }
 
   generatePDF() {
-    setTimeout(()=>{ 
+    setTimeout(() => {
       this.common.loading++;
       this.pdfData.tables = [];
-    let data = this.pdfData.primary.list;
-    console.log("list123------------------", this.pdfData.primary.list);
-    console.log('KPIS:', this.primaryStatus);
-    this.primaryStatus.map(status => {
-      let kpis = [];
-      Object.keys(status['subStatus']).map(key => {
-        kpis.push(...status['subStatus'][key]);
+      let data = this.pdfData.primary.list;
+      console.log("list123------------------", this.pdfData.primary.list);
+      console.log('KPIS:', this.primaryStatus);
+      this.primaryStatus.map(status => {
+        let kpis = [];
+        Object.keys(status['subStatus']).map(key => {
+          kpis.push(...status['subStatus'][key]);
+        });
+        console.log('----------------------------PDF Tables:', kpis);
+        this.pdfData.tables.push(this.setTable(kpis))
       });
-      console.log('----------------------------PDF Tables:', kpis);
-      this.pdfData.tables.push(this.setTable(kpis))
-    });
 
-    this.common.loading++;
-    const tableId = [];
-    this.pdfData.tables.map((table, index) => {
-      tableId.push(`print-table-${index}`);
-    })
-    console.log("tableId", tableId);
-    console.log('----------------------------PDF Tables:', this.pdfData);
-    this.common.loading--;
-    this.pdfService.tableWithImages('page-1', tableId, data);
-     
+      this.common.loading++;
+      const tableId = [];
+      this.pdfData.tables.map((table, index) => {
+        tableId.push(`print-table-${index}`);
+      })
+      console.log("tableId", tableId);
+      console.log('----------------------------PDF Tables:', this.pdfData);
+      this.common.loading--;
+      this.pdfService.tableWithImages('page-1', tableId, data);
+
     }, 100);
     this.common.loading--;
-    
+
   }
 
   cookPdfData() {
