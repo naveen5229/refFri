@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
 import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'inventory',
@@ -12,7 +13,7 @@ import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-
   styleUrls: ['./inventory.component.scss', '../../pages/pages.component.css', '../tyres.component.css']
 })
 export class InventoryComponent implements OnInit {
-
+  csv = null;
   inventories = [{
     modelName: null,
     modelId: null,
@@ -64,7 +65,9 @@ export class InventoryComponent implements OnInit {
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
+    public user: UserService
   ) {
+    console.log("user", user._loggedInBy);
     this.searchData();
   }
 
@@ -213,6 +216,59 @@ export class InventoryComponent implements OnInit {
     this.inventories[index].psi = null;
   }
 
+
+
+  handleFileSelection(event) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+
+
+        let file = event.target.files[0];
+        console.log("Type", file.type);
+        if (file.type != "application/vnd.ms-excel") {
+          alert("valid Format Are : CSV");
+          return false;
+        }
+
+        res = res.toString().replace('vnd.ms-excel', 'csv');
+        console.log('Base 64: ', res);
+        this.csv = res;
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
+  }
+
+  importCsv() {
+    const params = {
+      inventoryCsv: this.csv,
+
+    };
+
+    if (!params.inventoryCsv) {
+      return this.common.showError("Select csv");
+    }
+    console.log("Data :", params);
+
+    this.common.loading++;
+    this.api.post('Tyres/importTyreInventoryCsv ', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("upload result", res);
+        let successData = res['data']['s'];
+        let errorData = res['data']['f'];
+        console.log("error: ", errorData);
+        alert(res["msg"]);
+        // this.common.params = { apiData: params, successData, errorData, title: 'Fuel csv Verification' };
+        // const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
 }
 
