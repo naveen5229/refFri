@@ -15,9 +15,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class PendingVehicleComponent implements OnInit {
 
   data = [];
-  userdata = [];
   columns = [];
-  columns2 = []
 
   modal = {
     active: '',
@@ -53,16 +51,17 @@ export class PendingVehicleComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-
+    this.columns = [];
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
 
 
-    window.location.reload();
+    // window.location.reload();
 
   }
 
   getPendingDetailsVehicle() {
+    
 
     let params = "&vehicleId=" + this.vehicleId;
     this.common.loading++;
