@@ -170,6 +170,12 @@ export class PendingVehicleComponent implements OnInit {
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
     }
+    if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
+      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url2);
+    }
+    if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
+      this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url3);
+    }
     console.log('-------------------------Images:', this.modal[modal].data);
     this.modal[modal].data.images = this.modal[modal].data.imgs;
     console.log('Handle Next::', isNext);
@@ -197,12 +203,20 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.document_type = res['data'][0].Brand;
         this.modal[modal].data.document.wef_date = data._manfdate ? data._manfdate.split('-').slice(0, 2).reverse().join('/') : '';
         this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
+        this.modal[modal].data.document.img_url2 = res["data"][0]._rcimage2;
+        this.modal[modal].data.document.img_url3 = res["data"][0]._rcimage3;
 
         this.modal[modal].data.images = [];
         console.log("Here", data._rcimage, this.modal[modal].data.document.img_url);
 
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url);
+        }
+        if (this.modal[modal].data.document.img_url2 != "undefined" && this.modal[modal].data.document.img_url2) {
+          this.modal[modal].data.images.push(this.modal[modal].data.document.img_url2);
+        }
+        if (this.modal[modal].data.document.img_url3 != "undefined" && this.modal[modal].data.document.img_url3) {
+          this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
         }
         console.log('-------------------------Images:', this.modal[modal].data);
         if (this.modal[modal].data.document.document_type_id) {
@@ -534,6 +548,8 @@ export class PendingVehicleComponent implements OnInit {
         modelTypeId: null,
         id: null,
         img_url: null,
+        img_url2: null,
+        img_url3: null,
         regno: null,
         newRegno: null,
         vehicle_id: null,
