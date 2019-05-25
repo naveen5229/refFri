@@ -62,12 +62,14 @@ export class InventoryComponent implements OnInit {
   models = [];
   sizeSuggestion = [];
   searchedTyreDetails = [];
+  userType = null;
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     public user: UserService
   ) {
     console.log("user", user._loggedInBy);
+    this.userType = this.common.user._loggedInBy;
     this.searchData();
   }
 
