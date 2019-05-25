@@ -460,7 +460,7 @@ export class PdfService {
         if (index < result.length - 1) pdf.addPage()
       });
       // pdf.save('report.pdf'); // Generated PDF
-
+     
       pdf.addPage();
       /**************** LOGO Creation *************** */
       let eltimg = document.createElement("img");
@@ -469,8 +469,8 @@ export class PdfService {
       /**************** PDF Size ***************** */
       let maxHeadingLength = 0;
       let pageOrientation = "Portrait";
-
-      // const status = ["onward", "issue", "available", "loading", "unloading"];
+   
+     // const status = ["onward", "issue", "available", "loading", "unloading"];
       tableIds.map((tableId, index) => {
         let tablesHeadings = [];
         let tablesRows = [];
@@ -482,7 +482,7 @@ export class PdfService {
         pdf = this.addTableInDoc(pdf, tablesHeadings, tablesRows);
         pdf.addPage();
       });
-      // this.common.loading--;
+     // this.common.loading--;
       pdf.save("table-with-images.pdf");
     });
   }

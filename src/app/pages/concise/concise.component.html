@@ -5,7 +5,7 @@
 
 
 <div class="status-print-view pt-0" id="page-1">
-  <div class="status-print-title mb-2 text-center">
+  <div class="status-print-title text-center" style="padding: 20px 0px;">
     <h4>Trip dashboard</h4>
   </div>
   <div class="row" *ngIf="pdfData.primary.list.length">
@@ -25,7 +25,20 @@
         </div>
         <div class="status_box">
           <div class="graph-data">
-            >
+            <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="row m-0">
+                            <div class="col-sm-1 p-0">
+                              <div
+                                style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                              </div>
+                            </div>
+                            <div class="col-sm-11">
+                              <p class="all_data m-0">All Data ({{ allKpis.length }})</p>
+                            </div>
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
             <nb-card *ngFor="let status of pdfData.primary.list; let i = index">
               <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
@@ -57,14 +70,25 @@
         </div>
         <div class="status_box">
           <div class="graph-data">
-
+            <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="col-sm-1 p-0">
+                            <div
+                              style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                            </div>
+                          </div>
+                          <div class="col-sm-11">
+                            All Data ({{ allKpis.length }})
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
             <nb-card *ngFor="let group of pdfData.secondary.list; let i = index">
               <nb-card-body style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
-                <div class="col-sm-9 pr-0">
+                <div class="col-sm-11 pr-0">
                   {{ group.name | titlecase }} ({{ pdfData.secondary.kpiGroups[group.name].length }})
                 </div>
               </nb-card-body>
@@ -98,14 +122,25 @@
         </div>
         <div class="status_box">
           <div class="">
-
+            <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="col-sm-1 p-0">
+                            <div
+                              style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                            </div>
+                          </div>
+                          <div class="col-sm-11">
+                            All Data ({{ allKpis.length }})
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
             <nb-card *ngFor="let group of pdfData.tripStart.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
-                <div class="col-sm-9 pr-0">
+                <div class="col-sm-11 pr-0">
                   {{ group.name | titlecase }} ({{ pdfData.tripStart.kpiGroups[group.name].length }})
                 </div>
               </nb-card-body>
@@ -129,14 +164,25 @@
 
         <div class="status_box">
           <div class="">
-
+            <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="col-sm-1 p-0">
+                            <div
+                              style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                            </div>
+                          </div>
+                          <div class="col-sm-11">
+                            All Data ({{ allKpis.length }})
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
             <nb-card *ngFor="let group of pdfData.tripEnd.list; let i = index">
               <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
                 <div class="col-sm-1 p-0">
                   <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
                     [ngStyle]="{ 'background-color': group.bgColor }"></div>
                 </div>
-                <div class="col-sm-9 pr-0">
+                <div class="col-sm-11 pr-0">
                   {{ group.name | titlecase }} ({{ pdfData.tripEnd.kpiGroups[group.name].length }})
                 </div>
               </nb-card-body>
@@ -149,11 +195,11 @@
 </div>
 <div mwlResizable [enableGhostResize]="true" class="map-table-container"
   [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{
-              bottom: false,
-              right: true,
-              top: false,
-              left: false
-            }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
+                        bottom: false,
+                        right: true,
+                        top: false,
+                        left: false
+                      }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
   <nb-card *ngFor="let table of pdfData.tables; let i = index">
     <nb-card-body>
       <div [id]="'print-table-' + i">
@@ -163,6 +209,9 @@
     </nb-card-body>
   </nb-card>
 </div>
+
+
+
 
 
 
@@ -248,7 +297,7 @@
             </nb-card>
           </div>
         </div>
-        <button class="btn btn-primary" type="button" pdf (click)="generatePDF()">PDF</button>
+        <button class="btn btn-primary pdf-print" type="button" pdf (click)="generatePDF()"><i class="fa fa-file-pdf"></i></button>
         <!-- <button class="btn btn-primary" type="button"pdf
           (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
       </div>

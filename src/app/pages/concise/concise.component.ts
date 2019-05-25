@@ -161,8 +161,8 @@ export class ConciseComponent implements OnInit {
       this.getKPIS();
       this.common.currentPage = "";
     }
+    this.handlePdfPrint();
     this.common.refresh = this.refresh.bind(this);
-    // this.handlePdfPrint();
   }
 
   ngOnInit() {
@@ -1223,7 +1223,7 @@ export class ConciseComponent implements OnInit {
       this.common.loading++;
       this.pdfData.tables = [];
       let data = this.pdfData.primary.list;
-      console.log("list123------------------", this.pdfData.primary.list);
+      console.log("list123------------------", data);
       console.log('KPIS:', this.primaryStatus);
       this.primaryStatus.map(status => {
         let kpis = [];

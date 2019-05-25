@@ -15,11 +15,14 @@
     font-size: 12px;
 }
 .graph-data nb-card nb-card-body{
-    padding: 10px;
+    padding: 15px 10px;
     display: block;
 }
 .status-print-view{
     padding: 15px;
+    height: 310mm;
+    font-size: 24px;
+    
    
 }
 .all_data{
@@ -28,13 +31,15 @@
 .status-print-view .dashboard_chart {
     width: 60%;
     margin: 0 auto;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    margin-top: 16px;
 }
 .truck-route{
     position: relative;
     width: 80%;
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    margin-top: 20px;
 }
 .truck_road{
     display: block;
@@ -83,4 +88,6 @@
 .status-print-title h4{
     font-weight: bold;
     color: #55a1ff;
+    font-size: 28px;
+    margin: 0px;
 }
