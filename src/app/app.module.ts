@@ -157,6 +157,7 @@ import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/err
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
+import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -275,7 +276,8 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
-    CostCenterViewComponent
+    CostCenterViewComponent,
+    FuelfilingComponent
 
   ],
   entryComponents: [
@@ -391,7 +393,8 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
-    CostCenterViewComponent
+    CostCenterViewComponent,
+    FuelfilingComponent
   ],
   imports: [
     BrowserModule,

@@ -28,9 +28,14 @@ export class VoucherSummaryComponent implements OnInit {
     name: '',
     id: 0
   };
+  date = this.common.dateFormatternew(new Date()).split(' ')[0];
+  custcode = '';
   checkall = false;
 
-  constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
+  constructor(public api: ApiService,
+    public common: CommonService,
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
     this.getAllLedgers();
     this.trips = this.common.params.tripDetails;
     this.VehicleId = this.common.params.vehId;
@@ -311,8 +316,9 @@ export class VoucherSummaryComponent implements OnInit {
     });
 
     let params = {
-      customercode: this.VehicleId,
-      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      //  customercode: this.VehicleId,
+      customercode: this.custcode,
+      date: this.date,
       foid: '',
       remarks: "test",
       vouchertypeid: '-9',

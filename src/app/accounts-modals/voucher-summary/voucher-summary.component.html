@@ -24,17 +24,30 @@
             <option *ngFor="let ledger of ledgers" [value]="ledger.id">{{ledger.name}}</option>
           </select>
         </div> -->
+        <div class="col-8">
+          <div class="row">
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Ref</label>
+              <input autocomplete="off" type="text" id="custcode" class="form-control" name="custcode"
+                [(ngModel)]="custcode">
+            </div>
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Date</label>
+              <input autocomplete="off" type="text" id="date" class="form-control" name="date" [(ngModel)]="date">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Ledger</label>
+              <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
+                [(ngModel)]="creditLedger">
+            </div>
 
-        <div class="form-group col-5">
-          <label class="tjr-label">Ledger</label>
-          <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
-            [(ngModel)]="creditLedger">
+            <div class="col-3 pl-0 mt-6 ">
+              <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
+            </div>
+          </div>
         </div>
-
-        <div class="col-3 pl-0 mt-4">
-          <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
-        </div>
-
         <div class="auto-sugg col-4">
           <div class="form-group">
             <auto-suggetion-in-side [data]="ledgers" targetId="creditLedger" display="name"

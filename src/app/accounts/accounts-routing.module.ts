@@ -32,6 +32,7 @@ import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
 import { VouchereditedComponent } from './voucheredited/voucheredited.component';
+import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
 
 const routes: Routes = [{
     path: '',
@@ -172,6 +173,10 @@ const routes: Routes = [{
         {
             path: 'voucheredited',
             component: VouchereditedComponent
+        },
+        {
+            path: 'fuelfillings',
+            component: FuelfillingsComponent
         }
     ],
 
