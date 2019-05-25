@@ -17,7 +17,7 @@ export class PoliceStationComponent implements OnInit {
   // PoliceStation;
   lat;
   long;
-  type;
+  type = null;
   name;
   Vicinity;
   phone;
@@ -57,7 +57,7 @@ export class PoliceStationComponent implements OnInit {
 
 
   }
-  tempData = [];
+
   getPoliceStation() {
 
     let params = "lat=" + this.lat +
@@ -105,10 +105,10 @@ export class PoliceStationComponent implements OnInit {
         setTimeout(() => {
           this.mapService.clearAll();
           this.mapService.createMarkers(this.PoliceStation, false, true, ["Vicinity", "phone"]);
-          this.mapService.createMarkers(this.location, false, false);
+          this.mapService.createMarkers(this.location, false, true);
           this.mapService.zoomMap(10.5);
 
-        }, 1000);
+        }, 2500);
 
 
 

@@ -18,6 +18,7 @@ import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
+  showTable = false;
   dates = {
     start: this.common.dateFormatter(new Date()).split(' ')[0],
     end: this.common.dateFormatter(new Date()).split(' ')[0]
@@ -45,12 +46,18 @@ export class FuelAverageAnalysisComponent implements OnInit {
       endTime: this.dates.end,
       foId: null,
     };
-    this.api.post('FuelDetails/getFuelFillingsAverage', params)
+    this.api.post('FuelDetails/getVehicleFuelFillingAvg', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
         this.fuelAvgDetails = res['data'];
-        this.table = this.setTable();
+        if (this.fuelAvgDetails != null) {
+          this.showTable = true;
+          this.table = this.setTable();
+        } else {
+          this.common.showToast('No Record Found!!');
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);

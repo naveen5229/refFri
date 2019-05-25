@@ -41,6 +41,8 @@ import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.com
 import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
+import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -228,6 +230,10 @@ const routes: Routes = [{
   {
     path: 'trip-verify-states',
     component: TripVerifyStatesComponent,
+  },
+  {
+    path: 'vehicle-performance',
+    component: VehiclePerformanceComponent
   }
   ],
 }];

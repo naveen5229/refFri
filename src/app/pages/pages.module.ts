@@ -55,6 +55,7 @@ import { AdminModule } from '../admin/admin.module';
 import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.component';
 import { SharedModule } from '../shared.module';
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
+import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
 
 
 const PAGES_COMPONENTS = [
@@ -111,6 +112,7 @@ const PAGES_COMPONENTS = [
     onwardKmpdComponent,
     VehicleTripStagesComponent,
     TripVerifyStatesComponent,
+    VehiclePerformanceComponent,
     // CustomDatePipe
   ],
   exports: [

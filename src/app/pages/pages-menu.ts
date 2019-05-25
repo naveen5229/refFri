@@ -150,7 +150,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/onward-kmpd',
         home: true,
       },
-
+      {
+        title: 'Vehicle Performance',
+        icon: 'fas fa-truck-pickup',
+        link: '/pages/vehicle-performance',
+        home: true,
+      },
     ]
   },
 

@@ -322,11 +322,11 @@ export class CommonService {
       legend: false
     };
 
-    setTimeout(() => {
-      console.log(document.getElementsByTagName("canvas")[0]);
-      document.getElementsByTagName("canvas")[0].style.width = "80px";
-      document.getElementsByTagName("canvas")[0].style.height = "180px";
-    }, 10);
+    // setTimeout(() => {
+    //   console.log(document.getElementsByTagName("canvas")[0]);
+    //   document.getElementsByTagName("canvas")[0].style.width = "80px";
+    //   document.getElementsByTagName("canvas")[0].style.height = "180px";
+    // }, 10);
 
     return { chartData, chartOptions };
   }
@@ -725,8 +725,8 @@ export class CommonService {
   }
 
   downloadPdf(divId) {
-    var data = document.getElementById('print-section');
-    // console.log("data",data);
+    var data = document.getElementById(divId);
+    console.log("data",data);
     html2canvas(data).then(canvas => {
       // Few necessary setting options  
       var imgWidth = 208;

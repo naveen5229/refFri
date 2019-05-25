@@ -3,13 +3,12 @@ import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
 import { CommonService } from '../common.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
 
-  constructor() { }
+  constructor(public common: CommonService) { }
 
   mutliTablePdfWithId(tableIds) {
     let tablesHeadings = [];
@@ -394,6 +393,103 @@ export class PdfService {
     });
 
     return html;
+  }
+
+  multiImagePdf(ids) {
+    let promises = [];
+    ids.map(id => {
+      let element = document.getElementById(id);
+      promises.push(html2canvas(element, { scale: 2 }));
+    });
+    this.common.loading++;
+    Promise.all(promises).then(result => {
+      console.log('Result:', result);
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      result.map((canvas, index) => {
+        pdf = this.addImageToPdf(canvas, pdf, index);
+        if (index < result.length - 1) pdf.addPage()
+      });
+      pdf.save('report.pdf'); // Generated PDF
+      this.common.loading--;
+    });
+
+  }
+
+  addImageToPdf(canvas, pdf, position, width?, height?) {
+    var imgWidth = width || 208;
+    var pageHeight = 295;
+    var imgHeight = height || (canvas.height * imgWidth / canvas.width);
+    var heightLeft = imgHeight;
+
+    const context = canvas.getContext('2d');
+    context.scale(2, 2);
+    context['dpi'] = 144;
+    context['imageSmoothingEnabled'] = false;
+    context['mozImageSmoothingEnabled'] = false;
+    context['oImageSmoothingEnabled'] = false;
+    context['webkitImageSmoothingEnabled'] = false;
+    context['msImageSmoothingEnabled'] = false;
+
+    const contentDataURL = canvas.toDataURL('image/png')
+    pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
+    return pdf;
+  }
+
+  tableWithImages(ids, tableId) {
+    this.common.loading++;
+    let promises = [];
+    ids.map(id => {
+      let element = document.getElementById(id);
+      promises.push(html2canvas(element, { scale: 2 }));
+    });
+
+    Promise.all(promises).then(result => {
+      console.log('Result:', result);
+      let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
+      result.map((canvas, index) => {
+        pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
+        if (index < result.length - 1) pdf.addPage()
+      });
+      // pdf.save('report.pdf'); // Generated PDF
+      this.common.loading--;
+      pdf.addPage();
+
+      let tablesHeadings = [];
+      let tablesRows = [];
+      let tableIds = [tableId];
+      tableIds.map(tableId => {
+        tablesHeadings.push(this.findTableHeadings(tableId));
+        tablesRows.push(this.findTableRows(tableId));
+      });
+
+      /**************** LOGO Creation *************** */
+      let eltimg = document.createElement("img");
+      eltimg.src = "assets/images/elogist.png";
+      eltimg.alt = "logo";
+
+      /**************** PDF Size ***************** */
+      let maxHeadingLength = 0;
+      tablesHeadings.map(tableHeadings => {
+        if (maxHeadingLength < tableHeadings.length)
+          maxHeadingLength = tableHeadings.length;
+      });
+      let pageOrientation = "Portrait";
+      if (maxHeadingLength > 7) {
+        pageOrientation = "Landscape";
+      }
+
+      // let doc = new jsPDF({
+      //   orientation: pageOrientation,
+      //   unit: "px",
+      //   format: "a4"
+      // });
+
+      tablesHeadings.map((tableHeadings, index) => {
+        pdf = this.addTableInDoc(pdf, tableHeadings, tablesRows[index]);
+      });
+
+      pdf.save("table-with-images.pdf");
+    });
   }
 
 
