@@ -25,6 +25,7 @@ export class FuelfilingComponent implements OnInit {
     name: '',
     id: 0
   };
+  fuelstationid = 0;
   storeids = [];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
@@ -110,6 +111,7 @@ export class FuelfilingComponent implements OnInit {
 
   getFuelFillings() {
     console.log('params model', this.common.params);
+    this.fuelstationid = this.common.params.fuelstationid.id;
     const params = {
       vehId: this.common.params.vehId,
       lastFilling: this.common.params.lastFilling,
@@ -251,7 +253,8 @@ export class FuelfilingComponent implements OnInit {
 
     const params = {
       vchId: vcid,
-      fuelids: this.storeids
+      fuelids: this.storeids,
+      fuestation: this.fuelstationid
     };
     this.common.loading++;
     this.api.post('FuelDetails/getUpdateFuelIds', params)
