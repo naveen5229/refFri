@@ -3,7 +3,6 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
-import { RemarkModalComponent } from '../../modals/remark-modal/remark-modal.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 
@@ -43,7 +42,6 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.common.refresh = this.refresh.bind(this);
-    //this.common.currentPage = 'Pending Vehicle Documents';
   }
 
   ngOnInit() {
@@ -54,15 +52,9 @@ export class PendingVehicleComponent implements OnInit {
     this.columns = [];
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
-
-
-    // window.location.reload();
-
   }
 
   getPendingDetailsVehicle() {
-
-
     let params = "&vehicleId=" + this.vehicleId;
     this.common.loading++;
     this.api.get('vehicles/getPendingFoVehicleBrands?' + params)
@@ -105,7 +97,6 @@ export class PendingVehicleComponent implements OnInit {
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
-        // this.
         this.modal[modal].data.modelType = this.modelType ? this.modelType : '';
         console.log("All Type Model: ", this.modelType);
       }, err => {
@@ -117,31 +108,26 @@ export class PendingVehicleComponent implements OnInit {
     let rowData = {
       vehicle_id: row._vid,
     };
-    console.log("Model  Id:", rowData);
-    console.log('Handle Next::', isNext);
+
     this.modalOpenHandling({ rowData, title: 'Update Vehicle', canUpdate: 1 }, isNext);
   }
 
   modalOpenHandling(params, isNext?) {
-    console.log('Handler Start: ', this.modal.active);
     if (!this.modal.active) {
       this.modal.first.class = 'custom-active-modal';
       this.modal.first.show = true;
       this.handleModalData('first', params, isNext);
       this.modal.active = 'first';
-      console.log('Handle Next::', isNext);
     } else if (this.modal.active == 'first') {
       this.modal.second.class = 'custom-passive-modal';
       this.modal.second.show = true;
       this.handleModalData('second', params, isNext);
       this.modal.active = 'first';
-      console.log('Handle Next::', isNext);
     } else if (this.modal.active == 'second') {
       this.modal.first.class = 'custom-passive-modal';
       this.modal.first.show = true;
       this.handleModalData('first', params, isNext);
       this.modal.active = 'second';
-      console.log('Handle Next::', isNext);
 
     }
     console.log('Handler End: ', this.modal.active);
@@ -159,14 +145,12 @@ export class PendingVehicleComponent implements OnInit {
 
     this.modal[modal].data.document = params.rowData;
     this.modal[modal].data.vehicleId = params.rowData.vehicle_id;
-    console.log("Modal Data........", this.modal[modal].data.vehicleId);
 
     if (this.modal[modal].data.document.wef_date)
       this.modal[modal].data.document.wef_date = this.common.dateFormatter(this.modal[modal].data.document.wef_date, 'ddMMYYYY').split(' ')[0];
 
     this.modal[modal].data.vehicleId = this.modal[modal].data.document.vehicle_id;
     this.modal[modal].data.imgs = [];
-    console.log("Test :::", this.modal[modal].data.document.img_url);
     if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
       this.modal[modal].data.imgs.push(this.modal[modal].data.document.img_url);
     }
@@ -185,7 +169,6 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   getvehiclePending(modal, isNext?) {
-    console.log('Handle Next: getvehiclePending:', isNext);
 
     console.log('Modal data: ', this.modal[modal].data);
     let params = "vehicleId=" + this.modal[modal].data.vehicleId;
@@ -207,7 +190,6 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.img_url3 = res["data"][0]._rcimage3;
 
         this.modal[modal].data.images = [];
-        console.log("Here", data._rcimage, this.modal[modal].data.document.img_url);
 
         if (this.modal[modal].data.document.img_url != "undefined" && this.modal[modal].data.document.img_url) {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url);
@@ -333,8 +315,7 @@ export class PendingVehicleComponent implements OnInit {
 
     if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
       let document = this.modal[modal].data.document;
-      // let date = "-01";
-      // document.wef_date = document.wef_date + date;
+
       let newDate = document.wef_date.split('/').reverse().join('-') + '-01';
       console.log("date:::::", document.wef_date, newDate);
       const params = {
@@ -343,7 +324,6 @@ export class PendingVehicleComponent implements OnInit {
         brandId: document.document_type_id,
         modelId: document.modalTypeId,
         manufacturingDate: newDate,
-        // x_remarks: document.remarks,
       };
       console.log("Params is", params);
 
@@ -386,17 +366,6 @@ export class PendingVehicleComponent implements OnInit {
         this.common.showError("Please check the Expiry Date validity");
         return false;
       }
-
-      // if (document.wef_date) {
-      //   params.manufacturingDate = document.wef_date.split("/").reverse().join("-");
-      //   let strdt = new Date(params.manufacturingDate);
-      //   if (isNaN(strdt.getTime())) {
-      //     this.common.showError("Invalid Wef Date. Date formats should be DD/MM/YYYY");
-      //     return false;
-      //   }
-      // }
-
-
       this.common.loading++;
       let response;
       this.api.post('Vehicles/updateVehicleModal', params)
@@ -437,7 +406,6 @@ export class PendingVehicleComponent implements OnInit {
 
         this.updateVehicle(this.modal.active, review, confirm);
 
-        //  console.log("cofirm data response:",data.response);
       }
     });
   }
@@ -574,8 +542,6 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document[dateType] = month + '/' + year;
     console.log('Date: ', this.modal[modal].data.document[dateType]);
   }
-
-
 
 }
 
