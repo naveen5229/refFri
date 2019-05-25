@@ -19,43 +19,74 @@ export class AddMaintenanceComponent implements OnInit {
   isFormSubmit = false;
   vehicleId = null;
   regno = null;
+  serviceType = [];
+  serviceId = null;
   typeId = null;
-  maintenanceType = [];
-  nextMaintDate: any;
-  currentMaintDate: any;
-  nextVehicleKm = null;
-  remark: any;
-  currentVehicleKm = null;
-  maintLocation: any;
-  amount = null;
-  selectedMT: string = '';
+  serviceDetails = {
+    lastServiceDate: null,
+    serviceCategory: '1',
+    lastServiceKm: null,
+    nextServiceDate: null,
+    nextServiceKm: null,
+    serviceCenter: null,
+    serviceLocation: null,
+    amount: null,
+    remark: null,
+  }
+  services = [{
+    serviceType: null,
+    nextServiceKm: null,
+    nextServiceDate: null,
+    serviceTypeId: null,
+
+    itemDetails: [
+      {
+        name: null,
+        quantity: null,
+        amount: null,
+      }
+    ]
+  },
+  {
+    serviceType: null,
+    nextServiceKm: null,
+    nextServiceDate: null,
+    serviceTypeId: null,
+    itemDetails: [
+      {
+        name: null,
+        quantity: null,
+        amount: null,
+      }
+    ]
+  },
+  {
+    serviceType: null,
+    nextServiceKm: null,
+    nextServiceDate: null,
+    serviceTypeId: null,
+    itemDetails: [
+      {
+        name: null,
+        quantity: null,
+        amount: null,
+      }
+    ]
+  }]
   edit = 0;
-  MaintenanceId = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.title = this.common.params.title || 'Add Maintenance';
+    this.title = this.common.params.title || 'Vehicle Job Card';
     this.btn1 = this.common.params.btn1 || 'Cancel';
     this.btn2 = this.common.params.btn2 || 'Add';
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
     this.serviceMaintenanceType();
-    if (this.common.params.row) {
-      this.edit = 1;
-      this.MaintenanceId = this.common.params.row._id;
-      this.typeId = this.common.params.row._type_id;
-      this.selectedMT = this.common.params.row.type_name;
-      this.currentMaintDate = new Date(this.common.params.row.cur_date);
-      this.nextMaintDate = new Date(this.common.params.row.target_date);
-      this.currentVehicleKm = this.common.params.row.cur_km,
-        this.nextVehicleKm = this.common.params.row.target_km,
-        this.amount = this.common.params.row.amount,
-        this.maintLocation = this.common.params.row.maint_location,
-        this.remark = this.common.params.row.remarks
-    }
+
   }
 
   ngOnInit() {
@@ -71,33 +102,37 @@ export class AddMaintenanceComponent implements OnInit {
     this.api.get('VehicleMaintenance/getHeadMaster')
       .subscribe(res => {
         this.common.loading--;
-        this.maintenanceType = res['data'];
-        console.log("Maintenance Type", this.maintenanceType);
+        this.serviceType = res['data'];
+        console.log("Maintenance Type", this.serviceType);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  changeMaitenanceType(type) {
-    this.typeId = this.maintenanceType.find((element) => {
+  changeServiceType(type, index) {
+    console.log("Type Id", type);
+
+    this.services[index].serviceTypeId = this.serviceType.find((element) => {
       return element.name == type;
     }).id;
-    console.log("Type Id", this.typeId);
   }
 
-  addMaintenance() {
+  addService() {
     let params = {
-      id: this.MaintenanceId ? this.MaintenanceId : null,
+      id: this.serviceId ? this.serviceId : null,
       vId: this.vehicleId,
-      mainTypeId: this.typeId,
-      currDate: this.common.dateFormatter(this.currentMaintDate),
-      targetDate: this.common.dateFormatter(this.nextMaintDate),
-      currKm: this.currentVehicleKm,
-      targetKm: this.nextVehicleKm,
-      amt: this.amount,
-      locName: this.maintLocation,
-      remark: this.remark
+      regno: this.regno,
+      serviceCategory: this.serviceDetails.serviceCategory,
+      lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
+      lastServiceKm: this.serviceDetails.lastServiceKm,
+      nextServiceDate: this.common.dateFormatter(this.serviceDetails.nextServiceDate),
+      nextServiceKm: this.serviceDetails.nextServiceKm,
+      serviceCenter: this.serviceDetails.serviceCenter,
+      serviceLocation: this.serviceDetails.serviceLocation,
+      amount: this.serviceDetails.amount,
+      remark: this.serviceDetails.remark,
+      services: JSON.stringify(this.services),
     };
     console.log("Params:", params);
     this.common.loading++;
@@ -105,17 +140,57 @@ export class AddMaintenanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("response:", res);
-        if (res['data'][0].rtn_msg == 'Success') {
+        if (res['data'][0].r_id > 0) {
+          this.common.showToast("Sucessfully Added");
           this.closeModal(true);
-          this.common.showToast(res['data'][0].rtn_msg);
         }
         else {
-          this.common.showError(res['data'][0].rtn_msg);
+          this.common.showError(res['data'][0].r_msg);
         }
 
       }, err => {
         this.common.loading--;
         console.log(err);
       });
+  }
+
+  addMore() {
+    this.services.push({
+      serviceType: null,
+      nextServiceKm: null,
+      nextServiceDate: null,
+      serviceTypeId: null,
+      itemDetails: [
+        {
+          name: null,
+          quantity: null,
+          amount: null,
+        }
+      ]
+    });
+  }
+
+  addMoreItems(index) {
+    console.log("addmore items on ", index);
+    this.services[index].itemDetails.push({
+      name: null,
+      quantity: null,
+      amount: null
+    }
+    );
+  }
+  copiedDate() {
+    for (let i = 0; i < this.services.length; i++) {
+      this.services[i].nextServiceDate = this.serviceDetails.nextServiceDate;
+    }
+  }
+  copiedKm() {
+    for (let i = 0; i < this.services.length; i++) {
+      this.services[i].nextServiceKm = this.serviceDetails.nextServiceKm;
+    }
+  }
+
+  dateFormatConversion() {
+
   }
 }

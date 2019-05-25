@@ -161,9 +161,14 @@ export class ConciseComponent implements OnInit {
       this.getKPIS();
       this.common.currentPage = "";
     }
+<<<<<<< HEAD
     this.handlePdfPrint();
     this.common.refresh = this.refresh.bind(this);
     // this.generatePDF();
+=======
+    this.common.refresh = this.refresh.bind(this);
+    // this.handlePdfPrint();
+>>>>>>> dev
   }
 
   ngOnInit() {
@@ -199,7 +204,7 @@ export class ConciseComponent implements OnInit {
   }
 
   refresh() {
-    ////console.log("Refresh");
+    console.log("Refresh");
     this.getKPIS();
   }
 
@@ -807,7 +812,7 @@ export class ConciseComponent implements OnInit {
       fromTime: fromTime,
       toTime: toTime
     };
-    ////console.log("open Route Mapper modal", this.common.params);
+    console.log("open Route Mapper modal", this.common.params);
     const activeModal = this.modalService.open(RouteMapperComponent, {
       size: "lg",
       container: "nb-layout",
