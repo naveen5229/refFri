@@ -61,7 +61,7 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   getPendingDetailsVehicle() {
-    
+
 
     let params = "&vehicleId=" + this.vehicleId;
     this.common.loading++;
