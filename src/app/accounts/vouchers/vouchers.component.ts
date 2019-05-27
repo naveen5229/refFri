@@ -46,7 +46,7 @@ export class VouchersComponent implements OnInit {
   date = this.common.dateFormatternew(new Date());
 
   activeLedgerIndex = -1;
-
+  modal = null;
   constructor(public api: ApiService,
     public common: CommonService,
     private route: ActivatedRoute,
@@ -234,7 +234,7 @@ export class VouchersComponent implements OnInit {
               this.printVoucher(this.voucher, res['data']['companydata']);
 
             }
-              this.voucher = this.setVoucher();
+            this.voucher = this.setVoucher();
             this.getVouchers();
             this.common.showToast('Your Code :' + res['data'].code);
             this.setFoucus('ref-code');
@@ -427,6 +427,8 @@ export class VouchersComponent implements OnInit {
 
 
   keyHandler(event) {
+
+    if (this.modal) return;
     const key = event.key.toLowerCase();
 
     /******* On f3 Submit Form ******* */
@@ -824,11 +826,10 @@ export class VouchersComponent implements OnInit {
   openledger(ledger?) {
     console.log('ledger123', ledger);
     if (ledger) this.common.params = ledger;
-    const activeModal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
+    this.modal = this.modalService.open(LedgerComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    this.modal.result.then(data => {
+      this.modal = null;
       if (data.response) {
-        // console.log('ledger data',data.ledger);
         this.addLedger(data.ledger);
       }
     });
@@ -884,8 +885,9 @@ export class VouchersComponent implements OnInit {
     console.log('Indes:', index);
     index = parseInt(index);
     this.common.params = { amount, details: this.voucher.amountDetails[index] };
-    const activeModal = this.modalService.open(VouchercostcenterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
+    this.modal = this.modalService.open(VouchercostcenterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    this.modal.result.then(data => {
+      this.modal = null;
       console.log('Modal res:', data);
       if (data.response) {
         this.voucher.amountDetails[index].details = data.amountDetails;

@@ -1,0 +1,169 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row mt-4">
+      <div class="col-sm-2 pr-0 mt-3">
+        <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
+          placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
+      </div>
+      <div class="col-sm-2 pr-0 mt-3">
+        <auto-suggestion (onSelected)="getFuelFilling($event)" url="Suggestion/GetFuelStation" display="name"
+          placeholder="Enter Fuel Station" [preSelected]="null"></auto-suggestion>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="tjr-label">Starting Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
+            placeholder="Select Date" name="account-date" [(ngModel)]="startdate" id="startdate" maxlength="10">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="tjr-label">End Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
+            placeholder="Select Date" name="account-enddate" [(ngModel)]="enddate" maxlength="10">
+        </div>
+      </div>
+      <div class="col">
+        <button (click)="getFuelVoucher()" class="btn btn-primary w-100 mt-3">Filter</button>
+      </div>
+      <div class="col">
+        <button (click)="getFuelFillings()" class="btn btn-primary mt-3">Show Fuel Entries</button>
+      </div>
+    </div>
+    <div class="mt-4">
+      <!-- <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th> </th>
+          <th>Station name</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
+            <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked">
+            </td>
+            <td>{{fuelFiling.name}}</td>
+            <td>{{fuelFiling.litres}}</td>
+            <td>{{fuelFiling.rate}}</td>
+            <td>{{fuelFiling.amount}}</td>
+            <td>{{fuelFiling.entry_time | date : 'dd-MMM-yy'}}</td>
+          </tr>
+        </tbody>
+      </table> -->
+      <table class="table table-bordered" id="table">
+        <thead style="background-color:#263238; color:#fff;">
+
+          <tr>
+            <th>SN</th>
+            <th>Code</th>
+            <th>Ref No</th>
+            <th>Vehicle Name</th>
+            <th>Fuel Station</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tripdata of trips;let i=index;">
+            <td>{{i+1}}</td>
+            <td>{{tripdata.y_code }}</td>
+            <td>{{tripdata.y_ref_no }}</td>
+            <td>{{tripdata.y_vehicle_name }}</td>
+            <td>{{tripdata.y_fuel_station }}</td>
+            <td>{{tripdata.y_qty}}</td>
+            <td>{{tripdata.y_amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th> </th>
+          <th>Start Location</th>
+          <th>End Location</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trip of trips;let i=index;">
+            <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'trip-' + i" [(ngModel)]="trip.isChecked"
+                (ngModelChange)="checkedAllSelected()">
+            </td>
+            <td>{{trip.start_name}}</td>
+            <td>{{trip.end_name || '--'}}</td>
+            <td>{{trip.start_time | date : 'dd MMM'}}</td>
+            <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="getFuelFillings()">Show Fuel Entries</button>
+    </div>
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th> </th>
+          <th>Station name</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fuelFiling of fuelFilings;let i=index;">
+            <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked">
+            </td>
+            <td>{{fuelFiling.name}}</td>
+            <td>{{fuelFiling.litres}}</td>
+            <td>{{fuelFiling.rate}}</td>
+            <td>{{fuelFiling.amount}}</td>
+            <td>{{fuelFiling.date | date : 'dd MMM'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="getHeads()">Show Head</button>
+    </div>
+
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <th>SN</th>
+          <th>Head</th>
+          <th>Total</th>
+          <th *ngFor="let trip of checkedTrips;">{{trip.start_name}} - {{trip.end_name}}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tripHead of tripHeads;let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{tripHead.name}}</td>
+            <td>
+              <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total">
+            </td>
+            <td *ngFor="let trip of tripHead.trips; let j = index;">
+              <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount" (input)="calculateTripHeadTotal(i)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="addVoucher()">Submit</button>
+    </div> -->
+  </nb-card-body>
+</nb-card>
