@@ -34,6 +34,7 @@ import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
 import { VouchereditedComponent } from './voucheredited/voucheredited.component';
+import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
 
 const PAGES_COMPONENTS = [
   AccountsComponent,
@@ -77,7 +78,8 @@ const PAGES_COMPONENTS = [
     TrialbalanceComponent,
     CostcenterComponent,
     CostCenterReportComponent,
-    VouchereditedComponent
+    VouchereditedComponent,
+    FuelfillingsComponent
     //StockSubtypeComponent
   ],
 })

@@ -158,6 +158,7 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
 import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
 import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
+import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -277,7 +278,8 @@ import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     CostCenterViewComponent,
-    AddPlacementSiteRuleComponent
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent
 
   ],
   entryComponents: [
@@ -394,7 +396,8 @@ import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
     CostCenterViewComponent,
-    AddPlacementSiteRuleComponent
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent
   ],
   imports: [
     BrowserModule,
