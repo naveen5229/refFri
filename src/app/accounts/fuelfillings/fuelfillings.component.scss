@@ -1,55 +1,33 @@
-.modal-header{
-    background-color: #343a40;
+button { 
+    background-color: #73a1ff;
+    border-radius: 3px !important;
+    text-transform: capitalize !important;
+    padding: 5px !important;
 }
-.btn{
-    padding: 5px 10px;
-    border-radius: 3px;
-    text-transform: capitalize;
+
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
 }
-.table_box{
-    table{
-        tr{
-            th:nth-child(1){
-                width: 40px;
-            }
-            th:nth-child(2){
-                width: 40px;
-            }
-            td:nth-child(2){
-                width: 40px;
-            }
-            th{
-                width: 170px;
-            }
-            td{
-                width: 170px;
-            }
-        }
-    }
-}
+
 table{
     thead{
         display: table;
         width: 100%;
         table-layout: fixed;
-        background-color: #263238;
-        color: #fff;
+       
     }
     tr{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 130px;
-        }
-        th:nth-child(1){
-            width: 40px;
-        }
-        th:last-child{
-            width: auto;
+            width: 280px;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 200px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -68,19 +46,12 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
+        max-height: calc(100vh - 312px);
         tr{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
-                width: 40px;
-            }
-            td{
-                width: 130px;
-            }
-            td:last-child{
-                width: auto;
-            }
+          
         }
         tr:nth-child(odd){
             background-color: #fff;
@@ -90,7 +61,3 @@ table{
         }
     }
 } 
-.auto-sugg{
-    max-height: 128px;
-    min-height: 128px;
-}
