@@ -295,6 +295,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
     },
+    {
+        title: 'Fuel Fillings',
+        icon: 'fas fa-money-check-alt',
+        link: '/accounts/fuelfillings'
+    },
 
 
 

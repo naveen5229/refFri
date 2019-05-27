@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/pages',
+        link: '/pages/dashboard',
       },
       {
         title: 'Trip',
