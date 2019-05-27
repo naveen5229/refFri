@@ -58,6 +58,47 @@ export class PdfService {
     console.log("hdgcols:", hdgCols);
     console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
+      for (let i = 0; i < hdgCols.length; i++) {
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute("placeholder");
+          hdgs.push(attrval);
+        } else if (elthtml.indexOf('<img') > -1) {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute("title");
+          hdgs.push(attrval);
+        } else if (elthtml.indexOf('href') > -1) {
+          let strval = hdgCols[i].innerHTML;
+          hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, "");
+          console.log("hdgval:" + plainText);
+          hdgs.push(plainText);
+        }
+      }
+    }
+
+    hdg_coll.push(hdgs);
+    return hdg_coll;
+  }
+
+  newfindTableHeadings(tableId) {
+    let tblelt = document.getElementById(tableId);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tableId + " table");
+    }
+
+    let hdg_coll = [];
+    let hdgs = [];
+    let hdgCols = tblelt.querySelectorAll("th");
+    console.log("hdgcols:", hdgCols);
+    console.log(hdgCols.length);
+    if (hdgCols.length >= 1) {
       for (let i = 0; i < (hdgCols.length - 1); i++) {
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
@@ -142,7 +183,7 @@ export class PdfService {
       body: rows,
       theme: 'grid',
       didDrawPage: this.didDrawPage,
-      margin: { top: 80, left: 15 },
+      margin: { top: 80 },
       rowPageBreak: 'avoid',
       headStyles: {
         fillColor: [98, 98, 98],
@@ -175,6 +216,71 @@ export class PdfService {
     doc.setFontSize(12);
     doc.line(20, 70, pageWidth - 20, 70);
 
+    let eltimg = document.createElement("img");
+    eltimg.src = "assets/images/elogist.png";
+    eltimg.alt = "logo";
+   
+
+    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
+    // FOOTER
+    var str = "Page " + data.pageCount;
+
+    doc.setFontSize(10);
+    doc.text(
+      str,
+      data.settings.margin.left,
+      doc.internal.pageSize.height - 10
+    );
+  }
+
+  newaddTableInDoc(doc, headings, rows) {
+
+    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
+
+    doc.autoTable({
+      head: headings,
+      body: rows,
+      theme: 'grid',
+      didDrawPage: this.newdidDrawPage,
+      margin: { top: 80, left: 15 },
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10,
+        halign: 'center',
+        valign: 'middle'
+
+      },
+      styles: tempLineBreak,
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+
+    });
+    return doc;
+  }
+
+  newdidDrawPage(data) {
+    console.log('-----', data);
+    let doc = data.doc;
+    //header
+    let x = 35;
+    let y = 40;
+
+
+    doc.setFontSize(14);
+    doc.setFont("times", "bold");
+    doc.text("elogist Solutions ", x, y);
+
+    let pageWidth = parseInt(doc.internal.pageSize.width);
+    y = 15;
+    doc.setFontSize(12);
+    doc.line(20, 70, pageWidth - 20, 70);
+
+    let eltimg = document.createElement("img");
+    eltimg.src = "assets/images/elogist.png";
+    eltimg.alt = "logo";
+   
+
+    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
     var str = "Page " + data.pageCount;
 
@@ -185,6 +291,10 @@ export class PdfService {
     //   doc.internal.pageSize.height - 10
     // );
   }
+
+
+  
+
 
   voucherPDF(pdfData?) {
     console.log('Test');
@@ -422,6 +532,8 @@ export class PdfService {
     var imgHeight = height || (canvas.height * imgWidth / canvas.width);
     var heightLeft = imgHeight;
 
+    
+
     const context = canvas.getContext('2d');
     context.scale(1, 1);
     context['dpi'] = 144;
@@ -432,6 +544,7 @@ export class PdfService {
     context['msImageSmoothingEnabled'] = false;
 
     const contentDataURL = canvas.toDataURL('image/png')
+   
     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
     return pdf;
   }
@@ -446,6 +559,7 @@ export class PdfService {
       status.push(list.name);
     }
     );
+    
     console.log(status);
     //ids.map(id => {
     let element = document.getElementById(id);
@@ -455,7 +569,12 @@ export class PdfService {
     Promise.all(promises).then(result => {
       console.log('Result:', result);
       let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
+      let eltimg = document.createElement("img");
+      eltimg.src = "assets/images/elogist.png";
+      eltimg.alt = "logo";
+      pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
       result.map((canvas, index) => {
+        
         pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
         if (index < result.length - 1) pdf.addPage()
       });
@@ -463,9 +582,7 @@ export class PdfService {
      
       pdf.addPage();
       /**************** LOGO Creation *************** */
-      let eltimg = document.createElement("img");
-      eltimg.src = "assets/images/elogist.png";
-      eltimg.alt = "logo";
+     
       /**************** PDF Size ***************** */
       let maxHeadingLength = 0;
       let pageOrientation = "Portrait";
@@ -474,12 +591,14 @@ export class PdfService {
       tableIds.map((tableId, index) => {
         let tablesHeadings = [];
         let tablesRows = [];
-        tablesHeadings = this.findTableHeadings(tableId);
+        tablesHeadings = this.newfindTableHeadings(tableId);
         tablesRows = this.findTableRows(tableId);
         console.log('...........................', tablesHeadings, tablesRows);
         console.log('...........................', status[index], status, index);
         pdf.text(status[index], 25, 65);
-        pdf = this.addTableInDoc(pdf, tablesHeadings, tablesRows);
+        
+       
+        pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
         pdf.addPage();
       });
      // this.common.loading--;
