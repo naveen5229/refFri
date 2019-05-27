@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-4">
           <auto-suggestion (onSelected)="setDriverName($event)" url="Suggestion/getElogistDriverList" display="empname"
             placeholder="Driver Name" [preSelected]="null"></auto-suggestion>
@@ -17,15 +17,42 @@
             <i class="fa fa-plus add" (click)="addDriver()"></i>
           </button>
         </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-10">
+      </div> -->
+      <div class="row">
+        <!-- <div class="col-6">
           <select name="credit-ledger" class="form-control" [(ngModel)]="creditLedger">
             <option *ngFor="let ledger of ledgers" [value]="ledger.id">{{ledger.name}}</option>
           </select>
+        </div> -->
+        <div class="col-8">
+          <div class="row">
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Ref</label>
+              <input autocomplete="off" type="text" id="custcode" class="form-control" name="custcode"
+                [(ngModel)]="custcode">
+            </div>
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Date</label>
+              <input autocomplete="off" type="text" id="date" class="form-control" name="date" [(ngModel)]="date">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Ledger</label>
+              <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
+                [(ngModel)]="creditLedger">
+            </div>
+
+            <div class="col-3 pl-0 mt-6 ">
+              <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
+            </div>
+          </div>
         </div>
-        <div class="col-2 pl-0">
-          <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
+        <div class="auto-sugg col-4">
+          <div class="form-group">
+            <auto-suggetion-in-side [data]="ledgers" targetId="creditLedger" display="name"
+              (select)="onSelected($event, 'creditLedger', 'name')"></auto-suggetion-in-side>
+          </div>
         </div>
       </div>
       <div class="table_box mt-3">
@@ -33,7 +60,8 @@
           <thead>
             <tr>
               <th>SN</th>
-              <th> </th>
+              <th><input type="checkbox" name="checkall" id="checkall" value="1" [(ngModel)]="checkall"
+                  (ngModelChange)="checkedAll()"></th>
               <th>Start Location</th>
               <th>End Location</th>
               <th>Start Date</th>
@@ -44,7 +72,7 @@
             <tr *ngFor="let trip of trips;let i=index;">
               <td>{{i+1}}</td>
               <td>
-                <input type="checkbox" [name]="'trip-' + i" [(ngModel)]="trip.isChecked"
+                <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
                   (ngModelChange)="checkedAllSelected()">
               </td>
               <td>{{trip.start_name}}</td>
