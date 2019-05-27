@@ -28,7 +28,7 @@ export class UserService {
 
 
     this._pages = [
-      { id: 1, route: '/pages' },
+      { id: 1, route: '/pages/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
       { id: 3, route: '/admin/issue-alerts' },
       { id: 4, route: '/admin/escalation-matrix' },
@@ -67,6 +67,9 @@ export class UserService {
       { id: 37, route: '/admin/fuel-rules' },
       { id: 38, route: '/admin/pump-station-area' },
       { id: 39, route: '/admin/pending-vehicle' },
+      { id: 40, route: '/admin/halt-density' },
+      { id: 41, route: '/admin/placement-site-rule' },
+      { id: 42, route: '/admin/fuel-average-issues' },
     ]
   }
 

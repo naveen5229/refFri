@@ -38,6 +38,11 @@ label {
 .modal-body textarea{
     height: 100px;
 }
+.btn{
+    padding: 5px 15px;
+    border-radius: 3px;
+    text-transform: capitalize;
+}
 .btn-primary{
     background-color: #263238 !important;
 }
@@ -220,8 +225,7 @@ table{
     width: 100%;
     table-layout: fixed;
     overflow: auto;
-    max-height: 320px;
-    min-height: 320px;
+    max-height:calc(100vh - 140px);
 }
 h6{
     margin: 15px 0px 10px;
@@ -236,3 +240,6 @@ h6{
     table-layout: fixed;
     width: 100%;
 }
+// :host ::ng-deep .image-gallery-2{
+//     height: 462px !important;
+// }
