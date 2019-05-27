@@ -105,11 +105,11 @@
                 <input type="checkbox" [name]="'fuelFiling-' + i" [(ngModel)]="fuelFiling.isChecked"
                   (ngModelChange)="changeTotal(fuelFiling.amount,fuelFiling.id)">
               </td>
-              <td>{{fuelFiling.name}}</td>
-              <td>{{fuelFiling.litres}}</td>
-              <td>{{fuelFiling.rate}}</td>
-              <td>{{fuelFiling.amount}}</td>
-              <td>{{fuelFiling.entry_time | date : 'dd-MMM-yy'}}</td>
+              <td>{{fuelFiling.y_name}}</td>
+              <td>{{fuelFiling.y_litres}}</td>
+              <td>{{fuelFiling.y_rate}}</td>
+              <td>{{fuelFiling.y_amount}}</td>
+              <td>{{fuelFiling.y_entry_time | date : 'dd-MMM-yy'}}</td>
             </tr>
 
           </tbody>
