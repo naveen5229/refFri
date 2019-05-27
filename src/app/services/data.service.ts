@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/pages',
+        link: '/pages/dashboard',
       },
       {
         title: 'Trip',
@@ -76,7 +76,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Palacement Site Rule',
+            title: 'Placement Site Rule',
             icon: 'fas fa-file-signature',
             link: '/admin/placement-site-rule',
             home: true,

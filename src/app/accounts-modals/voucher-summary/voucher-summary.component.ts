@@ -24,9 +24,18 @@ export class VoucherSummaryComponent implements OnInit {
   FinanceVoucherId;
   DriverId;
   DriverName;
-  creditLedger = 0;
+  creditLedger: {
+    name: '',
+    id: 0
+  };
+  date = this.common.dateFormatternew(new Date()).split(' ')[0];
+  custcode = '';
+  checkall = false;
 
-  constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
+  constructor(public api: ApiService,
+    public common: CommonService,
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
     this.getAllLedgers();
     this.trips = this.common.params.tripDetails;
     this.VehicleId = this.common.params.vehId;
@@ -65,6 +74,13 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
+  onSelected(selectedData, type, display) {
+    this.creditLedger.name = selectedData[display];
+    this.creditLedger.id = selectedData.id;
+    console.log('Selected Data: ', selectedData, type, display);
+    //  console.log('order User: ', this.DayBook);
+  }
+
 
   checkedAllSelected() {
     this.checkedTrips = [];
@@ -73,6 +89,22 @@ export class VoucherSummaryComponent implements OnInit {
       this.checkedTrips.push(this.trips[i]);
     }
   }
+
+
+  checkedAll() {
+    console.log('true value', this.checkall);
+    let selectedAll = '';
+    if (this.checkall) {
+      this.trips.map(trip => trip.isChecked = true);
+    } else {
+      this.trips.map(trip => trip.isChecked = false);
+    }
+    // for (var i = 0; i < this.trips.length; i++) {
+    //   this.trips[i].selected = true;
+    // }
+  }
+
+
   findFirstSelectInfo(type = 'startDate') {
     let options = {
       startDate: '',
@@ -278,14 +310,15 @@ export class VoucherSummaryComponent implements OnInit {
       transactionType: "credit",
       ledger: {
         name: '',
-        id: this.creditLedger
+        id: this.creditLedger.id
       },
       amount: totalAmount
     });
 
     let params = {
-      customercode: this.VehicleId,
-      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      //  customercode: this.VehicleId,
+      customercode: this.custcode,
+      date: this.date,
       foid: '',
       remarks: "test",
       vouchertypeid: '-9',
