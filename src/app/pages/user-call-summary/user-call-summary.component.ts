@@ -15,6 +15,7 @@ export class UserCallSummaryComponent implements OnInit {
   fromDate = this.common.dateFormatter1(new Date());
   endDate = this.common.dateFormatter1(new Date());;
   title = '';
+  showTable = false;
   data = [];
   headings = [];
   valobj = {};
@@ -31,25 +32,25 @@ export class UserCallSummaryComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    private modalService: NgbModal) { 
-      //this.fromDate = new Date().toISOString().slice(0,10);
-      //this.endDate = new Date().toISOString().slice(0,10) + ' 23:59:00';
-      console.log(this.fromDate);
-      console.log(this.endDate);
-      this.getCallSummary();
-    }
+    private modalService: NgbModal) {
+    //this.fromDate = new Date().toISOString().slice(0,10);
+    //this.endDate = new Date().toISOString().slice(0,10) + ' 23:59:00';
+    console.log(this.fromDate);
+    console.log(this.endDate);
+    this.getCallSummary();
+  }
 
   ngOnInit() {
   }
 
   getDate(date) {
-    this.common.params = {ref_page :'user-call-summary'};
+    this.common.params = { ref_page: 'user-call-summary' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
         console.log("data date:");
         console.log(data.date);
-        if(date == 'startdate') {
+        if (date == 'startdate') {
           this.fromDate = this.common.dateFormatter1(data.date).split(' ')[0];
           console.log('Date:', this.fromDate);
         } else {
@@ -76,50 +77,56 @@ export class UserCallSummaryComponent implements OnInit {
     let stDate = this.fromDate;
     //let enDate = this.endDate.split('-').reverse().join('-');
     let enDate = this.endDate;
-    this.api.post('Drivers/getUserCallSummary', {x_start_date:  stDate, x_end_date:  enDate + ' 23:59:00'})
+    this.api.post('Drivers/getUserCallSummary', { x_start_date: stDate, x_end_date: enDate + ' 23:59:00' })
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
         console.log("data:");
         console.log(this.data);
-        
-        let first_rec = this.data[0];
-        console.log("first_Rec", first_rec);
-        
-        for (var key in first_rec) {
-          if(key.charAt(0) != "_") {
-            this.headings.push(key);
-            let headerObj = { title: key, placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = headerObj;
+        if (this.data != null) {
+          this.showTable = true;
+          let first_rec = this.data[0];
+          console.log("first_Rec", first_rec);
+
+          for (var key in first_rec) {
+            if (key.charAt(0) != "_") {
+              this.headings.push(key);
+              let headerObj = { title: key, placeholder: this.formatTitle(key) };
+              this.table.data.headings[key] = headerObj;
+            }
           }
+          this.table.data.columns = this.getTableColumns();
+          console.log("table:");
+          console.log(this.table);
         }
-        this.table.data.columns = this.getTableColumns();
-        console.log("table:");
-        console.log(this.table);
-        
+        else {
+          this.common.showToast('Record Not Found !!');
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);
-      }); 
+      });
   }
 
   getTableColumns() {
     let columns = [];
-    for(var i= 0; i<this.data.length; i++) {
+    for (var i = 0; i < this.data.length; i++) {
       this.valobj = {};
-      for(let j=0; j<this.headings.length; j++) {j
-        if(this.headings[j]=='Total Call (Duration)'){
+      for (let j = 0; j < this.headings.length; j++) {
+        j
+        if (this.headings[j] == 'Total Call (Duration)') {
           this.valobj[this.headings[j]] = {
             // value: this.data[i][this.headings[j]],
-            value : `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]]|| '-'}</span></div>`,
+            value: `<div style="color: black;" class="${this.data[i][this.headings[j]] ? 'blue' : 'black'}"><span>${this.data[i][this.headings[j]] || '-'}</span></div>`,
             action: this.openHistoryModel.bind(this, this.data[i]), isHTML: true,
           }
-        }else{
-          this.valobj[this.headings[j]] = {value: this.data[i][this.headings[j]], class: 'black', action:  ''};
+        } else {
+          this.valobj[this.headings[j]] = { value: this.data[i][this.headings[j]], class: 'black', action: '' };
 
         }
       }
-      
+
       columns.push(this.valobj);
     }
     return columns;
@@ -127,17 +134,17 @@ export class UserCallSummaryComponent implements OnInit {
 
   formatTitle(strval) {
     let pos = strval.indexOf('_');
-    if(pos > 0) {
-      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
 
-  
+
   openHistoryModel(data) {
-    let endDate=this.endDate+ ' 23:59:00';
-    console.log("data------------------/",endDate);
+    let endDate = this.endDate + ' 23:59:00';
+    console.log("data------------------/", endDate);
 
     let callData = {
       vehicleId: 0,
@@ -146,7 +153,7 @@ export class UserCallSummaryComponent implements OnInit {
       nextDay: this.common.dateFormatter(endDate)
     }
     this.common.params = { callData: callData };
-    console.log("calldatas =",this.common.params.callData );
+    console.log("calldatas =", this.common.params.callData);
     this.common.handleModalHeightWidth("class", "modal-lg", "200", "1500");
     const activeModal = this.modalService.open(UserCallHistoryComponent, {
       size: "lg",

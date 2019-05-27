@@ -49,7 +49,7 @@ export class OrderComponent implements OnInit {
     // },
     ordertype: {
       name: '',
-      id: ''
+      id: 0
     },
     ledger: {
       name: '',
@@ -277,7 +277,7 @@ export class OrderComponent implements OnInit {
       // },
       ordertype: {
         name: '',
-        id: ''
+        id: 0
       },
       ledger: {
         name: '',
