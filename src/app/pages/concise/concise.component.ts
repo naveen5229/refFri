@@ -55,7 +55,8 @@ export class ConciseComponent implements OnInit {
 
   viewType = "showprim_status";
   viewName = "Primary Status";
-
+ left_heading = "";
+ center_heading = "";
 
   kpiGroups = null;
   kpiGroupsKeys = [];
@@ -1219,9 +1220,30 @@ export class ConciseComponent implements OnInit {
   }
 
   generatePDF() {
-    setTimeout(() => {
-      this.common.loading++;
-      this.pdfData.tables = [];
+ 
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+         this.left_heading = fodata['name'];
+       this.center_heading = "Trip Feedback Logs";
+       console.log("center heading1",this.left_heading,this.center_heading);
+      
+        
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+      
+      setTimeout(() => {
+        this.common.loading++;
+        this.pdfData.tables = [];
+        console.log("helooo");
+       
       let data = this.pdfData.primary.list;
       console.log("list123------------------", data);
       console.log('KPIS:', this.primaryStatus);
@@ -1234,17 +1256,17 @@ export class ConciseComponent implements OnInit {
         this.pdfData.tables.push(this.setTable(kpis))
       });
 
-      this.common.loading++;
       const tableId = [];
       this.pdfData.tables.map((table, index) => {
         tableId.push(`print-table-${index}`);
       })
       console.log("tableId", tableId);
       console.log('----------------------------PDF Tables:', this.pdfData);
-      this.common.loading--;
-      this.pdfService.tableWithImages('page-1', tableId, data);
+      console.log("ids3",this.left_heading,this.center_heading);
+        
+       this.pdfService.tableWithImages('page-1', tableId, data,this.left_heading,this.center_heading);
 
-    }, 100);
+    }, 2000);
     this.common.loading--;
 
   }

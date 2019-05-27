@@ -2,13 +2,22 @@ import { Injectable } from '@angular/core';
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
 import { CommonService } from '../common.service';
+import { UserService } from '../user.service';
+import { ApiService } from '../api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
 
-  constructor(public common: CommonService) { }
+  userId:any;
+  constructor(public common: CommonService,
+    public user:UserService,
+    public api: ApiService) {
+      this.userId=this.user._customer.id;
+    console.log("userid.....",this.userId);
+
+     }
 
   mutliTablePdfWithId(tableIds) {
     let tablesHeadings = [];
@@ -234,7 +243,7 @@ export class PdfService {
   }
 
   newaddTableInDoc(doc, headings, rows) {
-
+   // console.log("ids",left_heading,center_heading);
     let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
@@ -255,6 +264,11 @@ export class PdfService {
       columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
 
     });
+   
+     //  console.log("testing",left_heading,center_heading);
+        
+      
+   
     return doc;
   }
 
@@ -262,13 +276,15 @@ export class PdfService {
     console.log('-----', data);
     let doc = data.doc;
     //header
-    let x = 35;
+    let x = 25;
     let y = 40;
 
 
     doc.setFontSize(14);
     doc.setFont("times", "bold");
     doc.text("elogist Solutions ", x, y);
+
+    
 
     let pageWidth = parseInt(doc.internal.pageSize.width);
     y = 15;
@@ -278,6 +294,26 @@ export class PdfService {
     let eltimg = document.createElement("img");
     eltimg.src = "assets/images/elogist.png";
     eltimg.alt = "logo";
+    
+      
+
+
+      // if (left_heading != "undefined" && left_heading != null && left_heading != '') {
+      //   x = pageWidth / 2;
+      //   let hdglen = left_heading.length / 2;
+      //   let xpos = x - hdglen - 50;
+      //   y = 40;
+      //   doc.setFont("times", "bold", "text-center");
+      //   doc.text(left_heading, xpos, y);
+      // }
+      // if (center_heading != "undefined" && center_heading != null && center_heading != '') {
+      //   x = pageWidth / 2;
+      //   y = 50;
+      //   let hdglen = center_heading.length / 2;
+      //   doc.setFontSize(14);
+      //   doc.setFont("times", "bold", "text-center");
+      //   doc.text(center_heading, x - hdglen - 40, y);
+      // }
    
 
     doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
@@ -549,7 +585,8 @@ export class PdfService {
     return pdf;
   }
 
-  tableWithImages(id, tableIds, data) {
+  tableWithImages(id, tableIds, data,left_heading,center_heading) {
+   
     // this.common.loading++;
     let promises = [];
     let list = data;
@@ -572,6 +609,7 @@ export class PdfService {
       let eltimg = document.createElement("img");
       eltimg.src = "assets/images/elogist.png";
       eltimg.alt = "logo";
+      
       pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
       result.map((canvas, index) => {
         
@@ -588,23 +626,37 @@ export class PdfService {
       let pageOrientation = "Portrait";
    
      // const status = ["onward", "issue", "available", "loading", "unloading"];
+     
+        pdf.setFontSize(14);
+        pdf.setFont("times", "bold", "text-center");
+        pdf.text(left_heading, 200, 60);
+      
+      
+        console.log("testing2",left_heading,center_heading);
+        pdf.setFontSize(14);
+        pdf.setFont("times", "bold", "text-center");
+        pdf.text(center_heading, 200 ,45 );
       tableIds.map((tableId, index) => {
-        let tablesHeadings = [];
+       let tablesHeadings = [];
         let tablesRows = [];
         tablesHeadings = this.newfindTableHeadings(tableId);
-        tablesRows = this.findTableRows(tableId);
+       tablesRows = this.findTableRows(tableId);
         console.log('...........................', tablesHeadings, tablesRows);
-        console.log('...........................', status[index], status, index);
-        pdf.text(status[index], 25, 65);
+       console.log('...........................', status[index], status, index);
+       pdf.text(status[index], 25, 65);
         
-       
+        
+        console.log("123456",left_heading,center_heading);
         pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
+        // pdf = this.printPDF
         pdf.addPage();
       });
      // this.common.loading--;
       pdf.save("table-with-images.pdf");
     });
   }
+
+
 
 
   convertNumberToWords(amount) {
