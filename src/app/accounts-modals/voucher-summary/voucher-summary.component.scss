@@ -8,6 +8,9 @@
 }
 .table_box{
     table{
+        tbody{
+            max-height: 340px;
+        }
         tr{
             th:nth-child(1){
                 width: 40px;
@@ -15,14 +18,44 @@
             th:nth-child(2){
                 width: 40px;
             }
+            td:nth-child(1){
+                width: 40px;
+            }
             td:nth-child(2){
                 width: 40px;
             }
             th{
-                width: 170px;
+                width: 283px;
             }
             td{
-                width: 170px;
+                width: 283px;
+            }
+        }
+    }
+}
+.table_box_two{
+    table{
+        tbody{
+            max-height: 340px;
+        }
+        tr{
+            th:nth-child(1){
+                width: 40px;
+            }
+            th:nth-child(2){
+                width: 40px;
+            }
+            td:nth-child(1){
+                width: 40px;
+            }
+            td:nth-child(2){
+                width: 40px;
+            }
+            th{
+                width: 226px;
+            }
+            td{
+                width: 226px;
             }
         }
     }
@@ -39,7 +72,7 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 130px;
+            width: 120px;
         }
         th:nth-child(1){
             width: 40px;
@@ -60,6 +93,9 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+            input[type=number]{
+                width: 100px;
+            }
         }
     }
     tbody{
@@ -68,6 +104,7 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
+        max-height: 416px;
         tr{
             display: table;
             table-layout: fixed;
@@ -76,7 +113,7 @@ table{
                 width: 40px;
             }
             td{
-                width: 130px;
+                width: 120px;
             }
             td:last-child{
                 width: auto;
@@ -90,7 +127,56 @@ table{
         }
     }
 } 
+.table_box_three{
+    table{
+        display: block;
+        width: 100%;
+        overflow: auto;
+        max-height: 532px;
+        thead{
+            display: table-row-group;
+            tr{
+                display: table-row;
+                th{
+                    display: table-cell;
+                }
+            }
+        }
+        tbody{
+            display: table-row-group;
+            tr{
+                display: table-row;
+                td{
+                    display: table-cell;
+                }
+            }
+        }
+    }
+}
 .auto-sugg{
     max-height: 128px;
     min-height: 128px;
+}
+.total_box{
+    display: inline-block;
+    width: 160px;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.total_input{
+    width: 126px;
+    display: inline-block;
+    padding-right: 15px;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.total_input input{
+    width: 100%;
+}
+.total_textarea{
+    width: 360px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 15px;
+    padding-left: 15px;
 }
