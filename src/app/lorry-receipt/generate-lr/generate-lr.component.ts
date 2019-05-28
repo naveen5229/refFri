@@ -251,7 +251,7 @@ export class GenerateLRComponent implements OnInit {
       console.log('params lrdate', this.lr.date);
 
       let params = {
-        branchId: this.accountService.selected.branch,
+        branchId: this.accountService.selected.branch.id,
         vehicleId: this.vehicleId,
         lrNo: this.lr.lrNumber,
         lrDate: this.lr.date,

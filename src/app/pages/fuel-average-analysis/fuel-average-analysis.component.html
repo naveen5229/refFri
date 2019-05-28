@@ -1,8 +1,17 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <h5>Fuel Mileage</h5>
+      </div>
+
+      <div class="col-sm-2">
+        <span>
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('fuelMileage')" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCsv('fuelMileage')"
+            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        </span>
       </div>
       <div class="col-sm-2">
         <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
@@ -69,7 +78,7 @@
     </div> -->
     <!-- <ng-template *ngIf="fuelAvgDetails.length>0; then showTable; else showDiv"></ng-template>
     <ng-template #showTable> -->
-    <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings">
+    <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings" id="fuelMileage">
     </smart-table>
     <!-- </ng-template> -->
     <!-- <ng-template #showDiv> -->

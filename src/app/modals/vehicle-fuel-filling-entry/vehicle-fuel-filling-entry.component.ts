@@ -51,4 +51,8 @@ export class VehicleFuelFillingEntryComponent implements OnInit {
 
   }
 
+  closeModal() {
+    this.activeModal.close();
+  }
+
 }

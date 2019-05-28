@@ -189,10 +189,6 @@
 
 <div class="modal-footer">
   <div class="row">
-    <div class="col">
-      <button class="btn btn-danger" type="button" (click)="closeModal(false)" id="cancel"
-        style="cursor: pointer;">{{btn1}}</button>
-    </div>
     <div class="col text-right" *ngIf="edit==0; else update">
       <button class="btn btn-primary" form="service-form" type="submit" (click)="addService();" id="submit"
         style="cursor: pointer;">{{btn2}}</button>
@@ -201,5 +197,10 @@
       <button class="btn btn-primary" form="service-form" type="submit" (click)="addService();" id="submit"
         style="cursor: pointer;">{{btn3}}</button>
     </ng-template>
+    <div class="col">
+      <button class="btn btn-danger" type="button" (click)="closeModal(false)" id="cancel"
+        style="cursor: pointer;">{{btn1}}</button>
+    </div>
+
   </div>
 </div>
