@@ -3,6 +3,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'user-activity-status',
@@ -34,7 +35,8 @@ export class UserActivityStatusComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
-    private activeModal: NgbActiveModal) {
+    private activeModal: NgbActiveModal,
+    public user: UserService) {
     this.common.openType = 'page'
     let today;
     today = new Date();
@@ -149,6 +151,46 @@ export class UserActivityStatusComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "User Activity Statistics";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "User Activity Statistics";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
   }
 
 }

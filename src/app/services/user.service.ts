@@ -28,7 +28,7 @@ export class UserService {
 
 
     this._pages = [
-      { id: 1, route: '/pages' },
+      { id: 1, route: '/pages/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
       { id: 3, route: '/admin/issue-alerts' },
       { id: 4, route: '/admin/escalation-matrix' },

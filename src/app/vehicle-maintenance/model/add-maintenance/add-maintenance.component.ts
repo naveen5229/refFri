@@ -141,7 +141,7 @@ export class AddMaintenanceComponent implements OnInit {
         this.common.loading--;
         console.log("response:", res);
         if (res['data'][0].r_id > 0) {
-          this.common.showToast("Sucessfully Added");
+          this.common.showToast("Sucessfully Added", 10000);
           this.closeModal(true);
         }
         else {
