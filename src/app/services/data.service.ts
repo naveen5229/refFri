@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/pages',
+        link: '/pages/dashboard',
       },
       {
         title: 'Trip',
@@ -73,6 +73,12 @@ export class DataService {
             title: 'Trip Site Rule',
             icon: 'fas fa-file-signature',
             link: '/admin/trip-site-rule',
+            home: true,
+          },
+          {
+            title: 'Placement Site Rule',
+            icon: 'fas fa-file-signature',
+            link: '/admin/placement-site-rule',
             home: true,
           },
           {
@@ -233,7 +239,7 @@ export class DataService {
             link: '/admin/pending-documents',
           },
           {
-            title: 'Pending vehicle',
+            title: 'Pending vehicle Modal',
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-vehicle',
           },
@@ -273,6 +279,12 @@ export class DataService {
             title: 'Pump Station Area',
             icon: 'fa fa-signal',
             link: '/admin/pump-station-area',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Issues',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-issues',
             home: true,
           },
         ]

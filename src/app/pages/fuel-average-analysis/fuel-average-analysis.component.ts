@@ -18,6 +18,7 @@ import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
+  showTable = false;
   dates = {
     start: this.common.dateFormatter(new Date()).split(' ')[0],
     end: this.common.dateFormatter(new Date()).split(' ')[0]
@@ -45,12 +46,18 @@ export class FuelAverageAnalysisComponent implements OnInit {
       endTime: this.dates.end,
       foId: null,
     };
-    this.api.post('FuelDetails/getFuelFillingsAverage', params)
+    this.api.post('FuelDetails/getVehicleFuelFillingAvg', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
         this.fuelAvgDetails = res['data'];
-        this.table = this.setTable();
+        if (this.fuelAvgDetails != null) {
+          this.showTable = true;
+          this.table = this.setTable();
+        } else {
+          this.common.showToast('No Record Found!!');
+        }
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -168,4 +175,43 @@ export class FuelAverageAnalysisComponent implements OnInit {
   //   const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout' });
 
   // }
+
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Fuel Mileage";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Fuel Mileage";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
 }

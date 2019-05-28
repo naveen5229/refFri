@@ -152,7 +152,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/outstanding'
             },
             {
-                title: 'Voucher Edit',
+                title: 'Voucher Audit',
                 link: '/accounts/voucheredited'
             }
 
@@ -294,6 +294,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
+    },
+    {
+        title: 'Fuel Fillings',
+        icon: 'fas fa-money-check-alt',
+        link: '/accounts/fuelfillings'
     },
 
 

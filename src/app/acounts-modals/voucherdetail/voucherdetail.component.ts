@@ -43,7 +43,7 @@ export class VoucherdetailComponent implements OnInit {
     console.log('Unfilter:', unFilterData);
     if (unFilterData) {
       let costStr = unFilterData.replace(/'/g, '');
-      costStr = costStr.substring(1, costStr.length - 1).replace(/{/g, '').replace(/}/g, '');
+      costStr = costStr.substring(1, costStr.length - 1).replace(/{/g, '').replace(/}/g, '').replace(/"/g, '');
       console.log('Cost STR:', costStr);
       let costArray = costStr.split(',');
       console.log('Cost Array:', costArray);

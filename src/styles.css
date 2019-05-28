@@ -233,10 +233,10 @@ nb-menu .menu-item>.menu-items>.menu-item a {
 .fas.fa-map-marked-alt::before,
 .fas.fa-map-pin::before,
 .fas.fa-info-circle::before,
-
 .fas.fa-tools::before,
 .fas.fa-badge-check::before,
-.fas.fa-map-marked::before {
+.fas.fa-map-marked::before ,
+.fas.fa-truck-pickup::before{
     font-family: inherit;
 }
 
@@ -569,6 +569,15 @@ nb-card {
     text-align: center;
 }
 
+.footerselector{
+    margin-top: 250px;
+}
+
 .voucher-signature div {
     border-top: 2px solid #000;
+}
+
+
+.CostcenterClass{
+    z-index: 999999 !important;
 }

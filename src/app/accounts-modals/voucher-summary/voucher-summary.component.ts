@@ -24,9 +24,18 @@ export class VoucherSummaryComponent implements OnInit {
   FinanceVoucherId;
   DriverId;
   DriverName;
-  creditLedger = 0;
+  creditLedger: {
+    name: '',
+    id: 0
+  };
+  date = this.common.dateFormatternew(new Date()).split(' ')[0];
+  custcode = '';
+  checkall = false;
 
-  constructor(public api: ApiService, public common: CommonService, public modalService: NgbModal, private activeModal: NgbActiveModal) {
+  constructor(public api: ApiService,
+    public common: CommonService,
+    public modalService: NgbModal,
+    private activeModal: NgbActiveModal) {
     this.getAllLedgers();
     this.trips = this.common.params.tripDetails;
     this.VehicleId = this.common.params.vehId;
@@ -36,7 +45,7 @@ export class VoucherSummaryComponent implements OnInit {
     console.log(this.common.params.tripVoucher);
     if (this.tripVoucher) {
       this.VoucherId = this.tripVoucher.id;
-      this.FinanceVoucherId=this.tripVoucher.fi_voucher_id;
+      this.FinanceVoucherId = this.tripVoucher.fi_voucher_id;
       this.checkedTrips = this.trips;
       this.trips.map(trip => trip.isChecked = true);
       this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
@@ -65,6 +74,13 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
+  onSelected(selectedData, type, display) {
+    this.creditLedger.name = selectedData[display];
+    this.creditLedger.id = selectedData.id;
+    console.log('Selected Data: ', selectedData, type, display);
+    //  console.log('order User: ', this.DayBook);
+  }
+
 
   checkedAllSelected() {
     this.checkedTrips = [];
@@ -73,6 +89,22 @@ export class VoucherSummaryComponent implements OnInit {
       this.checkedTrips.push(this.trips[i]);
     }
   }
+
+
+  checkedAll() {
+    console.log('true value', this.checkall);
+    let selectedAll = '';
+    if (this.checkall) {
+      this.trips.map(trip => trip.isChecked = true);
+    } else {
+      this.trips.map(trip => trip.isChecked = false);
+    }
+    // for (var i = 0; i < this.trips.length; i++) {
+    //   this.trips[i].selected = true;
+    // }
+  }
+
+
   findFirstSelectInfo(type = 'startDate') {
     let options = {
       startDate: '',
@@ -250,7 +282,7 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('Res: ', res);
         this.common.loading--;
-        this.addVoucher(this.VoucherId,this.FinanceVoucherId);
+        this.addVoucher(this.VoucherId, this.FinanceVoucherId);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -278,14 +310,15 @@ export class VoucherSummaryComponent implements OnInit {
       transactionType: "credit",
       ledger: {
         name: '',
-        id: this.creditLedger
+        id: this.creditLedger.id
       },
       amount: totalAmount
     });
 
     let params = {
-      customercode: this.VehicleId,
-      date: this.common.dateFormatter(new Date(), 'ddMMYYYY', false, '-'),
+      //  customercode: this.VehicleId,
+      customercode: this.custcode,
+      date: this.date,
       foid: '',
       remarks: "test",
       vouchertypeid: '-9',
@@ -335,7 +368,7 @@ export class VoucherSummaryComponent implements OnInit {
   addTrip() {
     let vehId = this.VehicleId;
     this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data.response) {

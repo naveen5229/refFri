@@ -104,6 +104,7 @@ export class VouchercostcenterComponent implements OnInit {
     }
     if (event.altKey && key === 'c') {
       // console.log('alt + C pressed');
+      console.log('--------------------ALT+C-----------------:Cost Center');
       this.openCostCenter();
     }
 
@@ -256,12 +257,12 @@ export class VouchercostcenterComponent implements OnInit {
   openCostCenter(ledger?) {
     console.log('ledger123', ledger);
     if (ledger) this.common.params = ledger;
-    const activeModal = this.modalService.open(CostCentersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    const activeModal = this.modalService.open(CostCentersComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "CostcenterClass" });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
+      console.log('Data: ', data);
       if (data.response) {
         // console.log('ledger data',data.ledger);
-        this.addCostCenter(data.ledger);
+        this.addCostCenter(data.costCenter);
       }
     });
   }
@@ -273,7 +274,7 @@ export class VouchercostcenterComponent implements OnInit {
       parentName: costCenter.parentName,
       parentid: costCenter.parentId,
       foid: 123,
-      x_id: costCenter.xid,
+      x_id: 0,
       name: costCenter.name,
     };
     console.log('params11: ', params);
@@ -285,11 +286,12 @@ export class VouchercostcenterComponent implements OnInit {
         let result = res['data'][0].save_costcenter;
         if (result == '') {
           this.common.showToast("Save Successfully");
+          this.getLedgers();
         }
         else {
           this.common.showToast(result);
         }
-        this.getLedgers();
+        //  this.getLedgers();
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
