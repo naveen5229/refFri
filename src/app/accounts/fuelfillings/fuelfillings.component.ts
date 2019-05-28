@@ -18,6 +18,8 @@ import { log } from 'util';
 export class FuelfillingsComponent implements OnInit {
 
   trips = [];
+  regno = '';
+  fuelstation = '';
   checkedTrips = [];
   fuelFilings = [];
   tripHeads = [];
