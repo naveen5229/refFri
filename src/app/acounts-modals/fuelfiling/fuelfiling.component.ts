@@ -43,6 +43,8 @@ export class FuelfilingComponent implements OnInit {
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.getcreditLedgers('credit');
     this.getdebitLedgers('debit');
+    this.setFoucus('custcode');
+
   }
 
   ngOnInit() {
@@ -162,6 +164,23 @@ export class FuelfilingComponent implements OnInit {
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
+    if (key == 'enter') {
+      //  this.allowBackspace = true;
+      if (this.activeId.includes('custcode')) {
+        this.setFoucus('date');
+      } else if (this.activeId.includes('date')) {
+        this.setFoucus('creditLedger');
+      } else if (this.activeId == 'creditLedger') {
+        this.setFoucus('debitLedger');
+      } else if (this.activeId.includes('debitLedger')) {
+        this.setFoucus('narration');
+      } else if (this.activeId.includes('narration')) {
+        this.setFoucus('total');
+      } else if (this.activeId.includes('total')) {
+        this.setFoucus('submit');
+      }
+    }
+
   }
 
   modelCondition() {
@@ -269,5 +288,15 @@ export class FuelfilingComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
+  }
+  setFoucus(id, isSetLastActive = true) {
+    setTimeout(() => {
+      let element = document.getElementById(id);
+      console.log('Element: ', element);
+      element.focus();
+      // this.moveCursor(element, 0, element['value'].length);
+      // if (isSetLastActive) this.lastActiveId = id;
+      // console.log('last active id: ', this.lastActiveId);
+    }, 100);
   }
 }

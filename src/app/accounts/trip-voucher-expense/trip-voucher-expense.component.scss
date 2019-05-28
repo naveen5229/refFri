@@ -28,6 +28,12 @@ table{
             font-weight: normal;
             width: 280px;
         }
+        th:first-child{
+            width: 40px;
+        }
+        th:last-child{
+            width: auto;
+        }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
@@ -42,6 +48,12 @@ table{
                 outline: none;
                 box-shadow: none;
             }
+        }
+        td:first-child{
+            width: 40px;
+        }
+        td:last-child{
+            width: auto;
         }
     }
     tbody{

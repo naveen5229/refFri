@@ -5,6 +5,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
 import { FuelfilingComponent } from '../../acounts-modals/fuelfiling/fuelfiling.component';
+import { AccountService } from '../../services/account.service';
+import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
+import { log } from 'util';
+
 
 @Component({
   selector: 'fuelfillings',
@@ -27,6 +31,7 @@ export class FuelfillingsComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.currentPage = 'Fuel Voucher';
   }
@@ -115,20 +120,27 @@ export class FuelfillingsComponent implements OnInit {
   }
 
   getFuelFillings() {
-    this.common.params = {
-      vehId: this.selectedVehicle.id,
-      lastFilling: this.startdate,
-      currentFilling: this.enddate,
-      fuelstationid: this.selectedFuelFilling
-    };
+    if (this.accountService.selected.branch.id) {
+      console.log('Branch ID :', this.accountService.selected.branch.id);
+      this.common.params = {
+        vehId: this.selectedVehicle.id,
+        lastFilling: this.startdate,
+        currentFilling: this.enddate,
+        fuelstationid: this.selectedFuelFilling
+      };
 
-    const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        this.getFuelVoucher();
-      }
-    });
+      const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          this.getFuelVoucher();
+        }
+      });
+    }
+    else {
+      console.log("Select Branch");
+      alert('Please Select Branch');
+    }
   }
   // getFuelFillings() {
   //   const params = {
@@ -164,6 +176,20 @@ export class FuelfillingsComponent implements OnInit {
 
     return options[type];
   }
+
+
+  addFuel() {
+    let vehId = this.selectedVehicle.id;
+    this.common.params = { vehId };
+    const activeModal = this.modalService.open(AddFuelFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        //this.addLedger(data.ledger);
+      }
+    });
+  }
+
 
   findLastSelectInfo(type = 'endDate') {
     let options = {
@@ -288,6 +314,26 @@ export class FuelfillingsComponent implements OnInit {
     });
   }
 
+
+  openVoucherEdit(voucherdata) {
+    console.log('testing issue solved');
+    this.common.params = {
+      voucherdata: voucherdata,
+      vehId: voucherdata.y_vehicle_id,
+      lastFilling: this.startdate,
+      currentFilling: this.enddate,
+      fuelstationid: voucherdata.y_fuel_station_id
+    };
+
+    // const activeModal = this.modalService.open(FuelfilingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   if (data.response) {
+    //     this.getFuelVoucher();
+    //   }
+    // });
+
+  }
+
   deleteVoucherEntry(tripVoucher) {
     let params = {
       voucherId: tripVoucher.id
@@ -302,10 +348,11 @@ export class FuelfillingsComponent implements OnInit {
           this.common.showToast('Success!!')
           this.getTripSummary();
         }
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      })
+      },
+        err => {
+          this.common.loading--;
+          this.common.showError();
+        })
   }
 
 
