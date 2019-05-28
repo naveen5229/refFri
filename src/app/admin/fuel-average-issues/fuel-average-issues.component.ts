@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { VehicleFuelFillingEntryComponent } from '../../modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
 
 @Component({
   selector: 'fuel-average-issues',
@@ -70,7 +71,7 @@ export class FuelAverageIssuesComponent implements OnInit {
     let columns = [];
     this.fuelAvgIssues.map(issues => {
       let column = {
-        regno: { value: issues.regno, class: 'blue' },
+        regno: { value: issues.regno, class: 'blue', action: this.vehicleFFdateWise.bind(issues) },
         startDate: { value: this.datePipe.transform(issues.start_time, 'dd MMM yyyy') },
         endDate: { value: this.datePipe.transform(issues.end_time, 'dd MMM yyyy') },
         litre: { value: issues.litre },
@@ -99,9 +100,14 @@ export class FuelAverageIssuesComponent implements OnInit {
     return columns;
   }
 
-  // vehicleFFdateWise(value) {
+  vehicleFFdateWise(value) {
 
-  // }
+    this.common.params = { value: value };
+    const activeModal = this.modalService.open(VehicleFuelFillingEntryComponent, { size: 'lg', container: 'nb-layout' });
 
+  }
 
 }
+
+
+
