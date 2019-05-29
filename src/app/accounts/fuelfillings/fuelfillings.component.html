@@ -1,13 +1,15 @@
 <nb-card>
   <nb-card-body>
     <div class="row mt-4">
-      <div class="col-sm-2 pr-0 mt-3">
-        <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
-          placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
+      <div class="col-sm-2 pr-0">
+        <label class="tjr-label">Vehicle No</label>
+        <auto-suggestion (onSelected)="getVehicle($event)" [id]='regno' url="Suggestion/getFoVehicleList"
+          display="regno" placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
       </div>
-      <div class="col-sm-2 pr-0 mt-3">
-        <auto-suggestion (onSelected)="getFuelFilling($event)" url="Suggestion/GetFuelStation" display="name"
-          placeholder="Enter Fuel Station" [preSelected]="null"></auto-suggestion>
+      <div class="col-sm-2 pr-0">
+        <label class="tjr-label">Fuel Station</label>
+        <auto-suggestion (onSelected)="getFuelFilling($event)" [id]='fuelstation' url="Suggestion/GetFuelStation"
+          display="name" placeholder="Enter Fuel Station" [preSelected]="null"></auto-suggestion>
       </div>
       <div class="col">
         <div class="form-group">
@@ -27,7 +29,10 @@
         <button (click)="getFuelVoucher()" class="btn btn-primary w-100 mt-3">Filter</button>
       </div>
       <div class="col">
-        <button (click)="getFuelFillings()" class="btn btn-primary mt-3">Show Fuel Entries</button>
+        <button (click)="getFuelFillings()" class="btn btn-primary mt-3">Add Fuel Voucher</button>
+      </div>
+      <div class="col">
+        <button (click)="addFuel()" class="btn btn-primary mt-3">Add Fuel</button>
       </div>
     </div>
     <div class="mt-4">
@@ -64,19 +69,20 @@
             <th>Ref No</th>
             <th>Vehicle Name</th>
             <th>Fuel Station</th>
-            <th>Amount</th>
             <th>Quantity</th>
+            <th>Amount</th>
+
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tripdata of trips;let i=index;">
+          <tr *ngFor="let tripdata of trips;let i=index;" (dblclick)="openVoucherEdit(tripdata)">
             <td>{{i+1}}</td>
-            <td>{{trips.y_code }}</td>
-            <td>{{trips.y_ref_no }}</td>
-            <td>{{trips.y_vehicle_name }}</td>
-            <td>{{trips.y_fuel_station }}</td>
-            <td>{{trips.y_amount}}</td>
-            <td>{{trips.y_qty}}</td>
+            <td>{{tripdata.y_code }}</td>
+            <td>{{tripdata.y_ref_no }}</td>
+            <td>{{tripdata.y_vehicle_name }}</td>
+            <td>{{tripdata.y_fuel_station }}</td>
+            <td>{{tripdata.y_qty}}</td>
+            <td>{{tripdata.y_amount}}</td>
           </tr>
         </tbody>
       </table>
