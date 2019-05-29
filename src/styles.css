@@ -593,3 +593,6 @@ nb-card {
 ngb-modal-window{
     z-index: 9999 !important;
 }
+.cdk-overlay-container{
+    z-index: 99999 !important;
+}
