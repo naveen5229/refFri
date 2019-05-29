@@ -11,7 +11,8 @@ import { ViewListComponent } from '../../modals/view-list/view-list.component';
   styleUrls: ['./trip-voucher-expense.component.scss']
 })
 export class TripVoucherExpenseComponent implements OnInit {
-
+  enddate = this.common.dateFormatternew(new Date()).split(' ')[0];
+  startdate = this.common.dateFormatternew(new Date()).split(' ')[0];
   trips = [];
   checkedTrips = [];
   fuelFilings = [];
@@ -38,6 +39,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
   getPendingTrips() {
+    this.getTripExpences();
     if (this.flag == false) {
       this.common.showToast('please enter registration number !!')
     } else {
@@ -46,12 +48,13 @@ export class TripVoucherExpenseComponent implements OnInit {
       };
       this.common.loading++;
       this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
         .subscribe(res => {
           console.log(res);
           this.common.loading--;
           this.showTripSummary(res['data']);
           //this.flag=false;
-          //this.trips = res['data'];
+          this.trips = res['data'];
         }, err => {
           console.log(err);
           this.common.loading--;
@@ -67,6 +70,7 @@ export class TripVoucherExpenseComponent implements OnInit {
       // console.log('Data: ', data);
       if (data.response) {
         //this.addLedger(data.ledger);
+        this.common.loading--;
       }
     });
   }
@@ -208,6 +212,29 @@ export class TripVoucherExpenseComponent implements OnInit {
         this.common.showError();
       });
   }
+
+
+
+  getTripExpences() {
+
+    const params = {
+      vehId: this.selectedVehicle.id
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/getTripExpenceVouher', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.tripVouchers = res['data'];
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+
+
   getVoucherSummary(tripVoucher) {
     console.log(tripVoucher);
     const params = {
