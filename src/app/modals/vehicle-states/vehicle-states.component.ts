@@ -287,29 +287,41 @@ export class VehicleStatesComponent implements OnInit {
         };
 
       } else if (this.changeCategory == 'sites') {
-        this.site.site_date = this.common.dateFormatter(this.site.site_date);
-        params = {
-          vid: this.vid,
-          state_id: this.stateType,
-          siteid: this.site.siteid,
-          loc_name: this.site.location,
-          lat: this.site.lat,
-          long: this.site.long,
-          datetime: this.site.site_date,
-          remark: this.remark
-        };
+        if (new Date(this.site.site_date) > new Date()) {
+          this.common.showError('Enter Correct Date!!');
+          return;
+        } else {
+          this.site.site_date = this.common.dateFormatter(this.site.site_date);
+          params = {
+            vid: this.vid,
+            state_id: this.stateType,
+            siteid: this.site.siteid,
+            loc_name: this.site.location,
+            lat: this.site.lat,
+            long: this.site.long,
+            datetime: this.site.site_date,
+            remark: this.remark
+          };
+        }
+
 
       } else {
-        this.location.loc_date = this.common.dateFormatter(this.location.loc_date);
-        params = {
-          vid: this.vid,
-          state_id: this.stateType,
-          loc_name: this.location.loc,
-          lat: this.location.lat,
-          long: this.location.long,
-          datetime: this.location.loc_date,
-          remark: this.remark
-        };
+        if (new Date(this.location.loc_date) > new Date()) {
+          this.common.showError('Enter Correct Date!!')
+          return;
+        } else {
+          this.location.loc_date = this.common.dateFormatter(this.location.loc_date);
+          params = {
+            vid: this.vid,
+            state_id: this.stateType,
+            loc_name: this.location.loc,
+            lat: this.location.lat,
+            long: this.location.long,
+            datetime: this.location.loc_date,
+            remark: this.remark
+          };
+
+        }
 
       }
 
