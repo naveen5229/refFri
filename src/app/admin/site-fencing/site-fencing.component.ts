@@ -16,12 +16,14 @@ export class SiteFencingComponent implements OnInit {
   typeId = 1;
   moveLoc = '';
   siteLoc = '';
+  isHeatAble = false;
   selectedSite = null;
   siteName = null;
   remainingList = [];
   siteLocLatLng = { lat: 0, lng: 0 };
   siteLatLng = { lat: 0, lng: 90 };
   isUpdate = false;
+  minZoom = 12;
   constructor(public mapService: MapService,
     private apiService: ApiService,
     private commonService: CommonService) { }
@@ -415,5 +417,40 @@ export class SiteFencingComponent implements OnInit {
         console.log(err);
       });
     this.clearAll();
+  }
+  showHeat() {
+    if (this.isHeatAble) {
+      this.mapService.resetHeatMap();
+      this.isHeatAble = false;
+    } else {
+      if (this.mapService.map.getZoom() < this.minZoom) {
+        this.commonService.showToast("bounds are huge");
+        return;
+      }
+      var bounds = this.mapService.getMapBounds();
+      console.log("Bounds", bounds);
+
+      let params = {
+        'foid': null,
+        'startTime': this.commonService.dateFormatter(new Date(new Date().setMonth(new Date().getMonth() - 1))),
+        'endTime': this.commonService.dateFormatter(new Date()),
+        'lat1': bounds.lat1,
+        'lat2': bounds.lat2,
+        'lng1': bounds.lng1,
+        'lng2': bounds.lng2,
+      }
+      this.commonService.loading++;
+      this.apiService.post("HaltOperations/getAllHaltsBtw", params)
+        .subscribe(res => {
+          console.log('Res: ', res['data']);
+          this.mapService.createHeatMap(res['data']);
+          this.isHeatAble = true;
+          this.commonService.loading--;
+        }, err => {
+          console.error(err);
+          this.commonService.showError();
+          this.commonService.loading--;
+        });
+    }
   }
 }

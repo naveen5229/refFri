@@ -33,8 +33,7 @@ export class UserCallSummaryComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    //this.fromDate = new Date().toISOString().slice(0,10);
-    //this.endDate = new Date().toISOString().slice(0,10) + ' 23:59:00';
+
     console.log(this.fromDate);
     console.log(this.endDate);
     this.getCallSummary();
@@ -42,6 +41,7 @@ export class UserCallSummaryComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
   getDate(date) {
     this.common.params = { ref_page: 'user-call-summary' };
@@ -73,9 +73,7 @@ export class UserCallSummaryComponent implements OnInit {
         hideHeader: true
       }
     };
-    //let stDate = this.fromDate.split('-').reverse().join('-');
     let stDate = this.fromDate;
-    //let enDate = this.endDate.split('-').reverse().join('-');
     let enDate = this.endDate;
     this.api.post('Drivers/getUserCallSummary', { x_start_date: stDate, x_end_date: enDate + ' 23:59:00' })
       .subscribe(res => {
@@ -83,26 +81,23 @@ export class UserCallSummaryComponent implements OnInit {
         this.data = res['data'];
         console.log("data:");
         console.log(this.data);
-        if (this.data != null) {
-          this.showTable = true;
-          let first_rec = this.data[0];
-          console.log("first_Rec", first_rec);
+        if (this.data == null) {
+          this.data = [];
+          return;
+        }
+        let first_rec = this.data[0];
+        console.log("first_Rec", first_rec);
 
-          for (var key in first_rec) {
-            if (key.charAt(0) != "_") {
-              this.headings.push(key);
-              let headerObj = { title: key, placeholder: this.formatTitle(key) };
-              this.table.data.headings[key] = headerObj;
-            }
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: key, placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
           }
-          this.table.data.columns = this.getTableColumns();
-          console.log("table:");
-          console.log(this.table);
         }
-        else {
-          this.common.showToast('Record Not Found !!');
-        }
-
+        this.table.data.columns = this.getTableColumns();
+        console.log("table:");
+        console.log(this.table);
       }, err => {
         this.common.loading--;
         console.log(err);
