@@ -2,13 +2,22 @@ import { Injectable } from '@angular/core';
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
 import { CommonService } from '../common.service';
+import { UserService } from '../user.service';
+import { ApiService } from '../api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
 
-  constructor(public common: CommonService) { }
+  userId:any;
+  constructor(public common: CommonService,
+    public user:UserService,
+    public api: ApiService) {
+      this.userId=this.user._customer.id;
+    console.log("userid.....",this.userId);
+
+     }
 
   mutliTablePdfWithId(tableIds) {
     let tablesHeadings = [];
@@ -87,6 +96,47 @@ export class PdfService {
     return hdg_coll;
   }
 
+  newfindTableHeadings(tableId) {
+    let tblelt = document.getElementById(tableId);
+    if (tblelt.nodeName != "TABLE") {
+      tblelt = document.querySelector("#" + tableId + " table");
+    }
+
+    let hdg_coll = [];
+    let hdgs = [];
+    let hdgCols = tblelt.querySelectorAll("th");
+    console.log("hdgcols:", hdgCols);
+    console.log(hdgCols.length);
+    if (hdgCols.length >= 1) {
+      for (let i = 0; i < (hdgCols.length - 1); i++) {
+        if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
+          continue;
+        if (hdgCols[i].classList.contains('del'))
+          continue;
+        let elthtml = hdgCols[i].innerHTML;
+        if (elthtml.indexOf('<input') > -1) {
+          let eltinput = hdgCols[i].querySelector("input");
+          let attrval = eltinput.getAttribute("placeholder");
+          hdgs.push(attrval);
+        } else if (elthtml.indexOf('<img') > -1) {
+          let eltinput = hdgCols[i].querySelector("img");
+          let attrval = eltinput.getAttribute("title");
+          hdgs.push(attrval);
+        } else if (elthtml.indexOf('href') > -1) {
+          let strval = hdgCols[i].innerHTML;
+          hdgs.push(strval);
+        } else {
+          let plainText = elthtml.replace(/<[^>]*>/g, "");
+          console.log("hdgval:" + plainText);
+          hdgs.push(plainText);
+        }
+      }
+    }
+
+    hdg_coll.push(hdgs);
+    return hdg_coll;
+  }
+
   findTableRows(tableId) {
     //remove table cols with del class
     let tblelt = document.getElementById(tableId);
@@ -134,7 +184,8 @@ export class PdfService {
   }
 
   addTableInDoc(doc, headings, rows) {
-    let tempLineBreak = { fontSize: 10, cellPadding: 3, minCellHeight: 11, minCellWidth: 10, cellWidth: 40, valign: 'middle', halign: 'center' };
+
+    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
       head: headings,
@@ -174,6 +225,12 @@ export class PdfService {
     doc.setFontSize(12);
     doc.line(20, 70, pageWidth - 20, 70);
 
+    let eltimg = document.createElement("img");
+    eltimg.src = "assets/images/elogist.png";
+    eltimg.alt = "logo";
+   
+
+    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
     var str = "Page " + data.pageCount;
 
@@ -184,6 +241,96 @@ export class PdfService {
       doc.internal.pageSize.height - 10
     );
   }
+
+  newaddTableInDoc(doc, headings, rows) {
+   // console.log("ids",left_heading,center_heading);
+    let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
+
+    doc.autoTable({
+      head: headings,
+      body: rows,
+      theme: 'grid',
+      didDrawPage: this.newdidDrawPage,
+      margin: { top: 80, left: 15 },
+      rowPageBreak: 'avoid',
+      headStyles: {
+        fillColor: [98, 98, 98],
+        fontSize: 10,
+        halign: 'center',
+        valign: 'middle'
+
+      },
+      styles: tempLineBreak,
+      columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
+
+    });
+   
+     //  console.log("testing",left_heading,center_heading);
+        
+      
+   
+    return doc;
+  }
+
+  newdidDrawPage(data) {
+    console.log('-----', data);
+    let doc = data.doc;
+    //header
+    let x = 25;
+    let y = 40;
+
+
+    doc.setFontSize(14);
+    doc.setFont("times", "bold");
+    doc.text("elogist Solutions ", x, y);
+
+    
+
+    let pageWidth = parseInt(doc.internal.pageSize.width);
+    y = 15;
+    doc.setFontSize(12);
+    doc.line(20, 70, pageWidth - 20, 70);
+
+    let eltimg = document.createElement("img");
+    eltimg.src = "assets/images/elogist.png";
+    eltimg.alt = "logo";
+    
+      
+
+
+      // if (left_heading != "undefined" && left_heading != null && left_heading != '') {
+      //   x = pageWidth / 2;
+      //   let hdglen = left_heading.length / 2;
+      //   let xpos = x - hdglen - 50;
+      //   y = 40;
+      //   doc.setFont("times", "bold", "text-center");
+      //   doc.text(left_heading, xpos, y);
+      // }
+      // if (center_heading != "undefined" && center_heading != null && center_heading != '') {
+      //   x = pageWidth / 2;
+      //   y = 50;
+      //   let hdglen = center_heading.length / 2;
+      //   doc.setFontSize(14);
+      //   doc.setFont("times", "bold", "text-center");
+      //   doc.text(center_heading, x - hdglen - 40, y);
+      // }
+   
+
+    doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
+    // FOOTER
+    var str = "Page " + data.pageCount;
+
+    doc.setFontSize(10);
+    // doc.text(
+    //   str,
+    //   data.settings.margin.left,
+    //   doc.internal.pageSize.height - 10
+    // );
+  }
+
+
+  
+
 
   voucherPDF(pdfData?) {
     console.log('Test');
@@ -395,13 +542,13 @@ export class PdfService {
     return html;
   }
 
-  multiImagePdf(ids) {
+  multiImagePdf(id) {
     let promises = [];
-    ids.map(id => {
-      let element = document.getElementById(id);
-      promises.push(html2canvas(element, { scale: 2 }));
-    });
-    this.common.loading++;
+    //ids.map(id => {
+    let element = document.getElementById(id);
+    promises.push(html2canvas(element, { scale: 2 }));
+    // });
+    // this.common.loading++;
     Promise.all(promises).then(result => {
       console.log('Result:', result);
       let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
@@ -410,7 +557,7 @@ export class PdfService {
         if (index < result.length - 1) pdf.addPage()
       });
       pdf.save('report.pdf'); // Generated PDF
-      this.common.loading--;
+      // this.common.loading--;
     });
 
   }
@@ -421,8 +568,10 @@ export class PdfService {
     var imgHeight = height || (canvas.height * imgWidth / canvas.width);
     var heightLeft = imgHeight;
 
+    
+
     const context = canvas.getContext('2d');
-    context.scale(2, 2);
+    context.scale(1, 1);
     context['dpi'] = 144;
     context['imageSmoothingEnabled'] = false;
     context['mozImageSmoothingEnabled'] = false;
@@ -431,66 +580,83 @@ export class PdfService {
     context['msImageSmoothingEnabled'] = false;
 
     const contentDataURL = canvas.toDataURL('image/png')
+   
     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
     return pdf;
   }
 
-  tableWithImages(ids, tableId) {
-    this.common.loading++;
+  tableWithImages(id, tableIds, data,left_heading,center_heading) {
+   
+    // this.common.loading++;
     let promises = [];
-    ids.map(id => {
-      let element = document.getElementById(id);
-      promises.push(html2canvas(element, { scale: 2 }));
-    });
+    let list = data;
+    console.log("list", data);
+    const status = [];
+    list.map(list => {
+      status.push(list.name);
+    }
+    );
+    
+    console.log(status);
+    //ids.map(id => {
+    let element = document.getElementById(id);
+    promises.push(html2canvas(element, { scale: 2 }));
+    //});
 
     Promise.all(promises).then(result => {
       console.log('Result:', result);
       let pdf = new jsPDF('p', 'px', 'a4'); // A4 size page of PDF
+      let eltimg = document.createElement("img");
+      eltimg.src = "assets/images/elogist.png";
+      eltimg.alt = "logo";
+      
+      pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
       result.map((canvas, index) => {
+        
         pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
         if (index < result.length - 1) pdf.addPage()
       });
       // pdf.save('report.pdf'); // Generated PDF
-      this.common.loading--;
+     
       pdf.addPage();
-
-      let tablesHeadings = [];
-      let tablesRows = [];
-      let tableIds = [tableId];
-      tableIds.map(tableId => {
-        tablesHeadings.push(this.findTableHeadings(tableId));
-        tablesRows.push(this.findTableRows(tableId));
-      });
-
       /**************** LOGO Creation *************** */
-      let eltimg = document.createElement("img");
-      eltimg.src = "assets/images/elogist.png";
-      eltimg.alt = "logo";
-
+     
       /**************** PDF Size ***************** */
       let maxHeadingLength = 0;
-      tablesHeadings.map(tableHeadings => {
-        if (maxHeadingLength < tableHeadings.length)
-          maxHeadingLength = tableHeadings.length;
-      });
       let pageOrientation = "Portrait";
-      if (maxHeadingLength > 7) {
-        pageOrientation = "Landscape";
-      }
-
-      // let doc = new jsPDF({
-      //   orientation: pageOrientation,
-      //   unit: "px",
-      //   format: "a4"
-      // });
-
-      tablesHeadings.map((tableHeadings, index) => {
-        pdf = this.addTableInDoc(pdf, tableHeadings, tablesRows[index]);
+   
+     // const status = ["onward", "issue", "available", "loading", "unloading"];
+     
+        pdf.setFontSize(14);
+        pdf.setFont("times", "bold", "text-center");
+        pdf.text(left_heading, 200, 60);
+      
+      
+        console.log("testing2",left_heading,center_heading);
+        pdf.setFontSize(14);
+        pdf.setFont("times", "bold", "text-center");
+        pdf.text(center_heading, 200 ,45 );
+      tableIds.map((tableId, index) => {
+       let tablesHeadings = [];
+        let tablesRows = [];
+        tablesHeadings = this.newfindTableHeadings(tableId);
+       tablesRows = this.findTableRows(tableId);
+        console.log('...........................', tablesHeadings, tablesRows);
+       console.log('...........................', status[index], status, index);
+       pdf.text(status[index], 25, 65);
+        
+        
+        console.log("123456",left_heading,center_heading);
+        pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
+        // pdf = this.printPDF
+        pdf.addPage();
       });
-
+     // this.common.loading--;
       pdf.save("table-with-images.pdf");
     });
   }
+
+
 
 
   convertNumberToWords(amount) {

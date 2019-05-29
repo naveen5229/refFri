@@ -1,6 +1,7 @@
 .nb_card_box{
     position: absolute;
     top: 70px;
+    z-index: 9999;
 }
 .status-print-view2{
     width: 210mm;
@@ -11,14 +12,19 @@
     width: 33%;
     display: inline-block;
     padding: 0px;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: bold;
 }
 .graph-data nb-card nb-card-body{
-    padding: 10px;
+    padding: 15px 10px;
     display: block;
 }
 .status-print-view{
     padding: 15px;
+    height: 310mm;
+    font-size: 24px;
+    
+   
 }
 .all_data{
     font-size:12px;
@@ -26,13 +32,15 @@
 .status-print-view .dashboard_chart {
     width: 60%;
     margin: 0 auto;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    margin-top: 16px;
 }
 .truck-route{
     position: relative;
     width: 80%;
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    margin-top: 20px;
 }
 .truck_road{
     display: block;
@@ -77,4 +85,10 @@
 }
 #page-2 .status_box nb-card:nth-child(1){
     border-top: 0px !important;
+}
+.status-print-title h4{
+    font-weight: bold;
+    color: #55a1ff;
+    font-size: 28px;
+    margin: 0px;
 }
