@@ -1,11 +1,13 @@
 <nb-card>
   <nb-card-body>
     <div class="row mt-4">
-      <div class="col-sm-2 pr-0 mt-3">
+      <div class="col-sm-2 pr-0">
+        <label class="tjr-label">Vehicle No</label>
         <auto-suggestion (onSelected)="getVehicle($event)" [id]='regno' url="Suggestion/getFoVehicleList"
           display="regno" placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
       </div>
-      <div class="col-sm-2 pr-0 mt-3">
+      <div class="col-sm-2 pr-0">
+        <label class="tjr-label">Fuel Station</label>
         <auto-suggestion (onSelected)="getFuelFilling($event)" [id]='fuelstation' url="Suggestion/GetFuelStation"
           display="name" placeholder="Enter Fuel Station" [preSelected]="null"></auto-suggestion>
       </div>

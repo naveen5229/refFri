@@ -581,7 +581,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.activeModal.close({ status: status });
   }
 
-  callSaveVoucher(response) {
+  callSaveVoucher() {
 
     if (this.accountService.selected.branch.id != 0) {
       // this.accountService.selected.branch

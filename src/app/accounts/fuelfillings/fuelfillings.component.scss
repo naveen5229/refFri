@@ -73,3 +73,13 @@ table{
         }
     }
 } 
+.btn-primary{
+    background-color: #263238 !important;
+}
+auto-suggestion :host ::ng-deep .form-control {
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px !important;
+    padding: 3px 5px !important;
+    height: auto !important;
+    font-size: 12px !important;
+}

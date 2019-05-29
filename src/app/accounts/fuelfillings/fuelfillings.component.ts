@@ -18,6 +18,8 @@ import { log } from 'util';
 export class FuelfillingsComponent implements OnInit {
 
   trips = [];
+  regno = '';
+  fuelstation = '';
   checkedTrips = [];
   fuelFilings = [];
   tripHeads = [];
@@ -78,10 +80,10 @@ export class FuelfillingsComponent implements OnInit {
   getFuelVoucher() {
 
     const params = {
-      vehId: this.selectedVehicle.id,
+      vehId: (this.selectedVehicle) ? this.selectedVehicle.id : 0,
       lastFilling: this.startdate,
       currentFilling: this.enddate,
-      fuelstationid: this.selectedFuelFilling.id
+      fuelstationid: (this.selectedFuelFilling) ? this.selectedFuelFilling.id : 0
     };
     this.common.loading++;
     this.api.post('FuelDetails/getFuelVoucher', params)
