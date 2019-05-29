@@ -1,5 +1,5 @@
 <nb-card>
-  <nb-card-body style="padding:0px;">
+  <nb-card-body style="padding:0px;" (keydown)="keyHandler($event)">
     <div class="modal-header">
       <h5>Add Trip</h5>
       <button type="button" class="close" aria-label="Close" (click)=dismiss(false)>
@@ -40,18 +40,44 @@
             <div class="form-group col-6 mt-6">
               <label class="tjr-label">Ledger</label>
               <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
-                [(ngModel)]="creditLedger">
+                [(ngModel)]="creditLedger.name">
             </div>
+            <!-- <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Fuel Ledger</label>
+              <input autocomplete="off" type="text" id="debitLedger" class="form-control" name="debitLedger"
+                [(ngModel)]="debitLedger">
+            </div> -->
 
-            <div class="col-3 pl-0 mt-6 ">
-              <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
+            <!-- <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Party Ledger</label>
+              <input autocomplete="off" type="text" id="creditLedger" class="form-control" name="creditLedger"
+                [(ngModel)]="creditLedger.name">
             </div>
+            <div class="form-group col-6 mt-6">
+              <label class="tjr-label">Fuel Ledger</label>
+              <input autocomplete="off" type="text" id="debitLedger" class="form-control" name="debitLedger"
+                [(ngModel)]="debitLedger.name">
+            </div> -->
+
+            <!-- <div class="col-3 pl-0 mt-6 ">
+              <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
+            </div> -->
           </div>
         </div>
         <div class="auto-sugg col-4">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <auto-suggetion-in-side [data]="ledgers" targetId="creditLedger" display="name"
               (select)="onSelected($event, 'creditLedger', 'name')"></auto-suggetion-in-side>
+          </div> -->
+
+          <div class="form-group" *ngIf="this.activeId.includes('creditLedger')">
+            <auto-suggetion-in-side [data]="ledgers" targetId="creditLedger" name="creditLedger" display="y_ledger_name"
+              (select)="onSelected($event, 'creditLedger', 'y_ledger_name')"></auto-suggetion-in-side>
+          </div>
+          <div class="form-group" *ngIf="this.activeId.includes('debitLedger')">
+            <auto-suggetion-in-side [data]="debitLedgerdata" targetId="debitLedger" name="debitLedger"
+              display="y_ledger_name" (select)="onDebitSelected($event, 'debitLedger', 'y_ledger_name')">
+            </auto-suggetion-in-side>
           </div>
         </div>
       </div>
@@ -87,7 +113,7 @@
         <button class="btn btn-dark mr-1" (click)="addFuelFilling()">Add New Fuel </button>
         <button class="btn btn-dark" (click)="getFuelFillings()">Show Fuel Entries</button>
       </div>
-      <div class="mt-3">
+      <div class="table_box_two mt-3">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -118,7 +144,7 @@
       <div>
         <button class="btn btn-dark" (click)="getHeads()">Show Head</button>
       </div>
-      <div class="mt-3">
+      <div class="table_box_three mt-3">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -142,12 +168,25 @@
             </tr>
           </tbody>
         </table>
+        <div class="clearfix">
+          <div class="total_box">
+            Total
+          </div>
+          <div class="total_input">
+            <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal">
+          </div>
+          <div class="total_textarea">
+            <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
+            </textarea>
+          </div>
+
+        </div>
       </div>
     </div>
 
 
     <div class="modal-footer">
-      <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="hanldeExpenseVoucher()">Submit</button>
+      <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button>
       <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="dismiss(false)">Close</button>
     </div>
     <!-- <div>

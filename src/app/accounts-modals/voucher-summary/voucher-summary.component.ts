@@ -6,16 +6,20 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
+import { AccountService } from '../../services/account.service';
+
 @Component({
   selector: 'voucher-summary',
   templateUrl: './voucher-summary.component.html',
   styleUrls: ['./voucher-summary.component.scss']
 })
 export class VoucherSummaryComponent implements OnInit {
-
+  alltotal = 0;
+  narration = '';
   tripVoucher;
   trips;
   ledgers = [];
+  debitLedgerdata = [];
   checkedTrips = [];
   fuelFilings = [];
   tripHeads = [];
@@ -24,19 +28,27 @@ export class VoucherSummaryComponent implements OnInit {
   FinanceVoucherId;
   DriverId;
   DriverName;
-  creditLedger: {
+  creditLedger = {
     name: '',
     id: 0
   };
+  debitLedger = {
+    name: '',
+    id: 0
+  };
+
+  storeids = [];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
   checkall = false;
+  activeId = 'creditLedger';
 
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
+    public accountService: AccountService,
     private activeModal: NgbActiveModal) {
-    this.getAllLedgers();
+    // this.getAllLedgers();
     this.trips = this.common.params.tripDetails;
     this.VehicleId = this.common.params.vehId;
     this.tripVoucher = this.common.params.tripVoucher;
@@ -51,12 +63,46 @@ export class VoucherSummaryComponent implements OnInit {
       this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
       this.getVoucherDetails(this.tripVoucher.id);
     }
+    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.getcreditLedgers('credit');
+    //  this.getdebitLedgers('debit');
+    // this.setFoucus('custcode');
   }
 
   ngOnInit() {
   }
 
+  getcreditLedgers(transactionType) {
+    //  this.showSuggestions = true;
+    let voucherId = -7;
+    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
+    console.log('URL: ', url);
+    this.api.get(url)
+      .subscribe(res => {
+        console.log(res);
+        this.ledgers = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+    //this.setFoucus('ref-code');
+  }
 
+  getdebitLedgers(transactionType) {
+    //  this.showSuggestions = true;
+    let voucherId = -7;
+    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
+    console.log('URL: ', url);
+    this.api.get(url)
+      .subscribe(res => {
+        console.log(res);
+        this.debitLedgerdata = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+    //this.setFoucus('ref-code');
+  }
   getAllLedgers() {
     const params = {
       search: ""
@@ -74,12 +120,12 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  onSelected(selectedData, type, display) {
-    this.creditLedger.name = selectedData[display];
-    this.creditLedger.id = selectedData.id;
-    console.log('Selected Data: ', selectedData, type, display);
-    //  console.log('order User: ', this.DayBook);
-  }
+  // onSelected(selectedData, type, display) {
+  //   this.creditLedger.name = selectedData[display];
+  //   this.creditLedger.id = selectedData.id;
+  //   console.log('Selected Data: ', selectedData, type, display);
+  //   //  console.log('order User: ', this.DayBook);
+  // }
 
 
   checkedAllSelected() {
@@ -87,9 +133,30 @@ export class VoucherSummaryComponent implements OnInit {
     for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
       this.trips[i]['isChecked'] = true;
       this.checkedTrips.push(this.trips[i]);
+
+      //  this.storeids.push(this.trips[i].);
     }
+
+
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+  }
+
+  onSelected(selectedData, type, display) {
+    console.log('selected data', selectedData);
+    this.creditLedger.name = selectedData.y_ledger_name;
+    this.creditLedger.id = selectedData.y_ledger_id;
+    console.log('Accounts User: ', this.creditLedger);
+  }
+  onDebitSelected(selectedData, type, display) {
+    console.log('selected data1', selectedData);
+    this.debitLedger.name = selectedData.y_ledger_name;
+    this.debitLedger.id = selectedData.y_ledger_id;
+    console.log('Accounts11 User: ', this.debitLedger);
+  }
 
   checkedAll() {
     console.log('true value', this.checkall);
@@ -239,6 +306,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.fuelFilings.map(fuelFiling => {
         if (fuelFiling.isChecked) {
           fuelFilings.push({ id: fuelFiling.id });
+          this.storeids.push(fuelFiling.id);
         }
       });
       tripHead.fuelFilings = fuelFilings;
@@ -263,7 +331,7 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('Res: ', res);
         this.common.loading--;
-        this.addVoucher(res['data']);
+        //  this.addVoucher(res['data']);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -282,7 +350,7 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('Res: ', res);
         this.common.loading--;
-        this.addVoucher(this.VoucherId, this.FinanceVoucherId);
+        // this.addVoucher(this.VoucherId, this.FinanceVoucherId);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -290,56 +358,193 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  addVoucher(tvId, xId = 0) {
-    let amountDetails = [];
-    let totalAmount = 0;
-    this.tripHeads.map(tripHead => {
-      let data = {
-        transactionType: "debit",
-        ledger: {
-          name: '',
-          id: tripHead.id
-        },
-        amount: tripHead.total
-      };
-      totalAmount += tripHead.total;
-      amountDetails.push(data);
-    });
 
+  addVoucher() {
+
+
+    console.log('test value', this.checkedTrips);
+    // this.updateVoucherTrip(123);
+    // return;
+    let amountDetails = [];
     amountDetails.push({
-      transactionType: "credit",
+      transactionType: 'credit',
       ledger: {
-        name: '',
+        name: this.creditLedger.name,
         id: this.creditLedger.id
       },
-      amount: totalAmount
+      amount: this.alltotal,
+      details: []
     });
 
-    let params = {
-      //  customercode: this.VehicleId,
+
+    let totalAmount = 0;
+    this.tripHeads.map(tripHead => {
+      if (tripHead.total > 0) {
+        let data = {
+          transactionType: "debit",
+          ledger: {
+            name: '',
+            id: tripHead.id
+          },
+          amount: tripHead.total
+        };
+        totalAmount += tripHead.total;
+        amountDetails.push(data);
+      }
+    });
+
+
+    // amountDetails.push({
+    //   transactionType: 'debit',
+    //   ledger: {
+    //     name: this.debitLedger.name,
+    //     id: this.debitLedger.id
+    //   },
+    //   amount: this.alltotal,
+    //   details: []
+    // });
+
+
+
+
+    //const params ='';
+    const params = {
+      foid: 123,
+      // vouchertypeid: voucher.voucher.id,
       customercode: this.custcode,
+      remarks: this.narration,
       date: this.date,
-      foid: '',
-      remarks: "test",
-      vouchertypeid: '-9',
       amountDetails: amountDetails,
-      xid: xId,
-      y_code: ''
+      vouchertypeid: -10,
+      y_code: '',
+      xid: 0
     };
-    console.log('Params: ', params);
+
+    console.log('params 1 : ', params);
     this.common.loading++;
+
     this.api.post('Voucher/InsertVoucher', params)
       .subscribe(res => {
-        console.log('Res: ', res);
         this.common.loading--;
-        this.updateFinanceVoucherId(res['data'][0].save_voucher, tvId);
-      }, err => {
-        console.log(err);
-        this.common.loading--;
-        this.common.showError;
-      })
+        console.log('return vouher id: ', res['data']);
+        if (res['success']) {
 
+          if (res['data'][0].save_voucher_v1) {
+
+            //  this.voucher = this.setVoucher();
+            this.updateVoucherTrip(res['data'][0].save_voucher_v1);
+            this.common.showToast('Your Code :' + res['data'].code);
+            //   this.setFoucus('ref-code');
+
+
+
+          } else {
+            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+            this.common.showError(message);
+          }
+        }
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
+
+  updateVoucherTrip(voucherid) {
+    let tripidarray = [];
+
+    this.checkedTrips.map(tripHead => {
+      tripidarray.push(tripHead.id);
+
+    });
+    console.log('trip id array ', tripidarray);
+    const params = {
+      vchrid: voucherid,
+      // vchrid: 4925,
+      tripArrayId: tripidarray,
+      vehid: this.VehicleId,
+
+    };
+
+    this.api.post('TripExpenseVoucher/updateTripsForVoucher', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('return vouher id: ', res['data']);
+        if (res['success']) {
+
+          if (res['data']) {
+
+            //  this.voucher = this.setVoucher();
+            // this.updateVoucherTrip(res['data'][0].save_voucher_v1);
+            // this.common.showToast('Your Code :' + res['data'].code);
+            //   this.setFoucus('ref-code');
+
+            this.activeModal.close({ status: status });
+            this.common.loading--;
+          } else {
+            let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
+            this.common.showError(message);
+          }
+        }
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
+  // addVoucher(tvId, xId = 0) {
+  //   let amountDetails = [];
+  //   let totalAmount = 0;
+  //   this.tripHeads.map(tripHead => {
+  //     let data = {
+  //       transactionType: "debit",
+  //       ledger: {
+  //         name: '',
+  //         id: tripHead.id
+  //       },
+  //       amount: tripHead.total
+  //     };
+  //     totalAmount += tripHead.total;
+  //     amountDetails.push(data);
+  //   });
+
+  //   amountDetails.push({
+  //     transactionType: "credit",
+  //     ledger: {
+  //       name: '',
+  //       id: this.creditLedger.id
+  //     },
+  //     amount: totalAmount
+  //   });
+
+  //   let params = {
+  //     //  customercode: this.VehicleId,
+  //     customercode: this.custcode,
+  //     date: this.date,
+  //     foid: '',
+  //     remarks: "test",
+  //     vouchertypeid: '-9',
+  //     amountDetails: amountDetails,
+  //     xid: xId,
+  //     y_code: ''
+  //   };
+  //   console.log('Params: ', params);
+  //   this.common.loading++;
+  //   this.api.post('Voucher/InsertVoucher', params)
+  //     .subscribe(res => {
+  //       console.log('Res: ', res);
+  //       this.common.loading--;
+  //       this.updateFinanceVoucherId(res['data'][0].save_voucher, tvId);
+  //     }, err => {
+  //       console.log(err);
+  //       this.common.loading--;
+  //       this.common.showError;
+  //     })
+
+  // }
 
   updateFinanceVoucherId(fvId, tvId) {
     this.common.loading++;
@@ -360,11 +565,35 @@ export class VoucherSummaryComponent implements OnInit {
     this.tripHeads[index].trips.map(trip => {
       this.tripHeads[index].total += trip.amount;
     });
-    console.log('Total: ', this.tripHeads[index].total);
+    // console.log('Total: ', this.tripHeads[index].total);
+    let total = 0;
+    this.tripHeads.map(trip => {
+      total += trip.total;
+    });
+    this.alltotal = total;
+    console.log('All Total: ', this.alltotal);
+
   }
+
+
+
   dismiss(status) {
     this.activeModal.close({ status: status });
   }
+
+  callSaveVoucher() {
+
+    if (this.accountService.selected.branch.id != 0) {
+      // this.accountService.selected.branch
+      this.addVoucher();
+      // this.showConfirm = false;
+      event.preventDefault();
+      return;
+    } else {
+      alert('Please Select Branch');
+    }
+  }
+
   addTrip() {
     let vehId = this.VehicleId;
     this.common.params = { vehId };
