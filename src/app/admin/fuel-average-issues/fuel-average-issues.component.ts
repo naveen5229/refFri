@@ -71,7 +71,7 @@ export class FuelAverageIssuesComponent implements OnInit {
     let columns = [];
     this.fuelAvgIssues.map(issues => {
       let column = {
-        regno: { value: issues.regno, class: 'blue', action: this.vehicleFFdateWise.bind(issues) },
+        regno: { value: issues.regno, class: 'blue', action: this.vehicleFFdateWise.bind(this, issues) },
         startDate: { value: this.datePipe.transform(issues.start_time, 'dd MMM yyyy') },
         endDate: { value: this.datePipe.transform(issues.end_time, 'dd MMM yyyy') },
         litre: { value: issues.litre },
@@ -102,7 +102,7 @@ export class FuelAverageIssuesComponent implements OnInit {
 
   vehicleFFdateWise(value) {
 
-    this.common.params = { value: value };
+    this.common.params = { value };
     const activeModal = this.modalService.open(VehicleFuelFillingEntryComponent, { size: 'lg', container: 'nb-layout' });
 
   }
