@@ -55,8 +55,8 @@ export class ConciseComponent implements OnInit {
 
   viewType = "showprim_status";
   viewName = "Primary Status";
- left_heading = "";
- center_heading = "";
+  left_heading = "";
+  center_heading = "";
 
   kpiGroups = null;
   kpiGroupsKeys = [];
@@ -153,16 +153,9 @@ export class ConciseComponent implements OnInit {
     public mapService: MapService,
     public dateService: DateService,
     public pdfService: PdfService) {
-    if (localStorage.getItem('KPI_DATA')) {
-      this.allKpis = JSON.parse(localStorage.getItem('KPI_DATA'));
-      this.kpis = JSON.parse(localStorage.getItem('KPI_DATA'));
-      this.grouping(this.viewType);
-      this.table = this.setTable();
-    } else {
-      this.getKPIS();
-      this.common.currentPage = "";
-    }
-    this.handlePdfPrint();
+
+    this.getKPIS();
+    this.common.currentPage = "";
     this.common.refresh = this.refresh.bind(this);
   }
 
@@ -216,7 +209,9 @@ export class ConciseComponent implements OnInit {
         this.kpis = res["data"];
         this.grouping(this.viewType);
         this.table = this.setTable();
-        this.cookPdfData();
+        this.handlePdfPrint();
+        //this.cookPdfData();
+
       },
       err => {
         !isRefresh && this.common.loading--;
@@ -1220,7 +1215,7 @@ export class ConciseComponent implements OnInit {
   }
 
   generatePDF() {
- 
+
     this.common.loading++;
     let userid = this.user._customer.id;
     if (this.user._loggedInBy == "customer")
@@ -1229,21 +1224,21 @@ export class ConciseComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         let fodata = res['data'];
-         this.left_heading = fodata['name'];
-       this.center_heading = "Trip Feedback Logs";
-       console.log("center heading1",this.left_heading,this.center_heading);
-      
-        
+        this.left_heading = fodata['name'];
+        this.center_heading = "Trip Feedback Logs";
+        console.log("center heading1", this.left_heading, this.center_heading);
+
+
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-      
-      setTimeout(() => {
-        this.common.loading++;
-        this.pdfData.tables = [];
-        console.log("helooo");
-       
+
+    setTimeout(() => {
+      this.common.loading++;
+      this.pdfData.tables = [];
+      console.log("helooo");
+
       let data = this.pdfData.primary.list;
       console.log("list123------------------", data);
       console.log('KPIS:', this.primaryStatus);
@@ -1262,9 +1257,9 @@ export class ConciseComponent implements OnInit {
       })
       console.log("tableId", tableId);
       console.log('----------------------------PDF Tables:', this.pdfData);
-      console.log("ids3",this.left_heading,this.center_heading);
-        
-       this.pdfService.tableWithImages('page-1', tableId, data,this.left_heading,this.center_heading);
+      console.log("ids3", this.left_heading, this.center_heading);
+
+      this.pdfService.tableWithImages('page-1', tableId, data, this.left_heading, this.center_heading);
 
     }, 2000);
     this.common.loading--;
