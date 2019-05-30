@@ -1,7 +1,8 @@
 <nb-card style="padding-top: 26px;">
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-2 mt-3 pr-0">
+      <div class="col-sm-2 pr-0">
+        <label class="tjr-label">Vehicle No</label>
         <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
           placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
       </div>
@@ -20,7 +21,7 @@
         </div>
       </div> -->
       <div class="col-sm-6">
-        <button (click)="getPendingTrips()" class="btn btn-primary mt-3"><i class="fa fa-plus"></i></button>
+        <button (click)="getPendingTrips()" class="btn btn-primary mt-4"><i class="fa fa-plus"></i></button>
       </div>
     </div>
     <div class="mt-3">

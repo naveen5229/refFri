@@ -283,6 +283,14 @@ nb-menu .menu-item>.menu-items>.menu-item a {
     height: auto !important;
     font-size: 12px !important;
 }
+fuelfillings auto-suggestion .form-control,
+trip-voucher-expense auto-suggestion .form-control{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px !important;
+    padding: 3px 5px !important;
+    height: auto !important;
+    font-size: 12px !important;
+}
 
 .tjr-input:focus {
     border: 1px solid #263238 !important;
@@ -584,4 +592,7 @@ nb-card {
 }
 ngb-modal-window{
     z-index: 9999 !important;
+}
+.cdk-overlay-container{
+    z-index: 99999 !important;
 }
