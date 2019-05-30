@@ -25,18 +25,19 @@ export class AddMaintenanceComponent implements OnInit {
   serviceDetails = {
     lastServiceDate: null,
     serviceCategory: '1',
+    scheduleServices: "true",
     lastServiceKm: null,
     nextServiceDate: null,
     nextServiceKm: null,
     serviceCenter: null,
     serviceLocation: null,
     amount: null,
+    labourCost: null,
     remark: null,
   }
   services = [{
     serviceType: null,
-    nextServiceKm: null,
-    nextServiceDate: null,
+
     serviceTypeId: null,
 
     itemDetails: [
@@ -49,8 +50,7 @@ export class AddMaintenanceComponent implements OnInit {
   },
   {
     serviceType: null,
-    nextServiceKm: null,
-    nextServiceDate: null,
+
     serviceTypeId: null,
     itemDetails: [
       {
@@ -62,8 +62,7 @@ export class AddMaintenanceComponent implements OnInit {
   },
   {
     serviceType: null,
-    nextServiceKm: null,
-    nextServiceDate: null,
+
     serviceTypeId: null,
     itemDetails: [
       {
@@ -123,14 +122,16 @@ export class AddMaintenanceComponent implements OnInit {
       id: this.serviceId ? this.serviceId : null,
       vId: this.vehicleId,
       regno: this.regno,
+      isScheduledService: this.serviceDetails.scheduleServices,
       serviceCategory: this.serviceDetails.serviceCategory,
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
       lastServiceKm: this.serviceDetails.lastServiceKm,
-      nextServiceDate: this.common.dateFormatter(this.serviceDetails.nextServiceDate),
+      nextServiceDays: this.serviceDetails.nextServiceDate,
       nextServiceKm: this.serviceDetails.nextServiceKm,
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
+      labourCost: this.serviceDetails.labourCost,
       remark: this.serviceDetails.remark,
       services: JSON.stringify(this.services),
     };
@@ -157,8 +158,7 @@ export class AddMaintenanceComponent implements OnInit {
   addMore() {
     this.services.push({
       serviceType: null,
-      nextServiceKm: null,
-      nextServiceDate: null,
+
       serviceTypeId: null,
       itemDetails: [
         {
@@ -179,16 +179,16 @@ export class AddMaintenanceComponent implements OnInit {
     }
     );
   }
-  copiedDate() {
-    for (let i = 0; i < this.services.length; i++) {
-      this.services[i].nextServiceDate = this.serviceDetails.nextServiceDate;
-    }
-  }
-  copiedKm() {
-    for (let i = 0; i < this.services.length; i++) {
-      this.services[i].nextServiceKm = this.serviceDetails.nextServiceKm;
-    }
-  }
+  // copiedDate() {
+  //   for (let i = 0; i < this.services.length; i++) {
+  //     this.services[i].nextServiceDate = this.serviceDetails.nextServiceDate;
+  //   }
+  // }
+  // copiedKm() {
+  //   for (let i = 0; i < this.services.length; i++) {
+  //     this.services[i].nextServiceKm = this.serviceDetails.nextServiceKm;
+  //   }
+  // }
 
   dateFormatConversion() {
 

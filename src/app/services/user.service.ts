@@ -70,6 +70,7 @@ export class UserService {
       { id: 40, route: '/admin/halt-density' },
       { id: 41, route: '/admin/placement-site-rule' },
       { id: 42, route: '/admin/fuel-average-issues' },
+      { id: 43, route: '/admin/consolidate-fuel-average' },
     ]
   }
 

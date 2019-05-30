@@ -254,8 +254,15 @@ export class RouteMapperComponent implements OnInit {
         break;
       }
     }
-    this.timelineValue = 0;
-    this.isPlay = false;
+    if (!this.breakPrevious) {
+      this.timelineValue = 0;
+      this.mapService.polygonPath.set('icons', [{
+        icon: this.mapService.lineSymbol,
+        offset: this.timelineValue + "%"
+      }]);
+      this.zoomOnArrow();
+      this.isPlay = false;
+    }
   }
   zoomOnArrow(isEvent = true) {
     let bound = this.mapService.getMapBounds();
