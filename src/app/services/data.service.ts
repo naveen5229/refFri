@@ -264,6 +264,12 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Consolidate Fuel Average',
+            icon: 'fa fa-signal',
+            link: '/admin/consolidate-fuel-average',
+            home: true,
+          },
+          {
             title: 'Remaining Fuel',
             icon: 'fa fa-signal',
             link: '/admin/remaining-fuel',

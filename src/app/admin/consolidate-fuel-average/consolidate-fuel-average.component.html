@@ -1,27 +1,30 @@
-<!-- <nb-card>
+<nb-card>
   <nb-card-header>
     <div class="row" style="margin-left:10px">
       <div class="col-sm-6">
         Consolidate Fuel Average
       </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-2">
+        <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
       </div>
-      </nb-card-header>
-      <nb-card-body>
-        <div class="row" style="margin-top:10px">
-            <div class="col-sm-4">
-              <input type="text" class="form-control" [value]="fromDate | date : 'dd MMM yyyy'" name="date"
-                placeholder="Start Date" (click)="getDate('start')">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
-                placeholder="End Date" (click)="getDate('end')">
-            </div>
-        </div>
-        <div>
-            <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings"></smart-table>
-            <div class="no-data alert alert-danger" role="alert" *ngIf="consolFuelAvg.length==0">
-              No Data available !
-            </div>
-        </div>
-      </nb-card-body>
-      </nb-card> -->
+      <div class="col-sm-2">
+        <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn btn-primary" (click)="getConsolidateFuelAvg()">submit</button>
+      </div>
+    </div>
+    <div style="margin-top: 15px">
+      <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings"></smart-table>
+      <div class="no-data alert alert-danger" role="alert" *ngIf="consolFuelAvg==null">
+        No Data available !
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
