@@ -45,7 +45,7 @@
           placeholder="Pump" [preSelected]="{loc_name:pumpName}"></auto-suggestion>
       </div>
     </div>
-    <!-- <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:10px" *ngIf="Rules.ruleType=='2'">
       <div class="col-sm-3" style="margin-top:7px">
         <label>Angle From:</label>
       </div>
@@ -58,7 +58,7 @@
       <div class="col-sm-3">
         <input type="text" class="form-control" [(ngModel)]="Rules.angleTo" name="angleto" placeholder="">
       </div>
-    </div> -->
+    </div>
     <!-- <div class="row" style="margin-top:10px" *ngIf="ruleType=='2'">
       <div class="col-sm-3" style="margin-top:5px">
         <label>Location:</label>
