@@ -12,11 +12,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class FuelEntriesComponent implements OnInit {
   fuelDetails = null;
   bgc = [];
+  update = false;
 
   constructor(
     public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
+    console.log('fuelentries....', this.common.params);
     this.getDetails();
   }
 
@@ -62,15 +64,35 @@ export class FuelEntriesComponent implements OnInit {
     let params = {
       x_ff_id: fuelDetail.id,
       x_is_full: fuelDetail.is_full ? 1 : 0,
-    }
+      vid: this.common.params.vehicle_id,
+      startTime: this.common.params.startdate,
+      endTime: this.common.params.enddate
+    };
     this.common.loading++;
-    this.api.post('FuelDetails/changeFullFillingStatus', params)
+    this.api.post('FuelDetails/changeFullFillingStatusV1', params)
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        this.common.showToast(res['msg']);
-        console.log("fuelDetails", this.fuelDetails);
-        this.closeModal();
+        if (res['success']) {
+          this.common.loading++;
+          let params = {
+
+          };
+          this.api.post('FuelDetails/getEmptyFuelAvgEntry', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log('res', res['data']);
+              this.common.showToast(res['msg']);
+              this.update = true;
+              //console.log("fuelDetails", this.fuelDetails);
+              this.closeModal();
+            }, err => {
+              this.common.loading--;
+              this.common.showError();
+            })
+        }
+        //this.common.showToast(res['msg']);
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -78,6 +100,9 @@ export class FuelEntriesComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    if (this.update)
+      this.activeModal.close({ update: this.update });
+    else
+      this.activeModal.close();
   }
 }

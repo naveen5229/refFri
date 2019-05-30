@@ -463,6 +463,7 @@ export class VoucherComponent implements OnInit {
       // this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     }
     if (this.voucher.total.debit == this.voucher.total.credit && index == this.voucher.amountDetails.length - 1) {
+      if (this.showConfirmCostCenter) return;
       this.setFoucus('narration');
       return;
     } else if (this.voucher.total.debit == this.voucher.total.credit && index != this.voucher.amountDetails.length - 1) {

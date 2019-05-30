@@ -12,15 +12,7 @@
     <div class="col-md-3">
       <span>{{regno}}</span>
     </div>
-    <div class="col-md-3">
-      <label> Service Category</label>
-    </div>
-    <div class="col-md-3">
-      <select [(ngModel)]="serviceDetails.serviceCategory">
-        <option value="1">Company</option>
-        <option value="2">Own</option>
-      </select>
-    </div>
+
   </div>
 
 
@@ -63,34 +55,40 @@
 
   <div class="row">
     <div class="col-md-3">
-      <label>Amount</label>
+      <label>Scheduled Service</label>
     </div>
     <div class="col-md-3">
-      <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
+      <select [(ngModel)]="serviceDetails.scheduleServices" class="form-control">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
     </div>
-    <div class="col-md-3">
-      <label>Remark</label>
+    <div class="col-md-3" *ngIf="serviceDetails.scheduleServices=='true'">
+      <label> Service Category</label>
     </div>
-    <div class="col-md-3">
-      <input type="text" placeholder="Remark" class="form-control" name="amount" [(ngModel)]="serviceDetails.remark">
+    <div class="col-md-3" *ngIf="serviceDetails.scheduleServices=='true'">
+      <select [(ngModel)]="serviceDetails.serviceCategory" class="form-control">
+        <option value="1">Company</option>
+        <option value="2">Own</option>
+      </select>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="serviceDetails.scheduleServices=='true'">
     <div class="col-md-3">
       <label>Next Service After Days</label>
     </div>
     <div class="col-md-3">
       <div class="row">
-        <div class="col-10 pr-1">
+        <div class="col-12 pr-1">
           <input type="number" placeholder="Days" class="form-control" name="nextServiceDate"
             [(ngModel)]="serviceDetails.nextServiceDate" maxlength="8">
           <!-- <uj-date-time-picker [isTime]="false" (onChanged)="serviceDetails.nextServiceDate = $event"
               [dateTimeValue]="serviceDetails.nextServiceDate">
             </uj-date-time-picker> -->
         </div>
-        <div class="col-2 p-0">
+        <!-- <div class="col-2 p-0">
           <i class="fa fa-copy mt-2" (click)="copiedDate();"></i>
-        </div>
+        </div> -->
       </div>
 
     </div>
@@ -99,17 +97,42 @@
     </div>
     <div class="col-md-3">
       <div class="row mb-0">
-        <div class="col-10 pr-1">
+        <div class="col-12 pr-1">
           <input type="number" placeholder="Km" class="form-control" name="nextServiceKm"
             [(ngModel)]="serviceDetails.nextServiceKm" maxlength="8">
         </div>
-        <div class="col-2 p-0">
+        <!-- <div class="col-2 p-0">
           <i class="fa fa-copy mt-2" (click)="copiedKm();"></i>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-3">
+      <label>Total Amount</label>
+    </div>
+    <div class="col-md-3">
+      <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
+    </div>
+    <div class="col-md-3">
+      <label>Labour Cost</label>
+    </div>
+    <div class="col-md-3">
+      <input type="text" placeholder="Labour Cost" class="form-control" name="labourCost"
+        [(ngModel)]="serviceDetails.labourCost">
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-3">
+      <label>Remark</label>
+    </div>
+    <div class="col-md-3">
+      <input type="text" placeholder="Remark" class="form-control" name="amount" [(ngModel)]="serviceDetails.remark">
+    </div>
+  </div>
 
   <div class="services">
     <h5>Service Details</h5>
@@ -119,12 +142,12 @@
           <th>
             <label> Service Type </label>
           </th>
-          <th>
+          <!-- <th>
             <label> Next_Service After_KM</label>
           </th>
           <th>
             <label> Next_Service After_Days</label>
-          </th>
+          </th> -->
           <th>
             <label> Item Details</label>
           </th>
@@ -142,17 +165,18 @@
               <option *ngFor="let st of serviceType;" [value]="st.name">{{st.name}}</option>
             </datalist>
           </td>
-          <td>
+          <!-- <td>
             <input type="number" placeholder="Km" class="form-control" [(ngModel)]="service.nextServiceKm"
               maxlength="8">
           </td>
           <td>
             <input type="number" placeholder="Days" class="form-control" [(ngModel)]="service.nextServiceDate"
               maxlength="8">
-            <!-- <uj-date-time-picker [isTime]="false" (onChanged)="service.nextServiceDate = $event"
+            </td> -->
+          <!-- <uj-date-time-picker [isTime]="false" (onChanged)="service.nextServiceDate = $event"
               [dateTimeValue]="service.nextServiceDate">
             </uj-date-time-picker> -->
-          </td>
+
           <span *ngFor="let item of service.itemDetails; let j= index">
             <td>
               <input type="text" class="form-control" [(ngModel)]="item.name" placeholder=" Item Name">
