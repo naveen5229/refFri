@@ -20,7 +20,9 @@ export class AddPumpComponent implements OnInit {
   siteId = null;
   pumpname=null;
   mark = null;
-  para = null;
+  para1 = null;
+  para2 =null;
+  para3 =null;
   title = '';
   latlong;
 
@@ -176,21 +178,30 @@ export class AddPumpComponent implements OnInit {
 
   submitPumpData() {
 
+    if(this.pumpname==null)
+    {
+       this.para1=this.latlong[0].lat;
+       this.para2=this.latlong[0].long;
+       console.log("latlong",this.latlong[0].lat);
+       this.para3=null;
+    }
+    else{
+      this.para3=this.siteId;
+      this.para1=null;
+      this.para2=null;
+    }
+
     let params = {
       petrolPumplocation: this.location,
       petrolPumpName: this.name,
-      siteId: this.siteId,
+      siteId: this.para3,
+      lat:this.para1,
+      long:this.para2,
       fuelCompany: this.fuel_company
     };
     
-    if(this.pumpname==null)
-    {
-       this.para=this.latlong;
-    }
-    else{
-      this.para=this.siteId;
-    }
-    console.log("para",this.para);
+    
+    
     console.log("params", params);
     this.common.loading++;
     this.api.post('FuelDetails/addPetrolPump', params)
