@@ -33,14 +33,15 @@
             </tr>
             <tr>
               <td>
-                <button (click)="clearAll()" class="btn btn-primary">Clear All</button>
-               
+                <button (click)="clearAll()" class="btn btn-primary"
+                  style="display: inline-block; margin-right: 5px;  ">Clear All</button>
+                <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
               </td>
               <td>
-                <button (click)="loadMarkers()" class="btn btn-primary"  style="display: inline-block; margin-right: 5px;  ">Load Marker</button>
-                <button (click)="updateSiteName();" 
-                class="btn btn-primary">U.S</button>
-                
+                <button (click)="loadMarkers()" class="btn btn-primary"
+                  style="display: inline-block; margin-right: 5px;  ">Load Marker</button>
+                <button (click)="updateSiteName();" class="btn btn-primary">U.S</button>
+
               </td>
               <td>
                 <button (click)="enterTicket();"

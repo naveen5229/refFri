@@ -160,7 +160,6 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
 import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
 import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
-import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-average/consolidate-fuel-average.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -283,7 +282,6 @@ import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-averag
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
-    ConsolidateFuelAverageComponent
 
   ],
   entryComponents: [
@@ -403,7 +401,6 @@ import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-averag
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
-    ConsolidateFuelAverageComponent,
 
   ],
   imports: [
