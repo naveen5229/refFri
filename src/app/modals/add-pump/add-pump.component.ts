@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
+import { longStackSupport } from 'q';
 
 
 @Component({
@@ -17,7 +18,11 @@ export class AddPumpComponent implements OnInit {
   location = '';
   name = '';
   siteId = null;
+  pumpname=null;
+  mark = null;
+  para = null;
   title = '';
+  latlong;
 
   marker = [];
   infoWindow = null;
@@ -41,7 +46,9 @@ export class AddPumpComponent implements OnInit {
         this.location = place;
         this.getmapData(lat, lng);
       });
+
     }, 2000)
+
 
 
   }
@@ -58,8 +65,42 @@ export class AddPumpComponent implements OnInit {
       this.mapService.zoomAt({ lat: lat, lng: lng });
       this.getmapData(lat, lng);
     });
+    this.mapService.addListerner(this.mapService.map, 'click', evt=> {
+      console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
+      this.latlong = [{
+        lat: evt.latLng.lat(),
+        long: evt.latLng.lng(),
+        color: 'FF0000',
+        subType: 'marker'
+      }];
+      // if(this.mark)
+      // {
+      //   this.mark[0].setMap(null);
+      // }
+      if(this.mark!=null){
+        this.mark[0].setMap(null);
+        this.mark = null;
+
+      }
+      this.pumpname=null;
+     
+      this.mark=this.mapService.createMarkers(this.latlong, false, true);
+      console.log("latlong",this.latlong);
+     
+     // this.mapService.createMarkers(this.latlong, false, true);
+      // this.mark=this.mapService.createMarkers(this.latlong, false, true);
+
+      
+     //console.log("marks",this.mark);
+    
+    
+    
+    });
+
+
     // this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => { this.siteLoc = place; this.siteLocLatLng = { lat: lat, lng: lng } });
   }
+
 
   closeModal(response) {
     this.activeModal.close({ response: response });
@@ -96,6 +137,8 @@ export class AddPumpComponent implements OnInit {
   setPetrolInfo(event) {
     console.log("Event Data:", event);
     this.siteId = event.id;
+    this.pumpname = event.name;
+    console.log("pumpname and siteid",this.pumpname,this.siteId);
   }
 
   setEventInfo(event) {
@@ -108,7 +151,10 @@ export class AddPumpComponent implements OnInit {
     this.infoWindow.setContent(`
     <p>Site Id :${event.id}</p>
     <p>Pump Name :${event.name}</p>
+    
     `);
+   
+
     // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
     this.infoWindow.open(this.mapService.map);
@@ -129,12 +175,22 @@ export class AddPumpComponent implements OnInit {
   }
 
   submitPumpData() {
+
     let params = {
       petrolPumplocation: this.location,
       petrolPumpName: this.name,
       siteId: this.siteId,
       fuelCompany: this.fuel_company
     };
+    
+    if(this.pumpname==null)
+    {
+       this.para=this.latlong;
+    }
+    else{
+      this.para=this.siteId;
+    }
+    console.log("para",this.para);
     console.log("params", params);
     this.common.loading++;
     this.api.post('FuelDetails/addPetrolPump', params)
