@@ -105,6 +105,28 @@
               </div>
             </div>
 
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Emission Standard<span
+                  class="mandatory">*</span></label>
+
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-2">
+                    <label>Euro </label>
+                  </div>
+                  <div class="col-6">
+                    <select name="emission" class="form-control mt-1" [(ngModel)]="modal.first.data.document.emissionId"
+                      (ngModel)="selectRule()">
+                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission.id">
+                        {{emission.id}}</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
 
             <div class="row form-field clear">
               <label for="wef_date-first" class="col-sm-4 mgn-vert">manufaturing Date</label>
@@ -220,6 +242,26 @@
                   [data]="modal.second.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
                   class="documentType " style='width: 60% !important;'>
                 </auto-suggestion>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Model Type<span class="mandatory">*</span></label>
+
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-2">
+                    <label>Euro </label>
+                  </div>
+                  <div class="col-6">
+                    <select name="emission" class="form-control mt-1 "
+                      [(ngModel)]="modal.second.data.document.emissionId">
+                      <option class="form-control" *ngFor="let emission of emissionStandard">
+                        {{emission.id}}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
 
