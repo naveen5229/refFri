@@ -161,6 +161,7 @@ import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/
 import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -283,6 +284,7 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
 
+
   ],
   entryComponents: [
     ChangeDriverComponent,
@@ -401,6 +403,7 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
+
 
   ],
   imports: [
