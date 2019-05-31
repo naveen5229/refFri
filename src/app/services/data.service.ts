@@ -130,7 +130,7 @@ export class DataService {
             link: '/admin/ticket-properties',
           },
           {
-            title: 'vehicle view',
+            title: 'Vehicle Categories',
             icon: 'fa fa-chart-bar',
             link: '/admin/vehicles-view',
           },
