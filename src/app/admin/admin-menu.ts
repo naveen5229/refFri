@@ -156,6 +156,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 home: true,
             },
             {
+                title: 'Consolidate Fuel Average',
+                icon: 'fa fa-signal',
+                link: '/admin/consolidate-fuel-average',
+                home: true,
+            },
+            {
                 title: 'Pump Station Area',
                 icon: 'fa fa-signal',
                 link: '/admin/pump-station-area',
