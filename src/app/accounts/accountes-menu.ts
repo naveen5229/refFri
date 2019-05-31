@@ -48,6 +48,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
+        title: 'Vehicle Cost Center List',
+        link: '/accounts/vehicle-cost-center-list'
+    },
+    {
         title: 'Stock Master',
         icon: 'fa fa-building-o',
 
