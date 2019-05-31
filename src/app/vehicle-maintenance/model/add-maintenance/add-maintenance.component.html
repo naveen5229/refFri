@@ -113,7 +113,7 @@
       <label>Total Amount</label>
     </div>
     <div class="col-md-3">
-      <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
+      <input type="number" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
     </div>
     <div class="col-md-3">
       <label>Remark</label>
@@ -147,7 +147,7 @@
       <label>Labour Cost</label>
     </div>
     <div *ngIf="isItem==1" class="col-md-3">
-      <input type="text" placeholder="Labour Cost" class="form-control" name="labourCost"
+      <input type="number" placeholder="Labour Cost" class="form-control" name="labourCost"
         [(ngModel)]="serviceDetails.labourCost">
     </div>
   </div>
@@ -169,10 +169,10 @@
             <input type="text" class="form-control" [(ngModel)]="item.name" placeholder=" Item Name">
           </td>
           <td>
-            <input type="text" class="form-control" [(ngModel)]="item.quantity" placeholder="Quantity">
+            <input type="number" class="form-control" [(ngModel)]="item.quantity" placeholder="Quantity">
           </td>
           <td>
-            <span><input type="text" class="form-control" [(ngModel)]="item.amount" placeholder="Amount"
+            <span><input type="number" class="form-control" [(ngModel)]="item.amount" placeholder="Amount"
                 style="width: 70%; display: inline-block; margin-right: 5px;">
             </span>
           </td>
