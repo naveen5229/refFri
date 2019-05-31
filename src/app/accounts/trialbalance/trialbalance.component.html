@@ -83,7 +83,7 @@
           <td *ngIf="dataItem.totalclosing == 0"></td>
         </tr>
         <tr *ngFor="let trialdata of dataItem.traildatas; let j = index" (click)="selectedRow =  '' + i + j"
-          (dblclick)="(trialdata.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialdata.y_ledgerid)"
+          (dblclick)="(trialdata.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialdata.y_ledgerid,trialdata.y_ledger_name)"
           [ngClass]="{'highlight' : selectedRow == '' + i + j }" style="background: #dadfe6;">
 
           <td>{{trialdata.y_ledger_name}}</td>
