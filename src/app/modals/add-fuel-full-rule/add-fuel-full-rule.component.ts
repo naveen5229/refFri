@@ -21,7 +21,9 @@ export class AddFuelFullRuleComponent implements OnInit {
     ruleType: '0',
     siteId: null,
     pumpStationId: null,
-    rowid: ''
+    rowid: '',
+    angleFrom: '',
+    angleTo: ''
   };
 
 
@@ -45,8 +47,8 @@ export class AddFuelFullRuleComponent implements OnInit {
       }
       this.Rules.siteId = this.common.params.rule.siteid || 'null';
       this.Rules.pumpStationId = this.common.params.rule.pump_station_area_id || 'null';
-      //  this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
-      //  this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
+      this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
+      this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
 
     }
   }
@@ -71,6 +73,8 @@ export class AddFuelFullRuleComponent implements OnInit {
 
   getPump(pump) {
     this.Rules.pumpStationId = pump.id;
+    this.Rules.angleFrom = pump.angle_from;
+    this.Rules.angleTo = pump.angle_to;
     return this.Rules.pumpStationId;
   }
 
@@ -80,8 +84,8 @@ export class AddFuelFullRuleComponent implements OnInit {
     let params = {
       foid: this.Rules.foid,
       ruleType: this.Rules.ruleType,
-      //  angleFrom: this.Rules.angleFrom,
-      // angleTo: parseInt(this.Rules.angleTo),
+      angleFrom: parseInt(this.Rules.angleFrom),
+      angleTo: parseInt(this.Rules.angleTo),
       siteId: parseInt(this.Rules.siteId),
       pumpStationId: this.Rules.pumpStationId,
       rowid: this.Rules.rowid ? this.Rules.rowid : 'null'
