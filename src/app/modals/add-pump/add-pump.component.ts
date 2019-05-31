@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MapService } from '../../services/map.service';
 import { longStackSupport } from 'q';
+import { NullTemplateVisitor } from '@angular/compiler';
+import { position } from '@progress/kendo-popup-common';
 
 
 @Component({
@@ -19,6 +21,9 @@ export class AddPumpComponent implements OnInit {
   name = '';
   siteId = null;
   pumpname=null;
+  final=[];
+  values;
+  position= null;
   mark = null;
   para1 = null;
   para2 =null;
@@ -45,6 +50,7 @@ export class AddPumpComponent implements OnInit {
         console.log('Lat: ', lat);
         console.log('Lng: ', lng);
         console.log('Place: ', place);
+        console.log("position",this.position);
         this.location = place;
         this.getmapData(lat, lng);
       });
@@ -62,45 +68,50 @@ export class AddPumpComponent implements OnInit {
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
-    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
-      this.mapService.clearAll(true, true, { marker: true, polygons: false, polypath: false });
-      this.mapService.zoomAt({ lat: lat, lng: lng });
-      this.getmapData(lat, lng);
-    });
-    this.mapService.addListerner(this.mapService.map, 'click', evt=> {
-      console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
-      this.latlong = [{
-        lat: evt.latLng.lat(),
-        long: evt.latLng.lng(),
-        color: 'FF0000',
-        subType: 'marker'
-      }];
-      // if(this.mark)
-      // {
-      //   this.mark[0].setMap(null);
-      // }
-      if(this.mark!=null){
-        this.mark[0].setMap(null);
-        this.mark = null;
-
-      }
-      this.pumpname=null;
-     
-      this.mark=this.mapService.createMarkers(this.latlong, false, true);
-      console.log("latlong",this.latlong);
-     
-     // this.mapService.createMarkers(this.latlong, false, true);
-      // this.mark=this.mapService.createMarkers(this.latlong, false, true);
-
-      
-     //console.log("marks",this.mark);
-    
-    
-    
-    });
-
-
+    setTimeout(() => {
+        this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+        this.mapService.clearAll(true, true, { marker: true, polygons: false, polypath: false });
+        this.mapService.zoomAt({ lat: lat, lng: lng });
+        this.getmapData(lat, lng);
+      });
+      this.mapService.addListerner(this.mapService.map, 'click', evt=> {
+        console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
+        this.latlong = [{
+          lat: evt.latLng.lat(),
+          long: evt.latLng.lng(),
+          color: 'FF0000',
+          subType: 'marker'
+        }];
+        this.position = evt.latLng.lat()+","+evt.latLng.lng();
+        if(this.mark!=null){
+          this.mark[0].setMap(null);
+          this.mark = null;
+         }
+        this.pumpname=null;
+        this.mark=this.mapService.createMarkers(this.latlong, false, true);
+          console.log("latlong",this.latlong);
+        });   
+      },1000);
     // this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => { this.siteLoc = place; this.siteLocLatLng = { lat: lat, lng: lng } });
+  }
+
+  gotoSingle(){
+    console.log("position1",this.position);
+    this.final = this.position.split(",");
+    console.log("array",this.final[0]);
+    this.latlong = [{
+      lat: this.final[0],
+      long: this.final[1],
+      color: 'FF0000',
+      subType: 'marker'
+    }];
+    if(this.mark!=null){
+      this.mark[0].setMap(null);
+      this.mark = null;
+     }
+    this.pumpname=null;
+   this.mark=this.mapService.createMarkers(this.latlong, false, true);
+    
   }
 
 
@@ -128,6 +139,14 @@ export class AddPumpComponent implements OnInit {
           this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
           markerIndex++;
         }
+        // for (const marker in this.mapService.markers) {
+        //   if (this.mapService.markers.hasOwnProperty(marker)) {
+        //     const event = this.mapService.markers[marker];
+        //     this.mapService.addListerner(marker, 'click', () => this.setPetrolInfo(event));
+        //   this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+        //   this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
+        //   }
+        // }
       }, err => {
         this.common.showError("Error occurred");
         this.common.loading--;
