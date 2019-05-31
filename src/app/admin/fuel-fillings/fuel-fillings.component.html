@@ -4,7 +4,16 @@
       <div class="col-md-2">
         <h4>Fuel Fillings</h4>
       </div>
-      <div class="col-md-10 text-right">
+
+      <div class="col-md-2">
+        <span>
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('tblfillings')" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCsv('tblfillings')"
+            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+      <div class="col-md-08 text-right">
         <button id="add-fuel" name="add-fuel" class="btn btn-primary" (click)="addFuel()"
           style="margin:0px; margin-right: 5px; cursor: pointer;">Add Fuel</button>
         <button id="import-csv" name="import-csv" class="btn btn-primary" *ngIf="user._loggedInBy=='admin'"
@@ -20,6 +29,7 @@
           Details</button>
       </div>
     </div>
+
 
 
   </nb-card-header>

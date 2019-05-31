@@ -76,7 +76,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Palacement Site Rule',
+            title: 'Placement Site Rule',
             icon: 'fas fa-file-signature',
             link: '/admin/placement-site-rule',
             home: true,
@@ -261,6 +261,12 @@ export class DataService {
             title: 'Fuel Average Analysis',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+          {
+            title: 'Consolidate Fuel Average',
+            icon: 'fa fa-signal',
+            link: '/admin/consolidate-fuel-average',
             home: true,
           },
           {

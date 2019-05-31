@@ -235,8 +235,8 @@ nb-menu .menu-item>.menu-items>.menu-item a {
 .fas.fa-info-circle::before,
 .fas.fa-tools::before,
 .fas.fa-badge-check::before,
-.fas.fa-map-marked::before ,
-.fas.fa-truck-pickup::before{
+.fas.fa-map-marked::before,
+.fas.fa-truck-pickup::before {
     font-family: inherit;
 }
 
@@ -277,6 +277,15 @@ nb-menu .menu-item>.menu-items>.menu-item a {
 }
 
 .tjr-input {
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px !important;
+    padding: 3px 5px !important;
+    height: auto !important;
+    font-size: 12px !important;
+}
+
+fuelfillings auto-suggestion .form-control,
+trip-voucher-expense auto-suggestion .form-control {
     border: 1px solid #263238 !important;
     border-radius: 0px 2px 2px 2px !important;
     padding: 3px 5px !important;
@@ -519,7 +528,8 @@ nb-card {
 }
 
 .voucher-pdf {
-    width: 210mm;
+    width: 450px;
+    height: 600px;
     padding: 10mm;
     padding-left: 10mm;
     padding-right: 10mm;
@@ -569,7 +579,7 @@ nb-card {
     text-align: center;
 }
 
-.footerselector{
+.footerselector {
     margin-top: 250px;
 }
 
@@ -578,6 +588,18 @@ nb-card {
 }
 
 
-.CostcenterClass{
+.CostcenterClass {
     z-index: 999999 !important;
+}
+
+ngb-modal-window {
+    z-index: 9999 !important;
+}
+
+.fade.show {
+    opacity: 1 !important;
+}
+
+.cdk-overlay-container {
+    z-index: 99999 !important;
 }

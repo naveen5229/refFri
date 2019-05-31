@@ -1,20 +1,60 @@
-<nb-card>
+<nb-card style="padding-top: 26px;">
   <nb-card-body>
     <div class="row">
       <div class="col-sm-2 pr-0">
-        <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getVehicleList" display="regno"
+        <label class="tjr-label">Vehicle No</label>
+        <auto-suggestion (onSelected)="getVehicle($event)" url="Suggestion/getFoVehicleList" display="regno"
           placeholder="Enter Reg No" [preSelected]="null"></auto-suggestion>
       </div>
+      <!-- <div class="col-sm-2 pr-0">
+        <div class="form-group">
+          <label class="tjr-label">Starting Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input " autocomplete="off"
+            placeholder="Select Date" name="date" [(ngModel)]="startdate" id="startdate" maxlength="10">
+        </div>
+      </div>
+      <div class="col-sm-2 pr-0">
+        <div class="form-group">
+          <label class="tjr-label">End Date</label>
+          <input type="text" style="cursor: pointer;" class="form-control tjr-input" id="enddate" autocomplete="off"
+            placeholder="Select Date" name="enddate" [(ngModel)]="enddate" maxlength="10">
+        </div>
+      </div> -->
       <div class="col-sm-6">
-        <button (click)="getPendingTrips()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+        <button (click)="getPendingTrips()" class="btn btn-primary mt-4"><i class="fa fa-plus"></i></button>
       </div>
     </div>
-    <div class="mt-4">
+    <div class="mt-3">
       <table class="table table-bordered" id="table">
         <thead style="background-color:#263238; color:#fff;">
+          <tr>
+            <th>SN</th>
+            <th>Vehicle Name</th>
+            <th>Code</th>
+            <th>Ref No</th>
+            <th>Amount</th>
+            <!-- <th> Date</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;">
+            <td (click)="getVoucherSummary(tripVoucher)">{{i+1}}</td>
+            <td>{{tripVoucher.y_vehicle_name}}</td>
+            <td>{{tripVoucher.y_code }}</td>
+            <td>{{tripVoucher.y_ref_no }}</td>
+            <td>{{tripVoucher.y_amount }}</td>
+            <!-- <td>{{tripVoucher.y_date | date : 'dd MMM'}}</td> -->
+
+            <!-- <td><i class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
+                    (click)="deleteVoucherEntry(tripVoucher)"></i></td> -->
+          </tr>
+        </tbody>
+      </table>
+      <!-- <table class="table table-bordered" id="table">
+        <thead style="background-color:#263238; color:#fff;">
           <th>SN</th>
-          <th>Start Location</th>
           <th>End Location</th>
+          <th>Start Location</th>
           <th>Start Date</th>
           <th>End Date</th>
           <th>Action</th>
@@ -30,7 +70,7 @@
                 (click)="deleteVoucherEntry(tripVoucher)"></i></td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
     </div>
     <!-- <div>
       <table class="table table-bordered">

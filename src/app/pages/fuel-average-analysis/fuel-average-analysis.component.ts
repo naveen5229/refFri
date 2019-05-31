@@ -8,6 +8,7 @@ import { FuelEntriesComponent } from '../../modals/fuel-entries/fuel-entries.com
 import { RouteMapperComponent } from '../../modals/route-mapper/route-mapper.component';
 import { DatePipe } from '@angular/common';
 import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
+import { start } from 'repl';
 
 @Component({
   selector: 'fuel-average-analysis',
@@ -19,10 +20,12 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
   showTable = false;
+  today = new Date();
   dates = {
-    start: this.common.dateFormatter(new Date()).split(' ')[0],
-    end: this.common.dateFormatter(new Date()).split(' ')[0]
+    start: this.common.dateFormatter(new Date(this.today.setDate(this.today.getDate() - 28))).split(' ')[0],
+    end: this.common.dateFormatter(new Date()).split(' ')[0],
   };
+
   table = null;
   constructor(
     public api: ApiService,
@@ -31,7 +34,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
     private modalService: NgbModal,
     private datePipe: DatePipe, ) {
 
-    // this.getfuelAverageDetails();
+    this.getfuelAverageDetails();
 
   }
 
@@ -39,6 +42,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
   }
 
   getfuelAverageDetails() {
+    this.fuelAvgDetails = [];
     console.log("api hit");
     this.common.loading++;
     let params = {
@@ -46,6 +50,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
       endTime: this.dates.end,
       foId: null,
     };
+
     this.api.post('FuelDetails/getVehicleFuelFillingAvg', params)
       .subscribe(res => {
         this.common.loading--;
@@ -55,6 +60,8 @@ export class FuelAverageAnalysisComponent implements OnInit {
           this.showTable = true;
           this.table = this.setTable();
         } else {
+          this.showTable = false;
+          this.table = null;
           this.common.showToast('No Record Found!!');
         }
 
@@ -102,7 +109,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
         average: { value: fuel.avg },
         totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
         loadingDistance: { value: fuel.loading_distance },
-        unloadingDistance: { value: fuel.umloading_distance },
+        unloadingDistance: { value: fuel.unloading_distance },
         location: { value: fuel.location_trail },
 
       };
@@ -135,7 +142,11 @@ export class FuelAverageAnalysisComponent implements OnInit {
     console.log('Param', this.common.params);
 
     const activeModal = this.modalService.open(FuelEntriesComponent, { size: 'lg', container: 'nb-layout' });
-
+    activeModal.result.then(data => {
+      if (data.update) {
+        this.getfuelAverageDetails();
+      }
+    })
   }
 
 
@@ -175,4 +186,43 @@ export class FuelAverageAnalysisComponent implements OnInit {
   //   const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout' });
 
   // }
+
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Fuel Mileage";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Fuel Mileage";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
 }
