@@ -21,6 +21,7 @@ export class VehicleCostCenterListComponent implements OnInit {
     public modalService: NgbModal
   ) {
     this.getVehicleCostCenterList();
+    this.common.currentPage = 'Vehicle Cost Center List';
   }
 
   ngOnInit() {

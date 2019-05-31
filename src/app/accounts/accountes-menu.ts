@@ -49,6 +49,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Vehicle Cost Center List',
+        icon: 'fa fa-money-bill',
         link: '/accounts/vehicle-cost-center-list'
     },
     {
