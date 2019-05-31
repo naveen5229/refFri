@@ -32,6 +32,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
   getVehicle(vehicle) {
+    console.log('test fase',vehicle);
     this.selectedVehicle = vehicle;
     this.flag = true;
     this.getTripSummary();
@@ -236,7 +237,7 @@ export class TripVoucherExpenseComponent implements OnInit {
 
 
   getVoucherSummary(tripVoucher) {
-    console.log(tripVoucher);
+    console.log('trdhh-----',tripVoucher);
     const params = {
       voucherId: tripVoucher.id,
       startDate: tripVoucher.startdate,

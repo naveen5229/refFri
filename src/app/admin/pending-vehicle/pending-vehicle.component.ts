@@ -33,6 +33,11 @@ export class PendingVehicleComponent implements OnInit {
   documentTypes = [];
   modelType = [];
   vehicleId = -1;
+  emissionStandard = [{
+
+    id: null,
+
+  }];
 
   constructor(
     public api: ApiService,
@@ -42,6 +47,23 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.common.refresh = this.refresh.bind(this);
+    this.emissionStandard = [
+      {
+        id: 1,
+      },
+      {
+        id: 2,
+      },
+      {
+        id: 3,
+      },
+      {
+        id: 4,
+      },
+      {
+        id: 6,
+      }
+    ];
   }
 
   ngOnInit() {
@@ -317,17 +339,16 @@ export class PendingVehicleComponent implements OnInit {
       let document = this.modal[modal].data.document;
 
       let newDate = document.wef_date.split('/').reverse().join('-') + '-01';
-      console.log("date:::::", document.wef_date, newDate);
       const params = {
 
         vehicleId: document.id,
         brandId: document.document_type_id,
         modelId: document.modalTypeId,
         manufacturingDate: newDate,
+        emsId: document.emissionId,
+
       };
       console.log("Params is", params);
-
-
       if (!document.document_type_id) {
         this.common.showError("Please enter Brand Type");
         return false;
@@ -522,7 +543,7 @@ export class PendingVehicleComponent implements OnInit {
         newRegno: null,
         vehicle_id: null,
         wef_date: null,
-
+        emissionId: null,
       },
     }
   }
