@@ -593,3 +593,6 @@ nb-card {
 ngb-modal-window{
     z-index: 9999 !important;
 }
+.fade.show{
+    opacity: 1 !important;
+} 
