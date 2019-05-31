@@ -42,6 +42,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
   }
 
   getfuelAverageDetails() {
+    this.fuelAvgDetails = [];
     console.log("api hit");
     this.common.loading++;
     let params = {
@@ -59,6 +60,8 @@ export class FuelAverageAnalysisComponent implements OnInit {
           this.showTable = true;
           this.table = this.setTable();
         } else {
+          this.showTable = false;
+          this.table = null;
           this.common.showToast('No Record Found!!');
         }
 

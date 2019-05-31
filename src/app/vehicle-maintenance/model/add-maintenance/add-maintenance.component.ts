@@ -22,57 +22,33 @@ export class AddMaintenanceComponent implements OnInit {
   serviceType = [];
   serviceId = null;
   typeId = null;
+  isItem = 0;
+  isChecks = {};
   serviceDetails = {
     lastServiceDate: null,
     serviceCategory: '1',
+    scheduleServices: "true",
     lastServiceKm: null,
     nextServiceDate: null,
     nextServiceKm: null,
     serviceCenter: null,
     serviceLocation: null,
     amount: null,
+    labourCost: null,
     remark: null,
   }
-  services = [{
-    serviceType: null,
-    nextServiceKm: null,
-    nextServiceDate: null,
-    serviceTypeId: null,
-
-    itemDetails: [
-      {
-        name: null,
-        quantity: null,
-        amount: null,
-      }
-    ]
-  },
-  {
-    serviceType: null,
-    nextServiceKm: null,
-    nextServiceDate: null,
-    serviceTypeId: null,
-    itemDetails: [
-      {
-        name: null,
-        quantity: null,
-        amount: null,
-      }
-    ]
-  },
-  {
-    serviceType: null,
-    nextServiceKm: null,
-    nextServiceDate: null,
-    serviceTypeId: null,
-    itemDetails: [
-      {
-        name: null,
-        quantity: null,
-        amount: null,
-      }
-    ]
-  }]
+  services = [];
+  items = [
+    {
+      name: null,
+      quantity: null,
+      amount: null,
+    },
+    {
+      name: null,
+      quantity: null,
+      amount: null,
+    }];
   edit = 0;
   constructor(public api: ApiService,
     public common: CommonService,
@@ -110,29 +86,24 @@ export class AddMaintenanceComponent implements OnInit {
       });
   }
 
-  changeServiceType(type, index) {
-    console.log("Type Id", type);
-
-    this.services[index].serviceTypeId = this.serviceType.find((element) => {
-      return element.name == type;
-    }).id;
-  }
-
   addService() {
     let params = {
       id: this.serviceId ? this.serviceId : null,
       vId: this.vehicleId,
       regno: this.regno,
+      isScheduledService: this.serviceDetails.scheduleServices,
       serviceCategory: this.serviceDetails.serviceCategory,
       lastServiceDate: this.common.dateFormatter(this.serviceDetails.lastServiceDate),
       lastServiceKm: this.serviceDetails.lastServiceKm,
-      nextServiceDate: this.common.dateFormatter(this.serviceDetails.nextServiceDate),
+      nextServiceDays: this.serviceDetails.nextServiceDate,
       nextServiceKm: this.serviceDetails.nextServiceKm,
       serviceCenter: this.serviceDetails.serviceCenter,
       serviceLocation: this.serviceDetails.serviceLocation,
       amount: this.serviceDetails.amount,
+      labourCost: this.serviceDetails.labourCost,
       remark: this.serviceDetails.remark,
-      services: JSON.stringify(this.services),
+      items: JSON.stringify(this.items),
+      services: this.arrayToString(this.services)
     };
     console.log("Params:", params);
     this.common.loading++;
@@ -153,44 +124,39 @@ export class AddMaintenanceComponent implements OnInit {
         console.log(err);
       });
   }
-
-  addMore() {
-    this.services.push({
-      serviceType: null,
-      nextServiceKm: null,
-      nextServiceDate: null,
-      serviceTypeId: null,
-      itemDetails: [
-        {
-          name: null,
-          quantity: null,
-          amount: null,
-        }
-      ]
+  arrayToString(array) {
+    let res = "";
+    array.forEach(element => {
+      res += element + ",";
     });
+    res = res == "" ? "" : res.substr(0, res.length - 1);
+    return res;
   }
 
   addMoreItems(index) {
     console.log("addmore items on ", index);
-    this.services[index].itemDetails.push({
+    this.items.push({
       name: null,
       quantity: null,
       amount: null
     }
     );
   }
-  copiedDate() {
-    for (let i = 0; i < this.services.length; i++) {
-      this.services[i].nextServiceDate = this.serviceDetails.nextServiceDate;
-    }
-  }
-  copiedKm() {
-    for (let i = 0; i < this.services.length; i++) {
-      this.services[i].nextServiceKm = this.serviceDetails.nextServiceKm;
-    }
-  }
+  // copiedDate() {
+  //   for (let i = 0; i < this.services.length; i++) {
+  //     this.services[i].nextServiceDate = this.serviceDetails.nextServiceDate;
+  //   }
+  // }
+  // copiedKm() {
+  //   for (let i = 0; i < this.services.length; i++) {
+  //     this.services[i].nextServiceKm = this.serviceDetails.nextServiceKm;
+  //   }
+  // }
 
-  dateFormatConversion() {
-
+  addType(serviceId, isCheck) {
+    if (isCheck)
+      this.services = this.common.unionArrays(this.services, [serviceId]);
+    else
+      this.services.splice(this.services.findIndex((element) => { return element == serviceId }), 1);
   }
 }
