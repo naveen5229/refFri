@@ -9,15 +9,16 @@ import { AccountService } from './account.service';
   providedIn: 'root'
 })
 export class ApiService {
-  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
+  //URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  //URL: string = 'http://192.168.0.189/booster_webservices/';
   //URL: string = 'http://localhost/Transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
-
+  // UrlTranstruckNew: string = 'http://192.168.0.189/transtrucknew/';
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
@@ -169,11 +170,12 @@ export class ApiService {
     return this.http.get(this.UrlTranstruckNew + subURL, { headers: this.setWalle8Headers() })
   }
 
+
   setWalle8Headers() {
     const entryMode = '3';
-    const authKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5NDYsInVzZXJfbW9iaWxlIjo5ODEyOTI5OTk5LCJzZXNzaW9uX2lkIjo0NDc4MSwidGltZSI6IjIwMTktMDUtMTggMTI6MzM6UE0ifQ.JqRuIcXLOh1vN9jsqvqkTIuxhduD8vInaflg3EBYV3A';
+    const authKey = this.user._details.authkeyOld || '';
     const version = '2.3';
-    
+
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'version': version,

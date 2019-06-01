@@ -1,0 +1,67 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-6">
+        <h4>Other Usage</h4>
+      </div>
+      <div class="col-6 text-right">
+        <span class="pdf-icon" title="PDF Export" (click)="printPDF('otherUsage');" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="printCSV('otherUsage')"
+          style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+      </div>
+    </div>
+  </nb-card-header>
+  <!-- <nb-card-body>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
+  </nb-card-body> -->
+
+  <nb-card-body>
+    <div class="row mb-3">
+      <div class="col-sm-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Select start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date" readonly>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
+      </div>
+      <div class="col-sm-2">
+        <button id="submit" name="submit" class="btn btn-primary" (click)="getOtherUsageDetail()"
+          style="margin:0px;  cursor: pointer;">Submit</button>
+      </div>
+    </div>
+    <div>
+      <table class="table table-bordered table-hover" id="otherUsage">
+        <thead class="thead">
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Vehicle</th>
+            <th>Amount</th>
+            <th>Remark</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let otherUsage of data;let i = index">
+            <td scope="row">{{i+1}}</td>
+
+            <td>{{otherUsage.dttime}}</td>
+            <td>{{otherUsage.veh}}</td>
+            <td>{{otherUsage.amt}}</td>
+            <td>{{otherUsage.rema}}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td></td>
+            <td>Total</td>
+            <td>{{total}}</td>
+          </tr>
+        </tbody>
+
+
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -10,9 +10,9 @@ import { UserService } from '../../services/user.service';
 })
 export class CardMappingComponent implements OnInit {
   data = [];
-  mobileno = 9812929999;
+  // mobileno = 9812929999;
 
-table=null;
+  table = null;
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -24,14 +24,14 @@ table=null;
   ngOnInit() {
   }
   getDetail() {
-    console.log("api hit");
+    // console.log("api hit");
     this.common.loading++;
-    this.api.walle8Get('CardRechargeApi/getFoCardResults.json?mobileno=' + this.mobileno)
+    this.api.walle8Get('CardRechargeApi/getFoCardResults.json?mobileno=' + this.user._details.mobile)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res);
         this.data = res['data'];
-        this.table=this.setTable();
+        this.table = this.setTable();
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -62,9 +62,9 @@ table=null;
       let column = {
         Vehicle: { value: doc.vehicle },
         IOCL: { value: doc.iocl },
-        BPCL: { value: doc.bpcl==null ? "-":doc.bpcl},
-        ATM: { value: doc.atm==null ? "-":doc.atm },
-        HPCL: { value: doc.hpcl==null ? "-":doc.hpcl },
+        BPCL: { value: doc.bpcl == null ? "-" : doc.bpcl },
+        ATM: { value: doc.atm == null ? "-" : doc.atm },
+        HPCL: { value: doc.hpcl == null ? "-" : doc.hpcl },
       };
       columns.push(column);
     });
@@ -106,5 +106,5 @@ table=null;
         console.log(err);
       });
   }
-  
+
 }

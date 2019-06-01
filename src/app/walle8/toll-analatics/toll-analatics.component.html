@@ -1,0 +1,45 @@
+<nb-card>
+  <nb-card-header style="font-size: 32px;">
+    <h4>Toll Analatics</h4>
+    <div class="row m-0 p-0">
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" type="button" (click)="getTollAnalatics()">Submit</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-11">
+        <label>Toll Consumption</label>
+      </div>
+      <div class="col-sm-11">
+        <chart *ngIf="chartObject.type" [type]="chartObject.type" [data]="chartObject.data"
+          style="margin-right:5px;min-height: 200px;" [options]="chartObject.options"></chart>
+        <!-- <chart [type]="type" [data]="datax" [options]="options"></chart> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-11">
+        <label>TOp Toll</label>
+      </div>
+      <div class="col-sm-11">
+        <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
+          style="margin-right:5px;min-height: 200px;" [options]="chartObject1.options"></chart>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-11">
+        <chart *ngIf="chartObject2.type" [type]="chartObject2.type" [data]="chartObject2.data"
+          style="margin-right:5px;min-height: 200px;" [options]="chartObject2.options"></chart>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
