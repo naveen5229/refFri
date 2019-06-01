@@ -33,6 +33,7 @@ import { CostcenterComponent } from './costcenter/costcenter.component';
 import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
 import { VouchereditedComponent } from './voucheredited/voucheredited.component';
 import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
+import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
 
 const routes: Routes = [{
     path: '',
@@ -177,6 +178,10 @@ const routes: Routes = [{
         {
             path: 'fuelfillings',
             component: FuelfillingsComponent
+        },
+        {
+            path: 'vehicle-cost-center-list',
+            component: VehicleCostCenterListComponent
         }
     ],
 

@@ -19,7 +19,8 @@
 
           </tr>
         </thead>
-        <tr *ngFor=" let dataItem of Detail;">
+        <tr *ngFor=" let dataItem of Detail; let j = index" (click)="selectedRow =  '' + i + j"
+          [ngClass]="{'highlight' : selectedRow == '' + i + j }">
           <td>{{dataItem.y_particulars}}</td>
           <!--td>{{dataItem.y_type}}</td>
           <td >{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td-->

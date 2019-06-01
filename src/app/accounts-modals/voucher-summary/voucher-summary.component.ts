@@ -415,7 +415,7 @@ export class VoucherSummaryComponent implements OnInit {
       remarks: this.narration,
       date: this.date,
       amountDetails: amountDetails,
-      vouchertypeid: -10,
+      vouchertypeid: -9,
       y_code: '',
       xid: 0
     };
@@ -464,8 +464,11 @@ export class VoucherSummaryComponent implements OnInit {
       // vchrid: 4925,
       tripArrayId: tripidarray,
       vehid: this.VehicleId,
+      voucher_details: this.tripHeads,
+      storeid:this.storeids
 
     };
+    this.common.loading++;
 
     this.api.post('TripExpenseVoucher/updateTripsForVoucher', params)
       .subscribe(res => {
@@ -481,7 +484,7 @@ export class VoucherSummaryComponent implements OnInit {
             //   this.setFoucus('ref-code');
 
             this.activeModal.close({ status: status });
-            this.common.loading--;
+            // this.common.loading--;
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);
