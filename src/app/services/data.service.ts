@@ -130,7 +130,7 @@ export class DataService {
             link: '/admin/ticket-properties',
           },
           {
-            title: 'vehicle view',
+            title: 'Vehicle Categories',
             icon: 'fa fa-chart-bar',
             link: '/admin/vehicles-view',
           },
@@ -261,6 +261,12 @@ export class DataService {
             title: 'Fuel Average Analysis',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+          {
+            title: 'Consolidate Fuel Average',
+            icon: 'fa fa-signal',
+            link: '/admin/consolidate-fuel-average',
             home: true,
           },
           {

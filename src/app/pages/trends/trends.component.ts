@@ -624,7 +624,7 @@ export class TrendsComponent implements OnInit {
     let params = {
       siteId: details.siteid,
       startDate: this.fromDate,
-      endDate: this.endDate
+      endDate: this.endDate + ' ' + '23:59:59'
     };
     this.common.loading++;
     this.api.post('Trends/getSiteWiseVehicleList', params)

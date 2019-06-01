@@ -226,13 +226,14 @@ export class ProfitlossComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
-  openLedgerViewModel(ledgerId) {
+  openLedgerViewModel(ledgerId, ledgerName) {
     console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.plData.startdate,
       enddate: this.plData.enddate,
       ledger: ledgerId,
-      vouchertype: 0
+      vouchertype: 0,
+      ledgername: ledgerName
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {

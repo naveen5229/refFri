@@ -113,19 +113,8 @@
       <label>Total Amount</label>
     </div>
     <div class="col-md-3">
-      <input type="text" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
+      <input type="number" placeholder="Amount" class="form-control" name="amount" [(ngModel)]="serviceDetails.amount">
     </div>
-    <div class="col-md-3">
-      <label>Labour Cost</label>
-    </div>
-    <div class="col-md-3">
-      <input type="text" placeholder="Labour Cost" class="form-control" name="labourCost"
-        [(ngModel)]="serviceDetails.labourCost">
-    </div>
-  </div>
-
-
-  <div class="row">
     <div class="col-md-3">
       <label>Remark</label>
     </div>
@@ -133,82 +122,72 @@
       <input type="text" placeholder="Remark" class="form-control" name="amount" [(ngModel)]="serviceDetails.remark">
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Service Details</label>
+    </div>
+    <div class="col-md-9">
+      <label *ngFor="let st of serviceType; let j= index;" class="checkbox-inline">
+        <input type="checkbox" [(ngModel)]="isChecks[j]" (change)=addType(st.id,isChecks[j])>{{st.name}}
+      </label>
+    </div>
+  </div>
 
-  <div class="services">
-    <h5>Service Details</h5>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>
-            <label> Service Type </label>
-          </th>
-          <!-- <th>
-            <label> Next_Service After_KM</label>
-          </th>
-          <th>
-            <label> Next_Service After_Days</label>
-          </th> -->
-          <th>
-            <label> Item Details</label>
-          </th>
-          <th>
-            <label> Action</label>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let service of services; let i = index;">
+  <div class="row">
+    <div class="col-md-3">
+      <label>Any Items</label>
+    </div>
+    <div class="col-md-3">
+      <select [(ngModel)]="isItem" class="form-control">
+        <option [value]="1">Yes</option>
+        <option [value]="0">No</option>
+      </select>
+    </div>
+    <div *ngIf="isItem==1" class="col-md-3">
+      <label>Labour Cost</label>
+    </div>
+    <div *ngIf="isItem==1" class="col-md-3">
+      <input type="number" placeholder="Labour Cost" class="form-control" name="labourCost"
+        [(ngModel)]="serviceDetails.labourCost">
+    </div>
+  </div>
+  <table *ngIf="isItem==1" class="table table-bordered">
+    <thead>
+      <tr>
+        <th>
+          <label> Item Details</label>
+        </th>
+        <th>
+          <label> Actions</label>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items; let j= index">
+        <span>
           <td>
-            <input class="form-control" type="text" list="serviceType" name="service-type"
-              (change)="changeServiceType(service.serviceType , i);" [(ngModel)]="service.serviceType">
-            <datalist id="serviceType">
-              <option *ngFor="let st of serviceType;" [value]="st.name">{{st.name}}</option>
-            </datalist>
-          </td>
-          <!-- <td>
-            <input type="number" placeholder="Km" class="form-control" [(ngModel)]="service.nextServiceKm"
-              maxlength="8">
+            <input type="text" class="form-control" [(ngModel)]="item.name" placeholder=" Item Name">
           </td>
           <td>
-            <input type="number" placeholder="Days" class="form-control" [(ngModel)]="service.nextServiceDate"
-              maxlength="8">
-            </td> -->
-          <!-- <uj-date-time-picker [isTime]="false" (onChanged)="service.nextServiceDate = $event"
-              [dateTimeValue]="service.nextServiceDate">
-            </uj-date-time-picker> -->
-
-          <span *ngFor="let item of service.itemDetails; let j= index">
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="item.name" placeholder=" Item Name">
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="item.quantity" placeholder="Quantity">
-            </td>
-            <td>
-              <span><input type="text" class="form-control" [(ngModel)]="item.amount" placeholder="Amount"
-                  style="width: 70%; display: inline-block; margin-right: 5px;"><i class="fa fa-plus add"
-                  (click)="addMoreItems(i)" *ngIf="j == service.itemDetails.length-1" style="padding: 1px;
-                  color: green;"></i>
-                <i class="fa fa-minus minus" (click)="service.itemDetails.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
-                color: red;"></i>
-              </span>
-            </td>
-          </span>
-          <td style="padding: 0px;">
-            <span class="add-remove-btn">
-              <button class="btn btn-primary" (click)="addMore()" *ngIf="i == services.length-1">
-                <i class="fa fa-plus add"></i>
-              </button>
-              <button *ngIf="i !== 0" class="btn btn-danger" (click)="services.splice(i,1)">
-                <i class="fa fa-trash remove"></i>
-              </button>
+            <input type="number" class="form-control" [(ngModel)]="item.quantity" placeholder="Quantity">
+          </td>
+          <td>
+            <span><input type="number" class="form-control" [(ngModel)]="item.amount" placeholder="Amount"
+                style="width: 70%; display: inline-block; margin-right: 5px;">
             </span>
           </td>
-        </tr>
-      </tbody>
+        </span>
+        <td style="padding: 0px;">
+          <span><i class="fa fa-plus add" (click)="addMoreItems(i)" *ngIf="j == items.length-1" style="padding: 1px;
+                color: green;"></i>
+            <i class="fa fa-minus minus" (click)="items.splice(j,1)" *ngIf="j !== 0" style="padding: 1px;
+              color: red;"></i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
 
-    </table>
-  </div>
+  </table>
 </div>
 
 <div class="modal-footer">
