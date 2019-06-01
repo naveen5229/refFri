@@ -11,6 +11,8 @@ import { AddMaintenanceComponent } from './model/add-maintenance/add-maintenance
 import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
 import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-summary.component';
 import { MaintenanceReportComponent } from './model/maintenance-report/maintenance-report.component';
+import { AddVehicleModalServiceComponent } from './model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { ViewModalServiceComponent } from './view-modal-service/view-modal-service.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -32,10 +34,13 @@ const PAGES_COMPONENTS = [
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
     MaintenanceReportComponent,
+    AddVehicleModalServiceComponent,
+    ViewModalServiceComponent,
 
   ],
   entryComponents: [
     AddMaintenanceComponent,
+    AddVehicleModalServiceComponent,
     MaintenanaceDashboardComponent,
     MaintenanceReportComponent
   ]
