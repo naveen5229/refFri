@@ -44,7 +44,7 @@
               <td style="text-align: right;">{{ liability.amount  | number : '1.2-2'}}</td>
             </tr>
             <tr *ngFor="let balanceSheet of liability.profitLossData let j = index" style="background: #dadfe6;"
-              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id) : ' ' "
+              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name ) : ' ' "
               (click)="selectedRow =  'A' + i + j" [ngClass]="{'highlight' : selectedRow == 'A' + i + j }">
               <td>{{ balanceSheet.y_ledger_name }}</td>
               <td style="text-align: left;">
@@ -70,7 +70,7 @@
               <td style="text-align: right;">{{ asset.amount | number : '1.2-2' }}</td>
             </tr>
             <tr *ngFor="let balanceSheet of asset.profitLossData let l = index" (click)="selectedRow =  'B' + k + l"
-              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id) : ' ' "
+              (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name) : ' ' "
               [ngClass]="{'highlight' : selectedRow == 'B' + k + l }" style="background: #dadfe6;">
               <td>{{ balanceSheet.y_ledger_name }}</td>
               <td style="text-align: left;">
