@@ -1,16 +1,16 @@
 <div class="nebular-calendar">
   <div class="timeType" *ngIf="ref_page=='cvs'">
     <label class="halt-label">
-      <input type="radio" name="timeType" value="ltime" [(ngModel)]="timeType" (click)="setSite(201)">
+      <input type="radio" name="timeType" value="lTime" [(ngModel)]="timeType">
       Latch Time
     </label>
     <label class="halt-label">
-      <input type="radio" name="timeType" value="tTime" [(ngModel)]="timeType" (click)="setSite(901)">
+      <input type="radio" name="timeType" value="tTime" [(ngModel)]="timeType">
       To Time
     </label>
   </div>
   <button (click)="closeModal(false)" class="close-btn">X</button>
-  <nb-calendar [(date)]="date" name="date" [boundingMonth]="true" (dateChange)="closeModal(true)">
+  <nb-calendar [(date)]="date" name="date" [boundingMonth]="false" (dateChange)="closeModal(true)">
   </nb-calendar>
   <!-- <div class="close_btn">
         <button  (click) = "closeModal()" class="btn btn-primary" style="background-color: #87aeff;">OK</button>

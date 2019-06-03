@@ -25,9 +25,15 @@
           <option class="form-control" [value]="3">HPCL</option>
         </select>
       </div>
+      
+      <div class="mb-3">
+        <input  (keydown.enter)="gotoSingle()" name="name" id="name" [(ngModel)]="position" class="fill-elt form-control" autocomplete="off" />
+      </div>
       <div *ngIf="pumpname !== null">
-      <input name="name" id="name" [value]="pumpname"  class="fill-elt form-control" autocomplete="off" readonly/>
-    </div>
+        <input name="name" id="name" [value]="pumpname" class="fill-elt form-control" autocomplete="off" readonly />
+      </div>
+     
+
     </div>
 
     <div class="map col-md-10">
