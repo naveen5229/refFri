@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
+import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 
 @Component({
   selector: 'add-vehicle-maintenance',
