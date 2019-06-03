@@ -12,8 +12,7 @@ import { element } from '@angular/core/src/render3';
   styleUrls: ['./add-vehicle-modal-service.component.scss']
 })
 export class AddVehicleModalServiceComponent implements OnInit {
-
-
+  title = '';
   brands = [];
   selectedEuro = null;
   euros = [
@@ -28,6 +27,7 @@ export class AddVehicleModalServiceComponent implements OnInit {
   serviceNo = 1;
   nextMonth = null;
   nextKm = null;
+  edit = 0;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
