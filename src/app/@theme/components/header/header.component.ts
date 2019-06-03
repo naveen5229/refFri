@@ -9,6 +9,7 @@ import { CommonService } from '../../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerSelectionComponent } from '../../../modals/customer-selection/customer-selection.component';
 import { AccountService } from '../../../services/account.service';
+import { ActivityService } from '../../../services/Activity/activity.service';
 
 @Component({
   selector: 'ngx-header',
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
   showSuggestions = false;
   suggestions = [];
   searchString = "";
+  state="";
   branches = [
     {
       "id": 0,
@@ -39,6 +41,7 @@ export class HeaderComponent implements OnInit {
     public accountService: AccountService,
     public router: Router,
     public user: UserService,
+    public activity: ActivityService,
     private analyticsService: AnalyticsService,
     public api: ApiService,
     public modalService: NgbModal,
@@ -70,6 +73,13 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     if (confirm('Are you sure to logout?')) {
+      if (this.user._loggedInBy == 'customer') {
+        this.state = "logout";
+        let date;
+        date = this.common.dateFormatter(new Date());
+        this.activity.ActivityHandler(this.state, date);
+
+      }
       this.user._token = '';
       this.user._details = null;
       localStorage.clear();
