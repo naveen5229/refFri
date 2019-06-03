@@ -28,7 +28,7 @@ export class UserService {
 
 
     this._pages = [
-      { id: 1, route: '/pages' },
+      { id: 1, route: '/pages/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
       { id: 3, route: '/admin/issue-alerts' },
       { id: 4, route: '/admin/escalation-matrix' },
@@ -70,6 +70,12 @@ export class UserService {
       { id: 40, route: '/admin/manual-toll-transaction-summary' },
       { id: 41, route: '/admin/vehiclewise-tolltransaction' },
 
+      { id: 39, route: '/admin/pending-vehicle' },
+      { id: 40, route: '/admin/halt-density' },
+      { id: 41, route: '/admin/placement-site-rule' },
+      { id: 42, route: '/admin/fuel-average-issues' },
+      { id: 43, route: '/admin/consolidate-fuel-average' },
+      { id: 44, route: '/admin/fuel-analysis' },
     ]
   }
 

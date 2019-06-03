@@ -14,98 +14,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     //     link: '/accounts/orders'
     // },
     {
-        title: 'Invoice',
-        icon: 'fas fa-file-invoice',
-        children: [
-            {
-                title: 'Purchase Invoice',
-                link: '/accounts/orders/-2/Purchase Invoice'
-            },
-            {
-                title: 'Sales Invoice',
-                link: '/accounts/orders/-4/Sales Invoice'
-            },
-            {
-                title: 'Purchase Assets Invoice',
-                link: '/accounts/orders/-5/Purchase Assets Invoice'
-            },
-            {
-                title: 'Debit Note',
-                link: '/accounts/orders/-7/Debit Note'
-            },
-            {
-                title: 'Credit Note',
-                link: '/accounts/orders/-6/Credit Note'
-            },
-            {
-                title: 'Wastage',
-                link: '/accounts/orders/-8/Wastage'
-            },
-        ],
-    },
-
-    // {
-    //     title: 'Stock Types',
-    //     icon: 'fas fa-weight-hanging',
-    //     link: '/accounts/stock-types'
-    // },
-    // {
-    //     title: 'Stock Sub Types',
-    //     icon: 'fas fa-weight-hanging',
-    //     link: '/accounts/stock-subtypes'
-    // }
-    // ,
-    // {
-    //     title: 'Stock Item',
-    //     icon: 'fa fa-list',
-    //     link: '/accounts/stockitem'
-    // },
-
-
-    {
-        title: 'Stock Master',
-        icon: 'fa fa-building-o',
-
-        children: [
-
-            {
-                title: 'Stock Type',
-                link: '/accounts/stock-types'
-            },
-
-            {
-                title: 'Stock Sub Type',
-                link: '/accounts/stock-subtypes'
-            },
-            {
-                title: 'Stock Item',
-                link: '/accounts/stockitem'
-            },
-            {
-                title: 'Ware House',
-                link: '/accounts/ware-house'
-            },
-
-        ],
-    },
-    // {
-    //     title: 'Account Group',
-    //     icon: 'fa fa-university',
-    //     link: '/accounts/account'
-    // },
-    // {
-    //     title: 'Cost Category',
-    //     icon: 'fa fa-university',
-    //     link: '/accounts/costcenter'
-    // },
-    // {
-    //     title: 'Ledger',
-    //     icon: 'fas fa-file-invoice-dollar',
-    //     link: '/accounts/ledgers/0'
-    // },
-
-
-    {
         title: 'Accounts Master',
         icon: 'fa fa-user-circle-o',
 
@@ -139,28 +47,38 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-
-
-
-
     {
-        title: 'Store Requisition',
+        title: 'Vehicle Cost Center List',
+        icon: 'fa fa-money-bill',
+        link: '/accounts/vehicle-cost-center-list'
+    },
+    {
+        title: 'Mapped Fuel Voucher',
+        icon: 'fa fa-money-bill',
+        link: '/accounts/mapped-fuel-voucher'
+    },
+    {
+        title: 'Stock Master',
         icon: 'fa fa-building-o',
 
         children: [
 
             {
-                title: 'Store Request',
-                link: '/accounts/storerequisitions/-2'
+                title: 'Stock Type',
+                link: '/accounts/stock-types'
             },
 
             {
-                title: 'Stock Issue',
-                link: '/accounts/storerequisitions/-3'
+                title: 'Stock Sub Type',
+                link: '/accounts/stock-subtypes'
             },
             {
-                title: 'Stock Transfer',
-                link: '/accounts/storerequisitions/-1'
+                title: 'Stock Item',
+                link: '/accounts/stockitem'
+            },
+            {
+                title: 'Ware House',
+                link: '/accounts/ware-house'
             },
 
         ],
@@ -242,8 +160,42 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'OutStanding',
                 link: '/accounts/outstanding'
+            },
+            {
+                title: 'Voucher Audit',
+                link: '/accounts/voucheredited'
             }
 
+        ],
+    },
+    {
+        title: 'Invoice',
+        icon: 'fas fa-file-invoice',
+        children: [
+            {
+                title: 'Purchase Invoice',
+                link: '/accounts/orders/-2/Purchase Invoice'
+            },
+            {
+                title: 'Sales Invoice',
+                link: '/accounts/orders/-4/Sales Invoice'
+            },
+            {
+                title: 'Purchase Assets Invoice',
+                link: '/accounts/orders/-5/Purchase Assets Invoice'
+            },
+            {
+                title: 'Debit Note',
+                link: '/accounts/orders/-7/Debit Note'
+            },
+            {
+                title: 'Credit Note',
+                link: '/accounts/orders/-6/Credit Note'
+            },
+            {
+                title: 'Wastage',
+                link: '/accounts/orders/-8/Wastage'
+            },
         ],
     },
     {
@@ -267,6 +219,73 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
+
+    // {
+    //     title: 'Stock Types',
+    //     icon: 'fas fa-weight-hanging',
+    //     link: '/accounts/stock-types'
+    // },
+    // {
+    //     title: 'Stock Sub Types',
+    //     icon: 'fas fa-weight-hanging',
+    //     link: '/accounts/stock-subtypes'
+    // }
+    // ,
+    // {
+    //     title: 'Stock Item',
+    //     icon: 'fa fa-list',
+    //     link: '/accounts/stockitem'
+    // },
+
+
+
+    // {
+    //     title: 'Account Group',
+    //     icon: 'fa fa-university',
+    //     link: '/accounts/account'
+    // },
+    // {
+    //     title: 'Cost Category',
+    //     icon: 'fa fa-university',
+    //     link: '/accounts/costcenter'
+    // },
+    // {
+    //     title: 'Ledger',
+    //     icon: 'fas fa-file-invoice-dollar',
+    //     link: '/accounts/ledgers/0'
+    // },
+
+
+
+
+
+
+
+    {
+        title: 'Store Requisition',
+        icon: 'fa fa-building-o',
+
+        children: [
+
+            {
+                title: 'Store Request',
+                link: '/accounts/storerequisitions/-2'
+            },
+
+            {
+                title: 'Stock Issue',
+                link: '/accounts/storerequisitions/-3'
+            },
+            {
+                title: 'Stock Transfer',
+                link: '/accounts/storerequisitions/-1'
+            },
+
+        ],
+    },
+
+
+
     {
         title: 'Accounts Bin',
         icon: 'fas fa-trash',
@@ -285,6 +304,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trip Voucher Expense',
         icon: 'fas fa-money-check-alt',
         link: '/accounts/trip-voucher-expense'
+    },
+    {
+        title: 'Fuel Fillings',
+        icon: 'fas fa-money-check-alt',
+        link: '/accounts/fuelfillings'
     },
 
 

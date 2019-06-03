@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { VehicleStatesComponent } from '../../modals/vehicle-states/vehicle-states.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'trip-verify-states',
@@ -28,7 +29,8 @@ export class TripVerifyStatesComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
-    private activeModal: NgbActiveModal) {
+    private activeModal: NgbActiveModal,
+    public user: UserService) {
     this.getPendingStates();
     this.common.refresh = this.refresh.bind(this);
 
@@ -54,14 +56,10 @@ export class TripVerifyStatesComponent implements OnInit {
         let first_rec = this.verifyState[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
-
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
-
           }
-
-
         }
         let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
         this.table.data.headings['action'] = action;
@@ -80,17 +78,11 @@ export class TripVerifyStatesComponent implements OnInit {
     let columns = [];
     console.log("Data=", this.verifyState);
     this.verifyState.map(doc => {
-      // console.log("Doc Data:", doc);
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        // console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
         this.valobj['action'] = { value: null, isHTML: false, action: null, class: '', icons: this.actionIcons(doc) }
-
       }
-
-
       columns.push(this.valobj);
     });
     return columns;
@@ -196,6 +188,46 @@ export class TripVerifyStatesComponent implements OnInit {
         }
       });
     }
+  }
+
+
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Verify Trip States";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "Verify Trip States";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
   }
 
 }

@@ -158,6 +158,12 @@ import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/v
 import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
 import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.component';
+import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
+import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
+import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
+
+
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -278,6 +284,12 @@ import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.comp
     AddFuelFullRuleComponent,
     CostCenterViewComponent,
     VehiclesViewComponent
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent,
+    VehicleFuelFillingEntryComponent,
+
+
+
 
   ],
   entryComponents: [
@@ -393,7 +405,12 @@ import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.comp
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
-    CostCenterViewComponent
+    CostCenterViewComponent,
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent,
+    VehicleFuelFillingEntryComponent,
+
+
   ],
   imports: [
     BrowserModule,

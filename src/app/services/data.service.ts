@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/pages',
+        link: '/pages/dashboard',
       },
       {
         title: 'Trip',
@@ -76,6 +76,12 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Placement Site Rule',
+            icon: 'fas fa-file-signature',
+            link: '/admin/placement-site-rule',
+            home: true,
+          },
+          {
             title: 'Transport Agents',
             icon: 'fas fa-address-card',
             link: '/admin/transport-agents',
@@ -124,7 +130,7 @@ export class DataService {
             link: '/admin/ticket-properties',
           },
           {
-            title: 'vehicle view',
+            title: 'Vehicle Categories',
             icon: 'fa fa-chart-bar',
             link: '/admin/vehicles-view',
           },
@@ -252,6 +258,11 @@ export class DataService {
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-documents',
           },
+          {
+            title: 'Pending vehicle Modal',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/pending-vehicle',
+          },
 
         ]
       },
@@ -273,6 +284,18 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Consolidate Fuel Average',
+            icon: 'fa fa-signal',
+            link: '/admin/consolidate-fuel-average',
+            home: true,
+          },
+          {
+            title: 'Fuel Analysis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-analysis',
+            home: true,
+          },
+          {
             title: 'Remaining Fuel',
             icon: 'fa fa-signal',
             link: '/admin/remaining-fuel',
@@ -288,6 +311,12 @@ export class DataService {
             title: 'Pump Station Area',
             icon: 'fa fa-signal',
             link: '/admin/pump-station-area',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Issues',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-issues',
             home: true,
           },
         ]

@@ -41,6 +41,12 @@ import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.
 import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
 import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
 import { VehiclewiseTolltransactionComponent } from './vehiclewise-tolltransaction/vehiclewise-tolltransaction.component';
+import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
+import { HaltDensityComponent } from './halt-density/halt-density.component';
+import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
+import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
+import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
+import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -212,6 +218,21 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'fuel-average-issues',
+            component: FuelAverageIssuesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'consolidate-fuel-average',
+            component: ConsolidateFuelAverageComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'fuel-analysis',
+            component: FuelAnalysisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'remaining-fuel',
             component: RemainingFuelComponent,
             canActivate: [RouteGuard]
@@ -236,7 +257,21 @@ const routes: Routes = [{
             component: VehiclewiseTolltransactionComponent,
             canActivate: [RouteGuard]
         },
-
+        {
+            path: 'pending-vehicle',
+            component: PendingVehicleComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'halt-density',
+            component: HaltDensityComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'placement-site-rule',
+            component: PalacementSiteRuleComponent,
+            canActivate: [RouteGuard]
+        }
 
 
     ],

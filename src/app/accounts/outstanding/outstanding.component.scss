@@ -17,8 +17,8 @@ nb-card-header{
     background-color: #576c77
 }
 table tr.highlight {
-    background-color: #576c77 !important;
-    color: #ffffff;
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }
 .tjr-label {
     background: #263238;
@@ -93,8 +93,9 @@ table{
                 box-shadow: none;
             }
             span{
-                width: 100px;
                 display: block;
+                margin-right: 40px;
+                white-space: nowrap;
             }
         }
         td:last-child{
@@ -132,10 +133,6 @@ table{
 .heading_second{
     background-color: #184154 !important;
     color: #fff;
-}
-table tr.highlight {
-    background-color: #576c77 !important;
-    color: #ffffff;
 }
 input[type=radio]{
     width: auto;

@@ -31,6 +31,8 @@ export class ChangeVehicleStatusComponent implements OnInit {
     name: '',
     time: ''
   };
+  vSId = null;
+  isChecks = {};
   btnStatus = true;
   lUlBtn = false;
   dataType = 'events';
@@ -52,6 +54,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   convertSiteHaltFlag = false;
   ref_page: null;
   toTime = this.common.dateFormatter(new Date());
+  hsId: any;
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
@@ -389,6 +392,26 @@ export class ChangeVehicleStatusComponent implements OnInit {
     }
     return thisMarkers;
   }
+
+  mergeWithVS(vsId, hsId, isCheck, j) {
+    this.unCheckAll(j);
+    if (isCheck) {
+      this.vSId = vsId;
+      this.hsId = hsId;
+    }
+    console.log("vsId", vsId, "hsId", hsId, "isCheck", isCheck, "j", j);
+  }
+
+  unCheckAll(j) {
+    for (const key in this.isChecks) {
+      if (this.isChecks.hasOwnProperty(key)) {
+        if (key != j) {
+          this.isChecks[key] = false;
+        }
+      }
+    }
+  }
+
   setBounds(latlng) {
     if (!this.bounds)
       this.bounds = this.map.getBounds();
@@ -656,6 +679,27 @@ export class ChangeVehicleStatusComponent implements OnInit {
   }
 
   openSmartTool(i, vehicleEvent) {
+    if (this.vSId != null && this.hsId != vehicleEvent.haltId && vehicleEvent.haltId != null)
+      if (confirm("Merge with this Halt?")) {
+        this.common.loading++;
+        let params = { ms_id: this.vSId, hs_id: vehicleEvent.vs_id };
+        console.log("params", params);
+        this.api.post('HaltOperations/mergeManualStates', params)
+          .subscribe(res => {
+            this.common.loading--;
+            if (res['success']) {
+              this.reloadData();
+            } else {
+              this.common.showToast(res['msg']);
+              this.reloadData();
+            }
+          }, err => {
+            this.common.loading--;
+            console.log(err);
+          });
+      }
+    this.vSId = null;
+    this.isChecks = {};
     console.log(this.onlyDrag);
     if (!this.onlyDrag) {
       this.vehicleEvents.forEach(vEvent => {

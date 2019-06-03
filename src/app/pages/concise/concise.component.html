@@ -1,57 +1,224 @@
-<nb-card style="border: 0px; height: 100%;">
+<!-- <button (click)="handlePdfPrint()">pdf</button> -->
+
+<!-- <button class="btn btn-primary" type="button"pdf
+          (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
+<div *ngIf="allKpis.length">
+  <div class="status-print-view pt-0" id="page-1">
+    <div class="status-print-title text-center" style="padding: 20px 0px;">
+      <h4>Trip dashboard</h4>
+    </div>
+    <div class="row" *ngIf="pdfData.primary.list.length">
+      <div class="col-sm-6">
+        <div style="overflow: hidden;" [hidden]="isMapView">
+          <div
+            style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
+            class="row">
+            <div class="col-sm-12">
+              <span>{{ pdfData.primary.name }}</span>
+            </div>
+          </div>
+
+          <div class="chartbox">
+            <chart class="dashboard_chart" type="pie" [data]="pdfData.primary.chartData"
+              [options]="pdfData.primary.chartOptions" id="chart"></chart>
+          </div>
+          <div class="status_box">
+            <div class="graph-data">
+              <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="row m-0">
+                            <div class="col-sm-1 p-0">
+                              <div
+                                style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                              </div>
+                            </div>
+                            <div class="col-sm-11">
+                              <p class="all_data m-0">All Data ({{ allKpis.length }})</p>
+                            </div>
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
+              <nb-card *ngFor="let status of pdfData.primary.list; let i = index">
+                <nb-card-body (click)="choosePrimarySubStatus(status)" style="cursor: pointer;">
+                  <div class="col-sm-1 p-0">
+                    <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                      [ngStyle]="{ 'background-color': status.bgColor }"></div>
+                  </div>
+                  <div class="col-sm-9">
+                    {{ status.name }} ({{ status.length }})
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div
+            style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
+            class="row">
+            <div class="col-sm-12">
+              <span>{{ pdfData.secondary.name }}</span>
+            </div>
+          </div>
+
+          <div class="chartbox">
+            <chart class="dashboard_chart" type="pie" [data]="pdfData.secondary.chartData"
+              [options]="pdfData.secondary.chartOptions" id="chart"></chart>
+          </div>
+          <div class="status_box">
+            <div class="graph-data">
+              <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="col-sm-1 p-0">
+                            <div
+                              style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                            </div>
+                          </div>
+                          <div class="col-sm-11">
+                            All Data ({{ allKpis.length }})
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
+              <nb-card *ngFor="let group of pdfData.secondary.list; let i = index">
+                <nb-card-body style="cursor: pointer;">
+                  <div class="col-sm-1 p-0">
+                    <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                      [ngStyle]="{ 'background-color': group.bgColor }"></div>
+                  </div>
+                  <div class="col-sm-11 pr-0">
+                    {{ group.name | titlecase }} ({{ pdfData.secondary.kpiGroups[group.name].length }})
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+
+
+            <div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="truck-route">
+      <div class="truck_road">
+        <i class="fas fa-truck-moving left-truck"></i>
+        <i class="fas fa-truck-moving right-truck"></i>
+        <hr>
+      </div>
+    </div>
+    <div class="row" id="page-2">
+      <div class="col-sm-3 pl-5">
+        <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div
+            style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
+            class="row">
+            <div class="col-sm-12">
+              <span>Top 5 Trip Start</span>
+            </div>
+          </div>
+          <div class="status_box">
+            <div class="">
+              <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="col-sm-1 p-0">
+                            <div
+                              style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                            </div>
+                          </div>
+                          <div class="col-sm-11">
+                            All Data ({{ allKpis.length }})
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
+              <nb-card *ngFor="let group of pdfData.tripStart.list; let i = index">
+                <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
+                  <div class="col-sm-1 p-0">
+                    <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                      [ngStyle]="{ 'background-color': group.bgColor }"></div>
+                  </div>
+                  <div class="col-sm-11 pr-0">
+                    {{ group.name | titlecase }} ({{ pdfData.tripStart.kpiGroups[group.name].length }})
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-6"></div>
+      <div class="col-sm-3 pr-5">
+        <div class="" style="overflow: hidden;" [hidden]="isMapView">
+          <div
+            style="font-size:16px;margin:0px;text-align: center;padding:8px 0px;background: linear-gradient(45deg,#30ccff 0,#5a9cff 100%); color: #fff; border-radius: 5px; margin-bottom: 10px; "
+            class="row">
+            <div class="col-sm-12">
+              <span>Top 5 Trip End</span>
+            </div>
+          </div>
+
+
+          <div class="status_box">
+            <div class="">
+              <!-- <nb-card>
+                        <nb-card-body (click)="allData()" style="cursor: pointer;">
+                          <div class="col-sm-1 p-0">
+                            <div
+                              style="background-color:grey;color: white; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2); width: 20px;height: 20px;border-radius: 100%;">
+                            </div>
+                          </div>
+                          <div class="col-sm-11">
+                            All Data ({{ allKpis.length }})
+                          </div>
+                        </nb-card-body>
+                      </nb-card> -->
+              <nb-card *ngFor="let group of pdfData.tripEnd.list; let i = index">
+                <nb-card-body (click)="filterData(group.name)" style="cursor: pointer;">
+                  <div class="col-sm-1 p-0">
+                    <div style="width: 20px;height: 20px;border-radius: 100%; box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);"
+                      [ngStyle]="{ 'background-color': group.bgColor }"></div>
+                  </div>
+                  <div class="col-sm-11 pr-0">
+                    {{ group.name | titlecase }} ({{ pdfData.tripEnd.kpiGroups[group.name].length }})
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mwlResizable [enableGhostResize]="true" class="map-table-container"
+    [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{
+                        bottom: false,
+                        right: true,
+                        top: false,
+                        left: false
+                      }" (resizeEnd)="onResizeEnd($event, 'smartTable')">
+    <nb-card *ngFor="let table of pdfData.tables; let i = index">
+      <nb-card-body>
+        <div [id]="'print-table-' + i">
+          <smart-table class="home-page-tabel" style="width:100%;" [data]="table.data" [settings]="table.settings">
+          </smart-table>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<nb-card class="nb_card_box" style="border: 0px; height: 100%;" *ngIf="allKpis.length">
   <nb-card-body style="padding:5px 5px 0px;">
-    <!-- TEsting -->
-    <!-- <button (click)="pdfService.voucherPDF()">PDF</button> -->
-    <!-- <div class="voucher-pdf" id="voucher-pdf">
-      <div class="voucher-customer">
-        <div class="voucher-company">{{pdfData.company}}</div>
-        <div class="voucher-address">{{pdfData.address}}</div>
-        <div class="voucher-city">{{pdfData.city}}</div>
-      </div>
-      <div class="voucher-name">{{pdfData.reportName}}</div>
-      <div class="row">
-        <div class="col-6 voucher-details" *ngFor="let item of pdfData.details">
-          <strong>{{item.name}}:</strong> <span>{{item.value}}</span>
-        </div>
-      </div>
-      <div>
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <th *ngFor="let heading of pdfData.headers" [ngStyle]="{'text-align' : heading.textAlign}">
-                {{heading.name}}
-              </th>
-            </tr>
-            <tr *ngFor="let row of pdfData.table">
-              <td *ngFor="let col of row; let i = index" [ngStyle]="{'text-align' : pdfData.headers[i].textAlign}">
-                {{col}}</td>
-            </tr>
-
-            <tr>
-              <th colspan="2" class="text-right"><strong>Total</strong></th>
-              <td class="text-right" *ngFor="let total of pdfData.total">{{total}}</td>
-            </tr>
-            <tr>
-              <td colspan="4"><strong>In Words:</strong> {{pdfData.inWords}}</td>
-            </tr>
-            <tr>
-              <td colspan="4"><strong>Narration:</strong> {{pdfData.narration}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="row voucher-footer">
-          <div class="col-6"></div>
-          <div class="col-3 voucher-signature">
-            <div>Accountant</div>
-          </div>
-          <div class="col-3 voucher-signature">
-            <div>Approved By</div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- Tetsing End -->
-
     <div class="row m-0">
       <div class="col-sm-3 pl-0 pr-2" style="height: 90vh; overflow: hidden;" [hidden]="isMapView">
         <div
@@ -61,14 +228,17 @@
             <span (click)="changeOptions('reverse')">
               <i class="icon ion-ios-rewind"></i></span>
           </div>
+
           <div class="col-sm-8">
             <span>{{ viewName }}</span>
           </div>
           <div class="col-sm-2">
             <span (click)="changeOptions('forward')"><i class="icon ion-ios-fastforward"></i></span>
           </div>
+
         </div>
-        <div style="height: 160px;margin-top:0px">
+
+        <div>
           <chart class="dashboard_chart" type="pie" [data]="chartData" [options]="chartOptions" id="chart"></chart>
         </div>
         <div class="status_box" style="overflow: auto; height: calc(90vh - 250px); max-height: calc(90vh - 250px);">
@@ -127,6 +297,10 @@
             </nb-card>
           </div>
         </div>
+        <button class="btn btn-primary pdf-print" type="button" pdf (click)="generatePDF()"><i
+            class="fa fa-file-pdf"></i></button>
+        <!-- <button class="btn btn-primary" type="button"pdf
+          (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
       </div>
       <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
         <div style=" position: relative;">
@@ -145,7 +319,7 @@
 
           </div>
           <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('print-section')"
-            style="cursor: pointer;margin-left: 10px; margin-bottom: 20px"><i class="fas fa-file-excel"></i></span>
+            style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
           <!-- ============================= SMART TABLE END ============================= -->
 
           <!-- ============================= MAP VIEW ============================= -->
@@ -160,6 +334,7 @@
           <!-- ============================== MAP VIEW END =============================== -->
         </div>
       </div>
+      <!-- <button type="button" onclick=" getPdf()">PDF</button> -->
     </div>
   </nb-card-body>
 </nb-card>

@@ -17,8 +17,8 @@ nb-card-header{
     background-color: #576c77
 }
 table tr.highlight {
-    background-color: #576c77 !important;
-    color: #ffffff;
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }
 .tjr-label {
     background: #263238;
@@ -65,28 +65,31 @@ table{
             font-weight: normal;
         }
         th:nth-child(1){
-            width: 3%;
+            width: 4%;
         }
         th:nth-child(2){
-            width: 13%;
+            width: 12%;
         }
         th:nth-child(3){
-            width: 13%;
+            width: 12%;
         }
         th:nth-child(4){
-            width: 13%;
+            width: 12%;
         }
         th:nth-child(5){
-            width: 13%;
+            width: 12%;
         }
         th:nth-child(6){
-            width: 13%;
+            width: 12%;
         }
         th:nth-child(7){
-            width: 13%;
+            width: 12%;
         }
         th:nth-child(8){
-            width: 13%;
+            width: 12%;
+        }
+        th:nth-child(9){
+            width: 12%;
         }
         td{
             padding: 5px 10px !important;
@@ -115,28 +118,31 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 3%;
+                width: 4%;
             }
             td:nth-child(2){
-                width: 13%
+                width: 12%
             }
             td:nth-child(3){
-                width: 13%
+                width: 12%
             }
             td:nth-child(4){
-                width: 13%
+                width: 12%
             }
             td:nth-child(5){
-                width: 13%
+                width: 12%
             }
             td:nth-child(6){
-                width: 13%
+                width: 12%
             }
             td:nth-child(7){
-                width: 13%
+                width: 12%
             }
             td:nth-child(8){
-                width: 13%
+                width: 12%
+            }
+            td:nth-child(9){
+                width: 12%
             }
         }
         tr:nth-child(odd){

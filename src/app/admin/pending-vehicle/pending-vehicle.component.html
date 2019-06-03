@@ -1,0 +1,321 @@
+<nb-card style="margin: 0px; border:0px; padding-top: 0px;">
+  <nb-card-body>
+    <div class="container">
+      <div class="row">
+        <div class="list_table">
+          <table class="table table-bordered table-hover table-scroll" id="tblpending">
+            <thead class="thead">
+              <tr>
+                <th>SrNo</th>
+                <th *ngFor="let col of columns" class="text-center">
+                  {{formatTitle(col)}}
+                </th>
+                <th class="del">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngIf="data.length">
+                <tr *ngFor="let row of data; let i = index" class="">
+                  <td>{{i + 1}}</td>
+                  <td *ngFor="let col of columns">
+                    <span>{{row[col]}}</span>
+                  </td>
+                  <td class="del">
+                    <a href="javascript: void(0);" class="edit" title="Edit Vehicle" (click)="showDetails(row,'-1')"><i
+                        class="icon ion-md-create"></i></a>&nbsp;
+                    <!-- <a href="javascript: void(0);" class="delete" title="Delete Vehicle" (click)="deleteVehicle(row)"><i
+                        class="fa fa-trash"></i></a> -->
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+<!-- Modal First-->
+<div class="custom-modal-1" *ngIf="modal.first.show" [ngClass]="modal.first.class">
+  <div class="custom-modal-body">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title-first">{{modal.first.data.title}}</h5>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal(false, 'first')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body vert-mdl-pdg">
+      <form #documentFormFirst="ngForm" id="document-form-first" name="document-form-first">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="row form-field clear">
+              <label for="document_id-first" class="col-sm-4 mgn-vert">Vehicle ID</label>
+              <div class="col-sm-8 " *ngIf="!modal.first.data.canUpdate">
+                <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
+              </div>
+
+              <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
+                <label style="font-size:16px;">{{modal.first.data.document.id}}</label>
+                <span *ngIf="modal.first.data.document.rcImage" class="rc-image">
+                  <a target='_blank' href="{{modal.first.data.document.rcImage}}" title="View Vehicle">RC Image</a>
+                </span>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="veh_no-first" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">{{modal.first.data.document.regno}}</label>
+              </div>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <label style="font-size:16px;">{{modal.first.data.document.newRegno}}</label>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Brand Type<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
+              </div>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <auto-suggestion (onSelected)="selectBrandType($event, 'first')" url="" display="name"
+                  [data]="modal.first.data.docTypes" placeholder="Enter Brand Type"
+                  [preSelected]="{name:modal.first.data.document.document_type}" class="documentType "
+                  style='width: 60% !important;' (keyup)="isValidDocument($event, 'first')">
+                </auto-suggestion>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Model Type<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
+              </div>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <auto-suggestion (onSelected)="selectModelType($event, 'first')"
+                  (focusout)="openNextModal('second',modal.first.data.document.id)" display="name"
+                  [data]="modal.first.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
+                  class="documentType " style='width: 60% !important;'>
+                </auto-suggestion>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Emission Standard</label>
+
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-2">
+                    <label>Euro </label>
+                  </div>
+                  <div class="col-6">
+                    <select name="emission" class="form-control mt-1" [(ngModel)]="modal.first.data.document.emissionId"
+                      (ngModel)="selectRule()">
+                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission.id">
+                        {{emission.id}}</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+
+            <div class="row form-field clear">
+              <label for="wef_date-first" class="col-sm-4 mgn-vert">manufaturing Date</label>
+              <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">
+                  {{getDateInDisplayFormat(modal.first.data.document.wef_date)| date:'dd-MM-yyyy'}}</label>
+              </div>
+              <div class="col-8" style="padding-left:7px;">
+                <input #wefdate_first *ngIf="modal.first.data.canUpdate" id="wef_date-first" name="wef_date-first"
+                  type="text" class="col-sm-10 form-control frm-fld mgn-vert"
+                  [(ngModel)]="modal.first.data.document.wef_date" [value]="modal.first.data.document.wef_date "
+                  (focusout)="checkDateFormat('first', 'wef_date')" placeholder="MM/YYYY" />
+                <span *ngIf="modal.first.data.canUpdate" class="col-sm-2"
+                  style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                  (click)="getDate('wef_date', 'first')"><i class="icon fa fa-calendar"></i></span>
+              </div>
+            </div>
+
+            <!-- <div class="row form-field clear">
+              <label for="remarks-first" class="col-sm-4">Remarks</label>
+              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
+                <textarea id="remarks-first" name="remarks-first" rows="3" class="form-control "
+                  [(ngModel)]="modal.first.data.document.remarks"
+                  [value]="modal.first.data.document.remarks"></textarea>
+              </div>
+            </div> -->
+
+            <div class="row mt-3 mb-3">
+              <div class="col-12 text-center"
+                *ngIf="modal.first.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
+                <button class="btn btn-primary" form="document-form" type="button" outline
+                  (click)="updateVehicle('first')" id="submit-first"
+                  style="cursor: pointer;">{{modal.first.data.btn1}}</button>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="col-sm-8">
+            <app-image-viewer *ngIf="modal.first.data.document.img_url && !modal.first.data.doc_not_img"
+              [images]="modal.first.data.images" [idContainer]="'first-' + modal.first.data.imageViewerId"
+              [loadOnInit]="true">
+            </app-image-viewer>
+            <div *ngIf="!modal.first.data.document.img_url">No Image Exists</div>
+            <div id="imgzoom-first"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal End -->
+
+
+<!-- Modal 2 -->
+<div class="custom-modal-1" *ngIf="modal.second.show" [ngClass]="modal.second.class">
+  <div class="custom-modal-body">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title-second">{{modal.second.data.title}}</h5>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal(false, 'second')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body vert-mdl-pdg">
+      <form #documentFormSecond="ngForm" id="document-form-second" name="document-form-second">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="row form-field clear">
+              <label for="document_id-second" class="col-sm-4 mgn-vert">Vehicle ID</label>
+              <div class="col-sm-8 " *ngIf="!modal.second.data.canUpdate">
+                <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
+              </div>
+              <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
+                <label style="font-size:16px;">{{modal.second.data.document.id}}</label>
+                <span *ngIf="modal.second.data.document.rcImage" class="rc-image">
+                  <a target='_blank' href="{{modal.second.data.document.rcImage}}" title="View Vehicle">RC Image</a>
+                </span>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="veh_no-second" class="col-sm-4 mgn-vert">Vehicle No.<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
+                <label style="font-size:16px;">{{modal.second.data.document.regno}}</label>
+              </div>
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <label style="font-size:16px;">{{modal.second.data.document.newRegno}}</label>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Brand Type<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">{{modal.second.data.document.document_type}}</label>
+              </div>
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <auto-suggestion (onSelected)="selectBrandType($event, 'second')" url="" display="name"
+                  [data]="modal.second.data.docTypes" placeholder="Enter Brand Type"
+                  [preSelected]="{name:modal.second.data.document.document_type }" class="documentType "
+                  style='width: 60% !important;' (keyup)="isValidDocument($event, 'second')">
+                </auto-suggestion>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Model Type<span class="mandatory">*</span></label>
+              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8 ">
+                <label style="font-size:16px;">{{modal.second.data.document.document_type}}</label>
+              </div>
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <auto-suggestion (onSelected)="selectModelType($event, 'second')"
+                  (focusout)="openNextModal('first',modal.second.data.document.id)" display="name"
+                  [data]="modal.second.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
+                  class="documentType " style='width: 60% !important;'>
+                </auto-suggestion>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Model Type </label>
+
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-2">
+                    <label>Euro </label>
+                  </div>
+                  <div class="col-6">
+                    <select name="emission" class="form-control mt-1 "
+                      [(ngModel)]="modal.second.data.document.emissionId">
+                      <option class="form-control" *ngFor="let emission of emissionStandard">
+                        {{emission.id}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-field clear">
+              <label for="wef_date-second" class="col-sm-4 mgn-vert">manufaturing Date</label>
+              <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8" style="padding-left:7px;">
+                <label style="font-size:16px;">
+                  {{getDateInDisplayFormat(modal.second.data.document.wef_date)| date:'dd-MM-yyyy'}}</label>
+              </div>
+              <div class="col-8" style="padding-left:7px;">
+                <input #wefdate_second *ngIf="modal.second.data.canUpdate" id="wef_date-second" name="wef_date-second"
+                  type="text" class="col-sm-10 form-control frm-fld mgn-vert"
+                  [(ngModel)]="modal.second.data.document.wef_date" [value]="modal.second.data.document.wef_date "
+                  (focusout)="checkDateFormat('second', 'wef_date')" placeholder="MM/YYYY" />
+                <span *ngIf="modal.second.data.canUpdate" class="col-sm-2"
+                  style='cursor:pointer; font-size: 18px; padding: 5px 10px; color: #263238;'
+                  (click)="getDate('wef_date', 'second')"><i class="icon fa fa-calendar"></i></span>
+              </div>
+            </div>
+
+            <!-- <div class="row form-field clear">
+              <label for="remarks-second" class="col-sm-4">Remarks</label>
+              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
+                <textarea id="remarks-second" name="remarks-second" rows="3" class="form-control "
+                  [(ngModel)]="modal.second.data.document.remarks"
+                  [value]="modal.second.data.document.remarks"></textarea>
+              </div>
+            </div> -->
+
+            <div class="row mt-3 mb-3">
+
+              <div class="col-12 text-center"
+                *ngIf="modal.second.data.canUpdate === 1 && this.user._loggedInBy == 'admin'">
+                <button class="btn btn-primary" form="document-form" type="submit" outline
+                  (click)="updateVehicle('second')" id="submit-second"
+                  style="cursor: pointer;">{{modal.second.data.btn1}}</button>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="col-sm-8">
+
+            <app-image-viewer *ngIf="modal.second.data.document.img_url && !modal.second.data.doc_not_img"
+              [images]="modal.second.data.images" [idContainer]="'second-' + modal.second.imageViewerId"
+              [loadOnInit]="true">
+            </app-image-viewer>
+            <div *ngIf="!modal.second.data.document.img_url">No Image Exists</div>
+            <div id="imgzoom-second"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+<!-- Modal 2 End -->
