@@ -45,7 +45,7 @@ export class BulkVehicleNextServiceDetailComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         if (res['data'][0].y_id > 0) {
-          this.common.showToast("Successfully added");
+          this.common.showToast("Successfully added", 3000);
 
         } else
           this.common.showError(res['data'][0].y_msg);
