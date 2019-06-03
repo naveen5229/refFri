@@ -162,6 +162,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 home: true,
             },
             {
+                title: 'Fuel Analysis',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-analysis',
+                home: true,
+            },
+            {
                 title: 'Pump Station Area',
                 icon: 'fa fa-signal',
                 link: '/admin/pump-station-area',

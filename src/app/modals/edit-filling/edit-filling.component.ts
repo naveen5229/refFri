@@ -64,6 +64,7 @@ export class EditFillingComponent implements OnInit {
         this.filldate = data.date;
 
       }
+
     });
   }
 
@@ -88,44 +89,55 @@ export class EditFillingComponent implements OnInit {
   }
 
   submitFillingData() {
-    let fmtdate = this.common.dateFormatter1(this.filldate).split(' ')[0];
-    console.log("date::", fmtdate);
-    let params = {
-      vehId: this.vehicle_id,
-      siteId: this.pump_id,
-      litres: this.litres,
-      rate: this.rate,
-      amount: this.amount,
-      fuelDetailsId: this.filling_id,
-      date: fmtdate,
-      petrolPumplocation: '',
-      petrolPumpName: this.pump,
-      isFull: this.isfull,
-      fuelCompany: '',
-      petrolPumpId: this.pump_id
-    };
-    console.log("rowdata", this.common.params.rowfilling);
-    console.log("newparams", params);
-    let apiurl = '';
-    if (this.filling_id) {
-      apiurl = 'FuelDetails/updateFuelDetails';
+    console.log('fill date', this.filldate);
+    if (this.filldate == null || this.filldate == '') {
+      this.common.showToast('Fill Date To Continue');
     } else {
-      apiurl = 'FuelDetails/insertFuelDetails';
-    }
+      if (this.isfull == false) {
+        this.isfull = null;
+      }
+      let fmtdate = this.common.dateFormatter1(this.filldate).split(' ')[0];
+      console.log("date::", fmtdate);
+      let params = {
+        vehId: this.vehicle_id,
+        siteId: this.pump_id,
+        litres: this.litres,
+        rate: this.rate,
+        amount: this.amount,
+        fuelDetailsId: this.filling_id,
+        date: fmtdate,
+        petrolPumplocation: '',
+        petrolPumpName: this.pump,
+        isFull: this.isfull,
+        fuelCompany: '',
+        petrolPumpId: this.pump_id
+      };
+      console.log("rowdata", this.common.params.rowfilling);
+      console.log("newparams", params);
+      let apiurl = '';
+      if (this.filling_id) {
+        apiurl = 'FuelDetails/updateFuelDetails';
+      } else {
+        apiurl = 'FuelDetails/insertFuelDetails';
+      }
 
-    this.common.loading++;
-    this.api.post(apiurl, params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("result");
-        console.log(res);
-        this.common.showToast("Details Updated Successfully");
-        this.activeModal.close();
-      }, err => {
-        this.common.showError("Error occurred");
-        this.common.loading--;
-        console.log(err);
-      });
+      this.common.loading++;
+      this.api.post(apiurl, params)
+        .subscribe(res => {
+          this.common.loading--;
+          console.log("result");
+          console.log(res);
+          this.common.showToast("Details Updated Successfully");
+          this.filldate = '';
+          this.activeModal.close();
+        }, err => {
+          this.common.showError("Error occurred");
+          this.common.loading--;
+          console.log(err);
+          this.filldate = '';
+        });
+
+    }
 
   }
 
@@ -139,4 +151,5 @@ export class EditFillingComponent implements OnInit {
       }
     });
   }
+
 }
