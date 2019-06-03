@@ -32,17 +32,20 @@
             <th>Vehicle Name</th>
             <th>Code</th>
             <th>Ref No</th>
+            <th>Trip Start</th>
+            <th>Trip End</th>
             <th>Amount</th>
             <!-- <th> Date</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;">
-            <td (click)="getVoucherSummary(tripVoucher)">{{i+1}}</td>
+          <tr *ngFor="let tripVoucher of tripVouchers;let i=index;"  (dblclick)="getVoucherSummary(tripVoucher)">
+            <td>{{i+1}}</td>
             <td>{{tripVoucher.y_vehicle_name}}</td>
             <td>{{tripVoucher.y_code }}</td>
             <td>{{tripVoucher.y_ref_no }}</td>
             <td>{{tripVoucher.y_amount }}</td>
+            
             <!-- <td>{{tripVoucher.y_date | date : 'dd MMM'}}</td> -->
 
             <!-- <td><i class="fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"

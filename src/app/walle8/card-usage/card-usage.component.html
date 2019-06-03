@@ -1,0 +1,89 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Card Usage</h2>
+    <div class="row m-0 p-0">
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="End Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" type="button" (click)="getcardUsage()">Submit</button>
+      </div>
+    </div>
+
+    <div class="row m-0 p-0">
+
+      <div class="col-md-12 text-right margin-top-15 margin-left-220">
+
+        <span style="margin-bottom: 10px; display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('cardUsage');" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV('cardUsage')"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table-bordered table-hover table-scroll" id="cardUsage">
+      <thead class="thead">
+        <tr>
+          <th>#</th>
+          <th>Vehicle</th>
+          <th>IOCL</th>
+          <th>BPCL</th>
+          <th>ATM</th>
+          <th>HPCL</th>
+          <th>Tolls</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let usage of cardUsage; let i = index">
+          <td scope="row">{{i+1}}</td>
+          <td>{{usage.vehicle}}</td>
+          <td>{{usage.iocl}}</td>
+          <td>{{usage.bpcl}}</td>
+          <td>{{usage.atm}}</td>
+          <td>{{usage.hpcl}}</td>
+          <td>{{usage.tolls}}</td>
+        </tr>
+        <!-- <tr *ngFor="let subtotal of sum">
+          <td></td>
+          <td>Sub Total</td>
+          <td>{{subtotal.iocl}}</td>
+          <td>{{subtotal.bpcl}}</td>
+          <td>{{subtotal.atm}}</td>
+          <td>{{subtotal.hpcl}}</td>
+          <td>{{subtotal.tolls}}</td>
+        </tr> -->
+      </tbody>
+      <!-- </table>
+    <table id="cardUsage"> -->
+      <tbody>
+        <tr>
+          <td></td>
+          <td> Subtotal</td>
+          <td>{{sum.iocl}}</td>
+          <td>{{sum.bpcl}}</td>
+          <td>{{sum.atm}}</td>
+          <td>{{sum.hpcl}}</td>
+          <td>{{sum.tolls}}</td>
+        </tr>
+      </tbody>
+      <!-- </table>
+    <table id="cardUsage"> -->
+      <tbody>
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td>{{total}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

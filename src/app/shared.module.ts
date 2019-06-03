@@ -14,6 +14,7 @@ import { DocumentDashboardComponent } from './documents/dashboard/dashboard.comp
 import { DriverPerformanceComponent } from './driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from './admin/vehicle-distance/vehicle-distance.component';
 import { UserActivityStatusComponent } from './pages/user-activity-status/user-activity-status.component';
+import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-average/consolidate-fuel-average.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -23,8 +24,8 @@ const PAGES_COMPONENTS = [
     DocumentDashboardComponent,
     DriverPerformanceComponent,
     VehicleDistanceComponent,
-    UserActivityStatusComponent
-
+    UserActivityStatusComponent,
+    ConsolidateFuelAverageComponent
 ];
 
 
@@ -36,9 +37,6 @@ const PAGES_COMPONENTS = [
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         ImageViewerModule,
-
-
-
     ],
     exports: [...PAGES_COMPONENTS],
     providers: [],
