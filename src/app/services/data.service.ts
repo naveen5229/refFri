@@ -270,6 +270,12 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Fuel Analysis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-analysis',
+            home: true,
+          },
+          {
             title: 'Remaining Fuel',
             icon: 'fa fa-signal',
             link: '/admin/remaining-fuel',
