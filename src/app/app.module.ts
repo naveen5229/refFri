@@ -283,7 +283,7 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     CostCenterViewComponent,
-    VehiclesViewComponent
+    VehiclesViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
