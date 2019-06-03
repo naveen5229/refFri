@@ -96,7 +96,7 @@ export class TollDiscountComponent implements OnInit {
   calculateTotal(discount) {
     for (let i = 0; i < discount.length; i++) {
       let overall
-      return overall = discount[i].fdisc + discount[i].tdisc;
+      return overall = parseInt(discount[i].fdisc) + parseInt(discount[i].tdisc);
       //return overall;
 
 

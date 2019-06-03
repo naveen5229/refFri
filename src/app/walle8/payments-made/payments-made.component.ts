@@ -15,8 +15,8 @@ export class PaymentsMadeComponent implements OnInit {
   total = 0;
   userId = this.user._details.id;
   dates = {
-    start: this.common.dateFormatter(new Date()),
-    end: this.common.dateFormatter(new Date()),
+    start: null,
+    end: null,
   }
   table = null;
   constructor(
@@ -25,10 +25,11 @@ export class PaymentsMadeComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    // let today = new Date();
-    // this.dates.start = today.setDate(today.getDate() - 1);
-    // this.getPaymentMade();
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate()));
+    this.dates.end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
     this.getPaymentMade();
+    //this.getPaymentMade();
   }
 
   ngOnInit() {

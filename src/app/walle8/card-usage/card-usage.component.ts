@@ -22,7 +22,7 @@ export class CardUsageComponent implements OnInit {
     tolls: 0,
   }
   dates = {
-    start: this.common.dateFormatter(new Date()),
+    start: null,
     end: this.common.dateFormatter(new Date()),
   }
   // userId = '946';
@@ -35,6 +35,8 @@ export class CardUsageComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate()));
 
     this.getcardUsage();
     this.calculateTotal();

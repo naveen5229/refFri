@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TollSetteledRequestComponent implements OnInit {
   dates = {
-    start: this.common.dateFormatter(new Date()),
+    start: null,
 
     end: this.common.dateFormatter(new Date()),
   };
@@ -23,6 +23,8 @@ export class TollSetteledRequestComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(today.setDate(today.getDate() - 1));
     this.gettollSetteledReq();
   }
 

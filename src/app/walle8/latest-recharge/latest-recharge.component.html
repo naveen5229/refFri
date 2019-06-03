@@ -17,6 +17,11 @@
     </div>
   </nb-card-header>
   <nb-card-body>
+    <!-- <div class="row" *ngIf="data.length=[]">
+      <div class="col-3">
+        <label>NO DATA FOUND</label>
+      </div>
+    </div> -->
     <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="latestrecharge"></smart-table>
     <table *ngIf="data.length" style="margin-top:-15px">
       <tbody>

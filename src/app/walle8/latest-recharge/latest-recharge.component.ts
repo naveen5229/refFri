@@ -16,7 +16,7 @@ export class LatestRechargeComponent implements OnInit {
   userId = this.user._details.id;
   dates = {
     start: null,
-    end: this.common.dateFormatter(new Date()),
+    end: null
   }
   table = null;
   total = null;
@@ -27,8 +27,9 @@ export class LatestRechargeComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 1)));
+    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0));
 
+    this.dates.end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
     //this.getPaymentMade();
     this.getLatestRecharge();
   }

@@ -31,6 +31,7 @@ export class TollAnalaticsComponent implements OnInit {
     stepSize: ''
 
   };
+
   chartObject1 = {
     type: '',
     data: {},
@@ -41,8 +42,8 @@ export class TollAnalaticsComponent implements OnInit {
     ticks: {},
     min: '',
     max: '',
-    stepSize: ''
-
+    stepSize: '',
+    backgroundColor: ''
   };
   chartObject2 = {
     type: '',
@@ -56,6 +57,7 @@ export class TollAnalaticsComponent implements OnInit {
     max: '',
     stepSize: '',
     startAngle: '',
+    backgroundColor: ''
 
 
 
@@ -66,7 +68,7 @@ export class TollAnalaticsComponent implements OnInit {
   amount = [];
   date = [];
   flag = 'Loading';
-  bgColor = '#00695C';
+  bgColor = '#0000FF';
   yScale = 'Hours';
   dates = {
 
@@ -131,13 +133,19 @@ export class TollAnalaticsComponent implements OnInit {
       datasets: [
         {
           label: 'Toll Consumption',
+          borderColor: this.bgColor,
           data: this.amount,
+          fill: false,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#0000FF'
+
         },
       ]
     };
     this.chartObject.options = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+
     };
     console.log('This:', this.chartObject);
   }
@@ -150,7 +158,14 @@ export class TollAnalaticsComponent implements OnInit {
         {
           label: 'Top Toll Plaza',
           data: this.amt,
+          // borderColor: this.bgColor,
+          // data: this.amount,
+          fill: false,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#0000FF',
+          backgroundColor: this.bgColor
         },
+
       ]
     };
     this.chartObject1.options = {
@@ -168,6 +183,7 @@ export class TollAnalaticsComponent implements OnInit {
         {
           label: 'Zones',
           data: this.amounts,
+          backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"]
         },
 
       ]
@@ -196,7 +212,7 @@ export class TollAnalaticsComponent implements OnInit {
         if (res['data']) {
           for (let i = 0; i < this.data.length; i++) {
             this.amount.push(this.data[i].amt);
-            this.common.changeDateformat2(this.date.push(this.data[i].transtime));
+            this.common.changeDateformat(this.date.push(this.data[i].transtime));
             // this.showGraph = true;
             // console.log('date', this.date);
           }

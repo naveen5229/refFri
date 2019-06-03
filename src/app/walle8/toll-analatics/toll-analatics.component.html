@@ -32,7 +32,8 @@
       </div>
       <div class="col-sm-11">
         <chart *ngIf="chartObject1.type" [type]="chartObject1.type" [data]="chartObject1.data"
-          style="margin-right:5px;min-height: 200px;" [options]="chartObject1.options"></chart>
+          class="chart chart-horizontal-bar" style="margin-right:5px;min-height: 200px;"
+          [options]="chartObject1.options"></chart>
       </div>
     </div>
     <div class="row">

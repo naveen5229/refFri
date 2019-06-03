@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DoubleTollReportComponent implements OnInit {
   dates = {
-    start: this.common.dateFormatter(new Date()),
+    start: null,
 
     end: this.common.dateFormatter(new Date()),
   };
@@ -23,6 +23,12 @@ export class DoubleTollReportComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
+    let today = new Date();
+    let start = '';
+    let end = '';
+    start = this.common.dateFormatter1(today.setDate(today.getDate() - 30));
+    this.dates.start = start;
+    // end = this.common.dateFormatter1(new Date(today.getDate()));
     this.getdoubleTollReport();
   }
 
