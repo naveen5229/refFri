@@ -53,6 +53,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/accounts/vehicle-cost-center-list'
     },
     {
+        title: 'Mapped Fuel Voucher',
+        icon: 'fa fa-money-bill',
+        link: '/accounts/mapped-fuel-voucher'
+    },
+    {
         title: 'Stock Master',
         icon: 'fa fa-building-o',
 

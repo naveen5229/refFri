@@ -12,8 +12,7 @@ import { element } from '@angular/core/src/render3';
   styleUrls: ['./add-vehicle-modal-service.component.scss']
 })
 export class AddVehicleModalServiceComponent implements OnInit {
-
-
+  title = '';
   brands = [];
   selectedEuro = null;
   euros = [
@@ -24,10 +23,12 @@ export class AddVehicleModalServiceComponent implements OnInit {
     "Euro 6",
   ];
   modelId = null;
-  isWarranty = 0;
+  brandId = null;
+  isWarranty = 1;
   serviceNo = 1;
   nextMonth = null;
   nextKm = null;
+  edit = 0;
   constructor(public api: ApiService,
     public common: CommonService,
     public date: DateService,
@@ -42,7 +43,7 @@ export class AddVehicleModalServiceComponent implements OnInit {
 
 
   closeModal(response) {
-    this.activeModal.close({ response: response });
+    this.activeModal.close({ response: this.brandId });
   }
 
   vehicleModalTypes() {
@@ -74,12 +75,12 @@ export class AddVehicleModalServiceComponent implements OnInit {
         console.log("response:", res);
         if (res['data'][0].r_id > 0) {
           this.common.showToast("Sucessfully Added", 10000);
+          this.nextKm = null;
+          this.nextMonth = null;
         }
         else {
           this.common.showError(res['data'][0].r_msg);
         }
-        this.nextKm = null;
-        this.nextMonth = null;
       }, err => {
         this.common.loading--;
         console.log(err);
