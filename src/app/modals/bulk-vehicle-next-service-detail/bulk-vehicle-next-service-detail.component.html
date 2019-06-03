@@ -19,7 +19,7 @@
       <tr *ngFor="let serviceData of serviceDatas; let i = index">
         <td>{{i + 1}}</td>
         <td>{{serviceData.r_regno}}</td>
-        <td><input type="number" [(ngModel)]="serviceData.r_kms" max="99999" style="width:150px"></td>
+        <td><input type="number" step="1000" [(ngModel)]="serviceData.r_kms" max="10000000000" style="width:150px"></td>
         <td><input type="number" [(ngModel)]="serviceData.r_months" max="99" style="width:100px"></td>
       </tr>
     </tbody>
