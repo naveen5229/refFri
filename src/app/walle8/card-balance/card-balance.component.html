@@ -1,0 +1,59 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-6">
+        <h4>Card Balance</h4>
+      </div>
+      <div class="col-6 text-right">
+        <span class="pdf-icon" title="PDF Export" (click)="printPDF('cardBalance');" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="printCSV('cardBalance')"
+          style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div>
+      <table class="table table-bordered table-hover" id="cardBalance">
+        <thead class="thead">
+          <tr>
+            <th>#</th>
+            <th>Vehicle</th>
+            <th>BPCL</th>
+            <th>HPCL</th>
+            <th>ATM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cardBalance of data;let i = index">
+            <td scope="row">{{i+1}}</td>
+            <td>{{cardBalance.vehicle}}</td>
+            <td>{{cardBalance.bpcl}}</td>
+            <td>{{cardBalance.hpcl}}</td>
+            <td>{{cardBalance.atm}}</td>
+          </tr>
+        </tbody>
+
+        <tbody class="tbody-two" *ngIf="data.length">
+          <tr>
+            <td></td>
+            <td> Subtotal</td>
+            <td>{{sum.bpcl}}</td>
+            <td>{{sum.hpcl}}</td>
+            <td>{{sum.atm}}</td>
+          </tr>
+        </tbody>
+        <!-- </table>
+        <table id="cardUsage"> -->
+        <tbody class="tbody-three" *ngIf="data.length">
+          <tr>
+            <td></td>
+            <td>Total</td>
+            <td>{{total}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>

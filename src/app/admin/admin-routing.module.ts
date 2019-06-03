@@ -38,6 +38,9 @@ import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.co
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
+import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
+import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
+import { VehiclewiseTolltransactionComponent } from './vehiclewise-tolltransaction/vehiclewise-tolltransaction.component';
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
@@ -237,6 +240,21 @@ const routes: Routes = [{
         {
             path: 'add-customer',
             component: AddCustomerComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'toll-transaction-summary',
+            component: TollTransactionSummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'manual-toll-transaction-summary',
+            component: ManualTollTransactionSummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehiclewise-tolltransaction',
+            component: VehiclewiseTolltransactionComponent,
             canActivate: [RouteGuard]
         },
         {

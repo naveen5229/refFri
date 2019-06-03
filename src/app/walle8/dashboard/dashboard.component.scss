@@ -1,0 +1,28 @@
+.amnout_list{
+    padding: 30px;
+    .amount_box{
+        box-shadow: 2px 0px 10px #dcdcdc;
+        border-radius: 3px;
+        padding: 30px 20px;
+        .rupee_icon{
+            width: 60px;
+            height: 60px;
+            display: inline-block;
+            line-height: 60px;
+            text-align: center;
+            font-size: 30px;
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+            float: left;
+            margin-right: 40px;
+            color: #fff;
+            background-color: #29b6f6;
+        }
+        h4{
+            font-weight: bold;
+            color: #6b6b6b;
+            margin-top: 10px;
+        }
+    }
+}
