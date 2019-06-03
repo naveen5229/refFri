@@ -30,7 +30,7 @@ export class TripVoucherExpenseComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal) {
     this.common.currentPage = 'Trip Voucher Expense';
-    this.getTripSummary();
+    this.getTripExpences();
   }
 
   ngOnInit() {
@@ -277,7 +277,7 @@ export class TripVoucherExpenseComponent implements OnInit {
   getTripExpences() {
 
     const params = {
-      vehId: this.selectedVehicle.id
+      vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id :0
     };
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceVouher', params)
