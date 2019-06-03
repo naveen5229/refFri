@@ -15,6 +15,8 @@ export class ViewModalServiceComponent implements OnInit {
 
   data = [];
 
+  brands = [];
+  brandId;
   table = {
     data: {
       headings: {},
@@ -32,17 +34,78 @@ export class ViewModalServiceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    this.getModelService();
+    this.vehicleBrandTypes();
   }
 
   ngOnInit() {
+  }
+
+  vehicleBrandTypes() {
+    this.common.loading++;
+    this.api.get('Vehicles/getVehicleBrandsMaster')
+      .subscribe(res => {
+        this.common.loading--;
+        this.brands = res['data'];
+        console.log("Brand Type", this.brands);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 
   addModalService() {
     const activeModal = this.modalService.open(AddVehicleModalServiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
-        this.data = [];
+        this.refresh(data);
+      }
+    });
+  }
+
+  refresh(data) {
+    this.data = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.headings = [];
+    this.valobj = {};
+    this.getModelService(data.response);
+  }
+
+  deleteVehicleModel(id) {
+    if (!confirm("Are You Sure you want to delete the Entry??")) {
+      return;
+    }
+    this.common.loading++;
+    this.api.post('VehicleMaintenance/deleteModelService', { id: id })
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("response:", res);
+        if (res['success']) {
+          this.common.showToast("Sucessfully Deleted", 10000);
+          console.log("Brand", this.brandId);
+          this.refresh({ response: this.brandId });
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  getModelService(brandId) {
+    if (!brandId)
+      return;
+    this.common.loading++;
+    this.api.get('VehicleMaintenance/viewModalService?brandId=' + brandId)
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
         this.table = {
           data: {
             headings: {},
@@ -54,19 +117,9 @@ export class ViewModalServiceComponent implements OnInit {
         };
         this.headings = [];
         this.valobj = {};
-        this.getModelService();
-      }
-    });
-  }
-
-  getModelService() {
-    this.common.loading++;
-    this.api.get('VehicleMaintenance/viewModalService')
-      .subscribe(res => {
-        this.common.loading--;
-        this.data = res['data'];
-        if (!this.data.length) {
-          document.getElementById('mdl-body').innerHTML = 'No record exists';
+        if (!this.data || !this.data.length) {
+          //document.getElementById('mdl-body').innerHTML = 'No record exists';
+          return;
         }
         let first_rec = this.data[0];
         for (var key in first_rec) {
@@ -76,6 +129,8 @@ export class ViewModalServiceComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
+        let headerObj = { title: 'Action', placeholder: 'Action' };
+        this.table.data.headings['action'] = headerObj;
         this.table.data.columns = this.getTableColumns();
       }, err => {
 
@@ -95,6 +150,11 @@ export class ViewModalServiceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
+      this.valobj['action'] = {
+        icons: [
+          { class: " fa fa-trash remove", action: this.deleteVehicleModel.bind(this, doc['_id']) }]
+        , action: null
+      };
       columns.push(this.valobj);
     });
     return columns;
