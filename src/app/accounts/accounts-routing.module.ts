@@ -34,7 +34,7 @@ import { CostCenterReportComponent } from './cost-center-report/cost-center-repo
 import { VouchereditedComponent } from './voucheredited/voucheredited.component';
 import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
 import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
-
+import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -182,6 +182,10 @@ const routes: Routes = [{
         {
             path: 'vehicle-cost-center-list',
             component: VehicleCostCenterListComponent
+        },
+        {
+            path: 'mapped-fuel-voucher',
+            component: MappedFuelVoucherComponent
         }
     ],
 

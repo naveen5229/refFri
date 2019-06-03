@@ -51,7 +51,7 @@ import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
-
+import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 
 
 const PAGES_COMPONENTS = [
@@ -76,7 +76,8 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   FuelAverageIssuesComponent,
-  ConsolidateFuelAverageComponent
+  ConsolidateFuelAverageComponent,
+  FuelAnalysisComponent
 
 
 
@@ -120,7 +121,8 @@ const PAGES_COMPONENTS = [
     HaltDensityComponent,
     PalacementSiteRuleComponent,
     FuelAverageIssuesComponent,
-    ConsolidateFuelAverageComponent
+    ConsolidateFuelAverageComponent,
+    FuelAnalysisComponent
 
 
   ],
