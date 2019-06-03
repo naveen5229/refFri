@@ -161,8 +161,8 @@ import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.comp
 import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
 import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
-
-
+import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
+import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 
 
 @NgModule({
@@ -287,12 +287,13 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
-
-
-
+    VehicleNextServiceDetailComponent,
+    BulkVehicleNextServiceDetailComponent
 
   ],
   entryComponents: [
+    BulkVehicleNextServiceDetailComponent,
+    VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
     UserCallHistoryComponent,
