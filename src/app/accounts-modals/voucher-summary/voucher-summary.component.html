@@ -99,7 +99,7 @@
               <td>{{i+1}}</td>
               <td>
                 <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
-                  (ngModelChange)="checkedAllSelected()">
+                  (ngModelChange)="checkedAllSelected()" [readonly]=(trip.voucher_id) >
               </td>
               <td>{{trip.start_name}}</td>
               <td>{{trip.end_name || '--'}}</td>
