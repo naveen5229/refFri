@@ -4,7 +4,16 @@
       <div class="row">
         <form class="w-100">
           <div class="row">
-            <div class="col-md-2 offset-md-08">
+            <div class="col-md-1">
+              <label>Select Brand</label>
+            </div>
+            <div class="col-md-2">
+              <auto-suggestion (onSelected)="getModelService($event.id);brandId = $event.id;" display="name"
+                placeholder="Enter Brand" [data]="brands" [preSelected]="null"></auto-suggestion>
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-2">
               <button type="submit" class="btn btn-primary" (click)="addModalService()">
                 Add Vehicle Modal Service
               </button>
@@ -13,6 +22,11 @@
         </form>
       </div>
     </div>
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <div *ngIf="data && data.length" class="mt-3">
+      <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+    <div class="alert alert-danger text-center mt-3" *ngIf="!data || !data.length">
+      <h4 class="no-record">No Record Found</h4>
+    </div>
   </nb-card-body>
 </nb-card>
