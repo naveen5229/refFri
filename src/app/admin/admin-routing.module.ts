@@ -43,6 +43,7 @@ import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
 
 const routes: Routes = [{
     path: '',
@@ -247,6 +248,10 @@ const routes: Routes = [{
         {
             path: 'placement-site-rule',
             component: PalacementSiteRuleComponent,
+            canActivate: [RouteGuard]
+        }, {
+            path: 'vehicles',
+            component: VehiclesComponent,
             canActivate: [RouteGuard]
         }
 

@@ -16,6 +16,8 @@ import { VehicleStatesComponent } from '../../modals/vehicle-states/vehicle-stat
 import { VehicleTripStagesComponent } from '../vehicle-trip-stages/vehicle-trip-stages.component';
 import { DateService } from '../../services/date.service';
 import { start } from 'repl';
+import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
+import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -152,8 +154,11 @@ export class VehicleTripComponent implements OnInit {
             { class: " fa fa-trash remove", action: this.deleteTrip.bind(this, this.vehicleTrips[i]) },
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.vehicleTrips[i]) },
             { class: 'fa fa-star  vehicle-report', action: this.vehicleReport.bind(this, this.vehicleTrips[i]) },
-            { class: 'fa fa-chart-bar  status', action: this.vehicleStates.bind(this, this.vehicleTrips[i]) }
+            { class: 'fa fa-chart-bar status', action: this.vehicleStates.bind(this, this.vehicleTrips[i]) },
           ]
+        }
+        if (this.user._loggedInBy == "admin") {
+          this.valobj['action'].icons.push({ class: 'fa fa-chart-pie change-status', action: this.openChangeStatusModal.bind(this, this.vehicleTrips[i]) });
         }
 
 
@@ -382,6 +387,29 @@ export class VehicleTripComponent implements OnInit {
         console.log(err);
       });
 
+
+  }
+
+  openChangeStatusModal(trip) {
+    console.log("trip====", trip);
+    let today, startday, fromDate;
+    today = new Date();
+    startday = new Date(today.setDate(today.getDate() - 2));
+    fromDate = this.common.dateFormatter(startday);
+    let fromTime = this.common.dateFormatter(fromDate);
+    let toTime = this.common.dateFormatter(new Date());
+    let VehicleStatusData = {
+      vehicle_id: trip._vid,
+      suggest: 11,
+      latch_time: trip._startdate || fromTime,
+      tTime: trip._enddate || toTime
+    }
+    console.log("VehicleStatusData", VehicleStatusData);
+
+    this.common.params = VehicleStatusData;
+    const activeModal = this.modalService.open(ChangeVehicleStatusComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+    });
 
   }
 

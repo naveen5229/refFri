@@ -220,7 +220,12 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-
+          {
+            title: 'Vehicles',
+            icon: 'fas fa-info-circle',
+            link: '/admin/vehicles',
+            home: true,
+          },
         ]
       },
 
