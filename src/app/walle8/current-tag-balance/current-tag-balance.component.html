@@ -1,0 +1,22 @@
+<nb-card>
+  <nb-card-header style="font-size: 32px;">
+    <h4>Current Tag Balance</h4>
+    <div class="row m-0 p-0">
+      <div class="col-md-12 text-right margin-top-15 margin-left-220">
+
+        <span style="margin-bottom: 10px; display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('currentTagBalance');" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV('currentTagBalance')"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="currentTagBalance">
+    </smart-table>
+
+
+  </nb-card-body>
+</nb-card>
