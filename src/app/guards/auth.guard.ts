@@ -29,8 +29,7 @@ export class AuthGuard implements CanActivate {
       return false;
     } else {
       if (this.user._loggedInBy == 'customer') {
-        this.activity.heartbeat();
-         this.activity.RouterDetection(state.url);
+        this.activity.routerDetection(state.url);
       }
 
       return true;

@@ -20,10 +20,10 @@ const ACTIVITIES = {
 export class ActivityService {
 
   modelurl = "";
-  timeout:any;
-  state='active';
-  date=null;
-  dd:any;
+  timeout: any;
+  state = 'active';
+  date = null;
+  dd: any;
 
   constructor(
     public common: CommonService,
@@ -32,40 +32,34 @@ export class ActivityService {
     console.log("STATE", this.state);
   }
 
-  getState(params){
-    this.state=params.state;
-    this.date=params.date;
-    console.log("1234",this.state,this.date);
+  getState(params) {
+    this.state = params.state;
+    this.date = params.date;
+    console.log("1234", this.state, this.date);
   }
-  RouterDetection(url) {
-    let date;
-    date = this.common.dateFormatter(new Date());
-    console.log("date", date);
-    let params = {
-      webpage: url,
-      addtime: date
-    };return;
+
+  routerDetection(url) {
+    const params = {
+      webpage: url.split('/')[url.split('/').length -1],
+      addtime: this.common.dateFormatter(new Date())
+    };
+    console.log('Page Params: ', params);
     this.api.post('UserRoles/setFoWebPageVisits', params)
-      .subscribe(res => {
-        this.common.showToast(res['msg']);
-        console.log(res);
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-   console.log("state_url", url);
+      .subscribe(res => console.log('Page View Api Response:', res),
+        err => console.error('Page View Api Error:', err));
   }
+
   ActivityHandler(state) {
-    
-    if(ACTIVITIES[state]==-1){
+
+    if (ACTIVITIES[state] == -1) {
       clearInterval(this.timeout);
       console.log("++++++++++");
-   }
-  let params = {
+    }
+    let params = {
       activity_type: ACTIVITIES[state],
       addTime: this.common.dateFormatter(new Date())
     };
-    console.log("final param",params); return;
+    console.log("final param", params); return;
     this.api.post('UserRoles/setActivitiesLogs', params)
       .subscribe(res => {
         this.common.showToast(res['msg']);
@@ -78,10 +72,10 @@ export class ActivityService {
   }
 
   heartbeat() {
-   this.timeout=setInterval(() => {
+    this.timeout = setInterval(() => {
       // let state=this.State;
       // let Date=this.date;
-     // date = this.common.dateFormatter(new Date());
+      // date = this.common.dateFormatter(new Date());
       this.ActivityHandler(this.state);
     }, 3000);
   }
