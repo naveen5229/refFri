@@ -89,7 +89,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.getVoucherDetails(this.tripVoucher.y_id);
       this.tripexpvoucherid = this.tripVoucher.y_id;
     }
-    this.common.handleModalSize('class', 'modal-lg', '1250');
+    this.common.handleModalSize('class', 'modal-lg', '1150');
     this.getcreditLedgers('credit');
     //  this.getdebitLedgers('debit');
     // this.setFoucus('custcode');
