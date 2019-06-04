@@ -1,0 +1,16 @@
+nb-card-header{
+    border-bottom: 1px solid #ccc;
+    button{
+        width: 100%;
+        text-transform: capitalize;
+        border-radius: 3px;
+        cursor: pointer !important;
+        padding: 8px;
+    }
+} 
+.buttons button{
+    text-transform: capitalize;
+    border-radius: 3px;
+    cursor: pointer !important;
+    padding: 8px;
+}
