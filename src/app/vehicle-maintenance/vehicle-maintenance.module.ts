@@ -8,6 +8,7 @@ import { DirectiveModule } from '../directives/directives.module';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { AddVehicleMaintenanceComponent } from './add-vehicle-maintenance/add-vehicle-maintenance.component';
 import { AddMaintenanceComponent } from './model/add-maintenance/add-maintenance.component';
+import { ViewMaintenanceComponent } from './model/view-maintenance/view-maintenance.component';
 import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/maintenanace-dashboard.component';
 import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-summary.component';
 import { MaintenanceReportComponent } from './model/maintenance-report/maintenance-report.component';
@@ -31,6 +32,7 @@ const PAGES_COMPONENTS = [
     ...PAGES_COMPONENTS,
     AddVehicleMaintenanceComponent,
     AddMaintenanceComponent,
+    ViewMaintenanceComponent,
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
     MaintenanceReportComponent,
@@ -40,6 +42,7 @@ const PAGES_COMPONENTS = [
   ],
   entryComponents: [
     AddMaintenanceComponent,
+    ViewMaintenanceComponent,
     AddVehicleModalServiceComponent,
     MaintenanaceDashboardComponent,
     MaintenanceReportComponent
