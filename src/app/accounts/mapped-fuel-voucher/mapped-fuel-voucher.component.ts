@@ -18,11 +18,13 @@ export class MappedFuelVoucherComponent implements OnInit {
   fuelVoucher = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
-    type: 0
+    type: 1
   };
   activeId = '';
   showDateModal = false;
   voucherDetails = [];
+  mappedDetails = [];
+  mappedVoucher = [];
 
   constructor(
     public api: ApiService,
@@ -39,6 +41,8 @@ export class MappedFuelVoucherComponent implements OnInit {
   }
 
   getFuelVoucher() {
+    this.voucherDetails = [];
+    this.mappedDetails = [];
     let type;
     let startdate = this.fuelVoucher.startdate;
     startdate = this.handleDateOnSubmit(startdate);
@@ -64,7 +68,17 @@ export class MappedFuelVoucherComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--
         console.log('res', res['data']);
-        this.voucherDetails = res['data'];
+
+        if (res['data'] == null) {
+          this.common.showToast('Record Empty !!');;
+        }
+        else {
+          this.voucherDetails = res['data'];
+          if (this.fuelVoucher.type == 1) {
+            this.getVoucherGroup(this.voucherDetails);
+          }
+        }
+
       }, err => {
         this.common.loading--;
         this.common.showError();
@@ -145,5 +159,21 @@ export class MappedFuelVoucherComponent implements OnInit {
 
   //   }
   // }
+
+  getVoucherGroup(voucher) {
+    let voucherGroup = _.groupBy(voucher, 'voucher_no');
+    this.mappedDetails = [];
+    Object.keys(voucherGroup).map(voucherName => {
+      this.mappedDetails.push({
+        voucherName,
+        date: voucherGroup[voucherName][0].voucher_date,
+        amount: voucherGroup[voucherName][0].voucher_amount,
+        details: voucherGroup[voucherName]
+      })
+    });
+    console.log('VoucheL:::::::::::::', voucherGroup, this.mappedDetails);
+
+  }
+
 
 }

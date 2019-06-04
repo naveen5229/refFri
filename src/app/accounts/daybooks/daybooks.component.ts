@@ -9,6 +9,7 @@ import { OrderComponent } from '../../acounts-modals/order/order.component';
 import { VoucherComponent } from '../../acounts-modals/voucher/voucher.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 
 @Component({
   selector: 'daybooks',
@@ -47,6 +48,8 @@ export class DaybooksComponent implements OnInit {
   allowBackspace = true;
   deletedId = 0;
   f2Date = 'startdate';
+  TripEditData=[];
+  pendingDataEditTme=[];
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -388,5 +391,114 @@ export class DaybooksComponent implements OnInit {
       });
 
   }
+
+
+  openConsignmentVoucherEdit(voucherData){
+    const params = {
+      vehId: 0,
+      voucherid: voucherData.y_voucherid
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/getTripExpenceVouher', params)
+      .subscribe(res => {
+        console.log('trip expence', res);
+        this.common.loading--;
+       this.getVoucherSummary(res['data'][0]);
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  getVoucherSummary(tripVoucher) {
+    console.log('trdhh-----', tripVoucher);
+    this.getPendingOnEditTrips(tripVoucher.y_vehicle_id);
+   // this.getPendingTripsEditTime(tripVoucher.y_id);
+  this.getPendingTripsEditTime(tripVoucher.y_id,tripVoucher.y_vehicle_id)
+    const params = {
+      voucherId: tripVoucher.y_voucher_id,
+      // startDate: tripVoucher.startdate,
+      // endDate: tripVoucher.enddate
+      voucherDetail: tripVoucher
+    };
+    this.common.loading++;
+    // this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
+    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTripsData', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.showVoucherSummary(res['data'], tripVoucher);
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  showVoucherSummary(tripDetails, tripVoucher) {
+    let vehId = tripVoucher.y_vehicle_id;
+    let tripEditData = this.TripEditData;
+    let tripPendingDataSelected = this.pendingDataEditTme;
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected };
+    console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
+    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      if (data.response) {
+        //this.addLedger(data.ledger);
+        this.getDayBook();
+      }
+    });
+  }
+
+  getPendingTripsEditTime(voucherid,vhicleId) {
+  //  this.getTripExpences();
+     
+      const params = {
+        vehId: vhicleId,
+        vchrid: voucherid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTripsEdit', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.pendingDataEditTme = res['data'];
+          // this.showTripSummary(res['data']);
+          //this.flag=false;
+         // this.trips = res['data'];
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    
+  }
+
+  getPendingOnEditTrips(vehicleid) {
+    //this.getTripExpences();
+    
+      const params = {
+        vehId: vehicleid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.TripEditData = res['data'];
+          // this.showTripSummary(res['data']);
+          //this.flag=false;
+         // this.trips = res['data'];
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    }
+  
 
 }

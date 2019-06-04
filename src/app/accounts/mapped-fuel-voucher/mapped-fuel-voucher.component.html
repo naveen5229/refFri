@@ -27,11 +27,11 @@
       <div class="col-sm-2">
 
         <input style="margin-top:20px;" autocomplete="off" type="radio" name="mapping" id="mapping"
-          [(ngModel)]="fuelVoucher.type" [value]=0> Mapping
+          [(ngModel)]="fuelVoucher.type" (change)="getFuelVoucher()" [value]=0>UnMapping
       </div>
       <div class="col-sm-2">
         <input style="margin-top:20px;" autocomplete="off" type="radio" name="unmapping" id="unmapping"
-          [(ngModel)]="fuelVoucher.type" [value]=1>UnMappping
+          [(ngModel)]="fuelVoucher.type" (change)="getFuelVoucher()" [value]=1>Mappping
       </div>
       <div class="col-sm-2">
         <button class="btn btn-primary" style="width: 150px" type="button" outline (click)="getFuelVoucher()"
@@ -48,9 +48,11 @@
             <th>Qty (Liter)</th>
             <th>Rate</th>
             <th>Amount</th>
+
+            <!-- <th *ngIf="fuelVoucher.type==1">Voucher Amount</th> -->
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="fuelVoucher.type==0">
           <tr *ngFor="let voucher of voucherDetails; let i = index">
             <td>{{voucher.fuel_fill_date | date : 'dd MMM'}}</td>
             <td>{{voucher.vehicle_name}}</td>
@@ -58,6 +60,25 @@
             <td><b>{{ voucher.qty}}</b></td>
             <td>{{ voucher.rate}}</td>
             <td>{{ voucher.amount}}</td>
+          </tr>
+        </tbody>
+
+        <tbody *ngFor="let voucher of mappedDetails; let i=index;">
+          <tr style="background: #184154; color: aliceblue;">
+            <td>{{voucher.date | date : 'dd MMM yyyy'}}</td>
+            <td>{{voucher.voucherName}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{voucher.amount}}</td>
+          </tr>
+          <tr *ngFor="let detail of voucher.details; let j=index;">
+            <td>{{detail.fuel_fill_date | date : 'dd MMM yyyy'}}</td>
+            <td>{{detail.vehicle_name}}</td>
+            <td>{{detail.fuel_station}}</td>
+            <td>{{detail.qty}}</td>
+            <td>{{detail.rate}}</td>
+            <td>{{detail.amount}}</td>
           </tr>
         </tbody>
       </table>
