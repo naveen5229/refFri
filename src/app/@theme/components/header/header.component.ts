@@ -73,11 +73,12 @@ export class HeaderComponent implements OnInit {
   logout() {
     if (confirm('Are you sure to logout?')) {
       if (this.user._loggedInBy == 'customer') {
-        this.activity.ActivityHandler("logout");
+        this.activity.activityHandler('logout');
 
       }
       this.user._token = '';
       this.user._details = null;
+      this.user._loggedInBy = '';
       localStorage.clear();
       this.router.navigate(['/auth/login']);
     }

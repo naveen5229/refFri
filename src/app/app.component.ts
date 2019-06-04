@@ -16,12 +16,8 @@ import { UserService } from './services/user.service';
 
 })
 export class AppComponent implements OnInit {
-
-
-  count: number = 0;
-  date = new Date();
   timeout: any;
-  state = 'active';
+
   constructor(private analytics: AnalyticsService,
     public common: CommonService,
     public user: UserService,
@@ -32,62 +28,18 @@ export class AppComponent implements OnInit {
     this.analytics.trackPageViews();
   }
 
-  @HostListener('mouseenter') dosomet() {
-    console.log('Active');
-
-    // date = this.date.getTime();
-
-
-
-    //console.log("Date1", (date / 1000));
-  }
-
-  @HostListener('mouseleave') dosomett() {
-    console.log('mouse leave');
-    //this.date=new Date();
-    // console.log("Date", this.date);
-    //console.log(this.count++);
-
-  }
-
   @HostListener('document:mousemove', ['$event'])
   onmousemove = () => {
-    if (this.user._loggedInBy == 'customer') {
-      if (this.state == 'inactive') {
-        console.log('Active');
-        let date;
-        date = this.common.dateFormatter(new Date());
-        console.log("dateformatter1", date);
-        this.state = 'active';
-        let params = {
-          state: this.state,
-          date: date
-        }
-        this.activity.getState(params);
-        // this.activity.ActivityHandler(this.state,date);
-      }
-      localStorage.setItem('LastMouseActiveTime', (new Date()).toString());
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        let savedTime = new Date(localStorage.getItem('LastMouseActiveTime'));
-        let currentTime = new Date();
-        this.state = 'inactive';
-        console.log('InActive');
-        let date;
-        date = this.common.dateFormatter(new Date());
-        let params = {
-          state: this.state,
-          date: date
-        }
-        this.activity.getState(params);
-        console.log("dateformatter2", date);
-        // this.activity.ActivityHandler(this.state,date);
-        // console.log('Dates::::::::::::', savedTime, currentTime);
-      }, 5000);
+    if (this.user._loggedInBy !== 'customer') return;
+
+    if (this.activity.state == 'inactive') {
+      this.activity.state = 'active';
     }
+
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.activity.state = 'inactive';
+    }, 5000);
   }
-  // onMouseMove(e) {
-  //   console.log(e);
-  //   console.log(this.count++);
-  // }
+ 
 }

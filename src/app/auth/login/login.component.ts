@@ -138,7 +138,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/partner']);
           } else {
             this.activity.heartbeat();
-            this.activity.ActivityHandler("login");
+            this.activity.activityHandler("login");
             this.router.navigate(['/pages']);
           }
         }
