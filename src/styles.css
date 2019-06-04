@@ -596,10 +596,6 @@ ngb-modal-window {
     z-index: 9999 !important;
 }
 
-.fade.show {
-    opacity: 1 !important;
-}
-
 .cdk-overlay-container {
     z-index: 99999 !important;
 }

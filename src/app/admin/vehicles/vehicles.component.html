@@ -1,0 +1,18 @@
+<nb-card style="border: 0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-6">
+        <h5>Vehicles</h5>
+      </div>
+      <div class="col-sm-6">
+        <button class="btn btn-primary m-0" (click)="openNextBulkUpdateModal()">Update Bulk</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+
+    <smart-table *ngIf="data.length" id="vehicle" [data]="table.data" [settings]="table.settings">
+    </smart-table>
+    <br>
+  </nb-card-body>
+</nb-card>

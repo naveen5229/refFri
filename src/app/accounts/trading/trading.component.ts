@@ -209,13 +209,15 @@ export class TradingComponent implements OnInit {
     }, 100);
   }
 
-  openLedgerViewModel(ledgerId) {
+  openLedgerViewModel(ledgerId, ledgerName) {
     console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
       ledger: ledgerId,
-      vouchertype: 0
+      vouchertype: 0,
+      ledgername: ledgerName
+
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {

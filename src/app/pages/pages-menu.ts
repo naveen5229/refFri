@@ -181,6 +181,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/remaining-fuel',
         home: true,
       },
+      {
+        title: 'Consolidate Fuel Average',
+        icon: 'fa fa-signal',
+        link: '/pages/consolidate-fuel-average',
+        home: true,
+      },
     ]
   },
   {

@@ -44,8 +44,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Company-Branches',
                 link: '/accounts/company-branches'
             },
+            {
+                title: 'Vehicle Cost Center List',
+                link: '/accounts/vehicle-cost-center-list'
+            },
 
         ],
+    },
+   
+    {
+        title: 'Mapped Fuel Voucher',
+        icon: 'fa fa-money-bill',
+        link: '/accounts/mapped-fuel-voucher'
     },
     {
         title: 'Stock Master',

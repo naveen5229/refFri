@@ -43,6 +43,7 @@ import { DriverPerformanceComponent } from '../driver/driver-performance/driver-
 import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
+import { ConsolidateFuelAverageComponent } from '../admin/consolidate-fuel-average/consolidate-fuel-average.component';
 
 const routes: Routes = [{
   path: '',
@@ -240,6 +241,10 @@ const routes: Routes = [{
     path: 'remaining-fuel',
     component: RemainingFuelComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'consolidate-fuel-average',
+    component: ConsolidateFuelAverageComponent,
   },
   {
     path: 'documentation-details',

@@ -1,0 +1,85 @@
+button { 
+    background-color: #73a1ff;
+    border-radius: 3px !important;
+    text-transform: capitalize !important;
+    padding: 5px !important;
+}
+
+nb-card-header{
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.btn-primary{
+    background-color: #263238 !important;
+}
+
+
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color:#263238; 
+        color:#fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 140px;
+        }
+        th:first-child{
+            width: 40px;
+        }
+        th:nth-child(2){
+            width: 40px;
+        }
+        th:last-child{
+            width: auto;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            width: 140px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+        td:first-child{
+            width: 40px;
+        }
+        td:nth-child(2){
+            width: 40px;
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 312px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:last-child{
+                width: auto;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 

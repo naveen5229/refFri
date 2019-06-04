@@ -1,0 +1,49 @@
+<nb-card>
+  <nb-card-header>
+    Manual Toll Transaction Summary
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin:10px">
+      <div class="col-3">
+        <label>Vehicle No</label>
+      </div>
+      <div class="col-3">
+        <auto-suggestion (onSelected)="selectVehicle($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+          placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+      </div>
+    </div>
+    <div class="row" style="margin:10px">
+      <div class="col-3">
+        <label>Enter Toll</label>
+      </div>
+      <div class="col-3">
+        <auto-suggestion (onSelected)="SelectPlaza($event)" url="Toll/getTollPlazaName" display="plaza_name"
+          placeholder="Enter Toll" style="width:60%;">
+        </auto-suggestion>
+      </div>
+    </div>
+    <div class="row" style="margin:10px">
+      <div class="col-3">
+        <label>Transit Time</label>
+      </div>
+      <div class="col-3">
+        <input [(ngModel)]="transitTime.transactiontime" [owlDateTime]="date1" [owlDateTimeTrigger]="date1"
+          placeholder="Transaction Time" class="form-control" autocomplete="off" name="date1">
+        <owl-date-time #date1></owl-date-time>
+      </div>
+    </div>
+    <div class="row" style="margin:10px">
+      <div class="col-3">
+        <label>Amount</label>
+      </div>
+      <div class="col-3">
+        <input type="number" [(ngModel)]="amount" class="form-control" placeholder="Amount" id="amount" name="amount"
+          required>
+      </div>
+    </div>
+    <div class="col-md-12 text-center margin-top-15">
+      <button type="submit" id="submit" class="btn btn-primary" (click)="gettollTransactionSummary()">Submit</button>
+    </div>
+
+  </nb-card-body>
+</nb-card>
