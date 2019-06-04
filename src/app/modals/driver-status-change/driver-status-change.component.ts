@@ -29,12 +29,14 @@ export class DriverStatusChangeComponent implements OnInit {
     //   console.log("Params:", this.name);
     //  // this.mobile=this.common.params.mobileno;
     // }
-    if (this.common.params.driver.md_name) {
+    console.log('name', this.common.params.name, 'mobile', this.common.params.mobile);
+    if (this.common.params.driver.md_name == this.common.params.name) {
       this.name = this.common.params.driver.md_name;
       this.mobile = this.common.params.driver.md_no;
+
     } else {
       this.name = this.common.params.driver.sd_name;
-      this.mobile = this.common.params.sd_no;
+      this.mobile = this.common.params.driver.sd_no;
     }
 
   }
