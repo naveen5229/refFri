@@ -300,16 +300,32 @@ export const MENU_ITEMS: NbMenuItem[] = [
             }
         ]
     },
+
     {
-        title: 'Trip Voucher Expense',
-        icon: 'fas fa-money-check-alt',
-        link: '/accounts/trip-voucher-expense'
+        title: 'Advance Voucher',
+        icon: 'fa fa-building-o',
+
+        children: [
+            {
+            title: 'Trip Voucher Expense',
+            link: '/accounts/trip-voucher-expense'
+            },
+            {
+                title: 'Fuel Fillings',
+                link: '/accounts/fuelfillings'
+            },
+        ]
     },
-    {
-        title: 'Fuel Fillings',
-        icon: 'fas fa-money-check-alt',
-        link: '/accounts/fuelfillings'
-    },
+    // {
+    //     title: 'Trip Voucher Expense',
+    //     icon: 'fas fa-money-check-alt',
+    //     link: '/accounts/trip-voucher-expense'
+    // },
+    // {
+    //     title: 'Fuel Fillings',
+    //     icon: 'fas fa-money-check-alt',
+    //     link: '/accounts/fuelfillings'
+    // },
 
 
 
