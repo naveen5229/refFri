@@ -1,0 +1,28 @@
+.btn-primary{
+    padding: 6px 15px;
+    border-radius: 3px; 
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  
+.pdf-icon{
+  font-size: 30px;
+  color: #9F0001;
+}
+.exel-icon{
+  font-size: 30px;
+  color: #217346;
+}

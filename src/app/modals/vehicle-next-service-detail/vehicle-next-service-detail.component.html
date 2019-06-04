@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Next Service Detail : {{vehicleNo}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-7">
+      <label>Service After KM :</label>
+    </div>
+    <div class="col-sm-5">
+      <input type="number" placeholder="Km" class="form-control" name="nextServiceKm" [(ngModel)]="serviceAfterKm"
+        maxlength="8">
+    </div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div class="col-sm-7">
+      <label>Serivce Duration Months :</label>
+    </div>
+    <div class="col-sm-5">
+      <input type="number" placeholder="Months" class="form-control" name="nextServiceDuration"
+        [(ngModel)]="serviceAfterDuration" maxlength="8">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" outline (click)="saveData()" id="changDriver"
+    style="cursor: pointer;">{{btntxt}}</button>
+</div>
