@@ -518,7 +518,7 @@ export class VoucherSummaryComponent implements OnInit {
       tripidarray.push(tripHead.id);
 
     });
-    console.log('trip id array ', tripidarray);
+    console.log('trip id array ', this.fuelFilings);
     const params = {
       vchrid: voucherid,
       // vchrid: 4925,
@@ -526,7 +526,8 @@ export class VoucherSummaryComponent implements OnInit {
       vehid: this.VehicleId,
       voucher_details: this.tripHeads,
       storeid: this.storeids,
-      tripExpVoucherId: tripexpvoucherid
+      tripExpVoucherId: tripexpvoucherid,
+      fuelFilings:this.fuelFilings
 
     };
     this.common.loading++;
