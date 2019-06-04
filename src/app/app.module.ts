@@ -164,6 +164,8 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
 import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 
+import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
+import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 
 
 @NgModule({
@@ -290,12 +292,12 @@ import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pu
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
-
-
-
-
+    VehicleNextServiceDetailComponent,
+    BulkVehicleNextServiceDetailComponent
   ],
   entryComponents: [
+    BulkVehicleNextServiceDetailComponent,
+    VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
     UserCallHistoryComponent,

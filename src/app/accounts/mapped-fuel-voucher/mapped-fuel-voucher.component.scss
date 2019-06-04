@@ -10,3 +10,35 @@ nb-card-header{
     border: 1px solid #efefef;
     margin-bottom: 10px;
 }
+// @media(max-width: 480px) {
+//     td {
+//         display:block;
+//     }
+//   }
+// .mapped_table thead,
+// .mapped_table tbody{
+//     display: table;
+//     width: 100%;
+// }
+// .mapped_table{
+//     thead{
+//         tr{
+//             th{
+//                 width: 368px;
+//             }
+//             th:last-child{
+//                 width: auto;
+//             }
+//         }
+//     }
+//     tbody{
+//         tr{
+//             td{
+//                 width: 368px;
+//             }
+//             td:nth-child{
+//                 width: auto;
+//             }
+//         }
+//     }
+// }
