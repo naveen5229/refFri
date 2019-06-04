@@ -161,7 +161,8 @@ import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.comp
 import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
 import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
-
+import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
+import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 
 
 
@@ -283,10 +284,12 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     CostCenterViewComponent,
-    VehiclesViewComponent
+    VehiclesViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent,
 
 
 
@@ -409,7 +412,8 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
-
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent
 
   ],
   imports: [
@@ -431,6 +435,7 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
+
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']

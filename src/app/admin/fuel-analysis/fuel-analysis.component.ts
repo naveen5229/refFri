@@ -5,7 +5,8 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
-
+import { VehicleWiseFuelFillingComponent } from '../../modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
+import { PumpWiseFuelFillingComponent } from '../../modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 @Component({
   selector: 'fuel-analysis',
   templateUrl: './fuel-analysis.component.html',
@@ -16,6 +17,7 @@ export class FuelAnalysisComponent implements OnInit {
   startDate = '';
   endDate = '';
 
+
   constructor(
     public api: ApiService,
     private datePipe: DatePipe,
@@ -25,6 +27,8 @@ export class FuelAnalysisComponent implements OnInit {
   ) {
     this.endDate = this.common.dateFormatter(new Date());
     this.startDate = this.common.dateFormatter(new Date().setDate(new Date().getDate() - 15));
+    // this.xdate = this.common.dateFormatter(new Date());
+    // this.ydate = this.common.dateFormatter(new Date());
     //this.populateFilling();
   }
 
@@ -48,7 +52,7 @@ export class FuelAnalysisComponent implements OnInit {
   }
 
   getDate(flag) {
-    this.common.params = { ref_page: 'lrDetails' };
+    this.common.params = { ref_page: 'fuel-analysis' };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -57,11 +61,12 @@ export class FuelAnalysisComponent implements OnInit {
           this.startDate = this.common.dateFormatter(data.date).split(' ')[0];
           console.log('fromDate', this.startDate);
         }
-        else {
+        if (flag == 'end') {
           this.endDate = '';
           this.endDate = this.common.dateFormatter(data.date).split(' ')[0];
           console.log('endDate', this.endDate);
         }
+
 
       }
 
@@ -118,5 +123,14 @@ export class FuelAnalysisComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       })
+  }
+  vechilewiseFuel() {
+
+    const activeModal = this.modalService.open(VehicleWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+
+  }
+  PumpWiseFuel() {
+    const activeModal = this.modalService.open(PumpWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+
   }
 }
