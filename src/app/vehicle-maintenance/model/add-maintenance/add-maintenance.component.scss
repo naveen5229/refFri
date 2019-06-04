@@ -14,12 +14,13 @@ label{
     
     }
 }
-// table{
-//     thead{
-//         tr{
-//             th{
-//                 white-space: nowrap;
-//             }
-//         }
-//     }
-// }
+.checkbox-flex{
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+.inside-checkbox{   
+    width: 33%;
+    margin: 0px;
+    text-align: left;
+    line-height: normal;
+}
