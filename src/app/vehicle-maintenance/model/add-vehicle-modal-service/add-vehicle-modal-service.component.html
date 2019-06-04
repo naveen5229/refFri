@@ -12,7 +12,7 @@
         <label>Select Models</label>
       </div>
       <div class="col-md-3">
-        <auto-suggestion (onSelected)="modelId = $event.id;brandId = $event.brand_id" display="name"
+        <auto-suggestion (onSelected)="modelId = $event.id;brandId = $event.brand_id" [display]="['name','brand_name']"
           placeholder="Enter Model" [data]="brands" [preSelected]="null"></auto-suggestion>
       </div>
       <div class="col-md-3">
