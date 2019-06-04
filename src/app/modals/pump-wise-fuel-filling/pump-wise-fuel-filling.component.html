@@ -7,12 +7,12 @@
 <div class="modal-body">
   <div class="row">
     <div class="col-3">
-      <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
-        placeholder="Start Date" [value]="dates.date | date: 'dd MMM yyyy'" readonly>
+      <!-- <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('date')"
+        placeholder="Start Date" [value]="dates.date | date: 'dd MMM yyyy'" readonly> -->
     </div>
     <div class="col-3">
-      <button class="btn btn-primary" (click)="getreport()">Get Report</button>
+      <!-- <button class="btn btn-primary" (click)="getreport()">Get Report</button> -->
     </div>
   </div>
-  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="paymentsMade"></smart-table>
+  <smart-table *ngIf="value1.length" [data]="table.value1" [settings]="table.settings" id="paymentsMade"></smart-table>
 </div>
