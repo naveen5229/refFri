@@ -43,9 +43,6 @@ label {
     border-radius: 3px;
     text-transform: capitalize;
 }
-.btn-primary{
-    background-color: #263238 !important;
-}
 .btn-danger {
     background-color: #d61414 !important;
 }
@@ -172,7 +169,7 @@ table{
             th{
                 padding: 5px 10px;
                 font-weight: normal;
-                width: 300px;
+                width: 180px;
             }
             th:first-child{
                 width: 50px;
@@ -192,7 +189,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 300px;
+            width: 180px;
             .edit{
                 background-color: #1DE9B6;
                 color: #fff;
