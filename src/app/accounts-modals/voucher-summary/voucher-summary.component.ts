@@ -75,7 +75,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.creditLedger.id = this.tripVoucher.y_ledger_id;
       this.creditLedger.name = this.tripVoucher.y_ledger_name;
       this.narration = this.tripVoucher.y_naration;
-      this.date = this.common.dateFormatter(this.tripVoucher.y_date, "DDMMYYYY");
+      this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
       this.trips.map(trip => {
