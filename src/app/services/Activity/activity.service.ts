@@ -56,6 +56,6 @@ export class ActivityService {
   }
 
   heartbeat() {
-    this.timeout = setInterval(() => this.activityHandler(this.state), 10000);
+    this.timeout = setInterval(() => this.activityHandler(this.state), 300000);
   }
 }

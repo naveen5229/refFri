@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.activity.state = 'inactive';
-    }, 5000);
+    },120000);
   }
  
 }
