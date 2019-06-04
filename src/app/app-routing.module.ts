@@ -96,6 +96,7 @@ const routes: Routes = [
       {
         path: 'logout',
         component: NbLogoutComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'request-password',
