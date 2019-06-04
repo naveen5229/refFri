@@ -10,7 +10,6 @@ import { ActivityService } from '../services/Activity/activity.service';
 })
 export class AuthGuard implements CanActivate {
 
-  state = "";
 
   constructor(public user: UserService,
     public common: CommonService,
@@ -30,14 +29,8 @@ export class AuthGuard implements CanActivate {
       return false;
     } else {
       if (this.user._loggedInBy == 'customer') {
-        this.state = "login";
-        let date;
-        date = this.common.dateFormatter(new Date());
         this.activity.heartbeat();
-        this.activity.ActivityHandler(this.state, date);
-        console.log('State_Url', state.url);
-        // this.activity.RouterDetection(state.url);
-
+         this.activity.RouterDetection(state.url);
       }
 
       return true;

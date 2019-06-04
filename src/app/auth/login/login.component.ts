@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
+import { ActivityService } from '../../services/Activity/activity.service';
 
 
 
@@ -15,17 +16,19 @@ export class LoginComponent implements OnInit {
   // id:5
   userDetails = {
     mobile: '',
-    otp: ''
+    otp: '',
   };
 
   listenOTP = false;
   otpCount = 0;
+
   formSubmit = false;
 
   constructor(public router: Router,
     private route: ActivatedRoute,
     public common: CommonService,
     public user: UserService,
+    public activity: ActivityService,
     public api: ApiService) {
   }
 
@@ -134,6 +137,8 @@ export class LoginComponent implements OnInit {
           } else if (this.user._loggedInBy == 'partner') {
             this.router.navigate(['/partner']);
           } else {
+          
+            this.activity.ActivityHandler("login");
             this.router.navigate(['/pages']);
           }
         }

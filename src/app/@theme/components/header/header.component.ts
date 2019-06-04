@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit {
   showSuggestions = false;
   suggestions = [];
   searchString = "";
-  state="";
   branches = [
     {
       "id": 0,
@@ -74,10 +73,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     if (confirm('Are you sure to logout?')) {
       if (this.user._loggedInBy == 'customer') {
-        this.state = "logout";
-        let date;
-        date = this.common.dateFormatter(new Date());
-        this.activity.ActivityHandler(this.state, date);
+        this.activity.ActivityHandler("logout");
 
       }
       this.user._token = '';
