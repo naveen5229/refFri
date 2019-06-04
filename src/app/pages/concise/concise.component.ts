@@ -203,14 +203,16 @@ export class ConciseComponent implements OnInit {
     this.api.get("VehicleKpis").subscribe(
       res => {
         !isRefresh && this.common.loading--;
-        ////console.log(res);
-        this.allKpis = res["data"];
-        localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
-        this.kpis = res["data"];
-        this.grouping(this.viewType);
-        this.table = this.setTable();
-        this.handlePdfPrint();
-        //this.cookPdfData();
+        console.log('KPIS:', res);
+        if (res['code'] == 1) {
+          this.allKpis = res["data"];
+          localStorage.setItem('KPI_DATA', JSON.stringify(this.allKpis));
+          this.kpis = res["data"];
+          this.grouping(this.viewType);
+          this.table = this.setTable();
+          this.handlePdfPrint();
+          //this.cookPdfData();
+        }
 
       },
       err => {

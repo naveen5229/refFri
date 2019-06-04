@@ -25,6 +25,12 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
         link: '/vehicle-maintenance/maintenance-summary',
         home: true,
     },
+    {
+        title: 'Model Service',
+        icon: 'fa fa-home',
+        link: '/vehicle-maintenance/view-modal-service',
+        home: true,
+    },
 ];
 
 // export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [

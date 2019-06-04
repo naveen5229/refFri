@@ -16,7 +16,7 @@ export class AddFuelFillingComponent implements OnInit {
   fillDate;
   VehicleId;
   fuelEntries = {
-    stationId:null,
+    stationId: null,
     stationName: null,
     quantity: null,
     rate: null,
@@ -28,25 +28,26 @@ export class AddFuelFillingComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private datePipe: DatePipe,
     private modalService: NgbModal,
-  ){
+  ) {
     this.VehicleId = this.common.params.vehId;
   }
 
   ngOnInit() {
   }
-  addFuelFilling(){
+  addFuelFilling() {
     console.log(this.fuelEntries);
     // this.fillDate = this.fillDate.split("/").reverse().join("-");
     // this.fillDate  = new Date(this.fillDate);
     this.common.dateFormatter(this.fillDate);
-      console.log('fillDate',this.fillDate);
+    console.log('fillDate', this.fillDate);
+
     let params = {
       vehId: this.VehicleId,
       stationName: this.fuelEntries.stationName,
-      id:this.fuelEntries.stationId,
-      litres:this.fuelEntries.quantity,
+      id: this.fuelEntries.stationId,
+      litres: this.fuelEntries.quantity,
       rate: this.fuelEntries.rate,
-      amount:this.fuelEntries.amount,
+      amount: this.fuelEntries.amount,
       date: this.fillDate
     }
     console.log("params", params);
@@ -63,12 +64,12 @@ export class AddFuelFillingComponent implements OnInit {
       });
   }
 
-  searchStationName(stationList, type?){
-     this.fuelEntries.stationName=stationList.name;
-     this.fuelEntries.stationId=stationList.id;
+  searchStationName(stationList, type?) {
+    this.fuelEntries.stationName = stationList.name;
+    this.fuelEntries.stationId = stationList.id;
   }
 
-  getDate(type?){
+  getDate(type?) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
@@ -80,7 +81,7 @@ export class AddFuelFillingComponent implements OnInit {
     });
   }
 
-  closeModal(){
+  closeModal() {
     this.activeModal.close();
   }
 
