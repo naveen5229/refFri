@@ -1,10 +1,19 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-3">
-        <h5>Fuel Analysis</h5>
+      <div class="col-8">
+        <h5 class="mt-1">Fuel Analysis</h5>
       </div>
-      <div class="col-2"></div>
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="vechilewiseFuel()">VehicleWiseFuel</button>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="PumpWiseFuel()">PumpFuelFilling</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
       <div class="col-sm-3">
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
@@ -13,7 +22,7 @@
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
-      <div class="col-md-10 text-right" style="margin-top: 20px; margin-left:10px">
+      <div class="col-md-10 buttons" style="margin-top: 20px;">
         <button id="populatefilling" name="populate-filling" class="btn btn-primary" (click)="populateFilling()"
           style="margin:0px; margin-right: 5px; cursor: pointer;">Populate Filling Entries</button>
         <button id="mappingFE" name="mapping-fe" class="btn btn-primary" (click)="mappingFE()"
@@ -29,5 +38,6 @@
           Details</button>  -->
       </div>
     </div>
-  </nb-card-header>
+
+  </nb-card-body>
 </nb-card>
