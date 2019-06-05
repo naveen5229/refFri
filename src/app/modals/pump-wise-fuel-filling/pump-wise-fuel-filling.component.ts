@@ -14,10 +14,8 @@ import { detachProjectedView } from '@angular/core/src/view/view_attach';
   styleUrls: ['./pump-wise-fuel-filling.component.scss']
 })
 export class PumpWiseFuelFillingComponent implements OnInit {
-  dates = {
-    date: this.common.dateFormatter(new Date())
-  };
-  data = [];
+
+  value1 = [];
   table = null;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -27,20 +25,27 @@ export class PumpWiseFuelFillingComponent implements OnInit {
     public mapService: MapService,
     public datepipe: DatePipe,
     private modalService: NgbModal) {
-    this.getreport();
+    //this.getreport();
+    // this.data = this.common.params;
+    // console.log('yash', this.common.params);
+
+    this.value1 = this.common.params;
+    if (this.value1 == null) {
+      this.value1 = [];
+      this.table = null;
+    }
+
+
+    this.table = this.setTable();
+
+    //this.setTable();
+    //this.getTableColumns();
 
   }
 
   ngOnInit() {
   }
-  getDate(date) {
-    this.common.params = { ref_page: "vehicle-wise-fuel-filling" };
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
-    });
-  }
+
   closeModal() {
     this.activeModal.close();
   }
@@ -50,14 +55,17 @@ export class PumpWiseFuelFillingComponent implements OnInit {
       fuel_station_id: { title: 'fuel station id', placeholder: 'fuel station id' },
       site_id: { title: 'site id', placeholder: 'site id' },
       location: { title: 'location', placeholder: 'location' },
-      count: { title: 'count', placeholder: 'count' },
+      total: { title: 'total', placeholder: 'total' },
       start_time: { title: 'start time', placeholder: 'start time' },
       end_time: { title: 'end time', placeholder: 'end time' },
+      notisfull: { title: 'notisFull', placeholder: 'notisFull' },
+      notfse: { title: 'notfse', placeholder: 'notfse' },
+      isfullfse: { title: 'eligible Entry', placeholder: 'eligible Entry' },
 
 
     };
     return {
-      data: {
+      value1: {
         headings: headings,
         columns: this.getTableColumns()
       },
@@ -69,15 +77,18 @@ export class PumpWiseFuelFillingComponent implements OnInit {
   }
   getTableColumns() {
     let columns = [];
-    this.data.map(req => {
+    this.value1.map(req => {
       let column = {
         name: { value: req.name },
         fuel_station_id: { value: req.fuel_station_id },
         site_id: { value: req.site_id == null ? "-" : req.site_id },
         location: { value: req.location == null ? "-" : req.location },
-        count: { value: req.count == null ? "-" : req.count },
+        total: { value: req.total == null ? "-" : req.total },
         start_time: { value: req.start_time == null ? "-" : this.common.changeDateformat(req.start_time) },
         end_time: { value: req.end_time == null ? "-" : this.common.changeDateformat(req.end_time) },
+        notisfull: { value: req.notisfull == null ? "-" : req.notisfull },
+        notfse: { value: req.notfse == null ? "-" : req.notfse },
+        isfullfse: { value: req.isfullfse == null ? "-" : req.isfullfse },
 
 
 
@@ -86,29 +97,6 @@ export class PumpWiseFuelFillingComponent implements OnInit {
     });
     return columns;
   }
-  getreport() {
-    console.log('Dates', this.dates.date);
-    let params = "date=" + this.dates.date
 
-    console.log('params', params);
-
-
-    this.common.loading++;
-    this.api.get('Fuel/getPumpWiseTotalFilling?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        this.data = res['data'];
-        if (this.data == null) {
-          this.data = [];
-          this.table = null;
-
-        }
-        this.table = this.setTable();
-        console.log('res', res['data']);
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      });
-  }
 
 }
