@@ -168,6 +168,7 @@ import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -294,6 +295,11 @@ import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-nex
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> dev
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,

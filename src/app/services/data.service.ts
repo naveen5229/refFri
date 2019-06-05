@@ -110,6 +110,12 @@ export class DataService {
             link: '/admin/sub-sites',
             home: true,
           },
+          {
+            title: 'Trip Analysis',
+            icon: 'fa fa-arrows-alt',
+            link: '/admin/trip-analysis',
+            home: true,
+          },
         ]
       },
 
