@@ -642,7 +642,12 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('All Total: ', this.alltotal);
 
   }
-
+  calculateTripAllTotal(index){
+    this.alltotal=0;
+    this.tripHeads.map(trip => {
+      this.alltotal += parseFloat(trip.total);
+    });
+  }
 
 
   dismiss(status) {
