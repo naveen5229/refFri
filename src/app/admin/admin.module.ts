@@ -58,7 +58,6 @@ import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-i
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
-import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 
 
 
@@ -85,7 +84,6 @@ const PAGES_COMPONENTS = [
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
   FuelAverageIssuesComponent,
-  ConsolidateFuelAverageComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent
 
@@ -135,7 +133,6 @@ const PAGES_COMPONENTS = [
     HaltDensityComponent,
     PalacementSiteRuleComponent,
     FuelAverageIssuesComponent,
-    ConsolidateFuelAverageComponent,
     FuelAnalysisComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
