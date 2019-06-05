@@ -52,6 +52,7 @@ import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-si
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 
 
 const PAGES_COMPONENTS = [
@@ -77,7 +78,8 @@ const PAGES_COMPONENTS = [
   PumpStationAreaComponent,
   FuelAverageIssuesComponent,
   ConsolidateFuelAverageComponent,
-  FuelAnalysisComponent
+  FuelAnalysisComponent,
+  TripAnalysisComponent
 
 
 
@@ -122,7 +124,8 @@ const PAGES_COMPONENTS = [
     PalacementSiteRuleComponent,
     FuelAverageIssuesComponent,
     ConsolidateFuelAverageComponent,
-    FuelAnalysisComponent
+    FuelAnalysisComponent,
+    TripAnalysisComponent
 
 
   ],

@@ -1,0 +1,22 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    Trip Analysis
+  </nb-card-header>
+  <nb-card-body style="padding:15px 15px 0px;">
+    <div class="model-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+            placeholder="Start Date" (click)="getDate('start')">
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+            placeholder="End Date" (click)="getDate('end')">
+        </div>
+        <div class="col-sm-3">
+          <button class="btn btn-primary" (click)="getTripAnalysis()">submit</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
