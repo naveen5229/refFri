@@ -157,11 +157,12 @@ import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/err
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
+import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.component';
 import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
 import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
-
-
+import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
+import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 
 
 
@@ -283,16 +284,18 @@ import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
     CostCenterViewComponent,
+    VehiclesViewComponent,
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
-
-
-
+    VehicleNextServiceDetailComponent,
+    BulkVehicleNextServiceDetailComponent
 
 
   ],
   entryComponents: [
+    BulkVehicleNextServiceDetailComponent,
+    VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
     UserCallHistoryComponent,

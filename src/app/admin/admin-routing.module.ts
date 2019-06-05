@@ -38,6 +38,9 @@ import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.co
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
+import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
+import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
+import { VehiclewiseTolltransactionComponent } from './vehiclewise-tolltransaction/vehiclewise-tolltransaction.component';
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
@@ -45,6 +48,8 @@ import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-i
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -241,6 +246,21 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'toll-transaction-summary',
+            component: TollTransactionSummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'manual-toll-transaction-summary',
+            component: ManualTollTransactionSummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehiclewise-tolltransaction',
+            component: VehiclewiseTolltransactionComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'pending-vehicle',
             component: PendingVehicleComponent,
             canActivate: [RouteGuard]
@@ -258,6 +278,9 @@ const routes: Routes = [{
         {
             path: 'trip-analysis',
             component: TripAnalysisComponent,
+        }, {
+            path: 'vehicles',
+            component: VehiclesComponent,
             canActivate: [RouteGuard]
         }
 

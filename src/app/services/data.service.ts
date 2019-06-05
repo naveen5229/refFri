@@ -170,6 +170,26 @@ export class DataService {
             link: '/admin/add-customer',
             home: true,
           },
+          {
+            title: 'Toll Transaction Summary',
+            icon: 'fas fa fa-road',
+            link: '/admin/toll-transaction-summary',
+            home: true,
+          },
+          {
+            title: 'Manual Toll Transaction Summary',
+            icon: 'fas fa fa-user',
+            link: '/admin/manual-toll-transaction-summary',
+            home: true,
+          },
+          {
+            title: 'Vehicle Wise Toll Transaction Summary',
+            icon: 'fas fa fa-car',
+            link: '/admin/vehiclewise-tolltransaction',
+            home: true,
+          },
+
+
         ]
       },
       {
@@ -226,7 +246,12 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-
+          {
+            title: 'Vehicles',
+            icon: 'fas fa-info-circle',
+            link: '/admin/vehicles',
+            home: true,
+          },
         ]
       },
 
