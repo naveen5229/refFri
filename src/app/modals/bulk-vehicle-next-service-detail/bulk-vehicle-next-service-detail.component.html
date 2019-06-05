@@ -5,6 +5,21 @@
   </button>
 </div>
 <div class="modal-body">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <input type="number" step="1000" placeholder="Kilometer" [(ngModel)]="kmCopy" name="km-copy" max="10000000000"
+        style="width:150px">
+    </div>
+    <div class="col-md-3">
+      <input type="number" step="1" placeholder="Months" [(ngModel)]="monthCopy" name="month-copy" min="1" max="999"
+        style="width:150px">
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary" type="button" outline (click)="copyAll()" style="cursor: pointer;">Copy
+        All</button>
+    </div>
+  </div>
   <table class="table table-bordered table-hover m-0" id="tbldocs">
     <thead class="thead">
       <tr style="text-align:center">
@@ -19,8 +34,9 @@
       <tr *ngFor="let serviceData of serviceDatas; let i = index">
         <td>{{i + 1}}</td>
         <td>{{serviceData.r_regno}}</td>
-        <td><input type="number" step="1000" [(ngModel)]="serviceData.r_kms" max="10000000000" style="width:150px"></td>
-        <td><input type="number" [(ngModel)]="serviceData.r_months" max="99" style="width:100px"></td>
+        <td><input type="number" name="kms" step="1000" [(ngModel)]="serviceData.r_kms" max="10000000000"
+            style="width:150px"></td>
+        <td><input type="number" name="months" [(ngModel)]="serviceData.r_months" max="99" style="width:100px"></td>
       </tr>
     </tbody>
   </table>

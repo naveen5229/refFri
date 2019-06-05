@@ -161,6 +161,9 @@ import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.comp
 import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
 import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
+import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
+import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
+
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 
@@ -288,10 +291,15 @@ import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-nex
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> dev
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -412,7 +420,8 @@ import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-nex
     AddPlacementSiteRuleComponent,
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
-
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent
 
   ],
   imports: [
@@ -434,6 +443,7 @@ import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-nex
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
+
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']

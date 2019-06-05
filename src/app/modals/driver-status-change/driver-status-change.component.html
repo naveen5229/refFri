@@ -29,14 +29,7 @@
 
       </div>
       <div class="col-3">
-        <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
-          formControlName="mobileno" minlength="10" required maxlength="10"
-          [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }">
-        <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
-          <div *ngIf="f.mobileno.errors.required">mobileNumber is required</div>
-          <div *ngIf="f.mobileno.errors.minlength ">mobile Number minlength 10</div>
-          <div *ngIf="f.mobileno.errors.maxlength ">mobile Number maxlength 10</div>
-        </div>
+        <input type="text" placeholder="mobile no" formControlName="mobileno" readonly>
       </div>
     </div>
     <div class="row mrg-margin-top">
