@@ -478,7 +478,7 @@ export class VoucherSummaryComponent implements OnInit {
       remarks: this.narration,
       date: this.date,
       amountDetails: amountDetails,
-      vouchertypeid: -9,
+      vouchertypeid: -150,
       y_code: '',
       xid: this.VoucherId
     };
