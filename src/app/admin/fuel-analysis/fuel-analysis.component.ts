@@ -16,7 +16,7 @@ export class FuelAnalysisComponent implements OnInit {
 
   startDate = '';
   endDate = '';
-
+  data = [];
 
   constructor(
     public api: ApiService,
@@ -124,13 +124,62 @@ export class FuelAnalysisComponent implements OnInit {
         this.common.showError();
       })
   }
+  getreport() {
+    // console.log('Dates', this.dates.date);
+    let params = "start_time=" + this.startDate + "&end_time=" + this.endDate;
+
+    console.log('params', params);
+
+
+    this.common.loading++;
+    this.api.get('Fuel/getPumpWiseTotalFilling?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
+        if (this.data) {
+          this.common.params = this.data;
+          console.log('response', this.common.params);
+          const activeModal = this.modalService.open(PumpWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+        }
+
+        //this.table = this.setTable();
+        console.log('res', res['data']);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   vechilewiseFuel() {
+    let params = "start_time=" + this.startDate + "&end_time=" + this.endDate;
 
-    const activeModal = this.modalService.open(VehicleWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+    console.log('params', params);
+
+
+    this.common.loading++;
+    this.api.get('Fuel/getVehWiseTotalFilling?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.data = res['data'];
+        if (this.data) {
+          this.common.params = this.data;
+          // console.log('response', this.common.params);
+          const activeModal = this.modalService.open(VehicleWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+        }
+
+        //this.table = this.setTable();
+        console.log('res', res['data']);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+
+
 
   }
-  PumpWiseFuel() {
-    const activeModal = this.modalService.open(PumpWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
 
-  }
+  // this.common.params = { data };
+  // console.log('..................', this.common.params.data);
+  // const activeModal = this.modalService.open(PumpWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+
+
 }
