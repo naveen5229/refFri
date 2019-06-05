@@ -1,39 +1,40 @@
 <!-- <nb-card>
   <nb-card-header> -->
-      <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Driver Vehicle Remapping</h4>
-    <!-- <h2>Driver Vehicle Remapping</h2> -->
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-  <!-- </nb-card-header>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Driver Vehicle Remapping</h4>
+  <!-- <h2>Driver Vehicle Remapping</h2> -->
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!-- </nb-card-header>
   <nb-card-body> -->
-    <!-- <form [formGroup]="driverRemapForm" name="driverRemap-form"  id="driverRemap-form"
+<!-- <form [formGroup]="driverRemapForm" name="driverRemap-form"  id="driverRemap-form"
       (submit)="driverRemapForm.valid && Remapdriver()"> -->
-     <!-- <form class="form-group"> -->
-        <div class="modal-body">
-            <div class="container">
-      <div class="row">
-        <div class="col-3">
-          <label>{{maping.regno}}</label>
-        </div>
+<!-- <form class="form-group"> -->
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <label>{{maping.regno}}</label>
       </div>
-      <div class="row margin-top-15">
-        <div class="col-2">
-          <label>Primary Driver Name</label>
-        </div>
-        <div class="col-3">
-          <auto-suggestion (onSelected)="getvehicleData($event, 'primary')" url="Drivers/getFoDrivers"
-               display="empname" placeholder="Enter Driver Name" style="width:60%;"></auto-suggestion>
+    </div>
+    <div class="row margin-top-15">
+      <div class="col-2">
+        <label>Primary Driver Name</label>
+      </div>
+      <div class="col-3">
+        <auto-suggestion (onSelected)="getvehicleData($event, 'primary')" url="Drivers/getFoDrivers" display="empname"
+          placeholder="Enter Driver Name" style="width:60%;"></auto-suggestion>
 
-        </div>
-        <div class="col-2">
-          <label>Mobile Number</label>
-        </div>
-        <div class="col-3">
-            <input type="text" class="form-control" name="drivername" id="drivername" placeholder="Driver Mobile No" readonly [(ngModel)]="maping.pdriverMobile">
-          <!-- <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
+      </div>
+      <div class="col-2">
+        <label>Mobile Number</label>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" name="drivername" id="drivername" placeholder="Driver Mobile No"
+          readonly [(ngModel)]="maping.pdriverMobile">
+        <!-- <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
             formControlName="pdriverMobile" minlength="10" required maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.pdriverMobile.errors }" required>
           <div *ngIf="submitted &&  f.pdriverMobile.errors" class="invalid-feedback">
@@ -41,35 +42,35 @@
             <div *ngIf="f.pdriverMobile.errors.minlength">mobile Number minlength 10</div>
             <div *ngIf="f.pdriverMobile.errors.maxlength">mobile Number maxlength 10</div>
           </div> -->
-        </div>
-
-
-        <div class="col-2" *ngIf="this.common.params.driver.md_id">
-          <select class="form-control" >
-            <option *ngFor="let status of driverStatus" [value]="status.id">
-              {{status.description}}
-
-            </option>
-          </select>
-          <!-- <div *ngIf="submitted  && f.pdStatus.errors" class="invalid-feedback">
-            <div *ngIf="f.pdStatus.errors.required">Driver Status is required</div>
-          </div> -->
-        </div>
       </div>
 
-      <div class="row margin-top-15">
-        <div class="col-2">
-          <label>Secondary Driver</label>
-        </div>
-        <div class="col-3">
-          <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" url="Drivers/getFoDrivers"
-               display="empname"  placeholder="Enter Driver Name" style="width:60%;"></auto-suggestion>
-        </div>
-        <div class="col-2">
-          <label>Mobile Number</label>
-        </div>
-        <div class="col-3">
-         <!-- "{ 'is-inv <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
+
+      <div class="col-2" *ngIf="this.common.params.driver.md_id">
+        <select class="form-control">
+          <option *ngFor="let status of driverStatus" [value]="status.id">
+            {{status.description}}
+
+          </option>
+        </select>
+        <!-- <div *ngIf="submitted  && f.pdStatus.errors" class="invalid-feedback">
+            <div *ngIf="f.pdStatus.errors.required">Driver Status is required</div>
+          </div> -->
+      </div>
+    </div>
+
+    <div class="row margin-top-15">
+      <div class="col-2">
+        <label>Secondary Driver</label>
+      </div>
+      <div class="col-3">
+        <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" url="Drivers/getFoDrivers" display="empname"
+          placeholder="Enter Driver Name" style="width:60%;"></auto-suggestion>
+      </div>
+      <div class="col-2">
+        <label>Mobile Number</label>
+      </div>
+      <div class="col-3">
+        <!-- "{ 'is-inv <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
             formControlName="SdriverMobile" minlength="10" required maxlength="10"
             [ngClass]=alid': submitted && f.SdriverMobile.errors }" required>
           <div *ngIf="submitted && f.SdriverMobile.errors" class="invalid-feedback">
@@ -77,28 +78,28 @@
             <div *ngIf="f.SdriverMobile.errors.minlength ">mobile Number minlength 10</div>
             <div *ngIf="f.SdriverMobile.errors.maxlength ">mobile Number maxlength 10</div>
           </div> -->
-          <!-- <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" [(ngModal)]="maping.SdriverMobile" url="Drivers/getFoDrivers"
+        <!-- <auto-suggestion (onSelected)="getvehicleData($event, 'secondary')" [(ngModal)]="maping.SdriverMobile" url="Drivers/getFoDrivers"
                display="mobileno"  placeholder="Driver Mobile " style="width:60%;"></auto-suggestion> -->
-               <input type="text" class="form-control" placeholder="Driver Mobile No" name="drivername1" id="drivername1" readonly [(ngModel)]="maping.SdriverMobile"> 
-        </div>
-        <div class="col-2" *ngIf="this.common.params.driver.sd_id">
-          <select class="form-control">
-            <option *ngFor="let status of driverStatus" [value]="status.id">
-              {{status.description}}
+        <input type="text" class="form-control" placeholder="Driver Mobile No" name="drivername1" id="drivername1"
+          readonly [(ngModel)]="maping.SdriverMobile">
+      </div>
+      <div class="col-2" *ngIf="this.common.params.driver.sd_id">
+        <select class="form-control">
+          <option *ngFor="let status of driverStatus" [value]="status.id">
+            {{status.description}}
 
-            </option>
-          </select>
-          <!-- <div *ngIf="submitted && f.sdStatus.errors" class="invalid-feedback">
+          </option>
+        </select>
+        <!-- <div *ngIf="submitted && f.sdStatus.errors" class="invalid-feedback">
             <div *ngIf="f.sdStatus.errors.required">Driver Status is required</div>
           </div> -->
-        </div>
       </div>
-      </div>
-        </div>
-      <div class="col-md-12 text-center margin-top-15">
-        <button class="btn btn-primary" id="submit" type="submit"
-          (click)="Remapdriver()">submit</button>
-      </div>
-    <!-- </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-12 text-center margin-top-15">
+  <button class="btn btn-primary" id="submit" type="submit" (click)="Remapdriver()">submit</button>
+</div>
+<!-- </form>
   </nb-card-body>
   </nb-card> -->

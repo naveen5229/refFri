@@ -8,10 +8,10 @@ import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'add-maintenance',
-  templateUrl: './add-maintenance.component.html',
-  styleUrls: ['./add-maintenance.component.scss', '../../../pages/pages.component.css']
+  templateUrl: './view-maintenance.component.html',
+  styleUrls: ['./view-maintenance.component.scss', '../../../pages/pages.component.css']
 })
-export class AddMaintenanceComponent implements OnInit {
+export class ViewMaintenanceComponent implements OnInit {
   title = '';
   btn1 = '';
   btn2 = '';
