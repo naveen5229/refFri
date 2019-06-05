@@ -295,11 +295,6 @@ import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-nex
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent
-<<<<<<< HEAD
-
-
-=======
->>>>>>> dev
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
