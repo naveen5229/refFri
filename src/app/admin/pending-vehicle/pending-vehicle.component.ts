@@ -33,11 +33,7 @@ export class PendingVehicleComponent implements OnInit {
   documentTypes = [];
   modelType = [];
   vehicleId = -1;
-  emissionStandard = [{
-
-    id: null,
-
-  }];
+  emissionStandard = [];
 
   constructor(
     public api: ApiService,
@@ -47,23 +43,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.common.refresh = this.refresh.bind(this);
-    this.emissionStandard = [
-      {
-        id: 1,
-      },
-      {
-        id: 2,
-      },
-      {
-        id: 3,
-      },
-      {
-        id: 4,
-      },
-      {
-        id: 6,
-      }
-    ];
+    this.emissionStandard = ["Euro 1", "Euro 2", "Euro 3", "Euro 4", "Euro 6"];
   }
 
   ngOnInit() {
@@ -115,7 +95,7 @@ export class PendingVehicleComponent implements OnInit {
       });
   }
   getAllTypesOfModel(brandId, modal?) {
-    let params = "&brandId=" + brandId;
+    let params = "brandId=" + brandId;
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
@@ -210,6 +190,7 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
         this.modal[modal].data.document.img_url2 = res["data"][0]._rcimage2;
         this.modal[modal].data.document.img_url3 = res["data"][0]._rcimage3;
+        this.modal[modal].data.document._bscode = res["data"][0]._bscode;
 
         this.modal[modal].data.images = [];
 
@@ -340,13 +321,11 @@ export class PendingVehicleComponent implements OnInit {
 
       let newDate = document.wef_date.split('/').reverse().join('-') + '-01';
       const params = {
-
         vehicleId: document.id,
         brandId: document.document_type_id,
         modelId: document.modalTypeId,
         manufacturingDate: newDate,
-        emsId: document.emissionId,
-
+        emsId: document._bscode,
       };
       console.log("Params is", params);
       if (!document.document_type_id) {
@@ -543,7 +522,7 @@ export class PendingVehicleComponent implements OnInit {
         newRegno: null,
         vehicle_id: null,
         wef_date: null,
-        emissionId: null,
+        _bscode: null,
       },
     }
   }
