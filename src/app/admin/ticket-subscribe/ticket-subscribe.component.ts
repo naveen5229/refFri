@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
 import { flattenStyles } from '@angular/platform-browser/src/dom/dom_renderer';
 import { DatePipe } from '@angular/common';
@@ -26,7 +26,8 @@ export class TicketSubscribeComponent implements OnInit {
   constructor(private modalService: NgbModal, public api: ApiService,
     public common: CommonService,
     private datePipe: DatePipe,
-    public user: UserService) {
+    public user: UserService,
+    public activeModal: NgbActiveModal) {
     this.getVscEntry();
   }
 
@@ -113,6 +114,9 @@ export class TicketSubscribeComponent implements OnInit {
 
     });
     return columns;
+  }
+  closeModal() {
+    this.activeModal.close();
   }
 
 }

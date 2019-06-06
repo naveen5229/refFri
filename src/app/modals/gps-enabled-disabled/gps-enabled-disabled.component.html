@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Gps Enable Disable</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <div>
+    <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
+      placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
+  </div> -->
+  <table class="table table-bordered mt-3">
+    <thead class="thead" style="background-color: cadetblue; color: white">
+      <tr>
+        <th>ApiProvider</th>
+        <th>LastCallDt</th>
+        <th>Enable</th>
+        <th>LastSuceessDet</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let data of Gpsdetail;let i=index">
+
+        <td>{{data.apiprovider}}</td>
+        <td>{{data.lastcalldt}}</td>
+        <!-- <td>{{data.is_ncv}}</td> -->
+        <td><select [(ngModel)]="is_gps" class="form-control" (change)="changeGpsValue()"
+            style=" border: 2px solid darkcyan; font-size: 15px">
+            <option value="1">True</option>
+            <option value="0">False</option>
+          </select>
+        <td>{{data.lastsuccessdt}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

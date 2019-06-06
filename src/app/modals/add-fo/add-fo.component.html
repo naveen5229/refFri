@@ -10,11 +10,13 @@
       <div class="col-2 pr-0">
         <label> Mobile-Num.</label>
         <input type="text" class="form-control" placeholder="Mobile-Num." [(ngModel)]="company.mobileNo"
-          #mobile="ngModel" name="Mobile" minlength="10" maxlength="10" autocomplete="off" required>
+          #mobile="ngModel" name="Mobile" minlength="10" maxlength="10" autocomplete="off" (keyup)="test()" required>
         <div *ngIf="mobile.errors && isFormSubmit" class="vaidation-errors">
           <span [hidden]="!mobile.errors.required">Mobile number is mandatory</span>
           <span [hidden]="!mobile.errors.minlength">Invalid Mobile number</span>
+
         </div>
+        <span *ngIf="code==1 ">User already Exist</span>
       </div>
 
       <div class="col-3">
