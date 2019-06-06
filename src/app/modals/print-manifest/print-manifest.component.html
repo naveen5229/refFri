@@ -1,0 +1,93 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">PrintMainfest</h5>
+  <span (click)="onPrint()" class="doNotPrint print-icon"><i class="fa fa-print"></i></span>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="printMainfest">
+    <div class="row">
+      <div class="col-4" style="border: 1px solid black">
+        <label>{{printDetails.logo}}</label>
+      </div>
+      <div class="col-8">
+        <h3>{{printDetails.companyName}}</h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        <label>Challan No:</label>
+        <label>{{printDetails.challanNo}}</label>
+      </div>
+      <div class="col-6">
+        <p>{{printDetails.address}}
+        </p>
+      </div>
+      <div class="col-3">
+        <label>Date:</label>
+        <label class="infoData">{{printDetails.date}}</label>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="row">
+        <div class="col-4">
+          <label>Truck No.</label>
+          <label class="infoData">{{printDetails.truckNo}}</label>
+        </div>
+        <div class="col-4">
+          <label>From</label>
+          <label class="infoData">{{printDetails.from}}</label>
+        </div>
+        <div class="col-4">
+          <label>To</label>
+          <label class="infoData">{{printDetails.to}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <label>Owner</label>
+          <label class="infoData">{{printDetails.owner}}</label>
+        </div>
+        <div class="col-4">
+          <label>Mobile</label>
+          <label class="infoData">{{printDetails.mobile}}</label>
+        </div>
+        <div class="col-4">
+          <label>Owner Pan</label>
+          <label class="infoData">{{printDetails.ownerPan}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <label>Owner</label>
+          <label class="infoData">{{printDetails.owner}}</label>
+        </div>
+        <div class="col-4">
+          <label>Mobile</label>
+          <label class="infoData">{{printDetails.mobile}}</label>
+        </div>
+        <div class="col-4">
+          <label>Owner Pan</label>
+          <label class="infoData">{{printDetails.ownerPan}}</label>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+
+  </div>
+
+
+</div>
+<div class="modal-footer">
+  <div class="footer" style="text-align:right;"><button class="btn btn-primary" (click)="print()">Print</button>
+  </div>
+</div>

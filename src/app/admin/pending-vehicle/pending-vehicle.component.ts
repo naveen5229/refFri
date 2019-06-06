@@ -43,9 +43,10 @@ export class PendingVehicleComponent implements OnInit {
     private modalService: NgbModal) {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
+    this.getAllBodyType();
     this.common.refresh = this.refresh.bind(this);
     this.emissionStandard = ["Euro 1", "Euro 2", "Euro 3", "Euro 4", "Euro 6"];
-    this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "TANKER", "TRAILER", "DOUBLE AXLE(TRAILER)"]
+    // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
   }
 
   ngOnInit() {
@@ -56,6 +57,7 @@ export class PendingVehicleComponent implements OnInit {
     this.columns = [];
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
+    this.getAllBodyType();
   }
 
   getPendingDetailsVehicle() {
@@ -92,6 +94,16 @@ export class PendingVehicleComponent implements OnInit {
       .subscribe(res => {
         this.documentTypes = res['data'];
         console.log("All Type Docs: ", this.documentTypes);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  getAllBodyType() {
+    this.api.get('Vehicles/getVehicleBodyTypes')
+      .subscribe(res => {
+        this.bodyType = res['data'];
+        console.log("All Type Body: ", this.bodyType);
       }, err => {
         console.log(err);
       });
@@ -170,6 +182,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getvehiclePending(modal, isNext);
     this.modal[modal].data.docTypes = this.documentTypes;
     this.modal[modal].data.modelType = this.modelType;
+    this.modal[modal].data.bodyType = this.bodyType;
   }
 
   getvehiclePending(modal, isNext?) {
@@ -193,6 +206,7 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.img_url2 = res["data"][0]._rcimage2;
         this.modal[modal].data.document.img_url3 = res["data"][0]._rcimage3;
         this.modal[modal].data.document._bscode = res["data"][0]._bscode;
+        this.modal[modal].data.document.bodyTypeId = res["data"][0]._bodytypeid;
 
         this.modal[modal].data.images = [];
 
@@ -208,6 +222,10 @@ export class PendingVehicleComponent implements OnInit {
         console.log('-------------------------Images:', this.modal[modal].data);
         if (this.modal[modal].data.document.document_type_id) {
           this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
+        }
+
+        if (this.modal[modal].data.document.bodyTypeId) {
+          this.getAllBodyType();
         }
         // console.log("msg:",res["data"][0].errormsg,);   
         if (res["msg"] != "success") {
@@ -303,6 +321,7 @@ export class PendingVehicleComponent implements OnInit {
         modelId: document.modalTypeId,
         manufacturingDate: newDate,
         emsId: document._bscode,
+        bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
       if (!document.document_type_id) {
@@ -501,6 +520,7 @@ export class PendingVehicleComponent implements OnInit {
         wef_date: null,
         _bscode: null,
         bodyType: null,
+        bodyTypeId: null,
       },
     }
   }
