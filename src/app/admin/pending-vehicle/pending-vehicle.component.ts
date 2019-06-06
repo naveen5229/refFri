@@ -33,6 +33,7 @@ export class PendingVehicleComponent implements OnInit {
   documentTypes = [];
   modelType = [];
   vehicleId = -1;
+  bodyType = [];
   emissionStandard = [];
 
   constructor(
@@ -44,6 +45,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getAllTypesOfBrand();
     this.common.refresh = this.refresh.bind(this);
     this.emissionStandard = ["Euro 1", "Euro 2", "Euro 3", "Euro 4", "Euro 6"];
+    this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "TANKER", "TRAILER", "DOUBLE AXLE(TRAILER)"]
   }
 
   ngOnInit() {
@@ -286,32 +288,7 @@ export class PendingVehicleComponent implements OnInit {
     }
   }
 
-  customerByUpdate(modal) {
-    let document = this.modal[modal].data.document;
-    const params = {
-      x_user_id: this.user._details.id,
-      x_document_id: document.id,
-      x_document_agent_id: document.agent_id,
-      x_document_number: document.doc_no,
-      x_rto: document.rto,
-      x_amount: document.amount,
-    }
 
-
-    this.common.loading++;
-    let response;
-    this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("api result", res);
-        alert(res['msg']);
-        this.closeModal(true, modal);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return response;
-  }
 
   updateVehicle(modal, status?, confirm?) {
 
@@ -523,6 +500,7 @@ export class PendingVehicleComponent implements OnInit {
         vehicle_id: null,
         wef_date: null,
         _bscode: null,
+        bodyType: null,
       },
     }
   }
