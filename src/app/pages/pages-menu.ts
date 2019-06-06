@@ -150,7 +150,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/onward-kmpd',
         home: true,
       },
-
+      {
+        title: 'Vehicle Performance',
+        icon: 'fas fa-truck-pickup',
+        link: '/pages/vehicle-performance',
+        home: true,
+      },
     ]
   },
 
@@ -174,6 +179,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Remaining Fuel',
         icon: 'fa fa-signal',
         link: '/pages/remaining-fuel',
+        home: true,
+      },
+      {
+        title: 'Consolidate Fuel Average',
+        icon: 'fa fa-signal',
+        link: '/pages/consolidate-fuel-average',
         home: true,
       },
     ]

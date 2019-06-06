@@ -110,7 +110,8 @@ table {
         border-top: 1px solid #d7dee4 !important;
 
         nb-card-body {
-            padding: 12px 10px;
+            padding: 14px 10px;
+            font-weight: bold;
         }
     }
 }
@@ -641,4 +642,32 @@ mwlResizable {
 
 :host ::ng-deep .no-search {
     color: #000;
+}
+.exel-icon{
+    bottom: 35px;
+    position: absolute;
+    left: -60px;
+    background-color: #4fa9ff;
+    font-size: 16px;
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    box-shadow: 5px 4px 24px rgba(0, 0, 0, 0.4);
+}
+.pdf-print{
+    width: 40px !important;
+    height: 40px !important;
+    text-align: center !important;
+    line-height: 40px !important;
+    border-radius: 100% !important;
+    padding: 0px;
+    font-size: 20px !important;
+    margin-top: 0px !important;
+    position: relative;
+    top: -12px;
+    background-color: #ff0000 !important;
+    cursor: pointer !important;
 }

@@ -1,31 +1,25 @@
 <nb-card>
   <nb-card-header>
-    <h5>Vehicle Gps Detail</h5>
+    <div class="row">
+      <div class="col-sm-10">
+        <h5>Vehicle Gps Details</h5>
+
+      </div>
+      <div class="col-sm-02">
+        <span>
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('gpsDetails')" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCsv('gpsDetails')"
+            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
   </nb-card-header>
   <nb-card-body>
     <div class="model-body">
-        <smart-table *ngIf="gpsDtails.length" [data]="table.data" [settings]="table.settings" ></smart-table>
-<!--       
-      <table class="table table-bordered" style="margin-left: 5px; margin-top:10px; margin-right: 5px;">
-        <thead class="thead">
-          <tr id="heading-row">
-            <th>Id</th>
-            <th>Vehicle RegNo.</th>
-            <th>Api Provider</th>
-            <th>Last Call</th>
-            <th>Date Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of gpsDtails; let i=index;">
-            <td>{{i+1}}</td>
-            <td>{{data.regno}}</td>
-            <td>{{data.apiprovider}}</td>
-            <th>{{data.lastcalldt | date : 'dd MMM HH:mm'}}</th>
-            <td>{{data.dttime | date : 'dd MMM HH:mm'}}</td>
-                  
-        </tbody>
-      </table> -->
+      <smart-table *ngIf="gpsDtails.length" [data]="table.data" [settings]="table.settings" id="gpsDetails">
+      </smart-table>
+
     </div>
   </nb-card-body>
 </nb-card>

@@ -129,7 +129,7 @@ export class CommonService {
   }
 
   renderPage(priType, secType1, secType2, data?) {
-    console.log("Data: ", data);
+    // console.log("Data: ", data);
     let page = this.primaryType[priType];
     this.params = {
       data: data,
@@ -322,11 +322,11 @@ export class CommonService {
       legend: false
     };
 
-    setTimeout(() => {
-      console.log(document.getElementsByTagName("canvas")[0]);
-      document.getElementsByTagName("canvas")[0].style.width = "80px";
-      document.getElementsByTagName("canvas")[0].style.height = "180px";
-    }, 10);
+    // setTimeout(() => {
+    //   console.log(document.getElementsByTagName("canvas")[0]);
+    //   document.getElementsByTagName("canvas")[0].style.width = "80px";
+    //   document.getElementsByTagName("canvas")[0].style.height = "180px";
+    // }, 10);
 
     return { chartData, chartOptions };
   }
@@ -725,7 +725,7 @@ export class CommonService {
   }
 
   downloadPdf(divId) {
-    var data = document.getElementById('print-section');
+    var data = document.getElementById(divId);
     // console.log("data",data);
     html2canvas(data).then(canvas => {
       // Few necessary setting options  
@@ -757,8 +757,8 @@ export class CommonService {
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
-    info.push(leftData);
     info.push(blankline);
+    info.push(leftData);
     info.push(centerData);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
@@ -889,7 +889,7 @@ export class CommonService {
       date = 28;
     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
 
-    console.log('Date: ', year + separator + month + separator + date);
+    // console.log('Date: ', year + separator + month + separator + date);
     return date + separator + month + separator + year;
   }
 
@@ -972,7 +972,7 @@ export class CommonService {
               <span>-</span>
               <span class="unloading">${x_destination.trim()}</span>
             ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}`;
-        console.log('X_placementType =', x_placements.length, x_status);
+        // console.log('X_placementType =', x_placements.length, x_status);
         if (x_placements.length && x_placements.length > 0) {
           html += ` <!-- Available (Done) -->
           ${this.formatTripPlacement(x_placement_type, x_placements)}`
@@ -1013,12 +1013,12 @@ export class CommonService {
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
-    console.log('HTML:', html);
+    // console.log('HTML:', html);
     return html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements);
   }
 
   formatTripPlacement(placementType, placements) {
-    console.log('++++:placements:', placements, placementType);
+    // console.log('++++:placements:', placements, placementType);
 
     if (!placements.length) return '';
     let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
@@ -1114,5 +1114,18 @@ export class CommonService {
         break;
     }
     return `<i title="${title}"></i>`
+  }
+  unionArrays(x, y) {
+    let obj = {};
+    for (var i = x.length - 1; i >= 0; --i)
+      obj[x[i]] = x[i];
+    for (var i = y.length - 1; i >= 0; --i)
+      obj[y[i]] = y[i];
+    let res = []
+    for (var k in obj) {
+      if (obj.hasOwnProperty(k))  // <-- optional
+        res.push(obj[k]);
+    }
+    return res;
   }
 }

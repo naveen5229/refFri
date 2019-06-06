@@ -31,7 +31,10 @@ import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
-
+import { VouchereditedComponent } from './voucheredited/voucheredited.component';
+import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
+import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
+import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -167,6 +170,22 @@ const routes: Routes = [{
         {
             path: 'cost-center-report',
             component: CostCenterReportComponent,
+        },
+        {
+            path: 'voucheredited',
+            component: VouchereditedComponent
+        },
+        {
+            path: 'fuelfillings',
+            component: FuelfillingsComponent
+        },
+        {
+            path: 'vehicle-cost-center-list',
+            component: VehicleCostCenterListComponent
+        },
+        {
+            path: 'mapped-fuel-voucher',
+            component: MappedFuelVoucherComponent
         }
     ],
 

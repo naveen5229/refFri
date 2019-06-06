@@ -6,13 +6,13 @@
 </div>
 <div class="modal-body">
   <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="status==0">
       <div class="col-sm-3">
         <label>Fo User:</label>
       </div>
       <div class="col-sm-4">
         <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Fo User" [preSelected]="null"></auto-suggestion>
+          placeholder="Fo User" [preSelected]="{name:foname}"></auto-suggestion>
       </div>
     </div>
     <div class="row" style="margin-top:10px">
@@ -20,33 +20,33 @@
         <label>Rule Type</label>
       </div>
       <div class="col-sm-3">
-        <select [(ngModel)]="Rules.ruleType" class="form-control" (change)="changeRuleType()"
+        <select [(ngModel)]="Rules.ruleType" style="width: 200px" class="form-control"
           style=" border: 1px solid #324148; font-size: 10px">
           <option value="0">Select Type</option>
-          <option value="1">Site</option>
-          <option value="2">Pump Station</option>
+          <option value="1">pump</option>
+          <option value="2">Pump Station Area</option>
         </select>
       </div>
       <div class="col-sm-2" *ngIf="Rules.ruleType=='1'" style="margin-top:5px">
         <label>
-          Site:
+          Pump:
         </label>
       </div>
       <div class="col-sm-2" *ngIf="Rules.ruleType=='2'" style="margin-top:5px">
         <label>
-          Pump:
+          Pump Area:
         </label>
       </div>
       <div class="col-sm-4" *ngIf="Rules.ruleType=='1'">
-        <auto-suggestion (onSelected)="getSite($event)" url="Suggestion/getSites?typeId=1" display="name"
-          placeholder="Site" [preSelected]="null"></auto-suggestion>
+        <auto-suggestion (onSelected)="getSite($event)" url="Suggestion/getFuelStationName" display="name"
+          placeholder="Pump" [preSelected]="{name:pumpName}"></auto-suggestion>
       </div>
       <div class="col-sm-4" *ngIf="Rules.ruleType=='2'">
         <auto-suggestion (onSelected)="getPump($event)" url="Suggestion/getPumpStationArea" display="loc_name"
-          placeholder="Pump" [preSelected]="null"></auto-suggestion>
+          placeholder="Pump Station Area" [preSelected]="{loc_name:pumpArea}"></auto-suggestion>
       </div>
     </div>
-    <div class="row" style="margin-top:10px">
+    <div class="row" style="margin-top:10px" *ngIf="Rules.ruleType=='2'">
       <div class="col-sm-3" style="margin-top:7px">
         <label>Angle From:</label>
       </div>
@@ -59,6 +59,9 @@
       <div class="col-sm-3">
         <input type="text" class="form-control" [(ngModel)]="Rules.angleTo" name="angleto" placeholder="">
       </div>
+    </div>
+    <div style="margin-top:10px">
+      <input type="checkbox" name="isNegative" value="false" [(ngModel)]="Rules.isNegative">isNegative
     </div>
     <!-- <div class="row" style="margin-top:10px" *ngIf="ruleType=='2'">
       <div class="col-sm-3" style="margin-top:5px">

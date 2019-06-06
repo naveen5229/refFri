@@ -12,7 +12,6 @@ export class AddSiteRuleComponent implements OnInit {
   title = '';
   addSite = {
     preSiteId: null,
-   
     currSiteId: null,
     foid: null,
     foname: null,
@@ -20,21 +19,19 @@ export class AddSiteRuleComponent implements OnInit {
     materialName: null,
     ruleTypeId: null,
     selectedBodyTypeId: null,
-
-
   };
-  preSite ={
-    preSiteName:null,
-    preStieLocName :null,
-    preSiteId:null,
+  preSite = {
+    preSiteName: null,
+    preStieLocName: null,
+    preSiteId: null,
   }
- 
-currSite={
-    currSiteName:null,
-    currStieLocName :null,
-    currSiteId:null,
-}
- 
+
+  currSite = {
+    currSiteName: null,
+    currStieLocName: null,
+    currSiteId: null,
+  }
+
   result = [];
   status = 0;
 
@@ -47,8 +44,8 @@ currSite={
     id: -1,
     name: ''
   }];
-  refTypePre=1;
-  refTypeCur=1;
+  refTypePre = 1;
+  refTypeCur = 1;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -87,21 +84,21 @@ currSite={
     if (this.common.params.row) {
 
       this.status = 1;
-      this.addSite.foid=this.common.params.row.foid;
-      this.addSite.foname = this.common.params.row.f_name||'N.A';
-      this.preSite.preSiteName = this.common.params.row.pre_site_name||'N.A';
-      this.preSite.preStieLocName = this.common.params.row.sd_loc_name1||'N.A';
+      this.addSite.foid = this.common.params.row.foid;
+      this.addSite.foname = this.common.params.row.f_name || 'N.A';
+      this.preSite.preSiteName = this.common.params.row.pre_site_name || 'N.A';
+      this.preSite.preStieLocName = this.common.params.row.sd_loc_name1 || 'N.A';
       this.addSite.preSiteId = this.common.params.row.pre_siteid;
-      this.currSite.currSiteName = this.common.params.row.curr_site_name||'N.A';
+      this.currSite.currSiteName = this.common.params.row.curr_site_name || 'N.A';
       this.addSite.currSiteId = this.common.params.row.current_siteid;
-      this.currSite.currStieLocName = this.common.params.row.sd_loc_name2||'N.A';
-      this.addSite.materialName= this.common.params.row.mt_name||'N.A';
-      this.addSite.materialId= this.common.params.row.materialtype_id;
+      this.currSite.currStieLocName = this.common.params.row.sd_loc_name2 || 'N.A';
+      this.addSite.materialName = this.common.params.row.mt_name || 'N.A';
+      this.addSite.materialId = this.common.params.row.materialtype_id;
       this.addSite.selectedBodyTypeId = this.common.params.row.bodytype_id;
-      this.addSite.ruleTypeId= this.common.params.row.ruletype_id;
+      this.addSite.ruleTypeId = this.common.params.row.ruletype_id;
       this.currSite.currSiteId = this.common.params.row.current_siteid;
       this.preSite.preSiteId = this.common.params.row.pre_siteid;
-      this.refTypePre= this.common.params.row.ref_type_pre;
+      this.refTypePre = this.common.params.row.ref_type_pre;
       this.refTypeCur = this.common.params.row.ref_type_cur;
     }
 
@@ -124,11 +121,11 @@ currSite={
   }
 
 
-  submit(){
-    if(this.status==1){
-     this.editSiteRule();
+  submit() {
+    if (this.status == 1) {
+      this.editSiteRule();
     }
-    else{
+    else {
       this.addSiteRule();
     }
   }
@@ -152,12 +149,12 @@ currSite={
       materialId: this.addSite.materialId,
       bodyTypeId: this.addSite.selectedBodyTypeId,
       ruleTypeId: this.addSite.ruleTypeId,
-      refTypePre:this.refTypePre,
-      refTypeCur:this.refTypeCur,
+      refTypePre: this.refTypePre,
+      refTypeCur: this.refTypeCur,
 
     }
-    console.log("params:",params);
-  
+    console.log("params:", params);
+
     this.common.loading++;
     this.api.post('TripSiteRule/add', params)
       .subscribe(res => {
@@ -177,7 +174,7 @@ currSite={
   }
 
 
-  editSiteRule(){
+  editSiteRule() {
     if (!this.addSite.foid) {
       return this.common.showError("Please Fill foUser");
     }
@@ -185,7 +182,7 @@ currSite={
       return this.common.showError("Please Fill Current Site");
     }
     if (!this.addSite.ruleTypeId) {
-      return this.common.showError("Please Fill ruleTypeId");
+      return this.common.showError("Please Fill ruleType");
     }
     let params = {
       foid: this.addSite.foid,
@@ -195,8 +192,8 @@ currSite={
       materialId: this.addSite.materialId,
       bodyTypeId: this.addSite.selectedBodyTypeId,
       ruleTypeId: this.addSite.ruleTypeId,
-      currSiteIdOld:this.currSite.currSiteId,
-      preSiteIdOld:this.preSite.preSiteId,
+      currSiteIdOld: this.currSite.currSiteId,
+      preSiteIdOld: this.preSite.preSiteId,
     }
     this.common.loading++;
     this.api.post('TripSiteRule/edit', params)
@@ -215,22 +212,24 @@ currSite={
       });
 
   }
-  selectBody(){
+  selectBody() {
 
   }
-  selectRule(){
-    
-  }
-
-  
-  selectList(id){
-    this.refTypePre=parseInt(id);
-    console.log("type:",this.refTypePre);
+  selectRule() {
 
   }
-  selectListType(typeid){
-    this.refTypeCur=parseInt(typeid);
-    console.log("type2:",this.refTypeCur);
+
+
+  selectList(id) {
+    this.refTypePre = parseInt(id);
+    this.addSite.preSiteId = null;
+    console.log("type:", this.refTypePre);
+
+  }
+  selectListType(typeid) {
+    this.refTypeCur = parseInt(typeid);
+    this.addSite.currSiteId = null;
+    console.log("type2:", this.refTypeCur);
   }
 
 }

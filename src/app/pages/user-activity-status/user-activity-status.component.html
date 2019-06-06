@@ -1,8 +1,16 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-5">
+      <div class="col-2">
         <h5>User Activity Statistics</h5>
+      </div>
+      <div class="col-3">
+        <span>
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('acivitySummary')" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCsv('acivitySummary')"
+            style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
+        </span>
       </div>
       <div class="col-7">
         <div class="row">
@@ -29,7 +37,8 @@
   <nb-card-body>
 
     <div>
-      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings" id="acivitySummary">
+      </smart-table>
     </div>
   </nb-card-body>
 </nb-card>

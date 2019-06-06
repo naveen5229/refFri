@@ -9,15 +9,15 @@ import { AccountService } from './account.service';
   providedIn: 'root'
 })
 export class ApiService {
-  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
+  //URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
+  //URL: string = 'http://192.168.0.189/booster_webservices/';
   //URL: string = 'http://localhost/Transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
-
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
   URL2 = 'http://elogist.in/transtruck/';
@@ -76,7 +76,7 @@ export class ApiService {
       if (subURL.includes('?')) {
         subURL += '&branch=' + this.accountService.selected.branch;
       } else {
-        subURL += '?branch=' + this.accountService.selected.branch;
+        subURL += '?branch=' + this.accountService.selected.branch.id;
       }
     };
 
@@ -157,4 +157,40 @@ export class ApiService {
 
   //   return this.http.post(this.IMAGE_PROCESSING_URL + subURL, body, { headers: headers })
   // }
+
+  walle8Post(subURL: string, body: any, options?) {
+    this.user._customer.id && (body['foAdminId'] = this.user._customer.id);
+    if (this.router.url.includes('accounts') && this.accountService.selected.branch) body['branch'] = this.accountService.selected.branch.id;
+
+    return this.http.post(this.UrlTranstruckNew + subURL, body, { headers: this.setWalle8Headers() })
+  }
+
+  walle8Get(subURL: string, params?: any) {
+    return this.http.get(this.UrlTranstruckNew + subURL, { headers: this.setWalle8Headers() })
+  }
+
+
+  setWalle8Headers() {
+    const entryMode = '3';
+    const authKey = this.user._details.authkeyOld || '';
+    const version = '2.3';
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'version': version,
+      'entrymode': entryMode,
+      'authkey': authKey
+    });
+
+    return headers;
+  }
+  getBranches() {
+    this.post('Suggestion/GetBranchList', { search: 123 })
+      .subscribe(res => {
+        console.log('Branches :', res['data']);
+        this.accountService.branches = res['data'];
+      }, err => {
+        console.log('Error: ', err);
+      });
+  }
 }

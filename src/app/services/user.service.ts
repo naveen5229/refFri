@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivityService } from './Activity/activity.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class UserService {
 
 
     this._pages = [
-      { id: 1, route: '/pages' },
+      { id: 1, route: '/pages/dashboard' },
       { id: 2, route: '/admin/vehiclestatuschange' },
       { id: 3, route: '/admin/issue-alerts' },
       { id: 4, route: '/admin/escalation-matrix' },
@@ -66,6 +67,20 @@ export class UserService {
       { id: 36, route: '/admin/add-customer' },
       { id: 37, route: '/admin/fuel-rules' },
       { id: 38, route: '/admin/pump-station-area' },
+      { id: 39, route: '/admin/toll-transaction-summary' },
+      { id: 40, route: '/admin/manual-toll-transaction-summary' },
+      { id: 41, route: '/admin/vehiclewise-tolltransaction' },
+
+      { id: 39, route: '/admin/pending-vehicle' },
+      { id: 40, route: '/admin/halt-density' },
+      { id: 41, route: '/admin/placement-site-rule' },
+      { id: 42, route: '/admin/fuel-average-issues' },
+      { id: 43, route: '/admin/consolidate-fuel-average' },
+      { id: 44, route: '/admin/fuel-analysis' },
+      { id: 45, route: '/admin/vehicles' },
+      { id: 46, route: '/admin/trip-analysis' },
+
+
     ]
   }
 

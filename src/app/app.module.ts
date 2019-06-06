@@ -157,6 +157,17 @@ import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/err
 import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
 import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
 import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
+import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.component';
+import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
+import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
+import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
+import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
+import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
+
+import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
+import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -275,10 +286,19 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
     AddFuelFullRuleComponent,
-    CostCenterViewComponent
-
+    CostCenterViewComponent,
+    VehiclesViewComponent,
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent,
+    VehicleFuelFillingEntryComponent,
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent,
+    VehicleNextServiceDetailComponent,
+    BulkVehicleNextServiceDetailComponent
   ],
   entryComponents: [
+    BulkVehicleNextServiceDetailComponent,
+    VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
     UserCallHistoryComponent,
@@ -391,7 +411,13 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     AddFuelFullRuleComponent,
     ErrorCoomonVehiclesComponent,
     VouchercostcenterComponent,
-    CostCenterViewComponent
+    CostCenterViewComponent,
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent,
+    VehicleFuelFillingEntryComponent,
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent
+
   ],
   imports: [
     BrowserModule,
@@ -412,6 +438,7 @@ import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
+
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']

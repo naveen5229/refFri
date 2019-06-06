@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { AuthGuard } from '../guards/auth.guard';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehicleKpisComponent } from './vehicle-kpis/vehicle-kpis.component';
@@ -41,6 +42,9 @@ import { DocumentDashboardComponent } from '../documents/dashboard/dashboard.com
 import { DriverPerformanceComponent } from '../driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-distance.component';
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
+import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
+import { ConsolidateFuelAverageComponent } from '../admin/consolidate-fuel-average/consolidate-fuel-average.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -52,182 +56,230 @@ const routes: Routes = [{
 
     path: 'dashboard',
     component: ConciseComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'vehicle-kpis',
     component: VehicleKpisComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'tickets',
     component: TicketsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'tickets-all',
     component: TicketsAllComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'lorry-receipts',
     component: LorryRecciptsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'generate-lr',
     component: GenerateLRComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'expenses',
     component: ExpensesComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'concise',
     component: ConciseComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'ticket-site-details',
-    component: TicketSiteDetailsComponent
+    component: TicketSiteDetailsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'ticket-details',
-    component: TicketDetailsComponent
+    component: TicketDetailsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'fuel-average-analysis',
-    component: FuelAverageAnalysisComponent
+    component: FuelAverageAnalysisComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'vehicle-trip',
-    component: VehicleTripComponent
+    component: VehicleTripComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'route-mapper',
-    component: RouteMapperComponent
+    component: RouteMapperComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'trends',
-    component: TrendsComponent
+    component: TrendsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'placements',
-    component: PlacementsComponent
+    component: PlacementsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'call-logs',
-    component: CallLogsComponent
+    component: CallLogsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'driver-call-suggestion',
-    component: DriverCallSuggestionComponent
+    component: DriverCallSuggestionComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'user-call-summary',
-    component: UserCallSummaryComponent
+    component: UserCallSummaryComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'placements-dash-board',
-    component: PlacementsDashBoardComponent
+    component: PlacementsDashBoardComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'trip-status-feedback',
-    component: TripStatusFeedbackComponent
+    component: TripStatusFeedbackComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'trip-onward-delay',
-    component: TripOnwardDelayComponent
+    component: TripOnwardDelayComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'user-activity-status',
-    component: UserActivityStatusComponent
+    component: UserActivityStatusComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'placement-delay-faults',
-    component: PlacementDelayFaultsComponent
+    component: PlacementDelayFaultsComponent,
+    canActivate: [AuthGuard],
   },
   {
 
     path: 'vehicle-covered-distance',
-    component: VehicleCoveredDistanceComponent
+    component: VehicleCoveredDistanceComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'vehicle-gps-detail',
-    component: VehicleGpsDetailComponent
+    component: VehicleGpsDetailComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'trip-feedback-logs',
     component: TipFeedbackLogsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'short-target',
     component: ShortTargetComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'onward-kmpd',
     component: onwardKmpdComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'vehicle-trip-stages',
     component: VehicleTripStagesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'vehicle-trip-states',
     component: VehicleTripStagesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'fuel-fillings',
-    component: FuelFillingsComponent
+    component: FuelFillingsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'remaining-fuel',
-    component: RemainingFuelComponent
+    component: RemainingFuelComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'consolidate-fuel-average',
+    component: ConsolidateFuelAverageComponent,
   },
   {
     path: 'documentation-details',
     component: DocumentationDetailsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'documents-summary',
     component: DocumentsSummaryComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'document-dashboard',
     component: DocumentDashboardComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'driver-performance',
     component: DriverPerformanceComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'vehicle-distance',
-    component: VehicleDistanceComponent
+    component: VehicleDistanceComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'trip-verify-states',
     component: TripVerifyStatesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'vehicle-performance',
+    component: VehiclePerformanceComponent,
+    canActivate: [AuthGuard],
   }
   ],
 }];
