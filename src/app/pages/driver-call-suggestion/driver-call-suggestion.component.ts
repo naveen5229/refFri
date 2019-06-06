@@ -210,7 +210,9 @@ export class DriverCallSuggestionComponent implements OnInit {
           valobj[this.headings[j]] = {
             value: '', isHTML: true, action: null, icons: [
               { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) },
-              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.driverData[i]) }]
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.driverData[i]) },
+              { class: "icon fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.driverData[i]) },
+            ]
           };
 
           // { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) };
@@ -908,4 +910,5 @@ export class DriverCallSuggestionComponent implements OnInit {
         data.status && this.common.reportAnIssue(data.issue, kpi._vehicleid)
     );
   }
+
 }
