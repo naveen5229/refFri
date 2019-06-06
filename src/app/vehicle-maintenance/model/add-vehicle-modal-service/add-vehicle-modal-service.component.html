@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <h5 class="modal-title" id="modal-basic-title">Add Model Wise Maintenance</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -12,21 +12,21 @@
         <label>Select Models</label>
       </div>
       <div class="col-md-3">
-        <auto-suggestion (onSelected)="modelId = $event.id;brandId = $event.brand_id" [display]="['name','brand_name']"
+        <auto-suggestion (onSelected)="modelId = $event.id;brandId = $event.brand_id" display="name"
           placeholder="Enter Model" [data]="brands" [preSelected]="null"></auto-suggestion>
       </div>
       <div class="col-md-3">
-        <label>Select Emission</label>
+        <label>Select Emmission</label>
       </div>
       <div class="col-md-3">
-        <select class="form-control" name="emission-type" [(ngModel)]="selectedEuro">
+        <select class="form-control" name="emmsission-type" [(ngModel)]="selectedEuro">
           <option *ngFor="let euro of euros;" [value]="euro">{{euro}}</option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>Is in Warraty?</label>
+        <label>Is in Warranty?</label>
       </div>
       <div class="col-md-3">
         <select name="warranty" [(ngModel)]="isWarranty" class="form-control">
