@@ -56,6 +56,7 @@ import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 
 
@@ -83,7 +84,11 @@ const PAGES_COMPONENTS = [
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
   FuelAverageIssuesComponent,
-  FuelAnalysisComponent
+  FuelAnalysisComponent,
+  TripAnalysisComponent
+
+
+
 ];
 @NgModule({
   imports: [
@@ -128,6 +133,8 @@ const PAGES_COMPONENTS = [
     HaltDensityComponent,
     PalacementSiteRuleComponent,
     FuelAverageIssuesComponent,
+    FuelAnalysisComponent,
+    TripAnalysisComponent,
     FuelAnalysisComponent,
     VehiclesComponent
   ],

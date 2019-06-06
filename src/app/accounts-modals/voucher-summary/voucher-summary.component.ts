@@ -478,7 +478,7 @@ export class VoucherSummaryComponent implements OnInit {
       remarks: this.narration,
       date: this.date,
       amountDetails: amountDetails,
-      vouchertypeid: -9,
+      vouchertypeid: -150,
       y_code: '',
       xid: this.VoucherId
     };
@@ -642,7 +642,12 @@ export class VoucherSummaryComponent implements OnInit {
     console.log('All Total: ', this.alltotal);
 
   }
-
+  calculateTripAllTotal(index){
+    this.alltotal=0;
+    this.tripHeads.map(trip => {
+      this.alltotal += parseFloat(trip.total);
+    });
+  }
 
 
   dismiss(status) {

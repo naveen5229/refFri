@@ -128,6 +128,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Trip Analysis',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-analysis',
+        home: true,
+    },
+    {
         title: 'Fuel',
         icon: 'fas fa-gas-pump',
         children: [
