@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'print-manifest',
   templateUrl: './print-manifest.component.html',
-  styleUrls: ['./print-manifest.component.scss']
+  styleUrls: ['./print-manifest.component.scss', '../../pages/pages.component.css']
 })
 export class PrintManifestComponent implements OnInit {
 
@@ -22,9 +22,12 @@ export class PrintManifestComponent implements OnInit {
     from: 'jaipur',
     to: 'Kota',
     owner: 'Nikhil',
-    mobile: 9782945029,
+    ownerMobile: 9782945029,
     ownerPan: 'GCCIX451X',
-
+    driver: 'Ajay',
+    driverMobile: 9545458444,
+    broker: 'Vijay',
+    brokerMobile: 7845648545,
 
 
   }

@@ -54,7 +54,7 @@
         </div>
         <div class="col-4">
           <label>Mobile</label>
-          <label class="infoData">{{printDetails.mobile}}</label>
+          <label class="infoData">{{printDetails.ownerMobile}}</label>
         </div>
         <div class="col-4">
           <label>Owner Pan</label>
@@ -63,18 +63,81 @@
       </div>
 
       <div class="row">
-        <div class="col-4">
-          <label>Owner</label>
-          <label class="infoData">{{printDetails.owner}}</label>
+        <div class="col-3">
+          <label>Driver</label>
+          <label class="infoData">{{printDetails.driver}}</label>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <label>Mobile</label>
-          <label class="infoData">{{printDetails.mobile}}</label>
+          <label class="infoData">{{printDetails.driverMobile}}</label>
         </div>
-        <div class="col-4">
-          <label>Owner Pan</label>
-          <label class="infoData">{{printDetails.ownerPan}}</label>
+        <div class="col-3">
+          <label>Broker</label>
+          <label class="infoData">{{printDetails.broker}}</label>
         </div>
+        <div class="col-3">
+          <label>Mobile</label>
+          <label class="infoData">{{printDetails.brokerMobile}}</label>
+        </div>
+      </div>
+
+
+      <div class="table">
+        <table class="table-bordered table-hover table-scroll" id="printMainfest">
+          <thead class="thead">
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Consignor</th>
+              <th>Consingee</th>
+              <th>Bilty No.</th>
+              <th>Station</th>
+              <th>Pkg.</th>
+              <th>Weight Kg.</th>
+              <th>TBB</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- <tr *ngFor="let usage of cardUsage; let i = index"> -->
+            <tr>
+              <td>1</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+
+
+
+            </tr>
+
+          </tbody>
+
+          <tbody>
+            <tr>
+
+              <td> Total Freight</td>
+              <td>Advance</td>
+              <td>Other</td>
+              <td>Balance</td>
+
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
 
 

@@ -45,7 +45,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getAllTypesOfBrand();
     this.getAllBodyType();
     this.common.refresh = this.refresh.bind(this);
-    this.emissionStandard = ["Euro 1", "Euro 2", "Euro 3", "Euro 4", "Euro 6"];
+    this.emissionStandard = ["Bs 1", "Bs 2", "Bs 3", "Bs 4", "Bs 6"];
     // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
   }
 
