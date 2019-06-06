@@ -8,6 +8,19 @@
               <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
                 display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
             </div>
+            <div class="col-md-3 pr-0">
+              <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+              </uj-date-time-picker>
+            </div>
+            <div class="col-md-3 pr-0">
+              <uj-date-time-picker [isTime]="false" (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+              </uj-date-time-picker>
+            </div>
+            <div class="col-md-1 offset-md-08">
+              <button type="submit" class="btn btn-primary" (click)="vehicleMaintenanceData()">
+                View
+              </button>
+            </div>
 
             <div class="col-md-2 offset-md-08">
               <button type="submit" class="btn btn-primary" (click)="addMaintenance()">

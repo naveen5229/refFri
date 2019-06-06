@@ -110,6 +110,12 @@ export class DataService {
             link: '/admin/sub-sites',
             home: true,
           },
+          {
+            title: 'Trip Analysis',
+            icon: 'fa fa-arrows-alt',
+            link: '/admin/trip-analysis',
+            home: true,
+          },
         ]
       },
 
@@ -130,7 +136,7 @@ export class DataService {
             link: '/admin/ticket-properties',
           },
           {
-            title: 'vehicle view',
+            title: 'Vehicle Categories',
             icon: 'fa fa-chart-bar',
             link: '/admin/vehicles-view',
           },
@@ -164,6 +170,26 @@ export class DataService {
             link: '/admin/add-customer',
             home: true,
           },
+          {
+            title: 'Toll Transaction Summary',
+            icon: 'fas fa fa-road',
+            link: '/admin/toll-transaction-summary',
+            home: true,
+          },
+          {
+            title: 'Manual Toll Transaction Summary',
+            icon: 'fas fa fa-user',
+            link: '/admin/manual-toll-transaction-summary',
+            home: true,
+          },
+          {
+            title: 'Vehicle Wise Toll Transaction Summary',
+            icon: 'fas fa fa-car',
+            link: '/admin/vehiclewise-tolltransaction',
+            home: true,
+          },
+
+
         ]
       },
       {
@@ -220,7 +246,12 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-
+          {
+            title: 'Vehicles',
+            icon: 'fas fa-info-circle',
+            link: '/admin/vehicles',
+            home: true,
+          },
         ]
       },
 
@@ -261,6 +292,18 @@ export class DataService {
             title: 'Fuel Average Analysis',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+          {
+            title: 'Consolidate Fuel Average',
+            icon: 'fa fa-signal',
+            link: '/admin/consolidate-fuel-average',
+            home: true,
+          },
+          {
+            title: 'Fuel Analysis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-analysis',
             home: true,
           },
           {

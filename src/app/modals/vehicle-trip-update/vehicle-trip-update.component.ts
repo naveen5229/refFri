@@ -164,8 +164,11 @@ export class VehicleTripUpdateComponent implements OnInit {
       this.api.post('TripsOperation/vehicleTripReplacement', params)
         .subscribe(res => {
           --this.common.loading;
-          console.log(res['msg']);
-          this.common.showToast(res['msg']);
+          if (res['data'][0]['rtn_id'] > 0)
+            this.common.showToast(res['msg']);
+          else {
+            this.common.showToast(res['data'][0]['rtn_msg']);
+          }
           this.getVehiclePlacements();
           // this.activeModal.close();
         }, err => {
@@ -280,9 +283,9 @@ export class VehicleTripUpdateComponent implements OnInit {
         activeModal.result.then(res => {
           console.log('response----', res.location);
           this.keepGoing = true;
-
           if (res.location.lat) {
             this.vehicleTrip.endName = res.location.name;
+
             (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
             this.vehicleTrip.endLat = res.location.lat;
             this.vehicleTrip.endLng = res.location.lng;

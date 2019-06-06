@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { AccountService } from '../../services/account.service';
+
 
 @Component({
   selector: 'trip-voucher-expense',
@@ -18,30 +20,75 @@ export class TripVoucherExpenseComponent implements OnInit {
   fuelFilings = [];
   tripHeads = [];
   tripVouchers = [];
-  selectedVehicle;
+  selectedVehicle = {
+    id: 0
+  };
   vehicles = [];
   flag = false;
+  TripEditData = [];
+  pendingDataEditTme = [];
   constructor(
     public api: ApiService,
     public common: CommonService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.currentPage = 'Trip Voucher Expense';
+    this.getTripExpences();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+    // this.getVoucherTypeList();
+    // this.getLedgerList();
+    this.getTripExpences();
+  }
+
   getVehicle(vehicle) {
+    console.log('test fase', vehicle);
     this.selectedVehicle = vehicle;
     this.flag = true;
     this.getTripSummary();
 
   }
 
+  getPendingTripsEditTime(voucherid) {
+    this.getTripExpences();
+    if (this.selectedVehicle.id == 0) {
+      this.common.showToast('please enter registration number !!')
+    } else {
+      const params = {
+        vehId: this.selectedVehicle.id,
+        vchrid: voucherid
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTripsEdit', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.pendingDataEditTme = res['data'];
+          // this.showTripSummary(res['data']);
+          //this.flag=false;
+          this.trips = res['data'];
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    }
+  }
+
+
   getPendingTrips() {
     this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id==0) {
       this.common.showToast('please enter registration number !!')
+    }else if (this.accountService.selected.branch.id == 0) {
+      this.common.showToast('please Select Branch !!')
     } else {
       const params = {
         vehId: this.selectedVehicle.id
@@ -198,12 +245,12 @@ export class TripVoucherExpenseComponent implements OnInit {
   getTripSummary() {
 
     const params = {
-      vehId: this.selectedVehicle.id
+      vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id : 0
     };
     this.common.loading++;
     this.api.post('TripExpenseVoucher/getTripExpenseVouchers', params)
       .subscribe(res => {
-        console.log(res);
+        console.log('trip expence 222', res);
         this.common.loading--;
         this.tripVouchers = res['data'];
       }, err => {
@@ -214,16 +261,41 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
 
 
+  getPendingOnEditTrips() {
+    this.getTripExpences();
+    if (this.selectedVehicle.id == 0) {
+      this.common.showToast('please enter registration number !!')
+    } else {
+      const params = {
+        vehId: this.selectedVehicle.id
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.TripEditData = res['data'];
+          // this.showTripSummary(res['data']);
+          //this.flag=false;
+          this.trips = res['data'];
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    }
+  }
 
   getTripExpences() {
 
     const params = {
-      vehId: this.selectedVehicle.id
+      vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id :0
     };
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceVouher', params)
       .subscribe(res => {
-        console.log(res);
+        console.log('trip expence', res);
         this.common.loading--;
         this.tripVouchers = res['data'];
       }, err => {
@@ -236,14 +308,19 @@ export class TripVoucherExpenseComponent implements OnInit {
 
 
   getVoucherSummary(tripVoucher) {
-    console.log(tripVoucher);
+    console.log('trdhh-----', tripVoucher);
+    this.selectedVehicle.id=tripVoucher.y_vehicle_id;
+    this.getPendingOnEditTrips();
+    this.getPendingTripsEditTime(tripVoucher.y_id);
     const params = {
-      voucherId: tripVoucher.id,
-      startDate: tripVoucher.startdate,
-      endDate: tripVoucher.enddate
+      voucherId: tripVoucher.y_voucher_id,
+      // startDate: tripVoucher.startdate,
+      // endDate: tripVoucher.enddate
+      voucherDetail: tripVoucher
     };
     this.common.loading++;
-    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
+    // this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
+    this.api.post('TripExpenseVoucher/getTripExpenseVoucherTripsData', params)
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
@@ -256,7 +333,10 @@ export class TripVoucherExpenseComponent implements OnInit {
   }
   showVoucherSummary(tripDetails, tripVoucher) {
     let vehId = this.selectedVehicle.id;
-    this.common.params = { vehId, tripDetails, tripVoucher };
+    let tripEditData = this.TripEditData;
+    let tripPendingDataSelected = this.pendingDataEditTme;
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected };
+    console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);

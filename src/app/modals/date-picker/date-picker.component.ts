@@ -51,7 +51,7 @@ export class DatePickerComponent implements OnInit {
       }, 100);
     }
     else {
-      this.activeModal.close();
+      this.activeModal.close({ date: this.date, timeType: this.timeType });
     }
   }
 

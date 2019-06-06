@@ -85,7 +85,11 @@
                   </td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.distance}}</td>
                   <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.kmph}}</td>
-                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}</td>
+                  <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.adUserId}}
+                    <input *ngIf="vehicleEvent.vs_id && vehicleEvent.haltId == null" [(ngModel)]="isChecks[i]"
+                      (change)="mergeWithVS(vehicleEvent.vs_id,vehicleEvent.haltId,isChecks[i],i)" type="checkbox"
+                      class="pull-right" style="margin-top:1px;" />
+                  </td>
 
                 </tr>
                 <tr *ngIf="vehicleEvent.isOpen">

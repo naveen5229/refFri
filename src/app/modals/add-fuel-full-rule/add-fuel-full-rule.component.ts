@@ -13,15 +13,17 @@ export class AddFuelFullRuleComponent implements OnInit {
   title = '';
   status = 0;
   foname = '';
-  siteName = '';
+  pumpArea = '';
   pumpName = '';
   result = [];
   Rules = {
     foid: '',
     ruleType: '0',
-    siteId: null,
-    pumpStationId: null,
-    rowid: ''
+    ref_id: '',
+    rowid: '',
+    angleFrom: '',
+    angleTo: '',
+    isNegative: false
   };
 
 
@@ -39,14 +41,14 @@ export class AddFuelFullRuleComponent implements OnInit {
       this.Rules.ruleType = this.common.params.rule.rule_type || '0';
       this.Rules.rowid = this.common.params.rule.id;
       if (this.Rules.ruleType == '1') {
-        this.siteName = this.common.params.rule.name || ''
-      } else {
         this.pumpName = this.common.params.rule.name || ''
+      } else {
+        this.pumpArea = this.common.params.rule.name || ''
       }
-      this.Rules.siteId = this.common.params.rule.siteid || 'null';
-      this.Rules.pumpStationId = this.common.params.rule.pump_station_area_id || 'null';
-      //  this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
-      //  this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
+      this.Rules.ref_id = this.common.params.rule.ref_id || 'null';
+      // this.Rules.pumpStationId = this.common.params.rule.pump_station_area_id || 'null';
+      this.Rules.angleFrom = this.common.params.rule.angle_from || 'N.A';
+      this.Rules.angleTo = this.common.params.rule.angle_to || 'N.A';
 
     }
   }
@@ -65,25 +67,33 @@ export class AddFuelFullRuleComponent implements OnInit {
   }
 
   getSite(site) {
-    this.Rules.siteId = site.id;
-    return this.Rules.siteId;
+    this.Rules.ref_id = site.id;
+    return this.Rules.ref_id;
   }
 
   getPump(pump) {
-    this.Rules.pumpStationId = pump.id;
-    return this.Rules.pumpStationId;
+    this.Rules.ref_id = pump.id;
+    this.Rules.angleFrom = pump.angle_from;
+    this.Rules.angleTo = pump.angle_to;
+    return this.Rules.ref_id;
   }
 
   saveRule() {
-
-
+    let val
+    if (this.Rules.isNegative) {
+      val = 1;
+    } else {
+      val = 0;
+    }
     let params = {
       foid: this.Rules.foid,
       ruleType: this.Rules.ruleType,
-      //  angleFrom: this.Rules.angleFrom,
-      // angleTo: parseInt(this.Rules.angleTo),
-      siteId: parseInt(this.Rules.siteId),
-      pumpStationId: this.Rules.pumpStationId,
+      angleFrom: parseInt(this.Rules.angleFrom),
+      angleTo: parseInt(this.Rules.angleTo),
+      // siteId: parseInt(this.Rules.siteId),
+      // pumpStationId: this.Rules.pumpStationId,
+      ref_id: parseInt(this.Rules.ref_id),
+      is_negative: val,
       rowid: this.Rules.rowid ? this.Rules.rowid : 'null'
     };
     console.log('params to save', params);

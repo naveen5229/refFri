@@ -22,8 +22,9 @@
                     <span>{{row[col]}}</span>
                   </td>
                   <td class="del">
-                    <a href="javascript: void(0);" class="edit" title="Edit Vehicle" (click)="showDetails(row,'-1')"><i
-                        class="icon ion-md-create"></i></a>&nbsp;
+                    <button class="btn btn-primary" title="Edit Vehicle" (click)="showDetails(row,'-1')"><i
+                        class="icon ion-md-create"></i>
+                    </button>
                     <!-- <a href="javascript: void(0);" class="delete" title="Delete Vehicle" (click)="deleteVehicle(row)"><i
                         class="fa fa-trash"></i></a> -->
                   </td>
@@ -110,14 +111,10 @@
 
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
-                  <div class="col-2">
-                    <label>Euro </label>
-                  </div>
-                  <div class="col-6">
-                    <select name="emission" class="form-control mt-1" [(ngModel)]="modal.first.data.document.emissionId"
-                      (ngModel)="selectRule()">
-                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission.id">
-                        {{emission.id}}</option>
+                  <div class="col-8">
+                    <select name="emission" class="form-control mt-1" [(ngModel)]="modal.first.data.document._bscode">
+                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission">
+                        {{emission}}</option>
                     </select>
                   </div>
                 </div>

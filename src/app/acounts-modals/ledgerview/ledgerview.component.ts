@@ -15,7 +15,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class LedgerviewComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
-
+  ledgername = '';
   ledger = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -57,6 +57,8 @@ export class LedgerviewComponent implements OnInit {
     this.common.refresh = this.refresh.bind(this);
     if (this.common.params) {
       console.log("After the modal Open:", this.common.params);
+
+      this.ledgername = this.common.params.ledgername;
       this.ledger = {
         endDate: this.common.params.enddate,
         startDate: this.common.params.startdate,

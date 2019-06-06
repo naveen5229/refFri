@@ -25,7 +25,7 @@
                 width: 40px;
             }
             th{
-                width: 283px;
+                width: 258px;
             }
             td{
                 width: 283px;
@@ -52,10 +52,10 @@
                 width: 40px;
             }
             th{
-                width: 226px;
+                width: 206px;
             }
             td{
-                width: 226px;
+                width: 206px;
             }
         }
     }
@@ -180,3 +180,6 @@ table{
     padding-right: 15px;
     padding-left: 15px;
 }
+input:read-only {
+    background-color: #ccc;
+  }

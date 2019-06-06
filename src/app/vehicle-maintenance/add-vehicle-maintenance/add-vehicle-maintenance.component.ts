@@ -5,6 +5,8 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
+import { ViewMaintenanceComponent } from '../model/view-maintenance/view-maintenance.component';
+import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 
 @Component({
   selector: 'add-vehicle-maintenance',
@@ -15,7 +17,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   suggestionData = [];
   selectedVehicle = null;
   vehicleRegno = null;
-
+  startTime = new Date(new Date().setMonth(new Date().getMonth() - 1));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -44,13 +47,17 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     this.selectedVehicle = vehicle.id;
     this.vehicleRegno = vehicle.regno;
     console.log('Vehicle Data: ', this.selectedVehicle);
-    this.vehicleMaintenanceData();
   }
 
   vehicleMaintenanceData() {
+    let params = {
+      vId: -1,
+      fromDate: this.common.dateFormatter1(this.startTime),
+      toDate: this.common.dateFormatter1(this.endTime)
+    };
     this.data = [];
     this.common.loading++;
-    this.api.post('VehicleMaintenance/view', { vId: this.selectedVehicle })
+    this.api.post('VehicleMaintenance/view', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("Data :", res);
@@ -70,6 +77,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+    this.selectedVehicle = null;
+    this.vehicleRegno = null;
   }
 
   getTableColumns() {
@@ -81,13 +90,25 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-      this.valobj['Action'] = { value: `<i class="fa fa-pencil-square"></i>`, isHTML: true, action: this.editMaintenance.bind(this, doc), class: 'image text-center del' }
+      this.valobj['Action'] = {
+        icons: [
+          // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
+          { class: "fa fa-cog", action: this.viewDetails.bind(this, doc) }]
+        , action: null
+      };
       columns.push(this.valobj);
     });
     return columns;
   }
 
-
+  viewDetails(doc) {
+    // this.common.params = { title: 'Edit Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno, doc };
+    // const activeModal = this.modalService.open(ViewMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    // activeModal.result.then(data => {
+    //   if (data.response) {
+    //   }
+    // });
+  }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
@@ -105,6 +126,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.vehicleMaintenanceData();
         this.getTableColumns();
       }
+      this.selectedVehicle = null;
+      this.vehicleRegno = null;
     });
   }
 

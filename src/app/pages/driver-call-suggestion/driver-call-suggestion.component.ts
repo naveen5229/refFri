@@ -207,9 +207,15 @@ export class DriverCallSuggestionComponent implements OnInit {
           valobj[this.headings[j]] = { value: val, class: 'blue', action: this.openRouteMapper.bind(this, this.driverData[i], "Last 24Hr KM") };
         }
         else if (this.headings[j] == "Act") {
-          valobj[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) };
-        }
+          valobj[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) },
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.driverData[i]) }]
+          };
 
+          // { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.driverData[i]) };
+
+        }
         else {
           valobj[this.headings[j]] = { value: val, class: 'black', action: '' };
         }
@@ -322,7 +328,13 @@ export class DriverCallSuggestionComponent implements OnInit {
 
         }
         else if (this.headings[j] == "Act") {
-          this.valobj2[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.onwardDelayData[i]) };
+          this.valobj2[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.onwardDelayData[i]) },
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.onwardDelayData[i]) }]
+          };
+
+          //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.onwardDelayData[i]) };
 
         }
         else {
@@ -422,7 +434,12 @@ export class DriverCallSuggestionComponent implements OnInit {
           this.valobj3[this.headings[j]] = { value: this.delayFaults[i][this.headings[j]], class: 'blue', action: this.showLocation.bind(this, this.delayFaults[i]) };
 
         } else if (this.headings[j] == "Act") {
-          this.valobj3[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.delayFaults[i]) };
+          this.valobj3[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.delayFaults[i]) },
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.delayFaults[i]) }]
+          };
+          //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.delayFaults[i]) };
 
         }
         else {
@@ -518,7 +535,11 @@ export class DriverCallSuggestionComponent implements OnInit {
 
         }
         else if (this.headings[j] == "Act") {
-          this.valobj4[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.shortTarget[i]) };
+          this.valobj4[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.shortTarget[i]) },
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.shortTarget[i]) }]
+          };//{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.shortTarget[i]) };
 
         } else if (this.headings[j] == "remark") {
           this.valobj4[this.headings[j]] = { value: this.shortTarget[i][this.headings[j]], class: 'blue', action: this.openRouteMapper.bind(this, this.shortTarget[i]) };
@@ -630,7 +651,12 @@ export class DriverCallSuggestionComponent implements OnInit {
 
         }
         else if (this.headings[j] == 'Act') {
-          this.valobj5[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longLoading[i]) };
+          this.valobj5[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longLoading[i]) },
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.longLoading[i]) }]
+          };
+          //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longLoading[i]) };
 
         }
         else if (this.headings[j] == 'Trip') {
@@ -739,7 +765,12 @@ export class DriverCallSuggestionComponent implements OnInit {
 
         }
         else if (this.headings[j] == 'Act') {
-          this.valobj6[this.headings[j]] = { value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) };
+          this.valobj6[this.headings[j]] = {
+            value: '', isHTML: true, action: null, icons: [
+              { class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) },
+              { class: 'icon fa fa-pencil-square-o', action: this.addShortTarget.bind(this, this.longUnLoading[i]) }]
+          };
+          //{ value: "", class: 'icon fa fa-question-circle', action: this.reportIssue.bind(this, this.longUnLoading[i]) };
 
         }
         else if (this.headings[j] == 'Trip') {

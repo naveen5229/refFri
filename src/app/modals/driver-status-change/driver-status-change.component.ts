@@ -20,40 +20,39 @@ export class DriverStatusChangeComponent implements OnInit {
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public formbuilder: FormBuilder) {
-    this.name = this.common.params.name;
-    this.mobile = this.common.params.mobile;
+
     this.Regno = this.common.params.driver.regno;
     this.getdriverStatus();
-    // if (this.common.params.name) {
-    //   this.name = this.common.params.name;
+    // if (this.common.params.md_name) {
+    //   this.name = this.common.params.md_name;
+    //   this.mobile=this.common.params.md_no;
     //   console.log("Params:", this.name);
     //  // this.mobile=this.common.params.mobileno;
     // }
-    // if(this.common.params.mobileno){
-    //   this.mobile=this.common.params.mobileno;
-    // }if
-    // if(this.common.params.type){
-    //   this.name=this.common.params.driver.md_name;
-    //   this.mobile=this.common.params.driver.md_no;
-    // }else{
-    //   this.name=this.common.params.driver.sd_name;
-    //   this.mobile=this.common.params.sd_no;
-    // }
+    console.log('name', this.common.params.name, 'mobile', this.common.params.mobile);
+    if (this.common.params.driver.md_name == this.common.params.name) {
+      this.name = this.common.params.driver.md_name;
+      this.mobile = this.common.params.driver.md_no;
+
+    } else {
+      this.name = this.common.params.driver.sd_name;
+      this.mobile = this.common.params.driver.sd_no;
+    }
 
   }
 
 
 
   ngOnInit() {
-    //  if(this.common.params.driver.md_name||this.common.params.driver.md_no){
+    //if(this.common.params.driver.md_name||this.common.params.driver.md_no){
 
-    // this.driverStatusForm = this.formbuilder.group({
-    //   name: [this.name],
-    //   mobileno: [this.mobile, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-    //   Status: [this.driverStatus, [Validators.required]],
-    // });
-    //
-    //}
+    this.driverStatusForm = this.formbuilder.group({
+      name: [this.name],
+      mobileno: [this.mobile],
+      Status: [this.driverStatus, [Validators.required]],
+    });
+
+
   }
   get f() { return this.driverStatusForm.controls; }
   getvehicleData(Fodriver) {
