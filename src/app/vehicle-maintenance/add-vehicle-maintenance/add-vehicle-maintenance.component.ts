@@ -51,7 +51,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
 
   vehicleMaintenanceData() {
     let params = {
-      vId: -1,
+      vId: this.selectedVehicle,
       fromDate: this.common.dateFormatter1(this.startTime),
       toDate: this.common.dateFormatter1(this.endTime)
     };
@@ -115,7 +115,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   addMaintenance() {
-    if (!this.selectedVehicle) {
+    if (!this.selectedVehicle || this.selectedVehicle == -1) {
       this.common.showError("Please select Vehicle Number");
       return false;
     }
@@ -144,6 +144,10 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.getTableColumns();
       }
     });
+  }
+  resetData(event) {
+    this.selectedVehicle = -1;
+    console.log(event);
   }
 
 }

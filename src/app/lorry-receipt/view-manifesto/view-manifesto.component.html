@@ -1,0 +1,32 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-5">
+        <h5>Manifestation </h5>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" [value]="startDate | date: 'dd MMM yyyy'" name="date"
+          placeholder="Start Date" (click)="getDate('start')" />
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" [value]="endDate | date: 'dd MMM yyyy'" name="date1"
+          placeholder="End Date" (click)="getDate('end')" />
+      </div>
+
+      <div class="col-sm-2">
+        <button class="btn btn-primary m-0" (click)="getLrManifest()">OK</button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="manifestData.length==0">
+      No Data Available On That Time Period !
+    </div>
+
+    <div>
+      <smart-table *ngIf="manifestData && manifestData.length>0" [data]="table.data" [settings]="table.settings">
+      </smart-table>
+    </div>
+
+  </nb-card-body>
+</nb-card>
