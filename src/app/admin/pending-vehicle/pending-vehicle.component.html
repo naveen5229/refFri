@@ -118,7 +118,6 @@
                     </select>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -241,20 +240,23 @@
               </div>
             </div>
 
+
+
+
+
+
+
+
+
             <div class="row form-field clear">
-
-              <label for="doc_type-second" class="col-sm-4 mgn-vert">Model Type </label>
-
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Emission Standard </label>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
-                  <div class="col-2">
-                    <label>Euro </label>
-                  </div>
-                  <div class="col-6">
-                    <select name="emission" class="form-control mt-1 "
-                      [(ngModel)]="modal.second.data.document.emissionId">
-                      <option class="form-control" *ngFor="let emission of emissionStandard">
-                        {{emission.id}}</option>
+
+                  <div class="col-8">
+                    <select name="emission2" class="form-control mt-1" [(ngModel)]="modal.first.data.document._bscode">
+                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission">
+                        {{emission}}</option>
                     </select>
                   </div>
                 </div>
