@@ -163,10 +163,10 @@ import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.comp
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
 import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
-
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
+
 
 
 
@@ -297,6 +297,7 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
     PrintManifestComponent,
+
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
