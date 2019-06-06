@@ -128,7 +128,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        title: 'Trip Analysis',
+        title: 'Trip Diagnosis',
         icon: 'fas fa-file-signature',
         link: '/admin/trip-analysis',
         home: true,
@@ -168,7 +168,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 home: true,
             },
             {
-                title: 'Fuel Analysis',
+                title: 'Fuel Diagnosis',
                 icon: 'fa fa-signal',
                 link: '/admin/fuel-analysis',
                 home: true,
