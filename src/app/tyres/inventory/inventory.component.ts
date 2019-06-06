@@ -217,19 +217,14 @@ export class InventoryComponent implements OnInit {
     this.inventories[index].nsd3 = null;
     this.inventories[index].psi = null;
   }
-
-
-
+  
   handleFileSelection(event) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
         this.common.loading--;
-
-
         let file = event.target.files[0];
-        console.log("Type", file.type);
-        if (file.type != "application/vnd.ms-excel") {
+        if (file.type != "text/csv") {
           alert("valid Format Are : CSV");
           return false;
         }
@@ -246,14 +241,12 @@ export class InventoryComponent implements OnInit {
   importCsv() {
     const params = {
       inventoryCsv: this.csv,
-
     };
 
     if (!params.inventoryCsv) {
       return this.common.showError("Select csv");
     }
     console.log("Data :", params);
-
     this.common.loading++;
     this.api.post('Tyres/importTyreInventoryCsv ', params)
       .subscribe(res => {
@@ -263,9 +256,6 @@ export class InventoryComponent implements OnInit {
         let errorData = res['data']['f'];
         console.log("error: ", errorData);
         alert(res["msg"]);
-        // this.common.params = { apiData: params, successData, errorData, title: 'Fuel csv Verification' };
-        // const activeModal = this.modalService.open(CsvErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-
       }, err => {
         this.common.loading--;
         console.log(err);
