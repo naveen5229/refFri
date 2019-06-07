@@ -27,11 +27,11 @@
       <div class="col-sm-2">
 
         <input style="margin-top:20px;" autocomplete="off" type="radio" name="mapping" id="mapping"
-          [(ngModel)]="fuelVoucher.type" (change)="getFuelVoucher()" [value]=0>UnMapping
+          [(ngModel)]="fuelVoucher.type" [value]=0>UnMapping
       </div>
       <div class="col-sm-2">
         <input style="margin-top:20px;" autocomplete="off" type="radio" name="unmapping" id="unmapping"
-          [(ngModel)]="fuelVoucher.type" (change)="getFuelVoucher()" [value]=1>Mappping
+          [(ngModel)]="fuelVoucher.type" [value]=1>Mappping
       </div>
       <div class="col-sm-2">
         <button class="btn btn-primary" style="width: 150px" type="button" outline (click)="getFuelVoucher()"
@@ -39,7 +39,8 @@
       </div>
     </div>
     <div>
-      <table class="table table-bordered" style="margin-left: 5px; margin-top:10px; margin-right: 5px;">
+      <table *ngIf="showTable" class="table table-bordered"
+        style="margin-left: 5px; margin-top:10px; margin-right: 5px;">
         <thead class="thead">
           <tr id="heading-row">
             <th>Fuel Fill Date</th>
