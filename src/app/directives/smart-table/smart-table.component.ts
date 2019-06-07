@@ -39,6 +39,8 @@ export class SmartTableComponent implements OnInit {
     this.settings = changes.settings.currentValue;
     console.log('Data', this.data);
     this.setData();
+    this.activeRow = -1;
+
   }
 
   ngAfterViewInit() {

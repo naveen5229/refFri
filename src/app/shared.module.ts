@@ -7,6 +7,7 @@ import { DirectiveModule } from './directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './admin/remaining-fuel/remaining-fuel.component';
+import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-average/consolidate-fuel-average.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentationDetailsComponent } from './documents/documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent } from './documents/documents-summary/documents-summary.component';
@@ -14,10 +15,10 @@ import { DocumentDashboardComponent } from './documents/dashboard/dashboard.comp
 import { DriverPerformanceComponent } from './driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from './admin/vehicle-distance/vehicle-distance.component';
 import { UserActivityStatusComponent } from './pages/user-activity-status/user-activity-status.component';
-import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-average/consolidate-fuel-average.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
+    ConsolidateFuelAverageComponent,
     RemainingFuelComponent,
     DocumentationDetailsComponent,
     DocumentsSummaryComponent,
@@ -25,7 +26,7 @@ const PAGES_COMPONENTS = [
     DriverPerformanceComponent,
     VehicleDistanceComponent,
     UserActivityStatusComponent,
-    ConsolidateFuelAverageComponent
+
 ];
 
 

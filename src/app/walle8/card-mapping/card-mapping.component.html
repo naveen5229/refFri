@@ -1,0 +1,43 @@
+<nb-card>
+  <nb-card-header style="font-size: 32px;">
+    <h4>Card Mapping</h4>
+    <div class ="row m-0 p-0">
+      <div class="col-md-12 text-right margin-top-15 margin-left-220">
+
+          <span style="margin-bottom: 10px; display: block;"> 
+              <span class="pdf-icon" title="PDF Export" (click)="printPDF('cardMapping');" style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
+              <span class="exel-icon" title="CSV Export" (click)="printCSV('cardMapping')" style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+          </span>
+        <!-- <button class="btn btn-primary mr-2" id="submit" submitted="true" >Export CSV</button> 
+        <button class="btn btn-primary" id="submit"  >Export PDF </button> --> 
+      </div>
+    </div>
+  </nb-card-header>
+<nb-card-body>
+  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
+
+
+</nb-card-body>
+<!-- <div>
+    <tbody *ngIf="tableData.length!=0">
+        <tr *ngFor="let tableData of tableData; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{tableData.Vehicle}}</td>
+          <td>{{tableData.IOCL}}</td>
+          <td>{{tableData.BPCL}}</td>
+          <td>{{tableData.ATM}} </td>
+          <td>{{tableData.HPCL}}</td> -->
+         
+  <!-- <table class="table table-bordered table-hover ">
+    <thead class="thead">
+      <tr style="margin-top:30px">
+        <th>Vehicle</th>
+        <th>IOCL</th>
+        <th>BPCL</th>
+        <th>ATM</th>
+        <th>HPCL</th> -->
+     <!-- </tr> -->
+    <!-- </thead>
+  </table>
+  </div> -->
+</nb-card>

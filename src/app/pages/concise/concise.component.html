@@ -303,7 +303,7 @@
           (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
       </div>
       <div class="" *ngIf="table" [ngClass]="isMapView ? 'col-sm-12 p-0' : 'col-sm-9 p-0'">
-        <div style=" position: relative;">
+        <div>
           <!-- ============================= SMART TABLE VIEW ============================= -->
           <div mwlResizable [enableGhostResize]="true" class="map-table-container"
             [ngStyle]="{ width: isMapView ? widths.smartTable : '100%' }" [resizeEdges]="{

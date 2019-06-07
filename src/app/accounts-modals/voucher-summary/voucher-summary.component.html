@@ -99,7 +99,8 @@
               <td>{{i+1}}</td>
               <td>
                 <input type="checkbox" [name]="'trip-' + i" [id]="'trip-' + i" [(ngModel)]="trip.isChecked"
-                  (ngModelChange)="checkedAllSelected()" [disabled]=(trip.voucher_id) >
+                  (ngModelChange)="checkedAllSelected()"
+                  [disabled]="(trip.voucher_id && (VoucherId !=trip.voucher_id))">
               </td>
               <td>{{trip.start_name}}</td>
               <td>{{trip.end_name || '--'}}</td>
@@ -159,7 +160,7 @@
               <td>{{i+1}}</td>
               <td>{{tripHead.name}}</td>
               <td>
-                <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total">
+                <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
               </td>
               <td *ngFor="let trip of tripHead.trips; let j = index;">
                 <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount"
@@ -173,7 +174,7 @@
             Total
           </div>
           <div class="total_input">
-            <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal">
+            <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled>
           </div>
           <div class="total_textarea">
             <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">

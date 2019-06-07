@@ -33,11 +33,8 @@ export class PendingVehicleComponent implements OnInit {
   documentTypes = [];
   modelType = [];
   vehicleId = -1;
-  emissionStandard = [{
-
-    id: null,
-
-  }];
+  bodyType = [];
+  emissionStandard = [];
 
   constructor(
     public api: ApiService,
@@ -46,24 +43,10 @@ export class PendingVehicleComponent implements OnInit {
     private modalService: NgbModal) {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
+    this.getAllBodyType();
     this.common.refresh = this.refresh.bind(this);
-    this.emissionStandard = [
-      {
-        id: 1,
-      },
-      {
-        id: 2,
-      },
-      {
-        id: 3,
-      },
-      {
-        id: 4,
-      },
-      {
-        id: 6,
-      }
-    ];
+    this.emissionStandard = ["Bs 1", "Bs 2", "Bs 3", "Bs 4", "Bs 6"];
+    // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
   }
 
   ngOnInit() {
@@ -74,6 +57,7 @@ export class PendingVehicleComponent implements OnInit {
     this.columns = [];
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
+    this.getAllBodyType();
   }
 
   getPendingDetailsVehicle() {
@@ -114,8 +98,18 @@ export class PendingVehicleComponent implements OnInit {
         console.log(err);
       });
   }
+
+  getAllBodyType() {
+    this.api.get('Vehicles/getVehicleBodyTypes')
+      .subscribe(res => {
+        this.bodyType = res['data'];
+        console.log("All Type Body: ", this.bodyType);
+      }, err => {
+        console.log(err);
+      });
+  }
   getAllTypesOfModel(brandId, modal?) {
-    let params = "&brandId=" + brandId;
+    let params = "brandId=" + brandId;
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
@@ -188,6 +182,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getvehiclePending(modal, isNext);
     this.modal[modal].data.docTypes = this.documentTypes;
     this.modal[modal].data.modelType = this.modelType;
+    this.modal[modal].data.bodyType = this.bodyType;
   }
 
   getvehiclePending(modal, isNext?) {
@@ -210,6 +205,8 @@ export class PendingVehicleComponent implements OnInit {
         this.modal[modal].data.document.img_url = res["data"][0]._rcimage;
         this.modal[modal].data.document.img_url2 = res["data"][0]._rcimage2;
         this.modal[modal].data.document.img_url3 = res["data"][0]._rcimage3;
+        this.modal[modal].data.document._bscode = res["data"][0]._bscode;
+        this.modal[modal].data.document.bodyTypeId = res["data"][0]._bodytypeid;
 
         this.modal[modal].data.images = [];
 
@@ -225,6 +222,10 @@ export class PendingVehicleComponent implements OnInit {
         console.log('-------------------------Images:', this.modal[modal].data);
         if (this.modal[modal].data.document.document_type_id) {
           this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
+        }
+
+        if (this.modal[modal].data.document.bodyTypeId) {
+          this.getAllBodyType();
         }
         // console.log("msg:",res["data"][0].errormsg,);   
         if (res["msg"] != "success") {
@@ -305,32 +306,7 @@ export class PendingVehicleComponent implements OnInit {
     }
   }
 
-  customerByUpdate(modal) {
-    let document = this.modal[modal].data.document;
-    const params = {
-      x_user_id: this.user._details.id,
-      x_document_id: document.id,
-      x_document_agent_id: document.agent_id,
-      x_document_number: document.doc_no,
-      x_rto: document.rto,
-      x_amount: document.amount,
-    }
 
-
-    this.common.loading++;
-    let response;
-    this.api.post('Vehicles/updateVehicleDocumentByCustomer', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("api result", res);
-        alert(res['msg']);
-        this.closeModal(true, modal);
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
-    return response;
-  }
 
   updateVehicle(modal, status?, confirm?) {
 
@@ -340,13 +316,12 @@ export class PendingVehicleComponent implements OnInit {
 
       let newDate = document.wef_date.split('/').reverse().join('-') + '-01';
       const params = {
-
         vehicleId: document.id,
         brandId: document.document_type_id,
         modelId: document.modalTypeId,
         manufacturingDate: newDate,
-        emsId: document.emissionId,
-
+        emsId: document._bscode,
+        bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
       if (!document.document_type_id) {
@@ -543,7 +518,9 @@ export class PendingVehicleComponent implements OnInit {
         newRegno: null,
         vehicle_id: null,
         wef_date: null,
-        emissionId: null,
+        _bscode: null,
+        bodyType: null,
+        bodyTypeId: null,
       },
     }
   }

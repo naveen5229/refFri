@@ -1,31 +1,32 @@
 <div class="modal-header">
-  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <h5 class="modal-title" id="modal-basic-title">Add Model Wise Maintenance</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <form>
+<form>
+  <div class="modal-body">
+
     <div class="row">
       <div class="col-md-3">
         <label>Select Models</label>
       </div>
       <div class="col-md-3">
-        <auto-suggestion (onSelected)="modelId = $event.id" display="name" placeholder="Enter Model" [data]="brands"
-          [preSelected]="null"></auto-suggestion>
+        <auto-suggestion (onSelected)="modelId = $event.id;brandId = $event.brand_id" display="name"
+          placeholder="Enter Model" [data]="brands" [preSelected]="null"></auto-suggestion>
       </div>
       <div class="col-md-3">
-        <label>Select Emission</label>
+        <label>Select Emmission</label>
       </div>
       <div class="col-md-3">
-        <select class="form-control" name="emission-type" [(ngModel)]="selectedEuro">
+        <select class="form-control" name="emmsission-type" [(ngModel)]="selectedEuro">
           <option *ngFor="let euro of euros;" [value]="euro">{{euro}}</option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label>Is in Warraty?</label>
+        <label>Is in Warranty?</label>
       </div>
       <div class="col-md-3">
         <select name="warranty" [(ngModel)]="isWarranty" class="form-control">
@@ -39,7 +40,7 @@
       <div class="col-md-3">
         <div class="row mb-0">
           <div class="col-12 pr-1">
-            <input minlength="1" class="form-control" *ngIf="isWarranty == 1" type="number" name="service-no"
+            <input max="99" class="form-control" *ngIf="isWarranty == 1" type="number" name="service-no"
               [(ngModel)]="serviceNo" />
           </div>
         </div>
@@ -52,7 +53,8 @@
       <div class="col-md-3">
         <div class="row mb-0">
           <div class="col-12 pr-1">
-            <input class="form-control" minlength="1" type="number" name="km" [(ngModel)]="nextKm" />
+            <input class="form-control" step="1000" min="0" max="10000000000" type="number" name="km"
+              [(ngModel)]="nextKm" />
           </div>
         </div>
       </div>
@@ -62,27 +64,27 @@
       <div class="col-md-3">
         <div class="row mb-0">
           <div class="col-12 pr-1">
-            <input class="form-control" minlength="1" type="number" name="month" [(ngModel)]="nextMonth" />
+            <input class="form-control" min="1" max="1000" type="number" name="month" [(ngModel)]="nextMonth" />
           </div>
         </div>
       </div>
     </div>
-  </form>
 
-</div>
-<div class="modal-footer">
-  <div class="row">
-    <div class="col text-right" *ngIf="edit==0; else update">
-      <button class="btn btn-primary" form="service-form" type="submit" (click)="addVehicleModel();" id="submit"
-        style="cursor: pointer;">{{'Submit'}}</button>
-    </div>
-    <ng-template #update>
-      <button class="btn btn-primary" form="service-form" type="submit" (click)="addVehicleModel();" id="submit"
-        style="cursor: pointer;">{{'Submit'}}</button>
-    </ng-template>
-    <div class="col">
-      <button class="btn btn-danger" type="button" (click)="closeModal(true)" id="cancel"
-        style="cursor: pointer;">{{'Cancel'}}</button>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col text-right" *ngIf="edit==0; else update">
+        <button class="btn btn-primary" form="service-form" type="submit" (click)="addVehicleModel();" id="submit"
+          style="cursor: pointer;">{{'Submit'}}</button>
+      </div>
+      <ng-template #update>
+        <button class="btn btn-primary" form="service-form" type="submit" (click)="addVehicleModel();" id="submit"
+          style="cursor: pointer;">{{'Submit'}}</button>
+      </ng-template>
+      <div class="col">
+        <button class="btn btn-danger" type="button" (click)="closeModal(true)" id="cancel"
+          style="cursor: pointer;">{{'Cancel'}}</button>
+      </div>
     </div>
   </div>
-</div>
+</form>

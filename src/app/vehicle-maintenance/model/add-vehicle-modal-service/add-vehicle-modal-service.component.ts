@@ -16,14 +16,15 @@ export class AddVehicleModalServiceComponent implements OnInit {
   brands = [];
   selectedEuro = null;
   euros = [
-    "Euro 1",
-    "Euro 2",
-    "Euro 3",
-    "Euro 4",
-    "Euro 6",
+    "BS 1",
+    "BS 2",
+    "BS 3",
+    "BS 4",
+    "BS 6",
   ];
   modelId = null;
-  isWarranty = 0;
+  brandId = null;
+  isWarranty = 1;
   serviceNo = 1;
   nextMonth = null;
   nextKm = null;
@@ -42,7 +43,7 @@ export class AddVehicleModalServiceComponent implements OnInit {
 
 
   closeModal(response) {
-    this.activeModal.close({ response: response });
+    this.activeModal.close({ response: this.brandId });
   }
 
   vehicleModalTypes() {
@@ -74,12 +75,12 @@ export class AddVehicleModalServiceComponent implements OnInit {
         console.log("response:", res);
         if (res['data'][0].r_id > 0) {
           this.common.showToast("Sucessfully Added", 10000);
+          this.nextKm = null;
+          this.nextMonth = null;
         }
         else {
           this.common.showError(res['data'][0].r_msg);
         }
-        this.nextKm = null;
-        this.nextMonth = null;
       }, err => {
         this.common.loading--;
         console.log(err);
