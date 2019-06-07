@@ -49,6 +49,7 @@ import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/cons
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
+import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 
 const routes: Routes = [{
     path: '',
@@ -278,9 +279,15 @@ const routes: Routes = [{
         {
             path: 'trip-analysis',
             component: TripAnalysisComponent,
-        }, {
+        },
+        {
             path: 'vehicles',
             component: VehiclesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vsc-diagnosis',
+            component: VscDiagnosisComponent,
             canActivate: [RouteGuard]
         }
 

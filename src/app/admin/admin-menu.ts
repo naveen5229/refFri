@@ -134,6 +134,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'VSC Diagnosis',
+        icon: 'fas fa-receipt',
+        link: '/admin/vsc-diagnosis',
+        home: true,
+    },
+    {
         title: 'Fuel',
         icon: 'fas fa-gas-pump',
         children: [
