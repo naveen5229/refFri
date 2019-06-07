@@ -43,6 +43,7 @@ export class VoucherSummaryComponent implements OnInit {
   checkall = false;
   activeId = 'creditLedger';
   tripexpvoucherid = 0;
+  voucherDetails = null;
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
@@ -75,7 +76,7 @@ export class VoucherSummaryComponent implements OnInit {
       this.creditLedger.id = this.tripVoucher.y_ledger_id;
       this.creditLedger.name = this.tripVoucher.y_ledger_name;
       this.narration = this.tripVoucher.y_naration;
-      this.date = this.common.dateFormatter(this.tripVoucher.y_date, "DDMMYYYY");
+      this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
       this.trips.map(trip => {
@@ -292,7 +293,8 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
-        this.getHeads(res['data']);
+        this.voucherDetails = res['data'];
+        this.getHeads();
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -300,16 +302,15 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  getHeads(voucherDetails?) {
+  getHeads() {
     console.log('checkedTrips', this.checkedTrips);
-    console.log("voucherDetail:", voucherDetails);
     this.common.loading++;
     this.api.post('Accounts/getLedgerHeadList', {})
       .subscribe(res => {
         console.log(res);
         this.common.loading--;
         this.tripHeads = res['data'];
-        this.handleTripHeads(voucherDetails);
+        this.handleTripHeads();
         this.tripHeads.map((tripHead, index) => this.calculateTripHeadTotal(index));
       }, err => {
         console.log(err);
@@ -318,8 +319,10 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  handleTripHeads(voucherDetails) {
+  handleTripHeads() {
+
     this.tripHeads.map(tripHead => {
+      console.log('voucherDetails:', Object.assign({}, this.voucherDetails));
       let trips = [];
       let totalRowId = -1;
       this.trips.map(trip => {
@@ -327,8 +330,8 @@ export class VoucherSummaryComponent implements OnInit {
 
         if (trip.isChecked) {
           let amount = 0;
-          if (voucherDetails) {
-            voucherDetails.map(voucherDetail => {
+          if (this.voucherDetails) {
+            this.voucherDetails.map(voucherDetail => {
               if (voucherDetail.trip_id == trip.id && tripHead.id == voucherDetail.ledger_id) {
                 tripRowId = voucherDetail.id;
                 amount = voucherDetail.amount;
@@ -352,8 +355,8 @@ export class VoucherSummaryComponent implements OnInit {
       });
       tripHead.trips = trips;
       let total = 0;
-      if (voucherDetails) {
-        voucherDetails.map(voucherDetail => {
+      if (this.voucherDetails) {
+        this.voucherDetails.map(voucherDetail => {
           if (tripHead.id == voucherDetail.ledger_id && voucherDetail.trip_id == 0) {
             totalRowId = voucherDetail.id;
             total = parseFloat(voucherDetail.amount);
@@ -527,7 +530,7 @@ export class VoucherSummaryComponent implements OnInit {
       voucher_details: this.tripHeads,
       storeid: this.storeids,
       tripExpVoucherId: tripexpvoucherid,
-      fuelFilings:this.fuelFilings
+      fuelFilings: this.fuelFilings
 
     };
     this.common.loading++;
@@ -698,6 +701,11 @@ export class VoucherSummaryComponent implements OnInit {
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
+  }
+
+  handleTripCheck(){
+
+    
   }
 
 }
