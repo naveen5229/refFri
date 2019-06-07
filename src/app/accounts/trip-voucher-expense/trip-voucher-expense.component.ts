@@ -373,7 +373,7 @@ export class TripVoucherExpenseComponent implements OnInit {
       isdate:this.vchdt
     };
     this.common.loading++;
-    this.api.post('VehicleTrips/getTripExpenceVouher', params)
+    this.api.post('VehicleTrips/getTripExpenceFilterVoucher', params)
       .subscribe(res => {
         console.log('trip expence', res);
         this.common.loading--;
