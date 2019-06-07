@@ -57,6 +57,7 @@ import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-si
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
+import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
 
 
 
@@ -129,7 +130,8 @@ const PAGES_COMPONENTS = [
     PalacementSiteRuleComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    VehiclesComponent
+    VehiclesComponent,
+    LrDiagnosticsComponent
   ],
   exports: [
   ],

@@ -77,6 +77,7 @@ export class UserService {
       { id: 43, route: '/admin/consolidate-fuel-average' },
       { id: 44, route: '/admin/fuel-analysis' },
       { id: 44, route: '/admin/vehicles' },
+      { id: 44, route: '/admin/lr-diagnostics' },
 
     ]
   }

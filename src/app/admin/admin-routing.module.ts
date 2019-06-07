@@ -48,7 +48,7 @@ import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-i
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
-
+import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -277,7 +277,12 @@ const routes: Routes = [{
             path: 'vehicles',
             component: VehiclesComponent,
             canActivate: [RouteGuard]
-        }
+        },
+        {
+            path: 'lr-diagnostics',
+            component: LrDiagnosticsComponent,
+            canActivate: [RouteGuard]
+        },
 
 
     ],

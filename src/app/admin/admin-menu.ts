@@ -267,5 +267,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/vehiclewise-tolltransaction',
         home: true,
     },
+    {
+        title: 'LR Diagnostics',
+        icon: 'fa fa-diagnostics',
+        link: '/admin/lr-diagnostics',
+        home: true,
+    },
 
 ];

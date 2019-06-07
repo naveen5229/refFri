@@ -599,3 +599,16 @@ ngb-modal-window {
 .cdk-overlay-container {
     z-index: 99999 !important;
 }
+.changeVehicle{
+    width: 50%;
+    right: 0px;
+    left: inherit;
+}
+.changeVehicle .modal-dialog,
+.lrModal .modal-dialog{
+    margin-top: 0px;
+}
+.lrModal{
+    width: 50%;
+    left: 0px;
+}
