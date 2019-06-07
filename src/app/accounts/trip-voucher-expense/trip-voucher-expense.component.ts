@@ -4,6 +4,8 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { AccountService } from '../../services/account.service';
+
 
 @Component({
   selector: 'trip-voucher-expense',
@@ -28,12 +30,21 @@ export class TripVoucherExpenseComponent implements OnInit {
   constructor(
     public api: ApiService,
     public common: CommonService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.currentPage = 'Trip Voucher Expense';
     this.getTripExpences();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    // this.getVoucherTypeList();
+    // this.getLedgerList();
+    this.getTripExpences();
   }
 
   getVehicle(vehicle) {
@@ -46,7 +57,7 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   getPendingTripsEditTime(voucherid) {
     this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else {
       const params = {
@@ -74,8 +85,10 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   getPendingTrips() {
     this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id==0) {
       this.common.showToast('please enter registration number !!')
+    }else if (this.accountService.selected.branch.id == 0) {
+      this.common.showToast('please Select Branch !!')
     } else {
       const params = {
         vehId: this.selectedVehicle.id
@@ -250,7 +263,7 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   getPendingOnEditTrips() {
     this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else {
       const params = {
@@ -296,6 +309,7 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   getVoucherSummary(tripVoucher) {
     console.log('trdhh-----', tripVoucher);
+    this.selectedVehicle.id=tripVoucher.y_vehicle_id;
     this.getPendingOnEditTrips();
     this.getPendingTripsEditTime(tripVoucher.y_id);
     const params = {

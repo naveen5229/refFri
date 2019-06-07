@@ -59,8 +59,6 @@ import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 
 
-
-
 const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
@@ -83,7 +81,6 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
-  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent
@@ -132,7 +129,6 @@ const PAGES_COMPONENTS = [
     PendingVehicleComponent,
     HaltDensityComponent,
     PalacementSiteRuleComponent,
-    ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
     TripAnalysisComponent,

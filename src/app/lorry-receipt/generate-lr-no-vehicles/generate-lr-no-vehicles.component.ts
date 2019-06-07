@@ -13,16 +13,17 @@ import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
 
 @Component({
-  selector: 'generate-lr',
-  templateUrl: './generate-lr.component.html',
-  styleUrls: ['./generate-lr.component.scss']
+  selector: 'generate-lr-no-vehicles',
+  templateUrl: './generate-lr-no-vehicles.component.html',
+  styleUrls: ['./generate-lr-no-vehicles.component.scss']
 })
-export class GenerateLRComponent implements OnInit {
+export class GenerateLrNoVehiclesComponent implements OnInit {
   materialDetails = null;
   branches = null;
   vehicleId = null;
   vehicleRegNo = null;
   mobileno;
+  vehicleno = null;
   flag = false;
   lr = {
     //branch:"Jaipur",
@@ -274,7 +275,7 @@ export class GenerateLRComponent implements OnInit {
         consigneeAddress: this.lr.consigneeAddress,
         consignorAddress: this.lr.consignorAddress,
         vehicleRegNo: document.getElementById('vehicleno')['value'],
-        lrType: 'false'
+        lrType: 'true'
       }
       console.log("params", params);
 
@@ -284,7 +285,6 @@ export class GenerateLRComponent implements OnInit {
           console.log('response :', res['data'][0].rtn_id);
           if (res['data'][0].rtn_id > 0) {
             this.common.showToast("LR Generated Successfully");
-            this.lrView(res['data'][0].rtn_id);
           } else {
             this.common.showError(res['data'][0].rtn_msg);
           }
@@ -296,14 +296,6 @@ export class GenerateLRComponent implements OnInit {
     }
   }
 
-  lrView(lrId) {
-    console.log("receipts", lrId);
-    this.common.params = { lrId: lrId }
-    const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-    });
-  }
 
   checkDateFormat() {
     let dateValue = this.lr.date;
