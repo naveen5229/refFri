@@ -602,3 +602,6 @@ ngb-modal-window {
 .k-animation-container{
     z-index: 99999;
 }
+.fade{
+    opacity: 1;
+}
