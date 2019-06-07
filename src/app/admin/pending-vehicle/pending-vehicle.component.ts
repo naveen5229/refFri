@@ -12,6 +12,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./pending-vehicle.component.scss']
 })
 export class PendingVehicleComponent implements OnInit {
+  workList = [];
+  columns2 = [];
 
   data = [];
   columns = [];
@@ -551,6 +553,27 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.bodyTypeId = listId.id;
 
 
+
+  }
+
+  getUserWorkList() {
+    this.common.loading++;
+    this.api.post('Vehicles/getUserWorkSummary', {})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.workList = res['data'];
+        if (this.workList.length) {
+          for (var key in this.workList[0]) {
+            if (key.charAt(0) != "_")
+              this.columns2.push(key);
+          }
+
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
 
   }
 
