@@ -23,6 +23,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
   vehicleId = null;
   vehicleRegNo = null;
   mobileno;
+  vehicleno = null;
   flag = false;
   lr = {
     //branch:"Jaipur",

@@ -81,7 +81,6 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
-  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent
@@ -130,7 +129,6 @@ const PAGES_COMPONENTS = [
     PendingVehicleComponent,
     HaltDensityComponent,
     PalacementSiteRuleComponent,
-    ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
     TripAnalysisComponent,
