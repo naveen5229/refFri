@@ -63,10 +63,10 @@ export class VscDiagnosisComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
-        this.siteRule = res['data'];
+        this.siteRule = res['data'] || [];
         if (this.siteRule == null) {
           this.common.showToast('Record Empty!!');
-          this.showTable = false;
+          //this.showTable = false;
         } else {
           this.common.showToast(res['msg']);
           let first_rec = this.siteRule[0];
@@ -81,9 +81,10 @@ export class VscDiagnosisComponent implements OnInit {
 
           }
           this.table.data.columns = this.getTableColumns();
+          //this.showTable = true;
           console.log("table:");
           console.log(this.table);
-          this.showTable = true;
+
           //this.table = this.setTable();
         }
 
