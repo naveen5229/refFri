@@ -58,8 +58,6 @@ import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 
 
-
-
 const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,

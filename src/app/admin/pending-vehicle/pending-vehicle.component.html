@@ -22,7 +22,7 @@
                     <span>{{row[col]}}</span>
                   </td>
                   <td class="del">
-                    <button class="btn btn-primary" title="Edit Vehicle" (click)="showDetails(row,'-1')"><i
+                    <button class="btn btn-dark pl-3 pr-3" title="Edit Vehicle" (click)="showDetails(row,'-1')"><i
                         class="icon ion-md-create"></i>
                     </button>
                     <!-- <a href="javascript: void(0);" class="delete" title="Delete Vehicle" (click)="deleteVehicle(row)"><i
@@ -107,8 +107,21 @@
             </div>
 
             <div class="row form-field clear">
-              <label for="doc_type-first" class="col-sm-4 mgn-vert">Emission Standard</label>
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Body Type</label>
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+                  <div class="col-8">
+                    <select name="body" class="form-control mt-1" [(ngModel)]="modal.first.data.document.bodyTypeId">
+                      <option class="form-control" *ngFor="let body of bodyType" [value]="body.id">
+                        {{body.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <div class="row form-field clear">
+              <label for="doc_type-first" class="col-sm-4 mgn-vert">Emission Standard</label>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
                   <div class="col-8">
@@ -118,9 +131,10 @@
                     </select>
                   </div>
                 </div>
-
               </div>
             </div>
+
+
 
 
 
@@ -242,19 +256,29 @@
             </div>
 
             <div class="row form-field clear">
-
-              <label for="doc_type-second" class="col-sm-4 mgn-vert">Model Type </label>
-
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Body Type</label>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
-                  <div class="col-2">
-                    <label>Euro </label>
+                  <div class="col-8">
+                    <select name="body" class="form-control mt-1" [(ngModel)]="modal.second.data.document.bodyTypeId">
+                      <option class="form-control" *ngFor="let body of bodyType" [value]="body.id">
+                        {{body.name}}</option>
+                    </select>
                   </div>
-                  <div class="col-6">
-                    <select name="emission" class="form-control mt-1 "
-                      [(ngModel)]="modal.second.data.document.emissionId">
-                      <option class="form-control" *ngFor="let emission of emissionStandard">
-                        {{emission.id}}</option>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row form-field clear">
+              <label for="doc_type-second" class="col-sm-4 mgn-vert">Emission Standard </label>
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
+                <div class="row">
+
+                  <div class="col-8">
+                    <select name="emission2" class="form-control mt-1" [(ngModel)]="modal.second.data.document._bscode">
+                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission">
+                        {{emission}}</option>
                     </select>
                   </div>
                 </div>

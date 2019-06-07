@@ -15,30 +15,78 @@ nb-card-header{
 //         display:block;
 //     }
 //   }
-// .mapped_table thead,
-// .mapped_table tbody{
-//     display: table;
-//     width: 100%;
-// }
-// .mapped_table{
-//     thead{
-//         tr{
-//             th{
-//                 width: 368px;
-//             }
-//             th:last-child{
-//                 width: auto;
-//             }
-//         }
-//     }
-//     tbody{
-//         tr{
-//             td{
-//                 width: 368px;
-//             }
-//             td:nth-child{
-//                 width: auto;
-//             }
-//         }
-//     }
-// }
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238; 
+        color:#fff;
+    }
+    tr{
+        th{
+            padding: 5px 10px;
+            font-weight: normal;
+            width: 200px;
+        }
+        th:nth-child(1){
+            width: 120px;
+        }
+        th:nth-child(2){
+            width: 250px;
+        }
+        th:last-child{
+            width: auto;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            width: 200px;
+            button{
+                padding: 0 !important;
+                font-size: 11px;
+                border-radius: 0px !important;
+                margin: 0px;
+                background-color: transparent;
+                color: #263238;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 172px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 120px;
+            }
+            td:nth-child(2){
+                width: 250px;
+            }
+            td:last-child{
+                width: auto;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+}
+.btn-primary{
+    width: 100%;
+    padding: 8px !important;
+    border-radius: 3px !important;
+    border: 0px;
+    margin-top: 12px;
+}
