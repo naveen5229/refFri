@@ -166,6 +166,7 @@ import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pu
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
+//import { VscDiagnosisComponent } from './admin/vsc-diagnosis/vsc-diagnosis.component';
 
 
 
@@ -297,6 +298,7 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
     PrintManifestComponent,
+    // VscDiagnosisComponent,
 
   ],
   entryComponents: [
