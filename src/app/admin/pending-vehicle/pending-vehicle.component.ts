@@ -45,7 +45,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getAllTypesOfBrand();
     this.getAllBodyType();
     this.common.refresh = this.refresh.bind(this);
-    this.emissionStandard = ["Bs 1", "Bs 2", "Bs 3", "Bs 4", "Bs 6"];
+    this.emissionStandard = ["BS 1", "BS 2", "BS 3", "BS 4", "BS 6"];
     // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
   }
 
@@ -324,6 +324,7 @@ export class PendingVehicleComponent implements OnInit {
         bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
+
       if (!document.document_type_id) {
         this.common.showError("Please enter Brand Type");
         return false;
@@ -541,7 +542,26 @@ export class PendingVehicleComponent implements OnInit {
     console.log('Date: ', this.modal[modal].data.document[dateType]);
   }
 
+
+  onbodyType(e, modal) {
+    let name = e.target.value;
+    let listId = this.bodyType.filter(x => x.name === name)[0];
+
+
+    this.modal[modal].data.document.bodyTypeId = listId.id;
+
+
+
+  }
+
+
+
+
+
 }
+
+
+
 
 
 
