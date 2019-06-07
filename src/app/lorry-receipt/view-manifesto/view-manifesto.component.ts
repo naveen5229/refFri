@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
 
 @Component({
   selector: 'view-manifesto',
@@ -143,6 +144,10 @@ export class ViewManifestoComponent implements OnInit {
 
   openViewManifestModal(manifestData) {
     console.log("====manifestData=", manifestData);
+    this.common.params = { manifestId: manifestData._id };
+    const activeModal = this.modalService.open(PrintManifestComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' })
+    activeModal.result.then(data => {
+    })
   }
 
 }

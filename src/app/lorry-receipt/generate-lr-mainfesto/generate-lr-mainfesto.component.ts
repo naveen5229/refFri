@@ -4,11 +4,12 @@ import { ApiService } from '../../services/api.service';
 import { MapService } from '../../services/map.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'generate-lr-mainfesto',
   templateUrl: './generate-lr-mainfesto.component.html',
-  styleUrls: ['./generate-lr-mainfesto.component.scss']
+  styleUrls: ['./generate-lr-mainfesto.component.scss', '../../pages/pages.component.css']
 })
 export class GenerateLrMainfestoComponent implements OnInit {
   lrDetails = [];
@@ -47,11 +48,14 @@ export class GenerateLrMainfestoComponent implements OnInit {
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
-    public mapService: MapService
+    public mapService: MapService,
+    public accountService: AccountService,
   ) {
     this.mainfesto.date = this.common.dateFormatter1(new Date(this.mainfesto.date));
     this.mainfesto.ewayExpDate = this.common.dateFormatter1(new Date(this.mainfesto.ewayExpDate));
     this.getPendingLtlLr();
+    this.api.getBranches();
+
   }
 
   ngOnInit() {
@@ -169,6 +173,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
   saveMainFesto() {
     this.common.loading++;
     let params = {
+      branchId: this.accountService.selected.branch.id,
       vehicleId: this.mainfesto.vehicleId,
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       challanNo: this.mainfesto.challanNo,
