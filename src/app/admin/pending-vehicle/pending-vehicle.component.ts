@@ -221,7 +221,6 @@ export class PendingVehicleComponent implements OnInit {
         }
         console.log('-------------------------Images:', this.modal[modal].data);
         if (this.modal[modal].data.document.document_type_id) {
-          console.log("testing111111111");
           this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
         }
 
@@ -325,7 +324,7 @@ export class PendingVehicleComponent implements OnInit {
         bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
-      return;
+
       if (!document.document_type_id) {
         this.common.showError("Please enter Brand Type");
         return false;
