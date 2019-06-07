@@ -166,7 +166,11 @@ import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pu
 
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+<<<<<<< HEAD
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+=======
+import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
+>>>>>>> 80fc90bd572b756bccc4a3d919c73e9e800640df
 
 
 
@@ -295,7 +299,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
-    BulkVehicleNextServiceDetailComponent
+    BulkVehicleNextServiceDetailComponent,
+    PrintManifestComponent,
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -417,7 +422,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     FuelfilingComponent,
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
-    PumpWiseFuelFillingComponent
+    PumpWiseFuelFillingComponent,
+    PrintManifestComponent
 
   ],
   imports: [

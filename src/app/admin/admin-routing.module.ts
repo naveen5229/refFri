@@ -47,6 +47,7 @@ import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-si
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 
 const routes: Routes = [{
@@ -273,11 +274,16 @@ const routes: Routes = [{
             path: 'placement-site-rule',
             component: PalacementSiteRuleComponent,
             canActivate: [RouteGuard]
+        },
+        {
+            path: 'trip-analysis',
+            component: TripAnalysisComponent,
         }, {
             path: 'vehicles',
             component: VehiclesComponent,
             canActivate: [RouteGuard]
         }
+
 
 
     ],

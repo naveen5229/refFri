@@ -6,10 +6,11 @@
     <table class="table table-bordered gerrate_tabel">
       <tbody>
         <tr>
-          <td><label>Vehicle No*</label></td>
+          <td><label>Vehicle No</label></td>
           <td>
             <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)" inputId="vehicleno">
+              placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)" inputId="vehicleno"
+              [(ngModel)]="vehicleno">
             </auto-suggestion>
           </td>
           <td><label>LR No*</label></td>
@@ -19,7 +20,7 @@
           </td>
         </tr>
         <tr>
-          <td><label>Date*</label></td>
+          <td><label>Date</label></td>
           <td>
             <!-- <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " class="form-control"
               autocomplete="off" name="date" placeholder="Enter Date">
@@ -43,7 +44,7 @@
           </td>
         </tr>
         <tr>
-          <td><label>Driver Mob NO* </label></td>
+          <td><label>Driver Mob NO</label></td>
           <td>
             <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
                 <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
