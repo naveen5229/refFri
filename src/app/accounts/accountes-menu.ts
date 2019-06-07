@@ -51,11 +51,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-   
+
     {
         title: 'Mapped Fuel Voucher',
         icon: 'fa fa-money-bill',
         link: '/accounts/mapped-fuel-voucher'
+    },
+    {
+        title: 'Vehicle Ledger',
+        icon: 'fa fa-money-bill',
+        link: '/accounts/vehicle-ledgers'
     },
     {
         title: 'Stock Master',
@@ -307,8 +312,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         children: [
             {
-            title: 'Trip Voucher Expense',
-            link: '/accounts/trip-voucher-expense'
+                title: 'Trip Voucher Expense',
+                link: '/accounts/trip-voucher-expense'
             },
             {
                 title: 'Fuel Fillings',
