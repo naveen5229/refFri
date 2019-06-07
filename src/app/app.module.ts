@@ -166,6 +166,8 @@ import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pu
 
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+
 
 
 @NgModule({
@@ -442,7 +444,8 @@ import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-nex
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
     }),
-    ResizableModule
+    ResizableModule,
+    DateInputsModule
   ],
 
   bootstrap: [AppComponent],

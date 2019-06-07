@@ -13,7 +13,8 @@
               </uj-date-time-picker>
             </div>
             <div class="col-md-3 pr-0">
-              <uj-date-time-picker [isTime]="false" (onChanged)="endTime = $event" [dateTimeValue]="endTime">
+              <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+                [dateTimeValue]="endTime">
               </uj-date-time-picker>
             </div>
             <div class="col-md-1 offset-md-08">
