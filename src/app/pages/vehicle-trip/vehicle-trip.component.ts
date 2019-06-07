@@ -414,10 +414,6 @@ export class VehicleTripComponent implements OnInit {
 
   }
 
-  print() {
-    const activeModal = this.modalService.open(PrintManifestComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' })
-    activeModal.result.then(data => {
-    })
-  }
+
 
 }

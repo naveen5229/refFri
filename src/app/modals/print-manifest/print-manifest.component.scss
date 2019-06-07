@@ -3,6 +3,7 @@
   }
   print-section{
     z-index: 999;
+
   }
 .btn.doNotPrint{
   padding: 5px 10px;
@@ -16,4 +17,7 @@
     width: 60%;
     padding-left: 13px;
 }
-
+@page {
+    size: 25cm 35.7cm;
+    margin: 5mm 5mm 5mm 5mm; /* change the margins as you want them to be. */
+}
