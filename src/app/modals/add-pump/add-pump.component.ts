@@ -20,21 +20,22 @@ export class AddPumpComponent implements OnInit {
   location = '';
   name = '';
   siteId = null;
-  pumpname=null;
-  final=[];
+  pumpname = null;
+  final = [];
   values;
-  position= null;
+  position = null;
   mark = null;
   para1 = null;
-  para2 =null;
-  para3 =null;
+  para2 = null;
+  para3 = null;
   title = '';
   latlong;
 
   marker = [];
   infoWindow = null;
   insideInfo = null;
-
+  typeIds = [];
+  typeId = null;
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -50,7 +51,7 @@ export class AddPumpComponent implements OnInit {
         console.log('Lat: ', lat);
         console.log('Lng: ', lng);
         console.log('Place: ', place);
-        console.log("position",this.position);
+        console.log("position", this.position);
         this.location = place;
         this.getmapData(lat, lng);
       });
@@ -62,19 +63,19 @@ export class AddPumpComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.getTypeIds();
   }
 
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     setTimeout(() => {
-        this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
         this.mapService.clearAll(true, true, { marker: true, polygons: false, polypath: false });
         this.mapService.zoomAt({ lat: lat, lng: lng });
         this.getmapData(lat, lng);
       });
-      this.mapService.addListerner(this.mapService.map, 'click', evt=> {
+      this.mapService.addListerner(this.mapService.map, 'click', evt => {
         console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
         this.latlong = [{
           lat: evt.latLng.lat(),
@@ -82,36 +83,36 @@ export class AddPumpComponent implements OnInit {
           color: 'FF0000',
           subType: 'marker'
         }];
-        this.position = evt.latLng.lat()+","+evt.latLng.lng();
-        if(this.mark!=null){
+        this.position = evt.latLng.lat() + "," + evt.latLng.lng();
+        if (this.mark != null) {
           this.mark[0].setMap(null);
           this.mark = null;
-         }
-        this.pumpname=null;
-        this.mark=this.mapService.createMarkers(this.latlong, false, true);
-          console.log("latlong",this.latlong);
-        });   
-      },1000);
+        }
+        this.pumpname = null;
+        this.mark = this.mapService.createMarkers(this.latlong, false, true);
+        console.log("latlong", this.latlong);
+      });
+    }, 1000);
     // this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => { this.siteLoc = place; this.siteLocLatLng = { lat: lat, lng: lng } });
   }
 
-  gotoSingle(){
-    console.log("position1",this.position);
+  gotoSingle() {
+    console.log("position1", this.position);
     this.final = this.position.split(",");
-    console.log("array",this.final[0]);
+    console.log("array", this.final[0]);
     this.latlong = [{
       lat: this.final[0],
       long: this.final[1],
       color: 'FF0000',
       subType: 'marker'
     }];
-    if(this.mark!=null){
+    if (this.mark != null) {
       this.mark[0].setMap(null);
       this.mark = null;
-     }
-    this.pumpname=null;
-   this.mark=this.mapService.createMarkers(this.latlong, false, true);
-    
+    }
+    this.pumpname = null;
+    this.mark = this.mapService.createMarkers(this.latlong, false, true);
+
   }
 
 
@@ -159,7 +160,7 @@ export class AddPumpComponent implements OnInit {
     console.log("Event Data:", event);
     this.siteId = event.id;
     this.pumpname = event.name;
-    console.log("pumpname and siteid",this.pumpname,this.siteId);
+    console.log("pumpname and siteid", this.pumpname, this.siteId);
   }
 
   setEventInfo(event) {
@@ -174,7 +175,7 @@ export class AddPumpComponent implements OnInit {
     <p>Pump Name :${event.name}</p>
     
     `);
-   
+
 
     // this.infoWindow.setContent("Flicker Test");
     this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long));
@@ -197,30 +198,29 @@ export class AddPumpComponent implements OnInit {
 
   submitPumpData() {
 
-    if(this.pumpname==null)
-    {
-       this.para1=this.latlong[0].lat;
-       this.para2=this.latlong[0].long;
-       console.log("latlong",this.latlong[0].lat);
-       this.para3=null;
+    if (this.pumpname == null) {
+      this.para1 = this.latlong[0].lat;
+      this.para2 = this.latlong[0].long;
+      console.log("latlong", this.latlong[0].lat);
+      this.para3 = null;
     }
-    else{
-      this.para3=this.siteId;
-      this.para1=null;
-      this.para2=null;
+    else {
+      this.para3 = this.siteId;
+      this.para1 = null;
+      this.para2 = null;
     }
 
     let params = {
       petrolPumplocation: this.location,
       petrolPumpName: this.name,
       siteId: this.para3,
-      lat:this.para1,
-      long:this.para2,
+      lat: this.para1,
+      long: this.para2,
       fuelCompany: this.fuel_company
     };
-    
-    
-    
+
+
+
     console.log("params", params);
     this.common.loading++;
     this.api.post('FuelDetails/addPetrolPump', params)
@@ -236,4 +236,41 @@ export class AddPumpComponent implements OnInit {
         console.log(err);
       });
   }
+
+  getTypeIds() {
+    this.api.post("SiteFencing/getSiteTypes", {})
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.typeIds = res['data'];
+        this.typeIds.push({ id: -1, description: "All" });
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
+
+
+  loadMarkers() {
+    let boundBox = this.mapService.getMapBounds();
+    let bounds = {
+      'lat1': boundBox.lat1,
+      'lng1': boundBox.lng1,
+      'lat2': boundBox.lat2,
+      'lng2': boundBox.lng2,
+      'typeId': this.typeId
+    };
+    this.api.post("VehicleStatusChange/getSiteAndSubSite", bounds)
+      .subscribe(res => {
+        let data = res['data'];
+        console.log('Res: ', res['data']);
+        this.mapService.clearAll();
+        this.mapService.createMarkers(data, false, true, ["id", "name"]);
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
+
 }

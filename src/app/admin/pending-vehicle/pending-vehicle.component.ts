@@ -12,6 +12,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./pending-vehicle.component.scss']
 })
 export class PendingVehicleComponent implements OnInit {
+  workList = [];
+  columns2 = [];
 
   data = [];
   columns = [];
@@ -44,6 +46,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.getAllBodyType();
+    this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
     this.emissionStandard = ["BS 1", "BS 2", "BS 3", "BS 4", "BS 6"];
     // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
@@ -58,6 +61,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.getAllBodyType();
+    this.getUserWorkList();
   }
 
   getPendingDetailsVehicle() {
@@ -369,8 +373,8 @@ export class PendingVehicleComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log("api result", res);
-          let result = (res['msg']);
-          if (result == "success") {
+          let result = (res['success']);
+          if (result == true) {
             alert("Success");
             this.closeModal(true, modal);
           }
@@ -551,6 +555,29 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.bodyTypeId = listId.id;
 
 
+
+  }
+
+  getUserWorkList() {
+    this.workList = [];
+    this.columns2 = [];
+    this.common.loading++;
+    this.api.post('Vehicles/getUserWorkSummary', {})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.workList = res['data'];
+        if (this.workList.length) {
+          for (var key in this.workList[0]) {
+            if (key.charAt(0) != "_")
+              this.columns2.push(key);
+          }
+
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
 
   }
 
