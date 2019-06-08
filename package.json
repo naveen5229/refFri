@@ -51,8 +51,8 @@
     "@nebular/theme": "3.0.0",
     "@ng-bootstrap/ng-bootstrap": "^4.1.2",
     "@progress/kendo-angular-dateinputs": "^3.7.3",
-    "@progress/kendo-angular-intl": "^1.7.0",
-    "@progress/kendo-angular-l10n": "^1.4.0",
+    "@progress/kendo-angular-intl": "^1.4.0",
+    "@progress/kendo-angular-l10n": "^1.1.0",
     "angular-resizable-element": "^3.2.4",
     "angular-tooltips": "^1.2.2",
     "angular2-chartjs": "^0.5.1",
@@ -80,11 +80,12 @@
     "pace-js": "1.0.2",
     "roboto-fontface": "0.8.0",
     "rxjs": "6.3.0",
-    "rxjs-compat": "^6.5.2",
+    "rxjs-compat": "^6.0.0",
     "socicon": "3.0.5",
     "typeface-exo": "0.0.22",
     "web-animations-js": "2.2.5",
-    "zone.js": "^0.8.29"
+    "zone.js": "^0.8.29",
+    "@progress/kendo-theme-default": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.8",

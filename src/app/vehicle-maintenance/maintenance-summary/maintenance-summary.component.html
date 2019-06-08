@@ -20,6 +20,13 @@
       <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')"
         style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
     </span>
+    <div class="row">
+      <div class="col-md-4">
+        <select (change)="typeSelected()" class="form-control mb-3" name="type" [(ngModel)]="typeId">
+          <option *ngFor="let type of types;" [value]="type.id">{{type.name}}</option>
+        </select>
+      </div>
+    </div>
     <smart-table *ngIf="maintenanceData.length" [data]="table.data" [settings]="table.settings" id="tblsummary">
     </smart-table>
     <br>

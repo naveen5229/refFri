@@ -53,10 +53,10 @@ import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.compo
 import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
-import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
+import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 
 
 const PAGES_COMPONENTS = [
@@ -81,9 +81,11 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
+  //  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
-  TripAnalysisComponent
+  TripAnalysisComponent,
+  VscDiagnosisComponent
 
 
 
@@ -129,11 +131,13 @@ const PAGES_COMPONENTS = [
     PendingVehicleComponent,
     HaltDensityComponent,
     PalacementSiteRuleComponent,
+    //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
-    VehiclesComponent
+    VehiclesComponent,
+    VscDiagnosisComponent
   ],
   exports: [
   ],

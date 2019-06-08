@@ -31,7 +31,8 @@ export class ActivityService {
   routerDetection(url) {
     const params = {
       webpage: url.split('/')[url.split('/').length - 1],
-      addtime: this.common.dateFormatter(new Date())
+      addtime: this.common.dateFormatter(new Date()),
+      type:1
     };
     this.api.post('UserRoles/setFoWebPageVisits', params)
       .subscribe(res => console.log('Page View Api Response:', res),
@@ -45,7 +46,8 @@ export class ActivityService {
 
     const params = {
       activity_type: ACTIVITIES[state],
-      addTime: this.common.dateFormatter(new Date())
+      addTime: this.common.dateFormatter(new Date()),
+      type:1
     };
 
     console.log("final param", params);

@@ -79,6 +79,7 @@ export class UserService {
       { id: 44, route: '/admin/fuel-analysis' },
       { id: 45, route: '/admin/vehicles' },
       { id: 46, route: '/admin/trip-analysis' },
+      { id: 47, route: '/admin/vsc-diagnosis' },
 
 
     ]
