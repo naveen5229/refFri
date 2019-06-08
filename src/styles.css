@@ -612,3 +612,9 @@ ngb-modal-window {
     width: 50%;
     left: 0px;
 }
+.k-animation-container{
+    z-index: 99999;
+}
+.fade{
+    opacity: 1;
+}

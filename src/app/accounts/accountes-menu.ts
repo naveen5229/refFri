@@ -51,11 +51,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
         ],
     },
-   
+
     {
         title: 'Mapped Fuel Voucher',
         icon: 'fa fa-money-bill',
         link: '/accounts/mapped-fuel-voucher'
+    },
+    {
+        title: 'Vehicle Ledger',
+        icon: 'fa fa-money-bill',
+        link: '/accounts/vehicle-ledgers'
     },
     {
         title: 'Stock Master',
@@ -300,16 +305,36 @@ export const MENU_ITEMS: NbMenuItem[] = [
             }
         ]
     },
+
     {
-        title: 'Trip Voucher Expense',
-        icon: 'fas fa-money-check-alt',
-        link: '/accounts/trip-voucher-expense'
+        title: 'Advance Voucher',
+        icon: 'fa fa-building-o',
+
+        children: [
+            {
+                title: 'Trip Voucher Expense',
+                link: '/accounts/trip-voucher-expense'
+            },
+            {
+                title: 'Trip Voucher Expense(Short)',
+                link: '/accounts/trip-voucher-expense/1'
+             },
+            {
+                title: 'Fuel Fillings',
+                link: '/accounts/fuelfillings'
+            },
+        ]
     },
-    {
-        title: 'Fuel Fillings',
-        icon: 'fas fa-money-check-alt',
-        link: '/accounts/fuelfillings'
-    },
+    // {
+    //     title: 'Trip Voucher Expense',
+    //     icon: 'fas fa-money-check-alt',
+    //     link: '/accounts/trip-voucher-expense'
+    // },
+    // {
+    //     title: 'Fuel Fillings',
+    //     icon: 'fas fa-money-check-alt',
+    //     link: '/accounts/fuelfillings'
+    // },
 
 
 

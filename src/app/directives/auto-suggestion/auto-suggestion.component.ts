@@ -28,6 +28,7 @@ export class AutoSuggestionComponent implements OnInit {
   @Input() controlName: string;
   @Input() apiHitLimit: Number;
   @Input() isNoDataFoundEmit: boolean;
+  @Input() isMultiSelect: boolean;
   counter = 0;
   searchText = '';
   showSuggestions = false;
@@ -36,6 +37,7 @@ export class AutoSuggestionComponent implements OnInit {
   displayType = 'string';
   searchForm = null;
   activeSuggestion = -1;
+  selectedSuggestions = [];
 
   constructor(public api: ApiService,
     private cdr: ChangeDetectorRef,
@@ -78,6 +80,7 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   handlePreSelection() {
+    console.log('Preselected:');
     this.selectedSuggestion = this.preSelected;
     if (typeof (this.display) != 'object')
       this.searchText = this.preSelected[this.display];
@@ -122,12 +125,18 @@ export class AutoSuggestionComponent implements OnInit {
 
   selectSuggestion(suggestion) {
     // this.searchText = suggestion[this.display];
-    this.searchText = this.generateString(suggestion);
-    this.selectedSuggestion = suggestion;
-    this.showSuggestions = false;
-    this.onSelected.emit(suggestion);
-    this.activeSuggestion = -1;
+    if (this.isMultiSelect) {
+      this.selectedSuggestions.push(suggestion);
+      this.onSelected.emit(this.selectedSuggestions);
+      this.searchText = '';
+    } else {
+      this.selectedSuggestion = suggestion;
+      this.onSelected.emit(suggestion);
+      this.searchText = this.generateString(suggestion);
+    }
 
+    this.showSuggestions = false;
+    this.activeSuggestion = -1;
   }
 
   generateString(suggestion) {

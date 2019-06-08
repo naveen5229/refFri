@@ -163,12 +163,17 @@ import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.comp
 import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
 import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
-
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
 
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
+//import { VscDiagnosisComponent } from './admin/vsc-diagnosis/vsc-diagnosis.component';
+
+
+import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
 
 
 @NgModule({
@@ -300,6 +305,10 @@ import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.compone
     UnmappedLrComponent,
     MappedLrComponent,
 
+    PrintManifestComponent,
+    // VscDiagnosisComponent,
+
+    VoucherSummaryShortComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -424,7 +433,8 @@ import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.compone
     PumpWiseFuelFillingComponent,
     UnmappedLrComponent,
     MappedLrComponent,
-
+    PrintManifestComponent,
+    VoucherSummaryShortComponent
 
   ],
   imports: [
@@ -451,7 +461,8 @@ import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.compone
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
     }),
-    ResizableModule
+    ResizableModule,
+    DateInputsModule
   ],
 
   bootstrap: [AppComponent],

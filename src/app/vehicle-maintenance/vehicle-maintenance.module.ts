@@ -45,6 +45,7 @@ const PAGES_COMPONENTS = [
     ViewMaintenanceComponent,
     AddVehicleModalServiceComponent,
     MaintenanaceDashboardComponent,
+    MaintenanceSummaryComponent,
     MaintenanceReportComponent
   ]
 })
