@@ -475,7 +475,6 @@ export class PendingVehicleComponent implements OnInit {
     let name = modalType.target.value;
     let modelId = this.modelType.filter(x => x.name === name)[0];
     this.modal[modal].data.document.modalTypeId = modelId.id;
-    this.modelType = [];
     console.log("Modal Type:", this.modal[modal].data.document.modalTypeId);
   }
 
