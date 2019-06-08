@@ -78,8 +78,10 @@ export class UserService {
       { id: 43, route: '/admin/consolidate-fuel-average' },
       { id: 44, route: '/admin/fuel-analysis' },
       { id: 45, route: '/admin/vehicles' },
-      { id: 46, route: '/admin/trip-analysis' },
-      { id: 47, route: '/admin/vsc-diagnosis' },
+      { id: 46, route: '/admin/lr-diagnostics' },
+      { id: 47, route: '/admin/vehicles' },
+      { id: 48, route: '/admin/trip-analysis' },
+      { id: 49, route: '/admin/vsc-diagnosis' },
 
 
     ]
