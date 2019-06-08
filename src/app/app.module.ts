@@ -167,8 +167,10 @@ import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
+//import { VscDiagnosisComponent } from './admin/vsc-diagnosis/vsc-diagnosis.component';
 
 
+import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
 
 
 @NgModule({
@@ -298,7 +300,9 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
     PrintManifestComponent,
+    // VscDiagnosisComponent,
 
+    VoucherSummaryShortComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -421,7 +425,8 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
-    PrintManifestComponent
+    PrintManifestComponent,
+    VoucherSummaryShortComponent
 
   ],
   imports: [

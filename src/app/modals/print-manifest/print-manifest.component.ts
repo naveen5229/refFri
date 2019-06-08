@@ -12,25 +12,8 @@ import { DatePipe } from '@angular/common';
 })
 export class PrintManifestComponent implements OnInit {
 
-  printDetails = {
-    logo: 'Logo',
-    companyName: 'Nikita Cargo Movers',
-    challanNo: 264525,
-    address: 'DLF Limited DLF Gateway Tower, R Block,DLF City Phase – III,Gurugram – 122002, Haryana Tel: +91-124-4396000',
-    date: '20-05-2019',
-    truckNo: 741454,
-    from: 'jaipur',
-    to: 'Kota',
-    owner: 'Nikhil',
-    ownerMobile: 9782945029,
-    ownerPan: 'GCCIX451X',
-    driver: 'Ajay',
-    driverMobile: 9545458444,
-    broker: 'Vijay',
-    brokerMobile: 7845648545,
-
-
-  }
+  manifestDetail = null;
+  lrdescriptions = null
 
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -38,15 +21,34 @@ export class PrintManifestComponent implements OnInit {
     public mapService: MapService,
     public datepipe: DatePipe,
     public renderer: Renderer
-  ) { }
+  ) {
+    let manifestId = this.common.params.manifestId;
+    this.getManifestDetail(manifestId);
+  }
 
   ngOnInit() {
   }
   closeModal() {
     this.activeModal.close();
+    this.renderer.setElementClass(document.body, 'test', false);
   }
 
-  print() {
+  getManifestDetail(manifestId) {
+
+    let params = "manifestId=" + manifestId;
+    this.common.loading++;
+    this.api.get('LorryReceiptsOperation/printLrManifest?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        this.manifestDetail = res['data'][0];
+        this.lrdescriptions = JSON.parse(this.manifestDetail.lrdetails);
+        console.log('manifestDetail', this.manifestDetail);
+        console.log('lrdescriptions', this.lrdescriptions);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
 
   }
 

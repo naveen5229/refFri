@@ -83,16 +83,16 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            button{
-                padding: 0 !important;
-                font-size: 11px;
-                border-radius: 0px !important;
-                margin: 0px;
-                background-color: transparent;
-                color: #263238;
-                outline: none;
-                box-shadow: none;
-            }
+            // button{
+            //     padding: 0 !important;
+            //     font-size: 11px;
+            //     border-radius: 0px !important;
+            //     margin: 0px;
+            //     background-color: transparent;
+            //     color: #263238;
+            //     outline: none;
+            //     box-shadow: none;
+            // }
             input[type=number]{
                 width: 100px;
             }
@@ -129,7 +129,9 @@ table{
 } 
 .table_box_three{
     table{
-        width: 100%;
+        display: block;
+        overflow: auto;
+        max-height: 532px;
         thead{
             display: table-row-group;
             tr{
@@ -147,6 +149,31 @@ table{
                     display: table-cell;
                 }
             }
+        }
+    }
+}
+.invoice_tabel{
+    tr{
+        th:first-child{
+            width: 110px !important;
+        }
+        td:first-child{
+            width: 110px !important;
+        }
+        th:nth-child(2){
+            width: 100px !important;
+        }
+        td:nth-child(2){
+            width: 100px !important;
+        }
+        th:nth-child(3){
+            width: 155px !important;
+        }
+        td:nth-child(3){
+            width: 155px !important;
+        }
+        input{
+            width: 100% !important;
         }
     }
 }
@@ -179,4 +206,14 @@ table{
 }
 input:read-only {
     background-color: #ccc;
-  }
+}
+.show-head-tabel{
+    .col-4{
+        flex: 0 0 28.33333333%;
+        max-width:28.333333%;
+    }
+    .col-2{
+        flex: 0 0 20.666667%;
+        max-width: 20.666667%;
+    }
+}
