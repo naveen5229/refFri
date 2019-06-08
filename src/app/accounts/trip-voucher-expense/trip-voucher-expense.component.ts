@@ -180,6 +180,16 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    let activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if ((key == 'backspace'||key == 'delete') && activeId =='suggestion' ) {
+      /***************************** Handle Row Enter ******************* */
+     this.selectedVehicle.id=0;
+    }
+
+  }
   checkedAllSelected() {
     this.checkedTrips = [];
     for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
