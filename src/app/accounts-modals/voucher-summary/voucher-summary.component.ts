@@ -561,7 +561,8 @@ export class VoucherSummaryComponent implements OnInit {
     const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
-      if (data.response) {
+      if (data) {
+        this.getPendingTrips();
         //this.addLedger(data.ledger);
       }
     });
@@ -596,6 +597,38 @@ export class VoucherSummaryComponent implements OnInit {
     const activeModal = this.modalService.open(AddDriverComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Date:', data);
+    });
+  }
+
+  getPendingTrips() {
+      const params = {
+        vehId: this.VehicleId
+      };
+      this.common.loading++;
+      this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+         // console.log(res);
+          this.common.loading--;
+         // this.showTripSummary(res['data']);
+          //this.flag=false;
+          this.trips = res['data'];
+
+          this.refreshAddTrip();
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    
+  }
+
+
+  refreshAddTrip() {
+    this.trips.map(trip => {
+      this.tripsEditData.map(tripedit => {
+        (trip.id == tripedit.id) ? trip.isChecked = true : '';
+      })
     });
   }
 

@@ -46,6 +46,8 @@ export class VoucherSummaryShortComponent implements OnInit {
   activeId = 'creditLedger';
   tripexpvoucherid = 0;
   voucherDetails = null;
+  driverTotal=0;
+  netTotal=0;
   accDetails = [{
     detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
     detailamount: 0,
@@ -97,18 +99,24 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
 
-      this.accDetails = [];
-      this.common.params.tripExpDriver.forEach(tripExpDriver => {
-        this.accDetails.push({
-          detaildate: this.common.dateFormatternew(tripExpDriver.date).split(' ')[0],
-          detailamount: parseFloat(tripExpDriver.amount),
-          detailramarks: tripExpDriver.remarks,
-          detailLedger: {
-            name: tripExpDriver.ledger_name,
-            id: tripExpDriver.ledger_id
-          }
-        })
-      });
+     
+      if(this.common.params.tripExpDriver.length>0){
+        console.log('fill Array',this.common.params.tripExpDriver);
+        this.accDetails = [];
+        this.common.params.tripExpDriver.forEach(tripExpDriver => {
+          this.accDetails.push({
+            detaildate: this.common.dateFormatternew(tripExpDriver.date).split(' ')[0],
+            detailamount: parseFloat(tripExpDriver.amount),
+            detailramarks: tripExpDriver.remarks,
+            detailLedger: {
+              name: tripExpDriver.ledger_name,
+              id: tripExpDriver.ledger_id
+            }
+          })
+        });
+      }else{
+        console.log('Not fill Array',this.common.params.tripExpDriver);
+      }
 
       // this.accDetails = this.common.params.tripExpDriver;
 
@@ -592,6 +600,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       total += parseFloat(trip.total);
     });
     this.alltotal = total;
+    this.netTotal=(this.driverTotal-this.alltotal);
     console.log('VoucherData: ', this.VoucherData);
   }
 
@@ -600,6 +609,15 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.tripHeads.map(trip => {
       this.alltotal += parseFloat(trip.total);
     });
+    this.netTotal=(this.driverTotal-this.alltotal);
+  }
+
+  driverSum(){
+    this.driverTotal = 0;
+    this.accDetails.map(detail => {
+      this.driverTotal += detail.detailamount;
+    });
+    this.netTotal=(this.driverTotal-this.alltotal);
   }
 
   dismiss(status) {

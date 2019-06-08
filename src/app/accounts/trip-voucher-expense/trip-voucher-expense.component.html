@@ -56,6 +56,7 @@
         <thead style="background-color:#263238; color:#fff;">
           <tr>
             <th>SN</th>
+            <th>Date</th>
             <th>Vehicle Name</th>
             <th>Code</th>
             <th>Ref No</th>
@@ -68,6 +69,7 @@
         <tbody>
           <tr *ngFor="let tripVoucher of tripVouchers;let i=index;"  (dblclick)="getVoucherSummary(tripVoucher)">
             <td>{{i+1}}</td>
+            <td>{{tripVoucher.y_date}}</td>
             <td>{{tripVoucher.y_vehicle_name}}</td>
             <td>{{tripVoucher.y_code }}</td>
             <td>{{tripVoucher.y_ref_no }}</td>

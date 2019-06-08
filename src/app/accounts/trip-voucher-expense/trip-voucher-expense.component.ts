@@ -422,7 +422,7 @@ export class TripVoucherExpenseComponent implements OnInit {
        
    
 
-    if(this.routId==1){
+    if(tripVoucher.y_vouchertype_id==-151){
       let tripExpDriver=this.tripExpDriver;
     this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
 
