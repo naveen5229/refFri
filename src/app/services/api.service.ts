@@ -18,7 +18,6 @@ export class ApiService {
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
   // URL: string = 'http://192.168.0.189/booster_webservices/'; // vishal
  // http://192.168.0.189/booster_webservices/UserRoles/setFoWebPageVisits
-
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
   UrlTranstruckNew: string = 'http://elogist.in/transtrucknew/';
