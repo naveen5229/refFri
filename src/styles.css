@@ -605,3 +605,9 @@ ngb-modal-window {
 .fade{
     opacity: 1;
 }
+.search_vehicle_input .tagsinput{
+    padding: 1px !important;
+}
+.search_vehicle_input .tagsinput input{
+    width: 100%;
+}
