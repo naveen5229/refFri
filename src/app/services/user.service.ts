@@ -80,7 +80,9 @@ export class UserService {
       { id: 45, route: '/admin/vehicles' },
       { id: 46, route: '/admin/trip-analysis' },
       { id: 47, route: '/admin/vsc-diagnosis' },
-      { id: 48, route: '/admin/view-modal-service' }
+      { id: 48, route: '/admin/view-modal-service' },
+      { id: 49, route: '/admin/view-sub-modal-service' }
+
     ]
   }
 

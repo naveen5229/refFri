@@ -348,6 +348,12 @@ export class DataService {
             icon: 'fa fa-pencil-square-o',
             link: '/admin/view-modal-service',
           },
+          {
+            title: 'Sub Serivce Modal',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-sub-modal-service',
+          },
+         
         ]
       },
 
