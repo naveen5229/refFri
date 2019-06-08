@@ -116,6 +116,21 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/generate-lr',
       },
       {
+        title: 'Generate LTL',
+        icon: 'fa fa-pencil',
+        link: '/pages/generate-lr-no-vehicles',
+      },
+      {
+        title: 'Generate LR Manifest',
+        icon: 'fa fa-pencil',
+        link: '/pages/generate-lr-mainfesto',
+      },
+      {
+        title: 'View LR Manifest',
+        icon: 'fa fa-pencil',
+        link: '/pages/view-manifesto',
+      },
+      {
         title: 'Expenses',
         icon: 'fa fa-book',
         link: '/pages/expenses',

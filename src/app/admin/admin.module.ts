@@ -49,15 +49,14 @@ import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.
 import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
 import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
 import { VehiclewiseTolltransactionComponent } from './vehiclewise-tolltransaction/vehiclewise-tolltransaction.component';
-
-
 import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
 import { HaltDensityComponent } from './halt-density/halt-density.component';
 import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
-
+import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 
 
 const PAGES_COMPONENTS = [
@@ -82,8 +81,14 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
+  //  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
-  FuelAnalysisComponent
+  FuelAnalysisComponent,
+  TripAnalysisComponent,
+  VscDiagnosisComponent
+
+
+
 ];
 @NgModule({
   imports: [
@@ -123,13 +128,16 @@ const PAGES_COMPONENTS = [
     TollTransactionSummaryComponent,
     ManualTollTransactionSummaryComponent,
     VehiclewiseTolltransactionComponent,
-
     PendingVehicleComponent,
     HaltDensityComponent,
     PalacementSiteRuleComponent,
+    //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    VehiclesComponent
+    TripAnalysisComponent,
+    FuelAnalysisComponent,
+    VehiclesComponent,
+    VscDiagnosisComponent
   ],
   exports: [
   ],

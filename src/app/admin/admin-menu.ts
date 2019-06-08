@@ -128,6 +128,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Trip Diagnosis',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-analysis',
+        home: true,
+    },
+    {
+        title: 'VSC Diagnosis',
+        icon: 'fas fa-receipt',
+        link: '/admin/vsc-diagnosis',
+        home: true,
+    },
+    {
         title: 'Fuel',
         icon: 'fas fa-gas-pump',
         children: [
@@ -162,7 +174,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 home: true,
             },
             {
-                title: 'Fuel Analysis',
+                title: 'Fuel Diagnosis',
                 icon: 'fa fa-signal',
                 link: '/admin/fuel-analysis',
                 home: true,
