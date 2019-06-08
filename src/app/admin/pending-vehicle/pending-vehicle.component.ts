@@ -224,10 +224,9 @@ export class PendingVehicleComponent implements OnInit {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
         }
         console.log('-------------------------Images:', this.modal[modal].data);
-        if (this.modal[modal].data.document_type_id) {
 
-          this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
-        }
+
+        this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
 
 
         if (this.modal[modal].data.document.bodyTypeId) {
@@ -330,7 +329,6 @@ export class PendingVehicleComponent implements OnInit {
         bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
-      return;
 
       if (!document.document_type_id) {
         this.common.showError("Please enter Brand Type");
@@ -464,6 +462,8 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   selectBrandType(brandType, modal) {
+    this.modelType = [];
+    this.modal[modal].data.document.modalTypeId = null;
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
     // console.log("doc var", this.modal[modal].data.document.document_type_id);
