@@ -213,6 +213,11 @@ export class DataService {
             icon: 'fa fa-pencil',
             link: '/admin/generate-lr',
           },
+          {
+            title: 'LR Diagnostics',
+            icon: 'fa fa-diagnostics',
+            link: '/admin/lr-diagnostics',
+          },
         ]
       },
       {
