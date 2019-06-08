@@ -124,11 +124,19 @@
                 <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectModelType($event, 'first')"
+                <!-- <auto-suggestion (onSelected)="selectModelType($event, 'first')"
                   (focusout)="openNextModal('second',modal.first.data.document.id)" display="name"
                   [data]="modal.first.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
                   class="documentType " style='width: 60% !important;'>
-                </auto-suggestion>
+                </auto-suggestion> -->
+
+
+                <input type="text" list="modelType" name="modeltype" placeholder="Enter Model Type"
+                  class="form-control mt-1" (change)="selectModelType($event,'first')">
+                <datalist id="modelType">
+                  <option *ngFor="let model of modelType;" class="form-contol"> {{model.name}}
+                  </option>
+                </datalist>
               </div>
             </div>
 
@@ -139,7 +147,8 @@
                   <div class="col-8">
 
                     <input type="text" list="document_type1" name="bodytype" class="form-control mt-1"
-                      (change)="onbodyType($event,'first')">
+                      (change)="onbodyType($event,'first')"
+                      (focusout)="openNextModal('second',modal.first.data.document.id)">
                     <datalist id="document_type1">
                       <option *ngFor="let body of bodyType;" class="form-contol"> {{body.name}}
                       </option>
@@ -278,11 +287,20 @@
                 <label style="font-size:16px;">{{modal.second.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectModelType($event, 'second')"
+                <!-- <auto-suggestion (onSelected)="selectModelType($event, 'second')"
                   (focusout)="openNextModal('first',modal.second.data.document.id)" display="name"
                   [data]="modal.second.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
                   class="documentType " style='width: 60% !important;'>
-                </auto-suggestion>
+                </auto-suggestion> -->
+
+
+
+                <input type="text" list="modelType2" name="modeltype2" placeholder="Enter Model Type"
+                  class="form-control mt-1" (change)="selectModelType($event,'second')">
+                <datalist id="modelType2">
+                  <option *ngFor="let model of modelType;" class="form-contol"> {{model.name}}
+                  </option>
+                </datalist>
               </div>
             </div>
 
@@ -293,7 +311,8 @@
                   <div class="col-8">
 
                     <input type="text" list="document_type2" name="body2" class="form-control mt-1"
-                      (change)="onbodyType($event,'second')">
+                      (change)="onbodyType($event,'second')"
+                      (focusout)="openNextModal('second',modal.second.data.document.id)">
                     <datalist id="document_type2">
                       <option *ngFor="let body of bodyType;" class="form-contol"> {{body.name}}
                       </option>
