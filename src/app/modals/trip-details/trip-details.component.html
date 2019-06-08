@@ -11,20 +11,15 @@
       <label>{{vehicleRegNo}}</label>
     </div>
 
-    <div class="col-2">
+    <div class="col-3">
 
       <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
       </uj-date-time-picker>
-      <!-- <input type="text" class="form-control" [ngModel]="startDate | customDate : 'dd-MM-yyyy'"
-            (ngModelChange)="startDate = dateService.handleCustomDate($event)" maxlength="10" name="start"
-            placeholder="Start Date" (dblclick)="getDate('start')"> -->
-    </div>
-    <!-- <div class="col-5 pl-1">
-          <input type="time" class="form-control" name="startTimePeriod" placeholder="HH:mm"
-            [(ngModel)]="startTimePeriod">
-        </div> -->
 
-    <div class="col-2">
+    </div>
+
+
+    <div class="col-3">
       <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
       </uj-date-time-picker>
     </div>

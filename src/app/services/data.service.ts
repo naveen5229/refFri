@@ -339,6 +339,17 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
+      {
+        title: 'maintenance',
+        icon: 'fa fa-file-alt',
+        children: [
+          {
+            title: 'Serivce Modal',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-modal-service',
+          },
+        ]
+      },
 
     ];
   }

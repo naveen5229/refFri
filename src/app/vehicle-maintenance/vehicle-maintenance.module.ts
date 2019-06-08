@@ -14,6 +14,7 @@ import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-s
 import { MaintenanceReportComponent } from './model/maintenance-report/maintenance-report.component';
 import { AddVehicleModalServiceComponent } from './model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 import { ViewModalServiceComponent } from './view-modal-service/view-modal-service.component';
+import { SharedModule } from '../shared.module';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -25,7 +26,8 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     DirectiveModule,
-    ImageViewerModule
+    ImageViewerModule,
+    SharedModule
   ],
   providers: [DatePipe],
   declarations: [
@@ -36,17 +38,17 @@ const PAGES_COMPONENTS = [
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
     MaintenanceReportComponent,
-    AddVehicleModalServiceComponent,
-    ViewModalServiceComponent,
-
   ],
   entryComponents: [
     AddMaintenanceComponent,
     ViewMaintenanceComponent,
-    AddVehicleModalServiceComponent,
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
     MaintenanceReportComponent
-  ]
+  ],
+  exports: [
+    ViewModalServiceComponent,
+
+  ],
 })
 export class VehicleMaintenanceModule { }
