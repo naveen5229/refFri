@@ -560,7 +560,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.common.params = { vehId };
     const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
+       console.log('Data5555555: ', data);
       if (data) {
         this.getPendingTrips();
         //this.addLedger(data.ledger);
