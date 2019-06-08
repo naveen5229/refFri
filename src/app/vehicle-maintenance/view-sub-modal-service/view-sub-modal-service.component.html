@@ -8,7 +8,7 @@
               <label>Brand</label>
             </div>
             <div class="col-md-2">
-              <auto-suggestion (onSelected)="brandId = $event.id;vehicleModelTypes($event.id);" display="name"
+              <auto-suggestion (onSelected)="brandId = $event.id;vehicleModelTypes();" display="name"
                 placeholder="Enter Brand" [data]="brands" [preSelected]="null"></auto-suggestion>
             </div>
             <div class="col-md-1 pt-3">
