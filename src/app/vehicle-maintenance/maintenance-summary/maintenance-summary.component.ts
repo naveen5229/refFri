@@ -23,6 +23,13 @@ export class MaintenanceSummaryComponent implements OnInit {
       hideHeader: true
     }
   };
+  types = [
+    { id: -1, name: "All" },
+    { id: 0, name: "Normal" },
+    { id: 1, name: "Expired" },
+    { id: 2, name: "Expiring in 30 days" }
+  ];
+  typeId = "-1";
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -59,31 +66,17 @@ export class MaintenanceSummaryComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.maintenanceData = res['data'];
-        console.info("dashbord Data", this.maintenanceData);
-        let first_rec = this.maintenanceData[0];
-        this.table.data.headings = {};
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
-            this.headings.push(key);
-            let hdgobj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-            this.table.data.headings[key] = hdgobj;
-          }
-        }
-        console.log("hdgs:");
-        console.log(this.headings);
-        console.log(this.table.data.headings);
-
-        this.table.data.columns = this.getTableColumns();
+        this.setTable(res['data']);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
 
-  getTableColumns() {
+  getTableColumns(data) {
     let columns = [];
 
-    this.maintenanceData.map(doc => {
+    data.map(doc => {
       let valobj = {};
       let total = {};
       let docobj = { maintenance_type_id: 0 };
@@ -91,7 +84,7 @@ export class MaintenanceSummaryComponent implements OnInit {
         let strval = doc[this.headings[i]];
         let status = '';
         let val = 0;
-        if (strval.indexOf('_') > 0) {
+        if (strval && (strval + "").indexOf('_') > 0) {
           let arrval = strval.split('_');
           status = arrval[0];
           val = arrval[1];
@@ -99,9 +92,7 @@ export class MaintenanceSummaryComponent implements OnInit {
           val = strval;
         }
         docobj.maintenance_type_id = doc['_type_id'];
-        valobj[this.headings[i]] = { value: val, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
-
-
+        valobj[this.headings[i]] = { value: val };//, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
       }
 
       columns.push(valobj);
@@ -149,6 +140,49 @@ export class MaintenanceSummaryComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+  typeSelected() {
+    console.log("type", this.typeId);
+
+    switch (parseInt(this.typeId)) {
+      case -1:
+        this.setTable(this.maintenanceData);
+        break;
+      case 0:
+      case 1:
+      case 2:
+        this.setTable(this.maintenanceData.filter(data => data._statusid == this.typeId));
+      default:
+        break;
+    }
+  }
+  setTable(data) {
+    console.log("data Count", data.length);
+    this.headings = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    console.info("dashbord Data", data);
+    let first_rec = data[0];
+    this.table.data.headings = {};
+    for (var key in first_rec) {
+      if (key.charAt(0) != "_") {
+        this.headings.push(key);
+        let hdgobj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        this.table.data.headings[key] = hdgobj;
+      }
+    }
+    console.log("hdgs:");
+    console.log(this.headings);
+    console.log(this.table.data.headings);
+
+    this.table.data.columns = this.getTableColumns(data);
   }
 
 }

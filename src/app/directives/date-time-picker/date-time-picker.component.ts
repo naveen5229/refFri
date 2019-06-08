@@ -12,6 +12,7 @@ export class DateTimePickerComponent implements OnInit {
   @Input() dateFormat: string = "dd-MM-yyyy";
   @Input() timeFormat: string = "HH:mm";
   @Input() isTime: boolean;
+  @Input() isStart: boolean;
   @Input() isDate: boolean;
   @Input() isForm: boolean;
   @Input() dateTimeValue: Date;
@@ -21,17 +22,26 @@ export class DateTimePickerComponent implements OnInit {
     this.isDate = true;
     this.isTime = true;
     this.isForm = true;
+    this.isStart = true;
   }
 
   ngOnInit() {
 
   }
 
+  ngAfterViewInit() {
+    if (!this.isTime) {
+      if (this.isStart)
+        this.onChanged.emit(new Date(this.dateTimeValue.setHours(0, 0, 0, 0)));
+      else
+        this.onChanged.emit(new Date(this.dateTimeValue.setHours(23, 59, 59, 0)));
+    }
+  }
+
   setDate(event: Date, type) {
     console.log("Event", event, "Type", type);
     this.onChanged.emit(event);
-    // let dateSend = (event.getMonth() + 1) + "-" + event.getDate() + "-" + event.getFullYear();
-    // let time = (this.timeValue.getHours()) + ":" + this.timeValue.getMinutes() + ":" + this.timeValue.getSeconds();
+
   }
 
 }
