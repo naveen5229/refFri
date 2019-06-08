@@ -116,6 +116,12 @@ export class DataService {
             link: '/admin/trip-analysis',
             home: true,
           },
+          {
+            title: 'VSC Diagnosis',
+            icon: 'fa fa-arrows-alt',
+            link: '/admin/vsc-diagnosis',
+            home: true,
+          },
         ]
       },
 
