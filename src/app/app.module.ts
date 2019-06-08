@@ -171,6 +171,8 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
 
 
 import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 
 
 @NgModule({
@@ -301,8 +303,9 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
     BulkVehicleNextServiceDetailComponent,
     PrintManifestComponent,
     // VscDiagnosisComponent,
-
-    VoucherSummaryShortComponent
+    VoucherSummaryShortComponent,
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -426,7 +429,9 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
     PrintManifestComponent,
-    VoucherSummaryShortComponent
+    VoucherSummaryShortComponent,
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent
 
   ],
   imports: [
