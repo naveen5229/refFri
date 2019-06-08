@@ -83,7 +83,8 @@ export class TicketSubscribeComponent implements OnInit {
       Type: { title: 'Type', placeholder: 'Type' },
       isActive: { title: 'isActive', placeholder: 'isActive' },
       isOld: { title: 'isOld', placeholder: 'isOld' },
-      Name: { title: 'Name', placeholder: 'Name' }
+      Name: { title: 'Name', placeholder: 'Name' },
+      action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
 
 
@@ -106,13 +107,22 @@ export class TicketSubscribeComponent implements OnInit {
         Type: { value: R.type },
         isActive: { value: R.is_active },
         isOld: { value: R.is_old },
-        Name: { value: R.name }
+        Name: { value: R.name },
+        action: {
+          value: '', isHTML: false, action: null, icons: [
+            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editTicketSubscribe.bind(this, R) },
+          ]
+        },
       };
 
       columns.push(column);
 
     });
     return columns;
+  }
+
+  editTicketSubscribe() {
+
   }
 
 }
