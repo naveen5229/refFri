@@ -113,6 +113,10 @@ const routes: Routes = [{
             component: TripVoucherExpenseComponent
         },
         {
+            path: 'trip-voucher-expense/:id',
+            component: TripVoucherExpenseComponent
+        },
+        {
             path: 'outstanding',
             component: OutstandingComponent
         },

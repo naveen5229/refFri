@@ -316,6 +316,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/trip-voucher-expense'
             },
             {
+                title: 'Trip Voucher Expense(Short)',
+                link: '/accounts/trip-voucher-expense/1'
+             },
+            {
                 title: 'Fuel Fillings',
                 link: '/accounts/fuelfillings'
             },

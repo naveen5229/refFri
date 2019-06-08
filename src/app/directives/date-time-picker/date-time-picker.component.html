@@ -1,5 +1,5 @@
 <div class="date-time-container row m-0">
-  <div class="date-picker pl-0 pr-0" *ngIf="isDate" [ngClass]="{'col-12':!isTime,'col-6':isTime,'form-type':isForm}">
+  <div class="date-picker pl-0 pr-2" *ngIf="isDate" [ngClass]="{'col-12':!isTime,'col-6':isTime,'form-type':isForm}">
     <kendo-datepicker (valueChange)="setDate($event,'date')" [(value)]="dateTimeValue" [format]="dateFormat">
     </kendo-datepicker>
   </div>

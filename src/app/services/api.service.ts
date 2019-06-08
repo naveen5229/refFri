@@ -13,7 +13,7 @@ export class ApiService {
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   //URL: string = 'http://192.168.0.189/booster_webservices/';
-  //URL: string = 'http://localhost/Transtruck/booster_webservices/';
+  // URL: string = 'http://localhost/Transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.180/booster_webservices/'; // Sachin
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
   // URL: string = 'http://localhost/booster_webservices/'; // sachin
