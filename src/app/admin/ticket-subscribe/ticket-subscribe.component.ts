@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
+import { UpdateTicketSubscribeComponent } from '../../modals/update-ticket-subscribe/update-ticket-subscribe.component';
 import { flattenStyles } from '@angular/platform-browser/src/dom/dom_renderer';
 import { DatePipe } from '@angular/common';
 
@@ -18,7 +19,8 @@ export class TicketSubscribeComponent implements OnInit {
     refType: '1',
     refId: '',
     isActive: false,
-    isOld: false
+    isOld: false,
+
   };
   table = null;
   vscEntry = [];
@@ -121,7 +123,19 @@ export class TicketSubscribeComponent implements OnInit {
     return columns;
   }
 
-  editTicketSubscribe() {
+
+
+  editTicketSubscribe(ticketDetails) {
+
+    this.common.params = ticketDetails;
+    console.log('Param', this.common.params);
+
+    const activeModal = this.modalService.open(UpdateTicketSubscribeComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.update) {
+        this.getVscEntry();
+      }
+    })
 
   }
 

@@ -75,6 +75,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+
 import {
   MatFormFieldModule,
   MatMenuModule,
@@ -174,6 +175,7 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
 
 
 import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
 
 
 @NgModule({
@@ -308,7 +310,8 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
     PrintManifestComponent,
     // VscDiagnosisComponent,
 
-    VoucherSummaryShortComponent
+    VoucherSummaryShortComponent,
+    UpdateTicketSubscribeComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -434,7 +437,8 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
     UnmappedLrComponent,
     MappedLrComponent,
     PrintManifestComponent,
-    VoucherSummaryShortComponent
+    VoucherSummaryShortComponent,
+    UpdateTicketSubscribeComponent
 
   ],
   imports: [
