@@ -117,7 +117,7 @@ export class PendingVehicleComponent implements OnInit {
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
-        this.modal[modal].data.modelType = this.modelType ? this.modelType : '';
+        this.modal[modal].data.modelType = this.modelType ? this.modelType : null;
         console.log("All Type Model: ", this.modelType);
       }, err => {
         console.log(err);
@@ -323,13 +323,12 @@ export class PendingVehicleComponent implements OnInit {
       const params = {
         vehicleId: document.id,
         brandId: document.document_type_id,
-        modelId: document.modalTypeId,
+        modelId: document.modalTypeId ? document.modalTypeId : null,
         manufacturingDate: newDate,
         emsId: document._bscode,
         bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
-
       if (!document.document_type_id) {
         this.common.showError("Please enter Brand Type");
         return false;
@@ -466,7 +465,6 @@ export class PendingVehicleComponent implements OnInit {
     this.modal[modal].data.document.modalTypeId = null;
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
-    // console.log("doc var", this.modal[modal].data.document.document_type_id);
     this.getAllTypesOfModel(brandType.id, modal);
   }
 
