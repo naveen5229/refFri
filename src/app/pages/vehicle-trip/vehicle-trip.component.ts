@@ -18,6 +18,7 @@ import { DateService } from '../../services/date.service';
 import { start } from 'repl';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -412,5 +413,7 @@ export class VehicleTripComponent implements OnInit {
     });
 
   }
+
+
 
 }

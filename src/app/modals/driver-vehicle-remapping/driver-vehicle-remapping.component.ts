@@ -10,20 +10,20 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./driver-vehicle-remapping.component.scss']
 })
 export class DriverVehicleRemappingComponent implements OnInit {
- // submitted = false;
+  // submitted = false;
   //driverRemapForm: FormGroup;
   driverStatus = [];
 
   maping = {
     regno: '',
     primary: null,
-    pdriverMobile:null,
+    pdriverMobile: null,
     secondary: null,
-    SdriverMobile:null,
-    pdStatus:'901',
-    sdStatus:'902',
-     driverId1:null,
-     driverId2:null,
+    SdriverMobile: null,
+    pdStatus: '901',
+    sdStatus: '902',
+    driverId1: null,
+    driverId2: null,
 
   };
 
@@ -36,11 +36,21 @@ export class DriverVehicleRemappingComponent implements OnInit {
     // public user: UserService,
   ) {
     this.maping.regno = this.common.params.driver.regno;
-
-    console.log('Params: ', this.common.params);
+    console.log('info', this.common.params.driver);
+    if (this.common.params.driver) {
+      this.maping.primary = this.common.params.driver.md_name;
+      console.log('Name1', this.maping.primary);
+      this.maping.pdriverMobile = this.common.params.driver.md_no;
+      //console.log('Mob1', this.common.params.driver.md_no);
+      this.maping.secondary = this.common.params.driver.sd_name;
+      console.log('name2', this.common.params.driver.sd_name);
+      this.maping.SdriverMobile = this.common.params.driver.sd_no;
+      // console.log('mob2', this.common.params.driver.sd_no);
+    }
+    // console.log('Params: ', this.common.params);
     this.getdriverStatus();
     // if(this.common.params.driver){
-      
+
     // }
   }
 
@@ -54,31 +64,32 @@ export class DriverVehicleRemappingComponent implements OnInit {
     //   sdStatus: ['902', [Validators.required]],
 
     // });
-    
+
   }
 
- // get f() { return this.driverRemapForm.controls; }
+  // get f() { return this.driverRemapForm.controls; }
 
   getvehicleData(Fodriver, driverType) {
     console.log(Fodriver);
     console.log(Fodriver.id);
     console.log(Fodriver.mobileno);
-   if(driverType=='primary'){
-     this.maping.primary=Fodriver.empname;
-     this.maping.pdriverMobile=Fodriver.mobileno;
-    this.maping.driverId1=Fodriver.id;
-   // this.common.params=Fodriver;
 
-   }
-   if(driverType=='secondary'){
-    this.maping.secondary=Fodriver.empname;
-    this.maping.SdriverMobile=Fodriver.mobileno;
-    this.maping.driverId2=Fodriver.id;
+    if (driverType == 'primary') {
+      this.maping.primary = Fodriver.empname;
+      this.maping.pdriverMobile = Fodriver.mobileno;
+      this.maping.driverId1 = Fodriver.id;
+      // this.common.params=Fodriver;
 
-   }
+    }
+    if (driverType == 'secondary') {
+      this.maping.secondary = Fodriver.empname;
+      this.maping.SdriverMobile = Fodriver.mobileno;
+      this.maping.driverId2 = Fodriver.id;
+
+    }
     //this.common.params=driver;
-   // this.maping.primary = this.common.params.driver;
-     
+    // this.maping.primary = this.common.params.driver;
+
     console.log('Mapping: ', this.maping);
   }
 
