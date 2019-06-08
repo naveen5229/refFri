@@ -224,8 +224,10 @@ export class PendingVehicleComponent implements OnInit {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
         }
         console.log('-------------------------Images:', this.modal[modal].data);
+        if (this.modal[modal].data.document_type_id) {
 
-        this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
+          this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
+        }
 
 
         if (this.modal[modal].data.document.bodyTypeId) {
@@ -473,6 +475,7 @@ export class PendingVehicleComponent implements OnInit {
     let name = modalType.target.value;
     let modelId = this.modelType.filter(x => x.name === name)[0];
     this.modal[modal].data.document.modalTypeId = modelId.id;
+    this.modelType = [];
     console.log("Modal Type:", this.modal[modal].data.document.modalTypeId);
   }
 
