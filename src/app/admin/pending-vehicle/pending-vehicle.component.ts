@@ -335,7 +335,6 @@ export class PendingVehicleComponent implements OnInit {
       }
 
 
-
       if (document.wef_date) {
         let valid = this.checkDatePattern(document.wef_date);
         if (!valid) {
