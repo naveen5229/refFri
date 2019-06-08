@@ -599,3 +599,9 @@ ngb-modal-window {
 .cdk-overlay-container {
     z-index: 99999 !important;
 }
+.k-animation-container{
+    z-index: 99999;
+}
+.fade{
+    opacity: 1;
+}

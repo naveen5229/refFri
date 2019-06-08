@@ -73,7 +73,7 @@
       </select>
     </div>
   </div>
-  <div class="row" *ngIf="serviceDetails.scheduleServices=='true'">
+  <!-- <div class="row" *ngIf="serviceDetails.scheduleServices=='true'">
     <div class="col-md-3">
       <label>Next Service After Days</label>
     </div>
@@ -82,13 +82,7 @@
         <div class="col-12 pr-1">
           <input type="number" placeholder="Days" class="form-control" name="nextServiceDate"
             [(ngModel)]="serviceDetails.nextServiceDate" maxlength="8">
-          <!-- <uj-date-time-picker [isTime]="false" (onChanged)="serviceDetails.nextServiceDate = $event"
-              [dateTimeValue]="serviceDetails.nextServiceDate">
-            </uj-date-time-picker> -->
         </div>
-        <!-- <div class="col-2 p-0">
-          <i class="fa fa-copy mt-2" (click)="copiedDate();"></i>
-        </div> -->
       </div>
 
     </div>
@@ -101,12 +95,9 @@
           <input type="number" placeholder="Km" class="form-control" name="nextServiceKm"
             [(ngModel)]="serviceDetails.nextServiceKm" maxlength="8">
         </div>
-        <!-- <div class="col-2 p-0">
-          <i class="fa fa-copy mt-2" (click)="copiedKm();"></i>
-        </div> -->
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="row">
     <div class="col-md-3">
@@ -126,8 +117,8 @@
     <div class="col-md-3">
       <label>Service Details</label>
     </div>
-    <div class="col-md-9">
-      <label *ngFor="let st of serviceType; let j= index;" class="checkbox-inline">
+    <div class="col-md-9 checkbox-flex">
+      <label *ngFor="let st of serviceType; let j= index;" class="inside-checkbox">
         <input type="checkbox" [(ngModel)]="isChecks[j]" (change)=addType(st.id,isChecks[j])>{{st.name}}
       </label>
     </div>

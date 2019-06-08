@@ -5,6 +5,7 @@ import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
+import { ViewMaintenanceComponent } from '../model/view-maintenance/view-maintenance.component';
 import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 
 @Component({
@@ -16,7 +17,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   suggestionData = [];
   selectedVehicle = null;
   vehicleRegno = null;
-
+  startTime = new Date(new Date().setMonth(new Date().getMonth() - 1));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -45,13 +47,25 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     this.selectedVehicle = vehicle.id;
     this.vehicleRegno = vehicle.regno;
     console.log('Vehicle Data: ', this.selectedVehicle);
-    this.vehicleMaintenanceData();
+  }
+
+  refreshAuto() {
+    let sugestionValue = document.getElementsByName("suggestion")[0]['value'];
+    if (sugestionValue == '' || sugestionValue == null) {
+      this.vehicleRegno = null;
+      this.selectedVehicle = null;
+    }
   }
 
   vehicleMaintenanceData() {
+    let params = {
+      vId: this.selectedVehicle,
+      fromDate: this.common.dateFormatter1(this.startTime),
+      toDate: this.common.dateFormatter1(this.endTime)
+    };
     this.data = [];
     this.common.loading++;
-    this.api.post('VehicleMaintenance/view', { vId: this.selectedVehicle })
+    this.api.post('VehicleMaintenance/view', params)
       .subscribe(res => {
         this.common.loading--;
         console.log("Data :", res);
@@ -64,8 +78,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action') };
-        this.table.data.headings['Action'] = action;
+        let action = { title: this.formatTitle('detail'), placeholder: this.formatTitle('detail') };
+        this.table.data.headings['Detail'] = action;
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -82,20 +96,32 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-      this.valobj['Action'] = { value: `<i class="fa fa-pencil-square"></i>`, isHTML: true, action: this.editMaintenance.bind(this, doc), class: 'image text-center del' }
+      this.valobj['Detail'] = {
+        icons: [
+          // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
+          { class: "fa fa-cog", action: this.viewDetails.bind(this, doc) }]
+        , action: null
+      };
       columns.push(this.valobj);
     });
     return columns;
   }
 
-
+  viewDetails(doc) {
+    this.common.params = { vehicleId: doc._vid, jobId: doc._jobid };
+    const activeModal = this.modalService.open(ViewMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      }
+    });
+  }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
   addMaintenance() {
-    if (!this.selectedVehicle) {
+    if (!this.selectedVehicle || this.selectedVehicle == -1) {
       this.common.showError("Please select Vehicle Number");
       return false;
     }
@@ -122,6 +148,10 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.getTableColumns();
       }
     });
+  }
+  resetData(event) {
+    this.selectedVehicle = -1;
+    console.log(event);
   }
 
 }

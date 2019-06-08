@@ -2,13 +2,7 @@
   <nb-card-header>
     <div class="row">
       <div class="col-8">
-        <h5 class="mt-1">Fuel Analysis</h5>
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary" (click)="vechilewiseFuel()">VehicleWiseFuel</button>
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary" (click)="PumpWiseFuel()">PumpFuelFilling</button>
+        <h5 class="mt-1">Fuel Diagnosis</h5>
       </div>
     </div>
   </nb-card-header>
@@ -22,9 +16,19 @@
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-2">
+        <button class="btn btn-primary primay_btn" (click)="vechilewiseFuel()">VehicleWiseFuel</button>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary primay_btn" (click)="getreport()">PumpFuelFilling</button>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-10 buttons" style="margin-top: 20px;">
         <button id="populatefilling" name="populate-filling" class="btn btn-primary" (click)="populateFilling()"
-          style="margin:0px; margin-right: 5px; cursor: pointer;">Populate Filling Entries</button>
+          style="margin:0px; margin-right: 5px; cursor: pointer;">Filling Entries</button>
         <button id="mappingFE" name="mapping-fe" class="btn btn-primary" (click)="mappingFE()"
           style="margin:0px; cursor: pointer;">Mapping Filling Entries</button>
         <button id="mappingIsFull" name="mapping-isfull" class="btn btn-primary" (click)="mappingIsFull()"
@@ -32,10 +36,10 @@
         <button id="populateFAL" name="populate-fal" class="btn btn-primary" (click)="populateFAL()"
           style="margin:0px; margin-left: 15px; cursor: pointer;">Populate Fuel Average Logs</button>
         <!-- <button id="fuel-isFuel" name="fuel-isFuel" class="btn btn-primary" (click)="getisFuel()"
-          style="margin:0px; margin-left: 15px; cursor: pointer;">is FullMapping</button>
-        <button id="empty-fuel-details" name="empty-fuel-details" class="btn btn-primary"
-          (click)="getemptyFueldetails()" style="margin:0px; margin-top:10px; cursor:pointer;">Tank Empty
-          Details</button>  -->
+            style="margin:0px; margin-left: 15px; cursor: pointer;">is FullMapping</button>
+          <button id="empty-fuel-details" name="empty-fuel-details" class="btn btn-primary"
+            (click)="getemptyFueldetails()" style="margin:0px; margin-top:10px; cursor:pointer;">Tank Empty
+            Details</button>  -->
       </div>
     </div>
 

@@ -11,6 +11,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class BulkVehicleNextServiceDetailComponent implements OnInit {
   serviceDatas = [];
   btntxt = 'Update';
+  kmCopy = null;
+  monthCopy = null;
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -54,5 +56,18 @@ export class BulkVehicleNextServiceDetailComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
+  }
+  copyAll() {
+    for (const serviceData in this.serviceDatas) {
+      if (this.serviceDatas.hasOwnProperty(serviceData)) {
+        if (!this.serviceDatas[serviceData].r_kms) {
+          this.serviceDatas[serviceData].r_kms = this.kmCopy;
+        }
+        if (!this.serviceDatas[serviceData].r_months) {
+          this.serviceDatas[serviceData].r_months = this.monthCopy;
+        }
+      }
+    }
+
   }
 }

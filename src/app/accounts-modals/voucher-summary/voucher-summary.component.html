@@ -59,9 +59,9 @@
                 [(ngModel)]="debitLedger.name">
             </div> -->
 
-            <!-- <div class="col-3 pl-0 mt-6 ">
+            <div class="col-3 pl-0 mt-6 ">
               <button class="btn btn-dark" (click)="addTrip()">Add New Trip </button>
-            </div> -->
+            </div>
           </div>
         </div>
         <div class="auto-sugg col-4">
@@ -160,7 +160,7 @@
               <td>{{i+1}}</td>
               <td>{{tripHead.name}}</td>
               <td>
-                <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total">
+                <input type="number" [name]="tripHead.name" [(ngModel)]="tripHead.total" (input)="calculateTripAllTotal(i)">
               </td>
               <td *ngFor="let trip of tripHead.trips; let j = index;">
                 <input type="number" [name]="'trip-amount-' + tripHead.name + j" [(ngModel)]="trip.amount"
@@ -174,7 +174,7 @@
             Total
           </div>
           <div class="total_input">
-            <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal">
+            <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled>
           </div>
           <div class="total_textarea">
             <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
