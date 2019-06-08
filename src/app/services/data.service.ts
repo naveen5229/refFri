@@ -111,9 +111,15 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Trip Analysis',
+            title: 'Trip Diagnosis',
             icon: 'fa fa-arrows-alt',
             link: '/admin/trip-analysis',
+            home: true,
+          },
+          {
+            title: 'VSC Diagnosis',
+            icon: 'fa fa-arrows-alt',
+            link: '/admin/vsc-diagnosis',
             home: true,
           },
         ]
@@ -256,10 +262,6 @@ export class DataService {
       },
 
 
-
-
-
-
       {
         title: 'Document',
         icon: 'fa fa-file-alt',
@@ -301,7 +303,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Fuel Analysis',
+            title: 'Fuel Diagnosis',
             icon: 'fa fa-signal',
             link: '/admin/fuel-analysis',
             home: true,
@@ -337,11 +339,6 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
-
-
-
-
-
 
     ];
   }
