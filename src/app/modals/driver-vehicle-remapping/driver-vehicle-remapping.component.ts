@@ -35,16 +35,22 @@ export class DriverVehicleRemappingComponent implements OnInit {
     public api: ApiService,
     // public user: UserService,
   ) {
+
     this.maping.regno = this.common.params.driver.regno;
     console.log('info', this.common.params.driver);
+
     if (this.common.params.driver) {
-      this.maping.primary = this.common.params.driver.md_name;
-      console.log('Name1', this.maping.primary);
+      this.maping.primary = { empname: this.common.params.driver.md_name };
+
       this.maping.pdriverMobile = this.common.params.driver.md_no;
-      //console.log('Mob1', this.common.params.driver.md_no);
-      this.maping.secondary = this.common.params.driver.sd_name;
-      console.log('name2', this.common.params.driver.sd_name);
+      this.maping.driverId1 = this.common.params.driver.md_id;
+      console.log('id', this.maping.driverId1);
+
+      this.maping.secondary = { empname: this.common.params.driver.sd_name };
+
       this.maping.SdriverMobile = this.common.params.driver.sd_no;
+      this.maping.driverId2 = this.common.params.driver.sd_id;
+      console.log('id1', this.maping.driverId2);
       // console.log('mob2', this.common.params.driver.sd_no);
     }
     // console.log('Params: ', this.common.params);
@@ -73,9 +79,11 @@ export class DriverVehicleRemappingComponent implements OnInit {
     console.log(Fodriver);
     console.log(Fodriver.id);
     console.log(Fodriver.mobileno);
-
+    // if (this.common.params.driver) {
+    //   Fodriver.empname = this.common.params.driver.md_name;
+    // }
     if (driverType == 'primary') {
-      this.maping.primary = Fodriver.empname;
+      this.maping.primary = { empname: Fodriver.empname };
       this.maping.pdriverMobile = Fodriver.mobileno;
       this.maping.driverId1 = Fodriver.id;
       // this.common.params=Fodriver;
@@ -128,6 +136,9 @@ export class DriverVehicleRemappingComponent implements OnInit {
     this.api.post('/Drivers/setInputs', params)
       .subscribe(res => {
         this.common.loading--;
+        if (res['code'] == -1) {
+          this.common.showToast('Message', res['data'].msg);
+        }
         this.closeModal();
 
         //console.log("Driver Status:", this.driverStatus);
