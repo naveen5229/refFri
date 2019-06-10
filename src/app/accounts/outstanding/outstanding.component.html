@@ -1,7 +1,7 @@
 <nb-card style="border:0px;">
   <nb-card-body (keydown)="keyHandler($event)">
-    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table')" style="cursor: pointer;"><i
-        class="fa fa-file-pdf"></i></span>
+    <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table',headingName,common.currentPage)"
+      style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
     <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
@@ -101,27 +101,23 @@
         <div class="tbody-section">
           <tbody *ngFor="let voucherEntry of voucherEntries; let i = index">
             <tr class="heading_second">
-              <th></th>
-              <th></th>
-              <th></th>
-              <th>{{ voucherEntry.name }}</th>
-              <th style="text-align:right;">{{ voucherEntry.amount.debit }}</th>
-              <th style="text-align:right;">
-                {{ voucherEntry.amount.credit }}
-              </th>
+
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><b>{{ voucherEntry.name }}</b></td>
+              <td style="text-align:right;"><b>{{ voucherEntry.amount.debit  | number : '1.2-2'}}</b></td>
+              <td style="text-align:right;"><b>{{ voucherEntry.amount.credit | number : '1.2-2' }}</b></td>
             </tr>
-            <tr *ngFor="let voucher of voucherEntry.vouchers">
+            <tr *ngFor="let voucher of voucherEntry.vouchers let j = index" (click)="selectedRow =  '' + i + j"
+              [ngClass]="{'highlight' : selectedRow == '' + i + j }">
               <td>{{ voucher.y_code }}</td>
               <td>{{ voucher.y_cust_code }}</td>
               <td>{{ voucher.y_type }}</td>
               <td></td>
-              <td *ngIf="voucher.y_dramunt != 0" style="text-align:right;">
-                <span>{{ voucher.y_dramunt }}</span>
-              </td>
+              <td *ngIf=" voucher.y_dramunt !=0" style="text-align:right;"><span>{{ voucher.y_dramunt }}</span></td>
               <td *ngIf="voucher.y_dramunt == 0"></td>
-              <td *ngIf="voucher.y_cramunt != 0" style="text-align:right;">
-                <span>{{ voucher.y_cramunt }}</span>
-              </td>
+              <td *ngIf="voucher.y_cramunt != 0" style="text-align:right;"><span>{{ voucher.y_cramunt }}</span></td>
               <td *ngIf="voucher.y_cramunt == 0"></td>
             </tr>
           </tbody>

@@ -22,7 +22,7 @@ export class DataService {
       {
         title: 'Dashboard',
         icon: 'fa fa-home',
-        link: '/pages',
+        link: '/pages/dashboard',
       },
       {
         title: 'Trip',
@@ -76,6 +76,12 @@ export class DataService {
             home: true,
           },
           {
+            title: 'Placement Site Rule',
+            icon: 'fas fa-file-signature',
+            link: '/admin/placement-site-rule',
+            home: true,
+          },
+          {
             title: 'Transport Agents',
             icon: 'fas fa-address-card',
             link: '/admin/transport-agents',
@@ -104,6 +110,18 @@ export class DataService {
             link: '/admin/sub-sites',
             home: true,
           },
+          {
+            title: 'Trip Diagnosis',
+            icon: 'fa fa-arrows-alt',
+            link: '/admin/trip-analysis',
+            home: true,
+          },
+          {
+            title: 'VSC Diagnosis',
+            icon: 'fa fa-arrows-alt',
+            link: '/admin/vsc-diagnosis',
+            home: true,
+          },
         ]
       },
 
@@ -122,6 +140,11 @@ export class DataService {
             title: 'Ticket Properties',
             icon: 'fas fa-ticket-alt',
             link: '/admin/ticket-properties',
+          },
+          {
+            title: 'Vehicle Categories',
+            icon: 'fa fa-chart-bar',
+            link: '/admin/vehicles-view',
           },
 
           {
@@ -147,6 +170,32 @@ export class DataService {
             link: '/admin/ticket-subscribe',
             home: true,
           },
+          {
+            title: 'add-customer',
+            icon: 'fas fa-info-circle',
+            link: '/admin/add-customer',
+            home: true,
+          },
+          {
+            title: 'Toll Transaction Summary',
+            icon: 'fas fa fa-road',
+            link: '/admin/toll-transaction-summary',
+            home: true,
+          },
+          {
+            title: 'Manual Toll Transaction Summary',
+            icon: 'fas fa fa-user',
+            link: '/admin/manual-toll-transaction-summary',
+            home: true,
+          },
+          {
+            title: 'Vehicle Wise Toll Transaction Summary',
+            icon: 'fas fa fa-car',
+            link: '/admin/vehiclewise-tolltransaction',
+            home: true,
+          },
+
+
         ]
       },
       {
@@ -163,6 +212,11 @@ export class DataService {
             title: 'Generate LR',
             icon: 'fa fa-pencil',
             link: '/admin/generate-lr',
+          },
+          {
+            title: 'LR Diagnostics',
+            icon: 'fa fa-diagnostics',
+            link: '/admin/lr-diagnostics',
           },
         ]
       },
@@ -203,13 +257,14 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-
+          {
+            title: 'Vehicles',
+            icon: 'fas fa-info-circle',
+            link: '/admin/vehicles',
+            home: true,
+          },
         ]
       },
-
-
-
-
 
 
       {
@@ -220,6 +275,11 @@ export class DataService {
             title: 'Pending Details',
             icon: 'fa fa-pencil-square-o',
             link: '/admin/pending-documents',
+          },
+          {
+            title: 'Pending vehicle Modal',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/pending-vehicle',
           },
 
         ]
@@ -236,15 +296,45 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Fuel Average Analysis',
+            title: 'Fuel Mileage',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-analysis',
+            home: true,
+          },
+          {
+            title: 'Consolidate Fuel Average',
+            icon: 'fa fa-signal',
+            link: '/admin/consolidate-fuel-average',
+            home: true,
+          },
+          {
+            title: 'Fuel Diagnosis',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-analysis',
             home: true,
           },
           {
             title: 'Remaining Fuel',
             icon: 'fa fa-signal',
             link: '/admin/remaining-fuel',
+            home: true,
+          },
+          {
+            title: 'Fuel Rules',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-rules',
+            home: true,
+          },
+          {
+            title: 'Pump Station Area',
+            icon: 'fa fa-signal',
+            link: '/admin/pump-station-area',
+            home: true,
+          },
+          {
+            title: 'Fuel Average Issues',
+            icon: 'fa fa-signal',
+            link: '/admin/fuel-average-issues',
             home: true,
           },
         ]
@@ -254,10 +344,23 @@ export class DataService {
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
       },
+      {
+        title: 'Maintenance',
+        icon: 'fa fa-file-alt',
+        children: [
+          {
+            title: 'Service Model',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-modal-service',
+          },
+          {
+            title: 'Sub Service Model',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-sub-modal-service',
+          },
 
-
-
-
+        ]
+      },
 
     ];
   }

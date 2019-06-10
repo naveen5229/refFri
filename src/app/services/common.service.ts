@@ -75,8 +75,10 @@ export class CommonService {
     private datePipe: DatePipe
   ) { }
 
-  showError(msg?) {
-    this.showToast(msg || "Something went wrong! try again.", "danger");
+  showError(msg?, err?) {
+    let message = msg || 'Something went wrong! try again.';
+    message += err ? ' Error Code: ' + err.status : '';
+    this.showToast(message, "danger");
   }
 
   ucWords(str) {
@@ -129,7 +131,7 @@ export class CommonService {
   }
 
   renderPage(priType, secType1, secType2, data?) {
-    console.log("Data: ", data);
+    // console.log("Data: ", data);
     let page = this.primaryType[priType];
     this.params = {
       data: data,
@@ -167,6 +169,7 @@ export class CommonService {
       );
     }
   }
+
   dateFormatternew(date, type = "YYYYMMDD", isTime = true, separator = "-") {
     let d = new Date(date);
     let year = d.getFullYear();
@@ -322,11 +325,11 @@ export class CommonService {
       legend: false
     };
 
-    setTimeout(() => {
-      console.log(document.getElementsByTagName("canvas")[0]);
-      document.getElementsByTagName("canvas")[0].style.width = "80px";
-      document.getElementsByTagName("canvas")[0].style.height = "180px";
-    }, 10);
+    // setTimeout(() => {
+    //   console.log(document.getElementsByTagName("canvas")[0]);
+    //   document.getElementsByTagName("canvas")[0].style.width = "80px";
+    //   document.getElementsByTagName("canvas")[0].style.height = "180px";
+    // }, 10);
 
     return { chartData, chartOptions };
   }
@@ -547,7 +550,8 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+    // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
@@ -558,9 +562,21 @@ export class CommonService {
     let hdgs = [];
     let hdgCols = tblelt.querySelectorAll("th");
     console.log("hdgcols:", hdgCols);
-    console.log(hdgCols.length);
+    // console.log(hdgCols.length);
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
@@ -570,9 +586,12 @@ export class CommonService {
           let eltinput = hdgCols[i].querySelector("input");
           let attrval = eltinput.getAttribute("placeholder");
           hdgs.push(attrval);
+
         } else if (elthtml.indexOf('<img') > -1) {
           let eltinput = hdgCols[i].querySelector("img");
           let attrval = eltinput.getAttribute("title");
+
+
           hdgs.push(attrval);
         } else if (elthtml.indexOf('href') > -1) {
           let strval = hdgCols[i].innerHTML;
@@ -601,6 +620,7 @@ export class CommonService {
             let eltinput = rowCols[j].querySelector("input");
             let attrval = eltinput.getAttribute("placeholder");
             rowdata.push(attrval);
+
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
             let attrval = eltinput.getAttribute("title");
@@ -652,7 +672,7 @@ export class CommonService {
       if (left_heading != "undefined" && left_heading != null && left_heading != '') {
         x = pageWidth / 2;
         let hdglen = left_heading.length / 2;
-        let xpos = x - hdglen - 40;
+        let xpos = x - hdglen - 50;
         y = 40;
         doc.setFont("times", "bold", "text-center");
         doc.text(left_heading, xpos, y);
@@ -666,7 +686,7 @@ export class CommonService {
         doc.text(center_heading, x - hdglen - 40, y);
       }
       y = 15;
-      //doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
+      doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
 
       doc.line(20, 70, pageWidth - 20, 70);
@@ -708,7 +728,7 @@ export class CommonService {
   }
 
   downloadPdf(divId) {
-    var data = document.getElementById('print-section');
+    var data = document.getElementById(divId);
     // console.log("data",data);
     html2canvas(data).then(canvas => {
       // Few necessary setting options  
@@ -725,7 +745,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -733,15 +753,33 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
+    let leftData = { left_heading };
+    let centerData = { center_heading };
 
     let info = [];
     let hdgs = {};
     let arr_hdgs = [];
     info.push(organization);
     info.push(blankline);
+    info.push(leftData);
+    info.push(centerData);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
+        let isBreak = false;
+        for (const donotInclude in doNotIncludes) {
+          if (doNotIncludes.hasOwnProperty(donotInclude)) {
+            const thisNotInclude = doNotIncludes[donotInclude];
+            if (hdgCols[i].innerHTML.toLowerCase().includes("title=\"" + thisNotInclude.toLowerCase() + "\"")) {
+              isBreak = true;
+              break;
+            }
+          }
+        }
+        if (isBreak)
+          continue;
+
+
         if (hdgCols[i].innerHTML.toLowerCase().includes(">image<"))
           continue;
         if (hdgCols[i].classList.contains('del'))
@@ -854,7 +892,7 @@ export class CommonService {
       date = 28;
     } // date  = ((date > 28) && (month == '02')) ? 28 : date ;
 
-    console.log('Date: ', year + separator + month + separator + date);
+    // console.log('Date: ', year + separator + month + separator + date);
     return date + separator + month + separator + year;
   }
 
@@ -937,7 +975,7 @@ export class CommonService {
               <span>-</span>
               <span class="unloading">${x_destination.trim()}</span>
             ` : !x_placements.length ? ` <i class="icon ion-md-arrow-round-forward"></i> ` : ``}`;
-        console.log('X_placementType =', x_placements.length, x_status);
+        // console.log('X_placementType =', x_placements.length, x_status);
         if (x_placements.length && x_placements.length > 0) {
           html += ` <!-- Available (Done) -->
           ${this.formatTripPlacement(x_placement_type, x_placements)}`
@@ -978,12 +1016,12 @@ export class CommonService {
             ${this.formatTripPlacement(x_placement_type, x_placements)}`;
         break;
     }
-    console.log('HTML:', html);
+    // console.log('HTML:', html);
     return html + this.handleTripStatusOnExcelExport(x_status, x_origin, x_destination, x_placements);
   }
 
   formatTripPlacement(placementType, placements) {
-    console.log('++++:placements:', placements, placementType);
+    // console.log('++++:placements:', placements, placementType);
 
     if (!placements.length) return '';
     let html = ` <i class="icon ion-md-arrow-round-forward"></i> `;
@@ -1080,4 +1118,27 @@ export class CommonService {
     }
     return `<i title="${title}"></i>`
   }
+  unionArrays(x, y) {
+    let obj = {};
+    for (var i = x.length - 1; i >= 0; --i)
+      obj[x[i]] = x[i];
+    for (var i = y.length - 1; i >= 0; --i)
+      obj[y[i]] = y[i];
+    let res = []
+    for (var k in obj) {
+      if (obj.hasOwnProperty(k))  // <-- optional
+        res.push(obj[k]);
+    }
+    return res;
+  }
+
+  loaderHandling(action = 'hide') {
+    if (this.loading == 0 && action == 'hide') return;
+    else if (this.loading < 0) {
+      this.loading = 0;
+      return;
+    } else if (action == 'show') this.loading++;
+    else this.loading--;
+  }
+
 }

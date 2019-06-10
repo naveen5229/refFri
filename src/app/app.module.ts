@@ -75,6 +75,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+
 import {
   MatFormFieldModule,
   MatMenuModule,
@@ -146,7 +147,39 @@ import { CustomTimePipe } from './pipes/custom-time/custom-time.pipe';
 import { VehicleTripStagesComponent } from './pages/vehicle-trip-stages/vehicle-trip-stages.component';
 import { PoliceStationComponent } from './modals/police-station/police-station.component';
 import { TankEmptyDetailsComponent } from './modals/tank-empty-details/tank-empty-details.component';
+import { AddVehicleComponent } from './modals/add-vehicle/add-vehicle.component';
+import { ImportBulkVehiclesComponent } from './modals/import-bulk-vehicles/import-bulk-vehicles.component';
+import { AddFoAdminUsersComponent } from './modals/add-fo-admin-users/add-fo-admin-users.component';
+import { AddFoComponent } from './modals/add-fo/add-fo.component';
+import { PullHistoryGPSDataComponent } from './modals/pull-history-gps-data/pull-history-gps-data.component';
 import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
+import { CostCentersComponent } from './acounts-modals/cost-centers/cost-centers.component';
+import { ErrorCoomonVehiclesComponent } from './modals/error-coomon-vehicles/error-coomon-vehicles.component';
+import { VouchercostcenterComponent } from './acounts-modals/vouchercostcenter/vouchercostcenter.component';
+import { AddFuelFullRuleComponent } from './modals/add-fuel-full-rule/add-fuel-full-rule.component';
+import { CostCenterViewComponent } from './acounts-modals/cost-center-view/cost-center-view.component';
+import { VehiclesViewComponent } from './modals/vehicles-view/vehicles-view.component';
+import { AddPlacementSiteRuleComponent } from './modals/add-placement-site-rule/add-placement-site-rule.component';
+import { FuelfilingComponent } from './acounts-modals/fuelfiling/fuelfiling.component';
+import { VehicleFuelFillingEntryComponent } from './modals/vehicle-fuel-filling-entry/vehicle-fuel-filling-entry.component';
+import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
+import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
+import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
+import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
+import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
+
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
+//import { VscDiagnosisComponent } from './admin/vsc-diagnosis/vsc-diagnosis.component';
+
+
+import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
+import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
+import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -255,10 +288,41 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     CustomTimePipe,
     PoliceStationComponent,
     TankEmptyDetailsComponent,
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
     OdoMeterComponent,
+    CostCentersComponent,
+    ErrorCoomonVehiclesComponent,
+    VouchercostcenterComponent,
+    AddFuelFullRuleComponent,
+    CostCenterViewComponent,
+    VehiclesViewComponent,
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent,
+    VehicleFuelFillingEntryComponent,
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent,
+    VehicleNextServiceDetailComponent,
+    BulkVehicleNextServiceDetailComponent,
+    UnmappedLrComponent,
+    MappedLrComponent,
 
+    PrintManifestComponent,
+    // VscDiagnosisComponent,
+    VoucherSummaryShortComponent,
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent,
+    UpdateTicketSubscribeComponent,
+    AddAdvancedMaintenanceComponent
   ],
   entryComponents: [
+    BulkVehicleNextServiceDetailComponent,
+    AddAdvancedMaintenanceComponent,
+
+    VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
     UserCallHistoryComponent,
@@ -360,7 +424,31 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     PoliceStationComponent,
     LedgerviewComponent,
     TankEmptyDetailsComponent,
-    OdoMeterComponent
+    AddVehicleComponent,
+    ImportBulkVehiclesComponent,
+    AddFoAdminUsersComponent,
+    AddFoComponent,
+    PullHistoryGPSDataComponent,
+    OdoMeterComponent,
+    CostCentersComponent,
+    VouchercostcenterComponent,
+    AddFuelFullRuleComponent,
+    ErrorCoomonVehiclesComponent,
+    VouchercostcenterComponent,
+    CostCenterViewComponent,
+    AddPlacementSiteRuleComponent,
+    FuelfilingComponent,
+    VehicleFuelFillingEntryComponent,
+    VehicleWiseFuelFillingComponent,
+    PumpWiseFuelFillingComponent,
+    UnmappedLrComponent,
+    MappedLrComponent,
+    PrintManifestComponent,
+    VoucherSummaryShortComponent,
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent,
+    UpdateTicketSubscribeComponent
+
   ],
   imports: [
     BrowserModule,
@@ -381,11 +469,13 @@ import { OdoMeterComponent } from './modals/odo-meter/odo-meter.component';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPrintModule,
+
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD7Wk-pXb6r4rYUPQtvR19jjK2WkYaFYOs',
       libraries: ['drawing']
     }),
-    ResizableModule
+    ResizableModule,
+    DateInputsModule
   ],
 
   bootstrap: [AppComponent],

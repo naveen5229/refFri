@@ -81,6 +81,7 @@ export class TrendsComponent implements OnInit {
     today = new Date();
     endDay = new Date(today.setDate(today.getDate() - 1))
     this.endDate = this.common.dateFormatter(endDay);
+    console.log('enddate for default', this.endDate);
     //this.endDate=this.common.dateFormatter(new Date())
     if (this.period == "0") {
       startday = new Date(today.setDate(today.getDate() - 6));
@@ -198,7 +199,7 @@ export class TrendsComponent implements OnInit {
 
     let params = {
       startDate: this.common.dateFormatter(this.fromDate).split(' ')[0],
-      endDate: this.common.dateFormatter(this.endDate).split(' ')[0]
+      endDate: this.common.dateFormatter(this.endDate).split(' ')[0] + ' ' + '23:59:59'
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -226,7 +227,7 @@ export class TrendsComponent implements OnInit {
   getVehicleWise() {
     let params = {
       startDate: this.common.dateFormatter(this.fromDate).split(' ')[0],
-      endDate: this.common.dateFormatter(this.endDate).split(' ')[0],
+      endDate: this.common.dateFormatter(this.endDate).split(' ')[0] + ' ' + '23:59:59'
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -342,10 +343,10 @@ export class TrendsComponent implements OnInit {
     //this.element = '';
     this.fromDate = this.common.dateFormatter(this.fromDate).split(' ')[0]
     // this.fromDate=(this.common.dateFormatter(this.fromDate)).split('')[0];
-    this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0]
+    this.endDate = this.common.dateFormatter(this.endDate).split(' ')[0];
     let params = {
       startDate: this.fromDate,
-      endDate: this.endDate
+      endDate: this.endDate + ' ' + '23:59:59'
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -432,7 +433,7 @@ export class TrendsComponent implements OnInit {
     console.log('startDate:weekly', this.startDate);
     let params = {
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate + ' ' + '23:59:59'
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -540,7 +541,7 @@ export class TrendsComponent implements OnInit {
     console.log('startDate:monthly', this.startDate);
     let params = {
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate + ' ' + '23:59:59'
     };
     console.log('params: ', params);
     this.common.loading++;
@@ -623,7 +624,7 @@ export class TrendsComponent implements OnInit {
     let params = {
       siteId: details.siteid,
       startDate: this.fromDate,
-      endDate: this.endDate
+      endDate: this.endDate + ' ' + '23:59:59'
     };
     this.common.loading++;
     this.api.post('Trends/getSiteWiseVehicleList', params)
@@ -676,7 +677,7 @@ export class TrendsComponent implements OnInit {
     this.fromDate = this.common.dateFormatter(this.fromDate).split(' ')[0];
     let params = {
       startDate: this.fromDate,
-      endDate: this.endDate
+      endDate: this.endDate + ' ' + '23:59:59'
     };
     console.log('params: ', params);
     this.common.loading++;

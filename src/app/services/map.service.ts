@@ -30,6 +30,8 @@ export class MapService {
     "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z",///Rect
     "M  0,0,  0,-5,  -5,-13 , 5,-13 , 0,-5 z"//Pin
   ];
+  options = null;
+  heatmap = null;
 
   constructor(public common: CommonService) {
   }
@@ -214,7 +216,7 @@ export class MapService {
         else //if(subType=='circle')
           pinImage = {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 1,
+            scale: this.options ? this.options.circle.scale : 6,
             fillColor: "#" + pinColor,
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -314,6 +316,13 @@ export class MapService {
     resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
+    this.options ? this.options.clearHeat && this.resetHeatMap() : '';
+  }
+  resetHeatMap() {
+    if (this.heatmap) {
+      this.heatmap.setMap(null);
+      this.heatmap = null;
+    }
   }
 
   resetMarker(reset = true, boundsReset = true) {
@@ -420,5 +429,24 @@ export class MapService {
     }
     var path = this.polygonPath.getPath();
     path.push(to);
+  }
+  createHeatMap(points, changeBounds = true) {
+    var googlePoints = [];
+    for (const point in points) {
+      if (points.hasOwnProperty(point)) {
+        const thisPoint = points[point];
+        var latLng = this.getLatLngValue(thisPoint);
+        var googleLatLng = this.createLatLng(latLng.lat, latLng.lng);
+        googlePoints.push(googleLatLng);
+        if (changeBounds)
+          this.setBounds(googleLatLng);
+      }
+    }
+    if (googlePoints.length != 0) {
+      this.heatmap = new google.maps.visualization.HeatmapLayer({
+        data: googlePoints,
+        map: this.map
+      });
+    }
   }
 }

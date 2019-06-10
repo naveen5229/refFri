@@ -1,4 +1,13 @@
-.close_btn{
-    text-align: center;
-    height: 44px;
+.close-btn{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    padding: 10px 13px;
+    background-color: #2d2828;
+    box-shadow: none;
+    outline: none;
+    border: 0px;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 100%;
 }

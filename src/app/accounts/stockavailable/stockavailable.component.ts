@@ -195,13 +195,22 @@ export class StockavailableComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    else if (key.includes('arrow')) {
-      //  this.allowBackspace = false;
-      if (key.includes('arrowup') || key.includes('arrowdown')) {
-        this.handleArrowUpDown(key);
-        event.preventDefault();
-      }
+
+
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.stockAvailableData.length) {
+      console.log('-Jai rana---');
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.stockAvailableData.length - 1) this.selectedRow++;
+
     }
+    // if (key.includes('arrow')) {
+    //   //  this.allowBackspace = false;
+    //   if (key.includes('arrowup') || key.includes('arrowdown')) {
+    //     this.handleArrowUpDown(key);
+    //     event.preventDefault();
+    //   }
+    // }
   }
 
 

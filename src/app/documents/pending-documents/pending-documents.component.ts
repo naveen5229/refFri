@@ -12,6 +12,7 @@ import { AddAgentComponent } from '../documentation-modals/add-agent/add-agent.c
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { log } from 'util';
 import { DocumentHistoryComponent } from '../documentation-modals/document-history/document-history.component';
+import { nextContext } from '@angular/core/src/render3';
 
 
 @Component({
@@ -31,12 +32,14 @@ export class PendingDocumentsComponent implements OnInit {
     first: {
       show: false,
       class: '',
-      data: this.setModalData()
+      data: this.setModalData(),
+      nextCount: 0
     },
     second: {
       show: false,
       class: '',
-      data: this.setModalData()
+      data: this.setModalData(),
+      nextCount: 0
     }
   };
 
@@ -54,7 +57,7 @@ export class PendingDocumentsComponent implements OnInit {
     this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
     this.listtype;
-    this.common.currentPage = 'Pending Vehicle Documents';
+    //this.common.currentPage = 'Pending Vehicle Documents';
   }
 
   ngOnInit() {
@@ -137,18 +140,25 @@ export class PendingDocumentsComponent implements OnInit {
       this.modal.first.show = true;
       this.handleModalData('first', params);
       this.modal.active = 'first';
+      this.modal.first.nextCount = 0;
+      this.handleNextImageClick('first');
     } else if (this.modal.active == 'first') {
       this.modal.second.class = 'custom-passive-modal';
       this.modal.second.show = true;
       this.handleModalData('second', params);
+      this.modal.second.nextCount = 0;
+      this.handleNextImageClick('second');
       this.modal.active = 'first';
     } else if (this.modal.active == 'second') {
       this.modal.first.class = 'custom-passive-modal';
       this.modal.first.show = true;
       this.handleModalData('first', params);
+      this.modal.first.nextCount = 0;
+      this.handleNextImageClick('first');
       this.modal.active = 'second';
     }
     console.log('Handler End: ', this.modal.active);
+
   }
 
   handleModalData(modal, params) {
@@ -381,7 +391,11 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   updateDocument(modal, status?, confirm?) {
-
+    if (this.modal.first.nextCount < this.modal.first.data.images.length - 1) {
+      console.log('------------------Not Clicked-------------------');
+      this.common.showError('Please Review All Images');
+      return;
+    }
 
     console.log('Test');
     if (this.user._loggedInBy == 'admin' && this.modal[modal].data.canUpdate == 1) {
@@ -715,7 +729,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   getUserWorkList() {
     this.common.loading++;
-    this.api.post('Vehicles/getUserWorkSummary', {})
+    this.api.get('Vehicles/vehiclesUserWorkSummary', {})
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
@@ -744,6 +758,25 @@ export class PendingDocumentsComponent implements OnInit {
         //window.location.reload();
       }
     });
+  }
+
+  handleNextImageClick(modal) {
+    setTimeout(() => {
+      console.log('ModalElement', modal);
+      let modalElement = document.getElementsByClassName(modal == 'first' ? 'custom-modal-1' : 'custom-modal-2')[0];
+      console.log('ModalElement:', modalElement);
+      if (modalElement) {
+        let nextElement = modalElement.getElementsByClassName('next')[0];
+        console.log('Next', nextElement);
+        if (nextElement) {
+          nextElement['onclick'] = () => {
+            console.log('NEXT:::::=>', this.modal[modal].nextCount);
+            this.modal[modal].nextCount++;
+            console.log('NEXT:::::=>', this.modal[modal].nextCount);
+          }
+        }
+      }
+    }, 2000);
   }
 
 }

@@ -1,0 +1,38 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Toll Transaction Summary</h2>
+    <div class="row m-0 p-0">
+      <div class="col-3">
+        <input [(ngModel)]="dates.startTime" [owlDateTime]="date1" [owlDateTimeTrigger]="date1" placeholder="Start Time"
+          class="form-control" autocomplete="off" name="date1">
+        <owl-date-time #date1></owl-date-time>
+      </div>
+      <div class="col-3">
+        <input [(ngModel)]="dates.endTime" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="End Time"
+          class="form-control" autocomplete="off" name="date">
+        <owl-date-time #date></owl-date-time>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary submit-btn" type="button" (click)="gettollTransactionSummary()">Submit</button>
+      </div>
+    </div>
+
+    <div class="row m-0 p-0">
+
+      <div class="col-md-12 text-right margin-top-15 margin-left-220">
+
+        <span style="margin-bottom: 10px; display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('toll-summary');" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="printCSV('toll-summary')"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="toll-summary"></smart-table>
+    <!-- <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <br> -->
+  </nb-card-body>
+</nb-card>

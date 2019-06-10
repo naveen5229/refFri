@@ -27,7 +27,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Trip FeedBack Logs',
         icon: 'fas fa-comments',
-        link: '/pages/tip-feedback-logs',
+        link: '/pages/trip-feedback-logs',
         home: true,
       },
       {
@@ -48,12 +48,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance',
         home: true,
       },
-      {
-        title: 'Vehicle Trip States',
-        icon: 'fas fa-map-marked',
-        link: '/pages/vehicle-trip-states',
-        home: true,
-      },
+      // {
+      //   title: 'Vehicle Trip States',
+      //   icon: 'fas fa-map-marked',
+      //   link: '/pages/vehicle-trip-states',
+      //   home: true,
+      // },
       {
         title: 'Verify Trip States',
         icon: 'far fa-check-circle',
@@ -112,8 +112,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
       {
         title: 'Generate LR',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr',
+      },
+      {
+        title: 'Generate LTL',
+        icon: 'fas fa-receipt',
+        link: '/pages/generate-lr-no-vehicles',
+      },
+      {
+        title: 'Generate LR Manifest',
+        icon: 'fas fa-receipt',
+        link: '/pages/generate-lr-mainfesto',
+      },
+      {
+        title: 'View LR Manifest',
+        icon: 'fa fa-eye',
+        link: '/pages/view-manifesto',
       },
       {
         title: 'Expenses',
@@ -150,7 +165,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/onward-kmpd',
         home: true,
       },
-
+      {
+        title: 'Vehicle Performance',
+        icon: 'fas fa-truck-pickup',
+        link: '/pages/vehicle-performance',
+        home: true,
+      },
     ]
   },
 
@@ -174,6 +194,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Remaining Fuel',
         icon: 'fa fa-signal',
         link: '/pages/remaining-fuel',
+        home: true,
+      },
+      {
+        title: 'Consolidate Fuel Average',
+        icon: 'fa fa-signal',
+        link: '/pages/consolidate-fuel-average',
         home: true,
       },
     ]

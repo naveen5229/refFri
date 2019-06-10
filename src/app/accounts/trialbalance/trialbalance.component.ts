@@ -109,10 +109,10 @@ export class TrialbalanceComponent implements OnInit {
       for (let groupKey in groups) {
 
         groups[groupKey].map(info => {
-          if (info.y_openbal) totalopening += parseInt(info.y_openbal);
-          if (info.y_dr_bal) totaldr += parseInt(info.y_dr_bal);
-          if (info.y_closebal) totalcr += parseInt(info.y_closebal);
-          if (info.y_closebal) totalclosing += parseInt(info.y_closebal);
+          if (info.y_openbal) totalopening += parseFloat(info.y_openbal);
+          if (info.y_dr_bal) totaldr += parseFloat(info.y_dr_bal);
+          if (info.y_closebal) totalcr += parseFloat(info.y_closebal);
+          if (info.y_closebal) totalclosing += parseFloat(info.y_closebal);
           y_closebaltype = info.y_closebaltype;
           y_openbaltype = info.y_openbaltype;
           traildatas.push(info);
@@ -152,7 +152,7 @@ export class TrialbalanceComponent implements OnInit {
     console.log('Active event', event);
     if (key == 'enter' && !this.activeId && this.TrialData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.TrialData[this.selectedRow].y_ledger_id);
+      this.getBookDetail(this.TrialData[this.selectedRow].y_ledger_id, this.TrialData[this.selectedRow].y_ledger_name);
       return;
     }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
@@ -246,14 +246,16 @@ export class TrialbalanceComponent implements OnInit {
   }
 
 
-  getBookDetail(voucherId) {
+  getBookDetail(voucherId, ledgerName) {
     console.log('vouher id', voucherId);
     //  this.common.params = voucherId;
     this.common.params = {
       startdate: this.trial.startDate,
       enddate: this.trial.endDate,
       ledger: voucherId,
-      vouchertype: 0
+      vouchertype: 0,
+      ledgername: ledgerName
+
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {

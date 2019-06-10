@@ -17,8 +17,8 @@ nb-card-header{
     background-color: #576c77
 }
 table tr.highlight {
-    background-color: #576c77 !important;
-    color: #ffffff;
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }
 .tjr-label {
     background: #263238;
@@ -63,34 +63,18 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: 150px;
         }
-        th:nth-child(1){
-            width: 3%;
+        th:first-child{
+            width: 30px;
         }
-        th:nth-child(2){
-            width: 13%;
-        }
-        th:nth-child(3){
-            width: 13%;
-        }
-        th:nth-child(4){
-            width: 13%;
-        }
-        th:nth-child(5){
-            width: 13%;
-        }
-        th:nth-child(6){
-            width: 13%;
-        }
-        th:nth-child(7){
-            width: 13%;
-        }
-        th:nth-child(8){
-            width: 13%;
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 150px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -114,29 +98,11 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
-                width: 3%;
+            td:first-child{
+                width: 30px;
             }
-            td:nth-child(2){
-                width: 13%
-            }
-            td:nth-child(3){
-                width: 13%
-            }
-            td:nth-child(4){
-                width: 13%
-            }
-            td:nth-child(5){
-                width: 13%
-            }
-            td:nth-child(6){
-                width: 13%
-            }
-            td:nth-child(7){
-                width: 13%
-            }
-            td:nth-child(8){
-                width: 13%
+            td:last-child{
+                width: auto;
             }
         }
         tr:nth-child(odd){

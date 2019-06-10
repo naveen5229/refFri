@@ -87,7 +87,7 @@ export class BalancesheetComponent implements OnInit {
     for (let key in firstGroup) {
       let total = 0;
       firstGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.liabilities.push({
@@ -101,7 +101,7 @@ export class BalancesheetComponent implements OnInit {
     for (let key in secondGroup) {
       let total = 0;
       secondGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.assets.push({
@@ -205,12 +205,14 @@ export class BalancesheetComponent implements OnInit {
     }, 100);
   }
 
-  opendaybookmodel(ledgerId) {
+  opendaybookmodel(ledgerId, ledgerName) {
+    console.log('ledger id 00000', ledgerId);
     this.common.params = {
       startdate: this.balanceData.startdate,
       enddate: this.balanceData.enddate,
       ledger: ledgerId,
-      vouchertype: 0
+      vouchertype: 0,
+      ledgername: ledgerName
     };
     const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
     activeModal.result.then(data => {

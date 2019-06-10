@@ -9,11 +9,11 @@
     <form enctype="multipart/form-data" #myForm="ngForm" id="site-form" name="site-form">
       <div class="row">
         <div class="col-md-6">
-          <label>Fo User<span>*</span></label>
+          <label>Fo <span>*</span></label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
           <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
-            placeholder="Fo User" [preSelected]="null"></auto-suggestion>
+            placeholder="Fo " [preSelected]="null"></auto-suggestion>
           <div class="suggestions ng-star-inserted">
           </div>
         </div>
@@ -27,7 +27,8 @@
           <label>PreSit Name</label>
         </div>
         <div class="col-md-6" *ngIf="status!=1">
-          <select name="list" class="form-control mb-2" (change)="selectList($event.target.value)" [(ngModel)]="refTypePre">
+          <select name="list" class="form-control mb-2" (change)="selectList($event.target.value)"
+            [(ngModel)]="refTypePre">
             <option class="form-control" [value]="1">Site</option>
             <option class="form-control" [value]="2">TransArea</option>
           </select>
@@ -61,8 +62,8 @@
           <div *ngIf="refTypePre==2;">
             <label>TransArea</label>
             <auto-suggestion (onSelected)="addSite.preSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
-              display="loc_name" placeholder="Search 123"
-              [preSelected]="{loc_name:preSite.preSiteName}"></auto-suggestion>
+              display="loc_name" placeholder="Search 123" [preSelected]="{loc_name:preSite.preSiteName}">
+            </auto-suggestion>
             <div class="suggestions ng-star-inserted">
             </div>
           </div>
@@ -111,13 +112,12 @@
 
           <div *ngIf="refTypeCur==2;">
             <label>TransArea</label>
-          <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
-            display="loc_name" placeholder="Search .."
-            [preSelected]="{loc_name:currSite.currSiteName}">
-          </auto-suggestion>
-          <div class="suggestions ng-star-inserted">
+            <auto-suggestion (onSelected)="addSite.currSiteId = $event.id" url="Suggestion/getTransArea?typeId=1"
+              display="loc_name" placeholder="Search .." [preSelected]="{loc_name:currSite.currSiteName}">
+            </auto-suggestion>
+            <div class="suggestions ng-star-inserted">
+            </div>
           </div>
-        </div>
 
 
         </div>

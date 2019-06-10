@@ -1,0 +1,54 @@
+<nb-card style="padding-top: 26px;">
+
+  <nb-card-body>
+    <div class="row mb-3">
+      <div class="col-sm-2">
+        Under Group:
+      </div>
+      <div class="col-sm-2">
+        <input type="text" autocomplete="off" type="text" (keyup)="searchGroupInfo()" class="form-control"
+          id="undergroup" name="undergroup" [(ngModel)]="underGroupDetails.name"
+          placeholder="Please Select Under Group">
+        <!-- <auto-suggestion (onSelected)="getUnderGroupDetails($event)" url="suggestion/getAllUnderGroupData"
+          display="name" placeholder="Search" [preSelected]="null"></auto-suggestion> -->
+      </div>
+      <div class="col-sm-3">
+        <!-- <auto-suggetion-in-side [data]="autoSuggestion.underGroupData" [targetId]="autoSuggestion.targetId"
+          [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
+        </auto-suggetion-in-side> -->
+        <div class="under-group" *ngIf="showList">
+          <ul id="gorup_list">
+            <li id="item" *ngFor="let groupName of underGroupRes" (click)="getGroupInfo(groupName)">
+              {{groupName.name}}</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th> <input type="checkbox" name="vlist" [(ngModel)]="selectedAll" (ngModelChange)="selectAll()"></th>
+            <th>Vehicle Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let list of vehList;let i=index;">
+            <td>{{i+1}}</td>
+            <td>
+              <input type="checkbox" [name]="'list-' + i" [(ngModel)]="list.selected"
+                (ngModelChange)="changeStatus(list.name)">
+            </td>
+            <td>{{list.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align: right">
+      <button class="btn btn-primary" style="width: 150px" type="button" outline (click)="saveVehicleLedgerList()"
+        id="submit" style="cursor: pointer;">Submit</button>
+    </div>
+  </nb-card-body>
+</nb-card>

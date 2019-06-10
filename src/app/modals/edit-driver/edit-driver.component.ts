@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Driver } from 'selenium-webdriver/edge';
 import { CommonService } from '../../services/common.service';
-import {NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -17,6 +17,7 @@ export class EditDriverComponent implements OnInit {
     name: null,
     date: this.common.dateFormatter(new Date()),
     mobileno: null,
+    mobileno2: null,
     driverphoto: null,
     lisenceno: null,
     lisencephoto: null,
@@ -33,7 +34,7 @@ export class EditDriverComponent implements OnInit {
     public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
-    private activeModal:NgbActiveModal
+    private activeModal: NgbActiveModal
   ) {
 
   }
@@ -42,6 +43,7 @@ export class EditDriverComponent implements OnInit {
     this.driverForm = this.formbuilder.group({
       name: [this.common.params.driver.empname],
       mobileno: [this.common.params.driver.mobileno, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      mobileno2: [this.common.params.driver.mobileno2, [Validators.minLength(10), Validators.maxLength(10)]],
       guranterno: [this.common.params.driver.guarantor_mobileno],
       lisenceno: [this.common.params.driver.licence_no],
       uploadPhoto: [this.common.params.driver.photo],
@@ -52,7 +54,7 @@ export class EditDriverComponent implements OnInit {
       guranter: [this.common.params.driver.guarantor_name],
       date: ['']
     });
-    console.log("driverForm",this.driverForm);
+    console.log("driverForm", this.driverForm);
     if (this.common.params.driver) {
       //  console.log(this.common.params.driver);
       // this.driverForm.setValue({
@@ -101,10 +103,10 @@ export class EditDriverComponent implements OnInit {
         console.error('Base Err: ', err);
       })
   }
-  closeModal(){
+  closeModal() {
 
     this.activeModal.close({ response: true });
-    
+
   }
   Updatedriver() {
 

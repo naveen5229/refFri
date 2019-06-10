@@ -19,6 +19,7 @@ export class AddDriverCompleteComponent implements OnInit {
     name: null,
     date: this.common.dateFormatter(new Date()),
     mobileno: null,
+    mobileno2: null,
     photo: null,
     lisenceNumber: null,
     lisencePhoto: null,
@@ -44,6 +45,7 @@ export class AddDriverCompleteComponent implements OnInit {
     this.driverForm = this.formbuilder.group({
       name: [''],
       mobileno: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      mobileno2: ['', [Validators.minLength(10), Validators.maxLength(10)]],
       guranterno: [''],
       lisenceno: [''],
       uploadPhoto: [''],
@@ -57,7 +59,7 @@ export class AddDriverCompleteComponent implements OnInit {
   }
   closeModal() {
     this.driverForm.controls = null;
-    
+
     this.activeModal.close({ response: true });
   }
   get f() { return this.driverForm.controls; }
@@ -74,6 +76,7 @@ export class AddDriverCompleteComponent implements OnInit {
     const params = {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
+      mobileNo2: this.driverForm.controls.mobileno2.value,
       photo: this.driverForm.controls.uploadPhoto.value,
       lisenceNo: this.driverForm.controls.lisenceno.value,
       licencePhoto: this.driverForm.controls.lisencephoto.value,
@@ -95,7 +98,7 @@ export class AddDriverCompleteComponent implements OnInit {
       });
   }
 
-  handleFileSelection(event, type){
+  handleFileSelection(event, type) {
 
   }
 

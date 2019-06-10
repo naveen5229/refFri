@@ -14,10 +14,11 @@ export class DatePickerComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal,
     protected dateService: NbDateService<Date>,
     public common: CommonService) {
-      this.ref_page = this.common.params.ref_page?this.common.params.ref_page:'all';
+
+    this.ref_page = this.common.params.ref_page ? this.common.params.ref_page : 'all';
   }
 
-  
+
 
   ngOnInit() {
   }
@@ -33,20 +34,25 @@ export class DatePickerComponent implements OnInit {
   }
 
   get monthStart(): Date {
-    return this.dateService.getMonthStart(new Date());
+    return this.dateService.getMonthStart(new Date(this.date));
   }
   get monthEnd(): Date {
-    return this.dateService.getMonthEnd(new Date());
+    return this.dateService.getMonthEnd(new Date(this.date));
   }
 
-  handleDateChange(){
-    
+  handleDateChange() {
+
   }
-  closeModal() {
-    setTimeout(() =>{
-      console.log('Date: ', this.date);
-      this.activeModal.close({ date: this.date , timeType:this.timeType });
-    }, 100);
+  closeModal(properClose) {
+    if (properClose) {
+      setTimeout(() => {
+        console.log('Date: ', this.date);
+        this.activeModal.close({ date: this.date, timeType: this.timeType });
+      }, 100);
+    }
+    else {
+      this.activeModal.close({ date: this.date, timeType: this.timeType });
+    }
   }
 
 

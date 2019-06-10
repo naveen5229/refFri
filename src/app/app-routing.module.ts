@@ -63,6 +63,11 @@ const routes: Routes = [
     loadChildren: 'app/vehicle-maintenance/vehicle-maintenance.module#VehicleMaintenanceModule',
     canActivate: [AuthGuard],
   },
+  {
+    path: 'walle8',
+    loadChildren: 'app/walle8/walle8.module#Walle8Module',
+    canActivate: [AuthGuard],
+  },
 
   {
     path: 'auth',
@@ -91,6 +96,7 @@ const routes: Routes = [
       {
         path: 'logout',
         component: NbLogoutComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'request-password',

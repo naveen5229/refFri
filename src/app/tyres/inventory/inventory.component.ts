@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.component';
+import { StockSubtypeComponent } from '../../acounts-modals/stock-subtype/stock-subtype.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'inventory',
@@ -11,7 +13,7 @@ import { StockitemComponent } from '../../acounts-modals/stockitem/stockitem.com
   styleUrls: ['./inventory.component.scss', '../../pages/pages.component.css', '../tyres.component.css']
 })
 export class InventoryComponent implements OnInit {
-
+  csv = null;
   inventories = [{
     modelName: null,
     modelId: null,
@@ -60,10 +62,14 @@ export class InventoryComponent implements OnInit {
   models = [];
   sizeSuggestion = [];
   searchedTyreDetails = [];
+  userType = null;
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
+    public user: UserService
   ) {
+    console.log("user", user._loggedInBy);
+    this.userType = this.common.user._loggedInBy;
     this.searchData();
   }
 
@@ -159,7 +165,7 @@ export class InventoryComponent implements OnInit {
         if (res['data'][0].rtn_id > 0) {
           this.common.showToast("sucess");
         } else {
-          this.common.showToast(res['data'][0].rtn_msg);
+          this.common.showError(res['data'][0].rtn_msg);
         }
         //this.searchData();
       }, err => {
@@ -211,93 +217,50 @@ export class InventoryComponent implements OnInit {
     this.inventories[index].nsd3 = null;
     this.inventories[index].psi = null;
   }
-
-  openStockItemModal(stockitem?) {
-    console.log('stockitem', stockitem);
-    if (stockitem) {
-      this.common.params = stockitem;
-    } else {
-      this.common.params = { stockType: { name: 'Tyre', id: -1 } };
-    }
-    const activeModal = this.modalService.open(StockitemComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        if (stockitem) {
-          this.updateStockItem(stockitem.id, data.stockitem);
-          return;
+  
+  handleFileSelection(event) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+        let file = event.target.files[0];
+        if (file.type != "text/csv") {
+          alert("valid Format Are : CSV");
+          return false;
         }
-        this.addStockItem(data.stockItem);
-      }
-    });
-  }
 
-  addStockItem(stockItem) {
-    console.log(stockItem);
-    // const params ='';
-    const params = {
-      //foid: stockItem.user.id,
-      name: stockItem.name,
-      code: stockItem.code,
-      stocksubtypeid: stockItem.stockSubType.id,
-      sales: stockItem.sales,
-      purchase: stockItem.purchase,
-      minlimit: stockItem.minlimit,
-      maxlimit: stockItem.maxlimit,
-      isactive: stockItem.isactive,
-      inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id
-
-    };
-
-    console.log('params: ', params);
-    this.common.loading++;
-
-    this.api.post('Stock/InsertStockItem', params)
-      .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res);
-        // this.getStockItems();
+        res = res.toString().replace('vnd.ms-excel', 'csv');
+        console.log('Base 64: ', res);
+        this.csv = res;
       }, err => {
         this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
-      });
-
+        console.error('Base Err: ', err);
+      })
   }
 
-  updateStockItem(stockItemid, stockItem) {
-    console.log(stockItem);
-    // const params ='';
+  importCsv() {
     const params = {
-      //foid: stockItem.user.id,
-      name: stockItem.name,
-      code: stockItem.code,
-      stocksubtypeid: stockItem.stockSubType.id,
-      sales: stockItem.sales,
-      purchase: stockItem.purchase,
-      minlimit: stockItem.minlimit,
-      maxlimit: stockItem.maxlimit,
-      isactive: stockItem.isactive,
-      inventary: stockItem.inventary,
-      stockunit: stockItem.unit.id,
-      stockItemid: stockItemid
+      inventoryCsv: this.csv,
     };
 
-    console.log('paramsans: ', params);
+    if (!params.inventoryCsv) {
+      return this.common.showError("Select csv");
+    }
+    console.log("Data :", params);
     this.common.loading++;
-
-    this.api.post('Stock/UpdateStockItem', params)
+    this.api.post('Tyres/importTyreInventoryCsv ', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log('res: ', res);
-        //this.getStockItems();
+        console.log("upload result", res);
+        let successData = res['data']['s'];
+        let errorData = res['data']['f'];
+        console.log("error: ", errorData);
+        alert(res["msg"]);
       }, err => {
         this.common.loading--;
-        console.log('Error: ', err);
-        this.common.showError();
+        console.log(err);
       });
-
   }
+
 }
 

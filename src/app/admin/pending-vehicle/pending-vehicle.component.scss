@@ -1,0 +1,242 @@
+nb-card-header {
+    padding: 15px 20px;
+    border: 1px solid #efefef;
+    margin-bottom: 10px;
+}
+.rc-image{
+    margin-left: 0px;
+    padding: 10%;
+    display: inline;
+   
+}
+.rc-image a{
+    font-size: 16px;
+    color: #03036b;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.row {
+    margin-top: 4px;
+}
+
+label {
+    font-size: 14px;
+    padding-top: 10px;
+    font-weight: normal;
+    color: #4b4b4b;
+}
+.modal-body input, 
+.modal-body textarea, 
+.modal-body select{
+    border: 1px solid #263238 !important;
+    border-radius: 0px 2px 2px 2px;
+    padding: 3px 5px !important;
+    height: auto;
+    font-size: 12px;
+}
+.modal-body textarea{
+    height: 100px;
+}
+.btn{
+    padding: 5px 15px;
+    border-radius: 3px;
+    text-transform: capitalize;
+}
+.btn-danger {
+    background-color: #d61414 !important;
+}
+.modal-footer{
+    padding: 0px;
+}
+.dropdown {
+    position: relative;
+}
+
+select {
+    padding-top: 1%;
+}
+
+.agent {
+    width: 90%;
+}
+
+.suggestions ng-star-inserted {
+    overflow: auto !important;
+    max-height: 150px !important;
+}
+
+auto-suggestion {
+    overflow: auto !important;
+    max-height: 150px !important;
+}
+
+.documentType {
+    overflow: auto !important;
+    max-height: 150px !important;
+}
+
+//.form-control.frm-fld { width: 60%; display: block; margin-left: 6px; }
+//.form-control { width: 60%;}
+.suggestion-container .form-control {
+    width: 60% !important;
+}
+
+.custom-input-1 {
+    width: 60% !important;
+}
+
+.mgn-vert {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.doc-img {
+    max-width: 760px;
+    max-height: 800px;
+}
+
+.clear {
+    clear: both;
+}
+
+.sug-fld {
+    padding-left: 6px;
+    padding-right: 19px;
+}
+
+.vert-mdl-pdg {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.mdl-sel-agt {
+    width: 100% !important;
+    margin: 0px !important;
+    height: auto !important;
+}
+
+.mgn {
+    padding-left: 8%;
+}
+
+// Modal
+.custom-modal-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: transparent;
+    overflow: auto;
+    height: 100%;
+}
+.modal-header{
+    padding: 10px 15px;
+    background-color: #263238 !important;
+}
+.modal-header h5{
+    color:#fff;
+}
+.close {
+    background: transparent;
+    color: #fff !important;
+    opacity: 1;
+    padding: 10px 20px;
+    margin: -10px -1rem -1rem auto;
+    outline: none;
+}
+.custom-modal-body {
+    background: #fff;
+}
+
+.custom-active-modal {
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.5);
+
+}
+
+.custom-passive-modal {
+    z-index: 1049;
+}
+table{
+    margin: 0px;
+    border: 0px;
+    thead{
+        background-color: #263238;
+        color: white;
+        tr{
+            th{
+                padding: 5px 10px;
+                font-weight: normal;
+                width: 140px;
+            }
+            th:first-child{
+                width: 50px;
+            }
+            th:last-child{
+                width: auto;
+            }
+        }
+    }
+    tbody{
+        tr:nth-child(odd){
+            background-color:#fff;
+        }
+        tr:nth-child(even){
+            background-color:#e4e4e4;
+        }
+        td{
+            padding: 5px 10px !important;
+            font-size: 12px;
+            width: 140px;
+            .edit{
+                background-color: #1DE9B6;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 3px;
+                display: inline-block;
+                font-size: 12px;
+            }
+            .delete{
+                background-color: #F44236;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 3px;
+                display: inline-block;
+                font-size: 12px;
+            }
+        }
+        td:first-child{
+            width: 50px;
+        }
+        td:last-child{
+            width: auto;
+        }
+    }
+}
+
+.list_table table tbody {
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
+    overflow: auto;
+    max-height:calc(100vh - 140px);
+}
+h6{
+    margin: 15px 0px 10px;
+}
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.table-scroll tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+// :host ::ng-deep .image-gallery-2{
+//     height: 462px !important;
+// }

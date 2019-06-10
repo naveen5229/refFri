@@ -7,6 +7,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import * as _ from 'lodash';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { CsvService } from '../../services/csv/csv.service';
+import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 
 @Component({
   selector: 'trading',
@@ -14,7 +15,7 @@ import { CsvService } from '../../services/csv/csv.service';
   styleUrls: ['./trading.component.scss']
 })
 export class TradingComponent implements OnInit {
-
+  selectedName = '';
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
@@ -87,7 +88,7 @@ export class TradingComponent implements OnInit {
 
       let total = 0;
       firstGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.liabilities.push({
@@ -102,7 +103,7 @@ export class TradingComponent implements OnInit {
     for (let key in secondGroup) {
       let total = 0;
       secondGroup[key].map(value => {
-        if (value.y_amount) total += parseInt(value.y_amount);
+        if (value.y_amount) total += parseFloat(value.y_amount);
       });
 
       this.assets.push({
@@ -168,6 +169,11 @@ export class TradingComponent implements OnInit {
 
   }
 
+  RowSelected(u: any) {
+    console.log('data of u', u);
+    this.selectedName = u;   // declare variable in component.
+  }
+
   handleVoucherDateOnEnter(iddate) {
     let dateArray = [];
     let separator = '-';
@@ -201,5 +207,24 @@ export class TradingComponent implements OnInit {
       // if (isSetLastActive) this.lastActiveId = id;
       // console.log('last active id: ', this.lastActiveId);
     }, 100);
+  }
+
+  openLedgerViewModel(ledgerId, ledgerName) {
+    console.log('ledger id 00000', ledgerId);
+    this.common.params = {
+      startdate: this.balanceData.startdate,
+      enddate: this.balanceData.enddate,
+      ledger: ledgerId,
+      vouchertype: 0,
+      ledgername: ledgerName
+
+    };
+    const activeModal = this.modalService.open(LedgerviewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
+    activeModal.result.then(data => {
+      // console.log('Data: ', data);
+      //this.getDayBook();
+      //this.common.showToast('Voucher updated');
+
+    });
   }
 }

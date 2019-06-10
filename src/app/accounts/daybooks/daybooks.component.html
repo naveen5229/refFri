@@ -93,10 +93,14 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
 
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
-        (dblclick)="(dataItem.y_type.toLowerCase().includes('invoice') || dataItem.y_type.toLowerCase().includes('order'))  ? openinvoicemodel(dataItem.y_voucherid) : openVoucherEdit(dataItem.y_voucherid)"
+        (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(dataItem) :openVoucherEdit(dataItem.y_voucherid) : openinvoicemodel(dataItem.y_voucherid) "
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
-        <td>{{dataItem.y_particulars}}</td>
+        <td>{{dataItem.y_particulars}}
+          <span *ngIf="dataItem.y_docscount>0">
+            <i class="far fa-image" (click)="imageOpen(dataItem);"></i>
+          </span>
+        </td>
         <td>{{dataItem.y_type}}</td>
         <td>{{dataItem.y_code +'/'+ dataItem.y_cust_code}}</td>
         <td>{{dataItem.y_dramunt}}</td>

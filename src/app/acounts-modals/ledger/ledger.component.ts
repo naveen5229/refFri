@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountsComponent } from '../accounts/accounts.component';
 
 @Component({
   selector: 'ledger',
@@ -12,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LedgerComponent implements OnInit {
   lastActiveId = '';
-  deletedid=0;
+  deletedid = 0;
   showConfirm = false;
   showExit = false;
   salutiondata = [];
@@ -35,16 +36,18 @@ export class LedgerComponent implements OnInit {
     },
     id: '',
     code: '',
-    branchname:'',
-    branchcode:'',
-    accnumber:0,
-    creditdays:0,
-    isbank:0,
-    openingisdr:1,
-    openingbalance:0,
+    branchname: '',
+    branchcode: '',
+    accnumber: 0,
+    creditdays: 0,
+    isbank: 0,
+    openingisdr: 1,
+    openingbalance: 0,
     approved: 1,
     deleteview: 0,
-    delete : 0,
+    delete: 0,
+    bankname: '',
+    costcenter: 0,
     accDetails: [{
       id: '',
       salutation: {
@@ -73,15 +76,15 @@ export class LedgerComponent implements OnInit {
   suggestionIndex = -1;
 
 
-  
+
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public modalService: NgbModal,
     public api: ApiService) {
-     console.log('Params requst: ', this.common.params);
-    if (this.common.params) {
-      this.currentPage ="Edit Ledger";
-      this.deletedid =this.common.params.deleted;
+    console.log('Params requst: ', this.common.params);
+    if (this.common.params && this.common.params.ledgerdata) {
+      this.currentPage = "Edit Ledger";
+      this.deletedid = this.common.params.deleted;
       // console.log('deleted id',this.deletedid);
       // console.log('edit ledger data ', this.common.params.ledgerdata[0]);
       this.Accounts = {
@@ -99,16 +102,18 @@ export class LedgerComponent implements OnInit {
         },
         id: this.common.params.ledgerdata[0].y_id,
         code: this.common.params.ledgerdata[0].y_code,
-        branchname:  this.common.params.ledgerdata[0].branch_name,
-        branchcode:  this.common.params.ledgerdata[0].branch_code,
-        accnumber:   this.common.params.ledgerdata[0].ac_no,
-        creditdays:  this.common.params.ledgerdata[0].credit_days,
-        isbank : (this.common.params.ledgerdata[0].branch_code) ? 1:0,
-        openingisdr: (this.common.params.ledgerdata[0].opening_bal_isdr == true) ? 1:0,
-        openingbalance:this.common.params.ledgerdata[0].opening_balance,
-        approved: (this.common.params.ledgerdata[0].y_for_approved == true) ? 1:0,
-        deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1:0,
-        delete : 0,
+        branchname: this.common.params.ledgerdata[0].branch_name,
+        bankname: this.common.params.ledgerdata[0].y_bank_name,
+        branchcode: this.common.params.ledgerdata[0].branch_code,
+        accnumber: this.common.params.ledgerdata[0].ac_no,
+        creditdays: this.common.params.ledgerdata[0].credit_days,
+        isbank: (this.common.params.ledgerdata[0].branch_code) ? 1 : 0,
+        openingisdr: (this.common.params.ledgerdata[0].opening_bal_isdr == true) ? 1 : 0,
+        openingbalance: this.common.params.ledgerdata[0].opening_balance,
+        approved: (this.common.params.ledgerdata[0].y_for_approved == true) ? 1 : 0,
+        deleteview: (this.common.params.ledgerdata[0].y_del_review == true) ? 1 : 0,
+        costcenter: (this.common.params.ledgerdata[0].is_constcenterallow == true) ? 1 : 0,
+        delete: 0,
         accDetails: []
       };
       console.log('Accounts: ', this.Accounts);
@@ -124,7 +129,7 @@ export class LedgerComponent implements OnInit {
           panNo: detail.y_dtl_pan_no,
           tanNo: detail.y_dtl_tan_no,
           gstNo: detail.y_dtl_gst_no,
-         
+
           city: {
             name: detail.city_name,
             id: detail.y_dtl_city_id
@@ -142,7 +147,7 @@ export class LedgerComponent implements OnInit {
 
     this.common.handleModalSize('class', 'modal-lg', '1250');
     this.GetSalution();
-   // this.getUserData();
+    // this.getUserData();
     this.getUnderGroup();
     this.GetState();
     this.setFoucus('name');
@@ -342,8 +347,8 @@ export class LedgerComponent implements OnInit {
     event.preventDefault();
     return;
   }
-  changeevent(value){
-    console.log('vlue ',value);
+  changeevent(value) {
+    console.log('vlue ', value);
     this.setFoucus('branchname');
   }
 
@@ -351,14 +356,23 @@ export class LedgerComponent implements OnInit {
     if (event.key == "Escape") {
       this.showExit = true;
     }
-    console.log(event);
+    console.log('GGGGGG', event);
     // else if (activeId.includes('isbank') && (activeId.includes('isbank').checked)){ 
     //   this.setFoucus('branchname');
     // }
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
     console.log('Active Id', activeId);
+    console.log('ccc:', (event.altKey && key === 'c'));
+    console.log('yyy:', activeId);
+
+    if ((event.altKey && key === 'c') && (activeId.includes('undergroup'))) {
+      console.log('alt + C pressed');
+      this.openAccountModal();
+      return;
+    }
     this.setAutoSuggestion();
+
     if (this.showExit) {
       if (key == 'y' || key == 'enter') {
         this.showExit = false;
@@ -391,7 +405,7 @@ export class LedgerComponent implements OnInit {
       // console.log('Active jj: ', activeId.includes('aliasname'));
 
       if (activeId.includes('branchcode')) {
-        this.setFoucus('creditdays');
+        this.setFoucus('accnumber');
       } else if (activeId == 'name') {
         this.setFoucus('aliasname');
       } else if (activeId == 'aliasname') {
@@ -400,25 +414,29 @@ export class LedgerComponent implements OnInit {
         this.setFoucus('perrate');
       } else if (activeId.includes('perrate')) {
         this.setFoucus('openingbalance');
-      }   else if (activeId.includes('openingbalance')) {
+      } else if (activeId.includes('openingbalance')) {
         this.setFoucus('openingisdr');
       } else if (activeId.includes('openingisdr')) {
-        this.setFoucus('accnumber');
-      }else if (activeId.includes('branchname')) {
+        this.setFoucus('creditdays');
+      } else if (activeId.includes('branchname')) {
         this.setFoucus('branchcode');
-      }else if ( activeId.includes('accnumber')){
-        this.setFoucus('isbank');
-      } else if ( activeId.includes('isbank') && (this.Accounts.isbank == 1)){
-        this.setFoucus('branchname');
-      }else if ( activeId.includes('isbank') && (this.Accounts.isbank == 1)){
-        this.setFoucus('branchname');
-      } else if (activeId.includes('creditdays')) {
+      } else if (activeId.includes('accnumber')) {
         if (this.suggestions.list.length) {
           this.selectSuggestion(this.suggestions.list[this.suggestionIndex == -1 ? 0 : this.suggestionIndex], this.activeId);
           this.suggestions.list = [];
           this.suggestionIndex = -1;
         }
         this.setFoucus('salutation-0');
+      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 0)) {
+        this.setFoucus('salutation-0');
+      } else if (activeId.includes('isbank') && (this.Accounts.isbank == 1)) {
+        this.setFoucus('bankname');
+      } else if (activeId.includes('bankname')) {
+        this.setFoucus('branchname');
+      } else if (activeId.includes('creditdays')) {
+        this.setFoucus('costcenter');
+      } else if (activeId.includes('costcenter')) {
+        this.setFoucus('isbank');
       } else if (activeId.includes('salutation-')) {
         let index = activeId.split('-')[1];
         this.setFoucus('accountName-' + index);
@@ -511,7 +529,7 @@ export class LedgerComponent implements OnInit {
         this.setFoucus('address-' + index);
       }
       console.log('active 2', activeId);
-      
+
       if (activeId == 'accnumber') this.setFoucus('perrate');
       if (activeId == 'creditdays') this.setFoucus('branchcode');
       if (activeId == 'branchcode') this.setFoucus('branchname');
@@ -613,7 +631,7 @@ export class LedgerComponent implements OnInit {
 
   delete(tblid) {
     let params = {
-      id: tblid     
+      id: tblid
     };
     if (tblid) {
       console.log('city', tblid);
@@ -626,10 +644,10 @@ export class LedgerComponent implements OnInit {
         this.common.loading++;
         if (data.response) {
           console.log("data", data);
-          this.Accounts.delete=1;
+          this.Accounts.delete = 1;
           this.activeModal.close({ response: true, ledger: this.Accounts });
           this.common.loading--;
-         
+
         }
       });
     }
@@ -668,5 +686,52 @@ export class LedgerComponent implements OnInit {
       });
     }
   }
+
+
+  openAccountModal(Accounts?) {
+
+
+    this.common.params = null;
+    const activeModal = this.modalService.open(AccountsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.addAccount(data.Accounts);
+        return;
+      }
+    });
+
+  }
+
+  addAccount(Accounts1) {
+    console.log('accountdata', Accounts1);
+    const params = {
+      name: Accounts1.name,
+      foid: 123,
+      parentid: Accounts1.account.id,
+      primarygroupid: Accounts1.account.primarygroup_id,
+      x_id: 0
+    };
+    console.log('params11: ', params);
+    this.common.loading++;
+    this.api.post('Accounts/InsertAccount', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        let result = res['data'][0].save_secondarygroup;
+        if (result == '') {
+          this.common.showToast("Add Successfull  ");
+        }
+        else {
+          this.common.showToast(result);
+        }
+        this.getUnderGroup();
+        // this.GetAccount();
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+
 
 }
