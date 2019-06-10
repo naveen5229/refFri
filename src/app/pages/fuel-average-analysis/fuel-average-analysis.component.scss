@@ -82,7 +82,10 @@ table{
 }
 :host ::ng-deep.black {
     color: black;
-
+}
+:host ::ng-deep.indianred{
+    background-color: #F08080;
+    color: #fff;
 }
 
 .pdf-icon{
