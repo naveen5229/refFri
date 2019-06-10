@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocationMarkerComponent } from '../../modals/location-marker/location-marker.component';
 import { parse } from 'path';
 import { DatePipe } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'vehicle-covered-distance',
@@ -25,15 +26,26 @@ export class VehicleCoveredDistanceComponent implements OnInit {
       hideHeader: true
     }
   };
+  today = null;
 
   constructor(public api: ApiService,
     private datePipe: DatePipe,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public modalService: NgbModal,
+    public user: UserService) {
+
+    this.today = new Date();
+    this.common.refresh = this.refresh.bind(this);
+
     this.getData();
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    console.log("Refresh");
+    this.getData();
   }
 
 
@@ -171,5 +183,25 @@ export class VehicleCoveredDistanceComponent implements OnInit {
     this.common.params = { location, title: 'Vehicle Location' };
     const activeModal = this.modalService.open(LocationMarkerComponent, { size: 'lg', container: 'nb-layout' });
 
+  }
+
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "Vehicle Distance(24Hr)";
+        let time = this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], time);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 }
