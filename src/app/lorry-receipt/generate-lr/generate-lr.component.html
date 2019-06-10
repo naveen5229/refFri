@@ -21,18 +21,16 @@
         <tr>
           <td><label>Date*</label></td>
           <td>
-            <!-- <input [(ngModel)]="lr.date" [owlDateTime]="date" [owlDateTimeTrigger]="date " class="form-control"
-              autocomplete="off" name="date" placeholder="Enter Date">
-            <owl-date-time #date></owl-date-time> -->
+
             <div class="row">
-              <div class="col-sm-11">
-                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date" name="date"
-                  (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY">
-                <!-- <input type="text" [(ngModel)]=lr.date class="form-control"> -->
+              <div class="col-sm-12">
+
+                <uj-date-time-picker [isTime]="false" (onChanged)="lr.date = $event" [dateTimeValue]="lr.date">
+                </uj-date-time-picker>
+                <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date" name="date"
+                  (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY"> -->
               </div>
-              <div class="col-sm-1 pl-0">
-                <span style='cursor:pointer;' (click)="getDate()"><i class="icon fa fa-calendar add"></i></span>
-              </div>
+
             </div>
           </td>
           <td><label>T.A. Name</label></td>
