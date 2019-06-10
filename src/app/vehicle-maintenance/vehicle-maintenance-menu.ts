@@ -19,18 +19,24 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     //     link: '/vehicle-maintenance/maintenanace-dashboard',
     //     home: true,
     // },
-    // {
-    //     title: 'Maintenance Summary',
-    //     icon: 'fa fa-home',
-    //     link: '/vehicle-maintenance/maintenance-summary',
-    //     home: true,
-    // },
     {
-        title: 'Model Service',
+        title: 'Maintenance Summary',
         icon: 'fa fa-home',
-        link: '/vehicle-maintenance/view-modal-service',
+        link: '/vehicle-maintenance/maintenance-summary',
         home: true,
     },
+    // {
+    //     title: 'Model Service',
+    //     icon: 'fa fa-home',
+    //     link: '/vehicle-maintenance/view-modal-service',
+    //     home: true,
+    // },
+    // {
+    //     title: 'Model Sub Service',
+    //     icon: 'fa fa-home',
+    //     link: '/vehicle-maintenance/view-sub-modal-service',
+    //     home: true,
+    // },
 ];
 
 // export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [

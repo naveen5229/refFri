@@ -599,3 +599,28 @@ ngb-modal-window {
 .cdk-overlay-container {
     z-index: 99999 !important;
 }
+.changeVehicle{
+    width: 50%;
+    right: 0px;
+    left: inherit;
+}
+.changeVehicle .modal-dialog,
+.lrModal .modal-dialog{
+    margin-top: 0px;
+}
+.lrModal{
+    width: 50%;
+    left: 0px;
+}
+.k-animation-container{
+    z-index: 99999;
+}
+.fade{
+    opacity: 1;
+}
+.search_vehicle_input .tagsinput{
+    padding: 1px !important;
+}
+.search_vehicle_input .tagsinput input{
+    width: 100%;
+}

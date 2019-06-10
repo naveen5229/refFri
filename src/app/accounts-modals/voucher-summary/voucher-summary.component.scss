@@ -28,7 +28,7 @@
                 width: 258px;
             }
             td{
-                width: 283px;
+                width: 258px;
             }
         }
     }
@@ -129,10 +129,7 @@ table{
 } 
 .table_box_three{
     table{
-        display: block;
         width: 100%;
-        overflow: auto;
-        max-height: 532px;
         thead{
             display: table-row-group;
             tr{

@@ -36,6 +36,32 @@
 
       </div>
 
+      <div class="row">
+        <h6>Work List</h6>
+
+        <div class="work-table">
+          <table class="table table-bordered table-hover table-scroll">
+            <thead class="thead">
+              <tr>
+                <th>SrNo</th>
+                <th *ngFor="let col of columns2">{{formatTitle(col)}}</th>
+              </tr>
+            </thead>
+
+            <tbody class="">
+              <ng-container *ngIf="workList.length">
+                <tr *ngFor="let row of workList; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td *ngFor="let col of columns2">
+                    <span class="col-sm-1" style="min-width: 100px;">{{row[col]}}</span>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </nb-card-body>
 </nb-card>
@@ -98,11 +124,12 @@
                 <label style="font-size:16px;">{{modal.first.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectModelType($event, 'first')"
-                  (focusout)="openNextModal('second',modal.first.data.document.id)" display="name"
-                  [data]="modal.first.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
-                  class="documentType " style='width: 60% !important;'>
-                </auto-suggestion>
+                <input type="text" list="modelType" name="modeltype" placeholder="Enter Model Type"
+                  class="form-control mt-1" (change)="selectModelType($event,'first')">
+                <datalist id="modelType">
+                  <option *ngFor="let model of modelType;" class="form-contol"> {{model.name}}
+                  </option>
+                </datalist>
               </div>
             </div>
 
@@ -111,24 +138,37 @@
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
                   <div class="col-8">
-                    <select name="body" class="form-control mt-1" [(ngModel)]="modal.first.data.document.bodyTypeId">
-                      <option class="form-control" *ngFor="let body of bodyType" [value]="body.id">
-                        {{body.name}}</option>
-                    </select>
+
+                    <input type="text" list="document_type1" name="bodytype" class="form-control mt-1"
+                      (change)="onbodyType($event,'first')"
+                      (focusout)="openNextModal('second',modal.first.data.document.id)">
+                    <datalist id="document_type1">
+                      <option *ngFor="let body of bodyType;" class="form-contol"> {{body.name}}
+                      </option>
+                    </datalist>
+
                   </div>
                 </div>
               </div>
             </div>
+
+
+
 
             <div class="row form-field clear">
               <label for="doc_type-first" class="col-sm-4 mgn-vert">Emission Standard</label>
               <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
                   <div class="col-8">
-                    <select name="emission" class="form-control mt-1" [(ngModel)]="modal.first.data.document._bscode">
-                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission">
-                        {{emission}}</option>
-                    </select>
+
+                    <input type="text" list="emission1" name="emissiontype" class="form-control mt-1"
+                      [(ngModel)]="modal.first.data.document._bscode">
+                    <datalist id="emission1">
+                      <option *ngFor="let emission of emissionStandard;" class="form-contol" [value]="emission">
+                        {{emission}}
+                      </option>
+                    </datalist>
+
                   </div>
                 </div>
               </div>
@@ -155,14 +195,7 @@
               </div>
             </div>
 
-            <!-- <div class="row form-field clear">
-              <label for="remarks-first" class="col-sm-4">Remarks</label>
-              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
-                <textarea id="remarks-first" name="remarks-first" rows="3" class="form-control "
-                  [(ngModel)]="modal.first.data.document.remarks"
-                  [value]="modal.first.data.document.remarks"></textarea>
-              </div>
-            </div> -->
+
 
             <div class="row mt-3 mb-3">
               <div class="col-12 text-center"
@@ -247,11 +280,12 @@
                 <label style="font-size:16px;">{{modal.second.data.document.document_type}}</label>
               </div>
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
-                <auto-suggestion (onSelected)="selectModelType($event, 'second')"
-                  (focusout)="openNextModal('first',modal.second.data.document.id)" display="name"
-                  [data]="modal.second.data.modelType" placeholder="Enter Model Type" [preSelected]="null"
-                  class="documentType " style='width: 60% !important;'>
-                </auto-suggestion>
+                <input type="text" list="modelType2" name="modeltype2" placeholder="Enter Model Type"
+                  class="form-control mt-1" (change)="selectModelType($event,'second')">
+                <datalist id="modelType2">
+                  <option *ngFor="let model of modelType;" class="form-contol"> {{model.name}}
+                  </option>
+                </datalist>
               </div>
             </div>
 
@@ -260,10 +294,15 @@
               <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld">
                 <div class="row">
                   <div class="col-8">
-                    <select name="body" class="form-control mt-1" [(ngModel)]="modal.second.data.document.bodyTypeId">
-                      <option class="form-control" *ngFor="let body of bodyType" [value]="body.id">
-                        {{body.name}}</option>
-                    </select>
+
+                    <input type="text" list="document_type2" name="body2" class="form-control mt-1"
+                      (change)="onbodyType($event,'second')"
+                      (focusout)="openNextModal('second',modal.second.data.document.id)">
+                    <datalist id="document_type2">
+                      <option *ngFor="let body of bodyType;" class="form-contol"> {{body.name}}
+                      </option>
+                    </datalist>
+
                   </div>
                 </div>
               </div>
@@ -276,10 +315,13 @@
                 <div class="row">
 
                   <div class="col-8">
-                    <select name="emission2" class="form-control mt-1" [(ngModel)]="modal.second.data.document._bscode">
-                      <option class="form-control" *ngFor="let emission of emissionStandard" [value]="emission">
-                        {{emission}}</option>
-                    </select>
+                    <input type="text" list="emission2" name="emissiontype2" class="form-control mt-1"
+                      [(ngModel)]="modal.second.data.document._bscode">
+                    <datalist id="emission2">
+                      <option *ngFor="let emission of emissionStandard;" class="form-contol" [value]="emission">
+                        {{emission}}
+                      </option>
+                    </datalist>
                   </div>
                 </div>
               </div>
@@ -302,14 +344,7 @@
               </div>
             </div>
 
-            <!-- <div class="row form-field clear">
-              <label for="remarks-second" class="col-sm-4">Remarks</label>
-              <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
-                <textarea id="remarks-second" name="remarks-second" rows="3" class="form-control "
-                  [(ngModel)]="modal.second.data.document.remarks"
-                  [value]="modal.second.data.document.remarks"></textarea>
-              </div>
-            </div> -->
+
 
             <div class="row mt-3 mb-3">
 

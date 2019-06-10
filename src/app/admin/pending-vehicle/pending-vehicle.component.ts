@@ -12,6 +12,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
   styleUrls: ['./pending-vehicle.component.scss']
 })
 export class PendingVehicleComponent implements OnInit {
+  workList = [];
+  columns2 = [];
 
   data = [];
   columns = [];
@@ -44,8 +46,9 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.getAllBodyType();
+    this.getUserWorkList();
     this.common.refresh = this.refresh.bind(this);
-    this.emissionStandard = ["Bs 1", "Bs 2", "Bs 3", "Bs 4", "Bs 6"];
+    this.emissionStandard = ["BS 1", "BS 2", "BS 3", "BS 4", "BS 6"];
     // this.bodyType = ["Truck(OpenBody)", "Truck(FullBody)", "Multiaxle(Trailer)", "Tanker", "Trailer", "Doubleaxle(Trailer)"]
   }
 
@@ -58,6 +61,7 @@ export class PendingVehicleComponent implements OnInit {
     this.getPendingDetailsVehicle();
     this.getAllTypesOfBrand();
     this.getAllBodyType();
+    this.getUserWorkList();
   }
 
   getPendingDetailsVehicle() {
@@ -113,7 +117,7 @@ export class PendingVehicleComponent implements OnInit {
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
-        this.modal[modal].data.modelType = this.modelType ? this.modelType : '';
+        this.modal[modal].data.modelType = this.modelType ? this.modelType : null;
         console.log("All Type Model: ", this.modelType);
       }, err => {
         console.log(err);
@@ -220,9 +224,10 @@ export class PendingVehicleComponent implements OnInit {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
         }
         console.log('-------------------------Images:', this.modal[modal].data);
-        if (this.modal[modal].data.document.document_type_id) {
-          this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
-        }
+
+
+        this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
+
 
         if (this.modal[modal].data.document.bodyTypeId) {
           this.getAllBodyType();
@@ -318,7 +323,7 @@ export class PendingVehicleComponent implements OnInit {
       const params = {
         vehicleId: document.id,
         brandId: document.document_type_id,
-        modelId: document.modalTypeId,
+        modelId: document.modalTypeId ? document.modalTypeId : null,
         manufacturingDate: newDate,
         emsId: document._bscode,
         bodyTypeId: document.bodyTypeId,
@@ -328,7 +333,6 @@ export class PendingVehicleComponent implements OnInit {
         this.common.showError("Please enter Brand Type");
         return false;
       }
-
 
 
       if (document.wef_date) {
@@ -368,8 +372,8 @@ export class PendingVehicleComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log("api result", res);
-          let result = (res['msg']);
-          if (result == "success") {
+          let result = (res['success']);
+          if (result == true) {
             alert("Success");
             this.closeModal(true, modal);
           }
@@ -456,15 +460,19 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   selectBrandType(brandType, modal) {
+    this.modelType = [];
+    this.modal[modal].data.document.modalTypeId = null;
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
-    // console.log("doc var", this.modal[modal].data.document.document_type_id);
     this.getAllTypesOfModel(brandType.id, modal);
   }
 
   selectModelType(modalType, modal) {
-    console.log("Modal Type:", modalType, modal);
-    this.modal[modal].data.document.modalTypeId = modalType.id;
+    console.log("select model", modalType.target.value);
+    let name = modalType.target.value;
+    let modelId = this.modelType.filter(x => x.name === name)[0];
+    this.modal[modal].data.document.modalTypeId = modelId.id;
+    console.log("Modal Type:", this.modal[modal].data.document.modalTypeId);
   }
 
 
@@ -541,7 +549,49 @@ export class PendingVehicleComponent implements OnInit {
     console.log('Date: ', this.modal[modal].data.document[dateType]);
   }
 
+
+  onbodyType(e, modal) {
+    let name = e.target.value;
+    let listId = this.bodyType.filter(x => x.name === name)[0];
+
+
+    this.modal[modal].data.document.bodyTypeId = listId.id;
+
+
+
+  }
+
+  getUserWorkList() {
+    this.workList = [];
+    this.columns2 = [];
+    this.common.loading++;
+    this.api.post('Vehicles/getUserWorkSummary', {})
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("data", res);
+        this.workList = res['data'];
+        if (this.workList.length) {
+          for (var key in this.workList[0]) {
+            if (key.charAt(0) != "_")
+              this.columns2.push(key);
+          }
+
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+  }
+
+
+
+
+
 }
+
+
+
 
 
 

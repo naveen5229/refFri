@@ -35,6 +35,7 @@ import { VouchereditedComponent } from './voucheredited/voucheredited.component'
 import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
 import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
 import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
+import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -112,6 +113,10 @@ const routes: Routes = [{
             component: TripVoucherExpenseComponent
         },
         {
+            path: 'trip-voucher-expense/:id',
+            component: TripVoucherExpenseComponent
+        },
+        {
             path: 'outstanding',
             component: OutstandingComponent
         },
@@ -186,6 +191,10 @@ const routes: Routes = [{
         {
             path: 'mapped-fuel-voucher',
             component: MappedFuelVoucherComponent
+        },
+        {
+            path: 'vehicle-ledgers',
+            component: VehicleLedgersComponent
         }
     ],
 
