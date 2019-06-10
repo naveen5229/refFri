@@ -25,7 +25,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
     driverName: null,
     driverMobile: null,
     ewayNo: null,
-    ewayExpDate: '' + new Date(),
+    ewayExpDate: null,
     brokerName: null,
     remarks: null,
     sourceCity: null,
@@ -35,7 +35,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
     destinationLat: null,
     destinationLng: null,
     remark: null,
-    date: '' + new Date(),
+    date: null,
     totalAmount: null,
     advanceAmount: null,
     otherAmount: null,
@@ -51,8 +51,13 @@ export class GenerateLrMainfestoComponent implements OnInit {
     public mapService: MapService,
     public accountService: AccountService,
   ) {
-    this.mainfesto.date = this.common.dateFormatter1(new Date(this.mainfesto.date));
-    this.mainfesto.ewayExpDate = this.common.dateFormatter1(new Date(this.mainfesto.ewayExpDate));
+    let date = new Date();
+    date.setDate(date.getDate());
+    this.mainfesto.date = date;
+    this.mainfesto.ewayExpDate = date;
+
+    // this.mainfesto.date = this.common.dateFormatter1(new Date(this.mainfesto.date));
+    // this.mainfesto.ewayExpDate = this.common.dateFormatter1(new Date(this.mainfesto.ewayExpDate));
     this.getPendingLtlLr();
     this.api.getBranches();
 
@@ -171,6 +176,12 @@ export class GenerateLrMainfestoComponent implements OnInit {
   }
 
   saveMainFesto() {
+
+    let mainfestoDate = this.common.dateFormatter(this.mainfesto.date).split(' ')[0];
+    console.log('params mainfestoDate', mainfestoDate);
+
+    let mainfestoExpDate = this.common.dateFormatter(this.mainfesto.ewayExpDate).split(' ')[0];
+    console.log('params mainfestoDate', mainfestoExpDate);
     this.common.loading++;
     let params = {
       branchId: this.accountService.selected.branch.id,
@@ -178,7 +189,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
       vehicleRegNo: document.getElementById('vehicleno')['value'],
       challanNo: this.mainfesto.challanNo,
       sealNo: this.mainfesto.sealNo,
-      challanDate: this.mainfesto.date,
+      challanDate: mainfestoDate,
       source: this.mainfesto.sourceCity,
       sourceLat: this.mainfesto.sourceLat,
       sourceLng: this.mainfesto.sourceLng,
@@ -195,13 +206,14 @@ export class GenerateLrMainfestoComponent implements OnInit {
       brokerName: this.mainfesto.brokerName,
       remarks: this.mainfesto.remarks,
       ewayNo: this.mainfesto.ewayNo,
-      ewayExpDate: this.mainfesto.ewayExpDate,
+      ewayExpDate: mainfestoExpDate,
       totalAmount: this.mainfesto.totalAmount,
       advanceAmount: this.mainfesto.advanceAmount,
       otherAmount: this.mainfesto.otherAmount,
       balanceAmount: this.mainfesto.balanceAmount,
     }
     console.log("params", this.mainfesto);
+
     this.api.post('LorryReceiptsOperation/saveManifesto', params)
       .subscribe(res => {
         this.common.loading--;
