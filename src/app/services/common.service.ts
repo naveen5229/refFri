@@ -75,8 +75,10 @@ export class CommonService {
     private datePipe: DatePipe
   ) { }
 
-  showError(msg?) {
-    this.showToast(msg || "Something went wrong! try again.", "danger");
+  showError(msg?, err?) {
+    let message = msg || 'Something went wrong! try again.';
+    message += err ? ' Error Code: ' + err.status : '';
+    this.showToast(message, "danger");
   }
 
   ucWords(str) {
@@ -167,6 +169,7 @@ export class CommonService {
       );
     }
   }
+
   dateFormatternew(date, type = "YYYYMMDD", isTime = true, separator = "-") {
     let d = new Date(date);
     let year = d.getFullYear();
@@ -1128,4 +1131,14 @@ export class CommonService {
     }
     return res;
   }
+
+  loaderHandling(action = 'hide') {
+    if (this.loading == 0 && action == 'hide') return;
+    else if (this.loading < 0) {
+      this.loading = 0;
+      return;
+    } else if (action == 'show') this.loading++;
+    else this.loading--;
+  }
+
 }
