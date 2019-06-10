@@ -78,7 +78,7 @@
     </div> -->
     <!-- <ng-template *ngIf="fuelAvgDetails.length>0; then showTable; else showDiv"></ng-template>
     <ng-template #showTable> -->
-    <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings" id="fuelMileage">
+    <smart-table *ngIf="fuelAvgDetails.length" [data]="table.data" [settings]="table.settings" id="fuelMileage">
     </smart-table>
     <!-- </ng-template> -->
     <!-- <ng-template #showDiv> -->
