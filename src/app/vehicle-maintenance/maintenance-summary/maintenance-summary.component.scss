@@ -87,3 +87,7 @@ nb-card-header{
     font-size: 30px;
     color: #217346;
 }
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}

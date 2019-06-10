@@ -124,6 +124,11 @@ export class ViewSubModalServiceComponent implements OnInit {
       });
   }
 
+  resetData(event) {
+    this.modelId = null;
+    document.getElementsByName('suggestion')[1]['value'] = '';
+  }
+
   getSubModelService() {
     if ((!this.brandId && !this.modelId)) {
       this.common.showError("Model/Brand not selected");
@@ -168,10 +173,6 @@ export class ViewSubModalServiceComponent implements OnInit {
         this.common.loading--;
         console.log(err);
       });
-    // this.brandId = null;
-    this.modelId = null;
-    // document.getElementsByName('suggestion')[0]['value'] = '';
-    document.getElementsByName('suggestion')[1]['value'] = '';
   }
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
