@@ -74,6 +74,7 @@ export class BeehiveComponent implements OnInit {
                 console.log(res['data']);
                 switch (res['data']) {
                   case 2:
+                    // Count >= 20 Color iS Blue
                     console.log("here2");
                     circlesData.setOptions({
                       fillColor: "#0000FF",
@@ -83,6 +84,7 @@ export class BeehiveComponent implements OnInit {
                     });
                     break;
                   case 3:
+                    // Count < 20 Color iS Green
                     console.log("here3");
 
                     circlesData.setOptions({
@@ -93,6 +95,7 @@ export class BeehiveComponent implements OnInit {
                     });
                     break;
                     case 4:
+                      // If Api Status is not OK , Color iS yellow
                     console.log("here4");
                     circlesData.setOptions({
                       fillColor: "#FFFF00",
@@ -102,6 +105,7 @@ export class BeehiveComponent implements OnInit {
                     });
                     break;
                     case 5:
+                      // already Exist in DB , Magenta
                     console.log("here5");
                     circlesData.setOptions({
                       fillColor: "#FF00FF",
@@ -111,6 +115,7 @@ export class BeehiveComponent implements OnInit {
                     });
                     break;
                   default:
+                    // Color Is Red 
                     console.log("hereDefault", res['data']);
 
                     break;
@@ -121,8 +126,7 @@ export class BeehiveComponent implements OnInit {
                 });
 
             await this.sleep(500);
-            if (this.current > 50)
-              return;
+          
           }
         }
       },
