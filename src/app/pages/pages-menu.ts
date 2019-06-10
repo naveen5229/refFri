@@ -112,22 +112,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
       {
         title: 'Generate LR',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr',
       },
       {
         title: 'Generate LTL',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr-no-vehicles',
       },
       {
         title: 'Generate LR Manifest',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr-mainfesto',
       },
       {
         title: 'View LR Manifest',
-        icon: 'fa fa-pencil',
+        icon: 'fa fa-eye',
         link: '/pages/view-manifesto',
       },
       {

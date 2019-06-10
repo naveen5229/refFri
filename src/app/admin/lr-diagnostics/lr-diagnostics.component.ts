@@ -86,4 +86,16 @@ export class LrDiagnosticsComponent implements OnInit {
     return response;
 
   }
+
+  mergeLrState() {
+    this.common.loading++;
+    this.api.get('LorryReceiptsOperation/mergeLrState')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
 }
