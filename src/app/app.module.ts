@@ -179,6 +179,7 @@ import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add
 import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
 import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
+import { TollDetailsComponent } from './modals/toll-details/toll-details.component';
 
 
 @NgModule({
@@ -316,7 +317,8 @@ import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add
     AddVehicleModalServiceComponent,
     AddVehicleSubModalServiceComponent,
     UpdateTicketSubscribeComponent,
-    AddAdvancedMaintenanceComponent
+    AddAdvancedMaintenanceComponent,
+    TollDetailsComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -409,6 +411,7 @@ import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add
     WareHouseModalComponent,
     AddCityComponent,
     AddSiteRuleComponent,
+    TollDetailsComponent,
     StorerequisitionComponent,
     DropDownListComponent,
     VehicleGpsTrailComponent,
