@@ -75,6 +75,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+
 import {
   MatFormFieldModule,
   MatMenuModule,
@@ -165,6 +166,9 @@ import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-fill
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
+import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
+
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
 //import { VscDiagnosisComponent } from './admin/vsc-diagnosis/vsc-diagnosis.component';
@@ -172,6 +176,8 @@ import { PrintManifestComponent } from './modals/print-manifest/print-manifest.c
 
 import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
 import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
+import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
 
 
 @NgModule({
@@ -300,10 +306,15 @@ import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
+    UnmappedLrComponent,
+    MappedLrComponent,
+
     PrintManifestComponent,
     // VscDiagnosisComponent,
     VoucherSummaryShortComponent,
-    AddVehicleModalServiceComponent
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent,
+    UpdateTicketSubscribeComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -426,9 +437,13 @@ import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
+    UnmappedLrComponent,
+    MappedLrComponent,
     PrintManifestComponent,
     VoucherSummaryShortComponent,
-    AddVehicleModalServiceComponent
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent,
+    UpdateTicketSubscribeComponent
 
   ],
   imports: [

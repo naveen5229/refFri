@@ -1,7 +1,7 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-5">
+      <div class="col-7">
         <h5>Manifestation </h5>
       </div>
       <div class="col-sm-2">
@@ -13,13 +13,13 @@
           placeholder="End Date" (click)="getDate('end')" />
       </div>
 
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <button class="btn btn-primary m-0" (click)="getLrManifest()">OK</button>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="no-data alert alert-danger" role="alert" *ngIf="manifestData.length==0">
+    <div class="no-data alert alert-danger text-center" role="alert" *ngIf="manifestData.length==0">
       No Data Available On That Time Period !
     </div>
 

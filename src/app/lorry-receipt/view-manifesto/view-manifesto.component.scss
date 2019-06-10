@@ -1,7 +1,17 @@
+nb-card-header{
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 15px;
+}
 :host ::ng-deep td .zoom{
     background: linear-gradient(-135deg,#1de9b6 0,#1dc4e9 100%);
     display: inline-block;
     padding: 3px 8px;
     border-radius: 3px;
     color: #fff;
+}
+nb-card-header button{
+    padding: 5px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    width: 100%;
 }

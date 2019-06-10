@@ -13,8 +13,10 @@ import { MaintenanaceDashboardComponent } from './maintenanace-dashboard/mainten
 import { MaintenanceSummaryComponent } from './maintenance-summary/maintenance-summary.component';
 import { MaintenanceReportComponent } from './model/maintenance-report/maintenance-report.component';
 import { AddVehicleModalServiceComponent } from './model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { AddVehicleSubModalServiceComponent } from './model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 import { ViewModalServiceComponent } from './view-modal-service/view-modal-service.component';
 import { SharedModule } from '../shared.module';
+import { ViewSubModalServiceComponent } from './view-sub-modal-service/view-sub-modal-service.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -48,6 +50,7 @@ const PAGES_COMPONENTS = [
   ],
   exports: [
     ViewModalServiceComponent,
+    ViewSubModalServiceComponent
 
   ],
 })

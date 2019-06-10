@@ -213,6 +213,11 @@ export class DataService {
             icon: 'fa fa-pencil',
             link: '/admin/generate-lr',
           },
+          {
+            title: 'LR Diagnostics',
+            icon: 'fa fa-diagnostics',
+            link: '/admin/lr-diagnostics',
+          },
         ]
       },
       {
@@ -348,6 +353,12 @@ export class DataService {
             icon: 'fa fa-pencil-square-o',
             link: '/admin/view-modal-service',
           },
+          {
+            title: 'Sub Serivce Modal',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-sub-modal-service',
+          },
+         
         ]
       },
 
