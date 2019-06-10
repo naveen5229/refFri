@@ -25,12 +25,11 @@ export class MaintenanceSummaryComponent implements OnInit {
     }
   };
   types = [
-    { id: -1, name: "All" },
-    { id: 0, name: "Normal" },
+    { id: 0, name: "All" },
     { id: 1, name: "Expired" },
     { id: 2, name: "Expiring in 30 days" }
   ];
-  typeId = "-1";
+  typeId = 0;
 
   constructor(public api: ApiService,
     public common: CommonService,
