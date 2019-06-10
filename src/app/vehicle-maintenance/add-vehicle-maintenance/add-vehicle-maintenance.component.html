@@ -9,11 +9,11 @@
                 display="regno" placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)">
               </auto-suggestion>
             </div>
-            <div class="col-md-3 pr-0">
+            <div class="col-md-2 pr-0">
               <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
               </uj-date-time-picker>
             </div>
-            <div class="col-md-3 pr-0">
+            <div class="col-md-2 pr-0">
               <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
                 [dateTimeValue]="endTime">
               </uj-date-time-picker>
@@ -27,6 +27,11 @@
             <div class="col-md-2 offset-md-08">
               <button type="submit" class="btn btn-primary" (click)="addMaintenance()">
                 Add Maintenance
+              </button>
+            </div>
+            <div class="col-md-2 offset-md-08">
+              <button type="submit" class="btn btn-primary" (click)="addAdvanceMaintenance()">
+                Advance Maintenance
               </button>
             </div>
           </div>
