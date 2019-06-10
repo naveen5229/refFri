@@ -36,6 +36,25 @@ import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fue
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
 import { BeehiveComponent } from './beehive/beehive.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
+import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
+import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
+import { VehiclewiseTolltransactionComponent } from './vehiclewise-tolltransaction/vehiclewise-tolltransaction.component';
+import { PendingVehicleComponent } from './pending-vehicle/pending-vehicle.component';
+import { HaltDensityComponent } from './halt-density/halt-density.component';
+import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-site-rule.component';
+import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
+import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
+import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
+import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
+import { ViewModalServiceComponent } from '../vehicle-maintenance/view-modal-service/view-modal-service.component';
+import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
+
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -81,6 +100,11 @@ const routes: Routes = [{
         {
             path: 'ticket-properties',
             component: TicketPropertiesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'ticket-subscribe',
+            component: TicketSubscribeComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -187,6 +211,16 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'fuel-rules',
+            component: FuelRulesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'pump-station-area',
+            component: PumpStationAreaComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'trip-site-rule',
             component: TripSiteRuleComponent,
             canActivate: [RouteGuard]
@@ -197,15 +231,92 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'fuel-average-issues',
+            component: FuelAverageIssuesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'consolidate-fuel-average',
+            component: ConsolidateFuelAverageComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'fuel-analysis',
+            component: FuelAnalysisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'remaining-fuel',
             component: RemainingFuelComponent,
             canActivate: [RouteGuard]
         },
         {
-            path: 'ticket-subscribe',
-            component: TicketSubscribeComponent,
+            path: 'add-customer',
+            component: AddCustomerComponent,
             canActivate: [RouteGuard]
+        },
+        {
+            path: 'toll-transaction-summary',
+            component: TollTransactionSummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'manual-toll-transaction-summary',
+            component: ManualTollTransactionSummaryComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vehiclewise-tolltransaction',
+            component: VehiclewiseTolltransactionComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'pending-vehicle',
+            component: PendingVehicleComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'halt-density',
+            component: HaltDensityComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'placement-site-rule',
+            component: PalacementSiteRuleComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'trip-analysis',
+            component: TripAnalysisComponent,
+        },
+        {
+            path: 'vehicles',
+            component: VehiclesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'lr-diagnostics',
+            component: LrDiagnosticsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'vsc-diagnosis',
+            component: VscDiagnosisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'view-modal-service',
+            component: ViewModalServiceComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path:'view-sub-modal-service',
+            component:ViewSubModalServiceComponent,
+            canActivate:[RouteGuard]
         }
+
+
+
     ],
 }];
 

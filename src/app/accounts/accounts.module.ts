@@ -31,7 +31,13 @@ import { StorerequisitionsComponent } from './storerequisitions/storerequisition
 import { TradingComponent } from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
-
+import { CostcenterComponent } from './costcenter/costcenter.component';
+import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
+import { VouchereditedComponent } from './voucheredited/voucheredited.component';
+import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
+import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
+import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
+import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -71,7 +77,14 @@ const PAGES_COMPONENTS = [
     StorerequisitionsComponent,
     TradingComponent,
     OpeningstockComponent,
-    TrialbalanceComponent
+    TrialbalanceComponent,
+    CostcenterComponent,
+    CostCenterReportComponent,
+    VouchereditedComponent,
+    FuelfillingsComponent,
+    VehicleCostCenterListComponent,
+    MappedFuelVoucherComponent,
+    VehicleLedgersComponent
     //StockSubtypeComponent
   ],
 })

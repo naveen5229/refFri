@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { UserService } from '../../@core/data/users.service';
+import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 @Component({
@@ -16,22 +16,22 @@ export class VehicleGpsDetailComponent implements OnInit {
   foid;
   table = null;
   constructor(public api: ApiService,
-     public common: CommonService,
-     private datePipe: DatePipe,
+    public common: CommonService,
+    private datePipe: DatePipe,
     public user: UserService,
     public modalService: NgbModal) {
-      this.getVehicleGpsDetail();
+    this.getVehicleGpsDetail();
     this.common.refresh = this.refresh.bind(this);
 
   }
 
   ngOnInit() {
   }
-  refresh(){
+  refresh() {
     this.getVehicleGpsDetail();
   }
 
-  
+
 
   getVehicleGpsDetail() {
     this.common.loading++;
@@ -72,14 +72,54 @@ export class VehicleGpsDetailComponent implements OnInit {
       let column = {
         regno: { value: doc.regno },
         apiProvider: { value: doc.apiprovider },
-        lastCall: { value: this.datePipe.transform(doc.lastcalldt,'dd MMM HH:mm') },
-        time: { value: this.datePipe.transform(doc.dttime,'dd MMM HH:mm') },
-      
+        lastCall: { value: this.datePipe.transform(doc.lastcalldt, 'dd MMM HH:mm') },
+        time: { value: this.datePipe.transform(doc.dttime, 'dd MMM HH:mm') },
+
       };
       columns.push(column);
     });
     return columns;
   }
+
+
+  printPDF(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = fodata['name'];
+        let center_heading = "GPS Details";
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
+
+  printCsv(tblEltId) {
+    this.common.loading++;
+    let userid = this.user._customer.id;
+    if (this.user._loggedInBy == "customer")
+      userid = this.user._details.id;
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
+      .subscribe(res => {
+        this.common.loading--;
+        let fodata = res['data'];
+        let left_heading = "FoName:" + fodata['name'];
+        let center_heading = "Report:" + "GPS Details";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
+
+  }
+
 
 
 

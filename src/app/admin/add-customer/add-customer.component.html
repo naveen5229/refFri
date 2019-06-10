@@ -1,0 +1,43 @@
+<nb-card>
+  <nb-card-header>
+    ADD CUSTOMER
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="row" style="margin-bottom:10px">
+
+        <div class="col-4">
+          <button class="btn btn-primary w-100" id="button" (click)="submitted1()">Add Fo</button>
+        </div>
+
+        <div class="col-4">
+          <button class="btn btn-primary w-100" id="button" (click)="addFoAdminUser()">Fo AdminUser</button>
+        </div>
+        <!-- <auto-suggestion (onSelected)="selectLocation($event)" url="Location/getPlaceFromRedis?input=kota"
+            display="location" id="name" placeholder="Location" [preSelected]="location"></auto-suggestion> -->
+
+        <div class="col-4">
+          <button class="btn btn-primary w-100" id="button" (click)="addVehicle()">Add Vehicles</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px">
+
+
+        <div class="col-4">
+          <button class="btn btn-primary w-100" id="button" (click)="submitted2()">GPS History</button>
+        </div>
+        <!-- <div class="row">
+        <div class="col-3">
+          <button type="button" class="btn btn-primary" (click)="locationSelection()" name="button">i</button>
+        </div>
+      </div> -->
+
+
+        <div class="col-4">
+          <button class="btn btn-primary w-100" id="button" (click)="vehiclesview()">Vehicles
+            Category</button>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

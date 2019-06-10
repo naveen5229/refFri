@@ -28,6 +28,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/escalation-matrix',
     },
     {
+        title: 'vehicle view',
+        icon: 'fa fa-chart-bar',
+        link: '/admin/vehicles-view',
+    },
+    {
         title: 'Alert Related Issue',
         icon: 'far fa-bell',
         link: '/admin/alert-related-issue',
@@ -123,6 +128,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
+        title: 'Trip Diagnosis',
+        icon: 'fas fa-file-signature',
+        link: '/admin/trip-analysis',
+        home: true,
+    },
+    {
+        title: 'VSC Diagnosis',
+        icon: 'fas fa-receipt',
+        link: '/admin/vsc-diagnosis',
+        home: true,
+    },
+    {
         title: 'Fuel',
         icon: 'fas fa-gas-pump',
         children: [
@@ -136,6 +153,36 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Fuel Average Analysis',
                 icon: 'fa fa-signal',
                 link: '/admin/fuel-average-analysis',
+                home: true,
+            },
+            {
+                title: 'Fuel Rules',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-rules',
+                home: true,
+            },
+            {
+                title: 'Fuel Average Issues',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-average-issues',
+                home: true,
+            },
+            {
+                title: 'Consolidate Fuel Average',
+                icon: 'fa fa-signal',
+                link: '/admin/consolidate-fuel-average',
+                home: true,
+            },
+            {
+                title: 'Fuel Diagnosis',
+                icon: 'fa fa-signal',
+                link: '/admin/fuel-analysis',
+                home: true,
+            },
+            {
+                title: 'Pump Station Area',
+                icon: 'fa fa-signal',
+                link: '/admin/pump-station-area',
                 home: true,
             },
         ]
@@ -208,6 +255,35 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/ticket-subscribe',
         home: true,
     },
-
+    {
+        title: 'Add Customer',
+        icon: 'fa fa-signal',
+        link: '/admin/add-customer',
+        home: true,
+    },
+    {
+        title: 'Toll Transaction summary',
+        icon: 'fa fa-road',
+        link: '/admin/toll-transaction-summary',
+        home: true,
+    },
+    {
+        title: 'Manual Toll Transaction Summary',
+        icon: 'fa fa-user',
+        link: '/admin/manual-toll-transaction-summary',
+        home: true,
+    },
+    {
+        title: 'Vehicle Wise Toll Transaction Summary',
+        icon: 'fa fa-car',
+        link: '/admin/vehiclewise-tolltransaction',
+        home: true,
+    },
+    {
+        title: 'LR Diagnostics',
+        icon: 'fa fa-diagnostics',
+        link: '/admin/lr-diagnostics',
+        home: true,
+    },
 
 ];

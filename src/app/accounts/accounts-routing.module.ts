@@ -29,7 +29,13 @@ import { StorerequisitionsComponent } from './storerequisitions/storerequisition
 import { TradingComponent } from './trading/trading.component';
 import { OpeningstockComponent } from './openingstock/openingstock.component';
 import { TrialbalanceComponent } from './trialbalance/trialbalance.component';
-
+import { CostcenterComponent } from './costcenter/costcenter.component';
+import { CostCenterReportComponent } from './cost-center-report/cost-center-report.component';
+import { VouchereditedComponent } from './voucheredited/voucheredited.component';
+import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
+import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
+import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
+import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -107,6 +113,10 @@ const routes: Routes = [{
             component: TripVoucherExpenseComponent
         },
         {
+            path: 'trip-voucher-expense/:id',
+            component: TripVoucherExpenseComponent
+        },
+        {
             path: 'outstanding',
             component: OutstandingComponent
         },
@@ -157,6 +167,34 @@ const routes: Routes = [{
         {
             path: 'trialbalance',
             component: TrialbalanceComponent
+        },
+        {
+            path: 'costcenter',
+            component: CostcenterComponent
+        },
+        {
+            path: 'cost-center-report',
+            component: CostCenterReportComponent,
+        },
+        {
+            path: 'voucheredited',
+            component: VouchereditedComponent
+        },
+        {
+            path: 'fuelfillings',
+            component: FuelfillingsComponent
+        },
+        {
+            path: 'vehicle-cost-center-list',
+            component: VehicleCostCenterListComponent
+        },
+        {
+            path: 'mapped-fuel-voucher',
+            component: MappedFuelVoucherComponent
+        },
+        {
+            path: 'vehicle-ledgers',
+            component: VehicleLedgersComponent
         }
     ],
 

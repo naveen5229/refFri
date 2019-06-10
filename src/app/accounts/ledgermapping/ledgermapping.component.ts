@@ -10,45 +10,45 @@ import { UserService } from '../../@core/data/users.service';
   styleUrls: ['./ledgermapping.component.scss']
 })
 export class LedgermappingComponent implements OnInit {
-  secondaryData=[];
+  secondaryData = [];
   selectedName = '';
   ledgerMapping = {
-    ledger :{
-        name:'All',
-        id:0
-      },
-      group :{
-        name:'All',
-        id:0
-      },
-    };
-    ledgerMappingData=[];
-    ledgerList=[];
-    activeId='secondaryname';
-    selectedRow = -1;
-    allowBackspace = true;
+    ledger: {
+      name: 'All',
+      id: 0
+    },
+    group: {
+      name: 'All',
+      id: 0
+    },
+  };
+  ledgerMappingData = [];
+  ledgerList = [];
+  activeId = 'secondaryname';
+  selectedRow = -1;
+  allowBackspace = true;
 
-    @HostListener('document:keydown', ['$event'])
-    handleKeyboardEvent(event) {
-      this.keyHandler(event);
-    }
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
 
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
-    public modalService: NgbModal) { 
-      this.common.refresh = this.refresh.bind(this);  
-      this.getSecondaryData();
-      this.getLedgerList();
-      this.setFoucus('secondaryname');
-      this.common.currentPage = 'Ledger Mapping';
-    }
+    public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
+    this.getSecondaryData();
+    this.getLedgerList();
+    this.setFoucus('secondaryname');
+    this.common.currentPage = 'Ledger Mapping';
+  }
 
 
   ngOnInit() {
   }
-   
-  refresh(){
+
+  refresh() {
     this.getSecondaryData();
     this.getLedgerList();
     this.setFoucus('secondaryname');
@@ -72,12 +72,12 @@ export class LedgermappingComponent implements OnInit {
 
   }
   getLedgerView() {
-  //  console.log('Ledger:', this.ledgerMapping);
+    //  console.log('Ledger:', this.ledgerMapping);
     let params = {
       ledger: this.ledgerMapping.ledger.id,
       group: this.ledgerMapping.group.id,
     };
-    
+
     this.common.loading++;
     this.api.post('Accounts/getLedgerMapping', params)
       .subscribe(res => {
@@ -93,7 +93,7 @@ export class LedgermappingComponent implements OnInit {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
   }
 
   getLedgerList() {
@@ -106,31 +106,31 @@ export class LedgermappingComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.ledgerList = res['data'];
-        
+
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
         this.common.showError();
-      }); 
+      });
 
   }
 
-  
+
   onSelected(selectedData, type, display) {
     this.ledgerMapping[type].name = selectedData[display];
     this.ledgerMapping[type].id = selectedData.id;
     // console.log('order User: ', this.DayBook);
   }
-  
+
   keyHandler(event) {
     const key = event.key.toLowerCase();
     this.activeId = document.activeElement.id;
     console.log('Active event', event);
     if (key == 'enter') {
       this.allowBackspace = true;
-       if (this.activeId.includes('secondaryname')) {
+      if (this.activeId.includes('secondaryname')) {
         this.setFoucus('ledger');
-      }else  if (this.activeId.includes('ledger')) {
+      } else if (this.activeId.includes('ledger')) {
         this.setFoucus('submit');
       }
     }
@@ -143,13 +143,13 @@ export class LedgermappingComponent implements OnInit {
     } else if (key != 'backspace') {
       this.allowBackspace = false;
     }
-    else if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerMappingData.length) {
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.ledgerMappingData.length) {
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.ledgerMappingData.length - 1) this.selectedRow++;
 
     }
-    
+
   }
 
   setFoucus(id, isSetLastActive = true) {

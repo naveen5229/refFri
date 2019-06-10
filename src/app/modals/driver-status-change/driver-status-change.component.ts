@@ -15,45 +15,45 @@ export class DriverStatusChangeComponent implements OnInit {
   driverStatusForm: FormGroup;
   submitted = false;
   Regno = null;
+  statusID = null;
+  id = [];
   constructor(
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
     public formbuilder: FormBuilder) {
-    this.name = this.common.params.name;
-    this.mobile = this.common.params.mobile;
+
     this.Regno = this.common.params.driver.regno;
+
     this.getdriverStatus();
-    // if (this.common.params.name) {
-    //   this.name = this.common.params.name;
-    //   console.log("Params:", this.name);
-    //  // this.mobile=this.common.params.mobileno;
-    // }
-    // if(this.common.params.mobileno){
-    //   this.mobile=this.common.params.mobileno;
-    // }if
-    // if(this.common.params.type){
-    //   this.name=this.common.params.driver.md_name;
-    //   this.mobile=this.common.params.driver.md_no;
-    // }else{
-    //   this.name=this.common.params.driver.sd_name;
-    //   this.mobile=this.common.params.sd_no;
-    // }
+    //console.log('....', this.statusID);
+    console.log('name', this.common.params.name, 'mobile', this.common.params.mobile);
+    if (this.common.params.driver.md_name == this.common.params.name) {
+      this.name = this.common.params.driver.md_name;
+      this.mobile = this.common.params.driver.md_no;
+      this.statusID = '901';
+
+    } if (this.common.params.driver.sd_name == this.common.params.name) {
+      this.name = this.common.params.driver.sd_name;
+      this.mobile = this.common.params.driver.sd_no;
+      this.statusID = '902';
+    }
 
   }
 
 
 
   ngOnInit() {
-    //  if(this.common.params.driver.md_name||this.common.params.driver.md_no){
+    //if(this.common.params.driver.md_name||this.common.params.driver.md_no){
 
-    // this.driverStatusForm = this.formbuilder.group({
-    //   name: [this.name],
-    //   mobileno: [this.mobile, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-    //   Status: [this.driverStatus, [Validators.required]],
-    // });
-    //
-    //}
+    this.driverStatusForm = this.formbuilder.group({
+      name: [this.name],
+      mobileno: [this.mobile],
+
+      Status: [this.statusID, [Validators.required]],
+    });
+
+
   }
   get f() { return this.driverStatusForm.controls; }
   getvehicleData(Fodriver) {
@@ -66,7 +66,20 @@ export class DriverStatusChangeComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.driverStatus = res['data'];
-        console.log("Driver Status:", this.driverStatus);
+        // for (let i = 0; i < this.driverStatus.length; i++) {
+        //   this.id = this.driverStatus[i].id;
+        //   if (this.driverStatus[i].id == '901') {
+        //     this.statusID = '901';
+
+        //   } if (this.driverStatus[i].id == '902') {
+        //     this.statusID = '902';
+        //   } if (this.driverStatus[i].id == '903') {
+        //     this.statusID = '903';
+        //   }
+        //   console.log("Driver Status:", this.id);
+        // }
+
+
       }, err => {
         this.common.loading--;
         console.log(err);

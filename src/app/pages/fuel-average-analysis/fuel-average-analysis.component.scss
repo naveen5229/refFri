@@ -82,5 +82,17 @@ table{
 }
 :host ::ng-deep.black {
     color: black;
+}
+:host ::ng-deep.indianred{
+    background-color: #F08080;
+    color: #fff;
+}
 
+.pdf-icon{
+    font-size: 30px;
+    color: #9F0001;
+}
+.exel-icon{
+    font-size: 30px;
+    color: #217346;
 }

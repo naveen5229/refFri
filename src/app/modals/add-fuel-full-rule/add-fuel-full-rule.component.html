@@ -1,0 +1,84 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row" *ngIf="status==0">
+      <div class="col-sm-3">
+        <label>Fo User:</label>
+      </div>
+      <div class="col-sm-4">
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+          placeholder="Fo User" [preSelected]="{name:foname}"></auto-suggestion>
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-3">
+        <label>Rule Type</label>
+      </div>
+      <div class="col-sm-3">
+        <select [(ngModel)]="Rules.ruleType" style="width: 200px" class="form-control"
+          style=" border: 1px solid #324148; font-size: 10px">
+          <option value="0">Select Type</option>
+          <option value="1">pump</option>
+          <option value="2">Pump Station Area</option>
+        </select>
+      </div>
+      <div class="col-sm-2" *ngIf="Rules.ruleType=='1'" style="margin-top:5px">
+        <label>
+          Pump:
+        </label>
+      </div>
+      <div class="col-sm-2" *ngIf="Rules.ruleType=='2'" style="margin-top:5px">
+        <label>
+          Pump Area:
+        </label>
+      </div>
+      <div class="col-sm-4" *ngIf="Rules.ruleType=='1'">
+        <auto-suggestion (onSelected)="getSite($event)" url="Suggestion/getFuelStationName" display="name"
+          placeholder="Pump" [preSelected]="{name:pumpName}"></auto-suggestion>
+      </div>
+      <div class="col-sm-4" *ngIf="Rules.ruleType=='2'">
+        <auto-suggestion (onSelected)="getPump($event)" url="Suggestion/getPumpStationArea" display="loc_name"
+          placeholder="Pump Station Area" [preSelected]="{loc_name:pumpArea}"></auto-suggestion>
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px" *ngIf="Rules.ruleType=='2'">
+      <div class="col-sm-3" style="margin-top:7px">
+        <label>Angle From:</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" [(ngModel)]="Rules.angleFrom" name="anglefrom" placeholder="">
+      </div>
+      <div class="col-sm-3" style="margin-top:7px">
+        <label>Angle To:</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" [(ngModel)]="Rules.angleTo" name="angleto" placeholder="">
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <input type="checkbox" name="isNegative" value="false" [(ngModel)]="Rules.isNegative">isNegative
+    </div>
+    <!-- <div class="row" style="margin-top:10px" *ngIf="ruleType=='2'">
+      <div class="col-sm-3" style="margin-top:5px">
+        <label>Location:</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" name="location" placeholder="">
+      </div>
+      <div class="col-sm-3" style="margin-top:5px">
+        <label>Radius:</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" name="radius" placeholder="">
+      </div>
+    </div> -->
+  </div>
+</div>
+<div class="modal-footer" style="margin-top:10px">
+  <div class="footer" style="text-align:right;"><button class="btn btn-primary" (click)="saveRule()">Save</button>
+  </div>

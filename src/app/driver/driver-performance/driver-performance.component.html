@@ -29,12 +29,16 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div class="no-data alert alert-danger" role="alert" *ngIf="driverPerformance.length==0">
-      No Data Available On That Time Period !
+    <div class="no-data alert alert-danger" role="alert" *ngIf="!click">
+      Select StartDate & EndDate And Click Submit !
+    </div>
+    <div class="no-data alert alert-danger" role="alert" *ngIf="!driverPerformance.length && click">
+      No Data Available !
+
     </div>
 
     <div>
-      <smart-table *ngIf="driverPerformance.length>0" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="driverPerformance.length" [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
 
   </nb-card-body>

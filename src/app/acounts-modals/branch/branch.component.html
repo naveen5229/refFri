@@ -21,21 +21,21 @@
           <div class="form-group">
             <label>Name</label>
             <input autocomplete="off" type="text" class="form-control" name="account-name" id="name"
-              placeholder="Plase Enter Name" [(ngModel)]="Branches.name">
+              placeholder="Please Enter Name" [(ngModel)]="Branches.name">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Code</label>
             <input autocomplete="off" type="text" class="form-control" name="account-code" id="code"
-              [(ngModel)]="Branches.code" placeholder="Plase Enter code">
+              [(ngModel)]="Branches.code" placeholder="Please Enter code">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Phone Number</label>
             <input autocomplete="off" type="text" class="form-control" name="account-phonenumber" id="phonenumber"
-              [(ngModel)]="Branches.phonenumber" placeholder="Plase Enter Phone Number">
+              [(ngModel)]="Branches.phonenumber" placeholder="Please Enter Phone Number">
           </div>
         </div>
       </div>
@@ -44,28 +44,28 @@
           <div class="form-group">
             <label>Mobile Number</label>
             <input autocomplete="off" type="text" class="form-control" name="account-mobilenumber" id="mobilenumber"
-              [(ngModel)]="Branches.mobilenumber" minlength="10" maxlength="10" placeholder="Plase Enter Mobile Number">
+              [(ngModel)]="Branches.mobilenumber" minlength="10" maxlength="10" placeholder="Please Enter Mobile Number">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Fax Number</label>
             <input autocomplete="off" type="text" class="form-control" name="account-name" id="faxnumber"
-              [(ngModel)]="Branches.faxnumber" placeholder="Plase Enter Fax Number">
+              [(ngModel)]="Branches.faxnumber" placeholder="Please Enter Fax Number">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Toll Free Number</label>
             <input autocomplete="off" type="text" class="form-control" name="account-tollfreenumber" id="tollfreenumber"
-              placeholder="Plase Enter Toll Free Number" [(ngModel)]="Branches.tollfreenumber">
+              placeholder="Please Enter Toll Free Number" [(ngModel)]="Branches.tollfreenumber">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>Email</label>
             <input autocomplete="off" type="text" class="form-control" name="account-email" id="email"
-              [(ngModel)]="Branches.email" placeholder="Plase Enter Email">
+              [(ngModel)]="Branches.email" placeholder="Please Enter Email">
           </div>
         </div>
       </div>
@@ -74,14 +74,14 @@
           <div class="form-group">
             <label>Excise Number</label>
             <input autocomplete="off" type="text" class="form-control" name="account-mobilenumber" id="exciseno"
-              placeholder="Plase Enter Excise No" [(ngModel)]="Branches.exciseno">
+              placeholder="Please Enter Excise No" [(ngModel)]="Branches.exciseno">
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label>TIN Number</label>
             <input autocomplete="off" type="text" class="form-control" name="account-tinno" id="tinno"
-              [(ngModel)]="Branches.tinno" placeholder="Plase Enter Tin No.">
+              [(ngModel)]="Branches.tinno" placeholder="Please Enter Tin No.">
           </div>
         </div>
         <div class="col">
@@ -139,6 +139,42 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label>Lr Terms</label>
+            <input autocomplete="off" type="text" class="form-control" name="lr-terms" id="lr-terms"
+              [(ngModel)]="Branches.lrTerm" placeholder="Lr Terms">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Lr Footer</label>
+            <input autocomplete="off" type="text" class="form-control" name="lr-footer" id="lr-footer"
+              [(ngModel)]="Branches.lrFooter" placeholder="Lr Footer">
+          </div>
+        </div>
+
+        <!-- <div class="col radiostockitem">
+          <div class="form-group">
+            <label>Const Center</label>
+            <div class="row iaactive">
+              <div class="col-6 pr-0">
+                <label> Yes</label>
+                <input type="radio" class="form-control" name="constcenterTrue" id="constcenterallow"
+                  [(ngModel)]="Branches.constcenter" [value]=1>
+              </div>
+              <div class="col-6 pl-0">
+                <label>No</label>
+                <input type="radio" class="form-control" name="constcenterFalse" [(ngModel)]="Branches.constcenter"
+                  [value]=0>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="form-group">

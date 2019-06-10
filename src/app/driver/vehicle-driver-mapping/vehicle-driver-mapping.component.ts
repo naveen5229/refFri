@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DriverVehicleRemappingComponent } from '../../modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from '../../modals/driver-status-change/driver-status-change.component';
-import {NewDriverStatusComponent} from '../../modals/new-driver-status/new-driver-status.component';
+import { NewDriverStatusComponent } from '../../modals/new-driver-status/new-driver-status.component';
 @Component({
   selector: 'vehicle-driver-mapping',
   templateUrl: './vehicle-driver-mapping.component.html',
@@ -134,21 +134,21 @@ export class VehicleDriverMappingComponent implements OnInit {
   mapDriver(driver, name, mobile) {
     console.log("Before Param :", driver, name, mobile);
     this.common.params = { driver, name, mobile };
-    const activeModal= this.modalService.open(DriverStatusChangeComponent, { size: 'lg', container: 'nb-layout' });
-     activeModal.result.then(data=>{
-       if(data.response){
-         this.getdriverMapping();
-       }
-     });
+    const activeModal = this.modalService.open(DriverStatusChangeComponent, { size: 'lg', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.getdriverMapping();
+      }
+    });
   }
   // mapDriverSecondry(driver) {
   //   this.common.params={driver};
   //   this.modalService.open(DriverStatusChangeComponent,{ size: 'lg', container: 'nb-layout' })
   // }
-  Add(driver){
-    console.log('Driver: ', driver); 
-   // this.common.params = { data: this.data }; 
-    this.modalService.open(NewDriverStatusComponent,{size: 'lg', container: 'nb-layout'});
-  }
+  // Add(driver){
+  //   console.log('Driver: ', driver); 
+  //  // this.common.params = { data: this.data }; 
+  //   this.modalService.open(NewDriverStatusComponent,{size: 'lg', container: 'nb-layout'});
+  // }
 
 }

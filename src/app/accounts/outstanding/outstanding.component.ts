@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from '../../@core/data/users.service';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import * as _ from 'lodash';
+import { CsvService } from '../../services/csv/csv.service';
+import { AccountService } from '../../services/account.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -16,6 +18,7 @@ export class OutstandingComponent implements OnInit {
   vouchertypedata = [];
   branchdata = [];
   activedateid = '';
+  selectedName = '';
   outStanding = {
     endDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startDate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
@@ -38,16 +41,19 @@ export class OutstandingComponent implements OnInit {
   showDateModal = false;
   f2Date = 'startDate';
   lastActiveId = '';
-
+  headingName = '';
+  selectedRow = -1;
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public csvService: CsvService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
     this.getLedgerList();
     this.setFoucus('ledger');
-    this.common.currentPage = 'Outstanding';
-
+    this.common.currentPage = 'Outstanding Report';
+    this.headingName = this.user._customer.name + '( ' + this.accountService.selected.branch.name + ' ) From :' + this.outStanding.startDate + ' To ' + this.outStanding.endDate;
   }
 
   ngOnInit() {
@@ -208,6 +214,12 @@ export class OutstandingComponent implements OnInit {
       this.allowBackspace = false;
     } else if (key != 'backspace') {
       this.allowBackspace = false;
+    }
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && !this.activeId && this.voucherEntries.length) {
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.voucherEntries.length - 1) this.selectedRow++;
+
     }
   }
 

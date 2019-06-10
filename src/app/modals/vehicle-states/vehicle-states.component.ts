@@ -18,6 +18,9 @@ export class VehicleStatesComponent implements OnInit {
   map: any;
   @ViewChild('map') mapElement: ElementRef;
   marker: any;
+  eventInfo = null;
+  infoWindow = null;
+  infoStart = null;
   stateType = "0";
   changeCategory = "halts";
   startDate;
@@ -25,6 +28,8 @@ export class VehicleStatesComponent implements OnInit {
   vid;
   remark = '';
   vehicleEvent = [];
+  placeName = '';
+  getPlace = [];
   halt = {
     time: '',
     location: '',
@@ -32,17 +37,18 @@ export class VehicleStatesComponent implements OnInit {
     long: ''
   };
   site = {
-    siteid: 0,
+    siteid: '',
     site_date: '',
     lat: '',
     long: '',
-    location: ''
+    location: '',
   };
   location = {
     loc: '',
     lat: '',
     long: '',
-    loc_date: ''
+    loc_date: '',
+
   };
   vehicle = [{
     lat: '',
@@ -52,8 +58,11 @@ export class VehicleStatesComponent implements OnInit {
     subType: 'marker'
   }];
 
+  success = false;
+
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
+    private commonService: CommonService,
     public api: ApiService,
     private zone: NgZone,
     public mapService: MapService,
@@ -171,17 +180,52 @@ export class VehicleStatesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log(res['data'])
-        this.vehicleEvent = res['data'];
+        let vehicleEvents = res['data'];
+        this.getPlaceName(vehicleEvents);
+        // this.vehicleEvent = res['data'];
         if (res['success']) {
           console.log('vehicle', this.vehicle);
+          let realStart = new Date(vehicleEvents[0].start_time) < new Date(this.startDate) ?
+            vehicleEvents[0].start_time : this.commonService.dateFormatter(this.startDate);
+          let realEnd = null;
+          if (vehicleEvents[0].end_time)
+            realEnd = new Date(vehicleEvents[vehicleEvents.length - 1].end_time) > new Date(this.endDate) ?
+              vehicleEvents[vehicleEvents.length - 1].end_time : this.commonService.dateFormatter(this.endDate);
+          console.log("RealStart", realStart, "RealEnd", realEnd);
+
+          let totalHourDiff = 0;
+          if (vehicleEvents.length != 0) {
+            totalHourDiff = this.commonService.dateDiffInHours(realStart, realEnd, true);
+            console.log("Total Diff", totalHourDiff);
+          }
+          for (let i = 0; i < vehicleEvents.length; i++) {
+            if (vehicleEvents[i].halt_reason == "Unloading" || vehicleEvents[i].halt_reason == "Loading") {
+              vehicleEvents[i].subType = 'marker';
+              vehicleEvents[i].color = vehicleEvents[i].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+              vehicleEvents[i].rc = vehicleEvents[i].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
+            } else {
+              vehicleEvents[i].color = "00ffff";
+            }
+            vehicleEvents[i].position = (this.commonService.dateDiffInHours(
+              realStart, vehicleEvents[i].start_time) / totalHourDiff) * 70;
+            vehicleEvents[i].width = (this.commonService.dateDiffInHours(
+              vehicleEvents[i].start_time, vehicleEvents[i].end_time, true) / totalHourDiff) * 98;
+            console.log("Width", vehicleEvents[i].width);
+            vehicleEvents[i].duration = this.commonService.dateDiffInHoursAndMins(
+              vehicleEvents[i].start_time, vehicleEvents[i].end_time);
+
+          }
+          console.log("vehicleEvents", vehicleEvents);
+          this.vehicleEvent = vehicleEvents;
           setTimeout(() => {
             this.mapService.clearAll();
             this.mapService.createMarkers(this.vehicleEvent, false, true, ["halt_reason", "addtime"], (marker) => { this.selectHalt(marker); });
             this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
             //this.mapService.createMarkers(this.location, false, false);
-            this.mapService.zoomMap(9);
+            this.mapService.zoomMap(7);
 
           }, 2500);
+
         }
       }, err => {
         this.common.loading--;
@@ -192,10 +236,12 @@ export class VehicleStatesComponent implements OnInit {
   }
 
   selectHalt(details) {
+    console.log('halt details', details);
     this.halt.lat = details.lat;
     this.halt.long = details.long;
     this.halt.time = details.addtime;
-    console.log('halt details', this.halt);
+    console.log('save halt', this.halt);
+
   }
 
   getSite(details) {
@@ -217,7 +263,7 @@ export class VehicleStatesComponent implements OnInit {
       this.mapService.createMarkers(detail, false, true, ["sd_loc_name"]);
       this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
       //this.mapService.createMarkers(this.location, false, false);
-      this.mapService.zoomMap(6);
+      this.mapService.zoomMap(9);
 
     }, 2000);
     console.log('site params', this.site);
@@ -239,47 +285,65 @@ export class VehicleStatesComponent implements OnInit {
           datetime: this.halt.time,
           remark: this.remark
         };
+
       } else if (this.changeCategory == 'sites') {
-        this.site.site_date = this.common.dateFormatter(this.site.site_date);
-        params = {
-          vid: this.vid,
-          state_id: this.stateType,
-          siteid: this.site.siteid,
-          loc_name: this.site.location,
-          lat: this.site.lat,
-          long: this.site.long,
-          datetime: this.site.site_date,
-          remark: this.remark
-        };
+        if (new Date(this.site.site_date) > new Date()) {
+          this.common.showError('Enter Correct Date!!');
+          return;
+        } else {
+          this.site.site_date = this.common.dateFormatter(this.site.site_date);
+          params = {
+            vid: this.vid,
+            state_id: this.stateType,
+            siteid: this.site.siteid,
+            loc_name: this.site.location,
+            lat: this.site.lat,
+            long: this.site.long,
+            datetime: this.site.site_date,
+            remark: this.remark
+          };
+        }
+
+
       } else {
-        this.location.loc_date = this.common.dateFormatter(this.location.loc_date);
-        params = {
-          vid: this.vid,
-          state_id: this.stateType,
-          loc_name: this.location.loc,
-          lat: this.location.lat,
-          long: this.location.long,
-          datetime: this.location.loc_date,
-          remark: this.remark
-        };
+        if (new Date(this.location.loc_date) > new Date()) {
+          this.common.showError('Enter Correct Date!!')
+          return;
+        } else {
+          this.location.loc_date = this.common.dateFormatter(this.location.loc_date);
+          params = {
+            vid: this.vid,
+            state_id: this.stateType,
+            loc_name: this.location.loc,
+            lat: this.location.lat,
+            long: this.location.long,
+            datetime: this.location.loc_date,
+            remark: this.remark
+          };
+
+        }
+
       }
 
       console.log('params to save ', params)
+
       this.common.loading++;
       this.api.post('Vehicles/saveVehicleState', params)
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res);
-          if (res['data'].r_id > 0) {
+          if (res['data'][0].r_id > 0) {
             console.log(res['data'].r_id);
             this.common.showToast('Success!!');
           } else {
-            this.common.showToast(res['data'].r_msg);
+            this.common.showError(res['data'].r_msg);
           }
         }, err => {
           this.common.loading--;
           this.common.showError();
         })
+
+
     }
   }
 
@@ -293,7 +357,7 @@ export class VehicleStatesComponent implements OnInit {
         this.mapService.createMarkers(this.vehicleEvent, false, true, ["halt_reason", "addtime"]);
         this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
         //this.mapService.createMarkers(this.location, false, false);
-        this.mapService.zoomMap(9);
+        this.mapService.zoomMap(7);
 
       }, 2500);
     } else {
@@ -303,7 +367,7 @@ export class VehicleStatesComponent implements OnInit {
       this.mapService.mapIntialize("map", 18, 25, 75, true);
       setTimeout(() => {
         this.mapService.createMarkers(this.vehicle, false, true, ["vregno"]);
-        this.mapService.zoomMap(9);
+        this.mapService.zoomMap(7);
       }, 2000);
 
 
@@ -312,12 +376,159 @@ export class VehicleStatesComponent implements OnInit {
     console.log('getCategory call:', this.changeCategory);
   }
 
+  checkVehicle() {
+    let params;
+    if (this.changeCategory == 'halts') {
+      params = {
+        vehicleId: this.vid,
+        time: this.common.dateFormatter(this.halt.time),
+        lat: this.halt.lat,
+        long: this.halt.long
+      };
+
+    } else if (this.changeCategory == 'sites') {
+      params = {
+        vehicleId: this.vid,
+        time: this.site.site_date,
+        lat: this.site.lat,
+        long: this.site.long
+      };
+
+    } else {
+      params = {
+        vehicleId: this.vid,
+        time: this.location.loc_date,
+        lat: this.location.lat,
+        long: this.location.long
+      };
+    }
+    console.log('params', params);
+    this.common.loading++;
+    this.api.post('Vehicles/chechVehLocationWrtTime', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        if (res['data'] == 1) {
+          this.saveVehicleState();
+        } else {
+          this.common.showError('vehicle is not exist in this location.. choose correct location to continue !!');
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+
+  openSmartTool(i, vehicleEvents) {
+    this.vehicleEvent.forEach(vEvent => {
+      if (vEvent != vehicleEvents)
+        vEvent.isOpen = false;
+    });
+    vehicleEvents.isOpen = !vehicleEvents.isOpen;
+    this.zoomFunctionality(i, vehicleEvents);
+  }
+  zoomFunctionality(i, vehicleEvents) {
+    console.log("vehicleEvents", vehicleEvents);
+    let latLng = this.mapService.getLatLngValue(vehicleEvents);
+    let googleLatLng = this.mapService.createLatLng(latLng.lat, latLng.lng);
+    console.log("latlngggg", googleLatLng);
+    this.mapService.zoomAt(googleLatLng);
+  }
+
+  setEventInfo(event) {
+    this.infoStart = new Date().getTime();
+    if (this.infoWindow)
+      this.infoWindow.close();
+    this.infoWindow = this.mapService.createInfoWindow();
+    this.infoWindow.opened = false;
+    this.infoWindow.setContent(
+      `
+      <b> Reason: </b>${event.halt_reason} <br>
+      <b>Loc: </b>${event.loc_name} <br>
+      <b>Start Time:</b> ${event.start_time} <br>
+      <b>End Time:</b>${event.end_time} <br>
+      <b>Duration:</b>${event.duration} <br>
+      `
+    );
+    this.infoWindow.setPosition(this.mapService.createLatLng(event.lat, event.long)); // or evt.latLng
+    this.infoWindow.open(this.mapService.map);
+    let bound = this.mapService.getMapBounds();
+  }
+
+  unsetEventInfo() {
+    let diff = new Date().getTime() - this.infoStart;
+    // console.log("Diff", diff);
+
+    if (diff > 500) {
+      this.infoWindow.close();
+      this.infoWindow.opened = false;
+    }
+  }
+
+  getPlaceName(E) {
+    this.getPlace = [];
+    let str_site_name, str_halt_reason;
+    E.forEach((E) => {
+      if (E.site_name != null) {
+        str_site_name = E.site_name.toUpperCase();
+        console.log('str_site_name', str_site_name)
+      }
+      if (E.halt_reason != null) {
+        str_halt_reason = E.halt_reason.toUpperCase();
+        console.log('str_halt_reason', str_halt_reason)
+      }
+
+      if ((str_site_name == "UNKNOWN") || (E.site_name == null)) {
+        if (E.site_type != null) {
+          if ((str_halt_reason != "UNKNOWN")) {
+            this.placeName = E.site_type + '_' + E.halt_reason;
+            this.getPlace.push(this.placeName);
+            console.log('place:1 ', this.placeName);
+          } else {
+            this.placeName = E.site_type;
+            this.getPlace.push(this.placeName);
+            console.log('place:2 ', this.placeName);
+          }
+        } else if ((str_halt_reason != "UNKNOWN")) {
+          this.placeName = E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:3 ', this.placeName);
+        } else {
+          this.placeName = 'Halt';
+          this.getPlace.push(this.placeName);
+          console.log('place:4 ', this.placeName);
+        }
+      } else if ((str_halt_reason != "UNKNOWN")) {
+        if (str_site_name.substring(0, 7) == 'UNKNOWN') {
+          this.placeName = str_site_name.split(',')[1] + '_' + E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:5 if', this.placeName);
+        } else {
+          this.placeName = E.site_name + '_' + E.halt_reason;
+          this.getPlace.push(this.placeName);
+          console.log('place:5 else', this.placeName);
+
+        }
+
+      } else {
+        if (str_site_name.substring(0, 7) == 'UNKNOWN') {
+          this.placeName = str_site_name.split(',')[1];
+          this.getPlace.push(this.placeName);
+          console.log('place:6 if ', this.placeName);
+        } else {
+          this.placeName = E.site_name;
+          this.getPlace.push(this.placeName);
+          console.log('place:6 else', this.placeName);
+        }
+
+      }
+
+    });
+    console.log('getPlace: ', this.getPlace);
+  }
 
   closeModal() {
     this.activeModal.close();
-  }
-  saveDetails() {
-
   }
 
 

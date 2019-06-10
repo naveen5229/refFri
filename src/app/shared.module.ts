@@ -11,19 +11,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentationDetailsComponent } from './documents/documentation-details/documentation-details.component';
 import { DocumentsSummaryComponent } from './documents/documents-summary/documents-summary.component';
 import { DocumentDashboardComponent } from './documents/dashboard/dashboard.component';
+import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-average/consolidate-fuel-average.component';
 import { DriverPerformanceComponent } from './driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from './admin/vehicle-distance/vehicle-distance.component';
 import { UserActivityStatusComponent } from './pages/user-activity-status/user-activity-status.component';
+import { ViewModalServiceComponent } from './vehicle-maintenance/view-modal-service/view-modal-service.component';
+import { ViewSubModalServiceComponent } from './vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
+    ConsolidateFuelAverageComponent,
     RemainingFuelComponent,
     DocumentationDetailsComponent,
     DocumentsSummaryComponent,
     DocumentDashboardComponent,
     DriverPerformanceComponent,
     VehicleDistanceComponent,
-    UserActivityStatusComponent
+    UserActivityStatusComponent,
+    ViewModalServiceComponent,
+    ViewSubModalServiceComponent
 
 ];
 
@@ -36,9 +42,6 @@ const PAGES_COMPONENTS = [
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         ImageViewerModule,
-
-
-
     ],
     exports: [...PAGES_COMPONENTS],
     providers: [],

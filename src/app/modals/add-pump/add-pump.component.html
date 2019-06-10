@@ -9,6 +9,16 @@
   <div class="row">
     <div class="col-md-2">
       <div class="form-group">
+        <select class="form-control" [(ngModel)]="typeId">
+          <option *ngFor="let typeIdx of typeIds;" [value]="typeIdx.id">{{typeIdx.description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <button (click)="loadMarkers()" class="btn btn-primary" style="display: inline-block; margin-right: 5px;  ">Load
+          Marker</button>
+      </div>
+      <div class="form-group">
         <label class="fill-elt">Pump Name:</label>
         <input name="name" id="name" [(ngModel)]="name" class="fill-elt form-control" autocomplete="off" />
       </div>
@@ -25,6 +35,16 @@
           <option class="form-control" [value]="3">HPCL</option>
         </select>
       </div>
+
+      <div class="mb-3">
+        <input (keydown.enter)="gotoSingle()" name="name" id="name" [(ngModel)]="position" class="fill-elt form-control"
+          autocomplete="off" />
+      </div>
+      <div *ngIf="pumpname !== null">
+        <input name="name" id="name" [value]="pumpname" class="fill-elt form-control" autocomplete="off" readonly />
+      </div>
+
+
     </div>
 
     <div class="map col-md-10">

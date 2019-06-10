@@ -25,23 +25,19 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
+            width: 350px;
            
         }
-        th:nth-child(1){
+        th:first-child{
             width: 35px;
         }
-        th:nth-child(2){
-            width: 400px;
-        }
-        th:nth-child(3){
-            width: 300px;
-        }
-        th:nth-child(4){
-            width: 310px;
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
+            width: 350px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -60,22 +56,16 @@ table{
         width: 100%;
         table-layout: fixed;
         overflow: auto;
-        max-height: calc(100vh - 182px);
+        max-height: calc(100vh - 308px);
         tr{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
+            td:first-child{
                 width: 35px;
             }
-            td:nth-child(2){
-                width: 400px;
-            }
-            td:nth-child(3){
-                width: 300px;
-            }
-            td:nth-child(4){
-                width: 300px;
+            td:last-child{
+                width: auto;
             }
         }
         tr:nth-child(odd){
@@ -107,8 +97,8 @@ table{
     background-color: #576c77
 }
 table tr.highlight {
-    background-color: #576c77 !important;
-    color: #ffffff;
+    background-color: #FFEE75 !important;
+    color: #000 !important;
     cursor: pointer;
 }
 i{
