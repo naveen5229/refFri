@@ -1131,4 +1131,14 @@ export class CommonService {
     }
     return res;
   }
+
+  loaderHandling(action = 'hide') {
+    if (this.loading == 0 && action == 'hide') return;
+    else if (this.loading < 0) {
+      this.loading = 0;
+      return;
+    } else if (action == 'show') this.loading++;
+    else this.loading--;
+  }
+
 }
