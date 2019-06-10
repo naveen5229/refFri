@@ -126,7 +126,7 @@ export class AddTripComponent implements OnInit {
         --this.common.loading;
         console.log(res['msg']);
         this.common.showToast(res['msg']);
-        this.activeModal.close();
+        this.activeModal.close(true);
       }, err => {
         --this.common.loading;
         console.log('Err:', err);

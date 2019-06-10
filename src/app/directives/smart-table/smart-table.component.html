@@ -35,7 +35,8 @@
     </thead>
     <tbody>
 
-      <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && handleRowClick(column, i)"
+      <tr *ngFor="let column of columns; let i = index;"
+        (click)="column.rowActions && column.rowActions.click && handleRowClick(column, i)"
         (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()"
         [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
         <td style="width: 40px">

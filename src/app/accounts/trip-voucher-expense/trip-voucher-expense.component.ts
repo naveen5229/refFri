@@ -180,6 +180,16 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    let activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if ((key == 'backspace'||key == 'delete') && activeId =='suggestion' ) {
+      /***************************** Handle Row Enter ******************* */
+     this.selectedVehicle.id=0;
+    }
+
+  }
   checkedAllSelected() {
     this.checkedTrips = [];
     for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
@@ -422,7 +432,7 @@ export class TripVoucherExpenseComponent implements OnInit {
        
    
 
-    if(this.routId==1){
+    if(tripVoucher.y_vouchertype_id==-151){
       let tripExpDriver=this.tripExpDriver;
     this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
 
