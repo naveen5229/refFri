@@ -80,8 +80,8 @@
           <td>
             <div class="row">
               <div class="col-sm-11">
-                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.date" name="date"
-                  (focusout)="checkDateFormat(mainfesto.date,'ewayExpDate')" placeholder="DD/MM/YYYY">
+                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.ewayExpDate"
+                  name="date" (focusout)="checkDateFormat(mainfesto.date,'ewayExpDate')" placeholder="DD/MM/YYYY">
               </div>
               <div class="col-sm-1 pl-0">
                 <span style='cursor:pointer;' (click)="getDate('ewayExpDate')"><i
