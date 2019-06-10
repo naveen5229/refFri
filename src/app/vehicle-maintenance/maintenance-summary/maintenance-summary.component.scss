@@ -87,3 +87,8 @@ nb-card-header{
     font-size: 30px;
     color: #217346;
 }
+:host ::ng-deep #tblsummary .tableFixHead {
+    overflow: auto;
+    height: auto !important;
+    max-height: calc(100vh - 230px) !important;
+}

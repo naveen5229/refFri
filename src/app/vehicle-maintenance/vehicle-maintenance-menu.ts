@@ -9,7 +9,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Add Maintenance',
-        icon: 'fa fa-home',
+        icon: 'fas fa-wrench',
         link: '/vehicle-maintenance/add-vehicle-maintenance',
         home: true,
     },
@@ -21,7 +21,7 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     // },
     {
         title: 'Maintenance Summary',
-        icon: 'fa fa-home',
+        icon: 'fas fa-cogs',
         link: '/vehicle-maintenance/maintenance-summary',
         home: true,
     },
