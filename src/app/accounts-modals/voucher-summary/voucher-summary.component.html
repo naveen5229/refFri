@@ -34,6 +34,8 @@
             <div class="form-group col-6 mt-6">
               <label class="tjr-label">Date</label>
               <input autocomplete="off" type="text" id="date" class="form-control" name="date" [(ngModel)]="date">
+              <!-- <uj-date-time-picker (onChanged)="date = $event" [dateTimeValue]="date">
+                </uj-date-time-picker> -->
             </div>
           </div>
           <div class="row">
@@ -182,6 +184,66 @@
           </div>
 
         </div>
+
+        <div class="row">
+        <div class="col-8 pl-0">
+            <table class="table table-bordered invoice_tabel table-four">
+              <thead style="background: #263238; color:#fff;">
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Remarks</th>
+                  <th>Ledger</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Details of accDetails; let i = index;">
+                  
+                  <td>
+                    <input type="text" class="form-control" autocomplete="off" [name]="'date-' + i"
+                      placeholder="Please Enter Date" [(ngModel)]="Details.detaildate" [id]="'detaildate-' + i"
+                     >
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" autocomplete="off" [name]="'detailamount-' + i"
+                      [id]="'mobileno-' + i" [(ngModel)]="Details.detailamount" placeholder="Please Enter Amount" (input)="driverSum()">
+                  </td>
+                  <td>
+                    <input type="email" class="form-control" autocomplete="off" [name]="'detailramarks-' + i" [id]="'detailramarks-' + i"
+                      [(ngModel)]="Details.detailramarks" placeholder="Please Enter Remarks">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" autocomplete="off" placeholder="Please Select Ledger"
+                      [name]="'detailLedger-' + i" [id]="'detailLedger-' + i" ng-maxlength="10" [(ngModel)]="Details.detailLedger.name" 
+                      (input)="targetId = 'detailLedger-' + i" (keydown)="targetId = 'detailLedger-' + i" >
+                  </td>
+                  
+                  <td *ngIf="i == 0">
+                    <button (click)="addDetails()" class="plustransparent btn btn-plus btn-primary"><i class="fa fa-plus"></i></button>
+                  </td>
+                  <td *ngIf="i !== 0">
+                    <button (click)="accDetails.splice(i,1)" class="btn btn-danger">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="number" class="form-control" name="driverTotal" [(ngModel)]="driverTotal" disabled></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-4 pl-0">
+              <auto-suggetion-in-side [data]="diverledgers" [targetId]="targetId" name="detailLedger"
+              display="y_ledger_name" (select)="onDebitSelectednew($event, 'detailLedger', 'y_ledger_name',targetId)">
+            </auto-suggetion-in-side>
+          </div>
+          </div>
       </div>
     </div>
 
