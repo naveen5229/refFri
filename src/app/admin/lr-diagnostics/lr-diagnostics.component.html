@@ -1,0 +1,36 @@
+<nb-card>
+  <nb-card-header>
+    <h2>LR Diagnostics</h2>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-bottom:10px">
+      <div class="col-3">
+        <label>Unmaped LR:</label>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" (click)="getDiagnostics()">Unmaped LR</button>
+      </div>
+      <div class="col-sm-2">
+        <label>Merge LR State:</label>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary" (click)="mergeLrState()">Merge LR State</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <label>Mapped LR</label>
+      </div>
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="end Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" (click)="getmapedLr()">Mapped LR</button>
+      </div>
+    </div>
+  </nb-card-body>

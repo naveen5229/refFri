@@ -19,7 +19,7 @@ import { start } from 'repl';
 export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
-  showTable = false;
+  // showTable = false;
   today = new Date();
   dates = {
     start: this.common.dateFormatter(new Date(this.today.setDate(this.today.getDate() - 28))).split(' ')[0],
@@ -55,12 +55,12 @@ export class FuelAverageAnalysisComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        this.fuelAvgDetails = res['data'];
+        this.fuelAvgDetails = res['data'] || [];
         if (this.fuelAvgDetails != null) {
-          this.showTable = true;
+          // this.showTable = true;
           this.table = this.setTable();
         } else {
-          this.showTable = false;
+          // this.showTable = false;
           this.table = null;
           this.common.showToast('No Record Found!!');
         }
@@ -111,7 +111,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
         loadingDistance: { value: fuel.loading_distance },
         unloadingDistance: { value: fuel.unloading_distance },
         location: { value: fuel.location_trail },
-
+        style: { background: fuel.is_probable_issue ? 'lightcoral' : '' }
       };
 
 

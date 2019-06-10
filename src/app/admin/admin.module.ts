@@ -56,6 +56,8 @@ import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-i
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
+import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
+
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 
 
@@ -134,6 +136,8 @@ const PAGES_COMPONENTS = [
     //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
+    VehiclesComponent,
+    LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VehiclesComponent,

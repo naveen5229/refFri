@@ -117,7 +117,7 @@ export class PendingVehicleComponent implements OnInit {
     this.api.get('vehicles/getVehicleModelsMaster?' + params)
       .subscribe(res => {
         this.modelType = res['data'];
-        this.modal[modal].data.modelType = this.modelType ? this.modelType : '';
+        this.modal[modal].data.modelType = this.modelType ? this.modelType : null;
         console.log("All Type Model: ", this.modelType);
       }, err => {
         console.log(err);
@@ -224,9 +224,10 @@ export class PendingVehicleComponent implements OnInit {
           this.modal[modal].data.images.push(this.modal[modal].data.document.img_url3);
         }
         console.log('-------------------------Images:', this.modal[modal].data);
-        if (this.modal[modal].data.document.document_type_id) {
-          this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
-        }
+
+
+        this.getAllTypesOfModel(this.modal[modal].data.document.document_type_id);
+
 
         if (this.modal[modal].data.document.bodyTypeId) {
           this.getAllBodyType();
@@ -322,18 +323,16 @@ export class PendingVehicleComponent implements OnInit {
       const params = {
         vehicleId: document.id,
         brandId: document.document_type_id,
-        modelId: document.modalTypeId,
+        modelId: document.modalTypeId ? document.modalTypeId : null,
         manufacturingDate: newDate,
         emsId: document._bscode,
         bodyTypeId: document.bodyTypeId,
       };
       console.log("Params is", params);
-
       if (!document.document_type_id) {
         this.common.showError("Please enter Brand Type");
         return false;
       }
-
 
 
       if (document.wef_date) {
@@ -461,15 +460,19 @@ export class PendingVehicleComponent implements OnInit {
   }
 
   selectBrandType(brandType, modal) {
+    this.modelType = [];
+    this.modal[modal].data.document.modalTypeId = null;
     this.modal[modal].data.document.document_type_id = brandType.id;
     console.log('brandType id: ', brandType.id);
-    // console.log("doc var", this.modal[modal].data.document.document_type_id);
     this.getAllTypesOfModel(brandType.id, modal);
   }
 
   selectModelType(modalType, modal) {
-    console.log("Modal Type:", modalType, modal);
-    this.modal[modal].data.document.modalTypeId = modalType.id;
+    console.log("select model", modalType.target.value);
+    let name = modalType.target.value;
+    let modelId = this.modelType.filter(x => x.name === name)[0];
+    this.modal[modal].data.document.modalTypeId = modelId.id;
+    console.log("Modal Type:", this.modal[modal].data.document.modalTypeId);
   }
 
 
