@@ -34,12 +34,11 @@ export class VehicleGpsTrailComponent implements OnInit {
     public user: UserService,
     public datepipe: DatePipe,
     public modalService: NgbModal) {
-    let today;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
-    console.log('dates ', this.endDate, this.startDate);
-    // this.result();
+    // let today;
+    // today = new Date();
+    // this.endDate = this.common.dateFormatter(today);
+    // this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 1)));
+    // console.log('dates ', this.endDate, this.startDate);
   }
 
   ngOnInit() {
@@ -52,13 +51,13 @@ export class VehicleGpsTrailComponent implements OnInit {
 
 
   result(button) {
-    // this.startDate = this.common.dateFormatter(this.startDate);
-    // this.endDate = this.common.dateFormatter(this.endDate);
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
     let selectapi = '';
     let params = {
       vehicleId: this.vId,
-      startTime: this.common.dateFormatter(this.startDate),
-      toTime: this.common.dateFormatter(this.endDate)
+      startTime: startDate,
+      toTime: endDate
     };
     switch (button) {
       case 1: selectapi = 'VehicleTrail/getVehicleTrailAll';
