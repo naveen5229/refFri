@@ -29,7 +29,7 @@ export class MaintenanceSummaryComponent implements OnInit {
     { id: 1, name: "Expired" },
     { id: 2, name: "Expiring in 30 days" }
   ];
-  typeId = 0;
+  typeId = "0";
 
   constructor(public api: ApiService,
     public common: CommonService,
