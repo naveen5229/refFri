@@ -296,7 +296,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Fuel Average Analysis',
+            title: 'Fuel Mileage',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-analysis',
             home: true,
@@ -345,20 +345,20 @@ export class DataService {
         link: '/accounts/dashboard'
       },
       {
-        title: 'maintenance',
+        title: 'Maintenance',
         icon: 'fa fa-file-alt',
         children: [
           {
-            title: 'Serivce Modal',
+            title: 'Service Model',
             icon: 'fa fa-pencil-square-o',
             link: '/admin/view-modal-service',
           },
           {
-            title: 'Sub Serivce Modal',
+            title: 'Sub Service Model',
             icon: 'fa fa-pencil-square-o',
             link: '/admin/view-sub-modal-service',
           },
-         
+
         ]
       },
 
