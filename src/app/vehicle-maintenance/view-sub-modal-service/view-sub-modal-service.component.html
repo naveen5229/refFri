@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-2">
               <auto-suggestion (onSelected)="modelId = $event.id;" display="name" placeholder="Enter Model"
-                [data]="models" [preSelected]="null"></auto-suggestion>
+                [data]="models" (change)="resetData($event)" [preSelected]="null"></auto-suggestion>
             </div>
             <div class="col-md-1 pt-3">
               <label>Mapping</label>

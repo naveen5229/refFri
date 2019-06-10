@@ -17,6 +17,7 @@ import { AddVehicleSubModalServiceComponent } from './model/add-vehicle-sub-moda
 import { ViewModalServiceComponent } from './view-modal-service/view-modal-service.component';
 import { SharedModule } from '../shared.module';
 import { ViewSubModalServiceComponent } from './view-sub-modal-service/view-sub-modal-service.component';
+import { ViewSummaryDetailsComponent } from './model/view-summary-details/view-summary-details.component';
 
 const PAGES_COMPONENTS = [
   VehicleMaintenanceComponent,
@@ -40,13 +41,15 @@ const PAGES_COMPONENTS = [
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
     MaintenanceReportComponent,
+    ViewSummaryDetailsComponent,
   ],
   entryComponents: [
     AddMaintenanceComponent,
     ViewMaintenanceComponent,
     MaintenanaceDashboardComponent,
     MaintenanceSummaryComponent,
-    MaintenanceReportComponent
+    MaintenanceReportComponent,
+    ViewSummaryDetailsComponent
   ],
   exports: [
     ViewModalServiceComponent,
