@@ -65,7 +65,11 @@ export class PendingDocumentsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    window.location.reload();
+    this.columns = [];
+    this.getPendingDetailsDocuments();
+    this.getAllTypesOfDocuments();
+    this.getUserWorkList();
+    // window.location.reload();
   }
 
   getPendingDetailsDocuments() {
