@@ -18,6 +18,7 @@ export class FuelEditComponent implements OnInit {
   loadAvg = null;
   unloadAvg = null;
   vehModel = null;
+  isUpdate: boolean;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
@@ -29,8 +30,7 @@ export class FuelEditComponent implements OnInit {
     if (this.common.params.req.load_avg && this.common.params.req.unload_avg) {
       this.loadAvg = this.common.params.req.load_avg;
       this.unloadAvg = this.common.params.req.unload_avg;
-
-
+      this.isUpdate = this.loadAvg != null && this.unloadAvg != null;
     }
     console.log('respomse', this.data);
   }
@@ -41,7 +41,7 @@ export class FuelEditComponent implements OnInit {
   ngOnInit() {
   }
   change() {
-    if (this.loadAvg != null && this.unloadAvg != null) {
+    if (this.isUpdate) {
       let params = {
         vehicle_model: this.vehModel,
 
