@@ -37,7 +37,7 @@ export class TyreSummaryComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    this.common.refresh = this.refresh;
+    this.common.refresh = this.refresh.bind(this);
     this.refresh();
   }
 
@@ -84,7 +84,7 @@ export class TyreSummaryComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    this.getSubModelService();
+    this.getTyreSummary();
   }
 
   resetData(event) {
@@ -92,11 +92,7 @@ export class TyreSummaryComponent implements OnInit {
     document.getElementsByName('suggestion')[1]['value'] = '';
   }
 
-  getSubModelService() {
-    // if ((!this.brandId && !this.modelId)) {
-    //   this.common.showError("Model/Brand not selected");
-    //   return;
-    // }
+  getTyreSummary() {
     this.common.loading++;
     this.api.get('Tyres/tyreSummary')
       .subscribe(res => {
