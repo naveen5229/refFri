@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">{{title}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-3">
+      <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
+        placeholder="Fo " [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-3">
+      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+
+      </uj-date-time-picker>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-primary" (click)="getView()">VIEW</button>
+    </div>
+  </div>
+</div>

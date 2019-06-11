@@ -168,6 +168,7 @@ import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
 import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
+import { FoSiteCountComponent } from './modals/fo-site-count/fo-site-count.component';
 
 
 
@@ -299,6 +300,7 @@ import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.compone
     BulkVehicleNextServiceDetailComponent,
     UnmappedLrComponent,
     MappedLrComponent,
+    FoSiteCountComponent,
 
   ],
   entryComponents: [
@@ -424,6 +426,7 @@ import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.compone
     PumpWiseFuelFillingComponent,
     UnmappedLrComponent,
     MappedLrComponent,
+    FoSiteCountComponent,
 
 
   ],

@@ -61,6 +61,7 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 
 
 
+
 const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
@@ -131,7 +132,8 @@ const PAGES_COMPONENTS = [
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
     VehiclesComponent,
-    LrDiagnosticsComponent
+    LrDiagnosticsComponent,
+
   ],
   exports: [
   ],

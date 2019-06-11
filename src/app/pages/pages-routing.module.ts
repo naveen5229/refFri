@@ -44,6 +44,7 @@ import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-dist
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
 import { ConsolidateFuelAverageComponent } from '../admin/consolidate-fuel-average/consolidate-fuel-average.component';
+import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/daywise-vehicle-distance.component';
 
 const routes: Routes = [{
   path: '',
@@ -279,6 +280,11 @@ const routes: Routes = [{
   {
     path: 'vehicle-performance',
     component: VehiclePerformanceComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'daywise-vehicle-distance',
+    component: DaywiseVehicleDistanceComponent,
     canActivate: [AuthGuard],
   }
   ],

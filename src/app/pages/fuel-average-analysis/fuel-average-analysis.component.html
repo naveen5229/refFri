@@ -21,6 +21,14 @@
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
       </div>
+      <div class="col-sm-2">
+        <select class="form-control" name="Status" [(ngModel)]="id" (change)="selectType()">
+          <option *ngFor="let mapping of Status" [value]="mapping.id">
+            {{mapping.name}}
+
+          </option>
+        </select>
+      </div>
 
       <div class="col-sm-2">
         <button id="submit" name="submit" class="btn btn-primary" (click)="getfuelAverageDetails()"

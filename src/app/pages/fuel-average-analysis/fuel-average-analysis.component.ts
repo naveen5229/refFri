@@ -20,12 +20,25 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   fuelAvgDetails = [];
   showTable = false;
+  Status = [
+    {
+      id: 1,
+      name: 'ALL'
+    },
+    {
+      id: 2,
+      name: 'Issues'
+    },
+    {
+      id: 3,
+      name: 'NonIssues',
+    }];
   today = new Date();
   dates = {
     start: this.common.dateFormatter(new Date(this.today.setDate(this.today.getDate() - 28))).split(' ')[0],
     end: this.common.dateFormatter(new Date()).split(' ')[0],
   };
-
+  id = '1';
   table = null;
   constructor(
     public api: ApiService,
@@ -41,7 +54,12 @@ export class FuelAverageAnalysisComponent implements OnInit {
   ngOnInit() {
   }
 
+  selectType() {
+    this.getfuelAverageDetails();
+  }
+
   getfuelAverageDetails() {
+    console.log("Status:", this.id);
     this.fuelAvgDetails = [];
     console.log("api hit");
     this.common.loading++;
@@ -64,6 +82,23 @@ export class FuelAverageAnalysisComponent implements OnInit {
           this.table = null;
           this.common.showToast('No Record Found!!');
         }
+        // if (this.id == '3') {
+        //   for (let i = 0; i < this.fuelAvgDetails.length; i++) {
+
+
+        //     if (this.fuelAvgDetails[i].is_probable_issue == '1') {
+        //       this.showTable = true;
+        //       this.table = this.setTable();
+
+        //     }
+        //     //else {
+        //     //   this.showTable = false;
+        //     //   this.table = null;
+        //     //   this.common.showToast('No Record Found!!');
+        //     // }
+
+        //   }
+        // }
 
       }, err => {
         this.common.loading--;
@@ -99,24 +134,76 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    this.fuelAvgDetails.map(fuel => {
-      let column = {
-        vehicleNumber: { value: fuel.reg_number },
-        startDate: { value: this.datePipe.transform(fuel.startdate, 'dd-MMM hh:mm a') },
-        endDate: { value: fuel.enddate != null ? this.datePipe.transform(fuel.enddate, 'dd-MMM hh:mm a') : '------' },
-        liters: { value: fuel.liters, class: fuel.liters ? 'blue' : 'black', action: this.getDetails.bind(this, fuel) },
-        amount: { value: fuel.amounts },
-        average: { value: fuel.avg },
-        totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
-        loadingDistance: { value: fuel.loading_distance },
-        unloadingDistance: { value: fuel.unloading_distance },
-        location: { value: fuel.location_trail },
+    if (this.id == '1') {
+      this.fuelAvgDetails.map(fuel => {
+        let column = {
+          vehicleNumber: { value: fuel.reg_number },
+          startDate: { value: this.datePipe.transform(fuel.startdate, 'dd-MMM hh:mm a') },
+          endDate: { value: fuel.enddate != null ? this.datePipe.transform(fuel.enddate, 'dd-MMM hh:mm a') : '------' },
+          liters: { value: fuel.liters, class: fuel.liters ? 'blue' : 'black', action: this.getDetails.bind(this, fuel) },
+          amount: { value: fuel.amounts },
+          average: { value: fuel.avg },
+          totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
+          loadingDistance: { value: fuel.loading_distance },
+          unloadingDistance: { value: fuel.unloading_distance },
+          location: { value: fuel.location_trail },
 
-      };
 
+        };
+        columns.push(column);
 
-      columns.push(column);
-    });
+      });
+
+    }
+
+    if (this.id == '2') {
+      //this.getfuelAverageDetails();
+      this.fuelAvgDetails = this.fuelAvgDetails.filter(elem => elem.is_probable_issue == 1);
+      console.log("test", this.fuelAvgDetails);
+      this.fuelAvgDetails.map(fuel => {
+        let column = {
+          vehicleNumber: { value: fuel.reg_number },
+          startDate: { value: this.datePipe.transform(fuel.startdate, 'dd-MMM hh:mm a') },
+          endDate: { value: fuel.enddate != null ? this.datePipe.transform(fuel.enddate, 'dd-MMM hh:mm a') : '------' },
+          liters: { value: fuel.liters, class: fuel.liters ? 'blue' : 'black', action: this.getDetails.bind(this, fuel) },
+          amount: { value: fuel.amounts },
+          average: { value: fuel.avg },
+          totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
+          loadingDistance: { value: fuel.loading_distance },
+          unloadingDistance: { value: fuel.unloading_distance },
+          location: { value: fuel.location_trail },
+          style: { background: fuel.is_probable_issue ? 'lightcoral' : '' }
+        };
+        columns.push(column);
+
+      });
+
+    }
+
+    if (this.id == '3') {
+      //this.getfuelAverageDetails();
+      this.fuelAvgDetails = this.fuelAvgDetails.filter(elem => elem.is_probable_issue == null);
+      console.log("test", this.fuelAvgDetails);
+      this.fuelAvgDetails.map(fuel => {
+        let column = {
+          vehicleNumber: { value: fuel.reg_number },
+          startDate: { value: this.datePipe.transform(fuel.startdate, 'dd-MMM hh:mm a') },
+          endDate: { value: fuel.enddate != null ? this.datePipe.transform(fuel.enddate, 'dd-MMM hh:mm a') : '------' },
+          liters: { value: fuel.liters, class: fuel.liters ? 'blue' : 'black', action: this.getDetails.bind(this, fuel) },
+          amount: { value: fuel.amounts },
+          average: { value: fuel.avg },
+          totalDistance: { value: fuel.total_distance, class: fuel.total_distance ? 'blue' : 'black', action: this.openRouteMapper.bind(this, fuel) },
+          loadingDistance: { value: fuel.loading_distance },
+          unloadingDistance: { value: fuel.unloading_distance },
+          location: { value: fuel.location_trail },
+
+        };
+        columns.push(column);
+
+      });
+
+    }
+
     return columns;
   }
 
@@ -225,4 +312,5 @@ export class FuelAverageAnalysisComponent implements OnInit {
 
 
   }
+
 }

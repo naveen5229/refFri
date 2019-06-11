@@ -48,6 +48,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance',
         home: true,
       },
+      {
+        title: 'Day Wise Vehicle Distance',
+        icon: 'fas fa-road',
+        link: '/pages/daywise-vehicle-distance',
+        home: true,
+      },
       // {
       //   title: 'Vehicle Trip States',
       //   icon: 'fas fa-map-marked',
