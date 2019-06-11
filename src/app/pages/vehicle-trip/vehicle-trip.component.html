@@ -38,7 +38,8 @@
         </span>
       </div>
     </div>
-    <smart-table *ngIf="vehicleTrips.length" id="vehicleTrip" [data]="table.data" [settings]="table.settings">
+    <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+      [settings]="table.settings">
     </smart-table>
     <br>
   </nb-card-body>
