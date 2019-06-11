@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NbThemeService } from '@nebular/theme';
 import { DatePipe, NumberFormatStyle } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
+import { FoSiteCountComponent } from '../../modals/fo-site-count/fo-site-count.component';
 
 @Component({
   selector: 'trip-analysis',
@@ -52,7 +53,9 @@ export class TripAnalysisComponent implements OnInit {
     });
 
   }
-
+  getfoSiteDetails() {
+    const activeModal = this.modalService.open(FoSiteCountComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+  }
   getTripAnalysis() {
     let params = {
       startDate: this.startDate,

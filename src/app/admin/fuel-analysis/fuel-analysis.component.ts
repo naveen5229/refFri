@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { VehicleWiseFuelFillingComponent } from '../../modals/vehicle-wise-fuel-filling/vehicle-wise-fuel-filling.component';
 import { PumpWiseFuelFillingComponent } from '../../modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
+import { ModalWiseFuelAvgComponent } from '../../modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
 @Component({
   selector: 'fuel-analysis',
   templateUrl: './fuel-analysis.component.html',
@@ -124,6 +125,12 @@ export class FuelAnalysisComponent implements OnInit {
         this.common.showError();
       })
   }
+  modalWiseFuel() {
+
+    const activeModal = this.modalService.open(ModalWiseFuelAvgComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+
+  }
   getreport() {
     // console.log('Dates', this.dates.date);
     let params = "start_time=" + this.startDate + "&end_time=" + this.endDate;
@@ -164,6 +171,11 @@ export class FuelAnalysisComponent implements OnInit {
           this.common.params = this.data;
           // console.log('response', this.common.params);
           const activeModal = this.modalService.open(VehicleWiseFuelFillingComponent, { size: 'lg', container: 'nb-layout' });
+          activeModal.result.then(data => {
+            if (data.response) {
+              this.vechilewiseFuel();
+            }
+          })
         }
 
         //this.table = this.setTable();

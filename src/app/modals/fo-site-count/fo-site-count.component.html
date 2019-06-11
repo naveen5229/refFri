@@ -11,7 +11,7 @@
         placeholder="Fo " [preSelected]="null"></auto-suggestion>
     </div>
     <div class="col-3">
-      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+      <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
 
       </uj-date-time-picker>
     </div>
@@ -19,4 +19,6 @@
       <button class="btn btn-primary" (click)="getView()">VIEW</button>
     </div>
   </div>
+
+  <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
 </div>
