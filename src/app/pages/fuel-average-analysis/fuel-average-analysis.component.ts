@@ -73,12 +73,12 @@ export class FuelAverageAnalysisComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log(res);
-        this.fuelAvgDetails = res['data'];
+        this.fuelAvgDetails = res['data'] || [];
         if (this.fuelAvgDetails != null) {
-          this.showTable = true;
+          // this.showTable = true;
           this.table = this.setTable();
         } else {
-          this.showTable = false;
+          // this.showTable = false;
           this.table = null;
           this.common.showToast('No Record Found!!');
         }

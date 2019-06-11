@@ -1,0 +1,33 @@
+<nb-card style="border: 0px;">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-8">
+        <h5 class="mt-1">VSC Diagnosis</h5>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-3">
+        <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+          placeholder="Start Date" (click)="getDate('start')">
+      </div>
+      <div class="col-sm-3" style="margin-left:10px">
+        <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+          placeholder="End Date" (click)="getDate('end')">
+      </div>
+      <div class="col-sm-3">
+        <button class="btn btn-primary primay_btn" (click)="getSiteRule()">getSiteRule</button>
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <div>
+        <smart-table *ngIf="siteRule.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      </div>
+      <div class="no-data alert alert-danger" role="alert" *ngIf="siteRule==null">
+        No Data available !
+      </div>
+
+    </div>
+  </nb-card-body>
+</nb-card>

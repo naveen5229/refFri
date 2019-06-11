@@ -4,6 +4,12 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/voucher-summary.component';
 import { ViewListComponent } from '../../modals/view-list/view-list.component';
+import { AccountService } from '../../services/account.service';
+import { UserService } from '../../@core/data/users.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
+
+
 
 @Component({
   selector: 'trip-voucher-expense',
@@ -25,28 +31,51 @@ export class TripVoucherExpenseComponent implements OnInit {
   flag = false;
   TripEditData = [];
   pendingDataEditTme = [];
+  VoucherEditTime=[];
+  routId=0;
+  tripExpDriver=[];
+  vchdt=1;
   constructor(
     public api: ApiService,
     public common: CommonService,
+    private route: ActivatedRoute,
+    public user: UserService,
+    public accountService: AccountService,
     public modalService: NgbModal) {
     this.common.currentPage = 'Trip Voucher Expense';
-    this.getTripExpences();
+   // this.getTripExpences();
+    this.common.refresh = this.refresh.bind(this);
+    this.route.params.subscribe(params => {
+      console.log('Params1: ', params);
+      if (params.id) {
+        this.routId = params.id;
+      }
+    });
+
   }
 
   ngOnInit() {
+  }
+
+  refresh() {
+    // this.getVoucherTypeList();
+    // this.getLedgerList();
+    this.getTripExpences();
   }
 
   getVehicle(vehicle) {
     console.log('test fase', vehicle);
     this.selectedVehicle = vehicle;
     this.flag = true;
-    this.getTripSummary();
+   // this.getTripSummary();
 
+    // this.selectedVehicle.id =0
+     // this.getTripExpences();
   }
 
   getPendingTripsEditTime(voucherid) {
     this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else {
       const params = {
@@ -71,12 +100,35 @@ export class TripVoucherExpenseComponent implements OnInit {
     }
   }
 
+  getTripsExpDriver(tripvoucherid) {
+     
+      const params = {
+        tripVchrId: tripvoucherid
+      };
+      this.common.loading++;
+      this.api.post('TripExpenseVoucher/getTripsExpDriver', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.tripExpDriver = res['data'];
+         
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    
+  }
+
 
   getPendingTrips() {
-    this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id==0) {
       this.common.showToast('please enter registration number !!')
+    }else if (this.accountService.selected.branch.id == 0) {
+      this.common.showToast('please Select Branch !!')
     } else {
+    this.getTripExpences();
       const params = {
         vehId: this.selectedVehicle.id
       };
@@ -99,16 +151,45 @@ export class TripVoucherExpenseComponent implements OnInit {
   showTripSummary(tripDetails) {
     let vehId = this.selectedVehicle.id;
     this.common.params = { vehId, tripDetails };
-    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        //this.addLedger(data.ledger);
-        this.common.loading--;
-      }
-    });
+
+    if(this.routId==1){
+      const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          //this.addLedger(data.ledger);
+          this.common.loading--;
+        }
+        this.selectedVehicle.id =0
+        this.getTripExpences();
+      });
+    }else{
+      const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          //this.addLedger(data.ledger);
+          this.common.loading--;
+        }
+        this.selectedVehicle.id =0
+        this.getTripExpences();
+      });
+    }
+    
+
+
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    let activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if ((key == 'backspace'||key == 'delete') && activeId =='suggestion' ) {
+      /***************************** Handle Row Enter ******************* */
+     this.selectedVehicle.id=0;
+    }
+
+  }
   checkedAllSelected() {
     this.checkedTrips = [];
     for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
@@ -250,7 +331,7 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   getPendingOnEditTrips() {
     this.getTripExpences();
-    if (this.flag == false) {
+    if (this.selectedVehicle.id == 0) {
       this.common.showToast('please enter registration number !!')
     } else {
       const params = {
@@ -277,7 +358,8 @@ export class TripVoucherExpenseComponent implements OnInit {
   getTripExpences() {
 
     const params = {
-      vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id :0
+      vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id :0,
+      isdate:0
     };
     this.common.loading++;
     this.api.post('VehicleTrips/getTripExpenceVouher', params)
@@ -292,17 +374,42 @@ export class TripVoucherExpenseComponent implements OnInit {
       });
   }
 
+  getSearchTripExpences() {
 
+    const params = {
+      vehId: (this.selectedVehicle.id) ? this.selectedVehicle.id :0,
+      startdate:this.startdate,
+      enddate:this.enddate,
+      isdate:this.vchdt
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/getTripExpenceFilterVoucher', params)
+      .subscribe(res => {
+        console.log('trip expence', res);
+        this.common.loading--;
+        this.tripVouchers = res['data'];
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
 
   getVoucherSummary(tripVoucher) {
     console.log('trdhh-----', tripVoucher);
+    this.selectedVehicle.id=tripVoucher.y_vehicle_id;
     this.getPendingOnEditTrips();
     this.getPendingTripsEditTime(tripVoucher.y_id);
+    this.getVocherEditTime(tripVoucher.y_voucher_id);
+    if(this.routId)
+    {
+    this.getTripsExpDriver(tripVoucher.y_id);
+    }
     const params = {
       voucherId: tripVoucher.y_voucher_id,
       // startDate: tripVoucher.startdate,
       // endDate: tripVoucher.enddate
-      voucherDetail: tripVoucher
+      voucherDetail: tripVoucher,
     };
     this.common.loading++;
     // this.api.post('TripExpenseVoucher/getTripExpenseVoucherTrips', params)
@@ -321,16 +428,41 @@ export class TripVoucherExpenseComponent implements OnInit {
     let vehId = this.selectedVehicle.id;
     let tripEditData = this.TripEditData;
     let tripPendingDataSelected = this.pendingDataEditTme;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected };
-    console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
-    const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
-        //this.addLedger(data.ledger);
-      }
-    });
+    let VoucherData=this.VoucherEditTime;
+       
+   
+
+    if(tripVoucher.y_vouchertype_id==-151){
+      let tripExpDriver=this.tripExpDriver;
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
+
+      
+      console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
+      const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          //this.addLedger(data.ledger);
+        }
+        this.selectedVehicle.id =0
+        this.getTripExpences();
+      });
+    }else{
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData };
+      console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
+      const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        // console.log('Data: ', data);
+        if (data.response) {
+          //this.addLedger(data.ledger);
+        }
+        this.selectedVehicle.id =0
+        this.getTripExpences();
+      });
+    }
   }
+  
+  
 
   deleteVoucherEntry(tripVoucher) {
     let params = {
@@ -352,5 +484,26 @@ export class TripVoucherExpenseComponent implements OnInit {
       })
   }
 
+  getVocherEditTime(VoucherID) {
+   
+      const params = {
+        vchId: VoucherID
+      };
+      this.common.loading++;
+      this.api.post('Voucher/getVoucherDetail', params)
+        // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+         // this.showTripSummary(res['data']);
+          //this.flag=false;
+          this.VoucherEditTime = res['data'];
+        }, err => {
+          console.log(err);
+          this.common.loading--;
+          this.common.showError();
+        });
+    
+  }
 
 }

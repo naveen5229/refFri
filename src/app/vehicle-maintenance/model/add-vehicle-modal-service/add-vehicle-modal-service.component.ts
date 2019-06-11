@@ -16,11 +16,11 @@ export class AddVehicleModalServiceComponent implements OnInit {
   brands = [];
   selectedEuro = null;
   euros = [
-    "Euro 1",
-    "Euro 2",
-    "Euro 3",
-    "Euro 4",
-    "Euro 6",
+    "BS 1",
+    "BS 2",
+    "BS 3",
+    "BS 4",
+    "BS 6",
   ];
   modelId = null;
   brandId = null;

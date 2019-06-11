@@ -273,6 +273,8 @@ export class GenerateLRComponent implements OnInit {
         destinationLng: this.lr.destinationLng,
         consigneeAddress: this.lr.consigneeAddress,
         consignorAddress: this.lr.consignorAddress,
+        vehicleRegNo: document.getElementById('vehicleno')['value'],
+        lrType: 'false'
       }
       console.log("params", params);
 
@@ -333,5 +335,9 @@ export class GenerateLRComponent implements OnInit {
       }
 
     });
+  }
+  resetData(event) {
+    this.vehicleId = null;
+    console.log(event);
   }
 }

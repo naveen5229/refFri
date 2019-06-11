@@ -47,8 +47,13 @@ import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-si
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
+import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
+import { ViewModalServiceComponent } from '../vehicle-maintenance/view-modal-service/view-modal-service.component';
+import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
+
 const routes: Routes = [{
     path: '',
     component: AdminComponent,
@@ -273,7 +278,12 @@ const routes: Routes = [{
             path: 'placement-site-rule',
             component: PalacementSiteRuleComponent,
             canActivate: [RouteGuard]
-        }, {
+        },
+        {
+            path: 'trip-analysis',
+            component: TripAnalysisComponent,
+        },
+        {
             path: 'vehicles',
             component: VehiclesComponent,
             canActivate: [RouteGuard]
@@ -283,6 +293,22 @@ const routes: Routes = [{
             component: LrDiagnosticsComponent,
             canActivate: [RouteGuard]
         },
+        {
+            path: 'vsc-diagnosis',
+            component: VscDiagnosisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'view-modal-service',
+            component: ViewModalServiceComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path:'view-sub-modal-service',
+            component:ViewSubModalServiceComponent,
+            canActivate:[RouteGuard]
+        }
+
 
 
     ],

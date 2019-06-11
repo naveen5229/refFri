@@ -45,6 +45,9 @@ import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-stat
 import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
 import { ConsolidateFuelAverageComponent } from '../admin/consolidate-fuel-average/consolidate-fuel-average.component';
 import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/daywise-vehicle-distance.component';
+import { GenerateLrNoVehiclesComponent } from '../lorry-receipt/generate-lr-no-vehicles/generate-lr-no-vehicles.component';
+import { GenerateLrMainfestoComponent } from '../lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
+import { ViewManifestoComponent } from '../lorry-receipt/view-manifesto/view-manifesto.component';
 
 const routes: Routes = [{
   path: '',
@@ -285,6 +288,20 @@ const routes: Routes = [{
   {
     path: 'daywise-vehicle-distance',
     component: DaywiseVehicleDistanceComponent,
+  },
+  {
+    path: 'generate-lr-no-vehicles',
+    component: GenerateLrNoVehiclesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'generate-lr-mainfesto',
+    component: GenerateLrMainfestoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'view-manifesto',
+    component: ViewManifestoComponent,
     canActivate: [AuthGuard],
   }
   ],

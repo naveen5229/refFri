@@ -5,10 +5,16 @@
   <nb-card-body>
     <div class="row" style="margin-bottom:10px">
       <div class="col-3">
-        <label>Unmaped LR</label>
+        <label>Unmaped LR:</label>
       </div>
       <div class="col-3">
         <button class="btn btn-primary" (click)="getDiagnostics()">Unmaped LR</button>
+      </div>
+      <div class="col-sm-2">
+        <label>Merge LR State:</label>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary" (click)="mergeLrState()">Merge LR State</button>
       </div>
     </div>
     <div class="row">
@@ -24,7 +30,7 @@
           placeholder="end Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
       </div>
       <div class="col-3">
-        <button class="btn btn-primary" (click)="getmapedLr()">Maped LR</button>
+        <button class="btn btn-primary" (click)="getmapedLr()">Mapped LR</button>
       </div>
     </div>
   </nb-card-body>

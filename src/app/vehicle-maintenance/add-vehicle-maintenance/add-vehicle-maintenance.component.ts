@@ -49,9 +49,17 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     console.log('Vehicle Data: ', this.selectedVehicle);
   }
 
+  refreshAuto() {
+    let sugestionValue = document.getElementsByName("suggestion")[0]['value'];
+    if (sugestionValue == '' || sugestionValue == null) {
+      this.vehicleRegno = null;
+      this.selectedVehicle = null;
+    }
+  }
+
   vehicleMaintenanceData() {
     let params = {
-      vId: -1,
+      vId: this.selectedVehicle,
       fromDate: this.common.dateFormatter1(this.startTime),
       toDate: this.common.dateFormatter1(this.endTime)
     };
@@ -70,15 +78,13 @@ export class AddVehicleMaintenanceComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action') };
-        this.table.data.headings['Action'] = action;
+        let action = { title: this.formatTitle('detail'), placeholder: this.formatTitle('detail') };
+        this.table.data.headings['Detail'] = action;
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
         console.log(err);
       });
-    this.selectedVehicle = null;
-    this.vehicleRegno = null;
   }
 
   getTableColumns() {
@@ -90,7 +96,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-      this.valobj['Action'] = {
+      this.valobj['Detail'] = {
         icons: [
           // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
           { class: "fa fa-cog", action: this.viewDetails.bind(this, doc) }]
@@ -102,12 +108,12 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   viewDetails(doc) {
-    // this.common.params = { title: 'Edit Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno, doc };
-    // const activeModal = this.modalService.open(ViewMaintenanceComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
-    // activeModal.result.then(data => {
-    //   if (data.response) {
-    //   }
-    // });
+    this.common.params = { vehicleId: doc._vid, jobId: doc._jobid };
+    const activeModal = this.modalService.open(ViewMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+      }
+    });
   }
 
   formatTitle(title) {
@@ -115,7 +121,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   addMaintenance() {
-    if (!this.selectedVehicle) {
+    if (!this.selectedVehicle || this.selectedVehicle == -1) {
       this.common.showError("Please select Vehicle Number");
       return false;
     }
@@ -126,8 +132,6 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.vehicleMaintenanceData();
         this.getTableColumns();
       }
-      this.selectedVehicle = null;
-      this.vehicleRegno = null;
     });
   }
 
@@ -144,6 +148,10 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         this.getTableColumns();
       }
     });
+  }
+  resetData(event) {
+    this.selectedVehicle = -1;
+    console.log(event);
   }
 
 }

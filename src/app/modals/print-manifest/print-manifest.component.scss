@@ -1,0 +1,23 @@
+@media print{
+    .doNotPrint{display:none !important;}
+  }
+  print-section{
+    z-index: 999;
+
+  }
+.btn.doNotPrint{
+  padding: 5px 10px;
+  text-transform: capitalize;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer !important;
+}
+.infoData{
+    border-bottom:1px solid black; 
+    width: 60%;
+    padding-left: 13px;
+}
+@page {
+    size: 25cm 35.7cm;
+    margin: 5mm 5mm 5mm 5mm; /* change the margins as you want them to be. */
+}

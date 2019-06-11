@@ -17,11 +17,13 @@ export class MappedFuelVoucherComponent implements OnInit {
 
   fuelVoucher = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
-    startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
+    startdate: this.common.dateFormatternew(new Date().setDate(new Date().getDate() - 2), 'ddMMYYYY', false, '-'),
+    // startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
     type: 1
   };
   activeId = '';
-  showDateModal = false;
+  showTable = false;
+  // showDateModal = false;
   voucherDetails = [];
   mappedDetails = [];
   mappedVoucher = [];
@@ -74,6 +76,7 @@ export class MappedFuelVoucherComponent implements OnInit {
         }
         else {
           this.voucherDetails = res['data'];
+          this.showTable = true;
           if (this.fuelVoucher.type == 1) {
             this.getVoucherGroup(this.voucherDetails);
           }
