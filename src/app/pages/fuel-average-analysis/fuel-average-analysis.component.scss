@@ -96,3 +96,6 @@ table{
     font-size: 30px;
     color: #217346;
 }
+:host ::ng-deep .tableFixHead{
+    max-height: calc(100vh - 192px);
+}

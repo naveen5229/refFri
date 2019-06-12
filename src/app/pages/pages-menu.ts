@@ -48,6 +48,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance',
         home: true,
       },
+      {
+        title: 'Day Wise Vehicle Distance',
+        icon: 'fas fa-road',
+        link: '/pages/daywise-vehicle-distance',
+        home: true,
+      },
       // {
       //   title: 'Vehicle Trip States',
       //   icon: 'fas fa-map-marked',
@@ -186,13 +192,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Fuel Mileage',
-        icon: 'fa fa-signal',
+        icon: 'fas fa-tachometer-alt',
         link: '/pages/fuel-average-analysis',
         home: true,
       },
       {
         title: 'Remaining Fuel',
-        icon: 'fa fa-signal',
+        icon: 'fas fa-history',
         link: '/pages/remaining-fuel',
         home: true,
       },
@@ -250,7 +256,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-user',
     children: [{
       title: 'driver Performance ',
-      icon: 'fa fa-book',
+      icon: 'fa fa-chart-bar',
       link: '/pages/driver-performance',
       home: true,
     }]

@@ -1,0 +1,24 @@
+<nb-card>
+  <nb-card-header>
+    Day Wise Vehicle Distance
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin:10px">
+
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('start')"
+          placeholder="Start Date" [value]="dates.start | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
+          placeholder="end Date" [value]="dates.end | date: 'dd MMM yyyy'" readonly>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary" (click)="getDistance()">Get Distance</button>
+      </div>
+    </div>
+    <div class="container">
+      <smart-table *ngIf="table.data.columns.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+  </nb-card-body>
+</nb-card>
