@@ -1,10 +1,11 @@
 <div style="background-color:#ffffff;width:100%" *ngIf=manifestDetail>
-  <div class="modal-header">
+  <div class="modal-header doNotPrint">
     <h5 class="modal-title" id="modal-basic-title">PrintManifest</h5>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <br>
   <div class="modal-body">
     <div class="row w-100">
       <div class="col-sm-12" style="text-align: center">
@@ -78,34 +79,35 @@
       </tbody>
     </table>
     <br>
-
-    <div class="col-sm-6">
-      <table style="width:100%;" class="table-bordered">
-        <tr>
-          <td> Total Amount</td>
-          <td>{{manifestDetail.total_amount}}</td>
-        </tr>
-        <tr>
-          <td>Advance Amount</td>
-          <td>{{manifestDetail.adv_amount}}</td>
-        </tr>
-        <tr>
-          <td>Other Amount</td>
-          <td>{{manifestDetail.others_amount}}</td>
-        </tr>
-        <tr>
-          <td>Balance Amount</td>
-          <td>{{manifestDetail.bal_amount}}</td>
-        </tr>
-      </table>
-    </div>
-    <div class="col-sm-6">
-      <table style="width:100%;" class="table-bordered" *ngIf="otherDetails && otherDetails.length>0">
-        <tr *ngFor="let otherDetail of otherDetails; let i=index">
-          <td>{{otherDetail.title}}</td>
-          <td>{{otherDetail.value}}</td>
-        </tr>
-      </table>
+    <div class="row">
+      <div class="col-sm-6">
+        <table style="width:100%;" class="table-bordered">
+          <tr>
+            <td> Total Amount</td>
+            <td>{{manifestDetail.total_amount}}</td>
+          </tr>
+          <tr>
+            <td>Advance Amount</td>
+            <td>{{manifestDetail.adv_amount}}</td>
+          </tr>
+          <tr>
+            <td>Other Amount</td>
+            <td>{{manifestDetail.others_amount}}</td>
+          </tr>
+          <tr>
+            <td>Balance Amount</td>
+            <td>{{manifestDetail.bal_amount}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-6">
+        <table style="width:100%;" class="table-bordered" *ngIf="otherDetails && otherDetails.length>0">
+          <tr *ngFor="let otherDetail of otherDetails; let i=index">
+            <td>{{otherDetail.title}}</td>
+            <td>{{otherDetail.value}}</td>
+          </tr>
+        </table>
+      </div>
     </div>
     <br>
     <span>{{manifestDetail.lr_terms}}</span>
