@@ -1,10 +1,3 @@
-th {
-    color: white;
-    font-size: 12px;
-    background-color: #677078;
-}
-
-
 nb-card-header {
     padding: 15px 20px;
     border: 1px solid #efefef;
@@ -133,32 +126,6 @@ auto-suggestion {
 .custom-passive-modal {
     z-index: 1049;
 }
-table{
-    thead{
-        background-color: #263238;
-        tr{
-            th{
-                padding: 5px 10px;
-                font-weight: normal;
-            }
-        }
-    }
-    tbody{
-        tr:nth-child(odd){
-            background-color:#fff;
-        }
-        tr:nth-child(even){
-            background-color:#e4e4e4;
-        }
-        td{
-            padding: 5px 10px !important;
-            font-size: 12px;
-        }
-    }
-}
-table tbody tr td a{
-    color: #677078;
-}
 .edit{
     color: #263238;
 }
@@ -170,3 +137,63 @@ table tbody tr td a{
 
 .chk-dl { width: 20px; }
 
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 8px;
+            font-weight: normal;
+            width: 180px;
+        }
+        th:nth-child(1){
+            width: 50px;
+        }
+        th:last-child{
+            width: auto;
+        }
+        td{
+            padding: 5px 8px !important;
+            font-size: 12px;
+            position: relative;
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 220px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 50px;
+            }
+            td{
+                width: 180px;
+                button{
+                    font-size: 16px;
+                    text-transform: capitalize;
+                }
+            }
+            td:last-child{
+                width: auto;
+                word-break:break-all;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 
