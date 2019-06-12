@@ -29,7 +29,8 @@
         </select>
       </div>
     </div>
-    <smart-table *ngIf="maintenanceData.length" [data]="table.data" [settings]="table.settings" id="tblsummary">
+    <smart-table *ngIf="maintenanceData && maintenanceData.length" [data]="table.data" [settings]="table.settings"
+      id="tblsummary">
     </smart-table>
     <br>
   </nb-card-body>

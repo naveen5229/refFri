@@ -11,6 +11,7 @@ import { AccountService } from '../../services/account.service';
 import { MapService } from '../../services/map.service';
 import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
+import { start } from 'repl';
 
 @Component({
   selector: 'generate-lr',
@@ -45,7 +46,7 @@ export class GenerateLRComponent implements OnInit {
     destinationLat: null,
     destinationLng: null,
     remark: null,
-    date: '' + new Date()
+    date: null,
   };
 
   particulars = [
@@ -80,11 +81,15 @@ export class GenerateLRComponent implements OnInit {
     public accountService: AccountService,
     public api: ApiService,
     public mapService: MapService) {
+    let date = new Date();
+    date.setDate(date.getDate());
+    this.lr.date = date;
+
 
     // this.branches = ['Jaipur',"Mumbai", "delhi"];
     // this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
-    this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
-    console.log("new Date()", new Date(), this.lr.date);
+    // this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
+    // console.log("new Date()", new Date(), this.lr.date);
 
 
   }
@@ -246,15 +251,14 @@ export class GenerateLRComponent implements OnInit {
         particular.customfields = Object.assign({}, particular.customfields);
         delete particular.customfields.customDetail;
       });
-
-      this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
-      console.log('params lrdate', this.lr.date);
+      let lrDate = this.common.dateFormatter(this.lr.date).split(' ')[0];
+      console.log('params lrdate', lrDate);
 
       let params = {
         branchId: this.accountService.selected.branch.id,
         vehicleId: this.vehicleId,
         lrNo: this.lr.lrNumber,
-        lrDate: this.lr.date,
+        lrDate: lrDate,
         driverId: this.driver.id,
         source: this.lr.sourceCity,
         destination: this.lr.destinationCity,
@@ -277,6 +281,7 @@ export class GenerateLRComponent implements OnInit {
         lrType: 'false'
       }
       console.log("params", params);
+
 
       this.api.post('LorryReceiptsOperation/generateLR', params)
         .subscribe(res => {

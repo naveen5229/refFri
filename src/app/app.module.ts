@@ -178,6 +178,7 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
 import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
 import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
+import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
 
 
 @NgModule({
@@ -314,10 +315,13 @@ import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe
     VoucherSummaryShortComponent,
     AddVehicleModalServiceComponent,
     AddVehicleSubModalServiceComponent,
-    UpdateTicketSubscribeComponent
+    UpdateTicketSubscribeComponent,
+    AddAdvancedMaintenanceComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
+    AddAdvancedMaintenanceComponent,
+
     VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
