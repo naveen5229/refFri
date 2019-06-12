@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentReportComponent } from '../../documents/documentation-modals/document-report/document-report.component';
 import { MaintenanceReportComponent } from '../model/maintenance-report/maintenance-report.component';
+import { ViewSummaryDetailsComponent } from '../model/view-summary-details/view-summary-details.component';
 
 @Component({
   selector: 'maintenance-summary',
@@ -24,12 +25,11 @@ export class MaintenanceSummaryComponent implements OnInit {
     }
   };
   types = [
-    { id: -1, name: "All" },
-    { id: 0, name: "Normal" },
+    { id: 0, name: "All" },
     { id: 1, name: "Expired" },
     { id: 2, name: "Expiring in 30 days" }
   ];
-  typeId = "-1";
+  typeId = "0";
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -75,7 +75,6 @@ export class MaintenanceSummaryComponent implements OnInit {
 
   getTableColumns(data) {
     let columns = [];
-
     data.map(doc => {
       let valobj = {};
       let total = {};
@@ -94,14 +93,26 @@ export class MaintenanceSummaryComponent implements OnInit {
         docobj.maintenance_type_id = doc['_type_id'];
         valobj[this.headings[i]] = { value: val };//, class: (val > 0) ? 'blue' : 'black', action: val > 0 ? this.openData.bind(this, docobj, status) : '' };
       }
-
+      valobj['details'] = { value: 'Details', class: 'blue', action: this.viewSummaryDetails.bind(this, doc['_jobid'], doc['_vid']) };
       columns.push(valobj);
       // columns.push(total);     
     });
-
-
-
     return columns;
+  }
+
+  viewSummaryDetails(jobId, vId) {
+    console.log("JobId", jobId, "Vid", vId);
+    if (!jobId || !vId) {
+      this.common.showError("Failed");
+      return;
+    }
+    this.common.params = { jobId: jobId, vId: vId };
+    const activeModal = this.modalService.open(ViewSummaryDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.refresh();
+      }
+    });
   }
 
   openData(docReoprt, status) {
@@ -181,7 +192,8 @@ export class MaintenanceSummaryComponent implements OnInit {
     console.log("hdgs:");
     console.log(this.headings);
     console.log(this.table.data.headings);
-
+    let headerObj = { title: 'Details', placeholder: 'Details' };
+    this.table.data.headings['details'] = headerObj;
     this.table.data.columns = this.getTableColumns(data);
   }
 

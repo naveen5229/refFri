@@ -24,7 +24,7 @@ export class ActivityService {
   constructor(
     public common: CommonService,
     public api: ApiService) {
-    if (this.api.user._details) this.heartbeat();
+    if (this.api.user._details && this.api.user._loggedInBy === 'customer') this.heartbeat();
   }
 
 
@@ -32,7 +32,7 @@ export class ActivityService {
     const params = {
       webpage: url.split('/')[url.split('/').length - 1],
       addtime: this.common.dateFormatter(new Date()),
-      type:1
+      type: 1
     };
     this.api.post('UserRoles/setFoWebPageVisits', params)
       .subscribe(res => console.log('Page View Api Response:', res),
@@ -47,7 +47,7 @@ export class ActivityService {
     const params = {
       activity_type: ACTIVITIES[state],
       addTime: this.common.dateFormatter(new Date()),
-      type:1
+      type: 1
     };
 
     console.log("final param", params);

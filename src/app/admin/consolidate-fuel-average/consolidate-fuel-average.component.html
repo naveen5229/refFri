@@ -1,23 +1,19 @@
 <nb-card>
   <nb-card-header>
-    <div class="row" style="margin-left:10px">
-      <div class="col-sm-6">
-        Consolidate Fuel Average
-      </div>
-    </div>
+    <h5>Consolidate Fuel Average</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-top:10px">
-      <div class="col-sm-2">
+      <div class="col-sm-4">
         <uj-date-time-picker (onChanged)="startTime = $event" [dateTimeValue]="startTime">
         </uj-date-time-picker>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-4">
         <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
         </uj-date-time-picker>
       </div>
-      <div class="col-sm-3">
-        <button class="btn btn-primary" style="height: 30px; font-size:12px; padding-top: 8px"
+      <div class="col-sm-2">
+        <button class="btn btn-primary w-100 pt-1 pb-1" style="border-radius: 3px;"
           (click)="getConsolidateFuelAvg()">submit</button>
       </div>
     </div>
