@@ -2,10 +2,10 @@
   <nb-card-header>
     <div class="row">
       <div class="col-6">
-          <h2>Drivers List</h2>
+        <h5>Drivers List</h5>
       </div>
       <div class="col-6 text-right">
-          <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit" (click)="importDriverCsv()"
+        <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit" (click)="importDriverCsv()"
           name="button">Import Csv</button>
         <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
       </div>
@@ -15,11 +15,13 @@
     <div class="container">
       <table class="table table-bordered table-hover table-scroll">
         <thead class="thead">
-          <th>#</th>
-          <th>Driver Name</th>
-          <th>Mobile_Number</th>
-          <th>Mobile_Number 2</th>
-          <th>Action</th>
+          <tr>
+            <th>#</th>
+            <th>Driver Name</th>
+            <th>Mobile_Number</th>
+            <th>Mobile_Number 2</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody>
           <tr *ngFor="let driver of driverLists; let i = index">

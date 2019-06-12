@@ -234,7 +234,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ]
   },
 
- 
+
   {
     title: 'Driver',
     icon: 'fa fa-user',
