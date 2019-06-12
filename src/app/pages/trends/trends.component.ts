@@ -643,7 +643,7 @@ export class TrendsComponent implements OnInit {
         });
         console.log(data);
         this.common.params = { title: 'SiteWise Vehicle List:', headings: ["Vehicle_RegNo.", "Count Event"], data };
-        this.modalService.open(ViewListComponent, { size: 'md', container: 'nb-layout' });
+        this.modalService.open(ViewListComponent, { size: 'sm', container: 'nb-layout' });
       }, err => {
         this.common.loading--;
         console.log(err);
