@@ -23,10 +23,13 @@ table{
         table-layout: fixed;
         color: #fff;
         th:nth-child(1){
-            width: 33%;
+            width: 320px;
         }
         th{
-            width: 15%;
+            width: 110px;
+        }
+        th:last-child{
+            width: auto;
         }
     }
     tbody{
@@ -41,13 +44,13 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 33%;
+                width: 320px;
             }
             td{
-                width: 15%;
+                width: 110px;
             }
             td:last-child{
-                width: 14.5%
+                width: auto;
             }
         }
         tr:nth-child(odd){

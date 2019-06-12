@@ -46,7 +46,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
     destinationLat: null,
     destinationLng: null,
     remark: null,
-    date: '' + new Date()
+    date: null
   };
 
   particulars = [
@@ -84,8 +84,11 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
 
     // this.branches = ['Jaipur',"Mumbai", "delhi"];
     // this.lr.date = this.common.dateFormatter(new Date(this.lr.date));
-    this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
-    console.log("new Date()", new Date(), this.lr.date);
+    // this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
+    // console.log("new Date()", new Date(), this.lr.date);
+    let date = new Date();
+    date.setDate(date.getDate());
+    this.lr.date = date;
 
 
   }
@@ -248,14 +251,13 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
         delete particular.customfields.customDetail;
       });
 
-      this.lr.date = this.common.dateFormatter1(new Date(this.lr.date));
-      console.log('params lrdate', this.lr.date);
-
+      let lrDate = this.common.dateFormatter1(this.lr.date).split(' ')[0];
+      console.log('params lrdate', lrDate);
       let params = {
         branchId: this.accountService.selected.branch.id,
         vehicleId: this.vehicleId,
         lrNo: this.lr.lrNumber,
-        lrDate: this.lr.date,
+        lrDate: lrDate,
         driverId: this.driver.id,
         source: this.lr.sourceCity,
         destination: this.lr.destinationCity,

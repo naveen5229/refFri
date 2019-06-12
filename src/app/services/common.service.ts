@@ -75,8 +75,10 @@ export class CommonService {
     private datePipe: DatePipe
   ) { }
 
-  showError(msg?) {
-    this.showToast(msg || "Something went wrong! try again.", "danger");
+  showError(msg?, err?) {
+    let message = msg || 'Something went wrong! try again.';
+    message += err ? ' Error Code: ' + err.status : '';
+    this.showToast(message, "danger");
   }
 
   ucWords(str) {
@@ -167,6 +169,7 @@ export class CommonService {
       );
     }
   }
+
   dateFormatternew(date, type = "YYYYMMDD", isTime = true, separator = "-") {
     let d = new Date(date);
     let year = d.getFullYear();
@@ -547,7 +550,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
@@ -682,6 +685,7 @@ export class CommonService {
         doc.setFont("times", "bold", "text-center");
         doc.text(center_heading, x - hdglen - 40, y);
       }
+      doc.text(time, 30, 60);
       y = 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
@@ -1128,4 +1132,14 @@ export class CommonService {
     }
     return res;
   }
+
+  loaderHandling(action = 'hide') {
+    if (this.loading == 0 && action == 'hide') return;
+    else if (this.loading < 0) {
+      this.loading = 0;
+      return;
+    } else if (action == 'show') this.loading++;
+    else this.loading--;
+  }
+
 }

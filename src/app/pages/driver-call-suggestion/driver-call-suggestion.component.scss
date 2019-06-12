@@ -57,3 +57,6 @@ nb-card-header{
     padding: 4px;
     margin-left: 2px;
 }
+:host ::ng-deep .tableFixHead table td i{
+    margin-right: 5px;
+}
