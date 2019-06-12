@@ -1001,7 +1001,7 @@ export class ConciseComponent implements OnInit {
 
     }
     // this.common.params= tripDetails;
-    // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    // const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
 
 
     this.common.params = { tripDetils: tripDetails, ref_page: 'kpi' };
