@@ -15,6 +15,8 @@ import { ConsolidateFuelAverageComponent } from './admin/consolidate-fuel-averag
 import { DriverPerformanceComponent } from './driver/driver-performance/driver-performance.component';
 import { VehicleDistanceComponent } from './admin/vehicle-distance/vehicle-distance.component';
 import { UserActivityStatusComponent } from './pages/user-activity-status/user-activity-status.component';
+import { ViewModalServiceComponent } from './vehicle-maintenance/view-modal-service/view-modal-service.component';
+import { ViewSubModalServiceComponent } from './vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -26,6 +28,8 @@ const PAGES_COMPONENTS = [
     DriverPerformanceComponent,
     VehicleDistanceComponent,
     UserActivityStatusComponent,
+    ViewModalServiceComponent,
+    ViewSubModalServiceComponent
 
 ];
 

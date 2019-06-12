@@ -213,6 +213,11 @@ export class DataService {
             icon: 'fa fa-pencil',
             link: '/admin/generate-lr',
           },
+          {
+            title: 'LR Diagnostics',
+            icon: 'fa fa-diagnostics',
+            link: '/admin/lr-diagnostics',
+          },
         ]
       },
       {
@@ -291,7 +296,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'Fuel Average Analysis',
+            title: 'Fuel Mileage',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-analysis',
             home: true,
@@ -338,6 +343,23 @@ export class DataService {
         title: 'Account',
         icon: 'fa fa-money',
         link: '/accounts/dashboard'
+      },
+      {
+        title: 'Maintenance',
+        icon: 'fa fa-file-alt',
+        children: [
+          {
+            title: 'Service Model',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-modal-service',
+          },
+          {
+            title: 'Sub Service Model',
+            icon: 'fa fa-pencil-square-o',
+            link: '/admin/view-sub-modal-service',
+          },
+
+        ]
       },
 
     ];

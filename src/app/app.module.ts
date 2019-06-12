@@ -53,12 +53,10 @@ import { ErrorReportComponent } from './documents/documentation-modals/error-rep
 import { ReportIssueComponent } from './modals/report-issue/report-issue.component';
 import { AddEscalationIssueComponent } from './modals/add-escalation-issue/add-escalation-issue.component';
 import { VoucherSummaryComponent } from './accounts-modals/voucher-summary/voucher-summary.component';
-
 import { DocumentReportComponent } from './documents/documentation-modals/document-report/document-report.component';
 import { DocumentHistoryComponent } from './documents/documentation-modals/document-history/document-history.component';
 import { EmpDashboardComponent } from './documents/documentation-modals/emp-dashboard/emp-dashboard.component';
 import { DocumentIssuesComponent } from './documents/documentation-modals/document-issues/document-issues.component';
-import { LicenceUploadComponent } from './driver/licence-upload/licence-upload.component';
 import { ChangeVehicleStatusComponent } from './modals/change-vehicle-status/change-vehicle-status.component';
 import { ChangeHaltComponent } from './modals/change-halt/change-halt.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -75,6 +73,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ParticlularsComponent } from './modals/LRModals/particlulars/particlulars.component';
 import { AddConsigneeComponent } from './modals/LRModals/add-consignee/add-consignee.component';
 import { AddDriverComponent } from './modals/add-driver/add-driver.component';
+
 import {
   MatFormFieldModule,
   MatMenuModule,
@@ -89,21 +88,13 @@ import { UpdateSiteDetailsComponent } from './modals/update-site-details/update-
 import { VechileTrailsComponent } from './modals/vechile-trails/vechile-trails.component';
 import { HttpResponseHandlerService } from './services/http-response-handler.service';
 import { VehiclesOnMapComponent } from './modals/vehicles-on-map/vehicles-on-map.component';
-
-
 import { EditDriverComponent } from './modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent } from './modals/DriverModals/add-driver-complete/add-driver-complete.component';
-import { AccountService } from './services/account.service';
-import { ApiService } from './services/api.service';
-import { CommonService } from './services/common.service';
-import { UserService } from './@core/data/users.service';
 import { VoucherdetailComponent } from './acounts-modals/voucherdetail/voucherdetail.component';
 import { RadioSelectionComponent } from './modals/radio-selection/radio-selection.component';
 import { UpdateTripDetailComponent } from './modals/update-trip-detail/update-trip-detail.component';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { ResolveMissingIndustryComponent } from './modals/resolve-missing-industry/resolve-missing-industry.component';
-
-
 import { DriverVehicleRemappingComponent } from './modals/driver-vehicle-remapping/driver-vehicle-remapping.component';
 import { DriverStatusChangeComponent } from './modals/driver-status-change/driver-status-change.component';
 import { NewDriverStatusComponent } from './modals/new-driver-status/new-driver-status.component';
@@ -165,12 +156,19 @@ import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-fill
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
+import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
+import { FoSiteCountComponent } from './modals/fo-site-count/fo-site-count.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { PrintManifestComponent } from './modals/print-manifest/print-manifest.component';
-//import { VscDiagnosisComponent } from './admin/vsc-diagnosis/vsc-diagnosis.component';
-
-
 import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-short/voucher-summary-short.component';
+import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
+import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
+import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
+import { ModalWiseFuelAvgComponent } from './modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
+import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
+
 
 
 @NgModule({
@@ -299,13 +297,23 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
+    UnmappedLrComponent,
+    MappedLrComponent,
+    FoSiteCountComponent,
     PrintManifestComponent,
-    // VscDiagnosisComponent,
+    VoucherSummaryShortComponent,
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent,
+    UpdateTicketSubscribeComponent,
+    AddAdvancedMaintenanceComponent,
+    ModalWiseFuelAvgComponent,
+    FuelEditComponent,
 
-    VoucherSummaryShortComponent
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
+    AddAdvancedMaintenanceComponent,
+
     VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
@@ -425,9 +433,16 @@ import { VoucherSummaryShortComponent } from './accounts-modals/voucher-summary-
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
+    UnmappedLrComponent,
+    MappedLrComponent,
+    FoSiteCountComponent,
     PrintManifestComponent,
-    VoucherSummaryShortComponent
-
+    VoucherSummaryShortComponent,
+    AddVehicleModalServiceComponent,
+    AddVehicleSubModalServiceComponent,
+    UpdateTicketSubscribeComponent,
+    ModalWiseFuelAvgComponent,
+    FuelEditComponent
   ],
   imports: [
     BrowserModule,

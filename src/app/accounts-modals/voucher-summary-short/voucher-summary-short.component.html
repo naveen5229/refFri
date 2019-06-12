@@ -173,7 +173,7 @@
                   </table>      
             </div>
             <div class="col-6 pl-0">
-                <table class="table table-bordered invoice_tabel">
+                <table class="table table-bordered invoice_tabel table-four">
                   <thead style="background: #263238; color:#fff;">
                     <tr>
                       <th>Date</th>
@@ -192,7 +192,7 @@
                       </td>
                       <td>
                         <input type="number" class="form-control" autocomplete="off" [name]="'detailamount-' + i"
-                          [id]="'mobileno-' + i" [(ngModel)]="Details.detailamount" placeholder="Please Enter Amount">
+                          [id]="'mobileno-' + i" [(ngModel)]="Details.detailamount" placeholder="Please Enter Amount" (input)="driverSum()">
                       </td>
                       <td>
                         <input type="email" class="form-control" autocomplete="off" [name]="'detailramarks-' + i" [id]="'detailramarks-' + i"
@@ -201,7 +201,7 @@
                       <td>
                         <input type="text" class="form-control" autocomplete="off" placeholder="Please Select Ledger"
                           [name]="'detailLedger-' + i" [id]="'detailLedger-' + i" ng-maxlength="10" [(ngModel)]="Details.detailLedger.name" 
-                          (input)="targetId = 'detailLedger-' + i" (keydown)="targetId = 'detailLedger-' + i">
+                          (input)="targetId = 'detailLedger-' + i" (keydown)="targetId = 'detailLedger-' + i" >
                       </td>
                       
                       <td *ngIf="i == 0">
@@ -212,6 +212,13 @@
                           <i class="fa fa-trash"></i>
                         </button>
                       </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td><input type="number" class="form-control" name="driverTotal" [(ngModel)]="driverTotal" disabled></td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
                     </tr>
                   </tbody>
                 </table>
@@ -231,11 +238,19 @@
           <div class="total_input">
             <input type="number" [name]="alltotal" [id]="alltotal" [(ngModel)]="alltotal" disabled>
           </div>
+          <div class="total_box">
+            Remarks
+          </div>
           <div class="total_textarea">
             <textarea class="form-control ref-input" id="narration" name="narration" [(ngModel)]="narration">
             </textarea>
           </div>
-
+          <div class="total_box">
+            Net Total
+          </div>
+          <div class="total_input">
+            <input type="number" [name]="netTotal" [id]="netTotal" [(ngModel)]="netTotal" disabled>
+          </div>
         </div>
       </div>
 

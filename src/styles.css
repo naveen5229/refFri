@@ -236,7 +236,8 @@ nb-menu .menu-item>.menu-items>.menu-item a {
 .fas.fa-tools::before,
 .fas.fa-badge-check::before,
 .fas.fa-map-marked::before,
-.fas.fa-truck-pickup::before {
+.fas.fa-truck-pickup::before,
+.fas.fa-tachometer-alt::before {
     font-family: inherit;
 }
 
@@ -350,11 +351,7 @@ nb-card {
     max-height: calc(104vh - 180px) !important;
 }
 
-#tblsummary .tableFixHead {
-    overflow: auto;
-    height: calc(100vh - 150px) !important;
-    max-height: calc(100vh - 150px) !important;
-}
+
 
 .modal-body .TJR-auto-suggestion-container {
     border: 1px solid #263238 !important;
@@ -599,9 +596,28 @@ ngb-modal-window {
 .cdk-overlay-container {
     z-index: 99999 !important;
 }
+.changeVehicle{
+    width: 50%;
+    right: 0px;
+    left: inherit;
+}
+.changeVehicle .modal-dialog,
+.lrModal .modal-dialog{
+    margin-top: 0px;
+}
+.lrModal{
+    width: 50%;
+    left: 0px;
+}
 .k-animation-container{
     z-index: 99999;
 }
 .fade{
     opacity: 1;
+}
+.search_vehicle_input .tagsinput{
+    padding: 1px !important;
+}
+.search_vehicle_input .tagsinput input{
+    width: 100%;
 }
