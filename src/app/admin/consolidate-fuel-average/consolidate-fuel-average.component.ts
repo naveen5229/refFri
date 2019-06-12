@@ -105,7 +105,7 @@ export class ConsolidateFuelAverageComponent implements OnInit {
         totalDistance: { value: res.total_distance },
         loadingDistance: { value: res.loading_distance },
         unloadingDistance: { value: res.unloading_distance },
-
+        style: { background: res.is_probable_issue ? 'lightcoral' : '' },
 
         rowActions: {
           click: 'selectRow'

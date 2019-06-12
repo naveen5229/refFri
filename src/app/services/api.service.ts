@@ -9,9 +9,8 @@ import { AccountService } from './account.service';
   providedIn: 'root'
 })
 export class ApiService {
-
-  //URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
-  //URL: string = 'http://elogist.in/testservices/'; // prod Server
+  // URL: string = 'http://elogist.in/booster_webservices/'; // prod Server
+  // URL: string = 'http://elogist.in/testservices/'; // prod Server
   URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.120/booster_webservices/'; // Umang
