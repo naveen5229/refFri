@@ -1,12 +1,14 @@
 <nb-card>
   <nb-card-header>
-    <h2>Drivers List</h2>
-    <div class="col-sm-6">
-      <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit" (click)="importDriverCsv()"
-        name="button">Import Csv</button>
-
-      <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
-
+    <div class="row">
+      <div class="col-6">
+          <h2>Drivers List</h2>
+      </div>
+      <div class="col-6 text-right">
+          <button class="btn btn-primary" *ngIf="this.user._loggedInBy=='admin'" type="submit" (click)="importDriverCsv()"
+          name="button">Import Csv</button>
+        <button class="btn btn-primary" id="button" (click)="addDriver();" name="button">ADD</button>
+      </div>
     </div>
   </nb-card-header>
   <nb-card-body>

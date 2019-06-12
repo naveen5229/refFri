@@ -1,1 +1,59 @@
-
+nb-card-header{
+    border-bottom: 1px solid #ccc;
+}
+table{
+    thead{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        background-color: #263238;
+        color: #fff;
+    }
+    tr{
+        th{
+            padding: 5px 8px;
+            font-weight: normal;
+            width: 250px;
+        }
+        th:nth-child(1){
+            width: 30px;
+        }
+        th:last-child{
+            width: auto;
+        }
+        td{
+            padding: 5px 8px !important;
+            font-size: 12px;
+            position: relative;
+        }
+    }
+    tbody{
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        table-layout: fixed;
+        overflow: auto;
+        max-height: calc(100vh - 235px);
+        tr{
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            td:nth-child(1){
+                width: 30px;
+            }
+            td{
+                width: 250px;
+            }
+            td:last-child{
+                width: auto;
+                word-break:break-all;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: #fff;
+        }
+        tr:nth-child(even){
+            background-color: #e4e4e4;
+        }
+    }
+} 
