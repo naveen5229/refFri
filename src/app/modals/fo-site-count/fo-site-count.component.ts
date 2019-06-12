@@ -39,7 +39,7 @@ export class FoSiteCountComponent implements OnInit {
   selectFoUser(user) {
     this.foid = user.id;
   }
-  closeModal() {
+  closeModal(data?) {
     this.activeModal.close();
   }
   setTable() {

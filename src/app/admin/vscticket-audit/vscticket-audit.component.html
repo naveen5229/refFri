@@ -6,19 +6,23 @@
   <nb-card-body>
     <div class="model-body">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
             placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
         </div>
-        <div class="col-sm-3">
-          <input [(ngModel)]="startDate" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="Date Time"
+        <div class="col-sm-4">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+          </uj-date-time-picker>
+          <!-- <input [(ngModel)]="startDate" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="Date Time"
             class="form-control" autocomplete="off" name="date" />
-          <owl-date-time #date></owl-date-time>
+          <owl-date-time #date></owl-date-time> -->
         </div>
-        <div class="col-sm-3">
-          <input [(ngModel)]="endDate" [owlDateTime]="date1" [owlDateTimeTrigger]="date1" placeholder="Date Time"
+        <div class="col-sm-4">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+          </uj-date-time-picker>
+          <!-- <input [(ngModel)]="endDate" [owlDateTime]="date1" [owlDateTimeTrigger]="date1" placeholder="Date Time"
             class="form-control" autocomplete="off" name="date1" />
-          <owl-date-time #date1></owl-date-time>
+          <owl-date-time #date1></owl-date-time> -->
         </div>
         <div class="col-sm-2">
           <Button class="btn btn-primary" type="button" (click)="goToTrail()">Get Report</Button>

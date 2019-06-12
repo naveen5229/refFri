@@ -24,7 +24,7 @@ export class PendingDocumentsComponent implements OnInit {
   data = [];
   userdata = [];
   columns = [];
-  columns2 = []
+  columns2 = [];
 
   listtype = 0;
   modal = {
@@ -65,7 +65,12 @@ export class PendingDocumentsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    window.location.reload();
+    this.columns = [];
+    this.columns2 = [];
+    this.getPendingDetailsDocuments();
+    this.getAllTypesOfDocuments();
+    this.getUserWorkList();
+    // window.location.reload();
   }
 
   getPendingDetailsDocuments() {
@@ -726,7 +731,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   getUserWorkList() {
     this.common.loading++;
-    this.api.get('Vehicles/vehiclesUserWorkSummary', {})
+    this.api.get('Vehicles/getDocumentsUserWorkSummary')
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);

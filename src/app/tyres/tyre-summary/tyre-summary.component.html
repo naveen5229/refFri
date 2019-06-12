@@ -4,7 +4,7 @@
       <div class="row">
         <form class="w-100">
           <div class="row">
-            <div class="col-md-1 pt-3">
+            <!-- <div class="col-md-1 pt-3">
               <label>Brand</label>
             </div>
             <div class="col-md-2">
@@ -18,26 +18,11 @@
               <auto-suggestion (onSelected)="modelId = $event.id;" display="name" placeholder="Enter Model"
                 [data]="models" (change)="resetData($event)" [preSelected]="null"></auto-suggestion>
             </div>
-            <div class="col-md-1 pt-3">
-              <label>Mapping</label>
-            </div>
-            <div class="col-md-2">
-              <select class="form-control" name="mapping" [(ngModel)]="mapping">
-                <option value="0">Any</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-              </select>
-            </div>
             <div class="col-md-1">
               <button class="btn btn-primary" (click)="getSubModelService()">
                 View
               </button>
-            </div>
-            <div class="col-md-1">
-              <button class="btn btn-primary" (click)="addModalService()">
-                Add/Update
-              </button>
-            </div>
+            </div> -->
           </div>
         </form>
       </div>

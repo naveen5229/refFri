@@ -4,14 +4,14 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddVehicleSubModalServiceComponent } from '../model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 
 @Component({
-  selector: 'view-sub-modal-service',
-  templateUrl: './view-sub-modal-service.component.html',
-  styleUrls: ['./view-sub-modal-service.component.scss']
+  selector: 'tyre-summary',
+  templateUrl: './tyre-summary.component.html',
+  styleUrls: ['./tyre-summary.component.scss']
 })
-export class ViewSubModalServiceComponent implements OnInit {
+export class TyreSummaryComponent implements OnInit {
+
 
   data = [];
 
@@ -37,7 +37,8 @@ export class ViewSubModalServiceComponent implements OnInit {
     public common: CommonService,
     public user: UserService,
     private modalService: NgbModal) {
-    this.vehicleBrandTypes();
+    this.common.refresh = this.refresh.bind(this);
+    this.refresh();
   }
 
   ngOnInit() {
@@ -70,22 +71,6 @@ export class ViewSubModalServiceComponent implements OnInit {
       });
   }
 
-  addModalService() {
-    if (!this.modelId) {
-      this.common.showError("Select Model");
-      return;
-    }
-    this.common.params = { modelId: this.modelId };
-    const activeModal = this.modalService.open(AddVehicleSubModalServiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.response) {
-        this.modelId = data.modelId;
-        this.mapping = -1;
-        this.refresh();
-      }
-    });
-  }
-
   refresh() {
     this.data = [];
     this.table = {
@@ -99,29 +84,7 @@ export class ViewSubModalServiceComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    this.getSubModelService();
-  }
-
-  deleteVehicleModel(id, modelId) {
-    if (!confirm("Are You Sure you want to delete the Entry??")) {
-      return;
-    }
-    this.common.loading++;
-    this.api.post('VehicleMaintenance/deleteSubModelService', { id: id })
-      .subscribe(res => {
-        this.common.loading--;
-        console.log("response:", res);
-        if (res['success']) {
-          this.common.showToast("Sucessfully Deleted", 10000);
-          console.log("Brand", this.brandId);
-          this.modelId = modelId;
-          this.mapping = -1;
-          this.refresh();
-        }
-      }, err => {
-        this.common.loading--;
-        console.log(err);
-      });
+    this.getTyreSummary();
   }
 
   resetData(event) {
@@ -129,16 +92,9 @@ export class ViewSubModalServiceComponent implements OnInit {
     document.getElementsByName('suggestion')[1]['value'] = '';
   }
 
-  getSubModelService() {
-    if ((!this.brandId && !this.modelId)) {
-      this.common.showError("Model/Brand not selected");
-      return;
-    }
+  getTyreSummary() {
     this.common.loading++;
-    this.api.get('VehicleMaintenance/viewSubModalService?'
-      + 'brandId=' + (this.brandId || -1)
-      + '&modelId=' + (this.modelId || -1)
-      + "&mapping=" + this.mapping)
+    this.api.get('Tyres/tyreSummary')
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
@@ -165,8 +121,6 @@ export class ViewSubModalServiceComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let headerObj = { title: 'Action', placeholder: 'Action' };
-        this.table.data.headings['action'] = headerObj;
         this.table.data.columns = this.getTableColumns();
       }, err => {
 
@@ -186,11 +140,6 @@ export class ViewSubModalServiceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-      this.valobj['action'] = {
-        icons: [
-          { value: '', class: doc['_id'] > 0 ? " fa fa-trash remove" : null, action: this.deleteVehicleModel.bind(this, doc['_id'], doc['_modelid']) }]
-        , action: null
-      };
       columns.push(this.valobj);
     });
     return columns;
