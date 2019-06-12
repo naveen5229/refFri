@@ -44,9 +44,16 @@ import { VehicleDistanceComponent } from '../admin/vehicle-distance/vehicle-dist
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
 import { ConsolidateFuelAverageComponent } from '../admin/consolidate-fuel-average/consolidate-fuel-average.component';
+import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/daywise-vehicle-distance.component';
 import { GenerateLrNoVehiclesComponent } from '../lorry-receipt/generate-lr-no-vehicles/generate-lr-no-vehicles.component';
 import { GenerateLrMainfestoComponent } from '../lorry-receipt/generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { ViewManifestoComponent } from '../lorry-receipt/view-manifesto/view-manifesto.component';
+import { DriverListComponent } from '../driver/driver-list/driver-list.component';
+import { VehicleDriverMappingComponent } from '../driver/vehicle-driver-mapping/vehicle-driver-mapping.component';
+import { DriverAttendanceComponent } from '../driver/driver-attendance/driver-attendance.component';
+import { DriverDocumentComponent } from '../driver/driver-document/driver-document.component';
+import { LicenceUploadComponent } from '../driver/licence-upload/licence-upload.component';
+import { PendingLicenceComponent } from '../driver/pending-licence/pending-licence.component';
 
 const routes: Routes = [{
   path: '',
@@ -285,6 +292,10 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
   },
   {
+    path: 'daywise-vehicle-distance',
+    component: DaywiseVehicleDistanceComponent,
+  },
+  {
     path: 'generate-lr-no-vehicles',
     component: GenerateLrNoVehiclesComponent,
     canActivate: [AuthGuard],
@@ -298,7 +309,41 @@ const routes: Routes = [{
     path: 'view-manifesto',
     component: ViewManifestoComponent,
     canActivate: [AuthGuard],
-  }
+  },
+  {
+    path:'driver-list',
+    component:DriverListComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'vehicle-driver-mapping',
+    component:VehicleDriverMappingComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'driver-attendance',
+  component:DriverAttendanceComponent,
+  canActivate:[AuthGuard]
+
+  },
+  {
+    path:'driver-document',
+  component:DriverDocumentComponent,
+  canActivate:[AuthGuard]
+
+  },
+  {
+    path:'licence-upload',
+  component:LicenceUploadComponent,
+  canActivate:[AuthGuard]
+
+  },
+  {
+    path:'pending-licence',
+  component:PendingLicenceComponent,
+  canActivate:[AuthGuard]
+
+  },
   ],
 }];
 
