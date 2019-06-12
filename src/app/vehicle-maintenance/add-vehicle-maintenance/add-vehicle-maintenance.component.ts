@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddMaintenanceComponent } from '../model/add-maintenance/add-maintenance.component';
 import { ViewMaintenanceComponent } from '../model/view-maintenance/view-maintenance.component';
 import { AddVehicleModalServiceComponent } from '../model/add-vehicle-modal-service/add-vehicle-modal-service.component';
+import { AddAdvancedMaintenanceComponent } from '../model/add-advanced-maintenance/add-advanced-maintenance.component';
 
 @Component({
   selector: 'add-vehicle-maintenance',
@@ -78,8 +79,8 @@ export class AddVehicleMaintenanceComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('detail'), placeholder: this.formatTitle('detail') };
-        this.table.data.headings['Detail'] = action;
+        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
+        this.table.data.headings['Action'] = action;
         this.table.data.columns = this.getTableColumns();
       }, err => {
         this.common.loading--;
@@ -96,10 +97,11 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
-      this.valobj['Detail'] = {
+      this.valobj['Action'] = {
         icons: [
           // { class: "fa fa-pencil-square", action: this.editMaintenance.bind(this, doc) },
-          { class: "fa fa-cog", action: this.viewDetails.bind(this, doc) }]
+          { class: "fa fa-cog", action: this.viewDetails.bind(this, doc) },
+          { class: "fa fa-trash", action: this.deleteMaintenance.bind(this, doc) }]
         , action: null
       };
       columns.push(this.valobj);
@@ -135,6 +137,21 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     });
   }
 
+  addAdvanceMaintenance() {
+    if (!this.selectedVehicle || this.selectedVehicle == -1) {
+      this.common.showError("Please select Vehicle Number");
+      return false;
+    }
+    this.common.params = { title: 'Add Maintenance', vehicleId: this.selectedVehicle, regno: this.vehicleRegno };
+    const activeModal = this.modalService.open(AddAdvancedMaintenanceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.response) {
+        this.vehicleMaintenanceData();
+        this.getTableColumns();
+      }
+    });
+  }
+
   editMaintenance(row) {
     if (!this.selectedVehicle) {
       this.common.showError("Please select Vehicle Number");
@@ -154,4 +171,27 @@ export class AddVehicleMaintenanceComponent implements OnInit {
     console.log(event);
   }
 
+  deleteMaintenance(maintenance) {
+    console.log("delete Maintenance", maintenance);
+    let params = {
+      vehicleId: maintenance._vid,
+      jobId: maintenance._jobid,
+    };
+    this.common.loading++;
+    this.api.post('VehicleMaintenance/deleteMaintenance', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log("Data :", res);
+        if (res['data'][0].r_id > 0) {
+          this.vehicleMaintenanceData();
+          this.common.showToast("Maintenance Deleted Successfully");
+        }
+        else {
+          this.common.showError(res['data'][0].r_msg);
+        }
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }

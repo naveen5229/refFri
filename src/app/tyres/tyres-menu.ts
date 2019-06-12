@@ -19,12 +19,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/tyres/vehicle-tyres',
         home: true,
     },
-    // {
-    //     title: 'Inputs',
-    //     icon: 'fa fa-pencil-square-o',
-    //     link: '/tyres/inputs',
-    //     home: true,
-    // },
+    {
+        title: 'Inputs',
+        icon: 'fa fa-pencil-square-o',
+        link: '/tyres/inputs',
+        home: true,
+    },
     // {
     //     title: 'Health Checkup',
     //     icon: 'fa fa-medkit',
@@ -47,6 +47,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Tyre Modals',
         icon: 'fa fa-text-width',
         link: '/tyres/tyre-modals',
+        home: true,
+    },
+    {
+        title: 'Tyre Summary',
+        icon: 'fa fa-text-width',
+        link: '/tyres/tyre-summary',
         home: true,
     },
 ];

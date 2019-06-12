@@ -48,6 +48,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance',
         home: true,
       },
+      {
+        title: 'Day Wise Vehicle Distance',
+        icon: 'fas fa-road',
+        link: '/pages/daywise-vehicle-distance',
+        home: true,
+      },
       // {
       //   title: 'Vehicle Trip States',
       //   icon: 'fas fa-map-marked',
@@ -112,22 +118,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
       {
         title: 'Generate LR',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr',
       },
       {
         title: 'Generate LTL',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr-no-vehicles',
       },
       {
         title: 'Generate LR Manifest',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr-mainfesto',
       },
       {
         title: 'View LR Manifest',
-        icon: 'fa fa-pencil',
+        icon: 'fa fa-eye',
         link: '/pages/view-manifesto',
       },
       {
@@ -186,13 +192,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Fuel Mileage',
-        icon: 'fa fa-signal',
+        icon: 'fas fa-tachometer-alt',
         link: '/pages/fuel-average-analysis',
         home: true,
       },
       {
         title: 'Remaining Fuel',
-        icon: 'fa fa-signal',
+        icon: 'fas fa-history',
         link: '/pages/remaining-fuel',
         home: true,
       },
@@ -250,7 +256,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-user',
     children: [{
       title: 'driver Performance ',
-      icon: 'fa fa-book',
+      icon: 'fa fa-chart-bar',
       link: '/pages/driver-performance',
       home: true,
     }]

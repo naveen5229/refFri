@@ -2,7 +2,7 @@
   <nb-card-header>
     <div class="row">
       <div class="col-sm-10">
-        <h4>Vehicle Distance</h4>
+        <h5>Vehicle Distance</h5>
       </div>
       <div class="col-sm-2">
         <div *ngIf="result.length">
@@ -17,35 +17,27 @@
     </div>
   </nb-card-header>
   <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
-    <div class="container">
+    <form class="w-100 mb-3">
       <div class="row">
-        <form class="w-100">
-          <div class="row">
-            <!-- <div class="col-md-2 pr-0">
-              <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
-                placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
-            </div> -->
-            <div class="col-md-2 pr-0">
-              <input [(ngModel)]="data.startDate" [value]="data.startDate" [owlDateTime]="sDate"
-                [owlDateTimeTrigger]="sDate " placeholder="Start Time" class="form-control" autocomplete="off"
-                name="s-date">
-              <owl-date-time #sDate></owl-date-time>
-            </div>
-            <div class="col-md-2 pr-0">
-              <input [(ngModel)]="data.endDate" [value]="data.endDate" [owlDateTime]="eDate"
-                [owlDateTimeTrigger]="eDate " placeholder="End Time" class="form-control" autocomplete="off"
-                name="e-date">
-              <owl-date-time #eDate></owl-date-time>
-            </div>
-            <div class="col-md-2 offset-md-08">
-              <button type="button" class="btn btn-primary" (click)="getDistance()">Submit</button>
-            </div>
 
-          </div>
-        </form>
+        <div class="col-4 pr-0">
+
+          <uj-date-time-picker (onChanged)="data.startDate = $event" [dateTimeValue]="data.startDate">
+          </uj-date-time-picker>
+
+
+        </div>
+        <div class="col-4 pr-0">
+          <uj-date-time-picker (onChanged)="data.endDate = $event" [dateTimeValue]="data.endDate">
+          </uj-date-time-picker>
+
+        </div>
+        <div class="col-2 offset-md-08">
+          <button type="button" class="btn btn-primary mt-0" (click)="getDistance()">Submit</button>
+        </div>
+
       </div>
-
-    </div>
+    </form>
 
     <smart-table *ngIf="result.length" [data]="table.data" [settings]="table.settings" id="vehicleDistance">
     </smart-table>

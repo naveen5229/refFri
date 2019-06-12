@@ -127,6 +127,18 @@ table{
         }
     }
 } 
+.table-four{
+    tbody{
+        tr:last-child{
+            background-color: #263238;
+            td{
+                input{
+                    background-color: #ebebe4;
+                }
+            }
+        }
+    }
+}
 .table_box_three{
     table{
         display: block;
@@ -183,7 +195,7 @@ table{
 }
 .total_box{
     display: inline-block;
-    width: 160px;
+    width: 72px;
     padding-left: 15px;
     vertical-align: middle;
 }

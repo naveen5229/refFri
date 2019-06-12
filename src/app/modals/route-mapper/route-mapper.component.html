@@ -8,7 +8,7 @@
 </div>
 <div class="modal-body">
   <div class="row">
-    <div class="col-5">
+    <div class="col-6">
       <table class="table table-bordered table-hover">
         <tbody>
           <tr>
@@ -70,49 +70,51 @@
                 <thead class="thead">
                   <!-- <th style="width:40px;">Reason</th> -->
                   <!-- <th>Place</th> -->
-            <th style="width:40px;">Place</th>
-            <th>Location</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Duration</th>
-            <th>ODO(Km,cum Km)</th>
-            </thead>
-        <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
-          <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
-            (mouseout)="mapService.toggleBounceMF(i,2)"
-            [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
-            <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
-            <td (click)="openSmartTool(i,vehicleEvent);">{{getPlace[i]}}</td>
-            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>
-            <td (click)="openSmartTool(i,vehicleEvent);">{{commonService.changeDateformat2(vehicleEvent.start_time)}}
-            </td>
-            <td (click)="openSmartTool(i,vehicleEvent);">{{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
-            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
-            <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +'('+vehicleEvent.grand+')'}}</td>
-          </tr>
-          <tr *ngIf="vehicleEvent.isOpen">
-            <td colspan="9">
-              <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
-                  <span class="zoom-btn" (click)="setZoom(10,vehicleEvent)">1</span>
-                  <span class="zoom-btn" (click)="setZoom(12,vehicleEvent)">2</span>
-                  <span class="zoom-btn" (click)="setZoom(14,vehicleEvent)">3</span>
-                  <span class="zoom-btn" (click)="setZoom(16,vehicleEvent)">4</span>
-                  <span class="zoom-btn" (click)="setZoom(18,vehicleEvent)">5</span>
+                  <th style="width:40px;">Place</th>
+                  <th>Location</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>Duration</th>
+                  <th>ODO(Km,cum Km)</th>
+                </thead>
+                <tbody *ngFor="let vehicleEvent of vehicleEvents;let i = index;">
+                  <tr cdkDrag [id]="'vehicleEvent-row-'+i" (mouseover)="mapService.toggleBounceMF(i)"
+                    (mouseout)="mapService.toggleBounceMF(i,2)"
+                    [ngStyle]="{'background-color' :  vehicleEvent.desc!='Trails'? '#'+vehicleEvent.rc :'#fff'}">
+                    <!-- <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.halt_reason}}</td> -->
+                    <td (click)="openSmartTool(i,vehicleEvent);">{{getPlace[i]}}</td>
+                    <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.loc_name}}</td>
+                    <td (click)="openSmartTool(i,vehicleEvent);">
+                      {{commonService.changeDateformat2(vehicleEvent.start_time)}}
+                    </td>
+                    <td (click)="openSmartTool(i,vehicleEvent);">
+                      {{commonService.changeDateformat2(vehicleEvent.end_time)}}</td>
+                    <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.duration}}</td>
+                    <td (click)="openSmartTool(i,vehicleEvent);">{{vehicleEvent.odo +'('+vehicleEvent.grand+')'}}</td>
+                  </tr>
+                  <tr *ngIf="vehicleEvent.isOpen">
+                    <td colspan="9">
+                      <div style="text-align:center" class="smart-Tool slideInDown animated"> <span>
+                          <span class="zoom-btn" (click)="setZoom(10,vehicleEvent)">1</span>
+                          <span class="zoom-btn" (click)="setZoom(12,vehicleEvent)">2</span>
+                          <span class="zoom-btn" (click)="setZoom(14,vehicleEvent)">3</span>
+                          <span class="zoom-btn" (click)="setZoom(16,vehicleEvent)">4</span>
+                          <span class="zoom-btn" (click)="setZoom(18,vehicleEvent)">5</span>
 
-                </span></div>
+                        </span></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
+          </tr>
+          <tr>
+
           </tr>
         </tbody>
       </table>
-      </td>
-      </tr>
-      <tr>
-
-      </tr>
-      </tbody>
-      </table>
     </div>
-    <div class="col-7 pl-0">
+    <div class="col-6 pl-0">
       <div id="map" style="width: 100%; height:68vh">
       </div>
       <div class="slide-bar">

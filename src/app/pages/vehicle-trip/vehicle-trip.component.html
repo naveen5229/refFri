@@ -11,19 +11,21 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row mb-2">
-      <div class="col-sm-3">
-        <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList" display="regno"
-          placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+      <div class="col-sm-2">
+        <div class="search_vehicle_input">
+          <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getFoVehicleList" display="regno"
+            placeholder="Search Vehicle" [preSelected]="null"></auto-suggestion>
+        </div>
       </div>
-      <div class="col-2">
+      <div class="col-3">
         <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
         </uj-date-time-picker>
       </div>
-      <div class="col-2">
+      <div class="col-3">
         <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
         </uj-date-time-picker>
       </div>
-      <div class="col-2">
+      <div class="col-1">
         <button (click)="getVehicleTrips()" class="btn btn-primary form-control"
           style="margin:0px;border:0px;">OK</button>
       </div>
@@ -36,7 +38,8 @@
         </span>
       </div>
     </div>
-    <smart-table *ngIf="vehicleTrips.length" id="vehicleTrip" [data]="table.data" [settings]="table.settings">
+    <smart-table *ngIf="vehicleTrips && vehicleTrips.length" id="vehicleTrip" [data]="table.data"
+      [settings]="table.settings">
     </smart-table>
     <br>
   </nb-card-body>

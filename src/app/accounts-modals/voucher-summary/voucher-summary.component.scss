@@ -127,6 +127,18 @@ table{
         }
     }
 } 
+.table-four{
+    tbody{
+        tr:last-child{
+            background-color: #263238;
+            td{
+                input{
+                    background-color: #ebebe4;
+                }
+            }
+        }
+    }
+}
 .table_box_three{
     table{
         width: 100%;
@@ -136,6 +148,7 @@ table{
                 display: table-row;
                 th{
                     display: table-cell;
+                    width: 200px;
                 }
             }
         }
@@ -145,6 +158,7 @@ table{
                 display: table-row;
                 td{
                     display: table-cell;
+                    width: 200px;
                 }
             }
         }
@@ -179,4 +193,10 @@ table{
 }
 input:read-only {
     background-color: #ccc;
-  }
+}
+table tr td button.plustransparent.btn.btn-plus.btn-primary {
+    background-color: #73a1ff !important;
+    color: #fff !important;
+    padding: 7px 8px !important;
+    border-radius: 3px !important;
+}

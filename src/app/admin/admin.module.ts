@@ -61,6 +61,7 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 
 
+
 const PAGES_COMPONENTS = [
   AdminComponent,
   VehicleStatusChangeComponent,
