@@ -49,6 +49,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   setData() {
+
     this.headings = this.data.headings;
     this.handlePagination(this.pages.active);
     // this.columns = this.data.columns

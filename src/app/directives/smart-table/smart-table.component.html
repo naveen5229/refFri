@@ -79,7 +79,7 @@
     <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>
   </div>
   <div class="numer_list ml-3">
-    <input type="text" class="customPage form-control" name="customPageNo" (focusout)="customPage()"
+    <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage()"
       [(ngModel)]="pages.limit">
   </div>
 
