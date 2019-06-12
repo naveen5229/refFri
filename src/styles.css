@@ -622,33 +622,33 @@ ngb-modal-window {
     width: 100%;
 }
 
-.print-lr-manifest ngb-modal-window .modal-lg{
+.print-lr-manifest .modal-lg{
     max-width: 100%;
     width: 100%;
 }
 
-.print-lr-manifest ngb-modal-window .modal-lg table tr td,
-.print-lr-manifest ngb-modal-window .modal-lg table tr th{
+.print-lr-manifest .modal-lg table tr td,
+.print-lr-manifest .modal-lg table tr th{
     font-size: 18px;
 }
-.print-lr-manifest ngb-modal-window .modal-lg table tr th{
+.print-lr-manifest .modal-lg table tr th{
     padding: 10px;
 }
-.print-lr-manifest ngb-modal-window .modal-lg .modal-body h3{
+.print-lr-manifest .modal-lg .modal-body h3{
     font-size: 36px;
     font-weight: bold;
 }
-.print-lr-manifest ngb-modal-window .modal-lg .modal-body address{
+.print-lr-manifest .modal-lg .modal-body address{
     font-size: 26px;
 }
-.print-lr-manifest ngb-modal-window .modal-lg .modal-body span{
+.print-lr-manifest .modal-lg .modal-body span{
     font-size: 18px;
 }
-.print-lr-manifest ngb-modal-window .modal-lg .table-bordered>tbody>tr>td, 
-.print-lr-manifest ngb-modal-window .modal-lg .table-bordered>tbody>tr>th, 
-.print-lr-manifest ngb-modal-window .modal-lg .table-bordered>tfoot>tr>td, 
-.print-lr-manifest ngb-modal-window .modal-lg .table-bordered>tfoot>tr>th, 
-.print-lr-manifest ngb-modal-window .modal-lg .table-bordered>thead>tr>td, 
-.print-lr-manifest ngb-modal-window .modal-lg .table-bordered>thead>tr>th{
+.print-lr-manifest .modal-lg .table-bordered>tbody>tr>td, 
+.print-lr-manifest .modal-lg .table-bordered>tbody>tr>th, 
+.print-lr-manifest .modal-lg .table-bordered>tfoot>tr>td, 
+.print-lr-manifest .modal-lg .table-bordered>tfoot>tr>th, 
+.print-lr-manifest .modal-lg .table-bordered>thead>tr>td, 
+.print-lr-manifest .modal-lg .table-bordered>thead>tr>th{
     border: 2px solid #000;
 }
