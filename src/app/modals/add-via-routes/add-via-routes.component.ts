@@ -85,8 +85,8 @@ export class AddViaRoutesComponent implements OnInit {
             color: '00FF00',
             subType: 'marker'
           }];
-          this.routeData.lat = evt.latLng.lat();
-          this.routeData.long = evt.latLng.lng();
+          this.routeData.startlat = evt.latLng.lat();
+          this.routeData.startlong = evt.latLng.lng();
           if (this.mark[0]) {
             this.mark[0].setMap(null);
           }
@@ -101,8 +101,8 @@ export class AddViaRoutesComponent implements OnInit {
             color: 'FF0000',
             subType: 'marker'
           }];
-          this.routeData.lat1 = evt.latLng.lat();
-          this.routeData.long1 = evt.latLng.lng();
+          this.routeData.endlat1 = evt.latLng.lat();
+          this.routeData.endlong2 = evt.latLng.lng();
           if (this.mark[1]) {
             this.mark[1].setMap(null);
           }
@@ -117,10 +117,10 @@ export class AddViaRoutesComponent implements OnInit {
     const params = {
       foid: this.foId,
       name: this.routeData.routeName,
-      startLat: this.routeData.lat,
-      startLong: this.routeData.long,
-      endLat: this.routeData.lat1,
-      endLong: this.routeData.long1,
+      startLat: this.routeData.startlat,
+      startLong: this.routeData.startlong,
+      endLat: this.routeData.endlat1,
+      endLong: this.routeData.endlong2,
       startSiteId: this.routeData.startSiteId,
       endSiteId: this.routeData.endSiteId,
       duration: this.routeData.duration,
@@ -139,6 +139,7 @@ export class AddViaRoutesComponent implements OnInit {
         this.common.loading--;
         console.log(res);
         this.common.showToast(res['msg']);
+        this.closeModal();
       }, err => {
         this.common.loading--;
         console.log(err);
