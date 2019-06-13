@@ -12,11 +12,13 @@ import { DateService } from '../../services/date.service';
 })
 export class AddViaRoutesComponent implements OnInit {
   location = '';
-  foData = null;
+  foId = null;
   routeData = {
 
     routeName: null,
-    siteId: null,
+    startSiteId: null,
+    endSiteId: null,
+
     startlat: null,
     startlong: null,
     endlat1: null,
@@ -46,8 +48,8 @@ export class AddViaRoutesComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private common: CommonService,
     public dateService: DateService) {
-    this.foData = this.common.params.foData;
-    console.log("FOData:", this.foData);
+    this.foId = this.common.params.foData.id;
+    console.log("FOData:", this.foId);
     this.common.handleModalSize('class', 'modal-lg', '1250');
     setTimeout(() => {
       console.log('--------------location:', "location");
@@ -112,8 +114,36 @@ export class AddViaRoutesComponent implements OnInit {
   }
 
   add() {
+    const params = {
+      foid: this.foId,
+      name: this.routeData.routeName,
+      startLat: this.routeData.lat,
+      startLong: this.routeData.long,
+      endLat: this.routeData.lat1,
+      endLong: this.routeData.long1,
+      startSiteId: this.routeData.startSiteId,
+      endSiteId: this.routeData.endSiteId,
+      duration: this.routeData.duration,
+      kms: this.routeData.kms,
+      startName: this.routeData.placeName,
+      endName: this.routeData.placeName2
 
+    };
+
+    console.log("Data :", params);
     console.log("Data", this.routeData);
+
+    this.common.loading++;
+    this.api.post('ViaRoutes/insert', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res);
+        this.common.showToast(res['msg']);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+
   }
 
 
@@ -123,15 +153,16 @@ export class AddViaRoutesComponent implements OnInit {
 
   selectSite(site) {
     console.log("Site Data", site);
-
-    this.routeData.siteId = site.id;
+    this.routeData.startSiteId = site.id;
     this.routeData.startlat = site.lat;
     this.routeData.startlong = site.long;
+    this.routeData.placeName = site.name;
   }
   selectSite2(site) {
-    this.routeData.siteId = site.id;
+    this.routeData.endSiteId = site.id;
     this.routeData.endlat1 = site.lat;
     this.routeData.endlong2 = site.long;
+    this.routeData.placeName2 = site.name;
   }
 
   report(type) {
@@ -145,9 +176,9 @@ export class AddViaRoutesComponent implements OnInit {
       this.ismap = false;
     }
     else if (this.selectOption == "map") {
-      this.routeData.siteId = null;
-      this.routeData.lat = null;
-      this.routeData.long = null;
+      this.routeData.startSiteId = null;
+      this.routeData.startlat = null;
+      this.routeData.startlong = null;
       this.ismap = true;
     }
   }
@@ -156,13 +187,13 @@ export class AddViaRoutesComponent implements OnInit {
     this.selectOption2 = type;
     if (this.selectOption2 == "site2") {
       this.routeData.placeName2 = null;
-      this.routeData.lat = null;
-      this.routeData.long = null;
+      this.routeData.lat1 = null;
+      this.routeData.long1 = null;
       this.mapService.clearAll();
       this.ismap2 = false;
     }
     else if (this.selectOption2 == "map2") {
-      this.routeData.siteId = null;
+      this.routeData.endSiteId = null;
       this.routeData.endlat1 = null;
       this.routeData.endlong2 = null;
       this.ismap2 = true;
