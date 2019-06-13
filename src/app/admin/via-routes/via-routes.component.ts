@@ -34,8 +34,8 @@ export class ViaRoutesComponent implements OnInit {
 
     const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      if (data.response) {
-      }
+      // if (data.response) {
+      // }
     });
 
   }
