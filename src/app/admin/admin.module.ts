@@ -59,6 +59,7 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
 
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
+import { ViaRoutesComponent } from './via-routes/via-routes.component';
 
 
 
@@ -142,7 +143,8 @@ const PAGES_COMPONENTS = [
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VehiclesComponent,
-    VscDiagnosisComponent
+    VscDiagnosisComponent,
+    ViaRoutesComponent
   ],
   exports: [
   ],
