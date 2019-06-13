@@ -13,8 +13,8 @@ import { DatePipe } from '@angular/common';
 export class PrintManifestComponent implements OnInit {
 
   manifestDetail = null;
-  lrdescriptions = null
-
+  lrdescriptions = null;
+  otherDetails = null;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService,
@@ -42,8 +42,10 @@ export class PrintManifestComponent implements OnInit {
         this.common.loading--;
         this.manifestDetail = res['data'][0];
         this.lrdescriptions = JSON.parse(this.manifestDetail.lrdetails);
+        this.otherDetails = JSON.parse(this.manifestDetail._otherdetails)
         console.log('manifestDetail', this.manifestDetail);
         console.log('lrdescriptions', this.lrdescriptions);
+        console.log('otherDetails', this.otherDetails);
 
       }, err => {
         this.common.loading--;

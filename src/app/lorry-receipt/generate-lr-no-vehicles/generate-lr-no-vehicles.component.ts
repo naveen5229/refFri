@@ -123,7 +123,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
 
   addConsignee() {
     console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'md', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
 

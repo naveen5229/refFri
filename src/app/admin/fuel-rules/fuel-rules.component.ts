@@ -29,7 +29,7 @@ export class FuelRulesComponent implements OnInit {
 
   addFuelRule() {
     this.common.params = {};
-    const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getFuelNorms();
@@ -102,7 +102,7 @@ export class FuelRulesComponent implements OnInit {
 
     console.log("rule", rule);
     this.common.params = { title: 'Edit fuel Rule', rule };
-    const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddFuelFullRuleComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getFuelNorms();
