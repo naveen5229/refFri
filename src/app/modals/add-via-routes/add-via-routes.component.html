@@ -5,16 +5,98 @@
   </button>
 </div>
 <div class="modal-body">
-
-
-</div>
-<div class="modal-footer">
   <div class="row">
-    <div class="col">
-      <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+    <div class="col-4">
+      <div class="row">
+        <div class="col-6">
+          <label>Route Name</label>
+        </div>
+
+        <div class="col-6">
+          <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="radio-type">
+          <input type="radio" value="site" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Site
+          <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
+        </div>
+
+      </div>
+
+      <div *ngIf="selectOption=='site'; else map">
+        <div class="row">
+          <div class="col-6">
+            <label>Name</label>
+          </div>
+          <div class="col-6">
+            <auto-suggestion (onSelected)=" selectSite($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+              [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="null">
+            </auto-suggestion>
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <ng-template #map>
+        <div class="row mt-2">
+          <div class="col-6">
+            <label>Name</label>
+          </div>
+          <div class="col-6">
+            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName">
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="row">
+        <div class="col-6">
+          <label>Duration</label>
+
+        </div>
+        <div class="col-6">
+          <input type="number" name="duration" class="form-control" id="duration" placeholder="Duration"
+            [(ngModel)]="routeData.duration">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label>KMS</label>
+
+        </div>
+        <div class="col-6">
+          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" [(ngModel)]="routeData.kms">
+        </div>
+      </div>
+
     </div>
-    <div class="col">
-      <button class="btn btn-primary" (click)="add()" style="cursor:pointer;">Submit</button>
+
+    <div class="col-8" style="position:relative;">
+      <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
+
+      <div class="zoom_btn_box">
+        <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+        <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+      </div>
+      <div class="map" id="map"></div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="add()" style="cursor:pointer;">Submit</button>
+      </div>
     </div>
   </div>
-</div>
