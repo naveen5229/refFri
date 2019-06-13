@@ -178,6 +178,34 @@
         </tbody>
 
       </table>
+      <table class="table table-bordered">
+        <tbody *ngFor="let otherDetail of otherDetails; let i = index;">
+          <tr>
+            <td>
+              <label> Title </label>
+            </td>
+            <td>
+              <input class="form-control" type="text" list="otherTitles" name="companies-type"
+                [(ngModel)]="otherDetail.title">
+              <datalist id="otherTitles">
+                <option *ngFor="let otherTitle of otherTitles;" [value]="otherTitle.name"></option>
+              </datalist>
+            </td>
+            <td>
+              <label>Value </label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="otherDetail.value">
+            </td>
+            <td>
+              <button (click)="addMore()" *ngIf="i == otherDetails.length-1"><i class="fa fa-plus add"></i>
+              </button>
+              <button (click)="otherDetails.splice(i,1)" *ngIf="i !== 0"> <i class="fa fa-trash remove"></i> </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
       <!-- <input type="date"> -->
       <div><button class="btn btn-primary" (click)="assignMainFesto()">Assign</button></div>
     </div>
