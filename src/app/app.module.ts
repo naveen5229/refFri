@@ -169,6 +169,7 @@ import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe
 import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
 import { ModalWiseFuelAvgComponent } from './modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
 import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
+import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
 
 
 
@@ -310,12 +311,12 @@ import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-e
     AddAdvancedMaintenanceComponent,
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
+    AddViaRoutesComponent,
 
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
     AddAdvancedMaintenanceComponent,
-
     VehicleNextServiceDetailComponent,
     ChangeDriverComponent,
     SiteTripDetailsComponent,
@@ -445,7 +446,9 @@ import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-e
     AddVehicleSubModalServiceComponent,
     UpdateTicketSubscribeComponent,
     ModalWiseFuelAvgComponent,
-    FuelEditComponent
+    FuelEditComponent,
+    AddViaRoutesComponent,
+
   ],
   imports: [
     BrowserModule,
