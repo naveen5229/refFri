@@ -29,29 +29,77 @@
       <div *ngIf="selectOption=='site'; else map">
         <div class="row">
           <div class="col-6">
-            <label>Name</label>
+            <label>Start Loc</label>
           </div>
           <div class="col-6">
-            <auto-suggestion (onSelected)=" selectSite($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-              [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="null">
+            <auto-suggestion (onSelected)="selectSite($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+              [display]="['name','sd_loc_name']" placeholder="Search Loc" [preSelected]="null">
             </auto-suggestion>
-
           </div>
         </div>
-
-
-
       </div>
+
+
       <ng-template #map>
         <div class="row mt-2">
           <div class="col-6">
             <label>Name</label>
           </div>
           <div class="col-6">
-            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName">
+            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName"
+              (focus)=" isstart = true;">
           </div>
         </div>
       </ng-template>
+
+
+
+      <div class="row">
+        <div class="radio-type">
+          <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
+            (change)="report2(selectOption2)">Site
+          <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
+            (change)="report2(selectOption2)">Map
+        </div>
+
+      </div>
+
+
+
+      <div *ngIf="selectOption2=='site2'; else map2">
+        <div class="row">
+          <div class="col-6">
+            <label>End Loc</label>
+          </div>
+          <div class="col-6">
+            <auto-suggestion (onSelected)="selectSite2($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+              [display]="['name','sd_loc_name']" placeholder="End Loc" [preSelected]="null">
+            </auto-suggestion>
+          </div>
+        </div>
+      </div>
+
+
+      <ng-template #map2>
+        <div class="row mt-2">
+          <div class="col-6">
+            <label>Name</label>
+          </div>
+          <div class="col-6">
+            <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
+              [(ngModel)]="routeData.placeName2">
+          </div>
+        </div>
+      </ng-template>
+
+
+
+
+
+
+
+
+
 
       <div class="row">
         <div class="col-6">
@@ -78,13 +126,7 @@
     <div class="col-8" style="position:relative;">
       <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
 
-      <div class="zoom_btn_box">
-        <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
-        <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
-        <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
-        <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
-        <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
-      </div>
+
       <div class="map" id="map"></div>
     </div>
 

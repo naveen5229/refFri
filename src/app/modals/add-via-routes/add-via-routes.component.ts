@@ -17,17 +17,29 @@ export class AddViaRoutesComponent implements OnInit {
 
     routeName: null,
     siteId: null,
+    startlat: null,
+    startlong: null,
+    endlat1: null,
+    endlong2: null,
+    latlong: null,
+    latlong2: null,
+
     lat: null,
     long: null,
-    latlong: null,
-    duration: Float64Array = null,
+    lat1: null,
+    long1: null,
+    duration: null,
     kms: null,
     placeName: null,
+    placeName2: null,
   };
 
   selectOption = 'site';
-  mark = null;
+  selectOption2 = 'site2';
+  mark = [];
   ismap = false;
+  ismap2 = false;
+  isstart = false;
 
   constructor(private mapService: MapService,
     private api: ApiService,
@@ -63,35 +75,45 @@ export class AddViaRoutesComponent implements OnInit {
         this.mapService.zoomAt({ lat: lat, lng: lng });
       });
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
-        if (this.ismap == true) {
-
-
+        if (this.ismap && this.isstart) {
           console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
           this.routeData.latlong = [{
+            lat: evt.latLng.lat(),
+            long: evt.latLng.lng(),
+            color: '00FF00',
+            subType: 'marker'
+          }];
+          this.routeData.lat = evt.latLng.lat();
+          this.routeData.long = evt.latLng.lng();
+          if (this.mark[0]) {
+            this.mark[0].setMap(null);
+          }
+          this.mark[0] = this.mapService.createMarkers(this.routeData.latlong, false, false)[0];
+        }
+
+        if (this.ismap && !this.isstart) {
+          console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
+          this.routeData.latlong2 = [{
             lat: evt.latLng.lat(),
             long: evt.latLng.lng(),
             color: 'FF0000',
             subType: 'marker'
           }];
-          // this.position = evt.latLng.lat() + "," + evt.latLng.lng();
-          if (this.mark != null) {
-            this.mark[0].setMap(null);
-            this.mark = null;
+          this.routeData.lat1 = evt.latLng.lat();
+          this.routeData.long1 = evt.latLng.lng();
+          if (this.mark[1]) {
+            this.mark[1].setMap(null);
           }
-          this.mark = this.mapService.createMarkers(this.routeData.latlong, false, false);
-          console.log("latlong", this.routeData.latlong);
+          this.mark[1] = this.mapService.createMarkers(this.routeData.latlong2, false, false)[0];
         }
       });
 
     }, 1000);
-
-
   }
+
   add() {
 
     console.log("Data", this.routeData);
-
-
   }
 
 
@@ -103,8 +125,13 @@ export class AddViaRoutesComponent implements OnInit {
     console.log("Site Data", site);
 
     this.routeData.siteId = site.id;
-    this.routeData.lat = site.lat;
-    this.routeData.long = site.long;
+    this.routeData.startlat = site.lat;
+    this.routeData.startlong = site.long;
+  }
+  selectSite2(site) {
+    this.routeData.siteId = site.id;
+    this.routeData.endlat1 = site.lat;
+    this.routeData.endlong2 = site.long;
   }
 
   report(type) {
@@ -112,12 +139,36 @@ export class AddViaRoutesComponent implements OnInit {
     this.selectOption = type;
     if (this.selectOption == "site") {
       this.routeData.placeName = null;
+      this.routeData.lat = null;
+      this.routeData.long = null;
       this.mapService.clearAll();
       this.ismap = false;
     }
     else if (this.selectOption == "map") {
       this.routeData.siteId = null;
+      this.routeData.lat = null;
+      this.routeData.long = null;
       this.ismap = true;
     }
   }
+
+  report2(type) {
+    this.selectOption2 = type;
+    if (this.selectOption2 == "site2") {
+      this.routeData.placeName2 = null;
+      this.routeData.lat = null;
+      this.routeData.long = null;
+      this.mapService.clearAll();
+      this.ismap2 = false;
+    }
+    else if (this.selectOption2 == "map2") {
+      this.routeData.siteId = null;
+      this.routeData.endlat1 = null;
+      this.routeData.endlong2 = null;
+      this.ismap2 = true;
+    }
+  }
+
+
+
 }
