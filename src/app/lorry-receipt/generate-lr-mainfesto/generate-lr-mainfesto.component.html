@@ -1,0 +1,215 @@
+<nb-card style="border: 0px;">
+  <nb-card-header>
+    <h5>Generate LR ManiFest</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <table class="table table-bordered gerrate_tabel">
+      <tbody>
+        <tr>
+          <td><label>Challan No*</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.challanNo class="form-control"
+              placeholder="Enter MainFesto Number">
+          </td>
+
+          <td><label>Challan Date*</label></td>
+          <td>
+            <div class="row">
+              <div class="col-sm-11">
+
+                <uj-date-time-picker [isTime]="false" (onChanged)="mainfesto.date = $event"
+                  [dateTimeValue]="mainfesto.date">
+                </uj-date-time-picker>
+                <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.date" name="date"
+                  (focusout)="checkDateFormat(mainfesto.date,'date')" placeholder="DD/MM/YYYY"> -->
+              </div>
+              <!-- <div class="col-sm-1 pl-0">
+                <span style='cursor:pointer;' (click)="getDate('date')"><i class="icon fa fa-calendar add"></i></span>
+              </div> -->
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Vehicle No*</label></td>
+          <td>
+            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+              placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)" inputId="vehicleno">
+            </auto-suggestion>
+          </td>
+          <td><label>Seal No</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.sealNo class="form-control" placeholder="Enter Seal Number">
+          </td>
+        </tr>
+        <tr>
+          <td><label>Owner Name</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.ownerName class="form-control" placeholder="Enter Owner Name">
+          </td>
+          <td><label>Owner Mobile</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.ownerMobile class="form-control" placeholder="Enter owner Mobile">
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>Owner PAN</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.ownerPan class="form-control" placeholder="Enter Owner PAN">
+          </td>
+          <td><label>Owner GST</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.ownerGst class="form-control" placeholder="Enter owner GST">
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>Driver Name</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.driverName class="form-control" placeholder="Enter Driver Name">
+          </td>
+          <td><label>Driver Mobile</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.driverMobile class="form-control"
+              placeholder="Enter Driver Mobile">
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>Eway Bill No</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.ewayNo class="form-control" placeholder="Enter Eway Bill No">
+          </td>
+          <td><label>Eway Bill Expiry Date</label></td>
+          <td>
+            <div class="row">
+              <div class="col-sm-12">
+
+                <uj-date-time-picker [isTime]="false" (onChanged)="mainfesto.ewayExpDate = $event"
+                  [dateTimeValue]="mainfesto.ewayExpDate">
+                </uj-date-time-picker>
+                <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.ewayExpDate"
+                  name="date" (focusout)="checkDateFormat(mainfesto.date,'ewayExpDate')" placeholder="DD/MM/YYYY"> -->
+              </div>
+              <!-- <div class="col-sm-1 pl-0">
+                <span style='cursor:pointer;' (click)="getDate('ewayExpDate')"><i
+                    class="icon fa fa-calendar add"></i></span>
+              </div> -->
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>Source City*</label></td>
+          <td>
+            <input placeholder="sourceCity" id="sourceCity" [(ngModel)]="mainfesto.sourceCity" class="form-control">
+          </td>
+          <td><label>Destination City* </label></td>
+          <td>
+            <input placeholder="destinationCity" id="destinationCity" [(ngModel)]="mainfesto.destinationCity"
+              class="form-control">
+        </tr>
+
+        <tr>
+          <td><label>Broker Name</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.brokerName class="form-control" placeholder="Enter Broker Name">
+          </td>
+          <td><label>Remarks</label></td>
+          <td>
+            <input type="text" [(ngModel)]=mainfesto.remarks class="form-control" placeholder="Remarks">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="material_details">
+      <h5>Pending Lr</h5>
+      <table class="table table-bordered">
+        <thead class="thead">
+          <th>#</th>
+          <th>LR No.</th>
+          <th>Consignor</th>
+          <th>Consignee</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Add Time</th>
+          <th>Amount</th>
+        </thead>
+        <tbody *ngFor="let lrDetail of lrDetails; let i = index;">
+          <tr>
+            <td>
+              <input type="checkbox" [(ngModel)]="lrDetail.assignLr" (change)="assignedLrs(lrDetail.assignLr);">
+            </td>
+            <td>{{lrDetail.r_lrnum}}</td>
+            <td>{{lrDetail.r_consignor}}</td>
+            <td>{{lrDetail.r_consignee}}</td>
+            <td>{{lrDetail.r_source}}</td>
+            <td>{{lrDetail.r_destination}}</td>
+            <td>{{lrDetail.r_addtime}}</td>
+            <td>{{lrDetail.r_amount}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td>Total Amount</td>
+            <td>
+              <input type="text" [(ngModel)]=mainfesto.totalAmount class="form-control"
+                placeholder="Enter Total Frieght">
+            </td>
+            <td>Advance Amount</td>
+            <td>
+              <input type="text" [(ngModel)]=mainfesto.advanceAmount class="form-control" placeholder="Enter Advance">
+            </td>
+          </tr>
+          <tr>
+            <td>Others Amount</td>
+            <td>
+              <input type="text" [(ngModel)]=mainfesto.otherAmount class="form-control" placeholder="Others">
+            </td>
+            <td>Balance Amount</td>
+            <td>
+              <input type="text" [(ngModel)]=mainfesto.balanceAmount class="form-control" placeholder="Enter Balance">
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+      <table class="table table-bordered">
+        <tbody *ngFor="let otherDetail of otherDetails; let i = index;">
+          <tr>
+            <td>
+              <label> Title </label>
+            </td>
+            <td>
+              <input class="form-control" type="text" list="otherTitles" name="companies-type"
+                [(ngModel)]="otherDetail.title">
+              <datalist id="otherTitles">
+                <option *ngFor="let otherTitle of otherTitles;" [value]="otherTitle.name"></option>
+              </datalist>
+            </td>
+            <td>
+              <label>Value </label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="otherDetail.value">
+            </td>
+            <td>
+              <button (click)="addMore()" *ngIf="i == otherDetails.length-1"><i class="fa fa-plus add"></i>
+              </button>
+              <button (click)="otherDetails.splice(i,1)" *ngIf="i !== 0"> <i class="fa fa-trash remove"></i> </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+      <!-- <input type="date"> -->
+      <div><button class="btn btn-primary" (click)="assignMainFesto()">Assign</button></div>
+    </div>
+  </nb-card-body>
+
+
+</nb-card>

@@ -49,7 +49,7 @@ export class PlacementsComponent implements OnInit {
     }
       this.common.params= {tripDetils : tripDetails, ref_page : 'placements'};
       console.log("vehicleTrip",tripDetails);
-      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         //console.log("data", data.respone);
         this.getPlacement();

@@ -31,11 +31,9 @@ const PAGES_COMPONENTS = [
   declarations: [
     ...PAGES_COMPONENTS,
 
-    // DocumentationDetailsComponent,
-    // DocumentsSummaryComponent,
+    
     PendingDocumentsComponent,
     ChangeHistoryComponent,
-    // DocumentDashboardComponent
 
   ],
 })

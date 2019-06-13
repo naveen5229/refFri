@@ -1,27 +1,26 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h2>Driver Attendance</h2>
-
+    <h5>Driver Attendance</h5>
   </nb-card-header>
-  <nb-card-body style="padding-top:0px;">
+  <nb-card-body>
 
-    <div class="row">
-      <div class="col-sm-2">
-        <label>From Date</label>
+    <div class="row mb-3">
+      <div class="col-1 pr-0">
+        <label class="pt-1">From Date</label>
       </div>
-      <div class="col-sm-2">
+      <div class="col-2">
         <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
           placeholder="Select Start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date">
       </div>
-      <div class="col-sm-2">
-        <label>End Date</label>
+      <div class="col-1 pr-0">
+        <label class="pt-1">End Date</label>
       </div>
       <div class="col-sm-2">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date">
       </div>
       <div class="col-sm-2">
-        <button type="submit" id="submit" name="submit" class="btn btn-primary" (click)="getAttendace()">GET
+        <button type="submit" id="submit" name="submit" class="btn btn-primary m-0" (click)="getAttendace()">GET
           ATTENDANCE</button>
       </div>
     </div>

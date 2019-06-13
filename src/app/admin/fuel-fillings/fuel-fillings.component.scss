@@ -24,7 +24,7 @@ nb-card-header{
 }
 :host ::ng-deep .tableFixHead{
     height: auto !important;
-    max-height: calc(100vh - 230px) !important;
+    max-height: calc(100vh - 272px) !important;
 }
 
 .pdf-icon{
@@ -34,4 +34,12 @@ nb-card-header{
 .exel-icon{
     font-size: 30px;
     color: #217346;
+}
+.fuel_filling_button button{
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 14px;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }

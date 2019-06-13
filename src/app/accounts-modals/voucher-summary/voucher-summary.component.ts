@@ -7,6 +7,7 @@ import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
+import { DateService } from '../../services/date.service';
 
 @Component({
   selector: 'voucher-summary',
@@ -15,6 +16,7 @@ import { AccountService } from '../../services/account.service';
 })
 export class VoucherSummaryComponent implements OnInit {
   alltotal = 0;
+  targetId = '';
   narration = '';
   tripVoucher;
   trips;
@@ -38,33 +40,44 @@ export class VoucherSummaryComponent implements OnInit {
   };
   tripsEditData = [];
   storeids = [];
+  VoucherData = [];
   date = this.common.dateFormatternew(new Date()).split(' ')[0];
   custcode = '';
   checkall = false;
   activeId = 'creditLedger';
   tripexpvoucherid = 0;
   voucherDetails = null;
+  driverTotal = 0;
+  netTotal = 0;
+  diverledgers = [];
+  accDetails = [{
+    detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
+    detailamount: 0,
+    detailramarks: '',
+    detailLedger: {
+      name: '',
+      id: 0
+    }
+
+  }];
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
     public accountService: AccountService,
     private activeModal: NgbActiveModal) {
-    // this.getAllLedgers();
-
-
+    console.log('________________PARAMS___________', this.common.params);
     if (this.VoucherId == 0) {
-
       console.log('add again', this.VoucherId);
-
       this.trips = this.common.params.tripDetails;
-
     }
+
     this.VehicleId = this.common.params.vehId;
     console.log('tripsEditData', this.tripsEditData);
     console.log('trips data', this.trips);
     console.log(this.common.params.vehId);
-    console.log('trip vouher data', this.common.params.tripVoucher);
+    console.log('111 VoucherData', this.common.params.VoucherData);
     console.log('tripPendingDataSelected', this.common.params.tripPendingDataSelected);
+
     if (this.common.params.tripVoucher) {
       this.tripsEditData = this.common.params.tripDetails;
       this.tripVoucher = this.common.params.tripVoucher;
@@ -79,27 +92,50 @@ export class VoucherSummaryComponent implements OnInit {
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
+      if (this.common.params.tripExpDriver.length > 0) {
+        console.log('fill Array', this.common.params.tripExpDriver);
+        this.accDetails = [];
+        this.common.params.tripExpDriver.forEach(tripExpDriver => {
+          this.accDetails.push({
+            detaildate: this.common.dateFormatternew(tripExpDriver.date).split(' ')[0],
+            detailamount: parseFloat(tripExpDriver.amount),
+            detailramarks: tripExpDriver.remarks,
+            detailLedger: {
+              name: tripExpDriver.ledger_name,
+              id: tripExpDriver.ledger_id
+            }
+          })
+        });
+      } else {
+        console.log('Not fill Array', this.common.params.tripExpDriver);
+      }
+
       this.trips.map(trip => {
         this.tripsEditData.map(tripedit => {
           (trip.id == tripedit.id) ? trip.isChecked = true : '';
         })
       });
       // this.getFuelFillings(this.tripVoucher.startdate, this.tripVoucher.enddate);
-      this.getFuelFillingsEditTime(this.tripVoucher.startdate, this.tripVoucher.enddate, this.common.params.tripPendingDataSelected);
+      this.getFuelFillingsEditTime(
+        this.tripVoucher.startdate,
+        this.tripVoucher.enddate,
+        this.common.params.tripPendingDataSelected
+      );
       this.getVoucherDetails(this.tripVoucher.y_id);
       this.tripexpvoucherid = this.tripVoucher.y_id;
+      this.VoucherData = this.common.params.VoucherData;
     }
+
     this.common.handleModalSize('class', 'modal-lg', '1150');
     this.getcreditLedgers('credit');
-    //  this.getdebitLedgers('debit');
-    // this.setFoucus('custcode');
+    this.getDriveLedgers('credit');
+
   }
 
   ngOnInit() {
   }
 
   getcreditLedgers(transactionType) {
-    //  this.showSuggestions = true;
     let voucherId = -7;
     let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
     console.log('URL: ', url);
@@ -111,13 +147,23 @@ export class VoucherSummaryComponent implements OnInit {
         console.error(err);
         this.common.showError();
       });
-    //this.setFoucus('ref-code');
   }
-
-  getdebitLedgers(transactionType) {
-    //  this.showSuggestions = true;
+  getDriveLedgers(transactionType) {
     let voucherId = -7;
-    let url = 'Suggestion/GetLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
+    let url = 'Suggestion/GetTripLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
+    console.log('URL: ', url);
+    this.api.get(url)
+      .subscribe(res => {
+        console.log(res);
+        this.diverledgers = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
+  getdebitLedgers(transactionType) {
+    let voucherId = -7;
+    let url = 'Suggestion/GetTripLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
     console.log('URL: ', url);
     this.api.get(url)
       .subscribe(res => {
@@ -127,8 +173,8 @@ export class VoucherSummaryComponent implements OnInit {
         console.error(err);
         this.common.showError();
       });
-    //this.setFoucus('ref-code');
   }
+
   getAllLedgers() {
     const params = {
       search: ""
@@ -146,27 +192,12 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  // onSelected(selectedData, type, display) {
-  //   this.creditLedger.name = selectedData[display];
-  //   this.creditLedger.id = selectedData.id;
-  //   console.log('Selected Data: ', selectedData, type, display);
-  //   //  console.log('order User: ', this.DayBook);
-  // }
-
-
   checkedAllSelected() {
     this.checkedTrips = [];
-    //  for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
-    //this.trips['isChecked'] = true;
     this.checkedTrips = this.trips.filter(trip => {
       if (trip.isChecked) return true;
       return false;
     });
-
-    //  this.storeids.push(this.trips[i].);
-    //  }
-
-
   }
 
   keyHandler(event) {
@@ -180,10 +211,21 @@ export class VoucherSummaryComponent implements OnInit {
     this.creditLedger.id = selectedData.y_ledger_id;
     console.log('Accounts User: ', this.creditLedger);
   }
+
+
   onDebitSelected(selectedData, type, display) {
     console.log('selected data1', selectedData);
     this.debitLedger.name = selectedData.y_ledger_name;
     this.debitLedger.id = selectedData.y_ledger_id;
+    console.log('Accounts11 User: ', this.debitLedger);
+  }
+
+  onDebitSelectednew(selectedData, type, display, targetId) {
+    console.log('selected data1', selectedData, targetId);
+    let index = targetId.split('-')[1];
+
+    this.accDetails[index].detailLedger.name = selectedData.y_ledger_name;
+    this.accDetails[index].detailLedger.id = selectedData.y_ledger_id;
     console.log('Accounts11 User: ', this.debitLedger);
   }
 
@@ -195,11 +237,7 @@ export class VoucherSummaryComponent implements OnInit {
     } else {
       this.trips.map(trip => trip.isChecked = false);
     }
-    // for (var i = 0; i < this.trips.length; i++) {
-    //   this.trips[i].selected = true;
-    // }
   }
-
 
   findFirstSelectInfo(type = 'startDate') {
     let options = {
@@ -213,7 +251,6 @@ export class VoucherSummaryComponent implements OnInit {
         break;
       }
     }
-
     return options[type];
   }
 
@@ -252,7 +289,6 @@ export class VoucherSummaryComponent implements OnInit {
             (fuelFiling.id == tripedit.id) ? fuelFiling.isChecked = true : '';
           });
         });
-        // this.getHeads();
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -274,7 +310,6 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         this.fuelFilings = res['data'];
         this.fuelFilings.map(fuelFiling => fuelFiling.isChecked = true);
-        // this.getHeads();
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -311,7 +346,7 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         this.tripHeads = res['data'];
         this.handleTripHeads();
-        this.tripHeads.map((tripHead, index) => this.calculateTripHeadTotal(index));
+        // this.tripHeads.map((tripHead, index) => this.calculateTripHeadTotal(index));
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -320,9 +355,10 @@ export class VoucherSummaryComponent implements OnInit {
   }
 
   handleTripHeads() {
+    console.log('voucherDetails:', Object.assign({}, this.voucherDetails), this.VoucherData);
 
     this.tripHeads.map(tripHead => {
-      console.log('voucherDetails:', Object.assign({}, this.voucherDetails));
+      console.log('voucherDetails:', tripHead);
       let trips = [];
       let totalRowId = -1;
       this.trips.map(trip => {
@@ -335,7 +371,6 @@ export class VoucherSummaryComponent implements OnInit {
               if (voucherDetail.trip_id == trip.id && tripHead.id == voucherDetail.ledger_id) {
                 tripRowId = voucherDetail.id;
                 amount = voucherDetail.amount;
-                // console.log('Trip Row Id: ', tripRowId, voucherDetail);
               }
 
             });
@@ -350,11 +385,12 @@ export class VoucherSummaryComponent implements OnInit {
             start_name: trip.start_name,
             end_name: trip.end_name
           });
-          // console.log('Trips: ', trips);
         }
       });
+
       tripHead.trips = trips;
       let total = 0;
+
       if (this.voucherDetails) {
         this.voucherDetails.map(voucherDetail => {
           if (tripHead.id == voucherDetail.ledger_id && voucherDetail.trip_id == 0) {
@@ -363,6 +399,13 @@ export class VoucherSummaryComponent implements OnInit {
           }
         });
       }
+
+      this.VoucherData.map(voucherData => {
+        if (voucherData.y_dlt_ledger_id == tripHead.id) {
+          total = parseInt(voucherData.y_dlt_amount);
+        }
+      });
+
       tripHead.total = total;
       tripHead.rowid = totalRowId;
       let fuelFilings = [];
@@ -413,7 +456,6 @@ export class VoucherSummaryComponent implements OnInit {
       .subscribe(res => {
         console.log('Res: ', res);
         this.common.loading--;
-        // this.addVoucher(this.VoucherId, this.FinanceVoucherId);
       }, err => {
         console.log(err);
         this.common.loading--;
@@ -423,11 +465,6 @@ export class VoucherSummaryComponent implements OnInit {
 
 
   addVoucher() {
-
-
-    console.log('test value', this.checkedTrips);
-    // this.updateVoucherTrip(123);
-    // return;
     let amountDetails = [];
     amountDetails.push({
       transactionType: 'credit',
@@ -438,7 +475,6 @@ export class VoucherSummaryComponent implements OnInit {
       amount: this.alltotal,
       details: []
     });
-
 
     let totalAmount = 0;
     this.tripHeads.map(tripHead => {
@@ -456,24 +492,8 @@ export class VoucherSummaryComponent implements OnInit {
       }
     });
 
-
-    // amountDetails.push({
-    //   transactionType: 'debit',
-    //   ledger: {
-    //     name: this.debitLedger.name,
-    //     id: this.debitLedger.id
-    //   },
-    //   amount: this.alltotal,
-    //   details: []
-    // });
-
-
-
-
-    //const params ='';
     const params = {
       foid: 123,
-      // vouchertypeid: voucher.voucher.id,
       customercode: this.custcode,
       remarks: this.narration,
       date: this.date,
@@ -491,16 +511,9 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.loading--;
         console.log('return vouher id: ', res['data']);
         if (res['success']) {
-
           if (res['data'][0].save_voucher_v1) {
-
-            //  this.voucher = this.setVoucher();
             this.updateVoucherTrip(res['data'][0].save_voucher_v1, this.tripexpvoucherid);
             this.common.showToast('Your Code :' + res['data'].code);
-            //   this.setFoucus('ref-code');
-
-
-
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);
@@ -516,40 +529,30 @@ export class VoucherSummaryComponent implements OnInit {
 
   updateVoucherTrip(voucherid, tripexpvoucherid) {
     let tripidarray = [];
-
     this.checkedTrips.map(tripHead => {
       tripidarray.push(tripHead.id);
-
     });
     console.log('trip id array ', this.fuelFilings);
     const params = {
       vchrid: voucherid,
-      // vchrid: 4925,
       tripArrayId: tripidarray,
       vehid: this.VehicleId,
       voucher_details: this.tripHeads,
       storeid: this.storeids,
       tripExpVoucherId: tripexpvoucherid,
-      fuelFilings: this.fuelFilings
+      fuelFilings: this.fuelFilings,
+      accDetail: this.accDetails
 
     };
-    this.common.loading++;
 
+    this.common.loading++;
     this.api.post('TripExpenseVoucher/updateTripsForVoucher', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('return vouher id: ', res['data']);
         if (res['success']) {
-
           if (res['data']) {
-
-            //  this.voucher = this.setVoucher();
-            // this.updateVoucherTrip(res['data'][0].save_voucher_v1);
-            // this.common.showToast('Your Code :' + res['data'].code);
-            //   this.setFoucus('ref-code');
-
             this.activeModal.close({ status: status });
-            // this.common.loading--;
           } else {
             let message = 'Failed: ' + res['msg'] + (res['data'].code ? ', Code: ' + res['data'].code : '');
             this.common.showError(message);
@@ -563,57 +566,6 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-  // addVoucher(tvId, xId = 0) {
-  //   let amountDetails = [];
-  //   let totalAmount = 0;
-  //   this.tripHeads.map(tripHead => {
-  //     let data = {
-  //       transactionType: "debit",
-  //       ledger: {
-  //         name: '',
-  //         id: tripHead.id
-  //       },
-  //       amount: tripHead.total
-  //     };
-  //     totalAmount += tripHead.total;
-  //     amountDetails.push(data);
-  //   });
-
-  //   amountDetails.push({
-  //     transactionType: "credit",
-  //     ledger: {
-  //       name: '',
-  //       id: this.creditLedger.id
-  //     },
-  //     amount: totalAmount
-  //   });
-
-  //   let params = {
-  //     //  customercode: this.VehicleId,
-  //     customercode: this.custcode,
-  //     date: this.date,
-  //     foid: '',
-  //     remarks: "test",
-  //     vouchertypeid: '-9',
-  //     amountDetails: amountDetails,
-  //     xid: xId,
-  //     y_code: ''
-  //   };
-  //   console.log('Params: ', params);
-  //   this.common.loading++;
-  //   this.api.post('Voucher/InsertVoucher', params)
-  //     .subscribe(res => {
-  //       console.log('Res: ', res);
-  //       this.common.loading--;
-  //       this.updateFinanceVoucherId(res['data'][0].save_voucher, tvId);
-  //     }, err => {
-  //       console.log(err);
-  //       this.common.loading--;
-  //       this.common.showError;
-  //     })
-
-  // }
-
   updateFinanceVoucherId(fvId, tvId) {
     this.common.loading++;
     this.api.post('TripExpenseVoucher/updateVoucherFId', { fv_id: fvId, tv_id: tvId })
@@ -626,40 +578,52 @@ export class VoucherSummaryComponent implements OnInit {
       });
   }
 
-
   calculateTripHeadTotal(index) {
     console.log('Index: ', index)
     this.tripHeads[index].total = 0;
     this.tripHeads[index].trips.map(trip => {
       this.tripHeads[index].total += parseFloat(trip.amount);
     });
-    // console.log('Total: ', this.tripHeads[index].total);
     let total = 0;
     this.tripHeads.map(trip => {
       total += parseFloat(trip.total);
     });
     this.alltotal = total;
-    console.log('All Total: ', this.alltotal);
-
+    console.log('VoucherData: ', this.VoucherData);
   }
-  calculateTripAllTotal(index){
-    this.alltotal=0;
+
+  calculateTripAllTotal(index) {
+    this.alltotal = 0;
     this.tripHeads.map(trip => {
       this.alltotal += parseFloat(trip.total);
     });
   }
 
-
+  driverSum() {
+    this.driverTotal = 0;
+    this.accDetails.map(detail => {
+      this.driverTotal += detail.detailamount;
+    });
+    this.netTotal = (this.driverTotal - this.alltotal);
+  }
   dismiss(status) {
     this.activeModal.close({ status: status });
   }
 
+  addDetails() {
+    this.accDetails.push({
+      detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
+      detailamount: 0,
+      detailramarks: '',
+      detailLedger: {
+        name: '',
+        id: 0
+      }
+    });
+  }
   callSaveVoucher() {
-
     if (this.accountService.selected.branch.id != 0) {
-      // this.accountService.selected.branch
       this.addVoucher();
-      // this.showConfirm = false;
       event.preventDefault();
       return;
     } else {
@@ -670,14 +634,16 @@ export class VoucherSummaryComponent implements OnInit {
   addTrip() {
     let vehId = this.VehicleId;
     this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // console.log('Data: ', data);
-      if (data.response) {
+      console.log('Data5555555: ', data);
+      if (data) {
+        this.getPendingTrips();
         //this.addLedger(data.ledger);
       }
     });
   }
+
   addFuelFilling() {
     let vehId = this.VehicleId;
     this.common.params = { vehId };
@@ -689,6 +655,7 @@ export class VoucherSummaryComponent implements OnInit {
       }
     });
   }
+
   setDriverName(driverList) {
     if (driverList.id == null) {
       console.log(driverList.empname);
@@ -696,21 +663,49 @@ export class VoucherSummaryComponent implements OnInit {
     this.DriverId = driverList.id;
     this.DriverName = driverList.empname;
   }
+
   setLedgerName(ledgerList) {
     this.DriverId = ledgerList.id;
     this.DriverName = ledgerList.name;
   }
+
   addDriver() {
-    console.log("open material modal")
-    const activeModal = this.modalService.open(AddDriverComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
   }
 
-  handleTripCheck(){
+  getPendingTrips() {
+    const params = {
+      vehId: this.VehicleId
+    };
+    this.common.loading++;
+    this.api.post('VehicleTrips/getPendingVehicleTrips', params)
+      // this.api.post('VehicleTrips/getTripExpenceVouher', params)
+      .subscribe(res => {
+        // console.log(res);
+        this.common.loading--;
+        // this.showTripSummary(res['data']);
+        //this.flag=false;
+        this.trips = res['data'];
 
-    
+        this.refreshAddTrip();
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+
+  }
+
+
+  refreshAddTrip() {
+    this.trips.map(trip => {
+      this.tripsEditData.map(tripedit => {
+        (trip.id == tripedit.id) ? trip.isChecked = true : '';
+      })
+    });
   }
 
 }

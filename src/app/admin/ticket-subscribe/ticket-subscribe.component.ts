@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../@core/data/users.service';
+import { UpdateTicketSubscribeComponent } from '../../modals/update-ticket-subscribe/update-ticket-subscribe.component';
 import { flattenStyles } from '@angular/platform-browser/src/dom/dom_renderer';
 import { DatePipe } from '@angular/common';
 
@@ -18,7 +19,8 @@ export class TicketSubscribeComponent implements OnInit {
     refType: '1',
     refId: '',
     isActive: false,
-    isOld: false
+    isOld: false,
+
   };
   table = null;
   vscEntry = [];
@@ -84,7 +86,8 @@ export class TicketSubscribeComponent implements OnInit {
       Type: { title: 'Type', placeholder: 'Type' },
       isActive: { title: 'isActive', placeholder: 'isActive' },
       isOld: { title: 'isOld', placeholder: 'isOld' },
-      Name: { title: 'Name', placeholder: 'Name' }
+      Name: { title: 'Name', placeholder: 'Name' },
+      action: { title: 'Action ', placeholder: 'Action', hideSearch: true, class: 'tag' },
     };
 
 
@@ -107,7 +110,12 @@ export class TicketSubscribeComponent implements OnInit {
         Type: { value: R.type },
         isActive: { value: R.is_active },
         isOld: { value: R.is_old },
-        Name: { value: R.name }
+        Name: { value: R.name },
+        action: {
+          value: '', isHTML: false, action: null, icons: [
+            { class: 'fa fa-pencil-square-o  edit-btn', action: this.editTicketSubscribe.bind(this, R) },
+          ]
+        },
       };
 
       columns.push(column);
@@ -117,6 +125,22 @@ export class TicketSubscribeComponent implements OnInit {
   }
   closeModal() {
     this.activeModal.close();
+  }
+
+
+
+  editTicketSubscribe(ticketDetails) {
+
+    this.common.params = ticketDetails;
+    console.log('Param', this.common.params);
+
+    const activeModal = this.modalService.open(UpdateTicketSubscribeComponent, { size: 'sm', container: 'nb-layout' });
+    activeModal.result.then(data => {
+      if (data.update) {
+        this.getVscEntry();
+      }
+    })
+
   }
 
 }

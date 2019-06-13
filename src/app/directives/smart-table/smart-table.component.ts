@@ -15,7 +15,7 @@ export class SmartTableComponent implements OnInit {
   columns = [];
   sortType = '';
   activeRow = -1;
-
+  customPagevalue = true;
   search = {
     key: '',
     txt: ''
@@ -26,6 +26,7 @@ export class SmartTableComponent implements OnInit {
     active: 1,
     limit: 200,
   };
+  isTableHide = false;
 
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
@@ -39,6 +40,8 @@ export class SmartTableComponent implements OnInit {
     this.settings = changes.settings.currentValue;
     console.log('Data', this.data);
     this.setData();
+    this.activeRow = -1;
+
   }
 
   ngAfterViewInit() {
@@ -46,6 +49,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   setData() {
+
     this.headings = this.data.headings;
     this.handlePagination(this.pages.active);
     // this.columns = this.data.columns
@@ -140,6 +144,16 @@ export class SmartTableComponent implements OnInit {
     console.log('tttt:', startIndex, lastIndex);
     this.columns = this.data.columns.slice(startIndex, lastIndex);
     console.log(this.columns.length, this.columns);
+  }
+
+  customPage() {
+    this.common.loading++;
+    this.isTableHide = true;
+    this.setData();
+    setTimeout(() => {
+      this.common.loading--;
+      this.isTableHide = false;
+    }, 100);
   }
 
 }
