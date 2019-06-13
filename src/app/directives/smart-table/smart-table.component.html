@@ -1,6 +1,6 @@
 <div [ngClass]="[settings.notFixedHeader  ? '' : 'tableFixHead', pages.count > 1 ? 'paginaion_conditon':'']"
   [ngStyle]="{height: settings.tableHeight || '73vh'}">
-  <table *ngIf="headings" class="table table-bordered fixed">
+  <table *ngIf="headings && !isTableHide" class="table table-bordered fixed">
     <thead *ngIf="!settings.hideHeader">
       <th style="width: 40px">#</th>
       <th *ngFor="let heading of objectKeys(headings);">{{headings[heading].title}}</th>
@@ -35,7 +35,8 @@
     </thead>
     <tbody>
 
-      <tr *ngFor="let column of columns; let i = index;" (click)="column.rowActions.click && handleRowClick(column, i)"
+      <tr *ngFor="let column of columns; let i = index;"
+        (click)="column.rowActions && column.rowActions.click && handleRowClick(column, i)"
         (dblclick)="column.rowActions.dblclick && column.rowActions.dblclick()"
         [ngClass]="activeRow == i ? 'active-row' : ''" [ngStyle]="column.style">
         <td style="width: 40px">
@@ -77,4 +78,9 @@
       [ngClass]="page == pages.active ? 'active-page' : ''">{{page}}</span>
     <span *ngIf="pages.active < pages.count" (click)="handlePagination(pages.active + 1)">Next</span>
   </div>
+  <div class="numer_list ml-3">
+    <input type="text" class="customPage form-control" name="customPageNo" (keyup.enter)="customPage()"
+      [(ngModel)]="pages.limit">
+  </div>
+
 </div>

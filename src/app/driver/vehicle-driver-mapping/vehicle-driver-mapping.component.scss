@@ -1,8 +1,15 @@
 .active-pink-2 input[type=search]:focus:not([readonly]) {
     border-bottom: 1px solid #f48fb1;
     box-shadow: 0 1px 0 0 #f48fb1;
-    }
-    .active-pink input[type=search] {
-        border-bottom: 1px solid #f48fb1;
-        box-shadow: 0 1px 0 0 #f48fb1;
-        }
+}
+.active-pink input[type=search] {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+nb-card-header{
+    border-bottom: 1px solid #ccc;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 178px);
+}

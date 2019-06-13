@@ -1,0 +1,129 @@
+<div style="background-color:#ffffff;width:100%" *ngIf=manifestDetail>
+  <div class="modal-header doNotPrint">
+    <h5 class="modal-title" id="modal-basic-title">PrintManifest</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <br>
+  <div class="modal-body">
+    <div class="row w-100">
+      <div class="col-sm-12" style="text-align: center">
+        <h3>{{manifestDetail.branch_name}}</h3>
+        <address [innerHtml]="manifestDetail.branch_address"></address>
+      </div>
+    </div>
+    <table style="width:100%;">
+      <tr>
+        <td> <label>Challan No:</label></td>
+        <td colspan="3">{{manifestDetail.ch_num}}</td>
+        <td><label>Date:</label></td>
+        <td>{{manifestDetail.ch_date}}</td>
+      </tr>
+      <tr>
+        <td><label>Truck No.</label></td>
+        <td>{{manifestDetail.regno}}</td>
+        <td><label>From</label></td>
+        <td>{{manifestDetail.source}}</td>
+        <td><label>To</label></td>
+        <td>{{manifestDetail.destination}}</td>
+      </tr>
+      <tr>
+        <td><label>Owner</label></td>
+        <td>{{manifestDetail.owner_name}}</td>
+        <td><label>Mobile</label></td>
+        <td>{{manifestDetail.owner_mobile}}</td>
+        <td><label>Owner PAN</label></td>
+        <td>{{manifestDetail.owner_pan}}</td>
+      </tr>
+      <tr>
+        <td> <label>Driver</label></td>
+        <td>{{manifestDetail.driver_name}}</td>
+        <td><label>Mobile</label></td>
+        <td>{{manifestDetail.driver_mobile}}</td>
+        <td><label>Broker</label></td>
+        <td>{{manifestDetail.broker_name}}</td>
+      </tr>
+    </table>
+
+
+    <table class="table-bordered table-hover table-scroll" id="printMainfest" style="width:100%;">
+      <thead class="thead" style="padding: 2px">
+        <tr>
+          <th>#</th>
+          <th>Bilty No.</th>
+          <th>Date</th>
+          <th>Consignor</th>
+          <th>Consingee</th>
+          <th>Station</th>
+          <th>Pkg.</th>
+          <th>Weight</th>
+          <th>Paid</th>
+          <th>To Pay</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let lrdescription of lrdescriptions; let i = index">
+          <td><span *ngIf="lrdescription.lr_date">{{i+1}}</span></td>
+          <td>{{lrdescription.receipt_no}}</td>
+          <td>{{lrdescription.lr_date}}</td>
+          <td>{{lrdescription.consignor}}</td>
+          <td>{{lrdescription.consignee}}</td>
+          <td>{{lrdescription.source}} - {{lrdescription.destination}}</td>
+          <td>{{lrdescription.totarticles}}</td>
+          <td>{{lrdescription.totweight}}</td>
+          <th>{{lrdescription.paidamount}}</th>
+          <th>{{lrdescription.topayamount}}</th>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <div class="row">
+      <div class="col-sm-6">
+        <table style="width:100%;" class="table-bordered">
+          <tr>
+            <td> Total Amount</td>
+            <td>{{manifestDetail.total_amount}}</td>
+          </tr>
+          <tr>
+            <td>Advance Amount</td>
+            <td>{{manifestDetail.adv_amount}}</td>
+          </tr>
+          <tr>
+            <td>Other Amount</td>
+            <td>{{manifestDetail.others_amount}}</td>
+          </tr>
+          <tr>
+            <td>Balance Amount</td>
+            <td>{{manifestDetail.bal_amount}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-sm-6">
+        <table style="width:100%;" class="table-bordered" *ngIf="otherDetails && otherDetails.length>0">
+          <tr *ngFor="let otherDetail of otherDetails; let i=index">
+            <td>{{otherDetail.title}}</td>
+            <td>{{otherDetail.value}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br>
+    <span>{{manifestDetail.lr_terms}}</span>
+    <br>
+    <br>
+
+    <table style="width:100%">
+      <tr>
+        <td><label>Departure Time</label></td>
+        <td><label>Signature Of Driver</label></td>
+        <td><label>For : {{manifestDetail.owner_name}} </label></td>
+      </tr>
+    </table>
+
+  </div>
+  <div class="footer" style="text-align:right;margin-bottom:10px "><button class="btn btn-primary doNotPrint"
+      (click)="onPrint()">Print</button>
+  </div>
+</div>

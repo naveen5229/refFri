@@ -32,3 +32,51 @@
     color: #000;
     font-weight: bold;
 }
+
+.tagsinput{
+    display: inline-block;
+    border: 2px solid #e2e2e2;
+    width: 100%;
+    border-radius: 3px;
+    p{
+        background-color: #26a69a;
+        color: #fff;
+        display: inline-block;
+        border-radius: 30px;
+        padding: 3px 22px 3px 10px;
+        position: relative;
+        margin-right: 5px;
+        margin: 0;
+        height: 20px;
+        vertical-align: middle;
+        font-size: 10px;
+        margin-left: 4px;
+        input{
+            border: 0px;
+            padding: 0px !important;
+            display: inline-block !important;
+            width: 100%;
+            background: transparent;
+        }
+        span{
+            vertical-align: middle;
+        }
+        i{
+            position: absolute;
+            right: 9px;
+            top: 6px;
+            vertical-align: middle;
+            font-size: 10px;
+        }
+    }
+    input{
+        border: 0px;
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+.search-input{
+    // width: auto;
+    display: inline-block;
+}

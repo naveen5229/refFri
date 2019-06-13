@@ -18,6 +18,7 @@ import { DateService } from '../../services/date.service';
 import { start } from 'repl';
 import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status/change-vehicle-status.component';
 import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { PrintManifestComponent } from '../../modals/print-manifest/print-manifest.component';
 @Component({
   selector: 'vehicle-trip',
   templateUrl: './vehicle-trip.component.html',
@@ -236,7 +237,7 @@ export class VehicleTripComponent implements OnInit {
     } else {
       this.common.params = vehicleTrip;
       console.log("vehicleTrip", vehicleTrip);
-      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         console.log("data", data.respone);
 
@@ -277,7 +278,7 @@ export class VehicleTripComponent implements OnInit {
   openAddTripModal() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       this.getVehicleTrips();
 
@@ -310,7 +311,7 @@ export class VehicleTripComponent implements OnInit {
 
   update(vehicleTrip) {
     this.common.params = { vehicleTrip: vehicleTrip };
-    const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
+    const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       this.getVehicleTrips();
 
@@ -412,5 +413,7 @@ export class VehicleTripComponent implements OnInit {
     });
 
   }
+
+
 
 }

@@ -15,6 +15,8 @@ export class DriverStatusChangeComponent implements OnInit {
   driverStatusForm: FormGroup;
   submitted = false;
   Regno = null;
+  statusID = null;
+  id = [];
   constructor(
     public common: CommonService,
     public api: ApiService,
@@ -22,21 +24,19 @@ export class DriverStatusChangeComponent implements OnInit {
     public formbuilder: FormBuilder) {
 
     this.Regno = this.common.params.driver.regno;
+
     this.getdriverStatus();
-    // if (this.common.params.md_name) {
-    //   this.name = this.common.params.md_name;
-    //   this.mobile=this.common.params.md_no;
-    //   console.log("Params:", this.name);
-    //  // this.mobile=this.common.params.mobileno;
-    // }
+    //console.log('....', this.statusID);
     console.log('name', this.common.params.name, 'mobile', this.common.params.mobile);
     if (this.common.params.driver.md_name == this.common.params.name) {
       this.name = this.common.params.driver.md_name;
       this.mobile = this.common.params.driver.md_no;
+      this.statusID = '901';
 
-    } else {
+    } if (this.common.params.driver.sd_name == this.common.params.name) {
       this.name = this.common.params.driver.sd_name;
       this.mobile = this.common.params.driver.sd_no;
+      this.statusID = '902';
     }
 
   }
@@ -49,7 +49,8 @@ export class DriverStatusChangeComponent implements OnInit {
     this.driverStatusForm = this.formbuilder.group({
       name: [this.name],
       mobileno: [this.mobile],
-      Status: [this.driverStatus, [Validators.required]],
+
+      Status: [this.statusID, [Validators.required]],
     });
 
 
@@ -65,7 +66,20 @@ export class DriverStatusChangeComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.driverStatus = res['data'];
-        console.log("Driver Status:", this.driverStatus);
+        // for (let i = 0; i < this.driverStatus.length; i++) {
+        //   this.id = this.driverStatus[i].id;
+        //   if (this.driverStatus[i].id == '901') {
+        //     this.statusID = '901';
+
+        //   } if (this.driverStatus[i].id == '902') {
+        //     this.statusID = '902';
+        //   } if (this.driverStatus[i].id == '903') {
+        //     this.statusID = '903';
+        //   }
+        //   console.log("Driver Status:", this.id);
+        // }
+
+
       }, err => {
         this.common.loading--;
         console.log(err);

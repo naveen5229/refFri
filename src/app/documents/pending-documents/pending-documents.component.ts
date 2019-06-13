@@ -24,7 +24,7 @@ export class PendingDocumentsComponent implements OnInit {
   data = [];
   userdata = [];
   columns = [];
-  columns2 = []
+  columns2 = [];
 
   listtype = 0;
   modal = {
@@ -65,7 +65,12 @@ export class PendingDocumentsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    window.location.reload();
+    this.columns = [];
+    this.columns2 = [];
+    this.getPendingDetailsDocuments();
+    this.getAllTypesOfDocuments();
+    this.getUserWorkList();
+    // window.location.reload();
   }
 
   getPendingDetailsDocuments() {
@@ -583,7 +588,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   addAgent(modal) {
     this.common.params = { title: 'Add Agent' };
-    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddAgentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(agtdata => {
       if (agtdata.response) {
         console.log("agtdata:");
@@ -726,7 +731,7 @@ export class PendingDocumentsComponent implements OnInit {
 
   getUserWorkList() {
     this.common.loading++;
-    this.api.post('Vehicles/getUserWorkSummary', {})
+    this.api.get('Vehicles/getDocumentsUserWorkSummary')
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
