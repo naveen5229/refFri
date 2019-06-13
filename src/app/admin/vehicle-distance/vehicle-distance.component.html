@@ -19,22 +19,20 @@
   <nb-card-body style="padding-bottom: 0px; min-height: 450px;">
     <form class="w-100 mb-3">
       <div class="row">
-        <!-- <div class="col-md-2 pr-0">
-              <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
-                placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
-            </div> -->
-        <div class="col-md-2 pr-0">
-          <input [(ngModel)]="data.startDate" [value]="data.startDate" [owlDateTime]="sDate"
-            [owlDateTimeTrigger]="sDate " placeholder="Start Time" class="form-control" autocomplete="off"
-            name="s-date">
-          <owl-date-time #sDate></owl-date-time>
+
+        <div class="col-4 pr-0">
+
+          <uj-date-time-picker (onChanged)="data.startDate = $event" [dateTimeValue]="data.startDate">
+          </uj-date-time-picker>
+
+
         </div>
-        <div class="col-md-2 pr-0">
-          <input [(ngModel)]="data.endDate" [value]="data.endDate" [owlDateTime]="eDate" [owlDateTimeTrigger]="eDate "
-            placeholder="End Time" class="form-control" autocomplete="off" name="e-date">
-          <owl-date-time #eDate></owl-date-time>
+        <div class="col-4 pr-0">
+          <uj-date-time-picker (onChanged)="data.endDate = $event" [dateTimeValue]="data.endDate">
+          </uj-date-time-picker>
+
         </div>
-        <div class="col-md-2 offset-md-08">
+        <div class="col-2 offset-md-08">
           <button type="button" class="btn btn-primary mt-0" (click)="getDistance()">Submit</button>
         </div>
 

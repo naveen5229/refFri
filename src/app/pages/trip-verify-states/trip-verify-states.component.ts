@@ -56,7 +56,6 @@ export class TripVerifyStatesComponent implements OnInit {
     this.isVerified = [];
     this.verifyState = [];
 
-    let is_verify = parseInt(this.pendingStateType);
 
     let params = "is_verified=" + this.pendingStateType;
     console.log('params', params);
@@ -288,9 +287,9 @@ export class TripVerifyStatesComponent implements OnInit {
               this.common.showToast('Selected state has been deleted');
               this.getPendingStates();
             } else {
-              this.common.showError(res['data'].r_msg);
+              this.common.showToast(res['data'][0].r_msg, '', 10000);
             }
-            //this.common.showToast(res['data'][0].r_msg, '', 10000);
+
 
           }, err => {
             this.common.loading--;

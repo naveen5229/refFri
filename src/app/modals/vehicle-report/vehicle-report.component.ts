@@ -51,9 +51,7 @@ export class VehicleReportComponent implements OnInit {
       start.setDate(today.getDate() - 3);
       this.startDate = start;
       console.log("Start Date:", this.startDate);
-      // this.endDate = this.common.dateFormatter(today);
-      // start = new Date(today.setDate(today.getDate() - 3));
-      // this.startDate = this.common.dateFormatter(start);
+
 
     }
     else {

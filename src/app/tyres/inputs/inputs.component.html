@@ -7,31 +7,31 @@
       <div class="row">
         <div class="col-4">
           <div class="form-group">
-              <label class="label1"><b>Vehicle Type</b></label>
-              <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
-                  <option value="truck">Truck</option>
-                  <option value="trolly">Trolly</option>
-                  <option value="warehouse">Warehouse</option>
-                </select>
+            <label class="label1"><b>Vehicle Type</b></label>
+            <select [(ngModel)]="vehicleType" class="form-control" required (change)="resetVehDetails()">
+              <option value="truck">Truck</option>
+              <option value="trolly">Trolly</option>
+              <option value="warehouse">Warehouse</option>
+            </select>
           </div>
         </div>
         <div class="col-4">
-            <div class="form-group">
-                <label class="label1"><b>Vehicle No. </b></label>
-                <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No" (input)="searchVehicles()"
-            autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
+          <div class="form-group">
+            <label class="label1"><b>Vehicle No. </b></label>
+            <input id="vehicleNo" name="vehicleNo" type="text" placeholder=" Enter Vehicle No"
+              (input)="searchVehicles()" autocomplete="off" class="form-control" [(ngModel)]="searchVehicleString">
             <ul *ngIf=" (vehicleSuggestion)&&(vehicles.length >  0)">
-                <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
-                  {{ vehicle.regno}}
-                </li>
-              </ul>
-            </div>
+              <li *ngFor="let vehicle of vehicles;" (click)="selectVehicle(vehicle)">
+                {{ vehicle.regno}}
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-              <label><b>Tyre No.</b></label>
-              <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
-            autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
+            <label><b>Tyre No.</b></label>
+            <input id="tyres" name="tyresName" type="text" placeholder=" Enter Tyre Name" (input)="searchTyres()"
+              autocomplete="off" class="form-control" [(ngModel)]="searchTyreString">
             <ul *ngIf=" (tyreSuggestion)&&(tyres.length >  0)">
               <li *ngFor="let tyre of tyres;" (click)="selectTyres(tyre)">
                 {{ tyre.tyrenum}}
@@ -43,22 +43,22 @@
       <div class="row">
         <div class="col-4">
           <div class="form-group">
-              <label class="label1"><b>Details</b></label>
-              <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
+            <label class="label1"><b>Details</b></label>
+            <input type="text" class="form-control" placeholder="Details" name="details" [(ngModel)]="details">
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-              <label> <b>Date</b></label>
-              <input [(ngModel)]="date1" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
-                class="form-control" autocomplete="off" name="date">
-              <owl-date-time #date></owl-date-time>
+            <label> <b>Date</b></label>
+            <input [(ngModel)]="date1" [owlDateTime]="date" [owlDateTimeTrigger]="date " placeholder="Date Time"
+              class="form-control" autocomplete="off" name="date">
+            <owl-date-time #date></owl-date-time>
           </div>
         </div>
-        <div class="col-4">
+        <!-- <div class="col-4">
             <button class="btn btn-primary" type="button" outline (click)="getTyreCurrentStatus()" id="saveDetails"
             style="cursor: pointer;margin-top:38px;">Save</button>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col-sm-4" style="text-align:center"
@@ -79,14 +79,16 @@
             <td *ngIf="(axel.axle != '99' )">
               <div class="vehicle-container">
                 <span *ngFor="let axelData of axel.data">
-                    <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
+                  <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
                   <label class="tyres" *ngIf="axelData.pos=='L1'">
-                    <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                    <input type="radio" [name]="i + '-' + axelData.posid"
+                      [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
                     <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
                   <label class="tyres" *ngIf="axelData.pos=='L2'">
-                    <input type="radio" [name]="i + '-' +axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                    <input type="radio" [name]="i + '-' +axelData.posid"
+                      [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
                     <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
@@ -96,14 +98,16 @@
             <td *ngIf="(axel.axle != '99' ) ">
               <div class="vehicle-container">
                 <span *ngFor="let axelData of axel.data">
-                    <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
+                  <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
                   <label class="tyres" *ngIf="axelData.pos=='R1'">
-                    <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                    <input type="radio" [name]="i + '-' + axelData.posid"
+                      [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
                     <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
                   <label class="tyres" *ngIf="axelData.pos=='R2'">
-                    <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                    <input type="radio" [name]="i + '-' + axelData.posid"
+                      [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
                       (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
                     <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/tyre1.jpg">
                   </label>
@@ -112,16 +116,17 @@
             </td>
             <td *ngIf="(axel.axle == '99' ) "><b>Stephenie</b></td>
             <td colspan="2" *ngIf="(axel.axle == '99') ">
-                <div class="vehicle-container">
-              <span *ngFor="let axelData of axel.data">
-                <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
+              <div class="vehicle-container">
+                <span *ngFor="let axelData of axel.data">
+                  <div class="hover_label" *ngIf="axelData.tyrenum">{{axelData.tyrenum}}</div>
                   <label class="tyres">
-                  <input type="radio" [name]="i + '-' + axelData.posid" [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
-                    (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
-                  <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/step.jpg"
-                    style="width:30px">
-                    </label>
-              </span>
+                    <input type="radio" [name]="i + '-' + axelData.posid"
+                      [value]="vehicleTyreDetail.vtype+'-'+axelData.posid" [(ngModel)]="tyrePosition"
+                      (change)="getTyrePosition(tyrePosition,vehicleTyreDetail)">
+                    <img [class]="axelData.mapped!='1'?'seclected':''" src="../../../assets/images/step.jpg"
+                      style="width:30px">
+                  </label>
+                </span>
               </div>
             </td>
           </tr>
