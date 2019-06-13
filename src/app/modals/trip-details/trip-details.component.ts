@@ -6,7 +6,6 @@ import { RouteMapperComponent } from '../route-mapper/route-mapper.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateService } from '../../services/date.service';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
-import { TollDetailsComponent } from '../toll-details/toll-details.component';
 
 @Component({
   selector: 'trip-details',
@@ -17,6 +16,8 @@ export class TripDetailsComponent implements OnInit {
   startDate = null;
   endDate = null;
   vehicleId = null;
+  vehicleOrigin = null;
+  vehicleDestination = null;
   vehicleRegNo = null;
   trips = [];
   headings = [];
@@ -131,7 +132,7 @@ export class TripDetailsComponent implements OnInit {
           value: '', isHTML: true, action: null, icons: [
             { class: " icon fa fa-info", action: this.vehicleReport.bind(this, this.trips[i]) },
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.trips[i]) },
-            { class: " fas fa-road", action: this.openTollDetails.bind(this, this.trips[i]) }
+            
             
           ]
         }
@@ -167,17 +168,7 @@ export class TripDetailsComponent implements OnInit {
       // this.reloadData()
     );
   }
-  openTollDetails(trip) {
-    console.log("toll------", trip);
-    let fromTime = trip._startdate;
-    let toTime = trip._enddate;
-    console.log("trip------", fromTime, toTime);
-    this.common.params = { start: trip._vid, vehicleRegNo: this.vehicleRegNo, fromTime: fromTime, toTime: toTime };
-    this.common.handleModalHeightWidth('class', 'modal-lg', '200', '1500');
-    this.modalService.open(TollDetailsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: "mycustomModalClass" });
-
-  }
-
+ 
   closeModal() {
     this.activeModal.close();
   }

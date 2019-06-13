@@ -179,7 +179,8 @@ import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add
 import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
 import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
-import { TollDetailsComponent } from './modals/toll-details/toll-details.component';
+import { ViaRoutePointsComponent } from './modals/via-route-points/via-route-points.component';
+
 
 
 @NgModule({
@@ -318,7 +319,7 @@ import { TollDetailsComponent } from './modals/toll-details/toll-details.compone
     AddVehicleSubModalServiceComponent,
     UpdateTicketSubscribeComponent,
     AddAdvancedMaintenanceComponent,
-    TollDetailsComponent
+    ViaRoutePointsComponent,
   ],
   entryComponents: [
     BulkVehicleNextServiceDetailComponent,
@@ -411,7 +412,6 @@ import { TollDetailsComponent } from './modals/toll-details/toll-details.compone
     WareHouseModalComponent,
     AddCityComponent,
     AddSiteRuleComponent,
-    TollDetailsComponent,
     StorerequisitionComponent,
     DropDownListComponent,
     VehicleGpsTrailComponent,
@@ -450,7 +450,8 @@ import { TollDetailsComponent } from './modals/toll-details/toll-details.compone
     VoucherSummaryShortComponent,
     AddVehicleModalServiceComponent,
     AddVehicleSubModalServiceComponent,
-    UpdateTicketSubscribeComponent
+    UpdateTicketSubscribeComponent,
+    ViaRoutePointsComponent
 
   ],
   imports: [

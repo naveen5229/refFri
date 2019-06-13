@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TollDetailsComponent } from './toll-details.component';
+import { ViaRoutePointsComponent } from './via-route-points.component';
 
-describe('TollDetailsComponent', () => {
-  let component: TollDetailsComponent;
-  let fixture: ComponentFixture<TollDetailsComponent>;
+describe('ViaRoutePointsComponent', () => {
+  let component: ViaRoutePointsComponent;
+  let fixture: ComponentFixture<ViaRoutePointsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TollDetailsComponent ]
+      declarations: [ ViaRoutePointsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TollDetailsComponent);
+    fixture = TestBed.createComponent(ViaRoutePointsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
