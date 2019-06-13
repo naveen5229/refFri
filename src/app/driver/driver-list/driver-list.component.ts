@@ -78,7 +78,7 @@ export class DriverListComponent implements OnInit {
 
   importDriverCsv() {
     this.common.params = { title: 'Bulk Import Driver', };
-    const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
   }
 
 }

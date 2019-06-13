@@ -147,7 +147,7 @@ export class FuelAverageAnalysisComponent implements OnInit {
           loadingDistance: { value: fuel.loading_distance },
           unloadingDistance: { value: fuel.unloading_distance },
           location: { value: fuel.location_trail },
-
+          style: { background: fuel.is_probable_issue ? 'lightcoral' : '' }
 
         };
         columns.push(column);

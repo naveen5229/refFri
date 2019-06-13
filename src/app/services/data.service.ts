@@ -361,6 +361,11 @@ export class DataService {
 
         ]
       },
+      {
+        title: 'Via-Route',
+        icon: 'fa fa-pencil-square-o',
+        link: '/admin/via-routes',
+      }
 
     ];
   }

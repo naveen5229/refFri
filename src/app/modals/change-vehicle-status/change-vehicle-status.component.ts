@@ -874,7 +874,7 @@ export class ChangeVehicleStatusComponent implements OnInit {
   openManualHalt(vehicleEvent) {
     this.common.params = { vehicleId: this.VehicleStatusData.vehicle_id, vehicleRegNo: this.VehicleStatusData.regno }
     console.log("open manual halt modal");
-    const activeModal = this.modalService.open(ManualHaltComponent, { size: 'md', container: 'nb-layout' });
+    const activeModal = this.modalService.open(ManualHaltComponent, { size: 'sm', container: 'nb-layout' });
     activeModal.result.then(data =>
       this.reloadData());
   }
