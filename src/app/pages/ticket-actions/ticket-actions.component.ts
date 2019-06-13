@@ -46,7 +46,7 @@ export class TicketActionsComponent implements OnInit {
 
   forwardTicket() {
     this.common.params = { title: 'Forward Ticket', ticketId: this.notification.ticket_id, fo_ticket_allocation_id: this.notification.fo_ticket_allocation_id, msg: this.ticketInfo.msg };
-    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'md', container: 'nb-layout', backdrop:'static' });
+    const activeModal = this.modalService.open(TicketForwardComponent, { size: 'sm', container: 'nb-layout', backdrop:'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.router.navigate(['/pages/tickets']);
@@ -102,7 +102,7 @@ export class TicketActionsComponent implements OnInit {
 
   getRemark(status) {
     this.common.params = { title: 'Remarks ', isMandatory: status == 5 ? false : true };
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.updateNotificationStatus(status, data.remark);
@@ -137,7 +137,7 @@ export class TicketActionsComponent implements OnInit {
 
   commentPrompt() {
     this.common.params = { title: 'Remarks ' };
-    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(RemarkModalComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.addComment(data.remark)

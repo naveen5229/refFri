@@ -43,6 +43,42 @@ export class GenerateLrMainfestoComponent implements OnInit {
     selectedLr: '',
     unselectedLr: ''
   };
+  otherDetails = [{
+    title: null,
+    value: null
+  },
+  {
+    title: null,
+    value: null
+  }]
+  otherTitles = [
+    {
+      id: 1,
+      name: "Other Charges"
+    }, {
+      id: 2,
+      name: "Loading Hamall"
+    },
+    {
+      id: 3,
+      name: "Bitty Hamall"
+    },
+    {
+      id: 4,
+      name: "Clearing Charges"
+    }, {
+      id: 5,
+      name: "Refund Of Merchants"
+    },
+    {
+      id: 6,
+      name: "Crossing Collection"
+    },
+    {
+      id: 7,
+      name: "B.C."
+    }
+  ]
   // vehicleRegNo= document.getElementById('vehicleno')['value'];
   constructor(
     private modalService: NgbModal,
@@ -211,8 +247,9 @@ export class GenerateLrMainfestoComponent implements OnInit {
       advanceAmount: this.mainfesto.advanceAmount,
       otherAmount: this.mainfesto.otherAmount,
       balanceAmount: this.mainfesto.balanceAmount,
+      otherDetails: JSON.stringify(this.otherDetails)
     }
-    console.log("params", this.mainfesto);
+    console.log("params", this.mainfesto)
 
     this.api.post('LorryReceiptsOperation/saveManifesto', params)
       .subscribe(res => {
@@ -227,4 +264,12 @@ export class GenerateLrMainfestoComponent implements OnInit {
         this.common.showError();
       })
   }
+
+  addMore() {
+    this.otherDetails.push({
+      title: null,
+      value: null
+    })
+  }
+
 }

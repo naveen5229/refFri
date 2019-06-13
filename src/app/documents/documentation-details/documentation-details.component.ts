@@ -185,7 +185,7 @@ export class DocumentationDetailsComponent implements OnInit {
       return false;
     }
     this.common.params = { title: 'Add Document', vehicleId: this.selectedVehicle };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.documentUpdate();
@@ -208,7 +208,7 @@ export class DocumentationDetailsComponent implements OnInit {
 
   importVehicleDocument() {
     this.common.params = { title: 'Bulk Import Document', vehicleId: this.selectedVehicle };
-    const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
   }
 
   editData(doc) {
