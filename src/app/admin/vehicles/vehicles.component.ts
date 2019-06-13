@@ -115,7 +115,7 @@ export class VehiclesComponent implements OnInit {
   OpenVehicleNextServiceModal(vehicle) {
     this.common.params = { vehicleId: vehicle._vid, vehicleNo: vehicle.Vehicle };
     console.log("vehicle", vehicle);
-    let activeModal = this.modalService.open(VehicleNextServiceDetailComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    let activeModal = this.modalService.open(VehicleNextServiceDetailComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(res => {
       if (res.data > 0) {
         this.getVehiclesDetail();

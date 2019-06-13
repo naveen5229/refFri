@@ -20,10 +20,13 @@ export class VSCTicketAuditComponent implements OnInit {
   vehicleId = null;
   adminId = null;
   ticketAccordingTo = 'vehicle';
+  aduserId = null;
+  VehicleStatusAlerts: any;
+  aduserIds = [];
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
-
+    this.getAduserIds();
   }
 
   ngOnInit() {
@@ -32,64 +35,38 @@ export class VSCTicketAuditComponent implements OnInit {
   searchVehicle(vehicle) {
     this.vehicleId = vehicle.id;
   }
+
   searchUser(admin) {
     this.adminId = admin.id;
   }
 
-  getAlert() {
-    if (this.ticketAccordingTo == 'user') {
-      this.getUserReport()
-    } else if (this.ticketAccordingTo == 'vehicle') {
-      this.getVehicleReport();
-    }
-  }
-
-  getVehicleReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
-    let params = "vehicleId=" + this.vehicleId +
-      "&startTime=" + this.startDate +
-      "&endTime=" + this.endDate;
-
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.get('HaltOperations/getClearAlertsVehicleWise?' + params)
+  getVehicleStatusAlerts() {
+    let params = 'aduserId=' + this.aduserId;
+    console.log("params ", params);
+    this.api.get('HaltOperations/getVehicleStatusAduserViseAlerts?' + params)
       .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res['data'])
-        this.reportVehicleWise = res['data'];
-        console.log('reportVehicleWise: ', this.reportVehicleWise)
+        console.log('Res: ', res['data']);
+        this.VehicleStatusAlerts = res['data'];
       }, err => {
-        this.common.loading--;
+        console.error(err);
         this.common.showError();
-      })
+      });
   }
-
-  getUserReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
-
-    let params = "adminId=" + this.adminId +
-      "&startTime=" + this.startDate +
-      "&endTime=" + this.endDate;
-
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.get('HaltOperations/getClearAlertsAdminWise?' + params)
+  getAduserIds() {
+    this.api.get('HaltOperations/getAutoAduserid')
       .subscribe(res => {
-        this.common.loading--;
-        this.reportUserWise = res['data'];
-        console.log('reportUserWise: ', this.reportUserWise)
+        console.log('Res: ', res['data']);
+        this.aduserIds = res['data'];
       }, err => {
-        this.common.loading--;
+        console.error(err);
         this.common.showError();
-      })
+      });
   }
 
   openVSCModel(data) {
     let VehicleStatusData = {
       vehicle_id: data.vehicle_id,
-      ttime: data.ttime,
+      tTime: data.ttime,
       suggest: 11,
       latch_time: data.latch_time
     }

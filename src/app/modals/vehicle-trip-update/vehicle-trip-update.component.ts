@@ -278,7 +278,7 @@ export class VehicleTripUpdateComponent implements OnInit {
       if (this.keepGoing && this.searchString.length) {
         this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
         this.keepGoing = false;
         activeModal.result.then(res => {
           console.log('response----', res.location);

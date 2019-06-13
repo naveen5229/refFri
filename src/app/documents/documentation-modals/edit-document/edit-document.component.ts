@@ -294,7 +294,7 @@ export class EditDocumentComponent implements OnInit {
 
   addAgent() {
     this.common.params = { title: 'Add Agent' };
-    const activeModal = this.modalService.open(AddAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddAgentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getDocumentsData();
