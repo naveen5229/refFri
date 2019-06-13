@@ -137,7 +137,7 @@ export class AddFoComponent implements OnInit {
   }
 
   test() {
-    this.code=null;
+    this.code = null;
     if (this.company.mobileNo.length == 10) {
       console.log("test");
       let params = 'mobileno=' + this.company.mobileNo

@@ -19,14 +19,14 @@
         <span *ngIf="code==1 ">User already Exist</span>
       </div>
 
-      <div class="col-3">
-        <div class="form-group">
-          <label>Full-Name</label>
-          <input type="text" class="form-control" placeholder="Full-Name" [(ngModel)]="company.name" #name="ngModel"
-            name="Name" autocomplete="off" required>
-          <div *ngIf="name.errors && isFormSubmit" class="vaidation-errors">
-            <span [hidden]="!name.errors.required">Name is mandatory</span>
-          </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <label>Full-Name</label>
+        <input type="text" class="form-control" placeholder="Full-Name" [(ngModel)]="company.name" #name="ngModel"
+          name="Name" autocomplete="off" required>
+        <div *ngIf="name.errors && isFormSubmit" class="vaidation-errors">
+          <span [hidden]="!name.errors.required">Name is mandatory</span>
         </div>
       </div>
       <div class="col-3">

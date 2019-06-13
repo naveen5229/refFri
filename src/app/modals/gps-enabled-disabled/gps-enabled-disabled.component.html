@@ -5,10 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <!-- <div>
-    <auto-suggestion (onSelected)="getFoList($event)" url="suggestion/getFoUsersList" display="name"
-      placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
-  </div> -->
+
   <table class="table table-bordered mt-3">
     <thead class="thead" style="background-color: cadetblue; color: white">
       <tr>
@@ -25,7 +22,6 @@
 
         <td>{{data.apiprovider}}</td>
         <td>{{data.lastcalldt}}</td>
-        <!-- <td>{{data.is_ncv}}</td> -->
         <td><select [(ngModel)]="is_gps" class="form-control" (change)="changeGpsValue()"
             style=" border: 2px solid darkcyan; font-size: 15px">
             <option value="1">True</option>
