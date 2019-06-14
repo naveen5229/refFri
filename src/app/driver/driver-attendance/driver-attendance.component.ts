@@ -25,19 +25,26 @@ export class DriverAttendanceComponent implements OnInit {
     end: this.common.dateFormatter(new Date())
   };
   attendances = [];
+  arrayofdates = [];
   table = {
     data: {
       headings: {
-        name: { placeholder: 'Driver' }
+        name: { placeholder: 'Driver' },
+        total_present: { placeholder: 'TP' },
+        total_absent: { placeholder: 'TA' },
+        total_half: { placeholder: 'THD' }
       },
       columns: []
     },
     settings: {
-      hideHeader: true
+      //hideHeader: true
+      hideHeader: true,
+      editable: true,
+      editableAction: this.handleTableEdit.bind(this)
     }
   };
 
-  dateValue = [];
+  //dateValue = [];
 
   constructor(
     public api: ApiService,
@@ -84,7 +91,7 @@ export class DriverAttendanceComponent implements OnInit {
         this.common.loading--;
         console.log('res', res['data']);
         this.attendances = res['data'];
-        this.table.data.columns = this.getTableColumns(this.formattData());
+        this.table.data.columns = this.table.data.columns = this.getTableColumns(this.formattData());
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -95,21 +102,27 @@ export class DriverAttendanceComponent implements OnInit {
   }
 
   formattData() {
-    let driverAttendanceGroups = _.groupBy(this.attendances, 'DRIVERID');
+    let driverAttendanceGroups = _.groupBy(this.attendances, 'driver_id');
     let formattedAttendances = [];
     Object.keys(driverAttendanceGroups).map(key => {
       formattedAttendances.push({
-        name: driverAttendanceGroups[key][0].NAME,
+        name: driverAttendanceGroups[key][0].driver_name,
+        total_present: driverAttendanceGroups[key][0].total_present,
+        total_absent: driverAttendanceGroups[key][0].total_absent,
+        total_half: driverAttendanceGroups[key][0].total_half,
+
         data: [...driverAttendanceGroups[key]]
       })
     });
     formattedAttendances[0]['data'].map(attendance => {
-      this.table.data.headings[attendance.DATE.split(' ')[0]] = { placeholder: this.common.changeDateformat1(attendance.DATE.split(' ')[0]) };
+      this.table.data.headings[attendance.date.split(' ')[0]] = { placeholder: this.common.changeDateformat3(attendance.date.split(' ')[0]) };
+      //console.log('dates', this.dateValue);
     });
 
-    console.log('Group:', driverAttendanceGroups, formattedAttendances, this.table.data.headings);
+    //console.log('Group:', this.dateValue);
     return formattedAttendances;
   }
+
 
   getTableColumns(formattedAttendances) {
     let columns = [];
@@ -117,15 +130,27 @@ export class DriverAttendanceComponent implements OnInit {
     formattedAttendances.map(formattedAttendance => {
       let column = {
         name: { value: formattedAttendance.name },
+        total_present: { value: formattedAttendance.total_present },
+        total_absent: { value: formattedAttendance.total_absent },
+        total_half: { value: formattedAttendance.total_half },
+
+
+
+
       };
       formattedAttendance.data.map(attendance => {
-        column[attendance.DATE.split(' ')[0]] = { value: attendance.HRS }
+        column[attendance.date.split(' ')[0]] = { value: attendance.attendance }
       });
       columns.push(column);
     });
     return columns;
   }
+  view(formattedAttendance) {
+    this.common.params = { formattedAttendance }
+    console.log('view', this.common.params);
+  }
+  handleTableEdit() {
 
-
+  }
 }
 

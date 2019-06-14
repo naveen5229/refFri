@@ -235,6 +235,10 @@ export class CommonService {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy");
   }
+  changeDateformat3(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, "dd");
+  }
 
   timeFormatter(date) {
     let d = new Date(date);
