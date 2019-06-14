@@ -10,9 +10,62 @@ input {
   table {
     border: 3px solid rgb(13, 37, 250);
   }
+  .thead{
+    background-color: #262626;
+    color: white;
+}
+.placehol{
+  width: 10%;
+
+}
+  
   .tbl{
     overflow: auto;
     height: 440px;
     display: block;
 }
-  
+.infotable{
+  padding: 8px;
+  display: block;
+}
+.infotable tr td{
+  padding: 8px;
+}
+table{
+  tr{
+      td{
+          input, select{
+              padding: 4px 5px;
+              width: 100%;
+              height: auto;
+              margin: 0px;
+              max-width: 100%;
+              font-size: 12px;
+          }
+          button{
+              padding: 0px 10px;
+              margin: 0px;
+              text-transform: capitalize;
+              width: auto;
+          }
+      }
+      td:nth-child(1){
+          width: 200px !important;
+          max-width: inherit !important;
+      }
+      td:nth-child(2){
+          width: 200px !important;
+          max-width: inherit !important;
+      }
+      td:nth-child(3){
+          width: 150px !important;
+          max-width: inherit !important;
+      }
+  }
+}
+
+.checkbox-points input{
+  width: auto !important;
+  margin-left: 5px !important;
+  vertical-align: middle;
+}

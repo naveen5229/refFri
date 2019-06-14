@@ -10,19 +10,30 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./via-route-points.component.scss']
 })
 export class ViaRoutePointsComponent implements OnInit {
-latlong;
+latlong=[{lat:null,long:null,color:null,subType:null}];
+locType="site";
+polypath =[];
+markerlat = null;
+markerlong = null;
 location = '';
 loc='';
 siteNamee = '';
+rowCoordinates;
+tableData=[];
 lat = null;
 mapName = null;
 duration = null;
 kms = null;
 long= null;
+doc;
 selected = 0;
 siteId;
 zoom = null;
+routeId = null;
+firstCoordinates;
+secondCoordinates;
 latlng;
+rowId;
 routeData = {
   siteId : null,
   lat : null,
@@ -31,11 +42,30 @@ routeData = {
 };
 position = null;
 mark = null;
+viaMark = [];
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
     public common: CommonService,
     public api: ApiService) { 
+      this.doc = this.common.params.doc;
+      this.routeId = this.doc._id;
+      this.firstCoordinates = [{
+        lat: this.doc._start_lat,
+        lng: this.doc._start_long,
+        color: '00FF00',
+        subType: 'marker'},
+       { lat: this.doc._end_lat,
+        lng: this.doc._end_long,
+        color: 'FF0000',
+        subType: 'marker'
+      }];
+      console.log(this.secondCoordinates);
+     
+   
+      this.viewTable();
+      console.log("RouteID-->",this.routeId);
       setTimeout(() => {
+
         this.mapService.autoSuggestion("loc", (place, lat, lng) => {
           console.log('Lat: ', lat);
           console.log('Lng: ', lng);
@@ -60,7 +90,7 @@ mark = null;
     this.mapService.map.setOptions({ draggableCursor: 'cursor' });
     
     setTimeout(() => {
-      
+     this.mapService.createMarkers(this.firstCoordinates);
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
         if (this.selected == 1){
         
@@ -68,12 +98,11 @@ mark = null;
         this.latlong = [{
           lat: evt.latLng.lat(),
           long: evt.latLng.lng(),
-          color: 'FF0000',
+          color: '0000FF',
           subType: 'marker'
         }];
         if (this.mark != null) {
           this.mark[0].setMap(null);
-          this.mark = null;
         }
         this.mark = this.mapService.createMarkers(this.latlong, false, false);
         }
@@ -90,7 +119,7 @@ mark = null;
     }
     else{
       this.selected = 0;
-      this.mapService.clearAll();
+      this.mark[0].setMap(null);
       this.reset();
     }
   }
@@ -99,9 +128,77 @@ mark = null;
     this.siteId = null;
     this.routeData.siteId = null;
     this.routeData.lat = null;
-    this.routeData.long =
+    this.routeData.long = null;
     console.log("Value are Null",this.latlong);
   }
+  viewTable(){
+    this.common.loading++;
+    this.api.get('ViaRoutes/viewvia?routeId='+ this.routeId)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        let data = res['data'];
+        this.tableData = data;
+        this.rowCoordinates = [];
+        this.mapService.resetPolyPath();
+        this.viaMark = [];
+        this.viaMark.forEach(mark => {
+          mark.setMap(null);
+        });
+        
+        for (let i = 0; i < this.tableData.length; i++){
+          this.rowCoordinates.push({
+            lat: this.tableData[i]._lat,
+            lng : this.tableData[i]._long,
+          });
+        }
+        this.polypath=[];
+        if(this.tableData.length)
+          this.viaMark = this.mapService.createMarkers(this.rowCoordinates);
+        this.polypath.push({ lat:  this.doc._start_lat, lng:  this.doc._start_long });
+        for (let i = 0; i < this.tableData.length; i++){
+          this.rowCoordinates.push({
+            lat: this.tableData[i]._lat,
+            lng : this.tableData[i]._long,
+          });
+          this.polypath.push({ lat:  this.tableData[i]._lat, lng:  this.tableData[i]._long });
+        }
+        this.polypath.push({ lat:  this.doc._end_lat, lng:  this.doc._end_long });
+        console.log("Polypath--->", this.polypath);
+        for (let i = 0; i < this.polypath.length; i++){
+          this.mapService.createPolyPathManual(this.mapService.createLatLng(this.polypath[i].lat, this.polypath[i].lng));
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+  }
+  deleteRoutes(i){
+    let params = {
+      routeId : this.routeId,
+      id : this.tableData[i]._id
+    }
+    console.log(params);
+    this.common.loading++;
+    this.api.post('ViaRoutes/deletevia', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res', res['data']);
+        this.viewTable();
+        if (res['success']){
+          this.common.showToast("Success");
+        }
+        else {
+          this.common.showToast(res['msg']);
+        }
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+      
+  }
+
+  
   selectSite(site) {
     console.log("Site Data", site);
  
@@ -125,7 +222,7 @@ mark = null;
     }
     let params = {
      
-      routeId : null,
+      routeId : this.routeId,
       lat: this.lat,
       long: this.long,
       duration : this.duration,
@@ -139,11 +236,23 @@ mark = null;
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
+        this.mark[0].setMap(null);
+        this.locType="site";
+        this.viewTable();
+        this.mapName = null;
+        this.duration = null;
+        this.kms = null;
+        if (res['data'][0]['y_id'] <= 0){
+          this.common.showToast(res['data'][0]['y_msg']);
+        }
+        else{
+          this.common.showToast("Success");         
+        }
       }, err => {
         this.common.loading--;
         this.common.showError();
       })
+     
 
   }
 }
-
