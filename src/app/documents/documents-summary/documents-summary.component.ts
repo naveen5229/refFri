@@ -37,7 +37,8 @@ export class DocumentsSummaryComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    window.location.reload();
+    // window.location.reload();
+    this.getDocumentMatrixData();
   }
 
   getDocumentMatrixData() {

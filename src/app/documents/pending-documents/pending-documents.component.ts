@@ -116,11 +116,13 @@ export class PendingDocumentsComponent implements OnInit {
   }
 
   getAllTypesOfDocuments() {
+    // this.common.loading++;
     this.api.get('Vehicles/getAllDocumentTypesList')
       .subscribe(res => {
         console.log("All Type Docs: ", res);
         this.documentTypes = res['data'];
       }, err => {
+        // this.common.loading--;
         console.log(err);
       });
   }

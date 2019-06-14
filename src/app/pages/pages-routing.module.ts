@@ -105,7 +105,6 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
   },
   {
-
     path: 'expenses',
     component: ExpensesComponent,
     canActivate: [AuthGuard],
