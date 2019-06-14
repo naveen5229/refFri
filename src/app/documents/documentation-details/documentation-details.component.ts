@@ -44,7 +44,9 @@ export class DocumentationDetailsComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    this.getTableColumns();
+    // this.getTableColumns();
+    this.selectedVehicle && this.getvehicleData({ id: this.selectedVehicle });
+
   }
 
   getvehicleData(vehicle) {
@@ -95,9 +97,12 @@ export class DocumentationDetailsComponent implements OnInit {
   }
 
   getTableColumns() {
+    // this.common.loading++;
+    console.log("expiry date:22222");
     let columns = [];
+    console.log("Data:", this.data);
     this.data.map(doc => {
-
+      console.log("expiry date:22222");
       let exp_date = this.common.dateFormatter(doc.expiry_date).split(' ')[0];
       let curr = this.common.dateFormatter(new Date()).split(' ')[0];
       let nextMthDate = this.common.getDate(30, 'yyyy-mm-dd');
@@ -125,6 +130,7 @@ export class DocumentationDetailsComponent implements OnInit {
 
       columns.push(column);
     });
+
     return columns;
   }
 

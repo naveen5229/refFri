@@ -8,11 +8,11 @@
     </uj-date-time-picker>
   </div>
   <div class="col-3">
-    <uj-date-time-picker (onChanged)="endTime = $event" [dateTimeValue]="endTime">
-
-    </uj-date-time-picker>
+    <select class="form-control" [(ngModel)]="typeId" (change)="getRemainingTable()">
+      <option *ngFor="let typeIdx of typeIds;" [value]="typeIdx.id">{{typeIdx.description}}</option>
+    </select>
   </div>
-  <div class="col-1">
+  <!-- <div class="col-1">
     <button (click)="submit()">
       Search..
     </button>
@@ -21,14 +21,47 @@
     <button (click)="submit(true)">
       Search With Heat..
     </button>
-  </div>
+  </div> -->
   <div class="col-1">
     <button (click)="loadMarkers()">
       Load Marker...
     </button>
   </div>
+  <div class="col-1">
+    <button (click)="createTable()">
+      Get Buffers...
+    </button>
+  </div>
 
 </div>
-<div id="map" class="map">
+<div class="row">
+  <div class="col-6">
+    <table class="tbl table table-bordered table-hover">
+      <thead class="thead">
+        <tr>
+          <th style="width:40px;">S.No</th>
+          <th style="width:40px;">Halt Id</th>
+          <th>Lat</th>
+          <th>Lng</th>
+          <th>Cnt</th>
+          <th>CntL</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let buffer of buffers;let i = index;">
+          <td (click)=zoomAt(buffer.lat,buffer.long) style="width:40px;">{{i+1}}</td>
+          <td (click)=zoomAt(buffer.lat,buffer.long) style="width:40px;">{{buffer.halt_id}}</td>
+          <td (click)=zoomAt(buffer.lat,buffer.long)>{{buffer.lat}}</td>
+          <td (click)=zoomAt(buffer.lat,buffer.long)>{{buffer.long}}</td>
+          <td (click)=zoomAt(buffer.lat,buffer.long)>{{buffer.cnt}}</td>
+          <td (click)=zoomAt(buffer.lat,buffer.long)>{{buffer.cntl}}</td>
+          <td (click)="createSite(buffer)">Action</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="map" class="col-6 map">
 
+  </div>
 </div>
