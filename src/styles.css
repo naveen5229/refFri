@@ -236,7 +236,8 @@ nb-menu .menu-item>.menu-items>.menu-item a {
 .fas.fa-tools::before,
 .fas.fa-badge-check::before,
 .fas.fa-map-marked::before,
-.fas.fa-truck-pickup::before {
+.fas.fa-truck-pickup::before,
+.fas.fa-tachometer-alt::before {
     font-family: inherit;
 }
 
@@ -350,11 +351,7 @@ nb-card {
     max-height: calc(104vh - 180px) !important;
 }
 
-#tblsummary .tableFixHead {
-    overflow: auto;
-    height: calc(100vh - 150px) !important;
-    max-height: calc(100vh - 150px) !important;
-}
+
 
 .modal-body .TJR-auto-suggestion-container {
     border: 1px solid #263238 !important;
@@ -623,4 +620,35 @@ ngb-modal-window {
 }
 .search_vehicle_input .tagsinput input{
     width: 100%;
+}
+
+.print-lr-manifest .modal-lg{
+    max-width: 100%;
+    width: 100%;
+}
+
+.print-lr-manifest .modal-lg table tr td,
+.print-lr-manifest .modal-lg table tr th{
+    font-size: 18px;
+}
+.print-lr-manifest .modal-lg table tr th{
+    padding: 10px;
+}
+.print-lr-manifest .modal-lg .modal-body h3{
+    font-size: 36px;
+    font-weight: bold;
+}
+.print-lr-manifest .modal-lg .modal-body address{
+    font-size: 26px;
+}
+.print-lr-manifest .modal-lg .modal-body span{
+    font-size: 18px;
+}
+.print-lr-manifest .modal-lg .table-bordered>tbody>tr>td, 
+.print-lr-manifest .modal-lg .table-bordered>tbody>tr>th, 
+.print-lr-manifest .modal-lg .table-bordered>tfoot>tr>td, 
+.print-lr-manifest .modal-lg .table-bordered>tfoot>tr>th, 
+.print-lr-manifest .modal-lg .table-bordered>thead>tr>td, 
+.print-lr-manifest .modal-lg .table-bordered>thead>tr>th{
+    border: 2px solid #000;
 }

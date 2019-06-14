@@ -4,6 +4,14 @@
       <div class="col-6">
         <h5>Maintenance Summary</h5>
       </div>
+      <div class="col-6 text-right">
+        <span style="display: block;">
+          <span class="pdf-icon" title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i
+              class="fa fa-file-pdf"></i></span>
+          <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')"
+            style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
+        </span>
+      </div>
       <!-- <div class="col-6 text-right">
         <span class="pdf-icon" title="PDF Export" (click)="printPDF('tableMaintenance')" style="cursor: pointer;"><i
             class="fa fa-file-pdf"></i></span>
@@ -14,14 +22,8 @@
   </nb-card-header>
 
   <nb-card-body style="padding-top:0px; ">
-    <span style="margin-bottom: 10px; display: block;">
-      <span class="pdf-icon" title="PDF Export" (click)="printPDF('tblsummary');" style="cursor: pointer;"><i
-          class="fa fa-file-pdf"></i></span>
-      <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tblsummary')"
-        style="cursor: pointer;margin-left: 5px;"><i class="fas fa-file-excel"></i></span>
-    </span>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-2">
         <select (change)="typeSelected()" class="form-control mb-3" name="type" [(ngModel)]="typeId">
           <option *ngFor="let type of types;" [value]="type.id">{{type.name}}</option>
         </select>

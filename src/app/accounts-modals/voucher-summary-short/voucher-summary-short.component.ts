@@ -46,8 +46,8 @@ export class VoucherSummaryShortComponent implements OnInit {
   activeId = 'creditLedger';
   tripexpvoucherid = 0;
   voucherDetails = null;
-  driverTotal=0;
-  netTotal=0;
+  driverTotal = 0;
+  netTotal = 0;
   accDetails = [{
     detaildate: this.common.dateFormatternew(new Date()).split(' ')[0],
     detailamount: 0,
@@ -99,9 +99,9 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
 
-     
-      if(this.common.params.tripExpDriver.length>0){
-        console.log('fill Array',this.common.params.tripExpDriver);
+
+      if (this.common.params.tripExpDriver.length > 0) {
+        console.log('fill Array', this.common.params.tripExpDriver);
         this.accDetails = [];
         this.common.params.tripExpDriver.forEach(tripExpDriver => {
           this.accDetails.push({
@@ -114,8 +114,8 @@ export class VoucherSummaryShortComponent implements OnInit {
             }
           })
         });
-      }else{
-        console.log('Not fill Array',this.common.params.tripExpDriver);
+      } else {
+        console.log('Not fill Array', this.common.params.tripExpDriver);
       }
 
       // this.accDetails = this.common.params.tripExpDriver;
@@ -600,7 +600,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       total += parseFloat(trip.total);
     });
     this.alltotal = total;
-    this.netTotal=(this.driverTotal-this.alltotal);
+    this.netTotal = (this.driverTotal - this.alltotal);
     console.log('VoucherData: ', this.VoucherData);
   }
 
@@ -609,15 +609,15 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.tripHeads.map(trip => {
       this.alltotal += parseFloat(trip.total);
     });
-    this.netTotal=(this.driverTotal-this.alltotal);
+    this.netTotal = (this.driverTotal - this.alltotal);
   }
 
-  driverSum(){
+  driverSum() {
     this.driverTotal = 0;
     this.accDetails.map(detail => {
       this.driverTotal += detail.detailamount;
     });
-    this.netTotal=(this.driverTotal-this.alltotal);
+    this.netTotal = (this.driverTotal - this.alltotal);
   }
 
   dismiss(status) {
@@ -649,7 +649,7 @@ export class VoucherSummaryShortComponent implements OnInit {
   addTrip() {
     let vehId = this.VehicleId;
     this.common.params = { vehId };
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // console.log('Data: ', data);
       if (data) {
@@ -685,7 +685,7 @@ export class VoucherSummaryShortComponent implements OnInit {
   }
 
   addDriver() {
-    const activeModal = this.modalService.open(AddDriverComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDriverComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       console.log('Date:', data);
     });
@@ -698,9 +698,9 @@ export class VoucherSummaryShortComponent implements OnInit {
     this.api.post('VehicleTrips/getPendingVehicleTrips', params)
       // this.api.post('VehicleTrips/getTripExpenceVouher', params)
       .subscribe(res => {
-       // console.log(res);
+        // console.log(res);
         this.common.loading--;
-       // this.showTripSummary(res['data']);
+        // this.showTripSummary(res['data']);
         //this.flag=false;
         this.trips = res['data'];
 
@@ -710,15 +710,15 @@ export class VoucherSummaryShortComponent implements OnInit {
         this.common.loading--;
         this.common.showError();
       });
-  
-}
 
-refreshAddTrip() {
-  this.trips.map(trip => {
-    this.tripsEditData.map(tripedit => {
-      (trip.id == tripedit.id) ? trip.isChecked = true : '';
-    })
-  });
-}
+  }
+
+  refreshAddTrip() {
+    this.trips.map(trip => {
+      this.tripsEditData.map(tripedit => {
+        (trip.id == tripedit.id) ? trip.isChecked = true : '';
+      })
+    });
+  }
 
 }

@@ -10,23 +10,23 @@ import { UpdateCompanyComponent } from '../../modals/update-company/update-compa
   styleUrls: ['./company-details.component.scss', '../../pages/pages.component.css']
 })
 export class CompanyDetailsComponent implements OnInit {
-companies = null;
+  companies = null;
 
   constructor(
     public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) { 
-      this.getCompanies();
-    }
+    public modalService: NgbModal) {
+    this.getCompanies();
+  }
 
   ngOnInit() {
   }
-  getCompanies(){
+  getCompanies() {
     ++this.common.loading;
-    this.api.get('company/getCompanies',)
+    this.api.get('company/getCompanies')
       .subscribe(res => {
         --this.common.loading;
-        console.log("response",res);
+        console.log("response", res);
         this.companies = res['data'];
         console.log('this.companies:', this.companies);
         // console.log("Receipt",this.receipts);
@@ -36,15 +36,15 @@ companies = null;
         console.log('Err:', err);
       });
   }
-  updateCompanyDetails(company){
-    console.log("company",company);
-    this.common.params = {company: company }
-    const activeModal = this.modalService.open(UpdateCompanyComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+  updateCompanyDetails(company) {
+    console.log("company", company);
+    this.common.params = { company: company }
+    const activeModal = this.modalService.open(UpdateCompanyComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-     
-        this.getCompanies();
-      
-     
+
+      this.getCompanies();
+
+
     });
   }
 

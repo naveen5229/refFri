@@ -4,14 +4,14 @@
   </nb-card-header>
   <nb-card-body style="min-height: 360px;">
     <div class="container">
-        <div class="row">
-          <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
-          <div class="col-sm-3 list">
-            <select name="list" class="form-control " (change)="selectList($event.target.value)">
-              <option class="form-control" [value]="0">Pending Licence</option>
-              <option class="form-control" [value]="1">Advance Review Licence</option>
-            </select>
-          </div>
+      <div class="row">
+        <div class="col-1 pl-0 pt-2">{{data.length}} Records</div>
+        <div class="col-sm-3 list">
+          <select name="list" class="form-control " (change)="selectList($event.target.value)">
+            <option class="form-control" [value]="0">Pending Licence</option>
+            <option class="form-control" [value]="1">Advance Review Licence</option>
+          </select>
+        </div>
 
         <table class="table table-bordered table-hover table-scroll mt-3" id="tbllicences">
           <thead class="thead">
@@ -20,26 +20,26 @@
               <th *ngFor="let col of columns" class="text-center">
                 {{common.formatTitle(col)}}
               </th>
-              <th style="width:120px; text-align: center;" class="del">Action</th>
+              <th style="text-align: center;" class="del">Action</th>
             </tr>
           </thead>
 
           <tbody class="">
             <ng-container *ngIf="data.length">
               <tr *ngFor="let row of data; let i = index" class="">
-              
-                  <td style="width:5%;">{{i + 1}}</td>
-                  <td *ngFor="let col of columns">
-                  <span  style="min-width: 200px;">{{row[col]}}</span>
-          
+
+                <td>{{i + 1}}</td>
+                <td *ngFor="let col of columns">
+                  <span>{{row[col]}}</span>
+
                 </td>
-                  <td class="del" style="width: 120px;">
-                    <a href="javascript: void(0);" title="Edit Licence" (click)="showDetails(row)"><i
-                        class="icon ion-md-create"></i></a>&nbsp;
-                    <!--<a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
+                <td class="del">
+                  <a href="javascript: void(0);" title="Edit Licence" (click)="showDetails(row)"><i
+                      class="icon ion-md-create"></i></a>&nbsp;
+                  <!--<a href="javascript: void(0);" title="Delete Record" (click)="deleteRecord(row)"><i
                         class="fa fa-trash"></i></a>-->
-                    </td>
-                
+                </td>
+
               </tr>
             </ng-container>
             <tr *ngIf="!data.length">
@@ -73,12 +73,13 @@
                 <label style="font-size:16px;">{{modal.first.data.driver.id}}</label>
                 <span *ngIf="modal.first.data.driver.is_verified == true" style="margin-left:20%;">
                   <label style="font-size:16px; "> Verified </label>
-                 </span>
+                </span>
               </div>
               <div class="col-sm-8 " *ngIf="modal.first.data.canUpdate">
                 <label style="font-size:16px;">{{modal.first.data.driver.id}}</label>
-                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.first.data.driver.review > 0">Review :{{modal.first.data.driver.review}}</label>
-                
+                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.first.data.driver.review > 0">Review
+                  :{{modal.first.data.driver.review}}</label>
+
               </div>
             </div>
 
@@ -86,23 +87,26 @@
               <label for="empname" class="col-sm-4 mgn-vert">Name</label>
 
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8" style="padding-left: 0px;">
-                <label style="font-size:16px;">{{modal.first.data.driver.empname}}</label>               
+                <label style="font-size:16px;">{{modal.first.data.driver.empname}}</label>
               </div>
-              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
-                <input *ngIf="modal.first.data.canUpdate" id="newempname-first" name="newempname-first" type="text" class="form-control "
-                  [(ngModel)]="modal.first.data.driver.newempname" />
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld"
+                style="padding-left: 0px;">
+                <input *ngIf="modal.first.data.canUpdate" id="newempname-first" name="newempname-first" type="text"
+                  class="form-control " [(ngModel)]="modal.first.data.driver.newempname" />
               </div>
             </div>
 
             <div class="row form-field clear mgn-vert">
               <label for="licence_no" class="col-sm-4 mgn-vert">Licence No.<span class="mandatory">*</span></label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8" style="padding-left: 0px;">
-                <label style="font-size:16px;">{{modal.first.data.driver.licence_no}}</label>                
+                <label style="font-size:16px;">{{modal.first.data.driver.licence_no}}</label>
               </div>
 
-              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
-                <input *ngIf="modal.first.data.canUpdate" id="newlicence_no-first" name="newlicence_no-first" type="text" class="form-control "
-                  [(ngModel)]="modal.first.data.driver.newlicenceno" (keyup)="this.validateLicenceno($event)"  (focusout)="openNextModal('second')" />
+              <div *ngIf="modal.first.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld"
+                style="padding-left: 0px;">
+                <input *ngIf="modal.first.data.canUpdate" id="newlicence_no-first" name="newlicence_no-first"
+                  type="text" class="form-control " [(ngModel)]="modal.first.data.driver.newlicenceno"
+                  (keyup)="this.validateLicenceno($event)" (focusout)="openNextModal('second')" />
               </div>
             </div>
 
@@ -114,8 +118,8 @@
 
               </div>
               <div class="col-8" style="padding-left:7px;">
-                <input #effective_date_first *ngIf="modal.first.data.canUpdate" id="effective_date-first" name="effective_date-first"
-                  type="text" class="col-sm-9 form-control frm-fld mgn-vert"
+                <input #effective_date_first *ngIf="modal.first.data.canUpdate" id="effective_date-first"
+                  name="effective_date-first" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.first.data.driver.effective_date" [value]="modal.first.data.driver.effective_date "
                   (focusout)="checkDateFormat('first', 'effective_date')" placeholder="DD/MM/YYYY" />
                 <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
@@ -154,7 +158,7 @@
               </div>
             </div>
 
-            
+
             <div class="row form-field clear">
               <label for="dob-first" class="col-sm-4 mgn-vert">DOB</label>
               <div *ngIf="!modal.first.data.canUpdate" class="col-sm-8">
@@ -162,10 +166,10 @@
                   {{getDateInDisplayFormat(modal.first.data.driver.dob)| date:'dd-MM-yyyy'}}</label>
               </div>
               <div class="col-8" style="padding-left:7px;">
-                <input #dob_first *ngIf="modal.first.data.canUpdate" id="dob-first"
-                  name="dob-first" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
-                  [(ngModel)]="modal.first.data.driver.dob" [value]="modal.first.data.driver.dob"
-                  (focusout)="checkDateFormat('first', 'dob')" placeholder="DD/MM/YYYY" />
+                <input #dob_first *ngIf="modal.first.data.canUpdate" id="dob-first" name="dob-first" type="text"
+                  class="col-sm-9 form-control frm-fld mgn-vert" [(ngModel)]="modal.first.data.driver.dob"
+                  [value]="modal.first.data.driver.dob" (focusout)="checkDateFormat('first', 'dob')"
+                  placeholder="DD/MM/YYYY" />
                 <span *ngIf="modal.first.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('dob', 'first')"><i class="icon fa fa-calendar"></i></span>
               </div>
@@ -178,24 +182,23 @@
                   {{modal.first.data.driver.licence_type}}</label>
               </div>
               <div class="col-sm-8">
-                <div class="col-sm-4"><input #lcvtype_first *ngIf="modal.first.data.canUpdate" id="lcvtype-first" name="lcvtype-first" type="text"
-                class="form-control chk-dl" type="checkbox" [(ngModel)]="modal.first.data.driver.lcv"
-                [value]="modal.first.data.driver.lcv" />LCV</div>
-                <div class="col-sm-4"><input #mcvtype_first *ngIf="modal.first.data.canUpdate" id="mcvtype-first" name="mcvtype-first" type="text"
-                class=" form-control chk-dl" type="checkbox" [(ngModel)]="modal.first.data.driver.mcv"
-                [value]="modal.first.data.driver.mcv" />MCV</div>
-                <div class="col-sm-4"><input #hcvtype_first *ngIf="modal.first.data.canUpdate" id="hcvtype-first" name="hcvtype-first" type="text"
-                class="form-control chk-dl" type="checkbox" [(ngModel)]="modal.first.data.driver.hcv"
-                [value]="modal.first.data.driver.hcv" />HCV</div>
-              </div>              
+                <div class="col-sm-4"><input #lcvtype_first *ngIf="modal.first.data.canUpdate" id="lcvtype-first"
+                    name="lcvtype-first" type="text" class="form-control chk-dl" type="checkbox"
+                    [(ngModel)]="modal.first.data.driver.lcv" [value]="modal.first.data.driver.lcv" />LCV</div>
+                <div class="col-sm-4"><input #mcvtype_first *ngIf="modal.first.data.canUpdate" id="mcvtype-first"
+                    name="mcvtype-first" type="text" class=" form-control chk-dl" type="checkbox"
+                    [(ngModel)]="modal.first.data.driver.mcv" [value]="modal.first.data.driver.mcv" />MCV</div>
+                <div class="col-sm-4"><input #hcvtype_first *ngIf="modal.first.data.canUpdate" id="hcvtype-first"
+                    name="hcvtype-first" type="text" class="form-control chk-dl" type="checkbox"
+                    [(ngModel)]="modal.first.data.driver.hcv" [value]="modal.first.data.driver.hcv" />HCV</div>
+              </div>
             </div>
 
             <div class="row form-field clear">
               <label for="address-first" class="col-sm-4">Address</label>
               <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
                 <textarea id="address-first" name="address-first" rows="2" class="form-control "
-                  [(ngModel)]="modal.first.data.driver.address"
-                  [value]="modal.first.data.driver.address"></textarea>
+                  [(ngModel)]="modal.first.data.driver.address" [value]="modal.first.data.driver.address"></textarea>
                 <!--<input #address_first *ngIf="modal.first.data.canUpdate" id="address-first"
                   name="address-first" style="max-width: 100%" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.first.data.driver.address" [value]="modal.first.data.driver.address"
@@ -207,8 +210,7 @@
               <label for="remarks-first" class="col-sm-4">Remarks</label>
               <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
                 <textarea id="remarks-first" name="remarks-first" rows="3" class="form-control "
-                  [(ngModel)]="modal.first.data.driver.remarks"
-                  [value]="modal.first.data.driver.remarks"></textarea>
+                  [(ngModel)]="modal.first.data.driver.remarks" [value]="modal.first.data.driver.remarks"></textarea>
               </div>
             </div>
 
@@ -280,12 +282,13 @@
                 <label style="font-size:16px;">{{modal.second.data.driver.id}}</label>
                 <span *ngIf="modal.second.data.driver.is_verified == true" style="margin-left:20%;">
                   <label style="font-size:16px; "> Verified </label>
-                 </span>
+                </span>
               </div>
               <div class="col-sm-8 " *ngIf="modal.second.data.canUpdate">
                 <label style="font-size:16px;">{{modal.second.data.driver.id}}</label>
-                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.second.data.driver.review > 0">Review :{{modal.second.data.driver.review}}</label>
-                
+                <label style="font-size:16px; margin-left: 5%; " *ngIf="modal.second.data.driver.review > 0">Review
+                  :{{modal.second.data.driver.review}}</label>
+
               </div>
             </div>
 
@@ -293,23 +296,26 @@
               <label for="empname" class="col-sm-4 mgn-vert">Name</label>
 
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8" style="padding-left: 0px;">
-                <label style="font-size:16px;">{{modal.second.data.driver.empname}}</label>               
+                <label style="font-size:16px;">{{modal.second.data.driver.empname}}</label>
               </div>
-              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
-                <input *ngIf="modal.second.data.canUpdate" id="newempname-second" name="newempname-second" type="text" class="form-control "
-                  [(ngModel)]="modal.second.data.driver.newempname" />
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld"
+                style="padding-left: 0px;">
+                <input *ngIf="modal.second.data.canUpdate" id="newempname-second" name="newempname-second" type="text"
+                  class="form-control " [(ngModel)]="modal.second.data.driver.newempname" />
               </div>
             </div>
 
             <div class="row form-field clear mgn-vert">
               <label for="licence_no" class="col-sm-4 mgn-vert">Licence No.<span class="mandatory">*</span></label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8" style="padding-left: 0px;">
-                <label style="font-size:16px;">{{modal.second.data.driver.licence_no}}</label>                
+                <label style="font-size:16px;">{{modal.second.data.driver.licence_no}}</label>
               </div>
 
-              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld" style="padding-left: 0px;">
-                <input *ngIf="modal.second.data.canUpdate" id="newlicence_no-second" name="newlicence_no-second" type="text" class="form-control "
-                  [(ngModel)]="modal.second.data.driver.newlicenceno" (keyup)="this.validateLicenceno($event)"   (focusout)="openNextModal('first')"  />
+              <div *ngIf="modal.second.data.canUpdate" class="col-sm-8 frm-fld mgn-vert sug-fld"
+                style="padding-left: 0px;">
+                <input *ngIf="modal.second.data.canUpdate" id="newlicence_no-second" name="newlicence_no-second"
+                  type="text" class="form-control " [(ngModel)]="modal.second.data.driver.newlicenceno"
+                  (keyup)="this.validateLicenceno($event)" (focusout)="openNextModal('first')" />
               </div>
             </div>
 
@@ -321,9 +327,10 @@
 
               </div>
               <div class="col-8" style="padding-left:7px;">
-                <input #effective_date_second *ngIf="modal.second.data.canUpdate" id="effective_date-second" name="effective_date-second"
-                  type="text" class="col-sm-9 form-control frm-fld mgn-vert"
-                  [(ngModel)]="modal.second.data.driver.effective_date" [value]="modal.second.data.driver.effective_date "
+                <input #effective_date_second *ngIf="modal.second.data.canUpdate" id="effective_date-second"
+                  name="effective_date-second" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
+                  [(ngModel)]="modal.second.data.driver.effective_date"
+                  [value]="modal.second.data.driver.effective_date "
                   (focusout)="checkDateFormat('second', 'effective_date')" placeholder="DD/MM/YYYY" />
                 <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('effective_date', 'second')"><i class="icon fa fa-calendar"></i></span>
@@ -361,7 +368,7 @@
               </div>
             </div>
 
-            
+
             <div class="row form-field clear">
               <label for="dob-second" class="col-sm-4 mgn-vert">DOB</label>
               <div *ngIf="!modal.second.data.canUpdate" class="col-sm-8">
@@ -369,10 +376,10 @@
                   {{getDateInDisplayFormat(modal.second.data.driver.dob)| date:'dd-MM-yyyy'}}</label>
               </div>
               <div class="col-8" style="padding-left:7px;">
-                <input #dob_second *ngIf="modal.second.data.canUpdate" id="dob-second"
-                  name="dob-second" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
-                  [(ngModel)]="modal.second.data.driver.dob" [value]="modal.second.data.driver.dob"
-                  (focusout)="checkDateFormat('second', 'dob')" placeholder="DD/MM/YYYY" />
+                <input #dob_second *ngIf="modal.second.data.canUpdate" id="dob-second" name="dob-second" type="text"
+                  class="col-sm-9 form-control frm-fld mgn-vert" [(ngModel)]="modal.second.data.driver.dob"
+                  [value]="modal.second.data.driver.dob" (focusout)="checkDateFormat('second', 'dob')"
+                  placeholder="DD/MM/YYYY" />
                 <span *ngIf="modal.second.data.canUpdate" class="col-sm-3" style='cursor:pointer; font-size: 28px;'
                   (click)="getDate('dob', 'second')"><i class="icon fa fa-calendar"></i></span>
               </div>
@@ -385,24 +392,23 @@
                   {{modal.second.data.driver.licence_type}}</label>
               </div>
               <div class="col-sm-8">
-                <div class="col-sm-4"><input #lcvtype_second *ngIf="modal.second.data.canUpdate" id="lcvtype-second" name="lcvtype-second" type="text"
-                class="form-control chk-dl" type="checkbox" [(ngModel)]="modal.second.data.driver.lcv"
-                [value]="modal.second.data.driver.lcv" />LCV</div>
-                <div class="col-sm-4"><input #mcvtype_second *ngIf="modal.second.data.canUpdate" id="mcvtype-second" name="mcvtype-second" type="text"
-                class=" form-control chk-dl" type="checkbox" [(ngModel)]="modal.second.data.driver.mcv"
-                [value]="modal.second.data.driver.mcv" />MCV</div>
-                <div class="col-sm-4"><input #hcvtype_second *ngIf="modal.second.data.canUpdate" id="hcvtype-second" name="hcvtype-second" type="text"
-                class="form-control chk-dl" type="checkbox" [(ngModel)]="modal.second.data.driver.hcv"
-                [value]="modal.second.data.driver.hcv" />HCV</div>
-              </div>              
+                <div class="col-sm-4"><input #lcvtype_second *ngIf="modal.second.data.canUpdate" id="lcvtype-second"
+                    name="lcvtype-second" type="text" class="form-control chk-dl" type="checkbox"
+                    [(ngModel)]="modal.second.data.driver.lcv" [value]="modal.second.data.driver.lcv" />LCV</div>
+                <div class="col-sm-4"><input #mcvtype_second *ngIf="modal.second.data.canUpdate" id="mcvtype-second"
+                    name="mcvtype-second" type="text" class=" form-control chk-dl" type="checkbox"
+                    [(ngModel)]="modal.second.data.driver.mcv" [value]="modal.second.data.driver.mcv" />MCV</div>
+                <div class="col-sm-4"><input #hcvtype_second *ngIf="modal.second.data.canUpdate" id="hcvtype-second"
+                    name="hcvtype-second" type="text" class="form-control chk-dl" type="checkbox"
+                    [(ngModel)]="modal.second.data.driver.hcv" [value]="modal.second.data.driver.hcv" />HCV</div>
+              </div>
             </div>
 
             <div class="row form-field clear">
               <label for="address-second" class="col-sm-4">Address</label>
               <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
                 <textarea id="address-second" name="address-second" rows="2" class="form-control "
-                  [(ngModel)]="modal.second.data.driver.address"
-                  [value]="modal.second.data.driver.address"></textarea>
+                  [(ngModel)]="modal.second.data.driver.address" [value]="modal.second.data.driver.address"></textarea>
                 <!--<input #address_second *ngIf="modal.second.data.canUpdate" id="address-second"
                   name="address-second" style="max-width: 100%" type="text" class="col-sm-9 form-control frm-fld mgn-vert"
                   [(ngModel)]="modal.second.data.driver.address" [value]="modal.second.data.driver.address"
@@ -414,8 +420,7 @@
               <label for="remarks-second" class="col-sm-4">Remarks</label>
               <div class="col-sm-8" style="margin-left:-2%; margin-top: 1%">
                 <textarea id="remarks-second" name="remarks-second" rows="3" class="form-control "
-                  [(ngModel)]="modal.second.data.driver.remarks"
-                  [value]="modal.second.data.driver.remarks"></textarea>
+                  [(ngModel)]="modal.second.data.driver.remarks" [value]="modal.second.data.driver.remarks"></textarea>
               </div>
             </div>
 

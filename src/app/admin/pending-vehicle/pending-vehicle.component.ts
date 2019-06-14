@@ -565,11 +565,16 @@ export class PendingVehicleComponent implements OnInit {
     this.workList = [];
     this.columns2 = [];
     this.common.loading++;
-    this.api.post('Vehicles/getUserWorkSummary', {})
+    this.api.get('Vehicles/getVehiclesUserWorkSummary')
       .subscribe(res => {
         this.common.loading--;
         console.log("data", res);
         this.workList = res['data'];
+        if (this.workList == null) {
+          this.workList = [];
+          this.common.showError("Work List No Data Record Available");
+          return;
+        }
         if (this.workList.length) {
           for (var key in this.workList[0]) {
             if (key.charAt(0) != "_")

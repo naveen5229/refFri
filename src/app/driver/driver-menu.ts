@@ -9,41 +9,41 @@ export const ADMIN_MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Driver List ',
-        icon: 'nb-home',
+        icon: 'fa fa-list',
         link: '/driver/driver-list',
         home: true,
     },
- 
+
     {
-        
+
         title: 'Vehicle Driver Mapping',
-        icon: 'nb-home',
+        icon: 'fa fa-map-marker',
         link: '/driver/vehicle-driver-mapping',
         home: true,
     },
     {
-        
+
         title: 'Attendace List',
-        icon: 'nb-home',
+        icon: 'fa fa-clock-o',
         link: '/driver/driver-attendance',
         home: true,
     },
     {
-        
+
         title: 'Driver Document',
         icon: 'fa fa-book',
         link: '/driver/driver-document',
         home: true,
     },
     {
-        
+
         title: 'Licence Upload',
         icon: 'fas fa-address-card',
         link: '/driver/licence-upload',
         home: true,
     },
     {
-        
+
         title: 'Pending Licence',
         icon: 'fas fa-align-justify',
         link: '/driver/pending-licence',
@@ -71,14 +71,14 @@ export const CUSTOMER_MENU_ITEMS: NbMenuItem[] = [
         home: true,
     },
     {
-        
+
         title: 'vehicle-driver-mapping',
         icon: 'nb-home',
         link: '/driver/vehicle-driver-mapping',
         home: true,
     },
     {
-        
+
         title: 'driver-attendance',
         icon: 'nb-home',
         link: '/driver/driver-attendance',

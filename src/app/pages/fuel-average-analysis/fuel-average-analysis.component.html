@@ -1,11 +1,11 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         <h5>Fuel Mileage</h5>
       </div>
 
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <span>
           <span class="pdf-icon" title="PDF Export" (click)="printPDF('fuelMileage')" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
@@ -21,9 +21,17 @@
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
       </div>
+      <div class="col-sm-2">
+        <select class="form-control" name="Status" [(ngModel)]="id" (change)="selectType()">
+          <option *ngFor="let mapping of Status" [value]="mapping.id">
+            {{mapping.name}}
+
+          </option>
+        </select>
+      </div>
 
       <div class="col-sm-2">
-        <button id="submit" name="submit" class="btn btn-primary" (click)="getfuelAverageDetails()"
+        <button id="submit" name="submit" class="btn btn-primary w-100" (click)="getfuelAverageDetails()"
           style="margin:0px;  cursor: pointer;">Submit</button>
       </div>
 

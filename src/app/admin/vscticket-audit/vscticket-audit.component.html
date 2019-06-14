@@ -10,82 +10,72 @@
           <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
             placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
         </div>
-        <div class="col-sm-4">
-          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+        <div class="col-sm-2">
+          <select name="aduserid" [(ngModel)]="aduserId" class="form-control" (change)="getVehicleStatusAlerts()">
+            <option *ngFor="let aduserIdx of aduserIds;" [value]="aduserIdx.aduserid">{{aduserIdx.aduserid}}</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
           </uj-date-time-picker>
           <!-- <input [(ngModel)]="startDate" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="Date Time"
             class="form-control" autocomplete="off" name="date" />
           <owl-date-time #date></owl-date-time> -->
         </div>
-        <div class="col-sm-4">
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+        <div class="col-sm-2">
+          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false">
           </uj-date-time-picker>
-          <!-- <input [(ngModel)]="endDate" [owlDateTime]="date1" [owlDateTimeTrigger]="date1" placeholder="Date Time"
-            class="form-control" autocomplete="off" name="date1" />
-          <owl-date-time #date1></owl-date-time> -->
+
         </div>
         <div class="col-sm-2">
           <Button class="btn btn-primary" type="button" (click)="goToTrail()">Get Report</Button>
         </div>
+        <div class="col-sm-2">
+          <Button class="btn btn-primary" type="button" (click)="getChallenged()">View Challenged</Button>
+        </div>
       </div>
-      <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px"
-        *ngIf="ticketAccordingTo == 'user'">
-        <thead class="thead" style="background-color:darkgrey">
-          <tr *ngIf="reportUserWise.length">
-            <th>Alert Id</th>
-            <th>FO Name</th>
-            <th>Vehicle RegNo</th>
-            <th>Vehicle Id</th>
-            <th>lTime</th>
-            <th>tTime</th>
-            <th>Add Time</th>
-            <th>Clear Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of reportUserWise; let i = index">
-            <td>{{ data.id }}</td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.regno }}</td>
-            <td>{{ data.vehicle_id }}</td>
-            <td>{{ data.latch_time | date: "dd MMM HH:mm" }}</td>
-            <td>{{ data.ttime | date: "dd MMM HH:mm" }}</td>
-            <td>{{ data.alerttime }}</td>
-            <td>{{ data.cleartime | date: "dd MMM HH:mm" }}</td>
-            <td><button (click)="openVSCModel(data)">Check Detail</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- according to Vehicle -->
-      <table class="table table-bordered" style="margin-left: 5px; margin-right: 5px; margin-top:20px"
-        *ngIf="ticketAccordingTo == 'vehicle'">
-        <thead class="thead" style="background-color:darkgrey">
-          <tr *ngIf="reportVehicleWise.length">
-            <th>Alert Id</th>
-            <th>FO Name</th>
-            <th>lTime</th>
-            <th>tTime</th>
-            <th>Add Time</th>
-            <th>Cleared By</th>
-            <th>Clear Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of reportVehicleWise; let i = index">
-            <td>{{ data.id }}</td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.latch_time | date: "dd MMM HH:mm" }}</td>
-            <td>{{ data.ttime | date: "dd MMM HH:mm" }}</td>
-            <td>{{ data.alerttime }}</td>
-            <td *ngIf="data.aduserid == -1">auto</td>
-            <td *ngIf="data.aduserid != -1">{{ data.emp_name }}</td>
-            <td>{{ data.cleartime | date: "dd MMM HH:mm" }}</td>
-            <td><button (click)="openVSCModel(data)">Check Detail</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="margin-top: 10px">
+        <div class="tableFixHead" *ngIf="VehicleStatusAlerts && VehicleStatusAlerts.length">
+          <table class="table table-bordered table-hover ">
+            <thead class="thead">
+              <tr>
+                <th>Fo Name</th>
+                <th>Vehicle RegNo</th>
+                <th>Vehicle Id</th>
+                <th>Primary Status</th>
+                <th>Secondry Status</th>
+                <th>Suggestion</th>
+                <th>Alert Time</th>
+                <th>Hold User</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
+                <td>{{ VehicleStatusAlert.fo_name }}</td>
+                <td>{{ VehicleStatusAlert.regno }}</td>
+                <td>{{ VehicleStatusAlert.vehicle_id }}</td>
+                <td>{{ VehicleStatusAlert.prim_status }}</td>
+                <td>{{ VehicleStatusAlert.sec_status }}</td>
+                <td>{{ VehicleStatusAlert.suggest }}</td>
+                <td>{{ VehicleStatusAlert.alert_time }}</td>
+                <td>{{ VehicleStatusAlert.hold_by }}</td>
+                <td>
+                  <button (click)="openVSCModel(VehicleStatusAlert)">
+                    Take Action
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="no-data" *ngIf="!VehicleStatusAlerts || !VehicleStatusAlerts.length">
+          No Data available !
+        </div>
+        <div style="margin-top:10px">
+          <b>{{VehicleStatusAlerts && 'Number Of Alerts : ' + VehicleStatusAlerts.length }}</b>
+        </div>
+      </div>
     </div>
   </nb-card-body>
 </nb-card>
