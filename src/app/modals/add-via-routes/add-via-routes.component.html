@@ -1,0 +1,144 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Add via-Route</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-4">
+      <div class="row">
+        <div class="col-6">
+          <label>Route Name</label>
+        </div>
+
+        <div class="col-6">
+          <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="radio-type">
+          <input type="radio" value="site" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Site
+          <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
+        </div>
+
+      </div>
+
+      <div *ngIf="selectOption=='site'; else map">
+        <div class="row">
+          <div class="col-6">
+            <label>Start Loc</label>
+          </div>
+          <div class="col-6">
+            <auto-suggestion (onSelected)="selectSite($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+              [display]="['name','sd_loc_name']" placeholder="Search Loc" [preSelected]="null">
+            </auto-suggestion>
+          </div>
+        </div>
+      </div>
+
+
+      <ng-template #map>
+        <div class="row mt-2">
+          <div class="col-6">
+            <label>Name</label>
+          </div>
+          <div class="col-6">
+            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName"
+              (focus)=" isstart = true;">
+          </div>
+        </div>
+      </ng-template>
+
+
+
+      <div class="row">
+        <div class="radio-type">
+          <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
+            (change)="report2(selectOption2)">Site
+          <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
+            (change)="report2(selectOption2)">Map
+        </div>
+
+      </div>
+
+
+
+      <div *ngIf="selectOption2=='site2'; else map2">
+        <div class="row">
+          <div class="col-6">
+            <label>End Loc</label>
+          </div>
+          <div class="col-6">
+            <auto-suggestion (onSelected)="selectSite2($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+              [display]="['name','sd_loc_name']" placeholder="End Loc" [preSelected]="null">
+            </auto-suggestion>
+          </div>
+        </div>
+      </div>
+
+
+      <ng-template #map2>
+        <div class="row mt-2">
+          <div class="col-6">
+            <label>Name</label>
+          </div>
+          <div class="col-6">
+            <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
+              [(ngModel)]="routeData.placeName2">
+          </div>
+        </div>
+      </ng-template>
+
+
+
+
+
+
+
+
+
+
+      <div class="row">
+        <div class="col-6">
+          <label>Duration</label>
+
+        </div>
+        <div class="col-6">
+          <input type="number" name="duration" class="form-control" id="duration" placeholder="Duration"
+            [(ngModel)]="routeData.duration">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label>KMS</label>
+
+        </div>
+        <div class="col-6">
+          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" [(ngModel)]="routeData.kms">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-8" style="position:relative;">
+      <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
+
+
+      <div class="map" id="map"></div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger" (click)="closeModal()" style="cursor:pointer;">Cancel</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="add()" style="cursor:pointer;">Submit</button>
+      </div>
+    </div>
+  </div>

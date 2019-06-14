@@ -1,0 +1,11 @@
+nb-card-header{
+    border-bottom: 1px solid #ccc;
+}
+.btn{
+    font-size: 16px;
+    text-transform: capitalize;
+}
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 120px);
+}

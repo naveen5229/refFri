@@ -257,7 +257,7 @@ export class DocumentsSummaryComponent implements OnInit {
     console.log("colval:", colval.split("_")[2]);
     colval = colval.split("_")[2];
     this.common.params = { norecordData, col, colval };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getDocumentMatrixData();

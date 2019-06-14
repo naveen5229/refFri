@@ -38,7 +38,7 @@ export class TransportAgentsComponent implements OnInit {
   updateTranportAgent(transportAgent){
     console.log("transportAgent",transportAgent);
     this.common.params = {transportAgent: transportAgent }
-    const activeModal = this.modalService.open(UpdateTransportAgentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(UpdateTransportAgentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       this.getTransportAgent();
     });
