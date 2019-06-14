@@ -57,8 +57,8 @@ export class DocumentDashboardComponent implements OnInit {
 
   refresh() {
     console.log('Refresh');
-    //this.getDocumentData();
-    window.location.reload();
+    this.getDocumentData();
+    // window.location.reload();
   }
 
   getDocumentData() {

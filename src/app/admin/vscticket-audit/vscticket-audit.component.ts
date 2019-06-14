@@ -93,5 +93,21 @@ export class VSCTicketAuditComponent implements OnInit {
     });
   }
 
+  getChallenged() {
+    let params = {
+      startTime: this.common.dateFormatter1(this.startDate),
+      endTime: this.common.dateFormatter1(this.endDate),
+      aduserId: this.aduserId
+    };
+    this.api.post('HaltOperations/getChallenged', params)
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.VehicleStatusAlerts = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.showError();
+      });
+  }
+
 
 }

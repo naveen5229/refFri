@@ -216,4 +216,8 @@ export class HaltDensityComponent implements OnInit {
         this.commonService.showError();
       });
   }
+
+  getRemainingTable(){
+    
+  }
 }
