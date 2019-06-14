@@ -16,6 +16,8 @@ export class TripDetailsComponent implements OnInit {
   startDate = null;
   endDate = null;
   vehicleId = null;
+  vehicleOrigin = null;
+  vehicleDestination = null;
   vehicleRegNo = null;
   trips = [];
   headings = [];
@@ -130,7 +132,8 @@ export class TripDetailsComponent implements OnInit {
           value: '', isHTML: true, action: null, icons: [
             { class: " icon fa fa-info", action: this.vehicleReport.bind(this, this.trips[i]) },
             { class: " fa fa-route route-mapper", action: this.openRouteMapper.bind(this, this.trips[i]) },
-
+            
+            
           ]
         }
 
@@ -165,7 +168,7 @@ export class TripDetailsComponent implements OnInit {
       // this.reloadData()
     );
   }
-
+ 
   closeModal() {
     this.activeModal.close();
   }

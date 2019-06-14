@@ -278,6 +278,19 @@ export class MapService {
     return thisMarkers;
   }
 
+  createCirclesOnPostion(center,radius){
+    return new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.2,
+      map: this.map,
+      center: center,
+      radius: radius
+    });
+  }
+
   toggleBounceMF(id, evtype = 1) {
     //console.log("Bounce marker",id);
     //console.log("index",index);
