@@ -74,7 +74,7 @@ export class AddViaRoutesComponent implements OnInit {
     setTimeout(() => {
       this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
         this.mapService.clearAll();
-        this.mapService.zoomAt({ lat: lat, lng: lng });
+        this.mapService.zoomAt({ lat: lat, lng: lng }, 12);
       });
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
         if (this.ismap && this.isstart) {
@@ -93,7 +93,7 @@ export class AddViaRoutesComponent implements OnInit {
           this.mark[0] = this.mapService.createMarkers(this.routeData.latlong, false, false)[0];
         }
 
-        if (this.ismap && !this.isstart) {
+        if (this.ismap2 && !this.isstart) {
           console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
           this.routeData.latlong2 = [{
             lat: evt.latLng.lat(),
@@ -167,40 +167,36 @@ export class AddViaRoutesComponent implements OnInit {
   }
 
   report(type) {
-    console.log("test", type);
-    this.selectOption = type;
-    if (this.selectOption == "site") {
+    if (type == "site") {
       this.routeData.placeName = null;
       this.routeData.lat = null;
       this.routeData.long = null;
-      this.mapService.clearAll();
       this.ismap = false;
+      this.mark[0] && this.mark[0].setMap(null);
     }
-    else if (this.selectOption == "map") {
+    else if (type == "map") {
       this.routeData.startSiteId = null;
       this.routeData.startlat = null;
       this.routeData.startlong = null;
       this.ismap = true;
+      this.mark[0] && this.mark[0].setMap(null);
     }
   }
 
   report2(type) {
-    this.selectOption2 = type;
-    if (this.selectOption2 == "site2") {
+    if (type == "site2") {
       this.routeData.placeName2 = null;
       this.routeData.lat1 = null;
       this.routeData.long1 = null;
-      this.mapService.clearAll();
       this.ismap2 = false;
+      this.mark[1] && this.mark[1].setMap(null);
     }
-    else if (this.selectOption2 == "map2") {
+    else if (type == "map2") {
       this.routeData.endSiteId = null;
       this.routeData.endlat1 = null;
       this.routeData.endlong2 = null;
       this.ismap2 = true;
+      this.mark[1] && this.mark[1].setMap(null);
     }
   }
-
-
-
 }
