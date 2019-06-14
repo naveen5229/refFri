@@ -12,6 +12,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { GenerateLrNoVehiclesComponent } from './generate-lr-no-vehicles/generate-lr-no-vehicles.component';
 import { GenerateLrMainfestoComponent } from './generate-lr-mainfesto/generate-lr-mainfesto.component';
 import { ViewManifestoComponent } from './view-manifesto/view-manifesto.component';
+import { LrPodReceiptsComponent } from './lr-pod-receipts/lr-pod-receipts.component';
 
 
 const PAGES_COMPONENTS = [
@@ -37,7 +38,8 @@ const PAGES_COMPONENTS = [
     GenerateLRComponent,
     GenerateLrNoVehiclesComponent,
     GenerateLrMainfestoComponent,
-    ViewManifestoComponent
+    ViewManifestoComponent,
+    LrPodReceiptsComponent
   ],
 
 })
