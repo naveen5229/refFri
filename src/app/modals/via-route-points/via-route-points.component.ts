@@ -12,13 +12,8 @@ import { ApiService } from '../../services/api.service';
 export class ViaRoutePointsComponent implements OnInit {
   latlong = [{ lat: null, long: null, color: null, subType: null }];
   locType = "site";
-  polypath = [];
-  markerlat = null;
-  markerlong = null;
-  location = '';
   loc = '';
   siteNamee = '';
-  rowCoordinates;
   tableData = [];
   lat = null;
   mapName = null;
@@ -28,19 +23,14 @@ export class ViaRoutePointsComponent implements OnInit {
   doc;
   selected = 0;
   siteId;
-  zoom = null;
   routeId = null;
   firstCoordinates;
-  secondCoordinates;
-  latlng;
-  rowId;
   routeData = {
     siteId: null,
     lat: null,
     long: null,
     siteName: null
   };
-  position = null;
   mark = null;
   viaMark = [];
   constructor(private activeModal: NgbActiveModal,
@@ -61,20 +51,15 @@ export class ViaRoutePointsComponent implements OnInit {
       color: 'FF0000',
       subType: 'marker'
     }];
-    console.log(this.secondCoordinates);
-
-
     this.viewTable();
     console.log("RouteID-->", this.routeId);
     setTimeout(() => {
-
       this.mapService.autoSuggestion("loc", (place, lat, lng) => {
         console.log('Lat: ', lat);
         console.log('Lng: ', lng);
         console.log('Place: ', place);
-        console.log("position", this.position);
         this.loc = place;
-        this.zoom = this.mapService.zoomAt(this.mapService.createLatLng(lat, lng), 11);
+        this.mapService.zoomAt(this.mapService.createLatLng(lat, lng), 11);
       });
 
     }, 2000)
@@ -106,16 +91,16 @@ export class ViaRoutePointsComponent implements OnInit {
   createMarkers(lat, long, type) {
 
     console.log("latlong", lat, long);
-      this.latlong = [{
-        lat: lat,
-        long: long,
-        color: '0000FF',
-        subType: 'marker'
-      }];  
-      if (this.mark != null) {
-        this.mark[0].setMap(null);
-      }
-      this.mark = this.mapService.createMarkers(this.latlong, false, false);
+    this.latlong = [{
+      lat: lat,
+      long: long,
+      color: '0000FF',
+      subType: 'marker'
+    }];
+    if (this.mark != null) {
+      this.mark[0].setMap(null);
+    }
+    this.mark = this.mapService.createMarkers(this.latlong, false, false);
   }
   setRadio(type) {
     if (type == 1) {
@@ -143,13 +128,13 @@ export class ViaRoutePointsComponent implements OnInit {
   }
   viewTable() {
     this.common.loading++;
+    let rowCoordinates = [];
     this.api.get('ViaRoutes/viewvia?routeId=' + this.routeId)
       .subscribe(res => {
         this.common.loading--;
         console.log('res', res['data']);
         let data = res['data'];
         this.tableData = data;
-        this.rowCoordinates = [];
         this.mapService.resetPolyPath();
         this.viaMark.forEach(mark => {
           mark.setMap(null);
@@ -157,26 +142,26 @@ export class ViaRoutePointsComponent implements OnInit {
         this.viaMark = [];
 
         for (let i = 0; i < this.tableData.length; i++) {
-          this.rowCoordinates.push({
+          rowCoordinates.push({
             lat: this.tableData[i]._lat,
             lng: this.tableData[i]._long,
           });
         }
-        this.polypath = [];
+        let polypath = [];
         if (this.tableData.length)
-          this.viaMark = this.mapService.createMarkers(this.rowCoordinates);
-        this.polypath.push({ lat: this.doc._start_lat, lng: this.doc._start_long });
+          this.viaMark = this.mapService.createMarkers(rowCoordinates);
+        polypath.push({ lat: this.doc._start_lat, lng: this.doc._start_long });
         for (let i = 0; i < this.tableData.length; i++) {
-          this.rowCoordinates.push({
+          rowCoordinates.push({
             lat: this.tableData[i]._lat,
             lng: this.tableData[i]._long,
           });
-          this.polypath.push({ lat: this.tableData[i]._lat, lng: this.tableData[i]._long });
+          polypath.push({ lat: this.tableData[i]._lat, lng: this.tableData[i]._long });
         }
-        this.polypath.push({ lat: this.doc._end_lat, lng: this.doc._end_long });
-        console.log("Polypath--->", this.polypath);
-        for (let i = 0; i < this.polypath.length; i++) {
-          this.mapService.createPolyPathManual(this.mapService.createLatLng(this.polypath[i].lat, this.polypath[i].lng));
+        polypath.push({ lat: this.doc._end_lat, lng: this.doc._end_long });
+        console.log("Polypath--->", polypath);
+        for (let i = 0; i < polypath.length; i++) {
+          this.mapService.createPolyPathManual(this.mapService.createLatLng(polypath[i].lat, polypath[i].lng));
         }
       }, err => {
         this.common.loading--;
@@ -217,7 +202,7 @@ export class ViaRoutePointsComponent implements OnInit {
     this.routeData.lat = site.lat;
     this.routeData.long = site.long;
     this.routeData.siteName = site.name;
-    this.createMarkers(this.routeData.lat, this.routeData.long , 'site');
+    this.createMarkers(this.routeData.lat, this.routeData.long, 'site');
   }
   sendRoute() {
     if (this.selected == 1) {
@@ -264,7 +249,7 @@ export class ViaRoutePointsComponent implements OnInit {
           else {
             this.common.showToast("Success");
             console.log("SiteLatLong-->", this.routeData.lat, this.routeData.long);
-            
+
           }
         }, err => {
           this.common.loading--;
