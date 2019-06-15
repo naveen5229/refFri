@@ -15,22 +15,24 @@
             <option *ngFor="let aduserIdx of aduserIds;" [value]="aduserIdx.aduserid">{{aduserIdx.aduserid}}</option>
           </select>
         </div>
-        <div class="col-sm-3">
-          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+        <div class="col-sm-2">
+          <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate" [isTime]="false">
           </uj-date-time-picker>
           <!-- <input [(ngModel)]="startDate" [owlDateTime]="date" [owlDateTimeTrigger]="date" placeholder="Date Time"
             class="form-control" autocomplete="off" name="date" />
           <owl-date-time #date></owl-date-time> -->
         </div>
-        <div class="col-sm-3">
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
+        <div class="col-sm-2">
+          <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate"
+            [isTime]="false">
           </uj-date-time-picker>
-          <!-- <input [(ngModel)]="endDate" [owlDateTime]="date1" [owlDateTimeTrigger]="date1" placeholder="Date Time"
-            class="form-control" autocomplete="off" name="date1" />
-          <owl-date-time #date1></owl-date-time> -->
+
         </div>
         <div class="col-sm-2">
           <Button class="btn btn-primary" type="button" (click)="goToTrail()">Get Report</Button>
+        </div>
+        <div class="col-sm-2">
+          <Button class="btn btn-primary" type="button" (click)="getChallenged()">View Challenged</Button>
         </div>
       </div>
       <div style="margin-top: 10px">
@@ -50,7 +52,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
+              <tr [ngClass]="{'highlight':VehicleStatusAlert.isHighlight}"
+                *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
                 <td>{{ VehicleStatusAlert.fo_name }}</td>
                 <td>{{ VehicleStatusAlert.regno }}</td>
                 <td>{{ VehicleStatusAlert.vehicle_id }}</td>

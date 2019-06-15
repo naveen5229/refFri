@@ -142,7 +142,7 @@
           <td><label>Payment Term</label></td>
           <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
               <option value="1">ToPay</option>
-              <option value="2">Advance</option>
+              <option value="2">Paid</option>
             </select></td>
         </tr>
         <tr>
@@ -200,7 +200,7 @@
               <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
             </td>
             <td>
-              <label>Weight (In Tons)</label>
+              <label>Weight</label>
             </td>
             <td>
               <input type="text" class="form-control" [(ngModel)]="particular.weight">

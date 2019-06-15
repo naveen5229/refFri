@@ -172,6 +172,9 @@ export class AddVehicleMaintenanceComponent implements OnInit {
   }
 
   deleteMaintenance(maintenance) {
+    if (!confirm("Are you sure you want to delete?")) {
+      return;
+    }
     console.log("delete Maintenance", maintenance);
     let params = {
       vehicleId: maintenance._vid,

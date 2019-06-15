@@ -47,12 +47,14 @@ export class UpdateTicketSubscribeComponent implements OnInit {
       // ref_type: this.ticket.refType
     };
     this.common.loading++;
-    this.api.post('', params)
+    this.api.post('FoTicketSubscribe/updateVscEntry', params)
       .subscribe(res => {
         this.common.loading--;
         console.log('rs', res['data']);
-        if (res['msg']) {
+        if (res['success']) {
           this.update = true;
+          this.common.showToast(res['msg']);
+          this.activeModal.close({ update: this.update });
         }
       }, err => {
         this.common.loading--;
@@ -61,10 +63,10 @@ export class UpdateTicketSubscribeComponent implements OnInit {
   }
 
   closeModal() {
-    if (this.update)
-      this.activeModal.close({ update: this.update });
-    else
-      this.activeModal.close();
+    // if (this.update)
+    //   this.activeModal.close({ update: this.update });
+    // else
+    this.activeModal.close();
 
 
   }
