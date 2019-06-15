@@ -60,6 +60,7 @@ export class AddViaRoutesComponent implements OnInit {
         console.log("position", this.routeData.latlong);
         this.location = place;
       });
+      this.mapService.zoomAt({ lat: 26.9100, lng: 75.7900 }, 12);
 
     }, 2000)
 
@@ -90,18 +91,26 @@ export class AddViaRoutesComponent implements OnInit {
   }
 
   createnewMarker(lat, long, index) {
+    let latlong;
     let color = "FF0000";
     if (index == 0) {
       color = "00FF00";
       this.routeData.startlat = lat;
       this.routeData.startlong = long;
+      lat = (Math.round((lat) * 100) / 100).toFixed(4);
+      long = (Math.round((long) * 100) / 100).toFixed(4);
+      this.routeData.latlong = lat + "," + long;
+
     } else {
       this.routeData.endlat1 = lat;
       this.routeData.endlong2 = long;
+      lat = (Math.round((lat) * 100) / 100).toFixed(4);
+      long = (Math.round((long) * 100) / 100).toFixed(4);
+      this.routeData.latlong2 = lat + "," + long;
+
     }
 
-    console.log("latlong", lat, long);
-    this.routeData.latlong = [{
+    latlong = [{
       lat: lat,
       long: long,
       color: color,
@@ -110,8 +119,9 @@ export class AddViaRoutesComponent implements OnInit {
     if (this.mark[index]) {
       this.mark[index].setMap(null);
     }
-    this.mark[index] = this.mapService.createMarkers(this.routeData.latlong, false, false)[0];
-    this.mapService.resetBounds();
+    this.mark[index] = this.mapService.createMarkers(latlong, false, false)[0];
+    if (this.mark[0] && this.mark[1])
+      this.mapService.resetBounds();
   }
 
   add() {
@@ -130,6 +140,14 @@ export class AddViaRoutesComponent implements OnInit {
       endName: this.routeData.placeName2
 
     };
+    if (this.routeData.duration > 800) {
+      this.common.showError("Select Hour in under 800(Hr)");
+      return;
+    }
+    if (this.routeData.kms <= 1 && this.routeData.kms > 10000) {
+      this.common.showError("Select KM in range (1,10000)");
+      return;
+    }
 
     console.log("Data :", params);
 
@@ -139,7 +157,7 @@ export class AddViaRoutesComponent implements OnInit {
         this.common.loading--;
         console.log("test", res['data'][0].y_msg);
         if (res['data'][0].y_id <= 0) {
-          this.common.showToast(res['data'][0].y_msg);
+          this.common.showError(res['data'][0].y_msg);
           return;
 
         }
