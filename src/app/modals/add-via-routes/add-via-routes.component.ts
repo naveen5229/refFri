@@ -144,7 +144,7 @@ export class AddViaRoutesComponent implements OnInit {
       this.common.showError("Select Hour in under 800(Hr)");
       return;
     }
-    if (this.routeData.kms <= 1 && this.routeData.kms > 10000) {
+    if (this.routeData.kms <= 1 || this.routeData.kms > 10000) {
       this.common.showError("Select KM in range (1,10000)");
       return;
     }
