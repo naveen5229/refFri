@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleNextServiceDetailComponent } from '../../modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from '../../modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 
 @Component({
   selector: 'vehicles',
@@ -88,10 +89,11 @@ export class VehiclesComponent implements OnInit {
         j
         if (this.headings[j] == 'Action') {
           this.valobj[this.headings[j]] = {
-            value: '', isHTML: true, action: null, icons: [
-              { class: 'fa fa-pencil-square-o  edit-btn', isHTML: `<h2>test</h2>`, action: this.OpenVehicleNextServiceModal.bind(this, this.data[i]) },
-            ]
-          }
+            value: "",
+            isHTML: false,
+            action: null,
+            icons: this.actionIcons(this.data[i])
+          };
         } else {
           this.valobj[this.headings[j]] = { value: this.data[i][this.headings[j]], class: 'black', action: '' };
 
@@ -101,6 +103,28 @@ export class VehiclesComponent implements OnInit {
       columns.push(this.valobj);
     }
     return columns;
+  }
+  actionIcons(data) {
+    let icons = [
+      {
+        class: 'fa fa-pencil-square-o  edit-btn',
+        action: this.OpenVehicleNextServiceModal.bind(this, data)
+      },
+      {
+        class: "icon fas fa-tachometer-alt",
+        action: this.openOdoMeter.bind(this, data)
+      },
+    ];
+    return icons;
+  }
+
+  openOdoMeter(data) {
+    console.log("data", data);
+    let vehicleId = data._vid;
+    let regno = data.Vehicle;
+    this.common.params = { vehicleId, regno };
+    console.log('Param', this.common.params);
+    const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 
   formatTitle(strval) {

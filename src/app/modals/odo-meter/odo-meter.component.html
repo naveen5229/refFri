@@ -42,6 +42,20 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-4">
+      <uj-date-time-picker (onChanged)="startDate = $event" [isTime]="false" [dateTimeValue]="startDate">
+      </uj-date-time-picker>
+    </div>
+    <div class="col-4">
+      <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [isTime]="false" [dateTimeValue]="endDate">
+      </uj-date-time-picker>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary pr-0 pl-0 m-0" type="button" id="submit" (click)="getOdoMeterData()"
+        style="cursor: pointer;">Search</button>
+    </div>
+  </div>
 
   <div>
     <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
