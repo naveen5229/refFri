@@ -360,6 +360,8 @@ export class MapService {
   }
   resetPolyPath() {
     if (this.polygonPath) {
+      console.log("Here");
+      
       this.polygonPath.setMap(null);
       this.polygonPath = null;
     }

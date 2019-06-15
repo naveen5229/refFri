@@ -13,6 +13,7 @@
         font-family: Roboto;
         z-index:9999;
     }
+   
     span::before{
         content: 'Edit';
         display: block;
@@ -85,4 +86,8 @@
 }
 :host ::ng-deep .fa-window-close:hover span{
     display: block;
+}
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
 }
