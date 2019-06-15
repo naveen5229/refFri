@@ -131,6 +131,11 @@ viaMark = [];
     this.routeData.long = null;
     console.log("Value are Null",this.latlong);
   }
+  clickDelete(name , i){
+    if(confirm("Are you sure to delete ->"+ name)) {
+      this.deleteRoutes(i);
+    }
+  }
   viewTable(){
     this.common.loading++;
     this.api.get('ViaRoutes/viewvia?routeId='+ this.routeId)
@@ -173,6 +178,7 @@ viaMark = [];
         this.common.showError();
       })
   }
+  
   deleteRoutes(i){
     let params = {
       routeId : this.routeId,
@@ -230,6 +236,10 @@ viaMark = [];
       siteId :this.siteId,
       name: this.siteNamee
     };
+    if (this.siteNamee == null){
+      this.common.showToast("Please Enter Location")
+    }
+    else{
     console.log(params);
     this.common.loading++;
     this.api.post('ViaRoutes/insertvia', params)
@@ -253,6 +263,6 @@ viaMark = [];
         this.common.showError();
       })
      
-
+    }
   }
 }

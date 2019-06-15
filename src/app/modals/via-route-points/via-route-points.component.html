@@ -36,14 +36,28 @@
               </tbody>
               </table>
               <div class="row">
-                <div class="col-3">
-                  <button type="button" class="btn btn-primary" (click)= "sendRoute()" style="margin-top:10px;margin-bottom:10px;" >ADD</button>
+                <div class="col-2">
+                  <button type="button" class="btn btn-primary add-route w-100 pt-1 pb-1" (click)= "sendRoute()" style="margin-top:10px;margin-bottom:10px;" >ADD</button>
                 </div>
-                <div class="col-4">
-                  Lat:<input  class= "placehol" class="form-control" name="lat"   placeholder="Lat" [(ngModel)]="latlong && latlong[0].lat"> 
+                <div class="col-5 pt-2" *ngIf="this.selected == 1">
+                  <div class="row">
+                    <div class="col-2">
+                       <label class="pt-1">Lat</label>
+                    </div>
+                    <div class="col-10">
+                        <input  class= "placehol" class="form-control" name="lat"   placeholder="Lat" [(ngModel)]="latlong && latlong[0].lat"> 
+                    </div>
+                  </div>
                 </div>
-                <div class="col-4">
-                  Long:<input class="placehol"  class="form-control" name="long" placeholder="Long" [(ngModel)]="latlong && latlong[0].long">
+                <div class="col-5 pt-2" *ngIf="this.selected == 1">
+                  <div class="row">
+                      <div class="col-2 pr-0">
+                          <label class="pt-1">Long</label>
+                      </div>
+                      <div class="col-10">
+                          <input class="placehol"  class="form-control" name="long" placeholder="Long" [(ngModel)]="latlong && latlong[0].long">
+                      </div>    
+                  </div>
                 </div>
               </div>
               <table class="tbl table table-bordered table-hover">
@@ -62,7 +76,7 @@
                         <td style="width:40px;">{{data.name}}</td>
                         <td>{{data.duration}}</td>
                         <td>{{data.kms}}</td>
-                        <td ><button type="button" class="btn btn-danger" (click)="deleteRoutes(i)" style="margin-top:10px;margin-bottom:10px;" >Delete</button></td>
+                        <td ><i class="fas fa-times text-red" (click)="clickDelete(data.name , i)"  ></i></td>
                       </tr>
                     </tbody>
                  
