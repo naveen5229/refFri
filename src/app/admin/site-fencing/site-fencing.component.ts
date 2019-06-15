@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class SiteFencingComponent implements OnInit {
   minZoom = 12;
   constructor(public mapService: MapService,
     private apiService: ApiService,
+    private router: Router,
     private commonService: CommonService) { }
 
   ngOnInit() {
@@ -431,16 +433,11 @@ export class SiteFencingComponent implements OnInit {
       console.log("Bounds", bounds);
 
       let params = {
-        'foid': null,
-        'startTime': this.commonService.dateFormatter(new Date(new Date().setMonth(new Date().getMonth() - 1))),
-        'endTime': this.commonService.dateFormatter(new Date()),
-        'lat1': bounds.lat1,
-        'lat2': bounds.lat2,
-        'lng1': bounds.lng1,
-        'lng2': bounds.lng2,
+        'lat': (bounds.lat1 + bounds.lat2) / 2,
+        'long': (bounds.lng2 + bounds.lng2) / 2
       }
       this.commonService.loading++;
-      this.apiService.post("HaltOperations/getAllHaltsBtw", params)
+      this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=" + params.lat + "&long=" + params.long)
         .subscribe(res => {
           console.log('Res: ', res['data']);
           this.mapService.createHeatMap(res['data']);

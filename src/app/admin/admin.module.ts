@@ -43,6 +43,7 @@ import { ImageViewerModule } from 'ng2-image-viewer';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { SharedModule } from '../shared.module';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { BeehiveComponent } from './beehive/beehive.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
@@ -126,6 +127,8 @@ const PAGES_COMPONENTS = [
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
+    BeehiveComponent,
+
     AddCustomerComponent,
     FuelRulesComponent,
     PumpStationAreaComponent,
