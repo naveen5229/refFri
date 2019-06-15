@@ -14,6 +14,7 @@ export class ViaRoutePointsComponent implements OnInit {
   locType = "site";
   loc = '';
   siteNamee = '';
+  latilong = null;
   tableData = [];
   lat = null;
   mapName = null;
@@ -81,6 +82,7 @@ export class ViaRoutePointsComponent implements OnInit {
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
         if (this.selected == 1) {
           this.createMarkers(evt.latLng.lat(), evt.latLng.lng(), 'map');
+          this.latilong = evt.latLng.lat().toFixed(5) + ','+ evt.latLng.lng().toFixed(5);
         }
 
       });
@@ -160,8 +162,11 @@ export class ViaRoutePointsComponent implements OnInit {
         }
         polypath.push({ lat: this.doc._end_lat, lng: this.doc._end_long });
         console.log("Polypath--->", polypath);
+        let polygonOption = {
+          strokeWeight: 1, 
+        };
         for (let i = 0; i < polypath.length; i++) {
-          this.mapService.createPolyPathManual(this.mapService.createLatLng(polypath[i].lat, polypath[i].lng));
+          this.mapService.createPolyPathManual(this.mapService.createLatLng(polypath[i].lat, polypath[i].lng), polygonOption);
         }
       }, err => {
         this.common.loading--;
@@ -207,8 +212,8 @@ export class ViaRoutePointsComponent implements OnInit {
   sendRoute() {
     if (this.selected == 1) {
       this.siteNamee = this.mapName,
-        this.lat = this.latlong[0].lat,
-        this.long = this.latlong[0].long,
+        this.lat = this.latlong && this.latlong[0].lat,
+        this.long = this.latlong && this.latlong[0].long,
         this.siteId = null
     }
     if (this.selected == 0) {
@@ -217,6 +222,7 @@ export class ViaRoutePointsComponent implements OnInit {
         this.long = this.routeData.long,
         this.siteId = this.routeData.siteId
     }
+   
     let params = {
 
       routeId: this.routeId,
@@ -227,9 +233,19 @@ export class ViaRoutePointsComponent implements OnInit {
       siteId: this.siteId,
       name: this.siteNamee
     };
-    if (this.siteNamee == null) {
-      this.common.showToast("Please Enter Location")
+    if (this.siteNamee == null || this.siteNamee.length > 100) {
+      this.common.showToast("Please Enter Location");
+      return;
     }
+    if (this.duration < 1 || this.duration > 800){
+      this.common.showToast("Please Enter Duration With Range 0 To 800");
+      return;
+    }
+    if (this.kms < 1 || this.kms > 10000){
+      this.common.showToast("Please Enter kms With Rane 0 To 10000");
+      return;
+    }
+   
     else {
       console.log(params);
       this.common.loading++;

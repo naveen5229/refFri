@@ -21,16 +21,16 @@
                     <auto-suggestion *ngIf="this.selected == 0" (onSelected)="selectSite($event)" url="Suggestion/getSites?typeId=1"
              seperator="-" [display]="['name','sd_loc_name']" placeholder="Search Site" [preSelected]="null">
            </auto-suggestion>
-           <input   class="form-control" *ngIf="this.selected == 1" type = "text" [(ngModel)]="mapName" placeholder="Enter Location" name="mapName">
+           <input   class="form-control" *ngIf="this.selected == 1" type = "text" [(ngModel)]="mapName" placeholder="Enter Location" name="mapName" minlength="4" maxlength="8" />
 
                   </td>
                   <td colspan="1" >
-                      <label>Time(Hrs)</label><br>
-                      <input  type="number" class="form-control"  name="number1"  placeholder="Duration" [(ngModel)]="duration">
+                      <label>Time (Hrs)</label><br>
+                      <input  type="number" class="form-control"  name="number1"  placeholder="Duration" [(ngModel)]="duration" min="1" max="800" />
                     </td>
                     <td colspan="2">
                         <label>Kilometres</label><br>
-                        <input  type="number" class="form-control" name="number2"   placeholder="KMS" [(ngModel)]="kms">
+                        <input  type="number" class="form-control" name="number2"   placeholder="KMS" [(ngModel)]="kms" min="1" max="10000" />
                           </td>
               </tr>
               </tbody>
@@ -42,21 +42,11 @@
                 <div class="col-5 pt-2" *ngIf="this.selected == 1">
                   <div class="row">
                     <div class="col-2">
-                       <label class="pt-1">Lat</label>
+                       <label style="margin-top: 3px;" class="pt-1">Lat,Long</label>
                     </div>
                     <div class="col-10">
-                        <input  class= "placehol" class="form-control" name="lat"   placeholder="Lat" [(ngModel)]="latlong && latlong[0].lat"> 
+                        <input  class= "placehol" class="form-control" name="lat"  style ="margin-left: 22px;" placeholder="Lat & Long" [(ngModel)]="latilong"> 
                     </div>
-                  </div>
-                </div>
-                <div class="col-5 pt-2" *ngIf="this.selected == 1">
-                  <div class="row">
-                      <div class="col-2 pr-0">
-                          <label class="pt-1">Long</label>
-                      </div>
-                      <div class="col-10">
-                          <input class="placehol"  class="form-control" name="long" placeholder="Long" [(ngModel)]="latlong && latlong[0].long">
-                      </div>    
                   </div>
                 </div>
               </div>
