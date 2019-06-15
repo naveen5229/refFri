@@ -53,6 +53,29 @@
               placeholder="Start Loc" (focus)=" isstart = true;">
           </div>
         </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-2 pr-0">
+                <label>Lat</label>
+              </div>
+              <div class="col-10">
+                <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.startlat">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="row">
+              <div class="col-2 pr-0">
+                <label>Long</label>
+              </div>
+              <div class="col-10">
+                <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.startlong">
+              </div>
+            </div>
+          </div>
+        </div>
       </ng-template>
 
 
@@ -91,7 +114,34 @@
             <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
               [(ngModel)]="routeData.placeName2" placeholder="End Loc">
           </div>
+
+
+
         </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-2 pr-0">
+                <label>Lat</label>
+              </div>
+              <div class="col-10">
+                <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.endlat1">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="row">
+              <div class="col-2 pr-0">
+                <label>Long</label>
+              </div>
+              <div class="col-10">
+                <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.endlong2">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </ng-template>
 
 
