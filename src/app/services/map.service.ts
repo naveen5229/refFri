@@ -278,7 +278,7 @@ export class MapService {
     return thisMarkers;
   }
 
-  createCirclesOnPostion(center,radius){
+  createCirclesOnPostion(center, radius) {
     return new google.maps.Circle({
       strokeColor: '#FF0000',
       strokeOpacity: 1,
@@ -341,7 +341,7 @@ export class MapService {
     for (let index = 0; index < this.markers.length; index++) {
       if (this.markers[index]) {
         let pos = this.markers[index].position;
-        if (pos.lat() != 0)
+        if (pos.lat() != 0 && this.markers[index].getMap())
           this.setBounds(pos);
       }
     }
@@ -361,7 +361,7 @@ export class MapService {
   resetPolyPath() {
     if (this.polygonPath) {
       console.log("Here");
-      
+
       this.polygonPath.setMap(null);
       this.polygonPath = null;
     }

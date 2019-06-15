@@ -78,39 +78,40 @@ export class AddViaRoutesComponent implements OnInit {
       });
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
         if (this.ismap && this.isstart) {
-          console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
-          this.routeData.latlong = [{
-            lat: evt.latLng.lat(),
-            long: evt.latLng.lng(),
-            color: '00FF00',
-            subType: 'marker'
-          }];
-          this.routeData.startlat = evt.latLng.lat();
-          this.routeData.startlong = evt.latLng.lng();
-          if (this.mark[0]) {
-            this.mark[0].setMap(null);
-          }
-          this.mark[0] = this.mapService.createMarkers(this.routeData.latlong, false, false)[0];
+          this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 0);
         }
 
         if (this.ismap2 && !this.isstart) {
-          console.log("latlong", evt.latLng.lat(), evt.latLng.lng());
-          this.routeData.latlong2 = [{
-            lat: evt.latLng.lat(),
-            long: evt.latLng.lng(),
-            color: 'FF0000',
-            subType: 'marker'
-          }];
-          this.routeData.endlat1 = evt.latLng.lat();
-          this.routeData.endlong2 = evt.latLng.lng();
-          if (this.mark[1]) {
-            this.mark[1].setMap(null);
-          }
-          this.mark[1] = this.mapService.createMarkers(this.routeData.latlong2, false, false)[0];
+          this.createnewMarker(evt.latLng.lat(), evt.latLng.lng(), 1);
         }
       });
 
     }, 1000);
+  }
+
+  createnewMarker(lat, long, index) {
+    let color = "FF0000";
+    if (index == 0) {
+      color = "00FF00";
+      this.routeData.startlat = lat;
+      this.routeData.startlong = long;
+    } else {
+      this.routeData.endlat1 = lat;
+      this.routeData.endlong2 = long;
+    }
+
+    console.log("latlong", lat, long);
+    this.routeData.latlong = [{
+      lat: lat,
+      long: long,
+      color: color,
+      subType: 'marker'
+    }];
+    if (this.mark[index]) {
+      this.mark[index].setMap(null);
+    }
+    this.mark[index] = this.mapService.createMarkers(this.routeData.latlong, false, false)[0];
+    this.mapService.resetBounds();
   }
 
   add() {
@@ -137,7 +138,7 @@ export class AddViaRoutesComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log("test", res['data'][0].y_msg);
-        if (res['data'][0].y_id < 0) {
+        if (res['data'][0].y_id <= 0) {
           this.common.showToast(res['data'][0].y_msg);
           return;
 
@@ -164,12 +165,14 @@ export class AddViaRoutesComponent implements OnInit {
     this.routeData.startlat = site.lat;
     this.routeData.startlong = site.long;
     this.routeData.placeName = site.name;
+    this.createnewMarker(site.lat, site.long, 0);
   }
   selectSite2(site) {
     this.routeData.endSiteId = site.id;
     this.routeData.endlat1 = site.lat;
     this.routeData.endlong2 = site.long;
     this.routeData.placeName2 = site.name;
+    this.createnewMarker(site.lat, site.long, 1);
   }
 
   report(type) {
