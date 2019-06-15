@@ -23,7 +23,8 @@
           <owl-date-time #date></owl-date-time> -->
         </div>
         <div class="col-sm-2">
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false">
+          <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate"
+            [isTime]="false">
           </uj-date-time-picker>
 
         </div>
@@ -51,7 +52,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
+              <tr [ngClass]="{'highlight':VehicleStatusAlert.isHighlight}"
+                *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
                 <td>{{ VehicleStatusAlert.fo_name }}</td>
                 <td>{{ VehicleStatusAlert.regno }}</td>
                 <td>{{ VehicleStatusAlert.vehicle_id }}</td>

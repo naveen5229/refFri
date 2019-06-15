@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddViaRoutesComponent } from '../../modals/add-via-routes/add-via-routes.component';
 import { bind } from '@angular/core/src/render3';
 import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route-points.component';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'via-routes',
@@ -14,9 +15,9 @@ import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route
 })
 export class ViaRoutesComponent implements OnInit {
   foData = null;
-  routeId= null;
+  routeId = null;
   doc;
-  gpsTrail = [];
+  viaRoutes = [];
   // doc = null;
   table = {
     data: {
@@ -41,7 +42,7 @@ export class ViaRoutesComponent implements OnInit {
   }
   selectFoUser(user) {
     console.log("user", user);
-    this.foData = user;
+    this.foData = user.id;
   }
 
   addViaRoutes() {
@@ -54,8 +55,9 @@ export class ViaRoutesComponent implements OnInit {
 
     const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      // if (data.response) {
-      // }
+      if (data.response) {
+        this.viewTable();
+      }
     });
 
   }
@@ -74,11 +76,11 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   viewTable() {
-
+    this.viaRoutes = [];
     this.api.get('ViaRoutes/view')
       .subscribe(res => {
-        this.gpsTrail = res['data'];
-        let first_rec = this.gpsTrail[0];
+        this.viaRoutes = res['data'];
+        let first_rec = this.viaRoutes[0];
         for (var key in first_rec) {
           if (key.charAt(0) != "_") {
             this.headings.push(key);
@@ -86,7 +88,7 @@ export class ViaRoutesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action') };
+        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideHeader: true };
         this.table.data.headings['action'] = action;
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -106,19 +108,18 @@ export class ViaRoutesComponent implements OnInit {
 
   getTableColumns() {
     let columns = [];
-    console.log("Data=", this.gpsTrail);
-    this.gpsTrail.map(doc => {
+    console.log("Data=", this.viaRoutes);
+    this.viaRoutes.map(doc => {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]," ",this.headings[i]);
+        console.log("doc index value:", doc[this.headings[i]], " ", this.headings[i]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         if (this.headings[i] == "via_points") {
           console.log("Data=");
           console.log("doc------------>", doc);
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openViaRoutePoints.bind(this, doc) };
-        }else
-        this.valobj['action'] = { value: doc[this.headings[i]]};
-       
+        }
+        this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
       columns.push(this.valobj);
     });
@@ -139,23 +140,42 @@ export class ViaRoutesComponent implements OnInit {
   }
   remove(row) {
     console.log("row", row);
+    if (!this.foData) {
+      this.common.showToast("Select Fo User");
+      return;
+    }
 
     let params = {
       id: row._id,
-      foid: this.foData.id
+      foid: this.foData,
     }
-    this.api.post('ViaRoutes/delete', params)
-      .subscribe(res => {
-        console.log('Res: ', res['data']);
-        this.viewTable();
-      }, err => {
-        console.error(err);
-        this.common.showError();
+    if (row._id) {
+      console.log('id', row._id);
+      this.common.params = {
+        title: 'Delete Route ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.common.loading++;
+          this.api.post('ViaRoutes/delete', params)
+            .subscribe(res => {
+              this.common.loading--;
+              this.common.showToast(res['msg']);
+              this.viewTable();
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
       });
+    }
   }
   openViaRoutePoints(doc) {
-    this.common.params = { doc : doc };
-    console.log("params-->",this.common.params)
+    this.common.params = { doc: doc };
+    console.log("params-->", this.common.params)
     const activeModal = this.modalService.open(ViaRoutePointsComponent, { size: 'lg', container: 'nb-layout', windowClass: "mycustomModalClass" });
     activeModal.result.then(data =>
       console.log("data", data)

@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
-import { UserService } from '../../@core/data/users.service';
+import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VehicleTyreSummaryComponent } from '../../modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
+import { DatePipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'tyre-summary',
-  templateUrl: './tyre-summary.component.html',
-  styleUrls: ['./tyre-summary.component.scss']
+  selector: 'lr-pod-receipts',
+  templateUrl: './lr-pod-receipts.component.html',
+  styleUrls: ['./lr-pod-receipts.component.scss']
 })
-export class TyreSummaryComponent implements OnInit {
-
-
+export class LrPodReceiptsComponent implements OnInit {
   data = [];
-
   table = {
     data: {
       headings: {},
@@ -27,41 +25,35 @@ export class TyreSummaryComponent implements OnInit {
   };
   headings = [];
   valobj = {};
-
-  constructor(private datePipe: DatePipe,
+  viewImages = null;
+  startDate = '';
+  endDate = '';
+  constructor(
     public api: ApiService,
     public common: CommonService,
+    private datePipe: DatePipe,
     public user: UserService,
-    private modalService: NgbModal) {
-    this.common.refresh = this.refresh.bind(this);
-    this.refresh();
+    public route: ActivatedRoute,
+    private modalService: NgbModal,
+    public renderer: Renderer
+  ) {
+    let today;
+    today = new Date();
+    this.endDate = this.common.dateFormatter(today);
+    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
+    console.log('dates ', this.endDate, this.startDate)
   }
 
   ngOnInit() {
   }
 
+  getLorryPodReceipts() {
+    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
+    let params = "startDate=" + this.common.dateFormatter1(this.startDate).split(' ')[0] +
+      "&endDate=" + this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0];
 
-  refresh() {
-    this.data = [];
-    this.table = {
-      data: {
-        headings: {},
-        columns: []
-      },
-      settings: {
-        hideHeader: true
-      }
-    };
-    this.headings = [];
-    this.valobj = {};
-    this.getTyreSummary();
-  }
-
-
-
-  getTyreSummary() {
-    this.common.loading++;
-    this.api.get('Tyres/tyreSummary')
+    ++this.common.loading;
+    this.api.get('LorryReceiptsOperation/getLRPodReceipts?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
@@ -106,7 +98,8 @@ export class TyreSummaryComponent implements OnInit {
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openVehicleTyreSummary.bind(this, doc, 'site') };
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.getImage.bind(this, doc, 'site') };
+
         }
         else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
@@ -117,19 +110,19 @@ export class TyreSummaryComponent implements OnInit {
     return columns;
   }
 
-  openVehicleTyreSummary(vehicleDetail) {
-    console.log("tyre summary Modal", vehicleDetail);
-    let vehicle = {
-      id: vehicleDetail._vid,
-      regno: vehicleDetail.Vehicle,
-      refMode: vehicleDetail._refmode
-    };
-    this.common.params = { vehicle: vehicle, ref_page: 'tyre-summary' };
-    console.log("vehicle", vehicle);
-    const activeModal = this.modalService.open(VehicleTyreSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-
-    });
+  getImage(receipt) {
+    console.log(receipt);
+    let images = [{
+      name: "POD-1",
+      image: receipt._img1
+    },
+    {
+      name: "POD-2",
+      image: receipt._img2
+    },
+    ];
+    console.log("images:", images);
+    this.common.params = { images, title: 'LR Details' };
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
-
 }

@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ApiService } from '../../services/api.service';
-import { CommonService } from '../../services/common.service';
-import { UserService } from '../../@core/data/users.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VehicleTyreSummaryComponent } from '../../modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from '../../../services/api.service';
+import { CommonService } from '../../../services/common.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
-  selector: 'tyre-summary',
-  templateUrl: './tyre-summary.component.html',
-  styleUrls: ['./tyre-summary.component.scss']
+  selector: 'vehicle-tyre-summary',
+  templateUrl: './vehicle-tyre-summary.component.html',
+  styleUrls: ['./vehicle-tyre-summary.component.scss']
 })
-export class TyreSummaryComponent implements OnInit {
+export class VehicleTyreSummaryComponent implements OnInit {
 
 
   data = [];
-
+  vehicleId = null;
+  refMode = "701";
+  vehicleRegNo = null;
   table = {
     data: {
       headings: {},
@@ -32,7 +33,11 @@ export class TyreSummaryComponent implements OnInit {
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public activeModal: NgbActiveModal,
     private modalService: NgbModal) {
+    this.vehicleId = this.common.params.vehicle.id;
+    this.refMode = this.common.params.vehicle.refMode;
+    this.vehicleRegNo = this.common.params.vehicleRegNo;
     this.common.refresh = this.refresh.bind(this);
     this.refresh();
   }
@@ -61,7 +66,10 @@ export class TyreSummaryComponent implements OnInit {
 
   getTyreSummary() {
     this.common.loading++;
-    this.api.get('Tyres/tyreSummary')
+    let params = 'vehicleId=' + this.vehicleId +
+      '&refMode=' + this.refMode;
+    console.log("params ", params);
+    this.api.get('Tyres/getVehicleTyreDetails?' + params)
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
@@ -105,31 +113,13 @@ export class TyreSummaryComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openVehicleTyreSummary.bind(this, doc, 'site') };
-        }
-        else {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     });
     return columns;
   }
-
-  openVehicleTyreSummary(vehicleDetail) {
-    console.log("tyre summary Modal", vehicleDetail);
-    let vehicle = {
-      id: vehicleDetail._vid,
-      regno: vehicleDetail.Vehicle,
-      refMode: vehicleDetail._refmode
-    };
-    this.common.params = { vehicle: vehicle, ref_page: 'tyre-summary' };
-    console.log("vehicle", vehicle);
-    const activeModal = this.modalService.open(VehicleTyreSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-
-    });
+  closeModal() {
+    this.activeModal.close();
   }
-
 }
