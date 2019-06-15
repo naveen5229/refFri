@@ -48,7 +48,7 @@ export class AddViaRoutesComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private common: CommonService,
     public dateService: DateService) {
-    this.foId = this.common.params.foData.id;
+    this.foId = this.common.params.foData;
     console.log("FOData:", this.foId);
     this.common.handleModalSize('class', 'modal-lg', '1250');
     setTimeout(() => {
@@ -131,15 +131,21 @@ export class AddViaRoutesComponent implements OnInit {
     };
 
     console.log("Data :", params);
-    console.log("Data", this.routeData);
 
     this.common.loading++;
     this.api.post('ViaRoutes/insert', params)
       .subscribe(res => {
         this.common.loading--;
-        console.log(res);
-        this.common.showToast(res['msg']);
-        this.closeModal();
+        console.log("test", res['data'][0].y_msg);
+        if (res['data'][0].y_id < 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          return;
+
+        }
+        else {
+          this.common.showToast(res['data'][0].y_msg);
+          this.activeModal.close({ response: res });
+        }
       }, err => {
         this.common.loading--;
         console.log(err);
