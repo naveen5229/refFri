@@ -14,7 +14,7 @@
 
         <div class="col-6">
           <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName"
-            placeholder="Route Name..">
+            placeholder="Route Name.." minlength="5" maxlength="100">
 
         </div>
       </div>
@@ -50,13 +50,19 @@
           </div>
           <div class="col-6">
             <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName "
-              placeholder="Start Loc" (focus)=" isstart = true;">
+              placeholder="Start Loc" (focus)=" isstart = true;" minlength="5" maxlength="100">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label>Lat,Long</label>
+          </div>
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="lat,long" [(ngModel)]="this.routeData.latlong">
           </div>
         </div>
       </ng-template>
-
-
-      <div *ngIf="selectOption2=='site2'; else map2">
+      <div *ngIf=" selectOption2=='site2' ; else map2">
         <div class="row">
           <div class="col-3">
             <label>End Loc</label>
@@ -89,23 +95,25 @@
           </div>
           <div class="col-6">
             <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
-              [(ngModel)]="routeData.placeName2" placeholder="End Loc">
+              [(ngModel)]="routeData.placeName2" placeholder="End Loc" minlength="5" maxlength="100">
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label>Lat,Long</label>
+          </div>
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.latlong2">
+          </div>
+        </div>
+
       </ng-template>
-
-
-
-
-
-
-
-
 
 
       <div class="row">
         <div class="col-6">
-          <label>Duration</label>
+          <label>Time(Hr)</label>
 
         </div>
         <div class="col-6">
@@ -119,14 +127,21 @@
 
         </div>
         <div class="col-6">
-          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" [(ngModel)]="routeData.kms">
+          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" minlength="1" maxlength="5"
+            [(ngModel)]="routeData.kms">
         </div>
       </div>
 
     </div>
 
     <div class="col-7" style="position:relative;">
-      <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
+      <div class="row">
+        <div class="col-4">
+
+          <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
+        </div>
+      </div>
+
 
 
       <div class="map" id="map"></div>

@@ -66,7 +66,7 @@ export class VSCTicketAuditComponent implements OnInit {
   openVSCModel(data) {
 
     let index = this.VehicleStatusAlerts.findIndex(element => {
-      return element.vehicle_id == data.vehicle_id;
+      return element.haltId == data.haltId;
     });
     this.VehicleStatusAlerts[index].isHighlight = true;
     let VehicleStatusData = {

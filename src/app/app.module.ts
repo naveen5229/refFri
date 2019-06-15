@@ -170,6 +170,7 @@ import { ViaRoutePointsComponent } from './modals/via-route-points/via-route-poi
 import { ModalWiseFuelAvgComponent } from './modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
 import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
 import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
+import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
 
 
 
@@ -312,9 +313,11 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+    VehicleTyreSummaryComponent,
 
   ],
   entryComponents: [
+    VehicleTyreSummaryComponent,
     BulkVehicleNextServiceDetailComponent,
     AddAdvancedMaintenanceComponent,
     VehicleNextServiceDetailComponent,
