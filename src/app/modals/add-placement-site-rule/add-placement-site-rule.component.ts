@@ -57,10 +57,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
         id: 21,
         name: "UnLoading"
       },
-      {
-        id: 31,
-        name: "Loading & Unloading"
-      }
+
     ];
 
     console.log("After edit open ", this.common.params.row);

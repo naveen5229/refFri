@@ -235,6 +235,11 @@ export class CommonService {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy");
   }
+  changeTimeformat(time) {
+    let hours = Math.trunc(time / 60);
+    let minutes = time % 60;
+    return hours + ":" + minutes;
+  }
 
   timeFormatter(date) {
     let d = new Date(date);
