@@ -8,9 +8,9 @@ input {
     color: rgb(0, 0, 0);
   }
   table {
-    border: 3px solid rgb(13, 37, 250);
+    border: 2px solid rgb(13, 37, 250);
   }
-  .thead{
+.thead{
     background-color: #262626;
     color: white;
 }
@@ -18,10 +18,8 @@ input {
   width: 10%;
 
 }
-  
-  .tbl{
+.tbl{
     overflow: auto;
-    height: 440px;
     display: block;
 }
 .infotable{
@@ -68,4 +66,10 @@ table{
   width: auto !important;
   margin-left: 5px !important;
   vertical-align: middle;
+}
+.add-route{
+  border-radius: 3px;
+}
+.text-red{
+  color: red !important;
 }

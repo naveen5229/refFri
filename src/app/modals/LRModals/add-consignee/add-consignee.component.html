@@ -39,7 +39,7 @@
           <div class="col-md-8">
             <input id="gstNo" name="gstNo" formControlName="gstNo" type="text" placeholder="GST No" autocomplete="off"
               class="form-control" [(ngModel)]="consignee.gstNo" (keyup)="checkFormat()"
-              [ngClass]="{ 'is-invalid': isFormSubmit && f.panNo.gstNo }">
+              [ngClass]="{ 'is-invalid': isFormSubmit && f.gstNo }">
           </div>
         </div>
         <div class="row" style="margin-top:5px">
