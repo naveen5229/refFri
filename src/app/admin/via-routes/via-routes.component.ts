@@ -144,7 +144,7 @@ export class ViaRoutesComponent implements OnInit {
 
     let params = {
       id: row._id,
-      foid: row.foid,
+      foid: row._foid,
     }
     if (row._id) {
       console.log('id', row._id);
