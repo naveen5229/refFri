@@ -140,14 +140,11 @@ export class ViaRoutesComponent implements OnInit {
   }
   remove(row) {
     console.log("row", row);
-    if (!this.foData) {
-      this.common.showToast("Select Fo User");
-      return;
-    }
+
 
     let params = {
       id: row._id,
-      foid: this.foData,
+      foid: row.foid,
     }
     if (row._id) {
       console.log('id', row._id);

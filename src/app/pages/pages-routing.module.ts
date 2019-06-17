@@ -55,6 +55,7 @@ import { DriverDocumentComponent } from '../driver/driver-document/driver-docume
 import { LicenceUploadComponent } from '../driver/licence-upload/licence-upload.component';
 import { PendingLicenceComponent } from '../driver/pending-licence/pending-licence.component';
 import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
+import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
 
 const routes: Routes = [{
   path: '',
@@ -347,6 +348,11 @@ const routes: Routes = [{
   {
     path: 'lr-pod-receipts',
     component: LrPodReceiptsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'vehicles',
+    component: VehiclesComponent,
     canActivate: [AuthGuard]
   },
   ],

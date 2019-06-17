@@ -182,6 +182,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-performance',
         home: true,
       },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles ',
+        home: true,
+      },
     ]
   },
 

@@ -141,11 +141,10 @@ const PAGES_COMPONENTS = [
     //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
+    // VehiclesComponent,
     LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
     VscDiagnosisComponent,
     ViaRoutesComponent
   ],
