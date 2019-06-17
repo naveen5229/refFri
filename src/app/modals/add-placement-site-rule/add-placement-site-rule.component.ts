@@ -47,6 +47,7 @@ export class AddPlacementSiteRuleComponent implements OnInit {
     public user: UserService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal) {
+    this.common.handleModalSize('class', 'modal-lg', '600');
     this.title = this.common.params.title ? this.common.params.title : 'Add Site Rule';
     this.ruleType = [
       {
