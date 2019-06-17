@@ -32,7 +32,7 @@ const PAGES_COMPONENTS = [
     UserActivityStatusComponent,
     ViewModalServiceComponent,
     ViewSubModalServiceComponent,
-    VehiclesComponent
+    VehiclesComponent,
 
 
 

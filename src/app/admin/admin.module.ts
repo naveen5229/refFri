@@ -128,7 +128,6 @@ const PAGES_COMPONENTS = [
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
     BeehiveComponent,
-
     AddCustomerComponent,
     FuelRulesComponent,
     PumpStationAreaComponent,
@@ -149,6 +148,8 @@ const PAGES_COMPONENTS = [
     ViaRoutesComponent
   ],
   exports: [
+    // VehiclesComponent,
+
   ],
 })
 export class AdminModule { }

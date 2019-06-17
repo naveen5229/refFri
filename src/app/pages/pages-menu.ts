@@ -185,7 +185,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Vehicles',
         icon: 'fas fa-info-circle',
-        link: '/pages/vehicles ',
+        link: '/pages/vehicles',
         home: true,
       },
     ]
