@@ -40,18 +40,7 @@ export class VSCTicketAuditComponent implements OnInit {
     this.adminId = admin.id;
   }
 
-  getVehicleStatusAlerts() {
-    let params = 'aduserId=' + this.aduserId;
-    console.log("params ", params);
-    this.api.get('HaltOperations/getVehicleStatusAduserViseAlerts?' + params)
-      .subscribe(res => {
-        console.log('Res: ', res['data']);
-        this.VehicleStatusAlerts = res['data'];
-      }, err => {
-        console.error(err);
-        this.common.showError();
-      });
-  }
+
   getAduserIds() {
     this.api.get('HaltOperations/getAutoAduserid')
       .subscribe(res => {
@@ -65,7 +54,7 @@ export class VSCTicketAuditComponent implements OnInit {
 
   openVSCModel(data) {
 
-    
+
     let index = this.VehicleStatusAlerts.findIndex(element => {
       return element.vehicle_id == data.vehicle_id && element.addtime == data.addtime;
     });
@@ -105,12 +94,32 @@ export class VSCTicketAuditComponent implements OnInit {
       endTime: this.common.dateFormatter(this.endDate),
       aduserId: this.aduserId
     };
+    this.common.loading++;
     this.api.post('HaltOperations/getChallenged', params)
       .subscribe(res => {
+        this.common.loading--;
         console.log('Res: ', res['data']);
         this.VehicleStatusAlerts = res['data'];
       }, err => {
         console.error(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  viewAll() {
+    let params = 'aduserId=' + this.aduserId;
+    this.common.loading++;
+    console.log("params ", params);
+    this.api.get('HaltOperations/getVehicleStatusAduserViseAlerts?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res['data']);
+        this.VehicleStatusAlerts = res['data'];
+
+      }, err => {
+        console.error(err);
+        this.common.loading--;
         this.common.showError();
       });
   }

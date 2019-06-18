@@ -115,7 +115,6 @@ export class VehicleTripComponent implements OnInit {
           this.table.data.columns = this.getTableColumns();
           console.log("table:");
           console.log(this.table);
-          // this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
         }
