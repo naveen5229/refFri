@@ -28,6 +28,7 @@ export class EditFillingComponent implements OnInit {
   isPump = true;
   pumpPayType = '-21';
   driverCash = 0;
+  odoVal = 0;
 
 
 
@@ -51,6 +52,7 @@ export class EditFillingComponent implements OnInit {
     this.vehicle_id = rec.vehicle_id;
     this.filling_id = rec.id;
     this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
+    this.odoVal = rec.odometer ? rec.odometer : 0;
   }
 
   ngOnInit() {
@@ -118,7 +120,8 @@ export class EditFillingComponent implements OnInit {
         isFull: this.isfull,
         fuelCompany: '',
         petrolPumpId: this.pump_id,
-        driver_cash: this.driverCash
+        driver_cash: this.driverCash,
+        odometer_val: this.odoVal
       };
       console.log("rowdata", this.common.params.rowfilling);
       console.log("newparams", params);
@@ -135,9 +138,14 @@ export class EditFillingComponent implements OnInit {
           this.common.loading--;
           console.log("result");
           console.log(res);
-          this.common.showToast("Details Updated Successfully");
-          this.filldate = '';
-          this.activeModal.close();
+          if (res["success"]) {
+            this.common.showToast("Details Updated Successfully");
+            this.filldate = '';
+            this.activeModal.close();
+          } else {
+            this.common.showError(res['msg']);
+          }
+
         }, err => {
           this.common.showError("Error occurred");
           this.common.loading--;
