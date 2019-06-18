@@ -257,12 +257,12 @@ export class DataService {
             link: '/admin/company-details',
             home: true,
           },
-          {
-            title: 'Vehicles',
-            icon: 'fas fa-info-circle',
-            link: '/admin/vehicles',
-            home: true,
-          },
+          // {
+          //   title: 'Vehicles',
+          //   icon: 'fas fa-info-circle',
+          //   link: '/admin/vehicles',
+          //   home: true,
+          // },
         ]
       },
 
@@ -361,6 +361,11 @@ export class DataService {
 
         ]
       },
+      {
+        title: 'Via-Route',
+        icon: 'fa fa-pencil-square-o',
+        link: '/admin/via-routes',
+      }
 
     ];
   }

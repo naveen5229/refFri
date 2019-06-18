@@ -35,10 +35,7 @@
           style="margin:0px;  cursor: pointer;">Submit</button>
       </div>
 
-      <!-- <div class="col-sm-2">
-        <button id="submit" name="submit" class="btn btn-primary" (click)="openOdoMeter()"
-          style="margin:0px;  cursor: pointer;">Odometer</button>
-      </div> -->
+
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -86,13 +83,13 @@
     </div> -->
     <!-- <ng-template *ngIf="fuelAvgDetails.length>0; then showTable; else showDiv"></ng-template>
     <ng-template #showTable> -->
-    <smart-table *ngIf="fuelAvgDetails.length" [data]="table.data" [settings]="table.settings" id="fuelMileage">
+    <smart-table *ngIf="fuelAvgDetails &&fuelAvgDetails.length" [data]="table.data" [settings]="table.settings"
+      id="fuelMileage">
     </smart-table>
     <!-- </ng-template> -->
     <!-- <ng-template #showDiv> -->
     <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvgDetails==null">
       No Data available !
     </div>
-    <!-- </ng-template> -->
   </nb-card-body>
 </nb-card>

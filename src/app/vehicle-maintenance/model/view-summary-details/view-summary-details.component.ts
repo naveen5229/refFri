@@ -12,7 +12,7 @@ import { element } from '@angular/core/src/render3';
   styleUrls: ['./view-summary-details.component.scss', '../../../pages/pages.component.css']
 })
 export class ViewSummaryDetailsComponent implements OnInit {
-
+  vehicleRegNo = null;
   headings = [];
   table = {
     data: {
@@ -36,7 +36,9 @@ export class ViewSummaryDetailsComponent implements OnInit {
     private activeModal: NgbActiveModal) {
     this.jobId = this.common.params.jobId;
     this.vehicleId = this.common.params.vId;
+    this.vehicleRegNo = this.common.params.vehicleRegNo;
     this.getDocumentData();
+
   }
   ngOnInit() {
 
