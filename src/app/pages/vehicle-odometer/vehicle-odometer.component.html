@@ -1,27 +1,23 @@
 <nb-card style="border:0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-5">
+      <div class="col-9">
         <h5>Vehicle OdoMeter</h5>
       </div>
-      <div class="col-sm-3">
+      <div class="col-3">
         <select [(ngModel)]="State" class="form-control" (change)="changeState()"
           style=" border: 2px solid darkcyan; font-size: 13px">
           <option value="1">summary</option>
           <option value="0">Details</option>
         </select>
       </div>
-      <div class="col-02">
+      <!-- <div class="col-02">
         <span class="pdf-icon" title="PDF Export" (click)="printPDF('odoMeter')" style="cursor: pointer;"><i
             class="fa fa-file-pdf"></i></span>
         <span class="exel-icon" title="CSV Export" (click)="printCsv('odoMeter')"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
-      </div>
+      </div> -->
     </div>
-  </nb-card-header>
-  <nb-card-body>
-
-
     <div class="row" *ngIf="State=='0'">
       <div class="col-md-2 pr-0">
         <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
@@ -44,8 +40,13 @@
       </div>
     </div>
 
+  </nb-card-header>
+  <nb-card-body>
 
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="odoMeter">
+
+
+
+    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="odoMeter">
     </smart-table>
 
   </nb-card-body>

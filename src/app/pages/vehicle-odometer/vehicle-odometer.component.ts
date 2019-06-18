@@ -4,6 +4,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { OdoMeterComponent } from '../../modals/odo-meter/odo-meter.component';
 
 @Component({
   selector: 'vehicle-odometer',
@@ -34,15 +35,37 @@ export class VehicleOdometerComponent implements OnInit {
     public modalService: NgbModal,
     private activeModal: NgbActiveModal,
     public user: UserService) {
+    this.common.refresh = this.refresh.bind(this);
     this.changeState();
   }
 
   ngOnInit() {
   }
 
+  refresh() {
+    if (this.State == '1') {
+      this.changeState();
+    }
+    else {
+      this.search();
+    }
+  }
+
   changeState() {
     console.log("state:", this.State);
     if (this.State == '0') {
+      this.data = [];
+      this.table = {
+        data: {
+          headings: {},
+          columns: []
+        },
+        settings: {
+          hideHeader: true
+        }
+      };
+      this.headings = [];
+      this.valobj = {};
       return;
     }
     this.data = [];
@@ -57,6 +80,7 @@ export class VehicleOdometerComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
+
 
     const params = "isSummary=" + this.State +
       "&startTime=" + this.common.dateFormatter(this.startTime) +
@@ -90,6 +114,18 @@ export class VehicleOdometerComponent implements OnInit {
 
 
   search() {
+    this.data = [];
+    this.table = {
+      data: {
+        headings: {},
+        columns: []
+      },
+      settings: {
+        hideHeader: true
+      }
+    };
+    this.headings = [];
+    this.valobj = {};
     const params = "vehicleId=" + this.vehicleId + "&isSummary=" + this.State +
       "&startTime=" + this.common.dateFormatter(this.startTime) +
       "&endTime=" + this.common.dateFormatter(this.endTime);
@@ -99,6 +135,7 @@ export class VehicleOdometerComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('res: ', res['data']);
+        this.data = [];
 
         if (!res['data']) return;
         this.data = res['data'];
@@ -112,6 +149,7 @@ export class VehicleOdometerComponent implements OnInit {
         }
         let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideHeader: true };
         this.table.data.headings['action'] = action;
+
         this.table.data.columns = this.getTableColumns();
 
       }, err => {
@@ -126,14 +164,14 @@ export class VehicleOdometerComponent implements OnInit {
     let columns = [];
     console.log("Data=", this.data);
     this.data.map(doc => {
-
       this.valobj = {};
+
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
-        this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
+      this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
 
       columns.push(this.valobj);
 
@@ -144,24 +182,49 @@ export class VehicleOdometerComponent implements OnInit {
 
 
   actionIcons(details) {
+    console.log("detatis Page:", details);
     let icons = [];
 
+    if (details._id) {
+      icons.push(
+        {
+          class: "fa fa-window-close",
+          action: this.remove.bind(this, details),
+        }
+      )
+    }
+    else {
+      icons.push(
+        {
+          class: "fa fa-tachometer-alt",
+          action: this.openOdoMeter.bind(this, details),
+        }
+      )
+    }
 
-    icons.push(
-      {
-        class: "fa fa-window-close",
-        action: this.remove.bind(this, details),
-      }
-    )
     return icons;
   }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
+
+  openOdoMeter(row) {
+    let vehicleId = row._vid;
+    let regno = row.Vehicle;
+    this.common.params = { vehicleId, regno };
+    console.log('Param', this.common.params);
+    const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.changeState();
+
+    });
+  }
+
+
   remove(row) {
     console.log("row", row);
-    return;
+
 
     let params = {
       id: row._id,
@@ -177,11 +240,23 @@ export class VehicleOdometerComponent implements OnInit {
         if (data.response) {
           console.log("data", data);
           this.common.loading++;
-          this.api.post('ViaRoutes/delete', params)
+          this.api.post('Vehicles/deleteOdometerEntry', params)
             .subscribe(res => {
               this.common.loading--;
-              this.common.showToast(res['msg']);
-              this.changeState();
+              if (res['data'].r_id > 0) {
+                this.common.showToast('Success');
+
+              }
+              else {
+                this.common.showToast(res['data'].r_msg);
+              }
+              if (this.State == '1') {
+
+                this.changeState();
+              }
+              else {
+                this.search();
+              }
             }, err => {
               this.common.loading--;
               console.log('Error: ', err);
@@ -206,6 +281,9 @@ export class VehicleOdometerComponent implements OnInit {
       this.vehicleId = null;
     }
   }
+
+
+
 
 
 }
