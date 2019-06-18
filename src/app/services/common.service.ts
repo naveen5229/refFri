@@ -751,7 +751,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -761,6 +761,8 @@ export class CommonService {
     let blankline = { "": "" };
     let leftData = { left_heading };
     let centerData = { center_heading };
+    let format = "doc Report Time";
+    let doctime = { format, time };
 
     let info = [];
     let hdgs = {};
@@ -768,7 +770,7 @@ export class CommonService {
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
-    info.push(centerData);
+    info.push(centerData, doctime);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
