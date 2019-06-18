@@ -37,7 +37,8 @@
   <nb-card-body>
 
     <div>
-      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings" id="acivitySummary">
+      <smart-table *ngIf="activitySummary && activitySummary.length" [data]="table.data" [settings]="table.settings"
+        id="acivitySummary">
       </smart-table>
     </div>
   </nb-card-body>
