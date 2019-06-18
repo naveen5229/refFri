@@ -25,6 +25,12 @@ export class EditFillingComponent implements OnInit {
   pump_id = 0;
   vehicle_id = 0;
   filling_id = 0;
+  isPump = true;
+  pumpPayType = '-21';
+  driverCash = 0;
+  odoVal = 0;
+
+
 
   constructor(private datePipe: DatePipe,
     public api: ApiService,
@@ -45,6 +51,8 @@ export class EditFillingComponent implements OnInit {
     this.pump_id = rec.fuel_station_id;
     this.vehicle_id = rec.vehicle_id;
     this.filling_id = rec.id;
+    this.driverCash = rec.driver_cash ? rec.driver_cash : 0;
+    this.odoVal = rec.odometer ? rec.odometer : 0;
   }
 
   ngOnInit() {
@@ -92,6 +100,7 @@ export class EditFillingComponent implements OnInit {
     console.log('fill date', this.filldate);
     if (this.filldate == null || this.filldate == '') {
       this.common.showToast('Fill Date To Continue');
+      return;
     } else {
       if (this.isfull == false) {
         this.isfull = null;
@@ -110,7 +119,9 @@ export class EditFillingComponent implements OnInit {
         petrolPumpName: this.pump,
         isFull: this.isfull,
         fuelCompany: '',
-        petrolPumpId: this.pump_id
+        petrolPumpId: this.pump_id,
+        driver_cash: this.driverCash,
+        odometer_val: this.odoVal
       };
       console.log("rowdata", this.common.params.rowfilling);
       console.log("newparams", params);
@@ -127,9 +138,14 @@ export class EditFillingComponent implements OnInit {
           this.common.loading--;
           console.log("result");
           console.log(res);
-          this.common.showToast("Details Updated Successfully");
-          this.filldate = '';
-          this.activeModal.close();
+          if (res["success"]) {
+            this.common.showToast("Details Updated Successfully");
+            this.filldate = '';
+            this.activeModal.close();
+          } else {
+            this.common.showError(res['msg']);
+          }
+
         }, err => {
           this.common.showError("Error occurred");
           this.common.loading--;
@@ -150,6 +166,19 @@ export class EditFillingComponent implements OnInit {
         window.location.reload();
       }
     });
+  }
+
+
+  pumpPayStatus() {
+
+    if (this.pumpPayType == '-11') {
+      this.pump_id = parseInt(this.pumpPayType);
+      this.pump = '';
+    } else {
+      this.pump_id = parseInt(this.pumpPayType);
+      this.pump = '';
+    }
+
   }
 
 }

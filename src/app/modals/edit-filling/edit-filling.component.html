@@ -34,6 +34,31 @@
         <input class="fill-elt form-control" name="rate" id="rate" [(ngModel)]="rate" (blur)="updateAmount()" />
       </div>
     </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label class="fill-elt">Is Pump Available?</label>
+        <input class="fill-elt chkbx" type="checkbox" name="isPump" id="isPump" [value]="isPump" [(ngModel)]="isPump"
+          checked />
+      </div>
+    </div>
+    <div class="col-6" *ngIf="!isPump" style="margin-top:5px">
+      <select [(ngModel)]="pumpPayType" class="form-control" (change)="pumpPayStatus()"
+        style=" border: 2px solid darkcyan; font-size: 13px; ">
+        <option value="-11">Paid By Card</option>
+        <option value="-21">Paid By Cash</option>
+      </select>
+    </div>
+    <div class="col-6">
+      <div class="form-group" *ngIf="isPump">
+        <label class="fill-elt">Pump:</label>
+        <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
+          placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
+        </auto-suggestion>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
     <div class="col-6">
       <div class="form-group">
         <label class="fill-elt">Amount:</label>
@@ -41,14 +66,15 @@
           style="background-color: #cecece;" readonly />
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-6" *ngIf="pumpPayType=='-11' && !isPump">
       <div class="form-group">
-        <label class="fill-elt">Pump:</label>
-        <auto-suggestion (onSelected)="getPumpData($event)" url="Suggestion/GetFuelStation" display="name"
-          placeholder="Enter Pump Name" [preSelected]="{name: pump}" class="fstn-name" style="width:60%;">
-        </auto-suggestion>
+        <label class="fill-elt">Cash To Driver</label>
+        <input class="fill-elt form-control" name="cash" id="cash" [(ngModel)]="driverCash" />
       </div>
     </div>
+
+  </div>
+  <div class="row">
     <div class="col-6">
       <div class="form-group">
         <label class="fill-elt">Is Fuel Tank Full?</label>
@@ -58,7 +84,8 @@
           [(ngModel)]="isfull" />
       </div>
     </div>
-    <div class="col-6">
+
+    <div class="col-6" *ngIf="isPump">
       <div class="form-group">
         <div class="blue add-pp-lnk" (click)="showAddPump()">
           Add Pump
@@ -67,14 +94,19 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <label>
+        Odometer:
+      </label>
+    </div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-6">
+      <input class="fill-elt form-control" name="odometer" id="odometer" [(ngModel)]="odoVal" />
+    </div>
+  </div>
 
 </div>
-
-
-
-
-
-
 
 <div class="modal-footer">
   <button class="btn btn-primary" (click)="submitFillingData()" style="cursor: pointer;">Submit</button>
