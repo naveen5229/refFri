@@ -56,6 +56,7 @@ import { LicenceUploadComponent } from '../driver/licence-upload/licence-upload.
 import { PendingLicenceComponent } from '../driver/pending-licence/pending-licence.component';
 import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
 import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
+import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
 
 const routes: Routes = [{
   path: '',
@@ -355,6 +356,11 @@ const routes: Routes = [{
     component: VehiclesComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'vehicle-odoMeter',
+    component: VehicleOdometerComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 

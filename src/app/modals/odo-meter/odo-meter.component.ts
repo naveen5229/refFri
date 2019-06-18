@@ -15,7 +15,8 @@ export class OdoMeterComponent implements OnInit {
   vehicleId = null;
   date = new Date();
   kM = null;
-  startDate = new Date();
+  d = new Date();
+  startDate = new Date(new Date().setDate(new Date().getDate() - 30));
   endDate = new Date();
 
   data = [];
@@ -38,6 +39,7 @@ export class OdoMeterComponent implements OnInit {
     public dateService: DateService) {
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
+
     this.getOdoMeterData();
   }
 
