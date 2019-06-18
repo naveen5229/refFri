@@ -27,6 +27,11 @@ export class SmartTableComponent implements OnInit {
     limit: 200,
   };
   isTableHide = false;
+  edit = {
+    row: -1,
+    column: null,
+    heading: ''
+  };
 
   constructor(private cdr: ChangeDetectorRef,
     public common: CommonService) { }
@@ -124,26 +129,30 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleMouseHover(column, heading) {
-    // console.log('Mouseover');
     if (column[heading].colActions && column[heading].colActions.mouseover) {
       column[heading].colActions.mouseover()
     }
   }
 
+  /**
+   * 
+   * @param column Previous Column 
+   * @param heading Column key
+   */
   handleMouseOut(column, heading) {
-    // console.log('MouseOut');
     if (column[heading].colActions && column[heading].colActions.mouseout) {
       column[heading].colActions.mouseout()
     }
   }
 
+  /**
+   * @param page Clicked Page
+   */
   handlePagination(page) {
     this.pages.active = page;
     let startIndex = this.pages.limit * (this.pages.active - 1);
     let lastIndex = (this.pages.limit * this.pages.active);
-    console.log('tttt:', startIndex, lastIndex);
     this.columns = this.data.columns.slice(startIndex, lastIndex);
-    console.log(this.columns.length, this.columns);
   }
 
   customPage() {
@@ -154,6 +163,38 @@ export class SmartTableComponent implements OnInit {
       this.common.loading--;
       this.isTableHide = false;
     }, 100);
+  }
+
+  /**
+   * @param column Table Column
+   * @param heading Table Heading Name
+   * @param rowIndex Clicked row index
+   */
+  handleColumnClick(column: any, heading: string, rowIndex: number) {
+    if (column[heading].action) column[heading].action();
+    else if (this.settings.editable) {
+      this.edit.row = rowIndex;
+      this.edit.column = JSON.parse(JSON.stringify(column));
+      this.edit.heading = heading;
+    }
+  }
+
+  /**
+   * @param column Current Value
+   */
+  resetColumn(column?) {
+    this.columns[this.edit.row] = column || this.edit.column;
+    this.edit.row = -1;
+    this.edit.column = null;
+    this.edit.heading = '';
+  }
+
+  /**
+   * @param editedColumn Current Values of column
+   */
+  saveEdit(editedColumn: any) {
+    this.settings.editableAction({ current: editedColumn, old: this.edit.column });
+    this.resetColumn(editedColumn);
   }
 
 }

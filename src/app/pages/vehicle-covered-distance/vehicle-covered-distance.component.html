@@ -18,7 +18,8 @@
 
   <nb-card-body>
     <div class="model-body">
-      <smart-table *ngIf="distanceData.length" [data]="table.data" [settings]="table.settings" id="tbldocs">
+      <smart-table *ngIf="distanceData && distanceData.length" [data]="table.data" [settings]="table.settings"
+        id="tbldocs">
       </smart-table>
     </div>
   </nb-card-body>

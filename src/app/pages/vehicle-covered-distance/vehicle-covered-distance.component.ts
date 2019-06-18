@@ -45,6 +45,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
 
   refresh() {
     console.log("Refresh");
+    this.today = new Date();
     this.getData();
   }
 

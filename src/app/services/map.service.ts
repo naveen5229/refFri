@@ -278,6 +278,19 @@ export class MapService {
     return thisMarkers;
   }
 
+  createCirclesOnPostion(center, radius) {
+    return new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.2,
+      map: this.map,
+      center: center,
+      radius: radius
+    });
+  }
+
   toggleBounceMF(id, evtype = 1) {
     //console.log("Bounce marker",id);
     //console.log("index",index);
@@ -328,7 +341,7 @@ export class MapService {
     for (let index = 0; index < this.markers.length; index++) {
       if (this.markers[index]) {
         let pos = this.markers[index].position;
-        if (pos.lat() != 0)
+        if (pos.lat() != 0 && this.markers[index].getMap())
           this.setBounds(pos);
       }
     }
@@ -347,6 +360,8 @@ export class MapService {
   }
   resetPolyPath() {
     if (this.polygonPath) {
+      console.log("Here");
+
       this.polygonPath.setMap(null);
       this.polygonPath = null;
     }

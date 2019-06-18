@@ -137,6 +137,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/view-manifesto',
       },
       {
+        title: 'LR Pod Receipts',
+        icon: 'fa fa-eye',
+        link: '/pages/lr-pod-receipts',
+      },
+      {
         title: 'Expenses',
         icon: 'fa fa-book',
         link: '/pages/expenses',
@@ -175,6 +180,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Vehicle Performance',
         icon: 'fas fa-truck-pickup',
         link: '/pages/vehicle-performance',
+        home: true,
+      },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles',
         home: true,
       },
     ]

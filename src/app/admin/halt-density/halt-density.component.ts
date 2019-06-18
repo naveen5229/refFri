@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'halt-density',
@@ -14,17 +15,47 @@ export class HaltDensityComponent implements OnInit {
   endTime = new Date();
   foid = null;
   minZoom = 12;
+  createSiteMarker = null;
+  buffers = [];
+  typeId = 401;
+  typeIds = [];
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
-    private commonService: CommonService) { }
+    private router: Router,
+    private commonService: CommonService) {
+  }
 
   ngOnInit() {
   }
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }, this.minZoom));
+    this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
+    this.getTypeIds();
+    // this.mapService.addListerner(this.mapService.map, 'click', (event) => {
+    //  
+    // })
   }
+
+  createTable() {
+    if (!this.startTime)
+      this.commonService.showToast("Enter Start Time");
+    this.commonService.loading++;
+    let latLngs = this.mapService.getMapBounds();
+    this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=-1&long=-1&startTime=" + this.commonService.dateFormatter(this.startTime))
+      .subscribe(res => {
+        this.commonService.loading--;
+        this.mapService.clearAll();
+        console.log('Res: ', res['data']);
+        this.buffers = res['data'];
+        this.mapService.createMarkers(this.buffers);
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
+  }
+
   submit(isHeat?) {
     this.mapService.clearAll();
     if (this.mapService.map.getZoom() < this.minZoom) {
@@ -52,9 +83,9 @@ export class HaltDensityComponent implements OnInit {
           }
         };
         if (!isHeat)
-          this.mapService.createMarkers(res['data']);
+          this.mapService.createMarkers(res['data'], false, false);
         else
-          this.mapService.createHeatMap(res['data']);
+          this.mapService.createHeatMap(res['data'], false);
       }, err => {
         console.error(err);
         this.commonService.showError();
@@ -73,7 +104,7 @@ export class HaltDensityComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.createMarkers(data, false, true, ["id", "name"], (marker) => {
+        this.mapService.createMarkers(data, false, false, ["id", "name"], (marker) => {
           this.apiService.post("Site/getSingleSite", { siteId: marker.id })
             .subscribe(res => {
               let data = res['data'];
@@ -142,5 +173,58 @@ export class HaltDensityComponent implements OnInit {
         this.commonService.showError();
       });
   }
+  createSite(data) {
+    this.apiService.post("SitesOperation/createBufferZone", { type: this.typeId, lat: data.lat, long: data.long })
+      .subscribe(res => {
+        if (res['success']) {
+          this.commonService.showToast("Success");
+          let remove = this.buffers.findIndex((element) => {
+            return element.halt_id == data.halt_id;
+          })
+          this.buffers.splice(remove, 1);
+          this.typeId = 401;
+          // this.router.navigate(['/admin/site-fencing']);
+        } else
+          this.commonService.showError(res['msg']);
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
+  }
+  zoomAt(lat, long) {
+    this.buffers.forEach(element => {
+      if (element.lat == lat && element.long == long)
+        element.isHighLight = true;
+      else
+        element.isHighLight = false;
+    });
+    if (!this.createSiteMarker)
+      this.createSiteMarker = this.mapService.createMarkers([{
+        lat: lat,
+        lng: long,
+        subType: 'marker',
+      }], false, false)[0];
+    else {
+      this.createSiteMarker.setPosition(this.mapService.createLatLng(
+        lat,
+        long
+      ));
+      this.createSiteMarker.setMap(this.mapService.map);
+    }
+    this.mapService.zoomAt(this.mapService.createLatLng(parseFloat(lat), parseFloat(long)));
+  }
+  getTypeIds() {
+    this.apiService.post("SiteFencing/getSiteTypes", {})
+      .subscribe(res => {
+        console.log('Res: ', res['data']);
+        this.typeIds = res['data'];
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+      });
+  }
 
+  getRemainingTable() {
+
+  }
 }

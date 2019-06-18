@@ -1,0 +1,100 @@
+.bulk{
+    float: right;
+    height: 36px;
+    font-size: 12px;
+    font-weight: 900;
+}
+:host ::ng-deep .tableFixHead table tr td {
+    i{
+        margin-right: 5px;
+    }
+    .fa-pencil-square-o {
+        color: red;
+        span{
+            position: absolute;
+            display: none;
+            padding: 10px 65px;
+            font-size: 11px;
+            font-weight: normal;
+            left: -56px;
+            top: -28px;
+            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            font-family: Roboto;
+            z-index:9999;
+        }
+        span::before{
+            content: 'Change Service Time/Kms';
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: #04A9F5;
+            border-radius: 3px;
+            padding: 5px 10px;
+            color:#fff;
+            width: 100%;
+        }
+        span::after{
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #04A9F5;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            -webkit-transform: translate(-50%);
+            transform: translate(-50%);
+        }
+    }
+    .fa-pencil-square-o:hover span{
+        display: block;
+    }
+
+    .fa-tachometer-alt {
+        color: #04a9f5;
+        span{
+            position: absolute;
+            display: none;
+            padding: 10px 65px;
+            font-size: 11px;
+            font-weight: normal;
+            left: -56px;
+            top: -28px;
+            -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+            font-family: Roboto;
+            z-index:9999;
+        }
+        span::before{
+            content: 'Add/View Odo';
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: #04A9F5;
+            border-radius: 3px;
+            padding: 5px 10px;
+            color:#fff;
+            width: 100%;
+        }
+        span::after{
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #04A9F5;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            -webkit-transform: translate(-50%);
+            transform: translate(-50%);
+        }
+    }
+    .fa-tachometer-alt:hover span{
+        display: block;
+    }
+}
