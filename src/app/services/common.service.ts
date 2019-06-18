@@ -759,9 +759,11 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
-    let leftData = { left_heading };
-    let centerData = { center_heading };
-    let format = "doc Report Time";
+    let Name="Customer Name:";
+    let reportName="Report Name:";
+    let leftData = { Name,left_heading };
+    let centerData = { reportName,center_heading };
+    let format = "doc Generation Time";
     let doctime = { format, time };
 
     let info = [];
