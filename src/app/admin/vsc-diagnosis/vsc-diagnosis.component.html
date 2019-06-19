@@ -22,7 +22,7 @@
     </div>
     <div style="margin-top:10px">
       <div>
-        <smart-table *ngIf="siteRule.length" [data]="table.data" [settings]="table.settings"></smart-table>
+        <smart-table *ngIf="siteRule && siteRule.length" [data]="table.data" [settings]="table.settings"></smart-table>
       </div>
       <div class="no-data alert alert-danger" role="alert" *ngIf="siteRule==null">
         No Data available !

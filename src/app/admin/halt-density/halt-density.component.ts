@@ -43,7 +43,7 @@ export class HaltDensityComponent implements OnInit {
       this.commonService.showToast("Enter Start Time");
     this.commonService.loading++;
     let latLngs = this.mapService.getMapBounds();
-    this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=-1&long=-1")
+    this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=-1&long=-1&startTime=" + this.commonService.dateFormatter(this.startTime))
       .subscribe(res => {
         this.commonService.loading--;
         this.mapService.clearAll();
@@ -104,7 +104,7 @@ export class HaltDensityComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.createMarkers(data, false, true, ["id", "name"], (marker) => {
+        this.mapService.createMarkers(data, false, false, ["id", "name"], (marker) => {
           this.apiService.post("Site/getSingleSite", { siteId: marker.id })
             .subscribe(res => {
               let data = res['data'];
@@ -182,6 +182,7 @@ export class HaltDensityComponent implements OnInit {
             return element.halt_id == data.halt_id;
           })
           this.buffers.splice(remove, 1);
+          this.typeId = 401;
           // this.router.navigate(['/admin/site-fencing']);
         } else
           this.commonService.showError(res['msg']);
@@ -191,6 +192,12 @@ export class HaltDensityComponent implements OnInit {
       });
   }
   zoomAt(lat, long) {
+    this.buffers.forEach(element => {
+      if (element.lat == lat && element.long == long)
+        element.isHighLight = true;
+      else
+        element.isHighLight = false;
+    });
     if (!this.createSiteMarker)
       this.createSiteMarker = this.mapService.createMarkers([{
         lat: lat,
@@ -215,5 +222,9 @@ export class HaltDensityComponent implements OnInit {
         console.error(err);
         this.commonService.showError();
       });
+  }
+
+  getRemainingTable() {
+
   }
 }

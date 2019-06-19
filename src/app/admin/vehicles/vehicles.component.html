@@ -5,13 +5,13 @@
         <h5>Vehicles</h5>
       </div>
       <div class="col-sm-6">
-        <button class="btn btn-primary m-0" (click)="openNextBulkUpdateModal()">Update Bulk</button>
+        <button class="btn btn-primary m-0 bulk" (click)="openNextBulkUpdateModal()">Bulk Update Service Master</button>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
 
-    <smart-table *ngIf="data.length" id="vehicle" [data]="table.data" [settings]="table.settings">
+    <smart-table *ngIf="data && data.length" id="vehicle" [data]="table.data" [settings]="table.settings">
     </smart-table>
     <br>
   </nb-card-body>

@@ -15,7 +15,9 @@ export class OdoMeterComponent implements OnInit {
   vehicleId = null;
   date = new Date();
   kM = null;
-
+  d = new Date();
+  startDate = new Date(new Date().setDate(new Date().getDate() - 30));
+  endDate = new Date();
 
   data = [];
   table = {
@@ -37,6 +39,7 @@ export class OdoMeterComponent implements OnInit {
     public dateService: DateService) {
     this.vehicleId = this.common.params.vehicleId;
     this.regno = this.common.params.regno;
+
     this.getOdoMeterData();
   }
 
@@ -93,7 +96,9 @@ export class OdoMeterComponent implements OnInit {
     };
     this.headings = [];
     this.valobj = {};
-    const params = "vehicleId=" + this.vehicleId;
+    const params = "vehicleId=" + this.vehicleId +
+      "&startTime=" + this.common.dateFormatter(this.startDate) +
+      "&endTime=" + this.common.dateFormatter(this.endDate);
     console.log("param:", params);
     this.common.loading++;
     this.api.get('Vehicles/showManualKmData?' + params)

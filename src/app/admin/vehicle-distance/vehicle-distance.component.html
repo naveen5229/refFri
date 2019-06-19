@@ -39,7 +39,7 @@
       </div>
     </form>
 
-    <smart-table *ngIf="result.length" [data]="table.data" [settings]="table.settings" id="vehicleDistance">
+    <smart-table *ngIf="result && result.length" [data]="table.data" [settings]="table.settings" id="vehicleDistance">
     </smart-table>
 
   </nb-card-body>
