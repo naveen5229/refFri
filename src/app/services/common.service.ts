@@ -18,6 +18,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
+import { elementAt } from "rxjs/operators";
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -628,7 +629,7 @@ export class CommonService {
 
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
+            let attrval = eltinput && eltinput.getAttribute("title");
             rowdata.push(attrval);
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
@@ -763,7 +764,7 @@ export class CommonService {
     let reportName="Report Name:";
     let leftData = { Name,left_heading };
     let centerData = { reportName,center_heading };
-    let format = "doc Generation Time";
+    let format = "Report Generation Time";
     let doctime = { format, time };
 
     let info = [];
@@ -835,7 +836,7 @@ export class CommonService {
             rowdata[arr_hdgs[j]] = attrval;
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute('title');
+            let attrval = eltinput && eltinput.getAttribute('title');
             rowdata[arr_hdgs[j]] = attrval;
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;

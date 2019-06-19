@@ -190,7 +190,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         let left_heading = fodata['name'];
         let center_heading = "Vehicle Distance(24Hr)";
         let time = this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a');
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], time);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading,null,time);
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -209,7 +209,7 @@ export class VehicleCoveredDistanceComponent implements OnInit {
         let left_heading = fodata['name'];
         let center_heading = "Vehicle Distance(24Hr)";
         let time = this.datePipe.transform(this.today, 'dd-MM-yyyy hh:mm:ss a');
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], time);
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null, time);
       }, err => {
         this.common.loading--;
         console.log(err);
