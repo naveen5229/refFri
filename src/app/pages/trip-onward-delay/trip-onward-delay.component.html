@@ -10,7 +10,8 @@
 
   <nb-card-body>
     <div class="model-body">
-      <smart-table *ngIf="onwardDelayData.length" [data]="table.data" [settings]="table.settings" id="tbldocs">
+      <smart-table *ngIf="onwardDelayData && onwardDelayData.length" [data]="table.data" [settings]="table.settings"
+        id="tbldocs">
       </smart-table>
     </div>
   </nb-card-body>

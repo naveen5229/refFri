@@ -17,7 +17,8 @@
   </nb-card-header>
   <nb-card-body>
     <div class="model-body">
-      <smart-table *ngIf="gpsDtails.length" [data]="table.data" [settings]="table.settings" id="gpsDetails">
+      <smart-table *ngIf="gpsDtails && gpsDtails.length" [data]="table.data" [settings]="table.settings"
+        id="gpsDetails">
       </smart-table>
 
     </div>

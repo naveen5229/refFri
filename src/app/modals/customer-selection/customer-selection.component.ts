@@ -27,6 +27,7 @@ export class CustomerSelectionComponent implements OnInit {
     private route: ActivatedRoute,
 
   ) {
+    this.common.handleModalSize('class', 'modal-lg', '480');
 
   }
 

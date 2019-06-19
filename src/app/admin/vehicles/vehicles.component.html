@@ -11,7 +11,7 @@
   </nb-card-header>
   <nb-card-body>
 
-    <smart-table *ngIf="data.length" id="vehicle" [data]="table.data" [settings]="table.settings">
+    <smart-table *ngIf="data && data.length" id="vehicle" [data]="table.data" [settings]="table.settings">
     </smart-table>
     <br>
   </nb-card-body>

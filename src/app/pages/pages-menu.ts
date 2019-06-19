@@ -71,6 +71,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-line-chart',
         link: '/pages/trends'
       },
+      {
+        title: 'Vehicle OdoMeter',
+        icon: 'fa fa-tachometer-alt',
+        link: '/pages/vehicle-odoMeter'
+      },
 
     ]
   },
@@ -180,6 +185,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Vehicle Performance',
         icon: 'fas fa-truck-pickup',
         link: '/pages/vehicle-performance',
+        home: true,
+      },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles',
         home: true,
       },
     ]

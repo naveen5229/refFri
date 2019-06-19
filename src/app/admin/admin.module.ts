@@ -128,7 +128,6 @@ const PAGES_COMPONENTS = [
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
     BeehiveComponent,
-
     AddCustomerComponent,
     FuelRulesComponent,
     PumpStationAreaComponent,
@@ -141,15 +140,16 @@ const PAGES_COMPONENTS = [
     //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
+    // VehiclesComponent,
     LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
     VscDiagnosisComponent,
     ViaRoutesComponent
   ],
   exports: [
+    // VehiclesComponent,
+
   ],
 })
 export class AdminModule { }

@@ -18,6 +18,7 @@ import { UserActivityStatusComponent } from './pages/user-activity-status/user-a
 import { ViewModalServiceComponent } from './vehicle-maintenance/view-modal-service/view-modal-service.component';
 import { ViewSubModalServiceComponent } from './vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 import { DriverModule } from './driver/driver.module';
+import { VehiclesComponent } from './admin/vehicles/vehicles.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -31,7 +32,9 @@ const PAGES_COMPONENTS = [
     UserActivityStatusComponent,
     ViewModalServiceComponent,
     ViewSubModalServiceComponent,
-    
+    VehiclesComponent,
+
+
 
 ];
 
