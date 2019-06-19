@@ -32,6 +32,7 @@ export class MapService {
   ];
   options = null;
   heatmap = null;
+  polygonPaths = [];
 
   constructor(public common: CommonService) {
   }
@@ -365,6 +366,13 @@ export class MapService {
       this.polygonPath.setMap(null);
       this.polygonPath = null;
     }
+    if (this.polygonPaths.length > 0) {
+      console.log("Here2");
+      this.polygonPaths.forEach(path => {
+        path.setMap(null);
+      });
+      this.polygonPaths = [];
+    }
   }
 
   createPolygonPath(polygonOptions?) {
@@ -391,7 +399,15 @@ export class MapService {
     }
     let path = this.polygonPath.getPath();
     path.push(latLng);
+    return this.polygonPath;
   }
+
+  createPolyPathsManual(latLngs, polygonOptions?) {
+    latLngs.forEach(latLng => {
+      this.polygonPaths.push(this.createPolyPathManual(latLng));
+    });
+  }
+
 
   setMapType(typeIndex) {
     let types = ['roadmap', 'satellite', 'hybrid', 'terrain'];
