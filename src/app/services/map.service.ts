@@ -283,10 +283,10 @@ export class MapService {
   createCirclesOnPostion(center, radius) {
     console.log("center,radius", center, radius);
     return new google.maps.Circle({
-      strokeColor: '#FF0000',
+      strokeColor: '#0000FF',
       strokeOpacity: 1,
       strokeWeight: 2,
-      fillColor: '#FF0000',
+      fillColor: '#0000FF',
       fillOpacity: 0.2,
       map: this.map,
       center: center,
