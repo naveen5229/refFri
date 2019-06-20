@@ -88,7 +88,7 @@ export class DocumentReportComponent implements OnInit {
           default: break;
         }
         let center_heading = strstatus;
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

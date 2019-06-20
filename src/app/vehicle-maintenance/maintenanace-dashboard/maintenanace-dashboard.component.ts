@@ -226,7 +226,7 @@ export class MaintenanaceDashboardComponent implements OnInit {
         this.fodata = res['data'];
         let left_heading = this.fodata['name'];
         let center_heading = "Maintenance Status";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

@@ -59,6 +59,7 @@ import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-perfo
 import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/daywise-vehicle-distance.component';
 import { DriverModule } from '../driver/driver.module';
 import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
+import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
 
 
 const PAGES_COMPONENTS = [
@@ -118,7 +119,8 @@ const PAGES_COMPONENTS = [
     TripVerifyStatesComponent,
     VehiclePerformanceComponent,
     DaywiseVehicleDistanceComponent,
-    DateServiceTesterComponent
+    DateServiceTesterComponent,
+    VehicleOdometerComponent
     // CustomDatePipe
   ],
   exports: [
