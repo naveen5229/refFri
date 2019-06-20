@@ -25,12 +25,13 @@ export class DaywiseVehicleDistanceComponent implements OnInit {
   table = {
     data: {
       headings: {
-        Regno: { placeholder: 'RegNo' }
+        Regno: { placeholder: 'RegNo', editable: false }
       },
       columns: []
     },
     settings: {
-      hideHeader: true
+      hideHeader: true,
+      editable: false
     }
   };
   startDate;
@@ -75,9 +76,21 @@ export class DaywiseVehicleDistanceComponent implements OnInit {
 
 
   getDistance() {
-
     this.data = [];
+    this.table = {
+      data: {
+        headings: {
+          Regno: { placeholder: 'RegNo', editable: false }
+        },
+        columns: []
+      },
+      settings: {
+        hideHeader: true,
+        editable: false
+      }
+    };
 
+    console.log('this.table', this.table);
     this.checkstart = new Date(this.startDate.valueOf());
     this.checkend = new Date(this.endDate.valueOf());
     console.log('checkend and checkstart', this.checkend, this.checkstart);
@@ -101,7 +114,7 @@ export class DaywiseVehicleDistanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
-        this.data = res['data'];
+        this.data = res['data'] || [];
         this.table.data.columns = this.getTableColumns(this.formattData());
 
       }, err => {
@@ -112,6 +125,7 @@ export class DaywiseVehicleDistanceComponent implements OnInit {
 
   }
   formattData() {
+    console.log('this.data', this.data);
     let driverAttendanceGroups = _.groupBy(this.data, 'vehicleId');
     let formattedAttendances = [];
     Object.keys(driverAttendanceGroups).map(key => {

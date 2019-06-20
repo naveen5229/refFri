@@ -71,6 +71,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-line-chart',
         link: '/pages/trends'
       },
+      {
+        title: 'Vehicle OdoMeter',
+        icon: 'fa fa-tachometer-alt',
+        link: '/pages/vehicle-odoMeter'
+      },
 
     ]
   },
