@@ -174,6 +174,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
 
 
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -314,6 +315,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     FuelEditComponent,
     AddViaRoutesComponent,
     VehicleTyreSummaryComponent,
+
 
   ],
   entryComponents: [

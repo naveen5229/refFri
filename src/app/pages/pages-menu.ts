@@ -304,6 +304,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
   },
+  {
+    title: 'Battery',
+    icon: 'fa fa-cog',
+    link: '/battery/battery-inventory'
+  },
 
 
   {
