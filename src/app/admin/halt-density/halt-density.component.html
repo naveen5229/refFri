@@ -49,7 +49,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let buffer of buffers;let i = index;">
+        <tr [ngClass]="{'highlight':buffer.isHighLight}" *ngFor="let buffer of buffers;let i = index;">
           <td (click)=zoomAt(buffer.lat,buffer.long) style="width:40px;">{{i+1}}</td>
           <td (click)=zoomAt(buffer.lat,buffer.long) style="width:40px;">{{buffer.halt_id}}</td>
           <td (click)=zoomAt(buffer.lat,buffer.long)>{{buffer.lat}}</td>

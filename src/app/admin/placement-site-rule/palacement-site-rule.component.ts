@@ -51,7 +51,7 @@ export class PalacementSiteRuleComponent implements OnInit {
   }
   addsite() {
     this.common.params = {};
-    const activeModal = this.modalService.open(AddPlacementSiteRuleComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddPlacementSiteRuleComponent, { container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getSiteData();
@@ -136,7 +136,7 @@ export class PalacementSiteRuleComponent implements OnInit {
   editRule(row) {
     console.log("row", row);
     this.common.params = { title: 'Edit Site Rule', row };
-    const activeModal = this.modalService.open(AddPlacementSiteRuleComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddPlacementSiteRuleComponent, { container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.getSiteData();

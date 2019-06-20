@@ -115,7 +115,6 @@ export class VehicleTripComponent implements OnInit {
           this.table.data.columns = this.getTableColumns();
           console.log("table:");
           console.log(this.table);
-          // this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
         }
@@ -364,7 +363,7 @@ export class VehicleTripComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Vehicle Trip";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -380,9 +379,9 @@ export class VehicleTripComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         let fodata = res['data'];
-        let left_heading = "FoName:" + fodata['name'];
-        let center_heading = "Report:" + "Vehicle Trip";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        let left_heading = "Customer Name::" + fodata['name'];
+        let center_heading = "Report Name::" + "Vehicle Trip";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);

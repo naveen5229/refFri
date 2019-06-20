@@ -54,6 +54,9 @@ import { DriverAttendanceComponent } from '../driver/driver-attendance/driver-at
 import { DriverDocumentComponent } from '../driver/driver-document/driver-document.component';
 import { LicenceUploadComponent } from '../driver/licence-upload/licence-upload.component';
 import { PendingLicenceComponent } from '../driver/pending-licence/pending-licence.component';
+import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
+import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
+import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
 
 const routes: Routes = [{
   path: '',
@@ -310,39 +313,54 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
   },
   {
-    path:'driver-list',
-    component:DriverListComponent,
-    canActivate:[AuthGuard]
+    path: 'driver-list',
+    component: DriverListComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path:'vehicle-driver-mapping',
-    component:VehicleDriverMappingComponent,
-    canActivate:[AuthGuard]
+    path: 'vehicle-driver-mapping',
+    component: VehicleDriverMappingComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path:'driver-attendance',
-  component:DriverAttendanceComponent,
-  canActivate:[AuthGuard]
+    path: 'driver-attendance',
+    component: DriverAttendanceComponent,
+    canActivate: [AuthGuard]
 
   },
   {
-    path:'driver-document',
-  component:DriverDocumentComponent,
-  canActivate:[AuthGuard]
+    path: 'driver-document',
+    component: DriverDocumentComponent,
+    canActivate: [AuthGuard]
 
   },
   {
-    path:'licence-upload',
-  component:LicenceUploadComponent,
-  canActivate:[AuthGuard]
+    path: 'licence-upload',
+    component: LicenceUploadComponent,
+    canActivate: [AuthGuard]
 
   },
   {
-    path:'pending-licence',
-  component:PendingLicenceComponent,
-  canActivate:[AuthGuard]
+    path: 'pending-licence',
+    component: PendingLicenceComponent,
+    canActivate: [AuthGuard]
 
   },
+  {
+    path: 'lr-pod-receipts',
+    component: LrPodReceiptsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'vehicles',
+    component: VehiclesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'vehicle-odoMeter',
+    component: VehicleOdometerComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 

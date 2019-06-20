@@ -16,11 +16,11 @@ export class UpdateTicketPropertiesComponent implements OnInit {
   id = '';
 
   ticketProperties = {
-    issue_type_id:'',
-    issue_name:'BD-Data Isu - Close Trip',
-    esc_time:'120',
-    compl_rem_time:'180',
-    compl_esc_time:'900',
+    issue_type_id: '',
+    issue_name: 'BD-Data Isu - Close Trip',
+    esc_time: '120',
+    compl_rem_time: '180',
+    compl_esc_time: '900',
     is_reminder: true,
     is_escalate: true,
     is_deliverytime: true,
@@ -35,16 +35,16 @@ export class UpdateTicketPropertiesComponent implements OnInit {
       this.properties = this.common.params.values;
       this.flagValue = this.common.params.flag;
       this.id = this.common.params.foid;
-      this.ticketProperties.issue_type_id=this.properties.issue_id;
-      if(this.flagValue=='edit'){
-        this.ticketProperties.is_deliverytime=this.properties.is_deliverytime;
-        this.ticketProperties.is_escalate=this.properties.is_escalate;
-        this.ticketProperties.is_reminder=this.properties.is_reminder;
-        this.ticketProperties.is_urgent=this.properties.is_urgent;
-        this.ticketProperties.esc_time=this.properties.esc_time;
-        this.ticketProperties.compl_rem_time=this.properties.compl_rem_time;
-        this.ticketProperties.compl_esc_time=this.properties.compl_esc_time;
-        this.ticketProperties.issue_name=this.properties.issue_name;  
+      this.ticketProperties.issue_type_id = this.properties.issue_id;
+      if (this.flagValue == 'edit') {
+        this.ticketProperties.is_deliverytime = this.properties.is_deliverytime;
+        this.ticketProperties.is_escalate = this.properties.is_escalate;
+        this.ticketProperties.is_reminder = this.properties.is_reminder;
+        this.ticketProperties.is_urgent = this.properties.is_urgent;
+        this.ticketProperties.esc_time = this.properties.esc_time;
+        this.ticketProperties.compl_rem_time = this.properties.compl_rem_time;
+        this.ticketProperties.compl_esc_time = this.properties.compl_esc_time;
+        this.ticketProperties.issue_name = this.properties.issue_name;
       }
       console.log('parmas value:properties ', this.properties);
       console.log('parmas value:flagValue ', this.flagValue);
@@ -83,6 +83,7 @@ export class UpdateTicketPropertiesComponent implements OnInit {
           this.common.loading--;
           console.log('res', res['msg']);
           this.common.showToast(res['msg']);
+          this.activeModal.close();
         }, err => {
           this.common.loading--;
           this.common.showError();
@@ -106,6 +107,8 @@ export class UpdateTicketPropertiesComponent implements OnInit {
         .subscribe(res => {
           this.common.loading--;
           console.log('res', res['msg']);
+          this.common.showToast(res['msg']);
+          this.activeModal.close();
         }, err => {
           this.common.loading--;
           this.common.showError();

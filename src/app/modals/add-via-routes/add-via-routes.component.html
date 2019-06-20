@@ -6,34 +6,32 @@
 </div>
 <div class="modal-body">
   <div class="row">
-    <div class="col-4">
+    <div class="col-5">
       <div class="row">
         <div class="col-6">
           <label>Route Name</label>
         </div>
 
         <div class="col-6">
-          <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName">
+          <input type="text" name="routeName" class="form-control" id="routeName" [(ngModel)]="routeData.routeName"
+            placeholder="Route Name.." minlength="5" maxlength="100">
 
         </div>
-      </div>
-
-      <div class="row">
-        <div class="radio-type">
-          <input type="radio" value="site" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Site
-          <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
-        </div>
-
       </div>
 
       <div *ngIf="selectOption=='site'; else map">
         <div class="row">
-          <div class="col-6">
+          <div class="col-3">
             <label>Start Loc</label>
+          </div>
+          <div class="radio-type col-3">
+            <input type="radio" value="site" name="radio" [(ngModel)]="selectOption"
+              (change)="report(selectOption)">Site
+            <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
           </div>
           <div class="col-6">
             <auto-suggestion (onSelected)="selectSite($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-              [display]="['name','sd_loc_name']" placeholder="Search Loc" [preSelected]="null">
+              [display]="['name','sd_loc_name']" placeholder="Start Loc" [preSelected]="null">
             </auto-suggestion>
           </div>
         </div>
@@ -42,34 +40,38 @@
 
       <ng-template #map>
         <div class="row mt-2">
-          <div class="col-6">
-            <label>Name</label>
+          <div class="col-3">
+            <label>Start Loc</label>
+          </div>
+          <div class="radio-type col-3">
+            <input type="radio" value="site" name="radio" [(ngModel)]="selectOption"
+              (change)="report(selectOption)">Site
+            <input type="radio" value="map" name="radio" [(ngModel)]="selectOption" (change)="report(selectOption)">Map
           </div>
           <div class="col-6">
-            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName"
-              (focus)=" isstart = true;">
+            <input type="text" name="name" class="form-control" [(ngModel)]="routeData.placeName "
+              placeholder="Start Loc" (focus)=" isstart = true;" minlength="5" maxlength="100">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label>Lat,Long</label>
+          </div>
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="lat,long" [(ngModel)]="this.routeData.latlong">
           </div>
         </div>
       </ng-template>
-
-
-
-      <div class="row">
-        <div class="radio-type">
-          <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
-            (change)="report2(selectOption2)">Site
-          <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
-            (change)="report2(selectOption2)">Map
-        </div>
-
-      </div>
-
-
-
-      <div *ngIf="selectOption2=='site2'; else map2">
+      <div *ngIf=" selectOption2=='site2' ; else map2">
         <div class="row">
-          <div class="col-6">
+          <div class="col-3">
             <label>End Loc</label>
+          </div>
+          <div class="radio-type col-3">
+            <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
+              (change)="report2(selectOption2)">Site
+            <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
+              (change)="report2(selectOption2)">Map
           </div>
           <div class="col-6">
             <auto-suggestion (onSelected)="selectSite2($event)" url="Suggestion/getSites?typeId=1" seperator="-"
@@ -82,28 +84,36 @@
 
       <ng-template #map2>
         <div class="row mt-2">
-          <div class="col-6">
-            <label>Name</label>
+          <div class="col-3">
+            <label>End Loc</label>
+          </div>
+          <div class="radio-type col-3">
+            <input type="radio" value="site2" name="radio2" [(ngModel)]="selectOption2"
+              (change)="report2(selectOption2)">Site
+            <input type="radio" value="map2" name="radio2" [(ngModel)]="selectOption2"
+              (change)="report2(selectOption2)">Map
           </div>
           <div class="col-6">
             <input type="text" name="name" class="form-control" (focus)=" isstart = false;"
-              [(ngModel)]="routeData.placeName2">
+              [(ngModel)]="routeData.placeName2" placeholder="End Loc" minlength="5" maxlength="100">
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label>Lat,Long</label>
+          </div>
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="long" [(ngModel)]="this.routeData.latlong2">
+          </div>
+        </div>
+
       </ng-template>
-
-
-
-
-
-
-
-
 
 
       <div class="row">
         <div class="col-6">
-          <label>Duration</label>
+          <label>Time(Hr)</label>
 
         </div>
         <div class="col-6">
@@ -117,14 +127,21 @@
 
         </div>
         <div class="col-6">
-          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" [(ngModel)]="routeData.kms">
+          <input type="text" name="kms" id="kms" class="form-control" placeholder="KMS" minlength="1" maxlength="5"
+            [(ngModel)]="routeData.kms">
         </div>
       </div>
 
     </div>
 
-    <div class="col-8" style="position:relative;">
-      <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
+    <div class="col-7" style="position:relative;">
+      <div class="row">
+        <div class="col-4">
+
+          <input name="location" id="moveLoc" [(ngModel)]="location" [value]="location" class="fill-elt form-control" />
+        </div>
+      </div>
+
 
 
       <div class="map" id="map"></div>
