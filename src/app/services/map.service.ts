@@ -7,6 +7,7 @@ declare let google: any;
 })
 export class MapService {
 
+  poly = null;
   map = null;
   mapDiv = null;
   markers = [];
@@ -32,6 +33,7 @@ export class MapService {
   ];
   options = null;
   heatmap = null;
+  polygonPaths = [];
 
   constructor(public common: CommonService) {
   }
@@ -279,6 +281,7 @@ export class MapService {
   }
 
   createCirclesOnPostion(center, radius) {
+    console.log("center,radius", center, radius);
     return new google.maps.Circle({
       strokeColor: '#FF0000',
       strokeOpacity: 1,
@@ -316,6 +319,7 @@ export class MapService {
     resetParams.marker && this.resetMarker(reset, boundsReset);
     resetParams.polygons && this.resetPolygons();
     resetParams.polypath && this.resetPolyPath();
+    this.options ? this.options.polypaths && this.resetPolyPaths() : '';
     this.options ? this.options.clearHeat && this.resetHeatMap() : '';
   }
   resetHeatMap() {
@@ -351,11 +355,14 @@ export class MapService {
       this.polygon.setMap(null);
       this.polygon = null;
     }
-    if (this.polygons.length > 0) {
-      this.polygons.forEach(polygon => {
-        polygon.setMap(null);
+  }
+  resetPolyPaths() {
+    if (this.polygonPaths.length > 0) {
+      console.log("Here2");
+      this.polygonPaths.forEach(path => {
+        path.setMap(null);
       });
-      this.polygons = [];
+      this.polygonPaths = [];
     }
   }
   resetPolyPath() {
@@ -391,7 +398,49 @@ export class MapService {
     }
     let path = this.polygonPath.getPath();
     path.push(latLng);
+    return this.polygonPath;
   }
+  createPolyPathDetached(latLng, polygonOptions?) {
+    console.log("In Here");
+    if (!this.poly) {
+      const defaultPolygonOptions = {
+        strokeColor: '#FF0000',
+        strokeOpacity: 1,
+        strokeWeight: 3,
+        icons: [{
+          icon: this.lineSymbol,
+          offset: '100%'
+        }]
+      }
+      this.poly = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
+      this.poly.setMap(this.map);
+    }
+    let path = this.poly.getPath();
+    path.push(this.createLatLng(latLng.lat, latLng.lng));
+    return this.poly;
+  }
+  undoPolyPath(polyLine?) {
+    let path = polyLine ? polyLine.getPath() : this.polygonPath.getPath();
+    path.pop();
+  }
+
+
+
+  createPolyPathsManual(latLngsAll, afterClick?) {
+    latLngsAll.forEach((latLngAll) => {
+      console.log("hereout");
+      this.poly = null;
+      latLngAll.latLngs.forEach((latLng) => {
+        console.log("herein");
+        this.createPolyPathDetached(latLng);
+      });
+      this.polygonPaths.push(this.poly);
+      this.addListerner(this.poly, 'click', function (event) { afterClick(latLngAll, event); });
+      console.log(this.polygonPaths);
+
+    });
+  }
+
 
   setMapType(typeIndex) {
     let types = ['roadmap', 'satellite', 'hybrid', 'terrain'];

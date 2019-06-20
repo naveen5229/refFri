@@ -1,0 +1,82 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-6 table">
+        <table class="buffer">
+          <tbody>
+            <tr>
+              <td>
+                <input (keydown.enter)="search()" name="name" id="name" [(ngModel)]="position"
+                  class="fill-elt form-control" autocomplete="off" />
+              </td>
+              <td><button (click)="clearAll()" class="btn btn-primary w-100">Clear</button>
+              </td>
+              <td><button (click)="undo()" class="btn btn-primary w-100" name="undo" id="undo">Undo</button></td>
+              <td><input type="number" name="meterRadius" class="form-control" id="meterRadius"
+                  [(ngModel)]="meterRadius">Meter</td>
+
+            </tr>
+            <tr>
+              <td>
+                <input (keydown.enter)="gotoSingle()" placeholder="Site Id" [(ngModel)]="selectedSite"
+                  class="form-control">
+              </td>
+              <td>
+                <input type="text" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc" class="form-control">
+              </td>
+              <td>
+                <button (click)="loadMarkers()" class="btn btn-primary"
+                  style="display: inline-block; margin-right: 5px;">Load Marker</button>
+
+              </td>
+              <td>
+                <button (click)="enterTicket();"
+                  class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Polyline' :'Create Polyline'}}</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3">
+                <div style="text-align:center">
+                  <span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(12)">3</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(15)">4</span>
+                    <span class="zoom-btn" (click)="mapService.zoomMap(18)">5</span>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tbl">
+          <table class=" table table-bordered table-hover">
+            <thead class="thead">
+              <tr>
+                <th style="width:40px;">S.No</th>
+                <th style="width:40px;">Id</th>
+                <th>Name</th>
+                <th>Hot Count</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let remainingElement of remainingList;let i = index;">
+                <td style="width:40px;">{{i+1}}</td>
+                <td style="width:40px;">{{remainingElement.id}}</td>
+                <td>{{remainingElement.name}}</td>
+                <td>{{remainingElement.hotcnt || '0'}}</td>
+                <td (click)="selectedSite = remainingElement.id;gotoSingle();">Action</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div id="map" class="map col-6">
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>
