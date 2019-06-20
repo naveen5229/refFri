@@ -3,6 +3,8 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 
 @Component({
   selector: 'buffer-polyline',
@@ -11,6 +13,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class BufferPolylineComponent implements OnInit {
   remainingList = [];
+  circle = null;
   selectedSite = null;
   siteLatLng = { lat: 0, lng: 90 };
   typeId = 1;
@@ -21,11 +24,16 @@ export class BufferPolylineComponent implements OnInit {
   mergeSiteId = null;
   position = null;
   final = null;
+  meterRadius = 20;
+  currentCenter = null;
+  lat = null;
+  long = null;
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
     private router: Router,
-    private commonService: CommonService) { }
+    private commonService: CommonService,
+    public modalService: NgbModal) { }
 
   ngOnInit() {
     this.getRemainingTable();
@@ -36,10 +44,25 @@ export class BufferPolylineComponent implements OnInit {
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }, 14));
     this.mapService.createPolygonPath();
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
+    this.mapService.addListerner(this.mapService.map, 'click', (event) => {
+      if (this.mapService.isDrawAllow) {
+        console.log("Event", event);
+        this.currentCenter = event.latLng;
+        if (this.circle) {
+          this.circle.setMap(null);
+          this.circle = null;
+        }
+        this.circle = this.mapService.createCirclesOnPostion(event.latLng, this.meterRadius);
+
+      }
+
+
+    });
+
   }
 
   getRemainingTable() {
-    this.apiService.post("SiteFencing/getRemainingSites", { type: -1 })
+    this.apiService.post("SiteFencing/getRemainingSites", { type: -2 })
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
@@ -57,7 +80,7 @@ export class BufferPolylineComponent implements OnInit {
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': -1
+      'typeId': -2
     };
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
@@ -74,25 +97,49 @@ export class BufferPolylineComponent implements OnInit {
   clearAll(loadTable = true) {
     // this.exitTicket();
     this.mapService.isDrawAllow = false;
-
+    this.siteName = null;
+    this.siteLoc = null;
+    this.selectedSite = null;
     if (loadTable) {
 
       this.getRemainingTable();
     }
+    this.meterRadius = 20;
     this.mapService.clearAll();
+    this.mapService.resetPolyPaths();
   }
 
 
+  undo() {
+    if (this.mapService.isDrawAllow) {
+      this.mapService.undoPolyPath();
+      console.log("Here", this.mapService.polygonPath);
+      if (this.circle) {
+        let x = this.mapService.polygonPath.getPath().getArray();
+        this.circle.setCenter(x[x.length - 1]);
+      }
+    }
+  }
+
   enterTicket() {
-    this.mapService.isDrawAllow = true;
-    this.submitPolygon();
+    if (this.selectedSite) {
+
+      this.mapService.isDrawAllow = true;
+      this.submitPolygon();
+    }
+    else {
+      this.commonService.showToast('Select Site First..');
+
+    }
 
   }
 
   submitPolygon() {
+    this.mapService.createCirclesOnPostion(latLngs, this.meterRadius);
     if (this.mapService.polygonPath) {
       var path = "(";
       var latLngs = this.mapService.polygonPath.getPath().getArray();
+
       if (latLngs.length < 4) {
         alert("Site Should Have More Than 3 points Atleast");
         this.mapService.isDrawAllow = true;
@@ -106,11 +153,11 @@ export class BufferPolylineComponent implements OnInit {
       path += ")";
       let params = {
         bufferString: path,
-
-        typeId: -1
+        typeId: -2,
+        siteId: this.selectedSite
       };
       //  console.log("Poly",this.mapService.polygon);
-      this.apiService.post("Test/bufferPolylines", params)
+      this.apiService.post("Buffer/bufferLines", params)
         .subscribe(res => {
           let data = res['data'];
           console.log('Res: ', res['data']);
@@ -126,6 +173,33 @@ export class BufferPolylineComponent implements OnInit {
     }
   }
 
+  search() {
+    console.log("position1", this.position);
+    this.final = this.position.split(",");
+    console.log("array", this.final[0], this.final[1]);
+
+    this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 12);
+    let params = {
+      lat: this.final[0],
+      long: this.final[1],
+
+    };
+    console.log("params", params);
+    this.apiService.post("Buffer/getBuffer", params)
+      .subscribe(res => {
+        let data = res['data'];
+        console.log('Res: ', res['data']);
+        this.mapService.resetPolyPaths();
+        this.mapService.createPolyPathsManual(data, (poly, event) => {
+          console.log("Poly", poly);
+          this.remove(poly.id);
+        });
+      }, err => {
+        console.error(err);
+        this.commonService.showError();
+        this.mapService.isDrawAllow = true;
+      });
+  }
 
 
 
@@ -136,68 +210,32 @@ export class BufferPolylineComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', data);
+        // return;
         this.clearAll(false);
-        this.siteLatLng = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].long) };
+        this.tempData = data;
+        // this.siteLatLng = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].long) };
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
         this.siteName = data[0].name;
         this.selectedSite = site;
+        this.lat = data[0].lat;
+        this.long = data[0].long;
+        if (this.typeId != -2) {
+          this.commonService.showError("select Buffer Zone Site Id");
+        }
         this.getRemainingTable();
-        this.apiService.post("SiteFencing/get", { siteId: this.selectedSite })
+        this.apiService.post("Buffer/getBuffer", { lat: this.lat, long: this.long })
           .subscribe(res => {
             this.commonService.loading++;
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
-            if (data[this.selectedSite]) {
-              this.tempData[0]['color'] = 'f00';
-              this.isUpdate = true;
-            }
-            else
-              this.isUpdate = false;
-            this.mapService.createMarkers(this.tempData);
-            if (count == 1) {
-              this.mapService.createPolyPathsManual(data[Object.keys(data)[0]].latLngs);
-              console.log("Single", data[Object.keys(data)[0]]);
-            }
-            else if (count > 1) {
-              let latLngsArray = [];
-              let show = "Unknown";
-              let isMain = false;
-              let isSec = false;
-              let minDis = 100000;
-              let minIndex = -1;
-              for (const datax in data) {
-                isMain = false;
-                if (data.hasOwnProperty(datax)) {
-                  const datav = data[datax];
-                  if (datax == this.selectedSite) {
-                    isMain = true;
-                  }
-                  else if (minDis > datav.dis) {
-                    this.mergeSiteId = datax;
-                    isMain = false;
-                    minDis = datav.dis;
-                    minIndex = latLngsArray.length;
-                  }
-                  latLngsArray.push({
-                    data: datav.latLngs, isMain: isMain, isSec: isSec, show:
-                      `
-                  Id: ${datax}<br>
-                  Name:${datav.name}<br>
-                  Location:${datav.loc_name}<br>
-                  `
-                  });
-                }
-              }
-              if (minIndex != -1)
-                latLngsArray[minIndex].isSec = true;
-              this.mapService.createPolyPathsManual(latLngsArray);
-            }
-            else {
-              console.log("Else");
-            }
+            this.mapService.resetPolyPaths();
+            this.mapService.createPolyPathsManual(data, (poly, event) => {
+              console.log("Poly", poly);
+              this.remove(poly.id);
+            });
             this.mapService.zoomMap(18.5);
             this.commonService.loading--;
           }, err => {
@@ -214,14 +252,37 @@ export class BufferPolylineComponent implements OnInit {
   }
 
 
-  search() {
-    console.log("position1", this.position);
-    this.final = this.position.split(",");
-    console.log("array", this.final[0], this.final[1]);
 
-    this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 14);
+  remove(row) {
+    console.log("row", row);
 
+
+    let params = {
+      id: row,
+    }
+    if (row) {
+      console.log('id', row._id);
+      this.commonService.params = {
+        title: 'Delete Polyline ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Polyline' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          console.log("data", data);
+          this.commonService.loading++;
+          this.apiService.post('Buffer/bufferDelete', params)
+            .subscribe(res => {
+              this.commonService.loading--;
+              this.commonService.showToast(res['msg']);
+              this.search();
+            }, err => {
+              this.commonService.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
-
 
 }
