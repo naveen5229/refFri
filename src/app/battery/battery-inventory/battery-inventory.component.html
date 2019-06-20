@@ -4,7 +4,7 @@
       <div class="col-sm-8">
         <h5>Battery Inventory</h5>
       </div>
-      <div class="col-sm-4 text-right">
+      <!-- <div class="col-sm-4 text-right">
         <div class="row" *ngIf="userType=='admin'">
           <div class="col-6 pl-0">
             <div class="upload-btn-wrapper">
@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -45,17 +45,17 @@
                   placeholder="Size" [inputId]="'size-' + i"></auto-suggestion>
 
               </td> -->
-            <td width="15%"><input id="TyreNo" name="TyreNo" type="text" placeholder="Enter Tyre number"
-                autocomplete="off" class="form-control" [(ngModel)]="inventory.modelId" (focus)="size(i)">
+            <td width="15%"><input id="battNo" name="battNo" type="text" placeholder="Enter battery number"
+                autocomplete="off" class="form-control" [(ngModel)]="inventory.batteryNo" (focus)="size(i)">
             </td>
             <td width="20%">
               <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off"
-                placeholder="Warrenty Month" [(ngModel)]="inventory.warrMonth" name="date" readonly (focus)="size(i)">
+                placeholder="Warrenty Month" [(ngModel)]="inventory.months" name="date" readonly>
 
             </td>
             <td width="20%">
               <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate(i)"
-                placeholder="Select Date" [value]="inventory.date1 | date: 'dd MMM yyyy'" name="date" readonly>
+                placeholder="Select Date" [value]="inventory.buydate | date: 'dd MMM yyyy'" name="date" readonly>
 
             </td>
 
