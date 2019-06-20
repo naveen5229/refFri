@@ -104,7 +104,7 @@ export class HaltDensityComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.createMarkers(data, false, true, ["id", "name"], (marker) => {
+        this.mapService.createMarkers(data, false, false, ["id", "name"], (marker) => {
           this.apiService.post("Site/getSingleSite", { siteId: marker.id })
             .subscribe(res => {
               let data = res['data'];

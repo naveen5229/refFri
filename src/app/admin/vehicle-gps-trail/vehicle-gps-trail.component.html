@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <smart-table *ngIf="gpsTrail.length" [data]="table.data" [settings]="table.settings"></smart-table>
+    <smart-table *ngIf="gpsTrail &&gpsTrail.length" [data]="table.data" [settings]="table.settings"></smart-table>
 
   </nb-card-body>
 </nb-card>

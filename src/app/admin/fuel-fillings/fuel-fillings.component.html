@@ -47,7 +47,8 @@
       </div>
     </div>
 
-    <smart-table *ngIf="fillingData.length" [data]="table.data" [settings]="table.settings" id="tblfillings">
+    <smart-table *ngIf="fillingData && fillingData.length" [data]="table.data" [settings]="table.settings"
+      id="tblfillings">
     </smart-table>
     <div class="no-data alert alert-danger" role="alert" *ngIf="fillingData.length==0">
       No Data available On That Time Period!

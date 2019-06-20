@@ -31,7 +31,8 @@
   </nb-card-header>
   <nb-card-body>
     <div class="model-body">
-      <smart-table *ngIf="onwardKmpd.length" [data]="table.data" [settings]="table.settings" id="onwardKmpd">
+      <smart-table *ngIf="onwardKmpd && onwardKmpd.length" [data]="table.data" [settings]="table.settings"
+        id="onwardKmpd">
       </smart-table>
     </div>
   </nb-card-body>
