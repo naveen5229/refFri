@@ -110,6 +110,7 @@ export class BufferPolylineComponent implements OnInit {
       this.getRemainingTable();
     }
     this.meterRadius = 20;
+    this.circle.setMap(null);
     this.mapService.clearAll();
     this.mapService.resetPolyPaths();
   }
@@ -153,7 +154,6 @@ export class BufferPolylineComponent implements OnInit {
       for (var i = 0; i < latLngs.length; i++) {
         path += latLngs[i].lat() + " " + latLngs[i].lng() + ",";
       }
-      path += latLngs[0].lat() + " " + latLngs[0].lng() + ",";
       path = path.substr(0, path.length - 1);
       path += ")";
       let params = {
@@ -172,7 +172,7 @@ export class BufferPolylineComponent implements OnInit {
           this.commonService.showToast("Created");
           this.getRemainingTable();
           let position = this.lat + "," + this.long;
-          this.clearAll(false);
+          this.clearAll();
           this.position = position;
           this.search();
         }, err => {
@@ -183,13 +183,16 @@ export class BufferPolylineComponent implements OnInit {
 
     }
   }
+  refersh() {
+    this.getRemainingTable();
+  }
 
   search() {
     console.log("position1", this.position);
     this.final = this.position.split(",");
     console.log("array", this.final[0], this.final[1]);
 
-    this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 12);
+    this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 15);
     let params = {
       lat: this.final[0],
       long: this.final[1],
@@ -226,7 +229,7 @@ export class BufferPolylineComponent implements OnInit {
         let data = res['data'];
         console.log('Res: ', data);
         // return;
-        this.clearAll(false);
+        this.clearAll();
         this.tempData = data;
         // this.siteLatLng = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].long) };
         this.typeId = data[0].type_id;
