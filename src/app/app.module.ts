@@ -175,6 +175,8 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
 
 
 
+
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -316,6 +318,8 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     FuelEditComponent,
     AddViaRoutesComponent,
     VehicleTyreSummaryComponent,
+
+
 
   ],
   entryComponents: [
