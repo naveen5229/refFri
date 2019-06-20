@@ -19,8 +19,8 @@ export class BufferPolylineComponent implements OnInit {
   tempData = [];
   isUpdate = false;
   mergeSiteId = null;
-  lat = null;
-  longs = null;
+  position = null;
+  final = null;
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
@@ -34,7 +34,6 @@ export class BufferPolylineComponent implements OnInit {
     this.mapService.mapIntialize("map");
     this.mapService.zoomAt({ lat: 26.928826486644528, lng: 75.74931625366207 }, 14);
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }, 14));
-    this.mapService.autoSuggestion("location", (place, lat, lng) => this.mapService.zoomAt({ lat: this.lat, lng: this.longs }, 14));
     this.mapService.createPolygonPath();
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
   }
@@ -145,7 +144,7 @@ export class BufferPolylineComponent implements OnInit {
         this.siteName = data[0].name;
         this.selectedSite = site;
         this.getRemainingTable();
-        this.apiService.post("SiteFencing/getSiteFences", { siteId: this.selectedSite })
+        this.apiService.post("SiteFencing/get", { siteId: this.selectedSite })
           .subscribe(res => {
             this.commonService.loading++;
             let data = res['data'];
@@ -212,6 +211,16 @@ export class BufferPolylineComponent implements OnInit {
       });
 
     this.commonService.loading--;
+  }
+
+
+  search() {
+    console.log("position1", this.position);
+    this.final = this.position.split(",");
+    console.log("array", this.final[0], this.final[1]);
+
+    this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 14);
+
   }
 
 

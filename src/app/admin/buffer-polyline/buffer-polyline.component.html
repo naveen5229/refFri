@@ -7,10 +7,13 @@
 
             <tr>
               <td>
-                <input type="text" placeholder="lat" id="change" [(ngModel)]="lat" class="form-control">
-                <input type="text" placeholder="Longs" id="location" [(ngModel)]="long" class="form-control">
+
+                <input (keydown.enter)="search()" name="name" id="name" [(ngModel)]="position"
+                  class="fill-elt form-control" autocomplete="off" />
 
               </td>
+              <td><button (click)="clearAll()" class="btn btn-primary"
+                  style="display: inline-block; margin-right: 5px;  ">Clear</button></td>
 
 
             </tr>
