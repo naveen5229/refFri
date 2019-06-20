@@ -62,9 +62,11 @@ export class BufferPolylineComponent implements OnInit {
   }
 
   getRemainingTable() {
+    this.commonService.loading++;
     this.apiService.post("SiteFencing/getRemainingSites", { type: -2 })
       .subscribe(res => {
         let data = res['data'];
+        this.commonService.loading--;
         console.log('Res: ', res['data']);
         this.remainingList = data;
       }, err => {
@@ -82,8 +84,11 @@ export class BufferPolylineComponent implements OnInit {
       'lng2': boundBox.lng2,
       'typeId': -2
     };
+    this.commonService.loading++;
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
+        this.commonService.loading--;
+
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.clearAll();
@@ -157,13 +162,19 @@ export class BufferPolylineComponent implements OnInit {
         siteId: this.selectedSite
       };
       //  console.log("Poly",this.mapService.polygon);
+      this.commonService.loading++;
       this.apiService.post("Buffer/bufferLines", params)
         .subscribe(res => {
+          this.commonService.loading--;
+
           let data = res['data'];
           console.log('Res: ', res['data']);
           this.commonService.showToast("Created");
           this.getRemainingTable();
+          let position = this.lat + "," + this.long;
           this.clearAll(false);
+          this.position = position;
+          this.search();
         }, err => {
           console.error(err);
           this.commonService.showError();
@@ -184,9 +195,12 @@ export class BufferPolylineComponent implements OnInit {
       long: this.final[1],
 
     };
+    this.commonService.loading++;
     console.log("params", params);
     this.apiService.post("Buffer/getBuffer", params)
       .subscribe(res => {
+        this.commonService.loading--;
+
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.mapService.resetPolyPaths();
@@ -208,6 +222,7 @@ export class BufferPolylineComponent implements OnInit {
     let site = this.selectedSite;
     this.apiService.post("Site/getSingleSite", { siteId: this.selectedSite })
       .subscribe(res => {
+        this.commonService.loading--;
         let data = res['data'];
         console.log('Res: ', data);
         // return;
@@ -224,10 +239,12 @@ export class BufferPolylineComponent implements OnInit {
         if (this.typeId != -2) {
           this.commonService.showError("select Buffer Zone Site Id");
         }
+
         this.getRemainingTable();
+        this.commonService.loading++;
         this.apiService.post("Buffer/getBuffer", { lat: this.lat, long: this.long })
           .subscribe(res => {
-            this.commonService.loading++;
+            this.commonService.loading--;
             let data = res['data'];
             let count = Object.keys(data).length;
             console.log('Res: ', res['data']);
@@ -236,8 +253,9 @@ export class BufferPolylineComponent implements OnInit {
               console.log("Poly", poly);
               this.remove(poly.id);
             });
-            this.mapService.zoomMap(18.5);
-            this.commonService.loading--;
+            this.mapService.createMarkers(this.tempData);
+            this.mapService.setMapType(1);
+
           }, err => {
             console.error(err);
             this.commonService.showError();
@@ -248,7 +266,6 @@ export class BufferPolylineComponent implements OnInit {
         this.commonService.showError();
       });
 
-    this.commonService.loading--;
   }
 
 
