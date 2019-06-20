@@ -110,7 +110,8 @@ export class BufferPolylineComponent implements OnInit {
       this.getRemainingTable();
     }
     this.meterRadius = 20;
-    this.circle.setMap(null);
+    if (this.circle)
+      this.circle.setMap(null);
     this.mapService.clearAll();
     this.mapService.resetPolyPaths();
   }
