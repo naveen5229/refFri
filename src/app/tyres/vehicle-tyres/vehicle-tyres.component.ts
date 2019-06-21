@@ -32,6 +32,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
     {
       tyreNo: null,
@@ -39,6 +44,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
     {
       tyreNo: null,
@@ -46,6 +56,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
     {
       tyreNo: null,
@@ -53,6 +68,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
   ]
   vehicleNo = "";
@@ -95,6 +115,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     });
   }
 
