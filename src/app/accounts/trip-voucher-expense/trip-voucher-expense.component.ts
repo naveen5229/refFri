@@ -180,6 +180,16 @@ export class TripVoucherExpenseComponent implements OnInit {
 
   }
 
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    let activeId = document.activeElement.id;
+    console.log('Active event', event);
+    if ((key == 'backspace'||key == 'delete') && activeId =='suggestion' ) {
+      /***************************** Handle Row Enter ******************* */
+     this.selectedVehicle.id=0;
+    }
+
+  }
   checkedAllSelected() {
     this.checkedTrips = [];
     for (let i = this.findFirstSelectInfo('index'); i <= this.findLastSelectInfo('index'); i++) {
@@ -391,10 +401,12 @@ export class TripVoucherExpenseComponent implements OnInit {
     this.getPendingOnEditTrips();
     this.getPendingTripsEditTime(tripVoucher.y_id);
     this.getVocherEditTime(tripVoucher.y_voucher_id);
-    if(this.routId)
-    {
+    // if(this.routId)
+    // {
+    // this.getTripsExpDriver(tripVoucher.y_id);
+    // }
     this.getTripsExpDriver(tripVoucher.y_id);
-    }
+
     const params = {
       voucherId: tripVoucher.y_voucher_id,
       // startDate: tripVoucher.startdate,
@@ -422,11 +434,9 @@ export class TripVoucherExpenseComponent implements OnInit {
        
    
 
-    if(this.routId==1){
+    if(tripVoucher.y_vouchertype_id==-151){
       let tripExpDriver=this.tripExpDriver;
     this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
-
-      
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
@@ -438,7 +448,9 @@ export class TripVoucherExpenseComponent implements OnInit {
         this.getTripExpences();
       });
     }else{
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData };
+      let tripExpDriver=this.tripExpDriver;
+      this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
+    // this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData };
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {

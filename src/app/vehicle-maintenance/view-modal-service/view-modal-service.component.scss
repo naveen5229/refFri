@@ -1,3 +1,7 @@
 .no-record {
     color: red
 }
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+    max-height: calc(100vh - 182px);
+}

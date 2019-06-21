@@ -26,8 +26,8 @@
         </smart-table>
       </div>
       <div class="col-sm-6" *ngIf="filteredVehiclePlacements.length">
-        <smart-table *ngIf="filteredVehiclePlacements.length" [data]="table1.data" [settings]="table1.settings"
-          id="tbldocs">
+        <smart-table *ngIf="filteredVehiclePlacements && filteredVehiclePlacements.length" [data]="table1.data"
+          [settings]="table1.settings" id="tbldocs">
         </smart-table>
       </div>
     </div>

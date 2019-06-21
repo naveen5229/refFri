@@ -11,12 +11,12 @@
     <div class="col-sm-2">
       <input type="text" name="vehicle" readonly [(ngModel)]="vehicleRegNo" class="form-control">
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-3">
       <uj-date-time-picker (onChanged)="startDate = $event" [dateTimeValue]="startDate">
       </uj-date-time-picker>
     </div>
 
-    <div class="col-sm-2">
+    <div class="col-sm-3">
       <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate">
       </uj-date-time-picker>
       <!-- <input type="text" class="form-control" [ngModel]="endDate | customDate : 'dd-MM-yyyy'" name="end"

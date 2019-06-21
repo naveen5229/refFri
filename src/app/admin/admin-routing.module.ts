@@ -35,6 +35,7 @@ import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/tri
 import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fuel-average-analysis.component';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { BeehiveComponent } from './beehive/beehive.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
@@ -49,7 +50,12 @@ import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/cons
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
+import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
+import { ViewModalServiceComponent } from '../vehicle-maintenance/view-modal-service/view-modal-service.component';
+import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
+import { ViaRoutesComponent } from './via-routes/via-routes.component';
+import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 
 const routes: Routes = [{
     path: '',
@@ -58,6 +64,11 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: VehicleStatusChangeComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'beehive',
+            component: BeehiveComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -286,8 +297,33 @@ const routes: Routes = [{
             canActivate: [RouteGuard]
         },
         {
+            path: 'lr-diagnostics',
+            component: LrDiagnosticsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
             path: 'vsc-diagnosis',
             component: VscDiagnosisComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'view-modal-service',
+            component: ViewModalServiceComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'view-sub-modal-service',
+            component: ViewSubModalServiceComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'via-routes',
+            component: ViaRoutesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'buffer-polyline',
+            component: BufferPolylineComponent,
             canActivate: [RouteGuard]
         }
 

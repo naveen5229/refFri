@@ -70,17 +70,20 @@ export class UserService {
       { id: 39, route: '/admin/toll-transaction-summary' },
       { id: 40, route: '/admin/manual-toll-transaction-summary' },
       { id: 41, route: '/admin/vehiclewise-tolltransaction' },
-
-      { id: 39, route: '/admin/pending-vehicle' },
-      { id: 40, route: '/admin/halt-density' },
-      { id: 41, route: '/admin/placement-site-rule' },
-      { id: 42, route: '/admin/fuel-average-issues' },
-      { id: 43, route: '/admin/consolidate-fuel-average' },
-      { id: 44, route: '/admin/fuel-analysis' },
-      { id: 45, route: '/admin/vehicles' },
-      { id: 46, route: '/admin/trip-analysis' },
-      { id: 47, route: '/admin/vsc-diagnosis' },
-
+      { id: 42, route: '/admin/pending-vehicle' },
+      { id: 43, route: '/admin/halt-density' },
+      { id: 44, route: '/admin/placement-site-rule' },
+      { id: 45, route: '/admin/fuel-average-issues' },
+      { id: 46, route: '/admin/consolidate-fuel-average' },
+      { id: 47, route: '/admin/fuel-analysis' },
+      { id: 48, route: '/admin/vehicles' },
+      { id: 49, route: '/admin/trip-analysis' },
+      { id: 50, route: '/admin/vsc-diagnosis' },
+      { id: 51, route: '/admin/view-modal-service' },
+      { id: 52, route: '/admin/view-sub-modal-service' },
+      { id: 53, route: '/admin/lr-diagnostics' },
+      { id: 54, route: '/admin/via-routes' },
+      { id: 55, route: '/admin/buffer-polyline' },
 
     ]
   }

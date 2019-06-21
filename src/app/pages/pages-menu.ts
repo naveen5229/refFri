@@ -48,6 +48,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-distance',
         home: true,
       },
+      {
+        title: 'Day Wise Vehicle Distance',
+        icon: 'fas fa-road',
+        link: '/pages/daywise-vehicle-distance',
+        home: true,
+      },
       // {
       //   title: 'Vehicle Trip States',
       //   icon: 'fas fa-map-marked',
@@ -64,6 +70,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Trends',
         icon: 'fa fa-line-chart',
         link: '/pages/trends'
+      },
+      {
+        title: 'Vehicle OdoMeter',
+        icon: 'fa fa-tachometer-alt',
+        link: '/pages/vehicle-odoMeter'
       },
 
     ]
@@ -112,23 +123,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
       {
         title: 'Generate LR',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr',
       },
       {
         title: 'Generate LTL',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr-no-vehicles',
       },
       {
         title: 'Generate LR Manifest',
-        icon: 'fa fa-pencil',
+        icon: 'fas fa-receipt',
         link: '/pages/generate-lr-mainfesto',
       },
       {
         title: 'View LR Manifest',
-        icon: 'fa fa-pencil',
+        icon: 'fa fa-eye',
         link: '/pages/view-manifesto',
+      },
+      {
+        title: 'LR Pod Receipts',
+        icon: 'fa fa-eye',
+        link: '/pages/lr-pod-receipts',
       },
       {
         title: 'Expenses',
@@ -171,6 +187,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/vehicle-performance',
         home: true,
       },
+      {
+        title: 'Vehicles',
+        icon: 'fas fa-info-circle',
+        link: '/pages/vehicles',
+        home: true,
+      },
     ]
   },
 
@@ -186,13 +208,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Fuel Mileage',
-        icon: 'fa fa-signal',
+        icon: 'fas fa-tachometer-alt',
         link: '/pages/fuel-average-analysis',
         home: true,
       },
       {
         title: 'Remaining Fuel',
-        icon: 'fa fa-signal',
+        icon: 'fas fa-history',
         link: '/pages/remaining-fuel',
         home: true,
       },
@@ -228,10 +250,69 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ]
   },
 
+
+  {
+    title: 'Driver',
+    icon: 'fa fa-user',
+    children: [{
+      title: 'driver Performance ',
+      icon: 'fa fa-chart-bar',
+      link: '/pages/driver-performance',
+      home: true,
+    },
+    {
+      title: 'Driver List ',
+      icon: 'fa fa-list',
+      link: '/pages/driver-list',
+      home: true,
+    },
+
+    {
+
+      title: 'Vehicle Driver Mapping',
+      icon: 'fa fa-map-marker',
+      link: '/pages/vehicle-driver-mapping',
+      home: true,
+    },
+    {
+
+      title: 'Attendace List',
+      icon: 'fa fa-clock-o',
+      link: '/pages/driver-attendance',
+      home: true,
+    },
+    {
+
+      title: 'Driver Document',
+      icon: 'fa fa-book',
+      link: '/pages/driver-document',
+      home: true,
+    },
+    {
+
+      title: 'Licence Upload',
+      icon: 'fas fa-address-card',
+      link: '/pages/licence-upload',
+      home: true,
+    },
+    {
+
+      title: 'Pending Licence',
+      icon: 'fas fa-align-justify',
+      link: '/pages/pending-licence',
+      home: true,
+    }
+    ]
+  },
   {
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
+  },
+  {
+    title: 'Battery',
+    icon: 'fa fa-cog',
+    link: '/battery/battery-inventory'
   },
 
 
@@ -245,29 +326,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fas fa-tools',
     link: '/vehicle-maintenance/add-vehicle-maintenance'
   },
-  {
-    title: 'Driver',
-    icon: 'fa fa-user',
-    children: [{
-      title: 'driver Performance ',
-      icon: 'fa fa-book',
-      link: '/pages/driver-performance',
-      home: true,
-    }]
-  },
 
-  // {
-  //   title: 'Placement Delay Faults',
-  //   icon: 'fas fa-list',
-  //   link: '/pages/placement-delay-faults',
-  //   home: true,
-  // },
-
-  // {
-  //   title: 'Short Target',
-  //   icon: 'fas fa-sort-amount-up',
-  //   link: '/pages/short-target',
-  //   home: true,
-  // },
 
 ];

@@ -15,6 +15,7 @@ export class TankEmptyDetailsComponent implements OnInit {
   fillingData = [];
   moveLoc = { place: '', lat: 0, lng: 0 };
   siteLoc = '';
+  odometer = 0;
 
   // selectedSite = null;
   liter = null;
@@ -61,6 +62,7 @@ export class TankEmptyDetailsComponent implements OnInit {
       location: this.moveLoc.place,
       lat: this.moveLoc.lat,
       long: this.moveLoc.lng,
+      odo_val: this.odometer
     }
     console.log("params:", params);
 
@@ -68,9 +70,13 @@ export class TankEmptyDetailsComponent implements OnInit {
     this.api.post('Fuel/setTankEmptyDetails', params)
       .subscribe(res => {
         this.common.loading--;
-        this.activeModal.close();
-
-
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+          this.activeModal.close();
+        }
+        else {
+          this.common.showError(res['data']);
+        }
       }, err => {
         this.common.loading--;
         console.log(err);

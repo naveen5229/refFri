@@ -60,7 +60,7 @@ export class VehicleNextServiceDetailComponent implements OnInit {
           this.common.showToast("Successfully added");
           setTimeout(() => {
             this.activeModal.close({ data: res['data'][0].r_id });
-          }, 100);
+          }, 1000);
         } else
           this.common.showError(res['data'][0].r_msg);
 

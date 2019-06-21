@@ -72,7 +72,8 @@
       </div> -->
     <div>
 
-      <smart-table *ngIf="tripLogs.length" [data]="table.data" [settings]="table.settings" id='tbldocs'></smart-table>
+      <smart-table *ngIf="tripLogs && tripLogs.length" [data]="table.data" [settings]="table.settings" id='tbldocs'>
+      </smart-table>
       <br>
     </div>
   </nb-card-body>

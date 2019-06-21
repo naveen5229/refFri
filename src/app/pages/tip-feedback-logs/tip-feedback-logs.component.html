@@ -26,8 +26,10 @@
               placeholder="End Date" (click)="getDate('end')" />
           </div>
           <div class="col-sm-3">
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+            <div class="search_vehicle_input">
+              <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+                display="regno" placeholder="Enter Vehicle Number" style="width:60%;"></auto-suggestion>
+            </div>
           </div>
           <div class="col-sm-3">
             <button class="btn btn-primary m-0" (click)="getFeedbackLogs()">submit</button>
@@ -42,7 +44,8 @@
     </div> -->
 
     <div>
-      <smart-table *ngIf="activitySummary.length" [data]="table.data" [settings]="table.settings" id="feedbackLogs">
+      <smart-table *ngIf="activitySummary && activitySummary.length" [data]="table.data" [settings]="table.settings"
+        id="feedbackLogs">
       </smart-table>
     </div>
 

@@ -16,12 +16,16 @@
           <td>
             <div class="row">
               <div class="col-sm-11">
-                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.date" name="date"
-                  (focusout)="checkDateFormat(mainfesto.date,'date')" placeholder="DD/MM/YYYY">
+
+                <uj-date-time-picker [isTime]="false" (onChanged)="mainfesto.date = $event"
+                  [dateTimeValue]="mainfesto.date">
+                </uj-date-time-picker>
+                <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.date" name="date"
+                  (focusout)="checkDateFormat(mainfesto.date,'date')" placeholder="DD/MM/YYYY"> -->
               </div>
-              <div class="col-sm-1 pl-0">
+              <!-- <div class="col-sm-1 pl-0">
                 <span style='cursor:pointer;' (click)="getDate('date')"><i class="icon fa fa-calendar add"></i></span>
-              </div>
+              </div> -->
             </div>
           </td>
         </tr>
@@ -79,14 +83,18 @@
           <td><label>Eway Bill Expiry Date</label></td>
           <td>
             <div class="row">
-              <div class="col-sm-11">
-                <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.date" name="date"
-                  (focusout)="checkDateFormat(mainfesto.date,'ewayExpDate')" placeholder="DD/MM/YYYY">
+              <div class="col-sm-12">
+
+                <uj-date-time-picker [isTime]="false" (onChanged)="mainfesto.ewayExpDate = $event"
+                  [dateTimeValue]="mainfesto.ewayExpDate">
+                </uj-date-time-picker>
+                <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="mainfesto.ewayExpDate"
+                  name="date" (focusout)="checkDateFormat(mainfesto.date,'ewayExpDate')" placeholder="DD/MM/YYYY"> -->
               </div>
-              <div class="col-sm-1 pl-0">
+              <!-- <div class="col-sm-1 pl-0">
                 <span style='cursor:pointer;' (click)="getDate('ewayExpDate')"><i
                     class="icon fa fa-calendar add"></i></span>
-              </div>
+              </div> -->
             </div>
           </td>
         </tr>
@@ -165,6 +173,34 @@
             <td>Balance Amount</td>
             <td>
               <input type="text" [(ngModel)]=mainfesto.balanceAmount class="form-control" placeholder="Enter Balance">
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+      <table class="table table-bordered">
+        <tbody *ngFor="let otherDetail of otherDetails; let i = index;">
+          <tr>
+            <td>
+              <label> Title </label>
+            </td>
+            <td>
+              <input class="form-control" type="text" list="otherTitles" name="companies-type"
+                [(ngModel)]="otherDetail.title">
+              <datalist id="otherTitles">
+                <option *ngFor="let otherTitle of otherTitles;" [value]="otherTitle.name"></option>
+              </datalist>
+            </td>
+            <td>
+              <label>Value </label>
+            </td>
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="otherDetail.value">
+            </td>
+            <td>
+              <button (click)="addMore()" *ngIf="i == otherDetails.length-1"><i class="fa fa-plus add"></i>
+              </button>
+              <button (click)="otherDetails.splice(i,1)" *ngIf="i !== 0"> <i class="fa fa-trash remove"></i> </button>
             </td>
           </tr>
         </tbody>

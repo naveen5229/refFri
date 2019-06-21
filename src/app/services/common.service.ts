@@ -18,6 +18,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
+import { elementAt } from "rxjs/operators";
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -75,8 +76,10 @@ export class CommonService {
     private datePipe: DatePipe
   ) { }
 
-  showError(msg?) {
-    this.showToast(msg || "Something went wrong! try again.", "danger");
+  showError(msg?, err?) {
+    let message = msg || 'Something went wrong! try again.';
+    message += err ? ' Error Code: ' + err.status : '';
+    this.showToast(message, "danger");
   }
 
   ucWords(str) {
@@ -167,6 +170,7 @@ export class CommonService {
       );
     }
   }
+
   dateFormatternew(date, type = "YYYYMMDD", isTime = true, separator = "-") {
     let d = new Date(date);
     let year = d.getFullYear();
@@ -231,6 +235,11 @@ export class CommonService {
   changeDateformat1(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy");
+  }
+  changeTimeformat(time) {
+    let hours = Math.trunc(time / 60);
+    let minutes = time % 60;
+    return hours + ":" + minutes;
   }
 
   timeFormatter(date) {
@@ -547,7 +556,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
@@ -620,7 +629,7 @@ export class CommonService {
 
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
+            let attrval = eltinput && eltinput.getAttribute("title");
             rowdata.push(attrval);
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
@@ -682,6 +691,7 @@ export class CommonService {
         doc.setFont("times", "bold", "text-center");
         doc.text(center_heading, x - hdglen - 40, y);
       }
+      doc.text(time, 30, 60);
       y = 15;
       doc.addImage(eltimg, 'JPEG', (pageWidth - 110), 15, 50, 50, 'logo', 'NONE', 0);
       doc.setFontSize(12);
@@ -742,7 +752,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -750,8 +760,10 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
+
     let leftData = { left_heading };
     let centerData = { center_heading };
+    let doctime = { time };
 
     let info = [];
     let hdgs = {};
@@ -759,7 +771,7 @@ export class CommonService {
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
-    info.push(centerData);
+    info.push(centerData, doctime);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
@@ -822,7 +834,7 @@ export class CommonService {
             rowdata[arr_hdgs[j]] = attrval;
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute('title');
+            let attrval = eltinput && eltinput.getAttribute('title');
             rowdata[arr_hdgs[j]] = attrval;
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
@@ -1128,4 +1140,14 @@ export class CommonService {
     }
     return res;
   }
+
+  loaderHandling(action = 'hide') {
+    if (this.loading == 0 && action == 'hide') return;
+    else if (this.loading < 0) {
+      this.loading = 0;
+      return;
+    } else if (action == 'show') this.loading++;
+    else this.loading--;
+  }
+
 }

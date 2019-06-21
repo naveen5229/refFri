@@ -115,7 +115,6 @@ export class VehicleTripComponent implements OnInit {
           this.table.data.columns = this.getTableColumns();
           console.log("table:");
           console.log(this.table);
-          // this.showTable = true;
         } else {
           this.common.showToast('No Record Found !!');
         }
@@ -237,7 +236,7 @@ export class VehicleTripComponent implements OnInit {
     } else {
       this.common.params = vehicleTrip;
       console.log("vehicleTrip", vehicleTrip);
-      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+      const activeModal = this.modalService.open(VehicleTripUpdateComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
         console.log("data", data.respone);
 
@@ -278,7 +277,7 @@ export class VehicleTripComponent implements OnInit {
   openAddTripModal() {
     this.common.params = { vehId: -1 };
     //console.log("open add trip maodal", this.common.params.vehId);
-    const activeModal = this.modalService.open(AddTripComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
+    const activeModal = this.modalService.open(AddTripComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       this.getVehicleTrips();
 
@@ -311,7 +310,7 @@ export class VehicleTripComponent implements OnInit {
 
   update(vehicleTrip) {
     this.common.params = { vehicleTrip: vehicleTrip };
-    const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' })
+    const activeModal = this.modalService.open(UpdateTripDetailComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' })
     activeModal.result.then(data => {
       this.getVehicleTrips();
 
@@ -364,7 +363,7 @@ export class VehicleTripComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Vehicle Trip";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -380,9 +379,9 @@ export class VehicleTripComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         let fodata = res['data'];
-        let left_heading = "FoName:" + fodata['name'];
-        let center_heading = "Report:" + "Vehicle Trip";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        let left_heading = "Customer Name::" + fodata['name'];
+        let center_heading = "Report Name::" + "Vehicle Trip";
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);

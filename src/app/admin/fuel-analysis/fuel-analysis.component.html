@@ -24,6 +24,7 @@
       <div class="col-2">
         <button class="btn btn-primary primay_btn" (click)="getreport()">PumpFuelFilling</button>
       </div>
+
     </div>
     <div class="row">
       <div class="col-md-10 buttons" style="margin-top: 20px;">
@@ -35,6 +36,8 @@
           style="margin:0px; margin-left: 10px; cursor: pointer;">Mapping Is Full</button>
         <button id="populateFAL" name="populate-fal" class="btn btn-primary" (click)="populateFAL()"
           style="margin:0px; margin-left: 15px; cursor: pointer;">Populate Fuel Average Logs</button>
+        <button id="populateFAL" name="modal-wise-fuelAvg" class="btn btn-primary" (click)="modalWiseFuel()"
+          style="margin:0px; margin-left: 15px; cursor: pointer;">Modal Wise Fuel Avg</button>
         <!-- <button id="fuel-isFuel" name="fuel-isFuel" class="btn btn-primary" (click)="getisFuel()"
             style="margin:0px; margin-left: 15px; cursor: pointer;">is FullMapping</button>
           <button id="empty-fuel-details" name="empty-fuel-details" class="btn btn-primary"

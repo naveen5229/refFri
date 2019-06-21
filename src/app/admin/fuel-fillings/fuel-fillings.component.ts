@@ -108,7 +108,7 @@ export class FuelFillingsComponent implements OnInit {
 
   openData(rowfilling) {
     this.common.params = { rowfilling, title: 'Edit Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
 
     });
@@ -128,7 +128,7 @@ export class FuelFillingsComponent implements OnInit {
       id: null
     };
     this.common.params = { rowfilling, title: 'Add Fuel Filling' };
-    const activeModal = this.modalService.open(EditFillingComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(EditFillingComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         window.location.reload();
@@ -137,7 +137,7 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   addCsv() {
-    const activeModal = this.modalService.open(ImportFillingsComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportFillingsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // if (data.response) {
       //   window.location.reload();
@@ -227,7 +227,7 @@ export class FuelFillingsComponent implements OnInit {
       });
   }
   getemptyFueldetails() {
-    this.modalService.open(TankEmptyDetailsComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    this.modalService.open(TankEmptyDetailsComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
   }
 
 
@@ -242,7 +242,7 @@ export class FuelFillingsComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Fuel Filling";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);

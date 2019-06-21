@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'lorry-reccipts',
   templateUrl: './lorry-reccipts.component.html',
-  styleUrls: ['./lorry-reccipts.component.scss','../pages.component.css']
+  styleUrls: ['./lorry-reccipts.component.scss', '../pages.component.css']
 })
 export class LorryRecciptsComponent implements OnInit {
   receipts = [];
@@ -20,8 +20,8 @@ export class LorryRecciptsComponent implements OnInit {
   viewImages = null;
   activeImage = 'lr_image';
   viewType = 'allLR';
-  startDate='';
-  endDate='';
+  startDate = '';
+  endDate = '';
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -31,13 +31,13 @@ export class LorryRecciptsComponent implements OnInit {
     public route: ActivatedRoute,
     private modalService: NgbModal,
     public renderer: Renderer) {
-      
-      let today;
-      today = new Date();
-      this.endDate = this.common.dateFormatter(today);
-      this.startDate=this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-      console.log('dates ',this.endDate,this.startDate)
-      this.getLorryReceipts();
+
+    let today;
+    today = new Date();
+    this.endDate = this.common.dateFormatter(today);
+    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
+    console.log('dates ', this.endDate, this.startDate)
+    this.getLorryReceipts();
 
 
   }
@@ -48,13 +48,13 @@ export class LorryRecciptsComponent implements OnInit {
 
   getLorryReceipts() {
     console.log('viewtype:', this.viewType);
-     var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0],);
+    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
     let params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
-      endDate:  this.common.dateFormatter1( enddate.setDate( enddate.getDate() + 1 )).split(' ')[0],
+      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
       type: this.viewType
-    }; 
-    
+    };
+
     ++this.common.loading;
     this.api.post('FoDetails/getLorryStatus', params)
       .subscribe(res => {
@@ -90,18 +90,18 @@ export class LorryRecciptsComponent implements OnInit {
     const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout' });
   }
 
-  printLr(receipt){
-    
+  printLr(receipt) {
 
-    console.log("receipts",receipt);
-    this.common.params = {lrId: receipt.lr_id }
+
+    console.log("receipts", receipt);
+    this.common.params = { lrId: receipt.lr_id }
     const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
 
     });
   }
-   
+
   setTable() {
     let headings = {
       LRId: { title: 'LR Id', placeholder: 'LR Id' },
@@ -109,13 +109,13 @@ export class LorryRecciptsComponent implements OnInit {
       LRNo: { title: 'LR No', placeholder: 'LR No' },
       LRDate: { title: 'LR Date', placeholder: 'LR Date' },
       Consigner: { title: 'Consigner', placeholder: 'Consigner' },
-      consignee: { title: 'consignee', placeholder: 'consignee'},
-      Source: { title: 'Source', placeholder: 'Source'},
-      Destination: { title: 'Destination', placeholder: 'Destination'},
-      AddTime: { title: 'AddTime', placeholder: 'AddTime'},
-      Image: { title: 'Image', placeholder: 'Image'},
-      Print: { title: 'Print', placeholder: 'Print'},
-      
+      consignee: { title: 'consignee', placeholder: 'consignee' },
+      Source: { title: 'Source', placeholder: 'Source' },
+      Destination: { title: 'Destination', placeholder: 'Destination' },
+      AddTime: { title: 'AddTime', placeholder: 'AddTime' },
+      Image: { title: 'Image', placeholder: 'Image' },
+      Action: { title: 'Action', placeholder: 'Action' },
+
     };
 
     // if (this.user._loggedInBy == 'admin') {
@@ -137,40 +137,40 @@ export class LorryRecciptsComponent implements OnInit {
     this.receipts.map(R => {
 
       let column = {
-      LRId: { value: R.lr_id },
-      VehiceNo: { value: R.regno },
-      LRNo: { value: R.lr_no },
-      LRDate: { value: this.datePipe.transform(R.lr_date, 'dd MMM HH:mm ') },
-      Consigner: { value: R.lr_consigner_name },
-      consignee: { value: R.lr_consignee_name },
-      Source: { value: R.lr_source},
-      Destination: { value: R.lr_destination },
-      AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ')  },
-      Image: { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) },
-      Print: { value: `<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R) } 
-     };
+        LRId: { value: R.lr_id },
+        VehiceNo: { value: R.regno },
+        LRNo: { value: R.lr_no },
+        LRDate: { value: this.datePipe.transform(R.lr_date, 'dd MMM HH:mm ') },
+        Consigner: { value: R.lr_consigner_name },
+        consignee: { value: R.lr_consignee_name },
+        Source: { value: R.lr_source },
+        Destination: { value: R.lr_destination },
+        AddTime: { value: this.datePipe.transform(R.addtime, 'dd MMM HH:mm ') },
+        Image: R.lr_image ? { value: `<span>view</span>`, isHTML: true, action: this.getImage.bind(this, R) } : '',
+        Action: { value: `<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R) }
+      };
       columns.push(column);
-    
+
     });
     return columns;
   }
 
   getDate(type) {
 
-    this.common.params={ref_page:'LrView'}       
+    this.common.params = { ref_page: 'LrView' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.date) {
-        if (type == 'start'){
-          this.startDate='';
+        if (type == 'start') {
+          this.startDate = '';
           return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
-          console.log('fromDate',this.startDate);
+          console.log('fromDate', this.startDate);
         }
-        else{
-         
+        else {
+
           this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
           // return this.endDate = date.setDate( date.getDate() + 1 )
-          console.log('endDate',this.endDate);
+          console.log('endDate', this.endDate);
         }
 
       }

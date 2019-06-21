@@ -1,11 +1,11 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         <h5>Fuel Mileage</h5>
       </div>
 
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <span>
           <span class="pdf-icon" title="PDF Export" (click)="printPDF('fuelMileage')" style="cursor: pointer;"><i
               class="fa fa-file-pdf"></i></span>
@@ -21,16 +21,21 @@
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
           placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date" readonly>
       </div>
+      <div class="col-sm-2">
+        <select class="form-control" name="Status" [(ngModel)]="id" (change)="selectType()">
+          <option *ngFor="let mapping of Status" [value]="mapping.id">
+            {{mapping.name}}
+
+          </option>
+        </select>
+      </div>
 
       <div class="col-sm-2">
-        <button id="submit" name="submit" class="btn btn-primary" (click)="getfuelAverageDetails()"
+        <button id="submit" name="submit" class="btn btn-primary w-100" (click)="getfuelAverageDetails()"
           style="margin:0px;  cursor: pointer;">Submit</button>
       </div>
 
-      <!-- <div class="col-sm-2">
-        <button id="submit" name="submit" class="btn btn-primary" (click)="openOdoMeter()"
-          style="margin:0px;  cursor: pointer;">Odometer</button>
-      </div> -->
+
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -78,13 +83,13 @@
     </div> -->
     <!-- <ng-template *ngIf="fuelAvgDetails.length>0; then showTable; else showDiv"></ng-template>
     <ng-template #showTable> -->
-    <smart-table *ngIf="showTable" [data]="table.data" [settings]="table.settings" id="fuelMileage">
+    <smart-table *ngIf="fuelAvgDetails &&fuelAvgDetails.length" [data]="table.data" [settings]="table.settings"
+      id="fuelMileage">
     </smart-table>
     <!-- </ng-template> -->
     <!-- <ng-template #showDiv> -->
     <div class="no-data alert alert-danger" role="alert" *ngIf="fuelAvgDetails==null">
       No Data available !
     </div>
-    <!-- </ng-template> -->
   </nb-card-body>
 </nb-card>

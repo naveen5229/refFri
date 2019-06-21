@@ -1,13 +1,16 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-4">
         <h5>Vehicle Distance(24Hr)</h5>
       </div>
+      <div class="col-sm-4">
+        <p>{{today | date:'dd-MM-yyyy hh:mm:ss a':'+0530'}}</p>
+      </div>
       <div class="col-sm-4" style="text-align:right">
-        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('tbldocs');"
-          style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('tbldocs')"
+        <span class="pdf-icon" title="PDF Export" (click)="printPDF('tbldocs');" style="cursor: pointer;"><i
+            class="fa fa-file-pdf"></i></span>
+        <span class="exel-icon" title="CSV Export" (click)="printCsv('tbldocs')"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
       </div>
     </div>
@@ -15,7 +18,8 @@
 
   <nb-card-body>
     <div class="model-body">
-      <smart-table *ngIf="distanceData.length" [data]="table.data" [settings]="table.settings" id="tbldocs">
+      <smart-table *ngIf="distanceData && distanceData.length" [data]="table.data" [settings]="table.settings"
+        id="tbldocs">
       </smart-table>
     </div>
   </nb-card-body>

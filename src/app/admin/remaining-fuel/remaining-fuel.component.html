@@ -2,12 +2,12 @@
   <nb-card-header>
     <div class="row">
       <div class="col-md-6">
-        <h4>Fuel Fillings</h4>
+        <h5>Fuel Fillings</h5>
       </div>
     </div>
   </nb-card-header>
 
-  <smart-table *ngIf="remainingFuel.length" [data]="table.remainingFuel" [settings]="table.settings"
+  <smart-table *ngIf="remainingFuel && remainingFuel.length" [data]="table.remainingFuel" [settings]="table.settings"
     id="tblremainingFuel">
   </smart-table>
 </nb-card>

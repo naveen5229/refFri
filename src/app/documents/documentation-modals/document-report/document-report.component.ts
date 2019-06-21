@@ -88,7 +88,7 @@ export class DocumentReportComponent implements OnInit {
           default: break;
         }
         let center_heading = strstatus;
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -189,7 +189,7 @@ export class DocumentReportComponent implements OnInit {
   add(row) {
     console.log("row Data:", row);
     this.common.params = { row, title: 'Upload Image' };
-    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'md', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(AddDocumentComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       if (data.response) {
         this.closeModal(true);

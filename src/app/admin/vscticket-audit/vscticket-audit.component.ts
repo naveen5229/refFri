@@ -11,19 +11,22 @@ import { ChangeVehicleStatusComponent } from '../../modals/change-vehicle-status
 })
 export class VSCTicketAuditComponent implements OnInit {
 
-  startDate = '';
+  startDate = new Date();
   element = '';
-  endDate = '';
+  endDate = new Date();
   reportUserWise = [];
   reportVehicleWise = [];
 
   vehicleId = null;
   adminId = null;
   ticketAccordingTo = 'vehicle';
+  aduserId = null;
+  VehicleStatusAlerts = [];
+  aduserIds = [];
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
-
+    this.getAduserIds();
   }
 
   ngOnInit() {
@@ -32,64 +35,33 @@ export class VSCTicketAuditComponent implements OnInit {
   searchVehicle(vehicle) {
     this.vehicleId = vehicle.id;
   }
+
   searchUser(admin) {
     this.adminId = admin.id;
   }
 
-  getAlert() {
-    if (this.ticketAccordingTo == 'user') {
-      this.getUserReport()
-    } else if (this.ticketAccordingTo == 'vehicle') {
-      this.getVehicleReport();
-    }
-  }
 
-  getVehicleReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
-    let params = "vehicleId=" + this.vehicleId +
-      "&startTime=" + this.startDate +
-      "&endTime=" + this.endDate;
-
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.get('HaltOperations/getClearAlertsVehicleWise?' + params)
+  getAduserIds() {
+    this.api.get('HaltOperations/getAutoAduserid')
       .subscribe(res => {
-        this.common.loading--;
-        console.log('res: ', res['data'])
-        this.reportVehicleWise = res['data'];
-        console.log('reportVehicleWise: ', this.reportVehicleWise)
+        console.log('Res: ', res['data']);
+        this.aduserIds = res['data'];
       }, err => {
-        this.common.loading--;
+        console.error(err);
         this.common.showError();
-      })
-  }
-
-  getUserReport() {
-    this.startDate = this.common.dateFormatter(this.startDate);
-    this.endDate = this.common.dateFormatter(this.endDate);
-
-    let params = "adminId=" + this.adminId +
-      "&startTime=" + this.startDate +
-      "&endTime=" + this.endDate;
-
-    console.log('params: ', params);
-    this.common.loading++;
-    this.api.get('HaltOperations/getClearAlertsAdminWise?' + params)
-      .subscribe(res => {
-        this.common.loading--;
-        this.reportUserWise = res['data'];
-        console.log('reportUserWise: ', this.reportUserWise)
-      }, err => {
-        this.common.loading--;
-        this.common.showError();
-      })
+      });
   }
 
   openVSCModel(data) {
+
+
+    let index = this.VehicleStatusAlerts.findIndex(element => {
+      return element.vehicle_id == data.vehicle_id && element.addtime == data.addtime;
+    });
+    this.VehicleStatusAlerts[index].isHighlight = true;
     let VehicleStatusData = {
       vehicle_id: data.vehicle_id,
-      ttime: data.ttime,
+      tTime: data.ttime,
       suggest: 11,
       latch_time: data.latch_time
     }
@@ -116,5 +88,39 @@ export class VSCTicketAuditComponent implements OnInit {
     });
   }
 
+  getChallenged() {
+    let params = {
+      startTime: this.common.dateFormatter(this.startDate),
+      endTime: this.common.dateFormatter(this.endDate),
+      aduserId: this.aduserId
+    };
+    this.common.loading++;
+    this.api.post('HaltOperations/getChallenged', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res['data']);
+        this.VehicleStatusAlerts = res['data'];
+      }, err => {
+        console.error(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
 
+  viewAll() {
+    let params = 'aduserId=' + this.aduserId;
+    this.common.loading++;
+    console.log("params ", params);
+    this.api.get('HaltOperations/getVehicleStatusAduserViseAlerts?' + params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res: ', res['data']);
+        this.VehicleStatusAlerts = res['data'];
+
+      }, err => {
+        console.error(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
 }

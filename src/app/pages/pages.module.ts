@@ -56,6 +56,10 @@ import { FuelFillingsComponent } from '../admin/fuel-fillings/fuel-fillings.comp
 import { SharedModule } from '../shared.module';
 import { TripVerifyStatesComponent } from './trip-verify-states/trip-verify-states.component';
 import { VehiclePerformanceComponent } from './vehicle-performance/vehicle-performance.component';
+import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/daywise-vehicle-distance.component';
+import { DriverModule } from '../driver/driver.module';
+import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
+import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
 
 
 const PAGES_COMPONENTS = [
@@ -77,7 +81,8 @@ const PAGES_COMPONENTS = [
     ReactiveFormsModule,
     ResizableModule,
     LorryReceiptModule,
-    SharedModule
+    SharedModule,
+    DriverModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -113,6 +118,9 @@ const PAGES_COMPONENTS = [
     VehicleTripStagesComponent,
     TripVerifyStatesComponent,
     VehiclePerformanceComponent,
+    DaywiseVehicleDistanceComponent,
+    DateServiceTesterComponent,
+    VehicleOdometerComponent
     // CustomDatePipe
   ],
   exports: [

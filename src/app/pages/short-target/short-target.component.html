@@ -8,7 +8,8 @@
   </nb-card-header>
   <nb-card-body>
     <div class="model-body">
-      <smart-table *ngIf="shortTarget.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="shortTarget && shortTarget.length" [data]="table.data" [settings]="table.settings">
+      </smart-table>
     </div>
   </nb-card-body>
 </nb-card>
