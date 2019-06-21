@@ -19,5 +19,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/battery/battery-modals',
         home: true,
     },
+    {
+        title: 'Vehicle Battery',
+        icon: 'fa fa-text-width',
+        link: '/battery/vehicle-battery',
+        home: true,
+    },
 
 ];
