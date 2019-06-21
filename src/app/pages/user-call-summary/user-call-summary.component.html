@@ -27,7 +27,7 @@
   </nb-card-header>
   <nb-card-body>
     <div>
-      <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings"></smart-table>
     </div>
     <!-- <div class="no-data alert alert-danger" role="alert" *ngIf="data=='null'">
       No Data available !

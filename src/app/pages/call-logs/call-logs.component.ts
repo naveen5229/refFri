@@ -153,7 +153,7 @@ export class CallLogsComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Call Logs";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"]);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, ["Action"], '');
       }, err => {
         this.common.loading--;
         console.log(err);
