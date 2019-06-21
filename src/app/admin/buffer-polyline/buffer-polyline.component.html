@@ -12,6 +12,9 @@
               <td><button (click)="clearAll()" class="btn btn-primary w-100">Clear</button>
               </td>
               <td><button (click)="undo()" class="btn btn-primary w-100" name="undo" id="undo">Undo</button></td>
+              <td>
+                <button (click)="ignoreSite()" class="btn btn-primary">Ignore</button>
+              </td>
               <td><input type="number" name="meterRadius" class="form-control" id="meterRadius"
                   [(ngModel)]="meterRadius">Meter</td>
 
@@ -22,7 +25,7 @@
                   class="form-control">
               </td>
               <td>
-                <input type="text" placeholder="Move to.." id="moveLoc"  class="form-control">
+                <input type="text" placeholder="Move to.." id="moveLoc" class="form-control">
               </td>
               <td>
                 <button (click)="loadMarkers()" class="btn btn-primary"
@@ -33,11 +36,14 @@
                 <button (click)="enterTicket();"
                   class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Polyline' :'Create Polyline'}}</button>
               </td>
+              <td>
+                <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
+              </td>
             </tr>
 
             <tr>
               <td colspan="3">
-                <div style="text-align:center">
+                <div>
                   <span>
                     <span class="zoom-btn" (click)="mapService.zoomMap(6)">1</span>
                     <span class="zoom-btn" (click)="mapService.zoomMap(9)">2</span>
@@ -47,7 +53,8 @@
                   </span>
                 </div>
               </td>
-              <td><button (click)="refersh()">refersh</button></td>
+              <td><button (click)="refersh()">Refresh</button></td>
+
             </tr>
           </tbody>
         </table>
