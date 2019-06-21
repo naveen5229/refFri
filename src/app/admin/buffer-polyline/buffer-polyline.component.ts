@@ -28,6 +28,7 @@ export class BufferPolylineComponent implements OnInit {
   currentCenter = null;
   lat = null;
   long = null;
+  isHeatAble = false;
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
@@ -53,6 +54,9 @@ export class BufferPolylineComponent implements OnInit {
           this.circle = null;
         }
         this.circle = this.mapService.createCirclesOnPostion(event.latLng, this.meterRadius);
+        let position = this.lat + "," + this.long;
+        this.position = position;
+        this.search();
 
       }
 
@@ -230,10 +234,8 @@ export class BufferPolylineComponent implements OnInit {
         this.commonService.loading--;
         let data = res['data'];
         console.log('Res: ', data);
-        // return;
         this.clearAll();
         this.tempData = data;
-        // this.siteLatLng = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].long) };
         this.typeId = data[0].type_id;
         this.selectedSite = data[0].id;
         this.siteLoc = data[0].loc_name;
@@ -277,8 +279,6 @@ export class BufferPolylineComponent implements OnInit {
 
   remove(row) {
     console.log("row", row);
-
-
     let params = {
       id: row,
     }
@@ -305,6 +305,55 @@ export class BufferPolylineComponent implements OnInit {
         }
       });
     }
+  }
+
+  showHeat() {
+    if (this.isHeatAble) {
+      this.mapService.resetHeatMap();
+      this.isHeatAble = false;
+    } else {
+      if (this.mapService.map.getZoom() < 12) {
+        this.commonService.showToast("bounds are huge");
+        return;
+      }
+      var bounds = this.mapService.getMapBounds();
+      console.log("Bounds", bounds);
+
+      let params = {
+        'lat': (bounds.lat1 + bounds.lat2) / 2,
+        'long': (bounds.lng2 + bounds.lng2) / 2
+      }
+      this.commonService.loading++;
+      this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=" + params.lat + "&long=" + params.long)
+        .subscribe(res => {
+          console.log('Res: ', res['data']);
+          this.mapService.createHeatMap(res['data'], false);
+          this.isHeatAble = true;
+          this.commonService.loading--;
+        }, err => {
+          console.error(err);
+          this.commonService.showError();
+          this.commonService.loading--;
+        });
+    }
+  }
+
+
+  ignoreSite() {
+    if (!this.selectedSite) {
+      alert("Select Site First!!!");
+      return;
+    }
+    this.commonService.loading++;
+    this.apiService.post('SiteFencing/ignoreSite', { siteId: this.selectedSite })
+      .subscribe(res => {
+        this.commonService.loading--;
+        this.commonService.showToast(res['msg']);
+      }, err => {
+        this.commonService.loading--;
+        console.log(err);
+      });
+    this.clearAll();
   }
 
 }
