@@ -35,7 +35,7 @@ export class ImportDocumentComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-m', '500');
+    this.common.handleModalSize('class', 'modal-lg', '500');
 
     this.title = this.common.params.title;
     this.btn1 = this.common.params.btn1 || 'Add';
@@ -73,18 +73,18 @@ export class ImportDocumentComponent implements OnInit {
   //   this.docType = documentType;
   //   console.log("Document type", this.docType.id);
   // }
-  selectFoUser(user){
+  selectFoUser(user) {
     this.foUser = user.id;
-      console.log("foid ", this.foUser);
-   
+    console.log("foid ", this.foUser);
+
   }
 
   uploadCsv() {
     const params = {
       driverCsv: this.csv,
-      foid:this.foUser
+      foid: this.foUser
     };
-    if (!params.driverCsv&&!params.foid) {
+    if (!params.driverCsv && !params.foid) {
       return this.common.showError("Select  Option");
     }
     console.log("Data :", params);
@@ -94,14 +94,13 @@ export class ImportDocumentComponent implements OnInit {
         this.common.loading--;
         console.log("upload result", res);
         let errorData = res['data']['f'];
-        console.log("error: ",errorData);
+        console.log("error: ", errorData);
         alert(res["msg"]);
-      
-        if(errorData.length)
-        {
+
+        if (errorData.length) {
           this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
           const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-        
+
         }
         this.closeModal(true);
       }, err => {
@@ -114,7 +113,7 @@ export class ImportDocumentComponent implements OnInit {
   //   const params = {
   //     driverCsv: this.csv,
   //     validate: validate,
-     
+
   //   };
   //   if (!params.driverCsv) {
   //     return this.common.showError("Select  Option");
@@ -128,7 +127,7 @@ export class ImportDocumentComponent implements OnInit {
   //       let errorData = res['data'];
   //       this.common.params = { errorData, ErrorReportComponent, title: 'Document Verification' };
   //       const activeModal = this.modalService.open(ErrorReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-      
+
   //     }, err => {
   //       this.common.loading--;
   //       console.log(err);

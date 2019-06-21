@@ -56,7 +56,7 @@ export class BufferPolylineComponent implements OnInit {
         this.circle = this.mapService.createCirclesOnPostion(event.latLng, this.meterRadius);
         let position = this.lat + "," + this.long;
         this.position = position;
-        this.search();
+        this.search(false);
 
       }
 
@@ -104,7 +104,7 @@ export class BufferPolylineComponent implements OnInit {
   }
 
   clearAll(loadTable = true) {
-    // this.exitTicket();
+    this.exitTicket();
     this.mapService.isDrawAllow = false;
     this.siteName = null;
     this.siteLoc = null;
@@ -135,8 +135,32 @@ export class BufferPolylineComponent implements OnInit {
   enterTicket() {
     if (this.selectedSite) {
 
-      this.mapService.isDrawAllow = true;
-      this.submitPolygon();
+      if (!this.mapService.isDrawAllow) {
+        let params = {
+          tblRefId: 2,
+          tblRowId: this.selectedSite
+        };
+        this.commonService.loading++;
+        this.apiService.post('TicketActivityManagment/insertTicketActivity', params)
+          .subscribe(res => {
+            this.commonService.loading--;
+            if (!res['success']) {
+              this.commonService.showToast(res['msg']);
+            }
+            else {
+              this.mapService.isDrawAllow = true;
+              if (this.isUpdate) {
+                this.commonService.showToast('Already Exists');
+              }
+            }
+          }, err => {
+            this.commonService.loading--;
+            console.log(err);
+          });
+      }
+      if (this.mapService.isDrawAllow)
+        this.submitPolygon();
+
     }
     else {
       this.commonService.showToast('Select Site First..');
@@ -193,12 +217,12 @@ export class BufferPolylineComponent implements OnInit {
     this.getRemainingTable();
   }
 
-  search() {
+  search(isZoom = true) {
     console.log("position1", this.position);
     this.final = this.position.split(",");
     console.log("array", this.final[0], this.final[1]);
-
-    this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 15);
+    if (isZoom)
+      this.mapService.zoomAt(this.mapService.createLatLng(this.final[0], this.final[1]), 15);
     let params = {
       lat: this.final[0],
       long: this.final[1],
@@ -354,6 +378,34 @@ export class BufferPolylineComponent implements OnInit {
         console.log(err);
       });
     this.clearAll();
+  }
+
+
+  exitTicket() {
+    let result;
+    var params = {
+      tblRefId: 2,
+      tblRowId: this.selectedSite
+    };
+    console.log("params", params);
+    this.commonService.loading++;
+    this.apiService.post('TicketActivityManagment/updateActivityEndTime', params)
+      .subscribe(res => {
+        this.commonService.loading--;
+        result = res
+        console.log(result);
+        if (!result.sucess) {
+          // alert(result.msg);
+          return false;
+        }
+        else {
+          return true;
+        }
+      }, err => {
+        this.commonService.loading--;
+        console.log(err);
+      });
+    return false;
   }
 
 }
