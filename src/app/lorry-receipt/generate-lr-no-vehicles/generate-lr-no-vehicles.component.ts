@@ -294,7 +294,8 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
           }
         }, err => {
           --this.common.loading;
-          this.common.showError(err);
+          alert(err);
+          //this.common.showError(err);
           console.log('Error: ', err);
         });
     }
