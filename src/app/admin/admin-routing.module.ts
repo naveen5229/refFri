@@ -35,6 +35,7 @@ import { TripStatusFeedbackLogsComponent } from './trip-status-feedback-logs/tri
 import { FuelAverageAnalysisComponent } from '../pages/fuel-average-analysis/fuel-average-analysis.component';
 import { RemainingFuelComponent } from './remaining-fuel/remaining-fuel.component';
 import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.component';
+import { BeehiveComponent } from './beehive/beehive.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
@@ -54,6 +55,7 @@ import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViewModalServiceComponent } from '../vehicle-maintenance/view-modal-service/view-modal-service.component';
 import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
+import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 
 const routes: Routes = [{
     path: '',
@@ -62,6 +64,11 @@ const routes: Routes = [{
         {
             path: 'dashboard',
             component: VehicleStatusChangeComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'beehive',
+            component: BeehiveComponent,
             canActivate: [RouteGuard]
         },
         {
@@ -312,6 +319,11 @@ const routes: Routes = [{
         {
             path: 'via-routes',
             component: ViaRoutesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'buffer-polyline',
+            component: BufferPolylineComponent,
             canActivate: [RouteGuard]
         }
 

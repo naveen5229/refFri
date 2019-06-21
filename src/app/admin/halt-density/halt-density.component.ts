@@ -3,6 +3,8 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoadHaltComponent } from '../../modals/load-halts/load-halt.component';
 
 @Component({
   selector: 'halt-density',
@@ -17,12 +19,14 @@ export class HaltDensityComponent implements OnInit {
   minZoom = 12;
   createSiteMarker = null;
   buffers = [];
-  typeId = 401;
+  typeId = -1;
   typeIds = [];
+  data = null;
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
     private router: Router,
+    private modalService: NgbModal,
     private commonService: CommonService) {
   }
 
@@ -43,7 +47,7 @@ export class HaltDensityComponent implements OnInit {
       this.commonService.showToast("Enter Start Time");
     this.commonService.loading++;
     let latLngs = this.mapService.getMapBounds();
-    this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=-1&long=-1")
+    this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=-1&long=-1&startTime=" + this.commonService.dateFormatter(this.startTime))
       .subscribe(res => {
         this.commonService.loading--;
         this.mapService.clearAll();
@@ -104,7 +108,7 @@ export class HaltDensityComponent implements OnInit {
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.mapService.createMarkers(data, false, true, ["id", "name"], (marker) => {
+        this.mapService.createMarkers(data, false, false, ["id", "name"], (marker) => {
           this.apiService.post("Site/getSingleSite", { siteId: marker.id })
             .subscribe(res => {
               let data = res['data'];
@@ -174,23 +178,38 @@ export class HaltDensityComponent implements OnInit {
       });
   }
   createSite(data) {
-    this.apiService.post("SitesOperation/createBufferZone", { type: this.typeId, lat: data.lat, long: data.long })
-      .subscribe(res => {
-        if (res['success']) {
-          this.commonService.showToast("Success");
-          let remove = this.buffers.findIndex((element) => {
-            return element.halt_id == data.halt_id;
-          })
-          this.buffers.splice(remove, 1);
-          // this.router.navigate(['/admin/site-fencing']);
-        } else
-          this.commonService.showError(res['msg']);
-      }, err => {
-        console.error(err);
-        this.commonService.showError();
-      });
+    this.data = data;
+    const activeModal = this.modalService.open(LoadHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (!data) {
+        this.commonService.showToast("No Site Type Selected");
+        return;
+      }
+      this.apiService.post("SitesOperation/createBufferZone", { type: data.response, lat: this.data.lat, long: this.data.long })
+        .subscribe(res => {
+          if (res['success']) {
+            this.commonService.showToast("Success");
+            let remove = this.buffers.findIndex((element) => {
+              return element.halt_id == data.halt_id;
+            })
+            this.buffers.splice(remove, 1);
+            this.typeId = 401;
+            // this.router.navigate(['/admin/site-fencing']);
+          } else
+            this.commonService.showError(res['msg']);
+        }, err => {
+          console.error(err);
+          this.commonService.showError();
+        });
+    });
   }
   zoomAt(lat, long) {
+    this.buffers.forEach(element => {
+      if (element.lat == lat && element.long == long)
+        element.isHighLight = true;
+      else
+        element.isHighLight = false;
+    });
     if (!this.createSiteMarker)
       this.createSiteMarker = this.mapService.createMarkers([{
         lat: lat,
@@ -217,7 +236,7 @@ export class HaltDensityComponent implements OnInit {
       });
   }
 
-  getRemainingTable(){
-    
+  getRemainingTable() {
+
   }
 }

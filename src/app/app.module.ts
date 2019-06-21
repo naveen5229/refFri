@@ -166,10 +166,14 @@ import { AddVehicleModalServiceComponent } from './vehicle-maintenance/model/add
 import { AddVehicleSubModalServiceComponent } from './vehicle-maintenance/model/add-vehicle-sub-modal-service/add-vehicle-sub-modal-service.component';
 import { UpdateTicketSubscribeComponent } from './modals/update-ticket-subscribe/update-ticket-subscribe.component';
 import { AddAdvancedMaintenanceComponent } from './vehicle-maintenance/model/add-advanced-maintenance/add-advanced-maintenance.component';
+import { ViaRoutePointsComponent } from './modals/via-route-points/via-route-points.component';
 import { ModalWiseFuelAvgComponent } from './modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
 import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
 import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
 import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
+import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
+
+
 
 
 
@@ -222,6 +226,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
+    LoadHaltComponent,
     VoucherSummaryComponent,
     AddConsigneeComponent,
     ParticlularsComponent,
@@ -308,10 +313,13 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     AddVehicleSubModalServiceComponent,
     UpdateTicketSubscribeComponent,
     AddAdvancedMaintenanceComponent,
+    ViaRoutePointsComponent,
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
     VehicleTyreSummaryComponent,
+
+
 
   ],
   entryComponents: [
@@ -367,6 +375,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     AddPumpComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
+    LoadHaltComponent,
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
@@ -445,6 +454,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     AddVehicleModalServiceComponent,
     AddVehicleSubModalServiceComponent,
     UpdateTicketSubscribeComponent,
+    ViaRoutePointsComponent,
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,

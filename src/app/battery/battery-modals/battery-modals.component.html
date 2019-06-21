@@ -1,0 +1,59 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-5">
+        <h5>Battery Modals</h5>
+      </div>
+      <div class="col-sm-1">
+        <button (click)="openStockSubTypeModal()" class="btn btn-primary " style="margin-right:15px">Add
+          Brand</button></div>
+      <div class="col-sm-2 text-right">
+        <span>
+          Brand Name :
+        </span>
+      </div>
+      <div class="col-sm-2">
+
+        <select class="form-control" [(ngModel)]="selectedModal" (change)="modalSelected()">
+
+          <option *ngFor="let modal of modals" [ngValue]="modal">{{modal.name}}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <button (click)="openStockItemModal()" class="btn btn-primary">Add Modal</button>
+
+      </div>
+
+    </div>
+  </nb-card-header>
+
+  <nb-card-body style="padding:10px 15px;">
+
+    <div>
+      <table class="table table-bordered table-hover mb-0">
+        <thead class="thead">
+          <tr>
+            <th># </th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Date</th>
+
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of modals; let i=index">
+            <td>{{i+1}}</td>
+            <td> {{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.entry_dt | date : 'dd-MMM-yyyy hh:mm a'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="no-data alert-danger mt-3" *ngIf="modals.length==0">
+      No Data available !
+    </div>
+  </nb-card-body>
+</nb-card>

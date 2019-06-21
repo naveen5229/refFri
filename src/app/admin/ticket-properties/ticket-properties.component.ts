@@ -46,11 +46,9 @@ export class TicketPropertiesComponent implements OnInit {
   openUpdatePropertiesModel(values, flag) {
     let foid = this.foid;
     this.common.params = { values, flag, foid };
-    const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    const activeModel = this.modalService.open(UpdateTicketPropertiesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModel.result.then(data => {
-      if (!data.status) {
 
-      }
     });
   }
 
