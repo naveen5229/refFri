@@ -160,7 +160,8 @@ export class BufferPolylineComponent implements OnInit {
       let params = {
         bufferString: path,
         typeId: -2,
-        siteId: this.selectedSite
+        siteId: this.selectedSite,
+        roadDist: this.meterRadius,
       };
       //  console.log("Poly",this.mapService.polygon);
       this.commonService.loading++;
