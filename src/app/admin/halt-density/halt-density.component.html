@@ -8,9 +8,6 @@
     </uj-date-time-picker>
   </div>
   <div class="col-3">
-    <select class="form-control" [(ngModel)]="typeId" (change)="getRemainingTable()">
-      <option *ngFor="let typeIdx of typeIds;" [value]="typeIdx.id">{{typeIdx.description}}</option>
-    </select>
   </div>
   <!-- <div class="col-1">
     <button (click)="submit()">
