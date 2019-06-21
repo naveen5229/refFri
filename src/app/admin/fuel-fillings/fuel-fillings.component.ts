@@ -137,7 +137,7 @@ export class FuelFillingsComponent implements OnInit {
   }
 
   addCsv() {
-    const activeModal = this.modalService.open(ImportFillingsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportFillingsComponent, { container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
       // if (data.response) {
       //   window.location.reload();
