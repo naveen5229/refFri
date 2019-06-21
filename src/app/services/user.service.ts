@@ -83,8 +83,7 @@ export class UserService {
       { id: 52, route: '/admin/view-sub-modal-service' },
       { id: 53, route: '/admin/lr-diagnostics' },
       { id: 54, route: '/admin/via-routes' },
-
-
+      { id: 55, route: '/admin/buffer-polyline' },
 
     ]
   }

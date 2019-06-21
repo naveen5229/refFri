@@ -61,6 +61,7 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
+import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 
 
 
@@ -145,7 +146,8 @@ const PAGES_COMPONENTS = [
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VscDiagnosisComponent,
-    ViaRoutesComponent
+    ViaRoutesComponent,
+    BufferPolylineComponent
   ],
   exports: [
     // VehiclesComponent,
