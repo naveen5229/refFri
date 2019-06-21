@@ -44,6 +44,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'battery',
+    loadChildren: 'app/battery/battery.module#BatteryModule',
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'documents',
     loadChildren: 'app/documents/documents.module#DocumentsModule',
     canActivate: [AuthGuard],

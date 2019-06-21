@@ -3,6 +3,8 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from "../../services/api.service";
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoadHaltComponent } from '../../modals/load-halts/load-halt.component';
 
 @Component({
   selector: 'halt-density',
@@ -17,12 +19,14 @@ export class HaltDensityComponent implements OnInit {
   minZoom = 12;
   createSiteMarker = null;
   buffers = [];
-  typeId = 401;
+  typeId = -1;
   typeIds = [];
+  data = null;
 
   constructor(public mapService: MapService,
     private apiService: ApiService,
     private router: Router,
+    private modalService: NgbModal,
     private commonService: CommonService) {
   }
 
@@ -174,22 +178,30 @@ export class HaltDensityComponent implements OnInit {
       });
   }
   createSite(data) {
-    this.apiService.post("SitesOperation/createBufferZone", { type: this.typeId, lat: data.lat, long: data.long })
-      .subscribe(res => {
-        if (res['success']) {
-          this.commonService.showToast("Success");
-          let remove = this.buffers.findIndex((element) => {
-            return element.halt_id == data.halt_id;
-          })
-          this.buffers.splice(remove, 1);
-          this.typeId = 401;
-          // this.router.navigate(['/admin/site-fencing']);
-        } else
-          this.commonService.showError(res['msg']);
-      }, err => {
-        console.error(err);
-        this.commonService.showError();
-      });
+    this.data = data;
+    const activeModal = this.modalService.open(LoadHaltComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (!data) {
+        this.commonService.showToast("No Site Type Selected");
+        return;
+      }
+      this.apiService.post("SitesOperation/createBufferZone", { type: data.response, lat: this.data.lat, long: this.data.long })
+        .subscribe(res => {
+          if (res['success']) {
+            this.commonService.showToast("Success");
+            let remove = this.buffers.findIndex((element) => {
+              return element.halt_id == data.halt_id;
+            })
+            this.buffers.splice(remove, 1);
+            this.typeId = 401;
+            // this.router.navigate(['/admin/site-fencing']);
+          } else
+            this.commonService.showError(res['msg']);
+        }, err => {
+          console.error(err);
+          this.commonService.showError();
+        });
+    });
   }
   zoomAt(lat, long) {
     this.buffers.forEach(element => {

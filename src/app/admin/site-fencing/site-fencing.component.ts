@@ -34,6 +34,7 @@ export class SiteFencingComponent implements OnInit {
     this.getTypeIds();
     this.getRemainingTable();
   }
+
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }));

@@ -94,6 +94,11 @@ export class DataService {
             link: '/admin/site-fencing',
           },
           {
+            title: 'Buffer Polyline ',
+            icon: 'fas fa-coins',
+            link: '/admin/buffer-polyline',
+          },
+          {
             title: 'Transport Area Fencing',
             icon: 'fas fa-coins',
             link: '/admin/transport-area',

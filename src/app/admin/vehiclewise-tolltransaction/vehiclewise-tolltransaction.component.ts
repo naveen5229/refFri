@@ -53,7 +53,7 @@ export class VehiclewiseTolltransactionComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "vehicle Wise Toll Transaction Summary";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -71,7 +71,7 @@ export class VehiclewiseTolltransactionComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "vehicle Wise Toll Transaction Summary";
-        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getCSVFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

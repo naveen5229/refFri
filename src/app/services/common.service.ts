@@ -760,12 +760,10 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
-    let Name="Customer Name:";
-    let reportName="Report Name:";
-    let leftData = { Name,left_heading };
-    let centerData = { reportName,center_heading };
-    let format = "Report Generation Time";
-    let doctime = { format, time };
+
+    let leftData = { left_heading };
+    let centerData = { center_heading };
+    let doctime = { time };
 
     let info = [];
     let hdgs = {};
