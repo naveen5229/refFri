@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   remainingBalance = null;
   tollDiscount = null;
   fuelDiscount = null;
-  Total = null;
+  Total = 0;
   // mobileno = this.user._details.mobileno;
   constructor(
     public api: ApiService,
@@ -34,15 +34,15 @@ export class DashboardComponent implements OnInit {
   }
   getdiscount() {
     console.log('Mobileno:', this.user._details);
-    let param = "mobileno=" + this.user._details.mobile;
+    let param = "mobileno=" + this.user._details.fo_mobileno;
     this.common.loading++;
     this.api.walle8Get('CardRechargeApi/AccountRemainingAmount.json?' + param)
       .subscribe(Res => {
         this.common.loading--;
         console.log('Res:', Res);
         this.balance = Res['data'];
-        this.remainingBalance = this.balance[0].main_balance;
-        this.tollDiscount = this.balance[0].toll_balance;
+        this.remainingBalance = this.balance[0].toll_balance;
+        //this.tollDiscount = this.balance[0].toll_balance;
         console.log('discount', this.remainingBalance);
         console.log('.......', this.tollDiscount);
 
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   }
   getTotal() {
 
-    let param = "mobileno=" + this.user._details.mobile;
+    let param = "mobileno=" + this.user._details.fo_mobileno;
     this.common.loading++;
     this.api.walle8Get('DiscountApi/ViewFoDiscount.json?' + param)
       .subscribe(Res => {
@@ -62,7 +62,9 @@ export class DashboardComponent implements OnInit {
         console.log('Res:', Res);
         this.total = Res['data'];
         this.fuelDiscount = this.total[0].fd;
-        this.Total = this.total[0].td;
+        this.tollDiscount = this.total[0].td;
+
+        this.Total = parseInt(this.fuelDiscount) + parseInt(this.tollDiscount);
 
 
       }, err => {
