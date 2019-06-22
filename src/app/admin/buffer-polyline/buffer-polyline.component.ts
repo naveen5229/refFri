@@ -34,11 +34,18 @@ export class BufferPolylineComponent implements OnInit {
     private apiService: ApiService,
     private router: Router,
     private commonService: CommonService,
-    public modalService: NgbModal) { }
+    public modalService: NgbModal) {
+    this.commonService.refresh = this.refresh.bind(this);
+
+  }
 
   ngOnInit() {
     this.getRemainingTable();
   }
+  refresh() {
+    this.getRemainingTable();
+  }
+
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.zoomAt({ lat: 26.928826486644528, lng: 75.74931625366207 }, 14);
@@ -57,12 +64,8 @@ export class BufferPolylineComponent implements OnInit {
         let position = this.lat + "," + this.long;
         this.position = position;
         this.search(false);
-
       }
-
-
     });
-
   }
 
   getRemainingTable() {
@@ -92,7 +95,6 @@ export class BufferPolylineComponent implements OnInit {
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
         this.commonService.loading--;
-
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.clearAll();
@@ -134,7 +136,6 @@ export class BufferPolylineComponent implements OnInit {
 
   enterTicket() {
     if (this.selectedSite) {
-
       if (!this.mapService.isDrawAllow) {
         let params = {
           tblRefId: 2,
@@ -160,11 +161,10 @@ export class BufferPolylineComponent implements OnInit {
       }
       if (this.mapService.isDrawAllow)
         this.submitPolygon();
-
     }
+
     else {
       this.commonService.showToast('Select Site First..');
-
     }
 
   }
@@ -180,6 +180,7 @@ export class BufferPolylineComponent implements OnInit {
         this.mapService.isDrawAllow = true;
         return;
       }
+
       for (var i = 0; i < latLngs.length; i++) {
         path += latLngs[i].lat() + " " + latLngs[i].lng() + ",";
       }
@@ -191,14 +192,10 @@ export class BufferPolylineComponent implements OnInit {
         siteId: this.selectedSite,
         roadDist: this.meterRadius,
       };
-      //  console.log("Poly",this.mapService.polygon);
       this.commonService.loading++;
       this.apiService.post("Buffer/bufferLines", params)
         .subscribe(res => {
           this.commonService.loading--;
-
-          let data = res['data'];
-          console.log('Res: ', res['data']);
           this.commonService.showToast("Created");
           this.getRemainingTable();
           let position = this.lat + "," + this.long;
@@ -213,9 +210,8 @@ export class BufferPolylineComponent implements OnInit {
 
     }
   }
-  refersh() {
-    this.getRemainingTable();
-  }
+
+
 
   search(isZoom = true) {
     console.log("position1", this.position);
@@ -226,10 +222,9 @@ export class BufferPolylineComponent implements OnInit {
     let params = {
       lat: this.final[0],
       long: this.final[1],
-
     };
+
     this.commonService.loading++;
-    console.log("params", params);
     this.apiService.post("Buffer/getBuffer", params)
       .subscribe(res => {
         this.commonService.loading--;
@@ -257,7 +252,6 @@ export class BufferPolylineComponent implements OnInit {
       .subscribe(res => {
         this.commonService.loading--;
         let data = res['data'];
-        console.log('Res: ', data);
         this.clearAll();
         this.tempData = data;
         this.typeId = data[0].type_id;
@@ -277,8 +271,6 @@ export class BufferPolylineComponent implements OnInit {
           .subscribe(res => {
             this.commonService.loading--;
             let data = res['data'];
-            let count = Object.keys(data).length;
-            console.log('Res: ', res['data']);
             this.mapService.resetPolyPaths();
             this.mapService.createPolyPathsManual(data, (poly, event) => {
               console.log("Poly", poly);
