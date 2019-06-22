@@ -32,11 +32,15 @@ export class VehicleDistanceWithOdometerComponent implements OnInit {
 
   setTable() {
     let headings = {
-      regno: { title: 'regno', placeholder: 'regno' },
+      regno:{ title: 'Regno', placeholder: 'Regno' },
+      first_date: { title: 'First Date', placeholder: 'First Date' },
+      first_kms: { title: 'First Kms', placeholder: 'First Kms' },
+      last_date: { title: 'Last Date', placeholder: 'Last Date' },
+      last_kms: { title: 'Last Kms', placeholder: 'Last Kms' },
+      dis_diff_FromODO: { title: 'disFromODO', placeholder: 'disFromODO' },
       disFromDB: { title: 'disFromDB', placeholder: 'disFromDB' },
-      disFromODO: { title: 'disFromODO', placeholder: 'disFromODO' },
-      difference: { title: 'difference', placeholder: 'difference' },
-      percentage_diff: { title: 'percentage_diff', placeholder: 'percentage_diff' },
+      diff_percentage: { title: 'difference %', placeholder: 'difference  %' },
+
     };
     return {
       data: {
@@ -54,11 +58,14 @@ export class VehicleDistanceWithOdometerComponent implements OnInit {
     this.data.map(doc => {
 
       let column = {
-      regno: { value: doc.regno },
-      disFromDB: { value: doc.disFromDB },
-      disFromODO: { value: doc.disFromODO },
-      difference: { value: doc.difference },
-      percentage_diff: { value: doc.percentage_diff },
+      regno:{  value: doc.regno },
+      first_date: {  value: this.common.changeDateformat2(doc.first_date) },
+      first_kms: {  value: doc.first_kms },
+      last_date: {  value: this.common.changeDateformat2(doc.last_date) },
+      last_kms: {  value: doc.last_kms },
+      dis_diff_FromODO: {  value: doc.dis_diff_FromODO },
+      disFromDB: {  value: doc.disFromDB },
+      diff_percentage: {  value: doc.diff_percentage },
       };
       columns.push(column);
     });
@@ -67,23 +74,22 @@ export class VehicleDistanceWithOdometerComponent implements OnInit {
 
   submit(){
     
-
-    const params = {
-      foid: this.foid,
-      fromtime:this.common.dateFormatter1(this.startDate),
+     const params = {
+      fromTime:this.common.dateFormatter1(this.startDate),
       tTime:this.common.dateFormatter1(this.endDate),
     };
-
-    console.log("params",params);
-    this.api.post('Test/getDiffBwDistanceByOdoMeter',params)
+   console.log("params",params);
+   this.common.loading++;
+    this.api.post('Vehicles/getDiffBwDistanceByOdoMeter',params)
       .subscribe(res => 
         {
+         
           this.data=res['data'];
           this.table=this.setTable();
           console.log("data", res)
-        },
+         this.common.loading--; 
+      },
         err => console.error('Activity Api Error:', err));
-    
   }
 
 }

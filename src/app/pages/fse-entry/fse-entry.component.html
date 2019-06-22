@@ -6,12 +6,21 @@
     <nb-card-body>
         <div class="Vehicle-distance">
             <div class="row">
-                <div class="col-10">
+                <div class="col-12">
                     <div class="row mb-3">
-
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row">
                                 <div class="col-4">
+                                    <label class="mt-2">Vehicle id:</label>
+                                </div>
+                                <div class="col-8">
+                                    <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno" placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-4 pr-0">
                                     <label class="mt-2">From Date :</label>
                                 </div>
                                 <div class="col-8 pl-0">
@@ -20,7 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row">
                                 <div class="col-3 pr-0">
                                     <label class="mt-2">To Date :</label>
