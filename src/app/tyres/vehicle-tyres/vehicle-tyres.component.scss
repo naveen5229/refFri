@@ -10,7 +10,6 @@
     color: #fff;
     padding: 5px;
     border-radius: 3px;
-    margin-left: 5px;
 }
 nb-card-header{
     padding: 10px 15px;
@@ -33,13 +32,31 @@ table{
         th{
             padding: 5px 8px;
             font-weight: normal;
-            width: 250px;
+            //width: 250px;
         }
         th:nth-child(1){
             width: 30px;
         }
+        th:nth-child(2){
+            width: 200px;
+        }
+        th:nth-child(3){
+            width: 150px;
+        }
+        th:nth-child(4){
+            width: 150px;
+        }
+        th:nth-child(5){
+            width: 150px;
+        }
         th:last-child{
-            width: auto;
+          //  width: auto;
+          width:60px;
+        }
+        th:nth-child(6){
+          //  width: 60px;
+          width:500px;
+
         }
         td{
             padding: 5px 8px !important;
@@ -58,13 +75,29 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 30px;
+             width: 30px;
             }
             td{
-                width: 250px;
+               //width: 250px;
             }
+            td:nth-child(2){
+                width: 200px;
+            }
+            td:nth-child(3){
+                width: 150px;
+            }
+            td:nth-child(4){
+                width: 150px;
+            }
+            td:nth-child(5){
+                width: 150px;
+            }
+            td:nth-child(6){
+                width: 500px;
+            }
+            
             td:last-child{
-                width: auto;
+               width: 60px;
                 word-break:break-all;
             }
         }
