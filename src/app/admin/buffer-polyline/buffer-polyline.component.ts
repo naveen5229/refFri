@@ -29,7 +29,7 @@ export class BufferPolylineComponent implements OnInit {
   lat = null;
   long = null;
   isHeatAble = false;
-
+  kmsShow = null;
   constructor(public mapService: MapService,
     private apiService: ApiService,
     private router: Router,
@@ -46,7 +46,7 @@ export class BufferPolylineComponent implements OnInit {
     this.getRemainingTable();
   }
 
-  get kms() {
+  calKms() {
     let lat, long, total = 0;
     if (this.mapService.polygonPath) {
       var latLngs = this.mapService.polygonPath.getPath().getArray();
@@ -59,7 +59,7 @@ export class BufferPolylineComponent implements OnInit {
       }
     }
 
-    return total;
+    this.kmsShow = total;
   }
 
   ngAfterViewInit() {
@@ -80,6 +80,7 @@ export class BufferPolylineComponent implements OnInit {
         let position = this.lat + "," + this.long;
         this.position = position;
         this.search(false);
+        this.calKms();
       }
     });
   }
