@@ -33,27 +33,27 @@ export class VehicleBatteryComponent implements OnInit {
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
       details: null,
     },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
   ]
   vehicleNo = "";
   vehicleId = null;
@@ -108,7 +108,6 @@ export class VehicleBatteryComponent implements OnInit {
     } else {
       this.common.loading++;
       let params = {
-        vehicleId: this.vehicleId,
         // refMode: this.refMode,
         vehicleBattery: JSON.stringify(this.vehicleBattery),
       };

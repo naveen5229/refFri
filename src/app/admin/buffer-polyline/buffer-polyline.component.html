@@ -10,7 +10,7 @@
                   class="fill-elt form-control  w-100" autocomplete="off" placeholder="Lat&Long" />
               </td>
               <td>
-                <input (keydown.enter)="gotoSingle()" placeholder="Site Id" [(ngModel)]="selectedSite"
+                <input (keydown.enter)="gotoSingle()" placeholder="Route Id" [(ngModel)]="routeId"
                   class="form-control  w-100">
               </td>
               <td>
@@ -41,6 +41,18 @@
             </tr>
 
             <tr>
+              <td><button (click)="refresh()" class="btn btn-primary">Refresh</button></td>
+              <td>
+                <button (click)="ignoreSite()" class="btn btn-primary w-60" id="ignore" name="ignore">Ignore</button>
+              </td>
+              <td>
+                <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
+              </td>
+              <td>
+                <input type="text" readonly [(ngModel)]="kms" class="form-control">KiloMeters
+              </td>
+            </tr>
+            <tr>
               <td colspan="3">
                 <div>
                   <span>
@@ -52,13 +64,6 @@
                   </span>
                 </div>
               </td>
-              <td><button (click)="refersh()" class="btn btn-primary">Refresh</button></td>
-              <td>
-                <button (click)="ignoreSite()" class="btn btn-primary w-60" id="ignore" name="ignore">Ignore</button>
-              </td>
-              <td>
-                <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -68,8 +73,8 @@
               <tr>
                 <th style="width:40px;">S.No</th>
                 <th style="width:40px;">Id</th>
-                <th>Name</th>
-                <th>Hot Count</th>
+                <th>Lat</th>
+                <th>Long</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -77,9 +82,11 @@
               <tr *ngFor="let remainingElement of remainingList;let i = index;">
                 <td style="width:40px;">{{i+1}}</td>
                 <td style="width:40px;">{{remainingElement.id}}</td>
-                <td>{{remainingElement.name}}</td>
-                <td>{{remainingElement.hotcnt || '0'}}</td>
-                <td (click)="selectedSite = remainingElement.id;gotoSingle();">Action</td>
+                <td>{{remainingElement.lat}}</td>
+                <td>{{remainingElement.long}}</td>
+
+                <!-- <td>{{remainingElement.hotcnt || '0'}}</td> -->
+                <td (click)="routeId = remainingElement.id;gotoSingle();">Action</td>
               </tr>
             </tbody>
           </table>
