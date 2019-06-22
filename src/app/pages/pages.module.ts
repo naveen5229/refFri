@@ -60,6 +60,7 @@ import { DaywiseVehicleDistanceComponent } from './daywise-vehicle-distance/dayw
 import { DriverModule } from '../driver/driver.module';
 import { DateServiceTesterComponent } from './date-service-tester/date-service-tester.component';
 import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
+import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 
 
 const PAGES_COMPONENTS = [
@@ -120,7 +121,8 @@ const PAGES_COMPONENTS = [
     VehiclePerformanceComponent,
     DaywiseVehicleDistanceComponent,
     DateServiceTesterComponent,
-    VehicleOdometerComponent
+    VehicleOdometerComponent,
+    FrieghtRateInputComponent
     // CustomDatePipe
   ],
   exports: [

@@ -57,6 +57,7 @@ import { PendingLicenceComponent } from '../driver/pending-licence/pending-licen
 import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
 import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
 import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
+import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 
 const routes: Routes = [{
   path: '',
@@ -359,6 +360,11 @@ const routes: Routes = [{
   {
     path: 'vehicle-odoMeter',
     component: VehicleOdometerComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'frieght-rate-input',
+    component: FrieghtRateInputComponent,
     canActivate: [AuthGuard]
   }
   ],

@@ -116,6 +116,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-list',
     children: [
       {
+        title: 'Freight Rate Input',
+        icon: 'nb-list',
+        link: '/pages/frieght-rate-input',
+      },
+      {
         title: 'Lorry Receipts',
         icon: 'nb-list',
         link: '/pages/lorry-receipts',
