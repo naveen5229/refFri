@@ -14,7 +14,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 export class BufferPolylineComponent implements OnInit {
   remainingList = [];
   circle = null;
-  selectedSite = null;
+  routeId = null;
   siteLatLng = { lat: 0, lng: 90 };
   typeId = 1;
   siteLoc = '';
@@ -46,6 +46,22 @@ export class BufferPolylineComponent implements OnInit {
     this.getRemainingTable();
   }
 
+  get kms() {
+    let lat, long, total = 0;
+    if (this.mapService.polygonPath) {
+      var latLngs = this.mapService.polygonPath.getPath().getArray();
+      for (var i = 0; i < latLngs.length; i++) {
+        if (i != 0) {
+          total += this.commonService.distanceFromAToB(lat, long, latLngs[i].lat(), latLngs[i].lng(), 'K');
+        }
+        lat = latLngs[i].lat();
+        long = latLngs[i].lng();
+      }
+    }
+
+    return total;
+  }
+
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.zoomAt({ lat: 26.928826486644528, lng: 75.74931625366207 }, 14);
@@ -70,7 +86,7 @@ export class BufferPolylineComponent implements OnInit {
 
   getRemainingTable() {
     this.commonService.loading++;
-    this.apiService.post("SiteFencing/getRemainingSites", { type: -2 })
+    this.apiService.get("Buffer/getBufferRemaining")
       .subscribe(res => {
         let data = res['data'];
         this.commonService.loading--;
@@ -110,7 +126,7 @@ export class BufferPolylineComponent implements OnInit {
     this.mapService.isDrawAllow = false;
     this.siteName = null;
     this.siteLoc = null;
-    this.selectedSite = null;
+    this.routeId = null;
     if (loadTable) {
 
       this.getRemainingTable();
@@ -135,12 +151,13 @@ export class BufferPolylineComponent implements OnInit {
   }
 
   enterTicket() {
-    if (this.selectedSite) {
-      if (!this.mapService.isDrawAllow) {
-        let params = {
-          tblRefId: 2,
-          tblRowId: this.selectedSite
-        };
+
+    if (!this.mapService.isDrawAllow) {
+      let params = {
+        tblRefId: 2,
+        tblRowId: this.routeId
+      };
+      if (this.routeId) {
         this.commonService.loading++;
         this.apiService.post('TicketActivityManagment/insertTicketActivity', params)
           .subscribe(res => {
@@ -159,17 +176,22 @@ export class BufferPolylineComponent implements OnInit {
             console.log(err);
           });
       }
-      if (this.mapService.isDrawAllow)
-        this.submitPolygon();
-    }
+      else {
+        this.mapService.isDrawAllow = true;
+        if (this.isUpdate) {
+          this.commonService.showToast('Already Exists');
+        }
+      }
 
-    else {
-      this.commonService.showToast('Select Site First..');
     }
+    if (this.mapService.isDrawAllow)
+      this.submitPolygon();
+
 
   }
 
   submitPolygon() {
+    let url;
     this.mapService.createCirclesOnPostion(latLngs, this.meterRadius);
     if (this.mapService.polygonPath) {
       var path = "(";
@@ -182,21 +204,30 @@ export class BufferPolylineComponent implements OnInit {
       }
 
       for (var i = 0; i < latLngs.length; i++) {
+        if (i == Math.floor(latLngs.length / 2))
+          this.lat = latLngs[i].lat();
+        this.long = latLngs[i].lng();
         path += latLngs[i].lat() + " " + latLngs[i].lng() + ",";
       }
       path = path.substr(0, path.length - 1);
       path += ")";
       let params = {
         bufferString: path,
-        typeId: -2,
-        siteId: this.selectedSite,
+        routeId: this.routeId,
         roadDist: this.meterRadius,
+        lat: this.lat,
+        long: this.long
       };
       this.commonService.loading++;
-      this.apiService.post("Buffer/bufferLines", params)
+      if (this.routeId)
+        url = "Buffer/updateBufferLines";
+      else
+        url = "Buffer/insertBufferLines";
+
+      this.apiService.post(url, params)
         .subscribe(res => {
           this.commonService.loading--;
-          this.commonService.showToast("Created");
+          this.commonService.showToast("Save");
           this.getRemainingTable();
           let position = this.lat + "," + this.long;
           this.clearAll();
@@ -247,23 +278,20 @@ export class BufferPolylineComponent implements OnInit {
 
   gotoSingle() {
     this.commonService.loading++;
-    let site = this.selectedSite;
-    this.apiService.post("Site/getSingleSite", { siteId: this.selectedSite })
+    let site = this.routeId;
+    this.apiService.post("Buffer/getSingleBuffer", { id: this.routeId })
       .subscribe(res => {
         this.commonService.loading--;
         let data = res['data'];
         this.clearAll();
         this.tempData = data;
         this.typeId = data[0].type_id;
-        this.selectedSite = data[0].id;
+        this.routeId = data[0].id;
         this.siteLoc = data[0].loc_name;
         this.siteName = data[0].name;
-        this.selectedSite = site;
+        this.routeId = site;
         this.lat = data[0].lat;
         this.long = data[0].long;
-        if (this.typeId != -2) {
-          this.commonService.showError("select Buffer Zone Site Id");
-        }
 
         this.getRemainingTable();
         this.commonService.loading++;
@@ -356,12 +384,12 @@ export class BufferPolylineComponent implements OnInit {
 
 
   ignoreSite() {
-    if (!this.selectedSite) {
+    if (!this.routeId) {
       alert("Select Site First!!!");
       return;
     }
     this.commonService.loading++;
-    this.apiService.post('SiteFencing/ignoreSite', { siteId: this.selectedSite })
+    this.apiService.post('SiteFencing/ignoreSite', { siteId: this.routeId })
       .subscribe(res => {
         this.commonService.loading--;
         this.commonService.showToast(res['msg']);
@@ -374,30 +402,33 @@ export class BufferPolylineComponent implements OnInit {
 
 
   exitTicket() {
-    let result;
-    var params = {
-      tblRefId: 2,
-      tblRowId: this.selectedSite
-    };
-    console.log("params", params);
-    this.commonService.loading++;
-    this.apiService.post('TicketActivityManagment/updateActivityEndTime', params)
-      .subscribe(res => {
-        this.commonService.loading--;
-        result = res
-        console.log(result);
-        if (!result.sucess) {
-          // alert(result.msg);
-          return false;
-        }
-        else {
-          return true;
-        }
-      }, err => {
-        this.commonService.loading--;
-        console.log(err);
-      });
-    return false;
+    if (this.routeId) {
+
+      let result;
+      var params = {
+        tblRefId: 2,
+        tblRowId: this.routeId
+      };
+      console.log("params", params);
+      this.commonService.loading++;
+      this.apiService.post('TicketActivityManagment/updateActivityEndTime', params)
+        .subscribe(res => {
+          this.commonService.loading--;
+          result = res
+          console.log(result);
+          if (!result.sucess) {
+            // alert(result.msg);
+            return false;
+          }
+          else {
+            return true;
+          }
+        }, err => {
+          this.commonService.loading--;
+          console.log(err);
+        });
+      return false;
+    }
   }
 
 }
