@@ -178,6 +178,7 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
 
 
 
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -460,6 +461,7 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+
 
   ],
   imports: [
