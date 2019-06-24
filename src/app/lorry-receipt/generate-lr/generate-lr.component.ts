@@ -97,7 +97,7 @@ export class GenerateLRComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getBranches();
+    // this.getBranches();
 
   }
   ngAfterViewInit(): void {
