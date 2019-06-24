@@ -55,6 +55,7 @@ import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViewModalServiceComponent } from '../vehicle-maintenance/view-modal-service/view-modal-service.component';
 import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
+import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 
 const routes: Routes = [{
     path: '',
@@ -318,6 +319,11 @@ const routes: Routes = [{
         {
             path: 'via-routes',
             component: ViaRoutesComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'buffer-polyline',
+            component: BufferPolylineComponent,
             canActivate: [RouteGuard]
         }
 

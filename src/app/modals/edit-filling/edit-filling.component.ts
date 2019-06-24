@@ -38,6 +38,8 @@ export class EditFillingComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
+    this.common.handleModalSize('class', 'modal-lg', '800');
+
     this.title = this.common.params.title;
     console.log("params", this.common.params);
     let rec = this.common.params.rowfilling;

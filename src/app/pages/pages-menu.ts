@@ -109,12 +109,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/user-activity-status',
         home: true,
       },
+      {
+        title: 'Vehicle Distance With Odometer',
+        icon: 'fas fa-chart-pie',
+        link: '/pages/vehicle-distance-with-odometer',
+        home: true,
+      },
     ]
   },
   {
     title: 'Receipt & Invoice',
     icon: 'nb-list',
     children: [
+      {
+        title: 'Freight Rate Input',
+        icon: 'nb-list',
+        link: '/pages/frieght-rate-input',
+      },
       {
         title: 'Lorry Receipts',
         icon: 'nb-list',
@@ -224,6 +235,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/consolidate-fuel-average',
         home: true,
       },
+      {
+        title: 'Fuel Station Entry',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fse-entry',
+        home: true,
+      },
     ]
   },
   {
@@ -308,6 +325,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Tyre',
     icon: 'fa fa-cog',
     link: '/tyres/inventory'
+  },
+  {
+    title: 'Battery',
+    icon: 'fa fa-cog',
+    link: '/battery/battery-inventory'
   },
 
 
