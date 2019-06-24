@@ -36,8 +36,7 @@ export class CardUsageComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate()));
-
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getcardUsage();
     this.calculateTotal();
   }
@@ -76,10 +75,10 @@ export class CardUsageComponent implements OnInit {
         this.cardUsage = res['data'];
         for (let i = 0; i < this.cardUsage.length; i += 1) {
 
-          this.iocl = Number(this.iocl) + Number(this.cardUsage[i].iocl);
-          this.bpcl = Number(this.bpcl) + Number(this.cardUsage[i].bpcl);
-          this.hpcl = Number(this.hpcl) + Number(this.cardUsage[i].hpcl);
-          this.atm = Number(this.atm) + Number(this.cardUsage[i].atm);
+          this.iocl += Number(this.cardUsage[i].iocl);
+          this.bpcl += Number(this.cardUsage[i].bpcl);
+          this.hpcl += Number(this.cardUsage[i].hpcl);
+          this.atm += Number(this.cardUsage[i].atm);
           this.tolls += Number(this.cardUsage[i].tolls);
           console.log('............', this.tolls);
         }
