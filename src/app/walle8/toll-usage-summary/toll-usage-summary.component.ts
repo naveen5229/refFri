@@ -25,10 +25,11 @@ export class TollUsageSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
-    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.dates.end = this.common.dateFormatter1(new Date());
-    console.log('dates', this.dates.start);
-    this.getDate(0);
+    // console.log('dates', this.dates.start);
+    //this.getDate(0);
     this.gettollUsageSummary();
   }
 
