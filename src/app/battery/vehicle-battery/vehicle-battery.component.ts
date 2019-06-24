@@ -33,27 +33,27 @@ export class VehicleBatteryComponent implements OnInit {
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
       details: null,
     },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
   ]
   vehicleNo = "";
   vehicleId = null;
@@ -80,13 +80,14 @@ export class VehicleBatteryComponent implements OnInit {
     this.getBatteryCurrentStatus(this.vehicleBattery[index].batteryId, index)
   }
   getvehicleData(vehicleDetails, i) {
-    this.vehicleBattery[i].refid = vehicleDetails.Id;
+    this.vehicleBattery[i].refid = vehicleDetails.id;
+    this.vehicleId = vehicleDetails.id;
     console.log('refid', vehicleDetails);
-    //this.getMappedTyres();
+    28795
   }
-  resetVehDetails(ref, i) {
-    this.vehicleBattery[i].refmode = ref;
-    console.log('ref', ref, i)
+  resetVehDetails() {
+    // this.vehicleBattery[i].refmode = ref;
+    // console.log('ref', ref, i)
     // this.vehicleNo = "";
     // this.vehicleId = null;
   }
@@ -107,9 +108,8 @@ export class VehicleBatteryComponent implements OnInit {
     } else {
       this.common.loading++;
       let params = {
-        // vehicleId: this.vehicleId,
         // refMode: this.refMode,
-        vehicleBattery: JSON.stringify(this.vehicleBattery)
+        vehicleBattery: JSON.stringify(this.vehicleBattery),
       };
       console.log('Params:', params);
 
@@ -133,44 +133,7 @@ export class VehicleBatteryComponent implements OnInit {
     }
   }
 
-  // getMappedTyres() {
-  //   let params = 'vehicleId=' + this.vehicleId +
-  //     '&refMode=' + this.refMode;
-  //   console.log("params ", params);
-  //   this.api.get('Tyres/getVehicleTyreDetails?' + params)
-  //     .subscribe(res => {
-  //       this.data = res['data'];
-  //       this.table = {
-  //         data: {
-  //           headings: {},
-  //           columns: []
-  //         },
-  //         settings: {
-  //           hideHeader: true
-  //         }
-  //       };
-  //       this.headings = [];
-  //       this.valobj = {};
-  //       if (!this.data || !this.data.length) {
-  //         //document.getElementById('mdl-body').innerHTML = 'No record exists';
-  //         return;
-  //       }
-  //       let first_rec = this.data[0];
-  //       for (var key in first_rec) {
-  //         if (key.charAt(0) != "_") {
-  //           this.headings.push(key);
-  //           let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-  //           this.table.data.headings[key] = headerObj;
-  //         }
-  //       }
-  //       this.table.data.columns = this.getTableColumns();
 
-  //     }, err => {
-  //       console.error(err);
-  //       this.common.showError();
-  //     });
-
-  // }
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);

@@ -88,21 +88,7 @@ export class DataService {
             home: true,
           },
 
-          {
-            title: 'Site Fencing',
-            icon: 'fas fa-coins',
-            link: '/admin/site-fencing',
-          },
-          {
-            title: 'Buffer Polyline ',
-            icon: 'fas fa-coins',
-            link: '/admin/buffer-polyline',
-          },
-          {
-            title: 'Transport Area Fencing',
-            icon: 'fas fa-coins',
-            link: '/admin/transport-area',
-          },
+
           {
             title: 'Site Details',
             icon: 'fa fa-sitemap',
@@ -128,6 +114,26 @@ export class DataService {
             home: true,
           },
         ]
+      },
+      {
+        title: 'Site Fencing',
+        icon: 'fas fa-coins',
+        home: true,
+        children: [{
+          title: 'Site Fencing',
+          icon: 'fas fa-coins',
+          link: '/admin/site-fencing',
+        },
+        {
+          title: 'Buffer Polyline ',
+          icon: 'fas fa-coins',
+          link: '/admin/buffer-polyline',
+        },
+        {
+          title: 'Transport Area Fencing',
+          icon: 'fas fa-coins',
+          link: '/admin/transport-area',
+        }]
       },
 
       {

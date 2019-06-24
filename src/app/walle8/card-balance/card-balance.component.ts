@@ -47,7 +47,7 @@ export class CardBalanceComponent implements OnInit {
     });
   }
   getCardBalance() {
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
     console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewCardBalance.json?' + params)

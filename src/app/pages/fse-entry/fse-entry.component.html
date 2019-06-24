@@ -1,0 +1,55 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header class="toll-soft-recovery">
+        <h5>Fuel Station Entry</h5>
+
+    </nb-card-header>
+    <nb-card-body>
+        <div class="Vehicle-distance">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="mt-2">Vehicle id:</label>
+                                </div>
+                                <div class="col-8">
+                                    <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno" placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-4 pr-0">
+                                    <label class="mt-2">From Date :</label>
+                                </div>
+                                <div class="col-8 pl-0">
+                                    <uj-date-time-picker (onChanged)="startDate=$event" [dateTimeValue]="startDate" [isTime]="false">
+                                    </uj-date-time-picker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-3 pr-0">
+                                    <label class="mt-2">To Date :</label>
+                                </div>
+                                <div class="col-9 pl-0">
+                                    <uj-date-time-picker (onChanged)="endDate=$event" [dateTimeValue]="endDate" [isTime]="false">
+                                    </uj-date-time-picker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-primary" (click)="submit()">submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
+
+        </div>
+    </nb-card-body>
+</nb-card>
