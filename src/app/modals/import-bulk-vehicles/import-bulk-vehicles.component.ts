@@ -17,7 +17,10 @@ export class ImportBulkVehiclesComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public api: ApiService,
     private modalService: NgbModal,
-  ) { }
+  ) {
+    this.common.handleModalSize('class', 'modal-lg', '800');
+
+  }
 
   ngOnInit() {
   }

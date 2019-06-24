@@ -88,6 +88,7 @@ export class BatteryInventoryComponent implements OnInit {
     let alerts = false;
     let count = this.inventories.length;
     let afterRemove = [];
+
     for (let i = 0; i < count; i++) {
       console.log("batteryno.", this.inventories[i].batteryNo);
       if (this.inventories[i].batteryNo == null && this.inventories[i].modelId != null) {
@@ -96,33 +97,22 @@ export class BatteryInventoryComponent implements OnInit {
 
       }
       else if (this.inventories[i].batteryNo != null && this.inventories[i].modelId != null) {
-        afterRemove.push(this.inventories[i]);
+        if (this.inventories[i].months && this.inventories[i].months > 99) {
+          this.common.showToast('warrenty month can not be exceeded 99');
+          return;
+        } else {
+          afterRemove.push(this.inventories[i]);
+        }
+
       }
 
     }
+
+
     console.log("inv", afterRemove);
     this.inventories = afterRemove;
     for (let i = 0; i < this.inventories.length; i++) {
       this.inventories[i].buydate = this.common.dateFormatter(new Date(this.inventories[i].buydate)).split(' ')[0];
-
-      // if (this.inventories[i].batteryNo != null) {
-      //   this.saveDetails();
-      // }
-      // else {
-      //   this.common.showToast('fill battery number to save');
-      //   return;
-      // }
-      // if ((this.inventories[i].is_health == true) && ((!this.inventories[i].nsd1) || (!this.inventories[i].nsd2) || (!this.inventories[i].nsd3) || (!this.inventories[i].psi))) {
-      //   alerts = true;
-      //   break;
-      // }
-
-      // }
-      // if (alerts == true) {
-      //   alert("NSD-1 , NSD-2 , NSD-3 , PSI fields are mandatory is  Is_Health is Checked");
-      // }
-      //  else {
-
     }
     this.saveDetails();
 
@@ -159,8 +149,11 @@ export class BatteryInventoryComponent implements OnInit {
         console.log("return id ", res['data'][0].r_id);
         if (res['data'][0].r_id > 0) {
           this.common.showToast("sucess");
+
+          //this.addMore();
         } else {
           this.common.showError(res['data'][0].r_msg);
+          this.addMore();
         }
         //this.searchData();
       }, err => {

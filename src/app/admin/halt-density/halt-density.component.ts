@@ -258,7 +258,7 @@ export class HaltDensityComponent implements OnInit {
       this.apiService.get("SiteFencing/getBufferZoneCandidates?lat=" + params.lat + "&long=" + params.long)
         .subscribe(res => {
           console.log('Res: ', res['data']);
-          this.mapService.createHeatMap(res['data']);
+          this.mapService.createHeatMap(res['data'], false);
           this.isHeatAble = true;
           this.commonService.loading--;
         }, err => {
