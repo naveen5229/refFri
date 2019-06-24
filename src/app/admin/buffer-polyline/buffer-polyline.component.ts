@@ -143,6 +143,7 @@ export class BufferPolylineComponent implements OnInit {
   undo() {
     if (this.mapService.isDrawAllow) {
       this.mapService.undoPolyPath();
+      this.calKms();
       console.log("Here", this.mapService.polygonPath);
       if (this.circle) {
         let x = this.mapService.polygonPath.getPath().getArray();
