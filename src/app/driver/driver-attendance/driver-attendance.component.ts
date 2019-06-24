@@ -182,15 +182,10 @@ export class DriverAttendanceComponent implements OnInit {
 
 
     Object.keys(this.common.params.columns.current).forEach(key => {
-      let Currentcount = 0;
-      let CurrentAbcount = 0;
-      let CurrentHcount = 0;
-      let oldcount = 0;
-      let oldAbcount = 0;
-      let oldhcount = 0;
+
       let attType = this.common.params.columns.current[key]['value'];
       // console.log('')
-      if (attType == 'P') {
+      if (attType == 'p') {
 
         this.common.params.columns.current.id = '2';
       }
@@ -224,7 +219,7 @@ export class DriverAttendanceComponent implements OnInit {
 
     });
 
-    // let currentVal1 = show;
+
     console.log('show', show);
 
     let params = {

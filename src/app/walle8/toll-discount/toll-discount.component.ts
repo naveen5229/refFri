@@ -17,8 +17,8 @@ export class TollDiscountComponent implements OnInit {
   discount = null;
   tollDiscount = [];
   dates = {
-    start: null,
-    end: null,
+    start: '',
+    end: '',
   }
   foid = this.user._details.id;
   total: number;
@@ -62,7 +62,7 @@ export class TollDiscountComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Toll Discount";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading,null,'');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -187,7 +187,7 @@ export class TollDiscountComponent implements OnInit {
   getdetails() {
 
 
-    let params = "mobileNo=" + this.user._details.mobile + "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
+    let params = "mobileNo=" + this.user._details.fo_mobileno + "&startDate=" + this.dates.start + "&endDate=" + this.dates.end;
 
     this.common.loading++;
     let response;
