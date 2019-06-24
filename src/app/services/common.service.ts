@@ -236,6 +236,10 @@ export class CommonService {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy");
   }
+  changeDateformat3(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, "dd");
+  }
   changeTimeformat(time) {
     let hours = Math.trunc(time / 60);
     let minutes = time % 60;
@@ -486,7 +490,7 @@ export class CommonService {
 
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
     if (lat1 == lat2 && lon1 == lon2) {
-      return "0";
+      return 0;
     } else {
       let radlat1 = (Math.PI * lat1) / 180;
       let radlat2 = (Math.PI * lat2) / 180;
@@ -510,7 +514,7 @@ export class CommonService {
       if (unit == "N") {
         dist = dist * 0.8684;
       }
-      return dist.toFixed(0);
+      return parseInt(dist.toFixed(0));
     }
   }
 

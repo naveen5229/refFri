@@ -28,7 +28,7 @@ export class ImportFillingsComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-    this.common.handleModalSize('class', 'modal-m', '500');
+    this.common.handleModalSize('class', 'modal-lg', '800');
 
 
   }
