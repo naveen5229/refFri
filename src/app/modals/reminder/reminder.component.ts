@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'reminder',
   templateUrl: './reminder.component.html',
-  styleUrls: ['./reminder.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./reminder.component.scss', '../../pages/pages.component.css']
 })
 export class ReminderComponent implements OnInit {
 
@@ -14,7 +14,7 @@ export class ReminderComponent implements OnInit {
     date: '',
     time: ''
   };
-title='';
+  title = '';
   dates = [{
     name: 'Today',
     date: this.common.getDate(),
@@ -40,12 +40,12 @@ title='';
     private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
-      if(this.common.params.title){
-        this.title = this.common.params.title;
-      }
-      else{
-        this.title = "Reminder";
-      }
+    if (this.common.params.title) {
+      this.title = this.common.params.title;
+    }
+    else {
+      this.title = "Reminder";
+    }
   }
 
   ngOnInit() {
@@ -64,37 +64,45 @@ title='';
       this.common.showToast('Select An hour!');
       return;
     }
-    console.log("returndata",this.common.params.returnData);
+    console.log("returndata", this.common.params.returnData);
 
-    if(this.common.params.returnData){
-    console.log("returndata",this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00')
-     setTimeout(() =>{
-      this.activeModal.close({ date: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00' });
-    });}
-else{
-    const params = {
-      fo_ticket_allocation_id: this.common.params['fo_ticket_allocation_id'],
-      remindtime: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00'
-    };
-
-    console.log('Params: ', params);
-    this.common.loading++;
-    this.api.post('FoTickets/setReminderTime', params)
-      .subscribe(res => {
-        console.log(res);
-        this.common.loading--;
-        this.common.showToast(res['msg']);
-        this.dismiss();
-      }, err => {
-        console.error(err);
-        this.common.showError();
-        this.common.loading--;
+    if (this.common.params.returnData) {
+      console.log("returndata", this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00')
+      setTimeout(() => {
+        this.activeModal.close({ date: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00' });
       });
+    }
+    else {
+      const params = {
+        fo_ticket_allocation_id: this.common.params['fo_ticket_allocation_id'],
+        remindtime: this.common.dateFormatter(this.reminder.date).split(' ')[0] + ' ' + (this.reminder.time < '10' ? '0' + this.reminder.time : this.reminder.time) + ':00'
+      };
+
+      console.log('Params: ', params);
+      this.common.loading++;
+      this.api.post('FoTickets/setReminderTime', params)
+        .subscribe(res => {
+          console.log(res);
+          this.common.loading--;
+          this.common.showToast(res['msg']);
+          this.dismiss();
+        }, err => {
+          console.error(err);
+          this.common.showError();
+          this.common.loading--;
+        });
+    }
   }
-  }
-  handleDate() {
-    this.reminder.date = this.common.dateFormatter(this.reminder.date);
-    this.showHours = true;
+
+  handleDate(event) {
+    console.log('Reminder:', event.target.value, event.target.value[0], (event.target.value[0] > '1'));
+
+    if (!event.target.value || event.target.value[0] < '2') return;
+
+    this.reminder.date = this.common.dateFormatter(event.target.value);
+    console.log("Date error:", this.reminder.date);
+    if (this.reminder.date)
+      this.showHours = true;
   }
 
 }

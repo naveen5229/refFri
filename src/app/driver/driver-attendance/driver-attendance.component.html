@@ -2,28 +2,44 @@
   <nb-card-header>
     <h5>Driver Attendance</h5>
   </nb-card-header>
-  <nb-card-body>
-
-    <div class="row mb-3">
-      <div class="col-1 pr-0">
-        <label class="pt-1">From Date</label>
-      </div>
-      <div class="col-2">
-        <input style="cursor: pointer;" type="text" class="form-control" autocomplete="off" (click)="getDate('start')"
-          placeholder="Select Start Date" [value]="dates.start | date: 'dd MMM yyyy'" name="start-date">
-      </div>
-      <div class="col-1 pr-0">
-        <label class="pt-1">End Date</label>
+  <nb-card-body style="min-height: 400px;">
+    <div class="row">
+      <div class="col-3">
+        <month-picker (select)="dates = $event"></month-picker>
       </div>
       <div class="col-sm-2">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('end')"
-          placeholder="Select End Date" [value]="dates.end | date: 'dd MMM yyyy'" name="end-date">
-      </div>
-      <div class="col-sm-2">
-        <button type="submit" id="submit" name="submit" class="btn btn-primary m-0" (click)="getAttendace()">GET
+        <button type="submit" id="submit" name="submit" class="btn btn-primary w-100 m-0" (click)="getAttendace()">GET
           ATTENDANCE</button>
       </div>
     </div>
+    <!-- <div class="container">
+      <table class="table table-bordered table-hover table-scroll" *ngIf="attendances.length">
+        <thead class="thead">
+          <tr>
+
+            <th>Driver Name</th>
+            <th>Adjust Day</th>
+            <th>Total Present</th>
+            <th>Total Absent</th>
+            <th>Total HalfDay</th>
+            <th *ngFor="let dates of arrayofdates">{{dates.placeholder}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td *ngFor="let data of attendances">{{data.attendance}}</td>
+
+          </tr>
+        </tbody>
+
+      </table>
+    </div> -->
     <smart-table *ngIf="table.data.columns.length" [data]="table.data" [settings]="table.settings"></smart-table>
     <br>
 

@@ -65,9 +65,9 @@ export class RouteMapperComponent implements OnInit {
     }
     this.commonService.loading++;
     let params = {
-      vehicleId:this.vehicleSelected,
-      startDate:this.commonService.dateFormatter(this.startDate),
-      endDate:this.commonService.dateFormatter(this.endDate)
+      vehicleId: this.vehicleSelected,
+      startDate: this.commonService.dateFormatter(this.startDate),
+      endDate: this.commonService.dateFormatter(this.endDate)
     }
     // console.log(params);
     this.apiService.post('HaltOperations/getVehicleEvents', params)
@@ -94,7 +94,7 @@ export class RouteMapperComponent implements OnInit {
               if (i != 0) {
                 let disS = this.commonService.distanceFromAToB
                   (element.lat, element.long, prevElement.lat, prevElement.long, "Mt");
-                let dis = parseFloat(disS);
+                let dis = disS;
                 total += dis;
                 this.polypath.push({
                   lat: element.lat, lng: element.long,
@@ -108,11 +108,11 @@ export class RouteMapperComponent implements OnInit {
               }
               for (let index = 0; index < vehicleEvents.length; index++) {
                 const elementx = vehicleEvents[index];
-                if(vehicleEvents[index].halt_reason=="Unloading"||vehicleEvents[index].halt_reason=="Loading"){
+                if (vehicleEvents[index].halt_reason == "Unloading" || vehicleEvents[index].halt_reason == "Loading") {
                   vehicleEvents[index].subType = 'marker';
-                  vehicleEvents[index].color = vehicleEvents[index].halt_reason=="Unloading"?'ff4d4d':'88ff4d';
+                  vehicleEvents[index].color = vehicleEvents[index].halt_reason == "Unloading" ? 'ff4d4d' : '88ff4d';
                 }
-               
+
               }
               this.mapService.createPolyPathManual(this.mapService.createLatLng(element.lat, element.long));
               this.mapService.setBounds(this.mapService.createLatLng(element.lat, element.long));
@@ -133,8 +133,8 @@ export class RouteMapperComponent implements OnInit {
             let markerIndex = 0
             for (const marker of this.mapService.markers) {
               let event = this.vehicleEvents[markerIndex];
-              this.mapService.addListerner(marker,'mouseover',()=>this.setEventInfo(event));
-              this.mapService.addListerner(marker,'mouseout',()=>this.unsetEventInfo());
+              this.mapService.addListerner(marker, 'mouseover', () => this.setEventInfo(event));
+              this.mapService.addListerner(marker, 'mouseout', () => this.unsetEventInfo());
               markerIndex++;
             }
           }, err => {

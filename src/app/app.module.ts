@@ -179,6 +179,8 @@ import { FreightInputLocationComponent } from './modals/FreightRate/freight-inpu
 
 
 
+
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -325,6 +327,7 @@ import { FreightInputLocationComponent } from './modals/FreightRate/freight-inpu
 
 
 
+
   ],
   entryComponents: [
     FreightInputWithoutLocationComponent,
@@ -464,6 +467,7 @@ import { FreightInputLocationComponent } from './modals/FreightRate/freight-inpu
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+
 
   ],
   imports: [

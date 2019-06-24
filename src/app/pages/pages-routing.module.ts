@@ -57,6 +57,8 @@ import { PendingLicenceComponent } from '../driver/pending-licence/pending-licen
 import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
 import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
 import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
+import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-odometer/vehicle-distance-with-odometer.component';
+import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 
 const routes: Routes = [{
@@ -353,8 +355,18 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
+    path: 'vehicle-distance-with-odometer',
+    component: VehicleDistanceWithOdometerComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'vehicles',
     component: VehiclesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'fse-entry',
+    component: FSEEntryComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -362,11 +374,12 @@ const routes: Routes = [{
     component: VehicleOdometerComponent,
     canActivate: [AuthGuard]
   },
+ 
   {
     path: 'frieght-rate-input',
     component: FrieghtRateInputComponent,
     canActivate: [AuthGuard]
-  }
+  },
   ],
 }];
 
