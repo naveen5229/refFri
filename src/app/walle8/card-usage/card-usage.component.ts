@@ -14,13 +14,13 @@ import { getUrlScheme } from '@angular/compiler';
 export class CardUsageComponent implements OnInit {
   cardUsage = [];
   total = 0;
-  sum = {
-    iocl: 0,
-    bpcl: 0,
-    atm: 0,
-    hpcl: 0,
-    tolls: 0,
-  }
+
+  iocl = 0;
+  bpcl = 0;
+  atm = 0;
+  hpcl = 0;
+  tolls = 0;
+
   dates = {
     start: null,
     end: this.common.dateFormatter(new Date()),
@@ -53,14 +53,19 @@ export class CardUsageComponent implements OnInit {
     this.common.params = { ref_page: "card usage" };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
+      if (date == 'start') {
+        this.dates.start = this.common.dateFormatter(data.date).split(' ')[0];
+      }
+      if (date == 'end') {
+        this.dates.end = this.common.dateFormatter(data.date).split(' ')[0];
+      }
+
     });
   }
   getcardUsage() {
 
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
 
     this.common.loading++;
     let response;
@@ -69,18 +74,18 @@ export class CardUsageComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.cardUsage = res['data'];
-        for (let i = 0; i < this.cardUsage.length; i++) {
+        for (let i = 0; i < this.cardUsage.length; i += 1) {
 
-          this.sum.iocl = this.sum.iocl + this.cardUsage[i].iocl;
-          this.sum.bpcl = this.sum.bpcl + this.cardUsage[i].bpcl;
-          this.sum.hpcl = this.sum.hpcl + this.cardUsage[i].hpcl;
-          this.sum.atm = this.sum.atm + this.cardUsage[i].atm;
-          this.sum.tolls = this.sum.tolls + this.cardUsage[i].tolls
-          //console.log('............', this.sum);
+          this.iocl = Number(this.iocl) + Number(this.cardUsage[i].iocl);
+          this.bpcl = Number(this.bpcl) + Number(this.cardUsage[i].bpcl);
+          this.hpcl = Number(this.hpcl) + Number(this.cardUsage[i].hpcl);
+          this.atm = Number(this.atm) + Number(this.cardUsage[i].atm);
+          this.tolls += Number(this.cardUsage[i].tolls);
+          console.log('............', this.tolls);
         }
 
-        this.total = this.total + this.sum.tolls + this.sum.iocl + this.sum.bpcl + this.sum.hpcl + this.sum.atm;
-        //console.log('card', this.total);
+        this.total = Number(this.total) + Number(this.tolls) + Number(this.iocl) + Number(this.bpcl) + Number(this.hpcl) + Number(this.atm);
+        console.log('card', this.total);
       }, err => {
         this.common.loading--;
         console.log(err);

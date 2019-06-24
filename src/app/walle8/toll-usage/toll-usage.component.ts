@@ -16,7 +16,7 @@ export class TollUsageComponent implements OnInit {
   cardType = 1;
   table = null;
   dates = {
-    start: this.common.dateFormatter(new Date()),
+    start: null,
     end: this.common.dateFormatter(new Date()),
   }
   constructor(
@@ -25,6 +25,8 @@ export class TollUsageComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 1)));
     this.gettollUsage();
   }
 
@@ -49,7 +51,7 @@ export class TollUsageComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Toll Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading,null,'');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

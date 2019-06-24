@@ -7,6 +7,7 @@ import { AutoSuggestionComponent } from './auto-suggestion/auto-suggestion.compo
 import { SmartTableComponent } from './smart-table/smart-table.component';
 import { AutoSuggetionInSideComponent } from './auto-suggetion-in-side/auto-suggetion-in-side.component';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
+import { MonthPickerComponent } from './month-picker/month-picker.component';
 
 @NgModule({
     imports: [CommonModule, FormsModule, ReactiveFormsModule, DateInputsModule],
@@ -16,9 +17,11 @@ import { DateTimePickerComponent } from './date-time-picker/date-time-picker.com
         AutoSuggestionComponent,
         SmartTableComponent,
         AutoSuggetionInSideComponent,
-        DateTimePickerComponent
+        DateTimePickerComponent,
+        MonthPickerComponent
     ],
     declarations: [AutoSuggestionComponent, SmartTableComponent, AutoSuggetionInSideComponent,
-        DateTimePickerComponent],
+        DateTimePickerComponent,
+        MonthPickerComponent],
 })
 export class DirectiveModule { }

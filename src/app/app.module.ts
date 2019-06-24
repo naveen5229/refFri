@@ -172,6 +172,13 @@ import { ModalWiseFuelAvgComponent } from './modals/modal-wise-fuel-avg/modal-wi
 import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
 import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
 import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
+import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
+import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
+import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
+
+
+
+
 
 
 
@@ -224,6 +231,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
+    LoadHaltComponent,
     VoucherSummaryComponent,
     AddConsigneeComponent,
     ParticlularsComponent,
@@ -316,9 +324,16 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     FuelEditComponent,
     AddViaRoutesComponent,
     VehicleTyreSummaryComponent,
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
+
+
+
 
   ],
   entryComponents: [
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
     VehicleTyreSummaryComponent,
     BulkVehicleNextServiceDetailComponent,
     AddAdvancedMaintenanceComponent,
@@ -371,6 +386,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     AddPumpComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
+    LoadHaltComponent,
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
@@ -454,6 +470,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+
 
   ],
   imports: [

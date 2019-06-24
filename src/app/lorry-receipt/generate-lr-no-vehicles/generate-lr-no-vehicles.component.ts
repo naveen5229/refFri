@@ -46,7 +46,9 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
     destinationLat: null,
     destinationLng: null,
     remark: null,
-    date: null
+    date: null,
+    amount: 0,
+    gstPer: 0
   };
 
   particulars = [
@@ -263,7 +265,9 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
         destination: this.lr.destinationCity,
         consignorId: this.lr.consignorId,
         consigneeId: this.lr.consigneeId,
-        amount: this.lr.payableAmount,
+        amount: this.lr.amount,
+        gstPer: this.lr.gstPer,
+        totalAmount: this.lr.payableAmount,
         payType: this.lr.paymentTerm,
         taxPaid: this.lr.taxPaidBy,
         travelAgentId: this.taId,
@@ -286,13 +290,16 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
           --this.common.loading;
           console.log('response :', res['data'][0].rtn_id);
           if (res['data'][0].rtn_id > 0) {
-            this.common.showToast("LR Generated Successfully");
+            alert("LR Generated Successfully");
+            //this.common.showToast("LR Generated Successfully");
           } else {
-            this.common.showError(res['data'][0].rtn_msg);
+            alert(res['data'][0].rtn_msg);
+            //this.common.showError(res['data'][0].rtn_msg);
           }
         }, err => {
           --this.common.loading;
-          this.common.showError(err);
+          alert(err);
+          //this.common.showError(err);
           console.log('Error: ', err);
         });
     }
@@ -333,5 +340,12 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
   resetData(event) {
     this.vehicleId = null;
     console.log(event);
+  }
+
+  calculateTotalAmount() {
+    let calPer = 0;
+    calPer = 100 + parseFloat('' + this.lr.gstPer);
+    this.lr.payableAmount = (this.lr.amount * calPer) / 100;
+    console.log(calPer, "lr payable amount", this.lr.payableAmount);
   }
 }
