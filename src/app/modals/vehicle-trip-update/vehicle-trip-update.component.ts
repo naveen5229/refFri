@@ -19,6 +19,7 @@ export class VehicleTripUpdateComponent implements OnInit {
   vehicleStatus = null;
   keepGoing = true;
   searchString = '';
+  isNotified = false;
   vehicleTrip = {
     endLat: null,
     endLng: null,
@@ -155,7 +156,7 @@ export class VehicleTripUpdateComponent implements OnInit {
         targetTime: this.vehicleTrip.targetTime,
         allowedHaltHours: this.vehicleTrip.allowedHaltHours,
         siteId: this.placementSite ? this.placementSite : 'null',
-
+        isNotified: this.isNotified
       }
 
       console.log("params", params);

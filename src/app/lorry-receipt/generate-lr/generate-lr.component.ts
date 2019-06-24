@@ -37,7 +37,7 @@ export class GenerateLRComponent implements OnInit {
     consignorId: null,
     sameAsDelivery: false,
     paymentTerm: "1",
-    payableAmount: null,
+    payableAmount: 0,
     lrNumber: null,
     sourceCity: null,
     sourceLat: null,
@@ -47,6 +47,8 @@ export class GenerateLRComponent implements OnInit {
     destinationLng: null,
     remark: null,
     date: null,
+    amount: 0,
+    gstPer: 0
   };
 
   particulars = [
@@ -264,7 +266,9 @@ export class GenerateLRComponent implements OnInit {
         destination: this.lr.destinationCity,
         consignorId: this.lr.consignorId,
         consigneeId: this.lr.consigneeId,
-        amount: this.lr.payableAmount,
+        amount: this.lr.amount,
+        gstPer: this.lr.gstPer,
+        totalAmount: this.lr.payableAmount,
         payType: this.lr.paymentTerm,
         taxPaid: this.lr.taxPaidBy,
         travelAgentId: this.taId,
@@ -278,7 +282,8 @@ export class GenerateLRComponent implements OnInit {
         consigneeAddress: this.lr.consigneeAddress,
         consignorAddress: this.lr.consignorAddress,
         vehicleRegNo: document.getElementById('vehicleno')['value'],
-        lrType: 'false'
+        lrType: 'false',
+
       }
       console.log("params", params);
 
@@ -344,5 +349,12 @@ export class GenerateLRComponent implements OnInit {
   resetData(event) {
     this.vehicleId = null;
     console.log(event);
+  }
+
+  calculateTotalAmount() {
+    let calPer = 0;
+    calPer = 100 + parseFloat('' + this.lr.gstPer);
+    this.lr.payableAmount = (this.lr.amount * calPer) / 100;
+    console.log(calPer, "lr payable amount", this.lr.payableAmount);
   }
 }

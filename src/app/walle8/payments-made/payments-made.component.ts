@@ -38,8 +38,14 @@ export class PaymentsMadeComponent implements OnInit {
     this.common.params = { ref_page: "card usage" };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
+      if (date == 'start') {
+        this.dates.start = this.common.dateFormatter(data.date).split(' ')[0];
+      }
+      if (date == 'end') {
+        this.dates.end = this.common.dateFormatter(data.date).split(' ')[0];
+      }
+
+
     });
   }
   getPaymentMade() {
@@ -55,8 +61,8 @@ export class PaymentsMadeComponent implements OnInit {
         console.log('Res:', res['data']);
         this.data = res['data'];
         this.table = this.setTable();
-        for (let i = 0; i < this.data.length; i++) {
-          this.total = this.total + this.data[i].amt;
+        for (let i = 0; i < this.data.length; i += 1) {
+          this.total += Number(this.data[i].amt);
         }
       }, err => {
         this.common.loading--;

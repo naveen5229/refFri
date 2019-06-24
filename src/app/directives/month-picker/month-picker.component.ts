@@ -36,10 +36,13 @@ export class MonthPickerComponent implements OnInit {
     this.months.forEach(month => {
       if (month.id == this.currentMonth) this.selectedMonth = month;
     });
+    setTimeout(this.selectMonth.bind(this, this.selectedMonth), 500);
+
   }
 
   ngOnInit() {
   }
+
 
   /**
    * @param month Month to be select
@@ -57,7 +60,6 @@ export class MonthPickerComponent implements OnInit {
       end = this.common.dateFormatter(new Date(this.selectedYear, month.id, 0), '', false);
 
     }
-    // console.log('dates', start, end);
     this.isVisible = false;
     this.select.emit({ start, end });
   }
