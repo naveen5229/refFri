@@ -10,7 +10,7 @@ import { FreightInputLocationComponent } from '../../modals/FreightRate/freight-
 @Component({
   selector: 'frieght-rate-input',
   templateUrl: './frieght-rate-input.component.html',
-  styleUrls: ['./frieght-rate-input.component.scss']
+  styleUrls: ['./frieght-rate-input.component.scss', "../pages.component.css",]
 })
 export class FrieghtRateInputComponent implements OnInit {
 
