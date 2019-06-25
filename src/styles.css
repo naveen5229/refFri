@@ -609,7 +609,7 @@ ngb-modal-window {
 } */
 
 .menu-sidebar.compacted {
-    z-index: 999;
+    z-index: 99999;
 }
 
 .menu-sidebar.compacted .scrollable {
