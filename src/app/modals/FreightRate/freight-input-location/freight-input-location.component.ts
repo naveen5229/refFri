@@ -30,12 +30,12 @@ export class FreightInputLocationComponent implements OnInit {
     distance: null,
     weight: null,
     weightDistance: null,
-    source: null,
-    sourceLat: null,
-    SourceLng: null,
+    origin: null,
+    org_lat: null,
+    org_long: null,
     destination: null,
-    destinationLat: null,
-    destinationLng: null,
+    dest_lat: null,
+    dest_long: null,
   }];
   constructor(
     private modalService: NgbModal,
@@ -105,25 +105,25 @@ export class FreightInputLocationComponent implements OnInit {
       distance: null,
       weight: null,
       weightDistance: null,
-      source: null,
-      sourceLat: null,
-      SourceLng: null,
+      origin: null,
+      org_lat: null,
+      org_long: null,
       destination: null,
-      destinationLat: null,
-      destinationLng: null,
+      dest_lat: null,
+      dest_long: null,
     });
   }
 
   selectLocation(place, type) {
     if (type == 'Source') {
       console.log("palce", place);
-      this.frieghtDatas[0].sourceLat = place.lat;
-      this.frieghtDatas[0].SourceLng = place.long;
-      this.frieghtDatas[0].source = place.location || place.name;
+      this.frieghtDatas[0].org_lat = place.lat;
+      this.frieghtDatas[0].org_long = place.long;
+      this.frieghtDatas[0].origin = place.location || place.name;
     }
     console.log("palce", place);
-    this.frieghtDatas[0].destinationLat = place.lat;
-    this.frieghtDatas[0].destinationLng = place.long;
+    this.frieghtDatas[0].dest_lat = place.lat;
+    this.frieghtDatas[0].dest_long = place.long;
     this.frieghtDatas[0].destination = place.location || place.name;
   }
 
@@ -140,11 +140,11 @@ export class FreightInputLocationComponent implements OnInit {
           console.log('response----', res.location);
           this.keepGoing = true;
           if (res.location.lat) {
-            this.frieghtDatas[0].source = res.location.name;
+            this.frieghtDatas[0].origin = res.location.name;
 
-            (<HTMLInputElement>document.getElementById('source')).value = this.frieghtDatas[0].source;
-            this.frieghtDatas[0].sourceLat = res.location.lat;
-            this.frieghtDatas[0].SourceLng = res.location.lng;
+            (<HTMLInputElement>document.getElementById('origin')).value = this.frieghtDatas[0].origin;
+            this.frieghtDatas[0].org_lat = res.location.lat;
+            this.frieghtDatas[0].org_long = res.location.lng;
             this.keepGoing = true;
           }
         })
@@ -170,8 +170,8 @@ export class FreightInputLocationComponent implements OnInit {
             this.frieghtDatas[0].destination = res.location.name;
 
             (<HTMLInputElement>document.getElementById('destination')).value = this.frieghtDatas[0].destination;
-            this.frieghtDatas[0].destinationLat = res.location.lat;
-            this.frieghtDatas[0].destinationLng = res.location.lng;
+            this.frieghtDatas[0].dest_lat = res.location.lat;
+            this.frieghtDatas[0].dest_long = res.location.lng;
             this.keepGoing = true;
           }
         })

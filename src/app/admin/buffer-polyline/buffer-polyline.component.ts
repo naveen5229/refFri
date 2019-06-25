@@ -387,11 +387,11 @@ export class BufferPolylineComponent implements OnInit {
 
   ignoreSite() {
     if (!this.routeId) {
-      alert("Select Site First!!!");
+      alert("Select Buffer First!!!");
       return;
     }
     this.commonService.loading++;
-    this.apiService.post('SiteFencing/ignoreSite', { siteId: this.routeId })
+    this.apiService.post('Buffer/ignore', { routeId: this.routeId })
       .subscribe(res => {
         this.commonService.loading--;
         this.commonService.showToast(res['msg']);
