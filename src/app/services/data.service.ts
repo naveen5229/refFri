@@ -182,7 +182,7 @@ export class DataService {
             home: true,
           },
           {
-            title: 'add-customer',
+            title: 'Cust Onboarding',
             icon: 'fas fa-info-circle',
             link: '/admin/add-customer',
             home: true,

@@ -79,10 +79,15 @@ export class BalancesheetComponent implements OnInit {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_assets');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    // console.log('y_sub_groupname',)
+    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_sub_groupname');
+    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_sub_groupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
     console.log('C:', secondGroup);
+    console.log('subFirstGroup', subFirstGroup);
+    console.log('subSecondGroup', subSecondGroup);
     this.liabilities = [];
     for (let key in firstGroup) {
       let total = 0;
@@ -93,7 +98,10 @@ export class BalancesheetComponent implements OnInit {
       this.liabilities.push({
         name: key,
         amount: total,
+
         balanceSheets: firstGroup[key].filter(balanceSheet => { return balanceSheet.y_ledger_name; })
+
+
       })
     }
 
@@ -114,6 +122,50 @@ export class BalancesheetComponent implements OnInit {
     console.log('first Section:', this.liabilities);
     console.log('last Section:', this.assets);
 
+    this.liabilities.map(libility => {
+      console.log('...........\\\\\\\\\\.......', _.groupBy(libility.balanceSheets, 'y_sub_groupname'));
+      let subGroups = _.groupBy(libility.balanceSheets, 'y_sub_groupname');
+      libility.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(balanceSheet => {
+            total += parseFloat(balanceSheet.y_amount)
+          });
+          libility.subGroups.push({
+            name: key,
+            balanceSheets: subGroups[key],
+            total
+          });
+
+          console.log(subGroups[key], total);
+        });
+      }
+      delete libility.balanceSheets;
+      console.log('___', libility);
+    });
+    this.assets.map(asset => {
+      console.log('...........\\\\\\\\\\.......', _.groupBy(asset.balanceSheets, 'y_sub_groupname'));
+      let subGroups = _.groupBy(asset.balanceSheets, 'y_sub_groupname');
+      asset.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(balanceSheet => {
+            total += parseFloat(balanceSheet.y_amount)
+          });
+          asset.subGroups.push({
+            name: key,
+            balanceSheets: subGroups[key],
+            total
+          });
+
+          console.log(subGroups[key], total);
+        });
+      }
+      delete asset.balanceSheets;
+      console.log('___', asset);
+    });
 
   }
 

@@ -6,6 +6,7 @@ import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { FreightInputWithoutLocationComponent } from '../../modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
 import { FreightInputLocationComponent } from '../../modals/FreightRate/freight-input-location/freight-input-location.component';
+import { FoFreightRatesComponent } from '../../modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
 
 @Component({
   selector: 'frieght-rate-input',
@@ -154,6 +155,12 @@ export class FrieghtRateInputComponent implements OnInit {
     activeModal.result.then(data => {
       this.getFrieghtRate();
     });
+
+  }
+  openFm() {
+    console.log("with location");
+    const activeModal = this.modalService.open(FoFreightRatesComponent, { container: 'nb-layout', backdrop: 'static' });
+
 
   }
 }
