@@ -127,6 +127,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/daybooks/0'
             },
             {
+              title:'Upload Pending',
+              link:'/accounts/daybookpending'  
+            },
+            {
                 title: 'Bank Book',
                 link: '/accounts/bank-books'
             },
