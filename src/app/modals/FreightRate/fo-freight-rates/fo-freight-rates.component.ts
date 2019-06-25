@@ -40,7 +40,7 @@ export class FoFreightRatesComponent implements OnInit {
     public api: ApiService
 
   ) {
-    this.common.handleModalSize('class', 'modal-lg', '400')
+    this.common.handleModalSize('class', 'modal-lg', '400');
   }
 
   ngOnInit() {

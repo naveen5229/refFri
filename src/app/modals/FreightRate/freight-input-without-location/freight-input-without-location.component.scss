@@ -6,6 +6,12 @@ nb-card-header{
         width: 100%;
         tr{
             white-space: nowrap;
+            td{
+                button{
+                    border-radius: 3px;
+                    padding: 5px 10px;
+                }
+            }
         }
     }
 }
@@ -56,4 +62,10 @@ nb-card-header{
             }
         }
     }
+}
+
+.submit{
+    border-radius: 3px;
+    padding: 8px 15px;
+    text-transform: capitalize;
 }

@@ -73,8 +73,6 @@
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.fixed></td>
           <td>Distance × </td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.distance></td>
-        </tr>
-        <tr>
           <td>Weight × </td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weight></td>
           <td>Wt-Dist × </td>
@@ -90,7 +88,11 @@
       </tbody>
     </table>
   </div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" (click)="saveFrightInput()">Submit</button>
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveFrightInput()">Submit</button>
+  </div>
+
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+  </smart-table>
 </div>

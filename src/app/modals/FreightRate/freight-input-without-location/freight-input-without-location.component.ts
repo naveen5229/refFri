@@ -52,6 +52,19 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   }];
   frpId = null;
 
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
+
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
@@ -59,7 +72,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     public activeModal: NgbActiveModal,
   ) {
     this.frpId = this.common.params.id ? this.common.params.id : null;
-
+    this.getFrieghtRateDetails();
     this.common.handleModalSize('class', 'modal-lg', '1600');
   }
 
@@ -121,7 +134,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         console.log(res['data'][0].result);
-        alert(res['data'][0].result);
+        this.common.showToast(res['data'][0].result);
+
         this.activeModal.close();
 
       }, err => {
@@ -130,4 +144,63 @@ export class FreightInputWithoutLocationComponent implements OnInit {
         console.log('Error: ', err);
       });
   }
+
+
+  getFrieghtRateDetails() {
+    let params = {
+      frpId: this.frpId,
+      type: 'formula',
+    }
+    console.log("params", params);
+    ++this.common.loading;
+
+    this.api.post('FrieghtRate/getFrieghtRateDetails', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = [];
+
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+  getTableColumns() {
+
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+      }
+
+      columns.push(this.valobj);
+
+    });
+
+    return columns;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+
 }

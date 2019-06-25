@@ -110,8 +110,8 @@ export class FrieghtRateInputComponent implements OnInit {
     let icons = [];
     icons.push(
       {
+        class: "addButton",
 
-        class: "fas fa-edit",
         action: this.openWithLocationModal.bind(this, details),
       }
     )
@@ -124,7 +124,7 @@ export class FrieghtRateInputComponent implements OnInit {
     let icons = [];
     icons.push(
       {
-        class: "fas fa-edit",
+        class: "fas fa-plus",
         action: this.openWithoutLocationModal.bind(this, details),
       }
     )
@@ -144,7 +144,10 @@ export class FrieghtRateInputComponent implements OnInit {
     console.log("without location");
     const activeModal = this.modalService.open(FreightInputWithoutLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.getFrieghtRate();
+      if (data && data.response) {
+
+        this.getFrieghtRate();
+      }
     });
   }
   openWithLocationModal(row) {
@@ -153,13 +156,17 @@ export class FrieghtRateInputComponent implements OnInit {
     console.log("with location");
     const activeModal = this.modalService.open(FreightInputLocationComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.getFrieghtRate();
+      if (data && data.response) {
+
+        this.getFrieghtRate();
+      }
     });
 
   }
-  openFm() {
+  OpenFoFreight() {
     console.log("with location");
-    const activeModal = this.modalService.open(FoFreightRatesComponent, { container: 'nb-layout', backdrop: 'static' });
+    this.common.handleModalSize('class', 'modal-lg', '400');
+    const activeModal = this.modalService.open(FoFreightRatesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
 
   }
