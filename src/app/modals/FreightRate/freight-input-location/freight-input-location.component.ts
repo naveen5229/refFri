@@ -15,15 +15,15 @@ export class FreightInputLocationComponent implements OnInit {
   keepGoing = true;
   sourceString = '';
   destinationString = '';
-  frieghtRate = {
-    wefDate: '',
-    companyName: null,
-    companyId: null,
-    materialName: null,
-    materialId: null,
-    siteName: null,
-    siteId: null,
-  }
+  // frieghtRate = {
+  //   wefDate: '',
+  //   companyName: null,
+  //   companyId: null,
+  //   materialName: null,
+  //   materialId: null,
+  //   siteName: null,
+  //   siteId: null,
+  // }
 
   frieghtDatas = [{
     fixed: null,
@@ -37,14 +37,15 @@ export class FreightInputLocationComponent implements OnInit {
     dest_lat: null,
     dest_long: null,
   }];
+  frpId = null;
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
+    this.frpId = this.common.params.id ? this.common.params.id : null;
     this.common.handleModalSize('class', 'modal-lg', '1300');
-    this.frieghtRate.wefDate = this.common.dateFormatter(new Date());
   }
 
   ngOnInit() {
@@ -52,22 +53,8 @@ export class FreightInputLocationComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
-  getCompanyDetail(consignor) {
-    console.log("consignor", consignor);
-    this.frieghtRate.companyName = consignor.name;
-    this.frieghtRate.companyId = consignor.id;
-  }
-  getSiteDetail(site) {
-    console.log("site", site);
-    this.frieghtRate.siteName = site.name;
-    this.frieghtRate.siteId = site.id;
 
-  }
-  getMaterialDetail(material) {
-    console.log("material", material);
-    this.frieghtRate.materialName = material.name
-    this.frieghtRate.materialId = material.id
-  }
+
   onChangeAuto(search, type) {
     if (type == 'Source') {
 
@@ -78,19 +65,7 @@ export class FreightInputLocationComponent implements OnInit {
       this.destinationString = search;
     }
   }
-  getDate() {
 
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-
-        this.frieghtRate.wefDate = '';
-        return this.frieghtRate.wefDate = this.common.dateFormatter1(data.date).split(' ')[0];
-      }
-
-    });
-  }
   addCompany() {
     console.log("open material modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
@@ -184,21 +159,20 @@ export class FreightInputLocationComponent implements OnInit {
 
   saveFrightInput() {
     let params = {
-      companyId: this.frieghtRate.companyId,
-      siteId: this.frieghtRate.siteId,
-      materialId: this.frieghtRate.materialId,
-      date: this.frieghtRate.wefDate,
+      frpId: this.frpId,
+      type: 'location',
       frieghtRateData: JSON.stringify(this.frieghtDatas),
       // filterParams: JSON.stringify(this.filters)
     }
     console.log("params", params);
     ++this.common.loading;
 
-    this.api.post('FrieghtRate/saveFrieghtRate', params)
+    this.api.post('FrieghtRate/saveFrieghtRateDetails', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res['data'][0].result);
         alert(res['data'][0].result);
+        this.activeModal.close();
       }, err => {
         --this.common.loading;
         this.common.showError(err);

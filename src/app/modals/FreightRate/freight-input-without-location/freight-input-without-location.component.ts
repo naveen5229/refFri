@@ -12,15 +12,7 @@ import { AddConsigneeComponent } from '../../LRModals/add-consignee/add-consigne
 })
 export class FreightInputWithoutLocationComponent implements OnInit {
 
-  frieghtRate = {
-    wefDate: '',
-    companyName: null,
-    companyId: null,
-    materialName: null,
-    materialId: null,
-    siteName: null,
-    siteId: null,
-  }
+
   combineJson = []
   general = {
     param: null,
@@ -58,14 +50,17 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     fuelBaseRate: null,
     fuelVariation: null
   }];
+  frpId = null;
+
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
+    this.frpId = this.common.params.id ? this.common.params.id : null;
+
     this.common.handleModalSize('class', 'modal-lg', '1600');
-    this.frieghtRate.wefDate = this.common.dateFormatter(new Date());
   }
 
   ngOnInit() {
@@ -73,35 +68,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
-  getCompanyDetail(consignor) {
-    console.log("consignor", consignor);
-    this.frieghtRate.companyName = consignor.name;
-    this.frieghtRate.companyId = consignor.id;
-  }
-  getSiteDetail(site) {
-    console.log("site", site);
-    this.frieghtRate.siteName = site.name;
-    this.frieghtRate.siteId = site.id;
 
-  }
-  getMaterialDetail(material) {
-    console.log("material", material);
-    this.frieghtRate.materialName = material.name
-    this.frieghtRate.materialId = material.id
-  }
-  getDate() {
 
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-
-        this.frieghtRate.wefDate = '';
-        return this.frieghtRate.wefDate = this.common.dateFormatter1(data.date).split(' ')[0];
-      }
-
-    });
-  }
   addCompany() {
     console.log("open material modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
@@ -140,21 +108,22 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     console.log("frieghtRateData", frieghtRateData);
     ++this.common.loading;
     let params = {
-      companyId: this.frieghtRate.companyId,
-      siteId: this.frieghtRate.siteId,
-      materialId: this.frieghtRate.materialId,
-      date: this.frieghtRate.wefDate,
+      frpId: this.frpId,
+      type: 'formula',
+
       frieghtRateData: JSON.stringify(frieghtRateData),
       // filterParams: JSON.stringify(this.filters)
     }
     console.log("params", params);
 
 
-    this.api.post('FrieghtRate/saveFrieghtRate', params)
+    this.api.post('FrieghtRate/saveFrieghtRateDetails', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res['data'][0].result);
         alert(res['data'][0].result);
+        this.activeModal.close();
+
       }, err => {
         --this.common.loading;
         this.common.showError(err);
