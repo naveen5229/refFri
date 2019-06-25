@@ -77,7 +77,8 @@ export class BufferPolylineComponent implements OnInit {
           this.circle = null;
         }
         this.circle = this.mapService.createCirclesOnPostion(event.latLng, this.meterRadius);
-        let position = this.lat + "," + this.long;
+        let position = event.latLng.lat() + "," + event.latLng.lng();
+
         this.position = position;
         this.search(false);
         this.calKms();
