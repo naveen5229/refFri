@@ -5,6 +5,12 @@
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
       <div class="col-sm-2">
+        <select class="form-control" (change)="getLorryReceipts()" name="viewType" [(ngModel)]="viewType">
+          <option value="allLR">All</option>
+          <option value="myLr">My</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
         <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
           placeholder="Start Date" (click)="getDate('start')">
       </div>
@@ -15,12 +21,7 @@
       <div class="col-sm-6">
         <button class="btn btn-primary m-0" (click)="getLorryReceipts()">submit</button>
       </div>
-      <div class="col-sm-2">
-        <select class="form-control" (change)="getLorryReceipts()" name="viewType" [(ngModel)]="viewType">
-          <option value="allLR">All</option>
-          <option value="myLr">My</option>
-        </select>
-      </div>
+
     </div>
     <div>
       <smart-table *ngIf="receipts && receipts.length" [data]="table.receipts" [settings]="table.settings"
