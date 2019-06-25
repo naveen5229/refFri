@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h5>Freight Rate Input</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col">
+      <label>Company Name* </label>
+      <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies" display="name"
+        placeholder="" class="col-md-10 auto-suggest pl-0 pr-2"></auto-suggestion><i class="fa fa-plus  add col-md-2"
+        (click)="addCompany()"></i>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label>Site</label>
+
+      <auto-suggestion (onSelected)="getSiteDetail($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+        [display]="['name','sd_loc_name']" placeholder="Search ." [preSelected]="null">
+      </auto-suggestion>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label>Material</label>
+      <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+        placeholder="Material Name" [preSelected]="null">
+      </auto-suggestion>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label>W.e.f.</label>
+
+      <span> <input type="text" class="form-control" [value]="frieghtRate.wefDate | date : 'dd MMM yyyy'" name="date"
+          placeholder="Date" (click)="getDate()"></span>
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" (click)="saveFrightRates()">Add</button>
+</div>
