@@ -78,7 +78,7 @@
           <div *ngFor="let subGroup of liability.subGroups;">
             <div class="tb-mini row m-0 pl-0 pr-0"  style="background-color: #5d6e75;color: #fff;">
               <div class="col-8">{{subGroup.name}}</div>
-              <div class="col-4 text-right">{{subGroup.total}}</div>
+              <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
             </div>
 
             <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index" (click)="selectedRow =  'A' + i + j" class="tb-mini row m-0 pl-0 pr-0"
@@ -134,7 +134,7 @@
             <div *ngFor="let subGroup of liability.subGroups;">
               <div class="th-mini row m-0 pl-0 pr-0">
                 <div class="col-8">{{subGroup.name}}</div>
-                <div class="col-4 text-right">{{subGroup.total}}</div>
+                <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
               </div>
   
               <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index" (click)="selectedRow =  'A' + i + j" class="tb-mini row m-0 pl-0 pr-0"

@@ -183,7 +183,8 @@ export class VoucherComponent implements OnInit {
   modelCondition() {
     console.log('gess');
     this.showConfirm = false;
-    this.activeModal.close();
+  //  this.activeModal.close();
+  this.dismiss(false);
   }
   modelConditionsure() {
     this.showConfirm = false;
@@ -230,7 +231,7 @@ export class VoucherComponent implements OnInit {
 
 
   dismiss(response) {
-    console.log('Voucher:', this.voucher);
+    console.log('Voucher:', this.voucher,'test response',response);
     if (response && this.voucher.total.debit !== this.voucher.total.credit) {
       this.common.showError('Credit And Debit Amount Should be Same');
       return;
@@ -247,7 +248,11 @@ export class VoucherComponent implements OnInit {
       this.showConfirm = false;
       event.preventDefault();
       return;
-    } else {
+    } else if(response==false){
+     // this.activeModal.close();
+      this.activeModal.close({ data: false });
+    }
+    else {
       alert('Please Select Branch');
     }
 
