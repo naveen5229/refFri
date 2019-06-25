@@ -6,6 +6,12 @@ nb-card-header{
         width: 100%;
         tr{
             white-space: nowrap;
+            td{
+                button{
+                    border-radius: 3px;
+                    padding: 5px 10px;
+                }
+            }
         }
     }
 }
@@ -42,7 +48,6 @@ nb-card-header{
     }
 }
 .filter-coff{
-    border-top: 1px solid #ccc;
     padding-top: 20px;
     h6{
         font-weight: bold;
@@ -56,4 +61,15 @@ nb-card-header{
             }
         }
     }
+}
+.submit{
+    border-radius: 3px;
+    padding: 8px 15px;
+    text-transform: capitalize;
+}
+h4{
+    font-size: small;
+    font-family: initial;
+    font-weight: 800;
+    text-transform: capitalize;
 }

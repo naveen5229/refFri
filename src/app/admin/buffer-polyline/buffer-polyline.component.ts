@@ -157,7 +157,7 @@ export class BufferPolylineComponent implements OnInit {
 
     if (!this.mapService.isDrawAllow) {
       let params = {
-        tblRefId: 2,
+        tblRefId: 8,
         tblRowId: this.routeId
       };
       if (this.routeId) {
@@ -396,6 +396,7 @@ export class BufferPolylineComponent implements OnInit {
       .subscribe(res => {
         this.commonService.loading--;
         this.commonService.showToast(res['msg']);
+        this.getRemainingTable();
       }, err => {
         this.commonService.loading--;
         console.log(err);
@@ -409,7 +410,7 @@ export class BufferPolylineComponent implements OnInit {
 
       let result;
       var params = {
-        tblRefId: 2,
+        tblRefId: 8,
         tblRowId: this.routeId
       };
       console.log("params", params);

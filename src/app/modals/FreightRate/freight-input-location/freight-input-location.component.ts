@@ -15,15 +15,6 @@ export class FreightInputLocationComponent implements OnInit {
   keepGoing = true;
   sourceString = '';
   destinationString = '';
-  frieghtRate = {
-    wefDate: '',
-    companyName: null,
-    companyId: null,
-    materialName: null,
-    materialId: null,
-    siteName: null,
-    siteId: null,
-  }
 
   frieghtDatas = [{
     fixed: null,
@@ -37,14 +28,30 @@ export class FreightInputLocationComponent implements OnInit {
     dest_lat: null,
     dest_long: null,
   }];
+  frpId = null;
+
+
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
+    this.frpId = this.common.params.id ? this.common.params.id : null;
     this.common.handleModalSize('class', 'modal-lg', '1300');
-    this.frieghtRate.wefDate = this.common.dateFormatter(new Date());
+    this.getFrieghtRateDetails();
   }
 
   ngOnInit() {
@@ -52,22 +59,8 @@ export class FreightInputLocationComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
-  getCompanyDetail(consignor) {
-    console.log("consignor", consignor);
-    this.frieghtRate.companyName = consignor.name;
-    this.frieghtRate.companyId = consignor.id;
-  }
-  getSiteDetail(site) {
-    console.log("site", site);
-    this.frieghtRate.siteName = site.name;
-    this.frieghtRate.siteId = site.id;
 
-  }
-  getMaterialDetail(material) {
-    console.log("material", material);
-    this.frieghtRate.materialName = material.name
-    this.frieghtRate.materialId = material.id
-  }
+
   onChangeAuto(search, type) {
     if (type == 'Source') {
 
@@ -78,19 +71,7 @@ export class FreightInputLocationComponent implements OnInit {
       this.destinationString = search;
     }
   }
-  getDate() {
 
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
-
-        this.frieghtRate.wefDate = '';
-        return this.frieghtRate.wefDate = this.common.dateFormatter1(data.date).split(' ')[0];
-      }
-
-    });
-  }
   addCompany() {
     console.log("open material modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
@@ -184,25 +165,88 @@ export class FreightInputLocationComponent implements OnInit {
 
   saveFrightInput() {
     let params = {
-      companyId: this.frieghtRate.companyId,
-      siteId: this.frieghtRate.siteId,
-      materialId: this.frieghtRate.materialId,
-      date: this.frieghtRate.wefDate,
+      frpId: this.frpId,
+      type: 'location',
       frieghtRateData: JSON.stringify(this.frieghtDatas),
       // filterParams: JSON.stringify(this.filters)
     }
     console.log("params", params);
     ++this.common.loading;
 
-    this.api.post('FrieghtRate/saveFrieghtRate', params)
+    this.api.post('FrieghtRate/saveFrieghtRateDetails', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res['data'][0].result);
-        alert(res['data'][0].result);
+        this.common.showToast(res['data'][0].result);
+        this.activeModal.close();
       }, err => {
         --this.common.loading;
         this.common.showError(err);
         console.log('Error: ', err);
       });
   }
+
+
+
+
+
+  getFrieghtRateDetails() {
+    let params = {
+      frpId: this.frpId,
+      type: 'location',
+    }
+    console.log("params", params);
+    ++this.common.loading;
+
+    this.api.post('FrieghtRate/getFrieghtRateDetails', params)
+      .subscribe(res => {
+        --this.common.loading;
+
+        this.data = [];
+
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+
+  getTableColumns() {
+
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+      }
+
+      columns.push(this.valobj);
+
+    });
+
+    return columns;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+
 }
