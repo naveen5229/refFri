@@ -178,10 +178,10 @@
       <div class="col-md-4">
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-8" *ngIf="this.ref_page == 'kpi'">
         <span>
           <input type="checkbox" id="isnotified" name="isnotified" [(ngModel)]="isNotified">
-          Is Notified
+          Notified Driver
         </span>
       </div>
     </div>
