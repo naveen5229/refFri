@@ -124,7 +124,7 @@ export class FrieghtRateInputComponent implements OnInit {
     let icons = [];
     icons.push(
       {
-        class: "fas fa-plus",
+        class: "addButton",
         action: this.openWithoutLocationModal.bind(this, details),
       }
     )
