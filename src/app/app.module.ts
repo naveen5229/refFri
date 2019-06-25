@@ -175,6 +175,7 @@ import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary
 import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
 import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
 import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
+import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
 
 
 
@@ -326,6 +327,7 @@ import { FreightInputLocationComponent } from './modals/FreightRate/freight-inpu
     VehicleTyreSummaryComponent,
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
+    FoFreightRatesComponent,
 
 
 
@@ -470,6 +472,8 @@ import { FreightInputLocationComponent } from './modals/FreightRate/freight-inpu
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+    FoFreightRatesComponent,
+
 
 
   ],
