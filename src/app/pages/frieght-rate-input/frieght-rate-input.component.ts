@@ -14,14 +14,39 @@ import { FreightInputLocationComponent } from '../../modals/FreightRate/freight-
 })
 export class FrieghtRateInputComponent implements OnInit {
 
+
+  startDate = new Date(new Date().setMonth(new Date().getMonth() - 1));;
+  endDate = new Date();
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
-    public api: ApiService
-  ) {
+    public api: ApiService) {
   }
 
   ngOnInit() {
+  }
+
+  getFrieghtRate() {
+
+    let startDate = this.common.dateFormatter(this.startDate);
+    let endDate = this.common.dateFormatter(this.endDate);
+    let params = {
+      startDate: startDate,
+      endDate: endDate,
+    };
+
+    this.common.loading++;
+    this.api.post('FrieghtRate/getFrieghtRatePattern', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res['data'])
+
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      })
+
   }
 
 
