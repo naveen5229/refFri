@@ -13,7 +13,9 @@ import { ApiService } from '../../services/api.service';
 export class AddFoComponent implements OnInit {
   isFormSubmit = false;
   show_dialog: boolean = false;
+  code=0;
   public button_name: any = 'Show Login Form!';
+
   document = {
     image1: null,
     image2: null,
@@ -134,4 +136,27 @@ export class AddFoComponent implements OnInit {
   searchUser() {
 
   }
+
+  test() {
+    this.code = null;
+    if (this.company.mobileNo.length == 10) {
+      console.log("test");
+      let params = 'mobileno=' + this.company.mobileNo
+      this.api.get('gisdb/FoExists?' + params)
+        .subscribe(res => {
+          console.log(res)
+
+          this.code = res['code']
+          console.log("pa", this.code)
+        }, err => {
+          console.error(err);
+          this.common.showError();
+          this.common.loading--;
+        });
+    }
+  }
+  selectFoUser(value){
+    
+  }
+  
 }

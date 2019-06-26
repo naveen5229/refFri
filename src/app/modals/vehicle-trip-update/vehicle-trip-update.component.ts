@@ -56,9 +56,11 @@ export class VehicleTripUpdateComponent implements OnInit {
     console.log("ref_page", this.ref_page);
     if (this.ref_page == 'placements') {
       this.vehicleTrip.placementType = '11';
-    } else {
+    }
+    else {
       this.vehicleTrip.placementType = '0';
     }
+
     this.getVehiclePlacements();
     this.getPlacementSuggestion();
     this.getVehicleCurrentStatus();

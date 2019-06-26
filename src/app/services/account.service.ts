@@ -9,6 +9,7 @@ export class AccountService {
     branch: {
       name: '',
       id: 0,
+      lr_number: null,
       is_constcenterallow: false
     },
     financialYear: null

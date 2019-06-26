@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="table-conan bassic-info">
+  <!-- <div class="table-conan bassic-info">
     <table>
       <tr>
         <td>
@@ -40,7 +40,7 @@
         </td>
       </tr>
     </table>
-  </div>
+  </div> -->
   <div class="table-conan general-coef">
     <h6>General Coefficent</h6>
     <table>
@@ -53,18 +53,16 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
         <td>Shortage × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.shortage></td>
-      </tr>
-      <tr>
         <td>Shortage %</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.shortagePer></td>
         <td>Detenation × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.detenation></td>
         <td>Delay × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.delay></td>
-        <td>Wt-Dist × </td>
-        <td><input type="text" class="form-control" [(ngModel)]=general.weightDistance></td>
       </tr>
       <tr>
+        <td>Wt-Dist × </td>
+        <td><input type="text" class="form-control" [(ngModel)]=general.weightDistance></td>
         <td>Loading × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.loading></td>
         <td>Unloading × </td>
@@ -73,8 +71,6 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelClass></td>
         <td>Fuel Base Rate × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelBaseRate></td>
-      </tr>
-      <tr>
         <td>Fuel Variation × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelVariation></td>
       </tr>
@@ -100,12 +96,13 @@
               <option value="fuelBaseRate">Fuel Base Rate </option>
               <option value="fuelVariation">Fuel Variation </option>
             </select>
+          </td>
 
           <td>Min Range</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.minRange></td>
           <td>Max Range</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.maxRange></td>
-        </tr>
+
         <tr>
           <td>Fixed</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fixed></td>
@@ -115,18 +112,17 @@
           <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
           <td>Shortage × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.shortage></td>
-        </tr>
-        <tr>
           <td>Shortage %</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.shortagePer></td>
           <td>Detenation × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.detenation></td>
           <td>Delay × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.delay></td>
-          <td>Wt-Dist × </td>
-          <td><input type="text" class="form-control" [(ngModel)]=filter.weightDistance></td>
         </tr>
         <tr>
+
+          <td>Wt-Dist × </td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.weightDistance></td>
           <td>Loading × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.loading></td>
           <td>Unloading × </td>
@@ -135,8 +131,7 @@
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelClass></td>
           <td>Fuel Base Rate × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelBaseRate></td>
-        </tr>
-        <tr>
+
           <td>Fuel Variation × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelVariation></td>
           <td *ngIf="i == filters.length-1"><button class="btn btn-primary" (click)="addMore()"><i
@@ -146,10 +141,18 @@
                 class="fa fa-trash remove"></i></button></td>
         </tr>
 
+
       </tbody>
     </table>
   </div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" (click)="saveFrightInput()">Submit</button>
+
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveFrightInput()">Submit</button>
+  </div>
+  <h4>
+    Freight Rates
+  </h4>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithOutLocation">
+  </smart-table>
 </div>

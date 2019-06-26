@@ -96,7 +96,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getBranches();
+    // this.getBranches();
 
   }
   ngAfterViewInit(): void {

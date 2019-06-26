@@ -12,37 +12,46 @@ import { LocationSelectionComponent } from '../../location-selection/location-se
   styleUrls: ['./freight-input-location.component.scss']
 })
 export class FreightInputLocationComponent implements OnInit {
-
-  frieghtRate = {
-    wefDate: '',
-    companyName: null,
-    companyId: null,
-    materialName: null,
-    materialId: null,
-    siteName: null,
-    siteId: null,
-  }
+  keepGoing = true;
+  sourceString = '';
+  destinationString = '';
 
   frieghtDatas = [{
     fixed: null,
     distance: null,
     weight: null,
     weightDistance: null,
-    source: null,
-    sourceLat: null,
-    SourceLng: null,
+    origin: null,
+    org_lat: null,
+    org_long: null,
     destination: null,
-    destinationLat: null,
-    destinationLng: null,
+    dest_lat: null,
+    dest_long: null,
   }];
+  frpId = null;
+
+
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
   ) {
-    this.common.handleModalSize('class', 'modal-lg', '1600');
-    this.frieghtRate.wefDate = this.common.dateFormatter(new Date());
+    this.frpId = this.common.params.id ? this.common.params.id : null;
+    this.common.handleModalSize('class', 'modal-lg', '1300');
+    this.getFrieghtRateDetails();
   }
 
   ngOnInit() {
@@ -50,35 +59,19 @@ export class FreightInputLocationComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
-  getCompanyDetail(consignor) {
-    console.log("consignor", consignor);
-    this.frieghtRate.companyName = consignor.name;
-    this.frieghtRate.companyId = consignor.id;
-  }
-  getSiteDetail(site) {
-    console.log("site", site);
-    this.frieghtRate.siteName = site.name;
-    this.frieghtRate.siteId = site.id;
 
-  }
-  getMaterialDetail(material) {
-    console.log("material", material);
-    this.frieghtRate.materialName = material.name
-    this.frieghtRate.materialId = material.id
-  }
-  getDate() {
 
-    this.common.params = { ref_page: 'LrView' }
-    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-      if (data.date) {
+  onChangeAuto(search, type) {
+    if (type == 'Source') {
 
-        this.frieghtRate.wefDate = '';
-        return this.frieghtRate.wefDate = this.common.dateFormatter1(data.date).split(' ')[0];
-      }
-
-    });
+      this.sourceString = search;
+      console.log('..........', search);
+    }
+    else {
+      this.destinationString = search;
+    }
   }
+
   addCompany() {
     console.log("open material modal")
     const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
@@ -93,65 +86,167 @@ export class FreightInputLocationComponent implements OnInit {
       distance: null,
       weight: null,
       weightDistance: null,
-      source: null,
-      sourceLat: null,
-      SourceLng: null,
+      origin: null,
+      org_lat: null,
+      org_long: null,
       destination: null,
-      destinationLat: null,
-      destinationLng: null,
+      dest_lat: null,
+      dest_long: null,
     });
   }
 
-  // takeAction(res) {
-  //   setTimeout(() => {
-  //     console.log("Here", this.keepGoing, this.searchString.length, this.searchString);
+  selectLocation(place, type) {
+    if (type == 'Source') {
+      console.log("palce", place);
+      this.frieghtDatas[0].org_lat = place.lat;
+      this.frieghtDatas[0].org_long = place.long;
+      this.frieghtDatas[0].origin = place.location || place.name;
+    }
+    console.log("palce", place);
+    this.frieghtDatas[0].dest_lat = place.lat;
+    this.frieghtDatas[0].dest_long = place.long;
+    this.frieghtDatas[0].destination = place.location || place.name;
+  }
 
-  //     if (this.keepGoing && this.searchString.length) {
-  //       this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+  takeActionSource(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.sourceString.length, this.sourceString);
 
-  //       const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
-  //       this.keepGoing = false;
-  //       activeModal.result.then(res => {
-  //         console.log('response----', res.location);
-  //         this.keepGoing = true;
-  //         if (res.location.lat) {
-  //           this.vehicleTrip.endName = res.location.name;
+      if (this.keepGoing && this.sourceString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
 
-  //           (<HTMLInputElement>document.getElementById('endname')).value = this.vehicleTrip.endName;
-  //           this.vehicleTrip.endLat = res.location.lat;
-  //           this.vehicleTrip.endLng = res.location.lng;
-  //           this.placementSite = null;
-  //           this.keepGoing = true;
-  //         }
-  //       })
-  //     }
-  //   }, 1000);
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+          if (res.location.lat) {
+            this.frieghtDatas[0].origin = res.location.name;
 
-  // }
+            (<HTMLInputElement>document.getElementById('origin')).value = this.frieghtDatas[0].origin;
+            this.frieghtDatas[0].org_lat = res.location.lat;
+            this.frieghtDatas[0].org_long = res.location.lng;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+
+  }
+
+
+  takeActionDestination(res) {
+    setTimeout(() => {
+      console.log("Here", this.keepGoing, this.destinationString.length, this.destinationString);
+
+      if (this.keepGoing && this.destinationString.length) {
+        this.common.params = { placeholder: 'selectLocation', title: 'SelectLocation' };
+
+        const activeModal = this.modalService.open(LocationSelectionComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+        this.keepGoing = false;
+        activeModal.result.then(res => {
+          console.log('response----', res.location);
+          this.keepGoing = true;
+          if (res.location.lat) {
+            this.frieghtDatas[0].destination = res.location.name;
+
+            (<HTMLInputElement>document.getElementById('destination')).value = this.frieghtDatas[0].destination;
+            this.frieghtDatas[0].dest_lat = res.location.lat;
+            this.frieghtDatas[0].dest_long = res.location.lng;
+            this.keepGoing = true;
+          }
+        })
+      }
+    }, 1000);
+
+  }
+
 
 
   saveFrightInput() {
-    ++this.common.loading;
     let params = {
-      companyId: this.frieghtRate.companyId,
-      siteId: this.frieghtRate.siteId,
-      materialId: this.frieghtRate.materialId,
-      date: this.frieghtRate.wefDate,
+      frpId: this.frpId,
+      type: 'location',
       frieghtRateData: JSON.stringify(this.frieghtDatas),
       // filterParams: JSON.stringify(this.filters)
     }
     console.log("params", params);
+    ++this.common.loading;
 
-
-    this.api.post('FrieghtRate/saveFrieghtRate', params)
+    this.api.post('FrieghtRate/saveFrieghtRateDetails', params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res['data'][0].result);
-        alert(res['data'][0].result);
+        this.common.showToast(res['data'][0].result);
+        this.activeModal.close();
       }, err => {
         --this.common.loading;
         this.common.showError(err);
         console.log('Error: ', err);
       });
   }
+
+
+
+
+
+  getFrieghtRateDetails() {
+    let params = {
+      frpId: this.frpId,
+      type: 'location',
+    }
+    console.log("params", params);
+    ++this.common.loading;
+
+    this.api.post('FrieghtRate/getFrieghtRateDetails', params)
+      .subscribe(res => {
+        --this.common.loading;
+
+        this.data = [];
+
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+
+  getTableColumns() {
+
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+      }
+
+      columns.push(this.valobj);
+
+    });
+
+    return columns;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+
 }
