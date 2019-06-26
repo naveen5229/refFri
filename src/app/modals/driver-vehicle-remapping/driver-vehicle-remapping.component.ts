@@ -72,12 +72,7 @@ export class DriverVehicleRemappingComponent implements OnInit {
 
 
   getvehicleData(Fodriver, driverType) {
-    console.log(Fodriver);
-    console.log(Fodriver.id);
-    console.log(Fodriver.mobileno);
-    // if (this.common.params.driver) {
-    //   Fodriver.empname = this.common.params.driver.md_name;
-    // }
+
     if (driverType == 'primary') {
       this.maping.primary = { empname: Fodriver.empname };
       this.maping.pdriverMobile = Fodriver.mobileno;
@@ -94,7 +89,7 @@ export class DriverVehicleRemappingComponent implements OnInit {
     //this.common.params=driver;
     // this.maping.primary = this.common.params.driver;
 
-    console.log('Mapping: ', this.maping);
+
   }
 
   closeModal() {
