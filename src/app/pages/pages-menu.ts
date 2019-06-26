@@ -81,7 +81,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Admin',
-    icon: 'fa fa-user',
+    icon: 'fas fa-chess-king',
 
     home: true,
     children: [
@@ -149,7 +149,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'View LR Manifest',
-        icon: 'fa fa-eye',
+        icon: 'far fa-clone',
         link: '/pages/view-manifesto',
       },
       {
@@ -273,7 +273,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'fa fa-user',
     children: [{
       title: 'driver Performance ',
-      icon: 'fa fa-chart-bar',
+      icon: 'fas fa-star',
       link: '/pages/driver-performance',
       home: true,
     },
@@ -287,7 +287,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
 
       title: 'Vehicle Driver Mapping',
-      icon: 'fa fa-map-marker',
+      icon: 'fas fa-street-view',
       link: '/pages/vehicle-driver-mapping',
       home: true,
     },
@@ -328,7 +328,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Battery',
-    icon: 'fa fa-cog',
+    icon: 'fas fa-car-battery',
     link: '/battery/battery-inventory'
   },
 
