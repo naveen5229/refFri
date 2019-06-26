@@ -46,7 +46,7 @@
       </div>
 
 
-      <div class="col-2" *ngIf="this.common.params.driver.md_id">
+      <div class="col-2" *ngIf="md">
         <select class="form-control" [(ngModel)]="maping.pdStatus">
           <option *ngFor="let status of driverStatus" [value]="status.id">
             {{status.description}}
@@ -84,7 +84,7 @@
         <input type="text" class="form-control" placeholder="Driver Mobile No" name="drivername1" id="drivername1"
           readonly [(ngModel)]="maping.SdriverMobile">
       </div>
-      <div class="col-2" *ngIf="this.common.params.driver.sd_id">
+      <div class="col-2" *ngIf="sd">
         <select class="form-control" [(ngModel)]="maping.sdStatus">
           <option *ngFor="let status of driverStatus" [value]="status.id">
             {{status.description}}
