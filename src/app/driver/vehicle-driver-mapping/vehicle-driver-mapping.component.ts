@@ -83,7 +83,8 @@ export class VehicleDriverMappingComponent implements OnInit {
   getdriverMapping() {
     this.common.loading++;
     let response;
-    this.api.get('/Drivers/getVehicleMapping')
+    // let params = "isCheck=" + 1;
+    this.api.get('Drivers/getVehicleMapping')
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res['data']);
