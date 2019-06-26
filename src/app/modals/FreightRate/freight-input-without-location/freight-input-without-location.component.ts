@@ -243,13 +243,9 @@ export class FreightInputWithoutLocationComponent implements OnInit {
           this.api.post('FrieghtRate/deleteFrieghtRateDetails', params)
             .subscribe(res => {
               this.common.loading--;
-              if (res['data'].r_id > 0) {
-                this.common.showToast('Success');
+              this.common.showToast(res['data'][0].y_msg);
+              if (res['data'][0].y_id > 0)
                 this.getFrieghtRateDetails();
-              }
-              else {
-                this.common.showToast(res['data'].r_msg);
-              }
 
             }, err => {
               this.common.loading--;
