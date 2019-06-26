@@ -9,9 +9,10 @@
     (submit)="foAdminUser.valid && addFoAdmin()">
     <div class="row" style="margin-bottom:10px">
       <div class="col">
-        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Search By Mobile No. And Name"></auto-suggestion>
-        <span *ngIf="code==1 ">User already Exist</span>
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getAllFoAdminListwithCustomer"
+          [display]="['foaname','foname','fomobileno','foaid']" seperator="-"
+          placeholder="Search By Mobile No. And Name">
+        </auto-suggestion>
 
       </div>
     </div>

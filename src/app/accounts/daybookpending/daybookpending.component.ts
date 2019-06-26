@@ -13,11 +13,11 @@ import { VoucherSummaryComponent } from '../../accounts-modals/voucher-summary/v
 import { VoucherSummaryShortComponent } from '../../accounts-modals/voucher-summary-short/voucher-summary-short.component';
 
 @Component({
-  selector: 'daybooks',
-  templateUrl: './daybooks.component.html',
-  styleUrls: ['./daybooks.component.scss']
+  selector: 'daybookpending',
+  templateUrl: './daybookpending.component.html',
+  styleUrls: ['./daybookpending.component.scss']
 })
-export class DaybooksComponent implements OnInit {
+export class DaybookpendingComponent implements OnInit {
   selectedName = '';
   activedateid = '';
   DayBook = {
@@ -69,7 +69,7 @@ export class DaybooksComponent implements OnInit {
     //  this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
-    this.common.currentPage = 'Day Book';
+    this.common.currentPage = 'Day Book Pending';
 
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -346,10 +346,10 @@ export class DaybooksComponent implements OnInit {
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
-         console.log('Data: ', data);
-         if(!data){
-        this.getDayBook();
-         }
+        // console.log('Data: ', data);
+        if(!data){
+          this.getDayBook();
+           }
         // this.common.showToast('Voucher updated');
 
       });
