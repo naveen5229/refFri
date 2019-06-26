@@ -12,7 +12,7 @@ import { getUrlScheme } from '@angular/compiler';
 })
 export class LatestRechargeComponent implements OnInit {
   data = [];
-  mobileno = this.user._details.mobileno;
+  mobileno = this.user._details.fo_mobileno;
   userId = this.user._details.id;
   dates = {
     start: null,
@@ -27,9 +27,9 @@ export class LatestRechargeComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, 1, 0, 0, 0));
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 1)));
 
-    this.dates.end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0));
+    this.dates.end = this.common.dateFormatter1(new Date());
     //this.getPaymentMade();
     this.getLatestRecharge();
   }
@@ -55,7 +55,7 @@ export class LatestRechargeComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Latest Recharge";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -82,7 +82,7 @@ export class LatestRechargeComponent implements OnInit {
   getLatestRecharge() {
 
 
-    let params = "mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
 
     this.common.loading++;
     let response;
@@ -91,8 +91,12 @@ export class LatestRechargeComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.data = res['data'];
-        for (let i = 0; i < this.data.length; i++) {
-          this.total = this.total + this.data[i].nbal;
+        for (let i = 0; i < this.data.length; i += 1) {
+          this.total += Number(this.data[i].nbal);
+        }
+        if (this.data == null) {
+          this.common.showToast('NO DATA FOUND');
+
         }
 
       }, err => {

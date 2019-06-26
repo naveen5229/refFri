@@ -31,8 +31,8 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings" id="toll-summary"></smart-table>
-    <!-- <smart-table *ngIf="data.length" [data]="table.data" [settings]="table.settings"></smart-table>
-    <br> -->
+    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="toll-summary">
+    </smart-table>
+
   </nb-card-body>
 </nb-card>

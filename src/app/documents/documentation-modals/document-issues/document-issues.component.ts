@@ -23,10 +23,10 @@ export class DocumentIssuesComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal) {
-      this.common.handleModalSize('class', 'modal-lg', '1200');
-      this.title = this.common.params.title;
-      this.displayIssueReport();
-     }
+    this.common.handleModalSize('class', 'modal-lg', '1200');
+    this.title = this.common.params.title;
+    this.displayIssueReport();
+  }
 
   ngOnInit() {
   }
@@ -83,16 +83,16 @@ export class DocumentIssuesComponent implements OnInit {
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;
-    if(this.user._loggedInBy == "customer")
+    if (this.user._loggedInBy == "customer")
       userid = this.user._details.id;
-    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid})
+    this.api.post('FoAdmin/getFoDetailsFromUserId', { x_user_id: userid })
       .subscribe(res => {
         this.common.loading--;
         this.fodata = res['data'];
         //let left_heading = this.fodata['name'];
         let left_heading = 'Document Issues';
         let center_heading = "";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

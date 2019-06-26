@@ -34,6 +34,7 @@ export class SiteFencingComponent implements OnInit {
     this.getTypeIds();
     this.getRemainingTable();
   }
+
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
     this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }));
@@ -64,7 +65,7 @@ export class SiteFencingComponent implements OnInit {
       .subscribe(res => {
         console.log('Res: ', res['data']);
         this.typeIds = res['data'];
-        this.typeIds.push({ id: -1, description: "All" });
+        this.typeIds.push({ id: 0, description: "All" });
       }, err => {
         console.error(err);
         this.commonService.showError();
@@ -322,7 +323,7 @@ export class SiteFencingComponent implements OnInit {
   }
 
   updateSiteName() {
-    if (this.selectedSite != null && this.typeId != -1 && this.siteName != null &&
+    if (this.selectedSite != null && this.typeId != 0 && this.siteName != null &&
       !(this.siteName + "").toLowerCase().includes('unknown')) {
       let params = {
         siteId: this.selectedSite,

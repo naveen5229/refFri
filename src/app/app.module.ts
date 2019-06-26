@@ -156,6 +156,7 @@ import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-fill
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { GpsEnabledDisabledComponent } from './modals/gps-enabled-disabled/gps-enabled-disabled.component';
 import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
 import { FoSiteCountComponent } from './modals/fo-site-count/fo-site-count.component';
@@ -170,6 +171,15 @@ import { ViaRoutePointsComponent } from './modals/via-route-points/via-route-poi
 import { ModalWiseFuelAvgComponent } from './modals/modal-wise-fuel-avg/modal-wise-fuel-avg.component';
 import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-edit.component';
 import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
+import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
+import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
+import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
+import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
+import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
+
+
+
+
 
 
 
@@ -222,6 +232,7 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     EditLorryDetailsComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
+    LoadHaltComponent,
     VoucherSummaryComponent,
     AddConsigneeComponent,
     ParticlularsComponent,
@@ -299,6 +310,7 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
+    GpsEnabledDisabledComponent,
     UnmappedLrComponent,
     MappedLrComponent,
     FoSiteCountComponent,
@@ -312,9 +324,19 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+    VehicleTyreSummaryComponent,
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
+    FoFreightRatesComponent,
+
+
+
 
   ],
   entryComponents: [
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
+    VehicleTyreSummaryComponent,
     BulkVehicleNextServiceDetailComponent,
     AddAdvancedMaintenanceComponent,
     VehicleNextServiceDetailComponent,
@@ -366,6 +388,7 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     AddPumpComponent,
     ChangeVehicleStatusComponent,
     ChangeHaltComponent,
+    LoadHaltComponent,
     VoucherSummaryComponent,
     ParticlularsComponent,
     UpdateTicketPropertiesComponent,
@@ -436,6 +459,7 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
+    GpsEnabledDisabledComponent,
     UnmappedLrComponent,
     MappedLrComponent,
     FoSiteCountComponent,
@@ -448,6 +472,9 @@ import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.co
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+    FoFreightRatesComponent,
+
+
 
   ],
   imports: [

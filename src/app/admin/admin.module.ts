@@ -61,6 +61,7 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
+import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 
 
 
@@ -128,7 +129,6 @@ const PAGES_COMPONENTS = [
     TripStatusFeedbackLogsComponent,
     TicketSubscribeComponent,
     BeehiveComponent,
-
     AddCustomerComponent,
     FuelRulesComponent,
     PumpStationAreaComponent,
@@ -141,15 +141,17 @@ const PAGES_COMPONENTS = [
     //  ConsolidateFuelAverageComponent,
     FuelAverageIssuesComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
+    // VehiclesComponent,
     LrDiagnosticsComponent,
     TripAnalysisComponent,
     FuelAnalysisComponent,
-    VehiclesComponent,
     VscDiagnosisComponent,
-    ViaRoutesComponent
+    ViaRoutesComponent,
+    BufferPolylineComponent
   ],
   exports: [
+    // VehiclesComponent,
+
   ],
 })
 export class AdminModule { }

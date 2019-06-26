@@ -26,7 +26,7 @@ export class CardMappingComponent implements OnInit {
   getDetail() {
     // console.log("api hit");
     this.common.loading++;
-    this.api.walle8Get('CardRechargeApi/getFoCardResults.json?mobileno=' + this.user._details.mobile)
+    this.api.walle8Get('CardRechargeApi/getFoCardResults.json?mobileno=' + this.user._details.fo_mobileno)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res);
@@ -82,7 +82,7 @@ export class CardMappingComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Card Mapping";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);

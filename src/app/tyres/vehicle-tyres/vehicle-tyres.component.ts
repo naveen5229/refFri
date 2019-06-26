@@ -13,7 +13,18 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 })
 export class VehicleTyresComponent implements OnInit {
   refMode = "701";
-  mappedTyres = [];
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
   vehicleTyres = [
     {
       tyreNo: null,
@@ -21,6 +32,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
     {
       tyreNo: null,
@@ -28,6 +44,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
     {
       tyreNo: null,
@@ -35,6 +56,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
     {
       tyreNo: null,
@@ -42,6 +68,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     },
   ]
   vehicleNo = "";
@@ -84,6 +115,11 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
+      leftRight: -1,
+      pos: -1,
+      axel: -1,
+      frontRear: -1,
+      position: false
     });
   }
 
@@ -125,13 +161,54 @@ export class VehicleTyresComponent implements OnInit {
     console.log("params ", params);
     this.api.get('Tyres/getVehicleTyreDetails?' + params)
       .subscribe(res => {
-        console.log("data===", res['data']);
-        this.mappedTyres = res['data'];
+        this.data = res['data'];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+        if (!this.data || !this.data.length) {
+          //document.getElementById('mdl-body').innerHTML = 'No record exists';
+          return;
+        }
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+
       }, err => {
         console.error(err);
         this.common.showError();
       });
 
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
   }
 
   getTyreCurrentStatus(tyreId, index) {

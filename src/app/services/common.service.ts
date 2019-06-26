@@ -18,6 +18,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as moment_ from "moment";
+import { elementAt } from "rxjs/operators";
 const moment = moment_;
 @Injectable({
   providedIn: "root"
@@ -234,6 +235,15 @@ export class CommonService {
   changeDateformat1(date) {
     let d = new Date(date);
     return this.datePipe.transform(date, "dd-MMM-yyyy");
+  }
+  changeDateformat3(date) {
+    let d = new Date(date);
+    return this.datePipe.transform(date, "dd");
+  }
+  changeTimeformat(time) {
+    let hours = Math.trunc(time / 60);
+    let minutes = time % 60;
+    return hours + ":" + minutes;
   }
 
   timeFormatter(date) {
@@ -480,7 +490,7 @@ export class CommonService {
 
   distanceFromAToB(lat1, lon1, lat2, lon2, unit) {
     if (lat1 == lat2 && lon1 == lon2) {
-      return "0";
+      return 0;
     } else {
       let radlat1 = (Math.PI * lat1) / 180;
       let radlat2 = (Math.PI * lat2) / 180;
@@ -504,7 +514,7 @@ export class CommonService {
       if (unit == "N") {
         dist = dist * 0.8684;
       }
-      return dist.toFixed(0);
+      return parseInt(dist.toFixed(0));
     }
   }
 
@@ -623,7 +633,7 @@ export class CommonService {
 
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute("title");
+            let attrval = eltinput && eltinput.getAttribute("title");
             rowdata.push(attrval);
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;
@@ -746,7 +756,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -754,8 +764,10 @@ export class CommonService {
 
     let organization = { "elogist Solutions": "elogist Solutions" };
     let blankline = { "": "" };
+
     let leftData = { left_heading };
     let centerData = { center_heading };
+    let doctime = { time };
 
     let info = [];
     let hdgs = {};
@@ -763,7 +775,7 @@ export class CommonService {
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
-    info.push(centerData);
+    info.push(centerData, doctime);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {
       for (let i = 0; i < hdgCols.length; i++) {
@@ -826,7 +838,7 @@ export class CommonService {
             rowdata[arr_hdgs[j]] = attrval;
           } else if (colhtml.indexOf('img') > -1) {
             let eltinput = rowCols[j].querySelector("img");
-            let attrval = eltinput.getAttribute('title');
+            let attrval = eltinput && eltinput.getAttribute('title');
             rowdata[arr_hdgs[j]] = attrval;
           } else if (colhtml.indexOf('href') > -1) {
             let strval = rowCols[j].innerHTML;

@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title"> {{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="">
+    <div class="form-group">
+      Buffer PolyArea <input type="radio" name="site-type" (click)="typeId = -1" checked />
+    </div>
+    <div class="form-group">
+      Buffer PolyLine <input type="radio" name="site-type" (click)="typeId = -2" />
+    </div>
+    <div class="form-group">
+      Others <input type="radio" name="site-type" (click)="showAll=!showAll" />
+    </div>
+    <div class="row">
+      <select *ngIf="showAll" class="form-control" [(ngModel)]="typeId">
+        <option *ngFor="let typeIdx of typeIds;" [value]="typeIdx.id">{{typeIdx.description}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col text-right">
+        <button class="btn btn-primary" type="button" outline (click)="closeModal(true)" id="submit"
+          style="cursor: pointer;">OK</button>
+      </div>
+    </div>
+  </div>

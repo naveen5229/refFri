@@ -641,7 +641,8 @@ mwlResizable {
 }
 
 :host ::ng-deep .no-search {
-    color: #000;
+    background: #fff;
+    color: black;
 }
 .exel-icon{
     bottom: 35px;

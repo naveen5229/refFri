@@ -36,6 +36,7 @@ import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
 import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
 import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
 import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
+import {  DaybookpendingComponent } from './daybookpending/daybookpending.component';
 const routes: Routes = [{
     path: '',
     component: AccountsComponent,
@@ -195,6 +196,10 @@ const routes: Routes = [{
         {
             path: 'vehicle-ledgers',
             component: VehicleLedgersComponent
+        },
+        {
+            path:'daybookpending',
+            component: DaybookpendingComponent
         }
     ],
 

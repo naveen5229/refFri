@@ -10,8 +10,8 @@
           <auto-suggestion (onSelected)="searchVehicle($event)" url="suggestion/getVehicleList" display="regno"
             placeholder="Vehicle Number" [preSelected]="null"></auto-suggestion>
         </div>
-        <div class="col-sm-2">
-          <select name="aduserid" [(ngModel)]="aduserId" class="form-control" (change)="getVehicleStatusAlerts()">
+        <div class="col-sm-1">
+          <select name="aduserid" [(ngModel)]="aduserId" class="form-control">
             <option *ngFor="let aduserIdx of aduserIds;" [value]="aduserIdx.aduserid">{{aduserIdx.aduserid}}</option>
           </select>
         </div>
@@ -23,12 +23,16 @@
           <owl-date-time #date></owl-date-time> -->
         </div>
         <div class="col-sm-2">
-          <uj-date-time-picker (onChanged)="endDate = $event" [dateTimeValue]="endDate" [isTime]="false">
+          <uj-date-time-picker (onChanged)="endDate = $event" [isStart]="false" [dateTimeValue]="endDate"
+            [isTime]="false">
           </uj-date-time-picker>
 
         </div>
+        <div class="col-sm-1">
+          <Button class="btn btn-primary" type="button" (click)="goToTrail()">vsc</Button>
+        </div>
         <div class="col-sm-2">
-          <Button class="btn btn-primary" type="button" (click)="goToTrail()">Get Report</Button>
+          <Button class="btn btn-primary" type="button" (click)="viewAll()">View All Vsc </Button>
         </div>
         <div class="col-sm-2">
           <Button class="btn btn-primary" type="button" (click)="getChallenged()">View Challenged</Button>
@@ -51,7 +55,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
+              <tr [ngClass]="{'highlight':VehicleStatusAlert.isHighlight}"
+                *ngFor="let VehicleStatusAlert of VehicleStatusAlerts">
                 <td>{{ VehicleStatusAlert.fo_name }}</td>
                 <td>{{ VehicleStatusAlert.regno }}</td>
                 <td>{{ VehicleStatusAlert.vehicle_id }}</td>

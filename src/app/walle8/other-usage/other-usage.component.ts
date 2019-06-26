@@ -13,7 +13,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 export class OtherUsageComponent implements OnInit {
   data = [];
   dates = {
-    start: this.common.dateFormatter(new Date()),
+    start: null,
     end: this.common.dateFormatter(new Date())
   };
   total = null;
@@ -26,6 +26,8 @@ export class OtherUsageComponent implements OnInit {
     public modalService: NgbModal,
     public user: UserService) {
     // this.mobileno=this.user._details.mobile;
+    this.dates.start = this.common.dateFormatter1(new Date(new Date().setDate(new Date().getDate() - 30)));
+
     this.getOtherUsageDetail();
   }
 
@@ -34,7 +36,7 @@ export class OtherUsageComponent implements OnInit {
   getOtherUsageDetail() {
     // this.userId=this.user
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
     //console.log("api hit");
     this.common.loading++;
     this.api.walle8Get('AccountSummaryApi/ViewOtherUsages.json?' + params)
@@ -42,6 +44,10 @@ export class OtherUsageComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res);
         this.data = res['data'];
+        if (this.data == null) {
+          this.common.showToast("no Data Found");
+
+        }
         for (let i = 0; i < this.data.length; i++) {
           this.total = this.total + this.data[i].amt;
         }
@@ -75,7 +81,7 @@ export class OtherUsageComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Other Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading);
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
