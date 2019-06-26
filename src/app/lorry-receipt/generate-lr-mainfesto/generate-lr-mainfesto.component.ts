@@ -95,7 +95,7 @@ export class GenerateLrMainfestoComponent implements OnInit {
     // this.mainfesto.date = this.common.dateFormatter1(new Date(this.mainfesto.date));
     // this.mainfesto.ewayExpDate = this.common.dateFormatter1(new Date(this.mainfesto.ewayExpDate));
     this.getPendingLtlLr();
-    this.api.getBranches();
+    // this.api.getBranches();
 
   }
 

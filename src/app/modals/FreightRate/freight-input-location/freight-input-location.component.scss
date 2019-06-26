@@ -1,0 +1,75 @@
+nb-card-header{
+    border-bottom: 1px solid #ccc;
+}
+.table-conan{
+    table{
+        width: 100%;
+        tr{
+            white-space: nowrap;
+            td{
+                button{
+                    border-radius: 3px;
+                    padding: 5px 10px;
+                }
+            }
+        }
+    }
+}
+.bassic-info{
+    margin-bottom: 20px;
+    table{
+        tr{
+            td{
+                padding: 5px;
+                .add{
+                    background-color: blue;
+                    text-align: center;
+                    padding: 8px 0px;
+                    border-radius: 3px;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+.general-coef{
+    margin-bottom: 30px;
+    h6{
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 10px;
+    }
+    table{
+        tr{
+            td{
+                padding: 4px;
+            }
+        }
+    }
+}
+.filter-coff{
+    padding-top: 20px;
+    h6{
+        font-weight: bold;
+        font-size: 16px;
+        padding-bottom: 10px;
+    }
+    table{
+        tr{
+            td{
+                padding: 4px;
+            }
+        }
+    }
+}
+.submit{
+    border-radius: 3px;
+    padding: 8px 15px;
+    text-transform: capitalize;
+}
+h4{
+    font-size: small;
+    font-family: initial;
+    font-weight: 800;
+    text-transform: capitalize;
+}

@@ -13,6 +13,7 @@ export class LoadHaltComponent implements OnInit {
   typeId = -1;
   typeIds = [];
   showAll = false;
+  title="Halt Load"
 
   constructor(
     public common: CommonService,

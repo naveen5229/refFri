@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <h5>Freight Rate Input</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <!-- <div class="table-conan bassic-info">
+    <table>
+      <tr>
+        <td>
+          <label>Company Name* </label>
+        </td>
+        <td> <span>
+            <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies" display="name"
+              placeholder="" class="col-md-10 auto-suggest pl-0 pr-2"></auto-suggestion><i
+              class="fa fa-plus  add col-md-2" (click)="addCompany()"></i>
+          </span>
+        </td>
+        <td>
+          <label>Site</label>
+        </td>
+        <td>
+          <auto-suggestion (onSelected)="getSiteDetail($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+            [display]="['name','sd_loc_name']" placeholder="Search ." [preSelected]="null">
+          </auto-suggestion>
+        </td>
+        <td>
+          <label>Material</label></td>
+        <td>
+          <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+            placeholder="Material Name" [preSelected]="null">
+          </auto-suggestion>
+        </td>
+        <td>
+          <label>W.e.f.</label></td>
+        <td>
+          <input type="text" class="form-control" [value]="frieghtRate.wefDate | date : 'dd MMM yyyy'" name="date"
+            placeholder="Date" (click)="getDate()">
+        </td>
+      </tr>
+    </table>
+  </div> -->
+
+  <div class="table-conan filter-coff">
+
+    <table>
+      <tbody *ngFor="let frieghtData of frieghtDatas; let i= index">
+
+        <tr>
+          <td>Source</td>
+
+          <td>
+            <auto-suggestion (onChange)="onChangeAuto($event,'Source')" (onChange)="onChangeAuto($event)" (onSelected)="
+              selectLocation($event,'Source')" (noDataFound)="takeActionSource($event)" [isNoDataFoundEmit]="true"
+              url="Location/getPlaceFromRedis" display="location" inputId="origin" placeholder="Source"
+              [value]="frieghtData.origin">
+            </auto-suggestion>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_lat>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_long>
+          </td>
+          <td>Destination </td>
+          <td>
+            <auto-suggestion (onChange)="onChangeAuto($event,'Destination')"
+              (onSelected)="selectLocation($event,'Destination')" (noDataFound)="takeActionDestination($event)"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="destination"
+              placeholder="Destination" [value]="frieghtData.destination">
+            </auto-suggestion>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_lat>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_long>
+          </td>
+          <td>Fixed</td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.fixed></td>
+          <td>Distance × </td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.distance></td>
+          <td>Weight × </td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weight></td>
+          <td>Wt-Dist × </td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weightDistance></td>
+
+          <td *ngIf="i == frieghtDatas.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                class="fa fa-plus add">
+              </i></button></td>
+          <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="frieghtDatas.splice(i,1)"><i
+                class="fa fa-trash remove"></i></button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveFrightInput()">Submit</button>
+  </div>
+  <h4>
+    Freight Rates
+  </h4>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+  </smart-table>
+</div>

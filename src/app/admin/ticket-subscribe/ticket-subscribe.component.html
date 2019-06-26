@@ -1,36 +1,37 @@
-<nb-card>
-  <nb-card-header>
-    <h5>Fo Ticket Subscribe</h5>
-  </nb-card-header>
-  <nb-card-body>
-    <div class="row">
-      <div class="col-sm-3">
-        <select [(ngModel)]="ticketSubscribe.refType" class="form-control"
-          style=" border: 2px solid darkcyan; font-size: 13px; height: 20px;">
-          <option value="1">Fo</option>
-          <option value="2">Group</option>
-        </select>
-      </div>
-      <div class="col-sm-3" *ngIf="ticketSubscribe.refType=='1'">
-        <auto-suggestion (onSelected)="getFolist($event)" url="suggestion/getFoUsersList" display="name"
-          placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
-      </div>
-      <div class="col-sm-3" *ngIf="ticketSubscribe.refType=='2'">
-        <auto-suggestion (onSelected)="getGroup($event)" url="suggestion/getGroups" display="description"
-          placeholder="Search Group" [preSelected]="null"></auto-suggestion>
-      </div>
-      <div class="col-sm-3" style="height:20px">
-        <input type="checkbox" name="isnotify" [(ngModel)]="ticketSubscribe.isActive" value="check"> isActive
-        <input type="checkbox" style="margin-left:20px" name="isold" [(ngModel)]="ticketSubscribe.isOld"
-          value="check">isOld
-      </div>
-      <div class="col-sm-3">
-        <button class="btn btn-primary" (click)="subscribe()">Save</button>
-      </div>
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Fo Ticket Subscribe</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-3">
+      <select [(ngModel)]="ticketSubscribe.refType" class="form-control"
+        style=" border: 2px solid darkcyan; font-size: 13px; height: 20px;">
+        <option value="1">Fo</option>
+        <option value="2">Group</option>
+      </select>
+    </div>
+    <div class="col-sm-3" *ngIf="ticketSubscribe.refType=='1'">
+      <auto-suggestion (onSelected)="getFolist($event)" url="suggestion/getFoUsersList" display="name"
+        placeholder="Search Fo" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-sm-3" *ngIf="ticketSubscribe.refType=='2'">
+      <auto-suggestion (onSelected)="getGroup($event)" url="suggestion/getGroups" display="description"
+        placeholder="Search Group" [preSelected]="null"></auto-suggestion>
+    </div>
+    <div class="col-sm-3" style="height:20px">
+      <input type="checkbox" name="isnotify" [(ngModel)]="ticketSubscribe.isActive" value="check"> isActive
+      <input type="checkbox" style="margin-left:20px" name="isold" [(ngModel)]="ticketSubscribe.isOld"
+        value="check">isOld
+    </div>
+    <div class="col-sm-3">
+      <button class="btn btn-primary" (click)="subscribe()">Save</button>
+    </div>
 
-    </div>
-    <div class="row" style="margin-top:20px">
-      <smart-table *ngIf="table" [data]="table.vscEntry" [settings]="table.settings" id="tblvscEntry"></smart-table>
-    </div>
-  </nb-card-body>
-</nb-card>
+  </div>
+  <div class="row" style="margin-top:20px">
+    <smart-table *ngIf="table" [data]="table.vscEntry" [settings]="table.settings" id="tblvscEntry"></smart-table>
+  </div>
+</div>

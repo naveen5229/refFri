@@ -26,7 +26,7 @@ export class CardMappingComponent implements OnInit {
   getDetail() {
     // console.log("api hit");
     this.common.loading++;
-    this.api.walle8Get('CardRechargeApi/getFoCardResults.json?mobileno=' + this.user._details.mobile)
+    this.api.walle8Get('CardRechargeApi/getFoCardResults.json?mobileno=' + this.user._details.fo_mobileno)
       .subscribe(res => {
         this.common.loading--;
         console.log('Res:', res);
