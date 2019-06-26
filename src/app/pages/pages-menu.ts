@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Placements DashBoard',
+        title: 'Placement Dashboard',
         icon: 'fas fa-map-marked-alt',
         link: '/pages/placements-dash-board',
         home: true,
@@ -153,7 +153,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/view-manifesto',
       },
       {
-        title: 'LR Pod Receipts',
+        title: 'LR/POD Receipts',
         icon: 'fa fa-eye',
         link: '/pages/lr-pod-receipts',
       },
@@ -247,7 +247,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Documents',
     icon: 'fa fa-database',
     children: [{
-      title: 'Documents Input ',
+      title: 'Document Input',
       icon: 'fa fa-book',
       link: '/pages/documentation-details',
       home: true,
@@ -293,7 +293,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
 
-      title: 'Attendace List',
+      title: 'Attendance List',
       icon: 'fa fa-clock-o',
       link: '/pages/driver-attendance',
       home: true,

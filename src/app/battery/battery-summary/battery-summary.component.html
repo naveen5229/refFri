@@ -1,0 +1,19 @@
+<nb-card style=" margin:0px; padding-top: 0px; border: 0px; height: 100%;">
+
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-8">
+        <h5>Battery Summary</h5>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body style="padding-bottom: 0px; height:calc(100vh - 80px);">
+
+    <div *ngIf="data && data.length" class="mt-3">
+      <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+    <div class="alert alert-danger text-center mt-3" *ngIf="!data || !data.length">
+      <h4 class="no-record">No Record Found</h4>
+    </div>
+  </nb-card-body>
+</nb-card>
