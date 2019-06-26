@@ -157,6 +157,17 @@ export class FreightInputWithoutLocationComponent implements OnInit {
       .subscribe(res => {
         --this.common.loading;
         this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
 
         if (!res['data']) return;
         this.data = res['data'];

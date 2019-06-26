@@ -165,7 +165,6 @@ export class FrieghtRateInputComponent implements OnInit {
 
   }
   OpenFoFreight() {
-    console.log("with location");
     this.common.handleModalSize('class', 'modal-lg', '400');
     const activeModal = this.modalService.open(FoFreightRatesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
