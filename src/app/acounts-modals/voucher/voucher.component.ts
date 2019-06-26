@@ -781,14 +781,48 @@ export class VoucherComponent implements OnInit {
           console.log("data", data);
           this.voucher.delete = 1;
           // this.addOrder(this.order);
-          this.dismiss(true);
+          //this.dismiss(true);
+          
+          this.deleteFunction(1,'true');
+          
           // this.activeModal.close({ response: true, ledger: this.voucher });
           // this.common.loading--;
         }
       });
     }
   }
-
+  restore(){
+    this.deleteFunction(1,'false');
+  }
+  approve(ID){
+    this.deleteFunction(0,'true');
+  }
+  deleteFunction(type,typeans){
+    let params = {
+      id: this.voucher.xId,
+      flagname: (type==1) ? 'deleted':'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/deleteAppeooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true, ledger: this.voucher });
+        if(type==1 && typeans=='true'){
+        this.common.showToast(" This Value Has been Deleted!");
+        }else  if(type==1 && typeans=='false'){
+        this.common.showToast(" This Value Has been Restored!");
+        } else {
+        this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
+  }
   permantdelete(tblid) {
     let params = {
       id: tblid,
