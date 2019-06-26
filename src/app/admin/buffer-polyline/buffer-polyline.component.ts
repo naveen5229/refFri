@@ -52,14 +52,14 @@ export class BufferPolylineComponent implements OnInit {
       var latLngs = this.mapService.polygonPath.getPath().getArray();
       for (var i = 0; i < latLngs.length; i++) {
         if (i != 0) {
-          total += this.commonService.distanceFromAToB(lat, long, latLngs[i].lat(), latLngs[i].lng(), 'K');
+          total += this.commonService.distanceFromAToB(lat, long, latLngs[i].lat(), latLngs[i].lng(), 'Mt');
         }
         lat = latLngs[i].lat();
         long = latLngs[i].lng();
       }
     }
 
-    this.kmsShow = total;
+    this.kmsShow = (total/1000).toFixed(2);
   }
 
   ngAfterViewInit() {
@@ -77,7 +77,8 @@ export class BufferPolylineComponent implements OnInit {
           this.circle = null;
         }
         this.circle = this.mapService.createCirclesOnPostion(event.latLng, this.meterRadius);
-        let position = this.lat + "," + this.long;
+        let position = event.latLng.lat() + "," + event.latLng.lng();
+
         this.position = position;
         this.search(false);
         this.calKms();
@@ -156,7 +157,7 @@ export class BufferPolylineComponent implements OnInit {
 
     if (!this.mapService.isDrawAllow) {
       let params = {
-        tblRefId: 2,
+        tblRefId: 8,
         tblRowId: this.routeId
       };
       if (this.routeId) {
@@ -387,14 +388,15 @@ export class BufferPolylineComponent implements OnInit {
 
   ignoreSite() {
     if (!this.routeId) {
-      alert("Select Site First!!!");
+      alert("Select Buffer First!!!");
       return;
     }
     this.commonService.loading++;
-    this.apiService.post('SiteFencing/ignoreSite', { siteId: this.routeId })
+    this.apiService.post('Buffer/ignore', { routeId: this.routeId })
       .subscribe(res => {
         this.commonService.loading--;
         this.commonService.showToast(res['msg']);
+        this.getRemainingTable();
       }, err => {
         this.commonService.loading--;
         console.log(err);
@@ -408,7 +410,7 @@ export class BufferPolylineComponent implements OnInit {
 
       let result;
       var params = {
-        tblRefId: 2,
+        tblRefId: 8,
         tblRowId: this.routeId
       };
       console.log("params", params);

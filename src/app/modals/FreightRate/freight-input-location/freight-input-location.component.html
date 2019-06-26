@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="table-conan bassic-info">
+  <!-- <div class="table-conan bassic-info">
     <table>
       <tr>
         <td>
@@ -40,7 +40,7 @@
         </td>
       </tr>
     </table>
-  </div>
+  </div> -->
 
   <div class="table-conan filter-coff">
 
@@ -53,11 +53,11 @@
           <td>
             <auto-suggestion (onChange)="onChangeAuto($event,'Source')" (onChange)="onChangeAuto($event)" (onSelected)="
               selectLocation($event,'Source')" (noDataFound)="takeActionSource($event)" [isNoDataFoundEmit]="true"
-              url="Location/getPlaceFromRedis" display="location" inputId="source" placeholder="Source"
-              [value]="frieghtData.source">
+              url="Location/getPlaceFromRedis" display="location" inputId="origin" placeholder="Source"
+              [value]="frieghtData.origin">
             </auto-suggestion>
-            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.sourceLat>
-            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.sourceLng>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_lat>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_long>
           </td>
           <td>Destination </td>
           <td>
@@ -66,15 +66,13 @@
               [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="destination"
               placeholder="Destination" [value]="frieghtData.destination">
             </auto-suggestion>
-            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.destinationLat>
-            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.destinationLng>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_lat>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_long>
           </td>
           <td>Fixed</td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.fixed></td>
           <td>Distance × </td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.distance></td>
-        </tr>
-        <tr>
           <td>Weight × </td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weight></td>
           <td>Wt-Dist × </td>
@@ -90,7 +88,13 @@
       </tbody>
     </table>
   </div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" (click)="saveFrightInput()">Submit</button>
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveFrightInput()">Submit</button>
+  </div>
+  <h4>
+    Freight Rates
+  </h4>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+  </smart-table>
 </div>
