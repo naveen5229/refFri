@@ -3,6 +3,7 @@ import { CommonService } from '../../services/common.service';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
 // import { UserService } from '../../../services/user.service';
 @Component({
   selector: 'driver-vehicle-remapping',
@@ -24,9 +25,10 @@ export class DriverVehicleRemappingComponent implements OnInit {
     sdStatus: '902',
     driverId1: null,
     driverId2: null,
-
+    refId: null,
   };
-
+  md = null;
+  sd = null;
   constructor(
     public common: CommonService,
     private modalService: NgbModal,
@@ -35,22 +37,24 @@ export class DriverVehicleRemappingComponent implements OnInit {
     public api: ApiService,
     // public user: UserService,
   ) {
-
+    this.maping.refId = this.common.params.driver.v_id;
+    //console.log('vehicle', this.maping.refId);
     this.maping.regno = this.common.params.driver.regno;
-    console.log('info', this.common.params.driver);
-
+    //console.log('info', this.common.params.driver);
+    this.md = this.common.params.driver.md_id;
+    this.sd = this.common.params.driver.sd_id;
     if (this.common.params.driver) {
       this.maping.primary = { empname: this.common.params.driver.md_name };
 
       this.maping.pdriverMobile = this.common.params.driver.md_no;
       this.maping.driverId1 = this.common.params.driver.md_id;
-      console.log('id', this.maping.driverId1);
+      //  console.log('id', this.maping.driverId1);
 
       this.maping.secondary = { empname: this.common.params.driver.sd_name };
 
       this.maping.SdriverMobile = this.common.params.driver.sd_no;
       this.maping.driverId2 = this.common.params.driver.sd_id;
-      console.log('id1', this.maping.driverId2);
+      // console.log('id1', this.maping.driverId2);
       // console.log('mob2', this.common.params.driver.sd_no);
     }
     // console.log('Params: ', this.common.params);
@@ -61,19 +65,11 @@ export class DriverVehicleRemappingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.driverRemapForm = this.formbuilder.group({
-    //   primaryDriver: [this.common.params.driver.md_name],
-    //   pdriverMobile: [this.common.params.driver.md_no, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-    //   // scndryDriver: [this.common.params.driver.sd_name],
-    //   SdriverMobile: [this.common.params.driver.sd_no, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-    //   pdStatus: ['901', [Validators.required]],
-    //   sdStatus: ['902', [Validators.required]],
 
-    // });
 
   }
 
-  // get f() { return this.driverRemapForm.controls; }
+
 
   getvehicleData(Fodriver, driverType) {
     console.log(Fodriver);
@@ -125,9 +121,10 @@ export class DriverVehicleRemappingComponent implements OnInit {
   Remapdriver() {
     //let response;
     let params = {
+      isCheck: 1,
       driverId1: this.maping.driverId1,
       driverId2: this.maping.driverId2,
-      refId: this.common.params.driver.v_id,
+      refId: this.maping.refId,
       statusCode1: this.maping.pdStatus,
       statusCode2: this.maping.sdStatus,
     };
@@ -136,10 +133,10 @@ export class DriverVehicleRemappingComponent implements OnInit {
     this.api.post('/Drivers/setInputs', params)
       .subscribe(res => {
         this.common.loading--;
-        if (res['code'] == -1) {
-          this.common.showToast('Message', res['data'].msg);
-        }
-        this.closeModal();
+
+        this.openConrirmationAlert(res);
+        console.log('responsedata', res);
+        //this.closeModal();
 
         //console.log("Driver Status:", this.driverStatus);
       }, err => {
@@ -149,6 +146,69 @@ export class DriverVehicleRemappingComponent implements OnInit {
 
 
   }
+  openConrirmationAlert(data) {
+    if (data.code == 1) {
+      console.log('data response', data.code);
+      let params = {
+        isCheck: 1,
+        driverId1: this.maping.driverId1,
+        driverId2: this.maping.driverId2,
+        refId: this.maping.refId,
+        statusCode1: this.maping.pdStatus,
+        statusCode2: this.maping.sdStatus,
+      };
+      this.common.loading++;
 
+      this.api.post('/Drivers/setInputs', params)
+        .subscribe(res => {
+          this.common.loading--;
+
+          this.closeModal();
+
+          //console.log("Driver Status:", this.driverStatus);
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+    else if (data.code == 0) {
+      console.log('code', data.code);
+      this.common.params = {
+        title: data.msg,
+        description: " Do you want to continue ?"
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+      activeModal.result.then(data => {
+        if (data.response) {
+
+          let params = {
+            isCheck: 0,
+            driverId1: this.maping.driverId1,
+            driverId2: this.maping.driverId2,
+            refId: this.maping.refId,
+            statusCode1: this.maping.pdStatus,
+            statusCode2: this.maping.sdStatus,
+          };
+          this.common.loading++;
+
+          this.api.post('/Drivers/setInputs', params)
+            .subscribe(res => {
+              this.common.loading--;
+
+              this.closeModal();
+
+              //console.log("Driver Status:", this.driverStatus);
+            }, err => {
+              this.common.loading--;
+              console.log(err);
+            });
+        }
+      });
+    }
+
+    else if (data.code == -1) {
+      this.common.showError('', data.msg);
+    }
+  }
 
 }
