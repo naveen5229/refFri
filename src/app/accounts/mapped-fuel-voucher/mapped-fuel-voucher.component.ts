@@ -36,6 +36,7 @@ export class MappedFuelVoucherComponent implements OnInit {
     public modalService: NgbModal
   ) {
     // this.common.refresh = this.refresh.bind(this);
+    this.common.currentPage = 'Mapped Fuel Voucher';
     this.getFuelVoucher();
   }
 

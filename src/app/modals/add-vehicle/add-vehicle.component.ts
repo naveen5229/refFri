@@ -54,5 +54,7 @@ export class AddVehicleComponent implements OnInit {
     // return response;
 
   }
-
+  selectFoVehicle(event) {
+    console.log("print", event.id, event.regno);
+  }
 }
