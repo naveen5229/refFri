@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { CommonService } from '../../services/common.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BatterySummaryReportComponent } from '../../modals/Battery/battery-summary-report/battery-summary-report.component';
+import { DatePipe } from '@angular/common';
+import { ApiService } from '../../../services/api.service';
+import { CommonService } from '../../../services/common.service';
+import { UserService } from '../../../services/user.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'battery-summary',
-  templateUrl: './battery-summary.component.html',
-  styleUrls: ['./battery-summary.component.scss']
+  selector: 'battery-summary-report',
+  templateUrl: './battery-summary-report.component.html',
+  styleUrls: ['./battery-summary-report.component.scss']
 })
-export class BatterySummaryComponent implements OnInit {
-  data = [];
+export class BatterySummaryReportComponent implements OnInit {
 
+  data = [];
+  vehicleId = null;
+  refMode = null;
+  vehicleRegNo = null;
   table = {
     data: {
       headings: {},
@@ -24,15 +28,22 @@ export class BatterySummaryComponent implements OnInit {
   headings = [];
   valobj = {};
 
-  constructor(public api: ApiService,
+  constructor(private datePipe: DatePipe,
+    public api: ApiService,
     public common: CommonService,
-    public modalService: NgbModal) {
+    public user: UserService,
+    public activeModal: NgbActiveModal,
+    private modalService: NgbModal) {
+    this.vehicleId = this.common.params.vehicle.id;
+    this.refMode = this.common.params.vehicle.refMode;
+    this.vehicleRegNo = this.common.params.vehicleRegNo;
     this.common.refresh = this.refresh.bind(this);
-    this.getBetterySummary();
+    this.refresh();
   }
 
   ngOnInit() {
   }
+
 
   refresh() {
     this.data = [];
@@ -54,15 +65,16 @@ export class BatterySummaryComponent implements OnInit {
 
   getBetterySummary() {
     this.common.loading++;
-    this.api.get('Battery/getBatterySummary')
+
+    let params = 'refId=' + this.vehicleId +
+      '&refMode=' + this.refMode;
+
+    console.log("params ", params);
+    this.api.get('Battery/getBatteryDetailsWrtVeh?' + params)
       .subscribe(res => {
         this.common.loading--;
-        // JSON.parse(res['data'][0].fn_getvehicletyredetails);
-        // this.data = res['data'][0].fn_battery_summary;
-        this.data = JSON.parse(res['data']);
+        this.data = JSON.parse(res['data'][0].fn_battery_getvehbattery);
 
-
-        // res.json().results;
         this.table = {
           data: {
             headings: {},
@@ -103,31 +115,16 @@ export class BatterySummaryComponent implements OnInit {
       this.valobj = {};
       for (let i = 0; i < this.headings.length; i++) {
         console.log("doc index value:", doc[this.headings[i]]);
-        if (this.headings[i] == "Action") {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openBatterySummary.bind(this, doc, 'site') };
-        }
-        else {
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-        }
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
       }
       columns.push(this.valobj);
     });
     return columns;
   }
-
-  openBatterySummary(vehicleDetail) {
-    console.log("Battery summary Modal", vehicleDetail);
-    let vehicle = {
-      id: vehicleDetail._vid,
-      regno: vehicleDetail.Vehicle,
-      refMode: vehicleDetail._refmode
-    };
-    this.common.params = { vehicle: vehicle, ref_page: 'battery-summary' };
-    const activeModal = this.modalService.open(BatterySummaryReportComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
-    activeModal.result.then(data => {
-
-    });
+  closeModal() {
+    this.activeModal.close();
   }
+
 
 
 }
