@@ -346,8 +346,10 @@ export class DaybooksComponent implements OnInit {
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
+         console.log('Data: ', data);
+         if(!data){
         this.getDayBook();
+         }
         // this.common.showToast('Voucher updated');
 
       });
@@ -468,7 +470,8 @@ export class DaybooksComponent implements OnInit {
         this.getDayBook();
       });
     }else {
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData};
+      let tripExpDriver=this.tripExpDriver;
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver};
     console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

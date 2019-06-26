@@ -4,16 +4,14 @@ import { BatteryInventoryComponent } from './battery-inventory/battery-inventory
 import { BatteryComponent } from './battery.component';
 import { BatteryModalsComponent } from './battery-modals/battery-modals.component';
 import { VehicleBatteryComponent } from './vehicle-battery/vehicle-battery.component';
+import { BatterySummaryComponent } from './battery-summary/battery-summary.component';
 
 
 const routes: Routes = [{
     path: '',
     component: BatteryComponent,
     children: [
-        // {
-        //     path: 'dashboard',
-        //     component: DashboardComponent,
-        // },
+
         {
             path: 'battery-inventory',
             component: BatteryInventoryComponent,
@@ -25,6 +23,10 @@ const routes: Routes = [{
         {
             path: 'vehicle-battery',
             component: VehicleBatteryComponent,
+        },
+        {
+            path: 'battery-summary',
+            component: BatterySummaryComponent,
         },
 
 
