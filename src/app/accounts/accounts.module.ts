@@ -38,6 +38,7 @@ import { FuelfillingsComponent } from './fuelfillings/fuelfillings.component';
 import { VehicleCostCenterListComponent } from './vehicle-cost-center-list/vehicle-cost-center-list.component';
 import { MappedFuelVoucherComponent } from './mapped-fuel-voucher/mapped-fuel-voucher.component';
 import { VehicleLedgersComponent } from './vehicle-ledgers/vehicle-ledgers.component';
+import { DaybookpendingComponent } from './daybookpending/daybookpending.component';
 const PAGES_COMPONENTS = [
   AccountsComponent,
 ];
@@ -84,7 +85,8 @@ const PAGES_COMPONENTS = [
     FuelfillingsComponent,
     VehicleCostCenterListComponent,
     MappedFuelVoucherComponent,
-    VehicleLedgersComponent
+    VehicleLedgersComponent,
+    DaybookpendingComponent
     //StockSubtypeComponent
   ],
 })
