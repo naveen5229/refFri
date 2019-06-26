@@ -13,8 +13,9 @@ import { ApiService } from '../../services/api.service';
 export class AddFoComponent implements OnInit {
   isFormSubmit = false;
   show_dialog: boolean = false;
+  code=0;
   public button_name: any = 'Show Login Form!';
-  code = "";
+
   document = {
     image1: null,
     image2: null,
@@ -154,4 +155,8 @@ export class AddFoComponent implements OnInit {
         });
     }
   }
+  selectFoUser(value){
+    
+  }
+  
 }

@@ -52,14 +52,14 @@ export class BufferPolylineComponent implements OnInit {
       var latLngs = this.mapService.polygonPath.getPath().getArray();
       for (var i = 0; i < latLngs.length; i++) {
         if (i != 0) {
-          total += this.commonService.distanceFromAToB(lat, long, latLngs[i].lat(), latLngs[i].lng(), 'K');
+          total += this.commonService.distanceFromAToB(lat, long, latLngs[i].lat(), latLngs[i].lng(), 'Mt');
         }
         lat = latLngs[i].lat();
         long = latLngs[i].lng();
       }
     }
 
-    this.kmsShow = total;
+    this.kmsShow = (total/1000).toFixed(2);
   }
 
   ngAfterViewInit() {
