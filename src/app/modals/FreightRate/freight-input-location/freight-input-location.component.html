@@ -51,9 +51,9 @@
           <td>Source</td>
 
           <td>
-            <auto-suggestion (onChange)="onChangeAuto($event,'Source')" (onChange)="onChangeAuto($event)" (onSelected)="
-              selectLocation($event,'Source')" (noDataFound)="takeActionSource($event)" [isNoDataFoundEmit]="true"
-              url="Location/getPlaceFromRedis" display="location" inputId="origin" placeholder="Source"
+            <auto-suggestion (onChange)="onChangeAuto($event,'Source',i)" (onSelected)="
+              selectLocation($event,'Source',i)" (noDataFound)="takeActionSource($event,i)" [isNoDataFoundEmit]="true"
+              url="Location/getPlaceFromRedis" display="location" [inputId]="'origin-'+i" placeholder="Source"
               [value]="frieghtData.origin">
             </auto-suggestion>
             <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_lat>
@@ -61,10 +61,10 @@
           </td>
           <td>Destination </td>
           <td>
-            <auto-suggestion (onChange)="onChangeAuto($event,'Destination')"
-              (onSelected)="selectLocation($event,'Destination')" (noDataFound)="takeActionDestination($event)"
-              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" inputId="destination"
-              placeholder="Destination" [value]="frieghtData.destination">
+            <auto-suggestion (onChange)="onChangeAuto($event,'Destination',i)"
+              (onSelected)="selectLocation($event,'Destination',i)" (noDataFound)="takeActionDestination($event,i)"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location"
+              [inputId]="'destination-'+i" placeholder="Destination" [value]="frieghtData.destination">
             </auto-suggestion>
             <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_lat>
             <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_long>
