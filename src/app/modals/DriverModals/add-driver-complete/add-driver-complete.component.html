@@ -45,7 +45,7 @@
       <div class="col-3">
         <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
           formControlName="mobileno2" minlength="10" required maxlength="10"
-          [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }" required>
+          [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }">
         <div *ngIf="submitted && f.mobileno2.errors" class="invalid-feedback">
           <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
           <div *ngIf="f.mobileno2.errors.maxlength ">mobile Number maxlength 10</div>
@@ -101,7 +101,7 @@
       </div>
       <div class="col-3">
         <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
-          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="date" readonly>
+          placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="doj" readonly>
       </div>
     </div>
 

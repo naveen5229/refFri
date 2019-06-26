@@ -82,7 +82,7 @@ export class FoFreightRatesComponent implements OnInit {
     });
   }
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close({ data: false });
   }
   saveFrightRates() {
     ++this.common.loading;
@@ -105,7 +105,7 @@ export class FoFreightRatesComponent implements OnInit {
 
           alert("Sucessfully insert");
 
-          this.activeModal.close();
+          this.activeModal.close({ data: true });
         }
       }, err => {
         --this.common.loading;

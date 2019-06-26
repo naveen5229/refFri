@@ -61,7 +61,7 @@ export class FreightInputLocationComponent implements OnInit {
   }
 
 
-  onChangeAuto(search, type) {
+  onChangeAuto(search, type, index) {
     if (type == 'Source') {
 
       this.sourceString = search;
@@ -95,20 +95,26 @@ export class FreightInputLocationComponent implements OnInit {
     });
   }
 
-  selectLocation(place, type) {
+  selectLocation(place, type, index) {
     if (type == 'Source') {
       console.log("palce", place);
-      this.frieghtDatas[0].org_lat = place.lat;
-      this.frieghtDatas[0].org_long = place.long;
-      this.frieghtDatas[0].origin = place.location || place.name;
+      this.frieghtDatas[index].org_lat = place.lat;
+      this.frieghtDatas[index].org_long = place.long;
+      this.frieghtDatas[index].origin = place.location || place.name;
+      this.frieghtDatas[index].origin = this.frieghtDatas[index].origin.split(",")[0];
+      (<HTMLInputElement>document.getElementById('origin-' + index)).value = this.frieghtDatas[index].origin;
     }
-    console.log("palce", place);
-    this.frieghtDatas[0].dest_lat = place.lat;
-    this.frieghtDatas[0].dest_long = place.long;
-    this.frieghtDatas[0].destination = place.location || place.name;
+    else {
+      console.log("palce", place);
+      this.frieghtDatas[index].dest_lat = place.lat;
+      this.frieghtDatas[index].dest_long = place.long;
+      this.frieghtDatas[index].destination = place.location || place.name;
+      this.frieghtDatas[index].destination = this.frieghtDatas[index].destination.split(",")[0];
+      (<HTMLInputElement>document.getElementById('destination-' + index)).value = this.frieghtDatas[index].destination;
+    }
   }
 
-  takeActionSource(res) {
+  takeActionSource(res, index) {
     setTimeout(() => {
       console.log("Here", this.keepGoing, this.sourceString.length, this.sourceString);
 
@@ -121,11 +127,11 @@ export class FreightInputLocationComponent implements OnInit {
           console.log('response----', res.location);
           this.keepGoing = true;
           if (res.location.lat) {
-            this.frieghtDatas[0].origin = res.location.name;
+            this.frieghtDatas[index].origin = res.location.name.split(",")[0];
 
-            (<HTMLInputElement>document.getElementById('origin')).value = this.frieghtDatas[0].origin;
-            this.frieghtDatas[0].org_lat = res.location.lat;
-            this.frieghtDatas[0].org_long = res.location.lng;
+            (<HTMLInputElement>document.getElementById('origin-' + index)).value = this.frieghtDatas[index].origin;
+            this.frieghtDatas[index].org_lat = res.location.lat;
+            this.frieghtDatas[index].org_long = res.location.lng;
             this.keepGoing = true;
           }
         })
@@ -135,7 +141,7 @@ export class FreightInputLocationComponent implements OnInit {
   }
 
 
-  takeActionDestination(res) {
+  takeActionDestination(res, index) {
     setTimeout(() => {
       console.log("Here", this.keepGoing, this.destinationString.length, this.destinationString);
 
@@ -148,11 +154,11 @@ export class FreightInputLocationComponent implements OnInit {
           console.log('response----', res.location);
           this.keepGoing = true;
           if (res.location.lat) {
-            this.frieghtDatas[0].destination = res.location.name;
+            this.frieghtDatas[index].destination = res.location.name.split(",")[0];
 
-            (<HTMLInputElement>document.getElementById('destination')).value = this.frieghtDatas[0].destination;
-            this.frieghtDatas[0].dest_lat = res.location.lat;
-            this.frieghtDatas[0].dest_long = res.location.lng;
+            (<HTMLInputElement>document.getElementById('destination-' + index)).value = this.frieghtDatas[index].destination;
+            this.frieghtDatas[index].dest_lat = res.location.lat;
+            this.frieghtDatas[index].dest_long = res.location.lng;
             this.keepGoing = true;
           }
         })
@@ -178,7 +184,7 @@ export class FreightInputLocationComponent implements OnInit {
         --this.common.loading;
         console.log(res['data'][0].result);
         this.common.showToast(res['data'][0].result);
-        this.activeModal.close();
+        this.getFrieghtRateDetails();
       }, err => {
         --this.common.loading;
         this.common.showError(err);

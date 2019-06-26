@@ -135,8 +135,7 @@ export class FreightInputWithoutLocationComponent implements OnInit {
         --this.common.loading;
         console.log(res['data'][0].result);
         this.common.showToast(res['data'][0].result);
-
-        this.activeModal.close();
+        this.getFrieghtRateDetails();
 
       }, err => {
         --this.common.loading;

@@ -35,6 +35,7 @@ export class FrieghtRateInputComponent implements OnInit {
     private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService) {
+    this.getFrieghtRate();
   }
 
   ngOnInit() {
@@ -167,7 +168,12 @@ export class FrieghtRateInputComponent implements OnInit {
     console.log("with location");
     this.common.handleModalSize('class', 'modal-lg', '400');
     const activeModal = this.modalService.open(FoFreightRatesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data && data.data) {
 
+        this.getFrieghtRate();
+      }
+    });
 
   }
 }
