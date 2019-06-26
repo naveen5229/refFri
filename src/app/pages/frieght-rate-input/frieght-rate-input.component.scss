@@ -1,0 +1,18 @@
+:host ::ng-deep .addButton {
+    margin: 5px 0px;
+    display: block;
+    font-style:normal;
+
+    &::before{
+        content: 'Add';
+        background-color: #128cc4;
+        border-radius: 3px;
+        padding: 5px 10px;
+        color: #fff;
+        width: 100%;
+        font-size: 12px;
+        margin: 0px !important;
+    }
+}
+
+

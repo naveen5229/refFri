@@ -182,49 +182,59 @@ export class DriverAttendanceComponent implements OnInit {
 
 
     Object.keys(this.common.params.columns.current).forEach(key => {
-      let Currentcount = 0;
-      let CurrentAbcount = 0;
-      let CurrentHcount = 0;
-      let oldcount = 0;
-      let oldAbcount = 0;
-      let oldhcount = 0;
-      let attType = this.common.params.columns.current[key]['value'];
-      // console.log('')
-      if (attType == 'P') {
 
-        this.common.params.columns.current.id = '2';
-      }
-      if (attType == 'A') {
+      // let attType = this.common.params.columns.current[key]['value'];
+      // console.log('Atype', attType);
+      // if (attType == 'p' || attType == 'P') {
 
-        this.common.params.columns.current.id = '0';
-      }
-      if (attType == 'H') {
+      //   this.common.params.columns.current.id = '2';
 
-        this.common.params.columns.current.id = '1';
-      }
+      // }
+      // else if (attType == 'a' || attType == 'A') {
+
+      //   this.common.params.columns.current.id = '0';
+
+      //   // console.log('idtype', this.common.params.columns.current.id);
+      // }
+      // else if (attType == 'H' || attType == 'h' || attType == 'HD' || attType == 'hd') {
+
+      //   this.common.params.columns.current.id = '1';
+
+      // }
       // else {
+      //   console.log('atype', attType);
       //   this.common.showToast('Please enter Correct Pattern');
       // }
 
       var patt = /....-..-../i;
       if (key.match(patt))
-        show.push({
-          driver_id: this.common.params.columns.current.driver_id,
-          name: this.common.params.columns.current.name.value,
-          date: this.common.params.columns.current[key]['date'],
-          att_id: this.common.params.columns.current.id,
-
-          tp: this.common.params.columns.current.total_present.value,
-          ta: this.common.params.columns.current.total_absent.value,
-          thd: this.common.params.columns.current.total_half.value,
-          adjust_day: this.common.params.columns.current.adjust_day.value,
-
+        if (this.common.params.columns.current[key]['value'] == 'p' || this.common.params.columns.current[key]['value'] == 'P') {
+          this.common.params.columns.current.id = '2';
+        } else if (this.common.params.columns.current[key]['value'] == 'a' || this.common.params.columns.current[key]['value'] == 'A') {
+          this.common.params.columns.current.id = '0';
+        } else if (this.common.params.columns.current[key]['value'] == 'HD' || this.common.params.columns.current[key]['value'] == 'hd' || this.common.params.columns.current[key]['value'] == 'H' || this.common.params.columns.current[key]['value'] == 'h') {
+          this.common.params.columns.current.id = '1';
+        } else {
+          this.common.showToast('Invalid Pattern');
         }
-        );
+      show.push({
+        driver_id: this.common.params.columns.current.driver_id,
+        name: this.common.params.columns.current.name.value,
+        date: this.common.params.columns.current[key]['date'],
+
+        att_id: this.common.params.columns.current.id,
+
+        tp: this.common.params.columns.current.total_present.value,
+        ta: this.common.params.columns.current.total_absent.value,
+        thd: this.common.params.columns.current.total_half.value,
+        adjust_day: this.common.params.columns.current.adjust_day.value,
+
+      }
+      );
 
     });
 
-    // let currentVal1 = show;
+
     console.log('show', show);
 
     let params = {

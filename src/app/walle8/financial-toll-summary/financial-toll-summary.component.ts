@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FinancialTollSummaryComponent implements OnInit {
   dates = {
-    start: this.common.dateFormatter(new Date()),
+    start: null,
 
     end: this.common.dateFormatter(new Date()),
   };
@@ -31,6 +31,8 @@ export class FinancialTollSummaryComponent implements OnInit {
 
     //this.getdoubleTollReport();
     // this.getBalance();
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
     this.getfinancialTollReport();
   }
 
