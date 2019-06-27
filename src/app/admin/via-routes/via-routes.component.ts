@@ -7,6 +7,7 @@ import { AddViaRoutesComponent } from '../../modals/add-via-routes/add-via-route
 import { bind } from '@angular/core/src/render3';
 import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route-points.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { RoutesAdvancesComponent } from '../../modals/routes-advances/routes-advances.component';
 
 @Component({
   selector: 'via-routes',
@@ -61,6 +62,7 @@ export class ViaRoutesComponent implements OnInit {
     });
 
   }
+
   refresh() {
     this.table = {
       data: {
