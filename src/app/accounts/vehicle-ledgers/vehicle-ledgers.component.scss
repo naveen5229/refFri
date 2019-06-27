@@ -100,3 +100,11 @@ table{
         }
     }
 }
+
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
+}

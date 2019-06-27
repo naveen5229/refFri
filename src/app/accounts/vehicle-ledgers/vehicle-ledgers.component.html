@@ -35,7 +35,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let list of vehList;let i=index;">
+          <tr *ngFor="let list of vehList; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{i+1}}</td>
             <td>
               <input type="checkbox" [name]="'list-' + i" [(ngModel)]="list.selected"
