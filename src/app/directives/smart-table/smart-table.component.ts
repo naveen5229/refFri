@@ -1,7 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 // import * as _ from 'lodash';
-import * as moment from 'moment';
 
 @Component({
   selector: 'smart-table',
@@ -94,25 +93,9 @@ export class SmartTableComponent implements OnInit {
   }
 
   sortColumn(key, sortType?) {
-    let counts = {
-      object: 0,
-      string: 0,
-      number: 0,
-      date: 0
-    };
-
-    const numberPattern = new RegExp(/^([0-9])*(.)([0-9])*$/);
-    const datePattern = new RegExp(/([0-2][0-9]|(3)[0-1])( |\/|-|)([a-zA-Z]{3})( |\/|-|)(([0-1][0-9])|([2][0-3]){2})(:)([0-5][0-9])$/);
-
-    this.columns.forEach(column => {
-      let value = column[key].value
-      if (datePattern.test(value)) counts.date++
-      else if (numberPattern.test(value)) counts.number++;
-      else if (typeof value == 'string') counts.string++;
-      else counts.object++;
-    });
     this.columns.sort((a, b) => {
-      if (!counts.number) {
+      // console.log(typeof a[key].value, a[key].value, typeof b[key].value, b[key].value);
+      if (typeof (a[key].value) == 'string' || typeof (b[key].value) == 'string') {
         let firstValue = a[key].value ? a[key].value.toLowerCase() : '';
         let secondValue = b[key].value ? b[key].value.toLowerCase() : '';
         if (firstValue < secondValue) //sort string ascending
@@ -130,8 +113,11 @@ export class SmartTableComponent implements OnInit {
   }
 
   handleRowClick(column, index) {
-    if (column.rowActions.click == 'selectRow') this.activeRow = index;
-    else column.rowActions.click();
+    if (column.rowActions.click == 'selectRow') {
+      this.activeRow = index;
+    } else {
+      column.rowActions.click()
+    }
   }
 
 
