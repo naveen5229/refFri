@@ -9,8 +9,9 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./routes-advances.component.scss']
 })
 export class RoutesAdvancesComponent implements OnInit {
+  id = this.common.params.doc._id ? this.common.params.doc._id : null;
   route = [{
-    routeId: 21,
+    routeId: this.id,
     fuelAmt: null,
     cash: null,
     modelId: null,
@@ -57,7 +58,7 @@ export class RoutesAdvancesComponent implements OnInit {
             fuelAmt: null,
             cash: null,
             modelId: null,
-          }]
+          }];
         }
         else {
           this.common.showError(res['data'][0].y_msg)
@@ -73,7 +74,7 @@ export class RoutesAdvancesComponent implements OnInit {
 
   addMore() {
     this.route.push({
-      routeId: 21,
+      routeId: this.id,
       fuelAmt: null,
       cash: null,
       modelId: null

@@ -127,6 +127,14 @@ export class ViaRoutesComponent implements OnInit {
 
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteExpenses.bind(this, doc) };
         }
+        if (this.headings[i] == "traffic_kpis") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteKpi.bind(this, doc) };
+        }
+        if (this.headings[i] == "advances") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteAdvance.bind(this, doc) };
+        }
         this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
       columns.push(this.valobj);
@@ -192,6 +200,28 @@ export class ViaRoutesComponent implements OnInit {
     this.common.params = { doc: doc };
     console.log("params-->", this.common.params);
     const activeModal = this.modalService.open(RoutesExpensesComponent, { size: 'lg', container: 'nb-layout', });
+    activeModal.result.then(data => {
+
+      console.log("data", data);
+      this.viewTable();
+    }
+    );
+  }
+  openrouteAdvance(doc) {
+    this.common.params = { doc: doc };
+    console.log("params-->", this.common.params);
+    const activeModal = this.modalService.open(RoutesAdvancesComponent, { size: 'lg', container: 'nb-layout', });
+    activeModal.result.then(data => {
+
+      console.log("data", data);
+      this.viewTable();
+    }
+    );
+  }
+  openrouteKpi(doc) {
+    this.common.params = { doc: doc };
+    console.log("params-->", this.common.params);
+    const activeModal = this.modalService.open(RoutesTrafficKpisComponent, { size: 'lg', container: 'nb-layout', });
     activeModal.result.then(data => {
 
       console.log("data", data);
