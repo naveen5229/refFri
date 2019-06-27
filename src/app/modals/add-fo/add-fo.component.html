@@ -7,16 +7,24 @@
 <div class="modal-body">
   <form #foForm="ngForm" name="addfo-form" id="addfo-form" (submit)="foForm.valid && addfo()">
     <div class="row" style="margin-bottom:10px">
+      <div class="col">
+        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList"
+          [display]="['name','mobileno','id']" seperator="-" placeholder="Search By Mobile No. And Name">
+        </auto-suggestion>
+
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
       <div class="col-2 pr-0">
         <label> Mobile-Num.</label>
         <input type="text" class="form-control" placeholder="Mobile-Num." [(ngModel)]="company.mobileNo"
-          #mobile="ngModel" name="Mobile" minlength="10" maxlength="10" autocomplete="off" required>
+          #mobile="ngModel" name="Mobile" minlength="10" maxlength="10" autocomplete="off" (keyup)="test()" required>
         <div *ngIf="mobile.errors && isFormSubmit" class="vaidation-errors">
           <span [hidden]="!mobile.errors.required">Mobile number is mandatory</span>
           <span [hidden]="!mobile.errors.minlength">Invalid Mobile number</span>
+
         </div>
       </div>
-
       <div class="col-3">
         <div class="form-group">
           <label>Full-Name</label>
@@ -61,12 +69,12 @@
 
 
     <div class="row" style="margin-bottom:10px">
-      <div class="col-3">
+      <div class="col-2">
         <button class="modal-footer-btn forward-btn" class="form-control" class="btn btn-primary" form="company-form"
           (click)="toggle()" id="btToggle" value="Show More" name="Show More"
           style="text-align: center;width:95px;">Detail</button>
       </div>
-      <div class="col-3">
+      <div class="col-2">
 
 
 
@@ -137,12 +145,7 @@
 
 
       </div>
-      <div class="custom-modal-footer">
 
-        <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList" display="name"
-          placeholder="Search By Mobile No. And Name"></auto-suggestion>
-
-      </div>
     </div>
 
   </form>

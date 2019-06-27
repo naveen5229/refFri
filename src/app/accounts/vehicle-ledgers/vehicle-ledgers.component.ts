@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,HostListener} from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -29,11 +29,19 @@ export class VehicleLedgersComponent implements OnInit {
   //   primaryId: ''
   // };
 
+  selectedRow = -1;
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
     this.getVehList();
     this.setAutoSuggestion();
+    this.common.currentPage = 'Vehicle Ledger';
+
   }
 
   ngOnInit() {
@@ -183,6 +191,20 @@ export class VehicleLedgersComponent implements OnInit {
     this.underGroupDetails.id = groupDetail.id;
     this.underGroupDetails.primarygroup_id = groupDetail.primarygroup_id;
     console.log('detail group;;;;;;;', groupDetail);
+
+  }
+
+  
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+   // this.activeId = document.activeElement.id;
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.vehList.length) {
+     
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.vehList.length - 1) this.selectedRow++;
+
+    }
 
   }
 }

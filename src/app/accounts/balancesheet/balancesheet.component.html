@@ -42,7 +42,7 @@
 
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
-        <table class="table table-bordered m-0" id="table1">
+        <!-- <table class="table table-bordered m-0" id="table1">
           <thead>
             <tr>
               <th>Liability</th>
@@ -63,10 +63,41 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
+
+        <div class="row heading m-0 p-0">
+          <div class="col-8">Liability</div>
+          <div class="col-4 text-right">Amount</div>
+        </div>
+        <div *ngFor="let liability of liabilities;  let i = index;">
+          <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}">
+            <div class="col-8">{{liability.name}}</div>
+            <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+          </div>
+
+          <div *ngFor="let subGroup of liability.subGroups;">
+            <div class="tb-mini row m-0 pl-0 pr-0"  style="background-color: #5d6e75;color: #fff;">
+              <div class="col-8">{{subGroup.name}}</div>
+              <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+            </div>
+
+            <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index" (click)="selectedRow =  'A' + i + j" class="tb-mini row m-0 pl-0 pr-0"
+              (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid,balanceSheet.y_ledger_name) : ' ' " 
+              [ngClass]="{'highlight' : selectedRow == 'A' + i + j }" style="background: #dadfe6;">
+              <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+              <div style="text-align: left;" class="col-4 text-right">
+                <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+              </div>
+            </div>
+
+          </div>
+
+
+
+        </div>
       </div>
       <div class="col-6 p-0">
-        <table class="table table-bordered m-0" id="table2">
+        <!-- <table class="table table-bordered m-0" id="table2">
           <thead>
             <tr>
               <th>Asset</th>
@@ -76,7 +107,6 @@
           <tbody *ngFor="let asset of assets; let k = index;">
             <tr style="background: #184154;" [ngStyle]="{'display':  k == assets.length -1 ? 'none' : ''}">
               <td>{{asset.name}}</td>
-              <!-- <td style="text-align: right;">{{asset.amount}}</td> -->
               <td style="text-align: right;">{{asset.amount | number : '1.2-2'}}</td>
 
             </tr>
@@ -89,7 +119,38 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
+        <div class="row heading m-0 p-0">
+            <div class="col-8">Asset</div>
+            <div class="col-4 text-right">Amount</div>
+          </div>
+          <div *ngFor="let liability of assets;  let i = index;">
+            <div style="background: #184154;" [ngStyle]="{'display':  i == liabilities.length -1 ? 'none' : ''}"
+              class="th-mini row m-0 pl-0 pr-0">
+              <div class="col-8">{{liability.name}}</div>
+              <div class="col-4 text-right">{{liability.amount | number : '1.2-2'}}</div>
+            </div>
+  
+            <div *ngFor="let subGroup of liability.subGroups;">
+              <div class="th-mini row m-0 pl-0 pr-0">
+                <div class="col-8">{{subGroup.name}}</div>
+                <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
+              </div>
+  
+              <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index" (click)="selectedRow =  'A' + i + j" class="tb-mini row m-0 pl-0 pr-0"
+                (dblclick)="(balanceSheet.y_ledgerid) ? opendaybookmodel(balanceSheet.y_ledgerid,balanceSheet.y_ledger_name) : ' ' " 
+                [ngClass]="{'highlight' : selectedRow == 'A' + i + j }" style="background: #dadfe6;">
+                <div class="col-8">{{balanceSheet.y_ledger_name}}</div>
+                <div style="text-align: left;" class="col-4 text-right">
+                  <p style="margin: 0px; width: 50px; text-align: right;">{{balanceSheet.y_amount}}</p>
+                </div>
+              </div>
+  
+            </div>
+  
+  
+  
+          </div>
       </div>
     </div>
     <div class="row">

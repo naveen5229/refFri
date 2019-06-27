@@ -121,28 +121,23 @@
               autocomplete="off">
           </td>
         </tr>
-
-
-        <!-- <tr>
-              <td><label>T.A. Name</label></td>
-              <td>
-                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent"
-                  display="name" placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
-              </td>
-              <td><label>T.A. Id</label></td>
-              <td>
-                {{taId}}
-               </td>          
-            </tr> -->
-
-
         <tr>
-          <td><label>Payable Amount</label></td>
-          <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>
+          <td><label>Amount</label></td>
+          <td><input type="number" [(ngModel)]="lr.amount" class="form-control" (change)="calculateTotalAmount()"></td>
+          <td><label>GST %</label></td>
+          <td><input type="number" min="0" max="31" [(ngModel)]="lr.gstPer" class="form-control"
+              (change)="calculateTotalAmount()"></td>
+        <tr>
+          <td><label>Total Amount</label></td>
+          <td>
+            {{lr.payableAmount}}
+            <!-- <input type="text" [(ngModel)]="lr.payableAmount" class="form-control"> -->
+          </td>
           <td><label>Payment Term</label></td>
           <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
               <option value="1">ToPay</option>
               <option value="2">Paid</option>
+              <option value="3">To Be Billed</option>
             </select></td>
         </tr>
         <tr>
