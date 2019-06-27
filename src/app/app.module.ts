@@ -177,6 +177,7 @@ import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freig
 import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
 import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
 import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-report/battery-summary-report.component';
+import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
 
 
 
@@ -330,6 +331,7 @@ import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-
     FreightInputLocationComponent,
     FoFreightRatesComponent,
     BatterySummaryReportComponent,
+    RoutesExpensesComponent,
 
 
 
@@ -476,7 +478,7 @@ import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-
     AddViaRoutesComponent,
     FoFreightRatesComponent,
     BatterySummaryReportComponent,
-
+    RoutesExpensesComponent,
 
   ],
   imports: [
