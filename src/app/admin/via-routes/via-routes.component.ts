@@ -7,6 +7,7 @@ import { AddViaRoutesComponent } from '../../modals/add-via-routes/add-via-route
 import { bind } from '@angular/core/src/render3';
 import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route-points.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/routes-traffic-kpis.component';
 
 @Component({
   selector: 'via-routes',
@@ -178,6 +179,14 @@ export class ViaRoutesComponent implements OnInit {
       console.log("data", data)
       // this.reloadData()
     );
+  }
+
+  route(){
+   const activeModal = this.modalService.open(RoutesTrafficKpisComponent, {
+      size: "lg",
+      container: "nb-layout"
+    })
+  
   }
 
 }
