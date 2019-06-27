@@ -84,16 +84,29 @@ table{
     }
 } 
 .under-group{
+    min-width: 200px;
+    float: right;
+    background-color: #ccc;
     ul{
         list-style:none;
-        padding:0px;
+        padding:5px;
         margin:0px;
         overflow: auto;
         max-height: 112px;
         border: 1px solid #ccc;
         li{
-            padding: 10px;
-            display: block;
+            border: 1px solid #263238;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: normal;
+            background-color: #263238;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+        .active-suggestion{
+            background-color: teal;
+            font-weight: normal;
         }
         li + li{
             border-top: 1px solid #ccc;
