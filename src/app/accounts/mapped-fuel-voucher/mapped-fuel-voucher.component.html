@@ -57,7 +57,7 @@
           </tr>
         </thead>
         <tbody *ngIf="fuelVoucher.type==0">
-          <tr *ngFor="let voucher of voucherDetails; let i = index">
+          <tr *ngFor="let voucher of voucherDetails; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
             <td>{{voucher.fuel_fill_date | date : 'dd MMM'}}</td>
             <td>{{voucher.vehicle_name}}</td>
             <td>{{voucher.fuel_station}}</td>

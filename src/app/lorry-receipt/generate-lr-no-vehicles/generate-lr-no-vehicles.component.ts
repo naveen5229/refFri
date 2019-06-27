@@ -37,7 +37,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
     consignorId: null,
     sameAsDelivery: false,
     paymentTerm: "1",
-    payableAmount: null,
+    payableAmount: 0,
     lrNumber: null,
     sourceCity: null,
     sourceLat: null,
