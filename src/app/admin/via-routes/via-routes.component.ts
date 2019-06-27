@@ -8,6 +8,8 @@ import { bind } from '@angular/core/src/render3';
 import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route-points.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RoutesExpensesComponent } from '../../modals/routes-expenses/routes-expenses.component';
+import { RoutesAdvancesComponent } from '../../modals/routes-advances/routes-advances.component';
+import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/routes-traffic-kpis.component';
 
 @Component({
   selector: 'via-routes',
@@ -62,6 +64,7 @@ export class ViaRoutesComponent implements OnInit {
     });
 
   }
+
   refresh() {
     this.table = {
       data: {
@@ -123,6 +126,14 @@ export class ViaRoutesComponent implements OnInit {
         if (this.headings[i] == "expenses") {
 
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteExpenses.bind(this, doc) };
+        }
+        if (this.headings[i] == "traffic_kpis") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteKpi.bind(this, doc) };
+        }
+        if (this.headings[i] == "advances") {
+
+          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'blue', action: this.openrouteAdvance.bind(this, doc) };
         }
         this.valobj['action'] = { class: '', icons: this.actionIcons(doc) };
       }
@@ -189,6 +200,28 @@ export class ViaRoutesComponent implements OnInit {
     this.common.params = { doc: doc };
     console.log("params-->", this.common.params);
     const activeModal = this.modalService.open(RoutesExpensesComponent, { size: 'lg', container: 'nb-layout', });
+    activeModal.result.then(data => {
+
+      console.log("data", data);
+      this.viewTable();
+    }
+    );
+  }
+  openrouteAdvance(doc) {
+    this.common.params = { doc: doc };
+    console.log("params-->", this.common.params);
+    const activeModal = this.modalService.open(RoutesAdvancesComponent, { size: 'lg', container: 'nb-layout', });
+    activeModal.result.then(data => {
+
+      console.log("data", data);
+      this.viewTable();
+    }
+    );
+  }
+  openrouteKpi(doc) {
+    this.common.params = { doc: doc };
+    console.log("params-->", this.common.params);
+    const activeModal = this.modalService.open(RoutesTrafficKpisComponent, { size: 'lg', container: 'nb-layout', });
     activeModal.result.then(data => {
 
       console.log("data", data);
