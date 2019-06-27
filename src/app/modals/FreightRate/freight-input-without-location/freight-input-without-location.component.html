@@ -24,6 +24,7 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.detenation></td>
         <td>Delay × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.delay></td>
+
       </tr>
       <tr>
         <td>Wt-Dist × </td>
@@ -38,6 +39,8 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelBaseRate></td>
         <td>Fuel Variation × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelVariation></td>
+        <td>Qty </td>
+        <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
       </tr>
     </table>
   </div>
@@ -60,6 +63,7 @@
               <option value="fuelClass">Fuel Class </option>
               <option value="fuelBaseRate">Fuel Base Rate </option>
               <option value="fuelVariation">Fuel Variation </option>
+              <option value="qty">Qty</option>
             </select>
           </td>
 
@@ -99,6 +103,8 @@
 
           <td>Fuel Variation × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelVariation></td>
+          <td>Qty </td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
           <td *ngIf="i == filters.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                 class="fa fa-plus add">
               </i></button></td>
