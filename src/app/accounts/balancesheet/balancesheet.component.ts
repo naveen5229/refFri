@@ -22,12 +22,6 @@ export class BalancesheetComponent implements OnInit {
   balanceData = {
     enddate: this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-'),
     startdate: this.common.dateFormatternew(new Date().getFullYear() + '-04-01', 'ddMMYYYY', false, '-'),
-
-    // branch: {
-    //   name: '',
-    //   id: 0
-    // }
-
   };
   branchdata = [];
   balanceSheetData = [];
@@ -40,6 +34,17 @@ export class BalancesheetComponent implements OnInit {
   lastActiveId = '';
   showDateModal = false;
   activedateid = '';
+  active = {
+    liabilities: {
+      mainGroup: [],
+      subGroup: []
+    },
+    asset: {
+      mainGroup: [],
+      subGroup: []
+    }
+  };
+  viewType = 'sub';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -98,10 +103,7 @@ export class BalancesheetComponent implements OnInit {
       this.liabilities.push({
         name: key,
         amount: total,
-
         balanceSheets: firstGroup[key].filter(balanceSheet => { return balanceSheet.y_ledger_name; })
-
-
       })
     }
 
@@ -119,11 +121,8 @@ export class BalancesheetComponent implements OnInit {
       })
     }
 
-    console.log('first Section:', this.liabilities);
-    console.log('last Section:', this.assets);
 
     this.liabilities.map(libility => {
-      console.log('...........\\\\\\\\\\.......', _.groupBy(libility.balanceSheets, 'y_sub_groupname'));
       let subGroups = _.groupBy(libility.balanceSheets, 'y_sub_groupname');
       libility.subGroups = [];
       if (Object.keys(subGroups).length) {
@@ -138,14 +137,12 @@ export class BalancesheetComponent implements OnInit {
             total
           });
 
-          console.log(subGroups[key], total);
         });
       }
       delete libility.balanceSheets;
-      console.log('___', libility);
     });
+
     this.assets.map(asset => {
-      console.log('...........\\\\\\\\\\.......', _.groupBy(asset.balanceSheets, 'y_sub_groupname'));
       let subGroups = _.groupBy(asset.balanceSheets, 'y_sub_groupname');
       asset.subGroups = [];
       if (Object.keys(subGroups).length) {
@@ -164,9 +161,9 @@ export class BalancesheetComponent implements OnInit {
         });
       }
       delete asset.balanceSheets;
-      console.log('___', asset);
     });
 
+    this.changeViewType();
   }
 
   filterData(assetdata, slug) {
@@ -296,6 +293,40 @@ export class BalancesheetComponent implements OnInit {
 
       }
     });
+  }
+
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
+  }
+
+  /**
+   * Change Balance Sheet View Type to MainGroup, SubGroup or All
+   */
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+    this.active.asset.mainGroup = [];
+    this.active.asset.subGroup = [];
+
+    if (this.viewType == 'sub') {
+      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
+      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
+    } else if (this.viewType == 'all') {
+      this.liabilities.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      this.assets.forEach((asset, i) => {
+        this.active.asset.mainGroup.push('mainGroup' + i + 0);
+        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
+      });
+    }
   }
 
 }
