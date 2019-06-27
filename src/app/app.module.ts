@@ -179,6 +179,7 @@ import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/f
 import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-report/battery-summary-report.component';
 import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
+import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
 
 
 
@@ -334,6 +335,7 @@ import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advance
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
+    RoutesTrafficKpisComponent,
 
 
 
@@ -482,6 +484,8 @@ import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advance
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
+    RoutesTrafficKpisComponent
+
 
   ],
   imports: [

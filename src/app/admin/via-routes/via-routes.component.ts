@@ -9,6 +9,7 @@ import { ViaRoutePointsComponent } from '../../modals/via-route-points/via-route
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { RoutesExpensesComponent } from '../../modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from '../../modals/routes-advances/routes-advances.component';
+import { RoutesTrafficKpisComponent } from '../../modals/routes-traffic-kpis/routes-traffic-kpis.component';
 
 @Component({
   selector: 'via-routes',
