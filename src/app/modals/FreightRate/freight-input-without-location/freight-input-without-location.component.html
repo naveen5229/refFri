@@ -5,42 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <!-- <div class="table-conan bassic-info">
-    <table>
-      <tr>
-        <td>
-          <label>Company Name* </label>
-        </td>
-        <td> <span>
-            <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies" display="name"
-              placeholder="" class="col-md-10 auto-suggest pl-0 pr-2"></auto-suggestion><i
-              class="fa fa-plus  add col-md-2" (click)="addCompany()"></i>
-          </span>
-        </td>
-        <td>
-          <label>Site</label>
-        </td>
-        <td>
-          <auto-suggestion (onSelected)="getSiteDetail($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-            [display]="['name','sd_loc_name']" placeholder="Search ." [preSelected]="null">
-          </auto-suggestion>
-        </td>
-        <td>
-          <label>Material</label></td>
-        <td>
-          <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
-            placeholder="Material Name" [preSelected]="null">
-          </auto-suggestion>
-        </td>
-        <td>
-          <label>W.e.f.</label></td>
-        <td>
-          <input type="text" class="form-control" [value]="frieghtRate.wefDate | date : 'dd MMM yyyy'" name="date"
-            placeholder="Date" (click)="getDate()">
-        </td>
-      </tr>
-    </table>
-  </div> -->
+
   <div class="table-conan general-coef">
     <h6>General Coefficent</h6>
     <table>
@@ -59,6 +24,7 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.detenation></td>
         <td>Delay × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.delay></td>
+
       </tr>
       <tr>
         <td>Wt-Dist × </td>
@@ -73,6 +39,8 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelBaseRate></td>
         <td>Fuel Variation × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelVariation></td>
+        <td>Qty </td>
+        <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
       </tr>
     </table>
   </div>
@@ -95,6 +63,7 @@
               <option value="fuelClass">Fuel Class </option>
               <option value="fuelBaseRate">Fuel Base Rate </option>
               <option value="fuelVariation">Fuel Variation </option>
+              <option value="qty">Qty</option>
             </select>
           </td>
 
@@ -134,6 +103,8 @@
 
           <td>Fuel Variation × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelVariation></td>
+          <td>Qty </td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
           <td *ngIf="i == filters.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                 class="fa fa-plus add">
               </i></button></td>

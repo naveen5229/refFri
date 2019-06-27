@@ -45,6 +45,7 @@ export class AddVehicleComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.vehicleList = res['data'];
+        this.closeModal();
         console.log('vehicle', this.vehicleList);
       }, err => {
         this.common.loading--;

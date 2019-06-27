@@ -64,12 +64,10 @@ export class AddConsigneeComponent implements OnInit {
     this.api.post('LorryReceiptsOperation/InsertCompanies', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log(res['msg']);
-        if (res['success'])
-          this.common.showToast(res['msg']);
-        else
-          this.common.showToast('Not Success!!');
-        this.activeModal.close();
+        console.log(res);
+        alert(res['data'][0].y_msg);
+        if (res['data'][0].y_id > 0)
+          this.activeModal.close();
       }, err => {
         --this.common.loading;
         console.log('Err:', err);
