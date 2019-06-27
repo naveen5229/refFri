@@ -194,7 +194,7 @@ nb-menu .menu-item>.menu-items>.menu-item a {
     padding-left: 20px !important;
 }
 
-.fas.fa-file-invoice:before, .fas.fa-weight-hanging::before, .fas.fa-file-invoice-dollar:before, .fas.fa-ticket-alt:before, .fas.fa-money-check-alt:before, .fas.fa-clipboard-check::before, .fas.fa-receipt::before, .fas.fa-coins::before, .fas.fa-user-cog::before, .fas.fa-gas-pump::before, .fas.fa-warehouse::before, .fas.fa-traffic-light::before, .fas.fa-city::before, .fas.fa-route::before, .fas.fa-file-signature::before, .fas.fa-sync-alt::before, .fas.fa-map-marked-alt::before, .fas.fa-comment-dots::before, .fas.fa-address-card::before, .fas.fa-file-alt::before, .fas.fa-map-marked-alt::before, .fas.fa-map-pin::before, .fas.fa-info-circle::before, .fas.fa-tools::before, .fas.fa-badge-check::before, .fas.fa-map-marked::before, .fas.fa-truck-pickup::before, .fas.fa-tachometer-alt::before {
+.fas.fa-file-invoice:before, .fas.fa-weight-hanging::before, .fas.fa-file-invoice-dollar:before, .fas.fa-ticket-alt:before, .fas.fa-money-check-alt:before, .fas.fa-clipboard-check::before, .fas.fa-receipt::before, .fas.fa-coins::before, .fas.fa-user-cog::before, .fas.fa-gas-pump::before, .fas.fa-warehouse::before, .fas.fa-traffic-light::before, .fas.fa-city::before, .fas.fa-route::before, .fas.fa-file-signature::before, .fas.fa-sync-alt::before, .fas.fa-map-marked-alt::before, .fas.fa-comment-dots::before, .fas.fa-address-card::before, .fas.fa-file-alt::before, .fas.fa-map-marked-alt::before, .fas.fa-map-pin::before, .fas.fa-info-circle::before, .fas.fa-tools::before, .fas.fa-badge-check::before, .fas.fa-map-marked::before, .fas.fa-truck-pickup::before, .fas.fa-tachometer-alt::before, .fas.fa-chess-king::before, .fas.fa-car-battery::before {
     font-family: inherit;
 }
 
@@ -609,7 +609,7 @@ ngb-modal-window {
 } */
 
 .menu-sidebar.compacted {
-    z-index: 999;
+    z-index: 99999;
 }
 
 .menu-sidebar.compacted .scrollable {
@@ -621,7 +621,7 @@ ngb-modal-window {
 }
 
 .menu-sidebar.compacted .scrollable nb-menu>.menu-items>li:hover {
-    width: 250px;
+    width: 299px;
     background-color: #26a69a;
 }
 
@@ -639,7 +639,7 @@ ngb-modal-window {
 .menu-sidebar.compacted .scrollable nb-menu>.menu-items>li>.menu-items {
     position: absolute;
     left: 49px;
-    width: 200px;
+    width: 250px;
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item:hover ul {
@@ -648,7 +648,14 @@ ngb-modal-window {
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-item>.menu-items>.menu-item a {
-    padding-left: 10px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    white-space: nowrap;
+}
+
+.menu-sidebar.compacted .scrollable nb-menu .menu-item>.menu-items>.menu-item a i {
+    width: 30px;
+    margin-left: 10px;
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item ul li a span {

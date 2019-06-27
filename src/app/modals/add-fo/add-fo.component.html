@@ -11,7 +11,6 @@
         <auto-suggestion (onSelected)="selectFoUser($event)" url="Suggestion/getFoUsersList"
           [display]="['name','mobileno','id']" seperator="-" placeholder="Search By Mobile No. And Name">
         </auto-suggestion>
-        <span *ngIf="code==1 ">User already Exist</span>
 
       </div>
     </div>
@@ -25,7 +24,6 @@
           <span [hidden]="!mobile.errors.minlength">Invalid Mobile number</span>
 
         </div>
-        <span *ngIf="code==1 ">User already Exist</span>
       </div>
       <div class="col-3">
         <div class="form-group">

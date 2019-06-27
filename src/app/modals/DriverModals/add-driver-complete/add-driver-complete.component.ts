@@ -17,7 +17,6 @@ export class AddDriverCompleteComponent implements OnInit {
   submitted = false;
   driver = {
     name: null,
-    date: this.common.dateFormatter(new Date()),
     mobileno: null,
     mobileno2: null,
     photo: null,
@@ -28,7 +27,7 @@ export class AddDriverCompleteComponent implements OnInit {
     salary: null,
     guranter: null,
     guranterMobileNo: null,
-    doj: null
+    doj: this.common.dateFormatter1(new Date()),
   };
 
   constructor(public common: CommonService,
@@ -54,7 +53,7 @@ export class AddDriverCompleteComponent implements OnInit {
       aadharphoto: [''],
       Salary: [''],
       guranter: [''],
-      date: ['']
+      doj: ['']
     })
   }
   closeModal() {
@@ -65,10 +64,11 @@ export class AddDriverCompleteComponent implements OnInit {
   get f() { return this.driverForm.controls; }
 
   getDate() {
+    this.common.params = { ref_page: 'add-driver' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.driver.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.driver.date);
+      this.driver.doj = this.common.dateFormatter(data.date).split(' ')[0];
+      console.log('Date:', this.driver.doj);
     });
   }
 
@@ -84,6 +84,7 @@ export class AddDriverCompleteComponent implements OnInit {
       aadharPhoto: this.driverForm.controls.aadharphoto.value,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
+      doj: this.driverForm.controls.doj.value
     };
     this.common.loading++;
     this.api.post('/Drivers/add', params)
