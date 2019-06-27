@@ -358,12 +358,15 @@ export class LorryReceiptDetailsComponent implements OnInit {
         this.modal.second.data = this.setModalData();
         this.modal.active = 'first';
       }
+      
     } else {
       this.modal.active = '';
       this.modal[modalType].show = false;
       this.modal[modalType].class = '';
       this.modal[modalType].data = this.setModalData();
     }
+    this.getPendingLr();
+
     // this.activeModal.close();
   }
 
