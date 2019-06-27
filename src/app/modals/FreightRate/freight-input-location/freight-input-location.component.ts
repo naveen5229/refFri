@@ -5,6 +5,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'freight-input-location',
@@ -52,6 +53,7 @@ export class FreightInputLocationComponent implements OnInit {
     this.frpId = this.common.params.id ? this.common.params.id : null;
     this.common.handleModalSize('class', 'modal-lg', '1300');
     this.getFrieghtRateDetails();
+    this.addMore();
   }
 
   ngOnInit() {
@@ -61,7 +63,7 @@ export class FreightInputLocationComponent implements OnInit {
   }
 
 
-  onChangeAuto(search, type) {
+  onChangeAuto(search, type, index) {
     if (type == 'Source') {
 
       this.sourceString = search;
@@ -93,22 +95,29 @@ export class FreightInputLocationComponent implements OnInit {
       dest_lat: null,
       dest_long: null,
     });
+
   }
 
-  selectLocation(place, type) {
+  selectLocation(place, type, index) {
     if (type == 'Source') {
       console.log("palce", place);
-      this.frieghtDatas[0].org_lat = place.lat;
-      this.frieghtDatas[0].org_long = place.long;
-      this.frieghtDatas[0].origin = place.location || place.name;
+      this.frieghtDatas[index].org_lat = place.lat;
+      this.frieghtDatas[index].org_long = place.long;
+      this.frieghtDatas[index].origin = place.location || place.name;
+      this.frieghtDatas[index].origin = this.frieghtDatas[index].origin.split(",")[0];
+      (<HTMLInputElement>document.getElementById('origin-' + index)).value = this.frieghtDatas[index].origin;
     }
-    console.log("palce", place);
-    this.frieghtDatas[0].dest_lat = place.lat;
-    this.frieghtDatas[0].dest_long = place.long;
-    this.frieghtDatas[0].destination = place.location || place.name;
+    else {
+      console.log("palce", place);
+      this.frieghtDatas[index].dest_lat = place.lat;
+      this.frieghtDatas[index].dest_long = place.long;
+      this.frieghtDatas[index].destination = place.location || place.name;
+      this.frieghtDatas[index].destination = this.frieghtDatas[index].destination.split(",")[0];
+      (<HTMLInputElement>document.getElementById('destination-' + index)).value = this.frieghtDatas[index].destination;
+    }
   }
 
-  takeActionSource(res) {
+  takeActionSource(res, index) {
     setTimeout(() => {
       console.log("Here", this.keepGoing, this.sourceString.length, this.sourceString);
 
@@ -121,11 +130,11 @@ export class FreightInputLocationComponent implements OnInit {
           console.log('response----', res.location);
           this.keepGoing = true;
           if (res.location.lat) {
-            this.frieghtDatas[0].origin = res.location.name;
+            this.frieghtDatas[index].origin = res.location.name.split(",")[0];
 
-            (<HTMLInputElement>document.getElementById('origin')).value = this.frieghtDatas[0].origin;
-            this.frieghtDatas[0].org_lat = res.location.lat;
-            this.frieghtDatas[0].org_long = res.location.lng;
+            (<HTMLInputElement>document.getElementById('origin-' + index)).value = this.frieghtDatas[index].origin;
+            this.frieghtDatas[index].org_lat = res.location.lat;
+            this.frieghtDatas[index].org_long = res.location.lng;
             this.keepGoing = true;
           }
         })
@@ -135,7 +144,7 @@ export class FreightInputLocationComponent implements OnInit {
   }
 
 
-  takeActionDestination(res) {
+  takeActionDestination(res, index) {
     setTimeout(() => {
       console.log("Here", this.keepGoing, this.destinationString.length, this.destinationString);
 
@@ -148,11 +157,11 @@ export class FreightInputLocationComponent implements OnInit {
           console.log('response----', res.location);
           this.keepGoing = true;
           if (res.location.lat) {
-            this.frieghtDatas[0].destination = res.location.name;
+            this.frieghtDatas[index].destination = res.location.name.split(",")[0];
 
-            (<HTMLInputElement>document.getElementById('destination')).value = this.frieghtDatas[0].destination;
-            this.frieghtDatas[0].dest_lat = res.location.lat;
-            this.frieghtDatas[0].dest_long = res.location.lng;
+            (<HTMLInputElement>document.getElementById('destination-' + index)).value = this.frieghtDatas[index].destination;
+            this.frieghtDatas[index].dest_lat = res.location.lat;
+            this.frieghtDatas[index].dest_long = res.location.lng;
             this.keepGoing = true;
           }
         })
@@ -178,7 +187,7 @@ export class FreightInputLocationComponent implements OnInit {
         --this.common.loading;
         console.log(res['data'][0].result);
         this.common.showToast(res['data'][0].result);
-        this.activeModal.close();
+        this.getFrieghtRateDetails();
       }, err => {
         --this.common.loading;
         this.common.showError(err);
@@ -203,6 +212,17 @@ export class FreightInputLocationComponent implements OnInit {
         --this.common.loading;
 
         this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
 
         if (!res['data']) return;
         this.data = res['data'];
@@ -214,6 +234,9 @@ export class FreightInputLocationComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
+        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
+        this.table.data.headings['action'] = action;
+
 
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -236,7 +259,7 @@ export class FreightInputLocationComponent implements OnInit {
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
-
+      this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
       columns.push(this.valobj);
 
     });
@@ -246,6 +269,50 @@ export class FreightInputLocationComponent implements OnInit {
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  freightDelete(row) {
+
+    let icons = [];
+    icons.push(
+      {
+        class: "fas fa-trash-alt",
+        action: this.deleteRow.bind(this, row),
+      }
+    )
+    return icons;
+  }
+  deleteRow(row) {
+    console.log("row:", row);
+    let params = {
+      id: row._id,
+      type: 'location',
+    }
+    if (row._id) {
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteFrieghtRateDetails', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("Result:", res['data'][0].y_msg);
+
+              this.common.showToast(res['data'][0].y_msg);
+              if (res['data'][0].y_id > 0)
+                this.getFrieghtRateDetails();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 

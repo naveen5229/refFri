@@ -123,9 +123,10 @@
         </tr>
         <tr>
           <td><label>Amount</label></td>
-          <td><input type="number" [(ngModel)]="lr.amount" class="form-control"></td>
+          <td><input type="number" [(ngModel)]="lr.amount" class="form-control" (change)="calculateTotalAmount()"></td>
           <td><label>GST %</label></td>
-          <td><input type="number" min="0" max="31" [(ngModel)]="lr.gstPer" class="form-control"></td>
+          <td><input type="number" min="0" max="31" [(ngModel)]="lr.gstPer" class="form-control"
+              (change)="calculateTotalAmount()"></td>
         <tr>
           <td><label>Total Amount</label></td>
           <td>
