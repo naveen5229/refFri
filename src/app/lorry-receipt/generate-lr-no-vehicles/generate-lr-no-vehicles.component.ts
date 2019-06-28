@@ -11,6 +11,7 @@ import { AccountService } from '../../services/account.service';
 import { MapService } from '../../services/map.service';
 import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
+import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 
 @Component({
   selector: 'generate-lr-no-vehicles',
@@ -348,4 +349,6 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
     this.lr.payableAmount = (this.lr.amount * calPer) / 100;
     console.log(calPer, "lr payable amount", this.lr.payableAmount);
   }
+
+
 }
