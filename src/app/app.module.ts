@@ -180,6 +180,7 @@ import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-
 import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
+import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
 
 
 
@@ -336,6 +337,7 @@ import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
     RoutesTrafficKpisComponent,
+    AddFieldComponent,
 
 
 
@@ -484,7 +486,8 @@ import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
-    RoutesTrafficKpisComponent
+    RoutesTrafficKpisComponent,
+    AddFieldComponent
 
 
   ],
