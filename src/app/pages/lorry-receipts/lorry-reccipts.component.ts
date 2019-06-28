@@ -8,6 +8,7 @@ import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ActivatedRoute } from '@angular/router';
+import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -91,8 +92,6 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   printLr(receipt) {
-
-
     console.log("receipts", receipt);
     this.common.params = { lrId: receipt.lr_id }
     const activeModal = this.modalService.open(LRViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
@@ -151,6 +150,7 @@ export class LorryRecciptsComponent implements OnInit {
           value: '', isHTML: true, action: null, icons: [{
             class: 'fa fa-print icon green', action: this.printLr.bind(this, R)
           },
+          { class: 'fa fa-pencil-square-o icon edit', action: this.openGenerateLr.bind(this, R) },
           { class: 'fa fa-trash icon red', action: this.deleteLr.bind(this, R) },
           ]//`<i class="fa fa-print"></i>`, isHTML: true, action: this.printLr.bind(this, R),
           // `<i class="fa fa-trash"></i>`, isHTML: true, action: this.deleteLr.bind(this, R)
@@ -205,4 +205,11 @@ export class LorryRecciptsComponent implements OnInit {
         console.log(err);
       });
   }
+
+  openGenerateLr(Lr) {
+    this.common.params = { LrData: Lr }
+    const activeModal = this.modalService.open(LrGenerateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+
 }
