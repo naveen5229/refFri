@@ -62,16 +62,16 @@ export class AddFieldComponent implements OnInit {
       type: this.typeId,
     }
     console.log("params", params);
-    ++this.common.loading;
+    this.common.loading++;
     this.api.post('LorryReceiptsOperation/lrSaveFoField', params)
       .subscribe(res => {
-        --this.common.loading;
+        this.common.loading--;
         console.log(res);
         this.common.showToast(res['data'][0].r_msg);
-        if (res['data'][0].r_id > 0)
-          this.activeModal.close();
+        this.getFieldName();
+
       }, err => {
-        --this.common.loading;
+        this.common.loading--;
         console.log('Err:', err);
       });
   }
@@ -119,20 +119,14 @@ export class AddFieldComponent implements OnInit {
   }
 
   getTableColumns() {
-
     let columns = [];
-    console.log("Data=", this.data);
     this.data.map(doc => {
       this.valobj = {};
-
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
       }
       this.valobj['action'] = { class: '', icons: this.Delete(doc) };
       columns.push(this.valobj);
-
     });
 
     return columns;
@@ -143,7 +137,6 @@ export class AddFieldComponent implements OnInit {
   }
 
   Delete(row) {
-
     let icons = [];
     icons.push(
       {
@@ -154,7 +147,6 @@ export class AddFieldComponent implements OnInit {
     return icons;
   }
   deleteRow(row) {
-    console.log("row:", row);
     let params = {
       id: row._id,
     }
@@ -171,10 +163,12 @@ export class AddFieldComponent implements OnInit {
             .subscribe(res => {
               this.common.loading--;
               console.log("Result:", res['data'][0].r_msg);
-
-              this.common.showToast(res['data'][0].r_msg);
-              if (res['data'][0].r_id > 0)
-                this.getFieldName();
+              if (res['data'][0].r_id > 0) {
+                this.common.showToast("Delete SuccessFull");
+              }
+              else {
+                this.common.showToast(res['data'][0].r_msg);
+              }
 
             }, err => {
               this.common.loading--;
