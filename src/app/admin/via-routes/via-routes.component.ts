@@ -80,9 +80,12 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   viewTable() {
+
     this.viaRoutes = [];
+    this.common.loading++;
     this.api.get('ViaRoutes/view')
       .subscribe(res => {
+        this.common.loading--;
         this.viaRoutes = res['data'];
         let first_rec = this.viaRoutes[0];
         for (var key in first_rec) {
