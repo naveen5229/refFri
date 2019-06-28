@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h5>Route Expenses</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+
+  <div class="table-conan filter-coff">
+
+    <table>
+      <tbody *ngFor="let routeExp of routeExpenses; let i= index">
+
+        <tr>
+          <td>Model</td>
+
+          <td>
+
+            <auto-suggestion (onSelected)="routeExp.modelId = $event.id;" display="name" placeholder="Enter Model"
+              [data]="models" [preSelected]="null"></auto-suggestion>
+
+
+
+
+            <!-- <auto-suggestion (onChange)="onChangeAuto($event,'Source',i)" (onSelected)="
+              selectLocation($event,'Source',i)" (noDataFound)="takeActionSource($event,i)" [isNoDataFoundEmit]="true"
+              url="Location/getPlaceFromRedis" display="location" [inputId]="'origin-'+i" placeholder="Source"
+              [value]="routeExp.origin">
+            </auto-suggestion> -->
+
+          </td>
+
+          <td>ExpensesType </td>
+          <td>
+            <auto-suggestion (onSelected)="routeExp.expenseType = $event.id;" display="description"
+              placeholder="Enter ExpensesType" [data]="expensesType" [preSelected]="null"></auto-suggestion>
+          </td>
+
+          <td>Amount </td>
+          <td><input type="text" class="form-control" [(ngModel)]=routeExp.amount></td>
+
+          <td *ngIf="i == routeExpenses.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                class="fa fa-plus add">
+              </i></button></td>
+          <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="routeExpenses.splice(i,1)"><i
+                class="fa fa-trash remove"></i></button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveExpenses()">Submit</button>
+  </div>
+
+</div>

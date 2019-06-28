@@ -7,28 +7,29 @@
 <div class="modal-body">
 
   <div class="table-conan general-coef">
-    <h6>General Coefficent</h6>
+    <h6>General Multiplier</h6>
     <table>
       <tr>
-        <td>Fixed</td>
+        <td>Fixed(<i class="fas fa-rupee-sign"></i>)</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fixed></td>
-        <td>Distance × </td>
+        <td>Distance(/KM) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.distance></td>
-        <td>Weight × </td>
+        <td>Weight(/Tn) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.weight></td>
-        <td>Shortage × </td>
+        <td>Shortage(/Tn)</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.shortage></td>
         <td>Shortage %</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.shortagePer></td>
-        <td>Detenation × </td>
+        <td>Detention (/Hr) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.detenation></td>
-        <td>Delay × </td>
+        <td>Delay (/Hr)</td>
         <td><input type="text" class="form-control" [(ngModel)]=general.delay></td>
+
       </tr>
       <tr>
-        <td>Wt-Dist × </td>
+        <td>Wt-Dist (/Tn-Hr) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.weightDistance></td>
-        <td>Loading × </td>
+        <td>Loading (/Tn) </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.loading></td>
         <td>Unloading × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.unloading></td>
@@ -38,11 +39,13 @@
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelBaseRate></td>
         <td>Fuel Variation × </td>
         <td><input type="text" class="form-control" [(ngModel)]=general.fuelVariation></td>
+        <td>Qty </td>
+        <td><input type="text" class="form-control" [(ngModel)]=general.qty></td>
       </tr>
     </table>
   </div>
   <div class="table-conan filter-coff">
-    <h6>Fiter Coefficent</h6>
+    <h6>Slab based Multiplier</h6>
     <table>
       <tbody *ngFor="let filter of filters; let i= index">
         <tr>
@@ -52,7 +55,7 @@
               <option value="distance">Distance</option>
               <option value="shortage">Shortage</option>
               <option value="shortagePer">Shortage % </option>
-              <option value="detenation">Detenation </option>
+              <option value="detenation">Detention </option>
               <option value="delay">Delay</option>
               <option value="wt-dist">Weight-Distance</option>
               <option value="loading">Loading</option>
@@ -60,6 +63,7 @@
               <option value="fuelClass">Fuel Class </option>
               <option value="fuelBaseRate">Fuel Base Rate </option>
               <option value="fuelVariation">Fuel Variation </option>
+              <option value="qty">Qty</option>
             </select>
           </td>
 
@@ -69,26 +73,26 @@
           <td><input type="text" class="form-control" [(ngModel)]=filter.maxRange></td>
 
         <tr>
-          <td>Fixed</td>
+          <td>Fixed(Rs)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fixed></td>
-          <td>Distance × </td>
+          <td>Distance(/KM)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.distance></td>
-          <td>Weight × </td>
+          <td>Weight(/Tn)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.weight></td>
-          <td>Shortage × </td>
+          <td>Shortage(/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.shortage></td>
           <td>Shortage %</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.shortagePer></td>
-          <td>Detenation × </td>
+          <td>Detention (/Hr)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.detenation></td>
-          <td>Delay × </td>
+          <td>Delay (/Hr)</td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.delay></td>
         </tr>
         <tr>
 
-          <td>Wt-Dist × </td>
+          <td>Wt-Dist (/Tn-Hr) </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.weightDistance></td>
-          <td>Loading × </td>
+          <td>Loading (/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.loading></td>
           <td>Unloading × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.unloading></td>
@@ -99,6 +103,8 @@
 
           <td>Fuel Variation × </td>
           <td><input type="text" class="form-control" [(ngModel)]=filter.fuelVariation></td>
+          <td>Qty </td>
+          <td><input type="text" class="form-control" [(ngModel)]=filter.qty></td>
           <td *ngIf="i == filters.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                 class="fa fa-plus add">
               </i></button></td>
