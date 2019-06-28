@@ -34,13 +34,13 @@
             <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_lat>
             <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_long>
           </td>
-          <td>Fixed</td>
+          <td>Fixed(<i class="fas fa-rupee-sign"></i>)</td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.fixed></td>
-          <td>Distance × </td>
+          <td>Distance(/Km)</td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.distance></td>
-          <td>Weight × </td>
+          <td>Weight (/Tn) </td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weight></td>
-          <td>Wt-Dist × </td>
+          <td>Wt-Dist (/Tn-Hr) </td>
           <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weightDistance></td>
 
           <td *ngIf="i == frieghtDatas.length-1"><button class="btn btn-primary" (click)="addMore()"><i

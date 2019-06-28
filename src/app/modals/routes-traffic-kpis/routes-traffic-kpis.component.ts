@@ -9,6 +9,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./routes-traffic-kpis.component.scss']
 })
 export class RoutesTrafficKpisComponent implements OnInit {
+  id = this.common.params.doc._id ? this.common.params.doc._id : null;
 
   brands = [];
   modelId = null;
@@ -16,7 +17,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
   targetTime=null;
   allowedTime=null;
   route = [{
-    routeId: 21,
+    routeId: this.id,
     targetTime: null,
     allowedTime: null,
     modelId: null,
@@ -64,7 +65,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
           if(res['data'][0].y_id>0){
             this.common.showToast(res['data'][0].y_msg);
             this.route = [{
-              routeId: 21,
+              routeId: null,
               targetTime: null,
               allowedTime: null,
               modelId: null,
@@ -79,7 +80,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
 
   addMore() {
     this.route.push({
-      routeId: 21,
+      routeId:this.id,
       targetTime:null,
       allowedTime: null,
       modelId: null
