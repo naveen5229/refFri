@@ -9,31 +9,28 @@
 
         <table>
             <tbody *ngFor="let routes of route; let i= index">
-
                 <tr>
                     <td>Model</td>
                     <td>
-                        <auto-suggestion (onSelected)="selectId($event,i)" display="name" placeholder="Enter Model" [data]="brands" [preSelected]="null"></auto-suggestion>
+                        <auto-suggestion [placeholder]="' '" (onSelected)="selectId($event,i)" display="name" [data]="brands" [preSelected]="null"></auto-suggestion>
                     </td>
-
-
                     <td>Target time</td>
-                    <td><input type="number" placeholder="time" class="cash" [(ngModel)]="routes.targetTime"></td>
+                    <td><input type="number" class="form-control" [(ngModel)]="routes.targetTime"></td>
 
                     <td>Allowed time</td>
-                    <td><input type="number" placeholder="Fuel Amount" class="cash" [(ngModel)]="routes.allowedTime"></td>
-
-
+                    <td><input type="number" class="form-control" [(ngModel)]="routes.allowedTime"></td>
                     <td *ngIf="i == route.length-1"><button class="btn btn-primary" (click)="addMore()"><i class="fa fa-plus add">
                 </i></button></td>
                     <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="route.splice(i,1)"><i
                   class="fa fa-trash remove"></i></button></td>
                 </tr>
-
             </tbody>
         </table>
     </div>
-</div>
-<div class="modal-footer">
-    <button type="submit" id="submit" class="btn btn-primary" (click)="submit()">Submit</button>
+    <div class="text-right mt-2">
+        <button type="submit" id="submit" class="btn btn-primary submit" (click)="submit()">Submit</button>
+    </div>
+    <div class="mt-3">
+        <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
+    </div>
 </div>
