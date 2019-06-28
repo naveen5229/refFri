@@ -287,7 +287,7 @@ export class LrGenerateComponent implements OnInit {
             });
 
           }
-
+          delete particular.customjsonfield;
           console.log("customfields", particular.customfields);
         });
       }
