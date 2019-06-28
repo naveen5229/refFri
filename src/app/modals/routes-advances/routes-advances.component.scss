@@ -43,13 +43,11 @@ nb-card-header{
         tr{
             td{
                 padding: 4px;
-                width: 100px;
             }
         }
     }
 }
 .filter-coff{
-    // border-top: 1px solid #ccc;
     padding-top: 20px;
     h6{
         font-weight: bold;
@@ -60,13 +58,10 @@ nb-card-header{
         tr{
             td{
                 padding: 4px;
-                width: 100px;
-
             }
         }
     }
 }
-
 .submit{
     border-radius: 3px;
     padding: 8px 15px;
@@ -78,6 +73,10 @@ h4{
     font-weight: 800;
     text-transform: capitalize;
 }
+
+
+
+
 :host ::ng-deep .fa-trash-alt {
     color: black;
     font-size: 18px;

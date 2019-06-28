@@ -12,6 +12,7 @@ import { MapService } from '../../services/map.service';
 import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
+import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 
 @Component({
   selector: 'generate-lr-no-vehicles',
@@ -57,13 +58,13 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
-      invoice: null,
+      // invoice: null,
       material_value: null,
       customfields:
       {
-        containerno: null,
-        sealno: null,
-        dcpino: null,
+        // containerno: null,
+        // sealno: null,
+        // dcpino: null,
         customDetail: [],
       },
       customField: false,
@@ -79,6 +80,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
   taName = null;
   taId = null;
   preSelectedDriver = null;
+  getFieldName = [];
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public accountService: AccountService,
@@ -92,7 +94,7 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
-
+    this.getAllFieldName();
 
   }
 
@@ -212,13 +214,13 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
-      invoice: null,
+      // invoice: null,
       material_value: null,
       customfields:
       {
-        containerno: null,
-        sealno: null,
-        dcpino: null,
+        // containerno: null,
+        // sealno: null,
+        // dcpino: null,
         customDetail: [],
       },
       customField: false,
@@ -350,5 +352,23 @@ export class GenerateLrNoVehiclesComponent implements OnInit {
     console.log(calPer, "lr payable amount", this.lr.payableAmount);
   }
 
+  addField() {
+    const activeModal = this.modalService.open(AddFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
 
+      this.getAllFieldName();
+
+    });
+  }
+  getAllFieldName() {
+    this.api.get('Suggestion/lrFoFields?sugId=1')
+      .subscribe(res => {
+        this.getFieldName = res['data'];
+        console.log("All Name", this.getFieldName);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 }
