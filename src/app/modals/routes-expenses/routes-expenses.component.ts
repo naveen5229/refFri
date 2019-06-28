@@ -24,6 +24,7 @@ export class RoutesExpensesComponent implements OnInit {
     public activeModal: NgbActiveModal) {
     this.vehicleModalTypes();
     this.getExpensesType();
+    this.addMore();
   }
 
   ngOnInit() {

@@ -101,7 +101,7 @@ export class SmartTableComponent implements OnInit {
       date: 0
     };
 
-    const numberPattern = new RegExp(/^([0-9])*(.)([0-9])*$/);
+    const numberPattern = new RegExp(/^([0-9])*(\.)([0-9])*$/);
     const datePattern = new RegExp(/([0-2][0-9]|(3)[0-1])( |\/|-|)([a-zA-Z]{3})( |\/|-|)(([0-1][0-9])|([2][0-3]){2})(:)([0-5][0-9])$/);
 
     this.columns.forEach(column => {
@@ -111,6 +111,7 @@ export class SmartTableComponent implements OnInit {
       else if (typeof value == 'string') counts.string++;
       else counts.object++;
     });
+    console.log(counts);
     this.columns.sort((a, b) => {
       if (!counts.number) {
         let firstValue = a[key].value ? a[key].value.toLowerCase() : '';
