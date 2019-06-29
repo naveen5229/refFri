@@ -76,6 +76,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/via-routes',
+      },
 
     ]
   },
@@ -272,7 +277,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Driver',
     icon: 'fa fa-user',
     children: [{
-      title: 'driver Performance ',
+      title: 'Driver Performance ',
       icon: 'fas fa-star',
       link: '/pages/driver-performance',
       home: true,

@@ -58,7 +58,7 @@
           <td *ngIf="dataItem.totalcr != 0">{{dataItem.totalcr}}</td>
           <td *ngIf="dataItem.totalcr == 0"></td>
 
-          <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0"><b>{{dataItem.totalclosing}}</b>
+          <td style="text-align:right;" *ngIf="dataItem.totalclosing != 0">{{dataItem.totalclosing}}
             <span>{{dataItem.y_close_amt}}</span></td>
           <td *ngIf="dataItem.totalclosing == 0"></td>
         </tr>
@@ -75,8 +75,8 @@
           <td *ngIf="trialdata.y_cr_bal != 0">{{trialdata.y_cr_amt}}</td>
           <td *ngIf="trialdata.y_cr_bal == 0"></td>
           <td *ngIf="trialdata.y_closebal != 0">
-            <span
-              style="width:100px; display: block; text-align:right;"><b>{{trialdata.y_close_amt}}</b>{{trialdata.y_closebaltype}}</span>
+            <span style="width:100px; display: block; text-align:right;">{{trialdata.y_close_amt}}
+              {{trialdata.y_closebaltype}}</span>
           </td>
           <td *ngIf="trialdata.y_closebal == 0"></td>
         </tr>

@@ -19,10 +19,10 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./licence-upload.component.scss']
 })
 export class LicenceUploadComponent implements OnInit {
-  selectedDriverId = 0;
+  selectedDriverId = null;
   base64image = {};
-
-  constructor( private datePipe: DatePipe,
+  base64image_b = {};
+  constructor(private datePipe: DatePipe,
     public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -31,7 +31,7 @@ export class LicenceUploadComponent implements OnInit {
   ngOnInit() {
   }
 
-  
+
   compressImage(base64Image) {
     let image = new Image();
     image.onload = () => {
@@ -57,14 +57,15 @@ export class LicenceUploadComponent implements OnInit {
 
       //Getting base64 string; 
       //this.images[index].base64 = canvas.toDataURL('image/jpeg').split(",")[1];      
-      this.base64image = canvas.toDataURL('image/jpeg');      
+      this.base64image = canvas.toDataURL('image/jpeg');
+
       console.log('Image Compressed !');
       console.log(this.base64image);
     }
     image.src = base64Image;
   }
 
-  processImageUpload(event){
+  processImageUpload(event) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
       .then(res => {
@@ -91,14 +92,14 @@ export class LicenceUploadComponent implements OnInit {
       });
   }
 
-  
+
 
   uploadDLImage() {
     this.common.loading++;
-    this.api.post('Drivers/updateLicensePhoto', { x_driver_id: this.selectedDriverId, x_licence_img : this.base64image })
+    this.api.post('Drivers/updateLicensePhoto', { x_driver_id: this.selectedDriverId, x_licence_img: this.base64image })
       .subscribe(res => {
         this.common.loading--;
-        if(res['success'] === false)
+        if (res['success'] === false)
           this.common.showError("Error occurred. " + res['msg']);
         else
           this.common.showToast("Licence Photo successfuly updated.");
