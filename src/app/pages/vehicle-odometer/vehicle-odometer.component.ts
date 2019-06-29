@@ -281,6 +281,11 @@ export class VehicleOdometerComponent implements OnInit {
       this.vehicleId = null;
     }
   }
+  resetData(event) {
+    this.vehicleId = null;
+    console.log(event);
+  }
+
 
 
 
