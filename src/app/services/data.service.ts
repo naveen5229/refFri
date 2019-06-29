@@ -348,6 +348,12 @@ export class DataService {
             link: '/admin/fuel-average-issues',
             home: true,
           },
+          {
+            title: 'Fo Fs Mapping',
+            icon: 'fa fa-signal',
+            link: '/admin/fo-fs-mapping',
+            home: true,
+          },
         ]
       },
       {
