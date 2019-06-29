@@ -13,7 +13,7 @@
           <td>Model</td>
           <td>
             <auto-suggestion (onSelected)="selectId($event,i)" placeholder=" " display="name" [data]="brands"
-              [preSelected]="null">
+              [preSelected]="null" (change)="resetData($event,i)">
             </auto-suggestion>
           </td>
           <td>Cash(₹)</td>

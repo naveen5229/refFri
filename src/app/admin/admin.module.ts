@@ -146,7 +146,7 @@ const PAGES_COMPONENTS = [
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VscDiagnosisComponent,
-    ViaRoutesComponent,
+    // ViaRoutesComponent,
     BufferPolylineComponent
   ],
   exports: [
