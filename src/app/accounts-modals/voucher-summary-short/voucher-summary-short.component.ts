@@ -7,6 +7,8 @@ import { AddTripComponent } from '../../modals/add-trip/add-trip.component';
 import { AddFuelFillingComponent } from '../../modals/add-fuel-filling/add-fuel-filling.component';
 import { AddDriverComponent } from '../../driver/add-driver/add-driver.component';
 import { AccountService } from '../../services/account.service';
+import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+
 
 @Component({
   selector: 'voucher-summary-short',
@@ -17,6 +19,8 @@ export class VoucherSummaryShortComponent implements OnInit {
   alltotal = 0;
   narration = '';
   tripVoucher;
+  approve=0;
+  typeFlag=2;
   trips;
   ledgers = [];
   diverledgers = [];
@@ -76,6 +80,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
     }
+    if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
 
     this.VehicleId = this.common.params.vehId;
     // console.log('tripsEditData', this.tripsEditData);
@@ -98,6 +103,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.date = this.common.dateFormatternew(this.tripVoucher.y_date, "DDMMYYYY", false, '-');
       this.alltotal = this.tripVoucher.y_amount;
       this.custcode = this.tripVoucher.y_code;
+      this.approve =this.common.params.Approved;
 
 
       if (this.common.params.tripExpDriver.length > 0) {
@@ -170,6 +176,66 @@ export class VoucherSummaryShortComponent implements OnInit {
         this.common.showError();
       });
   }
+
+  approveVoucher(){
+    this.approveDelete(0,'true');
+  }
+
+  approveDelete(type,typeans){
+    let params = {
+      id: this.VoucherId,
+      flagname: (type==1) ? 'deleted':'forapproved',
+      flagvalue: typeans
+    };
+    this.common.loading++;
+    this.api.post('Voucher/deleteAppeooved', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('res: ', res);
+        //this.getStockItems();
+        this.activeModal.close({ response: true });
+        if(type==1 && typeans=='true'){
+        this.common.showToast(" This Value Has been Deleted!");
+        }else  if(type==1 && typeans=='false'){
+        this.common.showToast(" This Value Has been Restored!");
+        } else {
+        this.common.showToast(" This Value Has been Approved!");
+        }
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError('This Value has been used another entry!');
+      });
+  }
+
+  deleteConsignment() {
+    let params = {
+      id: 1
+    };
+    if (params.id) {
+      //console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Voucher ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete ? ' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        //  this.common.loading++;
+        if (data.response) {
+          console.log("data", data);
+         // this.voucher.delete = 1;
+          // this.addOrder(this.order);
+          //this.dismiss(true);
+          
+          this.approveDelete(1,'true');
+          
+          // this.activeModal.close({ response: true, ledger: this.voucher });
+          // this.common.loading--;
+        }
+      });
+    }
+  }
+
   getdebitLedgers(transactionType) {
     let voucherId = -7;
     let url = 'Suggestion/GetTripLedger?transactionType=' + transactionType + '&voucherId=' + voucherId + '&search=' + 'name';
@@ -278,7 +344,24 @@ export class VoucherSummaryShortComponent implements OnInit {
     return options[type];
   }
 
-
+  permanentDelete() {
+    //console.log('voucher id last ', voucherId)
+    const params = {
+      voucherId: this.VoucherId,
+    };
+    this.common.loading++;
+    // this.api.post('TripExpenseVoucher/getTripExpenseVoucherDetails', params)
+    this.api.post('Voucher/permanetDelete', params)
+      .subscribe(res => {
+        console.log(res);
+        this.common.loading--;
+        this.activeModal.close({ response: true });
+      }, err => {
+        console.log(err);
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   getFuelFillingsEditTime(lastFilling?, currentFilling?, selectedData?) {
     console.log(this.findFirstSelectInfo(), this.findLastSelectInfo());
     const params = {

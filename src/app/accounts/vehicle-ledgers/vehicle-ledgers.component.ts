@@ -186,19 +186,34 @@ export class VehicleLedgersComponent implements OnInit {
 
   }
 
-  getGroupInfo(groupDetail) {
-    this.underGroupDetails.name = groupDetail.name;
-    this.underGroupDetails.id = groupDetail.id;
-    this.underGroupDetails.primarygroup_id = groupDetail.primarygroup_id;
-    console.log('detail group;;;;;;;', groupDetail);
+  // getGroupInfo(groupDetail) {
+  //   this.underGroupDetails.name = groupDetail.name;
+  //   this.underGroupDetails.id = groupDetail.id;
+  //   this.underGroupDetails.primarygroup_id = groupDetail.primarygroup_id;
+  //   console.log('detail group;;;;;;;', groupDetail);
 
+  // }
+  onSelected(selectedData, type, display) {
+    console.log('selectedData',selectedData);
+    this.underGroupDetails.name = selectedData[display];
+    this.underGroupDetails.id = selectedData.id;
+   this.underGroupDetails.primarygroup_id = selectedData.primarygroup_id;
+
+    // console.log('Selected Data: ', selectedData, type, display);
+    // console.log('order User: ', this.DayBook);
   }
 
   
   keyHandler(event) {
     const key = event.key.toLowerCase();
    // this.activeId = document.activeElement.id;
-    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.vehList.length) {
+//console.log('key 1111',key);
+if ((key.includes('arrowup') || key.includes('arrowdown')) && key.includes('undergroup')) {
+
+}
+
+
+  else if ((key.includes('arrowup') || key.includes('arrowdown')) && this.vehList.length) {
      
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
