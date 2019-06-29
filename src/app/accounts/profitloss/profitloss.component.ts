@@ -98,6 +98,8 @@ export class ProfitlossComponent implements OnInit {
     let assetsGroup = _.groupBy(this.profitLossData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_sub_groupname');
+    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_sub_groupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);

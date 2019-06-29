@@ -172,7 +172,8 @@ export class DaybookpendingComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-      delete: this.deletedId
+      delete: this.deletedId,
+      forapproved: 0
     };
 
     this.common.loading++;
@@ -506,10 +507,12 @@ export class DaybookpendingComponent implements OnInit {
     let tripEditData = this.TripEditData;
     let tripPendingDataSelected = this.pendingDataEditTme;
     let VoucherData=this.VoucherEditTime;
+    let Approved =1;
+    let typeFlag = this.deletedId;
 
     if(voucherData.y_vouchertype_id==-151){
       let tripExpDriver=this.tripExpDriver;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,Approved ,typeFlag};
 
       
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
@@ -524,7 +527,7 @@ export class DaybookpendingComponent implements OnInit {
       });
     }else {
       let tripExpDriver=this.tripExpDriver;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver};
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,Approved,typeFlag};
     console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
