@@ -205,13 +205,14 @@ export class DaybooksComponent implements OnInit {
         this.common.loading--;
         console.log('Res11:', res['data']);
        // this.Vouchers = res['data'];
-       let address=res['data'][0].addressline +'\n';
-       let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-    let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
-    let remainingstring3 = (res['data'][0].gstno) ? ', GST NO -  ' + res['data'][0].gstno : '';
+       let address= (res['data'][0]) ? res['data'][0].addressline +'\n' : '';
+       let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+    let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+    let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
-       this.common.getPDFFromTableIdnew('table',res['data'][0].foname,cityaddress,'','');
+       let foname=(res['data'][0])? res['data'][0].foname:'';
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
 
       }, err => {
         this.common.loading--;
@@ -230,13 +231,15 @@ export class DaybooksComponent implements OnInit {
         this.common.loading--;
         console.log('Res11:', res['data']);
        // this.Vouchers = res['data'];
-       let address=res['data'][0].addressline +'\n';
-       let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-    let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
-    let remainingstring3 = (res['data'][0].gstno) ? ' GST NO -  ' + res['data'][0].gstno : '';
+       let address= (res['data'][0]) ? res['data'][0].addressline +'\n' : '';
+       let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+    let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+    let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
    
-       let cityaddress =address+ remainingstring1;
-       this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+       let cityaddress =address+ remainingstring1 + remainingstring3;
+       let foname=(res['data'][0])? res['data'][0].foname:'';
+       this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
+      // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
 
       }, err => {
         this.common.loading--;
