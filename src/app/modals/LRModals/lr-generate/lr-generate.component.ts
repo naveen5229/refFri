@@ -29,7 +29,7 @@ export class LrGenerateComponent implements OnInit {
   lr = {
     //branch:"Jaipur",
     id: null,
-    taxPaidBy: null,
+    taxPaidBy: "1",
     consigneeName: null,
     consigneeAddress: null,
     consigneeId: null,
@@ -163,9 +163,7 @@ export class LrGenerateComponent implements OnInit {
           this.driver.id = res['data'][0].driver_id;
           this.mobileno = res['data'][0].mobileno;
           this.preSelectedDriver = { mobileno: res['data'][0].mobileno };
-          console.log('------------------:', this.preSelectedDriver);
           //this.flag=true;
-          console.log('name,id,number', this.driver.name, this.driver.id, this.mobileno);
         } else
           this.flag = false;
 
@@ -247,8 +245,6 @@ export class LrGenerateComponent implements OnInit {
 
       if (particulars) {
         particulars.map(particular => {
-          console.log('Particulars:', particular);
-          console.log('++++++++++', particular.customjsonfields);
           let keys = [];
           particular.customfields = [];
           if (typeof particular.customjsonfields == 'string') {
@@ -382,7 +378,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.activeModal.close(true);
   }
 
   loadImage(flag) {
@@ -431,8 +427,15 @@ export class LrGenerateComponent implements OnInit {
       });
   }
   setlrDetails(lrDetails) {
-    console.log("lrDetails", lrDetails);
-    this.lr.taxPaidBy = lrDetails.taxpaid_by;
+    let branchDetails = {
+      id: lrDetails.branch_id,
+      name: lrDetails.branch_name,
+      lr_number: null,
+      is_constcenterallow: false
+    }
+    console.log("branchDetails", branchDetails);
+
+    this.lr.taxPaidBy = "" + lrDetails.taxpaid_by;
     this.lr.consigneeName = lrDetails.consignee;
     this.lr.consigneeAddress = lrDetails.consignee_address;
     this.lr.consigneeId = lrDetails.consignee_id;
@@ -453,9 +456,9 @@ export class LrGenerateComponent implements OnInit {
     this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
     this.lr.amount = lrDetails.amount;
     this.lr.gstPer = lrDetails.gstrate;
-    this.lr.lrType = 1;
-    this.lr.vehicleType = 1;
-    this.lr.lrCategory = 1;
+    this.lr.lrType = lrDetails.lr_asstype;
+    this.lr.vehicleType = lrDetails.veh_asstype;
+    this.lr.lrCategory = lrDetails.is_ltl;
     this.driver.name = lrDetails.driver_name;
     this.driver.licenseNo = lrDetails.driver_license;
     this.mobileno = lrDetails.driver_mobile
@@ -464,7 +467,8 @@ export class LrGenerateComponent implements OnInit {
     this.taId = lrDetails.ta_id;
     this.vehicleId = lrDetails.vehicle_id;
     this.vehicleRegNo = lrDetails.regno;
-    this.accountService.selected.branch.id = lrDetails.branch_id;
+    this.accountService.selected.branch = branchDetails;
+    console.log("this.accountService.selected.branch", this.accountService.selected.branch)
     if (lrDetails.lr_image || lrDetails.invoice_image) {
       this.img_flag = true;
       this.loadImage('LR');
@@ -473,9 +477,27 @@ export class LrGenerateComponent implements OnInit {
 
   }
   setlrParticulars(particularDetails) {
-    console.log("particularDetails", particularDetails);
-    this.particulars = particularDetails;
+    console.log("particularDetails+++++", particularDetails);
+    particularDetails.forEach(detail => {
+      let customjfields = [];
+      detail.customjsonfields.forEach((customjfield, index) => {
+        const customIndex = Math.floor(index / 4);
+        const fieldIndex = (index % 4) + 1;
+        if (!customjfields[customIndex]) {
+          customjfields[customIndex] = {};
+          for (let i = 1; i <= 4; i++) {
+            customjfields[customIndex]['field' + i] = "";
+            customjfields[customIndex]['value' + i] = "";
+          }
+        }
 
+        customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
+        customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
+      });
+      detail.customjsonfields = customjfields;
+    });
+    this.particulars = particularDetails;
+    console.log("particularDetails-----", this.particulars);
   }
 
   addField(index) {
@@ -506,10 +528,11 @@ export class LrGenerateComponent implements OnInit {
     this.api.get('Suggestion/lrFoFields?sugId=1')
       .subscribe(res => {
         this.fofields = res['data'];
-        console.log("All Name", this.fofields);
       }, err => {
         this.common.loading--;
         console.log(err);
       });
   }
+
+
 }

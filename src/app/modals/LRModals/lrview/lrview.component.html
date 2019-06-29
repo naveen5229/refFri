@@ -93,7 +93,7 @@
                   <span *ngIf="particular.material_value"><span>, Value : </span> <span>
                       {{particular.material_value}}</span></span>
                   <span *ngIf="particular.invoice"><span>, Invoice : </span><span>{{particular.invoice}}</span></span>
-                  <span *ngFor="let field of findCustomFields(particular.customjsonfields)">
+                  <span *ngFor="let field of particular.customjsonfields">
                     <span *ngIf="field.value"> , {{field.name}} : </span>
                     <span *ngIf="field.value">{{field.value}}</span></span>
                 </td>

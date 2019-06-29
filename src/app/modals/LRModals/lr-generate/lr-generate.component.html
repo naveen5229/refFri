@@ -264,7 +264,7 @@
           <tr *ngFor=" let customjsonfield of particular.customjsonfields; let j = index; ">
             <td>
               <select [(ngModel)]="customjsonfield.field1">
-                <option>Select</option>
+                <option value="">Select</option>
                 <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
               </select>
             </td>
@@ -273,7 +273,7 @@
             </td>
             <td>
               <select [(ngModel)]="customjsonfield.field2">
-                <option>Select</option>
+                <option value="">Select</option>
                 <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
               </select>
             </td>
@@ -282,7 +282,7 @@
             </td>
             <td>
               <select [(ngModel)]="customjsonfield.field3">
-                <option>Select</option>
+                <option value="">Select</option>
                 <option *ngFor="let fofield of fofields ; " [value]="fofield.name">{{fofield.name}}</option>
               </select>
             </td>
@@ -291,7 +291,7 @@
             </td>
             <td>
               <select [(ngModel)]="customjsonfield.field4">
-                <option>Select</option>
+                <option value="">Select</option>
                 <option *ngFor="let fofield of fofields ; " [value]=fofield.name>{{fofield.name}}</option>
               </select>
             </td>
