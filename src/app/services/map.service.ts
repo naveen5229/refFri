@@ -8,6 +8,7 @@ declare let google: any;
 export class MapService {
 
   poly = null;
+  polyVertices = [];
   map = null;
   mapDiv = null;
   markers = [];
@@ -26,6 +27,7 @@ export class MapService {
   };
 
   polygonPath = null;
+  polygonPathVertices = [];
   isDrawAllow = false;
   designsDefaults = [
     "M  0,0,  0,-5,  -5,-5,-5,-13 , 5,-13 ,5,-5, 0,-5 z",///Rect
@@ -34,7 +36,7 @@ export class MapService {
   options = null;
   heatmap = null;
   polygonPaths = [];
-
+  polygonPathsVertices = [[]];
   constructor(public common: CommonService) {
   }
 
@@ -70,6 +72,22 @@ export class MapService {
       this.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
     }
+  }
+
+  createSingleMarker(latLng) {
+    var icon = {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 4,
+      fillColor: "#000000",
+      fillOpacity: 1,
+      strokeWeight: 1
+    };
+    var marker = new google.maps.Marker({
+      icon: icon,
+      position: latLng,
+      map: this.map
+    });
+    return marker;
   }
 
   mapIntialize(div = "map", zoom = 18, lat = 25, long = 75, showUI = false) {
@@ -355,6 +373,12 @@ export class MapService {
       this.polygon.setMap(null);
       this.polygon = null;
     }
+    if (this.polygons.length > 0) {
+      this.polygons.forEach(polygon => {
+        polygon.setMap(null);
+      });
+      this.polygons = [];
+    }
   }
   resetPolyPaths() {
     if (this.polygonPaths.length > 0) {
@@ -364,24 +388,38 @@ export class MapService {
       });
       this.polygonPaths = [];
     }
+    if (this.polygonPathsVertices.length > 0) {
+      this.polygonPathsVertices.forEach(polyPathVertices => {
+        if (polyPathVertices.length > 0) {
+          polyPathVertices.forEach(polyPathVertix => {
+            polyPathVertix.setMap(null);
+          });
+        }
+      });
+      this.polygonPathsVertices = [[]];
+    }
   }
   resetPolyPath() {
     if (this.polygonPath) {
-      console.log("Here");
-
       this.polygonPath.setMap(null);
       this.polygonPath = null;
     }
+    if (this.polygonPathVertices.length > 0) {
+      this.polygonPathVertices.forEach(polyPathVertix => {
+        polyPathVertix.setMap(null);
+      });
+      this.polygonPathVertices = [];
+    }
   }
 
-  createPolygonPath(polygonOptions?) {
+  createPolygonPath(polygonOptions?,drawVertix?) {
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.isDrawAllow) {
-        this.createPolyPathManual(event.latLng, polygonOptions);
+        this.createPolyPathManual(event.latLng, polygonOptions,drawVertix);
       }
     });
   }
-  createPolyPathManual(latLng, polygonOptions?) {
+  createPolyPathManual(latLng, polygonOptions?,drawVertix?) {
     console.log("In Here");
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
@@ -392,15 +430,16 @@ export class MapService {
           icon: this.lineSymbol,
           offset: '100%'
         }]
-      }
+      };
       this.polygonPath = new google.maps.Polyline(polygonOptions || defaultPolygonOptions);
       this.polygonPath.setMap(this.map);
     }
     let path = this.polygonPath.getPath();
     path.push(latLng);
+    drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
     return this.polygonPath;
   }
-  createPolyPathDetached(latLng, polygonOptions?) {
+  createPolyPathDetached(latLng, polygonOptions?,drawVertix?) {
     console.log("In Here");
     if (!this.poly) {
       const defaultPolygonOptions = {
@@ -417,6 +456,7 @@ export class MapService {
     }
     let path = this.poly.getPath();
     path.push(this.createLatLng(latLng.lat, latLng.lng));
+    drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
     return this.poly;
   }
   undoPolyPath(polyLine?) {
@@ -426,15 +466,17 @@ export class MapService {
 
 
 
-  createPolyPathsManual(latLngsAll, afterClick?) {
+  createPolyPathsManual(latLngsAll, afterClick?,drawVertix?) {
     latLngsAll.forEach((latLngAll) => {
       console.log("hereout");
       this.poly = null;
+      this.polyVertices = [];
       latLngAll.latLngs.forEach((latLng) => {
         console.log("herein");
         this.createPolyPathDetached(latLng);
       });
       this.polygonPaths.push(this.poly);
+      drawVertix && this.polygonPathsVertices.push(this.polyVertices);
       this.addListerner(this.poly, 'click', function (event) { afterClick(latLngAll, event); });
       console.log(this.polygonPaths);
 

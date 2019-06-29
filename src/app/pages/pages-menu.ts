@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
-        title: 'Placements DashBoard',
+        title: 'Placement Dashboard',
         icon: 'fas fa-map-marked-alt',
         link: '/pages/placements-dash-board',
         home: true,
@@ -73,15 +73,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Vehicle OdoMeter',
-        icon: 'fa fa-tachometer-alt',
+        icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
+      },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/via-routes',
       },
 
     ]
   },
   {
     title: 'Admin',
-    icon: 'fa fa-user',
+    icon: 'fas fa-chess-king',
 
     home: true,
     children: [
@@ -149,11 +154,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'View LR Manifest',
-        icon: 'fa fa-eye',
+        icon: 'far fa-clone',
         link: '/pages/view-manifesto',
       },
       {
-        title: 'LR Pod Receipts',
+        title: 'LR/POD Receipts',
         icon: 'fa fa-eye',
         link: '/pages/lr-pod-receipts',
       },
@@ -247,7 +252,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Documents',
     icon: 'fa fa-database',
     children: [{
-      title: 'Documents Input ',
+      title: 'Document Input',
       icon: 'fa fa-book',
       link: '/pages/documentation-details',
       home: true,
@@ -272,8 +277,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Driver',
     icon: 'fa fa-user',
     children: [{
-      title: 'driver Performance ',
-      icon: 'fa fa-chart-bar',
+      title: 'Driver Performance ',
+      icon: 'fas fa-star',
       link: '/pages/driver-performance',
       home: true,
     },
@@ -287,13 +292,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
 
       title: 'Vehicle Driver Mapping',
-      icon: 'fa fa-map-marker',
+      icon: 'fas fa-street-view',
       link: '/pages/vehicle-driver-mapping',
       home: true,
     },
     {
 
-      title: 'Attendace List',
+      title: 'Attendance List',
       icon: 'fa fa-clock-o',
       link: '/pages/driver-attendance',
       home: true,
@@ -328,7 +333,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Battery',
-    icon: 'fa fa-cog',
+    icon: 'fas fa-car-battery',
     link: '/battery/battery-inventory'
   },
 

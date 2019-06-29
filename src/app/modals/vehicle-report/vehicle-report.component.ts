@@ -85,7 +85,7 @@ export class VehicleReportComponent implements OnInit {
       startDate: startDate,
       endDate: endDate,
     };
-
+    this.duration = [];
     this.common.loading++;
     this.api.post('HaltOperations/getVehicleEvents', params)
       .subscribe(res => {

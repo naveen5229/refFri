@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 
 @Component({
   selector: 'driver-document',
@@ -54,5 +55,33 @@ export class DriverDocumentComponent implements OnInit {
     }
   }
 
+
+  fetchDocumentData(row, col, colval) {
+    console.log("row:", row);
+    console.log("col:", col);
+
+    console.log("colval:");
+    console.log(colval);
+
+    console.log("image data", row);
+    let images = [{
+      name: "image",
+      image: row.licence_photo
+    },
+    {
+      name: "image",
+      image: row.img_url2
+    },
+    {
+      name: "image",
+      image: row.img_url3
+    },
+    ];
+    console.log("images:", images);
+
+    this.common.params = { images, title: 'Image' };
+    this.common.handleModalSize('class', 'modal-lg', '1024');
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
 }

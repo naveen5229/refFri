@@ -353,6 +353,12 @@ export class DataService {
             link: '/admin/fuel-average-issues',
             home: true,
           },
+          {
+            title: 'Fo Fs Mapping',
+            icon: 'fa fa-signal',
+            link: '/admin/fo-fs-mapping',
+            home: true,
+          },
         ]
       },
       {
@@ -378,7 +384,7 @@ export class DataService {
         ]
       },
       {
-        title: 'Via-Route',
+        title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/admin/via-routes',
       }

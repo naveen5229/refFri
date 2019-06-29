@@ -1,0 +1,38 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-sm-6">
+        <h5>Fo Fs Mapping</h5>
+      </div>
+    </div>
+
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-3">
+        <auto-suggestion (onSelected)="getFo($event)" url="Suggestion/getFoUsersList" display="name"
+          placeholder="Search Fo" [preSelected]="null">
+        </auto-suggestion>
+      </div>
+      <div class="col-sm-3">
+        <auto-suggestion (onSelected)="getFs($event)" url="Suggestion/GetFuelStation" display="name"
+          placeholder="Search Fs" [preSelected]="null">
+        </auto-suggestion>
+      </div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary w-100 pt-1 pb-1" style="border-radius: 3px;"
+          (click)="addFoFsMapping()">Add</button>
+      </div>
+
+    </div>
+    <div class="row" style="margin-top:15px">
+
+      <smart-table *ngIf="foFsMapping.length" [data]="table.data" [settings]="table.settings"></smart-table>
+      <div class="no-data alert alert-danger" role="alert" *ngIf="foFsMapping.length==0">
+        No Data available !
+      </div>
+
+    </div>
+  </nb-card-body>
+</nb-card>

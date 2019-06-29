@@ -91,7 +91,6 @@ export class FrieghtRateInputComponent implements OnInit {
       this.valobj = {};
 
       for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
@@ -165,7 +164,6 @@ export class FrieghtRateInputComponent implements OnInit {
 
   }
   OpenFoFreight() {
-    console.log("with location");
     this.common.handleModalSize('class', 'modal-lg', '400');
     const activeModal = this.modalService.open(FoFreightRatesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

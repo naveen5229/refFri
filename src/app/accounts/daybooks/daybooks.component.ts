@@ -328,7 +328,7 @@ export class DaybooksComponent implements OnInit {
     }
 
     if ((key.includes('arrowup') || key.includes('arrowdown')) && this.DayData.length) {
-      console.log('-Jai rana---');
+     // console.log('-Jai rana---');
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
       else if (this.selectedRow != this.DayData.length - 1) this.selectedRow++;
