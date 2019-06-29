@@ -48,6 +48,7 @@ import { PalacementSiteRuleComponent } from './placement-site-rule/palacement-si
 import { FuelAverageIssuesComponent } from './fuel-average-issues/fuel-average-issues.component';
 import { ConsolidateFuelAverageComponent } from './consolidate-fuel-average/consolidate-fuel-average.component';
 import { FuelAnalysisComponent } from './fuel-analysis/fuel-analysis.component';
+import { FoFsMappingComponent } from './fo-fs-mapping/fo-fs-mapping.component';
 import { TripAnalysisComponent } from './trip-analysis/trip-analysis.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.component';
@@ -210,6 +211,11 @@ const routes: Routes = [{
         {
             path: 'fuel-fillings',
             component: FuelFillingsComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'fo-fs-mapping',
+            component: FoFsMappingComponent,
             canActivate: [RouteGuard]
         },
         {

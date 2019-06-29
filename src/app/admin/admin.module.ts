@@ -46,6 +46,7 @@ import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.co
 import { BeehiveComponent } from './beehive/beehive.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { FoFsMappingComponent } from './fo-fs-mapping/fo-fs-mapping.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
 import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
@@ -87,6 +88,7 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
+  FoFsMappingComponent,
   //  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
@@ -147,6 +149,7 @@ const PAGES_COMPONENTS = [
     FuelAnalysisComponent,
     VscDiagnosisComponent,
     ViaRoutesComponent,
+    FoFsMappingComponent,
     BufferPolylineComponent
   ],
   exports: [

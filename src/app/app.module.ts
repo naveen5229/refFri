@@ -184,6 +184,9 @@ import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-
 
 
 
+
+
+
 @NgModule({
   declarations: [AppComponent,
     LoginComponent,
@@ -330,10 +333,8 @@ import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-
     FreightInputLocationComponent,
     FoFreightRatesComponent,
     BatterySummaryReportComponent,
-
-
-
-
+    
+ 
   ],
   entryComponents: [
     FreightInputWithoutLocationComponent,
