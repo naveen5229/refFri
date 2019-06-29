@@ -9,6 +9,7 @@ import { ChangeDriverComponent } from '../../DriverModals/change-driver/change-d
 import { DatePickerComponent } from '../../date-picker/date-picker.component';
 import { LRViewComponent } from '../lrview/lrview.component';
 import { isArray } from 'util';
+import { AddFieldComponent } from '../add-field/add-field.component';
 
 @Component({
   selector: 'lr-generate',
@@ -54,26 +55,7 @@ export class LrGenerateComponent implements OnInit {
     vehicleType: 1,
     lrCategory: 1
   };
-  fofields = [{
-    id: 1,
-    name: 'prashant'
-  }, {
-    id: 2,
-    name: 'jai'
-  }, {
-    id: 3,
-    name: 'um'
-  }, {
-    id: 4,
-    name: 'pw'
-  },
-  {
-    id: 5,
-    name: 'sk'
-  }, {
-    id: 6,
-    name: 'pk'
-  }]
+  fofields = []
   particulars = [
     {
       material: null,
@@ -117,6 +99,7 @@ export class LrGenerateComponent implements OnInit {
     let date = new Date();
     date.setDate(date.getDate());
     this.lr.date = date;
+    this.getAllFieldName();
     console.log("this.lr.date", this.lr.date);
     if (this.common.params.LrData) {
       this.lr.id = this.common.params.LrData.lr_id;
@@ -508,5 +491,25 @@ export class LrGenerateComponent implements OnInit {
         value4: null,
       }
     )
+  }
+  addFoField() {
+    const activeModal = this.modalService.open(AddFieldComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+
+      this.getAllFieldName();
+
+    });
+  }
+
+  getAllFieldName() {
+    this.api.get('Suggestion/lrFoFields?sugId=1')
+      .subscribe(res => {
+        this.fofields = res['data'];
+        console.log("All Name", this.fofields);
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
   }
 }

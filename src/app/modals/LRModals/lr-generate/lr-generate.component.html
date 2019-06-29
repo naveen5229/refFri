@@ -223,7 +223,7 @@
       </tbody>
     </table>
     <div class="material_details">
-      <h5>Material Details</h5>
+      <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i></h5>
       <table class="table table-bordered">
         <tbody *ngFor="let particular of particulars; let i = index;">
           <tr>
@@ -264,6 +264,7 @@
           <tr *ngFor=" let customjsonfield of particular.customjsonfields; let j = index; ">
             <td>
               <select [(ngModel)]="customjsonfield.field1">
+                <option>Select</option>
                 <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
               </select>
             </td>
@@ -272,6 +273,7 @@
             </td>
             <td>
               <select [(ngModel)]="customjsonfield.field2">
+                <option>Select</option>
                 <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
               </select>
             </td>
@@ -280,6 +282,7 @@
             </td>
             <td>
               <select [(ngModel)]="customjsonfield.field3">
+                <option>Select</option>
                 <option *ngFor="let fofield of fofields ; " [value]="fofield.name">{{fofield.name}}</option>
               </select>
             </td>
@@ -288,6 +291,7 @@
             </td>
             <td>
               <select [(ngModel)]="customjsonfield.field4">
+                <option>Select</option>
                 <option *ngFor="let fofield of fofields ; " [value]=fofield.name>{{fofield.name}}</option>
               </select>
             </td>
@@ -296,8 +300,10 @@
             </td>
 
             <td>
-              <i class="fa fa-trash remove" (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+
               <i class="fa fa-plus add" (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
+              <i class="fa fa-trash remove" (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+
             </td>
           </tr>
 
