@@ -373,7 +373,7 @@ export class DataService {
         ]
       },
       {
-        title: 'Via-Route',
+        title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/admin/via-routes',
       }

@@ -229,4 +229,10 @@ export class RoutesExpensesComponent implements OnInit {
     }
   }
 
+  resetData(event, index) {
+    this.routeExpenses[index].modelId = null;
+    console.log(event);
+  }
+
+
 }

@@ -95,7 +95,7 @@ export class ViaRoutesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideHeader: true };
+        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideSearch: true };
         this.table.data.headings['action'] = action;
         this.table.data.columns = this.getTableColumns();
       }, err => {

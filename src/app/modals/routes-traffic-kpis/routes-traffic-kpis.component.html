@@ -1,8 +1,8 @@
 <div class="modal-header">
     <h5>Routes Traffic Kpis</h5>
     <button type="button" class="close" aria-label="Close" (click)="dismiss()">
-  <span aria-hidden="true">&times;</span>
-</button>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <div class="modal-body">
     <div class="table-conan filter-coff">
@@ -12,17 +12,19 @@
                 <tr>
                     <td>Model</td>
                     <td>
-                        <auto-suggestion [placeholder]="' '" (onSelected)="selectId($event,i)" display="name" [data]="brands" [preSelected]="null"></auto-suggestion>
+                        <auto-suggestion [placeholder]="' '" (onSelected)="selectId($event,i)" display="name"
+                            [data]="brands" [preSelected]="null" (change)="resetData($event,i)"></auto-suggestion>
                     </td>
-                    <td>Target time</td>
+                    <td>Target time(Hrs)</td>
                     <td><input type="number" class="form-control" [(ngModel)]="routes.targetTime"></td>
 
-                    <td>Allowed time</td>
+                    <td>Allowed Halt(Hrs)</td>
                     <td><input type="number" class="form-control" [(ngModel)]="routes.allowedTime"></td>
-                    <td *ngIf="i == route.length-1"><button class="btn btn-primary" (click)="addMore()"><i class="fa fa-plus add">
-                </i></button></td>
+                    <td *ngIf="i == route.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                                class="fa fa-plus add">
+                            </i></button></td>
                     <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="route.splice(i,1)"><i
-                  class="fa fa-trash remove"></i></button></td>
+                                class="fa fa-trash remove"></i></button></td>
                 </tr>
             </tbody>
         </table>
@@ -31,6 +33,7 @@
         <button type="submit" id="submit" class="btn btn-primary submit" (click)="submit()">Submit</button>
     </div>
     <div class="mt-3">
-        <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping"></smart-table>
+        <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings" id="cardMapping">
+        </smart-table>
     </div>
 </div>

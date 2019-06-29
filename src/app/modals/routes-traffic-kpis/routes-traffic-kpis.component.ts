@@ -88,7 +88,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
           }];
           this.addMore();
           this.getdata();
-      }
+        }
         else {
           this.common.showError(res['data'][0].y_msg);
         }
@@ -115,7 +115,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
         console.log("doc index value:", doc[this.headings[i]]);
         if (this.headings[i] == "Action") {
           console.log("Test");
-          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash-alt', action: this.deleteTrafficKpis.bind(this,doc) }] };
+          this.valobj[this.headings[i]] = { value: "", action: null, icons: [{ class: 'fa fa-trash-alt', action: this.deleteTrafficKpis.bind(this, doc) }] };
         } else {
           this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
         }
@@ -125,7 +125,7 @@ export class RoutesTrafficKpisComponent implements OnInit {
     return columns;
   }
 
-getdata() {
+  getdata() {
     const params = "routeId=" + this.id;
     //   console.log("params", params);
     console.log("params", params);
@@ -190,9 +190,9 @@ getdata() {
   }
 
   deleteTrafficKpis(doc) {
-    console.log("values",doc);
+    console.log("values", doc);
     const params = {
-      id:doc._id,
+      id: doc._id,
       routeId: doc._route_id,
       modelId: doc._model_id,
     }
@@ -217,5 +217,10 @@ getdata() {
         }
       });
     }
- }
+  }
+
+  resetData(event, index) {
+    this.route[index].modelId = null;
+    console.log(event);
+  }
 }
