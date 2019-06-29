@@ -150,7 +150,6 @@ const PAGES_COMPONENTS = [
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VscDiagnosisComponent,
-    ViaRoutesComponent,
     BufferPolylineComponent,
     PodDashboardComponent,
 
