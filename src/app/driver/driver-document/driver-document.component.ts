@@ -6,7 +6,7 @@ import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'driver-document',
   templateUrl: './driver-document.component.html',
-  styleUrls: ['./driver-document.component.scss','../../pages/pages.component.css']
+  styleUrls: ['./driver-document.component.scss', '../../pages/pages.component.css']
 })
 export class DriverDocumentComponent implements OnInit {
   data = { result: [] };
@@ -17,7 +17,7 @@ export class DriverDocumentComponent implements OnInit {
   constructor(public common: CommonService,
     public api: ApiService,
     private modalService: NgbModal) {
-     
+
     this.getDocumentData();
   }
 
@@ -47,12 +47,12 @@ export class DriverDocumentComponent implements OnInit {
   }
   formatTitle(strval) {
     let pos = strval.indexOf('_');
-    if(pos > 0) {
-      return strval.toLowerCase().split('_').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+    if (pos > 0) {
+      return strval.toLowerCase().split('_').map(x => x[0].toUpperCase() + x.slice(1)).join(' ')
     } else {
       return strval.charAt(0).toUpperCase() + strval.substr(1);
     }
   }
-  
+
 
 }

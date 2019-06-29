@@ -176,6 +176,7 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
 import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
 import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
 import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
+import { LrPodDashboardComponent } from './modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
 
 
 
@@ -328,6 +329,7 @@ import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/f
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     FoFreightRatesComponent,
+    LrPodDashboardComponent,
 
 
 
@@ -473,6 +475,7 @@ import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/f
     FuelEditComponent,
     AddViaRoutesComponent,
     FoFreightRatesComponent,
+    LrPodDashboardComponent
 
 
 

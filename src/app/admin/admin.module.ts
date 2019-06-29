@@ -62,8 +62,8 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
-
-
+import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
+import { ChartModule } from 'angular2-chartjs';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -91,7 +91,8 @@ const PAGES_COMPONENTS = [
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent,
-  VscDiagnosisComponent
+  VscDiagnosisComponent,
+  PodDashboardComponent
 
 
 
@@ -109,6 +110,7 @@ const PAGES_COMPONENTS = [
     DriverModule,
     ImageViewerModule,
     SharedModule,
+    ChartModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -147,7 +149,9 @@ const PAGES_COMPONENTS = [
     FuelAnalysisComponent,
     VscDiagnosisComponent,
     ViaRoutesComponent,
-    BufferPolylineComponent
+    BufferPolylineComponent,
+    PodDashboardComponent,
+
   ],
   exports: [
     // VehiclesComponent,

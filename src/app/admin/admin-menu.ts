@@ -285,5 +285,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/lr-diagnostics',
         home: true,
     },
+    {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/admin/pod-dashboard',
+        home: true,
+    },
 
 ];

@@ -229,6 +229,11 @@ export class DataService {
             icon: 'fa fa-diagnostics',
             link: '/admin/lr-diagnostics',
           },
+          {
+            title: 'POD Dashboard',
+            icon: 'fa fa-bar-chart',
+            link: '/admin/pod-dashboard',
+          },
         ]
       },
       {

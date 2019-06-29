@@ -56,6 +56,7 @@ import { ViewModalServiceComponent } from '../vehicle-maintenance/view-modal-ser
 import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
+import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
 
 const routes: Routes = [{
     path: '',
@@ -324,6 +325,11 @@ const routes: Routes = [{
         {
             path: 'buffer-polyline',
             component: BufferPolylineComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'pod-dashboard',
+            component: PodDashboardComponent,
             canActivate: [RouteGuard]
         }
 
