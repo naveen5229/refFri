@@ -220,4 +220,9 @@ export class RoutesAdvancesComponent implements OnInit {
         console.log('Error: ', err)
       });
   }
+
+  resetData(event, index) {
+    this.routeAdd[index].modelId = null;
+    console.log(event);
+  }
 }
