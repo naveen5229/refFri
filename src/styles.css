@@ -621,7 +621,7 @@ ngb-modal-window {
 }
 
 .menu-sidebar.compacted .scrollable nb-menu>.menu-items>li:hover {
-    width: 250px;
+    width: 299px;
     background-color: #26a69a;
 }
 
@@ -639,7 +639,7 @@ ngb-modal-window {
 .menu-sidebar.compacted .scrollable nb-menu>.menu-items>li>.menu-items {
     position: absolute;
     left: 49px;
-    width: 200px;
+    width: 250px;
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item:hover ul {
@@ -648,7 +648,14 @@ ngb-modal-window {
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-item>.menu-items>.menu-item a {
-    padding-left: 10px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    white-space: nowrap;
+}
+
+.menu-sidebar.compacted .scrollable nb-menu .menu-item>.menu-items>.menu-item a i {
+    width: 30px;
+    margin-left: 10px;
 }
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item ul li a span {

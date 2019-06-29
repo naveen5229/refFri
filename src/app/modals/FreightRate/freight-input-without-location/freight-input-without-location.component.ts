@@ -31,7 +31,8 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     unloading: null,
     fuelClass: null,
     fuelBaseRate: null,
-    fuelVariation: null
+    fuelVariation: null,
+    qty: null
   };
   filters = [{
     param: null,
@@ -49,7 +50,9 @@ export class FreightInputWithoutLocationComponent implements OnInit {
     unloading: null,
     fuelClass: null,
     fuelBaseRate: null,
-    fuelVariation: null
+    fuelVariation: null,
+    qty: null
+
   }];
   frpId = null;
 
@@ -109,7 +112,9 @@ export class FreightInputWithoutLocationComponent implements OnInit {
       unloading: null,
       fuelClass: null,
       fuelBaseRate: null,
-      fuelVariation: null
+      fuelVariation: null,
+      qty: null
+
     });
   }
 

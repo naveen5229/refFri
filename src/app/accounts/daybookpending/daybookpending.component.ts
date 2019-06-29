@@ -342,7 +342,8 @@ export class DaybookpendingComponent implements OnInit {
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
-        delete: this.deletedId
+       // delete: this.deletedId
+        delete: 2
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
