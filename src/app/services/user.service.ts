@@ -86,7 +86,6 @@ export class UserService {
       { id: 55, route: '/admin/buffer-polyline' },
       { id: 56, route: '/admin/pod-dashboard' },
       { id: 57, route: '/admin/fo-fs-mapping' },
-
     ]
   }
 
