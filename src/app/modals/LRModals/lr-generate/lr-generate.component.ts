@@ -412,14 +412,16 @@ export class LrGenerateComponent implements OnInit {
     this.api.post('LorryReceiptsOperation/lrDetails', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log("responsedate1", JSON.parse(res['data']).result[0]);
-        console.log("responsedate2", JSON.parse(res['data']).details);
-        lrDetails = JSON.parse(res['data']).result[0];
-        this.LrData = lrDetails;
-        particularDetails = JSON.parse(res['data']).details
+        console.log("responsedate0000", res);
+        if (res['data']) {
+          console.log("responsedate1", JSON.parse(res['data']).result[0], "responsedate2", JSON.parse(res['data']).details);
+          lrDetails = JSON.parse(res['data']).result[0];
+          this.LrData = lrDetails;
+          particularDetails = JSON.parse(res['data']).details
 
-        this.setlrDetails(lrDetails);
-        this.setlrParticulars(particularDetails);
+          this.setlrDetails(lrDetails);
+          this.setlrParticulars(particularDetails);
+        }
       }, err => {
         --this.common.loading;
 
