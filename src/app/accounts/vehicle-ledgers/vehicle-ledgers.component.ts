@@ -152,23 +152,23 @@ export class VehicleLedgersComponent implements OnInit {
       const params = {
         name: this.vehLedgerList[i],
         alias_name: this.vehLedgerList[i],
-        code: 'null',
+        code: '',
         account_id: this.underGroupDetails.id,
         per_rate: 0,
         primarygroupid: 0,
-        accDetails: 'null',
-        branchname: 'null',
-        branchcode: 'null',
-        accnumber: 'null',
+        accDetails: '',
+        branchname: '',
+        branchcode: '',
+        accnumber: '',
         creditdays: 0,
         openingbalance: 0.0,
-        isdr: 'null',
-        approved: 'null',
-        deleteview: 'null',
-        delete: 'null',
+        isdr: 1,
+        approved: 1,
+        deleteview: 0,
+        delete: 0,
         x_id: 0,
-        bankname: 'null',
-        costcenter: 'null'
+        bankname: '',
+        costcenter: 0
       };
       console.log('params', params);
       let promise = new Promise((resolve, reject) => {
@@ -179,9 +179,11 @@ export class VehicleLedgersComponent implements OnInit {
     }
 
     Promise.all(promises).then(res => {
+      this.common.showToast('Ledger Has been saved!');
       console.log('_______________Promise____________Output:', res);
     }).catch(err => {
       console.log('__________________Promise____________Error:', err);
+      this.common.showError();
     });
 
   }

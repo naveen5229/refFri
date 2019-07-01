@@ -17,6 +17,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./voucher-summary.component.scss']
 })
 export class VoucherSummaryComponent implements OnInit {
+  permanentDeleteId = 0;
   alltotal = 0;
   approve=0;
   targetId = '';
@@ -74,6 +75,8 @@ export class VoucherSummaryComponent implements OnInit {
       console.log('add again', this.VoucherId);
       this.trips = this.common.params.tripDetails;
     }
+
+    this.permanentDeleteId=(this.common.params.permanentDelete) ? this.common.params.permanentDelete:0;
    if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
     this.VehicleId = this.common.params.vehId;
     console.log('tripsEditData', this.tripsEditData);
@@ -177,6 +180,7 @@ export class VoucherSummaryComponent implements OnInit {
     this.api.post('Voucher/permanetDelete', params)
       .subscribe(res => {
         console.log(res);
+        this.common.showToast(" This Value Has been Deleted!");
         this.common.loading--;
         this.activeModal.close({ response: true });
       }, err => {
@@ -239,7 +243,9 @@ export class VoucherSummaryComponent implements OnInit {
   approveVoucher(){
     this.approveDelete(0,'true');
   }
-
+  restore(){
+    this.approveDelete(1,'false');
+  }
   approveDelete(type,typeans){
     let params = {
       id: this.VoucherId,

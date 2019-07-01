@@ -16,6 +16,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./voucher-summary-short.component.scss']
 })
 export class VoucherSummaryShortComponent implements OnInit {
+  permanentDeleteId = 0;  
   alltotal = 0;
   narration = '';
   tripVoucher;
@@ -81,6 +82,7 @@ export class VoucherSummaryShortComponent implements OnInit {
       this.trips = this.common.params.tripDetails;
     }
     if(this.common.params.typeFlag) { this.typeFlag=this.common.params.typeFlag; }
+    this.permanentDeleteId=(this.common.params.permanentDelete) ? this.common.params.permanentDelete:0;
 
     this.VehicleId = this.common.params.vehId;
     // console.log('tripsEditData', this.tripsEditData);
@@ -180,7 +182,9 @@ export class VoucherSummaryShortComponent implements OnInit {
   approveVoucher(){
     this.approveDelete(0,'true');
   }
-
+  restore(){
+    this.approveDelete(1,'false');
+  }
   approveDelete(type,typeans){
     let params = {
       id: this.VoucherId,
