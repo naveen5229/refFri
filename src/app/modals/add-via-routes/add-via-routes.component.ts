@@ -12,7 +12,6 @@ import { DateService } from '../../services/date.service';
 })
 export class AddViaRoutesComponent implements OnInit {
   location = '';
-  foId = null;
   routeData = {
 
     routeName: null,
@@ -48,8 +47,8 @@ export class AddViaRoutesComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private common: CommonService,
     public dateService: DateService) {
-    this.foId = this.common.params.foData;
-    console.log("FOData:", this.foId);
+    // this.foId = this.common.params.foData;
+    // console.log("FOData:", this.foId);
     this.common.handleModalSize('class', 'modal-lg', '1250');
     setTimeout(() => {
       console.log('--------------location:', "location");
@@ -126,7 +125,6 @@ export class AddViaRoutesComponent implements OnInit {
 
   add() {
     const params = {
-      foid: this.foId,
       name: this.routeData.routeName,
       startLat: this.routeData.startlat,
       startLong: this.routeData.startlong,

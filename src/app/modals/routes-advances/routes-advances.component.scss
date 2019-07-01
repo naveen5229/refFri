@@ -1,86 +1,35 @@
-nb-card-header{
-    border-bottom: 1px solid #ccc;
-}
 .table-conan{
     table{
         width: 100%;
-        tr{
-            white-space: nowrap;
-            td{
-                button{
-                    border-radius: 3px;
-                    padding: 5px 10px;
+        tbody{
+            tr{
+                td{
+                    padding:2px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    button{
+                        border-radius: 3px;
+                        padding: 3px 7px;   
+                        width: 100%;
+                    }
                 }
             }
         }
     }
 }
-.bassic-info{
-    margin-bottom: 20px;
-    table{
-        tr{
-            td{
-                padding: 5px;
-                .add{
-                    background-color: blue;
-                    text-align: center;
-                    padding: 8px 0px;
-                    border-radius: 3px;
-                    color: #fff;
-                }
-            }
-        }
-    }
-}
-.general-coef{
-    margin-bottom: 30px;
-    h6{
-        font-weight: bold;
-        font-size: 16px;
-        padding-bottom: 10px;
-    }
-    table{
-        tr{
-            td{
-                padding: 4px;
-            }
-        }
-    }
-}
-.filter-coff{
-    padding-top: 20px;
-    h6{
-        font-weight: bold;
-        font-size: 16px;
-        padding-bottom: 10px;
-    }
-    table{
-        tr{
-            td{
-                padding: 4px;
-            }
-        }
-    }
-}
-.submit{
+#submit{
     border-radius: 3px;
     padding: 8px 15px;
     text-transform: capitalize;
 }
-h4{
-    font-size: small;
-    font-family: initial;
-    font-weight: 800;
-    text-transform: capitalize;
+:host ::ng-deep .tableFixHead{
+    height: auto !important
 }
-
-
-
 
 :host ::ng-deep .fa-trash-alt {
     color: black;
     font-size: 18px;
-    span{
+    span {
         position: absolute;
         display: none;
         padding: 10px 28px;
@@ -91,9 +40,9 @@ h4{
         -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
         box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
         font-family: Roboto;
-        z-index:9999;
+        z-index: 9999;
     }
-    span::before{
+    span::before {
         content: 'Delete';
         display: block;
         position: absolute;
@@ -102,10 +51,10 @@ h4{
         background-color: black;
         border-radius: 3px;
         padding: 5px 10px;
-        color:#fff;
+        color: #fff;
         width: 100%;
     }
-    span::after{
+    span::after {
         content: '';
         width: 0;
         height: 0;
@@ -117,6 +66,7 @@ h4{
         right: 24px;
     }
 }
-:host ::ng-deep .fa-trash-alt:hover span{
+
+:host ::ng-deep .fa-trash-alt:hover span {
     display: block;
 }

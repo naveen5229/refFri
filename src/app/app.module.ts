@@ -176,12 +176,16 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
 import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
 import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
 import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
+import { LrPodDashboardComponent } from './modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
 import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-report/battery-summary-report.component';
 import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
 import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
+
+
+
 
 
 
@@ -334,6 +338,7 @@ import { AddFieldComponent } from './modals/LRModals/add-field/add-field.compone
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     FoFreightRatesComponent,
+    LrPodDashboardComponent,
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
@@ -486,6 +491,8 @@ import { AddFieldComponent } from './modals/LRModals/add-field/add-field.compone
     FuelEditComponent,
     AddViaRoutesComponent,
     FoFreightRatesComponent,
+    LrPodDashboardComponent,
+
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
