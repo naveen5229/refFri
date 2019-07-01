@@ -510,11 +510,12 @@ export class DaybooksComponent implements OnInit {
     let tripPendingDataSelected = this.pendingDataEditTme;
     let VoucherData=this.VoucherEditTime;
     let typeFlag = 1;
+    let permanentDelete=this.deletedId;
     
 
     if(voucherData.y_vouchertype_id==-151){
       let tripExpDriver=this.tripExpDriver;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,typeFlag };
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,typeFlag,permanentDelete };
 
       
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
@@ -529,7 +530,7 @@ export class DaybooksComponent implements OnInit {
       });
     }else {
       let tripExpDriver=this.tripExpDriver;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,typeFlag};
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,typeFlag,permanentDelete};
     console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
