@@ -181,6 +181,7 @@ import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expense
 import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
+import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 
 
 
@@ -338,6 +339,7 @@ import { AddFieldComponent } from './modals/LRModals/add-field/add-field.compone
     RoutesAdvancesComponent,
     RoutesTrafficKpisComponent,
     AddFieldComponent,
+    AddFreightRevenueComponent,
 
 
 
@@ -487,7 +489,8 @@ import { AddFieldComponent } from './modals/LRModals/add-field/add-field.compone
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
     RoutesTrafficKpisComponent,
-    AddFieldComponent
+    AddFieldComponent,
+    AddFreightRevenueComponent
 
 
   ],

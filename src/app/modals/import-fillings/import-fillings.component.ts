@@ -63,7 +63,7 @@ export class ImportFillingsComponent implements OnInit {
 
         let file = event.target.files[0];
         console.log("Type", file.type);
-        if (file.type != "application/vnd.ms-excel" || file.type != "application/vnd.openxml") {
+        if (file.type != "application/vnd.ms-excel" && file.type != "application/vnd.openxml") {
           alert("Select valid Format Are : CSV,xlsx");
           return false;
         }
