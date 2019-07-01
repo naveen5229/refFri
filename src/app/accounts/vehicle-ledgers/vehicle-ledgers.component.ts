@@ -38,6 +38,7 @@ export class VehicleLedgersComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getVehList();
     this.setAutoSuggestion();
     this.common.currentPage = 'Vehicle Ledger';
@@ -180,6 +181,7 @@ export class VehicleLedgersComponent implements OnInit {
 
     Promise.all(promises).then(res => {
       this.common.showToast('Ledger Has been saved!');
+    this.getVehList();
       console.log('_______________Promise____________Output:', res);
     }).catch(err => {
       console.log('__________________Promise____________Error:', err);
@@ -195,6 +197,11 @@ export class VehicleLedgersComponent implements OnInit {
   //   console.log('detail group;;;;;;;', groupDetail);
 
   // }
+
+  refresh() {
+    this.getVehList();
+  }
+
   onSelected(selectedData, type, display) {
     console.log('selectedData',selectedData);
     this.underGroupDetails.name = selectedData[display];

@@ -169,7 +169,33 @@ export class VoucherSummaryComponent implements OnInit {
         this.common.showError();
       });
   }
-  
+  permanentDeleteConfirm()  {
+    let params = {
+      id: 1
+    };
+    if (params.id) {
+      //console.log('city', tblid);
+      this.common.params = {
+        title: 'Delete Voucher ',
+        description: `<b>&nbsp;` + 'Are you sure want to delete ? ' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        //  this.common.loading++;
+        if (data.response) {
+          console.log("data", data);
+         // this.voucher.delete = 1;
+          // this.addOrder(this.order);
+          //this.dismiss(true);
+          
+          this.permanentDelete();
+          
+          // this.activeModal.close({ response: true, ledger: this.voucher });
+          // this.common.loading--;
+        }
+      });
+    }
+  }
   permanentDelete() {
     //console.log('voucher id last ', voucherId)
     const params = {
