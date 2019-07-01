@@ -130,7 +130,7 @@ export class FreightRevenueComponent implements OnInit {
     console.log("row:", row);
     let params = {
       id: row._id,
-      type: 'location',
+
     }
     if (row._id) {
       this.common.params = {
@@ -141,7 +141,7 @@ export class FreightRevenueComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          this.api.post('FrieghtRate/deleteFrieghtRateDetails', params)
+          this.api.post('FrieghtRate/deleteRevenue', params)
             .subscribe(res => {
               this.common.loading--;
               console.log("Result:", res['data'][0].y_msg);

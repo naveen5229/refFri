@@ -14,7 +14,7 @@ export class AddFreightRevenueComponent implements OnInit {
     vehicleId: null,
     vehicleRegNo: null,
     refernceType: 0,
-    date: null,
+    date: new Date(),
     shortage: null,
     damage: null,
     delay: null,
@@ -119,9 +119,12 @@ export class AddFreightRevenueComponent implements OnInit {
         console.log(res['data'][0].result);
         if (res['data'][0].y_id > 0) {
 
-          alert("Sucessfully insert");
-
+          this.common.showToast(res['data'][0].y_msg);
           this.activeModal.close({ data: true });
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
+
         }
       }, err => {
         --this.common.loading;

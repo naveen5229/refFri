@@ -12,7 +12,7 @@
           <label>Vehicle Type</label>
         </div>
         <div class="col-3 pl-0">
-          <select class="form-control" ([ngModel])="revenue.vehicleType" (change)="resetData($event)">
+          <select class="form-control" [(ngModel)]="revenue.vehicleType" (change)="resetData($event)">
             <option value="1">Own</option>
             <option value="2">Group</option>
             <option value="3">Market</option>
@@ -28,7 +28,7 @@
           </auto-suggestion>
         </div>
         <div class="col-4" *ngIf="revenue.vehicleType!=1">
-          <input type="text" ([ngModel])="revenue.vehicleRegNo" class="form-control" placeholder=" " id="vehicleno">
+          <input type="text" [(ngModel)]="revenue.vehicleRegNo" class="form-control" placeholder=" " id="vehicleno">
         </div>
       </div>
     </div>
@@ -70,7 +70,8 @@
           <label>Reference Type</label>
         </div>
         <div class="col-4">
-          <select class="form-control" ([ngModel])="revenue.refernceType" (change)="refernceTypes($event)">
+          <select class="form-control" name="reftype" [(ngModel)]="revenue.refernceType"
+            (change)="refernceTypes($event)">
             <option value="0">Select Type</option>
             <option value="11">Lr</option>
             <option value="12">Manifest</option>
@@ -99,14 +100,14 @@
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
-            ([ngModel])="revenue.shortage">
+            [(ngModel)]="revenue.shortage">
         </div>
         <div class="col-3">
           <label>Damage</label>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
-            ([ngModel])="revenue.delay">
+            [(ngModel)]="revenue.damage">
         </div>
       </div>
 
@@ -117,7 +118,7 @@
           <label>Delay</label>
         </div>
         <div class="col-3">
-          <input type="number" class="form-control" maxlength="10" name="delay" id="delay" ([ngModel])="revenue.delay">
+          <input type="number" class="form-control" maxlength="10" name="delay" id="delay" [(ngModel)]="revenue.delay">
 
         </div>
       </div>
@@ -139,14 +140,14 @@
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
-            ([ngModel])="revenue.loadDestination">
+            [(ngModel)]="revenue.loadDestination">
         </div>
         <div class="col-3">
           <label>UL.Destination</label>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
-            ([ngModel])="revenue.unloadDestination">
+            [(ngModel)]="revenue.unloadDestination">
         </div>
       </div>
     </div>
@@ -156,7 +157,7 @@
           <label>Tolls</label>
         </div>
         <div class="col-3">
-          <input type="number" class="form-control" name="delay" id="delay" ([ngModel])="revenue.tolls">
+          <input type="number" class="form-control" name="delay" id="delay" [(ngModel)]="revenue.tolls">
         </div>
       </div>
     </div>
@@ -165,20 +166,20 @@
   </div>
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-8">
       <div class="row">
         <div class="col-3">
           <label>Other Amount(<i class="fas fa-rupee-sign"></i>)</label>
         </div>
         <div class="col-3 pl-0">
-          <input type="number" class="form-control" name="amount" id="amount" ([ngModel])="revenue.amount">
+          <input type="number" class="form-control" name="amount" id="amount" [(ngModel)]="revenue.amount">
         </div>
         <div class="col-3">
           <label>Remark</label>
         </div>
         <div class="col-3 pl-0">
-          <textarea rows="5" name="remark" id="remark" row="5" class="form-control"
-            ([ngModel])="revenue.remark"></textarea>
+          <textarea rows="5" name="remark" id="remark" row="5" cols="10" class="form-control"
+            [(ngModel)]="revenue.remark"></textarea>
         </div>
 
       </div>
