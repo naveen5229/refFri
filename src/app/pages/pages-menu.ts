@@ -132,6 +132,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/frieght-rate-input',
       },
       {
+        title: 'Freight Revenue',
+        icon: 'nb-list',
+        link: '/pages/freight-revenue',
+      },
+      {
         title: 'Lorry Receipts',
         icon: 'nb-list',
         link: '/pages/lorry-receipts',

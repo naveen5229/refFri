@@ -61,6 +61,7 @@ import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-od
 import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
+import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 
 const routes: Routes = [{
   path: '',
@@ -386,6 +387,11 @@ const routes: Routes = [{
     component: ViaRoutesComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'freight-revenue',
+    component: FreightRevenueComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 
