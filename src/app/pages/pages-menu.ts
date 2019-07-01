@@ -132,16 +132,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      {
-        title: 'Generate LR',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr',
-      },
-      {
-        title: 'Generate LTL',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr-no-vehicles',
-      },
+      // {
+      //   title: 'Generate LR',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr',
+      // },
+      // {
+      //   title: 'Generate LTL',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr-no-vehicles',
+      // },
       {
         title: 'Generate LR Manifest',
         icon: 'fas fa-receipt',
