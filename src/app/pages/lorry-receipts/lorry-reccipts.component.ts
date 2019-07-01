@@ -60,10 +60,12 @@ export class LorryRecciptsComponent implements OnInit {
     this.api.post('FoDetails/getLorryStatus', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res);
-        this.receipts = res['data'];
-        // console.log("Receipt",this.receipts);
-        this.table = this.setTable();
+        console.log('Res000000:', res);
+        if (res['data']) {
+          this.receipts = res['data'];
+          // console.log("Receipt",this.receipts);
+          this.table = this.setTable();
+        }
       }, err => {
         --this.common.loading;
 
