@@ -165,6 +165,7 @@ export class AddFieldComponent implements OnInit {
               console.log("Result:", res['data'][0].r_msg);
               if (res['data'][0].r_id > 0) {
                 this.common.showToast("Delete SuccessFull");
+                this.getFieldName();
               }
               else {
                 this.common.showToast(res['data'][0].r_msg);
