@@ -64,6 +64,8 @@ export class LRViewComponent implements OnInit {
 
   }
 
+
+
   findCustomFields(customFields) {
     if (!customFields) return [];
     customFields = JSON.parse(customFields);
