@@ -219,15 +219,16 @@ export class DataService {
             link: '/admin/lorry-receipt-details',
           },
 
-          {
-            title: 'Generate LR',
-            icon: 'fa fa-pencil',
-            link: '/admin/generate-lr',
-          },
+
           {
             title: 'LR Diagnostics',
             icon: 'fa fa-diagnostics',
             link: '/admin/lr-diagnostics',
+          },
+          {
+            title: 'POD Dashboard',
+            icon: 'fa fa-bar-chart',
+            link: '/admin/pod-dashboard',
           },
         ]
       },
@@ -379,7 +380,7 @@ export class DataService {
         ]
       },
       {
-        title: 'Via-Route',
+        title: 'Routes',
         icon: 'fa fa-pencil-square-o',
         link: '/admin/via-routes',
       }

@@ -18,7 +18,7 @@
           <td>
 
             <auto-suggestion (onSelected)="routeExp.modelId = $event.id;" display="name" [data]="models" placeholder=" "
-              [preSelected]="null"></auto-suggestion>
+              [preSelected]="null" (change)="resetData($event,i)"></auto-suggestion>
 
           </td>
 

@@ -1,0 +1,23 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h5>Freight Revenue</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-top:10px; margin-bottom:10px;">
+
+      <div class="col-sm-6">
+        <button class="btn btn-primary m-0" (click)="addFreightRevenue()">Add</button>
+      </div>
+
+    </div>
+    <div>
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+      </smart-table>
+
+      <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>

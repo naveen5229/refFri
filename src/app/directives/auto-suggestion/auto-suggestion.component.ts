@@ -53,16 +53,16 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log('URL:', this.url);
-    console.log('URL:', this.display);
+    // console.log('URL:', this.url);
+    // console.log('URL:', this.display);
     if (this.preSelected) this.handlePreSelection();
 
-    console.log('Is Array:', Array.isArray(this.display));
+    // console.log('Is Array:', Array.isArray(this.display));
     if (Array.isArray(this.display)) {
       this.displayType = 'array';
     }
-    console.log('Data:', this.data);
-    console.log('Parent Form: ', this.parentForm);
+    // console.log('Data:', this.data);
+    // console.log('Parent Form: ', this.parentForm);
     if (this.parentForm) {
       this.searchForm = this.parentForm;
     }
@@ -71,7 +71,7 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log("--------------------+++++++++", changes);
+    // console.log("--------------------+++++++++", changes);
     if (changes.preSelected) {
       this.preSelected = changes.preSelected.currentValue;
       this.handlePreSelection();
@@ -80,7 +80,6 @@ export class AutoSuggestionComponent implements OnInit {
   }
 
   handlePreSelection() {
-    console.log('Preselected:');
     this.selectedSuggestion = this.preSelected;
     if (typeof (this.display) != 'object')
       this.searchText = this.preSelected[this.display];

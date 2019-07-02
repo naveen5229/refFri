@@ -474,6 +474,8 @@ export class VouchersComponent implements OnInit {
           this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
           return
         }
+      } else if (key == 'n') {
+          this.modelCondition();
       }
       return;
     }
@@ -575,8 +577,10 @@ export class VouchersComponent implements OnInit {
     }
   }
   vouchercostcenter() {
-    let index = document.activeElement.id.split('-')[1];
-    console.log('fdsfedsfdsfdsf', index)
+    console.log('____',document.activeElement.id);
+    console.log('___-___',this.lastActiveId);
+    let index = this.lastActiveId.split('-')[1];
+   // console.log('fdsfedsfdsfdsf', index,document.activeElement.id.split('-')[1]);
     this.handleCostCenterModal(this.voucher.amountDetails[index].amount, index);
     this.showConfirmCostCenter = false;
     event.preventDefault();
