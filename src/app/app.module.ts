@@ -181,6 +181,7 @@ import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-
 import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
+import { AddFuelIndentComponent } from './modals/add-fuel-indent/add-fuel-indent.component';
 import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
@@ -344,6 +345,7 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
     RoutesTrafficKpisComponent,
+    AddFuelIndentComponent,
     LrGenerateComponent,
     AddFieldComponent,
     AddFreightRevenueComponent,
@@ -494,11 +496,11 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     AddViaRoutesComponent,
     FoFreightRatesComponent,
     LrPodDashboardComponent,
-
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
     RoutesTrafficKpisComponent,
+    AddFuelIndentComponent,
     AddFieldComponent,
     AddFreightRevenueComponent
 
