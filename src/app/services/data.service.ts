@@ -219,15 +219,16 @@ export class DataService {
             link: '/admin/lorry-receipt-details',
           },
 
-          {
-            title: 'Generate LR',
-            icon: 'fa fa-pencil',
-            link: '/admin/generate-lr',
-          },
+
           {
             title: 'LR Diagnostics',
             icon: 'fa fa-diagnostics',
             link: '/admin/lr-diagnostics',
+          },
+          {
+            title: 'POD Dashboard',
+            icon: 'fa fa-bar-chart',
+            link: '/admin/pod-dashboard',
           },
         ]
       },
@@ -346,6 +347,12 @@ export class DataService {
             title: 'Fuel Average Issues',
             icon: 'fa fa-signal',
             link: '/admin/fuel-average-issues',
+            home: true,
+          },
+          {
+            title: 'Fo Fs Mapping',
+            icon: 'fa fa-signal',
+            link: '/admin/fo-fs-mapping',
             home: true,
           },
         ]

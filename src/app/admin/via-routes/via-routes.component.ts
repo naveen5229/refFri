@@ -49,11 +49,11 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   addViaRoutes() {
-    if (!this.foData) {
-      this.common.showError("Please select FoUser");
-      return false;
-    }
-    this.common.params = { foData: this.foData };
+    // if (!this.foData) {
+    //   this.common.showError("Please select FoUser");
+    //   return false;
+    // }
+    // this.common.params = { foData: this.foData };
     this.common.handleModalSize('class', 'modal-lg', '1250');
 
     const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });

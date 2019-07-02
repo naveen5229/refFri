@@ -94,7 +94,11 @@ export class MappedFuelVoucherComponent implements OnInit {
         this.common.showError();
       })
   }
-
+ changeModal(changevalue){
+  console.log('hello',changevalue);
+  this.voucherDetails = [];
+  this.mappedDetails = [];
+  }
   handleDateOnSubmit(datestr) {
     let dateArray = [];
     let separator = '-';

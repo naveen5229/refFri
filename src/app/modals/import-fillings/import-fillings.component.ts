@@ -67,7 +67,6 @@ export class ImportFillingsComponent implements OnInit {
           alert("Select valid Format Are : CSV,xlsx");
           return false;
         }
-
         res = res.toString().replace('vnd.ms-excel', 'csv');
         console.log('Base 64: ', res);
         this.fillingcsv = res;

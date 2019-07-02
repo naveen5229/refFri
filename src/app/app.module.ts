@@ -176,12 +176,17 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
 import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
 import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
 import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
+import { LrPodDashboardComponent } from './modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
 import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-report/battery-summary-report.component';
 import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
 import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
 import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
+import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+
+
+
 
 
 
@@ -334,10 +339,12 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     FoFreightRatesComponent,
+    LrPodDashboardComponent,
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
     RoutesTrafficKpisComponent,
+    LrGenerateComponent,
     AddFieldComponent,
     AddFreightRevenueComponent,
 
@@ -346,6 +353,7 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
 
   ],
   entryComponents: [
+    LrGenerateComponent,
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     VehicleTyreSummaryComponent,
@@ -485,6 +493,8 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     FuelEditComponent,
     AddViaRoutesComponent,
     FoFreightRatesComponent,
+    LrPodDashboardComponent,
+
     BatterySummaryReportComponent,
     RoutesExpensesComponent,
     RoutesAdvancesComponent,
