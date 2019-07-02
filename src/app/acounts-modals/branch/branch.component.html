@@ -7,7 +7,10 @@
       </button>
     </div>
     <div class="modal-body">
+      <div class="row">
+          <div class="col-9">
 
+         
       <div class="row">
         <!-- <div class="col">
           <div class="form-group">
@@ -155,7 +158,51 @@
               [(ngModel)]="Branches.lrFooter" placeholder="Lr Footer">
           </div>
         </div>
-
+        <div class="col-3">
+          <div class="form-group">
+            <label>Site</label>
+            <input autocomplete="off" type="text" id="site" class="form-control tjr-input" name="site"
+             [(ngModel)]="Branches.site.name" placeholder="Site">
+          </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+              <label>Lattitude</label>
+              <input autocomplete="off" type="text" id="latitude" class="form-control tjr-input" name="latitude"
+               [(ngModel)]="Branches.latitude">
+            </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-3">
+            <div class="form-group">
+              <label>Longitude</label>
+              <input autocomplete="off" type="text" class="form-control" name="longitude" id="longitude"
+                [(ngModel)]="Branches.longitude" placeholder="Longitude">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label>Pre Code</label>
+              <input autocomplete="off" type="text" class="form-control" name="precode" id="precode"
+                [(ngModel)]="Branches.precode" placeholder="Pre Code">
+            </div>
+          </div>
+          <div class="col-3">
+              <div class="form-group">
+                <label>Width</label>
+                <input autocomplete="off" type="text" class="form-control" name="lrcodewidth" id="lrcodewidth"
+                  [(ngModel)]="Branches.lrcodewidth" placeholder="Width">
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group">
+                <label>Last Id</label>
+                <input autocomplete="off" type="text" class="form-control" name="lrcodelastid" id="lrcodelastid"
+                  [(ngModel)]="Branches.lrcodelastid" placeholder="Last Id">
+              </div>
+            </div>
+      </div>
         <!-- <div class="col radiostockitem">
           <div class="form-group">
             <label>Const Center</label>
@@ -173,7 +220,6 @@
             </div>
           </div>
         </div> -->
-      </div>
 
       <div class="row">
         <div class="col">
@@ -193,6 +239,17 @@
 
       </div>
     </div>
+    <div class="col-3">
+        <div class="auto-sugg">
+            <div class="form-group">
+              <auto-suggetion-in-side [data]="siteData" targetId="site" display="name"
+                (select)="onSelectedSite($event, 'site', 'name')"></auto-suggetion-in-side>
+            </div>
+          
+          </div>
+    </div>
+  </div>
+</div>
 
     <div class="modal-footer">
       <div class="row">
