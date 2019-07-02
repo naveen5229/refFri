@@ -2,25 +2,29 @@
 
   <nb-card-body>
     <div class="row mb-3">
-      <div class="col-sm-2">
-        Under Group:
-      </div>
       <div class="col-sm-3">
-        <input type="text" autocomplete="off" type="text" (keyup)="searchGroupInfo()" class="form-control"
-          id="undergroup" name="undergroup" [(ngModel)]="underGroupDetails.name"
-          placeholder="Please Select Under Group">
-        <!-- <auto-suggestion (onSelected)="getUnderGroupDetails($event)" url="suggestion/getAllUnderGroupData"
-          display="name" placeholder="Search" [preSelected]="null"></auto-suggestion> -->
+        <div class="form-group">
+            <label class="tjr-label">Under Group</label>
+            <input type="text" autocomplete="off" type="text"  class="form-control tjr-input"
+              id="undergroup" name="undergroup" [(ngModel)]="underGroupDetails.name"
+              placeholder="Please Search Under Group">
+        </div>
       </div>
-      <div class="col-sm-7">
+      <div class="col-sm-9">
         <!-- <auto-suggetion-in-side [data]="autoSuggestion.underGroupData" [targetId]="autoSuggestion.targetId"
           [display]="autoSuggestion.display" (select)="onSelect($event, autoSuggestion.targetId)">
         </auto-suggetion-in-side> -->
-        <div class="under-group" *ngIf="showList">
-          <ul id="gorup_list">
+        <div class="under-group">
+            <div class="auto-sugg">
+                <div class="form-group">
+                  <auto-suggetion-in-side [data]="underGroupRes" targetId="undergroup" display="name"
+                    (select)="onSelected($event, 'undergroup', 'name')"></auto-suggetion-in-side>
+                </div>
+                </div>
+          <!-- <ul id="gorup_list">
             <li id="item" *ngFor="let groupName of underGroupRes" (click)="getGroupInfo(groupName)">
               {{groupName.name}}</li>
-          </ul>
+          </ul> -->
         </div>
 
       </div>

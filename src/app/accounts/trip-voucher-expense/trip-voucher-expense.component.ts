@@ -454,12 +454,13 @@ export class TripVoucherExpenseComponent implements OnInit {
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
+         console.log('Data: ', data);
         if (data.response) {
           //this.addLedger(data.ledger);
+          this.getTripExpences();
         }
         this.selectedVehicle.id =0
-        this.getTripExpences();
+        
       });
     }
   }

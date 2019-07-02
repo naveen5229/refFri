@@ -98,6 +98,8 @@ export class ProfitlossComponent implements OnInit {
     let assetsGroup = _.groupBy(this.profitLossData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_subgroupname');
+    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_subgroupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
@@ -133,7 +135,48 @@ export class ProfitlossComponent implements OnInit {
     console.log('first Section:', this.liabilities);
     console.log('last Section:', this.assets);
 
+    this.liabilities.map(libility => {
+      let subGroups = _.groupBy(libility.profitLossData, 'y_subgroupname');
+      libility.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(profitLossData => {
+            total += parseFloat(profitLossData.y_amount)
+          });
+          libility.subGroups.push({
+            name: key,
+            profitLossData: subGroups[key],
+            total
+          });
 
+        });
+      }
+      delete libility.profitLossData;
+    });
+
+    console.log('first Section------:', this.liabilities);
+
+    this.assets.map(asset => {
+      let subGroups = _.groupBy(asset.profitLossData, 'y_subgroupname');
+      asset.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(profitLossData => {
+            total += parseFloat(profitLossData.y_amount)
+          });
+          asset.subGroups.push({
+            name: key,
+            profitLossData: subGroups[key],
+            total
+          });
+
+          console.log(subGroups[key], total);
+        });
+      }
+      delete asset.profitLossData;
+    });
   }
 
   filterData(assetdata, slug) {
