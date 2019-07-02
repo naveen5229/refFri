@@ -63,7 +63,7 @@ export class PodDashboardComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    console.log('CHART DATA:', this.chartObject2.data);
+    // console.log('CHART DATA:', this.chartObject2.data);
   }
 
   reset() {
@@ -185,8 +185,20 @@ export class PodDashboardComponent implements OnInit {
 
 
   view(url) {
+    // let images
     let field = url.split(',');
-
+    // field.forEach(elements => {
+    //   images = [{
+    //     name: "POD",
+    //     image: elements
+    //   }];
+    // })
+    // for (let i = 0; i < field.length; i++) {
+    //   images = [{
+    //     name: "POD",
+    //     image: field[i]
+    //   }];
+    // }
     let images = [{
       name: "POD",
       image: field[0]
