@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5>Add Freight Revenue</h5>
+  <h5>{{title}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,7 +9,7 @@
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>Vehicle Type</label>
+          <span><b>Vehicle Type</b></span>
         </div>
         <div class="col-3 pl-0">
           <select class="form-control" [(ngModel)]="revenue.vehicleType" (change)="resetData($event)">
@@ -20,25 +20,25 @@
           </select>
         </div>
         <div class="col-3">
-          <label>Vehicle No*</label>
+          <span><b>Vehicle No*</b></span>
         </div>
         <div class="col-3 pl-0" *ngIf="revenue.vehicleType==1">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-            placeholder=" " (change)="resetvehicle($event)" inputId="vehicleno" [preSelected]="{regno:vehicleRegNo}">
+            placeholder=" " (change)="resetvehicle()" inputId="vehicleno" [preSelected]="{regno:revenue.vehicleRegNo}">
           </auto-suggestion>
         </div>
-        <div class="col-4" *ngIf="revenue.vehicleType!=1">
+        <div class="col-3 pl-0" *ngIf="revenue.vehicleType!=1">
           <input type="text" [(ngModel)]="revenue.vehicleRegNo" class="form-control" placeholder=" " id="vehicleno">
         </div>
       </div>
     </div>
     <div class="col-6">
       <div class="row">
-        <div class="col-3">
-          <label>Transaction Time</label>
+        <div class="col-4 pr-0">
+          <span><b>Transaction Time</b></span>
         </div>
 
-        <div class="col-9">
+        <div class="col-8">
           <uj-date-time-picker (onChanged)="revenue.date = $event" [dateTimeValue]="revenue.date" [isTime]="true">
           </uj-date-time-picker>
         </div>
@@ -50,15 +50,16 @@
 
   <div class="row mb-3">
     <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc;">Revenue</h5>
+      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Revenue</h5>
     </div>
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>Revenue</label>
+          <span><b>Revenue(₹)</b></span>
         </div>
         <div class="col-6 pl-0">
-          <input type="number" class="form-control" maxlength="10" name="revenue" id="revenue">
+          <input type="number" class="form-control" maxlength="10" name="revenueamount" id="revenueamount"
+            [(ngModel)]="revenue.amount">
         </div>
       </div>
     </div>
@@ -67,21 +68,22 @@
     <div class="col-6">
       <div class="row">
         <div class="col-3 pr-0">
-          <label>Reference Type</label>
+          <span><b>Reference Type</b></span>
         </div>
         <div class="col-4">
           <select class="form-control" name="reftype" [(ngModel)]="revenue.refernceType"
-            (change)="refernceTypes($event)">
+            (change)="resetRefernceType(false);refernceTypes()">
             <option value="0">Select Type</option>
             <option value="11">Lr</option>
             <option value="12">Manifest</option>
-            <option value="13">Status</option>
+            <option value="13">State</option>
           </select>
         </div>
 
         <div class="col-5">
           <auto-suggestion (onSelected)="revenue.refId=$event.id" display="source_dest" placeholder=" "
-            style="width:60%;" [data]="refernceData" inputId="referncetype" >
+            style="width:60%;" [data]="refernceData" inputId="referncetype"
+            [preSelected]="{source_dest:revenue.refTypeName}">
           </auto-suggestion>
         </div>
       </div>
@@ -91,19 +93,19 @@
 
   <div class="row mb-3">
     <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc;">Penalty</h5>
+      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Penalty</h5>
     </div>
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>Shortage</label>
+          <span><b>Shortage(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
             [(ngModel)]="revenue.shortage">
         </div>
         <div class="col-3">
-          <label>Damage</label>
+          <span><b>Damage(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
@@ -115,7 +117,7 @@
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>Delay</label>
+          <span><b>Delay(₹)</b></span>
         </div>
         <div class="col-3">
           <input type="number" class="form-control" maxlength="10" name="delay" id="delay" [(ngModel)]="revenue.delay">
@@ -131,30 +133,30 @@
 
   <div class="row mb-3">
     <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc;">Reimbursement</h5>
+      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Reimbursement</h5>
     </div>
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>L.Destination</label>
+          <span><b>L Detention(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
-            [(ngModel)]="revenue.loadDestination">
+            [(ngModel)]="revenue.loadDetention">
         </div>
         <div class="col-3">
-          <label>UL.Destination</label>
+          <span><b>UL Detention(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
-            [(ngModel)]="revenue.unloadDestination">
+            [(ngModel)]="revenue.unloadDetention">
         </div>
       </div>
     </div>
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>Tolls</label>
+          <span><b>Tolls(₹)</b></span>
         </div>
         <div class="col-3">
           <input type="number" class="form-control" name="delay" id="delay" [(ngModel)]="revenue.tolls">
@@ -166,27 +168,30 @@
   </div>
 
   <div class="row">
-    <div class="col-8">
+    <div class="col-3">
+      <div class="row">
+        <div class="col-6">
+          <span><b>Other Amount(₹)</b></span>
+        </div>
+        <div class="col-6 pl-0">
+          <input type="number" class="form-control" name="amount" id="amount" [(ngModel)]="revenue.otherAmount">
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>Other Amount(<i class="fas fa-rupee-sign"></i>)</label>
+          <span><b>Remark</b></span>
         </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" name="amount" id="amount" [(ngModel)]="revenue.amount">
-        </div>
-        <div class="col-3">
-          <label>Remark</label>
-        </div>
-        <div class="col-3 pl-0">
+        <div class="col-9 pl-0">
           <textarea rows="5" name="remark" id="remark" row="5" cols="10" class="form-control"
             [(ngModel)]="revenue.remark"></textarea>
         </div>
-
       </div>
     </div>
 
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-primary" (click)="saveRevenue()">Add</button>
+    <button class="btn btn-primary" (click)="saveRevenue()">{{revenue.id?'Edit':'Add'}}</button>
   </div>

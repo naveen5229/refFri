@@ -32,19 +32,18 @@ export class FreightRevenueComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.viewFreightRevenue();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
 
-  addFreightRevenue() {
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
-    });
+  refresh() {
+    this.viewFreightRevenue();
   }
+
 
   viewFreightRevenue() {
     let params = {
@@ -120,6 +119,10 @@ export class FreightRevenueComponent implements OnInit {
     let icons = [];
     icons.push(
       {
+        class: "fas fa-edit",
+        action: this.editFreightRevenue.bind(this, row),
+      },
+      {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
       }
@@ -158,6 +161,34 @@ export class FreightRevenueComponent implements OnInit {
       });
     }
   }
+
+  addFreightRevenue() {
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { title: 'Add Freight Revenue ' };
+    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      if (data) {
+        this.viewFreightRevenue();
+      }
+    });
+  }
+
+
+
+
+  editFreightRevenue(row) {
+    this.common.handleModalSize('class', 'modal-lg', '1100');
+    this.common.params = { title: 'Edit Freight Revenue ', row: row };
+    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+      if (data) {
+        this.viewFreightRevenue();
+      }
+    });
+  }
+
 
 
 }
