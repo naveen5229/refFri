@@ -241,6 +241,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fse-entry',
         home: true,
       },
+      {
+        title: 'Fuel Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
+        home: true,
+      },
     ]
   },
   {

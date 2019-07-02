@@ -1,0 +1,101 @@
+<div class="modal-header">
+    <h5>{{common.params.title}}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+    <div class="fuel-indent mt-2">
+        <div class="row">
+            <div class="col-4">
+                <label>Vehicle Type:</label>
+            </div>
+            <div class="col-8">
+                <select class="form-control" name="dropDown" id="dropDown" [(ngModel)]="vehicle.type" (change)="handleVehicleTypeChange()">
+                 <option *ngFor="let status of dropDown;let i = index" [value]="status.id">
+                     {{status.name}}
+                </option>
+            </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label class="mt-2">Vehicle:</label>
+            </div>
+            <div *ngIf="vehicle.type==1" class="col-8">
+                <auto-suggestion (onSelected)="getVehicleList($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number" [preSelected]="{regno:regno}"></auto-suggestion>
+            </div>
+            <div *ngIf="vehicle.type==3||vehicle.type==2" class="col-8">
+                <input type="text" class="form-control" [(ngModel)]="regno" autocomplete="off">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Fuel Station:</label>
+            </div>
+            <div class="col-8">
+                <auto-suggestion (onSelected)="getFuelStation($event)" url="Suggestion/getFuelStationName" display="name" placeholder="fuel Station" [preSelected]="{name:name}"></auto-suggestion>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Reference Type:</label>
+            </div>
+            <div class="col-4">
+                <select class="form-control" name="dropDownsubtype" id="dropDownsubtype" [(ngModel)]="vehicle.subType" (change)="changeVehicleType($event);resetData()">
+                <option value="-1">select type</option>
+                <option *ngFor="let status of dropDownSubType[vehicle.type];let i = index" [value]="status.id">
+                    {{status.name}}
+               </option>
+           </select>
+            </div>
+            <div *ngIf="value!==null" class="col-4">
+                <auto-suggestion placeholder="Search.." (onSelected)="getRefDetails($event)" display="source_dest" [data]="brands" inputId="brand" [preSelected]="{source_dest:source_dest}"></auto-suggestion>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <form>
+                    <input type="radio" name="amount" [value]=0 [(ngModel)]="indentType"> <b>Amount</b>
+                    <input type="radio" name="ltr" [value]=1 [(ngModel)]="indentType" class="ml-2" checked> <b>liter</b>
+                </form>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" autocomplete="off" placeholder="enter value" [(ngModel)]="amount">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Issue Date</label>
+            </div>
+            <div class="col-8">
+                <!-- <input type="date" class="form-control" placeholder="enter value" [(ngModel)]="issueDate"> -->
+                <uj-date-time-picker (onChanged)="issueDate=$event" class="" [dateTimeValue]="issueDate" [isTime]=false>
+                </uj-date-time-picker>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>expiry Date:</label>
+            </div>
+            <div class="col-8">
+                <!-- <input type="text" id="expiryTime" class="form-control" name="expiryTime" placeholder="expiry Time" [(ngModel)]="expiryTime" autocomplete="off" (click)="openReminderModal()"> -->
+                <uj-date-time-picker (onChanged)="expiryTime=$event" class="" [dateTimeValue]="expiryTime" [isTime]=false>
+                </uj-date-time-picker>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4">
+                <label>Remark:</label>
+            </div>
+            <div class="col-8">
+                <!-- <input type="text" id="expiryTime" class="form-control" name="expiryTime" placeholder="expiry Time" [(ngModel)]="expiryTime" autocomplete="off" (click)="openReminderModal()"> -->
+                <textarea name="comment" form="usrform" class="form-control" [(ngModel)]="remark"></textarea>
+            </div>
+        </div>
+        <div class="mt-2">
+            <button type="button" class="btn btn-primary offset-4" (click)="submit()">{{common.params.flag}}</button>
+        </div>
+
+    </div>
+</div>

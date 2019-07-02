@@ -60,6 +60,7 @@ import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.co
 import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-odometer/vehicle-distance-with-odometer.component';
 import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
+import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 
 const routes: Routes = [{
   path: '',
@@ -372,6 +373,11 @@ const routes: Routes = [{
   {
     path: 'vehicle-odoMeter',
     component: VehicleOdometerComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'fuel-indent',
+    component: FuelIndentComponent,
     canActivate: [AuthGuard]
   },
  
