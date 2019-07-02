@@ -11,6 +11,7 @@ import { AccountService } from '../../services/account.service';
 import { MapService } from '../../services/map.service';
 import { LRViewComponent } from '../../modals/LRModals/lrview/lrview.component';
 import { ChangeDriverComponent } from '../../modals/DriverModals/change-driver/change-driver.component';
+import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from '../../modals/LRModals/add-field/add-field.component';
 
 @Component({
