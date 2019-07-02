@@ -38,7 +38,7 @@ export class BranchComponent implements OnInit {
     constcenter: 0,
     site:{
       id:0,
-      name:''
+      name:'Not Applicable'
     },
     latitude:0,
     longitude:0,
