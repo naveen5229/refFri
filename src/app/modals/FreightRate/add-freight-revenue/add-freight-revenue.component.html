@@ -34,11 +34,11 @@
     </div>
     <div class="col-6">
       <div class="row">
-        <div class="col-3">
+        <div class="col-4 pr-0">
           <label>Transaction Time</label>
         </div>
 
-        <div class="col-9">
+        <div class="col-8">
           <uj-date-time-picker (onChanged)="revenue.date = $event" [dateTimeValue]="revenue.date" [isTime]="true">
           </uj-date-time-picker>
         </div>
@@ -81,7 +81,7 @@
 
         <div class="col-5">
           <auto-suggestion (onSelected)="revenue.refId=$event.id" display="source_dest" placeholder=" "
-            style="width:60%;" [data]="refernceData" inputId="referncetype" >
+            style="width:60%;" [data]="refernceData" inputId="referncetype">
           </auto-suggestion>
         </div>
       </div>
@@ -136,18 +136,18 @@
     <div class="col-6">
       <div class="row">
         <div class="col-3">
-          <label>L.Destination</label>
+          <label>Load Detention</label>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
-            [(ngModel)]="revenue.loadDestination">
+            [(ngModel)]="revenue.loadDetention">
         </div>
         <div class="col-3">
-          <label>UL.Destination</label>
+          <label>Unload Detention</label>
         </div>
         <div class="col-3 pl-0">
           <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
-            [(ngModel)]="revenue.unloadDestination">
+            [(ngModel)]="revenue.unloadDetention">
         </div>
       </div>
     </div>
@@ -166,22 +166,25 @@
   </div>
 
   <div class="row">
-    <div class="col-8">
+    <div class="col-3">
       <div class="row">
-        <div class="col-3">
+        <div class="col-6">
           <label>Other Amount(<i class="fas fa-rupee-sign"></i>)</label>
         </div>
-        <div class="col-3 pl-0">
+        <div class="col-6 pl-0">
           <input type="number" class="form-control" name="amount" id="amount" [(ngModel)]="revenue.amount">
         </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
         <div class="col-3">
           <label>Remark</label>
         </div>
-        <div class="col-3 pl-0">
+        <div class="col-9 pl-0">
           <textarea rows="5" name="remark" id="remark" row="5" cols="10" class="form-control"
             [(ngModel)]="revenue.remark"></textarea>
         </div>
-
       </div>
     </div>
 
