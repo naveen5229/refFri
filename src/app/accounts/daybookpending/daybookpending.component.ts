@@ -172,7 +172,8 @@ export class DaybookpendingComponent implements OnInit {
       ledger: this.DayBook.ledger.id,
       branchId: this.DayBook.branch.id,
       vouchertype: this.DayBook.vouchertype.id,
-      delete: this.deletedId
+      delete: this.deletedId,
+      forapproved: 0
     };
 
     this.common.loading++;
@@ -342,7 +343,8 @@ export class DaybookpendingComponent implements OnInit {
     if (voucherId) {
       this.common.params = {
         voucherId: voucherId,
-        delete: this.deletedId
+       // delete: this.deletedId
+        delete: 2
       };
       const activeModal = this.modalService.open(VoucherComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false });
       activeModal.result.then(data => {
@@ -355,7 +357,59 @@ export class DaybookpendingComponent implements OnInit {
       });
     }
   }
+  pdfFunction(){
+    let params = {
+      search: 'test'
+    };
 
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+       // this.Vouchers = res['data'];
+       let address= (res['data'][0]) ? res['data'][0].addressline +'\n' : '';
+       let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+    let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+    let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+   
+       let cityaddress =address+ remainingstring1 + remainingstring3;
+       let foname=(res['data'][0])? res['data'][0].foname:'';
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  csvFunction(){
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+       // this.Vouchers = res['data'];
+       let address= (res['data'][0]) ? res['data'][0].addressline +'\n' : '';
+       let remainingstring1 = (res['data'][0]) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+    let remainingstring2 = (res['data'][0]) ? ', PAN No -  ' + res['data'][0].panno : '';
+    let remainingstring3 = (res['data'][0]) ? ', GST NO -  ' + res['data'][0].gstno : '';
+   
+       let cityaddress =address+ remainingstring1 + remainingstring3;
+       let foname=(res['data'][0])? res['data'][0].foname:'';
+       this.common.getCSVFromTableIdNew('table',foname,cityaddress,'','',remainingstring3);
+      // this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
 
   setFoucus(id, isSetLastActive = true) {
     setTimeout(() => {
@@ -453,10 +507,12 @@ export class DaybookpendingComponent implements OnInit {
     let tripEditData = this.TripEditData;
     let tripPendingDataSelected = this.pendingDataEditTme;
     let VoucherData=this.VoucherEditTime;
+    let Approved =1;
+    let typeFlag = this.deletedId;
 
     if(voucherData.y_vouchertype_id==-151){
       let tripExpDriver=this.tripExpDriver;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver };
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,Approved ,typeFlag};
 
       
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
@@ -471,7 +527,7 @@ export class DaybookpendingComponent implements OnInit {
       });
     }else {
       let tripExpDriver=this.tripExpDriver;
-    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver};
+    this.common.params = { vehId, tripDetails, tripVoucher, tripEditData, tripPendingDataSelected,VoucherData,tripExpDriver,Approved,typeFlag};
     console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
     const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

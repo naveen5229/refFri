@@ -100,7 +100,7 @@
         <label>Date of Joining</label>
       </div>
       <div class="col-3">
-        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate('doj')"
+        <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
           placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="doj" readonly>
       </div>
     </div>

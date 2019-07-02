@@ -5,6 +5,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
 import { LocationSelectionComponent } from '../../location-selection/location-selection.component';
+import { ConfirmComponent } from '../../confirm/confirm.component';
 
 @Component({
   selector: 'freight-input-location',
@@ -52,6 +53,7 @@ export class FreightInputLocationComponent implements OnInit {
     this.frpId = this.common.params.id ? this.common.params.id : null;
     this.common.handleModalSize('class', 'modal-lg', '1300');
     this.getFrieghtRateDetails();
+    this.addMore();
   }
 
   ngOnInit() {
@@ -93,6 +95,7 @@ export class FreightInputLocationComponent implements OnInit {
       dest_lat: null,
       dest_long: null,
     });
+
   }
 
   selectLocation(place, type, index) {
@@ -209,6 +212,17 @@ export class FreightInputLocationComponent implements OnInit {
         --this.common.loading;
 
         this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
 
         if (!res['data']) return;
         this.data = res['data'];
@@ -220,6 +234,9 @@ export class FreightInputLocationComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
+        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
+        this.table.data.headings['action'] = action;
+
 
         this.table.data.columns = this.getTableColumns();
       }, err => {
@@ -242,7 +259,7 @@ export class FreightInputLocationComponent implements OnInit {
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
-
+      this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
       columns.push(this.valobj);
 
     });
@@ -252,6 +269,50 @@ export class FreightInputLocationComponent implements OnInit {
 
   formatTitle(title) {
     return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  freightDelete(row) {
+
+    let icons = [];
+    icons.push(
+      {
+        class: "fas fa-trash-alt",
+        action: this.deleteRow.bind(this, row),
+      }
+    )
+    return icons;
+  }
+  deleteRow(row) {
+    console.log("row:", row);
+    let params = {
+      id: row._id,
+      type: 'location',
+    }
+    if (row._id) {
+      this.common.params = {
+        title: 'Delete  ',
+        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+      }
+      const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
+      activeModal.result.then(data => {
+        if (data.response) {
+          this.common.loading++;
+          this.api.post('FrieghtRate/deleteFrieghtRateDetails', params)
+            .subscribe(res => {
+              this.common.loading--;
+              console.log("Result:", res['data'][0].y_msg);
+
+              this.common.showToast(res['data'][0].y_msg);
+              if (res['data'][0].y_id > 0)
+                this.getFrieghtRateDetails();
+
+            }, err => {
+              this.common.loading--;
+              console.log('Error: ', err);
+            });
+        }
+      });
+    }
   }
 
 

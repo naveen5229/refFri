@@ -211,7 +211,6 @@ export class DriverAttendanceComponent implements OnInit {
         }
         );
       }
-
     });
 
 

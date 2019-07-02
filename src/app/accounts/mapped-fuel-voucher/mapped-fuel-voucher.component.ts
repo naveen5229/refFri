@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +27,12 @@ export class MappedFuelVoucherComponent implements OnInit {
   voucherDetails = [];
   mappedDetails = [];
   mappedVoucher = [];
+  selectedRow = -1;
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event) {
+    this.keyHandler(event);
+  }
 
   constructor(
     public api: ApiService,
@@ -88,7 +94,11 @@ export class MappedFuelVoucherComponent implements OnInit {
         this.common.showError();
       })
   }
-
+ changeModal(changevalue){
+  console.log('hello',changevalue);
+  this.voucherDetails = [];
+  this.mappedDetails = [];
+  }
   handleDateOnSubmit(datestr) {
     let dateArray = [];
     let separator = '-';
@@ -107,6 +117,20 @@ export class MappedFuelVoucherComponent implements OnInit {
     console.log('Date: ', date + separator + month + separator + year);
     dateString = year + separator + month + separator + date;
     return dateString;
+
+  }
+
+  
+  keyHandler(event) {
+    const key = event.key.toLowerCase();
+    this.activeId = document.activeElement.id;
+    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.voucherDetails.length) {
+     
+      /************************ Handle Table Rows Selection ********************** */
+      if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;
+      else if (this.selectedRow != this.voucherDetails.length - 1) this.selectedRow++;
+
+    }
 
   }
   // keyHandler(event) {

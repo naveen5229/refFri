@@ -185,6 +185,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/pump-station-area',
                 home: true,
             },
+            {
+                title: 'Fo Fs Mapping',
+                icon: 'fa fa-signal',
+                link: '/admin/fo-fs-mapping',
+                home: true,
+            },
         ]
     },
     {
