@@ -1438,4 +1438,22 @@ export class CommonService {
     else this.loading--;
   }
 
+  enterHandler(e) {
+    switch (e.keyCode) {
+      case 13: //Enter
+        var focusableElements = document.querySelectorAll('input,select,textarea')
+        var index = Array.prototype.indexOf.call(focusableElements, document.activeElement)
+        if (e.shiftKey)
+          focus(focusableElements, index - 1)
+        else
+          focus(focusableElements, index + 1)
+
+        e.preventDefault()
+        break;
+    }
+    function focus(elements, index) {
+      if (elements[index])
+        elements[index].focus()
+    }
+  }
 }

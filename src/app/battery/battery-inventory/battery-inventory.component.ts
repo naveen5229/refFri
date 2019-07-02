@@ -13,6 +13,21 @@ import { UserService } from '../../services/user.service';
 export class BatteryInventoryComponent implements OnInit {
 
   csv = null;
+  startDate = '';
+  endDate = '';
+  mapped = -1;
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
   inventories = [{
     modelId: null,
     months: null,
@@ -45,7 +60,12 @@ export class BatteryInventoryComponent implements OnInit {
   ) {
     console.log("user", user._loggedInBy);
     this.userType = this.common.user._loggedInBy;
-    //this.searchData();
+    let today;
+    today = new Date();
+    this.endDate = this.common.dateFormatter(today);
+    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 7)));
+    console.log('dates ', this.endDate, this.startDate)
+    this.getBatteries();
   }
 
   ngOnInit() {
@@ -133,9 +153,6 @@ export class BatteryInventoryComponent implements OnInit {
   }
 
 
-  // getTyreSize(batsize, i) {
-  //   this.inventories[i].batterySize = batsize.size;
-  // }
 
   saveDetails() {
 
@@ -163,20 +180,89 @@ export class BatteryInventoryComponent implements OnInit {
       });
   }
 
-  // searchData() {
-  //   let params = this.inventories;
-  //   console.log("params ", params)
-  //   this.api.get('Tyres/getTyreDetailsAccordingFO?')
-  //     .subscribe(res => {
-  //       this.searchedTyreDetails = res['data'];
-  //       console.log("searchedTyreDetails", this.searchedTyreDetails);
+  getDate2(type) {
+    this.common.params = { ref_page: 'LrView' }
+    const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      if (data.date) {
+        if (type == 'start') {
+          this.startDate = '';
+          return this.startDate = this.common.dateFormatter1(data.date).split(' ')[0];
+          console.log('fromDate', this.startDate);
+        }
+        else {
 
-  //     }, err => {
-  //       console.error(err);
-  //       this.common.showError();
-  //     });
+          this.endDate = this.common.dateFormatter1(data.date).split(' ')[0];
+          // return this.endDate = date.setDate( date.getDate() + 1 )
+          console.log('endDate', this.endDate);
+        }
 
-  // }
+      }
+
+    });
+
+
+  }
+
+  getBatteries() {
+    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
+    let params = {
+      startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
+      endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
+      mapped: this.mapped
+    };
+
+    ++this.common.loading;
+    this.api.post('Battery/getBatteryInventory', params)
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = res['data'];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+        // if (!this.data || !this.data.length) {
+        //   //document.getElementById('mdl-body').innerHTML = 'No record exists';
+        //   return;
+        // }
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        console.log('Err:', err);
+      });
+  }
+
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+  getTableColumns() {
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+      for (let i = 0; i < this.headings.length; i++) {
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+      }
+      columns.push(this.valobj);
+    });
+    return columns;
+  }
 
   addMore() {
     this.inventories.push({
@@ -191,14 +277,6 @@ export class BatteryInventoryComponent implements OnInit {
   remove() {
     this.inventories.pop();
   }
-
-  // valueReset(index) {
-  //   console.log("change event", index);
-  //   this.inventories[index].nsd1 = null;
-  //   this.inventories[index].nsd2 = null;
-  //   this.inventories[index].nsd3 = null;
-  //   this.inventories[index].psi = null;
-  // }
 
   handleFileSelection(event) {
     this.common.loading++;

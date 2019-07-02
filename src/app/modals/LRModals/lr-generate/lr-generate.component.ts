@@ -125,12 +125,15 @@ export class LrGenerateComponent implements OnInit {
 
   addConsignee() {
     console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
 
     });
   }
+
+
+
 
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
@@ -412,14 +415,16 @@ export class LrGenerateComponent implements OnInit {
     this.api.post('LorryReceiptsOperation/lrDetails', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log("responsedate1", JSON.parse(res['data']).result[0]);
-        console.log("responsedate2", JSON.parse(res['data']).details);
-        lrDetails = JSON.parse(res['data']).result[0];
-        this.LrData = lrDetails;
-        particularDetails = JSON.parse(res['data']).details
+        console.log("responsedate0000", res);
+        if (res['data']) {
+          console.log("responsedate1", JSON.parse(res['data']).result[0], "responsedate2", JSON.parse(res['data']).details);
+          lrDetails = JSON.parse(res['data']).result[0];
+          this.LrData = lrDetails;
+          particularDetails = JSON.parse(res['data']).details
 
-        this.setlrDetails(lrDetails);
-        this.setlrParticulars(particularDetails);
+          this.setlrDetails(lrDetails);
+          this.setlrParticulars(particularDetails);
+        }
       }, err => {
         --this.common.loading;
 

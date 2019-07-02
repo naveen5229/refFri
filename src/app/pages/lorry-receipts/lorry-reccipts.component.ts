@@ -60,10 +60,12 @@ export class LorryRecciptsComponent implements OnInit {
     this.api.post('FoDetails/getLorryStatus', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log('Res:', res);
-        this.receipts = res['data'];
-        // console.log("Receipt",this.receipts);
-        this.table = this.setTable();
+        console.log('Res000000:', res);
+        if (res['data']) {
+          this.receipts = res['data'];
+          // console.log("Receipt",this.receipts);
+          this.table = this.setTable();
+        }
       }, err => {
         --this.common.loading;
 
@@ -207,6 +209,7 @@ export class LorryRecciptsComponent implements OnInit {
   }
 
   openGenerateLr(Lr) {
+    console.log("Lr", Lr);
     this.common.params = { LrData: Lr }
     const activeModal = this.modalService.open(LrGenerateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {

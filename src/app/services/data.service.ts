@@ -219,11 +219,7 @@ export class DataService {
             link: '/admin/lorry-receipt-details',
           },
 
-          {
-            title: 'Generate LR',
-            icon: 'fa fa-pencil',
-            link: '/admin/generate-lr',
-          },
+
           {
             title: 'LR Diagnostics',
             icon: 'fa fa-diagnostics',
