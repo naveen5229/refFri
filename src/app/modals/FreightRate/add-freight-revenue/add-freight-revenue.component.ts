@@ -133,7 +133,16 @@ export class AddFreightRevenueComponent implements OnInit {
   }
 
 
+  checkValue(ref, refKey, value) {
 
+    if (ref[refKey] > value) {
+      ref[refKey] = value;
+    }
+    else if (ref[refKey] < 0) {
+      ref[refKey] = 0;
+    }
+    console.log("ref", ref, value);
+  }
 
   saveRevenue() {
     ++this.common.loading;
@@ -144,6 +153,7 @@ export class AddFreightRevenueComponent implements OnInit {
       vehasstype: this.revenue.vehicleType,
       ref_type: this.revenue.refernceType,
       ref_id: this.revenue.refId,
+      ref_name: this.revenue.refTypeName,
       amount: this.revenue.amount,
       dttime: this.common.dateFormatter(this.revenue.date),
       short_penality: this.revenue.shortage,
