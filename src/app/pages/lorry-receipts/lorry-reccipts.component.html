@@ -18,10 +18,12 @@
         <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
           placeholder="End Date" (click)="getDate('end')">
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-2">
         <button class="btn btn-primary m-0" (click)="getLorryReceipts()">submit</button>
       </div>
-
+      <div class="col-sm-4" style="text-align: right">
+        <button (click)="openGenerateLr(false)" class="btn btn-primary">LR Generate</button>
+      </div>
     </div>
     <div>
       <smart-table *ngIf="receipts && receipts.length" [data]="table.receipts" [settings]="table.settings"

@@ -16,7 +16,7 @@ export class LRViewComponent implements OnInit {
     public common: CommonService,
     public api: ApiService,
     public activeModal: NgbActiveModal,
-    public renderer:Renderer
+    public renderer: Renderer
   ) {
 
     this.lrId = this.common.params.lrId;
@@ -38,13 +38,11 @@ export class LRViewComponent implements OnInit {
       lrId: this.lrId
     }
     console.log("params", params);
-    this.api.post('LorryReceiptsOperation/printLR', params)
+    this.api.post('LorryReceiptsOperation/lrDetails', params)
       .subscribe(res => {
         --this.common.loading;
-        console.log("response data", JSON.parse(res['data'][0].fn_printlrdetails).result);
-        this.lrDetails = JSON.parse(res['data'][0].fn_printlrdetails).result[0];
-        // this.lrDetails.branch_address=document.getElementById('branch_address').innerHTML;
-        this.particulars = JSON.parse(res['data'][0].fn_printlrdetails).details;
+        this.lrDetails = JSON.parse(res['data']).result[0];
+        this.particulars = JSON.parse(res['data']).details;
 
         console.log('this.lrDetails:', this.lrDetails);
         console.log('this.particulars:', this.particulars[0]);
@@ -58,13 +56,13 @@ export class LRViewComponent implements OnInit {
   }
 
 
-  onPrint(){
+  onPrint() {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);
 
 
-}
+  }
 
   findCustomFields(customFields) {
     if (!customFields) return [];
@@ -80,7 +78,7 @@ export class LRViewComponent implements OnInit {
   }
 
 
-    
+
 }
 
 

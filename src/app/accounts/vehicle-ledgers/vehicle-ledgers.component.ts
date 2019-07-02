@@ -38,6 +38,7 @@ export class VehicleLedgersComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public modalService: NgbModal) {
+    this.common.refresh = this.refresh.bind(this);
     this.getVehList();
     this.setAutoSuggestion();
     this.common.currentPage = 'Vehicle Ledger';
@@ -152,23 +153,23 @@ export class VehicleLedgersComponent implements OnInit {
       const params = {
         name: this.vehLedgerList[i],
         alias_name: this.vehLedgerList[i],
-        code: 'null',
+        code: '',
         account_id: this.underGroupDetails.id,
         per_rate: 0,
         primarygroupid: 0,
-        accDetails: 'null',
-        branchname: 'null',
-        branchcode: 'null',
-        accnumber: 'null',
+        accDetails: '',
+        branchname: '',
+        branchcode: '',
+        accnumber: '',
         creditdays: 0,
         openingbalance: 0.0,
-        isdr: 'null',
-        approved: 'null',
-        deleteview: 'null',
-        delete: 'null',
+        isdr: 1,
+        approved: 1,
+        deleteview: 0,
+        delete: 0,
         x_id: 0,
-        bankname: 'null',
-        costcenter: 'null'
+        bankname: '',
+        costcenter: 0
       };
       console.log('params', params);
       let promise = new Promise((resolve, reject) => {
@@ -179,26 +180,49 @@ export class VehicleLedgersComponent implements OnInit {
     }
 
     Promise.all(promises).then(res => {
+      this.common.showToast('Ledger Has been saved!');
+    this.getVehList();
       console.log('_______________Promise____________Output:', res);
     }).catch(err => {
       console.log('__________________Promise____________Error:', err);
+      this.common.showError();
     });
 
   }
 
-  getGroupInfo(groupDetail) {
-    this.underGroupDetails.name = groupDetail.name;
-    this.underGroupDetails.id = groupDetail.id;
-    this.underGroupDetails.primarygroup_id = groupDetail.primarygroup_id;
-    console.log('detail group;;;;;;;', groupDetail);
+  // getGroupInfo(groupDetail) {
+  //   this.underGroupDetails.name = groupDetail.name;
+  //   this.underGroupDetails.id = groupDetail.id;
+  //   this.underGroupDetails.primarygroup_id = groupDetail.primarygroup_id;
+  //   console.log('detail group;;;;;;;', groupDetail);
 
+  // }
+
+  refresh() {
+    this.getVehList();
+  }
+
+  onSelected(selectedData, type, display) {
+    console.log('selectedData',selectedData);
+    this.underGroupDetails.name = selectedData[display];
+    this.underGroupDetails.id = selectedData.id;
+   this.underGroupDetails.primarygroup_id = selectedData.primarygroup_id;
+
+    // console.log('Selected Data: ', selectedData, type, display);
+    // console.log('order User: ', this.DayBook);
   }
 
   
   keyHandler(event) {
     const key = event.key.toLowerCase();
    // this.activeId = document.activeElement.id;
-    if ((key.includes('arrowup') || key.includes('arrowdown')) && this.vehList.length) {
+//console.log('key 1111',key);
+if ((key.includes('arrowup') || key.includes('arrowdown')) && key.includes('undergroup')) {
+
+}
+
+
+  else if ((key.includes('arrowup') || key.includes('arrowdown')) && this.vehList.length) {
      
       /************************ Handle Table Rows Selection ********************** */
       if (key == 'arrowup' && this.selectedRow != 0) this.selectedRow--;

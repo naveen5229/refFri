@@ -1,32 +1,30 @@
-nb-card-header {
-    border-bottom: 1px solid #ccc;
-}
-
-.table-conan {
-    table {
+.table-conan{
+    table{
         width: 100%;
-        tr {
-            white-space: nowrap;
-            td {
-                padding: 5px;
-                button {
-                    border-radius: 3px;
-                    padding: 5px 10px;
+        tbody{
+            tr{
+                td{
+                    padding:2px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    button{
+                        border-radius: 3px;
+                        padding: 3px 7px;
+                        width: 100%;
+                    }
                 }
             }
         }
     }
-}
-
-.submit {
+ }
+ .submit{
     border-radius: 3px;
     padding: 8px 15px;
     text-transform: capitalize;
-}
-
-:host ::ng-deep #cardMapping .tableFixHead {
-    height: auto !important;
-}
+ }
+ :host ::ng-deep .tableFixHead{
+    height: auto !important
+ }
 
 :host ::ng-deep .fa-trash-alt {
     color: black;
