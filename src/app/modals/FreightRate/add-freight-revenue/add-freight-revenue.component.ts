@@ -7,7 +7,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'add-freight-revenue',
   templateUrl: './add-freight-revenue.component.html',
-  styleUrls: ['./add-freight-revenue.component.scss']
+  styleUrls: ['./add-freight-revenue.component.scss', '../../../pages/pages.component.css']
 })
 export class AddFreightRevenueComponent implements OnInit {
   revenue = {
@@ -45,10 +45,11 @@ export class AddFreightRevenueComponent implements OnInit {
       this.revenue.vehicleType = this.common.params.row._vehasstype;
       this.revenue.vehicleRegNo = this.common.params.row.Regno;
       this.revenue.vehicleId = this.common.params.row._vid;
-      this.revenue.amount = this.common.params.row.Amount
+      this.revenue.amount = this.common.params.row.Revenue;
       this.revenue.date = this.common.params.row._dttime ? new Date(this.common.params.row._dttime) : date;
       this.revenue.refernceType = this.common.params.row._ref_type;
       this.revenue.refTypeName = this.common.params.row['Ref Name'];
+      this.revenue.refId = this.common.params.row._ref_id;
       this.refernceTypes();
       this.revenue.damage = this.common.params.row._damage_penality;
       this.revenue.delay = this.common.params.row._delay_penality;
@@ -82,9 +83,10 @@ export class AddFreightRevenueComponent implements OnInit {
     this.resetRefernceType();
   }
 
-  resetRefernceType() {
+  resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
-    this.revenue.refernceType = null;
+    if (isReset)
+      this.revenue.refernceType = null;
     this.refernceData = [];
   }
   getvehicleData(vehicle) {
@@ -93,6 +95,7 @@ export class AddFreightRevenueComponent implements OnInit {
   }
 
   refernceTypes() {
+
     let type = this.revenue.refernceType + "";
 
     let url = null;

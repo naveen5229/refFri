@@ -59,7 +59,7 @@
         </div>
         <div class="col-6 pl-0">
           <input type="number" class="form-control" maxlength="10" name="revenueamount" id="revenueamount"
-            ([ngModel])="revenue.amount">
+            [(ngModel)]="revenue.amount">
         </div>
       </div>
     </div>
@@ -71,7 +71,8 @@
           <span><b>Reference Type</b></span>
         </div>
         <div class="col-4">
-          <select class="form-control" name="reftype" [(ngModel)]="revenue.refernceType" (change)="refernceTypes()">
+          <select class="form-control" name="reftype" [(ngModel)]="revenue.refernceType"
+            (change)="resetRefernceType(false);refernceTypes()">
             <option value="0">Select Type</option>
             <option value="11">Lr</option>
             <option value="12">Manifest</option>

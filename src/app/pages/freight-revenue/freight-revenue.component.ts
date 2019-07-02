@@ -32,13 +32,17 @@ export class FreightRevenueComponent implements OnInit {
     public user: UserService,
     private modalService: NgbModal) {
     this.viewFreightRevenue();
+    this.common.refresh = this.refresh.bind(this);
+
   }
 
   ngOnInit() {
   }
 
 
-
+  refresh() {
+    this.viewFreightRevenue();
+  }
 
 
   viewFreightRevenue() {
@@ -179,6 +183,9 @@ export class FreightRevenueComponent implements OnInit {
     const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
     activeModal.result.then(data => {
       console.log('Date:', data);
+      if (data) {
+        this.viewFreightRevenue();
+      }
     });
   }
 
