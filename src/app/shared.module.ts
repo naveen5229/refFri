@@ -19,6 +19,7 @@ import { ViewModalServiceComponent } from './vehicle-maintenance/view-modal-serv
 import { ViewSubModalServiceComponent } from './vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 import { DriverModule } from './driver/driver.module';
 import { VehiclesComponent } from './admin/vehicles/vehicles.component';
+import { ViaRoutesComponent } from './admin/via-routes/via-routes.component';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -33,6 +34,7 @@ const PAGES_COMPONENTS = [
     ViewModalServiceComponent,
     ViewSubModalServiceComponent,
     VehiclesComponent,
+    ViaRoutesComponent
 
 
 
