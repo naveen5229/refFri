@@ -14,7 +14,7 @@
       <label>State</label>
     </div>
     <div class="col-5">
-      <select class="form-control" (change)="getSelection()" [(ngModel)]="id">
+      <select class="form-control" (change)="getSelection();resetData()" [(ngModel)]="id">
         <option *ngFor="let status of option" [value]="status.id">
           {{status.name}}
 
@@ -22,20 +22,24 @@
       </select>
     </div>
     <div class="col-4" *ngIf="id==1">
-      <auto-suggestion (onSelected)="selectName($event)" url="Suggestion/getDriverName" display="empname">
+      <auto-suggestion (onSelected)="selectName($event)" url="Suggestion/getDriverName" display="empname"
+        inputId="driver" [preSelected]="{empname:refDetails}">
       </auto-suggestion>
     </div>
     <div class="col-4" *ngIf="id==2">
-      <auto-suggestion (onSelected)="selectElogistName($event)" url="Suggestion/getElogistDriverList" display="empname">
+      <auto-suggestion (onSelected)="selectElogistName($event)" inputId="driver" url="Suggestion/getElogistDriverList"
+        display="empname" [preSelected]="{empname:refDetails}">
       </auto-suggestion>
     </div>
 
     <div class="col-4" *ngIf="id==3">
-      <auto-suggestion (onSelected)="selectBranch($event)" url="Suggestion/getBranchName" display="name">
+      <auto-suggestion (onSelected)="selectBranch($event)" url="Suggestion/getBranchName" display="name"
+        inputId="driver" [preSelected]="{name:refDetails}">
       </auto-suggestion>
     </div>
     <div class="col-4" *ngIf="id==4">
-      <auto-suggestion (onSelected)="selectFOAdmin($event)" url="Suggestion/getFoAdminList" display="name">
+      <auto-suggestion (onSelected)="selectFOAdmin($event)" url="Suggestion/getFoAdminList" display="name"
+        inputId="driver" [preSelected]="{name:refDetails}">
       </auto-suggestion>
     </div>
 
@@ -50,7 +54,8 @@
 
 
     <div class="col-4" *ngIf="id==11">
-      <auto-suggestion (onSelected)="selectWareHouse($event)" url="Suggestion/getWarehouseName" display="regno">
+      <auto-suggestion (onSelected)="selectWareHouse($event)" url="Suggestion/getWarehouseName" display="name"
+        [preSelected]="{name:refDetails}">
       </auto-suggestion>
     </div>
 
