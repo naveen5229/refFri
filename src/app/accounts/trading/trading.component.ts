@@ -78,6 +78,8 @@ export class TradingComponent implements OnInit {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_subgroupname');
+    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_subgroupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
@@ -116,6 +118,46 @@ export class TradingComponent implements OnInit {
     console.log('first Section:', this.liabilities);
     console.log('last Section:', this.assets);
 
+    this.liabilities.map(libility => {
+      let subGroups = _.groupBy(libility.balanceSheets, 'y_subgroupname');
+      libility.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(balanceSheet => {
+            total += parseFloat(balanceSheet.y_amount)
+          });
+          libility.subGroups.push({
+            name: key,
+            balanceSheets: subGroups[key],
+            total
+          });
+
+        });
+      }
+      delete libility.balanceSheets;
+    });
+
+    this.assets.map(asset => {
+      let subGroups = _.groupBy(asset.balanceSheets, 'y_subgroupname');
+      asset.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(balanceSheet => {
+            total += parseFloat(balanceSheet.y_amount)
+          });
+          asset.subGroups.push({
+            name: key,
+            balanceSheets: subGroups[key],
+            total
+          });
+
+          console.log(subGroups[key], total);
+        });
+      }
+      delete asset.balanceSheets;
+    });
 
   }
 

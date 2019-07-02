@@ -46,6 +46,7 @@ import { TicketSubscribeComponent } from './ticket-subscribe/ticket-subscribe.co
 import { BeehiveComponent } from './beehive/beehive.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { FuelRulesComponent } from './fuel-rules/fuel-rules.component';
+import { FoFsMappingComponent } from './fo-fs-mapping/fo-fs-mapping.component';
 import { PumpStationAreaComponent } from './pump-station-area/pump-station-area.component';
 import { TollTransactionSummaryComponent } from './toll-transaction-summary/toll-transaction-summary.component';
 import { ManualTollTransactionSummaryComponent } from './manual-toll-transaction-summary/manual-toll-transaction-summary.component';
@@ -62,8 +63,8 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
-
-
+import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
+import { ChartModule } from 'angular2-chartjs';
 
 const PAGES_COMPONENTS = [
   AdminComponent,
@@ -87,11 +88,13 @@ const PAGES_COMPONENTS = [
   FuelRulesComponent,
   PumpStationAreaComponent,
   TollTransactionSummaryComponent,
+  FoFsMappingComponent,
   //  ConsolidateFuelAverageComponent,
   FuelAverageIssuesComponent,
   FuelAnalysisComponent,
   TripAnalysisComponent,
-  VscDiagnosisComponent
+  VscDiagnosisComponent,
+  PodDashboardComponent
 
 
 
@@ -109,6 +112,7 @@ const PAGES_COMPONENTS = [
     DriverModule,
     ImageViewerModule,
     SharedModule,
+    ChartModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -146,7 +150,10 @@ const PAGES_COMPONENTS = [
     TripAnalysisComponent,
     FuelAnalysisComponent,
     VscDiagnosisComponent,
-    ViaRoutesComponent,
+    BufferPolylineComponent,
+    PodDashboardComponent,
+
+    // ViaRoutesComponent,
     BufferPolylineComponent
   ],
   exports: [

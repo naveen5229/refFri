@@ -412,14 +412,14 @@ export class MapService {
     }
   }
 
-  createPolygonPath(polygonOptions?) {
+  createPolygonPath(polygonOptions?,drawVertix?) {
     google.maps.event.addListener(this.map, 'click', (event) => {
       if (this.isDrawAllow) {
-        this.createPolyPathManual(event.latLng, polygonOptions);
+        this.createPolyPathManual(event.latLng, polygonOptions,drawVertix);
       }
     });
   }
-  createPolyPathManual(latLng, polygonOptions?) {
+  createPolyPathManual(latLng, polygonOptions?,drawVertix?) {
     console.log("In Here");
     if (!this.polygonPath) {
       const defaultPolygonOptions = {
@@ -436,10 +436,10 @@ export class MapService {
     }
     let path = this.polygonPath.getPath();
     path.push(latLng);
-    this.polygonPathVertices.push(this.createSingleMarker(latLng));
+    drawVertix && this.polygonPathVertices.push(this.createSingleMarker(latLng));
     return this.polygonPath;
   }
-  createPolyPathDetached(latLng, polygonOptions?) {
+  createPolyPathDetached(latLng, polygonOptions?,drawVertix?) {
     console.log("In Here");
     if (!this.poly) {
       const defaultPolygonOptions = {
@@ -456,7 +456,7 @@ export class MapService {
     }
     let path = this.poly.getPath();
     path.push(this.createLatLng(latLng.lat, latLng.lng));
-    this.polyVertices.push(this.createSingleMarker(latLng));
+    drawVertix && this.polyVertices.push(this.createSingleMarker(latLng));
     return this.poly;
   }
   undoPolyPath(polyLine?) {
@@ -466,7 +466,7 @@ export class MapService {
 
 
 
-  createPolyPathsManual(latLngsAll, afterClick?) {
+  createPolyPathsManual(latLngsAll, afterClick?,drawVertix?) {
     latLngsAll.forEach((latLngAll) => {
       console.log("hereout");
       this.poly = null;
@@ -476,7 +476,7 @@ export class MapService {
         this.createPolyPathDetached(latLng);
       });
       this.polygonPaths.push(this.poly);
-      this.polygonPathsVertices.push(this.polyVertices);
+      drawVertix && this.polygonPathsVertices.push(this.polyVertices);
       this.addListerner(this.poly, 'click', function (event) { afterClick(latLngAll, event); });
       console.log(this.polygonPaths);
 

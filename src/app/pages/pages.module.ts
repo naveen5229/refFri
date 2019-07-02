@@ -64,6 +64,7 @@ import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-od
 import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
+import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 
 
 const PAGES_COMPONENTS = [
@@ -129,6 +130,7 @@ const PAGES_COMPONENTS = [
     FSEEntryComponent,
     FrieghtRateInputComponent,
     FuelIndentComponent,
+    FreightRevenueComponent,
     // CustomDatePipe
   ],
   exports: [

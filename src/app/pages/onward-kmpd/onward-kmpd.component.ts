@@ -60,7 +60,6 @@ export class onwardKmpdComponent implements OnInit {
         hideHeader: true
       }
     };
-    //  console.log('params: ', params);
     let params = {
       startdate: this.startDate,
       enddate: this.endDate

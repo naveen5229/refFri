@@ -323,7 +323,25 @@ export class VoucherComponent implements OnInit {
         this.common.showError();
       });
   }
- 
+  printFunction(){
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+       // this.Vouchers = res['data'];
+        this.printVoucher(this.voucher, res['data']);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
   printVoucher(voucherdataprint, companydata) {
 
     console.log('print company data', companydata);
@@ -515,6 +533,8 @@ export class VoucherComponent implements OnInit {
         } else {
           this.addVoucher();
         }
+      }if (key == 'n'){
+          this.modelConditionsure();
       }
       return;
     }

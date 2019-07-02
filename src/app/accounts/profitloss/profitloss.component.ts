@@ -38,6 +38,18 @@ export class ProfitlossComponent implements OnInit {
   lastActiveId = '';
   showDateModal = false;
   activedateid = '';
+  active = {
+    liabilities: {
+      mainGroup: [],
+      subGroup: []
+    },
+    asset: {
+      mainGroup: [],
+      subGroup: []
+    }
+  };
+  viewType = 'sub';
+
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
@@ -48,6 +60,8 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
+    this.changeViewType();
+
   }
 
   ngOnInit() {
@@ -69,6 +83,27 @@ export class ProfitlossComponent implements OnInit {
         this.common.showError();
       });
 
+  }
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+    this.active.asset.mainGroup = [];
+    this.active.asset.subGroup = [];
+
+    if (this.viewType == 'sub') {
+      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
+      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
+    } else if (this.viewType == 'all') {
+      this.liabilities.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      this.assets.forEach((asset, i) => {
+        this.active.asset.mainGroup.push('mainGroup' + i + 0);
+        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
+      });
+    }
   }
 
   getBalanceSheet() {
@@ -98,6 +133,8 @@ export class ProfitlossComponent implements OnInit {
     let assetsGroup = _.groupBy(this.profitLossData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_subgroupname');
+    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_subgroupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
@@ -133,11 +170,60 @@ export class ProfitlossComponent implements OnInit {
     console.log('first Section:', this.liabilities);
     console.log('last Section:', this.assets);
 
+    this.liabilities.map(libility => {
+      let subGroups = _.groupBy(libility.profitLossData, 'y_subgroupname');
+      libility.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(profitLossData => {
+            total += parseFloat(profitLossData.y_amount)
+          });
+          libility.subGroups.push({
+            name: key,
+            profitLossData: subGroups[key],
+            total
+          });
 
+        });
+      }
+      delete libility.profitLossData;
+    });
+
+    console.log('first Section------:', this.liabilities);
+
+    this.assets.map(asset => {
+      let subGroups = _.groupBy(asset.profitLossData, 'y_subgroupname');
+      asset.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(profitLossData => {
+            total += parseFloat(profitLossData.y_amount)
+          });
+          asset.subGroups.push({
+            name: key,
+            profitLossData: subGroups[key],
+            total
+          });
+
+          console.log(subGroups[key], total);
+        });
+      }
+      delete asset.profitLossData;
+    });
   }
 
   filterData(assetdata, slug) {
     return assetdata.filter(data => { return (data.y_is_assets === slug ? true : false) });
+  }
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
   }
   keyHandler(event) {
     const key = event.key.toLowerCase();

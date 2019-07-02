@@ -17,24 +17,18 @@
 
           <td>
 
-            <auto-suggestion (onSelected)="routeExp.modelId = $event.id;" display="name" placeholder="Enter Model"
-              [data]="models" [preSelected]="null"></auto-suggestion>
-
-
-
-
-            <!-- <auto-suggestion (onChange)="onChangeAuto($event,'Source',i)" (onSelected)="
-              selectLocation($event,'Source',i)" (noDataFound)="takeActionSource($event,i)" [isNoDataFoundEmit]="true"
-              url="Location/getPlaceFromRedis" display="location" [inputId]="'origin-'+i" placeholder="Source"
-              [value]="routeExp.origin">
-            </auto-suggestion> -->
+            <auto-suggestion (onSelected)="routeExp.modelId = $event.id;" display="name" [data]="models" placeholder=" "
+              [preSelected]="null" (change)="resetData($event,i)"></auto-suggestion>
 
           </td>
 
           <td>ExpensesType </td>
           <td>
-            <auto-suggestion (onSelected)="routeExp.expenseType = $event.id;" display="description"
-              placeholder="Enter ExpensesType" [data]="expensesType" [preSelected]="null"></auto-suggestion>
+            <select [(ngModel)]="routeExp.expenseType">
+              <option *ngFor="let exp of expensesType;" [value]="exp.id">{{exp.description}}</option>
+            </select>
+            <!-- <auto-suggestion (onSelected)="routeExp.expenseType = $event.id;" display="description"
+              [data]="expensesType" [preSelected]="null"></auto-suggestion> -->
           </td>
 
           <td>Amount </td>
@@ -54,5 +48,6 @@
   <div class="text-right mt-3 mb-3">
     <button class="btn btn-primary submit" (click)="saveExpenses()">Submit</button>
   </div>
-
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="routeExpenses">
+  </smart-table>
 </div>

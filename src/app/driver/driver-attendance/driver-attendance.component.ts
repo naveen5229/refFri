@@ -183,32 +183,10 @@ export class DriverAttendanceComponent implements OnInit {
 
     Object.keys(this.common.params.columns.current).forEach(key => {
 
-      // let attType = this.common.params.columns.current[key]['value'];
-      // console.log('Atype', attType);
-      // if (attType == 'p' || attType == 'P') {
 
-      //   this.common.params.columns.current.id = '2';
-
-      // }
-      // else if (attType == 'a' || attType == 'A') {
-
-      //   this.common.params.columns.current.id = '0';
-
-      //   // console.log('idtype', this.common.params.columns.current.id);
-      // }
-      // else if (attType == 'H' || attType == 'h' || attType == 'HD' || attType == 'hd') {
-
-      //   this.common.params.columns.current.id = '1';
-
-      // }
-      // else {
-      //   console.log('atype', attType);
-      //   this.common.showToast('Please enter Correct Pattern');
-      // }
 
       var patt = /....-..-../i;
       if (key.match(patt)) {
-
         if (this.common.params.columns.current[key]['value'] == 'p' || this.common.params.columns.current[key]['value'] == 'P') {
           this.common.params.columns.current.id = '2';
         } else if (this.common.params.columns.current[key]['value'] == 'a' || this.common.params.columns.current[key]['value'] == 'ap' || this.common.params.columns.current[key]['value'] == 'A' || this.common.params.columns.current[key]['value'] == 'AP') {

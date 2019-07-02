@@ -13,18 +13,6 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 export class VehicleBatteryComponent implements OnInit {
 
   refmode = "701";
-  data = [];
-  table = {
-    data: {
-      headings: {},
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
-  };
-  headings = [];
-  valobj = {};
   vehicleBattery = [
     {
       refmode: "701",
@@ -135,36 +123,21 @@ export class VehicleBatteryComponent implements OnInit {
 
 
 
-  formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1);
-  }
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
+
 
   getBatteryCurrentStatus(batteryId, index) {
     console.log("vehicle Id ---", this.vehicleId, "battery====", batteryId);
-    if (!this.vehicleId || !batteryId) {
-      alert("Vehicle id and Tyre Id is Mandatory");
+    if (!batteryId) {
+      alert("Vehicle id and battery Id is Mandatory");
     } else {
       let alertMsg;
       let params = 'batteryId=' + batteryId;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreCurrentStatus?' + params)
+      this.api.get('Battery/getBatteryCurrentStatus?' + params)
         .subscribe(res => {
           console.log('Res: ', res['data']);
-          if (res['data'][0].rtn_id > 0) {
-            alertMsg = res['data'][0].rtn_msg
+          if (res['data'][0].r_id > 0) {
+            alertMsg = res['data'][0].r_msg
             this.openConrirmationAlert(alertMsg, index);
           }
 
@@ -186,7 +159,7 @@ export class VehicleBatteryComponent implements OnInit {
         // this.vehicleBattery[index].batteryNo = null;
         // console.log("data", document.getElementById('tyreNo-' + index), document.getElementById('tyreNo-' + index).innerHTML);
 
-        (<HTMLInputElement>document.getElementById('tyreNo-' + index)).value = '';
+        (<HTMLInputElement>document.getElementById('batteryNo-' + index)).value = '';
       }
     });
   }

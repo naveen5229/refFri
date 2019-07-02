@@ -1,9 +1,9 @@
 <nb-card style="border:0px;">
   <nb-card-body (keydown)="keyHandler($event)">
     <span class="pdf-icon" title="PDF Export"
-      (click)="common.getPDFFromTableId('table',headingName,common.currentPage,'','')" style="cursor: pointer;"><i
+    (click)="pdfFunction()" style="cursor: pointer;"><i
         class="fa fa-file-pdf"></i></span>
-    <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+    <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
 

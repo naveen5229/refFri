@@ -49,11 +49,11 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   addViaRoutes() {
-    if (!this.foData) {
-      this.common.showError("Please select FoUser");
-      return false;
-    }
-    this.common.params = { foData: this.foData };
+    // if (!this.foData) {
+    //   this.common.showError("Please select FoUser");
+    //   return false;
+    // }
+    // this.common.params = { foData: this.foData };
     this.common.handleModalSize('class', 'modal-lg', '1250');
 
     const activeModal = this.modalService.open(AddViaRoutesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
@@ -80,9 +80,12 @@ export class ViaRoutesComponent implements OnInit {
   }
 
   viewTable() {
+
     this.viaRoutes = [];
+    this.common.loading++;
     this.api.get('ViaRoutes/view')
       .subscribe(res => {
+        this.common.loading--;
         this.viaRoutes = res['data'];
         let first_rec = this.viaRoutes[0];
         for (var key in first_rec) {
@@ -92,7 +95,7 @@ export class ViaRoutesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideHeader: true };
+        let action = { title: this.formatTitle('Action'), placeholder: this.formatTitle('Action'), hideSearch: true };
         this.table.data.headings['action'] = action;
         this.table.data.columns = this.getTableColumns();
       }, err => {
