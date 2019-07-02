@@ -58,8 +58,8 @@
           <span><b>Revenue(₹)</b></span>
         </div>
         <div class="col-6 pl-0">
-          <input type="number" class="form-control" maxlength="10" name="revenueamount" id="revenueamount"
-            [(ngModel)]="revenue.amount">
+          <input type="number" class="form-control" (input)="checkValue(revenue,'amount',100000)" name="revenueamount"
+            id="revenueamount" [(ngModel)]="revenue.amount">
         </div>
       </div>
     </div>
@@ -101,15 +101,15 @@
           <span><b>Shortage(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
-          <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
-            [(ngModel)]="revenue.shortage">
+          <input type="number" class="form-control" (input)="checkValue(revenue,'shortage',100000)" name="shortage"
+            id="shortage" [(ngModel)]="revenue.shortage">
         </div>
         <div class="col-3">
           <span><b>Damage(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
-          <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
-            [(ngModel)]="revenue.damage">
+          <input type="number" class="form-control" (input)="checkValue(revenue,'damage',100000)" name="damage"
+            id="damage" [(ngModel)]="revenue.damage">
         </div>
       </div>
 
@@ -120,7 +120,8 @@
           <span><b>Delay(₹)</b></span>
         </div>
         <div class="col-8">
-          <input type="number" class="form-control" maxlength="10" name="delay" id="delay" [(ngModel)]="revenue.delay">
+          <input type="number" class="form-control" (input)="checkValue(revenue,'delay',100000)" name="delay" id="delay"
+            [(ngModel)]="revenue.delay">
 
         </div>
       </div>
@@ -138,18 +139,18 @@
     <div class="col-6 offset-1">
       <div class="row">
         <div class="col-3">
-          <span><b>L Detention(₹)</b></span>
+          <span><b>Load Detention(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
-          <input type="number" class="form-control" maxlength="10" name="shortage" id="shortage"
-            [(ngModel)]="revenue.loadDetention">
+          <input type="number" class="form-control" (input)="checkValue(revenue,'loadDetention',100000)"
+            name="Detention" id="Detention" [(ngModel)]="revenue.loadDetention">
         </div>
         <div class="col-3">
-          <span><b>UL Detention(₹)</b></span>
+          <span><b>Unload Detention(₹)</b></span>
         </div>
         <div class="col-3 pl-0">
-          <input type="number" class="form-control" maxlength="10" name="damage" id="damage"
-            [(ngModel)]="revenue.unloadDetention">
+          <input type="number" class="form-control" (input)="checkValue(revenue,'unloadDetention',100000)"
+            name="unloadDetention" id="unloadDetention" [(ngModel)]="revenue.unloadDetention">
         </div>
       </div>
     </div>
@@ -159,12 +160,11 @@
           <span><b>Tolls(₹)</b></span>
         </div>
         <div class="col-8">
-          <input type="number" class="form-control" name="delay" id="delay" [(ngModel)]="revenue.tolls">
+          <input type="number" class="form-control" name="tolls" id="tolls" (input)="checkValue(revenue,'tolls',100000)"
+            [(ngModel)]="revenue.tolls">
         </div>
       </div>
     </div>
-
-
   </div>
 
   <div class="row mb-4">
@@ -174,7 +174,8 @@
           <span><b>Other Amount(₹)</b></span>
         </div>
         <div class="col-6 pl-0">
-          <input type="number" class="form-control" name="amount" id="amount" [(ngModel)]="revenue.otherAmount">
+          <input type="number" class="form-control" name="amount" id="amount"
+            (input)="checkValue(revenue,'otherAmount',100000)" [(ngModel)]="revenue.otherAmount">
         </div>
       </div>
     </div>
@@ -189,7 +190,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="modal-footer">

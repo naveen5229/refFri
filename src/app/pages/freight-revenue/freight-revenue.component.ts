@@ -13,7 +13,8 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./freight-revenue.component.scss', '../pages.component.css']
 })
 export class FreightRevenueComponent implements OnInit {
-
+  startTime = new Date(new Date().setDate(new Date().getDate() - 15));;
+  endTime = new Date();
   data = [];
   table = {
     data: {
@@ -46,8 +47,14 @@ export class FreightRevenueComponent implements OnInit {
 
 
   viewFreightRevenue() {
-    let params = {
+    if (!this.startTime || !this.endTime) {
+      this.common.showError("Dates cannot be blank.");
+      return;
+    }
 
+    let params = {
+      startTime: this.common.dateFormatter(this.startTime),
+      endTime: this.common.dateFormatter(this.endTime)
     }
     console.log("params", params);
     ++this.common.loading;
