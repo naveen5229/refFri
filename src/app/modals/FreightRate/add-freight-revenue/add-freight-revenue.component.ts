@@ -153,6 +153,9 @@ export class AddFreightRevenueComponent implements OnInit {
       case '13':
         url = "Suggestion/getVehicleStates";
         break;
+      case '14':
+        url = "Suggestion/getVehicleTrips";
+        break;
       default:
         url = null;
         return;
