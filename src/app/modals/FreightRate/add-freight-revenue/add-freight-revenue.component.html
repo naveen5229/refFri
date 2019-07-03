@@ -5,6 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
+
   <div class="row mb-3">
     <div class="col-6">
       <div class="row">
@@ -47,151 +48,197 @@
 
 
   </div>
-
-  <div class="row mb-3">
-    <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Revenue</h5>
-    </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3 offset-2">
-          <span><b>Revenue(₹)</b></span>
-        </div>
-        <div class="col-6 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'amount',100000)" name="revenueamount"
-            id="revenueamount" [(ngModel)]="revenue.amount">
-        </div>
+  <form [formGroup]="revenueForm" name="revenue-Form" id="revenue-Form" (submit)="revenueForm.valid && saveRevenue()">
+    <div class="row mb-3">
+      <div class="col-12">
+        <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Revenue</h5>
       </div>
-    </div>
+      <div class="col-6">
 
+        <div class="row">
+          <div class="col-3 offset-2">
+            <span><b>Revenue(₹)</b></span>
+          </div>
+          <div class="col-6 pl-0">
+            <input type="text" class="form-control" formControlName="revenueAmount" name="revenueamount"
+              id="revenueamount" [(ngModel)]="revenue.amount"
+              [ngClass]="{ 'is-invalid': isFormSubmit && f.revenueAmount.errors }">
+            <div *ngIf="isFormSubmit && f.revenueAmount.errors" class="invalid-feedback">
+              <div *ngIf="f.revenueAmount.errors.required">Minimum Value is 0</div>
 
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3 pr-0">
-          <span><b>Reference Type</b></span>
-        </div>
-        <div class="col-4">
-          <select class="form-control" name="reftype" [(ngModel)]="revenue.refernceType"
-            (change)="resetRefernceType(false);refernceTypes()">
-            <option value="0">Select Type</option>
-            <option value="11">Lr</option>
-            <option value="12">Manifest</option>
-            <option value="13">State</option>
-          </select>
+              <div *ngIf="f.revenueAmount.errors.minlength==0">Minimum Value is 0</div>
+              <div *ngIf="f.revenueAmount.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
         </div>
 
-        <div class="col-5">
-          <auto-suggestion (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest"
-            display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
-            [preSelected]="{source_dest:revenue.refTypeName}">
-          </auto-suggestion>
-        </div>
       </div>
-    </div>
 
-  </div>
 
-  <div class="row mb-3">
-    <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Penalty</h5>
-    </div>
-    <div class="col-6 offset-1">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Shortage(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'shortage',100000)" name="shortage"
-            id="shortage" [(ngModel)]="revenue.shortage">
-        </div>
-        <div class="col-3">
-          <span><b>Damage(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'damage',100000)" name="damage"
-            id="damage" [(ngModel)]="revenue.damage">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-3 pr-0">
+            <span><b>Reference Type</b></span>
+          </div>
+          <div class="col-4">
+            <select class="form-control" name="reftype" formControlName="revenueType" [(ngModel)]="revenue.refernceType"
+              (change)="resetRefernceType(false);refernceTypes()">
+              <option value="0">Select Type</option>
+              <option value="11">Lr</option>
+              <option value="12">Manifest</option>
+              <option value="13">State</option>
+              <option value="14">Trip</option>
+            </select>
+          </div>
+
+          <div class="col-5">
+            <auto-suggestion controlName="autoSuggestion" [parentForm]="revenueForm"
+              (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest" display="source_dest"
+              placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
+              [preSelected]="{source_dest:revenue.refTypeName}">
+            </auto-suggestion>
+          </div>
         </div>
       </div>
 
     </div>
-    <div class="col-3">
-      <div class="row">
-        <div class="col-4">
-          <span><b>Delay(₹)</b></span>
-        </div>
-        <div class="col-8">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'delay',100000)" name="delay" id="delay"
-            [(ngModel)]="revenue.delay">
 
+    <div class="row mb-3">
+
+      <div class="col-12">
+        <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Penalty</h5>
+      </div>
+      <div class="col-6 offset-1">
+        <div class="row">
+          <div class="col-3">
+            <span><b>Shortage(₹)</b></span>
+          </div>
+          <div class="col-3 pl-0">
+            <input type="text" class="form-control" formControlName="shortageAmount" name="shortage" id="shortage"
+              [(ngModel)]="revenue.shortage" [ngClass]="{ 'is-invalid': isFormSubmit && f.shortageAmount.errors }">
+            <div *ngIf="isFormSubmit && f.shortageAmount.errors" class="invalid-feedback">
+              <div *ngIf="f.shortageAmount.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.shortageAmount.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
+          <div class="col-3">
+            <span><b>Damage(₹)</b></span>
+          </div>
+          <div class="col-3 pl-0">
+            <input type="text" class="form-control" formControlName="damageAmount" name="damage" id="damage"
+              [(ngModel)]="revenue.damage" [ngClass]="{ 'is-invalid': isFormSubmit && f.damageAmount.errors }">
+            <div *ngIf="isFormSubmit && f.damageAmount.errors" class="invalid-feedback">
+              <div *ngIf="f.damageAmount.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.damageAmount.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-3">
+        <div class="row">
+          <div class="col-4">
+            <span><b>Delay(₹)</b></span>
+          </div>
+          <div class="col-8">
+            <input type="number" class="form-control" formControlName="delayAmount" name="delay" id="delay"
+              [(ngModel)]="revenue.delay" [ngClass]="{ 'is-invalid': isFormSubmit && f.delayAmount.errors }">
+            <div *ngIf="isFormSubmit && f.delayAmount.errors" class="invalid-feedback">
+              <div *ngIf="f.delayAmount.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.delayAmount.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-12">
+        <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Reimbursement</h5>
+      </div>
+      <div class="col-6 offset-1">
+        <div class="row">
+          <div class="col-3 pr-0">
+            <span><b>Load Detention(₹)</b></span>
+          </div>
+          <div class="col-3 pl-0">
+            <input type="number" class="form-control" formControlName="loadDetention" name="Detention" id="Detention"
+              [(ngModel)]="revenue.loadDetention" [ngClass]="{ 'is-invalid': isFormSubmit && f.loadDetention.errors }">
+            <div *ngIf="isFormSubmit && f.loadDetention.errors" class="invalid-feedback">
+              <div *ngIf="f.loadDetention.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.loadDetention.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
+          <div>
+            <span><b>Unload Detention(₹)</b></span>
+          </div>
+          <div class="col-3 pl-0">
+            <input type="number" class="form-control" formControlName="unloadDetention" name="unloadDetention"
+              id="unloadDetention" [(ngModel)]="revenue.unloadDetention"
+              [ngClass]="{ 'is-invalid': isFormSubmit && f.unloadDetention.errors }">
+            <div *ngIf="isFormSubmit && f.unloadDetention.errors" class="invalid-feedback">
+              <div *ngIf="f.unloadDetention.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.unloadDetention.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="row">
+          <div class="col-4">
+            <span><b>Tolls(₹)</b></span>
+          </div>
+          <div class="col-8">
+            <input type="number" class="form-control" name="tolls" id="tolls" formControlName="tollsAmount"
+              [(ngModel)]="revenue.tolls" [ngClass]="{ 'is-invalid': isFormSubmit && f.tollsAmount.errors }">
+            <div *ngIf="isFormSubmit && f.tollsAmount.errors" class="invalid-feedback">
+              <div *ngIf="f.tollsAmount.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.tollsAmount.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-
-
-
-  </div>
-
-  <div class="row mb-5">
-    <div class="col-12">
-      <h5 class="mb-3 pb-2" style="border-bottom: 1px solid #ccc; font-weight: 700">Reimbursement</h5>
-    </div>
-    <div class="col-6 offset-1">
-      <div class="row">
-        <div class="col-3 pr-0">
-          <span><b>Load Detention(₹)</b></span>
+    <div class="row mb-4">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-6">
+            <span><b>Other Amount(₹)</b></span>
+          </div>
+          <div class="col-6 pl-0">
+            <input type="number" class="form-control" name="amount" id="amount" formControlName="otherAmount"
+              [(ngModel)]="revenue.otherAmount" [ngClass]="{ 'is-invalid': isFormSubmit && f.otherAmount.errors }">
+            <div *ngIf="isFormSubmit && f.otherAmount.errors" class="invalid-feedback">
+              <div *ngIf="f.otherAmount.errors.minlength">Minimum Value is 0</div>
+              <div *ngIf="f.otherAmount.errors.maxlength">Maximum Value is 600000</div>
+            </div>
+          </div>
         </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'loadDetention',100000)"
-            name="Detention" id="Detention" [(ngModel)]="revenue.loadDetention">
-        </div>
-        <div class="col-3 pr-0">
-          <span><b>Unload Detention(₹)</b></span>
-        </div>
-        <div class="col-3 pl-0">
-          <input type="number" class="form-control" (input)="checkValue(revenue,'unloadDetention',100000)"
-            name="unloadDetention" id="unloadDetention" [(ngModel)]="revenue.unloadDetention">
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-3">
+            <span><b>Remark</b></span>
+          </div>
+          <div class="col-9 pl-0">
+            <textarea rows="5" name="remark" formControlName="Remarks" id="remark" row="5" rows="3" class="form-control"
+              [(ngModel)]="revenue.remark"></textarea>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-3">
-      <div class="row">
-        <div class="col-4">
-          <span><b>Tolls(₹)</b></span>
-        </div>
-        <div class="col-8">
-          <input type="number" class="form-control" name="tolls" id="tolls" (input)="checkValue(revenue,'tolls',100000)"
-            [(ngModel)]="revenue.tolls">
-        </div>
-      </div>
-    </div>
-  </div>
+  </form>
 
-  <div class="row mb-4">
-    <div class="col-3">
-      <div class="row">
-        <div class="col-6">
-          <span><b>Other Amount(₹)</b></span>
-        </div>
-        <div class="col-6 pl-0">
-          <input type="number" class="form-control" name="amount" id="amount"
-            (input)="checkValue(revenue,'otherAmount',100000)" [(ngModel)]="revenue.otherAmount">
-        </div>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-3">
-          <span><b>Remark</b></span>
-        </div>
-        <div class="col-9 pl-0">
-          <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
-            [(ngModel)]="revenue.remark"></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="saveRevenue()">{{revenue.id?'Edit':'Add'}}</button>
-  </div>
+
+
+<div class="modal-footer">
+  <button class="btn btn-primary" form="revenue-Form" id=""
+    (click)="isFormSubmit=true">{{revenue.id?'Edit':'Add'}}</button>
+</div>
