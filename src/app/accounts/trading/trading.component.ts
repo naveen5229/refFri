@@ -49,7 +49,7 @@ export class TradingComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'sub';
+  viewType = 'main';
 
   constructor(public api: ApiService,
     public common: CommonService,

@@ -3,6 +3,16 @@
     <h4>Ledger View</h4>
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
+    <!-- View Expand -->
+    <div class="expand-div">
+        <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
+        <label>Expand Group</label>
+        <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
+        <label>Expand Sub Group</label>
+        <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
+        <label>Expand All</label>
+      </div>
+      <!-- View Expand End -->
     <div class="row">
       <div class="col-9">
         <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
@@ -42,8 +52,9 @@
         <div class="col-2">Amount(Credit)</div>
         <div class="col-2">Closing Balance</div>
     </div>
-    <div *ngFor="let traildata of trialBalanceData;  let i = index;">
-      <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == traildata.length -1 ? 'none' : ''}">
+    <div *ngFor="let traildata of trialBalanceData;  let i = index;"
+    (click)="handleExpandation($event, i, 'trialBalanceData', 'mainGroup', 0)">
+      <div class="th-mini row m-0 pl-0 pr-0" [ngStyle]="{'display':  i == trialBalanceData.length -1 ? 'none' : ''}">
         <div class="col-3">{{traildata.name}}</div>
         <div class="col-3" *ngIf="traildata.openingamount != 0">{{ traildata.openingamount | number : '1.2-2'}}<span>{{traildata.openingType}}</span></div>
         <div class="col-3" *ngIf="traildata.openingamount == 0"></div>
@@ -56,7 +67,9 @@
         <!-- <div class="col-4 text-right">{{traildata.amount | number : '1.2-2'}}</div> -->
       </div>
 
-      <div *ngFor="let subGroup of traildata.subGroups; let k = index;">
+      <div *ngFor="let subGroup of traildata.subGroups; let k = index;"
+      [hidden]="active.trialBalanceData.mainGroup.indexOf('mainGroup' + i + 0) == -1"
+            (click)="handleExpandation($event, i, 'trialBalanceData', 'subGroup', k)">
         <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
           <div class="col-3">{{subGroup.name}}</div>
           <div class="col-3" *ngIf="subGroup.openingamount != 0">{{ subGroup.openingamount | number : '1.2-2'}} <span>{{subGroup.openingType}}</span></div>
@@ -75,7 +88,8 @@
         </div>
 
         <div *ngFor="let trialBalance of subGroup.trialBalances; let j = index" class="tb-mini row m-0 pl-0 pr-0"
-          (dblclick)="(trialBalance.y_ledgerid) ? opendaybookmodel(trialBalance.y_ledgerid,trialBalance.y_ledger_name) : ' ' "
+        (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation(); " class="tb-mini row m-0 pl-0 pr-0" [hidden]="active.trialBalanceData.subGroup.indexOf('subGroup' + i + k) == -1"
+        (dblclick)="(trialBalance.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialBalance.y_ledgerid,trialBalance.y_ledger_name)"
           [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">
           <div class="col-3">{{trialBalance.y_ledger_name}}</div>
           <div style="text-align: left;" class="col-3 text-right" *ngIf="trialBalance.y_openbal != 0">
