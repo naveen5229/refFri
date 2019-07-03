@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../../services/common.service';
 import { ApiService } from '../../../services/api.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'add-freight-revenue',
@@ -10,6 +10,9 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./add-freight-revenue.component.scss', '../../../pages/pages.component.css']
 })
 export class AddFreightRevenueComponent implements OnInit {
+  isFormSubmit = false;
+  revenueForm: FormGroup;
+
   revenue = {
     id: null,
     vehicleType: 1,
@@ -31,47 +34,110 @@ export class AddFreightRevenueComponent implements OnInit {
   };
   refernceData = [];
   title = null;
+  result = [];
 
   constructor(public modalService: NgbModal,
     public common: CommonService,
     public activeModal: NgbActiveModal,
-    public api: ApiService) {
+    public api: ApiService,
+    private formBuilder: FormBuilder) {
     this.common.handleModalSize('class', 'modal-lg', '1100');
     this.title = this.common.params.title ? this.common.params.title : '';
     console.log("Row data:", this.common.params.row);
     if (this.common.params.row) {
-      let date = new Date();
       this.revenue.id = this.common.params.row._id;
-      this.revenue.vehicleType = this.common.params.row._vehasstype;
-      this.revenue.vehicleRegNo = this.common.params.row.Regno;
-      this.revenue.vehicleId = this.common.params.row._vid;
-      this.revenue.amount = this.common.params.row.Revenue;
-      this.revenue.date = this.common.params.row._dttime ? new Date(this.common.params.row._dttime) : date;
-      this.revenue.refernceType = this.common.params.row._ref_type;
-      this.revenue.refTypeName = this.common.params.row['Ref Name'];
-      this.revenue.refId = this.common.params.row._ref_id;
-      this.refernceTypes();
-      this.revenue.damage = this.common.params.row._damage_penality;
-      this.revenue.delay = this.common.params.row._delay_penality;
-      this.revenue.shortage = this.common.params.row._short_penality;
-      this.revenue.loadDetention = this.common.params.row._load_detention;
-      this.revenue.unloadDetention = this.common.params.row._unload_dentention;
-      this.revenue.tolls = this.common.params.row._tolls;
-      this.revenue.otherAmount = this.common.params.row._others_amt;
-      this.revenue.remark = this.common.params.row._remarks;
+      this.getData();
+      // let date = new Date();
+      // this.revenue.vehicleType = this.common.params.row._vehasstype;
+      // this.revenue.vehicleRegNo = this.common.params.row._regno;
+      // this.revenue.vehicleId = this.common.params.row._vid;
+      // this.revenue.amount = this.common.params.row._amount;
+      // this.revenue.date = this.common.params.row._dttime ? new Date(this.common.params.row._dttime) : date;
+      // this.revenue.refernceType = this.common.params.row._ref_type;
+      // this.revenue.refTypeName = this.common.params.row._ref_name;
+      // this.revenue.refId = this.common.params.row._ref_id;
+      // this.refernceTypes();
+      // this.revenue.damage = this.common.params.row._damage_penality;
+      // this.revenue.delay = this.common.params.row._delay_penality;
+      // this.revenue.shortage = this.common.params.row._short_penality;
+      // this.revenue.loadDetention = this.common.params.row._load_detention;
+      // this.revenue.unloadDetention = this.common.params.row._unload_dentention;
+      // this.revenue.tolls = this.common.params.row._tolls;
+      // this.revenue.otherAmount = this.common.params.row._others_amt;
+      // this.revenue.remark = this.common.params.row._remarks;
 
 
 
     }
   }
 
+
   ngOnInit() {
+    this.revenueForm = this.formBuilder.group({
+      revenueAmount: ['', [Validators.required, Validators.minLength(0), Validators.maxLength(6)]],
+      revenueType: ['',],
+      autoSuggestion: ['',],
+      shortageAmount: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      damageAmount: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      delayAmount: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      tollsAmount: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      loadDetention: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      unloadDetention: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      otherAmount: ['', [Validators.minLength(0), Validators.maxLength(6)]],
+      Remarks: ['',],
+
+    });
   }
+  // convenience getter for easy access to form fields
+  get f() { return this.revenueForm.controls; }
+
+
   closeModal() {
     this.activeModal.close();
   }
-  resetData(type) {
 
+
+
+
+  getData() {
+    let params = {
+      id: this.revenue.id,
+    }
+    console.log("params", params);
+    this.api.post("FrieghtRate/viewSingleRevenue", params)
+      .subscribe(res => {
+        this.result = res['data'];
+        console.log("Data", this.result);
+        console.log("Date2", this.result[0]._vehasstype);
+
+
+        let date = new Date();
+        this.revenue.vehicleType = this.result[0]._vehasstype;
+        this.revenue.vehicleRegNo = this.result[0]._regno;
+        this.revenue.vehicleId = this.result[0]._vid;
+        this.revenue.amount = this.result[0]._amount;
+        this.revenue.date = this.result[0]._dttime ? new Date(this.result[0]._dttime) : date;
+        this.revenue.refernceType = this.result[0]._ref_type;
+        this.revenue.refTypeName = this.result[0]._ref_name;
+        this.revenue.refId = this.result[0]._ref_id;
+        this.refernceTypes();
+        this.revenue.damage = this.result[0]._damage_penality;
+        this.revenue.delay = this.result[0]._delay_penality;
+        this.revenue.shortage = this.result[0]._short_penality;
+        this.revenue.loadDetention = this.result[0]._load_detention;
+        this.revenue.unloadDetention = this.result[0]._unload_dentention;
+        this.revenue.tolls = this.result[0]._tolls;
+        this.revenue.otherAmount = this.result[0]._others_amt;
+        this.revenue.remark = this.result[0]._remarks;
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+
+  resetData(type) {
     this.revenue.vehicleType = type.target.value;
     this.resetvehicle();
     this.refernceTypes();
@@ -145,6 +211,8 @@ export class AddFreightRevenueComponent implements OnInit {
   }
 
   saveRevenue() {
+    console.log("Params");
+
     ++this.common.loading;
     let params = {
       row_id: this.revenue.id,

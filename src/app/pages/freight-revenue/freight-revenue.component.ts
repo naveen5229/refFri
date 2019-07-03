@@ -13,7 +13,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./freight-revenue.component.scss', '../pages.component.css']
 })
 export class FreightRevenueComponent implements OnInit {
-  startTime = new Date(new Date().setDate(new Date().getDate() - 15));;
+  startTime = new Date(new Date().setDate(new Date().getDate() - 15));
   endTime = new Date();
   data = [];
   table = {
