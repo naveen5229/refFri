@@ -67,7 +67,7 @@
               <div class="col-sm-3">
                 <label>
                   Front / Rear
-                  <select [(ngModel)]="vehicleTyre.frontRear" class="form-control" required>
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.frontRear" class="form-control" required>
                     <option value="1">Front</option>
                     <option value="2">Rear</option>
                     <option value="3">Extra</option>
@@ -77,7 +77,7 @@
 
               <div class="col-sm-2">
                 <label> Axel
-                  <select [(ngModel)]="vehicleTyre.axel" class="form-control" required>
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.axel" class="form-control" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -92,7 +92,7 @@
               </div>
               <div class="col-sm-3">
                 <label> Left / Right
-                  <select [(ngModel)]="vehicleTyre.leftRight" class="form-control" required>
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.leftRight" class="form-control" required>
                     <option value="1">Left</option>
                     <option value="2">Right</option>
                   </select>
@@ -101,7 +101,7 @@
               <div class="col-sm-2">
                 <label>
                   Position
-                  <select [(ngModel)]="vehicleTyre.pos" class="form-control" required>
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.pos" class="form-control" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
