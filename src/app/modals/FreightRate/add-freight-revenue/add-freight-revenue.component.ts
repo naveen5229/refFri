@@ -47,26 +47,6 @@ export class AddFreightRevenueComponent implements OnInit {
     if (this.common.params.row) {
       this.revenue.id = this.common.params.row._id;
       this.getData();
-      // let date = new Date();
-      // this.revenue.vehicleType = this.common.params.row._vehasstype;
-      // this.revenue.vehicleRegNo = this.common.params.row._regno;
-      // this.revenue.vehicleId = this.common.params.row._vid;
-      // this.revenue.amount = this.common.params.row._amount;
-      // this.revenue.date = this.common.params.row._dttime ? new Date(this.common.params.row._dttime) : date;
-      // this.revenue.refernceType = this.common.params.row._ref_type;
-      // this.revenue.refTypeName = this.common.params.row._ref_name;
-      // this.revenue.refId = this.common.params.row._ref_id;
-      // this.refernceTypes();
-      // this.revenue.damage = this.common.params.row._damage_penality;
-      // this.revenue.delay = this.common.params.row._delay_penality;
-      // this.revenue.shortage = this.common.params.row._short_penality;
-      // this.revenue.loadDetention = this.common.params.row._load_detention;
-      // this.revenue.unloadDetention = this.common.params.row._unload_dentention;
-      // this.revenue.tolls = this.common.params.row._tolls;
-      // this.revenue.otherAmount = this.common.params.row._others_amt;
-      // this.revenue.remark = this.common.params.row._remarks;
-
-
 
     }
   }
@@ -96,9 +76,6 @@ export class AddFreightRevenueComponent implements OnInit {
     this.activeModal.close();
   }
 
-
-
-
   getData() {
     let params = {
       id: this.revenue.id,
@@ -109,8 +86,6 @@ export class AddFreightRevenueComponent implements OnInit {
         this.result = res['data'];
         console.log("Data", this.result);
         console.log("Date2", this.result[0]._vehasstype);
-
-
         let date = new Date();
         this.revenue.vehicleType = this.result[0]._vehasstype;
         this.revenue.vehicleRegNo = this.result[0]._regno;
@@ -161,9 +136,7 @@ export class AddFreightRevenueComponent implements OnInit {
   }
 
   refernceTypes() {
-
     let type = this.revenue.refernceType + "";
-
     let url = null;
     let params = {
       vid: this.revenue.vehicleId,
@@ -185,8 +158,6 @@ export class AddFreightRevenueComponent implements OnInit {
         return;
 
     }
-
-
     console.log("params", params);
     this.api.post(url, params)
       .subscribe(res => {
