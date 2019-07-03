@@ -48,7 +48,7 @@ export class ProfitlossComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'sub';
+  viewType = 'main';
 
   constructor(public api: ApiService,
     public common: CommonService,
