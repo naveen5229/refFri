@@ -126,7 +126,10 @@
 
     <div class="modal-footer">
       <div class="row">
-        <div class="col" *ngIf="(this.deleteId == 0)">
+          <input type="checkbox" name="print" id="print" [(ngModel)]="voucher.print"> Print After Save
+          <button class="btn btn-primary" type="button"  (click)="printFunction()" id="printfunction"
+            style="cursor: pointer;">Print</button>
+        <div class="col" *ngIf="(this.deleteId == 0  || this.deleteId == 2)">
           <button class="btn btn-danger" type="button" outline (click)="delete(1)" id="delete"
             style="cursor: pointer;">Delete</button>
         </div>
@@ -134,15 +137,18 @@
           <button class="btn btn-danger" type="button" outline (click)="permantdelete(voucher.xId)" id="permanentdelete"
             style="cursor: pointer;">Permanent Delete</button>
         </div>
-
-        <div class="col text-right" *ngIf="(this.deleteId == 0)">
+        <div class="col" *ngIf="(this.deleteId == 2)">
+          <button class="btn btn-danger" type="button" outline (click)="approve(voucher.xId)" id="permanentdelete"
+            style="cursor: pointer;">Approve</button>
+        </div>
+        <div class="col text-right" *ngIf="(this.deleteId == 0 || this.deleteId == 2 )">
           <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="submit"
             style="cursor: pointer;">Submit
           </button>
         </div>
         <div class="col text-right" *ngIf="(this.deleteId == 1)">
-          <button class="btn btn-primary" type="button" outline (click)="dismiss(true)" id="restore"
-            style="cursor: pointer;">Reatore
+          <button class="btn btn-primary" type="button" outline (click)="restore()" id="restore"
+            style="cursor: pointer;">Restore
           </button>
         </div>
         <div class="col">

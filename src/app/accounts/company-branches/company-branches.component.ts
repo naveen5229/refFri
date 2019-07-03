@@ -99,7 +99,13 @@ export class CompanyBranchesComponent implements OnInit {
       x_lr_terms: branch.lrTerm,
       x_lr_footer: branch.lrFooter,
       x_is_constcenterallow: branch.constcenter,
-      x_id: 0
+      x_id: 0,
+      siteid: branch.site.id,
+      latitude:branch.latitude,
+      longitude:branch.longitude,
+      precode:branch.precode,
+      lrcodewidth:branch.lrcodewidth,
+      lrcodelastid:branch.lrcodelastid
     };
 
     console.log("finalbranch :", params)
@@ -150,7 +156,13 @@ export class CompanyBranchesComponent implements OnInit {
       x_lr_terms: branch.lrTerm,
       x_lr_footer: branch.lrFooter,
       x_is_constcenterallow: branch.constcenter,
-      x_id: rowid
+      x_id: rowid,
+      siteid: branch.site.id,
+      latitude:branch.latitude,
+      longitude:branch.longitude,
+      precode:branch.precode,
+      lrcodewidth:branch.lrcodewidth,
+      lrcodelastid:branch.lrcodelastid
     };
     console.log("finalbranch :", params)
     this.common.loading++;

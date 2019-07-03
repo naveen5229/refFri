@@ -70,7 +70,8 @@ export class VehicleCoveredDistanceComponent implements OnInit {
             Regno: rep[key].regno,
             Location: rep[key].currLoc,
             LastSuccessDate: rep[key].successdt,
-            haltDur: rep[key].haltDur
+            haltDur: rep[key].haltDur,
+            group: rep[key].group
 
           };
           rep[key].slots && rep[key].slots.map((slot, index) => {

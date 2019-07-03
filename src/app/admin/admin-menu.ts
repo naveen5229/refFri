@@ -185,6 +185,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/admin/pump-station-area',
                 home: true,
             },
+            {
+                title: 'Fo Fs Mapping',
+                icon: 'fa fa-signal',
+                link: '/admin/fo-fs-mapping',
+                home: true,
+            },
         ]
     },
     {
@@ -283,6 +289,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'LR Diagnostics',
         icon: 'fa fa-diagnostics',
         link: '/admin/lr-diagnostics',
+        home: true,
+    },
+    {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/admin/pod-dashboard',
         home: true,
     },
 

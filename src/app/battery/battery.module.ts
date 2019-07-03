@@ -8,6 +8,7 @@ import { DirectiveModule } from '../directives/directives.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { BatteryModalsComponent } from './battery-modals/battery-modals.component';
 import { VehicleBatteryComponent } from './vehicle-battery/vehicle-battery.component';
+import { BatterySummaryComponent } from './battery-summary/battery-summary.component';
 
 const PAGES_COMPONENTS = [
     BatteryComponent,
@@ -26,7 +27,8 @@ const PAGES_COMPONENTS = [
         ...PAGES_COMPONENTS,
         BatteryInventoryComponent,
         BatteryModalsComponent,
-        VehicleBatteryComponent
+        VehicleBatteryComponent,
+        BatterySummaryComponent,
 
     ],
 })

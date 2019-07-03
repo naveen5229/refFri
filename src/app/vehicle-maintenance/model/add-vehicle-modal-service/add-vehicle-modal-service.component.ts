@@ -59,6 +59,7 @@ export class AddVehicleModalServiceComponent implements OnInit {
       });
   }
 
+
   addVehicleModel() {
     let params = {
       euro: this.selectedEuro,
