@@ -13,7 +13,7 @@
         <label>Name</label>
       </div>
       <div class="col-3">
-        <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="name" minlength="3"
+        <input type="text" class="form-control" id="driver-name" autocomplete="off" formControlName="name"
           maxlength="64" placeholder="Driver Name">
         <!-- <div *ngIf="submitted && f.name.errors" class="invalid-feedback"> -->
         <!-- //<div *ngIf="f.name.errors.required">Driver Name is required</div> -->
@@ -44,7 +44,7 @@
       </div>
       <div class="col-3">
         <input type="text" class="form-control" id="mobile-number" autocomplete="off" placeholder="Mobile NO."
-          formControlName="mobileno2" minlength="10" required maxlength="10"
+          formControlName="mobileno2" minlength="10" maxlength="10"
           [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }">
         <div *ngIf="submitted && f.mobileno2.errors" class="invalid-feedback">
           <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>

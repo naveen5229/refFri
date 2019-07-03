@@ -27,7 +27,9 @@ export class AddConsigneeComponent implements OnInit {
     public user: UserService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal, ) { }
+    private modalService: NgbModal, ) {
+    this.common.handleModalSize('class', 'modal-lg', '1300');
+  }
 
   ngOnInit() {
     this.Form = this.formBuilder.group({

@@ -36,7 +36,17 @@ export class BranchComponent implements OnInit {
     lrTerm: '',
     lrFooter: '',
     constcenter: 0,
+    site:{
+      id:0,
+      name:'Not Applicable'
+    },
+    latitude: 0,
+    longitude: 0,
+    precode: '',
+    lrcodewidth: 5,
+    lrcodelastid: 0
   };
+  siteData = [];
   allowBackspace = true;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
@@ -71,10 +81,22 @@ export class BranchComponent implements OnInit {
         lrTerm: this.common.params.lr_terms,
         lrFooter: this.common.params.lr_footer,
         constcenter: this.common.params.is_constcenterallow,
+        site: {
+          id: (this.common.params.site_id) ? this.common.params.site_id : 0,
+          name: (this.common.params.sitename) ? this.common.params.sitename : ''
+        },
+        latitude: (this.common.params.lat) ? this.common.params.lat : '',
+        longitude: (this.common.params.long) ? this.common.params.long : '',
+        precode: (this.common.params.lr_pre_code) ? this.common.params.lr_pre_code : '',
+        lrcodewidth: this.common.params.lr_code_width,
+        lrcodelastid: this.common.params.lr_code_lastid
       }
 
       //  console.log('Accounts: ', this.Accounts);
     }
+    this.common.handleModalSize('class', 'modal-lg', '1250');
+
+    this.getSite();
   }
 
   ngOnInit() {
@@ -89,7 +111,30 @@ export class BranchComponent implements OnInit {
     this.Branches[type].id = selectedData.id;
     console.log('Accounts User: ', this.Branches);
   }
+  onSelectedSite(selectedData, type, display) {
+    this.Branches.site.name = selectedData[display];
+    this.Branches.site.id = selectedData.id;
+    console.log('Selected Data: ', selectedData, type, display);
+    //  console.log('order User: ', this.getstatedata);
+    //  this.setFoucus('submit');
+  }
+  getSite() {
+    let params = {
+      search: 123
+    };
+    this.common.loading++;
+    this.api.post('Suggestion/GetAllSite', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('site Res:', res['data']);
+        this.siteData = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
 
+  }
   keyHandler(event) {
     const key = event.key.toLowerCase();
     const activeId = document.activeElement.id;
@@ -131,6 +176,12 @@ export class BranchComponent implements OnInit {
         this.setFoucus('name');
       } else if (activeId.includes('name')) {
         this.setFoucus('code');
+      } else if (activeId.includes('precode')) {
+        this.setFoucus('lrcodewidth');
+      } else if (activeId.includes('lrcodelastid')) {
+        this.setFoucus('addressline');
+      } else if (activeId.includes('lrcodewidth')) {
+        this.setFoucus('lrcodelastid');
       } else if (activeId.includes('code')) {
         this.setFoucus('phonenumber');
       } else if (activeId.includes('phonenumber')) {
@@ -158,7 +209,17 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('taxexemptionno')) {
         this.setFoucus('isactive');
       } else if (activeId.includes('isactive')) {
-        this.setFoucus('addressline');
+        this.setFoucus('lr-terms');
+      } else if (activeId.includes('lr-terms')) {
+        this.setFoucus('lr-footer');
+      } else if (activeId.includes('lr-footer')) {
+        this.setFoucus('site');
+      } else if (activeId.includes('site')) {
+        this.setFoucus('latitude');
+      } else if (activeId.includes('latitude')) {
+        this.setFoucus('longitude');
+      } else if (activeId.includes('longitude')) {
+        this.setFoucus('precode');
       } else if (activeId.includes('addressline')) {
         this.setFoucus('remarks');
       } else if (activeId.includes('remarks')) {
@@ -169,6 +230,12 @@ export class BranchComponent implements OnInit {
       event.preventDefault();
       if (activeId.includes('name')) {
         this.setFoucus('user');
+      } else if (activeId.includes('lrcodelastid')) {
+        this.setFoucus('lrcodewidth');
+      } else if (activeId.includes('lrcodewidth')) {
+        this.setFoucus('precode');
+      } else if (activeId.includes('precode')) {
+        this.setFoucus('longitude');
       } else if (activeId.includes('code')) {
         this.setFoucus('name');
       } else if (activeId.includes('phonenumber')) {
@@ -198,6 +265,16 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('isactive')) {
         this.setFoucus('taxexemptionno');
       } else if (activeId.includes('addressline')) {
+        this.setFoucus('lrcodelastid');
+      } else if (activeId.includes('longitude')) {
+        this.setFoucus('latitude');
+      } else if (activeId.includes('latitude')) {
+        this.setFoucus('site');
+      } else if (activeId.includes('site')) {
+        this.setFoucus('lr-footer');
+      } else if (activeId.includes('lr-footer')) {
+        this.setFoucus('lr-terms');
+      } else if (activeId.includes('lr-terms')) {
         this.setFoucus('isactive');
       } else if (activeId.includes('remarks')) {
         this.setFoucus('addressline');

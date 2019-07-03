@@ -32,10 +32,12 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      leftRight: -1,
-      pos: -1,
-      axel: -1,
-      frontRear: -1,
+      tyrePosition: {
+        leftRight: -1,
+        pos: -1,
+        axel: -1,
+        frontRear: -1
+      },
       position: false
     },
     {
@@ -44,10 +46,12 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      leftRight: -1,
-      pos: -1,
-      axel: -1,
-      frontRear: -1,
+      tyrePosition: {
+        leftRight: -1,
+        pos: -1,
+        axel: -1,
+        frontRear: -1
+      },
       position: false
     },
     {
@@ -56,10 +60,12 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      leftRight: -1,
-      pos: -1,
-      axel: -1,
-      frontRear: -1,
+      tyrePosition: {
+        leftRight: -1,
+        pos: -1,
+        axel: -1,
+        frontRear: -1
+      },
       position: false
     },
     {
@@ -68,10 +74,12 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      leftRight: -1,
-      pos: -1,
-      axel: -1,
-      frontRear: -1,
+      tyrePosition: {
+        leftRight: -1,
+        pos: -1,
+        axel: -1,
+        frontRear: -1
+      },
       position: false
     },
   ]
@@ -115,10 +123,12 @@ export class VehicleTyresComponent implements OnInit {
       details: null,
       kms: null,
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      leftRight: -1,
-      pos: -1,
-      axel: -1,
-      frontRear: -1,
+      tyrePosition: {
+        leftRight: -1,
+        pos: -1,
+        axel: -1,
+        frontRear: -1
+      },
       position: false
     });
   }
@@ -138,14 +148,14 @@ export class VehicleTyresComponent implements OnInit {
       this.api.post('Tyres/saveTyreInputs', params)
         .subscribe(res => {
           this.common.loading--;
-          console.log("return id ", res['data'][0].r_id);
+          console.log("return id ", res['data'][0].r_id, res['data'][0].r_msg);
           if (res['data'][0].r_id > 0) {
             console.log("sucess");
             this.common.showToast("sucess");
             this.getMappedTyres();
           } else {
             console.log("fail");
-            this.common.showToast(res['data'][0].r_msg);
+            this.common.showError(res['data'][0].r_msg);
           }
         }, err => {
           this.common.loading--;

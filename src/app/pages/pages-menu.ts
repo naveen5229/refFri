@@ -76,6 +76,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/via-routes',
+      },
 
     ]
   },
@@ -127,21 +132,26 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/frieght-rate-input',
       },
       {
+        title: 'Freight Revenue',
+        icon: 'nb-list',
+        link: '/pages/freight-revenue',
+      },
+      {
         title: 'Lorry Receipts',
         icon: 'nb-list',
         link: '/pages/lorry-receipts',
       },
 
-      {
-        title: 'Generate LR',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr',
-      },
-      {
-        title: 'Generate LTL',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr-no-vehicles',
-      },
+      // {
+      //   title: 'Generate LR',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr',
+      // },
+      // {
+      //   title: 'Generate LTL',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr-no-vehicles',
+      // },
       {
         title: 'Generate LR Manifest',
         icon: 'fas fa-receipt',
@@ -239,6 +249,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Fuel Station Entry',
         icon: 'fas fa-gas-pump',
         link: '/pages/fse-entry',
+        home: true,
+      },
+      {
+        title: 'Fuel Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
         home: true,
       },
     ]
