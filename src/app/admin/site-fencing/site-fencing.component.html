@@ -6,13 +6,17 @@
           <tbody>
             <tr>
               <td>
-                <input type="text" placeholder="Move to.." id="moveLoc" [(ngModel)]="moveLoc" class="form-control">
+                <input type="text" (keydown.enter)="loadLatLong()" placeholder="Move to.." id="moveLoc"
+                  [(ngModel)]="moveLoc" class="form-control">
               </td>
               <td>
                 <input placeholder="Old Site Id" [(ngModel)]="mergeSiteId" class="form-control">
               </td>
               <td>
-                <button (click)="mergeSite()" class="btn btn-primary">Merge</button>
+                <button style="display: inline-block; margin-right: 5px;" (click)="mergeSite()"
+                  class="btn btn-primary">Merge</button>
+                <i class="fa fa-pencil-ruler fa-2x construct" (click)="toggleConstruction()"
+                  [ngClass]="{'grey' : !isContruct, 'active' : isContruct}"></i>
               </td>
 
             </tr>
@@ -35,8 +39,8 @@
               <td>
                 <button (click)="clearAll()" class="btn btn-primary"
                   style="display: inline-block; margin-right: 5px;  ">Clear</button>
-                <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
-                <button routerLink="/admin/halt-density" class="btn btn-primary">Buff</button>
+                <button (click)="showHeat();" class="btn btn-primary mr-1">{{isHeatAble?'HH':'SH'}}</button>
+                <button routerLink="/admin/halt-density" class="btn btn-primary ml-1">Buff</button>
               </td>
               <td>
                 <button (click)="loadMarkers()" class="btn btn-primary"
