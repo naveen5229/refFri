@@ -277,21 +277,22 @@ export class SiteFencingComponent implements OnInit {
     return false;
   }
 
-  loadMarkers() {
+  loadMarkers(isShowAll=false) {
+    isShowAll || this.mapService.zoomMap(15);
     let boundBox = this.mapService.getMapBounds();
     let bounds = {
       'lat1': boundBox.lat1,
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': this.typeId
+      'typeId': isShowAll?null:this.typeId
     };
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.clearAll();
-        this.mapService.createMarkers(data, false, true, ["id", "name"]);
+        this.mapService.createMarkers(data, false, false, ["id", "name"]);
       }, err => {
         console.error(err);
         this.commonService.showError();
@@ -364,6 +365,7 @@ export class SiteFencingComponent implements OnInit {
           tblRowId: this.selectedSite ? this.selectedSite : -1
         };
         this.commonService.loading++;
+        this.loadMarkers(true);
         this.apiService.post('TicketActivityManagment/insertTicketActivity', params)
           .subscribe(res => {
             this.commonService.loading--;
