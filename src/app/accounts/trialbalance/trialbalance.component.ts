@@ -8,6 +8,8 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'trialbalance',
@@ -58,6 +60,8 @@ export class TrialbalanceComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
