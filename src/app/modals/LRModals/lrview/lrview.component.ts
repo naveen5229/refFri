@@ -64,6 +64,8 @@ export class LRViewComponent implements OnInit {
 
   }
 
+
+
   findCustomFields(customFields) {
     if (!customFields) return [];
     customFields = JSON.parse(customFields);
@@ -76,7 +78,10 @@ export class LRViewComponent implements OnInit {
     console.log('Formatted :', formattedFields);
     return formattedFields;
   }
-
+  
+  keyHandler(event){
+    
+  }
 
 
 }

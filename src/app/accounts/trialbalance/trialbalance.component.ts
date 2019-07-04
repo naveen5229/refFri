@@ -41,6 +41,14 @@ export class TrialbalanceComponent implements OnInit {
   activedateid = '';
   lastActiveId = '';
   trialBalanceData = [];
+  active = {
+    trialBalanceData: {
+      mainGroup: [],
+      subGroup: []
+    }
+   
+  };
+  viewType = 'main';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -57,6 +65,7 @@ export class TrialbalanceComponent implements OnInit {
     // this.getLedgerList();
     this.setFoucus('startDate');
     this.common.currentPage = 'Trial Balance';
+    this.changeViewType();
   }
 
   ngOnInit() {
@@ -93,43 +102,147 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+  changeViewType() {
+    this.active.trialBalanceData.mainGroup = [];
+    this.active.trialBalanceData.subGroup = [];
 
-  formattData() {
-    let firstGroup = _.groupBy(this.TrialData, 'groupname');
-    this.trialBalanceData = [];
-    for (let key in firstGroup) {
-      let groups = _.groupBy(firstGroup[key], 'y_ledger_name');
-      let traildatas = [];
-      let totalopening = 0;
-      let totaldr = 0;
-      let totalcr = 0;
-      let totalclosing = 0;
-      let y_closebaltype = '';
-      let y_openbaltype = '';
-      for (let groupKey in groups) {
 
-        groups[groupKey].map(info => {
-          if (info.y_openbal) totalopening += parseFloat(info.y_openbal);
-          if (info.y_dr_bal) totaldr += parseFloat(info.y_dr_bal);
-          if (info.y_closebal) totalcr += parseFloat(info.y_closebal);
-          if (info.y_closebal) totalclosing += parseFloat(info.y_closebal);
-          y_closebaltype = info.y_closebaltype;
-          y_openbaltype = info.y_openbaltype;
-          traildatas.push(info);
-        });
-      }
-
-      this.trialBalanceData.push({
-        name: key,
-        totalopening,
-        totaldr,
-        totalcr,
-        totalclosing,
-        y_openbaltype,
-        y_closebaltype,
-        traildatas
+    if (this.viewType == 'sub') {
+      this.trialBalanceData.forEach((liability, i) => this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0));
+   
+    } else if (this.viewType == 'all') {
+      this.trialBalanceData.forEach((trail, i) => {
+        this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0);
+        trail.subGroups.forEach((subGroup, j) => this.active.trialBalanceData.subGroup.push('subGroup' + i + j));
       });
     }
+  }
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
+  }
+  formattData() {
+    let primaryGroup = Object.keys(_.groupBy(this.TrialData, 'primary_groupname')).map(primaryGroupKey => {
+      return {
+        name: primaryGroupKey,
+        amount:0,
+        dramount:0,
+        cramount:0,
+        openingamount:0,
+        openingType:'',
+        closingType:'',
+        subGroups: Object.keys(_.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')).map(subGroupKey => {
+          return { name: subGroupKey, 
+            amount:0,
+            dramount:0,
+            cramount:0,
+            openingamount:0,
+            openingType:'',
+          closingType:'',
+            trialBalances: _.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')[subGroupKey] };
+        })
+      };
+    });
+    this.trialBalanceData = primaryGroup;
+console.log('trialBalanceData @@@',this.trialBalanceData);
+    for (let key in primaryGroup) {
+     
+      primaryGroup.map(value => {
+        let totalclosing = 0;
+        let totaldr=0;
+        let totalcr=0;
+        let totalopening=0;
+        let openingType='';
+        let closingType='';
+        console.log('map value',value.subGroups);
+   if(value.subGroups && value.subGroups.length >0){  value.subGroups.map(valuenew => {
+     
+    let subtotalclosing = 0;
+    let subtotaldr=0;
+    let subtotalcr=0;
+    let subtotalopening=0;
+          valuenew.trialBalances.map(trailvalue => {
+         // console.log('trial map',trailvalue);
+         openingType=trailvalue.y_openbaltype ;
+         closingType=trailvalue.y_closebaltype ;
+            if (trailvalue.y_closebal){
+               totalclosing += parseFloat(trailvalue.y_closebal);
+               subtotalclosing += parseFloat(trailvalue.y_closebal);
+            }
+            if (trailvalue.y_dr_bal){
+              totaldr += parseFloat(trailvalue.y_dr_bal);
+              subtotaldr += parseFloat(trailvalue.y_dr_bal);
+            }
+            if (trailvalue.y_cr_bal){
+              totalcr += parseFloat(trailvalue.y_cr_bal);
+              subtotalcr += parseFloat(trailvalue.y_cr_bal);
+            }
+            if (trailvalue.y_openbal){
+              totalopening += parseFloat(trailvalue.y_openbal);
+              subtotalopening += parseFloat(trailvalue.y_openbal);
+            }
+        })
+        valuenew.amount=subtotalclosing;
+        valuenew.dramount=subtotaldr;
+        valuenew.cramount=subtotalcr;
+        valuenew.openingamount=subtotalopening;
+        valuenew.openingType=openingType ;
+        valuenew.closingType=closingType ;
+         // console.log('subgroup map',valuenew);
+       // if (valuenew.y_amount) totalclosing += parseFloat(valuenew.y_amount);
+      })
+    }
+    
+    value.amount=totalclosing;
+    value.dramount=totaldr;
+    value.cramount=totalcr;
+    value.openingamount=totalopening;
+    value.openingType=openingType ;
+    value.closingType=closingType ;
+    });
+      
+    }
+console.log('trialBalanceData @@@',this.trialBalanceData);
+    // this.trialBalanceData = [];
+    // for (let key in firstGroup) {
+    //   let groups = _.groupBy(firstGroup[key], 'y_ledger_name');
+    //   let traildatas = [];
+    //   let totalopening = 0;
+    //   let totaldr = 0;
+    //   let totalcr = 0;
+    //   let totalclosing = 0;
+    //   let y_closebaltype = '';
+    //   let y_openbaltype = '';
+    //   for (let groupKey in groups) {
+
+    //     groups[groupKey].map(info => {
+    //       if (info.y_openbal) totalopening += parseFloat(info.y_openbal);
+    //       if (info.y_dr_bal) totaldr += parseFloat(info.y_dr_bal);
+    //       if (info.y_closebal) totalcr += parseFloat(info.y_closebal);
+    //       if (info.y_closebal) totalclosing += parseFloat(info.y_closebal);
+    //       y_closebaltype = info.y_closebaltype;
+    //       y_openbaltype = info.y_openbaltype;
+    //       traildatas.push(info);
+    //     });
+    //   }
+
+    //   this.trialBalanceData.push({
+    //     name: key,
+    //     totalopening,
+    //     totaldr,
+    //     totalcr,
+    //     totalclosing,
+    //     y_openbaltype,
+    //     y_closebaltype,
+    //     traildatas
+    //   });
+
+
+    // }
 
 
 
@@ -137,7 +250,7 @@ export class TrialbalanceComponent implements OnInit {
     console.log('First Section:', this.trialBalanceData);
     console.log('Second Section:', this.trialBalanceData);
   }
-  pdfFunction(){
+  pdfFunction() {
     let params = {
       search: 'test'
     };
@@ -147,14 +260,14 @@ export class TrialbalanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res11:', res['data']);
-       // this.Vouchers = res['data'];
-       let address=res['data'][0].addressline +'\n';
-       let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-    let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
-    let remainingstring3 = (res['data'][0].gstno) ? ', GST NO -  ' + res['data'][0].gstno : '';
-   
-       let cityaddress =address+ remainingstring1 + remainingstring3;
-       this.common.getPDFFromTableIdnew('table',res['data'][0].foname,cityaddress,'','');
+        // this.Vouchers = res['data'];
+        let address = res['data'][0].addressline + '\n';
+        let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0].gstno) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1 + remainingstring3;
+        this.common.getPDFFromTableIdnew('table', res['data'][0].foname, cityaddress, '', '');
 
       }, err => {
         this.common.loading--;
@@ -162,7 +275,7 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
-  csvFunction(){
+  csvFunction() {
     let params = {
       search: 'test'
     };
@@ -172,14 +285,14 @@ export class TrialbalanceComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         console.log('Res11:', res['data']);
-       // this.Vouchers = res['data'];
-       let address=res['data'][0].addressline +'\n';
-       let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
-    let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
-    let remainingstring3 = (res['data'][0].gstno) ? ' GST NO -  ' + res['data'][0].gstno : '';
-   
-       let cityaddress =address+ remainingstring1;
-       this.common.getCSVFromTableIdNew('table',res['data'][0].foname,cityaddress,'','',remainingstring3);
+        // this.Vouchers = res['data'];
+        let address = res['data'][0].addressline + '\n';
+        let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0].gstno) ? ' GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        this.common.getCSVFromTableIdNew('table', res['data'][0].foname, cityaddress, '', '', remainingstring3);
 
       }, err => {
         this.common.loading--;
