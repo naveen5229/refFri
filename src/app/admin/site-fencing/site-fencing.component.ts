@@ -278,6 +278,7 @@ export class SiteFencingComponent implements OnInit {
   }
 
   loadMarkers(isShowAll=false) {
+    isShowAll || this.mapService.zoomMap(15);
     let boundBox = this.mapService.getMapBounds();
     let bounds = {
       'lat1': boundBox.lat1,
@@ -291,7 +292,7 @@ export class SiteFencingComponent implements OnInit {
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.clearAll();
-        this.mapService.createMarkers(data, false, true, ["id", "name"]);
+        this.mapService.createMarkers(data, false, false, ["id", "name"]);
       }, err => {
         console.error(err);
         this.commonService.showError();
@@ -364,6 +365,7 @@ export class SiteFencingComponent implements OnInit {
           tblRowId: this.selectedSite ? this.selectedSite : -1
         };
         this.commonService.loading++;
+        this.loadMarkers(true);
         this.apiService.post('TicketActivityManagment/insertTicketActivity', params)
           .subscribe(res => {
             this.commonService.loading--;
@@ -371,7 +373,6 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast(res['msg']);
             }
             else {
-              this.loadMarkers(true);
               this.mapService.isDrawAllow = true;
               if (this.isUpdate) {
                 this.commonService.showToast('Already Exists');

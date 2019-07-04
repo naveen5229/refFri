@@ -26,8 +26,8 @@ export class LrPodReceiptsComponent implements OnInit {
   headings = [];
   valobj = {};
   viewImages = null;
-  startDate = '';
-  endDate = '';
+  startDate = new Date(new Date().setDate(new Date().getDate()-15));
+  endDate = new Date();
   constructor(
     public api: ApiService,
     public common: CommonService,
@@ -37,20 +37,20 @@ export class LrPodReceiptsComponent implements OnInit {
     private modalService: NgbModal,
     public renderer: Renderer
   ) {
-    let today;
-    today = new Date();
-    this.endDate = this.common.dateFormatter(today);
-    this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    console.log('dates ', this.endDate, this.startDate)
+    // let today;
+    // today = new Date();
+    // this.endDate = this.common.dateFormatter(today);
+    // this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
+    // console.log('dates ', this.endDate, this.startDate)
   }
 
   ngOnInit() {
   }
 
   getLorryPodReceipts() {
-    var enddate = new Date(this.common.dateFormatter1(this.endDate).split(' ')[0]);
-    let params = "startDate=" + this.common.dateFormatter1(this.startDate).split(' ')[0] +
-      "&endDate=" + this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0];
+    var enddate = new Date(this.common.dateFormatter(this.endDate).split(' ')[0]);
+    let params = "startDate=" + this.common.dateFormatter(this.startDate).split(' ')[0] +
+      "&endDate=" + this.common.dateFormatter(enddate.setDate(enddate.getDate() + 1)).split(' ')[0];
 
     ++this.common.loading;
     this.api.get('LorryReceiptsOperation/getLRPodReceipts?' + params)
