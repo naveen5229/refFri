@@ -608,8 +608,9 @@ ngb-modal-window {
     display: none;
 } */
 
-.menu-sidebar.compacted {
-    z-index: 99999;
+.menu-sidebar {
+    z-index: 99999 !important;
+    box-shadow: none !important;
 }
 
 .menu-sidebar.compacted .scrollable {
