@@ -882,8 +882,8 @@ export class CommonService {
 
       // FOOTER
       let printDate = this.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
-      var powerdata = '     Powered By Elogist Solution       Print On : ';
-      var str = "Page " + data.pageCount + powerdata + printDate;
+      var powerdata = '                                                       Powered By Elogist Solution';
+      var str = "Page " + data.pageCount +  '                                                               Print On : '+ printDate +powerdata;
 
       doc.setFontSize(10);
       doc.text(
