@@ -85,7 +85,7 @@
                       <b>Particulars</b>
                     </td>
                     <td>
-                      <b>Weight (Tons)</b>
+                      <b>Weight</b>
                     </td>
                   </tr>
                   <tr *ngFor="let particular of particulars ; let i = index">
@@ -101,19 +101,35 @@
                         <span *ngIf="field.value"> , {{field.name}} : </span>
                         <span *ngIf="field.value">{{field.value}}</span></span>
                     </td>
-                    <td>{{particular.weight}}</td>
+                    <td>{{particular.weight}} {{particular.weight_unit}}</td>
                   </tr>
                 </tbody>
+              </table>
+              <table class="table table-bordered">
+                <tr>
+                  <td>
+                    Net Weight
+                  </td>
+                  <td>
+                    {{lrDetails.net_weight}}
+                  </td>
+                  <td>
+                    Gross Weight
+                  </td>
+                  <td>
+                    {{lrDetails.gross_weight}}
+                  </td>
+                </tr>
               </table>
             </td>
             <td style="vertical-align: top; width: 25%;">
               <table class="table table-bordered table-hover">
                 <tbody>
                   <tr>
-                    <td><b>Payment Type : </b>{{lrDetails.paytype}} </td>
+                    <td><b>Payment Type : </b>{{lrDetails.str_paytype}} </td>
                   </tr>
                   <tr>
-                    <td><b>GST Paid By :</b> {{lrDetails.taxpaidby}}</td>
+                    <td><b>GST Paid By :</b> {{lrDetails.str_taxpaidby}}</td>
                   </tr>
                   <tr>
                     <td><b>Amount :</b> {{lrDetails.amount}}</td>
@@ -140,7 +156,8 @@
               {{lrDetails.lr_terms}}
             </td>
             <td style="vertical-align: top; width: 25%;">
-              <b>Logistic Sign</b>
+              <div style="height:100px"><b>Logistic Sign</b></div>
+              <div><b>Receiver Sign</b></div>
             </td>
           </tr>
         </table>

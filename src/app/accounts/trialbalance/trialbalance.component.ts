@@ -41,6 +41,14 @@ export class TrialbalanceComponent implements OnInit {
   activedateid = '';
   lastActiveId = '';
   trialBalanceData = [];
+  active = {
+    trialBalanceData: {
+      mainGroup: [],
+      subGroup: []
+    }
+   
+  };
+  viewType = 'main';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -57,6 +65,7 @@ export class TrialbalanceComponent implements OnInit {
     // this.getLedgerList();
     this.setFoucus('startDate');
     this.common.currentPage = 'Trial Balance';
+    this.changeViewType();
   }
 
   ngOnInit() {
@@ -93,7 +102,29 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+  changeViewType() {
+    this.active.trialBalanceData.mainGroup = [];
+    this.active.trialBalanceData.subGroup = [];
 
+
+    if (this.viewType == 'sub') {
+      this.trialBalanceData.forEach((liability, i) => this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0));
+   
+    } else if (this.viewType == 'all') {
+      this.trialBalanceData.forEach((trail, i) => {
+        this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0);
+        trail.subGroups.forEach((subGroup, j) => this.active.trialBalanceData.subGroup.push('subGroup' + i + j));
+      });
+    }
+  }
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
+  }
   formattData() {
     let primaryGroup = Object.keys(_.groupBy(this.TrialData, 'primary_groupname')).map(primaryGroupKey => {
       return {
