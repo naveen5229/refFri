@@ -63,6 +63,20 @@ export class InventoryComponent implements OnInit {
   sizeSuggestion = [];
   searchedTyreDetails = [];
   userType = null;
+
+
+  data = [];
+  table = {
+    data: {
+      headings: {},
+      columns: []
+    },
+    settings: {
+      hideHeader: true
+    }
+  };
+  headings = [];
+  valobj = {};
   constructor(private modalService: NgbModal,
     public common: CommonService,
     public api: ApiService,
@@ -71,6 +85,7 @@ export class InventoryComponent implements OnInit {
     console.log("user", user._loggedInBy);
     this.userType = this.common.user._loggedInBy;
     this.searchData();
+    this.getviewData();
   }
 
   ngOnInit() {
@@ -261,6 +276,75 @@ export class InventoryComponent implements OnInit {
         console.log(err);
       });
   }
+
+
+  getviewData() {
+    let params = {
+      // startTime: this.common.dateFormatter(this.startTime),
+      // endTime: this.common.dateFormatter(this.endTime)
+    }
+    console.log("params", params);
+    ++this.common.loading;
+
+    this.api.get('tyres/getTyreInventry')
+      .subscribe(res => {
+        --this.common.loading;
+        this.data = [];
+        this.table = {
+          data: {
+            headings: {},
+            columns: []
+          },
+          settings: {
+            hideHeader: true
+          }
+        };
+        this.headings = [];
+        this.valobj = {};
+
+        if (!res['data']) return;
+        this.data = res['data'];
+        let first_rec = this.data[0];
+        for (var key in first_rec) {
+          if (key.charAt(0) != "_") {
+            this.headings.push(key);
+            let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+            this.table.data.headings[key] = headerObj;
+          }
+        }
+     
+
+        this.table.data.columns = this.getTableColumns();
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+  getTableColumns() {
+
+    let columns = [];
+    console.log("Data=", this.data);
+    this.data.map(doc => {
+      this.valobj = {};
+
+      for (let i = 0; i < this.headings.length; i++) {
+        console.log("doc index value:", doc[this.headings[i]]);
+        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
+
+      }
+      columns.push(this.valobj);
+
+    });
+
+    return columns;
+  }
+
+  formatTitle(title) {
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+
 
 }
 
