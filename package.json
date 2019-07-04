@@ -53,6 +53,7 @@
     "@progress/kendo-angular-dateinputs": "^3.7.3",
     "@progress/kendo-angular-intl": "^1.4.0",
     "@progress/kendo-angular-l10n": "^1.1.0",
+    "@progress/kendo-theme-default": "latest",
     "angular-resizable-element": "^3.2.4",
     "angular-tooltips": "^1.2.2",
     "angular2-chartjs": "^0.5.1",
@@ -63,6 +64,7 @@
     "core-js": "2.5.1",
     "eva-icons": "^1.1.1",
     "html2canvas": "^1.0.0-rc.1",
+    "html2pdf.js": "^0.9.1",
     "intl": "1.2.5",
     "ionicons": "2.0.1",
     "jspdf": "^1.5.3",
@@ -84,8 +86,7 @@
     "socicon": "3.0.5",
     "typeface-exo": "0.0.22",
     "web-animations-js": "2.2.5",
-    "zone.js": "^0.8.29",
-    "@progress/kendo-theme-default": "latest"
+    "zone.js": "^0.8.29"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.8",
