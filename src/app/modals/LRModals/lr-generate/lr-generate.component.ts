@@ -111,6 +111,9 @@ export class LrGenerateComponent implements OnInit {
       this.getLrDetails();
       this.btntxt = 'UPDATE'
     }
+    if (this.accountService.selected.branch.id) {
+      this.getBranchDetails();
+    }
   }
 
   ngOnInit() {
