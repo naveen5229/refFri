@@ -8,11 +8,11 @@
   <div class="row mb-2">
     <div class="col-4">
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 pr-0">
           <span><b>Vehicle No</b></span>
 
         </div>
-        <div class="col-6">
+        <div class="col-8">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
             placeholder=" " (change)="resetvehicle()" inputId="vehicleno">
           </auto-suggestion>
@@ -21,7 +21,7 @@
 
 
     </div>
-    <div class="col-4">
+    <div class="col-5">
       <div class="row">
         <div class="col-6">
           <span><b>Reference Type</b></span>
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="col-4">
+    <div class="col-3">
       <auto-suggestion (onSelected)="entityFlag.refId=$event.id;entityFlag.refTypeName=$event.source_dest"
         display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
         [preSelected]="{source_dest:entityFlag.refTypeName}">
@@ -51,29 +51,45 @@
   </div>
 
   <div class="row mb-3">
-    <div class="col-4">
-      <uj-date-time-picker (onChanged)="entityFlag.date = $event" [dateTimeValue]="entityFlag.date" [isTime]="true">
-      </uj-date-time-picker>
+    <div class="col-5">
+      <div class="row">
+        <div class="col-4 pl-0">
+          <span><b>Time</b></span>
+        </div>
+        <div class="col-8 pr-0">
+          <uj-date-time-picker (onChanged)="entityFlag.date = $event" [dateTimeValue]="entityFlag.date" [isTime]="true">
+          </uj-date-time-picker>
+
+        </div>
+      </div>
     </div>
 
     <div class="col-4">
-      <select name="list" class="form-control" (change)="selectList($event.target.value);resetType(false)"
-        [(ngModel)]="typeList">
-        <option class="form-control" [value]="1">Driver</option>
-        <option class="form-control" [value]="2">Consignor</option>
-        <option class="form-control" [value]="2">Consignee</option>
-      </select>
+      <div class="row">
+        <div class="col-3">
+          <span><b>Entity Type</b></span>
+        </div>
+        <div class="col-9">
+          <select name="enititytype" class="form-control" (change)="selectList($event.target.value)"
+            [(ngModel)]="entityFlag.entityType">
+            <option class="form-control" value="1">Driver</option>
+            <option class="form-control" value="2">Consignor</option>
+            <option class="form-control" value="2">Consignee</option>
+          </select>
+        </div>
+      </div>
+
     </div>
     <div class="col-4">
       <div class="row">
-        <div class="col-6" *ngIf="typeList=='1'">
-          <auto-suggestion (onSelected)="typeListId=$event.id" url="Booster/getDrivers" display="empname"
-            placeholder=" " (change)="resetDriver()" inputId="driverData">
+        <div class="col-6" *ngIf="entityType=='1'">
+          <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.empname"
+            url="Booster/getDrivers" display="empname" placeholder=" " inputId="driverData">
           </auto-suggestion>
         </div>
-        <div class="col-6" *ngIf="typeList=='2'">
-          <auto-suggestion (onSelected)="typeListId=$event.id" url="Suggestion/GetCompanies" display="name"
-            placeholder=" " (change)="resetDriver()" inputId="GetCompanies">
+        <div class="col-6" *ngIf="entityType=='2'">
+          <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.name"
+            url="Suggestion/GetCompanies" display="name" placeholder=" " inputId="GetCompanies">
           </auto-suggestion>
         </div>
       </div>
@@ -85,16 +101,26 @@
     <div class="col-4">
       <div class="row">
         <div class="col-6">
-          <span><b> Type</b></span>
+          <span><b>Flag Type</b></span>
         </div>
         <div class="col-6">
-          <select class="form-control" name="type" [(ngModel)]="entityFlag.getTypeMaster">
+          <select class="form-control" name="type" [(ngModel)]="entityFlag.flagType">
             <option *ngFor="let data of mastertypes" [value]="data.id">{{data.description}}</option>
           </select>
         </div>
       </div>
     </div>
-
+    <div class="col-4">
+      <div class="row">
+        <div class="col-3">
+          <span><b>Remark</b></span>
+        </div>
+        <div class="col-9 pl-0">
+          <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
+            [(ngModel)]="entityFlag.remark"></textarea>
+        </div>
+      </div>
+    </div>
 
 
   </div>
@@ -102,5 +128,5 @@
 
 
   <div class="modal-footer">
-    <button class="btn btn-primary" id="add">add</button>
+    <button class="btn btn-primary" id="Save" (click)="saveEntityFlags()">Save</button>
   </div>

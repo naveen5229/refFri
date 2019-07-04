@@ -13,13 +13,15 @@ export class EntityFlagsComponent implements OnInit {
   entityFlag = {
     vehicleId: null,
     vehicleRegNo: null,
-    refernceType: null,
+    refernceType: 0,
     refId: null,
     refTypeName: null,
     date: new Date(),
-    getTypeMaster: null,
-    typeList: '1',
-    typeListId: null,
+    flagType: null,
+    entityType: 1,
+    entityTypeId: null,
+    entityName: null,
+    remark: null
 
   }
   refernceData = [];
@@ -28,6 +30,7 @@ export class EntityFlagsComponent implements OnInit {
     public common: CommonService,
     public activeModal: NgbActiveModal,
     public api: ApiService, ) {
+    this.common.handleModalSize('class', 'modal-lg', '800');
     this.title = this.common.params.title ? this.common.params.title : '';
     this.getType();
   }
@@ -107,10 +110,12 @@ export class EntityFlagsComponent implements OnInit {
 
   }
 
-  selectList(typeListId) {
-    console.log("TypeList Id:", typeListId);
-    this.entityFlag.typeList = typeListId;
-    console.log("TypeList Id2:", this.entityFlag.typeList);
+  selectList(entityTypeId) {
+    console.log("TypeList Id:", entityTypeId);
+    this.entityFlag.entityType = entityTypeId;
+    console.log("TypeList Id2:", this.entityFlag.entityType);
+    // this.entityFlag.entityTypeId = null;
+    // this.entityFlag.entityName = null;
 
   }
 
@@ -118,6 +123,37 @@ export class EntityFlagsComponent implements OnInit {
     this.api.get("Suggestion/getTypeMaster?typeId=54")
       .subscribe(res => {
         this.mastertypes = res['data'];
+      }, err => {
+        this.common.loading--;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
+  saveEntityFlags() {
+    let params = {
+      vid: this.entityFlag.vehicleId,
+      ref_type: this.entityFlag.refernceType,
+      ref_id: this.entityFlag.refId,
+      ref_name: this.entityFlag.refTypeName,
+      dttime: this.common.dateFormatter(this.entityFlag.date),
+      entity_type: this.entityFlag.entityType,
+      entity_id: this.entityFlag.entityTypeId,
+      entity_name: this.entityFlag.entityName,
+      flag_type: this.entityFlag.flagType,
+      remarks: this.entityFlag.remark,
+    }
+    this.api.post("Drivers/saveEntityFlags", params)
+      .subscribe(res => {
+        console.log("Data", res['data']);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.activeModal.close({ data: true });
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
+
+        }
       }, err => {
         this.common.loading--;
         this.common.showError(err);
