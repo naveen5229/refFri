@@ -17,7 +17,9 @@ export class EntityFlagsComponent implements OnInit {
     refId: null,
     refTypeName: null,
     date: new Date(),
-    getTypeMaster: null
+    getTypeMaster: null,
+    typeList: '1',
+    typeListId: null,
 
   }
   refernceData = [];
@@ -47,6 +49,10 @@ export class EntityFlagsComponent implements OnInit {
     this.entityFlag.vehicleRegNo = null;
     this.resetRefernceType();
   }
+  // resetDriver() {
+  //   document.getElementById('driverData')['value'] = '';
+
+  // }
   resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
     if (isReset)
@@ -92,13 +98,23 @@ export class EntityFlagsComponent implements OnInit {
       });
   }
 
+  getDriverType() {
+
+  }
 
   resetType() {
+    // document.getElementById('referncetype')['value'] = '';
+
+  }
+
+  selectList(typeListId) {
+    console.log("TypeList Id:", typeListId);
+    this.entityFlag.typeList = typeListId;
+    console.log("TypeList Id2:", this.entityFlag.typeList);
 
   }
 
   getType() {
-
     this.api.get("Suggestion/getTypeMaster?typeId=54")
       .subscribe(res => {
         this.mastertypes = res['data'];

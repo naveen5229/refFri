@@ -57,6 +57,32 @@
     </div>
 
     <div class="col-4">
+      <select name="list" class="form-control" (change)="selectList($event.target.value);resetType(false)"
+        [(ngModel)]="typeList">
+        <option class="form-control" [value]="1">Driver</option>
+        <option class="form-control" [value]="2">Consignor</option>
+        <option class="form-control" [value]="2">Consignee</option>
+      </select>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col-6" *ngIf="typeList=='1'">
+          <auto-suggestion (onSelected)="typeListId=$event.id" url="Booster/getDrivers" display="empname"
+            placeholder=" " (change)="resetDriver()" inputId="driverData">
+          </auto-suggestion>
+        </div>
+        <div class="col-6" *ngIf="typeList=='2'">
+          <auto-suggestion (onSelected)="typeListId=$event.id" url="Suggestion/GetCompanies" display="name"
+            placeholder=" " (change)="resetDriver()" inputId="GetCompanies">
+          </auto-suggestion>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-4">
       <div class="row">
         <div class="col-6">
           <span><b> Type</b></span>
@@ -70,12 +96,11 @@
     </div>
 
 
+
   </div>
 
-</div>
 
 
-
-<div class="modal-footer">
-  <button class="btn btn-primary" id="add">add</button>
-</div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" id="add">add</button>
+  </div>
