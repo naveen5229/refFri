@@ -132,4 +132,15 @@ export class CsvService {
     return xrows;
   }
 
+  /**
+   * Convert JSON Array To Excel File
+   * @param jsonArray - String
+   * @param filName - String
+   */
+  jsonToExcel(jsonArray: any[], filName: string = 'report') {
+    let info = [{ "elogist Solutions": "elogist Solutions" }, {}];
+    info.push(...jsonArray);
+    new Angular5Csv(info, "report");
+  }
+
 }

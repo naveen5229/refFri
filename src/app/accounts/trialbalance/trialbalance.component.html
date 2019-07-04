@@ -5,14 +5,14 @@
   <nb-card-body (keydown)="keyHandler($event)">
     <!-- View Expand -->
     <div class="expand-div">
-        <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
-        <label>Expand Group</label>
-        <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
-        <label>Expand Sub Group</label>
-        <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
-        <label>Expand All</label>
-      </div>
-      <!-- View Expand End -->
+      <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
+      <label>Expand Group</label>
+      <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
+      <label>Expand Sub Group</label>
+      <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
+      <label>Expand All</label>
+    </div>
+    <!-- View Expand End -->
     <div class="row">
       <div class="col-9">
         <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"

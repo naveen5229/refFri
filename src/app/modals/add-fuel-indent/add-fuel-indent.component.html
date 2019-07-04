@@ -6,64 +6,79 @@
 </div>
 <div class="modal-body">
     <div class="fuel-indent mt-2">
-        <div class="row">
-            <div class="col-4">
-                <label>Vehicle Type:</label>
+        <form [formGroup]="Form" name="foUser-form" id="foUser-form" (submit)="Form.valid && submit()">
+            <div class="row">
+                <div class="col-4">
+                    <label>Vehicle Type:</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-control" name="dropDown" formControlName="dropDown" id="dropDown" [(ngModel)]="vehicle.type" (change)="handleVehicleTypeChange()">
+                       <option *ngFor="let status of dropDown;let i = index" [value]="status.id">
+                               {{status.name}}
+                       </option>
+                    </select>
+                </div>
             </div>
-            <div class="col-8">
-                <select class="form-control" name="dropDown" id="dropDown" [(ngModel)]="vehicle.type" (change)="handleVehicleTypeChange()">
-                 <option *ngFor="let status of dropDown;let i = index" [value]="status.id">
-                     {{status.name}}
-                </option>
-            </select>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <label class="mt-2">Vehicle:</label>
+                </div>
+                <div *ngIf="vehicle.type==1" class="col-8">
+                    <auto-suggestion (onSelected)="getVehicleList($event)" id="autosuggestion" controlName="autosuggestion" [parentForm]="Form" [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion.errors }" name="autosuggestion" url="Suggestion/getFoVehicleList" display="regno"
+                        placeholder="Vehicle Number" [preSelected]="{regno:regno}"></auto-suggestion>
+                    <div *ngIf="isFormSubmit && f.autosuggestion.errors" class="error">
+                        <div *ngIf="f.autosuggestion.errors.required">value is Require</div>
+                    </div>
+                </div>
+                <div *ngIf="vehicle.type==3||vehicle.type==2" class="col-8">
+                    <input type="text" class="form-control" formControlName="select1" [(ngModel)]="regno" autocomplete="off">
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <label class="mt-2">Vehicle:</label>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <label>Fuel Station:</label>
+                </div>
+                <div class="col-8">
+                    <auto-suggestion (onSelected)="getFuelStation($event)" id="autosuggestion1" controlName="autosuggestion1" [parentForm]="Form" [ngClass]="{ 'is-invalid': isFormSubmit && f.autosuggestion1.errors }" url="Suggestion/getFuelStationName" display="name" placeholder="fuel Station"
+                        [preSelected]="{name:name}"></auto-suggestion>
+                    <div *ngIf="isFormSubmit && f.autosuggestion1.errors" class="error">
+                        <div *ngIf="f.autosuggestion1.errors.required">value is Require</div>
+
+                    </div>
+                </div>
             </div>
-            <div *ngIf="vehicle.type==1" class="col-8">
-                <auto-suggestion (onSelected)="getVehicleList($event)" url="Suggestion/getFoVehicleList" display="regno" placeholder="Vehicle Number" [preSelected]="{regno:regno}"></auto-suggestion>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <label>Reference Type:</label>
+                </div>
+                <div class="col-4">
+                    <select class="form-control" name="dropDownsubtype" id="dropDownsubtype" formControlName="dropDownsubtype" [(ngModel)]="vehicle.subType" (change)="changeVehicleType($event);resetData()">
+                         <option value="-1">select type</option>
+                         <option *ngFor="let status of dropDownSubType[vehicle.type];let i = index" [value]="status.id">
+                             {{status.name}}
+                         </option>
+                    </select>
+                </div>
+                <div *ngIf="value!==null" class="col-4">
+                    <auto-suggestion placeholder="Search.." (onSelected)="getRefDetails($event)" display="source_dest" [data]="brands" inputId="brand" [preSelected]="{source_dest:source_dest}"></auto-suggestion>
+                </div>
             </div>
-            <div *ngIf="vehicle.type==3||vehicle.type==2" class="col-8">
-                <input type="text" class="form-control" [(ngModel)]="regno" autocomplete="off">
+            <div class="row mt-2">
+                <div class="col-4">
+                    <form>
+                        <input type="radio" name="amount" [value]=0 [(ngModel)]="indentType"> <b>Amount</b>
+                        <input type="radio" name="ltr" [value]=1 [(ngModel)]="indentType" class="ml-2" checked> <b>liter</b>
+                    </form>
+                </div>
+                <div class="col-8">
+                    <input type="text" id="amount" formControlName="amount" [ngClass]="{ 'is-invalid': isFormSubmit && f.amount.errors }" name="amount" class="form-control" autocomplete="off" placeholder="enter value" [(ngModel)]="amount">
+                    <div *ngIf="isFormSubmit && f.amount.errors" class="invalid-feedback">
+                        <div *ngIf="f.amount.errors.required">value is Require</div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Fuel Station:</label>
-            </div>
-            <div class="col-8">
-                <auto-suggestion (onSelected)="getFuelStation($event)" url="Suggestion/getFuelStationName" display="name" placeholder="fuel Station" [preSelected]="{name:name}"></auto-suggestion>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <label>Reference Type:</label>
-            </div>
-            <div class="col-4">
-                <select class="form-control" name="dropDownsubtype" id="dropDownsubtype" [(ngModel)]="vehicle.subType" (change)="changeVehicleType($event);resetData()">
-                <option value="-1">select type</option>
-                <option *ngFor="let status of dropDownSubType[vehicle.type];let i = index" [value]="status.id">
-                    {{status.name}}
-               </option>
-           </select>
-            </div>
-            <div *ngIf="value!==null" class="col-4">
-                <auto-suggestion placeholder="Search.." (onSelected)="getRefDetails($event)" display="source_dest" [data]="brands" inputId="brand" [preSelected]="{source_dest:source_dest}"></auto-suggestion>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <form>
-                    <input type="radio" name="amount" [value]=0 [(ngModel)]="indentType"> <b>Amount</b>
-                    <input type="radio" name="ltr" [value]=1 [(ngModel)]="indentType" class="ml-2" checked> <b>liter</b>
-                </form>
-            </div>
-            <div class="col-8">
-                <input type="text" class="form-control" autocomplete="off" placeholder="enter value" [(ngModel)]="amount">
-            </div>
-        </div>
+        </form>
+
         <div class="row mt-2">
             <div class="col-4">
                 <label>Issue Date</label>
@@ -94,8 +109,7 @@
             </div>
         </div>
         <div class="mt-2">
-            <button type="button" class="btn btn-primary offset-4" (click)="submit()">{{common.params.flag}}</button>
+            <button type="submit" class="btn btn-primary offset-4" form="foUser-form" (click)="isFormSubmit=true">{{common.params.flag}}</button>
         </div>
-
     </div>
 </div>
