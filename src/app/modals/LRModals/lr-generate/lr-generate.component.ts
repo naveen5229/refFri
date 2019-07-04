@@ -40,7 +40,9 @@ export class LrGenerateComponent implements OnInit {
     sameAsDelivery: false,
     paymentTerm: 1,
     payableAmount: 0,
+    advanceAmount: 0,
     lrNumber: null,
+    lrNumberText: '',
     sourceCity: null,
     sourceLat: null,
     sourceLng: null,
@@ -53,7 +55,9 @@ export class LrGenerateComponent implements OnInit {
     gstPer: 0,
     lrType: 1,
     vehicleType: 1,
-    lrCategory: 1
+    lrCategory: 1,
+    grossWeight: 0,
+    netWeight: 0
   };
   fofields = []
   particulars = [
@@ -61,6 +65,7 @@ export class LrGenerateComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
+      weight_unit: 'kg',
       invoice: null,
       material_value: null,
       customjsonfields: [
@@ -122,15 +127,34 @@ export class LrGenerateComponent implements OnInit {
       this.lr.destinationLng = long;
     });
   }
+  getBranchDetails() {
+    if (!this.lr.id && !this.lr.lrNumber) {
+      this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
+        .subscribe(res => {
+          console.log("branchdetails", res['data']);
+          this.setBranchDetails(res['data'][0]);
+        }, err => {
+          this.common.loading--;
+          console.log(err);
+        });
+    }
+  }
 
+  setBranchDetails(lrDetails) {
+    this.lr.lrNumber = lrDetails.lrnum;
+    this.lr.lrNumberText = lrDetails.lrprefix;
+  }
   addConsignee() {
     console.log("open material modal")
-    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
+    const activeModal = this.modalService.open(AddConsigneeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'add-consige-veiw' });
     activeModal.result.then(data => {
       console.log('Data:', data);
 
     });
   }
+
+
+
 
   addDriver() {
     this.common.params = { vehicleId: this.vehicleId, vehicleRegNo: this.vehicleRegNo };
@@ -207,6 +231,7 @@ export class LrGenerateComponent implements OnInit {
       material: null,
       articles: null,
       weight: null,
+      weight_unit: 'kg',
       invoice: null,
       material_value: null,
 
@@ -278,6 +303,7 @@ export class LrGenerateComponent implements OnInit {
         branchId: this.accountService.selected.branch.id,
         vehicleId: this.vehicleId,
         lrNo: this.lr.lrNumber,
+        lrNoText: this.lr.lrNumberText,
         lrDate: lrDate,
         driverId: this.driver.id,
         source: this.lr.sourceCity,
@@ -288,8 +314,11 @@ export class LrGenerateComponent implements OnInit {
         gstPer: this.lr.gstPer,
         totalAmount: this.lr.payableAmount,
         payType: this.lr.paymentTerm,
+        advanceAmount: this.lr.advanceAmount,
         taxPaid: this.lr.taxPaidBy,
         travelAgentId: this.taId,
+        netWeight: this.lr.netWeight,
+        grossWeight: this.lr.grossWeight,
         deliveryAddress: this.lr.deliveryAddress,
         lrDetails: JSON.stringify(particulars),
         remarks: this.lr.remark,
@@ -447,7 +476,8 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consignorId = lrDetails.consigner_id;
     this.lr.paymentTerm = lrDetails.pay_type;
     this.lr.payableAmount = lrDetails.total_amount;
-    this.lr.lrNumber = lrDetails.receipt_no;
+    this.lr.lrNumberText = lrDetails.lr_prefix;
+    this.lr.lrNumber = lrDetails.lr_num;
     this.lr.sourceCity = lrDetails.source;
     this.lr.sourceLat = lrDetails.source_lat;
     this.lr.sourceLng = lrDetails.source_long;
@@ -457,7 +487,10 @@ export class LrGenerateComponent implements OnInit {
     this.lr.remark = lrDetails.remark;
     this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
     this.lr.amount = lrDetails.amount;
+    this.lr.advanceAmount = lrDetails.advance_amount;
     this.lr.gstPer = lrDetails.gstrate;
+    this.lr.netWeight = lrDetails.net_weight;
+    this.lr.grossWeight = lrDetails.gross_weight;
     this.lr.lrType = lrDetails.lr_asstype;
     this.lr.vehicleType = lrDetails.veh_asstype;
     this.lr.lrCategory = lrDetails.is_ltl;
@@ -482,20 +515,22 @@ export class LrGenerateComponent implements OnInit {
     console.log("particularDetails+++++", particularDetails);
     particularDetails.forEach(detail => {
       let customjfields = [];
-      detail.customjsonfields.forEach((customjfield, index) => {
-        const customIndex = Math.floor(index / 4);
-        const fieldIndex = (index % 4) + 1;
-        if (!customjfields[customIndex]) {
-          customjfields[customIndex] = {};
-          for (let i = 1; i <= 4; i++) {
-            customjfields[customIndex]['field' + i] = "";
-            customjfields[customIndex]['value' + i] = "";
+      if (detail.customjsonfields) {
+        detail.customjsonfields.forEach((customjfield, index) => {
+          const customIndex = Math.floor(index / 4);
+          const fieldIndex = (index % 4) + 1;
+          if (!customjfields[customIndex]) {
+            customjfields[customIndex] = {};
+            for (let i = 1; i <= 4; i++) {
+              customjfields[customIndex]['field' + i] = "";
+              customjfields[customIndex]['value' + i] = "";
+            }
           }
-        }
 
-        customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
-        customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
-      });
+          customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
+          customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
+        });
+      }
       detail.customjsonfields = customjfields;
     });
     this.particulars = particularDetails;

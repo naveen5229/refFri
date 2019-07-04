@@ -4,339 +4,382 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
-  <div [class]="img_flag?'col-md-7':'col-md-12'">
-    <table class="table table-bordered gerrate_tabel">
-      <tr>
-        <td><label>
-            LR Type
-            <select [(ngModel)]="lr.lrType">
-              <option value="1">Own</option>
-              <option value="2">Other</option>
-            </select>
-          </label></td>
-        <td>
-          <label>
-            Vehicle Type
-            <select [(ngModel)]="lr.vehicleType" (change)="resetData()">
-              <option value="1">Own</option>
-              <option value="2">Group</option>
-              <option value="3">Market</option>
-            </select>
-          </label>
-        </td>
-        <td>
-          <label>
-            LR Category
-            <select [(ngModel)]="lr.lrCategory">
-              <option value="1">LTL</option>
-              <option value="0">FTL</option>
-            </select>
-          </label>
-        </td>
-        <td>
-          <label>Branch
-            <select class="form-control" [(ngModel)]="accountService.selected.branch">
-              <option value="">Select Branch</option>
-              <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
-            </select>
-          </label>
-        </td>
-      </tr>
-    </table>
-    <table class="table table-bordered gerrate_tabel">
-      <tbody>
-        <tr>
-          <td><label>Vehicle No <span *ngIf="lr.vehicleType==1" class="red-star">*</span></label></td>
-          <td *ngIf="lr.vehicleType==1">
-            <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-              placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)" inputId="vehicleno"
-              [preSelected]="{regno:vehicleRegNo}">
-            </auto-suggestion>
-          </td>
-          <td *ngIf="lr.vehicleType!=1">
-            <input type="text" [(ngModel)]="vehicleRegNo" class="form-control" placeholder="Enter Vehicle Number"
-              id="vehicleno">
-          </td>
-          <td><label>LR No<span class="red-star">*</span></label></td>
-          <td>
-            <!-- {{lr.lrNumber}} -->
-            <input type="text" [(ngModel)]=lr.lrNumber class="form-control" placeholder="Enter LR Number">
-          </td>
-        </tr>
-        <tr>
-          <td><label>Date<span class="red-star">*</span></label></td>
-          <td>
+<nb-card>
+  <nb-card-body class="m-0 p-0" (keydown)="common.enterHandler($event)">
+    <div class="modal-body">
+      <div [class]="img_flag?'col-md-7':'col-md-12'">
+        <table class="table table-bordered gerrate_tabel">
+          <tr>
+            <td><label>
+                LR Type
+                <select [(ngModel)]="lr.lrType">
+                  <option value="1">Own</option>
+                  <option value="2">Market</option>
+                </select>
+              </label></td>
+            <td>
+              <label>
+                Vehicle Type
+                <select [(ngModel)]="lr.vehicleType" (change)="resetData()">
+                  <option value="1">Own</option>
+                  <option value="2">Group</option>
+                  <option value="3">Market</option>
+                </select>
+              </label>
+            </td>
+            <td>
+              <label>
+                LR Category
+                <select [(ngModel)]="lr.lrCategory">
+                  <option value="1">LTL</option>
+                  <option value="0">FTL</option>
+                </select>
+              </label>
+            </td>
+            <td *ngIf="!lr.id || !accountService.selected.branch.id">
+              <label>Branch
+                <select class="form-control" [(ngModel)]="accountService.selected.branch"
+                  (change)="getBranchDetails();">
+                  <option value="">Select Branch</option>
+                  <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
+                </select>
+              </label>
+            </td>
+          </tr>
+        </table>
+        <table class="table table-bordered gerrate_tabel">
+          <tbody>
+            <tr>
+              <td><label>Vehicle No <span *ngIf="lr.vehicleType==1" class="red-star">*</span></label></td>
+              <td *ngIf="lr.vehicleType==1">
+                <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid"
+                  display="regno" placeholder="Enter Vehicle Number" style="width:60%;" (change)="resetData($event)"
+                  inputId="vehicleno" [preSelected]="{regno:vehicleRegNo}">
+                </auto-suggestion>
+              </td>
+              <td *ngIf="lr.vehicleType!=1">
+                <input type="text" [(ngModel)]="vehicleRegNo" class="form-control" placeholder="Enter Vehicle Number"
+                  id="vehicleno">
+              </td>
+              <td><label>LR No<span class="red-star">*</span></label></td>
+              <td>
+                <div class="col-sm-4">
+                  <input type="text" [(ngModel)]=lr.lrNumberText class="form-control" placeholder="Prefix">
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" [(ngModel)]=lr.lrNumber class="form-control" placeholder="Number">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Date<span class="red-star">*</span></label></td>
+              <td>
 
-            <div class="row">
-              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
 
-                <uj-date-time-picker [isTime]="false" (onChanged)="lr.date = $event" [dateTimeValue]="lr.date">
-                </uj-date-time-picker>
-                <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date" name="date"
+                    <uj-date-time-picker [isTime]="false" (onChanged)="lr.date = $event" [dateTimeValue]="lr.date">
+                    </uj-date-time-picker>
+                    <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date" name="date"
                   (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY"> -->
-              </div>
+                  </div>
 
-            </div>
-          </td>
-          <td><label>T.A. Name</label></td>
+                </div>
+              </td>
+              <td><label>T.A. Name</label></td>
 
-          <td>
-            <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
-              placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}"></auto-suggestion>
-          </td>
-        </tr>
-        <tr>
-          <td><label>Driver Mob No. </label></td>
-          <td>
-            <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
+              <td>
+                <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent" display="name"
+                  placeholder=" Search Transport Agent Name" [preSelected]="{name:taName,id:taId}"></auto-suggestion>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Driver Mob No. </label></td>
+              <td>
+                <!-- <ng-template *ngIf="flag==true; then showText; else showSuggestion" ></ng-template>
                 <ng-template #showText><input type="text" class="form-control" style="width:200px" [(ngModel)]="mobileno" placeholder="" autocomplete="off" readonly></ng-template>
                 <ng-template #showSuggestion> -->
-            <div class="row">
-              <div class="col-10">
-                <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
-                  placeholder="Select Driver" style="width:100%;" class="auto-suggest d-block"
-                  [preSelected]="{mobileno:mobileno,id:driver.id}" placeholder="Search Driver"></auto-suggestion>
-              </div>
-              <div class="col-md-2"><i class="fa fa-plus add" (click)="addDriver()"></i> </div>
-            </div>
-            <!-- </ng-template> -->
+                <div class="row">
+                  <div class="col-10">
+                    <auto-suggestion (onSelected)="getDriverData($event)" url="Booster/getDrivers" display="mobileno"
+                      placeholder="Select Driver" style="width:100%;" class="auto-suggest d-block"
+                      [preSelected]="{mobileno:mobileno,id:driver.id}" placeholder="Search Driver"></auto-suggestion>
+                  </div>
+                  <div class="col-md-2"><i class="fa fa-plus add" (click)="addDriver()"></i> </div>
+                </div>
+                <!-- </ng-template> -->
 
-          </td>
+              </td>
 
-          <td><label>Driver: </label>
-            {{driver.name}}
-            <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
-          </td>
-          <td><label>License: </label>
-            {{driver.licenseNo}}
-            <!-- <input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly>  -->
-          </td>
-        </tr>
+              <td><label>Driver: </label>
+                {{driver.name}}
+                <!-- <input type="text" [(ngModel)]=lr.driverName class="form-control" readonly> -->
+              </td>
+              <td><label>License: </label>
+                {{driver.licenseNo}}
+                <!-- <input type="text" [(ngModel)]=lr.licenseNo class="form-control" readonly>  -->
+              </td>
+            </tr>
 
-        <tr>
-          <td><label>Source City<span class="red-star">*</span></label></td>
-          <td>
-            <input placeholder="Search Source City" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control"
-              autocomplete="off">
-          </td>
-          <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
-          <td><label>Destination City<span class="red-star">*</span> </label></td>
-          <td>
-            <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
-              class="form-control">
+            <tr>
+              <td><label>Source City<span class="red-star">*</span></label></td>
+              <td>
+                <input placeholder="Search Source City" id="sourceCity" [(ngModel)]="lr.sourceCity" class="form-control"
+                  autocomplete="off">
+              </td>
+              <!-- <td> <input type="text" [(ngModel)]=lr.sourceCity class="form-control" autocomplete="off"></td> -->
+              <td><label>Destination City<span class="red-star">*</span> </label></td>
+              <td>
+                <input placeholder="Search Destination City" id="destinationCity" [(ngModel)]="lr.destinationCity"
+                  class="form-control">
 
-            <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
-            <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
-        </tr>
-        <tr>
-          <td><label>Consignor Name<span class="red-star">*</span> </label></td>
-          <td> <span>
-              <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies" display="name"
-                placeholder="Search Consignor Name" style="width:100%;" class="col-md-9 auto-suggest"
-                [preSelected]="{name:lr.consignorName}">
-              </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addConsignee()"></i>
-            </span></td>
-          <td><label>Consignor Address</label></td>
-          <td>
-            <!-- {{lr.consignorAddress}} -->
-            <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off">
-          </td>
+                <!-- <input class="form-control" id="destinationCity " name="destinationCity" [(ngModel)]="lr.destinationCity "></td> -->
+                <!-- <td><input type="text" [(ngModel)]=lr.destinationCity class="form-control" autocomplete="off"> </td> -->
+            </tr>
+            <tr>
+              <td><label>Consignor Name<span class="red-star">*</span> </label></td>
+              <td> <span>
+                  <auto-suggestion (onSelected)="getConsignorDetail($event)" url="Suggestion/GetCompanies"
+                    display="name" placeholder="Search Consignor Name" style="width:100%;" class="col-md-9 auto-suggest"
+                    [preSelected]="{name:lr.consignorName}">
+                  </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addConsignee()"></i>
+                </span></td>
+              <td><label>Consignor Address</label></td>
+              <td>
+                <!-- {{lr.consignorAddress}} -->
+                <input type="text" [(ngModel)]=lr.consignorAddress class="form-control" autocomplete="off">
+              </td>
 
-        </tr>
-        <tr>
-          <td><label>Consignee Name<span class="red-star">*</span></label></td>
-          <td> <span>
-              <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies" display="name"
-                placeholder="Search Consignee Name" style="width:100%;" class="col-md-9 auto-suggest"
-                [preSelected]="{name:lr.consigneeName}">
-              </auto-suggestion>
-              <div col-md-2><i class="fa fa-plus  add col-md-3" (click)="addConsignee()"></i>
-              </div>
-            </span></td>
-          <td><label>Consignee Address</label></td>
-          <td>
-            <!-- {{lr.consigneeAddress}} -->
-            <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control">
-          </td>
+            </tr>
+            <tr>
+              <td><label>Consignee Name<span class="red-star">*</span></label></td>
+              <td> <span>
+                  <auto-suggestion (onSelected)="getConsigneeDetail($event)" url="Suggestion/GetCompanies"
+                    display="name" placeholder="Search Consignee Name" style="width:100%;" class="col-md-9 auto-suggest"
+                    [preSelected]="{name:lr.consigneeName}">
+                  </auto-suggestion>
+                  <div col-md-2><i class="fa fa-plus  add col-md-3" (click)="addConsignee()"></i>
+                  </div>
+                </span></td>
+              <td><label>Consignee Address</label></td>
+              <td>
+                <!-- {{lr.consigneeAddress}} -->
+                <input type="text" [(ngModel)]=lr.consigneeAddress class="form-control">
+              </td>
 
-        </tr>
-        <tr>
+            </tr>
+            <tr>
 
-          <td><label>Delivery Address </label> </td>
-          <td>
-            <input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
-            Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control"
-              autocomplete="off">
-          </td>
-        </tr>
-        <tr>
-          <td><label>Amount</label></td>
-          <td><input type="number" [(ngModel)]="lr.amount" class="form-control" (change)="calculateTotalAmount()"></td>
-          <td><label>GST %</label></td>
-          <td><input type="number" min="0" max="31" [(ngModel)]="lr.gstPer" class="form-control"
-              (change)="calculateTotalAmount()"></td>
-        <tr>
-          <td><label>Total Amount</label></td>
-          <td>
-            {{lr.payableAmount}}
-            <!-- <input type="text" [(ngModel)]="lr.payableAmount" class="form-control"> -->
-          </td>
-          <td><label>Payment Term</label></td>
-          <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
-              <option value="1">ToPay</option>
-              <option value="2">Paid</option>
-              <option value="3">To Be Billed</option>
-            </select></td>
-        </tr>
-        <tr>
-          <td>
-            <label>Tax Paid By : </label>
-          </td>
-          <td>
-            <span>
-              <label class="radio-btn">
-                <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="1">Consignor
-              </label>
-              <label class="radio-btn">
-                <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="2">Consignee
-              </label>
-              <label class="radio-btn">
-                <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="3">GTA
-              </label>
-              <label class="radio-btn">
-                <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
-                  value="4">Exempt
-              </label>
-            </span>
-          </td>
-          <td>
-            <label>Remark</label>
-          </td>
-          <td>
-            <input type="text" class="form-control" placeholder="Any Other Remark" [(ngModel)]="lr.remark">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="material_details">
-      <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i></h5>
-      <table class="table table-bordered">
-        <tbody *ngFor="let particular of particulars; let i = index;">
-          <tr>
-            <td>
-              <label> Material </label>
-            </td>
-            <td>
-              <auto-suggestion (onSelected)="searchMaterialType($event,i,material)" url="Suggestion/GetMaterialTypes"
-                display="name" placeholder="Material Name" [preSelected]="{name:particular.material}"
-                [inputId]="'material-' + i">
-              </auto-suggestion>
-              <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
-              <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
-            </td>
-            <td>
-              <label>No. of Articles </label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
-            </td>
-            <td>
-              <label>Weight (In Tons)</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.weight">
-            </td>
-            <td>
-              <label>Material Value</label>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="particular.material_value">
-            </td>
-            <td>
-              <i class="fa fa-trash remove" (click)="particulars.splice(i,1)" *ngIf="i !== 0"></i>
-              <i class="fa fa-plus add" (click)="addMore()" *ngIf="i == particulars.length-1"></i></td>
-          </tr>
+              <td><label>Delivery Address </label> </td>
+              <td>
+                <input type="checkbox" [(ngModel)]=lr.sameAsDelivery (change)="fillConsigneeAddress();">
+                Same as Consignee Address <input type="text" [(ngModel)]=lr.deliveryAddress class="form-control"
+                  autocomplete="off">
+              </td>
+              <td><label>Amount</label></td>
+              <td><input type="number" [(ngModel)]="lr.amount" class="form-control" (change)="calculateTotalAmount()">
+              </td>
+            </tr>
 
-          <tr *ngFor=" let customjsonfield of particular.customjsonfields; let j = index; ">
-            <td>
-              <select [(ngModel)]="customjsonfield.field1">
-                <option value="">Select</option>
-                <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="customjsonfield.value1">
-            </td>
-            <td>
-              <select [(ngModel)]="customjsonfield.field2">
-                <option value="">Select</option>
-                <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="customjsonfield.value2">
-            </td>
-            <td>
-              <select [(ngModel)]="customjsonfield.field3">
-                <option value="">Select</option>
-                <option *ngFor="let fofield of fofields ; " [value]="fofield.name">{{fofield.name}}</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="customjsonfield.value3">
-            </td>
-            <td>
-              <select [(ngModel)]="customjsonfield.field4">
-                <option value="">Select</option>
-                <option *ngFor="let fofield of fofields ; " [value]=fofield.name>{{fofield.name}}</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" class="form-control" [(ngModel)]="customjsonfield.value4">
-            </td>
+            <tr>
 
-            <td>
+              <td><label>GST %</label></td>
+              <td><input type="number" min="0" max="31" [(ngModel)]="lr.gstPer" class="form-control"
+                  (change)="calculateTotalAmount()"></td>
+              <td><label>Total Amount</label></td>
+              <td>
+                {{lr.payableAmount}}
+                <!-- <input type="text" [(ngModel)]="lr.payableAmount" class="form-control"> -->
+              </td>
+            <tr>
 
-              <i class="fa fa-plus add" (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
-              <i class="fa fa-trash remove" (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+              <td><label>Payment Term</label></td>
+              <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
+                  <option value="1">ToPay</option>
+                  <option value="2">Paid</option>
+                  <option value="3">To Be Billed</option>
+                </select></td>
+              <td><label *ngIf="lr.paymentTerm!=2">Advance Amount</label></td>
+              <td><input type="number" [(ngModel)]="lr.advanceAmount" class="form-control" *ngIf="lr.paymentTerm!=2">
 
-            </td>
-          </tr>
+            </tr>
+            <tr>
+              <td><label>Net Weight</label></td>
+              <td><input type="number" [(ngModel)]="lr.netWeight" class="form-control">
+              </td>
+              <td><label>Gross Weight</label></td>
+              <td><input type="number" min="0" max="31" [(ngModel)]="lr.grossWeight" class="form-control"></td>
+            <tr>
+            <tr>
+              <td>
+                <label>Tax Paid By : </label>
+              </td>
+              <td>
+                <span>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
+                      value="1">Consignor
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
+                      value="2">Consignee
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
+                      value="3">GTA
+                  </label>
+                  <label class="radio-btn">
+                    <input class="radio-btn" type="radio" name="taxPaidBy" id="taxPaidBy" [(ngModel)]="lr.taxPaidBy"
+                      value="4">Exempt
+                  </label>
+                </span>
+              </td>
+              <td>
+                <label>Remark</label>
+              </td>
+              <td>
+                <input type="text" class="form-control" placeholder="Any Other Remark" [(ngModel)]="lr.remark">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="material_details">
+          <h5>Material Details <i class="fa fa-list add" (click)="addFoField()"></i></h5>
+          <table class="table table-bordered">
+            <tbody *ngFor="let particular of particulars; let i = index;">
+              <tr>
+                <td>
+                  <label> Material </label>
+                </td>
+                <td>
+                  <auto-suggestion (onSelected)="particular.material=$event.name" url="Suggestion/GetMaterialTypes"
+                    display="name" placeholder="Material Name" [preSelected]="{name:particular.material}"
+                    [inputId]="'material-' + i">
+                  </auto-suggestion>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="particular.otherDetail.material"> -->
+                  <!-- <input type="hidden" class="form-control" [(ngModel)]="particular.otherDetail.materialId"> -->
+                </td>
+                <td>
+                  <label>No. of Articles </label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.articles" (focus)="material(i)">
+                </td>
+                <td>
+                  <label style="width:50%">
+                    Weight</label>
+                </td>
+                <td>
+                  <div class="col-sm-5" style="padding:0px">
+                    <select class="form-control" [(ngModel)]="particular.weight_unit">
+                      <option value="kg">Kg</option>
+                      <option value="ton">Ton</option>
+                      <option value="lt">Ltr</option>
+                      <option value="gal">Gallan</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-7" style="padding:0px">
+                    <input type="text" class="form-control" [(ngModel)]="particular.weight">
+                  </div>
+                </td>
+                <td>
+                  <label>Material Value</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="particular.material_value">
+                </td>
+                <td>
+                  <i class="fa fa-trash remove" (click)="particulars.splice(i,1)" *ngIf="i !== 0"></i>
+                  <i class="fa fa-plus add" (click)="addMore()" *ngIf="i == particulars.length-1"></i></td>
+              </tr>
+
+              <tr *ngFor=" let customjsonfield of particular.customjsonfields; let j = index; ">
+                <td>
+                  <auto-suggestion (onSelected)="customjsonfield.field1 = $event.name;" display="name" [data]="fofields"
+                    [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion>
+                  <!-- <select [(ngModel)]="customjsonfield.field1">
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="customjsonfield.value1">
+                </td>
+                <td>
+                  <auto-suggestion (onSelected)="customjsonfield.field2 = $event.name;" display="name" [data]="fofields"
+                    [preSelected]="{name:customjsonfield.field2}" placeholder="Name"></auto-suggestion>
+                  <!-- <select [(ngModel)]="customjsonfield.field2">
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="customjsonfield.value2">
+                </td>
+                <td>
+                  <auto-suggestion (onSelected)="customjsonfield.field3 = $event.name;" display="name" [data]="fofields"
+                    [preSelected]="{name:customjsonfield.field3}" placeholder="Name"></auto-suggestion>
+                  <!-- <select [(ngModel)]="customjsonfield.field3">
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ; " [value]="fofield.name">{{fofield.name}}</option>
+                  </select> -->
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="customjsonfield.value3">
+                </td>
+                <td>
+                  <auto-suggestion (onSelected)="customjsonfield.field4 = $event.name;" display="name" [data]="fofields"
+                    [preSelected]="{name:customjsonfield.field4}" placeholder="Name"></auto-suggestion>
+                  <!-- <select [(ngModel)]="customjsonfield.field4">
+                    <option value="">Select</option>
+                    <option *ngFor="let fofield of fofields ; " [value]=fofield.name>{{fofield.name}}</option>
+                  </select> -->
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="customjsonfield.value4">
+                </td>
+
+                <td>
+
+                  <i class="fa fa-plus add" (click)="addField(i)" *ngIf="j == particular.customjsonfields.length-1"></i>
+                  <i class="fa fa-trash remove" (click)="particular.customjsonfields.splice(i,1)" *ngIf="j !== 0"></i>
+
+                </td>
+              </tr>
 
 
 
-        </tbody>
+            </tbody>
 
-      </table>
-      <!-- <input type="date"> -->
-      <div><button class="btn btn-primary" (click)=saveDetails()>{{btntxt}}</button></div>
-    </div>
+          </table>
+          <!-- <input type="date"> -->
+          <div><button class="btn btn-primary" (click)=saveDetails()>{{btntxt}}</button></div>
+        </div>
 
 
 
-  </div>
-  <div class="col-md-5" *ngIf="img_flag">
-    <div class="clearfix mb-3">
-      <div class="col-sm-4">
-        <button class="btn btn-primary btn-loadLr" type="button" (click)="loadImage('LR')">Lorry Receipt</button>
       </div>
-      <div class="col-sm-3">
-        <button class="btn btn-primary btn-loadInvoice" type="button" (click)="loadImage('Invoice')">Invoice</button>
-      </div>
-      <div class="col-sm-3">
-        <button class="btn btn-primary btn-loadOther" type="button" (click)="loadImage('Other')">Others</button>
-      </div>
-      <!-- <div class="col-sm-3 fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
+      <div class="col-md-5" *ngIf="img_flag">
+        <div class="clearfix mb-3">
+          <div class="col-sm-4">
+            <button class="btn btn-primary btn-loadLr" type="button" (click)="loadImage('LR')">Lorry Receipt</button>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-primary btn-loadInvoice" type="button"
+              (click)="loadImage('Invoice')">Invoice</button>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-primary btn-loadOther" type="button" (click)="loadImage('Other')">Others</button>
+          </div>
+          <!-- <div class="col-sm-3 fa fa-trash remove" style="width:50px; height:40px; color: red; margin-left: 30px"
         (click)="removeLrDetails()">
       </div> -->
+        </div>
+        <div>
+          <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
+          </app-image-viewer>
+        </div>
+      </div>
     </div>
-    <div>
-      <app-image-viewer *ngIf="images.length" [images]="images" [idContainer]="'idOnHTML'" [loadOnInit]="true">
-      </app-image-viewer>
-    </div>
-  </div>
-</div>
+  </nb-card-body>
+</nb-card>

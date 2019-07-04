@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class SiteFencingComponent implements OnInit {
 
+  isContruct = false;
   mergeSiteId = null;
   typeIds = [];
   typeId = 1;
@@ -37,11 +38,24 @@ export class SiteFencingComponent implements OnInit {
 
   ngAfterViewInit() {
     this.mapService.mapIntialize("map");
-    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => this.mapService.zoomAt({ lat: lat, lng: lng }));
+    this.mapService.autoSuggestion("moveLoc", (place, lat, lng) => {
+      this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
+      this.clearAll();
+      this.loadMarkers();
+    });
     this.mapService.autoSuggestion("siteLoc", (place, lat, lng) => { this.siteLoc = place; this.siteLocLatLng = { lat: lat, lng: lng } });
     this.mapService.createPolygonPath();
     this.mapService.map.setOptions({ draggableCursor: 'crosshair' });
   }
+
+  toggleConstruction() {
+    if (this.isContruct == false)
+      if (!confirm("Are you sure, you want to switch to contruction mode??"))
+        return;
+    this.isContruct = !this.isContruct;
+    this.clearAll();
+  }
+
   mergeSite() {
     if (!this.mergeSiteId) {
       this.commonService.showToast("Select Old Site!!");
@@ -77,6 +91,10 @@ export class SiteFencingComponent implements OnInit {
     let site = this.selectedSite;
     this.apiService.post("Site/getSingleSite", { siteId: this.selectedSite })
       .subscribe(res => {
+        if (!res['success']) {
+          this.commonService.showError(res['msg']);
+          return;
+        }
         let data = res['data'];
         console.log('Res: ', data);
         this.clearAll(false);
@@ -162,6 +180,7 @@ export class SiteFencingComponent implements OnInit {
     this.siteName = null;
     this.siteLoc = null;
     this.selectedSite = null;
+    this.isUpdate = false;
     if (loadTable) {
       this.typeId = 1;
       this.getRemainingTable();
@@ -190,14 +209,19 @@ export class SiteFencingComponent implements OnInit {
           siteId: this.selectedSite,
           siteName: this.siteName,
           siteLoc: this.siteLoc,
-          typeId: this.typeId
+          typeId: this.typeId,
+          isContruct: this.isContruct
         };
-        //  console.log("Poly",this.mapService.polygon);
-        if (!this.isUpdate) {
+        if (!this.isUpdate || this.isContruct) {
           this.apiService.post("SiteFencing/insertSiteFence", params)
             .subscribe(res => {
-              let data = res['data'];
-              console.log('Res: ', res['data']);
+              if (!res['success']) {
+                this.commonService.showError(res['msg']);
+                this.mapService.isDrawAllow = true;
+                return;
+              }
+              this.selectedSite = res['data'];
+              console.log('Res: ', this.selectedSite);
               this.commonService.showToast("Created");
               this.gotoSingle();
               this.getRemainingTable();
@@ -220,7 +244,6 @@ export class SiteFencingComponent implements OnInit {
             }, err => {
               console.error(err);
               this.commonService.showError();
-              //alert("Please Enter Fields with Valid Name And Not Keep Them Null... ");
               this.mapService.isDrawAllow = true;
             });
         }
@@ -244,24 +267,9 @@ export class SiteFencingComponent implements OnInit {
         this.commonService.showError();
       });
   }
-
-  // getRemainingTable() {
-  //     this.commonService.loading++;
-  //     let response;
-  //     this.apiService.get('Test')
-  //       .subscribe(res => {
-  //         this.commonService.loading--;
-  //         console.log('Res:', res['data']);
-  //         // = res['data'];
-  //        // console.log('Attendance:',this.driverAttendance);
-  //       }, err => {
-  //         this.commonService.loading--;
-  //         console.log(err);
-  //       });
-  // }
   submitValidity() {
-    if (this.selectedSite) {
-      if (this.siteName == 'unknown' || !this.siteName) {
+    if ((!this.selectedSite && this.isContruct) || (this.selectedSite && !this.isContruct)) {
+      if ((this.siteName == 'unknown' || !this.siteName) && !this.isContruct) {
         return false;
       }
       return true;
@@ -269,21 +277,22 @@ export class SiteFencingComponent implements OnInit {
     return false;
   }
 
-  loadMarkers() {
+  loadMarkers(isShowAll=false) {
+    isShowAll || this.mapService.zoomMap(15);
     let boundBox = this.mapService.getMapBounds();
     let bounds = {
       'lat1': boundBox.lat1,
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': this.typeId
+      'typeId': isShowAll?null:this.typeId
     };
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
         this.clearAll();
-        this.mapService.createMarkers(data, false, true, ["id", "name"]);
+        this.mapService.createMarkers(data, false, false, ["id", "name"]);
       }, err => {
         console.error(err);
         this.commonService.showError();
@@ -349,13 +358,14 @@ export class SiteFencingComponent implements OnInit {
 
 
   enterTicket() {
-    if (this.selectedSite) {
+    if ((!this.selectedSite && this.isContruct) || (this.selectedSite && !this.isContruct)) {
       if (!this.mapService.isDrawAllow) {
         let params = {
           tblRefId: 2,
-          tblRowId: this.selectedSite
+          tblRowId: this.selectedSite ? this.selectedSite : -1
         };
         this.commonService.loading++;
+        this.loadMarkers(true);
         this.apiService.post('TicketActivityManagment/insertTicketActivity', params)
           .subscribe(res => {
             this.commonService.loading--;
@@ -376,14 +386,14 @@ export class SiteFencingComponent implements OnInit {
       if (this.mapService.isDrawAllow)
         this.submitPolygon();
     } else {
-      this.commonService.showToast('Select Site First..');
+      this.commonService.showToast('Select site or switch to contruction mode..');
     }
   }
   exitTicket() {
     let result;
     var params = {
       tblRefId: 2,
-      tblRowId: this.selectedSite
+      tblRowId: this.selectedSite ? this.selectedSite : -1
     };
     console.log("params", params);
     this.commonService.loading++;
@@ -449,6 +459,19 @@ export class SiteFencingComponent implements OnInit {
           this.commonService.showError();
           this.commonService.loading--;
         });
+    }
+  }
+  loadLatLong() {
+    console.log("moveLoc", this.moveLoc);
+    if (new RegExp(/[0-9]*,[0-9]*/i).test(this.moveLoc)) {
+      let lat = parseFloat(this.moveLoc.split(",")[0]);
+      let lng = parseFloat(this.moveLoc.split(",")[1]);
+      this.mapService.zoomAt({ lat: lat, lng: lng }, 13);
+      this.clearAll();
+      this.loadMarkers();
+    }
+    else {
+      this.commonService.showError("Pattern is Lat,Long");
     }
   }
 }

@@ -57,13 +57,16 @@ export class PodDashboardComponent implements OnInit {
     private modalService: NgbModal) {
 
     this.reset();
+    this.common.refresh = this.refresh.bind(this);
   }
 
   ngOnInit() {
   }
-
+  refresh() {
+    this.reset();
+  }
   ngAfterViewChecked() {
-    console.log('CHART DATA:', this.chartObject2.data);
+    // console.log('CHART DATA:', this.chartObject2.data);
   }
 
   reset() {
@@ -92,6 +95,9 @@ export class PodDashboardComponent implements OnInit {
       startAngle: '',
       backgroundColor: [],
     };
+    this.stateName = [];
+    this.stateCount = [];
+    this.summary = [];
     this.headings = [];
     this.valobj = {};
     this.PodDetails();
@@ -103,12 +109,17 @@ export class PodDashboardComponent implements OnInit {
       .subscribe(res => {
         this.common.loading--;
         this.data = res['data'];
+
         this.value = res['data']['result'];
         this.summary = res['data']['summary'];
+        // if (this.value == null || this.summary == null) {
+        //   this.value = [];
+        //   this.summary = [];
+        // }
         console.log("Sumaary Data", this.summary);
         console.log("Count:", this.stateCount);
-        this.stateName = [];
-        this.stateCount = [];
+        // this.stateName = [];
+        //this.stateCount = [];
         this.summary.forEach(info => {
           this.stateName.push(info['State Name']);
           this.stateCount.push(info.count);
@@ -185,8 +196,20 @@ export class PodDashboardComponent implements OnInit {
 
 
   view(url) {
+    // let images
     let field = url.split(',');
-
+    // field.forEach(elements => {
+    //   images = [{
+    //     name: "POD",
+    //     image: elements
+    //   }];
+    // })
+    // for (let i = 0; i < field.length; i++) {
+    //   images = [{
+    //     name: "POD",
+    //     image: field[i]
+    //   }];
+    // }
     let images = [{
       name: "POD",
       image: field[0]

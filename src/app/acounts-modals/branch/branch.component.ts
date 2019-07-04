@@ -36,9 +36,9 @@ export class BranchComponent implements OnInit {
     lrTerm: '',
     lrFooter: '',
     constcenter: 0,
-    site: {
-      id: 0,
-      name: ''
+    site:{
+      id:0,
+      name:'Not Applicable'
     },
     latitude: 0,
     longitude: 0,
@@ -179,7 +179,7 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('precode')) {
         this.setFoucus('lrcodewidth');
       } else if (activeId.includes('lrcodelastid')) {
-        this.setFoucus('addressline');
+        this.setFoucus('lr-terms');
       } else if (activeId.includes('lrcodewidth')) {
         this.setFoucus('lrcodelastid');
       } else if (activeId.includes('code')) {
@@ -209,11 +209,11 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('taxexemptionno')) {
         this.setFoucus('isactive');
       } else if (activeId.includes('isactive')) {
-        this.setFoucus('lr-terms');
+        this.setFoucus('site');
       } else if (activeId.includes('lr-terms')) {
         this.setFoucus('lr-footer');
       } else if (activeId.includes('lr-footer')) {
-        this.setFoucus('site');
+        this.setFoucus('addressline');
       } else if (activeId.includes('site')) {
         this.setFoucus('latitude');
       } else if (activeId.includes('latitude')) {
@@ -265,17 +265,17 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('isactive')) {
         this.setFoucus('taxexemptionno');
       } else if (activeId.includes('addressline')) {
-        this.setFoucus('lrcodelastid');
+        this.setFoucus('lr-footer');
       } else if (activeId.includes('longitude')) {
         this.setFoucus('latitude');
       } else if (activeId.includes('latitude')) {
         this.setFoucus('site');
       } else if (activeId.includes('site')) {
-        this.setFoucus('lr-footer');
+        this.setFoucus('isactive');
       } else if (activeId.includes('lr-footer')) {
         this.setFoucus('lr-terms');
       } else if (activeId.includes('lr-terms')) {
-        this.setFoucus('isactive');
+        this.setFoucus('lrcodelastid');
       } else if (activeId.includes('remarks')) {
         this.setFoucus('addressline');
       }

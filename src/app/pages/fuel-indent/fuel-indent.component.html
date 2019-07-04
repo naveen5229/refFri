@@ -1,0 +1,42 @@
+<nb-card style="border: 0px; height: 100%;">
+    <nb-card-header class="fuel-indent">
+        <span>
+            <h5>Fuel Indent</h5>
+
+        </span>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="fuel-indent">
+            <div class="row mb-3">
+                <div class="col-1">
+
+                    <label>Start Date</label>
+                </div>
+                <div class="col-3">
+                    <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate"
+                        [isTime]=false>
+                    </uj-date-time-picker>
+                </div>
+                <div class="col-1">
+                    <label>End Date</label>
+                </div>
+                <div class="col-3">
+                    <uj-date-time-picker (onChanged)="endDate=$event" class="" [dateTimeValue]="endDate" [isTime]=false>
+                    </uj-date-time-picker>
+                </div>
+                <div class="col-1 pr-0 pl-0">
+                    <button type="button" class="btn btn-primary w-100" (click)="getFuelIndent()">submit</button>
+                </div>
+                <div class="col-1 pr-0">
+                    <button type="button" class="btn btn-primary w-100" (click)="addFuelIndent('Add')">Add</button>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <smart-table *ngIf=" data && data.length" [data]="table.data" [settings]="table.settings" id="fuelIndent">
+            </smart-table>
+        </div>
+
+    </nb-card-body>
+</nb-card>
