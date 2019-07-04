@@ -3,8 +3,11 @@
     <div class="row">
 
       <div class="col-3">
+
+
         <chart *ngIf="chartObject2.type" [type]="chartObject2.type" [data]="chartObject2.data"
           style="margin-right:5px;min-height: 200px;" [options]="chartObject2.options"></chart>
+
         <table class="chart-table table table-bordered table-hover table-scroll">
           <thead class="thead">
             <tr>

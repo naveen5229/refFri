@@ -63,7 +63,7 @@ import { LrDiagnosticsComponent } from './lr-diagnostics/lr-diagnostics.componen
 import { VscDiagnosisComponent } from './vsc-diagnosis/vsc-diagnosis.component';
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
-import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
+// import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
 import { ChartModule } from 'angular2-chartjs';
 
 const PAGES_COMPONENTS = [
@@ -94,7 +94,7 @@ const PAGES_COMPONENTS = [
   FuelAnalysisComponent,
   TripAnalysisComponent,
   VscDiagnosisComponent,
-  PodDashboardComponent
+  // PodDashboardComponent
 
 
 
@@ -127,7 +127,6 @@ const PAGES_COMPONENTS = [
     SubSitesComponent,
     ActivitySummaryComponent,
     VehicleGpsDetailComponent,
-    // VehicleDistanceComponent,
     TransportAreaComponent,
     TripSiteRuleComponent,
     TripStatusFeedbackLogsComponent,
@@ -151,8 +150,7 @@ const PAGES_COMPONENTS = [
     FuelAnalysisComponent,
     VscDiagnosisComponent,
     BufferPolylineComponent,
-    PodDashboardComponent,
-
+    // PodDashboardComponent,
     // ViaRoutesComponent,
     BufferPolylineComponent
   ],

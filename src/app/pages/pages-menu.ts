@@ -172,6 +172,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-book',
         link: '/pages/expenses',
       },
+      {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/pod-dashboard',
+      },
     ]
   },
   {
