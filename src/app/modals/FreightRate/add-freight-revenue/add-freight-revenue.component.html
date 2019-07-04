@@ -21,7 +21,7 @@
           </select>
         </div>
         <div class="col-3">
-          <span><b>Vehicle No*</b></span>
+          <span><b>Vehicle No</b></span>
         </div>
         <div class="col-3 pl-0" *ngIf="revenue.vehicleType==1">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"

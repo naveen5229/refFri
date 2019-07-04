@@ -198,4 +198,6 @@ export class FreightRevenueComponent implements OnInit {
 
 
 
+
+
 }
