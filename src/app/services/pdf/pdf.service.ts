@@ -4,20 +4,20 @@ import html2canvas from 'html2canvas';
 import { CommonService } from '../common.service';
 import { UserService } from '../user.service';
 import { ApiService } from '../api.service';
+import html2pdf from 'html2pdf.js'
+import { DatePipe } from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
 
-  userId:any;
   constructor(public common: CommonService,
-    public user:UserService,
+    public user: UserService,
+    private datePipe: DatePipe,
     public api: ApiService) {
-      this.userId=this.user._customer.id;
-    console.log("userid.....",this.userId);
-
-     }
+  }
 
   mutliTablePdfWithId(tableIds) {
     let tablesHeadings = [];
@@ -228,7 +228,7 @@ export class PdfService {
     let eltimg = document.createElement("img");
     eltimg.src = "assets/images/elogist.png";
     eltimg.alt = "logo";
-   
+
 
     doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
@@ -243,7 +243,7 @@ export class PdfService {
   }
 
   newaddTableInDoc(doc, headings, rows) {
-   // console.log("ids",left_heading,center_heading);
+    // console.log("ids",left_heading,center_heading);
     let tempLineBreak = { fontSize: 10, cellPadding: 2, minCellHeight: 11, minCellWidth: 11, cellWidth: 51, valign: 'middle', halign: 'center' };
 
     doc.autoTable({
@@ -264,11 +264,11 @@ export class PdfService {
       columnStyles: { text: { cellWidth: 40, halign: 'center', valign: 'middle' } },
 
     });
-   
-     //  console.log("testing",left_heading,center_heading);
-        
-      
-   
+
+    //  console.log("testing",left_heading,center_heading);
+
+
+
     return doc;
   }
 
@@ -284,7 +284,7 @@ export class PdfService {
     doc.setFont("times", "bold");
     doc.text("elogist Solutions ", x, y);
 
-    
+
 
     let pageWidth = parseInt(doc.internal.pageSize.width);
     y = 15;
@@ -294,27 +294,27 @@ export class PdfService {
     let eltimg = document.createElement("img");
     eltimg.src = "assets/images/elogist.png";
     eltimg.alt = "logo";
-    
-      
 
 
-      // if (left_heading != "undefined" && left_heading != null && left_heading != '') {
-      //   x = pageWidth / 2;
-      //   let hdglen = left_heading.length / 2;
-      //   let xpos = x - hdglen - 50;
-      //   y = 40;
-      //   doc.setFont("times", "bold", "text-center");
-      //   doc.text(left_heading, xpos, y);
-      // }
-      // if (center_heading != "undefined" && center_heading != null && center_heading != '') {
-      //   x = pageWidth / 2;
-      //   y = 50;
-      //   let hdglen = center_heading.length / 2;
-      //   doc.setFontSize(14);
-      //   doc.setFont("times", "bold", "text-center");
-      //   doc.text(center_heading, x - hdglen - 40, y);
-      // }
-   
+
+
+    // if (left_heading != "undefined" && left_heading != null && left_heading != '') {
+    //   x = pageWidth / 2;
+    //   let hdglen = left_heading.length / 2;
+    //   let xpos = x - hdglen - 50;
+    //   y = 40;
+    //   doc.setFont("times", "bold", "text-center");
+    //   doc.text(left_heading, xpos, y);
+    // }
+    // if (center_heading != "undefined" && center_heading != null && center_heading != '') {
+    //   x = pageWidth / 2;
+    //   y = 50;
+    //   let hdglen = center_heading.length / 2;
+    //   doc.setFontSize(14);
+    //   doc.setFont("times", "bold", "text-center");
+    //   doc.text(center_heading, x - hdglen - 40, y);
+    // }
+
 
     doc.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
     // FOOTER
@@ -329,7 +329,7 @@ export class PdfService {
   }
 
 
-  
+
 
 
   voucherPDF(pdfData?) {
@@ -568,7 +568,7 @@ export class PdfService {
     var imgHeight = height || (canvas.height * imgWidth / canvas.width);
     var heightLeft = imgHeight;
 
-    
+
 
     const context = canvas.getContext('2d');
     context.scale(1, 1);
@@ -580,13 +580,13 @@ export class PdfService {
     context['msImageSmoothingEnabled'] = false;
 
     const contentDataURL = canvas.toDataURL('image/png')
-   
+
     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
     return pdf;
   }
 
-  tableWithImages(id, tableIds, data,left_heading,center_heading) {
-   
+  tableWithImages(id, tableIds, data, left_heading, center_heading) {
+
     // this.common.loading++;
     let promises = [];
     let list = data;
@@ -596,7 +596,7 @@ export class PdfService {
       status.push(list.name);
     }
     );
-    
+
     console.log(status);
     //ids.map(id => {
     let element = document.getElementById(id);
@@ -609,49 +609,49 @@ export class PdfService {
       let eltimg = document.createElement("img");
       eltimg.src = "assets/images/elogist.png";
       eltimg.alt = "logo";
-      
+
       pdf.addImage(eltimg, 'JPEG', 370, 15, 50, 50, 'logo', 'NONE', 0);
       result.map((canvas, index) => {
-        
+
         pdf = this.addImageToPdf(canvas, pdf, index, 450, 600);
         if (index < result.length - 1) pdf.addPage()
       });
       // pdf.save('report.pdf'); // Generated PDF
-     
+
       pdf.addPage();
       /**************** LOGO Creation *************** */
-     
+
       /**************** PDF Size ***************** */
       let maxHeadingLength = 0;
       let pageOrientation = "Portrait";
-   
-     // const status = ["onward", "issue", "available", "loading", "unloading"];
-     
-        pdf.setFontSize(14);
-        pdf.setFont("times", "bold", "text-center");
-        pdf.text(left_heading, 200, 60);
-      
-      
-        console.log("testing2",left_heading,center_heading);
-        pdf.setFontSize(14);
-        pdf.setFont("times", "bold", "text-center");
-        pdf.text(center_heading, 200 ,45 );
+
+      // const status = ["onward", "issue", "available", "loading", "unloading"];
+
+      pdf.setFontSize(14);
+      pdf.setFont("times", "bold", "text-center");
+      pdf.text(left_heading, 200, 60);
+
+
+      console.log("testing2", left_heading, center_heading);
+      pdf.setFontSize(14);
+      pdf.setFont("times", "bold", "text-center");
+      pdf.text(center_heading, 200, 45);
       tableIds.map((tableId, index) => {
-       let tablesHeadings = [];
+        let tablesHeadings = [];
         let tablesRows = [];
         tablesHeadings = this.newfindTableHeadings(tableId);
-       tablesRows = this.findTableRows(tableId);
+        tablesRows = this.findTableRows(tableId);
         console.log('...........................', tablesHeadings, tablesRows);
-       console.log('...........................', status[index], status, index);
-       pdf.text(status[index], 25, 65);
-        
-        
-        console.log("123456",left_heading,center_heading);
+        console.log('...........................', status[index], status, index);
+        pdf.text(status[index], 25, 65);
+
+
+        console.log("123456", left_heading, center_heading);
         pdf = this.newaddTableInDoc(pdf, tablesHeadings, tablesRows);
         // pdf = this.printPDF
         pdf.addPage();
       });
-     // this.common.loading--;
+      // this.common.loading--;
       pdf.save("table-with-images.pdf");
     });
   }
@@ -741,5 +741,58 @@ export class PdfService {
     return words_string;
   }
 
+  /**
+   * Convert HTML view into to pdf
+   * @param elementId {type: string} 
+   * @param pdfName 
+   */
+  async htmlToPdf(elementId: string, pdfName: string = 'report') {
+    this.common.loading++;
+    let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
+    let details = result['data'][0];
+    this.common.loading--;
+
+    const pdfElement = document.getElementById(elementId);
+    let headerHtml = `<div class="container">
+    <div class="row">
+      <div class="col-2" style="padding: 20px 30px 20px 0px;">
+        <img src="assets/images/elogist.png" alt="elogist" style="width: 85px;">
+      </div>
+      <div class="col-10" style="padding: 20px 30px 20px 0px;">
+        <div style="font-size: 18px;margin-bottom: 5px;letter-spacing: 1px;"><strong>${details.foname}</strong></div>
+        <div style="font-style: italic;color: #666;">Address: ${details.addressline}</div>
+        <div class="row">
+          <div class="col-4">Phone: ${details.phonenumber}</div>
+          <div class="col-4">GST No: ${details.gstno}</div>
+          <div class="col-4">PAN No: ${details.panno}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+    let headerElement = document.createElement('div');
+    headerElement.innerHTML = headerHtml;
+    headerElement.className = 'container';
+    pdfElement.insertBefore(headerElement, pdfElement.children[0]);
+    const opt = {
+      margin: 10,
+      filename: pdfName + '.pdf',
+      html2canvas: { scale: 2.5 },
+      jsPDF: { format: 'a4' }
+    };
+
+    html2pdf().from(pdfElement).set(opt).toPdf().get('pdf').then(pdf => {
+      pdfElement.removeChild(headerElement);
+      var totalPages = pdf.internal.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(10);
+        pdf.setTextColor(150);
+        pdf.text(10, pdf.internal.pageSize.height - 5, 'Powered by: Elogist Solutions');
+        pdf.text(pdf.internal.pageSize.width - 120, pdf.internal.pageSize.height - 5, 'Printed on: ' + this.datePipe.transform(new Date(), "dd-MM-yyyy"));
+        pdf.text(pdf.internal.pageSize.width - 23, pdf.internal.pageSize.height - 5, 'Page: ' + i);
+      }
+    }).save();
+  }
 
 }
