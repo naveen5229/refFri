@@ -6,7 +6,6 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
-import { EntityFlagsComponent } from '../../modals/entity-flags/entity-flags.component';
 
 @Component({
   selector: 'freight-revenue',
@@ -197,14 +196,7 @@ export class FreightRevenueComponent implements OnInit {
     });
   }
 
-  add() {
-    this.common.handleModalSize('class', 'modal-lg', '800');
-    this.common.params = { title: 'Entity Flag ', };
-    const activeModal = this.modalService.open(EntityFlagsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
 
-    });
-  }
 
 
 

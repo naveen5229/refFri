@@ -6,7 +6,7 @@ import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'entity-flags',
   templateUrl: './entity-flags.component.html',
-  styleUrls: ['./entity-flags.component.scss']
+  styleUrls: ['./entity-flags.component.scss', './../../pages/pages.component.css']
 })
 export class EntityFlagsComponent implements OnInit {
   title = null;
@@ -105,17 +105,13 @@ export class EntityFlagsComponent implements OnInit {
 
   }
 
-  resetType() {
-    // document.getElementById('referncetype')['value'] = '';
 
-  }
 
   selectList(entityTypeId) {
     console.log("TypeList Id:", entityTypeId);
     this.entityFlag.entityType = entityTypeId;
     console.log("TypeList Id2:", this.entityFlag.entityType);
-    // this.entityFlag.entityTypeId = null;
-    // this.entityFlag.entityName = null;
+
 
   }
 
