@@ -534,9 +534,11 @@ nb-card {
 .CostcenterClass {
     z-index: 999999 !important;
 }
-
+ngb-modal-backdrop{
+    z-index: 99999 !important;     
+}
 ngb-modal-window {
-    z-index: 9999 !important;
+    z-index: 999999 !important; 
 }
 
 .cdk-overlay-container {
