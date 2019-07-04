@@ -277,14 +277,14 @@ export class SiteFencingComponent implements OnInit {
     return false;
   }
 
-  loadMarkers() {
+  loadMarkers(isShowAll=false) {
     let boundBox = this.mapService.getMapBounds();
     let bounds = {
       'lat1': boundBox.lat1,
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': this.typeId
+      'typeId': isShowAll?null:this.typeId
     };
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
@@ -371,6 +371,7 @@ export class SiteFencingComponent implements OnInit {
               this.commonService.showToast(res['msg']);
             }
             else {
+              this.loadMarkers(true);
               this.mapService.isDrawAllow = true;
               if (this.isUpdate) {
                 this.commonService.showToast('Already Exists');
