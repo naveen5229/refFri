@@ -225,4 +225,24 @@ export class RoutesAdvancesComponent implements OnInit {
     this.routeAdd[index].modelId = null;
     console.log(event);
   }
+
+  validationCheck() {
+    this.route.forEach(element => {
+      console.log("Value:", element.fuelAmt);
+      if (element.fuelAmt && (element.fuelAmt <= 0 || element.fuelAmt > 600000)) {
+        this.common.showError("Amount  range Value 0 to 600000");
+      }
+      return;
+    });
+  }
+
+  validationCheck1() {
+    this.route.forEach(element => {
+      console.log("Value:", element.cash);
+      if (element.cash && (element.cash <= 0 || element.cash > 600000)) {
+        this.common.showError("Amount  range Value 0 to 600000");
+      }
+      return;
+    });
+  }
 }

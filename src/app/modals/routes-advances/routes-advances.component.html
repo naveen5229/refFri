@@ -17,9 +17,10 @@
             </auto-suggestion>
           </td>
           <td>Cash(₹)</td>
-          <td><input type="number" class="form-control" [(ngModel)]="routes.cash"></td>
+          <td><input type="number" class="form-control" [(ngModel)]="routes.cash" (focusout)="validationCheck1()"></td>
           <td>Fuel Amount(₹)</td>
-          <td><input type="number" class="form-control" [(ngModel)]="routes.fuelAmt"></td>
+          <td><input type="number" class="form-control" [(ngModel)]="routes.fuelAmt" (focusout)="validationCheck()">
+          </td>
           <td *ngIf="i == route.length-1">
             <button class="btn btn-primary" (click)="addMore()"><i class="fa fa-plus add">
               </i></button></td>
