@@ -41,6 +41,7 @@ export class LrGenerateComponent implements OnInit {
     paymentTerm: 1,
     payableAmount: 0,
     advanceAmount: 0,
+    remainingAmount: 0,
     lrNumber: null,
     lrNumberText: '',
     sourceCity: null,
@@ -57,7 +58,8 @@ export class LrGenerateComponent implements OnInit {
     vehicleType: 1,
     lrCategory: 1,
     grossWeight: 0,
-    netWeight: 0
+    netWeight: 0,
+    tareWeight: 0
   };
   fofields = []
   particulars = [
@@ -407,8 +409,18 @@ export class LrGenerateComponent implements OnInit {
     calPer = 100 + parseFloat('' + this.lr.gstPer);
     this.lr.payableAmount = (this.lr.amount * calPer) / 100;
     console.log(calPer, "lr payable amount", this.lr.payableAmount);
+    this.calculateReminingAmount();
   }
 
+  calculateTareWeight() {
+    this.lr.tareWeight = this.lr.grossWeight - this.lr.netWeight;
+    console.log("this.lr.tareWeight", this.lr.tareWeight);
+  }
+
+  calculateReminingAmount() {
+    this.lr.remainingAmount = this.lr.payableAmount - this.lr.advanceAmount;
+    console.log("this.lr.remainingAmount", this.lr.remainingAmount);
+  }
   closeModal() {
     this.activeModal.close(true);
   }
@@ -489,11 +501,13 @@ export class LrGenerateComponent implements OnInit {
     this.lr.destinationLng = lrDetails.destination_long;
     this.lr.remark = lrDetails.remark;
     this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
-    this.lr.amount = lrDetails.amount;
+    this.lr.amount = lrDetails.amount ? lrDetails.amount : 0;
     this.lr.advanceAmount = lrDetails.advance_amount;
+    this.lr.remainingAmount = lrDetails.remaining_amount;
     this.lr.gstPer = lrDetails.gstrate;
     this.lr.netWeight = lrDetails.net_weight;
     this.lr.grossWeight = lrDetails.gross_weight;
+    this.lr.tareWeight = lrDetails.tare_weight ? lrDetails.tare_weight : 0;
     this.lr.lrType = lrDetails.lr_asstype;
     this.lr.vehicleType = lrDetails.veh_asstype;
     this.lr.lrCategory = lrDetails.is_ltl;
