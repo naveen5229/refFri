@@ -277,7 +277,7 @@ export class SiteFencingComponent implements OnInit {
     return false;
   }
 
-  loadMarkers(isShowAll=false) {
+  loadMarkers(isShowAll = false) {
     isShowAll || this.mapService.zoomMap(15);
     let boundBox = this.mapService.getMapBounds();
     let bounds = {
@@ -285,13 +285,14 @@ export class SiteFencingComponent implements OnInit {
       'lng1': boundBox.lng1,
       'lat2': boundBox.lat2,
       'lng2': boundBox.lng2,
-      'typeId': isShowAll?null:this.typeId
+      'typeId': isShowAll ? null : this.typeId
     };
     this.apiService.post("VehicleStatusChange/getSiteAndSubSite", bounds)
       .subscribe(res => {
         let data = res['data'];
         console.log('Res: ', res['data']);
-        this.clearAll();
+        if (!isShowAll)
+          this.clearAll();
         this.mapService.createMarkers(data, false, false, ["id", "name"]);
       }, err => {
         console.error(err);
