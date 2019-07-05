@@ -185,6 +185,7 @@ import { AddFuelIndentComponent } from './modals/add-fuel-indent/add-fuel-indent
 import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.component';
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
 
 
 
@@ -349,6 +350,7 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     LrGenerateComponent,
     AddFieldComponent,
     AddFreightRevenueComponent,
+    SaveAdvicesComponent,
 
 
 
@@ -502,7 +504,8 @@ import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-rev
     RoutesTrafficKpisComponent,
     AddFuelIndentComponent,
     AddFieldComponent,
-    AddFreightRevenueComponent
+    AddFreightRevenueComponent,
+    SaveAdvicesComponent
 
 
   ],

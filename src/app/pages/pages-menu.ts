@@ -334,7 +334,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       icon: 'fas fa-align-justify',
       link: '/pages/pending-licence',
       home: true,
-    }
+    },
+    {
+
+      title: 'Advices',
+      icon: 'fas fa-question',
+      link: '/pages/advices',
+      home: true,
+    },
+
     ]
   },
   {
