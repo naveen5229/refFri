@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { ApiService } from '../api.service';
 import html2pdf from 'html2pdf.js';
 import { DatePipe } from '@angular/common';
+import { AccountService } from '../account.service';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ import { DatePipe } from '@angular/common';
 export class PdfService {
 
   constructor(public common: CommonService,
+    private accountService: AccountService,
     public user: UserService,
     private datePipe: DatePipe,
     public api: ApiService) {
@@ -431,7 +433,7 @@ export class PdfService {
     let mainElement = document.createElement('div');
     mainElement.className = 'voucher-pdf';
     mainElement.id = 'voucher-pdf';
-   let date= this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
+    let date = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
 
     mainElement.innerHTML = `
       <div class="voucher-customer ">
@@ -481,8 +483,8 @@ export class PdfService {
             </div> 
           </div>
         </div>`;
-    console.log(mainElement);
-    document.getElementsByTagName('BODY')[0].append(mainElement);
+    console.log('____________BODY________', document.getElementsByTagName('BODY')[0]);
+    document.getElementsByTagName('BODY')[0].appendChild(mainElement);
     return mainElement;
   }
 
@@ -748,10 +750,7 @@ export class PdfService {
    * @param pdfName 
    */
   async htmlToPdf(elementId: string, pdfName: string = 'report') {
-    this.common.loading++;
-    let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
-    let details = result['data'][0];
-    this.common.loading--;
+    let details = await this.common.getFoDetails();
 
     const pdfElement = document.getElementById(elementId);
     let headerHtml = `<div class="container">
