@@ -24,6 +24,7 @@ input::placeholder {
 
 .nb-theme-corporate nb-sidebar {
     width: 15rem;
+    z-index: 1000 !important;
 }
 
 .nb-theme-corporate nb-sidebar.expanded {
@@ -608,9 +609,8 @@ ngb-modal-window {
     display: none;
 } */
 
-.menu-sidebar {
-    z-index: 99999 !important;
-    box-shadow: none !important;
+.menu-sidebar.compacted {
+    z-index: 99999;
 }
 
 .menu-sidebar.compacted .scrollable {

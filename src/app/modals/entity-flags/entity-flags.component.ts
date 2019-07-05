@@ -32,6 +32,10 @@ export class EntityFlagsComponent implements OnInit {
     public api: ApiService, ) {
     this.common.handleModalSize('class', 'modal-lg', '800');
     this.title = this.common.params.title ? this.common.params.title : '';
+    this.entityFlag.vehicleId = this.common.params.vehicleId ? this.common.params.vehicleId : null;
+
+    this.entityFlag.vehicleRegNo = this.common.params.regno ? this.common.params.regno : null;
+
     this.getType();
   }
 
