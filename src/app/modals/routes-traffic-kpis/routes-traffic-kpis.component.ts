@@ -223,4 +223,22 @@ export class RoutesTrafficKpisComponent implements OnInit {
     this.route[index].modelId = null;
     console.log(event);
   }
+  validationCheck() {
+    this.route.forEach(element => {
+      console.log("Value:", element.targetTime);
+      if (element.targetTime && (element.targetTime <= 0 || element.targetTime > 8000)) {
+        this.common.showError("Time(Hr) range Value 0 to 8000 ");
+      }
+      return;
+    });
+  }
+  validationCheck1() {
+    this.route.forEach(element => {
+      console.log("Value:", element.allowedTime);
+      if (element.allowedTime && (element.allowedTime <= 0 || element.allowedTime > 8000)) {
+        this.common.showError("Time(Hr) range Value 0 to 8000 ");
+      }
+      return;
+    });
+  }
 }

@@ -59,7 +59,7 @@ export class BufferPolylineComponent implements OnInit {
       }
     }
 
-    this.kmsShow = (total/1000).toFixed(2);
+    this.kmsShow = (total / 1000).toFixed(2);
   }
 
   ngAfterViewInit() {
@@ -133,7 +133,7 @@ export class BufferPolylineComponent implements OnInit {
 
       this.getRemainingTable();
     }
-    this.meterRadius = 20;
+    // this.meterRadius = 20;
     if (this.circle)
       this.circle.setMap(null);
     this.mapService.clearAll();
