@@ -155,24 +155,30 @@ export class TripVoucherExpenseComponent implements OnInit {
     if(this.routId==1){
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data123: ', data.status);
+        if (data.status) {
           //this.addLedger(data.ledger);
           this.common.loading--;
+          this.selectedVehicle.id =0
+          this.getTripExpences();
+        }else{
+
         }
-        this.selectedVehicle.id =0
-        this.getTripExpences();
+     
       });
     }else{
       const activeModal = this.modalService.open(VoucherSummaryComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
-        if (data.response) {
+         console.log('Data321: ', data.status);
+        if (data.status) {
           //this.addLedger(data.ledger);
           this.common.loading--;
-        }
-        this.selectedVehicle.id =0
+          this.selectedVehicle.id =0
         this.getTripExpences();
+        }else{
+          
+        }
+        
       });
     }
     
@@ -440,7 +446,7 @@ export class TripVoucherExpenseComponent implements OnInit {
       console.log('tripPendingDataSelected', tripPendingDataSelected, 'this.common.params', this.common.params)
       const activeModal = this.modalService.open(VoucherSummaryShortComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
       activeModal.result.then(data => {
-        // console.log('Data: ', data);
+         console.log('Data: ', data);
         if (data.response) {
           //this.addLedger(data.ledger);
         }

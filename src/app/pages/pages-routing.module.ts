@@ -60,8 +60,11 @@ import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.co
 import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-odometer/vehicle-distance-with-odometer.component';
 import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
+import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
+import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
+import { AdvicesComponent } from './advices/advices.component';
 
 const routes: Routes = [{
   path: '',
@@ -376,7 +379,11 @@ const routes: Routes = [{
     component: VehicleOdometerComponent,
     canActivate: [AuthGuard]
   },
-
+  {
+    path: 'fuel-indent',
+    component: FuelIndentComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'frieght-rate-input',
     component: FrieghtRateInputComponent,
@@ -391,7 +398,17 @@ const routes: Routes = [{
     path: 'freight-revenue',
     component: FreightRevenueComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'pod-dashboard',
+    component: PodDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+ {
+    path: 'advices',
+    component: AdvicesComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 

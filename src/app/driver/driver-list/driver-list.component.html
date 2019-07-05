@@ -20,6 +20,8 @@
             <th>Driver Name</th>
             <th>Mobile_Number</th>
             <th>Mobile_Number 2</th>
+            <th>License</th>
+            <th>Aadhar</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -29,7 +31,22 @@
             <td>{{driver.empname}}</td>
             <td>{{driver.mobileno}}</td>
             <td>{{driver.mobileno2}}</td>
+            <td> <span *ngIf="driver.licence_photo">
+                <i class="fa fa-check icon-green" (click)="fetchLisense(driver)" title="OK"></i>
+              </span>
+              <span *ngIf="driver.licence_photo==null">
+                <i class="fa fa-times-circle icon-red-cross" title="No Record"></i>
+              </span></td>
+            <td>
+              <span *ngIf="driver.aadhar_photo">
+                <i class="fa fa-check icon-green" (click)="fetchAadhar(driver)" title="OK"></i>
+              </span>
+              <span *ngIf="driver.aadhar_photo==null">
+                <i class="fa fa-times-circle icon-red-cross" title="No Record"></i>
+              </span>
+            </td>
             <td><button class="btn btn-primary" (click)="updateDriverInfo(driver)" id="submit">Update</button></td>
+
           </tr>
         </tbody>
 

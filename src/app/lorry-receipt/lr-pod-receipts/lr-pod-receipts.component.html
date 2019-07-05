@@ -5,12 +5,20 @@
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
       <div class="col-sm-2">
-        <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
-          placeholder="Start Date" >
+          <uj-date-time-picker [isTime]="false" (onChanged)="startDate = $event" [dateTimeValue]="startDate">
+            </uj-date-time-picker>
+        <!-- <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+          placeholder="Start Date" > -->
       </div>
       <div class="col-sm-2">
-        <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
-          placeholder="End Date" >
+
+        
+        <!-- <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+          placeholder="End Date" > -->
+
+          <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endDate = $event"
+          [dateTimeValue]="endDate">
+        </uj-date-time-picker>
       </div>
       <div class="col-sm-6">
         <button class="btn btn-primary m-0" (click)="getLorryPodReceipts()">submit</button>

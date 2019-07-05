@@ -172,6 +172,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fa fa-book',
         link: '/pages/expenses',
       },
+      {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/pod-dashboard',
+      },
     ]
   },
   {
@@ -251,6 +256,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fse-entry',
         home: true,
       },
+      {
+        title: 'Fuel Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
+        home: true,
+      },
     ]
   },
   {
@@ -328,7 +339,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       icon: 'fas fa-align-justify',
       link: '/pages/pending-licence',
       home: true,
-    }
+    },
+    {
+
+      title: 'Advices',
+      icon: 'fas fa-question',
+      link: '/pages/advices',
+      home: true,
+    },
+
     ]
   },
   {

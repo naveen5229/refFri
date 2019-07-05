@@ -30,7 +30,7 @@
         </div>
         <div class="col-3">
           <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
-            formControlName="mobileno" minlength="10" required maxlength="10"
+            formControlName="mobileno" minlength="10" maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" readonly>
           <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
             <div *ngIf="f.mobileno.errors.required">mobileNumber is not editable</div>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-3">
           <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
-            formControlName="mobileno2" minlength="10" required maxlength="10"
+            formControlName="mobileno2" minlength="10"  maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }" readonly>
           <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
             <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
