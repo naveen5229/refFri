@@ -186,6 +186,7 @@ import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.c
 import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
+import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
 
 
 
@@ -351,6 +352,7 @@ import { SaveAdvicesComponent } from './modals/save-advices/save-advices.compone
     AddFieldComponent,
     AddFreightRevenueComponent,
     SaveAdvicesComponent,
+    EntityFlagsComponent,
 
 
 
@@ -505,7 +507,8 @@ import { SaveAdvicesComponent } from './modals/save-advices/save-advices.compone
     AddFuelIndentComponent,
     AddFieldComponent,
     AddFreightRevenueComponent,
-    SaveAdvicesComponent
+    SaveAdvicesComponent,
+    EntityFlagsComponent
 
 
   ],
