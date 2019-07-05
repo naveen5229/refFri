@@ -27,7 +27,7 @@
       <input type="text" class="form-control" id="group" name="group" [(ngModel)]="regno">
     </div>
     <div class="col-3">
-      <select class="form-control" (change)="getTypeDetails()" [(ngModel)]="advice_type_id">
+      <select class="form-control" (change)="getTypeDetails($event)" [(ngModel)]="advice_type_id">
         <option *ngFor="let type of type" [value]="type.id">
           {{type.description}}
 
