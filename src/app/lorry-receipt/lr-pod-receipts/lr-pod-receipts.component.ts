@@ -26,7 +26,7 @@ export class LrPodReceiptsComponent implements OnInit {
   headings = [];
   valobj = {};
   viewImages = null;
-  startDate = new Date(new Date().setDate(new Date().getDate()-15));
+  startDate = new Date(new Date().setDate(new Date().getDate() - 15));
   endDate = new Date();
   constructor(
     public api: ApiService,
@@ -37,11 +37,7 @@ export class LrPodReceiptsComponent implements OnInit {
     private modalService: NgbModal,
     public renderer: Renderer
   ) {
-    // let today;
-    // today = new Date();
-    // this.endDate = this.common.dateFormatter(today);
-    // this.startDate = this.common.dateFormatter(new Date(today.setDate(today.getDate() - 15)));
-    // console.log('dates ', this.endDate, this.startDate)
+
   }
 
   ngOnInit() {
