@@ -330,39 +330,38 @@ export class BalancesheetComponent implements OnInit {
   }
 
   generateCsvData() {
-    let jsonArray = [];
+    let liabilitiesJson = [];
     this.liabilities.forEach(liability => {
-      jsonArray.push({ liability: liability.name, liabilityAmount: liability.amount });
+      liabilitiesJson.push({ liability: liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
-        jsonArray.push({ liability: subGroup.name, liabilityAmount: subGroup.total });
+        liabilitiesJson.push({ liability: subGroup.name, liabilityAmount: subGroup.total });
         subGroup.balanceSheets.forEach(balanceSheet => {
-          jsonArray.push({ liability: balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+          liabilitiesJson.push({ liability: balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
         });
       });
     });
 
-    let jsonArray1 = [];
+    let assetsJson = [];
     this.assets.forEach(asset => {
-      jsonArray1.push({ asset: asset.name, assetAmount: asset.amount });
+      assetsJson.push({ asset: asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {
-        jsonArray1.push({ asset: subGroup.name, assetAmount: subGroup.total });
+        assetsJson.push({ asset: subGroup.name, assetAmount: subGroup.total });
         subGroup.balanceSheets.forEach(balanceSheet => {
-          jsonArray1.push({ asset: balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
+          assetsJson.push({ asset: balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
         });
       });
     });
-    console.log('Json:', jsonArray, jsonArray1);
     let mergedArray = [];
-    for (let i = 0; i < jsonArray.length || i < jsonArray1.length; i++) {
-      if (jsonArray[i] && jsonArray1[i] && i < jsonArray.length - 1 && i < jsonArray1.length - 1) {
-        mergedArray.push(Object.assign({}, jsonArray[i], jsonArray1[i]));
-      } else if (jsonArray[i] && i < jsonArray.length - 1) {
-        mergedArray.push(Object.assign({}, jsonArray[i], { asset: '', assetAmount: '' }));
-      } else if (jsonArray1[i] && i < jsonArray1.length - 1) {
-        mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, jsonArray1[i]));
+    for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+      if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+      } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+      } else if (assetsJson[i] && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
       }
     }
-    mergedArray.push(Object.assign({}, jsonArray[jsonArray.length - 1], jsonArray1[jsonArray1.length - 1]))
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
