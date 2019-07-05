@@ -83,12 +83,12 @@
     </div>
     <div class="col-3">
       <div class="row">
-        <div class="col-12" *ngIf="entityFlag.entityType=='1'">
+        <div class="col-12" *ngIf="entityFlag.entityType==1">
           <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.empname"
             url="Booster/getDrivers" display="empname" placeholder=" " inputId="driverData">
           </auto-suggestion>
         </div>
-        <div class="col-12" *ngIf="entityFlag.entityType!='1'">
+        <div class="col-12" *ngIf="entityFlag.entityType!=1">
           <auto-suggestion (onSelected)="entityFlag.entityTypeId=$event.id;entityFlag.entityName=$event.name"
             url="Suggestion/GetCompanies" display="name" placeholder=" " inputId="GetCompanies">
           </auto-suggestion>

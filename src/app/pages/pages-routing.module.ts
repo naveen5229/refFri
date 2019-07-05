@@ -64,6 +64,7 @@ import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
+import { AdvicesComponent } from './advices/advices.component';
 
 const routes: Routes = [{
   path: '',
@@ -402,8 +403,12 @@ const routes: Routes = [{
     path: 'pod-dashboard',
     component: PodDashboardComponent,
     canActivate: [AuthGuard]
-  }
-
+  },
+ {
+    path: 'advices',
+    component: AdvicesComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 
