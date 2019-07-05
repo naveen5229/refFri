@@ -219,7 +219,7 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('latitude')) {
         this.setFoucus('longitude');
       } else if (activeId.includes('longitude')) {
-        this.setFoucus('precode');
+        this.setFoucus('lr-terms');
       } else if (activeId.includes('addressline')) {
         this.setFoucus('remarks');
       } else if (activeId.includes('remarks')) {
@@ -275,7 +275,7 @@ export class BranchComponent implements OnInit {
       } else if (activeId.includes('lr-footer')) {
         this.setFoucus('lr-terms');
       } else if (activeId.includes('lr-terms')) {
-        this.setFoucus('lrcodelastid');
+        this.setFoucus('longitude');
       } else if (activeId.includes('remarks')) {
         this.setFoucus('addressline');
       }
