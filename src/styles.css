@@ -24,6 +24,7 @@ input::placeholder {
 
 .nb-theme-corporate nb-sidebar {
     width: 15rem;
+    z-index: 1000 !important;
 }
 
 .nb-theme-corporate nb-sidebar.expanded {
