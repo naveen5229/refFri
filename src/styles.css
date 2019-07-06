@@ -662,3 +662,15 @@ ngb-modal-window {
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item ul li a span {
     margin-left: 0px;
 }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .nb-theme-corporate nb-sidebar.expanded {
+        position: inherit !important;
+    }
+    table thead, table tbody {
+        display: table-row-group !important;
+    }
+    table tr {
+        display: table-row !important;
+    }
+}

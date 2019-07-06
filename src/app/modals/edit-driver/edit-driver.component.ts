@@ -15,7 +15,7 @@ export class EditDriverComponent implements OnInit {
   driverForm: FormGroup;
   driver = {
     name: null,
-    date: this.common.dateFormatter(new Date()),
+    date: null,
     mobileno: null,
     mobileno2: null,
     driverphoto: null,
@@ -26,17 +26,42 @@ export class EditDriverComponent implements OnInit {
     Salary: null,
     guranter: null,
     guranterno: null,
-    doj: null
+
 
   }
+  licensephoto = null;
+  aadharphoto = null;
+  driverphoto = null;
   constructor(
     private apiservice: ApiService,
     public common: CommonService,
     public modalService: NgbModal,
     private formbuilder: FormBuilder,
-    private activeModal: NgbActiveModal
-  ) {
+    private activeModal: NgbActiveModal) {
+    console.info("driver Data:", this.common.params.driver);
+    if (this.common.params.driver.licence_photo) {
+      this.licensephoto = this.common.params.driver.licence_photo;
+      //console.log('photo', this.common.params.driver.licence_photo);
+      let temp = this.common.params.driver.licence_photo.split("/docs");
 
+      this.driver.lisencephoto = "/docs" + temp[1];
+    }
+    if (this.common.params.driver.aadhar_photo) {
+      this.aadharphoto = this.common.params.driver.aadhar_photo;
+      let temp = this.common.params.driver.aadhar_photo.split("/docs");
+
+      this.driver.aadharphoto = "/docs" + temp[1];
+    }
+    if (this.common.params.driver.photo) {
+
+      this.driverphoto = this.common.params.driver.photo;
+      let temp = this.common.params.driver.photo.split("/docs");
+      this.driver.driverphoto = "/docs" + temp[1];
+    }
+    if (this.common.params.driver.doj) {
+      this.driver.date = this.common.dateFormatter1(this.common.params.driver.doj);
+      console.log('date:', this.driver.date);
+    }
   }
 
   ngOnInit() {
@@ -55,20 +80,20 @@ export class EditDriverComponent implements OnInit {
       date: ['']
     });
     console.log("driverForm", this.driverForm);
-    if (this.common.params.driver) {
-      //  console.log(this.common.params.driver);
-      // this.driverForm.setValue({
-      //   name:"prashant";
 
-      // }
-      // )
+    //  console.log(this.common.params.driver);
+    // this.driverForm.setValue({
+    //   name:"prashant";
 
-      //   (this.common.params.driver.empname);
-      // this.driverForm.controls.mobileno.value = this.common.params.driver.mobileno;
-      // this.driverForm.controls.date = this.common.params.driver.doj;
-      // this.driverForm.controls.guranter=this.common.params.driver.guarantor_name;
-      // this.driverForm.controls.data=this.common.params.driver.guarantor_mobileno;
-    }
+    // }
+    // )
+
+    //   (this.common.params.driver.empname);
+    // this.driverForm.controls.mobileno.value = this.common.params.driver.mobileno;
+    // this.driverForm.controls.date = this.common.params.driver.doj;
+    // this.driverForm.controls.guranter=this.common.params.driver.guarantor_name;
+    // this.driverForm.controls.data=this.common.params.driver.guarantor_mobileno;
+
   }
   getDate() {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -97,7 +122,18 @@ export class EditDriverComponent implements OnInit {
         }
 
         console.log('Base 64: ', res);
-        // this.driver['image' + index] = res;
+        if (index == 1) {
+          this.driver.lisencephoto = res;
+        }
+        if (index == 2) {
+          this.driver.aadharphoto = res;
+        }
+        if (index == 3) {
+          this.driver.driverphoto = res;
+        }
+        // this.driver.lisencephoto = { 'image'+ index: res };
+
+        console.log('photos', this.driver.lisencephoto);
       }, err => {
         this.common.loading--;
         console.error('Base Err: ', err);
@@ -116,12 +152,13 @@ export class EditDriverComponent implements OnInit {
     //this.submitted = true;
     let params = {
       name: this.driverForm.controls.name.value,
+      doj: this.driver.date,
       mobileNo: this.driverForm.controls.mobileno.value,
-      photo: this.driverForm.controls.uploadPhoto.value,
+      photo: this.driver.driverphoto,
       licenceNo: this.driverForm.controls.lisenceno.value,
-      licencePhoto: this.driverForm.controls.lisencephoto.value,
+      licencePhoto: this.driver.lisencephoto,
       aadharNo: this.driverForm.controls.aadharno.value,
-      aadharPhoto: this.driverForm.controls.aadharphoto.value,
+      aadharPhoto: this.driver.aadharphoto,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
     };

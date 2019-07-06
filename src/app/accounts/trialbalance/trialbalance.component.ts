@@ -461,5 +461,34 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
+  generateCsvData() {
+    let liabilitiesJson = [];
+    this.trialBalanceData.forEach(liability => {
+      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ Ledger: subGroup.name, OpeningBalance : subGroup.openingamount,amountdr:subGroup.dramount,amountcr :subGroup.cramount,amount:subGroup.amount});
+        subGroup.trialBalances.forEach(trailbalance => {
+          liabilitiesJson.push({ Ledger: trailbalance.y_ledger_name, OpeningBalance : trailbalance.y_openbal,amountdr:trailbalance.y_dr_bal,amountcr :trailbalance.y_cr_bal,amount:trailbalance.y_closebal});
+        });
+      });
+    });
+
+    // let mergedArray = [];
+    // for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+    //   if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+    //   } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+    //   } else if (assetsJson[i] && i < assetsJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
+    //   }
+    // }
+    // mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+
+    this.csvService.jsonToExcel(liabilitiesJson);
+    console.log('Merged:', liabilitiesJson);
+  }
+
+
 }
 

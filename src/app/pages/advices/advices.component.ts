@@ -15,7 +15,6 @@ export class AdvicesComponent implements OnInit {
   stateType = null;
   startTime = new Date(new Date().setDate(new Date().getDate() - 7));;
   endTime = new Date();
-
   data = [];
   table = {
     data: {
