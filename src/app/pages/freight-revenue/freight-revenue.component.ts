@@ -6,6 +6,7 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'freight-revenue',
@@ -193,6 +194,14 @@ export class FreightRevenueComponent implements OnInit {
       if (data) {
         this.viewFreightRevenue();
       }
+    });
+  }
+
+  transfer() {
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
     });
   }
 
