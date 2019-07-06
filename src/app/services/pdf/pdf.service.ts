@@ -483,8 +483,7 @@ export class PdfService {
             </div> 
           </div>
         </div>`;
-    console.log('____________BODY________', document.getElementsByTagName('BODY')[0]);
-    document.getElementsByTagName('BODY')[0].appendChild(mainElement);
+   
     return mainElement;
   }
 
