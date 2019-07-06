@@ -32,7 +32,7 @@
           </td>
 
           <td>Amount </td>
-          <td><input type="number" class="form-control" [(ngModel)]=routeExp.amount (focusout)="validationCheck()"></td>
+          <td><input type="number" class="form-control" [(ngModel)]=routeExp.amount></td>
 
           <td *ngIf="i == routeExpenses.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                 class="fa fa-plus add">

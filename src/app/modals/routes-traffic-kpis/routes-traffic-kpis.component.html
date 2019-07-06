@@ -16,12 +16,10 @@
                             [data]="brands" [preSelected]="null" (change)="resetData($event,i)"></auto-suggestion>
                     </td>
                     <td>Target time(Hrs)</td>
-                    <td><input type="number" class="form-control" [(ngModel)]="routes.targetTime"
-                            (focusout)="validationCheck()"></td>
+                    <td><input type="number" class="form-control" [(ngModel)]="routes.targetTime"></td>
 
                     <td>Allowed Halt(Hrs)</td>
-                    <td><input type="number" class="form-control" [(ngModel)]="routes.allowedTime"
-                            (focusout)="validationCheck1()"></td>
+                    <td><input type="number" class="form-control" [(ngModel)]="routes.allowedTime"></td>
                     <td *ngIf="i == route.length-1"><button class="btn btn-primary" (click)="addMore()"><i
                                 class="fa fa-plus add">
                             </i></button></td>
