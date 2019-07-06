@@ -4,6 +4,40 @@
   </nb-card-header>
 
   <nb-card-body>
+    <div class="row">
+      <div class="col-3">
+        <select [(ngModel)]="State" class="form-control" (change)="changeState()" ([ngModel])="stateType"
+          style=" border: 2px solid darkcyan; font-size: 13px">
+          <option value="0">Pending</option>
+          <option value="1">Accept</option>
+          <option value="-1">Reject</option>
+
+        </select>
+      </div>
+
+      <div class="col-2 pr-0">
+        <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-2 pr-0">
+        <uj-date-time-picker [isTime]="false" [isStart]="false" (onChanged)="endTime = $event"
+          [dateTimeValue]="endTime">
+        </uj-date-time-picker>
+      </div>
+      <div class="col-2">
+        <button type="submit" class="btn btn-primary m-0" (click)="searchData()">
+          Search
+        </button>
+      </div>
+
+    </div>
+
     <button class="btn btn-primary" (click)="saveAdvices()">Add</button>
+    <div>
+
+
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="advices">
+      </smart-table>
+    </div>
   </nb-card-body>
 </nb-card>

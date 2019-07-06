@@ -75,6 +75,9 @@ export class RoutesTrafficKpisComponent implements OnInit {
   }
 
   submit() {
+    if (!this.validationCheck()) {
+      return;
+    }
     console.log("para", JSON.stringify(this.route))
     this.api.post('ViaRoutes/trafficKpiAdd', { data: JSON.stringify(this.route) })
       .subscribe(res => {
@@ -224,21 +227,17 @@ export class RoutesTrafficKpisComponent implements OnInit {
     console.log(event);
   }
   validationCheck() {
+    let isValidate = true;
     this.route.forEach(element => {
-      console.log("Value:", element.targetTime);
-      if (element.targetTime && (element.targetTime <= 0 || element.targetTime > 8000)) {
+      if ((element.targetTime && (element.targetTime <= 0 || element.targetTime > 8000)) ||
+        (element.allowedTime && (element.allowedTime <= 0 || element.allowedTime > 8000))) {
         this.common.showError("Time(Hr) range Value 0 to 8000 ");
+        isValidate = false;
+        return isValidate;
       }
-      return;
     });
+    return isValidate;
   }
-  validationCheck1() {
-    this.route.forEach(element => {
-      console.log("Value:", element.allowedTime);
-      if (element.allowedTime && (element.allowedTime <= 0 || element.allowedTime > 8000)) {
-        this.common.showError("Time(Hr) range Value 0 to 8000 ");
-      }
-      return;
-    });
-  }
+
+
 }

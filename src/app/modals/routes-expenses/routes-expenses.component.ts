@@ -92,17 +92,22 @@ export class RoutesExpensesComponent implements OnInit {
   }
 
   validationCheck() {
+    let isValidate = true;
     this.routeExpenses.forEach(element => {
       console.log("Value:", element.amount);
       if (element.amount && (element.amount <= 0 || element.amount > 600000)) {
         this.common.showError("Amount  range Value 0 to 600000");
+        isValidate = false;
+        return isValidate;
       }
-      return;
     });
+    return isValidate;
   }
 
   saveExpenses() {
-
+    if (!this.validationCheck()) {
+      return;
+    }
     let params = {
       data: JSON.stringify(this.routeExpenses),
     }
