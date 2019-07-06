@@ -185,6 +185,9 @@ export class RoutesAdvancesComponent implements OnInit {
     }
   }
   advanceRoute() {
+    if (!this.validationCheck()) {
+      return;
+    }
     this.common.loading++;
     console.log("oara", JSON.stringify(this.route))
     this.api.post('ViaRoutes/advances', { data: JSON.stringify(this.route) })
@@ -225,4 +228,19 @@ export class RoutesAdvancesComponent implements OnInit {
     this.routeAdd[index].modelId = null;
     console.log(event);
   }
+
+  validationCheck() {
+    let isValidate = true;
+    this.route.forEach(element => {
+      if ((element.fuelAmt && (element.fuelAmt <= 0 || element.fuelAmt > 600000)) ||
+        (element.cash && (element.cash <= 0 || element.cash > 600000))) {
+        this.common.showError("Amount  range Value 0 to 600000");
+        isValidate = false;
+        return isValidate;
+      }
+    });
+    return isValidate;
+  }
+
+
 }
