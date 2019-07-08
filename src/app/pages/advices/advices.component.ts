@@ -5,6 +5,8 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { SaveAdvicesComponent } from '../../modals/save-advices/save-advices.component';
+import { ClearAdvicesComponent } from '../../modals/clear-advices/clear-advices.component';
+import { AdviceViewComponent } from '../../modals/advice-view/advice-view.component';
 import { UserService } from '../../services/user.service';
 @Component({
   selector: 'advices',
@@ -156,8 +158,11 @@ export class AdvicesComponent implements OnInit {
   saveAdvices() {
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-
-
-
+  clearAdvices() {
+    const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+  adviceView() {
+    const activeModal = this.modalService.open(AdviceViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 
 }

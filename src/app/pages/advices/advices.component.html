@@ -33,11 +33,12 @@
     </div>
 
     <button class="btn btn-primary" (click)="saveAdvices()">Add</button>
-    <div>
+    <button class="btn btn-primary" (click)="clearAdvices()">clearAdvice</button>
+    <button class="btn btn-primary" (click)="adviceView()">ViewAdvice</button>
 
 
-      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="advices">
-      </smart-table>
+    <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="advices">
+    </smart-table>
     </div>
   </nb-card-body>
 </nb-card>
