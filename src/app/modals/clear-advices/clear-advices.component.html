@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Clear Advices</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row form-group">
+    <div class="col-3">
+      <label>Status</label>
+    </div>
+    <div class="col-3">
+      <select class="form-control" (change)="getSelection()" [(ngModel)]="id">
+        <option *ngFor="let status of status" [value]="status.id">
+          {{status.name}}
+
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-3">
+      <label>Remarks</label>
+    </div>
+    <div class="col-3">
+      <input type="text" class="form-control" name="rema" id="rema" maxlength="500" [(ngModel)]="remarks">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="text-center">
+    <button class="btn btn-primary" id="button" (click)="ClearAdvices()">Submit</button>
+  </div>
+</div>
