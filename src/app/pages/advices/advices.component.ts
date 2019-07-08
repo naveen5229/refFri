@@ -152,7 +152,7 @@ export class AdvicesComponent implements OnInit {
   }
   clearAdvices(row) {
     this.common.params = { advice: row };
-    const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
   }
   adviceView(row) {
     this.common.params = { advice: row };

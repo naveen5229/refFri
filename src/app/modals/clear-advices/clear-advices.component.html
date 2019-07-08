@@ -9,7 +9,7 @@
     <div class="col-3">
       <label>Status</label>
     </div>
-    <div class="col-3">
+    <div class="col-9">
       <select class="form-control" (change)="getSelection()" [(ngModel)]="id">
         <option *ngFor="let status of status" [value]="status.id">
           {{status.name}}
@@ -20,10 +20,12 @@
   </div>
   <div class="row form-group">
     <div class="col-3">
-      <label>Remarks</label>
+      <label>Remark</label>
     </div>
-    <div class="col-3">
-      <input type="text" class="form-control" name="rema" id="rema" maxlength="500" [(ngModel)]="remarks">
+    <div class="col-9">
+      <textarea class="form-control" name="remark" id="remark" maxlength="500" [(ngModel)]="remarks">
+
+      </textarea>
     </div>
   </div>
 </div>
