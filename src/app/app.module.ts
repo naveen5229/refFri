@@ -187,6 +187,9 @@ import { AddFieldComponent } from './modals/LRModals/add-field/add-field.compone
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
 import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
+import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
+import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
+import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 
 
@@ -346,6 +349,9 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     AddFreightRevenueComponent,
     SaveAdvicesComponent,
     EntityFlagsComponent,
+    ClearAdvicesComponent,
+    AdviceViewComponent,
+    TransferReceiptsComponent,
     AddFreightExpensesComponent,
 
   ],
@@ -500,7 +506,10 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     AddFieldComponent,
     AddFreightRevenueComponent,
     SaveAdvicesComponent,
-    EntityFlagsComponent
+    EntityFlagsComponent,
+    ClearAdvicesComponent,
+    AdviceViewComponent,
+    TransferReceiptsComponent
 
 
   ],
