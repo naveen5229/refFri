@@ -180,11 +180,10 @@ export class SaveAdvicesComponent implements OnInit {
         this.data = res['data'];
         if (this.data[0]['y_id'] > 0) {
           this.common.showToast(this.data[0]['y_msg']);
-          this.closeModal();
+          this.activeModal.close({ data: true });
         } else {
           this.common.showError(this.data[0]['y_msg']);
         }
-        // console.log('type', this.type);
 
       }, err => {
         this.common.loading--;
