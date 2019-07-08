@@ -50,7 +50,7 @@ export class TrialbalanceComponent implements OnInit {
     }
    
   };
-  viewType = 'main';
+  viewType = 'sub';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -69,7 +69,6 @@ export class TrialbalanceComponent implements OnInit {
     // this.getLedgerList();
     this.setFoucus('startDate');
     this.common.currentPage = 'Trial Balance';
-    this.changeViewType();
   }
 
   ngOnInit() {
@@ -253,6 +252,8 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
 
     console.log('First Section:', this.trialBalanceData);
     console.log('Second Section:', this.trialBalanceData);
+    this.changeViewType();
+
   }
   pdfFunction() {
     let params = {

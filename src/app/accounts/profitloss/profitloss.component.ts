@@ -48,7 +48,7 @@ export class ProfitlossComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'main';
+  viewType = 'sub';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -60,7 +60,6 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
-    this.changeViewType();
 
   }
 
@@ -84,27 +83,7 @@ export class ProfitlossComponent implements OnInit {
       });
 
   }
-  changeViewType() {
-    this.active.liabilities.mainGroup = [];
-    this.active.liabilities.subGroup = [];
-    this.active.asset.mainGroup = [];
-    this.active.asset.subGroup = [];
-
-    if (this.viewType == 'sub') {
-      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
-      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
-    } else if (this.viewType == 'all') {
-      this.liabilities.forEach((liability, i) => {
-        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
-        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
-      });
-
-      this.assets.forEach((asset, i) => {
-        this.active.asset.mainGroup.push('mainGroup' + i + 0);
-        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
-      });
-    }
-  }
+ 
 
   getBalanceSheet() {
     console.log('Balance Sheet:', this.plData);
@@ -212,6 +191,7 @@ export class ProfitlossComponent implements OnInit {
       }
       delete asset.profitLossData;
     });
+    this.changeViewType();
   }
 
   filterData(assetdata, slug) {
@@ -366,5 +346,27 @@ export class ProfitlossComponent implements OnInit {
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+  }
+
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+    this.active.asset.mainGroup = [];
+    this.active.asset.subGroup = [];
+
+    if (this.viewType == 'sub') {
+      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
+      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
+    } else if (this.viewType == 'all') {
+      this.liabilities.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      this.assets.forEach((asset, i) => {
+        this.active.asset.mainGroup.push('mainGroup' + i + 0);
+        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
+      });
+    }
   }
 }

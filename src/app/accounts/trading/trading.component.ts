@@ -49,7 +49,7 @@ export class TradingComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'main';
+  viewType = 'sub';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -59,7 +59,6 @@ export class TradingComponent implements OnInit {
     public modalService: NgbModal) {
     this.setFoucus('startdate');
     this.common.currentPage = 'Trading Account';
-    this.changeViewType();
   }
 
   ngOnInit() {
@@ -190,6 +189,7 @@ export class TradingComponent implements OnInit {
       }
       delete asset.balanceSheets;
     });
+    this.changeViewType();
 
   }
 
@@ -292,6 +292,7 @@ export class TradingComponent implements OnInit {
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+    
   }
   handleVoucherDateOnEnter(iddate) {
     let dateArray = [];
