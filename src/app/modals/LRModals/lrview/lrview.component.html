@@ -107,17 +107,17 @@
               </table>
               <table class="table table-bordered">
                 <tr>
-                  <td>
-                    Net Weight
-                  </td>
-                  <td>
+                  <td *ngIf="lrDetails.net_weight">
+                    Net Weight :
                     {{lrDetails.net_weight}}
                   </td>
-                  <td>
-                    Gross Weight
-                  </td>
-                  <td>
+                  <td *ngIf="lrDetails.gross_weight">
+                    Gross Weight :
                     {{lrDetails.gross_weight}}
+                  </td>
+                  <td *ngIf="lrDetails.tare_weight">
+                    Tare Weight :
+                    {{lrDetails.tare_weight}}
                   </td>
                 </tr>
               </table>

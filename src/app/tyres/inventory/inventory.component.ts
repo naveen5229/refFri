@@ -63,7 +63,7 @@ export class InventoryComponent implements OnInit {
   sizeSuggestion = [];
   searchedTyreDetails = [];
   userType = null;
-
+  typeListId = -1;
 
   data = [];
   table = {
@@ -232,7 +232,7 @@ export class InventoryComponent implements OnInit {
     this.inventories[index].nsd3 = null;
     this.inventories[index].psi = null;
   }
-  
+
   handleFileSelection(event) {
     this.common.loading++;
     this.common.getBase64(event.target.files[0])
@@ -277,7 +277,10 @@ export class InventoryComponent implements OnInit {
       });
   }
 
-
+  typeList() {
+    console.info("Data", this.typeListId);
+    this.getviewData();
+  }
   getviewData() {
     let params = {
       // startTime: this.common.dateFormatter(this.startTime),
@@ -286,7 +289,7 @@ export class InventoryComponent implements OnInit {
     console.log("params", params);
     ++this.common.loading;
 
-    this.api.get('tyres/getTyreInventry')
+    this.api.get('tyres/getTyreInventry?mapped=' + this.typeListId)
       .subscribe(res => {
         --this.common.loading;
         this.data = [];
@@ -312,7 +315,7 @@ export class InventoryComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-     
+
 
         this.table.data.columns = this.getTableColumns();
       }, err => {

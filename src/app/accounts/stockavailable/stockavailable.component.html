@@ -62,6 +62,7 @@
 
       <thead style="background-color:#263238; color:#fff;">
         <tr>
+          <th>S.No</th>
           <th>Stock Item Type</th>
           <th>Stock Item Sub Type</th>
           <th>Stock Item</th>
@@ -70,6 +71,7 @@
       </thead>
       <tr *ngFor=" let dataItem of stockAvailableData; let i = index;" (click)="selectedRow = i"
         [ngClass]="{'highlight' : selectedRow == i}">
+        <td>{{ i+1 }}</td>
         <td>{{dataItem.y_stockitemtype}}</td>
         <td>{{dataItem.y_stockitemsubtype}}</td>
         <td>{{dataItem.y_stockitem}}</td>

@@ -1,8 +1,16 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-6">
         <h5>Tyre Inventory</h5>
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" name="typelist" [(ngModel)]="typeListId" (change)="typeList()">
+          <option value="-1">All</option>
+          <option value="1">Mapped</option>
+          <option value="0">UnMapped</option>
+
+        </select>
       </div>
       <div class="col-sm-4 text-right">
         <div class="row" *ngIf="userType=='admin'">
@@ -118,4 +126,3 @@
 
   </nb-card-body>
 </nb-card>
-

@@ -24,6 +24,7 @@ input::placeholder {
 
 .nb-theme-corporate nb-sidebar {
     width: 15rem;
+    z-index: 1000 !important;
 }
 
 .nb-theme-corporate nb-sidebar.expanded {
@@ -534,11 +535,9 @@ nb-card {
 .CostcenterClass {
     z-index: 999999 !important;
 }
-ngb-modal-backdrop{
-    z-index: 99999 !important;     
-}
+
 ngb-modal-window {
-    z-index: 999999 !important; 
+    z-index: 9999 !important;
 }
 
 .cdk-overlay-container {
@@ -610,9 +609,8 @@ ngb-modal-window {
     display: none;
 } */
 
-.menu-sidebar {
-    z-index: 99999 !important;
-    box-shadow: none !important;
+.menu-sidebar.compacted {
+    z-index: 99999;
 }
 
 .menu-sidebar.compacted .scrollable {
@@ -663,4 +661,16 @@ ngb-modal-window {
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item ul li a span {
     margin-left: 0px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .nb-theme-corporate nb-sidebar.expanded {
+        position: inherit !important;
+    }
+    table thead, table tbody {
+        display: table-row-group !important;
+    }
+    table tr {
+        display: table-row !important;
+    }
 }
