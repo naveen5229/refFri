@@ -278,6 +278,7 @@ export class SiteFencingComponent implements OnInit {
   }
 
   loadMarkers(isShowAll = false) {
+    isShowAll = !isShowAll?this.isContruct:isShowAll;
     isShowAll || this.mapService.zoomMap(15);
     let boundBox = this.mapService.getMapBounds();
     let bounds = {

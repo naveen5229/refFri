@@ -57,7 +57,7 @@ export class TransferReceiptsComponent implements OnInit {
     this.activeModal.close();
   }
 
-
+  save(){}
   getvehicleData(vehicle) {
     this.tranferReceipt.vehicleId = vehicle.id;
     this.tranferReceipt.vehicleRegNo = vehicle.regno;
