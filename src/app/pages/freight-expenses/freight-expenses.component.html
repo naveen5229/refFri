@@ -1,0 +1,31 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h5>Frieght Expenses</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row" style="margin-top:10px; margin-bottom:10px;">
+      <div class="col-sm-2">
+        <input type="text" class="form-control" [value]="startDate | date : 'dd MMM yyyy'" name="date"
+          placeholder="Start Date" (click)="getDate('start')">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" [value]="endDate | date : 'dd MMM yyyy'" name="date1"
+          placeholder="End Date" (click)="getDate('end')">
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary m-0" (click)="getExpenses()">submit</button>
+      </div>
+      <div class="col-sm-4" style="text-align: right">
+        <button (click)="openExpenseModal(false)" class="btn btn-primary">Add Expense</button>
+      </div>
+    </div>
+
+    <div *ngIf="data && data.length" class="mt-3">
+      <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+    </div>
+    <div class="alert alert-danger text-center mt-3" *ngIf="!data || !data.length">
+      <h4 class="no-record">No Record Found</h4>
+    </div>
+  </nb-card-body>
+</nb-card>
+<router-outlet></router-outlet>
