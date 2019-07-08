@@ -91,6 +91,7 @@ import { MvGpsApiHistoryComponent } from './mv-gps-api-history/mv-gps-api-histor
 import { RouteTripComponent } from './route-trip/route-trip.component';
 import { TripSummaryComponent } from './trip-summary/trip-summary.component';
 import { RouteDeviationsComponent } from './route-deviations/route-deviations.component';
+import { FuelDailyConsumptionComponent } from './fuel-daily-consumption/fuel-daily-consumption.component';
 
 
 
@@ -183,6 +184,7 @@ const PAGES_COMPONENTS = [
     RouteTripComponent,
     TripSummaryComponent,
     RouteDeviationsComponent,
+    FuelDailyConsumptionComponent,
 
 
   ],

@@ -398,6 +398,13 @@ export const PAGES_MENU_ITEMS = JSON.stringify([
         link: '/pages/fuel-consumption',
         home: true
       },
+      {
+        title: 'Fuel Daily Consumption',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-daily-consumption',
+        home: true
+
+      }
 
     ]
   },
