@@ -69,10 +69,13 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 140px;
+            width: 120px;
         }
         th:last-child{
             width: auto;
+        }
+        th:nth-child(1){
+            width: 40px;
         }
         th:nth-child(4){
             width: 190px;
@@ -80,7 +83,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 140px;
+            width: 120px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -106,6 +109,9 @@ table{
             width: 100%;
             td:last-child{
                 width: auto;
+            }
+            td:nth-child(1){
+                width: 40px;
             }
             td:nth-child(4){
                 width: 190px;
