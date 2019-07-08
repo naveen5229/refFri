@@ -65,6 +65,7 @@ import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
 import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
 
 const routes: Routes = [{
   path: '',
@@ -400,11 +401,16 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
+    path: 'freight-expenses',
+    component: FreightExpensesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'pod-dashboard',
     component: PodDashboardComponent,
     canActivate: [AuthGuard]
   },
- {
+  {
     path: 'advices',
     component: AdvicesComponent,
     canActivate: [AuthGuard]

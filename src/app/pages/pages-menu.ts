@@ -137,6 +137,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/freight-revenue',
       },
       {
+        title: 'Freight Expenses',
+        icon: 'nb-list',
+        link: '/pages/freight-expenses',
+      },
+      {
         title: 'Lorry Receipts',
         icon: 'nb-list',
         link: '/pages/lorry-receipts',

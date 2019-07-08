@@ -66,6 +66,7 @@ import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-inp
 import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
 
 
 const PAGES_COMPONENTS = [
@@ -133,6 +134,7 @@ const PAGES_COMPONENTS = [
     FuelIndentComponent,
     FreightRevenueComponent,
     AdvicesComponent,
+    FreightExpensesComponent,
     // CustomDatePipe
   ],
   exports: [
