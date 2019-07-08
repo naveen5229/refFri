@@ -58,7 +58,6 @@ export class FuelDailyConsumptionComponent implements OnInit {
     }
   };
   flagType = '0';
-  getDailyFuelList = [];
 
   constructor(
     public common: CommonService,
@@ -107,7 +106,6 @@ export class FuelDailyConsumptionComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         if (!res['data']) return;
-        this.getDailyFuelList = res['data'] || [];
         this.getChartData(res['data']);
       }, err => {
         this.common.loading--;
@@ -117,11 +115,14 @@ export class FuelDailyConsumptionComponent implements OnInit {
 
 
   getChartData(row) {
-    var XLabel = [];
-    var YValues = [];
+    let XLabel = [];
+    let YValues = [];
     row.map(ele => {
       if (ele.y_date) {
-        let formatedDate = this.dateService.format(ele.y_date, 'dd MMM');
+        let formatedDate = this.dateService.format(ele.y_date, 'dd MMM yyyy');
+        if (this.flagType == '1') {
+          XLabel.push(formatedDate.split(' ')[0]);
+        }
         console.log("date", formatedDate);
         XLabel.push(formatedDate.split(',')[0]);
       }
