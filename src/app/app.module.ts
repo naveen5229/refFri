@@ -187,14 +187,7 @@ import { AddFieldComponent } from './modals/LRModals/add-field/add-field.compone
 import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
 import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
-
-
-
-
-
-
-
-
+import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 
 
 @NgModule({
@@ -353,13 +346,12 @@ import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.compone
     AddFreightRevenueComponent,
     SaveAdvicesComponent,
     EntityFlagsComponent,
-
-
-
+    AddFreightExpensesComponent,
 
   ],
   entryComponents: [
     LrGenerateComponent,
+    AddFreightExpensesComponent,
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     VehicleTyreSummaryComponent,

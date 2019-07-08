@@ -1,0 +1,129 @@
+<div class="modal-header">
+  <h5>Add Freight Expense</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+
+  <div class="row mb-3">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-3">
+          <span><b>Vehicle Type</b></span>
+        </div>
+        <div class="col-3 pl-0">
+          <select class="form-control" [(ngModel)]="expense.vehicleType" (change)="resetData($event)">
+            <option value="1">Own</option>
+            <option value="2">Group</option>
+            <option value="3">Market</option>
+
+          </select>
+        </div>
+        <div class="col-3">
+          <span><b>Vehicle No</b></span>
+        </div>
+        <div class="col-3 pl-0" *ngIf="expense.vehicleType==1">
+          <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+            placeholder=" " (change)="resetvehicle()" inputId="vehicleno" [preSelected]="{regno:expense.vehicleRegNo}">
+          </auto-suggestion>
+        </div>
+        <div class="col-3 pl-0" *ngIf="expense.vehicleType!=1">
+          <input type="text" [(ngModel)]="expense.vehicleRegNo" class="form-control" placeholder=" " id="vehicleno">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="row">
+        <div class="col-3 pr-0">
+          <span><b>Reference Type</b></span>
+        </div>
+        <div class="col-4">
+          <select class="form-control" name="reftype" [(ngModel)]="expense.refernceType"
+            (change)="resetRefernceType(false);refernceTypes()">
+            <option value="0">Select Type</option>
+            <option value="11">Lr</option>
+            <option value="12">Manifest</option>
+            <option value="13">State</option>
+            <option value="14">Trip</option>
+          </select>
+        </div>
+
+        <div class="col-5">
+
+          <input class="form-control" type="text" list="reflist" name="refer-type" [(ngModel)]="expense.refTypeName"
+            (change)="getRefrenceData(refTypeName)" id="referncetype">
+          <datalist id="reflist">
+            <option *ngFor="let refdata of refernceData ;" [value]="refdata.source_dest">
+            </option>
+          </datalist>
+          <!-- <auto-suggestion (onSelected)="expense.refId=$event.id;expense.refTypeName=$event.source_dest"
+            display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
+            [preSelected]="{source_dest:expense.refTypeName}">
+          </auto-suggestion> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row mb-3">
+    <div class="col-sm-1">
+      <span><b>Remarks</b></span>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" [(ngModel)]="expense.remarks" class="form-control">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <table class="table table-bordered">
+      <thead class="thead">
+        <th>Heads Name</th>
+        <th>Amount</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+
+        <tr *ngFor=" let expenseDetail of expenseDetails; let j = index; ">
+          <td>
+            <input class="form-control" type="text" list="otherTitles" name="expenseDetail-type"
+              [(ngModel)]="expenseDetail.frHead" (change)="getFrieghtHeaderId(expenseDetail.frHead , j)">
+            <datalist id="otherTitles">
+              <option *ngFor="let freightHead of freightHeads ;" [value]="freightHead.r_name">
+              </option>
+            </datalist>
+            <!-- <auto-suggestion (onSelected)="customjsonfield.field1 = $event.name;" display="name" [data]="fofields"
+                  [preSelected]="{name:customjsonfield.field1}" placeholder="Name"></auto-suggestion> -->
+            <!-- <select [(ngModel)]="customjsonfield.field1">
+                  <option value="">Select</option>
+                  <option *ngFor="let fofield of fofields ;" [value]="fofield.name">{{fofield.name}}</option>
+                </select> -->
+          </td>
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="expenseDetail.value">
+          </td>
+
+          <td>
+
+            <i class="fa fa-plus add" (click)="addField(j)" *ngIf="j == expenseDetails.length-1"></i>
+            <i class="fa fa-trash remove" (click)="expenseDetails.splice(j,1)" *ngIf="j !== 0"></i>
+
+          </td>
+        </tr>
+
+
+
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+
+
+
+<div class="modal-footer">
+  <button class="btn btn-primary" form="expense-Form" id=""
+    (click)="saveDetails();">{{expense.id?'Edit':'Add'}}</button>
+</div>

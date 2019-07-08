@@ -132,8 +132,9 @@ export class LrGenerateComponent implements OnInit {
       this.lr.destinationLng = long;
     });
   }
+
   getBranchDetails() {
-    if (!this.lr.id && !this.lr.lrNumber) {
+    if (this.accountService.selected.branch.id) {
       this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
         .subscribe(res => {
           console.log("branchdetails", res['data']);
