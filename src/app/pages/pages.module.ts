@@ -65,6 +65,8 @@ import { FSEEntryComponent } from './fse-entry/fse-entry.component';
 import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
 import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
+import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
 
 
 const PAGES_COMPONENTS = [
@@ -131,6 +133,8 @@ const PAGES_COMPONENTS = [
     FrieghtRateInputComponent,
     FuelIndentComponent,
     FreightRevenueComponent,
+    AdvicesComponent,
+    FreightExpensesComponent,
     // CustomDatePipe
   ],
   exports: [

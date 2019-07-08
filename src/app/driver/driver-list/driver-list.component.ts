@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { ImportDocumentComponent } from '../../documents/documentation-modals/import-document/import-document.component';
 import { EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
 import { AddDriverCompleteComponent } from '../../modals/DriverModals/add-driver-complete/add-driver-complete.component';
-
+import { ImageViewComponent } from '../../modals/image-view/image-view.component';
 @Component({
   selector: 'driver-list',
   templateUrl: './driver-list.component.html',
@@ -67,6 +67,7 @@ export class DriverListComponent implements OnInit {
         this.common.loading--;
         console.log('Res:', res['data']);
         this.driverLists = res['data'];
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -78,7 +79,27 @@ export class DriverListComponent implements OnInit {
 
   importDriverCsv() {
     this.common.params = { title: 'Bulk Import Driver', };
-    const activeModal = this.modalService.open(ImportDocumentComponent, {  container: 'nb-layout', backdrop: 'static' });
+    const activeModal = this.modalService.open(ImportDocumentComponent, { container: 'nb-layout', backdrop: 'static' });
   }
+  fetchLisense(res) {
+    console.log('photo', res.licence_photo);
+    let images = [{
+      name: "image",
+      image: res.licence_photo
+    }]
+    this.common.params = { images, title: 'Image' };
+    this.common.handleModalSize('class', 'modal-lg', '1024');
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
+  }
+  fetchAadhar(res) {
+    console.log('aadhar', res.aadhar_photo);
+    let images = [{
+      name: "image",
+      image: res.aadhar_photo
+    }]
+    this.common.params = { images, title: 'Image' };
+    this.common.handleModalSize('class', 'modal-lg', '1024');
+    const activeModal = this.modalService.open(ImageViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
 }

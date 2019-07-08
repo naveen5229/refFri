@@ -137,6 +137,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/freight-revenue',
       },
       {
+        title: 'Freight Expenses',
+        icon: 'nb-list',
+        link: '/pages/freight-expenses',
+      },
+      {
         title: 'Lorry Receipts',
         icon: 'nb-list',
         link: '/pages/lorry-receipts',
@@ -171,6 +176,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Expenses',
         icon: 'fa fa-book',
         link: '/pages/expenses',
+      },
+      {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/pod-dashboard',
       },
     ]
   },
@@ -334,7 +344,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       icon: 'fas fa-align-justify',
       link: '/pages/pending-licence',
       home: true,
-    }
+    },
+    {
+
+      title: 'Advices',
+      icon: 'fas fa-question',
+      link: '/pages/advices',
+      home: true,
+    },
+
     ]
   },
   {

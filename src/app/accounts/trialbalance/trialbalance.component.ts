@@ -8,6 +8,8 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'trialbalance',
@@ -41,6 +43,14 @@ export class TrialbalanceComponent implements OnInit {
   activedateid = '';
   lastActiveId = '';
   trialBalanceData = [];
+  active = {
+    trialBalanceData: {
+      mainGroup: [],
+      subGroup: []
+    }
+   
+  };
+  viewType = 'main';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -50,6 +60,8 @@ export class TrialbalanceComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
@@ -57,6 +69,7 @@ export class TrialbalanceComponent implements OnInit {
     // this.getLedgerList();
     this.setFoucus('startDate');
     this.common.currentPage = 'Trial Balance';
+    this.changeViewType();
   }
 
   ngOnInit() {
@@ -93,7 +106,29 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+  changeViewType() {
+    this.active.trialBalanceData.mainGroup = [];
+    this.active.trialBalanceData.subGroup = [];
 
+
+    if (this.viewType == 'sub') {
+      this.trialBalanceData.forEach((liability, i) => this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0));
+   
+    } else if (this.viewType == 'all') {
+      this.trialBalanceData.forEach((trail, i) => {
+        this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0);
+        trail.subGroups.forEach((subGroup, j) => this.active.trialBalanceData.subGroup.push('subGroup' + i + j));
+      });
+    }
+  }
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
+  }
   formattData() {
     let primaryGroup = Object.keys(_.groupBy(this.TrialData, 'primary_groupname')).map(primaryGroupKey => {
       return {
@@ -426,5 +461,34 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
+  generateCsvData() {
+    let liabilitiesJson = [];
+    this.trialBalanceData.forEach(liability => {
+      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ Ledger: subGroup.name, OpeningBalance : subGroup.openingamount,amountdr:subGroup.dramount,amountcr :subGroup.cramount,amount:subGroup.amount});
+        subGroup.trialBalances.forEach(trailbalance => {
+          liabilitiesJson.push({ Ledger: trailbalance.y_ledger_name, OpeningBalance : trailbalance.y_openbal,amountdr:trailbalance.y_dr_bal,amountcr :trailbalance.y_cr_bal,amount:trailbalance.y_closebal});
+        });
+      });
+    });
+
+    // let mergedArray = [];
+    // for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+    //   if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+    //   } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+    //   } else if (assetsJson[i] && i < assetsJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
+    //   }
+    // }
+    // mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+
+    this.csvService.jsonToExcel(liabilitiesJson);
+    console.log('Merged:', liabilitiesJson);
+  }
+
+
 }
 

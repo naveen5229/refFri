@@ -119,11 +119,12 @@ export class CompanyBranchesComponent implements OnInit {
         let result = res['data'][0].save_companybranch;
         if (result == '') {
           this.common.showToast(" Add Successfully");
+          this.GetBranchData();
         }
         else {
           this.common.showToast(result);
         }
-        this.GetBranchData();
+        
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -196,7 +197,7 @@ export class CompanyBranchesComponent implements OnInit {
       console.log('city', tblid);
       this.common.params = {
         title: 'Delete City ',
-        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+        description: `<b>&nbsp;` + 'Are you sure want to delete' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {

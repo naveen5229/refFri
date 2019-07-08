@@ -48,7 +48,7 @@ export class ProfitlossComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'sub';
+  viewType = 'main';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -328,5 +328,43 @@ export class ProfitlossComponent implements OnInit {
       //this.common.showToast('Voucher updated');
 
     });
+  }
+
+  generateCsvData() {
+    let liabilitiesJson = [];
+    this.liabilities.forEach(liability => {
+      liabilitiesJson.push({ liability: liability.name, liabilityAmount: liability.amount });
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ liability: subGroup.name, liabilityAmount: subGroup.total });
+        subGroup.profitLossData.forEach(balanceSheet => {
+          liabilitiesJson.push({ liability: balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+        });
+      });
+    });
+
+    let assetsJson = [];
+    this.assets.forEach(asset => {
+      assetsJson.push({ asset: asset.name, assetAmount: asset.amount });
+      asset.subGroups.forEach(subGroup => {
+        assetsJson.push({ asset: subGroup.name, assetAmount: subGroup.total });
+        subGroup.profitLossData.forEach(balanceSheet => {
+          assetsJson.push({ asset: balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
+        });
+      });
+    });
+    let mergedArray = [];
+    for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+      if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+      } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+      } else if (assetsJson[i] && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
+      }
+    }
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+
+    this.csvService.jsonToExcel(mergedArray);
+    console.log('Merged:', mergedArray);
   }
 }

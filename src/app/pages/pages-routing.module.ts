@@ -63,6 +63,9 @@ import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-inp
 import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
+import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
+import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
 
 const routes: Routes = [{
   path: '',
@@ -395,6 +398,21 @@ const routes: Routes = [{
   {
     path: 'freight-revenue',
     component: FreightRevenueComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'freight-expenses',
+    component: FreightExpensesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'pod-dashboard',
+    component: PodDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'advices',
+    component: AdvicesComponent,
     canActivate: [AuthGuard]
   },
   ],

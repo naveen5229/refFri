@@ -75,6 +75,9 @@ export class RoutesTrafficKpisComponent implements OnInit {
   }
 
   submit() {
+    if (!this.validationCheck()) {
+      return;
+    }
     console.log("para", JSON.stringify(this.route))
     this.api.post('ViaRoutes/trafficKpiAdd', { data: JSON.stringify(this.route) })
       .subscribe(res => {
@@ -223,4 +226,18 @@ export class RoutesTrafficKpisComponent implements OnInit {
     this.route[index].modelId = null;
     console.log(event);
   }
+  validationCheck() {
+    let isValidate = true;
+    this.route.forEach(element => {
+      if ((element.targetTime && (element.targetTime <= 0)) ||
+        (element.allowedTime && (element.allowedTime <= 0))) {
+        this.common.showError("Time(Hr) range is not Valid");
+        isValidate = false;
+        return isValidate;
+      }
+    });
+    return isValidate;
+  }
+
+
 }

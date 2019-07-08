@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'routes-expenses',
@@ -90,26 +91,46 @@ export class RoutesExpensesComponent implements OnInit {
 
   }
 
+  validationCheck() {
+    let isValidate = true;
+    this.routeExpenses.forEach(element => {
+      console.log("Value:", element.amount);
+      if (element.amount && (element.amount <= 0)) {
+        this.common.showError("Amount Value is not Valid");
+        isValidate = false;
+        return isValidate;
+      }
+    });
+    return isValidate;
+  }
+
   saveExpenses() {
+    if (!this.validationCheck()) {
+      return;
+    }
     let params = {
       data: JSON.stringify(this.routeExpenses),
-
     }
     this.common.loading++;
     this.api.post('ViaRoutes/expenses', params)
       .subscribe(res => {
         this.common.loading--;
-        this.common.showToast(res['data'][0].y_msg);
-        if (res['data'][0].y_id > 0)
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
           this.routeExpenses = [{
             modelId: null,
             expenseType: null,
             amount: null,
             routeId: this.id,
           }];
-        this.addMore();
+          this.viewExpenses();
+          this.addMore();
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg)
+        }
 
-        this.viewExpenses();
+
       }, err => {
         this.common.loading--;
         console.log(err);

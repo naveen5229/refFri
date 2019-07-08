@@ -6,6 +6,7 @@ import { UserService } from '../../@core/data/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
+import { TransferReceiptsComponent } from '../../modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 @Component({
   selector: 'freight-revenue',
@@ -13,7 +14,7 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
   styleUrls: ['./freight-revenue.component.scss', '../pages.component.css']
 })
 export class FreightRevenueComponent implements OnInit {
-  startTime = new Date(new Date().setDate(new Date().getDate() - 15));;
+  startTime = new Date(new Date().setDate(new Date().getDate() - 15));
   endTime = new Date();
   data = [];
   table = {
@@ -195,6 +196,16 @@ export class FreightRevenueComponent implements OnInit {
       }
     });
   }
+
+  transfer() {
+    const activeModal = this.modalService.open(TransferReceiptsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
+
+
 
 
 

@@ -882,8 +882,8 @@ export class CommonService {
 
       // FOOTER
       let printDate = this.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
-      var powerdata = '     Powered By Elogist Solution       Print On : ';
-      var str = "Page " + data.pageCount + powerdata + printDate;
+      var powerdata = 'Powered By Elogist Solution';
+      var str = powerdata +  '                                                 Print On : '+ printDate +'                                                       '+"Page " +data.pageCount;
 
       doc.setFontSize(10);
       doc.text(
@@ -1455,5 +1455,12 @@ export class CommonService {
       if (elements[index])
         elements[index].focus()
     }
+  }
+
+  async getFoDetails() {
+    this.loading++;
+    let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
+    this.loading--;
+    return result['data'][0];
   }
 }
