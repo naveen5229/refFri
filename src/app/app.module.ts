@@ -189,6 +189,7 @@ import { SaveAdvicesComponent } from './modals/save-advices/save-advices.compone
 import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
 import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
+import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 
 
 
@@ -357,6 +358,7 @@ import { AdviceViewComponent } from './modals/advice-view/advice-view.component'
     EntityFlagsComponent,
     ClearAdvicesComponent,
     AdviceViewComponent,
+    TransferReceiptsComponent,
 
 
 
@@ -514,7 +516,8 @@ import { AdviceViewComponent } from './modals/advice-view/advice-view.component'
     SaveAdvicesComponent,
     EntityFlagsComponent,
     ClearAdvicesComponent,
-    AdviceViewComponent
+    AdviceViewComponent,
+    TransferReceiptsComponent
 
 
   ],

@@ -119,11 +119,12 @@ export class CompanyBranchesComponent implements OnInit {
         let result = res['data'][0].save_companybranch;
         if (result == '') {
           this.common.showToast(" Add Successfully");
+          this.GetBranchData();
         }
         else {
           this.common.showToast(result);
         }
-        this.GetBranchData();
+        
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);

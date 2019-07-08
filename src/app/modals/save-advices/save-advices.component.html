@@ -29,6 +29,7 @@
     <div class="col-2" *ngIf="id==3">
       <input type="text" class="form-control" inputId="driver" name="group" [(ngModel)]="regno">
     </div>
+<<<<<<< HEAD
     <div class="col-2">
       <label>Reference</label>
     </div>
@@ -52,6 +53,10 @@
     </div>
     <div class="col-2">
       <select class="form-control" (change)="getTypeDetails()" [(ngModel)]="advice_type_id">
+=======
+    <div class="col-3">
+      <select class="form-control" (change)="getTypeDetails($event)" [(ngModel)]="advice_type_id">
+>>>>>>> adf1a8c5f195ead5b621eea24aace3fe12a83fe9
         <option *ngFor="let type of type" [value]="type.id">
           {{type.description}}
 

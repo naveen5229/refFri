@@ -1456,4 +1456,11 @@ export class CommonService {
         elements[index].focus()
     }
   }
+
+  async getFoDetails() {
+    this.loading++;
+    let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
+    this.loading--;
+    return result['data'][0];
+  }
 }

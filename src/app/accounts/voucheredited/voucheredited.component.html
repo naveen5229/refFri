@@ -101,6 +101,7 @@
 
       <thead style="background-color:#263238; color:#fff;">
         <tr>
+          <th>S.No</th>
           <th>Date</th>
           <th>y_ledgername</th>
           <th>Vch Type</th>
@@ -119,6 +120,7 @@
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
+        <td>{{ i+1 }}</td>
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_ledgername}}</td>
         <td>{{dataItem.y_vouchertype}}</td>

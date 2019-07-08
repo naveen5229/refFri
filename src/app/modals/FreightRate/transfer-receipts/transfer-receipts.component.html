@@ -1,0 +1,143 @@
+<div class="modal-header">
+  <h5>Transfer & Receipts</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="row mb-3">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-6 pr-0">
+          <span><b>Vehicle No</b></span>
+        </div>
+        <div class="col-6 pl-0">
+          <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
+            placeholder=" " (change)="resetvehicle()" inputId="vehicleno"
+            [preSelected]="{regno:tranferReceipt.vehicleRegNo}">
+          </auto-suggestion>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row">
+        <div class="col-3 pr-0 mt-2">
+          <span><b>Reference Type</b></span>
+        </div>
+        <div class="col-4">
+          <select class="form-control" name="reftype" [(ngModel)]="tranferReceipt.refernceType"
+            (change)="resetRefernceType(false);refernceTypes()">
+            <option value="0">Select Type</option>
+            <option value="11">Lr</option>
+            <option value="12">Manifest</option>
+            <option value="13">State</option>
+            <option value="14">Trip</option>
+          </select>
+        </div>
+
+        <div class="col-5">
+          <auto-suggestion (onSelected)="tranferReceipt.refId=$event.id;tranferReceipt.refTypeName=$event.source_dest"
+            display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
+            [preSelected]="{source_dest:tranferReceipt.refTypeName}">
+          </auto-suggestion>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-7">
+      <div class="row">
+        <div class="col-4 pr-0">
+          <span><b> Time</b></span>
+        </div>
+
+        <div class="col-8">
+          <uj-date-time-picker (onChanged)="tranferReceipt.date = $event" [dateTimeValue]="tranferReceipt.date"
+            [isTime]="true">
+          </uj-date-time-picker>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="radio-type">
+        <input type="radio" value="transfer" name="radio" [(ngModel)]="tranferReceipt.selectOption"
+          (change)="report(tranferReceipt.selectOption)">Transfer
+        <input type="radio" value="receipt" name="radio" [(ngModel)]="tranferReceipt.selectOption"
+          (change)="report(tranferReceipt.selectOption)">Receipt
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-6 pr-0">
+          <span><b>Type</b></span>
+        </div>
+        <div class="col-6 pl-0">
+          <select class="form-control" [(ngModel)]="tranferReceipt.adviceTypeId">
+            <option *ngFor="let type of typesData" [value]="type.id">
+              {{type.description}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="col-6">
+      <div class="row">
+        <div class="col-4">
+          <span><b>Mode</b></span>
+        </div>
+        <div class="col-7">
+          <select class="form-control" [(ngModel)]="tranferReceipt.modeId">
+            <option *ngFor="let mode of ModeData" [value]="mode.id">
+              {{mode.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div class="row">
+
+    <div class="col-5">
+      <div class="row">
+        <div class="col-6">
+          <span><b>Amount Value</b></span>
+        </div>
+        <div class="col-6 pl-0">
+          <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="tranferReceipt.amount">
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-4">
+          <span><b>Remark</b></span>
+        </div>
+        <div class="col-8 pr-0">
+          <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
+            [(ngModel)]="tranferReceipt.remark"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+<div class="modal-footer">
+  <button class="btn btn-primary" id="save" (click)="save()">Save</button>
+</div>

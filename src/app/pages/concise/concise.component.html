@@ -299,6 +299,8 @@
         </div>
         <button class="btn btn-primary pdf-print" type="button" pdf (click)="generatePDF()"><i
             class="fa fa-file-pdf"></i></button>
+        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('print-section')"
+          style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
         <!-- <button class="btn btn-primary" type="button"pdf
           (click)="pdfService.tableWithImages('page-1', 'print-section')">PDF</button>  -->
       </div>
@@ -318,8 +320,7 @@
             </div>
 
           </div>
-          <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('print-section')"
-            style="cursor: pointer;"><i class="fas fa-file-excel"></i></span>
+
           <!-- ============================= SMART TABLE END ============================= -->
 
           <!-- ============================= MAP VIEW ============================= -->
