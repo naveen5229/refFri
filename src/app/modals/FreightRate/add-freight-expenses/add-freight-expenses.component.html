@@ -44,7 +44,7 @@
     <div class="col-2">
 
       <input class="form-control" type="text" list="reflist" name="refer-type" [(ngModel)]="expense.refTypeName"
-        (change)="getRefrenceData(refTypeName)" id="referncetype">
+        (change)="getRefrenceData(expense.refTypeName)" id="referncetype">
       <datalist id="reflist">
         <option *ngFor="let refdata of refernceData ;" [value]="refdata.source_dest">
         </option>
