@@ -23,10 +23,12 @@ export class AdviceViewComponent implements OnInit {
 
   headings = [];
   valobj = {};
+  vehicleId = null;
   constructor(private activeModal: NgbActiveModal,
     public common: CommonService,
     private commonService: CommonService,
     public api: ApiService, ) {
+    this.vehicleId = this.common.params.advice._vid ? this.common.params.advice._vid : null;
     this.AdviceViews();
   }
 
@@ -46,7 +48,7 @@ export class AdviceViewComponent implements OnInit {
 
     this.headings = [];
     this.valobj = {};
-    let params = "vId=" + 28560;
+    let params = "vId=" + this.vehicleId;
     this.common.loading++;
     this.api.get('Drivers/getAdvicesSingleVehicle?' + params)
       .subscribe(res => {
@@ -98,7 +100,7 @@ export class AdviceViewComponent implements OnInit {
   }
   change(doc) {
     let params = {
-      vId: 28560,
+      vId: this.vehicleId,
       id: doc._id
     }
     this.common.loading++;
