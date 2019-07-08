@@ -406,7 +406,7 @@ export class VoucherComponent implements OnInit {
       narration: voucherdataprint.remarks
     };
 
-    console.log('print pdf data', pdfData);
+    //console.log('print pdf data', pdfData);
     let datapdf = this.pdfService.createPdfHtml(pdfData);
     let divToPrint = datapdf.innerHTML;
     let newWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');

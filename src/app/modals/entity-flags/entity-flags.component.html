@@ -14,7 +14,8 @@
         </div>
         <div class="col-9">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-            placeholder=" " (change)="resetvehicle()" inputId="vehicleno">
+            placeholder=" " (change)="resetvehicle()" inputId="vehicleno"
+            [preSelected]="{regno:entityFlag.vehicleRegNo}">
           </auto-suggestion>
         </div>
       </div>
