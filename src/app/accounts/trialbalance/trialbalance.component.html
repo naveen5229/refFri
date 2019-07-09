@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <!-- View Expand -->
-    <div class="expand-div">
+    <div class="expand-div" style="z-index:999999">
       <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
       <label>Expand Group</label>
       <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">
@@ -87,7 +87,7 @@
           <!-- <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div> -->
         </div>
 
-        <div *ngFor="let trialBalance of subGroup.trialBalances; let j = index" class="tb-mini row m-0 pl-0 pr-0"
+        <div *ngFor="let trialBalance of subGroup.trialBalances; let j = index" 
         (click)="selectedRow =  'A' + i  + k + j; $event.stopPropagation(); " class="tb-mini row m-0 pl-0 pr-0" [hidden]="active.trialBalanceData.subGroup.indexOf('subGroup' + i + k) == -1"
         (dblclick)="(trialBalance.groupname.includes('Profit & Loss A/c')) ? getProfitLoss() :getBookDetail(trialBalance.y_ledgerid,trialBalance.y_ledger_name)"
           [ngClass]="{'highlight' : selectedRow == 'A' + i + k + j }" style="background: #dadfe6;">

@@ -5,41 +5,64 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="form-group">
+  <form [formGroup]="Form" name="foFreightRate-form" id="foFreightRate-form" (submit)="Form.valid && saveFrightRates()">
     <label>Company Name* </label>
+
     <div class="d-flex">
       <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies" display="name"
-        placeholder="" class="col-11 auto-suggest pl-0 pr-2"></auto-suggestion>
+        [parentName]="Form" placeholder="" class="col-11 auto-suggest pl-0 pr-2"
+        [ngClass]="{ 'is-invalid': isFormSubmit && fo.companyautoSuggestion.errors }"> </auto-suggestion>
+
+      <div *ngIf="isFormSubmit && fo.companyautoSuggestion.errors" class="error">
+        <div *ngIf="fo.companyautoSuggestion.errors.required">Company Name is Require</div>
+      </div>
       <div class="col-1 pl-0 pr-0 pt-2 pb-1 text-center">
         <i class="fa fa-plus  add" (click)="addCompany()"></i>
       </div>
     </div>
-  </div>
-  <div class="form-group">
-    <label>Site</label>
-    <auto-suggestion (onSelected)="getSiteDetail($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-      [display]="['name','sd_loc_name']" placeholder="Search ." [preSelected]="null">
-    </auto-suggestion>
-  </div>
-  <div class="form-group">
-    <label>Material</label>
-    <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
-      placeholder="Material Name" [preSelected]="null">
-    </auto-suggestion>
-  </div>
-  <div class="form-group">
-    <label>W.e.f.</label>
-    <div class="d-flex">
-      <div class="col-11">
-        <input type="text" class="form-control" [value]="frieghtRate.wefDate | date : 'dd MMM yyyy'" name="date"
-          placeholder="Date">
-      </div>
-      <div class="col-1 pl-0 pr-0 pt-2 pb-1 text-center">
-        <i class="far fa-calendar-alt " style="font-size:20px;" (click)="getDate()"></i>
+    <div class="form-group">
+      <label>W.e.f.*</label>
+      <div class="d-flex">
+        <div class="col-11">
+          <input type="text" class="form-control" [value]="frieghtRate.wefDate | date : 'dd MMM yyyy'" name="date"
+            placeholder="Date" formControlName="wef" [ngClass]="{ 'is-invalid': isFormSubmit && fo.wef.errors }">
+          <!-- <div *ngIf=" isFormSubmit && fo.wef.errors" class="invalid-feedback">
+            <div *ngIf="fo.wef.errors.required">WEF is Require</div>
+          </div> -->
+        </div>
+
+        <div class="col-1 pl-0 pr-0 pt-2 pb-1 text-center">
+          <i class="far fa-calendar-alt " style="font-size:20px;" (click)="getDate()"></i>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" (click)="saveFrightRates()">Add</button>
+    <div class="form-group">
+      <label>Site</label>
+      <auto-suggestion (onSelected)="getSiteDetail($event)" url="Suggestion/getSites?typeId=1" seperator="-"
+        [display]="['name','sd_loc_name']" placeholder="Search ." [preSelected]="null">
+      </auto-suggestion>
+    </div>
+    <div class="form-group">
+      <label>Material</label>
+      <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
+        placeholder="Material Name" [preSelected]="null">
+      </auto-suggestion>
+    </div>
+    <div class="form-group">
+      <label>Effective Date</label>
+      <div class="d-flex">
+        <div class="col-11">
+          <input type="text" class="form-control" formControlName="effectiveDate"
+            [value]="frieghtRate.effectiveDate | date : 'dd MMM yyyy'" name="date1" id="date1" placeholder="Date">
+        </div>
+        <div class="col-1 pl-0 pr-0 pt-2 pb-1 text-center">
+          <i class="far fa-calendar-alt" style="font-size:20px;" (click)="getDate1()"></i>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-primary" type="submit" form="foFreightRate-form" id="submit"
+        (click)="isFormSubmit=true">Add</button>
+    </div>
+  </form>
 </div>

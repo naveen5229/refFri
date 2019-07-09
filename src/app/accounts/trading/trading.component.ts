@@ -49,7 +49,7 @@ export class TradingComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'main';
+  viewType = 'sub';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -59,7 +59,6 @@ export class TradingComponent implements OnInit {
     public modalService: NgbModal) {
     this.setFoucus('startdate');
     this.common.currentPage = 'Trading Account';
-    this.changeViewType();
   }
 
   ngOnInit() {
@@ -190,6 +189,7 @@ export class TradingComponent implements OnInit {
       }
       delete asset.balanceSheets;
     });
+    this.changeViewType();
 
   }
 
@@ -259,22 +259,22 @@ export class TradingComponent implements OnInit {
   generateCsvData() {
     let liabilitiesJson = [];
     this.liabilities.forEach(liability => {
-      liabilitiesJson.push({ liability: liability.name, liabilityAmount: liability.amount });
+      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ liability: subGroup.name, liabilityAmount: subGroup.total });
+        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
         subGroup.balanceSheets.forEach(balanceSheet => {
-          liabilitiesJson.push({ liability: balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
         });
       });
     });
 
     let assetsJson = [];
     this.assets.forEach(asset => {
-      assetsJson.push({ asset: asset.name, assetAmount: asset.amount });
+      assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {
-        assetsJson.push({ asset: subGroup.name, assetAmount: subGroup.total });
+        assetsJson.push({ asset: '(SG)'+subGroup.name, assetAmount: subGroup.total });
         subGroup.balanceSheets.forEach(balanceSheet => {
-          assetsJson.push({ asset: balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
+          assetsJson.push({ asset: '(L)'+balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
         });
       });
     });
@@ -288,10 +288,11 @@ export class TradingComponent implements OnInit {
         mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
       }
     }
-    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
-
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]));
+    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+    
   }
   handleVoucherDateOnEnter(iddate) {
     let dateArray = [];

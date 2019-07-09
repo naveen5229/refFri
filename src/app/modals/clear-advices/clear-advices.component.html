@@ -10,7 +10,7 @@
       <label>Status</label>
     </div>
     <div class="col-9">
-      <select class="form-control" (change)="getSelection()" [(ngModel)]="id">
+      <select class="form-control"  [(ngModel)]="id">
         <option *ngFor="let status of status" [value]="status.id">
           {{status.name}}
 

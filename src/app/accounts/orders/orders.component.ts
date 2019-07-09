@@ -151,7 +151,7 @@ export class OrdersComponent implements OnInit {
     this.common.refresh();
 
     this.setFoucus('ordertype');
-    this.common.currentPage = 'Invoice';
+    this.common.currentPage = this.order.ordertype.name;
   }
 
   ngOnInit() {
