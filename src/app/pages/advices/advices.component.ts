@@ -35,6 +35,7 @@ export class AdvicesComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public user: UserService) {
     this.common.refresh = this.refresh.bind(this);
+    this.searchData();
 
   }
 
@@ -129,12 +130,12 @@ export class AdvicesComponent implements OnInit {
     icons.push(
       {
         class: "far fa-eye",
-        action: this.view.bind(this, details),
+        action: this.adviceView.bind(this, details),
       },
 
       {
         class: "fas fa-user-check",
-        action: this.addVerify.bind(this, details),
+        action: this.clearAdvices.bind(this, details),
       }
     )
 
@@ -146,22 +147,15 @@ export class AdvicesComponent implements OnInit {
   }
 
 
-  view(row) {
-
-  }
-  addVerify(row) {
-
-  }
-
-
-
   saveAdvices() {
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
-  clearAdvices() {
-    const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  clearAdvices(row) {
+    this.common.params = { advice: row };
+    const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
   }
-  adviceView() {
+  adviceView(row) {
+    this.common.params = { advice: row };
     const activeModal = this.modalService.open(AdviceViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }
 

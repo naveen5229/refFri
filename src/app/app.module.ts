@@ -190,14 +190,7 @@ import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.compone
 import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
-
-
-
-
-
-
-
-
+import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 
 
 @NgModule({
@@ -359,13 +352,12 @@ import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipt
     ClearAdvicesComponent,
     AdviceViewComponent,
     TransferReceiptsComponent,
-
-
-
+    AddFreightExpensesComponent,
 
   ],
   entryComponents: [
     LrGenerateComponent,
+    AddFreightExpensesComponent,
     FreightInputWithoutLocationComponent,
     FreightInputLocationComponent,
     VehicleTyreSummaryComponent,

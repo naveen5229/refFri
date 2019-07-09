@@ -28,6 +28,9 @@ export class FreightInputLocationComponent implements OnInit {
     destination: null,
     dest_lat: null,
     dest_long: null,
+    routeName: null,
+    routeId: null,
+    onBasis: 1
   }];
   frpId = null;
 
@@ -44,6 +47,15 @@ export class FreightInputLocationComponent implements OnInit {
   };
   headings = [];
   valobj = {};
+
+  routes = [{
+    name: "jpr-del",
+    id: 1,
+  },
+  {
+    name: "Agr-del",
+    id: 2,
+  }]
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
@@ -94,6 +106,9 @@ export class FreightInputLocationComponent implements OnInit {
       destination: null,
       dest_lat: null,
       dest_long: null,
+      routeName: null,
+      routeId: null,
+      onBasis: 1
     });
 
   }
@@ -170,6 +185,14 @@ export class FreightInputLocationComponent implements OnInit {
 
   }
 
+  getFrieghtHeaderId(type, index) {
+    console.log("Type Id", type);
+
+    this.frieghtDatas[index].routeId = this.routes.find((element) => {
+      return element.name == type;
+    }).id;
+    this.frieghtDatas[index].routeName = type;
+  }
 
 
   saveFrightInput() {
@@ -195,7 +218,15 @@ export class FreightInputLocationComponent implements OnInit {
       });
   }
 
-
+  getRoutes() {
+    this.api.get('FrieghtRate/getFreightHeads?type=exp')
+      .subscribe(res => {
+        this.routes = res['data'];
+      }, err => {
+        this.common.loading--;
+        console.log(err);
+      });
+  }
 
 
 

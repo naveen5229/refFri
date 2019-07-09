@@ -95,8 +95,8 @@ export class RoutesExpensesComponent implements OnInit {
     let isValidate = true;
     this.routeExpenses.forEach(element => {
       console.log("Value:", element.amount);
-      if (element.amount && (element.amount <= 0 || element.amount > 600000)) {
-        this.common.showError("Amount  range Value 0 to 600000");
+      if (element.amount && (element.amount <= 0)) {
+        this.common.showError("Amount Value is not Valid");
         isValidate = false;
         return isValidate;
       }
@@ -115,8 +115,8 @@ export class RoutesExpensesComponent implements OnInit {
     this.api.post('ViaRoutes/expenses', params)
       .subscribe(res => {
         this.common.loading--;
-        this.common.showToast(res['data'][0].y_msg);
         if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
           this.routeExpenses = [{
             modelId: null,
             expenseType: null,
@@ -125,6 +125,9 @@ export class RoutesExpensesComponent implements OnInit {
           }];
           this.viewExpenses();
           this.addMore();
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg)
         }
 
 

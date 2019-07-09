@@ -23,23 +23,22 @@ export class ClearAdvicesComponent implements OnInit {
   id = null;
   remarks = null;
   data = [];
+  rowId = null;
   constructor(public common: CommonService,
     public api: ApiService,
-    private activeModal: NgbActiveModal) { }
+    private activeModal: NgbActiveModal) {
+    this.rowId = this.common.params.advice._id ? this.common.params.advice._id : null;
+  }
 
   ngOnInit() {
   }
   ClearAdvices() {
     let params = {
-      id: 1,
+      id: this.rowId,
       status: this.id,
       remarks: this.remarks
     }
-    // if (this.remarks.length > 256) {
-    //   this.common.showToast('character should not exceed 256');
-    //   this.remarks = null;
-    //   return;
-    // }
+
     this.common.loading++;
     this.api.post('Drivers/clearAdvice', params)
       .subscribe(res => {
@@ -51,8 +50,7 @@ export class ClearAdvicesComponent implements OnInit {
         } else {
           this.common.showError(this.data[0]['y_msg']);
         }
-        //this.type = res['data'];
-        //console.log('type', this.type);
+
 
       }, err => {
         this.common.loading--;
