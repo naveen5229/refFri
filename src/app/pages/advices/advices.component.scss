@@ -1,6 +1,7 @@
 :host ::ng-deep .fa-eye {
     color: red;
     font-size: 18px;
+    cursor: pointer;
     span{
         position: absolute;
         display: none;
@@ -48,6 +49,8 @@
     color: #8af304;
     font-size: 18px;
     padding-left: 20px;
+    cursor: pointer;
+    
     span{
         position: absolute;
         display: none;
