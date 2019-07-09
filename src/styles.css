@@ -2,7 +2,7 @@ h1, h2, h3, h4, h5 {
     font-family: 'Open Sans', sans-serif !important;
 }
 
-p, a, label, input, select, textarea {
+p, a, label, input, select, textarea, .nb-theme-corporate nb-layout .layout {
     font-family: 'Poppins', sans-serif !important;
 }
 
@@ -661,6 +661,10 @@ ngb-modal-window {
 
 .menu-sidebar.compacted .scrollable nb-menu .menu-items>.menu-item ul li a span {
     margin-left: 0px;
+}
+
+nb-card-header {
+    border-bottom: 1px solid #cdd5dc !important;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {

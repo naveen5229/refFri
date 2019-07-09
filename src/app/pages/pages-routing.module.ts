@@ -65,6 +65,8 @@ import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
 import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
+import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 
 const routes: Routes = [{
   path: '',
@@ -263,6 +265,11 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
   },
   {
+    path: 'lr-invoice-columns',
+    component: LrInvoiceColumnsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'consolidate-fuel-average',
     component: ConsolidateFuelAverageComponent,
   },
@@ -400,11 +407,16 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
+    path: 'freight-expenses',
+    component: FreightExpensesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'pod-dashboard',
     component: PodDashboardComponent,
     canActivate: [AuthGuard]
   },
- {
+  {
     path: 'advices',
     component: AdvicesComponent,
     canActivate: [AuthGuard]
