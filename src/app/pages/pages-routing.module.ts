@@ -66,6 +66,7 @@ import { FreightRevenueComponent } from './freight-revenue/freight-revenue.compo
 import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
 import { AdvicesComponent } from './advices/advices.component';
 import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
+import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 
 const routes: Routes = [{
   path: '',
@@ -261,6 +262,11 @@ const routes: Routes = [{
   {
     path: 'remaining-fuel',
     component: RemainingFuelComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'lr-invoice-columns',
+    component: LrInvoiceColumnsComponent,
     canActivate: [AuthGuard],
   },
   {

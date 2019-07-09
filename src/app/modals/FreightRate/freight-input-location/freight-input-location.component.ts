@@ -30,8 +30,9 @@ export class FreightInputLocationComponent implements OnInit {
     dest_long: null,
     routeName: null,
     routeId: null,
-    onBasis: 1
-  }];
+    onBasis: 'route'
+  },
+  ];
   frpId = null;
 
 
@@ -48,14 +49,7 @@ export class FreightInputLocationComponent implements OnInit {
   headings = [];
   valobj = {};
 
-  routes = [{
-    name: "jpr-del",
-    id: 1,
-  },
-  {
-    name: "Agr-del",
-    id: 2,
-  }]
+  routes = [];
   constructor(
     private modalService: NgbModal,
     public common: CommonService,
@@ -64,6 +58,7 @@ export class FreightInputLocationComponent implements OnInit {
   ) {
     this.frpId = this.common.params.id ? this.common.params.id : null;
     this.common.handleModalSize('class', 'modal-lg', '1300');
+    this.getRoutes()
     this.getFrieghtRateDetails();
     this.addMore();
   }
@@ -108,7 +103,7 @@ export class FreightInputLocationComponent implements OnInit {
       dest_long: null,
       routeName: null,
       routeId: null,
-      onBasis: 1
+      onBasis: 'route'
     });
 
   }
@@ -185,9 +180,8 @@ export class FreightInputLocationComponent implements OnInit {
 
   }
 
-  getFrieghtHeaderId(type, index) {
+  getRouteDetail(type, index) {
     console.log("Type Id", type);
-
     this.frieghtDatas[index].routeId = this.routes.find((element) => {
       return element.name == type;
     }).id;
@@ -219,7 +213,7 @@ export class FreightInputLocationComponent implements OnInit {
   }
 
   getRoutes() {
-    this.api.get('FrieghtRate/getFreightHeads?type=exp')
+    this.api.get('ViaRoutes/getRoutes')
       .subscribe(res => {
         this.routes = res['data'];
       }, err => {
@@ -346,5 +340,17 @@ export class FreightInputLocationComponent implements OnInit {
     }
   }
 
-
+  resetRouteDetail(index) {
+    if (this.frieghtDatas[index].onBasis == "source-dest") {
+      this.frieghtDatas[index].routeId = null;
+      this.frieghtDatas[index].routeName = null;
+    } else if (this.frieghtDatas[index].onBasis == "route") {
+      this.frieghtDatas[index].origin = null;
+      this.frieghtDatas[index].org_lat = null;
+      this.frieghtDatas[index].org_long = null;
+      this.frieghtDatas[index].destination = null;
+      this.frieghtDatas[index].dest_lat = null;
+      this.frieghtDatas[index].dest_long = null;
+    }
+  }
 }
