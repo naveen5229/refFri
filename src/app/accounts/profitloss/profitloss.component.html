@@ -8,9 +8,9 @@
           <input type="radio" name="view" [(ngModel)]="viewType" value="all" (change)="changeViewType()">
           <label>Expand All</label>
         </div>
-    <span class="pdf-icon" title="PDF Export" (click)="pdfService.mutliTablePdfWithId(['table1', 'table2'])"
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
       style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-    <span class="exel-icon" title="CSV Export" (click)="csvService.multiTableCSVWithId(['table1', 'table2'])"
+    <span class="exel-icon" title="CSV Export" (click)="generateCsvData()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
       <div class="col">
@@ -37,6 +37,7 @@
         </div>
       </div>
     </div>
+    <div id="table">
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
         <!-- <table class="table table-bordered m-0" id="table1">
@@ -180,6 +181,7 @@
         </div>
       </div>
     </div>
+  </div>
   </nb-card-body>
 </nb-card>
 

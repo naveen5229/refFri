@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Angular5Csv } from "angular5-csv/dist/Angular5-csv";
 import * as _ from "lodash";
+import { CommonService } from '../common.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CsvService {
 
-  constructor() { }
+  constructor(private common: CommonService) { }
 
   multiTableCSVWithId(tableIds) {
     let xrows = [{}];
@@ -137,8 +138,12 @@ export class CsvService {
    * @param jsonArray - String
    * @param filName - String
    */
-  jsonToExcel(jsonArray: any[], filName: string = 'report') {
-    let info = [{ "elogist Solutions": "elogist Solutions" }, {}];
+  async jsonToExcel(jsonArray: any[], filName: string = 'report') {
+    let details = await this.common.getFoDetails();
+    let info = [{ "blank": "", "fo": details.foname },
+    { "blank": "", "address": `${details.addressline}, Phone: ${details.phonenumber}` },
+    { "blank": "", "gst": `GST: ${details.gstno}` },
+    ];
     info.push(...jsonArray);
     new Angular5Csv(info, "report");
   }

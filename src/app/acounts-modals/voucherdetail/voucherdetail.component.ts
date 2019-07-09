@@ -10,11 +10,15 @@ import { CommonService } from '../../services/common.service';
 })
 export class VoucherdetailComponent implements OnInit {
   title = '';
+  voucherCode ='';
   Detail = [];
   constructor(
     private activeModal: NgbActiveModal,
     public common: CommonService,
     public api: ApiService) {
+
+      this.voucherCode = this.common.params.vchcode; 
+
     this.getDayBookDetailList();
   }
   ngOnInit() {
@@ -22,7 +26,8 @@ export class VoucherdetailComponent implements OnInit {
 
   getDayBookDetailList() {
     let params = {
-      voucherId: this.common.params
+      voucherId: this.common.params.vchid
+      
     };
     console.log('vcid', this.common.params);
 

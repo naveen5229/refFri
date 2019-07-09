@@ -14,9 +14,9 @@
       </div>
       <!-- View Expand End -->
 
-    <span class="pdf-icon" title="PDF Export" (click)="pdfService.mutliTablePdfWithId(['table1', 'table2'])"
+    <span class="pdf-icon" title="PDF Export" (click)="pdfService.htmlToPdf('table')"
       style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-    <span class="exel-icon" title="CSV Export" (click)="csvService.multiTableCSVWithId(['table1', 'table2'])"
+    <span class="exel-icon" title="CSV Export" (click)="generateCsvData()"
       style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
     <div class="row">
       <!--div class="col">
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-
+<div id="table">
     <div class="row balance-shit m-0 p-0">
       <div class="col-6 p-0">
         <!-- <table class="table table-bordered" id="table1">
@@ -144,13 +144,13 @@
 
           <div *ngFor="let subGroup of liability.subGroups; let k = index;"
           [hidden]="active.asset.mainGroup.indexOf('mainGroup' + i + 0) == -1"
-            (click)="handleExpandation($event, i, 'liabilities', 'subGroup', k)">
+            (click)="handleExpandation($event, i, 'asset', 'subGroup', k)">
             <div class="tb-mini row m-0 pl-0 pr-0" style="background-color: #5d6e75;color: #fff;">
               <div class="col-8">{{subGroup.name}}</div>
               <div class="col-4 text-right">{{subGroup.total | number : '1.2-2'}}</div>
             </div>
 
-            <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index" class="tb-mini row m-0 pl-0 pr-0"
+            <div *ngFor="let balanceSheet of subGroup.balanceSheets; let j = index"
             (click)="$event.stopPropagation(); selectedRow =  'B' + i + k + j" class="tb-mini row m-0 pl-0 pr-0"
             [hidden]="active.asset.subGroup.indexOf('subGroup' + i + k) == -1"
             (dblclick)="(balanceSheet.y_ledger_id) ? openLedgerViewModel(balanceSheet.y_ledger_id,balanceSheet.y_ledger_name) : ' ' "
@@ -185,6 +185,7 @@
         </div>
       </div>
     </div>
+  </div>
   </nb-card-body>
 </nb-card>
 

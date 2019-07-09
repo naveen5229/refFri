@@ -4,8 +4,9 @@ import html2canvas from 'html2canvas';
 import { CommonService } from '../common.service';
 import { UserService } from '../user.service';
 import { ApiService } from '../api.service';
-import html2pdf from 'html2pdf.js'
+import html2pdf from 'html2pdf.js';
 import { DatePipe } from '@angular/common';
+import { AccountService } from '../account.service';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ import { DatePipe } from '@angular/common';
 export class PdfService {
 
   constructor(public common: CommonService,
+    private accountService: AccountService,
     public user: UserService,
     private datePipe: DatePipe,
     public api: ApiService) {
@@ -431,6 +433,7 @@ export class PdfService {
     let mainElement = document.createElement('div');
     mainElement.className = 'voucher-pdf';
     mainElement.id = 'voucher-pdf';
+    let date = this.common.dateFormatternew(new Date(), 'ddMMYYYY', false, '-');
 
     mainElement.innerHTML = `
       <div class="voucher-customer ">
@@ -461,7 +464,7 @@ export class PdfService {
               </tr>
             </tbody>
           </table>
-          <div class="row voucher-footer">
+          <div class="row voucher-footer"  style="position: absolute;bottom: 20px;width: 100%;">
             <div class="col-sm-6 col-xs-6"></div>
             <div class="col-sm-3 col-xs-3 voucher-signature">
               <div>Accountant</div>
@@ -469,19 +472,18 @@ export class PdfService {
             <div class="col-sm-3 col-xs-3 voucher-signature">
               <div>Approved By</div>
             </div>
-            <div class="col-sm-4 col-xs-4 footerselector">
+            <div class="col-sm-5 col-xs-5 footerselector">
             <div>Powered By : Elogist Solution</div>
             </div>
-            <div class="col-sm-4 col-xs-4 footerselector">
-            <div>Printed Date:  '23-05-2019' </div>
+            <div class="col-sm-5 col-xs-5 footerselector">
+            <div>Printed Date:  ${date} </div>
             </div> 
-            <div class="col-sm-4 col-xs-4 footerselector">
+            <div class="col-sm-2 col-xs-2 footerselector">
             <div>Page No : 1 </div>
             </div> 
           </div>
         </div>`;
-    console.log(mainElement);
-    document.getElementsByTagName('BODY')[0].append(mainElement);
+   
     return mainElement;
   }
 
@@ -747,10 +749,7 @@ export class PdfService {
    * @param pdfName 
    */
   async htmlToPdf(elementId: string, pdfName: string = 'report') {
-    this.common.loading++;
-    let result = await this.api.post('Voucher/GetCompanyHeadingData', { search: '1' }).toPromise();
-    let details = result['data'][0];
-    this.common.loading--;
+    let details = await this.common.getFoDetails();
 
     const pdfElement = document.getElementById(elementId);
     let headerHtml = `<div class="container">

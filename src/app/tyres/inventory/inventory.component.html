@@ -1,8 +1,16 @@
 <nb-card style="border: 0px;">
   <nb-card-header>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-6">
         <h5>Tyre Inventory</h5>
+      </div>
+      <div class="col-sm-2">
+        <select class="form-control" name="typelist" [(ngModel)]="typeListId" (change)="typeList()">
+          <option value="-1">All</option>
+          <option value="1">Mapped</option>
+          <option value="0">UnMapped</option>
+
+        </select>
       </div>
       <div class="col-sm-4 text-right">
         <div class="row" *ngIf="userType=='admin'">
@@ -107,39 +115,14 @@
       </div>
 
     </div>
+    <div>
+      <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="tyreinventory">
+      </smart-table>
+
+      <div class="no-data alert alert-danger" role="alert" *ngIf="data.length==0">
+        No Data available !
+      </div>
+    </div>
+
   </nb-card-body>
 </nb-card>
-
-<!-- <nb-card>
-  <nb-card-body>
-    <table class="table table-bordered table-hover" *ngIf="searchedTyreDetails">
-      <thead class="thead">
-        <tr>
-          <th># </th>
-          <th>Model </th>
-          <th>Size </th>
-          <th>Tyre No </th>
-          <th>Entry Date </th>
-          <th>Enter By </th>
-          <th>Date </th>
-
-        </tr>
-
-      </thead>
-      <tbody>
-        <tr *ngFor="let tyreDetail of searchedTyreDetails; let i = index;">
-          <td>{{i+1}}</td>
-          <td>{{tyreDetail.brand}} - {{tyreDetail.model}} </td>
-          <td>{{tyreDetail.size}}</td>
-          <td>{{tyreDetail.tyreno}}</td>
-          <td>{{tyreDetail.entrydate | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-          <td>{{tyreDetail.entryby}}</td>
-          <td>{{tyreDetail.date | date : 'dd-MMM-yyyy hh:mm a'}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="no-data alert-danger" *ngIf="!searchedTyreDetails.length">
-      No Data available !
-    </div>
-  </nb-card-body>
-</nb-card> -->

@@ -3,6 +3,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { JsonPipe } from '@angular/common';
+import { EvaIconsPipe } from '../../@theme/pipes';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
   selector: 'routes-expenses',
@@ -90,26 +93,46 @@ export class RoutesExpensesComponent implements OnInit {
 
   }
 
+  validationCheck() {
+    let isValidate = true;
+    this.routeExpenses.forEach(element => {
+      console.log("Value:", element.amount);
+      if (element.amount && (element.amount <= 0)) {
+        this.common.showError("Amount Value is not Valid");
+        isValidate = false;
+        return isValidate;
+      }
+    });
+    return isValidate;
+  }
+
   saveExpenses() {
+    if (!this.validationCheck()) {
+      return;
+    }
     let params = {
       data: JSON.stringify(this.routeExpenses),
-
     }
     this.common.loading++;
     this.api.post('ViaRoutes/expenses', params)
       .subscribe(res => {
         this.common.loading--;
-        this.common.showToast(res['data'][0].y_msg);
-        if (res['data'][0].y_id > 0)
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
           this.routeExpenses = [{
             modelId: null,
             expenseType: null,
             amount: null,
             routeId: this.id,
           }];
-        this.addMore();
+          this.viewExpenses();
+          this.addMore();
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg)
+        }
 
-        this.viewExpenses();
+
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -141,8 +164,12 @@ export class RoutesExpensesComponent implements OnInit {
         if (!res['data']) return;
         this.data = res['data'];
         let first_rec = this.data[0];
-        for (var key in first_rec) {
-          if (key.charAt(0) != "_") {
+        let key = "Model";
+        this.headings.push(key);
+        let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
+        this.table.data.headings[key] = headerObj;
+        for (key in first_rec) {
+          if (key.charAt(0) != "_" && key != "Model") {
             this.headings.push(key);
             let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
             this.table.data.headings[key] = headerObj;
@@ -162,22 +189,40 @@ export class RoutesExpensesComponent implements OnInit {
 
 
   getTableColumns() {
-
     let columns = [];
-    console.log("Data=", this.data);
+
     this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        if (this.headings[i] == 'Action')
-          this.valobj[this.headings[i]] = { class: '', icons: this.delete(doc) };
-        else
-          this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-
+      let valobj = {};
+      let docobj = { routeId: 0 };
+      for (var i = 0; i < this.headings.length; i++) {
+        console.log("doc Data:", doc);
+        let strval = doc[this.headings[i]];
+        console.log("srtvalue", strval);
+        let rowId = '';
+        let val = 0;
+        if (strval.indexOf('_') > 0) {
+          let arrval = strval.split('_');
+          val = arrval[0];
+          rowId = arrval[1];
+        } else if (strval.indexOf('_') === -1) {
+          val = strval;
+        } else {
+          val = null;
+        }
+        docobj.routeId = doc['_route_id'];
+        valobj[this.headings[i]] = {
+          value: val,
+          isHTML: true,
+          class: (this.headings[i] != "Model") ?
+            'blue' :
+            'black',
+          action: this.headings[i] != "Model" ? this.deleteRow.bind(this, doc, rowId) : ''
+        };
       }
-      columns.push(this.valobj);
+      // icons: val > 0 ? this.delete(doc[this.headings[i]]) : ''
 
+      columns.push(valobj);
     });
-
     return columns;
   }
 
@@ -186,25 +231,25 @@ export class RoutesExpensesComponent implements OnInit {
   }
 
   delete(row) {
-
     let icons = [];
     icons.push(
       {
         class: "fas fa-trash-alt",
         action: this.deleteRow.bind(this, row),
+        value: row,
       }
     )
     return icons;
   }
-  deleteRow(row) {
-    console.log("row:", row);
+  deleteRow(row, id) {
+    console.log("row:", row, id);
 
     let params = {
-      id: row._id,
+      id: id,
       routeId: row._route_id,
       modelId: row._model_id
     }
-    if (row._id) {
+    if (id) {
       this.common.params = {
         title: 'Delete  ',
         description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
