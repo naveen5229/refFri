@@ -3,9 +3,9 @@
   <nb-card-body>
     <div class="row">
       <div class="col-9">
-        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table','','','','')"
+        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+        <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
 
         <div class="row">
@@ -101,8 +101,9 @@
 
       <thead style="background-color:#263238; color:#fff;">
         <tr>
+          <th>S.No</th>
           <th>Date</th>
-          <th>y_ledgername</th>
+          <th>Ledger Name</th>
           <th>Vch Type</th>
           <th>Vch No.</th>
           <th>Amount</th>
@@ -119,6 +120,7 @@
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="getBookDetail(dataItem.y_voucher_id)" (enter)="getBookDetail(dataItem.y_voucherid) "
         [ngClass]="{'highlight' : selectedRow == i,'greterline' :(dataItem.y_days > 1) ,'lowerline' : (dataItem.y_days < 0)}">
+        <td>{{ i+1 }}</td>
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_ledgername}}</td>
         <td>{{dataItem.y_vouchertype}}</td>

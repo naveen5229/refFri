@@ -5,9 +5,9 @@
   <nb-card-body>
     <div class="row">
       <div class="col-9">
-        <span class="pdf-icon" title="PDF Export" (click)="common.getPDFFromTableId('table','','','','')"
+        <span class="pdf-icon" title="PDF Export" (click)="pdfFunction()"
           style="cursor: pointer;"><i class="fa fa-file-pdf"></i></span>
-        <span class="exel-icon" title="CSV Export" (click)="common.getCSVFromTableId('table')"
+        <span class="exel-icon" title="CSV Export" (click)="csvFunction()"
           style="cursor: pointer;margin-left: 10px;"><i class="fas fa-file-excel"></i></span>
         <div class="row">
           <!-- <div class="col-4">
@@ -80,6 +80,7 @@
 
       <thead style="background-color:#263238; color:#fff;">
         <tr>
+          <th>S.No</th>
           <th>Date</th>
           <th>Particular</th>
           <th>Vch Type</th>
@@ -95,6 +96,7 @@
       <tr *ngFor=" let dataItem of DayData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_type.toLowerCase().includes('voucher'))  ? (dataItem.y_type.toLowerCase().includes('consignment')) ? openConsignmentVoucherEdit(dataItem) :openVoucherEdit(dataItem.y_voucherid) : openinvoicemodel(dataItem.y_voucherid) "
         (enter)="openVoucherEdit(dataItem.y_voucherid) " [ngClass]="{'highlight' : selectedRow == i}">
+        <td>{{ i+1 }}</td>
         <td>{{dataItem.y_date | date:'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_particulars}}
           <span *ngIf="dataItem.y_docscount>0">

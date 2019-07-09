@@ -125,8 +125,11 @@
 
 
     <div class="modal-footer">
-      <div class="row">
-          <input type="checkbox" name="print" id="print" [(ngModel)]="voucher.print"> Print
+      <div class="row align-items-baseline">
+        <input type="checkbox" name="print" id="print" [(ngModel)]="voucher.print"> <span class="ml-2">Print After
+          Save</span>
+        <button class="btn btn-primary ml-2" type="button" (click)="printFunction()" id="printfunction"
+          style="cursor: pointer;">Print</button>
         <div class="col" *ngIf="(this.deleteId == 0  || this.deleteId == 2)">
           <button class="btn btn-danger" type="button" outline (click)="delete(1)" id="delete"
             style="cursor: pointer;">Delete</button>

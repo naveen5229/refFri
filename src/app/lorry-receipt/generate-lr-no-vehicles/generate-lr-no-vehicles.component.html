@@ -214,7 +214,7 @@
             <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
           </tr>
 
-          <tr *ngIf="particular.customField ">
+          <!-- <tr *ngIf="particular.customField ">
             <td>
               <label> Invoice </label>
             </td>
@@ -240,12 +240,18 @@
               <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
             </td>
 
-          </tr>
+          </tr> -->
 
           <tr *ngIf="particular.customField ">
             <td>
-              <input type="text" placeholder="Name" class="form-control"
-                [(ngModel)]="particular.customfields.customDetail[0]">
+              <!-- <input type="text" placeholder="Name" class="form-control"
+                [(ngModel)]="particular.customfields.customDetail[0]"> -->
+              <auto-suggestion (onSelected)="particular.customfields.customDetail[0] = $event.id;" display="name"
+                [data]="getFieldName" [preSelected]="null" placeholder="Name"></auto-suggestion>
+
+            </td>
+            <td>
+              <i class="fa fa-plus add col-md-4" (click)="addField()"></i>
             </td>
             <td>
               <input type="text" class="form-control" placeholder="Value"

@@ -70,10 +70,10 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 200px;
+            width: 180px;
         }
         th:first-child{
-            width: 100px;
+            width: 50px;
         }
         th:last-child{
             width: auto;
@@ -81,7 +81,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 200px;
+            width: 180px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -109,7 +109,7 @@ table{
                 width: auto;
             }
             td:first-child{
-                width: 100px;   
+                width: 50px;   
             }
         }
         tr:nth-child(odd){

@@ -76,6 +76,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'fas fa-tachometer-alt',
         link: '/pages/vehicle-odoMeter'
       },
+      {
+        title: 'Routes',
+        icon: 'fa fa-pencil-square-o',
+        link: '/pages/via-routes',
+      },
 
     ]
   },
@@ -127,21 +132,31 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/frieght-rate-input',
       },
       {
+        title: 'Freight Revenue',
+        icon: 'nb-list',
+        link: '/pages/freight-revenue',
+      },
+      {
+        title: 'Freight Expenses',
+        icon: 'nb-list',
+        link: '/pages/freight-expenses',
+      },
+      {
         title: 'Lorry Receipts',
         icon: 'nb-list',
         link: '/pages/lorry-receipts',
       },
 
-      {
-        title: 'Generate LR',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr',
-      },
-      {
-        title: 'Generate LTL',
-        icon: 'fas fa-receipt',
-        link: '/pages/generate-lr-no-vehicles',
-      },
+      // {
+      //   title: 'Generate LR',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr',
+      // },
+      // {
+      //   title: 'Generate LTL',
+      //   icon: 'fas fa-receipt',
+      //   link: '/pages/generate-lr-no-vehicles',
+      // },
       {
         title: 'Generate LR Manifest',
         icon: 'fas fa-receipt',
@@ -161,6 +176,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Expenses',
         icon: 'fa fa-book',
         link: '/pages/expenses',
+      },
+      {
+        title: 'POD Dashboard',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/pod-dashboard',
       },
     ]
   },
@@ -241,6 +261,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/fse-entry',
         home: true,
       },
+      {
+        title: 'Fuel Indent',
+        icon: 'fas fa-gas-pump',
+        link: '/pages/fuel-indent',
+        home: true,
+      },
     ]
   },
   {
@@ -318,7 +344,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       icon: 'fas fa-align-justify',
       link: '/pages/pending-licence',
       home: true,
-    }
+    },
+    {
+
+      title: 'Advices',
+      icon: 'fas fa-question',
+      link: '/pages/advices',
+      home: true,
+    },
+
     ]
   },
   {

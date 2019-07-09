@@ -185,6 +185,9 @@ export class RoutesAdvancesComponent implements OnInit {
     }
   }
   advanceRoute() {
+    if (!this.validationCheck()) {
+      return;
+    }
     this.common.loading++;
     console.log("oara", JSON.stringify(this.route))
     this.api.post('ViaRoutes/advances', { data: JSON.stringify(this.route) })
@@ -193,7 +196,6 @@ export class RoutesAdvancesComponent implements OnInit {
         console.log('Res:', res['data']);
 
         // alert("Route and Model is Mandtory");
-        console.log("detail", res['data'][0].result);
         console.log("msg1", res['data'][0]);
 
         if (res['data'][0].y_id > 0) {
@@ -206,7 +208,6 @@ export class RoutesAdvancesComponent implements OnInit {
             modelId: null,
           }];
           this.routeAdd();
-          // this.vehicleModalTypes();
           this.addMore()
         }
         else {
@@ -220,4 +221,25 @@ export class RoutesAdvancesComponent implements OnInit {
         console.log('Error: ', err)
       });
   }
+
+  resetData(event, index) {
+    this.routeAdd[index].modelId = null;
+    console.log(event);
+  }
+
+  validationCheck() {
+    let isValidate = true;
+    this.route.forEach(element => {
+      if ((element.fuelAmt && (element.fuelAmt <= 0)) ||
+        (element.cash && (element.cash <= 0))) {
+        this.common.showError("Amount Value is not Valid");
+
+        isValidate = false;
+        return isValidate;
+      }
+    });
+    return isValidate;
+  }
+
+
 }

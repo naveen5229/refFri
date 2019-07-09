@@ -123,7 +123,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/daybooks/0'
             },
             {
-              title:'Upload Pending',
+              title:'Voucher Pending For Approval',
               link:'/accounts/daybookpending'  
             },
             {

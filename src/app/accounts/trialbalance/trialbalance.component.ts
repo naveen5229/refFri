@@ -8,6 +8,8 @@ import { VoucherdetailComponent } from '../../acounts-modals/voucherdetail/vouch
 import { ProfitlossComponent } from '../../acounts-modals/profitloss/profitloss.component';
 import { LedgerviewComponent } from '../../acounts-modals/ledgerview/ledgerview.component';
 import * as _ from 'lodash';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { CsvService } from '../../services/csv/csv.service';
 
 @Component({
   selector: 'trialbalance',
@@ -41,6 +43,14 @@ export class TrialbalanceComponent implements OnInit {
   activedateid = '';
   lastActiveId = '';
   trialBalanceData = [];
+  active = {
+    trialBalanceData: {
+      mainGroup: [],
+      subGroup: []
+    }
+   
+  };
+  viewType = 'sub';
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event) {
     this.keyHandler(event);
@@ -50,6 +60,8 @@ export class TrialbalanceComponent implements OnInit {
   constructor(public api: ApiService,
     public common: CommonService,
     public user: UserService,
+    public pdfService: PdfService,
+    public csvService: CsvService,
     public modalService: NgbModal) {
     this.common.refresh = this.refresh.bind(this);
 
@@ -93,49 +105,205 @@ export class TrialbalanceComponent implements OnInit {
         this.common.showError();
       });
   }
+  changeViewType() {
+    this.active.trialBalanceData.mainGroup = [];
+    this.active.trialBalanceData.subGroup = [];
 
-  formattData() {
-    let firstGroup = _.groupBy(this.TrialData, 'groupname');
-    this.trialBalanceData = [];
-    for (let key in firstGroup) {
-      let groups = _.groupBy(firstGroup[key], 'y_ledger_name');
-      let traildatas = [];
-      let totalopening = 0;
-      let totaldr = 0;
-      let totalcr = 0;
-      let totalclosing = 0;
-      let y_closebaltype = '';
-      let y_openbaltype = '';
-      for (let groupKey in groups) {
 
-        groups[groupKey].map(info => {
-          if (info.y_openbal) totalopening += parseFloat(info.y_openbal);
-          if (info.y_dr_bal) totaldr += parseFloat(info.y_dr_bal);
-          if (info.y_closebal) totalcr += parseFloat(info.y_closebal);
-          if (info.y_closebal) totalclosing += parseFloat(info.y_closebal);
-          y_closebaltype = info.y_closebaltype;
-          y_openbaltype = info.y_openbaltype;
-          traildatas.push(info);
-        });
-      }
-
-      this.trialBalanceData.push({
-        name: key,
-        totalopening,
-        totaldr,
-        totalcr,
-        totalclosing,
-        y_openbaltype,
-        y_closebaltype,
-        traildatas
+    if (this.viewType == 'sub') {
+      this.trialBalanceData.forEach((liability, i) => this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0));
+   
+    } else if (this.viewType == 'all') {
+      this.trialBalanceData.forEach((trail, i) => {
+        this.active.trialBalanceData.mainGroup.push('mainGroup' + i + 0);
+        trail.subGroups.forEach((subGroup, j) => this.active.trialBalanceData.subGroup.push('subGroup' + i + j));
       });
     }
+  }
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
+  }
+  formattData() {
+    let primaryGroup = Object.keys(_.groupBy(this.TrialData, 'primary_groupname')).map(primaryGroupKey => {
+      return {
+        name: primaryGroupKey,
+        amount:0,
+        dramount:0,
+        cramount:0,
+        openingamount:0,
+        openingType:'',
+        closingType:'',
+        subGroups: Object.keys(_.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')).map(subGroupKey => {
+          return { name: subGroupKey, 
+            amount:0,
+            dramount:0,
+            cramount:0,
+            openingamount:0,
+            openingType:'',
+          closingType:'',
+            trialBalances: _.groupBy(_.groupBy(this.TrialData, 'primary_groupname')[primaryGroupKey], 'groupname')[subGroupKey] };
+        })
+      };
+    });
+    this.trialBalanceData = primaryGroup;
+console.log('trialBalanceData @@@',this.trialBalanceData);
+    for (let key in primaryGroup) {
+     
+      primaryGroup.map(value => {
+        let totalclosing = 0;
+        let totaldr=0;
+        let totalcr=0;
+        let totalopening=0;
+        let openingType='';
+        let closingType='';
+        console.log('map value',value.subGroups);
+   if(value.subGroups && value.subGroups.length >0){  value.subGroups.map(valuenew => {
+     
+    let subtotalclosing = 0;
+    let subtotaldr=0;
+    let subtotalcr=0;
+    let subtotalopening=0;
+          valuenew.trialBalances.map(trailvalue => {
+         // console.log('trial map',trailvalue);
+         openingType=trailvalue.y_openbaltype ;
+         closingType=trailvalue.y_closebaltype ;
+            if (trailvalue.y_closebal){
+               totalclosing += parseFloat(trailvalue.y_closebal);
+               subtotalclosing += parseFloat(trailvalue.y_closebal);
+            }
+            if (trailvalue.y_dr_bal){
+              totaldr += parseFloat(trailvalue.y_dr_bal);
+              subtotaldr += parseFloat(trailvalue.y_dr_bal);
+            }
+            if (trailvalue.y_cr_bal){
+              totalcr += parseFloat(trailvalue.y_cr_bal);
+              subtotalcr += parseFloat(trailvalue.y_cr_bal);
+            }
+            if (trailvalue.y_openbal){
+              totalopening += parseFloat(trailvalue.y_openbal);
+              subtotalopening += parseFloat(trailvalue.y_openbal);
+            }
+        })
+        valuenew.amount=subtotalclosing;
+        valuenew.dramount=subtotaldr;
+        valuenew.cramount=subtotalcr;
+        valuenew.openingamount=subtotalopening;
+        valuenew.openingType=openingType ;
+        valuenew.closingType=closingType ;
+         // console.log('subgroup map',valuenew);
+       // if (valuenew.y_amount) totalclosing += parseFloat(valuenew.y_amount);
+      })
+    }
+    
+    value.amount=totalclosing;
+    value.dramount=totaldr;
+    value.cramount=totalcr;
+    value.openingamount=totalopening;
+    value.openingType=openingType ;
+    value.closingType=closingType ;
+    });
+      
+    }
+console.log('trialBalanceData @@@',this.trialBalanceData);
+    // this.trialBalanceData = [];
+    // for (let key in firstGroup) {
+    //   let groups = _.groupBy(firstGroup[key], 'y_ledger_name');
+    //   let traildatas = [];
+    //   let totalopening = 0;
+    //   let totaldr = 0;
+    //   let totalcr = 0;
+    //   let totalclosing = 0;
+    //   let y_closebaltype = '';
+    //   let y_openbaltype = '';
+    //   for (let groupKey in groups) {
+
+    //     groups[groupKey].map(info => {
+    //       if (info.y_openbal) totalopening += parseFloat(info.y_openbal);
+    //       if (info.y_dr_bal) totaldr += parseFloat(info.y_dr_bal);
+    //       if (info.y_closebal) totalcr += parseFloat(info.y_closebal);
+    //       if (info.y_closebal) totalclosing += parseFloat(info.y_closebal);
+    //       y_closebaltype = info.y_closebaltype;
+    //       y_openbaltype = info.y_openbaltype;
+    //       traildatas.push(info);
+    //     });
+    //   }
+
+    //   this.trialBalanceData.push({
+    //     name: key,
+    //     totalopening,
+    //     totaldr,
+    //     totalcr,
+    //     totalclosing,
+    //     y_openbaltype,
+    //     y_closebaltype,
+    //     traildatas
+    //   });
+
+
+    // }
 
 
 
 
     console.log('First Section:', this.trialBalanceData);
     console.log('Second Section:', this.trialBalanceData);
+    this.changeViewType();
+
+  }
+  pdfFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = res['data'][0].addressline + '\n';
+        let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0].gstno) ? ', GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1 + remainingstring3;
+        this.common.getPDFFromTableIdnew('table', res['data'][0].foname, cityaddress, '', '');
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
+  }
+  csvFunction() {
+    let params = {
+      search: 'test'
+    };
+
+    this.common.loading++;
+    this.api.post('Voucher/GetCompanyHeadingData', params)
+      .subscribe(res => {
+        this.common.loading--;
+        console.log('Res11:', res['data']);
+        // this.Vouchers = res['data'];
+        let address = res['data'][0].addressline + '\n';
+        let remainingstring1 = (res['data'][0].phonenumber) ? ' Phone Number -  ' + res['data'][0].phonenumber : '';
+        let remainingstring2 = (res['data'][0].panno) ? ', PAN No -  ' + res['data'][0].panno : '';
+        let remainingstring3 = (res['data'][0].gstno) ? ' GST NO -  ' + res['data'][0].gstno : '';
+
+        let cityaddress = address + remainingstring1;
+        this.common.getCSVFromTableIdNew('table', res['data'][0].foname, cityaddress, '', '', remainingstring3);
+
+      }, err => {
+        this.common.loading--;
+        console.log('Error: ', err);
+        this.common.showError();
+      });
   }
   getDate(date) {
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -294,5 +462,34 @@ export class TrialbalanceComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
+  generateCsvData() {
+    let liabilitiesJson = [];
+    this.trialBalanceData.forEach(liability => {
+      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ Ledger: subGroup.name, OpeningBalance : subGroup.openingamount,amountdr:subGroup.dramount,amountcr :subGroup.cramount,amount:subGroup.amount});
+        subGroup.trialBalances.forEach(trailbalance => {
+          liabilitiesJson.push({ Ledger: trailbalance.y_ledger_name, OpeningBalance : trailbalance.y_openbal,amountdr:trailbalance.y_dr_bal,amountcr :trailbalance.y_cr_bal,amount:trailbalance.y_closebal});
+        });
+      });
+    });
+
+    // let mergedArray = [];
+    // for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+    //   if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+    //   } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+    //   } else if (assetsJson[i] && i < assetsJson.length - 1) {
+    //     mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
+    //   }
+    // }
+    // mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+
+    this.csvService.jsonToExcel(liabilitiesJson);
+    console.log('Merged:', liabilitiesJson);
+  }
+
+
 }
 
