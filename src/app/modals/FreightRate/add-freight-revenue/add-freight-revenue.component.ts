@@ -187,7 +187,6 @@ export class AddFreightRevenueComponent implements OnInit {
 
   saveRevenue() {
     console.log("Params");
-
     ++this.common.loading;
     let params = {
       row_id: this.revenue.id,

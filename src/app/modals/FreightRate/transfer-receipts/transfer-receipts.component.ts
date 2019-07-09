@@ -57,7 +57,7 @@ export class TransferReceiptsComponent implements OnInit {
     this.activeModal.close();
   }
 
-  save(){}
+
   getvehicleData(vehicle) {
     this.tranferReceipt.vehicleId = vehicle.id;
     this.tranferReceipt.vehicleRegNo = vehicle.regno;
@@ -130,6 +130,45 @@ export class TransferReceiptsComponent implements OnInit {
         this.common.showError();
       });
   }
+
+  save() {
+    console.log("Params");
+    ++this.common.loading;
+    let params = {
+      vid: this.tranferReceipt.vehicleId,
+      regno: this.tranferReceipt.vehicleRegNo,
+      vehasstype: 0,
+      advice_type_id: this.tranferReceipt.adviceTypeId,
+      advice_mode: this.tranferReceipt.modeId,
+      dttime: this.common.dateFormatter(this.tranferReceipt.date),
+      user_value: this.tranferReceipt.amount,
+      ref_type: this.tranferReceipt.refernceType,
+      ref_id: this.tranferReceipt.refId,
+      for_ref_id: null,
+      voucher_details_id: null,
+      ledger_id: null,
+      rec_value: null,
+
+    };
+    this.api.post("LorryReceiptsOperation/saveTransfers", params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log(res['data'][0].result);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.activeModal.close({ data: true });
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
+
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
 
 
 }
