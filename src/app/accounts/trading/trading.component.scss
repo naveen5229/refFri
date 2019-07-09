@@ -145,3 +145,15 @@ table tr.highlight {
     background-color: #FFEE75 !important;
     color: #000 !important;
 }
+
+.expand-div {
+    position: absolute;
+    right: 20px;
+
+    label {
+        font-weight: 500;
+        margin-right: 10px;
+        margin-left: 5px;
+        vertical-align: middle;
+    }
+}
