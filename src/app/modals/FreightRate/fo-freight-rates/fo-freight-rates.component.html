@@ -10,7 +10,7 @@
 
     <div class="d-flex">
       <auto-suggestion (onSelected)="getCompanyDetail($event)" url="Suggestion/GetCompanies" display="name"
-        [controlName]="companyautoSuggestion" [parentName]="Form" placeholder="" class="col-11 auto-suggest pl-0 pr-2"
+        [parentName]="Form" placeholder="" class="col-11 auto-suggest pl-0 pr-2"
         [ngClass]="{ 'is-invalid': isFormSubmit && fo.companyautoSuggestion.errors }"> </auto-suggestion>
 
       <div *ngIf="isFormSubmit && fo.companyautoSuggestion.errors" class="error">
@@ -39,14 +39,13 @@
     <div class="form-group">
       <label>Site</label>
       <auto-suggestion (onSelected)="getSiteDetail($event)" url="Suggestion/getSites?typeId=1" seperator="-"
-        [display]="['name','sd_loc_name']" [controlName]="Site" [parentName]="Form" placeholder="Search ."
-        [preSelected]="null">
+        [display]="['name','sd_loc_name']" placeholder="Search ." [preSelected]="null">
       </auto-suggestion>
     </div>
     <div class="form-group">
       <label>Material</label>
       <auto-suggestion (onSelected)="getMaterialDetail($event)" url="Suggestion/GetMaterialTypes" display="name"
-        placeholder="Material Name" [controlName]="Material" [parentName]="Form" [preSelected]="null">
+        placeholder="Material Name" [preSelected]="null">
       </auto-suggestion>
     </div>
     <div class="form-group">
