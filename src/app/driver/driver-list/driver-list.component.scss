@@ -1,6 +1,12 @@
 nb-card-header{
     border-bottom: 1px solid #ccc;
 }
+.icon-green {
+    color: green; font-size: 24px; cursor:pointer;
+}
+.icon-red-cross {
+    color: red; font-size: 24px; cursor:pointer;
+}
 table{
     thead{
         display: table;
@@ -13,7 +19,7 @@ table{
         th{
             padding: 5px 8px;
             font-weight: normal;
-            width: 250px;
+            width: 160px;
         }
         th:nth-child(1){
             width: 30px;
@@ -42,9 +48,9 @@ table{
                 width: 30px;
             }
             td{
-                width: 250px;
+                width: 160px;
                 button{
-                    font-size: 16px;
+                    font-size: 12px;
                     text-transform: capitalize;
                 }
             }

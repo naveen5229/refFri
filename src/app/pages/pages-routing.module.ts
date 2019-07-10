@@ -57,6 +57,16 @@ import { PendingLicenceComponent } from '../driver/pending-licence/pending-licen
 import { LrPodReceiptsComponent } from '../lorry-receipt/lr-pod-receipts/lr-pod-receipts.component';
 import { VehiclesComponent } from '../admin/vehicles/vehicles.component';
 import { VehicleOdometerComponent } from './vehicle-odometer/vehicle-odometer.component';
+import { VehicleDistanceWithOdometerComponent } from './vehicle-distance-with-odometer/vehicle-distance-with-odometer.component';
+import { FSEEntryComponent } from './fse-entry/fse-entry.component';
+import { FrieghtRateInputComponent } from './frieght-rate-input/frieght-rate-input.component';
+import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
+import { ViaRoutesComponent } from '../admin/via-routes/via-routes.component';
+import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
+import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.component';
+import { AdvicesComponent } from './advices/advices.component';
+import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
+import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 
 const routes: Routes = [{
   path: '',
@@ -255,6 +265,11 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
   },
   {
+    path: 'lr-invoice-columns',
+    component: LrInvoiceColumnsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'consolidate-fuel-average',
     component: ConsolidateFuelAverageComponent,
   },
@@ -352,15 +367,60 @@ const routes: Routes = [{
     canActivate: [AuthGuard]
   },
   {
+    path: 'vehicle-distance-with-odometer',
+    component: VehicleDistanceWithOdometerComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'vehicles',
     component: VehiclesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'fse-entry',
+    component: FSEEntryComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'vehicle-odoMeter',
     component: VehicleOdometerComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'fuel-indent',
+    component: FuelIndentComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'frieght-rate-input',
+    component: FrieghtRateInputComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'via-routes',
+    component: ViaRoutesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'freight-revenue',
+    component: FreightRevenueComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'freight-expenses',
+    component: FreightExpensesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'pod-dashboard',
+    component: PodDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'advices',
+    component: AdvicesComponent,
+    canActivate: [AuthGuard]
+  },
   ],
 }];
 

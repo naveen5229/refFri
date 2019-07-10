@@ -1,10 +1,10 @@
 <nb-card>
   <nb-card-header>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-sm-4">
         Mapped Fuel Voucher
       </div>
-    </div>
+    </div> -->
   </nb-card-header>
   <nb-card-body>
     <div class="row">
@@ -30,11 +30,11 @@
       <div class="col-6">
         <div class="col-sm-3">
           <input style="margin-top:20px;" autocomplete="off" type="radio" name="mapping" id="mapping"
-            [(ngModel)]="fuelVoucher.type"  [value]=0>&nbsp;UnMapping
+            [(ngModel)]="fuelVoucher.type"  (change)="changeModal(fuelVoucher.type)" [value]=0>&nbsp;UnMapping
         </div>
         <div class="col-sm-3">
           <input style="margin-top:20px;" autocomplete="off" type="radio" name="unmapping" id="unmapping"
-            [(ngModel)]="fuelVoucher.type" [value]=1>&nbsp;Mappping
+            [(ngModel)]="fuelVoucher.type" (change)="changeModal(fuelVoucher.type)" [value]=1>&nbsp;Mappping
         </div>
         <div class="col-sm-3">
           <button class="btn btn-primary" type="button" outline (click)="getFuelVoucher()" id="submit"
@@ -46,6 +46,7 @@
       <table class="table table-bordered">
         <thead class="thead">
           <tr id="heading-row">
+          <th>S.No</th>
             <th>Fuel Fill Date</th>
             <th>Vehicle Name</th>
             <th>Fuel Station</th>
@@ -57,11 +58,12 @@
           </tr>
         </thead>
         <tbody *ngIf="fuelVoucher.type==0">
-          <tr *ngFor="let voucher of voucherDetails; let i = index">
+          <tr *ngFor="let voucher of voucherDetails; let i = index;" (click)="selectedRow = i" [ngClass]="{'highlight' : selectedRow == i}">
+            <td>{{ i+1 }}</td>
             <td>{{voucher.fuel_fill_date | date : 'dd MMM'}}</td>
             <td>{{voucher.vehicle_name}}</td>
             <td>{{voucher.fuel_station}}</td>
-            <td><b>{{ voucher.qty}}</b></td>
+            <td>{{ voucher.qty}}</td>
             <td>{{ voucher.rate}}</td>
             <td>{{ voucher.amount}}</td>
           </tr>
@@ -69,6 +71,7 @@
 
         <tbody *ngFor="let voucher of mappedDetails; let i=index;">
           <tr style="background: #184154; color: aliceblue;">
+            <td>{{ i+1 }}</td>
             <td>{{voucher.date | date : 'dd MMM yyyy'}}</td>
             <td>{{voucher.voucherName}}</td>
             <td></td>
@@ -77,6 +80,7 @@
             <td>{{voucher.amount}}</td>
           </tr>
           <tr *ngFor="let detail of voucher.details; let j=index;">
+           <td>{{j+1}}</td>
             <td>{{detail.fuel_fill_date | date : 'dd MMM yyyy'}}</td>
             <td>{{detail.vehicle_name}}</td>
             <td>{{detail.fuel_station}}</td>

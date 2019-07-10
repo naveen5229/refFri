@@ -17,7 +17,6 @@ export class AddDriverCompleteComponent implements OnInit {
   submitted = false;
   driver = {
     name: null,
-    date: this.common.dateFormatter(new Date()),
     mobileno: null,
     mobileno2: null,
     photo: null,
@@ -28,7 +27,7 @@ export class AddDriverCompleteComponent implements OnInit {
     salary: null,
     guranter: null,
     guranterMobileNo: null,
-    doj: null
+    doj: this.common.dateFormatter1(new Date()),
   };
 
   constructor(public common: CommonService,
@@ -54,7 +53,7 @@ export class AddDriverCompleteComponent implements OnInit {
       aadharphoto: [''],
       Salary: [''],
       guranter: [''],
-      date: ['']
+      dateofJoin: ['']
     })
   }
   closeModal() {
@@ -65,10 +64,11 @@ export class AddDriverCompleteComponent implements OnInit {
   get f() { return this.driverForm.controls; }
 
   getDate() {
+    this.common.params = { ref_page: 'add-driver' }
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.driver.date = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.driver.date);
+      this.driver.doj = this.common.dateFormatter(data.date).split(' ')[0];
+      console.log('Date:', this.driver.doj);
     });
   }
 
@@ -77,13 +77,14 @@ export class AddDriverCompleteComponent implements OnInit {
       name: this.driverForm.controls.name.value,
       mobileNo: this.driverForm.controls.mobileno.value,
       mobileNo2: this.driverForm.controls.mobileno2.value,
-      photo: this.driverForm.controls.uploadPhoto.value,
+      photo: this.driver.photo,
       lisenceNo: this.driverForm.controls.lisenceno.value,
-      licencePhoto: this.driverForm.controls.lisencephoto.value,
+      licencePhoto: this.driver.lisencePhoto,
       aadharNo: this.driverForm.controls.aadharno.value,
-      aadharPhoto: this.driverForm.controls.aadharphoto.value,
+      aadharPhoto: this.driver.adharPhoto,
       guarantorName: this.driverForm.controls.guranter.value,
       guarantorMobile: this.driverForm.controls.guranterno.value,
+      doj: this.driver.doj,
     };
     this.common.loading++;
     this.api.post('/Drivers/add', params)
@@ -98,8 +99,42 @@ export class AddDriverCompleteComponent implements OnInit {
       });
   }
 
-  handleFileSelection(event, type) {
+  handleFileSelection(event, index) {
+    this.common.loading++;
+    this.common.getBase64(event.target.files[0])
+      .then(res => {
+        this.common.loading--;
+        let file = event.target.files[0];
+        console.log("Type", file.type);
+        if (file.type == "image/jpeg" || file.type == "image/jpg" ||
+          file.type == "image/png" || file.type == "application/pdf" ||
+          file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          file.type == "application/vnd.ms-excel" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          this.common.showToast("SuccessFull File Selected");
+        }
+        else {
+          this.common.showError("valid Format Are : jpeg,png,jpg,doc,docx,csv,xlsx,pdf");
+          return false;
+        }
 
+        console.log('Base 64: ', res);
+        if (index == 1) {
+          this.driver.lisencePhoto = res;
+        }
+        if (index == 2) {
+          this.driver.adharPhoto = res;
+        }
+        if (index == 3) {
+
+          this.driver.photo = res;
+        }
+        // this.driver.lisencephoto = { 'image'+ index: res };
+
+        // console.log('photos', this.driver.lisencephoto);
+      }, err => {
+        this.common.loading--;
+        console.error('Base Err: ', err);
+      })
   }
 
 }

@@ -53,7 +53,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of pendinglr; let i = index;">
-            <td (click)="getImage(data)">{{data.id}}</td>
+            <td (click)="getImage(data)" style="color:blue">{{data.id}}</td>
             <td>{{data.receipt_no}}</td>
             <th>{{data.lr_date | date : 'dd MMM'}}</th>
             <td>{{data.consigner_name}}</td>
@@ -71,6 +71,7 @@
               <ng-template #showRevert><button class="btn" (click)="revertLrDetails(data)">Revert</button></ng-template>
               <ng-template #showEdit><button class="btn" (click)="modalOpenHandling(data, i)">Edit</button>
               </ng-template>
+              <!-- <button class="btn" (click)="openGenerateLr(data)"> New Edit</button> -->
             </td>
         </tbody>
       </table>

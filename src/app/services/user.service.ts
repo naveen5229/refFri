@@ -84,9 +84,8 @@ export class UserService {
       { id: 53, route: '/admin/lr-diagnostics' },
       { id: 54, route: '/admin/via-routes' },
       { id: 55, route: '/admin/buffer-polyline' },
-      { id: 56, route: '/admin/beehive' },
-
-
+      { id: 56, route: '/admin/pod-dashboard' },
+      { id: 57, route: '/admin/fo-fs-mapping' },
     ]
   }
 

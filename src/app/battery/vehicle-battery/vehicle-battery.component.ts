@@ -13,18 +13,6 @@ import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 export class VehicleBatteryComponent implements OnInit {
 
   refmode = "701";
-  data = [];
-  table = {
-    data: {
-      headings: {},
-      columns: []
-    },
-    settings: {
-      hideHeader: true
-    }
-  };
-  headings = [];
-  valobj = {};
   vehicleBattery = [
     {
       refmode: "701",
@@ -33,27 +21,27 @@ export class VehicleBatteryComponent implements OnInit {
       date: (this.common.dateFormatter(new Date())).split(' ')[0],
       details: null,
     },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
-    {
-      refmode: "701",
-      refid: null,
-      batteryId: null,
-      date: (this.common.dateFormatter(new Date())).split(' ')[0],
-      details: null,
-    },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
+    // {
+    //   refmode: "701",
+    //   refid: null,
+    //   batteryId: null,
+    //   date: (this.common.dateFormatter(new Date())).split(' ')[0],
+    //   details: null,
+    // },
   ]
   vehicleNo = "";
   vehicleId = null;
@@ -80,13 +68,14 @@ export class VehicleBatteryComponent implements OnInit {
     this.getBatteryCurrentStatus(this.vehicleBattery[index].batteryId, index)
   }
   getvehicleData(vehicleDetails, i) {
-    this.vehicleBattery[i].refid = vehicleDetails.Id;
+    this.vehicleBattery[i].refid = vehicleDetails.id;
+    this.vehicleId = vehicleDetails.id;
     console.log('refid', vehicleDetails);
-    //this.getMappedTyres();
+    28795
   }
-  resetVehDetails(ref, i) {
-    this.vehicleBattery[i].refmode = ref;
-    console.log('ref', ref, i)
+  resetVehDetails() {
+    // this.vehicleBattery[i].refmode = ref;
+    // console.log('ref', ref, i)
     // this.vehicleNo = "";
     // this.vehicleId = null;
   }
@@ -107,9 +96,8 @@ export class VehicleBatteryComponent implements OnInit {
     } else {
       this.common.loading++;
       let params = {
-        // vehicleId: this.vehicleId,
         // refMode: this.refMode,
-        vehicleBattery: JSON.stringify(this.vehicleBattery)
+        vehicleBattery: JSON.stringify(this.vehicleBattery),
       };
       console.log('Params:', params);
 
@@ -133,75 +121,23 @@ export class VehicleBatteryComponent implements OnInit {
     }
   }
 
-  // getMappedTyres() {
-  //   let params = 'vehicleId=' + this.vehicleId +
-  //     '&refMode=' + this.refMode;
-  //   console.log("params ", params);
-  //   this.api.get('Tyres/getVehicleTyreDetails?' + params)
-  //     .subscribe(res => {
-  //       this.data = res['data'];
-  //       this.table = {
-  //         data: {
-  //           headings: {},
-  //           columns: []
-  //         },
-  //         settings: {
-  //           hideHeader: true
-  //         }
-  //       };
-  //       this.headings = [];
-  //       this.valobj = {};
-  //       if (!this.data || !this.data.length) {
-  //         //document.getElementById('mdl-body').innerHTML = 'No record exists';
-  //         return;
-  //       }
-  //       let first_rec = this.data[0];
-  //       for (var key in first_rec) {
-  //         if (key.charAt(0) != "_") {
-  //           this.headings.push(key);
-  //           let headerObj = { title: this.formatTitle(key), placeholder: this.formatTitle(key) };
-  //           this.table.data.headings[key] = headerObj;
-  //         }
-  //       }
-  //       this.table.data.columns = this.getTableColumns();
 
-  //     }, err => {
-  //       console.error(err);
-  //       this.common.showError();
-  //     });
 
-  // }
 
-  formatTitle(title) {
-    return title.charAt(0).toUpperCase() + title.slice(1);
-  }
-  getTableColumns() {
-    let columns = [];
-    console.log("Data=", this.data);
-    this.data.map(doc => {
-      this.valobj = {};
-      for (let i = 0; i < this.headings.length; i++) {
-        console.log("doc index value:", doc[this.headings[i]]);
-        this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
-      }
-      columns.push(this.valobj);
-    });
-    return columns;
-  }
 
   getBatteryCurrentStatus(batteryId, index) {
     console.log("vehicle Id ---", this.vehicleId, "battery====", batteryId);
-    if (!this.vehicleId || !batteryId) {
-      alert("Vehicle id and Tyre Id is Mandatory");
+    if (!batteryId) {
+      alert("Vehicle id and battery Id is Mandatory");
     } else {
       let alertMsg;
       let params = 'batteryId=' + batteryId;
       console.log("params ", params);
-      this.api.get('Tyres/getTyreCurrentStatus?' + params)
+      this.api.get('Battery/getBatteryCurrentStatus?' + params)
         .subscribe(res => {
           console.log('Res: ', res['data']);
-          if (res['data'][0].rtn_id > 0) {
-            alertMsg = res['data'][0].rtn_msg
+          if (res['data'][0].r_id > 0) {
+            alertMsg = res['data'][0].r_msg
             this.openConrirmationAlert(alertMsg, index);
           }
 
@@ -223,7 +159,7 @@ export class VehicleBatteryComponent implements OnInit {
         // this.vehicleBattery[index].batteryNo = null;
         // console.log("data", document.getElementById('tyreNo-' + index), document.getElementById('tyreNo-' + index).innerHTML);
 
-        (<HTMLInputElement>document.getElementById('tyreNo-' + index)).value = '';
+        (<HTMLInputElement>document.getElementById('batteryNo-' + index)).value = '';
       }
     });
   }

@@ -8,7 +8,7 @@ import { DatePickerComponent } from '../../modals/date-picker/date-picker.compon
 @Component({
   selector: 'vsc-diagnosis',
   templateUrl: './vsc-diagnosis.component.html',
-  styleUrls: ['./vsc-diagnosis.component.scss']
+  styleUrls: ['./vsc-diagnosis.component.scss', '../../pages/pages.component.css']
 })
 export class VscDiagnosisComponent implements OnInit {
   showTable = false;
@@ -168,4 +168,45 @@ export class VscDiagnosisComponent implements OnInit {
     return columns;
 
   }
+
+
+  ShowData() {
+    this.common.loading++;
+    this.api.get('VehicleKpi/createMaster')
+      .subscribe(res => {
+        this.common.loading--;
+        this.common.showToast(res['msg']);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  autoReview() {
+    this.common.loading++;
+    this.api.get('AutoHalts/runAutoReviewScheduledActivity')
+      .subscribe(res => {
+        this.common.loading--;
+        this.common.showToast(res['msg']);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
+  removeSandwitchHalts() {
+    this.common.loading++;
+    this.api.get('AutoHalts/runSandwitchHalts')
+      .subscribe(res => {
+        this.common.loading--;
+        this.common.showToast(res['msg']);
+
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
 }

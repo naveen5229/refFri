@@ -1,0 +1,33 @@
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+
+      <div class="col-3">
+
+
+        <chart *ngIf="chartObject2.type" [type]="chartObject2.type" [data]="chartObject2.data"
+          style="margin-right:5px;min-height: 200px;" [options]="chartObject2.options"></chart>
+
+        <table class="chart-table table table-bordered table-hover table-scroll">
+          <thead class="thead">
+            <tr>
+              <th>#</th>
+              <th>StateName</th>
+              <th>StateCount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let status of summary; let i = index">
+              <td scope="row">{{i+1}}</td>
+              <td>{{status['State Name']}}</td>
+              <td>{{status.count}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-9">
+        <smart-table *ngIf="value.length" [data]="table.value" [settings]="table.settings"></smart-table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

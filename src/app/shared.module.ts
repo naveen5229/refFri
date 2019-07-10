@@ -19,6 +19,10 @@ import { ViewModalServiceComponent } from './vehicle-maintenance/view-modal-serv
 import { ViewSubModalServiceComponent } from './vehicle-maintenance/view-sub-modal-service/view-sub-modal-service.component';
 import { DriverModule } from './driver/driver.module';
 import { VehiclesComponent } from './admin/vehicles/vehicles.component';
+import { ViaRoutesComponent } from './admin/via-routes/via-routes.component';
+import { PodDashboardComponent } from './admin/pod-dashboard/pod-dashboard.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
+import { ChartModule } from 'angular2-chartjs';
 const PAGES_COMPONENTS = [
     FuelFillingsComponent,
     FuelAverageAnalysisComponent,
@@ -33,6 +37,8 @@ const PAGES_COMPONENTS = [
     ViewModalServiceComponent,
     ViewSubModalServiceComponent,
     VehiclesComponent,
+    ViaRoutesComponent,
+    PodDashboardComponent
 
 
 
@@ -47,11 +53,14 @@ const PAGES_COMPONENTS = [
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         ImageViewerModule,
+        ChartModule
     ],
     exports: [...PAGES_COMPONENTS],
     providers: [],
     declarations: [...PAGES_COMPONENTS],
-    entryComponents: [...PAGES_COMPONENTS]
+    entryComponents: [...PAGES_COMPONENTS],
+    // schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 
 })
 export class SharedModule { }

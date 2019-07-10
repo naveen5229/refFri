@@ -94,6 +94,7 @@
               <th>End Location</th>
               <th>Start Date</th>
               <th>End Date</th>
+              <th>Trip Empty</th>
             </tr>
           </thead>
           <tbody>
@@ -108,6 +109,8 @@
               <td>{{trip.end_name || '--'}}</td>
               <td>{{trip.start_time | date : 'dd MMM'}}</td>
               <td>{{trip.end_time | date : 'dd MMM' || '--'}}</td>
+              <td *ngIf="trip.is_empty==true">{{'Yes'}}</td>
+              <td *ngIf="trip.is_empty==false">{{'No'}}</td>
             </tr>
           </tbody>
         </table>
@@ -249,7 +252,12 @@
 
 
     <div class="modal-footer">
-      <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button>
+        <button *ngIf="typeFlag==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
+        <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="approveVoucher()">Approve</button>
+        <button *ngIf="approve==1 && permanentDeleteId==0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="deleteConsignment()">Delete</button>
+        <button *ngIf="permanentDeleteId !=0" class="btn btn-danger pr-3 pl-3 pt-2 pb-2" (click)="permanentDeleteConfirm()"> PermanentDelete</button>
+        <button *ngIf="permanentDeleteId !=0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="restore()"> Restore</button>
+      <button *ngIf="permanentDeleteId==0" class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="callSaveVoucher()">Submit</button>
       <button class="btn btn-dark pr-3 pl-3 pt-2 pb-2" (click)="dismiss(false)">Close</button>
     </div>
     <!-- <div>

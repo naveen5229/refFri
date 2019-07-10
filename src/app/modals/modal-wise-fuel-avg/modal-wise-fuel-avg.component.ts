@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ApiService } from '../../services/api.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeVehicleStatusComponent } from '../change-vehicle-status/change-vehicle-status.component';
 import { ImageViewComponent } from '../image-view/image-view.component';
@@ -71,12 +71,12 @@ export class ModalWiseFuelAvgComponent implements OnInit {
     let columns = [];
     this.value1.map(req => {
       let column = {
-        name: { value: req.name, action: this.edit.bind(this, req) },
+        name: { value: req.name, action: this.edit.bind(this, req), style: "background : '#0000FF'" },
         vehicle_model: { value: req.vehicle_model },
         load_avg: { value: req.load_avg },
         unload_avg: { value: req.unload_avg == null ? "-" : req.unload_avg },
         count: { value: req.count == null ? "-" : req.count },
-
+        // style: { background: req.name ? 'blue' : 1 }
       },
         rowActions: {
           click: 'selectRow'

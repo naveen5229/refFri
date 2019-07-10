@@ -6,6 +6,13 @@
 </div>
 <div class="modal-body">
   <div class="row" style="margin-bottom:10px">
+    <div class="col">
+      <auto-suggestion (onSelected)="selectFoVehicle($event)" url="Suggestion/getVehicleList"
+        [display]="['regno','foid']" seperator="-" placeholder=" Search By Vehicle Number and Id"></auto-suggestion>
+
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px">
     <div class="col-4">
       <div class="form-group">
 

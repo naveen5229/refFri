@@ -38,6 +38,7 @@
           <th>Date</th>
           <th>KMs</th>
           <th>Details</th>
+          <th>Position</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -60,12 +61,61 @@
             <input type="text" class="form-control" [(ngModel)]="vehicleTyre.details" placeholder="Details">
 
           </td>
+          <td>
+            <input type="checkbox" class="" [(ngModel)]="vehicleTyre.position" placeholder="Details" class="col-sm-2">
+            <div *ngIf="vehicleTyre.position">
+              <div class="col-sm-3">
+                <label>
+                  Front / Rear
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.frontRear" class="form-control" required>
+                    <option value="1">Front</option>
+                    <option value="2">Rear</option>
+                    <option value="3">Extra</option>
+                  </select>
+                </label>
+              </div>
 
+              <div class="col-sm-2">
+                <label> Axel
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.axel" class="form-control" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                  </select>
+                </label>
+              </div>
+              <div class="col-sm-3">
+                <label> Left / Right
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.leftRight" class="form-control" required>
+                    <option value="1">Left</option>
+                    <option value="2">Right</option>
+                  </select>
+                </label>
+              </div>
+              <div class="col-sm-2">
+                <label>
+                  Position
+                  <select [(ngModel)]="vehicleTyre.tyrePosition.pos" class="form-control" required>
+                    <option value="1">Inner</option>
+                    <option value="2">Outer</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </td>
           <td *ngIf="i == 0">
             <i class="fa fa-plus add" (click)="addMore()"></i>
           <td *ngIf="i !== 0">
             <i class="fa fa-trash remove" (click)="vehicleTyres.splice(i,1)" *ngIf="i !== 0"></i>
           </td>
+
+
           <!-- <td>
 
             <span *ngIf="i == vehicleTyres.length-1">

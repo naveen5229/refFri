@@ -121,28 +121,23 @@
               autocomplete="off">
           </td>
         </tr>
-
-
-        <!-- <tr>
-              <td><label>T.A. Name</label></td>
-              <td>
-                  <auto-suggestion (onSelected)="searchTaName($event)" url="Suggestion/GetTransportAgent"
-                  display="name" placeholder="Transport Agent Name" [preSelected]="null"></auto-suggestion>
-              </td>
-              <td><label>T.A. Id</label></td>
-              <td>
-                {{taId}}
-               </td>          
-            </tr> -->
-
-
         <tr>
-          <td><label>Payable Amount</label></td>
-          <td><input type="text" [(ngModel)]="lr.payableAmount" class="form-control"></td>
+          <td><label>Amount</label></td>
+          <td><input type="number" [(ngModel)]="lr.amount" class="form-control" (change)="calculateTotalAmount()"></td>
+          <td><label>GST %</label></td>
+          <td><input type="number" min="0" max="31" [(ngModel)]="lr.gstPer" class="form-control"
+              (change)="calculateTotalAmount()"></td>
+        <tr>
+          <td><label>Total Amount</label></td>
+          <td>
+            {{lr.payableAmount}}
+            <!-- <input type="text" [(ngModel)]="lr.payableAmount" class="form-control"> -->
+          </td>
           <td><label>Payment Term</label></td>
           <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
               <option value="1">ToPay</option>
               <option value="2">Paid</option>
+              <option value="3">To Be Billed</option>
             </select></td>
         </tr>
         <tr>
@@ -219,7 +214,7 @@
             <td *ngIf="i !== 0"><i class="fa fa-trash remove" (click)="particulars.splice(i,1)"></i></td>
           </tr>
 
-          <tr *ngIf="particular.customField ">
+          <!-- <tr *ngIf="particular.customField ">
             <td>
               <label> Invoice </label>
             </td>
@@ -245,12 +240,18 @@
               <input type="text" class="form-control" [(ngModel)]="particular.customfields.dcpino">
             </td>
 
-          </tr>
+          </tr> -->
 
           <tr *ngIf="particular.customField ">
             <td>
-              <input type="text" placeholder="Name" class="form-control"
-                [(ngModel)]="particular.customfields.customDetail[0]">
+              <!-- <input type="text" placeholder="Name" class="form-control"
+                [(ngModel)]="particular.customfields.customDetail[0]"> -->
+              <auto-suggestion (onSelected)="particular.customfields.customDetail[0] = $event.id;" display="name"
+                [data]="getFieldName" [preSelected]="null" placeholder="Name"></auto-suggestion>
+
+            </td>
+            <td>
+              <i class="fa fa-plus add col-md-4" (click)="addField()"></i>
             </td>
             <td>
               <input type="text" class="form-control" placeholder="Value"
