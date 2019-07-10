@@ -32,6 +32,8 @@ export class SaveAdvicesComponent implements OnInit {
   user_value = null;
   ref_id = null;
   ref_name = null;
+  modeId = null;
+  remark = null;
   referenceType = [{
     name: 'select Type',
     id: '0'
@@ -54,19 +56,21 @@ export class SaveAdvicesComponent implements OnInit {
     id: '14'
   }]
   referenceId = null;
-  startDate = null;
+  startDate = new Date();
   revenue = {
     refId: null,
     refTypeName: null,
     refernceType: 0
   };
   refernceData = [];
+  ModeData = [];
   data = [];
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
     console.log('Refernce:', this.referenceId);
     this.getType();
+    this.getPaymentMode();
   }
 
   ngOnInit() {
@@ -111,10 +115,7 @@ export class SaveAdvicesComponent implements OnInit {
     document.getElementById('driver')['value'] = '';
     this.regno = null;
   }
-  // resetVal() {
-  //   document.getElementById('driver')['value'] = '';
 
-  // }
   refernceTypes() {
     let type = this.referenceId + "";
     let url = null;
@@ -152,13 +153,26 @@ export class SaveAdvicesComponent implements OnInit {
       });
   }
 
+  getPaymentMode() {
+    this.common.loading++;
+    this.api.get('Suggestion/getTypeMaster?typeId=56')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ModeData = res['data'];
+        console.log('type', this.ModeData);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+
   getAdvice() {
     let params = {
       vid: this.vid,
       regno: this.regno,
       vehasstype: this.id,
       advice_type_id: this.advice_type_id,
-      advice_mode: null,
+      advice_mode: this.modeId,
       dttime: this.common.dateFormatter1(this.startDate),
       user_value: this.user_value,
       rec_value: null,
@@ -166,7 +180,8 @@ export class SaveAdvicesComponent implements OnInit {
       for_ref_name: this.ref_name,
       ref_id: this.revenue.refId,
       ref_name: this.revenue.refTypeName,
-      ref_type: this.referenceId
+      ref_type: this.referenceId,
+      remarks: this.remark
     }
     if (params.user_value < 0) {
       this.common.showToast('Please Enter Correct User Value');

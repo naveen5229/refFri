@@ -24,10 +24,7 @@ export class TransferReceiptsComponent implements OnInit {
   };
   refernceData = [];
   typesData = [];
-  ModeData = [{
-    id: null,
-    name: null,
-  }];
+  ModeData = [];
 
 
   constructor(public modalService: NgbModal,
@@ -35,18 +32,19 @@ export class TransferReceiptsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService) {
     this.getTypeList();
-    this.ModeData = [{
-      id: 1,
-      name: 'cash'
-    },
-    {
-      id: 2,
-      name: 'Card'
-    },
-    {
-      id: 3,
-      name: 'OnlinePay',
-    }]
+    this.getPaymentMode();
+    //   this.ModeData = [{
+    //     id: 1,
+    //     name: 'cash'
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Card'
+    //   },
+    //   {
+    //     id: 3,
+    //     name: 'OnlinePay',
+    //   }]
   }
 
   ngOnInit() {
@@ -131,6 +129,18 @@ export class TransferReceiptsComponent implements OnInit {
       });
   }
 
+  getPaymentMode() {
+    this.common.loading++;
+    this.api.get('Suggestion/getTypeMaster?typeId=56')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ModeData = res['data'];
+        console.log('type', this.ModeData);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   save() {
     console.log("Params");
     ++this.common.loading;
@@ -148,6 +158,9 @@ export class TransferReceiptsComponent implements OnInit {
       voucher_details_id: null,
       ledger_id: null,
       rec_value: null,
+      is_transfer: this.tranferReceipt.selectOption,
+      pay_mode: this.tranferReceipt.modeId,
+      remarks: this.tranferReceipt.remark
 
     };
     this.api.post("LorryReceiptsOperation/saveTransfers", params)
