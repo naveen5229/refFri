@@ -48,7 +48,7 @@ export class ProfitlossComponent implements OnInit {
       subGroup: []
     }
   };
-  viewType = 'main';
+  viewType = 'sub';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -60,7 +60,6 @@ export class ProfitlossComponent implements OnInit {
     this.getBranchList();
     this.setFoucus('startdate');
     this.common.currentPage = 'Profit & Loss A/C';
-    this.changeViewType();
 
   }
 
@@ -84,27 +83,7 @@ export class ProfitlossComponent implements OnInit {
       });
 
   }
-  changeViewType() {
-    this.active.liabilities.mainGroup = [];
-    this.active.liabilities.subGroup = [];
-    this.active.asset.mainGroup = [];
-    this.active.asset.subGroup = [];
-
-    if (this.viewType == 'sub') {
-      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
-      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
-    } else if (this.viewType == 'all') {
-      this.liabilities.forEach((liability, i) => {
-        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
-        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
-      });
-
-      this.assets.forEach((asset, i) => {
-        this.active.asset.mainGroup.push('mainGroup' + i + 0);
-        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
-      });
-    }
-  }
+ 
 
   getBalanceSheet() {
     console.log('Balance Sheet:', this.plData);
@@ -212,6 +191,7 @@ export class ProfitlossComponent implements OnInit {
       }
       delete asset.profitLossData;
     });
+    this.changeViewType();
   }
 
   filterData(assetdata, slug) {
@@ -333,22 +313,22 @@ export class ProfitlossComponent implements OnInit {
   generateCsvData() {
     let liabilitiesJson = [];
     this.liabilities.forEach(liability => {
-      liabilitiesJson.push({ liability: liability.name, liabilityAmount: liability.amount });
+      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
       liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ liability: subGroup.name, liabilityAmount: subGroup.total });
+        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
         subGroup.profitLossData.forEach(balanceSheet => {
-          liabilitiesJson.push({ liability: balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
         });
       });
     });
 
     let assetsJson = [];
     this.assets.forEach(asset => {
-      assetsJson.push({ asset: asset.name, assetAmount: asset.amount });
+      assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
       asset.subGroups.forEach(subGroup => {
-        assetsJson.push({ asset: subGroup.name, assetAmount: subGroup.total });
+        assetsJson.push({ asset: '(SG)'+subGroup.name, assetAmount: subGroup.total });
         subGroup.profitLossData.forEach(balanceSheet => {
-          assetsJson.push({ asset: balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
+          assetsJson.push({ asset:'(L)'+ balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
         });
       });
     });
@@ -363,8 +343,32 @@ export class ProfitlossComponent implements OnInit {
       }
     }
     mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]))
+    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+
 
     this.csvService.jsonToExcel(mergedArray);
     console.log('Merged:', mergedArray);
+  }
+
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+    this.active.asset.mainGroup = [];
+    this.active.asset.subGroup = [];
+
+    if (this.viewType == 'sub') {
+      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
+      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
+    } else if (this.viewType == 'all') {
+      this.liabilities.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      this.assets.forEach((asset, i) => {
+        this.active.asset.mainGroup.push('mainGroup' + i + 0);
+        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
+      });
+    }
   }
 }

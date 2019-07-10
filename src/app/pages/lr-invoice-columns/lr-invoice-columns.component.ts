@@ -16,6 +16,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
     id: null,
     address: null
   }
+  doctype=null;
   constructor(
     public common: CommonService,
     public accountService: AccountService,
