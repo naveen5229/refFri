@@ -127,7 +127,7 @@ export class BankbooksComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Bank Book From :'+this.bankBook.startdate+' To :'+this.bankBook.enddate);
 
       }, err => {
         this.common.loading--;
