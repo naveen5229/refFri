@@ -9,24 +9,24 @@
                     font-weight: 700;
                     button{
                         border-radius: 3px;
-                        padding: 3px 7px;   
+                        padding: 3px 7px;
                         width: 100%;
                     }
                 }
             }
         }
     }
-}
-#submit{
+ }
+ .submit{
     border-radius: 3px;
     padding: 8px 15px;
     text-transform: capitalize;
-}
-:host ::ng-deep .tableFixHead{
+ }
+ :host ::ng-deep .tableFixHead{
     height: auto !important
-}
+ }
 
-:host ::ng-deep .fa-trash-alt {
+ :host ::ng-deep .fa-trash-alt {
     color: black;
     font-size: 18px;
     span {
@@ -69,4 +69,13 @@
 
 :host ::ng-deep .fa-trash-alt:hover span {
     display: block;
+}
+
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+:host ::ng-deep.black {
+    color: black;
+    // display: none;
 }

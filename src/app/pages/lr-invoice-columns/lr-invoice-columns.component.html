@@ -1,0 +1,43 @@
+<nb-card style="border:0px;">
+  <nb-card-header>
+    <h5>Frieght Expenses</h5>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <table style="width: 100%">
+        <tr>
+          <td>
+            <label>Branch</label>
+          </td>
+          <td>
+            <select class="form-control" [(ngModel)]="accountService.selected.branch" (change)="getBranchDetails();">
+              <option value="">Select Branch</option>
+              <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
+            </select>
+
+          </td>
+          <td>
+            <label>Party</label>
+          </td>
+          <td>
+            <span>
+              <auto-suggestion (onSelected)="getPartyDetail($event)" url="Suggestion/GetCompanies" display="name"
+                placeholder="Search Party Name" style="width:100%;" class="col-md-9 auto-suggest"
+                [preSelected]="{name:party.name}">
+              </auto-suggestion><i class="fa fa-plus  add col-md-3" (click)="addParty()"></i>
+            </span>
+          </td>
+          <td> <label>Type</label></td>
+          <td>
+            <select class="form-control" [(ngModel)]="doctype">
+              <option value="invoice">Invoice</option>
+              <option value="supporting-docx">Supporting-Docx</option>
+            </select>
+          </td>
+          <td><button class="btn btn-primary">Show Coulmns</button></td>
+        </tr>
+      </table>
+    </div>
+  </nb-card-body>
+</nb-card>
+<router-outlet></router-outlet>
