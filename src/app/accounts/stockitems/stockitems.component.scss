@@ -25,23 +25,24 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 18%;
+            width: 150px;
         }
         th:nth-child(1){
-            width: 5%;
+            width: 50px;
         }
         th:nth-child(2){
-            width: 30%;
+            width: 350px;
         }
-        th:nth-child(3),
-        th:nth-child(4),
-        th:nth-child(5){
-            width: 18%;
+        th:nth-child(3){
+            width: 200px;
+        }
+        th:last-child{
+            width: auto;
         }
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 17.5%;
+            width: 150px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -65,17 +66,18 @@ table{
             display: table;
             table-layout: fixed;
             width: 100%;
-            td:nth-child(1){
-                width: 5%;
-            }
-            td:nth-child(2){
-                width: 30%;
-            }
-            td:nth-child(3),
-            td:nth-child(4),
-            td:nth-child(5){
-                width: 18%;
-            }
+        td:nth-child(1){
+            width: 50px;
+        }
+        td:nth-child(2){
+            width: 350px;
+        }
+        td:nth-child(3){
+            width: 200px;
+        }
+        td:last-child{
+            width: auto;
+        }
         }
         tr:nth-child(odd){
             background-color: #fff;

@@ -25,7 +25,7 @@
                   </span>
 
                   <span *ngIf="row[col]!=null && col !='regno' && col !='driver_name'">
-                    <i class="fa fa-check icon-green" title="OK"></i>
+                    <i class="fa fa-check icon-green" (click)="fetchDocumentData(row, col, row[col])" title="OK"></i>
                   </span>
                   <span *ngIf="row[col]==null && col =='driver_name'">
                     <i class="fa fa-minus" title="Unassigned"></i>

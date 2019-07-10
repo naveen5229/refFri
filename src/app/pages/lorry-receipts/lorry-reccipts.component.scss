@@ -52,6 +52,7 @@ nb-card-body {
 :host ::ng-deep.red {
   background: red;
   color: #fff;
+  margin-left:5px;
 }
 :host ::ng-deep.pink {
   background: pink;
@@ -69,6 +70,7 @@ nb-card-body {
 :host ::ng-deep.icon {
   color: #0e0e3a;
   font-size: 18px;
+  margin-left :10px; 
 }
 :host ::ng-deep.image {
   color: #0e0e3a;

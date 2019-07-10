@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <h5>Freight Rate Input</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+
+  <div class="table-conan filter-coff">
+    <table>
+      <tbody>
+        <tr *ngFor="let frieghtData of frieghtDatas; let i= index">
+          <td>
+            <span>
+              <input class="radio-btn" type="radio" [name]="'onBasis_'+i" [id]="'onBasis_'+i"
+                [(ngModel)]="frieghtData.onBasis" value="route" (change)="resetRouteDetail(i)">&nbsp;&nbsp;<i
+                class="fa fa-route"></i>
+              &nbsp;&nbsp;
+              <input class="radio-btn" type="radio" [name]="'onBasis_'+i" [id]="'onBasis_'+i"
+                [(ngModel)]="frieghtData.onBasis" value="source-dest" (change)="resetRouteDetail(i)">&nbsp;&nbsp; <i
+                class="fa fa-map-marked"></i>
+              &nbsp;&nbsp;
+            </span>
+          </td>
+          <td *ngIf="frieghtData.onBasis=='source-dest'">Source</td>
+          <td *ngIf="frieghtData.onBasis=='source-dest'">
+            <auto-suggestion (onChange)="onChangeAuto($event,'Source',i)" (onSelected)="
+                selectLocation($event,'Source',i)" (noDataFound)="takeActionSource($event,i)"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location" [inputId]="'origin-'+i"
+              placeholder="Source" [value]="frieghtData.origin">
+            </auto-suggestion>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_lat>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.org_long>
+          </td>
+          <td *ngIf="frieghtData.onBasis=='source-dest'">Destination </td>
+          <td *ngIf="frieghtData.onBasis=='source-dest'">
+            <auto-suggestion (onChange)="onChangeAuto($event,'Destination',i)"
+              (onSelected)="selectLocation($event,'Destination',i)" (noDataFound)="takeActionDestination($event,i)"
+              [isNoDataFoundEmit]="true" url="Location/getPlaceFromRedis" display="location"
+              [inputId]="'destination-'+i" placeholder="Destination" [value]="frieghtData.destination">
+            </auto-suggestion>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_lat>
+            <input type="hidden" class="form-control" [(ngModel)]=frieghtData.dest_long>
+          </td>
+          <td *ngIf="frieghtData.onBasis=='route'">
+            Route
+          </td>
+          <td *ngIf="frieghtData.onBasis=='route'">
+            <input class="form-control" type="text" list="routeList" name="routeList-type"
+              [(ngModel)]="frieghtData.routeName" (change)="getRouteDetail(frieghtData.routeName,i)">
+            <datalist id="routeList">
+              <option *ngFor="let route of routes ;" [value]="route.name">
+              </option>
+            </datalist>
+          </td>
+          <td>Fixed(<i class="fas fa-rupee-sign"></i>)</td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.fixed></td>
+          <td>Distance(/Km)</td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.distance></td>
+          <td>Weight (/Tn) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weight></td>
+          <td>Wt-Dist (/Tn-Hr) </td>
+          <td><input type="text" class="form-control" [(ngModel)]=frieghtData.weightDistance></td>
+
+          <td *ngIf="i == frieghtDatas.length-1"><button class="btn btn-primary" (click)="addMore()"><i
+                class="fa fa-plus add">
+              </i></button></td>
+          <td *ngIf="i != 0"> <button class="btn btn-danger" (click)="frieghtDatas.splice(i,1)"><i
+                class="fa fa-trash remove"></i></button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-right mt-3 mb-3">
+    <button class="btn btn-primary submit" (click)="saveFrightInput()">Submit</button>
+  </div>
+  <h4 *ngIf="data && data.length">
+    Freight Rates
+  </h4>
+  <smart-table *ngIf="data && data.length" [data]="table.data" [settings]="table.settings" id="freightwithLocation">
+  </smart-table>
+</div>

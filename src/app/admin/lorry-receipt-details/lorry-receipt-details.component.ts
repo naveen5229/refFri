@@ -9,6 +9,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { AddConsigneeComponent } from '../../modals/LRModals/add-consignee/add-consignee.component';
 declare var google: any;
 import { NgZone } from '@angular/core';
+import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
 
 
 @Component({
@@ -358,12 +359,15 @@ export class LorryReceiptDetailsComponent implements OnInit {
         this.modal.second.data = this.setModalData();
         this.modal.active = 'first';
       }
+
     } else {
       this.modal.active = '';
       this.modal[modalType].show = false;
       this.modal[modalType].class = '';
       this.modal[modalType].data = this.setModalData();
     }
+    this.getPendingLr();
+
     // this.activeModal.close();
   }
 
@@ -733,6 +737,17 @@ export class LorryReceiptDetailsComponent implements OnInit {
     // this.showDetails({ _docid: 0, vehicle_id: 0 });
   }
 
+  openGenerateLr(data) {
+    let Lr = {
+      lr_id: data.id
+    }
+    this.common.params = { LrData: Lr }
+    const activeModal = this.modalService.open(LrGenerateComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      console.log('Data:', data);
+      this.getPendingLr();
 
+    });
+  }
 
 }

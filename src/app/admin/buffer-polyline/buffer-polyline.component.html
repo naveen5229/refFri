@@ -7,40 +7,51 @@
             <tr>
               <td>
                 <input (keydown.enter)="search()" name="name" id="name" [(ngModel)]="position"
-                  class="fill-elt form-control" autocomplete="off" />
+                  class="fill-elt form-control  w-100" autocomplete="off" placeholder="Lat&Long" />
               </td>
-              <td><button (click)="clearAll()" class="btn btn-primary w-100">Clear</button>
-              </td>
-              <td><button (click)="undo()" class="btn btn-primary w-100" name="undo" id="undo">Undo</button></td>
               <td>
-                <button (click)="ignoreSite()" class="btn btn-primary">Ignore</button>
+                <input (keydown.enter)="gotoSingle()" placeholder="Route Id" [(ngModel)]="routeId"
+                  class="form-control  w-100">
               </td>
+              <td>
+                <input type="text" placeholder="Move to.." id="moveLoc" class="form-control w-100">
+              </td>
+
               <td><input type="number" name="meterRadius" class="form-control" id="meterRadius"
-                  [(ngModel)]="meterRadius">Meter</td>
+                  [(ngModel)]="meterRadius">Meter
+              </td>
 
             </tr>
+
             <tr>
               <td>
-                <input (keydown.enter)="gotoSingle()" placeholder="Site Id" [(ngModel)]="selectedSite"
-                  class="form-control">
+                <button (click)="clearAll()" class="btn btn-primary w-100">Clear</button>
               </td>
               <td>
-                <input type="text" placeholder="Move to.." id="moveLoc" class="form-control">
+                <button (click)="undo()" class="btn btn-primary w-60" name="undo" id="undo">Undo</button>
               </td>
               <td>
-                <button (click)="loadMarkers()" class="btn btn-primary"
-                  style="display: inline-block; margin-right: 5px;">Load Marker</button>
-
+                <button (click)="loadMarkers()" class="btn btn-primary">Load Marker</button>
               </td>
               <td>
                 <button (click)="enterTicket();"
                   class="btn btn-primary">{{mapService.isDrawAllow ? 'Finish Polyline' :'Create Polyline'}}</button>
               </td>
+
+            </tr>
+
+            <tr>
+              <td><button (click)="refresh()" class="btn btn-primary">Refresh</button></td>
+              <td>
+                <button (click)="ignoreSite()" class="btn btn-primary w-60" id="ignore" name="ignore">Ignore</button>
+              </td>
               <td>
                 <button (click)="showHeat();" class="btn btn-primary">{{isHeatAble?'HH':'SH'}}</button>
               </td>
+              <td>
+                <input type="text" readonly [(ngModel)]="kmsShow" class="form-control">KiloMeters
+              </td>
             </tr>
-
             <tr>
               <td colspan="3">
                 <div>
@@ -53,8 +64,6 @@
                   </span>
                 </div>
               </td>
-              <td><button (click)="refersh()">Refresh</button></td>
-
             </tr>
           </tbody>
         </table>
@@ -64,8 +73,8 @@
               <tr>
                 <th style="width:40px;">S.No</th>
                 <th style="width:40px;">Id</th>
-                <th>Name</th>
-                <th>Hot Count</th>
+                <th>Lat</th>
+                <th>Long</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -73,9 +82,11 @@
               <tr *ngFor="let remainingElement of remainingList;let i = index;">
                 <td style="width:40px;">{{i+1}}</td>
                 <td style="width:40px;">{{remainingElement.id}}</td>
-                <td>{{remainingElement.name}}</td>
-                <td>{{remainingElement.hotcnt || '0'}}</td>
-                <td (click)="selectedSite = remainingElement.id;gotoSingle();">Action</td>
+                <td>{{remainingElement.lat}}</td>
+                <td>{{remainingElement.long}}</td>
+
+                <!-- <td>{{remainingElement.hotcnt || '0'}}</td> -->
+                <td (click)="routeId = remainingElement.id;gotoSingle();">Action</td>
               </tr>
             </tbody>
           </table>

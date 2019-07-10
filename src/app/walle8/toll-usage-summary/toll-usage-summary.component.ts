@@ -12,8 +12,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class TollUsageSummaryComponent implements OnInit {
   userId = this.user._details.id;
   dates = {
-    start: this.common.dateFormatter(new Date()),
-    end: this.common.dateFormatter(new Date()),
+    start: null,
+    end: null,
   }
   tollSummary = [];
   data = [];
@@ -25,11 +25,17 @@ export class TollUsageSummaryComponent implements OnInit {
     public user: UserService,
     public modalService: NgbModal,
   ) {
+    let today = new Date();
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
+    this.dates.end = this.common.dateFormatter1(new Date());
+    // console.log('dates', this.dates.start);
+    //this.getDate(0);
     this.gettollUsageSummary();
   }
 
   ngOnInit() {
   }
+
   getDate(date) {
     this.common.params = { ref_page: "card usage" };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
@@ -38,6 +44,8 @@ export class TollUsageSummaryComponent implements OnInit {
       console.log('Date:', this.dates);
     });
   }
+
+
   printPDF(tblEltId) {
     this.common.loading++;
     let userid = this.user._customer.id;
@@ -49,7 +57,7 @@ export class TollUsageSummaryComponent implements OnInit {
         let fodata = res['data'];
         let left_heading = fodata['name'];
         let center_heading = "Card Usage";
-        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading,null,'');
+        this.common.getPDFFromTableId(tblEltId, left_heading, center_heading, null, '');
       }, err => {
         this.common.loading--;
         console.log(err);
@@ -91,8 +99,8 @@ export class TollUsageSummaryComponent implements OnInit {
           this.table = null;
         }
         this.table = this.setTable();
-        for (let i = 0; i < this.data.length; i++) {
-          this.total = this.total + this.data[i].tolls;
+        for (let i = 0; i < this.data.length; i += 1) {
+          this.total += Number(this.data[i].tolls);
         }
 
       }, err => {

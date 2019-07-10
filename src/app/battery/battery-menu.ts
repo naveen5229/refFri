@@ -25,5 +25,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/battery/vehicle-battery',
         home: true,
     },
+    {
+        title: 'Battery Summary',
+        icon: 'fa fa-file-text',
+        link: '/battery/battery-summary',
+        home: true,
+    },
 
 ];

@@ -33,6 +33,7 @@ import { PoliceStationComponent } from "../../modals/police-station/police-stati
 import { OdoMeterComponent } from "../../modals/odo-meter/odo-meter.component";
 import { PdfService } from "../../services/pdf/pdf.service";
 import { MatTableDataSource } from "@angular/material";
+import { EntityFlagsComponent } from "../../modals/entity-flags/entity-flags.component";
 
 @Component({
   selector: "concise",
@@ -1071,6 +1072,10 @@ export class ConciseComponent implements OnInit {
         class: "icon fas fa-tachometer-alt",
         action: this.openOdoMeter.bind(this, kpi)
       },
+      {
+        class: "icon fas fa-flag-checkered",
+        action: this.openentityFlag.bind(this, kpi)
+      },
     ]
     if (this.user._loggedInBy != "admin") {
       icons.shift();
@@ -1171,6 +1176,19 @@ export class ConciseComponent implements OnInit {
     const activeModal = this.modalService.open(OdoMeterComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
 
   }
+  openentityFlag(kpi) {
+    this.common.handleModalSize('class', 'modal-lg', '800');
+    console.log("kpi data", kpi);
+    let vehicleId = kpi.x_vehicle_id;
+    let regno = kpi.x_showveh;
+    this.common.params = { title: 'Entity Flag ', vehicleId, regno };
+    const activeModal = this.modalService.open(EntityFlagsComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+
+    });
+  }
+
+
   getPdf() {
     this.common.downloadPdf('Content1');
     //  // this.common.getPDFFromTableId('print-section');

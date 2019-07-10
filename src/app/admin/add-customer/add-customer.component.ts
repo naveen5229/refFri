@@ -11,6 +11,8 @@ import { AddFoComponent } from '../../modals/add-fo/add-fo.component';
 import { PullHistoryGPSDataComponent } from '../../modals/pull-history-gps-data/pull-history-gps-data.component';
 import { AddVehicleComponent } from '../../modals/add-vehicle/add-vehicle.component';
 import { VehiclesViewComponent } from '../vehicles-view/vehicles-view.component';
+import { TicketSubscribeComponent } from '../ticket-subscribe/ticket-subscribe.component';
+import { GpsEnabledDisabledComponent } from '../../modals/gps-enabled-disabled/gps-enabled-disabled.component';
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -24,9 +26,11 @@ export class AddCustomerComponent implements OnInit {
     lat: '',
     lng: ''
   };
+  data = [];
   constructor(
     public modalService: NgbModal,
     public common: CommonService,
+    public api: ApiService,
   ) {
 
   }
@@ -86,6 +90,33 @@ export class AddCustomerComponent implements OnInit {
 
   vehiclesview() {
     const activeModal = this.modalService.open(VehiclesViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+  VSCSubscribe() {
+    const activeModal = this.modalService.open(TicketSubscribeComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+  }
+  GpsDetail() {
+
+    this.common.loading++;
+    this.api.get('GpsData/getGpsInfoWrtFo')
+      .subscribe(res => {
+        this.common.loading--;
+        console.log(res)
+
+        this.data = res['data']
+        console.log("pa", this.data)
+        if (this.data) {
+          this.common.params = this.data;
+          const activeModal = this.modalService.open(GpsEnabledDisabledComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
+        }
+      }, err => {
+        this.common.loading--;
+        console.error(err);
+        this.common.showError();
+
+      });
 
   }
 }

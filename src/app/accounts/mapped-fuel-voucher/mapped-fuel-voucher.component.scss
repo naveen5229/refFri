@@ -27,13 +27,10 @@ table{
         th{
             padding: 5px 10px;
             font-weight: normal;
-            width: 200px;
+            width: 180px;
         }
         th:nth-child(1){
-            width: 120px;
-        }
-        th:nth-child(2){
-            width: 250px;
+            width: 50px;
         }
         th:last-child{
             width: auto;
@@ -41,7 +38,7 @@ table{
         td{
             padding: 5px 10px !important;
             font-size: 12px;
-            width: 200px;
+            width: 180px;
             button{
                 padding: 0 !important;
                 font-size: 11px;
@@ -66,10 +63,7 @@ table{
             table-layout: fixed;
             width: 100%;
             td:nth-child(1){
-                width: 120px;
-            }
-            td:nth-child(2){
-                width: 250px;
+                width: 50px;
             }
             td:last-child{
                 width: auto;
@@ -89,4 +83,12 @@ table{
     border-radius: 3px !important;
     border: 0px;
     margin-top: 12px;
+}
+
+.selected {
+    background-color: #576c77
+}
+table tr.highlight {
+    background-color: #FFEE75 !important;
+    color: #000 !important;
 }

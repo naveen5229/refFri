@@ -99,7 +99,13 @@ export class CompanyBranchesComponent implements OnInit {
       x_lr_terms: branch.lrTerm,
       x_lr_footer: branch.lrFooter,
       x_is_constcenterallow: branch.constcenter,
-      x_id: 0
+      x_id: 0,
+      siteid: branch.site.id,
+      latitude:branch.latitude,
+      longitude:branch.longitude,
+      precode:branch.precode,
+      lrcodewidth:branch.lrcodewidth,
+      lrcodelastid:branch.lrcodelastid
     };
 
     console.log("finalbranch :", params)
@@ -113,11 +119,12 @@ export class CompanyBranchesComponent implements OnInit {
         let result = res['data'][0].save_companybranch;
         if (result == '') {
           this.common.showToast(" Add Successfully");
+          this.GetBranchData();
         }
         else {
           this.common.showToast(result);
         }
-        this.GetBranchData();
+        
       }, err => {
         this.common.loading--;
         console.log('Error: ', err);
@@ -150,7 +157,13 @@ export class CompanyBranchesComponent implements OnInit {
       x_lr_terms: branch.lrTerm,
       x_lr_footer: branch.lrFooter,
       x_is_constcenterallow: branch.constcenter,
-      x_id: rowid
+      x_id: rowid,
+      siteid: branch.site.id,
+      latitude:branch.latitude,
+      longitude:branch.longitude,
+      precode:branch.precode,
+      lrcodewidth:branch.lrcodewidth,
+      lrcodelastid:branch.lrcodelastid
     };
     console.log("finalbranch :", params)
     this.common.loading++;
@@ -184,7 +197,7 @@ export class CompanyBranchesComponent implements OnInit {
       console.log('city', tblid);
       this.common.params = {
         title: 'Delete City ',
-        description: `<b>&nbsp;` + 'Are Sure To Delete This Record' + `<b>`,
+        description: `<b>&nbsp;` + 'Are you sure want to delete' + `<b>`,
       }
       const activeModal = this.modalService.open(ConfirmComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
       activeModal.result.then(data => {

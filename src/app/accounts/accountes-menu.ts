@@ -48,20 +48,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 title: 'Vehicle Cost Center List',
                 link: '/accounts/vehicle-cost-center-list'
             },
+            {
+                title: 'Vehicle Ledger',
+                link: '/accounts/vehicle-ledgers'
+            },
 
         ],
     },
 
-    {
-        title: 'Mapped Fuel Voucher',
-        icon: 'fa fa-money-bill',
-        link: '/accounts/mapped-fuel-voucher'
-    },
-    {
-        title: 'Vehicle Ledger',
-        icon: 'fa fa-money-bill',
-        link: '/accounts/vehicle-ledgers'
-    },
+    
+    
     {
         title: 'Stock Master',
         icon: 'fa fa-building-o',
@@ -127,6 +123,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
                 link: '/accounts/daybooks/0'
             },
             {
+              title:'Voucher Pending For Approval',
+              link:'/accounts/daybookpending'  
+            },
+            {
                 title: 'Bank Book',
                 link: '/accounts/bank-books'
             },
@@ -169,7 +169,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Voucher Audit',
                 link: '/accounts/voucheredited'
-            }
+            },
+            {
+                title: 'Mapped Fuel Voucher',
+                link: '/accounts/mapped-fuel-voucher'
+            },
 
         ],
     },

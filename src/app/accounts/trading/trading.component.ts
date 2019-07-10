@@ -39,6 +39,17 @@ export class TradingComponent implements OnInit {
   lastActiveId = '';
   showDateModal = false;
   activedateid = '';
+  active = {
+    liabilities: {
+      mainGroup: [],
+      subGroup: []
+    },
+    asset: {
+      mainGroup: [],
+      subGroup: []
+    }
+  };
+  viewType = 'sub';
 
   constructor(public api: ApiService,
     public common: CommonService,
@@ -73,11 +84,33 @@ export class TradingComponent implements OnInit {
       });
 
   }
+  changeViewType() {
+    this.active.liabilities.mainGroup = [];
+    this.active.liabilities.subGroup = [];
+    this.active.asset.mainGroup = [];
+    this.active.asset.subGroup = [];
 
+    if (this.viewType == 'sub') {
+      this.liabilities.forEach((liability, i) => this.active.liabilities.mainGroup.push('mainGroup' + i + 0));
+      this.assets.forEach((asset, i) => this.active.asset.mainGroup.push('mainGroup' + i + 0));
+    } else if (this.viewType == 'all') {
+      this.liabilities.forEach((liability, i) => {
+        this.active.liabilities.mainGroup.push('mainGroup' + i + 0);
+        liability.subGroups.forEach((subGroup, j) => this.active.liabilities.subGroup.push('subGroup' + i + j));
+      });
+
+      this.assets.forEach((asset, i) => {
+        this.active.asset.mainGroup.push('mainGroup' + i + 0);
+        asset.subGroups.forEach((subGroup, j) => this.active.asset.subGroup.push('subGroup' + i + j));
+      });
+    }
+  }
   formattData() {
     let assetsGroup = _.groupBy(this.balanceSheetData, 'y_is_income');
     let firstGroup = _.groupBy(assetsGroup['0'], 'y_groupname');
     let secondGroup = _.groupBy(assetsGroup['1'], 'y_groupname');
+    let subFirstGroup = _.groupBy(assetsGroup['0'], 'y_subgroupname');
+    let subSecondGroup = _.groupBy(assetsGroup['1'], 'y_subgroupname');
 
     console.log('A:', assetsGroup);
     console.log('B:', firstGroup);
@@ -116,7 +149,57 @@ export class TradingComponent implements OnInit {
     console.log('first Section:', this.liabilities);
     console.log('last Section:', this.assets);
 
+    this.liabilities.map(libility => {
+      let subGroups = _.groupBy(libility.balanceSheets, 'y_subgroupname');
+      libility.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(balanceSheet => {
+            total += parseFloat(balanceSheet.y_amount)
+          });
+          libility.subGroups.push({
+            name: key,
+            balanceSheets: subGroups[key],
+            total
+          });
 
+        });
+      }
+      delete libility.balanceSheets;
+    });
+
+    this.assets.map(asset => {
+      let subGroups = _.groupBy(asset.balanceSheets, 'y_subgroupname');
+      asset.subGroups = [];
+      if (Object.keys(subGroups).length) {
+        Object.keys(subGroups).forEach(key => {
+          let total = 0;
+          subGroups[key].forEach(balanceSheet => {
+            total += parseFloat(balanceSheet.y_amount)
+          });
+          asset.subGroups.push({
+            name: key,
+            balanceSheets: subGroups[key],
+            total
+          });
+
+          console.log(subGroups[key], total);
+        });
+      }
+      delete asset.balanceSheets;
+    });
+    this.changeViewType();
+
+  }
+
+  handleExpandation(event, index, type, section, parentIndex?) {
+    console.log(index, section, parentIndex, this.active[type][section], section + index + parentIndex, this.active[type][section].indexOf(section + index + parentIndex));
+    event.stopPropagation();
+    if (this.active[type][section].indexOf(section + index + parentIndex) === -1) this.active[type][section].push(section + index + parentIndex)
+    else {
+      this.active[type][section].splice(this.active[type][section].indexOf(section + index + parentIndex), 1);
+    }
   }
 
   filterData(assetdata, slug) {
@@ -173,7 +256,44 @@ export class TradingComponent implements OnInit {
     console.log('data of u', u);
     this.selectedName = u;   // declare variable in component.
   }
+  generateCsvData() {
+    let liabilitiesJson = [];
+    this.liabilities.forEach(liability => {
+      liabilitiesJson.push({ liability: '(MG)'+liability.name, liabilityAmount: liability.amount });
+      liability.subGroups.forEach(subGroup => {
+        liabilitiesJson.push({ liability: '(SG)'+subGroup.name, liabilityAmount: subGroup.total });
+        subGroup.balanceSheets.forEach(balanceSheet => {
+          liabilitiesJson.push({ liability: '(L)'+balanceSheet.y_ledger_name, liabilityAmount: balanceSheet.y_amount });
+        });
+      });
+    });
 
+    let assetsJson = [];
+    this.assets.forEach(asset => {
+      assetsJson.push({ asset: '(MG)'+asset.name, assetAmount: asset.amount });
+      asset.subGroups.forEach(subGroup => {
+        assetsJson.push({ asset: '(SG)'+subGroup.name, assetAmount: subGroup.total });
+        subGroup.balanceSheets.forEach(balanceSheet => {
+          assetsJson.push({ asset: '(L)'+balanceSheet.y_ledger_name, assetAmount: balanceSheet.y_amount });
+        });
+      });
+    });
+    let mergedArray = [];
+    for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {
+      if (liabilitiesJson[i] && assetsJson[i] && i < liabilitiesJson.length - 1 && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], assetsJson[i]));
+      } else if (liabilitiesJson[i] && i < liabilitiesJson.length - 1) {
+        mergedArray.push(Object.assign({}, liabilitiesJson[i], { asset: '', assetAmount: '' }));
+      } else if (assetsJson[i] && i < assetsJson.length - 1) {
+        mergedArray.push(Object.assign({}, { liability: '', liabilityAmount: '' }, assetsJson[i]));
+      }
+    }
+    mergedArray.push(Object.assign({}, liabilitiesJson[liabilitiesJson.length - 1], assetsJson[assetsJson.length - 1]));
+    mergedArray.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
+    this.csvService.jsonToExcel(mergedArray);
+    console.log('Merged:', mergedArray);
+    
+  }
   handleVoucherDateOnEnter(iddate) {
     let dateArray = [];
     let separator = '-';

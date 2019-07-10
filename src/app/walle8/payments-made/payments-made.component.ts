@@ -26,8 +26,8 @@ export class PaymentsMadeComponent implements OnInit {
     public modalService: NgbModal,
   ) {
     let today = new Date();
-    this.dates.start = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth() - 12, today.getDate()));
-    this.dates.end = this.common.dateFormatter1(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+    this.dates.start = this.common.dateFormatter1(new Date(today.setDate(today.getDate() - 30)));
+    this.dates.end = this.common.dateFormatter1(new Date());
     this.getPaymentMade();
     //this.getPaymentMade();
   }
@@ -38,14 +38,20 @@ export class PaymentsMadeComponent implements OnInit {
     this.common.params = { ref_page: "card usage" };
     const activeModal = this.modalService.open(DatePickerComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
     activeModal.result.then(data => {
-      this.dates[date] = this.common.dateFormatter(data.date).split(' ')[0];
-      console.log('Date:', this.dates);
+      if (date == 'start') {
+        this.dates.start = this.common.dateFormatter(data.date).split(' ')[0];
+      }
+      if (date == 'end') {
+        this.dates.end = this.common.dateFormatter(data.date).split(' ')[0];
+      }
+
+
     });
   }
   getPaymentMade() {
 
 
-    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.mobile + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
+    let params = "aduserid=" + this.user._details.id + "&mobileno=" + this.user._details.fo_mobileno + "&startdate=" + this.dates.start + "&enddate=" + this.dates.end;
 
     this.common.loading++;
     let response;
@@ -55,8 +61,8 @@ export class PaymentsMadeComponent implements OnInit {
         console.log('Res:', res['data']);
         this.data = res['data'];
         this.table = this.setTable();
-        for (let i = 0; i < this.data.length; i++) {
-          this.total = this.total + this.data[i].amt;
+        for (let i = 0; i < this.data.length; i += 1) {
+          this.total += Number(this.data[i].amt);
         }
       }, err => {
         this.common.loading--;

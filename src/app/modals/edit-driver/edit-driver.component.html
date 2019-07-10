@@ -30,7 +30,7 @@
         </div>
         <div class="col-3">
           <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
-            formControlName="mobileno" minlength="10" required maxlength="10"
+            formControlName="mobileno" minlength="10" maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.mobileno.errors }" readonly>
           <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
             <div *ngIf="f.mobileno.errors.required">mobileNumber is not editable</div>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-3">
           <input type="text" class="form-control" id="mobile-number" placeholder="Mobile NO." autocomplete="off"
-            formControlName="mobileno2" minlength="10" required maxlength="10"
+            formControlName="mobileno2" minlength="10" maxlength="10"
             [ngClass]="{ 'is-invalid': submitted && f.mobileno2.errors }" readonly>
           <div *ngIf="submitted && f.mobileno.errors" class="invalid-feedback">
             <div *ngIf="f.mobileno2.errors.minlength ">mobile Number minlength 10</div>
@@ -68,11 +68,13 @@
         <div class="col-3">
           <label>Lisence photo</label>
         </div>
-        <div class="col-3">
+        <div class="col-3" *ngIf="licensephoto==null">
           <input type="file" class="file-control" id="lisence-photo" formControlName="lisencephoto"
-            (change)="handleFileSelection($event,2) ">
+            (change)="handleFileSelection($event,1) ">
         </div>
-
+        <div class="col-3" *ngIf="licensephoto">
+          <label>Photo Exist</label>
+        </div>
         <div class="col-3">
 
 
@@ -91,11 +93,13 @@
 
           <label>Aadhar photo</label>
         </div>
-        <div class="col-3">
+        <div class="col-3" *ngIf="aadharphoto==null">
           <input type="file" class="file-control" id="aadhar-photo" formControlName="aadharphoto"
-            (change)="handleFileSelection($event,3)" [(ngModel)]="driver.aadharphoto">
+            (change)="handleFileSelection($event,2)" [(ngModel)]="driver.aadharphoto">
         </div>
-
+        <div class="col-3" *ngIf="aadharphoto">
+          <label>Photo Exist</label>
+        </div>
 
         <div class="col-3">
 
@@ -104,7 +108,7 @@
         </div>
         <div class="col-3">
           <input type="text" style="cursor: pointer;" class="form-control" autocomplete="off" (click)="getDate()"
-            placeholder="Select Date" [value]="driver.doj | date: 'dd MMM yyyy'" formControlName="date" readonly>
+            placeholder="Select Date" [value]="driver.date | date: 'dd MMM yyyy'" formControlName="date" readonly>
         </div>
       </div>
 
@@ -120,9 +124,12 @@
         <div class="col-3">
           <label>Upload photo</label>
         </div>
-        <div class="col-3">
+        <div class="col-3" *ngIf="driverphoto==null">
           <input type="file" class="file-control" id="upload-photo" formControlName="uploadPhoto"
-            (change)="handleFileSelection($event,1)">
+            (change)="handleFileSelection($event,3)">
+        </div>
+        <div class="col-3" *ngIf="driverphoto">
+          <label>Photo Exist</label>
         </div>
       </div>
 

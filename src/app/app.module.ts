@@ -156,6 +156,7 @@ import { VehicleWiseFuelFillingComponent } from './modals/vehicle-wise-fuel-fill
 import { PumpWiseFuelFillingComponent } from './modals/pump-wise-fuel-filling/pump-wise-fuel-filling.component';
 import { VehicleNextServiceDetailComponent } from './modals/vehicle-next-service-detail/vehicle-next-service-detail.component';
 import { BulkVehicleNextServiceDetailComponent } from './modals/bulk-vehicle-next-service-detail/bulk-vehicle-next-service-detail.component';
+import { GpsEnabledDisabledComponent } from './modals/gps-enabled-disabled/gps-enabled-disabled.component';
 import { UnmappedLrComponent } from './modals/LRModals/unmapped-lr/unmapped-lr.component';
 import { MappedLrComponent } from './modals/LRModals/mapped-lr/mapped-lr.component';
 import { FoSiteCountComponent } from './modals/fo-site-count/fo-site-count.component';
@@ -172,10 +173,24 @@ import { FuelEditComponent } from './modals/modal-wise-fuel-avg/fuel-edit/fuel-e
 import { AddViaRoutesComponent } from './modals/add-via-routes/add-via-routes.component';
 import { VehicleTyreSummaryComponent } from './modals/Tyres/vehicle-tyre-summary/vehicle-tyre-summary.component';
 import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
-
-
-
-
+import { FreightInputWithoutLocationComponent } from './modals/FreightRate/freight-input-without-location/freight-input-without-location.component';
+import { FreightInputLocationComponent } from './modals/FreightRate/freight-input-location/freight-input-location.component';
+import { FoFreightRatesComponent } from './modals/FreightRate/fo-freight-rates/fo-freight-rates.component';
+import { LrPodDashboardComponent } from './modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
+import { BatterySummaryReportComponent } from './modals/Battery/battery-summary-report/battery-summary-report.component';
+import { RoutesExpensesComponent } from './modals/routes-expenses/routes-expenses.component';
+import { RoutesAdvancesComponent } from './modals/routes-advances/routes-advances.component';
+import { RoutesTrafficKpisComponent } from './modals/routes-traffic-kpis/routes-traffic-kpis.component';
+import { AddFuelIndentComponent } from './modals/add-fuel-indent/add-fuel-indent.component';
+import { LrGenerateComponent } from './modals/LRModals/lr-generate/lr-generate.component';
+import { AddFieldComponent } from './modals/LRModals/add-field/add-field.component';
+import { AddFreightRevenueComponent } from './modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
+import { SaveAdvicesComponent } from './modals/save-advices/save-advices.component';
+import { EntityFlagsComponent } from './modals/entity-flags/entity-flags.component';
+import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.component';
+import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
+import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
+import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 
 
 @NgModule({
@@ -305,6 +320,7 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     PumpWiseFuelFillingComponent,
     VehicleNextServiceDetailComponent,
     BulkVehicleNextServiceDetailComponent,
+    GpsEnabledDisabledComponent,
     UnmappedLrComponent,
     MappedLrComponent,
     FoSiteCountComponent,
@@ -319,12 +335,31 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     FuelEditComponent,
     AddViaRoutesComponent,
     VehicleTyreSummaryComponent,
-
-
-
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
+    FoFreightRatesComponent,
+    LrPodDashboardComponent,
+    BatterySummaryReportComponent,
+    RoutesExpensesComponent,
+    RoutesAdvancesComponent,
+    RoutesTrafficKpisComponent,
+    AddFuelIndentComponent,
+    LrGenerateComponent,
+    AddFieldComponent,
+    AddFreightRevenueComponent,
+    SaveAdvicesComponent,
+    EntityFlagsComponent,
+    ClearAdvicesComponent,
+    AdviceViewComponent,
+    TransferReceiptsComponent,
+    AddFreightExpensesComponent,
 
   ],
   entryComponents: [
+    LrGenerateComponent,
+    AddFreightExpensesComponent,
+    FreightInputWithoutLocationComponent,
+    FreightInputLocationComponent,
     VehicleTyreSummaryComponent,
     BulkVehicleNextServiceDetailComponent,
     AddAdvancedMaintenanceComponent,
@@ -448,6 +483,7 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     VehicleFuelFillingEntryComponent,
     VehicleWiseFuelFillingComponent,
     PumpWiseFuelFillingComponent,
+    GpsEnabledDisabledComponent,
     UnmappedLrComponent,
     MappedLrComponent,
     FoSiteCountComponent,
@@ -460,6 +496,21 @@ import { LoadHaltComponent } from './modals/load-halts/load-halt.component';
     ModalWiseFuelAvgComponent,
     FuelEditComponent,
     AddViaRoutesComponent,
+    FoFreightRatesComponent,
+    LrPodDashboardComponent,
+    BatterySummaryReportComponent,
+    RoutesExpensesComponent,
+    RoutesAdvancesComponent,
+    RoutesTrafficKpisComponent,
+    AddFuelIndentComponent,
+    AddFieldComponent,
+    AddFreightRevenueComponent,
+    SaveAdvicesComponent,
+    EntityFlagsComponent,
+    ClearAdvicesComponent,
+    AdviceViewComponent,
+    TransferReceiptsComponent
+
 
   ],
   imports: [

@@ -58,8 +58,8 @@
           <th>Station</th>
           <th>Pkg.</th>
           <th>Weight</th>
-          <th>Paid</th>
-          <th>To Pay</th>
+          <th>Pay Type</th>
+          <th>Amount</th>
         </tr>
       </thead>
       <tbody>
@@ -73,8 +73,8 @@
           <td>{{lrdescription.source}} - {{lrdescription.destination}}</td>
           <td>{{lrdescription.totarticles}}</td>
           <td>{{lrdescription.totweight}}</td>
-          <th>{{lrdescription.paidamount}}</th>
-          <th>{{lrdescription.topayamount}}</th>
+          <th>{{lrdescription.paytype}}</th>
+          <th>{{lrdescription.amount}}</th>
         </tr>
       </tbody>
     </table>
@@ -82,19 +82,19 @@
     <div class="row">
       <div class="col-sm-6">
         <table style="width:100%;" class="table-bordered">
-          <tr>
+          <tr *ngIf="manifestDetail.total_amount">
             <td> Total Amount</td>
             <td>{{manifestDetail.total_amount}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="manifestDetail.adv_amount">
             <td>Advance Amount</td>
             <td>{{manifestDetail.adv_amount}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="manifestDetail.others_amount">
             <td>Other Amount</td>
             <td>{{manifestDetail.others_amount}}</td>
           </tr>
-          <tr>
+          <tr *ngIf="manifestDetail.bal_amount">
             <td>Balance Amount</td>
             <td>{{manifestDetail.bal_amount}}</td>
           </tr>
@@ -103,8 +103,8 @@
       <div class="col-sm-6">
         <table style="width:100%;" class="table-bordered" *ngIf="otherDetails && otherDetails.length>0">
           <tr *ngFor="let otherDetail of otherDetails; let i=index">
-            <td>{{otherDetail.title}}</td>
-            <td>{{otherDetail.value}}</td>
+            <td *ngIf="otherDetail.title">{{otherDetail.title}}</td>
+            <td *ngIf="otherDetail.value">{{otherDetail.value}}</td>
           </tr>
         </table>
       </div>
