@@ -70,3 +70,12 @@
 :host ::ng-deep .fa-trash-alt:hover span {
     display: block;
 }
+
+:host ::ng-deep.blue {
+    color: blue;
+    font-weight: 700;
+}
+:host ::ng-deep.black {
+    color: black;
+    // display: none;
+}
