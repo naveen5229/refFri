@@ -94,7 +94,7 @@
           <div class="col-5">
 
             <input class="form-control" type="text" list="refTypeList" name="referenceType" id="referncetype"
-              (change)="changeRefernceType(revenue.refTypeName , i);" [(ngModel)]="revenue.refTypeName"
+              (change)="changeRefernceType(revenue.refTypeName);" [(ngModel)]="revenue.refTypeName"
               formControlName="autoSuggestion">
             <datalist id="refTypeList">
               <option *ngFor="let refernce of refernceData;" [value]="refernce.source_dest">{{refernce.source_dest}}

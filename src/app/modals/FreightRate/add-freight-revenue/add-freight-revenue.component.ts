@@ -176,7 +176,7 @@ export class AddFreightRevenueComponent implements OnInit {
 
 
 
-  changeRefernceType(type, index) {
+  changeRefernceType(type) {
     console.log("Type Id", type);
 
     this.revenue.refId = this.refernceData.find((element) => {
