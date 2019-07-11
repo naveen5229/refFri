@@ -115,8 +115,7 @@ export class AddFuelIndentComponent implements OnInit {
       this.expiryTime = new Date(this.common.dateFormatter(this.common.params.doc._expiry_date));
     }
    
-
-  }
+}
 
   ngOnInit() {
     this.Form = this.formBuilder.group({
