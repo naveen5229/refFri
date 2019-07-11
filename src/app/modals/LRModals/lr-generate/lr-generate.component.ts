@@ -137,7 +137,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   getBranchDetails() {
-    if (this.accountService.selected.branch.id) {
+    if (this.accountService.selected.branch.id && (this.lr.lrNumber || this.lr.lrNumberText)) {
       this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
         .subscribe(res => {
           console.log("branchdetails", res['data']);
@@ -310,7 +310,7 @@ export class LrGenerateComponent implements OnInit {
         });
       }
 
-      let lrDate = this.common.dateFormatter(this.lr.date).split(' ')[0];
+      let lrDate = this.common.dateFormatter(this.lr.date);
 
       let params = {
         lrId: this.lr.id,
@@ -380,23 +380,6 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  checkDateFormat() {
-    let dateValue = this.lr.date;
-    let datereg = /^\d{4}[-]\d{2}[-]\d{2}$/;
-    console.log('this.lrdate', this.lr.date);
-    if (dateValue.length < 8) return;
-
-    if (dateValue.match(datereg))
-      return;
-    else {
-      let date = dateValue[0] + dateValue[1];
-      let month = dateValue[2] + dateValue[3];
-      let year = dateValue.substring(4, 8);
-      // this.lrDate= date + '/' + month + '/' + year;
-      this.lr.date = year + '-' + month + '-' + date;
-      console.log('checkDateFormat', this.lr.date);
-    }
-  }
 
   getDate() {
     this.common.params = { ref_page: 'generate-lr' };
@@ -561,6 +544,20 @@ export class LrGenerateComponent implements OnInit {
           customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
           customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
         });
+      }
+      else {
+        customjfields = [
+          {
+            field1: null,
+            value1: null,
+            field2: null,
+            value2: null,
+            field3: null,
+            value3: null,
+            field4: null,
+            value4: null,
+          }
+        ]
       }
       detail.customjsonfields = customjfields;
     });
