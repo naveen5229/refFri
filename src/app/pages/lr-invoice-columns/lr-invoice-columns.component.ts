@@ -72,7 +72,7 @@ export class LrInvoiceColumnsComponent implements OnInit {
       });
   }
 
-  resetData() {
+  resetData(type) {
     this.party.id = null;
   }
 
