@@ -23,12 +23,12 @@
                 [(ngModel)]="bankBook.vouchertype.name">
             </div>
           </div> -->
-          <div class="col-8">
+          <div class="col-4">
             <div class="row form-group mb-0 mt-2">
+<!-- 
+              <label class="tjr-label labtrj">Voucher Edit Type</label> -->
 
-              <label class="tjr-label labtrj">Voucher Edit Type</label>
-
-              <div class="debit_box">
+              <!-- <div class="debit_box">
                 <div class="debit">
                   <span>voucher date</span>
                   <input autocomplete="off" type="radio" class="form-control" name="vouchertype" id="vouchertype"
@@ -45,13 +45,23 @@
                     [(ngModel)]="bankBook.vouchertype" [value]=2>
 
                 </div>
+              </div> -->
+
+              <div class="form-group debit_box">
+                <label class="tjr-label">Filter Date</label>
+                <select class="tjr_select form-control" [(ngModel)]="bankBook.vouchertype" >
+                  <option value="0">voucher date</option>
+                  <option value="1">voucher entry date</option>
+                  <option value="2">lastupdated date</option>
+                </select>
               </div>
+
             </div>
           </div>
 
           <div class="col-4">
             <div class="form-group">
-              <label class="tjr-label">Ledger</label>
+              <label class="tjr-label ledger-label">Ledger</label>
               <input type="text" id="ledger" class="form-control tjr-input" name="ledger" autocomplete="off"
                 [(ngModel)]="bankBook.ledger.name">
             </div>
@@ -103,7 +113,7 @@
         <tr>
           <th>S.No</th>
           <th>Date</th>
-          <th>y_ledgername</th>
+          <th>Ledger Name</th>
           <th>Vch Type</th>
           <th>Vch No.</th>
           <th>Amount</th>

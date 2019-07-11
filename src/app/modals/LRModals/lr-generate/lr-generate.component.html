@@ -78,7 +78,7 @@
                 <div class="row">
                   <div class="col-sm-12">
 
-                    <uj-date-time-picker [isTime]="false" (onChanged)="lr.date = $event" [dateTimeValue]="lr.date">
+                    <uj-date-time-picker (onChanged)="lr.date = $event" [dateTimeValue]="lr.date">
                     </uj-date-time-picker>
                     <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lr.date" name="date"
                   (focusout)="checkDateFormat()" placeholder="DD/MM/YYYY"> -->
@@ -192,7 +192,6 @@
                 <!-- <input type="text" [(ngModel)]="lr.payableAmount" class="form-control"> -->
               </td>
             <tr>
-
               <td><label>Payment Term</label></td>
               <td><select [(ngModel)]="lr.paymentTerm" class="form-conrol">
                   <option value="1">ToPay</option>
@@ -207,6 +206,27 @@
                     *ngIf="lr.paymentTerm!=2">{{lr.remainingAmount}}</label></div>
               </td>
             </tr>
+            <tr>
+
+              <td><label>Invoice To</label></td>
+              <td><select [(ngModel)]="lr.invoiceTo" class="form-conrol">
+                  <option value="1">Consignee</option>
+                  <option value="2">Consignor</option>
+                  <option value="9">Others</option>
+                </select></td>
+              <td><label *ngIf="lr.invoiceTo==9">Payee name</label></td>
+              <td>
+                <span *ngIf="lr.invoiceTo==9">
+                  <auto-suggestion (onSelected)="getInvoicePayerDetail($event)" url="Suggestion/GetCompanies"
+                    display="name" placeholder="Search Invoice Payer Name" style="width:100%;"
+                    class="col-md-9 auto-suggest" [preSelected]="{name:lr.invoicePayer}">
+                  </auto-suggestion>
+                  <div col-md-2><i class="fa fa-plus  add col-md-3" (click)="addConsignee()"></i>
+                  </div>
+                </span>
+              </td>
+            </tr>
+
             <tr>
               <td><label>Net Weight</label></td>
               <td><input type="number" [(ngModel)]="lr.netWeight" class="form-control" (change)="calculateTareWeight()">

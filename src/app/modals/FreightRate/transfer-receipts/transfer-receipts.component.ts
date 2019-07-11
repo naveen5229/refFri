@@ -24,10 +24,7 @@ export class TransferReceiptsComponent implements OnInit {
   };
   refernceData = [];
   typesData = [];
-  ModeData = [{
-    id: null,
-    name: null,
-  }];
+  ModeData = [];
 
 
   constructor(public modalService: NgbModal,
@@ -35,18 +32,19 @@ export class TransferReceiptsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService) {
     this.getTypeList();
-    this.ModeData = [{
-      id: 1,
-      name: 'cash'
-    },
-    {
-      id: 2,
-      name: 'Card'
-    },
-    {
-      id: 3,
-      name: 'OnlinePay',
-    }]
+    this.getPaymentMode();
+    //   this.ModeData = [{
+    //     id: 1,
+    //     name: 'cash'
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Card'
+    //   },
+    //   {
+    //     id: 3,
+    //     name: 'OnlinePay',
+    //   }]
   }
 
   ngOnInit() {
@@ -57,7 +55,7 @@ export class TransferReceiptsComponent implements OnInit {
     this.activeModal.close();
   }
 
-  save(){}
+
   getvehicleData(vehicle) {
     this.tranferReceipt.vehicleId = vehicle.id;
     this.tranferReceipt.vehicleRegNo = vehicle.regno;
@@ -130,6 +128,60 @@ export class TransferReceiptsComponent implements OnInit {
         this.common.showError();
       });
   }
+
+  getPaymentMode() {
+    this.common.loading++;
+    this.api.get('Suggestion/getTypeMaster?typeId=56')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ModeData = res['data'];
+        console.log('type', this.ModeData);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
+  save() {
+    console.log("Params");
+    ++this.common.loading;
+    let params = {
+      vid: this.tranferReceipt.vehicleId,
+      regno: this.tranferReceipt.vehicleRegNo,
+      vehasstype: 0,
+      advice_type_id: this.tranferReceipt.adviceTypeId,
+      advice_mode: this.tranferReceipt.modeId,
+      dttime: this.common.dateFormatter(this.tranferReceipt.date),
+      user_value: this.tranferReceipt.amount,
+      ref_type: this.tranferReceipt.refernceType,
+      ref_id: this.tranferReceipt.refId,
+      for_ref_id: null,
+      voucher_details_id: null,
+      ledger_id: null,
+      rec_value: null,
+      is_transfer: this.tranferReceipt.selectOption,
+      pay_mode: this.tranferReceipt.modeId,
+      remarks: this.tranferReceipt.remark
+
+    };
+    this.api.post("LorryReceiptsOperation/saveTransfers", params)
+      .subscribe(res => {
+        --this.common.loading;
+        console.log(res['data'][0].result);
+        if (res['data'][0].y_id > 0) {
+          this.common.showToast(res['data'][0].y_msg);
+          this.activeModal.close({ data: true });
+        }
+        else {
+          this.common.showError(res['data'][0].y_msg);
+
+        }
+      }, err => {
+        --this.common.loading;
+        this.common.showError(err);
+        console.log('Error: ', err);
+      });
+  }
+
 
 
 }

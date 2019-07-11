@@ -59,7 +59,10 @@ export class LrGenerateComponent implements OnInit {
     lrCategory: 1,
     grossWeight: 0,
     netWeight: 0,
-    tareWeight: 0
+    tareWeight: 0,
+    invoicePayer: null,
+    invoiceTo: 9,
+    invoicePayerId: null,
   };
   fofields = []
   particulars = [
@@ -134,7 +137,7 @@ export class LrGenerateComponent implements OnInit {
   }
 
   getBranchDetails() {
-    if (this.accountService.selected.branch.id) {
+    if (this.accountService.selected.branch.id && (this.lr.lrNumber || this.lr.lrNumberText)) {
       this.api.get('LorryReceiptsOperation/getBranchDetilsforLr?branchId=' + this.accountService.selected.branch.id)
         .subscribe(res => {
           console.log("branchdetails", res['data']);
@@ -225,6 +228,11 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consigneeName = consignee.name;
     this.lr.consigneeId = consignee.id;
   }
+
+  getInvoicePayerDetail(InvoicePayer) {
+    this.lr.invoicePayer = InvoicePayer.name;
+    this.lr.invoicePayerId = InvoicePayer.id;
+  }
   fillConsigneeAddress() {
     console.log("sameAsDelivery", this.lr.consigneeAddress);
     if (this.lr.sameAsDelivery)
@@ -302,7 +310,7 @@ export class LrGenerateComponent implements OnInit {
         });
       }
 
-      let lrDate = this.common.dateFormatter(this.lr.date).split(' ')[0];
+      let lrDate = this.common.dateFormatter(this.lr.date);
 
       let params = {
         lrId: this.lr.id,
@@ -316,6 +324,8 @@ export class LrGenerateComponent implements OnInit {
         destination: this.lr.destinationCity,
         consignorId: this.lr.consignorId,
         consigneeId: this.lr.consigneeId,
+        invoiceTo: this.lr.invoiceTo,
+        invoicePayerId: this.lr.invoicePayerId,
         amount: this.lr.amount,
         gstPer: this.lr.gstPer,
         totalAmount: this.lr.payableAmount,
@@ -370,23 +380,6 @@ export class LrGenerateComponent implements OnInit {
     });
   }
 
-  checkDateFormat() {
-    let dateValue = this.lr.date;
-    let datereg = /^\d{4}[-]\d{2}[-]\d{2}$/;
-    console.log('this.lrdate', this.lr.date);
-    if (dateValue.length < 8) return;
-
-    if (dateValue.match(datereg))
-      return;
-    else {
-      let date = dateValue[0] + dateValue[1];
-      let month = dateValue[2] + dateValue[3];
-      let year = dateValue.substring(4, 8);
-      // this.lrDate= date + '/' + month + '/' + year;
-      this.lr.date = year + '-' + month + '-' + date;
-      console.log('checkDateFormat', this.lr.date);
-    }
-  }
 
   getDate() {
     this.common.params = { ref_page: 'generate-lr' };
@@ -490,6 +483,9 @@ export class LrGenerateComponent implements OnInit {
     this.lr.consignorAddress = lrDetails.consigner_address;
     this.lr.consignorName = lrDetails.consignor;
     this.lr.consignorId = lrDetails.consigner_id;
+    this.lr.invoicePayer = lrDetails.invoiceto_name;
+    this.lr.invoicePayerId = lrDetails.invoice_payer_id;
+    this.lr.invoiceTo = lrDetails.invoiceto_type;
     this.lr.paymentTerm = lrDetails.pay_type;
     this.lr.payableAmount = lrDetails.total_amount;
     this.lr.lrNumberText = lrDetails.lr_prefix;
@@ -504,7 +500,7 @@ export class LrGenerateComponent implements OnInit {
     this.lr.date = new Date(this.common.dateFormatter(lrDetails.lr_date));
     this.lr.amount = lrDetails.amount ? lrDetails.amount : 0;
     this.lr.advanceAmount = lrDetails.advance_amount;
-    this.lr.remainingAmount = lrDetails.remaining_amount;
+    this.lr.remainingAmount = lrDetails.pending_amount;
     this.lr.gstPer = lrDetails.gstrate;
     this.lr.netWeight = lrDetails.net_weight;
     this.lr.grossWeight = lrDetails.gross_weight;
@@ -548,6 +544,20 @@ export class LrGenerateComponent implements OnInit {
           customjfields[customIndex]['field' + fieldIndex] = customjfield.name;
           customjfields[customIndex]['value' + fieldIndex] = customjfield.value;
         });
+      }
+      else {
+        customjfields = [
+          {
+            field1: null,
+            value1: null,
+            field2: null,
+            value2: null,
+            field3: null,
+            value3: null,
+            field4: null,
+            value4: null,
+          }
+        ]
       }
       detail.customjsonfields = customjfields;
     });
