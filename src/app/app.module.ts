@@ -514,7 +514,8 @@ import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.compone
     ClearAdvicesComponent,
     AdviceViewComponent,
     TransferReceiptsComponent,
-    FreightInvoiceComponent
+    FreightInvoiceComponent,
+    LrAssignComponent
 
 
   ],

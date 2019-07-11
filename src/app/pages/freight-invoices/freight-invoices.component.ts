@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmComponent } from '../../modals/confirm/confirm.component';
 import { AddFreightRevenueComponent } from '../../modals/FreightRate/add-freight-revenue/add-freight-revenue.component';
 import { FreightInvoiceComponent } from '../../modals/FreightRate/freight-invoice/freight-invoice.component';
+import { LrAssignComponent } from '../../modals/LRModals/lr-assign/lr-assign.component';
 
 @Component({
   selector: 'freight-invoices',
@@ -128,7 +129,7 @@ export class FreightInvoicesComponent implements OnInit {
     icons.push(
       {
         class: "far fa-eye",
-        action: this.editFreightRevenue.bind(this, row),
+        action: this.lrAssign.bind(this, row),
       },
 
       {
@@ -172,10 +173,10 @@ export class FreightInvoicesComponent implements OnInit {
   }
 
 
-  editFreightRevenue(row) {
-    this.common.handleModalSize('class', 'modal-lg', '1100');
-    this.common.params = { title: 'Edit Freight Revenue ', row: row };
-    const activeModal = this.modalService.open(AddFreightRevenueComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  lrAssign(row) {
+    this.common.handleModalSize('class', 'modal-lg', '800');
+    this.common.params = { row: row };
+    const activeModal = this.modalService.open(LrAssignComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', });
     activeModal.result.then(data => {
       console.log('Date:', data);
       if (data) {
