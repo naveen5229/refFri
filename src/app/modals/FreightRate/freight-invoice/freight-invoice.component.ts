@@ -68,11 +68,11 @@ export class FreightInvoiceComponent implements OnInit {
     let params = {
       branchId: this.accountService.selected.branch.id,
       partyId: this.freightInvoice.companyId,
-      invocieNo: this.freightInvoice.invoiceNo,
-      invocieDate: this.common.dateFormatter(this.freightInvoice.date),
+      invoiceNo: this.freightInvoice.invoiceNo,
+      invoiceDate: this.common.dateFormatter(this.freightInvoice.date).split(' ')[0],
       remarks: this.freightInvoice.remark,
     };
-    this.api.post("Freight/saveInvoices", params)
+    this.api.post("FrieghtRate/saveInvoices", params)
       .subscribe(res => {
         --this.common.loading;
         console.log(res['data'][0].result);

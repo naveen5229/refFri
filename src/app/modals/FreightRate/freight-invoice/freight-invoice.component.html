@@ -17,11 +17,7 @@
             <option value="">Select Branch</option>
             <option *ngFor="let branch of accountService.branches" [ngValue]="branch">{{branch.name}}</option>
           </select>
-          <!-- 
-          <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-            placeholder=" " (change)="resetvehicle()" inputId="vehicleno"
-            [preSelected]="{regno:freightInvoice.vehicleRegNo}">
-          </auto-suggestion> -->
+
         </div>
       </div>
     </div>
@@ -82,10 +78,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
-
 </div>
 
 
