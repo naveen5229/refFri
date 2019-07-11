@@ -57,7 +57,7 @@ export class VouchereditedComponent implements OnInit {
     // this.getBranchList();
     this.getLedgers();
     this.setFoucus('ledger');
-    this.common.currentPage = 'Voucher Edit';
+    this.common.currentPage = 'Voucher Audit';
 
 
   }
@@ -161,7 +161,7 @@ export class VouchereditedComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Day Book From :'+this.bankBook.startdate+' To :'+this.bankBook.enddate);
 
       }, err => {
         this.common.loading--;

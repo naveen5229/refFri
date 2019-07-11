@@ -85,7 +85,7 @@ export class CostCenterReportComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Cost Category From :'+this.trial.startDate+' To :'+this.trial.endDate);
 
       }, err => {
         this.common.loading--;

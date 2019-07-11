@@ -194,16 +194,19 @@ export class RoutesExpensesComponent implements OnInit {
     this.data.map(doc => {
       let valobj = {};
       let docobj = { routeId: 0 };
+      let rowId = '';
+      let val = 0;
       for (var i = 0; i < this.headings.length; i++) {
         console.log("doc Data:", doc);
         let strval = doc[this.headings[i]];
         console.log("srtvalue", strval);
-        let rowId = '';
-        let val = 0;
+
         if (strval.indexOf('_') > 0) {
           let arrval = strval.split('_');
           val = arrval[0];
           rowId = arrval[1];
+          console.log("RowId", rowId);
+
         } else if (strval.indexOf('_') === -1) {
           val = strval;
         } else {
@@ -211,12 +214,13 @@ export class RoutesExpensesComponent implements OnInit {
         }
         docobj.routeId = doc['_route_id'];
         valobj[this.headings[i]] = {
-          value: val,
-          isHTML: true,
-          class: (this.headings[i] != "Model") ?
-            'blue' :
-            'black',
-          action: this.headings[i] != "Model" ? this.deleteRow.bind(this, doc, rowId) : ''
+          value: '',
+          isHTML: false,
+          icons: [
+            { class: '', action: null, txt: val },
+
+            { class: 'fa fa-trash', action: this.deleteRow.bind(this, doc, rowId), }
+          ],
         };
       }
       // icons: val > 0 ? this.delete(doc[this.headings[i]]) : ''
@@ -230,19 +234,21 @@ export class RoutesExpensesComponent implements OnInit {
     return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
-  delete(row) {
-    let icons = [];
-    icons.push(
-      {
-        class: "fas fa-trash-alt",
-        action: this.deleteRow.bind(this, row),
-        value: row,
-      }
-    )
-    return icons;
-  }
+  // delete(row) {
+  //   let icons = [];
+  //   icons.push(
+  //     {
+  //       class: "fas fa-trash-alt",
+  //       action: this.deleteRow.bind(this, row),
+  //       value: row,
+  //     }
+  //   )
+  //   return icons;
+  // }
   deleteRow(row, id) {
-    console.log("row:", row, id);
+    console.log("row:", row);
+    console.log("id", id);
+
 
     let params = {
       id: id,
