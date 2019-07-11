@@ -61,6 +61,19 @@
 
     </div>
     <div class="col-2">
+      <span><b>Mode</b></span>
+    </div>
+    <div class="col-2">
+      <select class="form-control" [(ngModel)]="modeId">
+        <option *ngFor="let mode of ModeData" [value]="mode.id">
+          {{mode.description}}
+        </option>
+      </select>
+    </div>
+
+
+
+    <div class="col-2">
       <label>User value</label>
     </div>
     <div class="col-2">
@@ -78,9 +91,15 @@
     <div class="col-2">
       <label>Date</label>
     </div>
-    <div class="col-3">
+    <div class="col-2">
       <uj-date-time-picker (onChanged)="startDate=$event" class="" [dateTimeValue]="startDate" [isTime]=false>
       </uj-date-time-picker>
+    </div>
+    <div class="col-1">
+      <label>Remark</label>
+    </div>
+    <div class="col-3">
+      <textarea name="remark" id="remark" rows="5" cols="8" [(ngModel)]="remark" class="form-control"></textarea>
     </div>
   </div>
 </div>

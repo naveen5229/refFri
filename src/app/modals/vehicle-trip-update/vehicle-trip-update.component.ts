@@ -184,15 +184,18 @@ export class VehicleTripUpdateComponent implements OnInit {
   }
 
   getVehicleCurrentStatus() {
+    this.common.loading++;
     let params = {
       vehicleId: this.vehicleTrip.vehicleId,
     }
 
     this.api.post('Placement/getVehicleCurrentStatus', params)
       .subscribe(res => {
+        this.common.loading--;
         console.log('Res: ', res['data']);
         this.vehicleStatus = res['data'][0];
       }, err => {
+        this.common.loading--;
         console.error(err);
         this.common.showError();
       });
