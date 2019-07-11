@@ -70,6 +70,12 @@
                 <address>{{lrDetails.consignee_address}}</address>
               </td>
             </tr>
+            <tr *ngIf="lrDetails.invoiceto_name">
+              <td colspan="3">
+                <b>Invoice To : </b>
+                {{lrDetails.invoiceto_name}}
+              </td>
+            </tr>
           </tbody>
         </table>
         <table class="w-100">
@@ -134,14 +140,20 @@
                   <tr>
                     <td><b>Amount :</b> {{lrDetails.amount}}</td>
                   </tr>
-                  <tr>
-                    <td *ngIf="lrDetails.gstrate"><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
+                  <tr *ngIf="lrDetails.gstrate">
+                    <td><b>GST Rate :</b> {{lrDetails.gstrate}} %</td>
                   </tr>
-                  <tr>
-                    <td *ngIf="lrDetails.gstamount"><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
+                  <tr *ngIf="lrDetails.gstamount">
+                    <td><b>GST Amount :</b> {{lrDetails.gstamount}}</td>
                   </tr>
                   <tr>
                     <td><b> Total Amount :</b> {{lrDetails.total_amount}}</td>
+                  </tr>
+                  <tr *ngIf="lrDetails.advance_amount">
+                    <td><b> Advance Amount :</b> {{lrDetails.advance_amount}}</td>
+                  </tr>
+                  <tr *ngIf="lrDetails.pending_amount">
+                    <td><b> Remaining Amount :</b> {{lrDetails.pending_amount}}</td>
                   </tr>
                 </tbody>
               </table>

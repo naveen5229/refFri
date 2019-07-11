@@ -188,7 +188,7 @@ export class LedgerviewComponent implements OnInit {
     console.log('Active event', event);
     if (key == 'enter' && !this.activeId && this.ledgerData.length && this.selectedRow != -1) {
       /***************************** Handle Row Enter ******************* */
-      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id);
+      this.getBookDetail(this.ledgerData[this.selectedRow].y_ledger_id,'');
       return;
     }
     if ((key == 'f2' && !this.showDateModal) && (this.activeId.includes('startDate') || this.activeId.includes('endDate'))) {
@@ -282,9 +282,9 @@ export class LedgerviewComponent implements OnInit {
   }
 
 
-  getBookDetail(voucherId) {
+  getBookDetail(voucherId,code) {
     console.log('vouher id', voucherId);
-    this.common.params = voucherId;
+    this.common.params = { vchid: voucherId,vchcode:code};
 
     const activeModal = this.modalService.open(VoucherdetailComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', keyboard: false, windowClass: "accountModalClass" });
     activeModal.result.then(data => {

@@ -106,6 +106,7 @@ export class TrialbalanceComponent implements OnInit {
       });
   }
   changeViewType() {
+    console.log('____________');
     this.active.trialBalanceData.mainGroup = [];
     this.active.trialBalanceData.subGroup = [];
 
@@ -465,14 +466,15 @@ console.log('trialBalanceData @@@',this.trialBalanceData);
   generateCsvData() {
     let liabilitiesJson = [];
     this.trialBalanceData.forEach(liability => {
-      liabilitiesJson.push({ Ledger: liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
+      liabilitiesJson.push({ Ledger: '(MG)'+liability.name, OpeningBalance : liability.openingamount,amountdr:liability.dramount,amountcr :liability.cramount,amount:liability.amount});
       liability.subGroups.forEach(subGroup => {
-        liabilitiesJson.push({ Ledger: subGroup.name, OpeningBalance : subGroup.openingamount,amountdr:subGroup.dramount,amountcr :subGroup.cramount,amount:subGroup.amount});
+        liabilitiesJson.push({ Ledger: '(SG)'+subGroup.name, OpeningBalance : subGroup.openingamount,amountdr:subGroup.dramount,amountcr :subGroup.cramount,amount:subGroup.amount});
         subGroup.trialBalances.forEach(trailbalance => {
-          liabilitiesJson.push({ Ledger: trailbalance.y_ledger_name, OpeningBalance : trailbalance.y_openbal,amountdr:trailbalance.y_dr_bal,amountcr :trailbalance.y_cr_bal,amount:trailbalance.y_closebal});
+          liabilitiesJson.push({ Ledger: '(L)'+trailbalance.y_ledger_name, OpeningBalance : trailbalance.y_openbal,amountdr:trailbalance.y_dr_bal,amountcr :trailbalance.y_cr_bal,amount:trailbalance.y_closebal});
         });
       });
     });
+    liabilitiesJson.push(Object.assign({}, {"":'MG = Main Group ,SG = Sub Group, L = Ledger'}))
 
     // let mergedArray = [];
     // for (let i = 0; i < liabilitiesJson.length || i < assetsJson.length; i++) {

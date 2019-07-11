@@ -92,11 +92,22 @@
           </div>
 
           <div class="col-5">
-            <auto-suggestion controlName="autoSuggestion" [parentForm]="revenueForm"
+
+            <input class="form-control" type="text" list="refTypeList" name="referenceType" id="referncetype"
+              (change)="changeRefernceType(revenue.refTypeName);" [(ngModel)]="revenue.refTypeName"
+              formControlName="autoSuggestion">
+            <datalist id="refTypeList">
+              <option *ngFor="let refernce of refernceData;" [value]="refernce.source_dest">{{refernce.source_dest}}
+              </option>
+            </datalist>
+
+
+
+            <!-- <auto-suggestion controlName="autoSuggestion" [parentForm]="revenueForm"
               (onSelected)="revenue.refId=$event.id;revenue.refTypeName=$event.source_dest" display="source_dest"
               placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
               [preSelected]="{source_dest:revenue.refTypeName}">
-            </auto-suggestion>
+            </auto-suggestion> -->
           </div>
         </div>
       </div>
