@@ -148,13 +148,21 @@ export class AdvicesComponent implements OnInit {
 
 
   saveAdvices() {
+    this.common.handleModalSize('class', 'modal-lg', '1100');
     const activeModal = this.modalService.open(SaveAdvicesComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.searchData();
+    });
   }
   clearAdvices(row) {
     this.common.params = { advice: row };
     const activeModal = this.modalService.open(ClearAdvicesComponent, { size: 'sm', container: 'nb-layout', backdrop: 'static' });
+    activeModal.result.then(data => {
+      this.searchData();
+    });
   }
   adviceView(row) {
+    this.common.handleModalSize('class', 'modal-lg', '1100');
     this.common.params = { advice: row };
     const activeModal = this.modalService.open(AdviceViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
   }

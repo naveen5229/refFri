@@ -126,6 +126,7 @@ export class AddFoComponent implements OnInit {
     this.company.partner = e.id;
 
   }
+  
   closeModal() {
     this.activeModal.close();
   }

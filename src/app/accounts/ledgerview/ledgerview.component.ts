@@ -84,7 +84,7 @@ export class LedgerviewComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Ledger View From :'+this.ledger.startDate+' To :'+this.ledger.endDate);
 
       }, err => {
         this.common.loading--;

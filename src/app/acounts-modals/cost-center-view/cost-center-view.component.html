@@ -24,7 +24,7 @@
         [ngClass]="{'highlight' : selectedRow == i}"> -->
       <tr *ngFor="let dataItem of costCenterData; let i = index;" (click)="selectedRow = i"
         (dblclick)="(dataItem.y_voucher_id != 0) ? getBookDetail(dataItem.y_voucher_id) : '' "
-        (enter)="getBookDetail(dataItem.y_voucher_id)" [ngClass]="{'highlight' : selectedRow == i}">
+        (enter)="getBookDetail(dataItem.y_voucher_id)" [ngClass]="{'highlight' : selectedRow == i,'radclass':(dataItem.y_voucher_id == 0)}">
         <td>{{i + 1}}</td>
         <td>{{dataItem.y_date | date : 'dd-MMM-yy'}}</td>
         <td>{{dataItem.y_costcentername}}</td>
