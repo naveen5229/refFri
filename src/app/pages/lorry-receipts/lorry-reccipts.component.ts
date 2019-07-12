@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { DatePickerComponent } from '../../modals/date-picker/date-picker.component';
 import { ActivatedRoute } from '@angular/router';
 import { LrGenerateComponent } from '../../modals/LRModals/lr-generate/lr-generate.component';
+import { ViewFrieghtInvoiceComponent } from '../../modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 
 @Component({
   selector: 'lorry-reccipts',
@@ -23,6 +24,7 @@ export class LorryRecciptsComponent implements OnInit {
   viewType = 'allLR';
   startDate = '';
   endDate = '';
+  lrType = "2";
   // showMsg = false;
   constructor(
     public api: ApiService,
@@ -53,7 +55,8 @@ export class LorryRecciptsComponent implements OnInit {
     let params = {
       startDate: this.common.dateFormatter1(this.startDate).split(' ')[0],
       endDate: this.common.dateFormatter1(enddate.setDate(enddate.getDate() + 1)).split(' ')[0],
-      type: this.viewType
+      type: this.viewType,
+      status: this.lrType
     };
 
     ++this.common.loading;
@@ -65,6 +68,9 @@ export class LorryRecciptsComponent implements OnInit {
           this.receipts = res['data'];
           // console.log("Receipt",this.receipts);
           this.table = this.setTable();
+        }
+        else {
+          this.receipts = [];
         }
       }, err => {
         --this.common.loading;
@@ -219,4 +225,13 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
+  printInvoice(invoice) {
+    console.log("invoice", invoice);
+    this.common.params = { invoiceId: 1 }
+    const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+    activeModal.result.then(data => {
+      console.log('Date:', data);
+
+    });
+  }
 }

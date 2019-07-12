@@ -70,6 +70,7 @@
               <ng-template *ngIf="data.status==1 then showRevert;"></ng-template>
               <ng-template #showRevert><button class="btn" (click)="revertLrDetails(data)">Revert</button></ng-template>
               <ng-template #showEdit><button class="btn" (click)="modalOpenHandling(data, i)">Edit</button>
+                <button class="btn" (click)="openGenerateLr(data)">New Edit</button>
               </ng-template>
               <!-- <button class="btn" (click)="openGenerateLr(data)"> New Edit</button> -->
             </td>
