@@ -67,6 +67,7 @@ import { PodDashboardComponent } from '../admin/pod-dashboard/pod-dashboard.comp
 import { AdvicesComponent } from './advices/advices.component';
 import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
 import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
+import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 
 const routes: Routes = [{
@@ -181,6 +182,12 @@ const routes: Routes = [{
 
     path: 'driver-call-suggestion',
     component: DriverCallSuggestionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+
+    path: 'site-in-out',
+    component: SiteInOutComponent,
     canActivate: [AuthGuard],
   },
   {

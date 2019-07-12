@@ -13,6 +13,7 @@ import { AddVehicleComponent } from '../../modals/add-vehicle/add-vehicle.compon
 import { VehiclesViewComponent } from '../vehicles-view/vehicles-view.component';
 import { TicketSubscribeComponent } from '../ticket-subscribe/ticket-subscribe.component';
 import { GpsEnabledDisabledComponent } from '../../modals/gps-enabled-disabled/gps-enabled-disabled.component';
+import { TypeMasterComponent } from '../../modals/type-master/type-master.component';
 @Component({
   selector: 'add-customer',
   templateUrl: './add-customer.component.html',
@@ -63,6 +64,10 @@ export class AddCustomerComponent implements OnInit {
   }
   submitted2() {
     const activeModal = this.modalService.open(PullHistoryGPSDataComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+  }
+  typeMaster(){
+    const activeModal = this.modalService.open(    TypeMasterComponent,  { size: 'lg', container: 'nb-layout', backdrop: 'static' });
+
   }
   // selectLocation(location) {
   //   this.location = {

@@ -5,65 +5,24 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="row mb-3 align-items-baseline">
+  <div class="row">
     <div class="col-2">
-      <span><b>Vehicle Type</b></span>
-    </div>
-    <div class="col-2 pl-0">
-      <select class="form-control" [(ngModel)]="expense.vehicleType" (change)="resetData($event)">
-        <option value="1">Own</option>
-        <option value="2">Group</option>
-        <option value="3">Market</option>
-
-      </select>
-    </div>
-    <div class="col-1 pr-0">
-      <span><b>Vehicle No</b></span>
-    </div>
-    <div class="col-2" *ngIf="expense.vehicleType==1">
-      <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
-        placeholder=" " (change)="resetvehicle()" inputId="vehicleno" [preSelected]="{regno:expense.vehicleRegNo}">
-      </auto-suggestion>
-    </div>
-    <div class="col-2 pr-0" *ngIf="expense.vehicleType!=1">
-      <input type="text" [(ngModel)]="expense.vehicleRegNo" class="form-control" placeholder=" " id="vehicleno">
-    </div>
-    <div class="col-1 pr-0">
-      <span><b>Reference Type</b></span>
+      <label>Registration Number</label>
     </div>
     <div class="col-2">
-      <select class="form-control" name="reftype" [(ngModel)]="expense.refernceType"
-        (change)="resetRefernceType(false);refernceTypes()">
-        <option value="0">Select Type</option>
-        <option value="11">Lr</option>
-        <option value="12">Manifest</option>
-        <option value="13">State</option>
-        <option value="14">Trip</option>
-      </select>
+      <label>{{expense.vehicleRegNo}}</label>
     </div>
     <div class="col-2">
-
-      <input class="form-control" type="text" list="reflist" name="refer-type" [(ngModel)]="expense.refTypeName"
-        (change)="getRefrenceData(expense.refTypeName)" id="referncetype">
-      <datalist id="reflist">
-        <option *ngFor="let refdata of refernceData ;" [value]="refdata.source_dest">
-        </option>
-      </datalist>
-      <!-- <auto-suggestion (onSelected)="expense.refId=$event.id;expense.refTypeName=$event.source_dest"
-                    display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
-                    [preSelected]="{source_dest:expense.refTypeName}">
-                  </auto-suggestion> -->
+      <label>Reference type</label>
     </div>
-
-  </div>
-  <div class="row mb-3 align-items-baseline">
     <div class="col-2">
-      <span><b>Remarks</b></span>
-    </div>
-    <div class="col-2 pl-0">
-      <input type="text" [(ngModel)]="expense.remarks" class="form-control">
+      {{expense.refTypeName}}
     </div>
   </div>
+
+
+
+
   <div class="expense-table">
     <table class="table table-bordered">
       <thead class="thead">
@@ -89,7 +48,7 @@
                 </select> -->
           </td>
           <td>
-            <input type="text" class="form-control" [(ngModel)]="expenseDetail.value">
+            <input type="number" class="form-control" [(ngModel)]="expenseDetail.value">
           </td>
 
           <td>
@@ -108,12 +67,20 @@
 
     </table>
   </div>
+  <div class="row mb-3 align-items-baseline">
+    <div class="col-1 mr-3 pr-0">
+      <span><b>Remarks</b></span>
+    </div>
+    <div class="col-2 pl-0">
+      <input type="text" [(ngModel)]="expense.remarks" class="form-control">
+    </div>
+    <div class="col-2 pl-0">
+      <button class="btn btn-primary" form="expense-Form" id=""
+        (click)="saveDetails();">{{expense.id?'Edit':'Add'}}</button>
+    </div>
+  </div>
+  <div *ngIf="data && data.length" class="mt-3">
+    <smart-table [data]="table.data" [settings]="table.settings"></smart-table>
+  </div>
 
-</div>
-
-
-
-<div class="modal-footer">
-  <button class="btn btn-primary" form="expense-Form" id=""
-    (click)="saveDetails();">{{expense.id?'Edit':'Add'}}</button>
 </div>
