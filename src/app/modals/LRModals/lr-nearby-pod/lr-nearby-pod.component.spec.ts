@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FreightRevenueComponent } from './freight-revenue.component';
+import { LrNearbyPodComponent } from './lr-nearby-pod.component';
 
-describe('FreightRevenueComponent', () => {
-  let component: FreightRevenueComponent;
-  let fixture: ComponentFixture<FreightRevenueComponent>;
+describe('LrNearbyPodComponent', () => {
+  let component: LrNearbyPodComponent;
+  let fixture: ComponentFixture<LrNearbyPodComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FreightRevenueComponent ]
+      declarations: [ LrNearbyPodComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FreightRevenueComponent);
+    fixture = TestBed.createComponent(LrNearbyPodComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

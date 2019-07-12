@@ -58,6 +58,7 @@ import { ViewSubModalServiceComponent } from '../vehicle-maintenance/view-sub-mo
 import { ViaRoutesComponent } from './via-routes/via-routes.component';
 import { BufferPolylineComponent } from './buffer-polyline/buffer-polyline.component';
 import { PodDashboardComponent } from './pod-dashboard/pod-dashboard.component';
+import { NearbyPodsComponent } from './nearby-pods/nearby-pods.component';
 
 const routes: Routes = [{
     path: '',
@@ -336,6 +337,11 @@ const routes: Routes = [{
         {
             path: 'pod-dashboard',
             component: PodDashboardComponent,
+            canActivate: [RouteGuard]
+        },
+        {
+            path: 'nearby-pods',
+            component: NearbyPodsComponent,
             canActivate: [RouteGuard]
         }
 
