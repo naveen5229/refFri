@@ -136,11 +136,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-list',
         link: '/pages/lr-invoice-columns',
       },
-      {
-        title: 'Freight Revenue',
-        icon: 'nb-list',
-        link: '/pages/freight-revenue',
-      },
+
       {
         title: 'Freight Invoice',
         icon: 'nb-list',
