@@ -136,11 +136,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         icon: 'nb-list',
         link: '/pages/lr-invoice-columns',
       },
-      {
-        title: 'Freight Revenue',
-        icon: 'nb-list',
-        link: '/pages/freight-revenue',
-      },
+
       {
         title: 'Freight Invoice',
         icon: 'nb-list',
@@ -157,16 +153,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lorry-receipts',
       },
 
-      // {
-      //   title: 'Generate LR',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr',
-      // },
-      // {
-      //   title: 'Generate LTL',
-      //   icon: 'fas fa-receipt',
-      //   link: '/pages/generate-lr-no-vehicles',
-      // },
       {
         title: 'Generate LR Manifest',
         icon: 'fas fa-receipt',
@@ -191,6 +177,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'POD Dashboard',
         icon: 'fa fa-bar-chart',
         link: '/pages/pod-dashboard',
+      },
+      {
+        title: 'Nearby Pods',
+        icon: 'fa fa-bar-chart',
+        link: '/pages/nearby-pods',
       },
     ]
   },
