@@ -95,11 +95,7 @@ export class ViewFrieghtInvoiceComponent implements OnInit {
     this.renderer.setElementClass(document.body, 'test', true);
     window.print();
     this.renderer.setElementClass(document.body, 'test', false);
-
-
   }
-
-
 
   findCustomFields(customFields) {
     console.log("customFields", customFields)

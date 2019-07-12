@@ -225,13 +225,13 @@ export class LorryRecciptsComponent implements OnInit {
     });
   }
 
-  printInvoice(invoice) {
-    console.log("invoice", invoice);
-    this.common.params = { invoiceId: 1 }
-    const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
-    activeModal.result.then(data => {
-      console.log('Date:', data);
+  // printInvoice(invoice) {
+  //   console.log("invoice", invoice);
+  //   this.common.params = { invoiceId: 1 }
+  //   const activeModal = this.modalService.open(ViewFrieghtInvoiceComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static', windowClass: 'print-lr' });
+  //   activeModal.result.then(data => {
+  //     console.log('Date:', data);
 
-    });
-  }
+  //   });
+  // }
 }
