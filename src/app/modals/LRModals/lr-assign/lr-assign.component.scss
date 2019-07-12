@@ -42,3 +42,36 @@
     display: block;
 }
 
+.form-check{
+    padding-left: 0px;
+    margin-bottom: 10px;
+    width: 33%;
+    display: inline-block;
+    input{
+        width: 20px;
+        height: 20px !important;
+        margin: 0px;
+    }
+    label{
+        margin-left: 30px;
+        vertical-align: middle;
+        font-weight: 500;
+    }    
+}
+
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+}
+.form-check-main{
+    padding: 15px;
+    background-color: #efefef;
+}
+.form-check-box{
+    label{
+        background-color: #efefef;
+        font-weight: 500;
+        padding: 5px 10px;
+        margin: 0px;
+        border-radius: 3px 3px 0px 0px;
+    }
+}

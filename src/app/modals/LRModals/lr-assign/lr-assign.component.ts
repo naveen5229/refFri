@@ -49,6 +49,11 @@ export class LrAssignComponent implements OnInit {
     this.activeModal.close();
   }
 
+  refresh() {
+    this.viewlrData();
+    this.getlrUnmapped();
+  }
+
   getlrUnmapped() {
     this.common.loading++;
     let params = {
@@ -84,7 +89,6 @@ export class LrAssignComponent implements OnInit {
 
   selectAll(isChecked) {
     console.log("test", isChecked);
-
     if (isChecked) {
       console.log("true", isChecked);
 
@@ -113,7 +117,10 @@ export class LrAssignComponent implements OnInit {
     this.api.post('FrieghtRate/assignGroups', params)
       .subscribe(res => {
         this.common.loading--;
-
+        if (res['success']) {
+          this.common.showToast(res['msg']);
+          this.refresh();
+        }
       }, err => {
         this.common.loading--;
 
@@ -221,6 +228,11 @@ export class LrAssignComponent implements OnInit {
     this.api.post('FrieghtRate/assignGroups', params)
       .subscribe(res => {
         this.common.loading--;
+        if (res['success'] == true) {
+          this.common.showToast(res['msg']);
+
+          this.refresh();
+        }
 
       }, err => {
         this.common.loading--;
