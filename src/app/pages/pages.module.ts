@@ -67,6 +67,8 @@ import { FuelIndentComponent } from './fuel-indent/fuel-indent.component';
 import { FreightRevenueComponent } from './freight-revenue/freight-revenue.component';
 import { AdvicesComponent } from './advices/advices.component';
 import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
+import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
+import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 
 
 const PAGES_COMPONENTS = [
@@ -135,6 +137,8 @@ const PAGES_COMPONENTS = [
     FreightRevenueComponent,
     AdvicesComponent,
     FreightExpensesComponent,
+    LrInvoiceColumnsComponent,
+    FreightInvoicesComponent,
     // CustomDatePipe
   ],
   exports: [

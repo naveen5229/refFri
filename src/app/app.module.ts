@@ -191,6 +191,9 @@ import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.comp
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
+import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
+import { TypeMasterComponent } from './modals/type-master/type-master.component';
 
 
 @NgModule({
@@ -353,6 +356,9 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     AdviceViewComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
 
   ],
   entryComponents: [
@@ -509,7 +515,11 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     EntityFlagsComponent,
     ClearAdvicesComponent,
     AdviceViewComponent,
-    TransferReceiptsComponent
+    TransferReceiptsComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
+
 
 
   ],
