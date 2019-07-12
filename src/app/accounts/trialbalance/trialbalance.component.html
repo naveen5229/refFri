@@ -4,7 +4,7 @@
   </nb-card-header> -->
   <nb-card-body (keydown)="keyHandler($event)">
     <!-- View Expand -->
-    <div class="expand-div" style="z-index:999999">
+    <div class="expand-div" style="z-index:99">
       <input type="radio" name="view" [(ngModel)]="viewType" value="main" (change)="changeViewType()">
       <label>Expand Group</label>
       <input type="radio" name="view" [(ngModel)]="viewType" value="sub" (change)="changeViewType()">

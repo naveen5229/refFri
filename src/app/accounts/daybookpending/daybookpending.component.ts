@@ -69,7 +69,7 @@ export class DaybookpendingComponent implements OnInit {
     //  this.getBranchList();
     this.getAllLedger();
     this.setFoucus('vouchertype');
-    this.common.currentPage = 'Day Book Pending';
+    this.common.currentPage = 'Voucher Pending';
 
     this.route.params.subscribe(params => {
       console.log('Params1: ', params);
@@ -375,7 +375,7 @@ export class DaybookpendingComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Voucher Pending From :'+this.DayBook.startdate+' To :'+this.DayBook.enddate);
 
       }, err => {
         this.common.loading--;

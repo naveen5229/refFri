@@ -192,6 +192,9 @@ import { AdviceViewComponent } from './modals/advice-view/advice-view.component'
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
+import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
+import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
+import { TypeMasterComponent } from './modals/type-master/type-master.component';
 
 
 @NgModule({
@@ -355,6 +358,9 @@ import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-dis
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
     VehicleDistanceCoveredCompactFormComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
 
   ],
   entryComponents: [
@@ -512,7 +518,11 @@ import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-dis
     ClearAdvicesComponent,
     AdviceViewComponent,
     TransferReceiptsComponent,
-    VehicleDistanceCoveredCompactFormComponent
+    VehicleDistanceCoveredCompactFormComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
+
 
 
   ],

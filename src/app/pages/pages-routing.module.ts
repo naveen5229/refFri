@@ -68,6 +68,7 @@ import { AdvicesComponent } from './advices/advices.component';
 import { FreightExpensesComponent } from './freight-expenses/freight-expenses.component';
 import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 import { SiteInOutComponent } from './site-in-out/site-in-out.component';
+import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
 
 const routes: Routes = [{
   path: '',
@@ -428,6 +429,11 @@ const routes: Routes = [{
     component: AdvicesComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'freight-invoices',
+    component: FreightInvoicesComponent,
+    canActivate: [AuthGuard]
+  }
   ],
 }];
 
