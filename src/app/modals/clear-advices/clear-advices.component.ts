@@ -24,19 +24,38 @@ export class ClearAdvicesComponent implements OnInit {
   remarks = null;
   data = [];
   rowId = null;
+  adviceId = null;
+  fuelStations = [];
+  fuelId = null;
   constructor(public common: CommonService,
     public api: ApiService,
     private activeModal: NgbActiveModal) {
+
     this.rowId = this.common.params.advice._id ? this.common.params.advice._id : null;
+    this.adviceId = this.common.params.advice._advice_type_id ? this.common.params.advice._advice_type_id : null;
+    this.getFuelStationList();
   }
 
   ngOnInit() {
   }
+
+  getFuelStationList() {
+    this.api.get("Suggestion/getFuelStaionWrtFo").subscribe(
+      res => {
+        this.fuelStations = res['data'];
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   ClearAdvices() {
     let params = {
       id: this.rowId,
       status: this.id,
-      remarks: this.remarks
+      remarks: this.remarks,
+      fsId: this.fuelId
     }
 
     this.common.loading++;
