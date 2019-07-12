@@ -57,7 +57,6 @@ export class AddFreightRevenueComponent implements OnInit {
     public api: ApiService,
     private formBuilder: FormBuilder) {
 
-    this.common.handleModalSize('class', 'modal-lg', '1100');
     this.getFreightHeads();
 
     console.log("this.common.params.expenseData", this.common.params.revenueData);

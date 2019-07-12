@@ -19,7 +19,7 @@
                                 span{
                                     position: absolute;
                                     display: none;
-                                    padding: 10px 20px;
+                                    padding: 10px 28px;
                                     font-size: 11px;
                                     font-weight: normal;
                                     left: -12px;
@@ -29,7 +29,7 @@
                                     font-family: Roboto;
                                     z-index: 9999;
                                     &::before{
-                                        content: 'Edit';
+                                        content: 'Save';
                                         display: block;
                                         position: absolute;
                                         top: 0px;

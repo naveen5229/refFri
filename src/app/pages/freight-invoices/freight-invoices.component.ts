@@ -143,6 +143,8 @@ export class FreightInvoicesComponent implements OnInit {
     console.log("row:", row);
     let params = {
       id: row._id,
+      partyId: row._party_id,
+      branchId: row._branch_id
 
     }
     if (row._id) {
@@ -154,7 +156,7 @@ export class FreightInvoicesComponent implements OnInit {
       activeModal.result.then(data => {
         if (data.response) {
           this.common.loading++;
-          this.api.post('FrieghtRate/deleteRevenue', params)
+          this.api.post('FrieghtRate/deleteInvoices', params)
             .subscribe(res => {
               this.common.loading--;
               console.log("Result:", res['data'][0].y_msg);
