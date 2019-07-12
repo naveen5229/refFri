@@ -164,7 +164,7 @@ export class InvoiceregisterComponent implements OnInit {
    
        let cityaddress =address+ remainingstring1 + remainingstring3;
        let foname=(res['data'][0])? res['data'][0].foname:'';
-       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','');
+       this.common.getPDFFromTableIdnew('table',foname,cityaddress,'','','Invoice From :'+this.invoiceRegister.startDate+' To :'+this.invoiceRegister.endDate);
 
       }, err => {
         this.common.loading--;

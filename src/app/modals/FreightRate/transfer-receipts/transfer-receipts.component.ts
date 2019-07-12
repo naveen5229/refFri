@@ -9,7 +9,7 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./transfer-receipts.component.scss', '../../../pages/pages.component.css']
 })
 export class TransferReceiptsComponent implements OnInit {
-  tranferReceipt = {
+  transferReceipt = {
     vehicleId: null,
     vehicleRegNo: null,
     refernceType: 0,
@@ -24,10 +24,7 @@ export class TransferReceiptsComponent implements OnInit {
   };
   refernceData = [];
   typesData = [];
-  ModeData = [{
-    id: null,
-    name: null,
-  }];
+  ModeData = [];
 
 
   constructor(public modalService: NgbModal,
@@ -35,18 +32,8 @@ export class TransferReceiptsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public api: ApiService) {
     this.getTypeList();
-    this.ModeData = [{
-      id: 1,
-      name: 'cash'
-    },
-    {
-      id: 2,
-      name: 'Card'
-    },
-    {
-      id: 3,
-      name: 'OnlinePay',
-    }]
+    this.getPaymentMode();
+
   }
 
   ngOnInit() {
@@ -59,29 +46,29 @@ export class TransferReceiptsComponent implements OnInit {
 
 
   getvehicleData(vehicle) {
-    this.tranferReceipt.vehicleId = vehicle.id;
-    this.tranferReceipt.vehicleRegNo = vehicle.regno;
+    this.transferReceipt.vehicleId = vehicle.id;
+    this.transferReceipt.vehicleRegNo = vehicle.regno;
   }
 
   resetvehicle() {
     document.getElementById('vehicleno')['value'] = '';
-    this.tranferReceipt.vehicleId = null;
-    this.tranferReceipt.vehicleRegNo = null;
+    this.transferReceipt.vehicleId = null;
+    this.transferReceipt.vehicleRegNo = null;
     this.resetRefernceType();
   }
   resetRefernceType(isReset = true) {
     document.getElementById('referncetype')['value'] = '';
     if (isReset)
-      this.tranferReceipt.refernceType = null;
+      this.transferReceipt.refernceType = null;
     this.refernceData = [];
   }
 
   refernceTypes() {
-    let type = this.tranferReceipt.refernceType + "";
+    let type = this.transferReceipt.refernceType + "";
     let url = null;
     let params = {
-      vid: this.tranferReceipt.vehicleId,
-      regno: this.tranferReceipt.vehicleRegNo
+      vid: this.transferReceipt.vehicleId,
+      regno: this.transferReceipt.vehicleRegNo
     };
 
     switch (type) {
@@ -116,7 +103,7 @@ export class TransferReceiptsComponent implements OnInit {
 
   report(type) {
     console.log("test", type);
-    this.tranferReceipt.selectOption = type;
+    this.transferReceipt.selectOption = type;
   }
   getTypeList() {
     this.common.loading++;
@@ -131,23 +118,38 @@ export class TransferReceiptsComponent implements OnInit {
       });
   }
 
+  getPaymentMode() {
+    this.common.loading++;
+    this.api.get('Suggestion/getTypeMaster?typeId=56')
+      .subscribe(res => {
+        this.common.loading--;
+        this.ModeData = res['data'];
+        console.log('type', this.ModeData);
+      }, err => {
+        this.common.loading--;
+        this.common.showError();
+      });
+  }
   save() {
     console.log("Params");
     ++this.common.loading;
     let params = {
-      vid: this.tranferReceipt.vehicleId,
-      regno: this.tranferReceipt.vehicleRegNo,
+      vid: this.transferReceipt.vehicleId,
+      regno: this.transferReceipt.vehicleRegNo,
       vehasstype: 0,
-      advice_type_id: this.tranferReceipt.adviceTypeId,
-      advice_mode: this.tranferReceipt.modeId,
-      dttime: this.common.dateFormatter(this.tranferReceipt.date),
-      user_value: this.tranferReceipt.amount,
-      ref_type: this.tranferReceipt.refernceType,
-      ref_id: this.tranferReceipt.refId,
+      advice_type_id: this.transferReceipt.adviceTypeId,
+      advice_mode: this.transferReceipt.modeId,
+      dttime: this.common.dateFormatter(this.transferReceipt.date),
+      user_value: this.transferReceipt.amount,
+      ref_type: this.transferReceipt.refernceType,
+      ref_id: this.transferReceipt.refId,
       for_ref_id: null,
       voucher_details_id: null,
       ledger_id: null,
       rec_value: null,
+      is_transfer: this.transferReceipt.selectOption,
+      pay_mode: this.transferReceipt.modeId,
+      remarks: this.transferReceipt.remark
 
     };
     this.api.post("LorryReceiptsOperation/saveTransfers", params)
