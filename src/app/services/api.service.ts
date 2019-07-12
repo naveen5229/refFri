@@ -15,7 +15,7 @@ export class ApiService {
   // URL: string = 'http://13.126.215.102/booster_webservices/'; // Dev Server
   // URL: string = 'http://localhost/transtruck/booster_webservices/';
   // URL: string = 'http://192.168.0.179/booster_webservices/'; // Sachin
-  URL: string = 'http://192.168.1.108/booster_webservices/'; // Umang
+  URL: string = 'http://192.168.1.125/booster_webservices/'; // Umang
   //  URL: string = 'http://localhost/booster_webservices/'; // sachin
   //URL: string = 'http://elogist.in/testservices/'; // prod Server
   // UrlTranstruckNew: string = 'http://192.168.0.120/webservices/';
@@ -45,8 +45,8 @@ export class ApiService {
     if (this.user._customer.id) {
       body['foAdminId'] = this.user._customer.id;
       body = JSON.stringify(body);
-      body = btoa(body); 
-      body = {encData:body};
+      body = btoa(body);
+      body = { encData: body };
       // console.log(body['foAdminId']);
       // console.log("foAdminId", body);
       console.log("Encrypted Params-->", body);
@@ -87,12 +87,11 @@ export class ApiService {
     if (this.user._customer.id) {
       if (subURL.includes('?')) {
         subURL += '&foAdminId=' + this.user._customer.id;
-        var data   = new Object();
+        var data = new Object();
         let url = subURL.split("?");
         let parameter = url[1];
         let paramsKeyValue = parameter.split("&");
-        for(var key in paramsKeyValue)
-        {
+        for (var key in paramsKeyValue) {
           var value = paramsKeyValue[key].split("=");
           data[value[0]] = value[1];
         }

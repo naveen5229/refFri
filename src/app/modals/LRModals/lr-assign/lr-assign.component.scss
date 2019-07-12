@@ -66,12 +66,10 @@
     padding: 15px;
     background-color: #efefef;
 }
-.form-check-box{
-    label{
+.form-check-box > label{
         background-color: #efefef;
         font-weight: 500;
-        padding: 5px 10px;
+        padding: 5px 20px;
         margin: 0px;
         border-radius: 3px 3px 0px 0px;
-    }
 }
