@@ -182,7 +182,7 @@
               [id]="'issueremarks-' + i" [(ngModel)]="detail.issueremarks">
           </td>
           <td *ngIf="i == 0 && storeQuestion.id == 0">
-            <button class="plustransparent btn btn-plus" id="plustransparent" (click)="addAmountDetails()"><i
+            <button class="plustransparent btn btn-dark" id="plustransparent" (click)="addAmountDetails()"><i
                 class="fa fa-plus"></i></button></td>
           <td *ngIf="i !== 0 && storeQuestion.id == 0">
             <button (click)="storeQuestion.details.splice(i,1)" class="btn btn-danger"><i

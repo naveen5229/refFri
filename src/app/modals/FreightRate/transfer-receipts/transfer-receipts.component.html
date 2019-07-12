@@ -15,7 +15,7 @@
         <div class="col-6 pl-0">
           <auto-suggestion (onSelected)="getvehicleData($event)" url="Vehicles/getVehicleListForFoid" display="regno"
             placeholder=" " (change)="resetvehicle()" inputId="vehicleno"
-            [preSelected]="{regno:tranferReceipt.vehicleRegNo}">
+            [preSelected]="{regno:transferReceipt.vehicleRegNo}">
           </auto-suggestion>
         </div>
       </div>
@@ -26,7 +26,7 @@
           <span><b>Reference Type</b></span>
         </div>
         <div class="col-4">
-          <select class="form-control" name="reftype" [(ngModel)]="tranferReceipt.refernceType"
+          <select class="form-control" name="reftype" [(ngModel)]="transferReceipt.refernceType"
             (change)="resetRefernceType(false);refernceTypes()">
             <option value="0">Select Type</option>
             <option value="11">Lr</option>
@@ -37,9 +37,9 @@
         </div>
 
         <div class="col-5">
-          <auto-suggestion (onSelected)="tranferReceipt.refId=$event.id;tranferReceipt.refTypeName=$event.source_dest"
+          <auto-suggestion (onSelected)="transferReceipt.refId=$event.id;transferReceipt.refTypeName=$event.source_dest"
             display="source_dest" placeholder=" " style="width:60%;" [data]="refernceData" inputId="referncetype"
-            [preSelected]="{source_dest:tranferReceipt.refTypeName}">
+            [preSelected]="{source_dest:transferReceipt.refTypeName}">
           </auto-suggestion>
         </div>
       </div>
@@ -54,18 +54,18 @@
         </div>
 
         <div class="col-8">
-          <uj-date-time-picker (onChanged)="tranferReceipt.date = $event" [dateTimeValue]="tranferReceipt.date"
-            [isTime]="true">
+          <uj-date-time-picker (onChanged)="transferReceipt.date = $event" [dateTimeValue]="transferReceipt.date"
+            [isTime]="false">
           </uj-date-time-picker>
         </div>
       </div>
     </div>
     <div class="col-5">
       <div class="radio-type">
-        <input type="radio" value="transfer" name="radio" [(ngModel)]="tranferReceipt.selectOption"
-          (change)="report(tranferReceipt.selectOption)">Transfer
-        <input type="radio" value="receipt" name="radio" [(ngModel)]="tranferReceipt.selectOption"
-          (change)="report(tranferReceipt.selectOption)">Receipt
+        <input type="radio" value="transfer" name="radio" [(ngModel)]="transferReceipt.selectOption"
+          (change)="report(transferReceipt.selectOption)">Transfer
+        <input type="radio" value="receipt" name="radio" [(ngModel)]="transferReceipt.selectOption"
+          (change)="report(transferReceipt.selectOption)">Receipt
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
           <span><b>Type</b></span>
         </div>
         <div class="col-6 pl-0">
-          <select class="form-control" [(ngModel)]="tranferReceipt.adviceTypeId">
+          <select class="form-control" [(ngModel)]="transferReceipt.adviceTypeId">
             <option *ngFor="let type of typesData" [value]="type.id">
               {{type.description}}
             </option>
@@ -94,7 +94,7 @@
           <span><b>Mode</b></span>
         </div>
         <div class="col-7">
-          <select class="form-control" [(ngModel)]="tranferReceipt.modeId">
+          <select class="form-control" [(ngModel)]="transferReceipt.modeId">
             <option *ngFor="let mode of ModeData" [value]="mode.id">
               {{mode.description}}
             </option>
@@ -115,7 +115,7 @@
           <span><b>Amount Value</b></span>
         </div>
         <div class="col-6 pl-0">
-          <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="tranferReceipt.amount">
+          <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="transferReceipt.amount">
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@
         </div>
         <div class="col-8 pr-0">
           <textarea rows="5" name="remark" id="remark" row="5" rows="3" class="form-control"
-            [(ngModel)]="tranferReceipt.remark"></textarea>
+            [(ngModel)]="transferReceipt.remark"></textarea>
         </div>
       </div>
     </div>
