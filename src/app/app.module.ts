@@ -191,6 +191,8 @@ import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.comp
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { LrPodDetailsComponent } from './modals/lr-pod-details/lr-pod-details.component';
+import { FreightRateCalculationComponent } from './modals/freight-rate-calculation/freight-rate-calculation.component';
 
 
 @NgModule({
@@ -353,6 +355,8 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     AdviceViewComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
 
   ],
   entryComponents: [
@@ -509,7 +513,9 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     EntityFlagsComponent,
     ClearAdvicesComponent,
     AdviceViewComponent,
-    TransferReceiptsComponent
+    TransferReceiptsComponent,
+    LrPodDetailsComponent,
+    FreightRateCalculationComponent,
 
 
   ],
