@@ -193,6 +193,7 @@ import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipt
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
 import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
+import { TypeMasterComponent } from './modals/type-master/type-master.component';
 
 
 @NgModule({
@@ -357,6 +358,7 @@ import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.compone
     AddFreightExpensesComponent,
     FreightInvoiceComponent,
     LrAssignComponent,
+    TypeMasterComponent,
 
   ],
   entryComponents: [
@@ -515,7 +517,9 @@ import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.compone
     AdviceViewComponent,
     TransferReceiptsComponent,
     FreightInvoiceComponent,
-    LrAssignComponent
+    LrAssignComponent,
+    TypeMasterComponent,
+
 
 
   ],
