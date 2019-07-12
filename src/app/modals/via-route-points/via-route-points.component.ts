@@ -224,7 +224,6 @@ export class ViaRoutePointsComponent implements OnInit {
     }
    
     let params = {
-
       routeId: this.routeId,
       lat: this.lat,
       long: this.long,
