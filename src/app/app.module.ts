@@ -192,6 +192,11 @@ import { AdviceViewComponent } from './modals/advice-view/advice-view.component'
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
 import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
+import { LrNearbyPodComponent } from './modals/LRModals/lr-nearby-pod/lr-nearby-pod.component';
+import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
+import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
+import { LrAssignComponent } from './modals/LRModals/lr-assign/lr-assign.component';
+import { TypeMasterComponent } from './modals/type-master/type-master.component';
 
 
 @NgModule({
@@ -355,6 +360,11 @@ import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-i
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
     ViewFrieghtInvoiceComponent,
+    LrNearbyPodComponent,
+    VehicleDistanceCoveredCompactFormComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
 
   ],
   entryComponents: [
@@ -512,7 +522,13 @@ import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-i
     EntityFlagsComponent,
     ClearAdvicesComponent,
     AdviceViewComponent,
-    TransferReceiptsComponent
+    TransferReceiptsComponent,
+    LrNearbyPodComponent,
+    VehicleDistanceCoveredCompactFormComponent,
+    FreightInvoiceComponent,
+    LrAssignComponent,
+    TypeMasterComponent,
+
 
 
   ],

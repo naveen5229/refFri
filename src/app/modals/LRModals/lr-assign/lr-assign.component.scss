@@ -1,0 +1,75 @@
+:host ::ng-deep .fa-window-close {
+    color: red;
+    font-size: 18px;
+    span{
+        position: absolute;
+        display: none;
+        padding: 10px 35px;
+        font-weight: normal;
+        font-size: 11px;
+        left: -22px;
+        top: -28px;
+        -webkit-box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+        box-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
+        font-family: Roboto;
+        z-index:9999;
+    }
+    span::before{
+        content: 'UnAssgin';
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: red;
+        border-radius: 3px;
+        padding: 5px 10px;
+        color:#fff;
+        width: 100%;
+    }
+    span::after{
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid red;
+        position: absolute;
+        bottom: -5px;
+        right: 34px;
+    }
+}
+:host ::ng-deep .fa-window-close:hover span{
+    display: block;
+}
+
+.form-check{
+    padding-left: 0px;
+    margin-bottom: 10px;
+    width: 33%;
+    display: inline-block;
+    input{
+        width: 20px;
+        height: 20px !important;
+        margin: 0px;
+    }
+    label{
+        margin-left: 30px;
+        vertical-align: middle;
+        font-weight: 500;
+    }    
+}
+
+:host ::ng-deep .tableFixHead{
+    height: auto !important;
+}
+.form-check-main{
+    padding: 15px;
+    background-color: #efefef;
+}
+.form-check-box > label{
+        background-color: #efefef;
+        font-weight: 500;
+        padding: 5px 20px;
+        margin: 0px;
+        border-radius: 3px 3px 0px 0px;
+}

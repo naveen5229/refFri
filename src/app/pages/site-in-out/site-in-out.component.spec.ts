@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FreightRevenueComponent } from './freight-revenue.component';
+import { SiteInOutComponent } from './site-in-out.component';
 
-describe('FreightRevenueComponent', () => {
-  let component: FreightRevenueComponent;
-  let fixture: ComponentFixture<FreightRevenueComponent>;
+describe('SiteInOutComponent', () => {
+  let component: SiteInOutComponent;
+  let fixture: ComponentFixture<SiteInOutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FreightRevenueComponent ]
+      declarations: [ SiteInOutComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FreightRevenueComponent);
+    fixture = TestBed.createComponent(SiteInOutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
