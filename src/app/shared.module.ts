@@ -42,8 +42,6 @@ const PAGES_COMPONENTS = [
     PodDashboardComponent,
     NearbyPodsComponent
 
-
-
 ];
 
 
