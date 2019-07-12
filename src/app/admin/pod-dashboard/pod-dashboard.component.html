@@ -20,7 +20,7 @@
             <tr *ngFor="let status of summary; let i = index">
               <td scope="row">{{i+1}}</td>
               <td>{{status['State Name']}}</td>
-              <td>{{status.count}}</td>
+              <td (click)="viewState(status)">{{status.count}}</td>
             </tr>
           </tbody>
         </table>

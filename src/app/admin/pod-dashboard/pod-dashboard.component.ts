@@ -7,6 +7,7 @@ import { ImageViewComponent } from '../../modals/image-view/image-view.component
 import { from } from 'rxjs';
 import { LrPodDashboardComponent } from '../../modals/LRModals/lr-pod-dashboard/lr-pod-dashboard.component';
 import { ConsolidateFuelAverageComponent } from '../consolidate-fuel-average/consolidate-fuel-average.component';
+import { PodStateViewComponent } from '../../modals/LRModals/pod-state-view/pod-state-view.component';
 @Component({
   selector: 'pod-dashboard',
   templateUrl: './pod-dashboard.component.html',
@@ -244,5 +245,15 @@ export class PodDashboardComponent implements OnInit {
         this.reset();
       }
     });
+  }
+  viewState(status) {
+    this.common.params = { status };
+    const activeModal = this.modalService.open(PodStateViewComponent, { size: 'lg', container: 'nb-layout', backdrop: 'static' })
+    // activeModal.result.then(data => {
+    //   if (data.response) {
+
+    //     this.reset();
+    //   }
+    // });
   }
 }
