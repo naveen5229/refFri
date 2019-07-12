@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">LR POD Dashboard</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-bottom: 10px">
+    <div class="col-3">
+      <label>State</label>
+    </div>
+    <div class="col-5">
+      <select class="form-control" (change)="getSelection();resetData()" [(ngModel)]="id">
+        <option *ngFor="let status of option" [value]="status.id">
+          {{status.name}}
+
+        </option>
+      </select>
+    </div>
+    <div class="col-4" *ngIf="id==1">
+      <auto-suggestion (onSelected)="selectName($event)" url="Suggestion/getDriverName" display="empname"
+        inputId="driver" [preSelected]="{empname:refDetails}">
+      </auto-suggestion>
+    </div>
+    <div class="col-4" *ngIf="id==2">
+      <auto-suggestion (onSelected)="selectElogistName($event)" inputId="driver" url="Suggestion/getElogistDriverList"
+        display="empname" [preSelected]="{empname:refDetails}">
+      </auto-suggestion>
+    </div>
+  </div>
+  <div class="row" style="margin-top:10px;">
+    <div class="col-3">
+      <label>Remarks</label>
+    </div>
+    <div class="col-9">
+      <input type="text" class="form-control" name="remark" placeholder="Remarks" id="remark" [(ngModel)]="remark">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="text-center">
+    <button class="btn btn-primary" id="button" (click)="PodDetailsChange()">Submit</button>
+  </div>
+</div>

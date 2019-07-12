@@ -1,13 +1,9 @@
 <nb-card style="border:0px;">
   <nb-card-header>
-    <h5>Freight Revenue</h5>
-    <button class="btn btn-primary m-0" (click)="transfer()">transfer</button>
+    <h5>Freight invoices</h5>
   </nb-card-header>
   <nb-card-body>
     <div class="row" style="margin-top:10px; margin-bottom:10px;">
-
-
-
       <div class="col-md-2 pr-0">
         <uj-date-time-picker [isTime]="false" (onChanged)="startTime = $event" [dateTimeValue]="startTime">
         </uj-date-time-picker>
@@ -18,10 +14,10 @@
         </uj-date-time-picker>
       </div>
       <div class="col-md-2 ">
-        <button type="submit" class="btn btn-primary m-0" (click)="viewFreightRevenue()">Search</button>
+        <button type="submit" class="btn btn-primary m-0" (click)="viewFreightInvoice()">Search</button>
       </div>
       <div class="col-md-6" style="padding-left: 40%">
-        <button class="btn btn-primary m-0" (click)="addFreightRevenue()">Add</button>
+        <button class="btn btn-primary m-0" (click)="invoice()">Add</button>
       </div>
     </div>
     <div>

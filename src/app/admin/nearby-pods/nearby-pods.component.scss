@@ -1,0 +1,22 @@
+button.add{
+    border-radius: 3px;
+    text-transform: capitalize;
+    padding: 7px 15px;
+}
+:host ::ng-deep .tableFixHead{
+    table{
+        tr{
+            td:last-child{
+                i{
+                    margin-right: 8px;
+                }
+                .fa-user{
+                    color: #20d320;
+                }
+                .fa-map-marker{
+                    color: red;
+                }
+            }
+        }
+    }
+}
