@@ -191,6 +191,7 @@ import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.comp
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
 
 
 @NgModule({
@@ -353,6 +354,7 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     AdviceViewComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
+    VehicleDistanceCoveredCompactFormComponent,
 
   ],
   entryComponents: [
@@ -509,7 +511,8 @@ import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-ex
     EntityFlagsComponent,
     ClearAdvicesComponent,
     AdviceViewComponent,
-    TransferReceiptsComponent
+    TransferReceiptsComponent,
+    VehicleDistanceCoveredCompactFormComponent
 
 
   ],

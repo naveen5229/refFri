@@ -560,7 +560,7 @@ export class CommonService {
     return status;
   }
 
-  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
+  getPDFFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?,lower_left_heading?) {
     // console.log("Action Data:", doNotIncludes); return;
     //remove table cols with del class
     let tblelt = document.getElementById(tblEltId);
@@ -693,7 +693,13 @@ export class CommonService {
         let hdglen = center_heading.length / 2;
         doc.setFontSize(14);
         doc.setFont("times", "bold", "text-center");
-        doc.text(center_heading, x - hdglen - 40, y);
+        doc.text(center_heading, x - hdglen - 50, y);
+      }
+      if (lower_left_heading != "undefined" && lower_left_heading != null && lower_left_heading != '') {
+        let xpos = 35;
+        y = 65;
+        doc.setFont("times", "bold", "text-center");
+        doc.text(lower_left_heading, xpos, y);
       }
       doc.text(time, 30, 60);
       y = 15;
@@ -936,7 +942,7 @@ export class CommonService {
     });
   }
 
-  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?) {
+  getCSVFromTableId(tblEltId, left_heading?, center_heading?, doNotIncludes?, time?,lower_left_heading?) {
     let tblelt = document.getElementById(tblEltId);
     if (tblelt.nodeName != "TABLE") {
       tblelt = document.querySelector("#" + tblEltId + " table");
@@ -947,6 +953,7 @@ export class CommonService {
 
     let leftData = { left_heading };
     let centerData = { center_heading };
+    let lowerLeft = { lower_left_heading };
     let doctime = { time };
 
     let info = [];
@@ -955,6 +962,7 @@ export class CommonService {
     info.push(organization);
     info.push(blankline);
     info.push(leftData);
+    info.push(lowerLeft);
     info.push(centerData, doctime);
     let hdgCols = tblelt.querySelectorAll('th');
     if (hdgCols.length >= 1) {

@@ -3,10 +3,6 @@ import { MapService } from '../../services/map.service';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
 import { EncryptService } from '../../services/encrypt.service';
-import * as nacl from 'tweetnacl';
-import * as naclutil from 'tweetnacl-util';
-import * as keypair from 'keypair';
-import * as forge from 'node-forge';
 @Component({
   selector: 'beehive',
   templateUrl: './beehive.component.html',
@@ -17,14 +13,6 @@ export class BeehiveComponent implements OnInit {
   long1: "";
   circlesData = [];
   encryptSecretKey = 'elogist123';
-  pubprivkey = keypair();
-  privateKey = this.pubprivkey.private;
-  forgePrivateKey = forge.pki.privateKeyFromPem(this.privateKey);
-  forgePublicKey = forge.pki.setRsaPublicKey(this.forgePrivateKey.n, this.forgePrivateKey.e);
-  publicKey = forge.pki.publicKeyToPem(this.forgePublicKey);
-  sshPublicKey = forge.ssh.publicKeyToOpenSSH(this.forgePublicKey);
-  pass1 =this.pubprivkey.public;
-  pass = this.pubprivkey.private;
   data = null;
   LatLong = [];
   publicKey1133 = null;
