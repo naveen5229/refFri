@@ -87,8 +87,7 @@ export class FreightInvoicesComponent implements OnInit {
             this.table.data.headings[key] = headerObj;
           }
         }
-        let action = { title: this.formatTitle('action'), placeholder: this.formatTitle('action'), hideHeader: true };
-        this.table.data.headings['action'] = action;
+
 
 
         this.table.data.columns = this.getTableColumns();
@@ -110,7 +109,7 @@ export class FreightInvoicesComponent implements OnInit {
         this.valobj[this.headings[i]] = { value: doc[this.headings[i]], class: 'black', action: '' };
 
       }
-      this.valobj['action'] = { class: '', icons: this.freightDelete(doc) };
+      this.valobj['Action'] = { class: '', icons: this.freightDelete(doc) };
       columns.push(this.valobj);
 
     });
