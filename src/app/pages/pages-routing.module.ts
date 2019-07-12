@@ -68,6 +68,7 @@ import { FreightExpensesComponent } from './freight-expenses/freight-expenses.co
 import { LrInvoiceColumnsComponent } from './lr-invoice-columns/lr-invoice-columns.component';
 import { SiteInOutComponent } from './site-in-out/site-in-out.component';
 import { FreightInvoicesComponent } from './freight-invoices/freight-invoices.component';
+import { NearbyPodsComponent } from '../admin/nearby-pods/nearby-pods.component';
 
 const routes: Routes = [{
   path: '',
@@ -427,6 +428,11 @@ const routes: Routes = [{
   {
     path: 'freight-invoices',
     component: FreightInvoicesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'nearby-pods',
+    component: NearbyPodsComponent,
     canActivate: [AuthGuard]
   }
   ],
