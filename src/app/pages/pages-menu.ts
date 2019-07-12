@@ -205,6 +205,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
         home: true,
       },
       {
+        title: 'Site In & Out',
+        icon: 'fas fa-truck',
+        link: '/pages/site-in-out',
+        home: true,
+      },
+      {
         title: 'Call Logs',
         icon: 'fa fa-phone',
         link: '/pages/call-logs',
