@@ -34,6 +34,7 @@ export class ViaRoutePointsComponent implements OnInit {
   };
   mark = null;
   viaMark = [];
+  order = null;
   constructor(private activeModal: NgbActiveModal,
     public mapService: MapService,
     public common: CommonService,
@@ -82,7 +83,7 @@ export class ViaRoutePointsComponent implements OnInit {
       this.mapService.addListerner(this.mapService.map, 'click', evt => {
         if (this.selected == 1) {
           this.createMarkers(evt.latLng.lat(), evt.latLng.lng(), 'map');
-          this.latilong = evt.latLng.lat().toFixed(5) + ','+ evt.latLng.lng().toFixed(5);
+          this.latilong = evt.latLng.lat().toFixed(5) + ',' + evt.latLng.lng().toFixed(5);
         }
 
       });
@@ -163,7 +164,7 @@ export class ViaRoutePointsComponent implements OnInit {
         polypath.push({ lat: this.doc._end_lat, lng: this.doc._end_long });
         console.log("Polypath--->", polypath);
         let polygonOption = {
-          strokeWeight: 1, 
+          strokeWeight: 1,
         };
         for (let i = 0; i < polypath.length; i++) {
           this.mapService.createPolyPathManual(this.mapService.createLatLng(polypath[i].lat, polypath[i].lng), polygonOption);
@@ -222,7 +223,7 @@ export class ViaRoutePointsComponent implements OnInit {
         this.long = this.routeData.long,
         this.siteId = this.routeData.siteId
     }
-   
+
     let params = {
       routeId: this.routeId,
       lat: this.lat,
@@ -230,15 +231,14 @@ export class ViaRoutePointsComponent implements OnInit {
       duration: this.duration,
       kms: this.kms,
       siteId: this.siteId,
-      name: this.siteNamee
+      name: this.siteNamee,
+      viaOrder: this.order,
     };
     if (this.siteNamee == null || this.siteNamee.length > 100) {
       this.common.showToast("Please Enter Location");
       return;
     }
-    
-   
-   
+
     else {
       console.log(params);
       this.common.loading++;
