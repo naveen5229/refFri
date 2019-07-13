@@ -191,6 +191,7 @@ import { ClearAdvicesComponent } from './modals/clear-advices/clear-advices.comp
 import { AdviceViewComponent } from './modals/advice-view/advice-view.component';
 import { TransferReceiptsComponent } from './modals/FreightRate/transfer-receipts/transfer-receipts.component';
 import { AddFreightExpensesComponent } from './modals/FreightRate/add-freight-expenses/add-freight-expenses.component';
+import { ViewFrieghtInvoiceComponent } from './modals/FreightRate/view-frieght-invoice/view-frieght-invoice.component';
 import { LrNearbyPodComponent } from './modals/LRModals/lr-nearby-pod/lr-nearby-pod.component';
 import { VehicleDistanceCoveredCompactFormComponent } from './modals/vehicle-distance-covered-compact-form/vehicle-distance-covered-compact-form.component';
 import { FreightInvoiceComponent } from './modals/FreightRate/freight-invoice/freight-invoice.component';
@@ -358,6 +359,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
     AdviceViewComponent,
     TransferReceiptsComponent,
     AddFreightExpensesComponent,
+    ViewFrieghtInvoiceComponent,
     LrNearbyPodComponent,
     VehicleDistanceCoveredCompactFormComponent,
     FreightInvoiceComponent,
@@ -366,6 +368,7 @@ import { TypeMasterComponent } from './modals/type-master/type-master.component'
 
   ],
   entryComponents: [
+    ViewFrieghtInvoiceComponent,
     LrGenerateComponent,
     AddFreightExpensesComponent,
     FreightInputWithoutLocationComponent,
