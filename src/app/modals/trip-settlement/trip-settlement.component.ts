@@ -62,6 +62,12 @@ export class TripSettlementComponent implements OnInit {
   }
 
   getIndexName(index) {
+    this.label = ["Trip Details",
+      "Transfers",
+      "Fuel Indent",
+      "Trip Advice",
+      "Route Advance",
+      "Route Expense"];
     switch (index) {
       case 0: return 'tripdata';
       case 1: return 'transfers';
@@ -70,12 +76,7 @@ export class TripSettlementComponent implements OnInit {
       case 4: return 'routeadvance';
       case 5: return 'routeexpense';
     }
-    this.label = ["Trip Details",
-      "Transfers",
-      "Fuel Indent",
-      "Trip Advice",
-      "Route Advance",
-      "Route Expense"];
+
   }
 
   getTableColumnName(index) {
