@@ -27,6 +27,9 @@ export class PodStateViewComponent implements OnInit {
     public api: ApiService) {
     this.data = this.common.params.status;
     this.stateId = this.common.params.status._state_id;
+    if (this.common.params.status._state_id == null) {
+      this.stateId = 0;
+    }
     console.log('viewstateId', this.data);
     this.print();
   }
